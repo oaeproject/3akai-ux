@@ -1,0 +1,368 @@
+/* -------------------------------------------------------------- 
+  
+   CSS Framework
+   Web Design & Development by Studio 24 Ltd
+   www.studio24.net - (0870) 241 6159
+   
+   * Print Styles *
+      
+   This is the print CSS-file for the framework.
+   Include this in the <head> of every page.
+   
+-------------------------------------------------------------- */
+
+/* Hide unwanted elements */
+
+div#skip,
+ul#site-tools,
+div#site-search,
+ul#nav-primary,
+h4#title-nav-primary,
+ul#nav-secondary,
+ul#nav-tertiary,
+ul#nav-breadcrumb,
+div#banner,
+dl.news img,
+ul#nav-tabbed, 
+a#bookmarks,
+ul#site-info li.link, div#site-info li.last {
+display: none;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+	background: #fff;
+}
+
+body.two-col ul#nav-primary, body.three-col ul#nav-primary {
+	display: none;
+}
+body.two-col div#content, body.three-col div#content, body.home div#content {
+	width: 100%;
+}
+
+div#header, div#container {overflow: visible; float: none; width:auto; border:none;margin:0; padding:0;}
+
+div#content {overflow: visible; float: none;}
+
+div#header div#branding {
+	padding: 0;
+}
+div#header div#branding img {
+	padding-left: 0;
+	padding-bottom: 0;
+}
+
+body.home #content-primary {
+width: 60%;
+padding-right: 1em;
+	}
+
+body.home #content-secondary {
+	width:35%; background:#fff;
+}
+
+p, ul, ol, dl, table, blockquote, pre, code, select, input  {
+	line-height: 1.5em;
+}
+
+select, input  {
+	font-size: 0.8em;
+}
+div#header div#branding {
+	padding: 0 0 0 18px;
+}
+
+p.section {
+	font-size: 1.5em;
+	font-weight: normal;
+	margin-top: 0;
+}
+
+div#content a:link:after, div#content a:visited:after {
+   content: " (" attr(href) ") ";
+   color: #999;
+   text-decoration: none;
+	font-size: 80%;
+}
+
+div#header img {
+	border: none;
+	position: relative;
+	left: -20px;
+}
+
+div#content img {
+	float: right;
+	margin-left: 3em;
+	margin-bottom: 3em;
+}
+
+div.alert {
+	padding: 18px 0 0 52px;
+	margin: 1em 0 1em 0;
+}
+
+div.alert h2 {
+	font-size: 1.25em;
+	margin-bottom: 1em;
+	line-height: 0;
+	font-weight: bold;
+	padding: 0;
+}
+
+div.warning {
+	border: 1px solid red;
+	background: #FFCCCC url(../images/icon-alert-warning.gif) no-repeat 10px 13px;
+}
+
+div.normal {
+    border: 1px solid #ffcc66;
+	background: #ffffcc url(../images/icon-alert-normal.gif) no-repeat 10px 13px;
+}
+
+dl {
+	margin: 0 0 1em 2em;
+}
+
+body.home dl {
+	margin-left: 0;
+}
+
+dl.news, dl.media {
+	line-height: 1em;
+}
+
+dl.links {
+/*
+	border-top: 1px solid #d3d3b1;
+*/
+	margin: 2em 0 0 0;
+	padding: 1em 0 0 0;
+}
+
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 0 0.5em 0;
+	padding: 0;
+}
+
+ul li.link {
+	list-style-type: none;
+	background: url(../images/icon-arrow-nav-primary.gif) no-repeat 0 50%;
+	padding-left: 1.5em;
+	position: relative;
+	left: -1.5em;
+}
+
+table {
+	width: auto;
+	margin: 0 0 1em 0;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+}
+
+th,td {
+	padding: 0.3em 0.4em 0.2em 0.4em;
+	border-bottom:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+
+th {
+	font-weight:bold;
+}
+
+table .alt {
+	background: #edf3fe;
+}
+
+blockquote  { 
+	border:1px solid #ddd;
+	font-style: italic;
+	margin: 0 0 1em 0; 
+	padding: 1em;
+}
+
+div#content-secondary dl.links dd a , div#content-secondary dl.links dd a:hover {
+	background: #fff;
+	padding-left: 12px;
+	}
+
+div#content-secondary dl.links dt, div#content-secondary dl.section dt, div#content-secondary dl.news dt, div#content-secondary dl.media dt, ul#nav-primary, div#content-primary div#menuwrapper dl#menu dd a
+{
+	background: #fff;
+	padding-left: 12px;
+}
+
+/* print only styles 
+---------------------------------------------------------------*/
+
+div#content-primary p#printbox {display:block; margin: 2em 0 0 0; border: 1px solid #ccc; padding: 0.5em 0.5em 0.25em 0.5em;}
+
+p#printbox {
+	clear:both;
+}
+
+p#printbox span.emph {font-style: italic; font-weight: bold;}
+
+
+/* =LINKS	
+-------------------------------------------------------------- */	
+
+a.icon-more {
+	background: url(../images/icon-more.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+	}
+
+a.icon-look {
+	background: url(../images/icon-look.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-follow {
+	background: url(../images/icon-follow.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-top {
+	background: url(../images/icon-top.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-rss {
+	background: url(../images/icon-rss.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-audio {
+	background: url(../images/icon-audio.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-photo {
+	background: url(../images/icon-photo.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-video {
+	background: url(../images/icon-video.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-community {
+	background: url(../images/icon-community.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-restricted {
+	background: url(../images/icon-restricted.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-help {
+	background: url(../images/icon-help.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-email {
+	background: url(../images/icon-email.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-quick-links {
+	background: url(../images/icon-quick-links.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-media {
+	background: url(../images/icon-media.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-down {
+	background: url(../images/icon-down.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-external {
+	background: url(../images/icon-external.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-section {
+	background: url(../images/icon-section.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-pdf {
+	background: url(../images/icon-pdf.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-word {
+	background: url(../images/icon-word.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+a.icon-excel {
+	background: url(../images/icon-excel.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+	height:6px;
+	width:6px;
+}
+
+/*search pages*/
+
+body.search div.docbox{
+	margin-top: 1em;
+	padding: 0.5em;
+	border: #cc9 1px solid;}
+
+
+body.search div.docbox {
+	padding: 0.5em;
+	border: #cc9 1px solid;}
+	
+
