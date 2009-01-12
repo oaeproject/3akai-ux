@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="uxfeeds/src/java"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-api-1.3.5-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/commons-codec-1.2.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/entitybroker-impl-1.3.5-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/entitybroker-utils-1.3.5-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/generic-dao-0.9.12.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/reflectutils-0.9.10.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/entitybroker-pack/WEB-INF/lib/sakai-kernel-util-1.0RC2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/sakai-poll-hbm-1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/sakai-poll-help-1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/sakai-poll-logic-api-1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/sakai-poll-model-api-1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/sakai-poll-pack/WEB-INF/lib/sakai-poll-dao-impl-1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="uxportal/src/main/webapp/extra/sakai-poll-pack/WEB-INF/lib/sakai-poll-logic-impl-1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

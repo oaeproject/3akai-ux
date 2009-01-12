@@ -1,0 +1,34 @@
+<script type="text/javascript" language="JavaScript" src="lib/sdata.js"></script>
+<script type="text/javascript" language="JavaScript" src="lib/jquery.js"></script>
+
+<div id="contactinformation_settings" style="display:none">
+	<b>Select contact information:</b>
+	<br/><br/>
+	<form id="contactinformation_selection">
+	<div id="contactinformation_list_output"></div>
+	</form>
+	<br/>
+	<input type="button" value="Save" id="contactinformation_save"/>
+</div>
+
+<div id="contactinformation_list_template" style="display:none"><!--
+	{for i in items}
+		<input type="radio" name="contactinformation_selected" value="${i.id}"/>${i.title}
+		<br/>
+	{forelse}
+		No contact information available
+	{/for}
+--></div>
+
+<div id="contactinformation_output" style="display:none; border: 1px solid black; width: 300px; padding: 10px">
+	First name:
+	<span id="ci_firstname"></span>
+	<br/>
+	Last name:
+	<span id="ci_lastname"></span>
+	<br/>
+	Email:
+	<span id="ci_email"></span>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/contactinformation/javascript/contactinformation.js"></script>
