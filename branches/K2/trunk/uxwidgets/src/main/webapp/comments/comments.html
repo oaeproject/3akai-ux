@@ -1,0 +1,42 @@
+<script type="text/javascript" language="JavaScript" src="lib/sdata.js"></script>
+<script type="text/javascript" language="JavaScript" src="lib/jquery.js"></script>
+
+<div id="comments_settings" style="display:none">
+No settings available for this widget.
+</div>
+
+<div id="comments_rendered_template" style="display:none"><!--
+	<hr/><br/>
+	<b>Comments:</b><br/><br/>
+	{for i in items}
+		<div style="border: 1px solid #AAAAAA; padding: 10px">
+			${i.comment}
+			<br/><br/>
+			<table style="width:100%"><tr><td style="width:20px">
+			<img src="/devwidgets/comments/images/comment_16.gif"/></td><td>
+			Posted by ${i.userid} on ${i.time}
+			</td></tr></table>
+		</div>
+		<br/>
+	{forelse}
+		No comments available
+		<br/>
+	{/for}
+	<br/>
+--></div>
+
+<div id="comments_output" style="display:none">
+	<div id="comments_rendered"></div>
+	<div id="comments_add">
+		<a style="cursor:pointer; cursor: hand;" id="comments_add_comment">Add comment</a>
+		<div id="comments_add_box" style="display:none">
+			<br/>
+			<TEXTAREA NAME="comment_add_textbox" value="" id="comment_add_textbox" COLS=40 ROWS=6 style="width:100%"></TEXTAREA>
+			<br/><br/>
+			<input type="button" value="Add Comment" id="add_comment_button">
+			<input type="button" value="Cancel" id="add_comment_cancel">
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/javascript/comments.js"></script>

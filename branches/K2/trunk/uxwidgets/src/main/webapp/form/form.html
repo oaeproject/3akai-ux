@@ -1,0 +1,81 @@
+<script type="text/javascript" language="JavaScript" src="lib/sdata.js"></script>
+<script type="text/javascript" language="JavaScript" src="lib/jquery.js"></script>
+
+<div id="contactinformation_settings" style="display:none">
+	
+	<div id="form_step1" style="display:none">
+		<b>Select type of data:</b>
+		<br/><br/>
+		<form id="form_step1_form">
+		<div id="form_step1_output"></div>
+		</form>
+		<br/>
+		<input type="button" value="Next Step" id="form_goto_step2"/>
+	</div>
+	
+	<div id="form_step2" style="display:none">
+		<b>Select presentation:</b>
+		<br/><br/>
+		<form id="form_step2_form">
+		<div id="form_step2_output"></div>
+		</form>
+		<br/>
+		<input type="button" value="Next Step" id="form_goto_step3"/>
+	</div>
+	
+	<div id="form_step3" style="display:none">
+		<b>Select form data:</b>
+		<br/><br/>
+		<form id="form_step3_form">
+		<div id="form_step3_output"></div>
+		</form>
+		<br/>
+		<input type="button" value="Next Step" id="form_save_step3"/>
+	</div>
+	
+	<!--<b>Select contact information:</b>
+	<br/><br/>
+	<form id="contactinformation_selection">
+	<div id="contactinformation_list_output"></div>
+	</form>
+	<br/>
+	<input type="button" value="Save" id="contactinformation_save"/>-->
+	
+</div>
+
+<div id="form_step1_template" style="display:none"><!--
+	{for i in items}
+		<input type="radio" name="form_step1_selected" value="${i.id}"/>${i.title}
+		<br/>
+	{forelse}
+		No forms available
+	{/for}
+--></div>
+
+<div id="form_step2_template" style="display:none"><!--
+	{for i in items}
+		<input type="radio" name="form_step2_selected" value="${i.id}"/>${i.title}
+		<br/>
+	{forelse}
+		No forms available
+	{/for}
+--></div>
+
+<div id="form_step3_template" style="display:none"><!--
+	{for i in items}
+		<input type="radio" name="form_step3_selected" value="${i.id}"/>${i.title}
+		<br/>
+	{forelse}
+		No forms available
+	{/for}
+--></div>
+
+<div id="contactinformation_output" style="display:none; border: 1px solid black; width: 450px; padding: 10px">
+	
+</div>
+
+<div id="contactinformation_template">
+	
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/form/javascript/form.js"></script>

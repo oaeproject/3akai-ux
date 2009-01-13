@@ -1,0 +1,219 @@
+/* -------------------------------------------------------------- 
+  
+   CSS Framework
+   Web Design & Development by Studio 24 Ltd
+   www.studio24.net - (0870) 241 6159
+   
+   * Form Styles *
+      
+   This is the form CSS-file for the framework.
+   Include this in the layout.css file.
+   
+-------------------------------------------------------------- */
+
+/* =DEFAULT-FORM-STYLES
+----------------------------------------------- */
+
+form.default-form fieldset {	
+	margin: 1em 0 0 0;
+	padding: 0;
+	border-bottom: 1px solid #EEE;
+}
+
+form.lookup fieldset {	
+	margin: 1em 0;
+	padding: 0;
+	border-bottom: 1px solid #EEE;
+	}
+
+form.default-form fieldset.actions {
+	border: none;
+}
+
+form.default-form legend {
+	list-style-type: none;
+	font-weight: bold;
+	padding: 0 0 0.5em 0;
+}
+
+form.lookup legend {
+	list-style-type: none;
+	font-weight: bold;
+	padding: 0 0 0.5em 0;
+	}
+
+form.default-form p {
+
+}
+
+form.default-form div {
+	display: block;
+	width: 100%;
+	float: left;
+	list-style-type: none;
+	padding: 0.5em 0 0.5em 0;
+	border-top: 1px solid #EEE;
+}
+
+form.lookup div {
+	display: block;
+	width: 100%;
+	float: left;
+	list-style-type: none;
+	padding: 0.5em 0 0.5em 0;
+	border-top: 1px solid #EEE;
+	background: #f8f4e9;
+}
+
+form.default-form div div {
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+form.default-form div.alt {
+	background: #f8f4e9;
+}
+
+form.default-form label {
+	font-size: 80%;
+	line-height: normal;
+	position: relative;
+	top: 0.15em;
+	padding: 0 0 0 1em;
+	width: 15em;
+	float: left;
+	clear: left;
+}
+
+form.lookup label {
+	font-size: 80%;
+	line-height: normal;
+	position: relative;
+	top: 0.15em;
+	padding: 0 0 0 1em;
+/*
+	width: 15em;
+*/
+	float: left;
+	clear: left;
+}
+
+form.lookup span.label {
+	font-size: 80%;
+	line-height: normal;
+/*
+	position: relative;
+*/
+	top: 0.15em;
+	padding: 0 0 0 1em;
+/*
+	width: 15em;
+
+	float: left;
+	clear: left;
+*/}
+
+form.default-form label span {
+	position: absolute;
+	right: 0.5em;
+	color: red;
+	font-weight: bold;
+}
+
+form.default-form .radio, form.default-form .checkbox {
+	position: relative;
+	top: -0.1em;
+	float: left;
+	margin: 0.3em 0 0.3em 0;
+	width: auto;
+}
+
+form.default-form #day, form.default-form #month, form.default-form #year {
+	position: relative;
+	top: 0;
+	width: 4.8em;
+}
+
+form.default-form fieldset.actions div {
+	border: none;
+	text-align: right;
+}
+
+form.default-form fieldset.actions p {
+	font-size: 80%;
+	line-height: normal;
+	display: inline;
+}
+
+form.default-form #button-next {
+	width: auto;
+}
+
+form.default-form input, form.default-form textarea, form.default-form select {
+	width: 15em;
+}
+
+form.default-form .error {
+	border: 1px solid red;
+	background: #FFCCCC;
+}
+
+/* =ERROR MESSAGES
+----------------------------------------------- */
+
+div#error, div#message {
+	padding: 18px 0 0 52px;
+	margin: 1em 0 1em 0;
+}
+
+div#error {
+	border: 1px solid red;
+	background: #FFCCCC url(../images/icon-alert-warning.gif) no-repeat 10px 10px;
+}
+
+div#message {
+    border: 1px solid #000080;
+	background: #edf3fe url(../images/flash_notice.png) no-repeat 10px 10px;
+}
+
+/* =SEARCH-FORM
+----------------------------------------------- */
+
+div#site-search form {
+	font-size: 0.75em;
+	margin: 0 20px 0 9px;
+}
+
+div#site-search form label {
+	color: #999999;
+}
+
+div#site-search form #search-term {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	border: 1px solid #CCC;
+	padding: 2px;
+	/* amended by DMR (Studio24) 24.01.08*/
+	width: 10em;
+}
+
+div#site-search form #search-button {
+	position: relative;
+	top: 6px;
+}
+
+/*text decoration changed 2.2 hvs*/
+div#site-search form a {
+	font-weight: bold;
+	font-size: 0.9em;
+	display: block;
+	margin-left: 2.5em;
+	padding-left: 15px;
+	background: url(../images/icon-arrow-nav-primary.gif) no-repeat 0 6px;
+	text-decoration: none;	
+}
+
+div#site-search form a:hover {
+	text-decoration: none;
+}
