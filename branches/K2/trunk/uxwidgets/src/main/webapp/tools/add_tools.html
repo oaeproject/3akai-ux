@@ -1,0 +1,66 @@
+<!-- /// Lightbox Tools /// -->
+
+<div class="overlay-lightbox wip">
+	<div class="lightbox size1">
+
+		<div class="lightbox-header">
+			<div class="lighbox-header-left"><h3>Add Tools</h3></div>
+			<ul class="lightbox-header-right">
+				<li class="lhr-help"><a href="#">Help</a></li>
+				<li class="lhr-close"><a href="#">Close Window &amp; Cancel</a></li>
+			</ul>
+		</div><!-- /lightbox-header -->
+
+		<div class="lightbox-container">
+
+			<p class="fs15 c999999 at-pl4">Pick from the following tools</p>
+			<div class="block">
+				<div class="block">
+					<div class="add-tools-left">
+						<ul>
+							<li class="atl-active"><a href="#">All</a></li>
+							<li><a href="#">Academic</a></li>
+							<li><a href="#">Group &amp; Team</a></li>
+							<li><a href="#">Personal</a></li>
+							<li><a href="#" class="atl-last">Administrative</a></li>
+						</ul>
+					</div>
+					<textarea style="display:none"><!--
+						<div class="add-tools-right">
+							<h4>All Tools <span>(${tools.length} Total)</span></h4>
+							<div class="atr-wrap">
+								{for tool in tools}
+								<div class="atr-item">
+									<table cellpadding="0" cellspacing="0" border="0">
+										<tr class="atr-tr1-{if tool.isAdded}remove{else}select{/if}">
+											<td class="atr-td1"><div class="atr-bg${tool_index}"></div></td>
+											<td class="atr-td2"><div>
+												<h5>${tool.title}</h5>
+												<p>${tool.description}</p>
+											</div></td>
+											<td class="atr-td3"><div>
+												<div class="block">
+												<a href="#" class="buttons {if tool.isAdded}remove{else}add-widgets{/if}"><span>{if tool.isAdded}Remove{else}Add{/if}</span></a>
+												</div>
+											</div></td>
+										</tr>
+									</table>
+								</div>
+								{/for}
+							</div>
+						</div>
+					--></textarea>
+				</div>
+				<div class="add-widget-footer">
+					<div class="block">
+						<a href="#" class="save buttons">Finished</a>
+						<a href="#" class="awf-link">Close Window &amp; Cancel</a>
+					</div>
+				</div>
+			</div>
+
+		</div><!-- /lightbox-container -->
+	</div><!-- /lightbox -->
+
+</div>
+<!-- /// End of Lightbox Tools /// -->

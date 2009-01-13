@@ -1,0 +1,515 @@
+<div id="addwidgetslightbox" class="overlay-lightbox" style="display:none">
+	</div>
+
+	<div id="addwidgetslightbox2" class="overlay-lightbox2" style="display:none">
+	   	<div id="lightbox_size1" class="size1">
+			<div id="create_new_page" style="display:none">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Create new page</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			   </div>
+				<div style="text-align:left; padding:10px">
+					<form id="BinderAddNewPageForm">
+					<div>
+					<b>Page title :</b> <input type="text" id="new_page_title" name="new_page_title" onchange="sakai.dashboard.generateUrl()"/>
+					<br/><br/>
+					<b>Page URL :</b>
+					<span id="new_page_base_url"></span>
+					<input type="text" id="new_page_id" name="new_page_id"/>
+					<br/><br/>
+					<b>Page type :</b> 
+					<br/><br/>
+					<input type="radio" name="new_page_type" value="dashboard" id="new_page_type_dashboard" checked="checked"/> Dashboard
+					<br/>
+					<input type="radio" name="new_page_type" value="webpage" id="new_page_type_webpage"/> Web page
+					<br/>
+					<input type="radio" name="new_page_type" value="tool" id="new_page_type_tool"/> Tool page
+					<br/><br/>
+					<b>Top page (Will go in the site menu):</b> 
+					<br/><br/>
+					<input type="radio" name="new_page_top" id="new_page_top_yes" value="yes" checked="checked"/> Yes
+					<br/>
+					<input type="radio" name="new_page_top" id="new_page_top_no" value="no"/> No
+					<br/>
+					<br/>
+					<input type="button" value="Create Page" onclick="sakai.dashboard.addNewPage()"/>
+					</div>
+					</form>
+				</div>
+			</div>
+			
+			<div id="manage_site_settings" style="display:none">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Manage Site Settings</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			   </div>
+				<div style="text-align:left; padding:10px">
+					<b>Change skin:</b>
+					<select id="createsite_portfolio_skin">
+						<option value="default">default</option>
+						<option value="urop-blue">urop-blue</option>
+						<option value="modern">modern</option>
+						<option value="cambridge">Cambridge University</option>
+					</select>
+					<input type="button" value="Change Skin" onclick="sakai.dashboard.changeSkin()"/>
+					<br/>
+					<hr/>
+					<b>Public Viewable:</b>
+					<input type="checkbox" id="publicview" onclick="sakai.dashboard.updatePubView()"/>
+					<br/><br/>
+					<b>My Portfolio is shared with:</b>
+					<br/><br/>
+					<div id="manage_site_settings_list"></div>
+					<br/><br/>
+					<b>Add user:</b>
+					<input type="text" id="usertoadd"/>
+					<input type="button" value="Add" onclick="sakai.dashboard.addUser()"/>
+					<br/><br/>
+					<input type="button" value="Finish" onclick="sakai.dashboard.hidepopup()"/>
+				</div>
+			</div>
+			
+			<div id="manage_site_settings_template"><!--
+				{for m in membership_collection}
+					${m.userId} (<a style="cursor:hand; cursor; pointer" onclick="sakai.dashboard.removeUser('${m.userId}')">Delete</a>)
+					<br/>
+				{forelse}
+					Nobody here
+				{/for}
+			--></div>
+
+			<div id="insert_new_widget" style="display:none; text-align:left">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Insert new widget</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			    </div>
+				<div style="text-align:left; padding:10px">
+					<div id="insert_screen1">
+					<b>Select a widget to add:</b><br/><br/>
+					<div id="insert_new_widget_list"></div>
+					<br/>
+					<input type="button" value="Next" onclick="sakai.dashboard.nextStep()"/>
+					<input type="button" value="Cancel" onclick="sakai.dashboard.hidepopup()"/>
+					</div>
+					<div id="insert_screen2" style="display:none;">
+						<a style="cursor:hand; cursor: pointer; text-decoration: underline" onclick="sakai.dashboard.showWidgetSettings()">Widget Settings</a> / <a style="cursor:hand; cursor: pointer; text-decoration: underline" onclick="sakai.dashboard.showWidgetPreview()">Widget Preview</a>	
+						<br/><br/>
+						<div id="insert_screen2_preview" style="border: 1px solid #AAAAAA; padding: 5px"></div>
+						<br/>
+						<input type="button" value="Finish &amp; Add widget" onclick="sakai.dashboard.finishAddWidget()"/>
+						<!--<input type="button" value="Cancel" onclick="sakai.dashboard.hidepopup()"/>-->
+					</div>
+				</div>
+			</div>
+
+			<div id="edit_widget" style="display:none; text-align:left">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Edit Widget</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			    </div>
+				<div style="text-align:left; padding:10px">
+					<div id="edit_screen">
+						<a style="cursor:hand; cursor: pointer; text-decoration: underline" onclick="sakai.dashboard.showWidgetSettingsEdit()">Widget Settings</a> / <a style="cursor:hand; cursor: pointer; text-decoration: underline" onclick="sakai.dashboard.showWidgetPreviewEdit()">Widget Preview</a>	
+						<br/><br/>
+						<div id="edit_preview" style="border: 1px solid #AAAAAA; padding: 5px"></div>
+						<br/>
+						<input type="button" value="Finish" onclick="sakai.dashboard.hidepopup()"/>
+					</div>
+				</div>
+			</div>
+	
+			<div id="Resources_div" style="display:none">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+					   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Files</h3></div>
+					   <ul class="lightbox-header-right">
+						   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+					   </ul>
+				   </div>
+					<div style="text-align:left; padding:10px; background-color: white">
+						<div id="widget_Resources" class="widget_inline"></div>
+					</div>
+				</div>
+
+			<div id="insert_link" style="display:none;">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Insert Link</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			    </div>
+				<div style="text-align:left; padding:10px; background-color: white">
+					Select page to link to:
+					<br/><br/>
+					<div id="inser_link_render"></div>
+					<br/>
+					<input type="button" value="Close" onclick="sakai.dashboard.hidepopup()"/>
+				</div>
+			</div>
+			
+			<div id="show_pages_list" style="display:none;">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Sitemap</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			    </div>
+				<div style="text-align:left; padding:10px; background-color: white">
+					Select page to open:
+					<br/><br/>
+					<div id="show_pages_list_render"></div>
+					<br/>
+					<input type="button" value="Close" onclick="sakai.dashboard.hidepopup()"/>
+				</div>
+			</div>
+			
+			<div id="show_edit_pages" style="display:none;">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Edit Pages</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			    </div>
+				<div style="text-align:left; padding:10px; background-color: white">
+					<table style="width:100%" cellpadding="5px">
+						<tr>
+							<td style="width:250px; border-right: 1px solid #AAAAAA; vertical-align:top">
+								<b>Top pages:</b>&nbsp;(
+								<a style="cursor:hand; cursor:pointer; text-decoration: underline" onclick="sakai.dashboard.moveUp()">Move up</a>
+								|
+								<a style="cursor:hand; cursor:pointer; text-decoration: underline" onclick="sakai.dashboard.moveDown()">Move down</a>
+								)
+								<br/><br/>
+								<select name="select_top_pages" id="select_top_pages" size="10" style="width:230px" onclick="sakai.dashboard.showPageDetails('select_top_pages')"/>
+								
+								<br/><br/>
+								<b>Non-top pages:</b><br/><br/>
+								<select name="select_nontop_pages" id="select_nontop_pages" size="10" style="width:230px" onclick="sakai.dashboard.showPageDetails('select_nontop_pages')"/>
+							</td>
+							<td style="vertical-align:top; padding-left: 10px">
+								<div id="edit_pages_noselected">
+									Please select a page to edit its settings
+								</div>
+								<div id="edit_pages_selected" style="display:none">
+									<b>Page settings:</b><br/><br/>
+									<b><i>Page url:</i></b><br/><br/>
+									<span id="selected_page_url"></span>
+									<br/><br/>
+									<b><i>Page title:</i></b><br/><br/>
+									<input type="text" value="" id="selected_page_title" size="50"/>
+									<br/><br/>
+									<b><i>Top page:</i></b>
+									<br/><br/>
+									<input type="radio" name="selected_page_top" id="selected_page_top_yes"/>
+									Yes
+									<br/>
+									<input type="radio" name="selected_page_top" id="selected_page_top_no"/>
+									No
+									<br/><br/>
+									<b><i>Page type:</i></b>
+									<br/><br/>
+									<input type="radio" name="selected_page_type" id="selected_page_type_dashboard"/>
+									Dashboard Page
+									<br/>
+									<input type="radio" name="selected_page_type" id="selected_page_type_web"/>
+									Web Page
+									<br/>
+									<input type="radio" name="selected_page_type" id="selected_page_type_tool"/>
+									Tool Page
+									<br/><br/>
+									<input type="button" value="Save Changes" onclick="sakai.dashboard.saveEditPage2()"/>
+									<input type="button" value="Remove Page" onclick="sakai.dashboard.removePage()"/>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div id="change_wrapping" style="display:none;">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Select Wrapping</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window &amp; Cancel</a></li>
+				   </ul>
+			    </div>
+				<div style="text-align:left; padding:10px; background-color: white">
+					Select wrapping around widget
+					<br/><br/>
+					<a onclick="sakai.dashboard.doNoWrap();" style="cursor: hand; cursor: pointer">No wrapping</a>
+					<br/>
+					<a onclick="sakai.dashboard.doLeftWrap();" style="cursor: hand; cursor: pointer">Left wrapping</a>
+					<br/>
+					<a onclick="sakai.dashboard.doRightWrap();" style="cursor: hand; cursor: pointer">Right wrapping</a>
+					<br/>
+					<br/>
+					<input type="button" value="Close" onclick="sakai.dashboard.hidepopup()"/>
+				</div>
+			</div>
+			
+			<div id="select-tool-screen" style="display:none">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+					<div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Select tool for <span id="add_tool_tabtogoin"></span></h3></div>
+					<ul class="lightbox-header-right">
+						<li class="lhr-help"><a href="#">Help</a></li>
+						<li class="lhr-close"><a style="cursor:hand; cursor:pointer" id="close_window_and_cancel" onclick="sakai.dashboard.hidepopup()">Close Window &amp; Cancel</a></li>
+					</ul>
+				</div><!-- /lightbox-header -->
+
+				<div class="lightbox-container">
+
+					<p class="fs15 c999999 at-pl4">Pick from list</p>
+					<div class="block">
+						<div class="block">
+							<div class="add-tools-left">
+								<ul>
+									<li class="atl-active"><a href="#">All</a></li>
+									<li><a href="#">Academic</a></li>
+									<li><a href="#">Groups and Team</a></li>
+									<li><a href="#">Personal</a></li>
+									<li><a href="#" class="atl-last">Administrative</a></li>
+								</ul>
+							</div>
+							<div id="add-tool-output-2"></div>
+						</div>
+						<div class="add-widget-footer">
+							<div class="block">
+								<input type="button" onclick="sakai.dashboard.hidepopup()" value="Close"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="add_widget_screen" style="display:none;">
+				<div class="lightbox-header" style="background-color: #00A5E3; height: 26px">
+				   <div class="lighbox-header-left"><h3 style="padding: 5px; 0px; 10px; 0px; font-size: 13px">Add Widgets to <span id="add_widgets_tabtogoin"></span></h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-help"><a href="#">Help</a></li>
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand">Close Window</a></li>
+				   </ul>
+			   </div><!-- /lightbox-header -->
+			   
+			   <div class="lightbox-container">
+				   
+				   <p class="fs15 c999999">Browse and select from the available widgets</p>
+				  <div class="block">
+					  <div class="add-widget-left">
+						  <h4>Browse Widgets</h4>
+						  <div class="add-widget-select">
+							  <select>
+								  <option>All Widgets</option>
+								  <option>All Widgets</option>
+								  <option>All Widgets</option>
+							  </select>
+						  </div>
+						  <div id="addwidgetlist" class="add-widget-menu">
+							  
+						  </div>
+						  <div id="addwidgetlist_template" style="display:none"><!--
+						  <ul>
+							{for i in items}
+								{if i.alreadyIn}
+									<li><a onclick="sakai.dashboard.showdetails('${i.id}')" id="li_${i.id}" style="cursor:hand; cursor: pointer" class="awm-minus">${i.title}</a></li>
+								{else}
+									<li><a onclick="sakai.dashboard.showdetails('${i.id}')" id="li_${i.id}" style="cursor:hand; cursor: pointer">${i.title}</a></li>
+								{/if}
+							{/for}
+						  </ul>
+						  --></div>
+					  </div>
+					  <div class="add-widget-right">
+						<div class="awr-title">
+							<div class="block">
+								  <h4 id="addWidgets_selected_title"></h4>
+								  <ul>
+									  <li><a href="#" class="awrt-b">Prev</a></li>
+									  <li><a href="#">Next</a></li>
+								  </ul>
+							  </div>
+						</div>
+						 
+						<div class="block">
+							<div class="unit span-51">
+								<div class="awr-img"><img alt="" id="widget_img" src="img/calendar.png" style="border: 1px solid #CCCCCC" /></div>
+							</div>
+							<div class="unit span-5">
+								<div class="awr-desc">
+									<div><strong class="fs13 c333333">Description:</strong><br /><br /><div id="addWidgets_selected_description"></div></div>
+								</div>
+								<div class="block">
+									<a onclick="sakai.dashboard.addWidget()" class="buttons add-widgets" id="btnAddWidget" style="cursor:hand; cursor: pointer"><span>Add to Page</span></a>
+								</div>
+							</div>
+						</div> 
+					  </div><!-- /add-widget-right -->
+					  <div class="add-widget-footer">
+						<div class="block">
+							<a onclick="sakai.dashboard.hidepopup()" style="cursor:pointer; cursor:hand" class="save buttons">Finished</a>
+						</div>
+					  </div>
+				  </div> 
+				   </div>
+			   </div>
+
+			</div>
+
+			<div id="insert_new_widget_template" style="display:none"><!--
+				{var index = 0}
+				{for i in items}
+					<input type="radio" name="insert_new_widget_radios" value="${i.id}" id="insert_new_widget_option_${index}"/>&nbsp;${i.name}<br/>
+					${index++|eat}
+				{/for}
+			--></div>
+
+			<div id="show_pages_list_template" style="display:none"><!--
+				<b>Top pages:</b><br/><br/>
+				{var index1 = 0}
+				{for i in items}
+					{if i.top == true}
+						${index1++|eat}
+						<a style="cursor:hand; cursor:pointer" onclick="sakai.dashboard.openPage('${i.id}')">${i.title}</a><br/>
+					{/if}
+				{/for}
+				{if index1 == 0}
+					No top pages found<br/>
+				{/if}
+				<br/><b>Non-top pages:</b><br/><br/>
+				{var index2 = 0}
+				{for i in items}
+					{if i.top == false}
+						${index2++|eat}
+						<a style="cursor:hand; cursor:pointer" onclick="sakai.dashboard.openPage('${i.id}')">${i.title}</a><br/>
+					{/if}
+				{/for}
+				{if index2 == 0}
+					No non-top pages found<br/>
+				{/if}
+			--></div>
+			
+			<div id="inser_link_template" style="display:none"><!--
+				<b>Top pages:</b><br/><br/>
+				{var index1 = 0}
+				{for i in items}
+					{if i.top == true}
+						${index1++|eat}
+						<a style="cursor:hand; cursor:pointer" onclick="sakai.dashboard.insertPageLink('${i.id}')">${i.title}</a><br/>
+					{/if}
+				{/for}
+				{if index1 == 0}
+					No top pages found<br/>
+				{/if}
+				<br/><b>Non-top pages:</b><br/><br/>
+				{var index2 = 0}
+				{for i in items}
+					{if i.top == false}
+						${index2++|eat}
+						<a style="cursor:hand; cursor:pointer" onclick="sakai.dashboard.insertPageLink('${i.id}')">${i.title}</a><br/>
+					{/if}
+				{/for}
+				{if index2 == 0}
+					No non-top pages found<br/>
+				{/if}
+			--></div>
+			
+		</div>
+		
+		<div id="widgetscontainer_template"><!--
+			<table width="100%" height="300px">
+			<tr>
+				{var index = 0}
+				{for c in columns}
+				${index++|eat}
+				<td width="${c.width}" style="vertical-align:top; width:${c.width}">
+				<div class="groupWrapper" id="column_uid_${index}" style="padding:10px; 7px; 10px; 7px;">
+				{for p in c.portlets}
+					<div class="widget1" id="${p.id}_${p.uid}">
+					<div class="widget1-head" id="draghandle_${p.id}_${p.uid}">
+						<div class="widget1-head-left">
+							<ul>
+								<li><a href="#">${p.title}</a></li>
+							</ul>
+						</div>
+						<div class="widget1-head-right">
+							<ul>
+								<li class="widget1-close"><a style="cursor: hand; cursor: pointer;" onclick="sakai.dashboard.closePortlet('${p.id}_${p.uid}')"></a></li>
+								<li class="widget1-menu-show" id="show_settings_widget_${p.id}_${p.uid}_${p.placement}"><a style="cursor: hand; cursor: pointer;" onclick="sakai.dashboard.showSettings('${p.uid}','widget_${p.id}_${p.uid}_${p.placement}')"></a></li>
+								<li class="widget1-menu-close" style="display:none" id="close_settings_widget_${p.id}_${p.uid}_${p.placement}"><a style="cursor: hand; cursor: pointer;" onclick="sakai.dashboard.showWidgetContent('${p.uid}','widget_${p.id}_${p.uid}_${p.placement}')"></a></li>
+							</ul>
+						</div>
+					</div>
+					<div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+					</div>
+				{/for}
+				</div>
+				</td>
+				{/for}
+			</tr>
+			</table>
+		--></div>
+		
+		<div id="widgetscontainer_template_no_maintainer"><!--
+			<table width="100%" height="300px">
+			<tr>
+				{var index = 0}
+				{for c in columns}
+				${index++|eat}
+				<td width="${c.width}" style="vertical-align:top; width:${c.width}">
+				<div class="groupWrapper" style="padding:10px 7px 10px 7px;">
+				{for p in c.portlets}
+					<div class="widget1" id="${p.id}_${p.uid}">
+					<div class="widget1-head" style="cursor:default">
+						<div class="widget1-head-left-no-maintain">
+							<ul>
+								<li><a href="#">${p.title}</a></li>
+							</ul>
+						</div>
+						<div class="widget1-head-right">
+							
+						</div>
+					</div>
+					<div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+					</div>
+				{/for}
+				</div>
+				</td>
+				{/for}
+			</tr>
+			</table>
+		--></div>
+		
+		<div style="display:none" id="add-tool-2"><!--
+		<div class="add-tools-right">
+		<h5>All Tools <span>(${allTools.length} Tool )</span></h5>
+		<div class="atr-wrap">
+			<div class="atr-item">
+						<table cellpadding="0" cellspacing="0" border="0">
+				{for tool in allTools}
+						<tr class="atr-tr1-select" id="rmToolButton_visible-2_${tool.id}" style="border-bottom: 1px solid #CCCCCC">
+							<td class="atr-td1"><div class="atr-bg1"></div></td>
+							<td class="atr-td2"><div>
+								<b>${tool.title}</b>
+								<p>${tool.description}</p>
+							</div></td>
+							<td class="atr-td3"><div>
+								<div id="addToolButton_${tool.id}" class="block">
+									<a style="cursor:hand; cursor:pointer" class="buttons add-widgets add-tool-help-2"
+										id="add_tool_button_help-2_${tool.id}">
+											<span>Select</span>
+									</a>
+								</div>
+							</div></td>
+						</tr>
+					{/for}
+					</table>
+					</div>
+				</div>
+			</div>
+		--></div>

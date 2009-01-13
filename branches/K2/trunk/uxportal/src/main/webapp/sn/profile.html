@@ -1,0 +1,1712 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>The Sakai Foundation</title>
+		<meta name="Description" content="The Sakai Foundation" />
+		<meta name="Keywords" content="The Sakai Foundation" />
+		<link rel="stylesheet" type="text/css" href="/dev/css/base.css" media="screen" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie/iepc.css" media="screen" /><![endif]-->
+		<link rel="stylesheet" type="text/css" href="/dev/css/print.css" media="print" />
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/Fluid-all.js"></script>
+		<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		
+		<style>
+			.field {
+				padding: 2px;
+				height: 20px;
+				display:none;
+				height:16px;
+			}
+			.fieldtitle {
+				color: #808080;
+				width: 125px;
+				vertical-align: top;
+				height:20px;
+			}
+			.inlineEdit-invitation {
+				top:0px;
+				width: 250px;
+			}
+			.inlineEditable {
+				cursor: default;
+				width: 250px;
+			}
+			
+			.text {
+				width: 250px;
+				min-height: 16px;
+			}
+			.dropdown {
+				width: 250px;
+				min-height: 16px;
+			}
+			.editContainer {
+				display:none;
+			}
+			
+			.overlay-lightbox-fixed {
+				display:block;
+				height:1000px;
+				left:0%;
+				position:fixed;
+				top:0%;
+				width:100%;
+				z-index:2001;
+			}
+			
+			.multifield_over {
+				background-color:#EEEEEE;
+				border: 1px dotted #AAAAAA;
+			}
+			.multifield_out {
+				background-color:#FFFFFF;
+				border: 1px dotted #FFFFFF;
+			}
+			
+			.greydotted {
+				background:transparent url(/dev/img/greydotted.gif) repeat-x scroll 0pt;
+				height:10px;
+			}
+			
+			td {
+				vertical-align: top;
+			}
+			
+			.centertd {
+				vertical-align: middle;
+			}
+			
+		</style>
+		
+	</head>
+	<body id="body-hide2">
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+    
+<div id="add_friend_overlay_lightbox" class="overlay-lightbox" style="display:none"></div>
+<div id="add_fields_overlay_lightbox" class="overlay-lightbox" style="display:none; height: 100%; position: fixed"></div>
+<div class="overlay-lightbox2" id="add_friend_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Connect</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-create-site-close-window">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<form id="add_friends_form">
+           <h4 style="color:#333333">Invite <span id="add_friend_displayname" style="font-weight:bold"></span> to connect through Sakai</h3>
+		   <br/></br>
+		   <table style="width:100%">
+		   		<tr>
+		   			<td style="vertical-align:top; width: 75px">
+		   				<span id="add_friend_displayname2" style="font-weight:bold"></span>
+		   			</td>
+					<td id="add_friend_types">
+						
+					</td>
+		   		</tr>
+		   </table>
+		   <br/>
+		   Add a personal note to the invitation:
+		   <br/><br/>
+		   <textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note">
+		   	
+		   </textarea>
+		   <br/><br/>
+		   <a id="add_friends_do_invite" class="save buttons">Invite</a>
+		   <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<!--
+//////////////
+// Websites //
+//////////////
+-->
+
+<div class="overlay-lightbox-fixed" id="add_websites_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Website</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-add-websites">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Add a website to your site list</h4>
+			<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="add_website_form">
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+					<td><input type="text" style="width:250px" id="new_website_title"/></td>
+				</tr>
+				<tr>
+					<td><strong class="fs13 cCC0000">*</strong> URL:</td>
+					<td><input type="text" style="width:250px" class="url_field" id="new_website_url"/></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="new_website_button" class="save buttons">Add</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<div class="overlay-lightbox-fixed" id="edit_websites_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Website</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-edit-websites">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Edit a website from your list</h4>
+			<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="edit_website_form">
+        	<input type="hidden" id="edit_website_id"/>
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+					<td><input type="text" style="width:250px" id="edit_website_title"/></td>
+				</tr>
+				<tr>
+					<td><strong class="fs13 cCC0000">*</strong> URL:</td>
+					<td><input type="text" style="width:250px" class="url_field" id="edit_website_url"/></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="edit_website_button" class="save buttons">Update</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<!--
+//////////////
+// Websites //
+//////////////
+-->
+
+<!--
+/////////////
+// Degrees //
+/////////////
+-->
+
+<div class="overlay-lightbox-fixed" id="add_degrees_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Degrees</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-add-degrees">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Add a degree to your degree list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="add_degree_form">
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+					<td><input type="text" style="width:250px" id="new_degree_country"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> School:</td>
+					<td><input type="text" style="width:250px" id="new_degree_school"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Degree:</td>
+					<td><input type="text" style="width:50px" id="new_degree_degree"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. BEng, MPhil, PhD, ...</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Field of study:</td>
+					<td><input type="text" style="width:250px" id="new_degree_field"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Philosophy, Computer Science, ...</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+					<td>
+						<select id="new_degree_from">
+							<option></option>
+						</select>
+						-
+						<select id="new_degree_until">
+							<option></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">Additional Notes:</td>
+					<td><textarea style="width:250px; height:75px" id="new_degree_notes"></textarea></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="new_degree_button" class="save buttons">Add</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<div class="overlay-lightbox-fixed" id="edit_degrees_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Degrees</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-edit-degrees">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Edit a degree from your list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="edit_degrees_form">
+        	<input type="hidden" id="edit_degree_id"/>
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+					<td><input type="text" style="width:250px" id="edit_degree_country"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> School:</td>
+					<td><input type="text" style="width:250px" id="edit_degree_school"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Degree:</td>
+					<td><input type="text" style="width:50px" id="edit_degree_degree"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. BEng, MPhil, PhD, ...</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Field of study:</td>
+					<td><input type="text" style="width:250px" id="edit_degree_field"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Philosophy, Computer Science, ...</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+					<td>
+						<select id="edit_degree_from">
+							<option></option>
+							<option>2015</option>
+						</select>
+						-
+						<select id="edit_degree_until">
+							<option></option>
+							<option>2015</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">Additional Notes:</td>
+					<td><textarea style="width:250px; height:75px" id="edit_degree_notes"></textarea></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="edit_degree_button" class="save buttons">Update</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<!--
+/////////////
+// Degrees //
+/////////////
+-->
+
+<!--
+//////////
+// Jobs //
+//////////
+-->
+
+<div class="overlay-lightbox-fixed" id="add_jobs_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Professional experience</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-add-jobs">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Add a position to your job list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="add_job_form">
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
+					<td><input type="text" style="width:250px" id="new_job_role"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
+				</tr>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+					<td><input type="text" style="width:250px" id="new_job_country"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Company:</td>
+					<td><input type="text" style="width:250px" id="new_job_company"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+					<td>
+						<select id="new_job_from">
+							<option></option>
+						</select>
+						-
+						<select id="new_job_until">
+							<option></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">Description:</td>
+					<td><textarea style="width:250px; height:75px" id="new_job_description"></textarea></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="new_job_button" class="save buttons">Add</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<div class="overlay-lightbox-fixed" id="edit_jobs_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Professional experience</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-edit-jobs">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Edit a position from your list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="edit_jobs_form">
+        	<input type="hidden" id="edit_job_id"/>
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
+					<td><input type="text" style="width:250px" id="edit_job_role"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
+				</tr>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+					<td><input type="text" style="width:250px" id="edit_job_country"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Company:</td>
+					<td><input type="text" style="width:250px" id="edit_job_company"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+					<td>
+						<select id="edit_job_from">
+							<option></option>
+						</select>
+						-
+						<select id="edit_job_until">
+							<option></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">Description:</td>
+					<td><textarea style="width:250px; height:75px" id="edit_job_description"></textarea></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="edit_job_button" class="save buttons">Update</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<!--
+//////////
+// Jobs //
+//////////
+-->
+
+<!--
+///////////
+// Talks //
+///////////
+-->
+
+<div class="overlay-lightbox-fixed" id="add_talks_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Talks</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-add-talks">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Add a talk to your talk list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="add_talk_form">
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Title:</td>
+					<td><input type="text" style="width:250px" id="new_talk_title"/></td>
+				</tr>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Place:</td>
+					<td><input type="text" style="width:250px" id="new_talk_place"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+					<td><input type="text" style="width:250px" id="new_talk_date"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">Co-author(s):</td>
+					<td><input type="text" style="width:250px" id="new_talk_coauth"/>
+					<br/><span style="color:#666666; font-size:0.9em">Seperated by comma's</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">URL:</td>
+					<td><input type="text" style="width:250px"  class="url_field" id="new_talk_url"/></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="new_talk_button" class="save buttons">Add</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<div class="overlay-lightbox-fixed" id="edit_talks_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Talks</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-edit-talks">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Edit a talk from your list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="edit_talks_form">
+        	<input type="hidden" id="edit_talk_id"/>
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Title:</td>
+					<td><input type="text" style="width:250px" id="edit_talk_title"/></td>
+				</tr>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Place:</td>
+					<td><input type="text" style="width:250px" id="edit_talk_place"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+					<td><input type="text" style="width:250px" id="edit_talk_date"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">Co-author(s):</td>
+					<td><input type="text" style="width:250px" id="edit_talk_coauth"/>
+					<br/><span style="color:#666666; font-size:0.9em">Seperated by comma's</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 100px">URL:</td>
+					<td><input type="text" style="width:250px" class="url_field" id="edit_talk_url"/></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="edit_talk_button" class="save buttons">Update</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<!--
+///////////
+// Talks //
+///////////
+-->
+
+<!--
+////////////
+// Papers //
+////////////
+-->
+
+<div class="overlay-lightbox-fixed" id="add_papers_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Publications</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-add-papers">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Add a publication to your publication list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="add_paper_form">
+            <table>
+            	<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main Title:</td>
+					<td><input type="text" style="width:250px" id="new_paper_title"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main author:</td>
+					<td><input type="text" style="width:250px" id="new_paper_auth"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px">Co-author(s):</td>
+					<td><input type="text" style="width:250px" id="new_paper_coauth"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Year of appearance:</td>
+					<td>
+						<select id="new_paper_year">
+							<option></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume information:</td>
+					<td><input type="text" style="width:250px" id="new_paper_vol"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume title:</td>
+					<td><input type="text" style="width:250px" id="new_paper_voltitle"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px">Edition information:</td>
+					<td><input type="text" style="width:250px" id="new_paper_edition"/>
+					<br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Place of publication:</td>
+					<td><input type="text" style="width:250px" id="new_paper_place"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Publisher:</td>
+					<td><input type="text" style="width:250px" id="new_paper_publisher"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Overal/Series Title:</td>
+					<td><input type="text" style="width:250px" id="new_paper_ovtitle"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Number:</td>
+					<td><input type="text" style="width:250px" id="new_paper_number"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px">URL:</td>
+					<td><input type="text" style="width:250px" class="url_field" id="new_paper_url"/></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="new_paper_button" class="save buttons">Add</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<div class="overlay-lightbox-fixed" id="edit_papers_lightbox" style="display:none">
+
+    <div class="lightbox size2" style="width:670px">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Publications</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a id="close_add_friend_lightbox" style="cursor:hand; cursor:pointer;"  class="sakai-close-edit-papers">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container" style="padding:15px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Edit a publication from your list</h4>
+		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="edit_papers_form">
+        	<input type="hidden" id="edit_paper_id"/>
+            <table>
+            	<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main Title:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_title"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main author:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_auth"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px">Co-author(s):</td>
+					<td><input type="text" style="width:250px" id="edit_paper_coauth"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Year of appearance:</td>
+					<td>
+						<select id="edit_paper_year">
+							<option></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume information:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_vol"/>
+					<br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume title:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_voltitle"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px">Edition information:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_edition"/>
+					<br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Place of publication:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_place"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Publisher:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_publisher"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Overal/Series Title:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_ovtitle"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Number:</td>
+					<td><input type="text" style="width:250px" id="edit_paper_number"/></td>
+				</tr>
+				<tr>
+            		<td style="width: 130px">URL:</td>
+					<td><input type="text" style="width:250px"  class="url_field" id="edit_paper_url"/></td>
+				</tr>
+			</table>
+		    <br/>
+		    <a id="edit_paper_button" class="save buttons">Update</a>
+		    <br/><br/>
+		   </form>
+        </div>
+        <!-- /lightbox-container -->
+    </div>
+    <!-- /lightbox -->
+</div>
+
+<!--
+////////////
+// Papers //
+////////////
+-->
+	
+	<div id="add_friend_types_template" style="display:none"><!--
+		{var index = 0}
+		{for i in connections}
+			<input type="radio" name="add_friends_list_type" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
+			<br/>
+			${index++|eat}
+		{/for}
+	--></div>
+	
+	<div id="body2">
+	   
+	   <div id="header" style="border-bottom: 1px solid #AAAAAA">
+          <a name="top"></a>
+    			 <div class="header-up">
+      				<ul class="header-up-left">
+      					<li><a href="/dev/dashboard.html">Back to My Dashboard</a></li>
+      				</ul>
+      				<ul class="header-up-right">
+      					<li class="li-last"><a accesskey='6' href='/portal/help/main' onclick="window.open('/portal/help/main', 'Help', 'resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600'); return false">Help</a></li>	
+						<li><div id="widget_mypreferences" class="widget_inline"></div></li>
+      					<li class="user"><strong id="user_id"></strong>(<a href="/portal/logout">Sign Out</a>)</li>
+      				</ul>
+      			</div><!-- /header-up -->
+         </div><!-- /header -->
+	   
+	   <div id="header3" style="height:70px">
+		   <div class="header3-up">
+			   <h1 id="sitetitle"></h1>
+			   
+			   <span id="link_edit_profile" style="display:none; position: relative; top: 25px; left: 10px; color: #CCCCCC"><a href="/dev/sn/profile.html?edit=true">[Edit My Profile]</a></span>
+			   <span id="link_view_profile" style="display:none; position: relative; top: 25px; left: 10px; color: #CCCCCC"><a href="/dev/sn/profile.html">[View My Profile]</a></span>
+			   
+			   <!-- <a class="buttons edit-look-feel" id="edit-profile" href="/dev/sn/edit_profile.html"><span style="background:transparent url(/dev/img/edit-look-feel2.png) no-repeat scroll 0pt 50%;">Edit My Profile</span></a> -->
+			   <ul style="padding-top:5px">
+				   <!--<li class="m2-header3-up"><a href="/dev/dashboard.html" id="back_dashboard">Close &amp; Return to My Dashboard</a></li>
+				   <li class="m1-header3-up"><a href="#">Help</a></li>-->
+			   </ul>
+		   </div>
+       </div><!-- /header3 -->
+       
+       <div id="wrapper3">
+        <div id="container3">
+          <div id="content3">
+          
+            <div id="main3">
+				
+				<div id="add_people" style="width:100%; text-align: right; display: none">
+					<span style="padding-right:12px">
+						<a id="add_people_link" style="cursor:hand; cursor:pointer">Add to my connections ...</a>
+					</span>
+				</div>
+				<div id="add_people_status_pending" style="width:100%; text-align: right; display: none">
+					<span style="padding-right:12px; color: #AAAAAA">
+						This person has been invited as a connection
+					</span>
+				</div>
+				<div id="add_people_status_connection" style="width:100%; text-align: right; display: none">
+					<span style="padding-right:12px; color: #AAAAAA">
+						You are connected to this person
+					</span>
+				</div>
+				<div id="add_people_status_invited" style="width:100%; text-align: right; display: none">
+					<span style="padding-right:12px; color: #666666">
+						You have been invited as a connection by this person. <a id="add_people_confirm" style="cursor:hand; cursor:pointer">Accept</a>
+					</span>
+				</div>
+				
+				<table style="width:100%">
+					<tr>
+						<td style="width:100px; padding: 10px; vertical-align:top">
+							<div id="picture_holder"><img width="78" height="78" class="my-profile-img" alt="Profile picture" src="/dev/img/my-profile-img.jpg"/></div>
+							<form id="picture_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : Profile.startCallback, 'onComplete' : Profile.completeCallback})" style="display:none">
+								<br/>
+								<strong>Upload new picture</strong>
+								<br/><br/>
+								<input type="file" name="file"/>
+								<input type="hidden" name="realname" id="realname" value="" />
+								<br/><br/>
+								<input type="submit" id="profile_upload" value="Upload" style="width:75px"/>
+							</form>
+						</td>
+						<td style="padding:10px; vertical-align:top">
+							<div id="basic" style="display:none">
+								<div>
+									<table style="width:100%; border-bottom: 1px solid #AAAAAA">
+										<tr>
+											<td>
+												<h3 id="basic_title" style="width:100%;">Basic</h3>	
+											</td>
+											<td style="width:150px; text-align:right; font-size: 0.9em; display:none" id="showallfield">
+												<table style="width:150px; text-align:right; font-size: 0.9em"><tr><td><a style="cursor:pointer; cursor:hand; font-size: 0.9em" id="basicexpand" class="basicexpand">Show all fields</a></td><td style="text-align:right; font-size: 0.9em; width: 17px">
+												<a style="cursor:pointer; cursor:hand" class="basicexpand"><img src="/dev/img/icon_edit_small.gif" width="16px"/></a></td></table>
+											</td>
+										</tr>
+									</table>
+									<div style="height:17px">&nbsp;</div>
+									<table style="width:100%; margin-left:5px;">
+										<tr id="no_basic" style="display:none">
+											<td colspan="2">
+												<span>No fields filled out yet</span>
+											</td>
+										</tr>
+										<tr id="status" class="field">
+											<td class="fieldtitle" style="vertical-align:top">
+												<span>Status:</span>
+											</td>
+											<td>
+												<table style="width:100%">
+													<tr>
+														<td style="height:20px">
+															<span id="status_begin"></span>
+														</td>
+														<td style="width:100%; height: 20px">
+															<div class="inlineEditable">
+																<div id="txt_status" style="font-weight:bold; font-style:italic" class="text"></div>
+															</div>
+														</td>
+													</tr>
+												</table>
+												<br/>
+											</td>
+										</tr>
+										<tr id="firstname" class="field">
+											<td class="fieldtitle">
+												<span id="">First Name:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_firstname" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="middlename" class="field">
+											<td class="fieldtitle">
+												<span id="">Middle Name:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_middlename" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="lastname" class="field">
+											<td class="fieldtitle">
+												<span id="">Last Name:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_lastname" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="unirole" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Role/Position:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_unirole" class="dropdown"></div>
+													<div class="editContainer">
+                                    					<select class="options">
+															<option></option>
+															<option value="Single">Undergraduate Student</option>
+															<option value="In a relation">Graduate Student</option>
+															<option value="Married">Postgraduate Student</option>
+															<option value="Married">Academic Staff</option>
+															<option value="Married">Academic Related Staff</option>
+															<option value="Married">Non-academic Staff</option>
+															<option value="Married">Assistant Staff</option>
+															<option value="Married">Other</option>
+														</select>
+                               						</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="unidepartment" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Department:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_unidepartment" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="unicollege" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">College:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_unicollege" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="birthday" class="field">
+											<td class="fieldtitle">
+												<span id="">Date of birth:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_birthday" class="text"></div>
+												 	<div class="editContainer">
+                                    					<input type="text" value="" class="edit"/>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+							<div id="about" style="display:none">
+								<div>
+									<br/>
+									<h3 id="about_title" style="width:100%; border-bottom: 1px solid #AAAAAA">About</h3>
+									<div style="height:17px">&nbsp;</div>
+									<table style="width:100%;margin-left:5px;">
+										<tr id="no_about" style="display:none">
+											<td colspan="2">
+												<span>No fields filled out yet</span>
+											</td>
+										</tr>
+										<tr id="aboutme" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align: top">
+												<span id="">About Me:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_aboutme" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="academicinterests" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align: top">
+												<span id="">Academic Interests:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_academicinterests" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="personalinterests" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align: top">
+												<span id="">Personal Interests:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_personalinterests" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="hobbies" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align: top">
+												<span id="">Hobbies:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_hobbies" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+							<!--
+							/////////////
+							// Degrees //
+							/////////////
+							-->
+							
+							<div id="degrees" style="display:none">
+								<div>
+									<br/>
+									<table style="width:100%; border-bottom: 1px solid #AAAAAA">
+										<tr>
+											<td>
+												<h3 id="degrees_title" style="width:100%;">Degrees</h3>	
+											</td>
+											<td style="width:150px; text-align:right; display:none" id="degreesadd">
+												<a style="cursor:pointer; cursor:hand; background:transparent url(/dev/img/add-icon.png) no-repeat; padding: 0px 0px 2px 15px" class="degreesadd">Add a degree</a>
+											</td>
+										</tr>
+									</table>
+									<div style="height:17px">&nbsp;</div>
+									<div id="degrees_list" style="padding-left:5px">
+									<table style="width:100%">
+										<tr id="no_degrees" style="display:block">
+											<td colspan="2">
+												<span>No degrees added yet</span>
+											</td>
+										</tr>
+									</table>
+									</div>
+									<div id="degrees_list_template"><!--
+										{for i in items}
+											<div class="degree_record" id="degree_record_${i.id}">
+												<table style="width:100%">
+													<tr>
+														<td>
+															<div class="degree_record_div multifield_out" id="degree_record_${i.id}_div" style="line-height:20px">
+																<b>${i.school} (${i.country})</b>
+																<br/>
+																${i.degree}, ${i.field}<br/>
+																<span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
+																<br/>
+																{if i.notes}
+																	${i.notes}
+																	<br/>
+																{/if}
+															</div>
+														</td>
+														<td style="width:15px" class="centertd">
+															<img src="/dev/img/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="greydotted"></div>
+										{forelse}
+											<table style="width:100%">
+												<tr>
+													<td colspan="2">
+														<span>No degrees added yet</span>
+													</td>
+												</tr>
+											</table>
+										{/for}
+									--></div>
+								</div>
+							</div>
+							
+							<!--
+							/////////////
+							// Degrees //
+							/////////////
+							-->
+							
+							<!--
+							////////////
+							// Papers //
+							////////////
+							-->
+							
+							<div id="papers" style="display:none">
+								<div>
+									<br/>
+									<table style="width:100%; border-bottom: 1px solid #AAAAAA">
+										<tr>
+											<td>
+												<h3 id="papers_title" style="width:100%;">Publications</h3>	
+											</td>
+											<td style="width:150px; text-align:right; display:none" id="papersadd">
+												<a style="cursor:pointer; cursor:hand; background:transparent url(/dev/img/add-icon.png) no-repeat; padding: 0px 0px 2px 15px" class="papersadd">Add a publication</a>
+											</td>
+										</tr>
+									</table>
+									<div style="height:17px">&nbsp;</div>
+									<div id="papers_list" style="padding-left:5px">
+									<table style="width:100%">
+										<tr id="no_papers" style="display:block">
+											<td colspan="2">
+												<span>No publications added yet</span>
+											</td>
+										</tr>
+									</table>
+									</div>
+									<div id="papers_list_template"><!--
+										{for i in items}
+											<div class="paper_record" id="paper_record_${i.id}">
+												<table style="width:100%">
+													<tr>
+														<td>
+															<div class="paper_record_div multifield_out" id="paper_record_${i.id}_div" style="line-height:20px">
+																<span class="author firstauthor">
+													                <span class="family-name" style="font-variant: small-caps;">${i.auth}</span>
+													            </span> ;
+																{if i.coauth}
+													            <span class="author">
+													                <span class="family-name" style="font-variant: small-caps; ">${i.coauth}</span>
+													            </span>
+																{/if}
+													            (<span class="year">${i.year}</span>):
+													            <span style="font-style: italic; ">
+													                <span class="title">${i.title}</span>.
+													                Vol. <span class="volume">${i.vol}</span>:
+													                <span class="volumetitle">${i.voltitle}</span>.
+													            </span>
+																{if i.edition}
+													            <span class="edition">${i.edition}</span>.
+																{/if}
+													            <span class="place">${i.place}</span> :
+													            <span class="publisher">${i.publisher}</span>
+													            (<span class="overalltitle">${i.ovtitle}</span>
+													            <span class="number">${i.number}</span>)
+																{if i.url}
+																	<a href="${i.url}" target="_blank"><img src="/dev/img/link_icon.gif" border="0"></a>
+																{/if}
+															</div>
+														</td>
+														<td style="width:15px" class="centertd">
+															<img src="/dev/img/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="greydotted"></div>
+										{forelse}
+											<table style="width:100%">
+												<tr>
+													<td colspan="2">
+														<span>No publications added yet</span>
+													</td>
+												</tr>
+											</table>
+										{/for}
+									--></div>
+								</div>
+							</div>
+							
+							<!--
+							////////////
+							// Papers //
+							////////////
+							-->
+							
+							<!--
+							///////////
+							// Talks //
+							///////////
+							-->
+							
+							<div id="talks" style="display:none">
+								<div>
+									<br/>
+									<table style="width:100%; border-bottom: 1px solid #AAAAAA">
+										<tr>
+											<td>
+												<h3 id="talks_title" style="width:100%;">Talks</h3>	
+											</td>
+											<td style="width:150px; text-align:right; display:none" id="talksadd">
+												<a style="cursor:pointer; cursor:hand; background:transparent url(/dev/img/add-icon.png) no-repeat; padding: 0px 0px 2px 15px" class="talksadd">Add a talk</a>
+											</td>
+										</tr>
+									</table>
+									<div style="height:17px">&nbsp;</div>
+									<div id="talks_list" style="padding-left:5px">
+									<table style="width:100%">
+										<tr id="no_talks" style="display:block">
+											<td colspan="2">
+												<span>No talks added yet</span>
+											</td>
+										</tr>
+									</table>
+									</div>
+									<div id="talks_list_template"><!--
+										{for i in items}
+											<div class="talk_record" id="talk_record_${i.id}">
+												<table style="width:100%">
+													<tr>
+														<td>
+															<div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
+																<b>${i.title}</b>
+																{if i.url}
+																	<a href="${i.url}" target="_blank"><img src="/dev/img/link_icon.gif" border="0"></a>
+																{/if}
+																<br/>
+																{if i.coauth}
+																Presented with ${i.coauth}
+																<br/>
+																{/if}
+																<span style="font-size:0.9em; color:#CCCCCC">${i.date} (${i.place})</span>
+																<br/>
+															</div>
+														</td>
+														<td style="width:15px" class="centertd">
+															<img src="/dev/img/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="greydotted"></div>
+										{forelse}
+											<table style="width:100%">
+												<tr>
+													<td colspan="2">
+														<span>No talks added yet</span>
+													</td>
+												</tr>
+											</table>
+										{/for}
+									--></div>
+								</div>
+							</div>
+							
+							<!--
+							///////////
+							// Talks //
+							///////////
+							-->
+							
+							<!--
+							//////////
+							// Jobs //
+							//////////
+							-->
+							
+							<div id="jobs" style="display:none">
+								<div>
+									<br/>
+									<table style="width:100%; border-bottom: 1px solid #AAAAAA">
+										<tr>
+											<td>
+												<h3 id="jobs_title" style="width:100%;">Professional experience</h3>	
+											</td>
+											<td style="width:150px; text-align:right; display:none" id="jobsadd">
+												<a style="cursor:pointer; cursor:hand; background:transparent url(/dev/img/add-icon.png) no-repeat; padding: 0px 0px 2px 15px" class="jobsadd">Add a position</a>
+											</td>
+										</tr>
+									</table>
+									<div style="height:17px">&nbsp;</div>
+									<div id="jobs_list" style="padding-left:5px">
+									<table style="width:100%">
+										<tr id="no_jobs" style="display:block">
+											<td colspan="2">
+												<span>No positions added yet</span>
+											</td>
+										</tr>
+									</table>
+									</div>
+									<div id="jobs_list_template"><!--
+										{for i in items}
+											<div class="job_record" id="job_record_${i.id}">
+												<table style="width:100%">
+													<tr>
+														<td>
+															<div class="job_record_div multifield_out" id="job_record_${i.id}_div" style="line-height:20px">
+																<b>${i.role}</b>
+																<br/>
+																${i.company} (${i.country})<br/>
+																{if i.description}
+																	${i.description}
+																	<br/>
+																{/if}
+																<span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
+																<br/>
+															</div>
+														</td>
+														<td style="width:15px" class="centertd">
+															<img src="/dev/img/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="greydotted"></div>
+										{forelse}
+											<table style="width:100%">
+												<tr>
+													<td colspan="2">
+														<span>No positions added yet</span>
+													</td>
+												</tr>
+											</table>
+										{/for}
+									--></div>
+								</div>
+							</div>
+							
+							<!--
+							//////////
+							// Jobs //
+							//////////
+							-->
+							
+							<div id="additional" style="display:none">
+								<div>
+									<br/>
+									<h3 id="additional_title" style="width:100%; border-bottom: 1px solid #AAAAAA">Additional information</h3>
+									<div style="height:17px">&nbsp;</div>
+									<table style="width:100%;margin-left:5px;">
+										<tr id="no_additional" style="display:none">
+											<td colspan="2">
+												<span>No fields filled out yet</span>
+											</td>
+										</tr>
+										<tr id="awards" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align:top">
+												<span id="">Awards & Honors:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_awards" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="clubs" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align:top">
+												<span id="">Clubs:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_clubs" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="societies" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align:top">
+												<span id="">Societies:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_societies" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+							<!--
+							//////////////
+							// Websites //
+							//////////////
+							-->
+							
+							<div id="websites" style="display:none">
+								<div>
+									<br/>
+									<table style="width:100%; border-bottom: 1px solid #AAAAAA">
+										<tr>
+											<td>
+												<h3 id="publications_title" style="width:100%;">Websites</h3>	
+											</td>
+											<td style="width:150px; text-align:right; display:none" id="websitesadd">
+												<a style="cursor:pointer; cursor:hand; background:transparent url(/dev/img/add-icon.png) no-repeat; padding: 0px 0px 2px 15px" class="websitesadd">Add a website</a>
+											</td>
+										</tr>
+									</table>
+									<div style="height:17px">&nbsp;</div>
+									<div id="websites_list">
+									<table style="width:100%">
+										<tr id="no_websites" style="display:block">
+											<td colspan="2">
+												<span>No websites added yet</span>
+											</td>
+										</tr>
+									</table>
+									</div>
+									<div id="websites_list_template"><!--
+										{for i in items}
+											<div class="website_record" id="website_record_${i.id}">
+												<table style="width:100%">
+													<tr>
+														<td>
+															<div class="website_record_div multifield_out" id="website_record_${i.id}_div">
+																<a target="_blank" style="margin-left:5px; line-height:20px" href="${i.url}">${i.title}</a>
+															</div>
+														</td>
+														<td style="width:15px" class="centertd">
+															<img src="/dev/img/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+										{forelse}
+											<table style="width:100%">
+												<tr>
+													<td colspan="2">
+														<span>No websites added yet</span>
+													</td>
+												</tr>
+											</table>
+										{/for}
+									--></div>
+								</div>
+							</div>
+							
+							<!--
+							//////////////
+							// Websites //
+							//////////////
+							-->
+							
+							<div id="unicontactinfo" style="display:none">
+								<div>
+									<br/>
+									<h3 id="unicontactinfo_title" style="width:100%; border-bottom: 1px solid #AAAAAA">University Contact Info</h3>
+									<div style="height:17px">&nbsp;</div>
+									<table style="width:100%;margin-left:5px;">
+										<tr id="no_unicontactinfo" style="display:none">
+											<td colspan="2">
+												<span>No fields filled out yet</span>
+											</td>
+										</tr>
+										<tr id="unidepartment" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Department:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_unidepartment" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="unicollege" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">College:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_unicollege" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="uniemail" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Email Address:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_uniemail" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="uniphone" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Phone:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_uniphone" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="unimobile" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Mobile:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_unimobile" class="text"></div>
+												</div>
+											</td>
+										</tr>
+										<tr id="uniaddress" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align:top">
+												<span id="">Address:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_uniaddress" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+							<div id="homecontactinfo" style="display:none">
+								<div>
+									<br/>
+									<h3 id="homecontactinfo_title" style="width:100%; border-bottom: 1px solid #AAAAAA">Home Contact Info</h3>
+									<div style="height:17px">&nbsp;</div>
+									<table style="width:100%;margin-left:5px;">
+										<tr id="no_homecontactinfo" style="display:none">
+											<td colspan="2">
+												<span>No fields filled out yet</span>
+											</td>
+										</tr>
+										<tr id="homeemail" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Email Address:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+							                    	<div id="txt_homeemail" class="text"></div>
+							                    </div>
+											</td>
+										</tr>
+										<tr id="homephone" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Phone:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+							                    	<div id="txt_homephone" class="text"></div>
+							                    </div>
+											</td>
+										</tr>
+										<tr id="homemobile" class="field">
+											<td class="fieldtitle" style="width:125px">
+												<span id="">Mobile:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+							                    	<div id="txt_homemobile" class="text"></div>
+							                    </div>
+											</td>
+										</tr>
+										<tr id="homeaddress" class="field">
+											<td class="fieldtitle" style="width:125px; vertical-align:top">
+												<span id="">Address:</span>
+											</td>
+											<td>
+												<div class="inlineEditable">
+													<div id="txt_homeaddress" class="text"></div>
+												 	<div class="editContainer">
+                                    					<textarea class="edit"></textarea>
+                               					 	</div>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+						</td>
+					</tr>
+				</table>
+				
+            </div><!-- /main3 -->
+            
+          </div><!-- /content3 -->
+        </div><!-- /container3 -->
+       </div><!-- /wrapper3 -->
+       
+	   <br/><br/>
+	   </div>
+	   
+	    <div id="widget_chat" class="widget_inline"></div>
+	   
+	   
+	<script type="text/javascript" language="JavaScript" src="/dev/js/profile2.js"></script>
+
+  </body>
+</html>

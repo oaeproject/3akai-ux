@@ -1,0 +1,31 @@
+<div id="sitemembers_template" style="display:none"><!--
+	<div style="clear:both">
+	{for i in items}
+		<div style="width:120px; height: 90px; text-align: center; float: left; overflow: hidden">
+			<img src="${i.picture}" width="50px" height="50px"/>
+			<br/>
+			<a href="/dev/sn/profile.html?user=${i.id}" style="color: #000000">${i.name}</a>
+		</div>
+	{forelse}
+		There are no members in this site
+	{/for}
+	<div style="clear:both"></div> 
+	</div>
+	{if total > 15 && all == false}
+		<p style="margin-left:5px; padding-bottom:5px">
+			<a class="sitemembers_showall" href="">Show all</a>
+		</p>
+	{/if}
+	{if total > 15 && all == true}
+		<p style="margin-left:5px; padding-bottom:5px">
+			<a class="sitemembers_hideall" href="">Hide all</a>
+		</p>
+	{/if}
+--></div>
+
+<div id="sitemembers_container"></div>
+<div id="sitemembers_settings" style="display:none;">
+	No settings available
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/sitemembers/javascript/sitemembers.js"></script>
