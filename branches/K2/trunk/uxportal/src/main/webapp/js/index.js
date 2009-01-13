@@ -30,12 +30,12 @@ sakai.index = function(){
 	sakai.index.decideLoggedIn = function(response, exists){
 		if (exists == false) {
 			if (response != "401" && response != "403" && response != "error"){
-				document.location = redirecturl;
+				//document.location = redirecturl;
 			} else {
 				$("#username").focus();
 			}
 		} else {
-			document.location = redirecturl;
+			//document.location = redirecturl;
 		}
 
 	}
@@ -104,7 +104,7 @@ sakai.index = function(){
 
 		if (exists == false) {
 			if (response != "401" && response != "403" && response != "error"){
-				document.location = redirecturl;
+				//document.location = redirecturl;
 			} else {
 				$("#failed").show();
 				$("#loginloader").hide();
@@ -112,7 +112,7 @@ sakai.index = function(){
 				isLoggingIn = false;
 			}
 		} else {
-			document.location = redirecturl;
+			//document.location = redirecturl;
 		}
 
 	}
