@@ -1610,9 +1610,15 @@ sdata.util = {};
  * @return the stripped string
  * @type String
  */
-sdata.util.stripHTML = function(htmlstring){
+sdata.util.stripHTML = function(htmlstring, limit){
 	if (htmlstring){
-		return htmlstring.replace(/<br([^>]+)>/ig," ").replace(/(<([^>]+)>)/ig,""); 
+		var endstring = htmlstring.replace(/&nbsp;/ig," ").replace(/<br([^>]+)>/ig," ").replace(/(<([^>]+)>)/ig,"");
+		if (limit){
+			if (endstring.length > limit){
+				endstring = endstring.substrin(0,limit) + " ...";
+			}
+		} 
+		return endstring;
 	} else {
 		return null;
 	}
