@@ -9,6 +9,8 @@ sakai.sites_join = function(){
 	var nonCourseSiteCount = 0;
 	var activeSiteCount = 0;
 	var inactiveSiteCount = 0; 
+	
+	sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
 		
 	var getSiteJsonUrl = function(){
 		var siteJsonUrl;
@@ -25,8 +27,9 @@ sakai.sites_join = function(){
 	};
 	
 	
-	var showCreatNewSite = function(){
-		$("#create-site").load("/devwidgets/createsite/createsite.html");
+	var showCreatNewSite = function(){		
+		$("#createsitecontainer").show();
+		sakai.createsite.initialise();		
 		return false;
 	};
 	
