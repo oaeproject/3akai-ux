@@ -7,7 +7,7 @@ sdata.events.Listener.onLoad(function() {
 	if (window.location.protocol == "file:") {
 		sdataMeUrl = "lib/demo_sdata_me.json";
 	} else {
-		sdataMeUrl = "/sdata/me?sid=" + Math.random();
+		sdataMeUrl = "/rest/me?sid=" + Math.random();
 	}
 	sdata.Ajax.request({
 		url : sdataMeUrl,
@@ -19,9 +19,9 @@ sdata.events.Listener.onLoad(function() {
 				httpMethod : "GET",
 				onSuccess : function(data) {
 					var defaultjson = eval('(' + data + ')');
-					if (mejson.items.userLocale) {
+					if (mejson.locale) {
 						sdata.Ajax.request({
-							url: "bundle/" + mejson.items.userLocale.language + "_" + mejson.items.userLocale.country + ".json",
+							url: "bundle/" + mejson.locale.language + "_" + mejson.locale.country + ".json",
 							httpMethod: "GET",
 							onSuccess: function(data){
 								var localjson = eval('(' + data + ')');
