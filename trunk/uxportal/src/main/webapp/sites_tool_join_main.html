@@ -31,7 +31,7 @@
 						{for site in items}
 							<div class="block">
 								<h3 class="stjr-of"><a href="/dev/site_gateway1a.html?site=${site.id}">${site.title}</a></h3>
-								<p>${sdata.util.stripHTML(site.description)}</p>
+								<p>${sdata.util.stripHTML(site.description, 200)}</p>
 								<ul>
 									<li>Owner: ${site.siteOwner.userDisplayName}</li>
 									<li class="stjr-last">
@@ -70,13 +70,6 @@
 							</tr>
 						</table>
 						<h4>Remaining Options:</h4>
-						<p class="stjr_p3"><strong>Academic Term:</strong></p>
-						<ul>
-							<li><a href="#">2008 Summer</a> <span class="c999999">(13)</span></li>
-							<li><a href="#">2008 Summer</a> <span class="c999999">(18)</span></li>
-							<li><a href="#">2008 Fall</a> <span class="c999999">(33)</span></li>
-							<li><a href="#">2009 Spring</a> <span class="c999999">(3)</span></li>
-						</ul>
 						<p class="stjr_p3"><strong>Site Type:</strong></p>
 						<ul>
 							<li><a href="#" class="type-search" id="Course Sites">Course Sites</a> <span class="c999999" id="course-site-count">(48)</span></li>
@@ -194,7 +187,7 @@
 											</div></td>
 											<td style="width:220px"><div class="stj-side">
 												<h3 class="stj-h3">Your Recent Searches</h3>
-												<a href="#" id="clear-recent" style="float:right">clear</a>
+												<a href="#" id="clear-recent" style="float:right; display:none">clear</a>
 												<div id="rec_searches_template" style="display:none"><!--
 													{for search in searches}
 														<div class="stj-item2"><a style="cursor:hand; cursor: pointer" class="rec_searches_record">${search.query}</a></div>
