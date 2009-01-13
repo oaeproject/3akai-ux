@@ -23,20 +23,31 @@ sakai.index = function(){
 		$("#loginbutton").bind("click", function(){
 			performLogIn();
 		});
-		sdata.widgets.WidgetPreference.get("loggedIn", sakai.index.decideLoggedIn);
+		
+		sdata.Ajax.request({
+			url : "/rest/me?sid=" + Math.random(),
+			httpMethod : "GET",
+			onSuccess : function(data) {
+				sakai.index.decideLoggedIn(data,true);
+			},
+			onFail : function(data){
+				sakai.index.decideLoggedIn(data,false);
+			}
+		});
 
 	}
 
 	sakai.index.decideLoggedIn = function(response, exists){
-		if (exists == false) {
-			if (response != "401" && response != "403" && response != "error"){
-				//document.location = redirecturl;
+		if (exists){
+			var mejson = eval('(' + response + ')');
+			if (mejson.preferences.userid != "anon" && mejson.preferences.userid != null){
+				document.location = redirecturl;
 			} else {
 				$("#username").focus();
 			}
 		} else {
-			//document.location = redirecturl;
-		}
+			// An error has occured
+		}	
 
 	}
 
@@ -54,8 +65,8 @@ sakai.index = function(){
 			$("#loginloader").show();
 			$("#loginbutton").hide();
 
-			var url= "/portal/xlogin";
-			var requestbody = {"eid" : $('#username').attr("value"), "pw" : $('#password').attr("value") , "submit" : "Login"};
+			var url= "/rest/login";
+			var requestbody = {"l":1, "a":"FORM", "u" : $('#username').attr("value"), "p" : $('#password').attr("value")};
 	
 			sdata.Ajax.request({
 				url :url,
@@ -76,9 +87,9 @@ sakai.index = function(){
 
 	sakai.index.retryLogin = function(){
 
-		var url= "/portal/xlogin";
-		var requestbody = {"eid" : $('#username').attr("value"), "pw" : $('#password') .attr("value") , "submit" : "Login"};
-	
+		var url= "/rest/login";
+		var requestbody = {"l":1, "a":"FORM", "u" : $('#username').attr("value"), "p" : $('#password').attr("value")};
+		
 		sdata.Ajax.request({
 			url :url,
 			httpMethod : "POST",
@@ -94,7 +105,18 @@ sakai.index = function(){
 	}
 
 	sakai.index.checkLogInSuccess = function(response, exists){
-		sdata.widgets.WidgetPreference.get("loggedIn", sakai.index.decideLoggedIn2);
+		
+		sdata.Ajax.request({
+			url : "/rest/me?sid=" + Math.random(),
+			httpMethod : "GET",
+			onSuccess : function(data) {
+				sakai.index.decideLoggedIn2(data,true);
+			},
+			onFail : function(data){
+				sakai.index.decideLoggedIn2(data,false);
+			}
+		});
+	
 		if (isLoggingIn){
 			setTimeout("sakai.index.retryLogin()",1000);
 		}
@@ -102,9 +124,10 @@ sakai.index = function(){
 
 	sakai.index.decideLoggedIn2 = function(response, exists){
 
-		if (exists == false) {
-			if (response != "401" && response != "403" && response != "error"){
-				//document.location = redirecturl;
+		if (exists){
+			var mejson = eval('(' + response + ')');
+			if (mejson.preferences.userid != "anon" && mejson.preferences.userid != null){
+				document.location = redirecturl;
 			} else {
 				$("#failed").show();
 				$("#loginloader").hide();
@@ -112,8 +135,8 @@ sakai.index = function(){
 				isLoggingIn = false;
 			}
 		} else {
-			//document.location = redirecturl;
-		}
+			// An error has occured
+		}	
 
 	}
 	
