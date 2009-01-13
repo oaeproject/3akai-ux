@@ -72,10 +72,13 @@ sakai.dashboard = function(){
 		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id, false);
 	};
 	
+	var totaltotry = 0;
+	
 	loadPagesInitial = function(){
 	
 		$("#initialcontent").show();
-
+		totaltotry = 0;
+		
 		sdata.Ajax.request({
 			url: "/sdata/f/" + currentsite.id + "/pageconfiguration?sid=" + Math.random(),
 			onSuccess: function(response){
@@ -84,14 +87,54 @@ sakai.dashboard = function(){
 				History.history_change();
 			},
 			onFail: function(httpstatus){
+			
+				var newmain = {};
+				newmain.items = [];
+				
+				var newpages = {};
+				totaltotry++;
+				
+				for (var i = 0; i < currentsite.pages.length; i++){
+					
+					var newid = randomString(8);
+					
+					newmain.items[i] = {};
+					newmain.items[i].id = newid;
+					newmain.items[i].title = currentsite.pages[i].name;
+					newmain.items[i].type = "tool";
+					newmain.items[i].top = true;
+					
+					newpages[newid] = {};
+					newpages[newid].tool = currentsite.pages[i].tools[0].url;
+					totaltotry++;
+					
+				}
+				
+				var string1 = sdata.JSON.stringify(newmain);
+				
+				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "", "pageconfiguration", string1, checkRetry);
+				
+				for (var i in newpages){
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/pages/" + i + "", "tool", sdata.JSON.stringify(newpages[i]), checkRetry);
+				}
+				
+				/*
 				pages = {};
 				pages.items = {};
 				pageconfiguration = pages;
 				History.history_change();
+				*/
 			}
 		});
 		
 	};
+	
+	checkRetry = function(success){
+		totaltotry = totaltotry - 1;
+		if (totaltotry <= 0){
+			loadPagesInitial();
+		}
+	}
 	
 	loadPages = function(toopen){
 	
