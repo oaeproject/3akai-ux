@@ -668,7 +668,7 @@ if (response.getAllResponseHeaders().indexOf("/p/widgets/loggedIn") == -1 && res
 								if (exists == false) {
 									if (response == "401" || response == "403" || response == "error") {
 										//alert(_resp);
-										document.location = redirecturl;
+										//document.location = redirecturl;
 									}
 								}
 								/*
