@@ -665,19 +665,27 @@ if (response.getAllResponseHeaders().indexOf("/p/widgets/loggedIn") == -1 && res
 								var redirect = document.location;
 								var redirectURL = sdata.util.URL.encode(redirect.pathname + redirect.search + redirect.hash);
 								var redirecturl = "/dev/index.html?url=" + redirectURL;
-								if (exists == false) {
-									if (response == "401" || response == "403" || response == "error") {
-										//alert(_resp);
-										//document.location = redirecturl;
+								if (exists) {
+									var me = eval('(' + response + ')');
+									if (me.preferences.userid != "anon" && me.preferences.userid != null) {
+										document.location = redirecturl;
 									}
-								}
-								/*
-								else {
-									document.location = redirecturl;
-								}*/
+								} else {
+									// An error has occured	
+								}	
 							}
 							
-							sdata.widgets.WidgetPreference.get("loggedIn", decideLoggedIn, true);
+							
+							sdata.Ajax.request({
+								url : "/rest/me?sid=" + Math.random(),
+								httpMethod : "GET",
+								onSuccess : function(data) {
+									decideLoggedIn(data,true);
+								},
+								onFail : function(data){
+									decideLoggedIn(data,false);
+								}
+							});
 							
 						}
 						
