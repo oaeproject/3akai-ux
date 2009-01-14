@@ -1615,7 +1615,7 @@ sdata.util.stripHTML = function(htmlstring, limit){
 		var endstring = htmlstring.replace(/&nbsp;/ig," ").replace(/<br([^>]+)>/ig," ").replace(/(<([^>]+)>)/ig,"");
 		if (limit){
 			if (endstring.length > limit){
-				endstring = endstring.substrin(0,limit) + " ...";
+				endstring = endstring.substring(0,limit) + " ...";
 			}
 		} 
 		return endstring;
