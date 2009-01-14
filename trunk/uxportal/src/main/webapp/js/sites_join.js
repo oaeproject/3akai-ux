@@ -174,10 +174,16 @@ sakai.sites_join = function(){
 					}
 				});
 				
+				function sortNumber(a,b){
+					return b -a;
+				}
+				
 				nonCourseSiteCount = data.site_collection.length - courseSiteCount;
 				inactiveSiteCount  = data.site_collection.length  - activeSiteCount;
+				
+				filteredSites.sort(sortNumber);
 			
-				console.log(filteredSites.toSource());
+				console.log(filteredSites.toSource() +"this here");
 				$.each(filteredSites, function(i, item){
 					data.site_collection.splice(item, 1);
 				});
