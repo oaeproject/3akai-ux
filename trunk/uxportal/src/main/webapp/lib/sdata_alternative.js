@@ -927,6 +927,7 @@ sdata.widgets = {};
  * @constructor
  * @class 
  */
+/*
 sdata.widgets.Loader = function(){
 	
 		this.div = "";
@@ -935,33 +936,34 @@ sdata.widgets.Loader = function(){
 		this.bundle = null;
 
 };
+*/
 /**
  * initialise the widget
  * @param {Object} divName
  * @param {Object} loadurl
  */
+/*
 sdata.widgets.Loader.prototype.init = function(divName,loadurl) {
 	this.div = divName;
 	this.url = loadurl;	
 	this.id =  Math.random();	
 };
+*/
 
 /**
  * load the widget and bundles
  */
-sdata.widgets.Loader.prototype.load = function() {
-	var thisobj = this;
-	sdata.Ajax.request({
-		url : this.url,
-		onSuccess : function(response) {
-			var thisobj2 = thisobj;
-			thisobj2.bundle = sdata.i18n.getBundles(response);
-			sdata.i18n.process(response,function(i18nrespone) {
-				sdata.widgets.WidgetLoader.sethtmlover(thisobj2.div,i18nrespone);                            
-			},
-			thisobj2.bundle,"default");		
-		}
-	});	    				
+sdata.widgets.Loader = {};
+sdata.widgets.Loader.load = function(id,url,div,response) {
+	var obj = {};
+	obj.id = id; obj.url = url; obj.div = div; obj.bundle = null;
+	var thisobj = obj;
+	var thisobj2 = thisobj;
+	thisobj2.bundle = sdata.i18n.getBundles(response);
+	sdata.i18n.process(response,function(i18nrespone) {
+		sdata.widgets.WidgetLoader.sethtmlover(id.id,i18nrespone);                            
+	},
+	thisobj2.bundle,"default");			    				
 };
 
 
@@ -1072,24 +1074,39 @@ sdata.widgets.WidgetLoader =  {
 
 		sdata.widgets.WidgetLoader.bigarray = bigarray;
 
+		var initialUrl = "/direct/batch?_refs=";
+		
 		for (var i in bigarray){
-			sdata.widgets.WidgetLoader.loadWidgetFiles(bigarray, i);
+			initialUrl += Widgets.widgets[i].url + ","
 		}
+		
+		var initialResponse = false;
+		
+		sdata.Ajax.request({
+			url : initialUrl,
+			onSuccess : function(response) {
+				initialResponse = eval('(' + response + ')');
+				var index = 0;
+				for (var i in sdata.widgets.WidgetLoader.bigarray){
+					if (initialResponse["ref" + index].status == 200) {
+						var response = initialResponse["ref" + index].content;
+						sdata.widgets.WidgetLoader.loadWidgetFiles(sdata.widgets.WidgetLoader.bigarray, i, response);
+						index++;
+					}
+				}
+					
+			}
+		});
 
 	},
 
-	loadWidgetFiles : function(bigarray,widgetname){
-		sdata.Ajax.request({
-			url : Widgets.widgets[widgetname].url,
-			onSuccess : function(response) {
-				var thisobj2 = {};
-				thisobj2.bundle = sdata.i18n.getBundles(response);
-				sdata.i18n.process(response,function(i18nrespone) {
-					sdata.widgets.WidgetLoader.sethtmloverspecial(null,i18nrespone,bigarray,widgetname);                            
-				},
-				thisobj2.bundle,"default");		
-			}
-		});
+	loadWidgetFiles : function(bigarray,widgetname,response){
+		var thisobj2 = {};
+		thisobj2.bundle = sdata.i18n.getBundles(response);
+		sdata.i18n.process(response,function(i18nrespone) {
+			sdata.widgets.WidgetLoader.sethtmloverspecial(null,i18nrespone,bigarray,widgetname);                            
+		},
+		thisobj2.bundle,"default");		
 	},
 
 	sethtmloverspecial : function (div,content,bigarray,widgetname){
@@ -1204,6 +1221,9 @@ sdata.widgets.WidgetLoader =  {
 	insertWidgets : function(id){
 		
 		var divarray = sdata.widgets.WidgetLoader.getElementsByClassName("widget_inline", id);
+		
+		var items = [];
+		
 		for (var i = 0; i < divarray.length; i++){
 			var portlet = Widgets.widgets[divarray[i].id.substring(7)];
 			try {
@@ -1220,13 +1240,45 @@ sdata.widgets.WidgetLoader =  {
 		    	   				'></iframe></div>';
 						document.getElementById(divarray[i].id).innerHTML = html;
 		    	   } else {
-	    				var divName = portlet.divid;
+				   		var index = items.length;
+						items[index] = {};
+						items[index].id = divarray[i];
+						items[index].url = portlet.url;
+						items[index].div = portlet.divid;
+						
+	    				/*
+						var divName = portlet.divid;
 	    				var loader = new sdata.widgets.Loader();
 	    				loader.init(divarray[i].id,portlet.url);
 	    				loader.load();	
+						*/
 					}    			
 	    		}
-			} catch (err){ alert(divarray[i].id + ' didn\'t find a portlet (' + err + ')')}
+			} catch (err){ 
+				// alert(divarray[i].id + ' didn\'t find a portlet (' + err + ')')
+			}
+		}
+		
+		if (items.length > 0) {
+			var url = "/direct/batch?_refs=";
+			for (var i = 0; i < items.length; i++) {
+				url += items[i].url + ",";
+			}
+			
+			sdata.Ajax.request({
+				url: url,
+				httpMethod: "GET",
+				onSuccess: function(data){
+					var resp = eval('(' + data + ')');
+					for (var _index = 0; _index < items.length; _index++){
+						var response = resp["ref" + _index].content;
+						sdata.widgets.Loader.load(items[_index].id,items[_index].url,items[_index].div,response);
+					}
+				},
+				onFail: function(data){
+					// Ignore, continue
+				}
+			});	
 		}
 
 		var divarray = sdata.widgets.WidgetLoader.getElementsByClassName("widget_mountable", id);
@@ -1398,8 +1450,6 @@ sdata.widgets.WidgetLoader =  {
 	sethtmlover : function (div,content,callback){
    
    		var anotherone = true;
-
-		
 
 		while (anotherone === true){
 			
