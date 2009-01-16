@@ -19,7 +19,7 @@ sakai.SiteBase = {
 	},
 	
 	loadSiteInfo : function(){
-		var url = "/sdata/site?siteid=" + sakai.SiteBase.currentsite + "&sid=" + Math.random();
+		var url = "/sdata/skin?site=" + sakai.SiteBase.currentsite + "&sid=" + Math.random();
     
 		sdata.Ajax.request( {
 			url : url,
@@ -35,50 +35,22 @@ sakai.SiteBase = {
 	processSiteInfo : function(response, exists){
 		if (exists) {
 			sakai.SiteBase.json = eval('(' + response + ')');
-			var skin = sakai.SiteBase.json.skin;
-			sakai.SiteBase.doInit(skin);
+			sakai.SiteBase.processInit();
 		} else {
 			
 		}
-	},
-
-	doInit : function(skin){
-
-		var url = "";
-
-		if (skin){
-			url = "/dev/skins/" + skin + "/" + skin + ".html?sid=" + Math.random();
-		} else {
-			url = "/dev/skins/default/default.html?sid=" + Math.random();
-		}
-		
-		sdata.Ajax.request( {
-			url : url,
-			onSuccess : function(data) {
-				sakai.SiteBase.processInit(data,true);
-			},
-			onFail : function(status) {
-				sakai.SiteBase.processInit(status,false);
-			}
-		});
-
 	},
 
 	processInit: function(response, exists){
 	
-		if (exists) {
-
-			var template = response;
-			template = template.substring(template.toLowerCase().indexOf("<body") + 5);
-			template = template.substring(template.toLowerCase().indexOf(">") + 1);
-			template = template.substring(0, template.toLowerCase().indexOf("</body>"));
+		var template = sakai.SiteBase.json.skin;
+		template = template.substring(template.toLowerCase().indexOf("<body") + 5);
+		template = template.substring(template.toLowerCase().indexOf(">") + 1);
+		template = template.substring(0, template.toLowerCase().indexOf("</body>"));
 			
-			sdata.widgets.WidgetLoader.sethtmlover("initialcontent", template);
-			sdata.widgets.WidgetLoader.insertWidgets(null);
+		sdata.widgets.WidgetLoader.sethtmlover("initialcontent", template);
+		sdata.widgets.WidgetLoader.insertWidgets(null);
 		
-		} else {
-			sakai.SiteBase.doInit(null);	
-		}
 	}
 
 }
