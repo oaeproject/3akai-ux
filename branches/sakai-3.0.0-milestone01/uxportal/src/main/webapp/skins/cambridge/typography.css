@@ -1,0 +1,254 @@
+/* -------------------------------------------------------------- 
+  
+   CSS Framework
+   Web Design & Development by Studio 24 Ltd
+   www.studio24.net - (0870) 241 6159
+   
+   * Typography Styles *
+      
+   This is the typography CSS-file for the framework.
+   Include this in the layout.css file.
+   
+-------------------------------------------------------------- */
+
+/* =BASIC TYPOGRAPHY
+-------------------------------------------------------------- */
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	/*font-family: Arial, Helvetica, sans-serif;*/
+	font-size: 100%;
+	color: #333;
+    line-height: 1.125em;
+}
+
+/*
+p, ul, ol, dl, table, blockquote, pre, code  {
+	font-size: 0.75em;
+}
+*/
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.25em;
+	margin-bottom: 0.5em;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 1.25em;
+	font-weight: normal;
+}
+
+h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+h4 {
+	font-size: 0.75em;
+	font-weight: bold;
+}
+
+/*
+p {
+	margin: 0 0 1em 0;
+}
+*/
+
+/* =LINKS
+-------------------------------------------------------------- */
+
+a:link, a:focus, a:active {
+	color: #003c79;
+	text-decoration: underline;
+}
+
+/* added by DMR (Studio24) 24.01.08
+a:visited {
+	color: #990000;
+}*/
+
+a:hover {
+	text-decoration: underline;
+	color: #003366;
+}
+	
+/* =LISTS
+-------------------------------------------------------------- */
+
+ul {
+	list-style-type: square;
+	margin: 0 0 1em 2em;
+}
+
+ul.disc {
+	list-style-type: disc;
+}
+
+ul ul, ol ol {
+	font-size: 0.9em;
+	margin-top: 0.5em;
+	margin-left: 1.25em;
+}
+
+ul ul ul, ol ol ol {
+	font-size: 100%;
+}
+
+ol {
+	list-style-type: decimal;
+	margin: 0 0 1em 2.4em;
+}
+
+ol.alpha {
+	list-style-type: lower-alpha;
+}
+
+ol.roman {
+	list-style-type: lower-roman;
+} 
+
+ul li.link {
+	list-style-type: none;
+	padding-left: 1.5em;
+	position: relative;
+	left: -1.5em;
+}
+
+ul li.up {
+	background: url(../images/icon-arrow-nav-primary-up.gif) no-repeat 4px 50%;
+}
+
+ul li.right {
+	background: url(../images/icon-arrow-nav-primary.gif) no-repeat 0 50%;
+}
+
+ul li.down {
+	background: url(../images/icon-arrow-nav-primary-down.gif) no-repeat 4px 50%;
+}
+
+dl {
+	margin: 0 0 1em 2em;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 0 0.5em 0 ;
+}
+
+/* =OTHER TEXT ELEMENTS
+-------------------------------------------------------------- */
+
+sup {
+	font-size: 0.85em;
+	position: relative;
+	bottom: 0.5em;
+}
+
+sub {
+	font-size: 0.85em;
+	position: relative;
+	top: 0.5em;
+}
+
+blockquote { 
+	background: #f8f4e9;
+	border:1px solid #ddd;
+	padding: 1em 1em 0.5em 1em;
+	font-style: italic;
+	font-size: 1em;
+	margin: 0 0 1em 0; 
+/*	width: 661px;*/
+	width: 95%;
+	position: relative;
+}
+
+
+/*
+blockquote span {
+	color: #d8d0b9;
+	font-size: 8em;
+	position: absolute;
+	display: block;
+	height: 10px;
+	width: 50px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+*/
+
+blockquote p {
+	margin-left: 2.5em;
+	margin-right: 2em;
+}
+
+blockquote span.left {
+	left: 0;
+	top: 0;
+	padding-top: 0.35em;
+}
+
+blockquote span.right {
+	right: 0;
+	bottom: 0;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+pre {
+	background: #f8f4e9;
+	border:1px solid #ddd;
+	padding: 1em;
+	margin: 0 0 1em 0;
+	font-family: Monaco, monospace;
+	overflow: auto;
+	max-width: 95%;
+	min-height: 3em;
+}
+
+code {
+	font-family: Monaco, monospace;
+}
+
+/* =TABLES
+-------------------------------------------------------------- */
+
+table.data {
+	width: auto;
+	margin: 0 0 1em 0;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+	width: 695px;
+}
+
+table.data th, table.data td {
+	padding: 0.3em 0.4em 0.2em 0.4em;
+	border-bottom:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+
+table.data td.heading {
+	font-weight: bold;
+	width: 160px;
+}
+
+table.data th {
+	font-weight:bold;
+}
+
+table.data .alt {
+	background: #F5F5F5;
+}

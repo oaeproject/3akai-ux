@@ -1,0 +1,149 @@
+label a:hover{
+	color:#000;
+	text-decoration: none;
+}
+div.nicetitle {
+    position: absolute;
+    padding: 4px;
+    top: 0px;
+    left: 0px;
+    color: white;
+    font-weight:bold;
+    width:50%;
+    background: url(../img/ntbg.png); 
+}
+div.nicetitle p {
+    margin: 0; 
+	 padding: 0 3px;
+}
+div.nicetitle p.destination {
+    font-size: 9px;
+    text-align: left;
+    padding-top: 3px;
+}
+a.nt{
+	font-size: 1em;
+	cursor: help;
+	padding-right:1em;
+	text-decoration: none !important;
+}
+a.nt:hover{
+	text-decoration: none !important;
+	color:orange;
+}
+
+.addEl{
+		font-size: 1.1em;
+		margin:.3em;
+		background:url(../img/add.gif) top left no-repeat;
+
+}
+.deleteEl{
+		font-size: 1.1em;
+		margin:.3em;
+		background:url(../img/delete.gif) top left no-repeat;
+
+}
+
+
+.addEl-inact{
+		font-size: 1.1em;
+		margin:.3em;
+	
+	cursor:text;
+		background:url(../img/add-inact.gif) top left no-repeat;
+}
+
+ a.inactlabel{
+	color:gray;
+	text-decoration: none !important;
+}
+ a.inactlabel:hover{
+	color:gray;
+	text-decoration: none !important;
+}
+.skipthis{
+	display:none
+	}
+
+.osp-radcheck{
+	padding:1em .5em;
+}
+.osp-radcheck legend{
+	padding:0 .5em;
+
+}
+.osp-radcheck div.checkbox{
+	margin-left:2em
+}
+	
+fieldset.validFail legend label{
+	color:#BD1010
+}
+fieldset.validFail .checkbox label{
+	color:#000 !important;
+}
+
+/*for form display*/
+
+body.formDisplay
+{
+	font-family: 'Trebuchet MS',Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size: 85%;
+}
+.formDisplay table
+{
+	border:1px solid #fff;
+	font-size: 95%;
+	border-collapse:collapse
+}
+	
+.formDisplay th 
+{
+	width:16em;text-align: left;padding:.3em;border-collapse:collapse;vertical-align:top
+}
+
+.formDisplay h4{color:#d70;font-size:1.2em;font-weight:bold;color:orange;margin:0}	
+.formDisplay th h4, .formDisplay td h4{ margin:0;padding:0;font-size:1em}
+.formDisplay .subformlabel h4{margin:0;padding-left:.3em;font-size:.9em}
+.formDisplay .subformlabel .textPanelFooter{padding-left:2em;font-size: 90%;}					
+.formDisplay td
+{
+	color:#000;padding:.3em;border-collapse:collapse;vertical-align:top;
+}
+.formDisplay	.subformtable th{text-indent:2em}
+.formDisplay table.top td
+	{
+		padding:0
+	}
+.formDisplay .h .textPanel{	margin: .2em  0 .3em 0;}
+.formDisplay .v .textPanel{	margin:.2em  0 1em .3em;}
+.formDisplay .longtextsubform .textPanel{margin-left:2.2em}
+.formDisplay ul.selectList{
+	margin:.2em 0 0 0;
+	padding: 0;
+	}
+.formDisplay ul.selectList li{
+	padding:.3em 0;
+	list-style:none;
+	}
+.formDisplay	.textPanelFooter{
+		color: #16a;}
+.formDisplay	.h .textPanelFooter, .v .textPanelFooter{
+	font-size: 90%;
+	margin: 0 0 0 1em;
+	}
+.formDisplay	.textPanelFooter strong{
+		font-weight:bold;
+	}
+.formDisplay	.textPanel{
+		line-height:1.7em;
+	}
+/*form picker*/
+.sidebyside optgroup{
+	color:#333;
+	font-style: normal
+}
+.sidebyside option{
+	color:#000
+}
