@@ -543,90 +543,64 @@ sakai.poll = function(tuid, placement, showSettings){
 	}
 	
 	var updateDeleteExisting = function(todelete, toupdate, newtodo){
-		if (todelete.length == 0){
-			updateUpdateExisting(toupdate, newtodo);
-		} else {
-			var done = 0;
-			for (var ii = 0; ii < todelete.length; ii++){	
-				var option = todelete[ii];
-				sdata.Ajax.request({
-					url :"/direct/poll-option/" + option.id + "/delete",
-					httpMethod : "DELETE",
-					onSuccess : function(data) {
-						done++;
-						if (done == todelete.length){
-							updateUpdateExisting(toupdate, newtodo);
-						}
-					},
-					onFail : function(status) {
-						done++;
-						if (done == todelete.length){
-							updateUpdateExisting(toupdate, newtodo);
-						}
-					}
-				});
-			}
+		var url = "/direct/batch?_refs=";
+		for (var ii = 0; ii < todelete.length; ii++) {
+			url += "/direct/poll-option/" + todelete[ii].id + "/delete" + ",";
 		}
+		sdata.Ajax.request({
+			url :url,
+			httpMethod : "DELETE",
+			onSuccess : function(data) {
+				updateUpdateExisting(toupdate, newtodo);
+			},
+			onFail : function(status) {
+				updateUpdateExisting(toupdate, newtodo);
+			}
+		});
 	}
 	
 	var updateUpdateExisting = function(toupdate, newtodo){
-		if (toupdate.length == 0){
-			updateNew(newtodo);
-		} else {
-			var done = 0;
-			for (var ii = 0; ii < toupdate.length; ii++){	
-				var option = toupdate[ii];
-				var toSend = {"optionText": option.option};
-				sdata.Ajax.request({
-					url :"/direct/poll-option/" + option.id + "/edit",
-					httpMethod : "POST",
-					onSuccess : function(data) {
-						done++;
-						if (done == toupdate.length){
-							updateNew(newtodo);
-						}
-					},
-					onFail : function(status) {
-						done++;
-						if (done == toupdate.length){
-							updateNew(newtodo);
-						}
-					},
-					postData : toSend,
-					contentType : "application/x-www-form-urlencoded"
-				})
-			}
+		var url = "/direct/batch?_refs=";
+		var params = {};
+		for (var ii = 0; ii < toupdate.length; ii++) {
+			var option = toupdate[ii];
+			url += "/direct/poll-option/" + option.id + "/edit" + ",";
+			params["ref" + ii + ".optionText"] = option.option;
 		}
+		sdata.Ajax.request({
+			url :url,
+			httpMethod : "POST",
+			onSuccess : function(data) {
+				updateNew(newtodo);
+			},
+			onFail : function(status) {
+				updateNew(newtodo);
+			},
+			postData : params,
+			contentType : "application/x-www-form-urlencoded"
+		})
 	}
 	
 	var updateNew = function(newtodo){
-		if (newtodo.length == 0){
-			selectExisting(polljson.pollId);
-		} else {
-			var done = 0;
-			for (var ii = 0; ii < newtodo.length; ii++){	
-				var option = newtodo[ii];
-				var toSend = {"optionText": option.option, "pollId": polljson.pollId};
-				sdata.Ajax.request({
-					url :"/direct/poll-option/new",
-					httpMethod : "POST",
-					onSuccess : function(data) {
-						done++;
-						if (done == newtodo.length){
-							selectExisting(polljson.pollId);
-						}
-					},
-					onFail : function(status) {
-						done++;
-						if (done == newtodo.length){
-							selectExisting(polljson.pollId);
-						}
-					},
-					postData : toSend,
-					contentType : "application/x-www-form-urlencoded"
-				})
-			}
+		var params = {};
+		params["pollId"] = polljson.pollId;
+		var url = "/direct/batch?_refs=";
+		for (var ii = 0; ii < newtodo.length; ii++) {
+			url += "/direct/poll-option/new" + ",";
+			params["ref" + ii + ".optionText"] = newtodo[ii].option;
 		}
+		sdata.Ajax.request({
+			url :url,
+			httpMethod : "POST",
+			onSuccess : function(data) {
+				selectExisting(polljson.pollId);
+			},
+			onFail : function(status) {
+				selectExisting(polljson.pollId);
+			},
+			postData : params,
+			contentType : "application/x-www-form-urlencoded"
+		})
 	}
 	
 	var renderCurrentPollOptions = function(){
