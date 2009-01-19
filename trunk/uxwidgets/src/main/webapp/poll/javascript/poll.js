@@ -134,34 +134,28 @@ sakai.poll = function(tuid, placement, showSettings){
 					onSuccess : function(data) {
 						
 						var id = parseInt(data);
-						var done = 0;
+						
+						var url = "/direct/batch?_refs=";
+						var params = {};
+						params.pollId = id;
 						
 						for (var ii = 0; ii < totaloptions; ii++){
+							url += "/direct/poll-option/new,"
+							params["ref" + ii + ".optionText"] = toprocess[ii].option;
+						}
 							
-							var toSend = {"optionText": toprocess[ii].option, "pollId": id};
-							sdata.Ajax.request({
-								url :"/direct/poll-option/new",
-								httpMethod : "POST",
-								onSuccess : function(data) {
-									done++;
-									if (done == totaloptions){
-										selectExisting(id);
-									}
-								},
-								onFail : function(status) {
-									done++;
-									if (done == totaloptions){
-										selectExisting(id);
-									}
-								},
-								postData : toSend,
-								contentType : "application/x-www-form-urlencoded"
-							})
-						}
-						
-						if (totaloptions == 0){
-							selectExisting(id);
-						}
+						sdata.Ajax.request({
+							url : url,
+							httpMethod : "POST",
+							onSuccess : function(data) {
+								selectExisting(id);
+							},
+							onFail : function(status) {
+								selectExisting(id);
+							},
+							postData : params,
+							contentType : "application/x-www-form-urlencoded"
+						});
 
 					},
 					onFail : function(status) {
