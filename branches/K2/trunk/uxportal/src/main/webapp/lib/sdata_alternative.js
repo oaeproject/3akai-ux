@@ -649,14 +649,7 @@ sdata.Ajax =  {
 			try {
 				try {
 					if ((response.status == 401 || response.status == 403) && opt.sendToLoginOnFail == "true"){
-						/*
-if (response.getAllResponseHeaders().indexOf("/p/widgets/loggedIn") == -1 && response.getAllResponseHeaders().indexOf("/p/widgets/search") == -1){
-							var redirect = document.location;
-							var redirectURL = sdata.util.URL.encode(redirect.pathname + redirect.search + redirect.hash);
-							document.location = "/dev/index.html?url=" + redirectURL;
-						}
-*/
-
+						
 						if (response.getAllResponseHeaders().indexOf("/p/widgets/loggedIn") == -1 && response.getAllResponseHeaders().indexOf("/p/widgets/search") == -1) {
 						
 						var _resp = response.getAllResponseHeaders();
@@ -667,8 +660,8 @@ if (response.getAllResponseHeaders().indexOf("/p/widgets/loggedIn") == -1 && res
 								var redirecturl = "/dev/index.html?url=" + redirectURL;
 								if (exists) {
 									var me = eval('(' + response + ')');
-									if (me.preferences.userid != "anon" && me.preferences.userid != null) {
-										document.location = redirecturl;
+									if (me.preferences.eid == "anon" || me.preferences.eid == null) {
+										//document.location = redirecturl;
 									}
 								} else {
 									// An error has occured	
