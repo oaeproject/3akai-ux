@@ -40,7 +40,7 @@ sakai.index = function(){
 	sakai.index.decideLoggedIn = function(response, exists){
 		if (exists){
 			var mejson = eval('(' + response + ')');
-			if (mejson.preferences.userid != "anon" && mejson.preferences.userid != null){
+			if (mejson.preferences.eid != "anon" && mejson.preferences.eid != null){
 				document.location = redirecturl;
 			} else {
 				$("#username").focus();
@@ -126,7 +126,7 @@ sakai.index = function(){
 
 		if (exists){
 			var mejson = eval('(' + response + ')');
-			if (mejson.preferences.userid != "anon" && mejson.preferences.userid != null){
+			if (mejson.preferences.eid != "anon" && mejson.preferences.eid != null){
 				document.location = redirecturl;
 			} else {
 				$("#failed").show();
