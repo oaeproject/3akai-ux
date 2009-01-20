@@ -91,7 +91,8 @@ sakai.dashboard = function(){
 	
 		myportaljson = eval('(' + jsonstring + ')');
 	
-		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, saveGroup);
+		alert(jsonstring);
+		//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, saveGroup);
 		
 	}
 	
@@ -190,7 +191,8 @@ sakai.dashboard = function(){
 	
 			myportaljson = eval('(' + jsonstring + ')');
 	
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, beforeFinishAddWidgets);
+			alert(jsonstring);
+			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, beforeFinishAddWidgets);
 			
 		}
 	});
@@ -204,12 +206,12 @@ sakai.dashboard = function(){
 	var doInit = function (){
 		
 		sdata.Ajax.request( { 
-			url : "/sdata/me",
+			url : "/rest/me",
 			onSuccess :  function (response) {
 				person = eval('(' + response + ')');
-				inituser = person.items.displayId;
-				if (person.items.firstname || person.items.lastname){
-					$("#userid").text(person.items.firstname + " " + person.items.lastname);
+				inituser = person.preferences.uuid;
+				if (person.preferences.firstname || person.preferences.lastname){
+					$("#userid").text(person.preferences.firstname + " " + person.preferences.lastname);
 				} else {
 					$("#userid").text(inituser);
 				}
@@ -236,7 +238,8 @@ sakai.dashboard = function(){
 
 			var jsonstring = '{"items":{"group":"' + selected + '"}}';
 			
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","group",jsonstring, buildLayout);
+			alert(jsonstring);
+			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","group",jsonstring, buildLayout);
 	
 		} else {
 			alert("An error occured while saving your layout");
@@ -339,7 +342,8 @@ sakai.dashboard = function(){
 			myportaljson = eval('(' + jsonstring + ')');
 			layout = myportaljson;
 			
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets", "devstate", jsonstring, null);
+			alert(jsonstring);
+			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets", "devstate", jsonstring, null);
 			
 		}
 		
