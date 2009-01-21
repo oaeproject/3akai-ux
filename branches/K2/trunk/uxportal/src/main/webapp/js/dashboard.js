@@ -210,17 +210,24 @@ sakai.dashboard = function(){
 			onSuccess :  function (response) {
 				person = eval('(' + response + ')');
 				inituser = person.preferences.uuid;
-				if (person.preferences.firstname || person.preferences.lastname){
-					$("#userid").text(person.preferences.firstname + " " + person.preferences.lastname);
-				} else {
-					$("#userid").text(inituser);
+				if (!inituser || inituser == "anon") {
+					document.location = "/dev/index.html";
 				}
-				$("#body2").show();
-	
-				if (domyportal){
-					showMyPortal();
-				} else {
-					showInit();
+				else {
+					if (person.preferences.firstname || person.preferences.lastname) {
+						$("#userid").text(person.preferences.firstname + " " + person.preferences.lastname);
+					}
+					else {
+						$("#userid").text(inituser);
+					}
+					$("#body2").show();
+					
+					if (domyportal) {
+						showMyPortal();
+					}
+					else {
+						showInit();
+					}
 				}
 			},
 			onFail : function(httpstatus) {			
