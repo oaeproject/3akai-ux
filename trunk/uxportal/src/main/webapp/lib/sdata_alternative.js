@@ -1025,7 +1025,7 @@ sdata.widgets.WidgetLoader =  {
 				var id = divarray[i].id;
 				var split = id.split("_");
 				var widgetname = split[1];
-				if (Widgets.widgets[widgetname]){
+				if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe == 0){
 					var widgetid = split[2];
 					var placement = split[3];
 					if (! bigarray[widgetname]){
@@ -1055,6 +1055,21 @@ sdata.widgets.WidgetLoader =  {
 							}
 					}
 					bigarray[widgetname][index].float = float;
+				} else if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe == 1) {
+					
+					var portlet = Widgets.widgets[widgetname];
+					var html = '<div style="padding:0 0 0 0" id="widget_content_'+ portlet.id+ '">' +
+		    	   			'<iframe src="'+ portlet.url+'" ' +
+		    	   			'id="widget_frame_'+ portlet.id+'" ' +
+		    	   			'name="widget_frame_'+ portlet.id+'" ' +
+		    	   			'frameborder="0" ' +
+		    	   			'height="'+ portlet.height +'px" ' +
+		    	   			'width="100%" ' +
+		    	   			'scrolling="no"' +
+		    	   			'></iframe></div>';
+					
+					document.getElementById(id).innerHTML = html;
+					
 				}
 			} catch (err){alert("An error occurred NOW")};
 		}
