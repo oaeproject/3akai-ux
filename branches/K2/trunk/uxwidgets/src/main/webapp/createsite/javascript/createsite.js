@@ -64,33 +64,45 @@ sakai.createsite = {};
 	};
 	
 	sakai.createsite.createSite = function(){
-		var sitetitle = $("#createsite_newsitename").attr("value");
-		var sitedescription = $("#createsite_newsitedescription").attr("value") || "";
-		var url = "/sdata/newsite";
 		
-		var siteid = $("#createsite_newsiteid").attr("value");
+		var sitetitle = $("#createsite_newsitename").val();
+		var sitedescription = $("#createsite_newsitedescription").val() || "";
+		var siteid = $("#createsite_newsiteid").val();
+		
+		var url = "/rest/site";
+		
 		if (!siteid)
 		{
 			alert("Please specify a site URL. ");
 			return;
 		}
-		var parameters = {"sitename" : sitetitle, "sitedescription" : sitedescription, "siteid" : siteid };
+		
+		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "project" };
 
 		sdata.Ajax.request({
-			url :url,
-			httpMethod : "POST",
+			url :"/rest/site/" + siteid + "/exists?id=" + Math.random(),
+			httpMethod : "GET",
 			onSuccess : function(data) {
-				//createPage1(data,true);
-				document.location = "/site/" + siteid;
+				alert("A site with this URL already exists");
 			},
 			onFail : function(status) {
-				if (status == 409 || status == "409"){
-					alert("A site with this URL already exists");
-				}
-				//createPage1(status,false);
+				sdata.Ajax.request({
+					url :url,
+					httpMethod : "POST",
+					onSuccess : function(data) {
+						document.location = "/site/" + siteid;
+					},
+					onFail : function(status) {
+						if (status == 409 || status == "409"){
+							alert("A site with this URL already exists");
+						} else {
+							alert("An error has occured whilst creating the site");
+						}
+					},
+					postData : parameters,
+					contentType : "application/x-www-form-urlencoded"
+				});
 			},
-			postData : parameters,
-			contentType : "application/x-www-form-urlencoded"
 		});
 	}
 	
