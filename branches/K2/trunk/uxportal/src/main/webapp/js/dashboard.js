@@ -91,7 +91,7 @@ sakai.dashboard = function(){
 	
 		myportaljson = eval('(' + jsonstring + ')');
 	
-		alert(jsonstring);
+		saveGroup(true);
 		//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, saveGroup);
 		
 	}
@@ -206,7 +206,7 @@ sakai.dashboard = function(){
 	var doInit = function (){
 		
 		sdata.Ajax.request( { 
-			url : "/rest/me",
+			url : "/rest/me?sid=" + Math.random(),
 			onSuccess :  function (response) {
 				person = eval('(' + response + ')');
 				inituser = person.preferences.uuid;
@@ -245,7 +245,7 @@ sakai.dashboard = function(){
 
 			var jsonstring = '{"items":{"group":"' + selected + '"}}';
 			
-			alert(jsonstring);
+			buildLayout(true);
 			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","group",jsonstring, buildLayout);
 	
 		} else {
@@ -381,7 +381,7 @@ sakai.dashboard = function(){
 						final.columns[index].portlets[iindex].title = widget.name;
 						final.columns[index].portlets[iindex].display = portaldef.visible;
 						final.columns[index].portlets[iindex].uid = portaldef.uid;
-						final.columns[index].portlets[iindex].placement = "~" + person.items.userid;
+						final.columns[index].portlets[iindex].placement = "~" + person.preferences.uuid;
 						final.columns[index].portlets[iindex].height = widget.height;
 					}
 				}
