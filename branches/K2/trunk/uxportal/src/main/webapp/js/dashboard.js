@@ -425,6 +425,8 @@ sakai.dashboard = function(){
 			
 			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("widgetscontainer");
 			
+			alert("Remark: This dashboard layout isn't being persisted yet");
+			
 		} else {
 			showInit();
 		}
