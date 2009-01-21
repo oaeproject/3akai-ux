@@ -40,7 +40,7 @@ sakai.sites = function(tuid,placement,showSettings){
 				});
 			},
 			onFail: function(status){
-				alert("An error has occured");
+				//alert("An error has occured");
 			}
 		});
 		
