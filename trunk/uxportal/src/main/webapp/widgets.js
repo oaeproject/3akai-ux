@@ -118,6 +118,18 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/myprofile.png"
 		},
+		gdocs :
+		{
+			description:"Google Docs",
+			iframe:1,
+			url:"http://docs.google.com/API/IGoogle?up_numDocuments=5&upt_numDocuments=enum&up_showLastEdit=1&upt_showLastEdit=bool&lang=en&country=uk&.lang=en&.country=uk&synd=ig&mid=96&ifpctok=-2104551290839104188&parent=http://www.google.co.uk&libs=JfEcGcWHp7c/lib/libcore.js,OJKDp_5q3DU/lib/libdynamic-height.js",
+            name:"Google Docs",
+			id:"gdocs",
+			personalportal:1,
+			height:180,
+			siteportal:0,
+			img:""
+		},
 		helloworld :
 		{
 			description:"Sakai Hackathon Example\r\n",
