@@ -1,0 +1,223 @@
+#widget_mypreferences a {
+	color: black;
+}
+
+#widget_mypreferences a:hover {
+	color: black;
+}
+
+#widget_mypreferences a:active {
+	color: black;
+}
+
+div.site_portalJSContainer{
+
+position:absolute; 
+top: 0px; 
+left: 0px; 
+height: 100%;
+width: 100%; 
+
+
+}
+
+div.site_portalOuterContainer{
+
+    position:absolute; 
+    top: 0px; 
+    left: 0px; 
+    height: 100%; 
+    width: 100%; 
+    display:none;
+
+}
+
+tr.site_portalOuterContainer_tr{
+
+    height:90px;
+
+}
+
+td.site_portalOuterContainer_td{
+
+    height:85px; 
+    background-color:white; 
+    vertical-align:top;
+	border-bottom: 1px solid #CCCCCC;
+
+}
+
+div.site_mastLogin{
+
+    margin-top:45px;
+
+}
+
+td.site_mastLogin_td{
+
+    text-align: right;
+
+}
+
+.site_searchBox{
+
+    color:grey; 
+    font-family: Verdana,sans-serif; 
+    font-size: 12px; 
+    font-style:italic; 
+    height: 17px; 
+    border: 1px black solid;
+
+}
+
+span.site_navUser{
+
+    display:none;
+
+}
+
+span.site_navMyWorkspace{
+
+    display: none; 
+    color:#aaaaaa;
+
+}
+
+a.site_Logout{
+
+    text-decoration:none;
+    
+}
+
+span.site_navMyWorkSpaceAdmin{
+
+    display: none; 
+    color:#aaaaaa
+    
+}
+
+		html,body { 
+			height:100%; 
+			width:100%; 
+			margin:auto; 
+			font: 11px Verdana, sans-serif;
+		}
+
+		#portalJSContainer {
+   			background-color: #ffffff;     /* the background          */
+   		}
+
+		#ext-gen11 {
+
+			overflow-x: hidden;
+
+		}
+
+		.portletTitle {
+			height:100%;
+			overflow:hidden;
+			padding:0px 5px 5px 5px;
+			width:100%;
+		}
+
+		
+
+		#toolMenu li a:link, #toolMenu li a {
+			
+			cursor:pointer;
+			cursor:hand;
+			
+		}
+
+		atest a, .atest a:link, .atest a:hover {
+	
+			float: right;
+			padding-right: 23px;
+			display: block;
+
+		}
+
+		.sakai-decollapse {
+			background-image:url(/resources/images/icons/application_side_expand.png);
+			cursor: pointer;
+			cursor: hand;
+		}
+
+		.sakai-collapse {
+			background-image:url(/resources/images/icons/application_side_contract.png);
+			cursor: pointer;
+			cursor: hand;
+		}
+
+		.icon-sakai-motd {
+			background-image:url(/library/image/silk/house.png);
+		}
+
+		.trans {
+			filter:alpha(opacity=1);   /* Internet Explorer       */
+   			-moz-opacity:0.01;           /* Mozilla 1.6 and below   */
+   			opacity: 0.01;               /* newer Mozilla and CSS-3 */
+		}
+
+		.untrans {
+			filter:alpha(opacity=100);   /* Internet Explorer       */
+   			-moz-opacity:1;           /* Mozilla 1.6 and below   */
+   			opacity: 1;               /* newer Mozilla and CSS-3 */
+		}
+
+		.topLinkStyle a, .topLinkStyle a:link {
+			color:#000000;
+			text-decoration:none;
+		}
+
+		.topLinkStyle a:hover {
+			color:#000000;
+			text-decoration:underline;
+		}
+
+		#mastLogin a:hover {
+			text-decoration:underline;
+		}
+		
+		
+/* custom tools myTLRP VRE */
+
+.icon-sakai-blogwow{
+	
+	
+	background-image:url(/resources/images/icons/user_comment.png);
+}
+
+.icon-sakai-exegesis{
+	
+	
+	background-image:url(/resources/images/icons/text_columns.png);
+}
+
+.icon-sakai-sherlog{
+	
+	
+	background-image:url(/resources/images/icons/chart_line.png);
+}
+.icon-sakai-rsf-evaluation{
+	
+	
+	background-image:url(/resources/images/icons/report.png);
+}
+
+
+
+/*=========================*/
+
+
+.icon-sakai-myaccount {
+	background-image:url(/resources/images/icons/user.png);
+}
+
+.icon-sakai-filemanager {
+	background-image:url(/resources/images/icons/folder.png)
+}
+
+.icon-sakai-preferable-tool {
+	background-image:url(/resources/images/icons/style.png);
+}
