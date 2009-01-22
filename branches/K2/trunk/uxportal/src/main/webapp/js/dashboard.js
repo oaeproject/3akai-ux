@@ -91,8 +91,7 @@ sakai.dashboard = function(){
 	
 		myportaljson = eval('(' + jsonstring + ')');
 	
-		saveGroup(true);
-		//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, saveGroup);
+		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, saveGroup);
 		
 	}
 	
@@ -191,8 +190,7 @@ sakai.dashboard = function(){
 	
 			myportaljson = eval('(' + jsonstring + ')');
 	
-			alert(jsonstring);
-			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, beforeFinishAddWidgets);
+			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, beforeFinishAddWidgets);
 			
 		}
 	});
@@ -245,8 +243,7 @@ sakai.dashboard = function(){
 
 			var jsonstring = '{"items":{"group":"' + selected + '"}}';
 			
-			buildLayout(true);
-			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets","group",jsonstring, buildLayout);
+			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","group",jsonstring, buildLayout);
 	
 		} else {
 			alert("An error occured while saving your layout");
@@ -349,8 +346,7 @@ sakai.dashboard = function(){
 			myportaljson = eval('(' + jsonstring + ')');
 			layout = myportaljson;
 			
-			alert(jsonstring);
-			//sdata.widgets.WidgetPreference.save("/sdata/p/widgets", "devstate", jsonstring, null);
+			sdata.widgets.WidgetPreference.save("/sdata/p/widgets", "devstate", jsonstring, null);
 			
 		}
 		
@@ -424,8 +420,6 @@ sakai.dashboard = function(){
 			fluid.reorderLayout("#widgetscontainer", options);
 			
 			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("widgetscontainer");
-			
-			alert("Remark: This dashboard layout isn't being persisted yet");
 			
 		} else {
 			showInit();
