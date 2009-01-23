@@ -77,20 +77,21 @@ sakai.createsite = {};
 			return;
 		}
 		
+		//id, name, description, type
 		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "project" };
 
-		sdata.Ajax.request({
-			url :"/rest/site/" + siteid + "/exists?id=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
-				alert("A site with this URL already exists");
-			},
-			onFail : function(status) {
+		//sdata.Ajax.request({
+		//	url :"/rest/site/" + siteid + "/exists?id=" + Math.random(),
+		//	httpMethod : "GET",
+		//	onSuccess : function(data) {
+		//		alert("A site with this URL already exists");
+		//	},
+		//	onFail : function(status) {
 				sdata.Ajax.request({
-					url :url,
+					url :"/rest/site/create",
 					httpMethod : "POST",
 					onSuccess : function(data) {
-						document.location = "/site/" + siteid;
+						//document.location = "/site/" + siteid;
 					},
 					onFail : function(status) {
 						if (status == 409 || status == "409"){
@@ -102,8 +103,8 @@ sakai.createsite = {};
 					postData : parameters,
 					contentType : "application/x-www-form-urlencoded"
 				});
-			},
-		});
+		//	},
+		//});
 	}
 	
 	sakai.createsite.createPortfolio = function(){
