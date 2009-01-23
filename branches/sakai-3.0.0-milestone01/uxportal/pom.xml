@@ -122,6 +122,7 @@
 			</resource>
 		</resources>
 		<plugins>
+		<!--
 			<plugin>
 				<groupId>org.sakaiproject.maven.plugins</groupId>
 				<artifactId>sakai</artifactId>
@@ -154,7 +155,6 @@
 					</webResources>
 				</configuration>
 			</plugin>
-			<!--
 			<plugin>
 				<groupId>org.codehaus.mojo.javascript</groupId>
 				<artifactId>javascript-report-maven-plugin</artifactId>
@@ -172,8 +172,6 @@
 				</execution>
 				</executions>
 			</plugin>
-			-->
-			<!-- 
 			<plugin>
 				<groupId>gr.abiss.mvn.plugins</groupId>
 				<artifactId>maven-jstools-plugin</artifactId>

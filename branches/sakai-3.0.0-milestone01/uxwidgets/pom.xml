@@ -79,6 +79,7 @@
          </resource>
     </resources>
     <plugins>
+    <!--
       <plugin>
         <groupId>org.sakaiproject.maven.plugins</groupId>
         <artifactId>sakai</artifactId>
@@ -105,6 +106,7 @@
           </webResources>
         </configuration>
       </plugin>
+      -->
     </plugins>
   </build>
 </project>
