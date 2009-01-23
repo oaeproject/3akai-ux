@@ -38,13 +38,6 @@ body, ul, ol, dl, td, th, caption, pre, p, blockquote, input, textarea {
 	font: normal 12px/16px Arial, Helvetica, sans-serif;
 }
 
-body {
-	min-width: 814px;
-	height: 100%;
-	color: #333333;
-	background: url(../img/body.png) 100% 0 repeat-y;
-	text-align: center;
-}
 a {
 	outline: none;
 	color: #0287C5;
