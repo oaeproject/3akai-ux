@@ -1,12 +1,24 @@
 #widget_mypreferences a {
-	color: black;
+	color: black !important;
 }
 
 #widget_mypreferences a:hover {
-	color: black;
+	color: black !important;
 }
 
 #widget_mypreferences a:active {
+	color: black !important;
+}
+
+#MyPreferences_icon {
+	color: black;
+}
+
+#MyPreferences_icon:hover {
+	color: black;
+}
+
+#MyPreferences_icon:active {
 	color: black;
 }
 
@@ -43,7 +55,6 @@ td.site_portalOuterContainer_td{
     height:85px; 
     background-color:white; 
     vertical-align:top;
-	border-bottom: 1px solid #CCCCCC;
 
 }
 
