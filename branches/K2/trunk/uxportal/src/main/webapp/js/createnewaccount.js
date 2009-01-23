@@ -55,7 +55,8 @@ sakai.newaccount = function(){
 		$("#spacer").hide();
 		resetErrorFields();
 		hideError();
-		checkUserName();
+		//checkUserName();
+		doCreateSite();
 	});
 	
 	checkUserName = function(){
@@ -118,9 +119,9 @@ sakai.newaccount = function(){
 		var username = $("#username").attr("value");
 		var password = $("#password").attr("value");
 		
-		var data = {"firstName":firstname, "lastName":lastname, "email":email, "password":password, "eid": username};
+		var data = {"userType":"default","firstName":firstname, "lastName":lastname, "email":email, "password":password, "eid": username};
 		sdata.Ajax.request({
-        	url :"/direct/user/new",
+        	url :"/rest/user/new",
         	httpMethod : "POST",
         	postData : data,
         	contentType : "application/x-www-form-urlencoded",
