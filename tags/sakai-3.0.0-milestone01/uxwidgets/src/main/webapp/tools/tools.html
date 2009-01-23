@@ -1,0 +1,195 @@
+
+<link src="/devwidgets/tools/bundle/default.json" type="messagebundle/json" />
+<link src="/devwidgets/tools/bundle/en_US.json" hreflang="en_US" type="messagebundle/json" />
+
+<div id="mainToolsContainer">
+<div class="widget1-subhead wip">
+	<div class="widget1-subhead-left">
+		<ul>
+			<li class="widget1-last"><a href="#" id="add_tools_link">__MSG__add_tools__</a></li>
+		</ul>
+	</div>
+	<div class="widget1-subhead-right">
+		<ul>
+			<li class="widget1-grid"><a class="tool-listview" href="#"><!-- empty span for kb focus--><span /></a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget1-content wip">
+	<div id='output' class="widget1-content-in"></div>
+</div>
+</div>
+
+<div style="display:none" id="tool-list"><!--
+<table cellpadding="0" cellspacing="0" border="0" class="tool-menu">
+{for page in pages}
+	<tr class="tool-menu-tr">
+		<td><a href="/dev/toolcontent.html?siteid=${id}&url=${page.tools[0].url}&title=${page.tools[0].title}&id=${page.tools[0].id}" class="tool-listview ${page.iconclass}{if page_index == (pages.length - 1)} nobb{/if}">${page.name}</a></td>
+		<td class="tool-menu1-del"><a class="tools_removepage_helpclass" id="tools_removepage_helpclass_${page.id}" href="#" alt="Delete ${page.name}" title="Delete ${page.name}"><span /></a></td>
+	</tr>
+{/for}
+</table>
+--></div>
+
+<div style="display:none" id="tool-grid"><!--
+	<div class="tool-menu2">
+	<table style="width:100%">
+	{var index = 0}
+		{for row in ofinal}
+			<tr>
+				{for page in row}
+					<td style="width:${100/columnstodo}%">
+						{if page == false}
+							<div style="width:100%">
+							
+							</div>
+						{else}
+							<div class="tm2-item" style="width:100%">
+								<a href="#" title="Delete" id="tools_removepage_helpclass_${page.id}" class="tm2-del tools_removepage_helpclass" alt="Delete ${page.name}" title="Delete ${page.name}"></a>
+                        	    <div class="tm2-item-icon tm2-item-icon-${page.tools[0].id}"><a href="/dev/toolcontent.html?siteid=${id}&url=${page.tools[0].url}&title=${page.tools[0].title}&id=${page.tools[0].id}"><strong class="fs13">${page.name}</strong></a></div>
+                        	</div>
+						{/if}
+					</td>
+				{/for}
+			</tr>
+		{/for}
+	</table>
+	</div>
+--></div>
+
+<div style="display:none" id="add-tool"><!--
+	<div class="add-tools-right">
+		<h5>__MSG__all_tools__ <span>(${allTools.length} __MSG__total__ )</span></h5>
+		<div class="atr-wrap">
+			<div class="atr-item">
+						<table cellpadding="0" cellspacing="0" border="0">
+				{for tool in allTools}
+						<tr class="atr-tr1-select" id="rmToolButton_visible_${tool.id}" {if tool.isHad}style="display:none; border-bottom: 1px solid #CCCCCC"{else} style="border-bottom: 1px solid #CCCCCC"{/if}>
+							<td class="atr-td1"><div class="atr-bg1"></div></td>
+							<td class="atr-td2"><div>
+								<b>${tool.title}</b>
+								<p>${tool.description}</p>
+							</div></td>
+							<td class="atr-td3"><div>
+								<div id="addToolButton_${tool.id}" class="block">
+									<a style="cursor:hand; cursor:pointer" class="buttons add-widgets add-tool-help"
+										id="add_tool_button_help_${tool.id}">
+											<span>Add</span>
+									</a>
+								</div>
+							</div></td>
+						</tr>
+
+						<tr class="atr-tr1-remove" id="addToolButton_visible_${tool.id}" {if ! tool.isHad} style="display:none; border-bottom: 1px solid #CCCCCC" {else} style="border-bottom: 1px solid #CCCCCC" {/if}>
+							<td class="atr-td1"><div class="atr-bg1"></div></td>
+							<td class="atr-td2"><div>
+								<b>${tool.title}</b>
+								<p>${tool.description}</p>
+							</div></td>
+							<td class="atr-td3"><div>
+								<div id="rmToolButton_${tool.id}" class="block" style="display:none">
+									<a href="#" class="buttons remove remove-tool-help" id="remove_tool_button_help_${tool.id}">	
+										<span>Remove</span>
+									</a>
+								</div>
+							</div></td>
+						</tr>
+			{/for}
+			</table>
+			</div>
+		</div>
+	</div>
+--></div>
+
+<div style="display:none" id="add-tool2"><!--
+	<div class="add-tools-right">
+		<h5>${classification} <span>(${totallength} __MSG__total__ )</span></h5>
+		<div class="atr-wrap">
+			<div class="atr-item">
+						<table cellpadding="0" cellspacing="0" border="0">
+				{for tool in tools}
+						<tr class="atr-tr1-select" id="rmToolButton_visible_${tool.id}" {if tool.isHad}style="display:none; border-bottom: 1px solid #CCCCCC"{else} style="border-bottom: 1px solid #CCCCCC"{/if}>
+							<td class="atr-td1"><div class="atr-bg1"></div></td>
+							<td class="atr-td2"><div>
+								<b>${tool.title}</b>
+								<p>${tool.description}</p>
+							</div></td>
+							<td class="atr-td3"><div>
+								<div id="addToolButton_${tool.id}" class="block">
+									<a style="cursor:hand; cursor:pointer" class="buttons add-widgets add-tool-help"
+										id="add_tool_button_help_${tool.id}">
+											<span>Add</span>
+									</a>
+								</div>
+							</div></td>
+						</tr>
+
+						<tr class="atr-tr1-remove" id="addToolButton_visible_${tool.id}" {if ! tool.isHad} style="display:none; border-bottom: 1px solid #CCCCCC" {else} style="border-bottom: 1px solid #CCCCCC" {/if}>
+							<td class="atr-td1"><div class="atr-bg1"></div></td>
+							<td class="atr-td2"><div>
+								<b>${tool.title}</b>
+								<p>${tool.description}</p>
+							</div></td>
+							<td class="atr-td3"><div>
+								<div id="rmToolButton_${tool.id}" class="block" style="display:none">
+									<a href="#" class="buttons remove remove-tool-help" id="remove_tool_button_help_${tool.id}">	
+										<span>Remove</span>
+									</a>
+								</div>
+							</div></td>
+						</tr>
+			{/for}
+			</table>
+			</div>
+		</div>
+	</div>
+--></div>
+
+<div id="add-tools-left-template" style="display:none"><!--
+	<ul>
+		<li class="atl-active atl-all"><a style="cursor:hand; cursor:pointer">__MSG__all__</a></li>
+		{for category in classes}
+			<li id="atl_${sdata.util.URL.encode(category)}" class="atl-cat atl-other"><a style="cursor:hand; cursor:pointer">${category}</a></li>
+		{/for}
+	</ul>	
+--></div>
+
+<!-- /// Lightbox Tools /// -->
+<div id="addToolLB" style="display:none">
+<div class="overlay-lightbox"></div>
+<div class="overlay-lightbox2">
+	<div class="lightbox size1">
+
+		<div class="lightbox-header">
+			<div class="lighbox-header-left"><h3>__MSG__add_tools__</h3></div>
+			<ul class="lightbox-header-right">
+				<li class="lhr-help"><a href="#">__MSG__help__</a></li>
+				<li class="lhr-close"><a href="#" id="close_window_and_cancel">__MSG__close_window_and_cancel__</a></li>
+			</ul>
+		</div><!-- /lightbox-header -->
+
+		<div class="lightbox-container">
+
+			<p class="fs15 c999999 at-pl4">__MSG__pick_from_list__</p>
+			<div class="block">
+				<div class="block">
+					<div id="add-tools-left" class="add-tools-left">
+						
+					</div>
+					<div id="add-tool-output"></div>
+				</div>
+				<div class="add-widget-footer">
+					<div class="block">
+						<a href="#" id="tools_finished" class="save buttons">__MSG__finished__</a>
+					</div>
+				</div>
+			</div>
+
+		</div><!-- /lightbox-container -->
+	</div><!-- /lightbox -->
+</div>
+</div>
+<!-- /// End of Lightbox Tools /// -->
+
+<!-- This javascript file will eventually be available to all the widgets automatically -->
+<script type="text/javascript" src="/devwidgets/tools/javascript/tools.js"></script>

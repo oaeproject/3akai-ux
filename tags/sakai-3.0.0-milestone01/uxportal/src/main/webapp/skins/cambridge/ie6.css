@@ -1,0 +1,165 @@
+/* -------------------------------------------------------------- 
+  
+   CSS Framework
+   Web Design & Development by Studio 24 Ltd
+   www.studio24.net - (0870) 241 6159
+   
+   * IE6 Styles *
+      
+   This is the form CSS-file for the framework.
+   Include this in the <head> of every page.
+   
+	<!--[if IE 6]>
+		<link rel="stylesheet" href="./ie6.css" type="text/css" media="screen" />
+	<![endif]-->
+   
+-------------------------------------------------------------- */
+
+/* =LAYOUT
+-------------------------------------------------------------- */
+
+/* added by DMR (Studio24) 01.02.08 
+div#container {
+	width: 95%;
+}
+
+div#breadcrumb {
+	width: 99%;
+}
+
+/* added by DMR (Studio24) 01.02.08 
+div#header {
+	width: 99%;
+}*/
+div#page  {
+	width:99%;
+}
+
+/* =BREADCRUMB
+-------------------------------------------------------------- */
+
+ul#site-tools li {
+	background: url(../images/divider-site-tools-small.gif) no-repeat 100% 60%;
+}
+
+body.two-col div#content {
+	padding-left: 1.97%;
+}
+
+/* =LISTS
+-------------------------------------------------------------- */
+
+/* =home page menus
+-------------------------------------------------------------- */
+
+body.home dl.menu, body.home div.spotlight {
+	display: inline;	
+}
+
+dl.menu dd a {
+	height: 100%;
+}
+
+dl.menu dd a:hover {
+	background: #f8f8f2 url(../images/icon-arrow-home-menu.gif) no-repeat 15px 9px;
+}
+
+/* =content-secondary news
+-------------------------------------------------------------- */
+
+
+
+/* =DEFAULT-FORM-STYLES
+----------------------------------------------- */
+
+form.default-form .radio, form.default-form .checkbox {
+	position: relative;
+	top: -0.1em;
+	left: 0;
+	float: left;
+	margin: 0.2em 0 0.1em 0;
+	width: auto;
+	display: block;
+}
+
+form.default-form label {
+	position: relative;
+	top: 0.3em;
+	clear: left;
+}
+
+form.default-form #button-next {
+	position: relative;
+	top: 0.25em;
+	padding: 2px 5px 0 5px;
+}
+
+/* =SEARCH-FORM
+----------------------------------------------- */
+
+div#site-search form {
+	position: relative;
+	top: 1px;
+}
+
+div#site-search form #search-term {
+	position: relative;
+	top: 2px;
+	/* added by DMR (Studio24) 24.01.08*/
+	width: 7em;
+}
+
+div#site-search form #search-button {
+	position: relative;
+	top: 6px;	
+}
+
+/* added by DMR (Studio24) 05.02.08*/
+/* =NEWS SPECIFIC
+----------------------------------------------- */
+
+body.news div#content-primary div.primary,
+body.news div#content-primary div.secondary {
+	float: left;
+}
+
+/* =NAV-TABBED
+-------------------------------------------------------------- */
+
+ul#nav-tabbed li a span {
+	top: 0;
+	left: -20px;
+}
+
+ul#nav-tabbed.az li a span {
+	top: 0;
+	left: -9px;
+}
+
+ul#nav-tabbed li a {
+	background: #06c url(../images/bg-tab-right.gif) no-repeat 100% 2px;
+}
+ul#nav-tabbed li a:hover {
+	background: #036 url(../images/bg-tab-right-over.gif) no-repeat 100% 2px;
+}
+ul#nav-tabbed li.active a {
+	background: #b2ccff url(../images/bg-tab-right-active.gif) no-repeat 100% 2px; 
+}
+ul#nav-tabbed li.active a:hover {
+	background: #b2ccff url(../images/bg-tab-right-active.gif) no-repeat 100% 2px;
+}
+ul#nav-tabbed li.active a:hover span {
+	background: #b2ccff url(../images/bg-tab-left-active.gif) no-repeat 100% 2px;
+}
+
+div#navtabs, div#navtabs ul { background: #d3d3b1; }
+
+div#navtabs ul {width: 100%; padding: 0 20px 0 20px; margin: 0 0 0 -10px; border-left: 1px solid #066; border-right: 1px solid #066; }
+
+/* =NAV-PRIMARY
+-------------------------------------------------------------- */
+
+/* Set "Has layout" for IE6 to ensure correct bg in the primary nav */
+ul#nav-primary li.active {
+	zoom: 1;
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>The Sakai Foundation</title>
+    <meta name="Description" content="The Sakai Foundation" />
+    <meta name="Keywords" content="The Sakai Foundation" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
+    <!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie/iepc.css" media="screen" /><![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+    <script type="text/javascript" src="lib/jquery-1.2.6.js"></script>
+    <script type="text/javascript" src="lib/trimpath.js"></script>
+    <script type="text/javascript" src="lib/querystring.js"></script>
+</head>
+<body id="body-hide2">
+<script type="text/javascript" src="lib/sdata_alternative.js"></script>
+<script type="text/javascript" src="lib/i18n.js"></script>
+<div id="body2">
+
+<div id="header3">
+    <div class="header3-up">
+        <h1>Site Settings</h1>
+        <ul>
+            <li class="m2-header3-up"><a id="back_site" href="#">Close &amp; Return to <span class="site-title"></span></a></li>
+            <li class="m1-header3-up"><a href="#">Help</a></li>
+        </ul>
+    </div>
+    <div class="block">
+        <ul class="header3-down">
+            <li><a class="site-setting-link" href="#">General</a></li>
+            <li class="on"><a href="#">Members</a></li>
+            <li><a href="#">Roles &amp; Permissions</a></li>
+            <li><a href="#">Site Backup &amp; More</a></li>
+        </ul>
+    </div>
+</div><!-- /header3 -->
+
+<div id="wrapper3">
+<div id="container3">
+<div id="content3">
+
+<div id="main3">
+
+<div class="msg-error" style="display:none;">
+	<div class="msg-text"></div>
+	<div class="msg-remove"><a>Remove</a></div>
+</div>
+<div class="msg-success" style="display:none;">
+	<div class="msg-text">Your changes have been saved.</div>
+	<div class="msg-remove"><a>Remove</a></div>
+</div>
+
+<div class="ss-members" style="display:none;">
+<h2>Members <span class="ss-button"><a href="#" class="buttons add-widgets"><span>Add Members</span></a></span></h2>
+<table cellpadding="0" cellspacing="0" border="0" class="ss-table">
+    <tr>
+        <td><div class="ss-table-head">
+            <div class="block">
+                <div class="ssth-left">
+                    <ul>
+                        <li><a href="#" class="selectAllMembers">Select All</a></li>
+                        <li><a href="#" class="selectAllVisibleMembers" >Select All Visible</a></li>
+                        <li><a href="#" class="unselectMembers">Unselect All</a></li>
+                        <li class="ssth-last"><span class="selected-count">0</span> Selected</li>
+                    </ul>
+                </div>
+                <div class="ssth-right">
+                    <table>
+                        <tr>
+                            <td><div class="ssth-border">
+                            	<span class="membership-count"></span> Records Total</div>
+                            </div></td>
+                            <td><div class="ssth-select">
+                                <select>
+                                    <option>View 10 Per Page</option>
+                                    <option>View 10 Per Page</option>
+                                    <option>View 10 Per Page</option>
+                                </select>
+                            </div></td>
+                            <td><div><a href="#">Prev</a></div></td>
+                            <td><div class="ssth-select2">
+                                <select>
+                                    <option>Page 1 of 30</option>
+                                    <option>Page 2 of 30</option>
+                                    <option>Page 3 of 30</option>
+                                </select>
+                            </div></td>
+                            <td><div><a href="#">Next</a></div></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div></td>
+    </tr>
+</table>
+
+<div id="membership-table-template" style="display:none"><!--
+					<table cellpadding="0" cellspacing="0" border="0" class="ss-table2">
+						<tr class="bgEBECED">
+							<td class="w28"><div class="sst2td2">
+								&nbsp;
+							</div></td>
+							<td class="per17"><div class="sst2td2">
+								<strong><a href="#" class="ss-a">Members</a></strong>
+							</div></td>
+							<td class="per23"><div class="sst2td2">
+								<strong>Email</strong>
+							</div></td>
+							<td class="per18"><div class="sst2td2">
+								<strong>Role</strong>
+							</div></td>
+							<td class="per18"><div class="sst2td2">
+								<strong>Status</strong>
+							</div></td>
+						</tr>
+						{for member in membership_collection}
+						<tr id="${member.id}" class="bgF8F9FA">
+							<td class="w28 bgEBECED"><div>
+								<input id="${member.id}.member-checked" type="checkbox" class="checkbox" />
+							</div></td>
+							<td class="per47"><div>
+								<a href="#" class="fs13"><strong>${member.userDisplayName}</strong></a>
+							</div></td>
+							<td class="per23"><div>
+								<a href="#" class="fs13">${member.userEmail}</a>
+							</div></td>
+							<td class="per18"><div>
+								<select id="${member.id}.member-memberRole" class="memberRole">
+								{for role in userRoles}
+									<option value="${role}" {if role == member.memberRole} selected="selected" {/if}>${role}</option>
+								{/for}
+								</select>
+							</div></td>
+							<td class="per18"><div>
+								<select id="${member.id}.member-active" class="memberStatus">
+									<option value="true" {if member.active == true} selected="selected" {/if}>Active</option>
+									<option value="false" {if member.active == false} selected="selected" {/if}>Inactive</option>
+								</select>
+							</div></td>
+						</tr>
+						{/for}
+					</table>
+					--></div>
+<div id="membership-table"></div>
+
+<div class="ss-foot">
+    <div class="block">
+        <div class="ss-foot-left">
+            <a id="delete-selected-members" href="#" class="inactive buttons">Delete Selected</a>
+        </div>
+        <div class="ss-foot-right">
+            <select id="command-selected-members" class="inactive" disabled="true">
+                <option value="">Select a command</option>
+                <optgroup label="- - - - - - - - -">
+                <option value="selected-members-active-true">Change status to Active</option>
+                <option value="selected-members-active-false">Change status to Inactive </option>
+                </optgroup>
+                <optgroup id="selected-members-roles" label="- - - - - - - - -">
+                </optgroup>
+            </select>
+            <a id="change-selected-members" href="#" class="inactive buttons">Submit</a>
+        </div>
+    </div>
+</div>
+<div id="selected-members-roles-template" style="display:none"><!--
+	{for role in userRoles}
+		<option value="selected-members-memberRole-${role}">Change role to ${role}</option>
+	{/for}
+--></div>
+
+</div>
+
+</div><!-- /main3 -->
+
+</div><!-- /content3 -->
+</div><!-- /container3 -->
+</div><!-- /wrapper3 -->
+
+
+<div id="footer-hide">
+    <p>&copy; 2004-2008 The Sakai Foundation<br /> Portions of Sakai are copyrighted by other parties as described in the <a href="#">Acknowledgments screen</a></p>
+</div><!-- /footer -->
+
+</div><!-- /body2 -->
+<script type="text/javascript" src="js/site_setting_members-nopaging.js"></script>
+</body>
+</html>

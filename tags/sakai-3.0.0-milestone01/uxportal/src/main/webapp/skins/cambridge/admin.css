@@ -1,0 +1,421 @@
+/*
+File to hold additional styles for the admin web site
+*/
+
+dl.adminnews, dl.media, dl.communitynews {
+	clear: both;
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 0.5em;
+}
+
+dl.adminnews dt, dl.media dt, dl.communitynews dt {
+	padding-top: 0.5em;
+	padding-bottom: 0;
+	padding-left: 21px;
+	margin-left: 2px;
+	margin-bottom: 0.5em;
+	color:#036;
+	font-size: 1.2em;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+dl.adminnews dd, dl.media dd, dl.communitynews dd  {
+	float: left;
+	padding-left: 21px;
+	font-size: 0.95em;
+}
+
+div#media dl dd.date {
+	margin:-7px 0 5px 0;
+}
+
+div#media dl dd.first {
+	margin:0;
+}
+
+div#media dl dd a {
+	padding:0 0 0 0;
+}
+div#media dl dd a:hover {
+}
+
+dl.adminnews dd div.item, dl.media div.item, dl.communitynews div.item {
+	float: left;
+	background:#f9f9f9;
+	border-bottom:1px #eee solid;
+	width:100%;
+	margin-top: 0.6em;
+}
+
+dl.adminnews dd div.item a:hover, dl.media div.item a:hover, dl.communitynews div.item a:hover {
+	color:#c60;
+}
+
+dl.adminnews dd div.item a:visited, dl.media div.item a:visited, dl.communitynews div.item a:visited {
+	color:#900;
+}
+
+dl.adminnews dd div.first {
+	padding-bottom: 0.5em;
+}
+
+dl.adminnews dd img, dl.media dd img, dl.communitynews dd img {
+	float: right;
+	width: 72px;
+	height: 72px;
+	background:#fff;
+	margin-right:5px;
+	border:solid 1px #ddd;
+}
+
+dl.adminnews dd p, dl.media dd p, dl.communitynews dd p {
+	font-size: 1em;
+	padding-top: 0.2em;
+	padding-left: 5px;
+	margin-bottom: 0.4em;
+    }
+
+dl.adminnews dd div.first p {
+	padding: 0 2em 5px 5px;
+}
+
+dl.adminnews dd p.new-date {
+	font-size:.8em;
+	font-style:normal;
+	color:#c60;
+	display:block;
+	border-top:1px #ddd solid;
+	border-bottom:0px #eee solid;
+	margin:0;
+	margin-bottom:-5px;
+	padding:0 0 0 5px;
+}
+
+dl.adminnews dd a {
+	font-weight:bold;
+	text-decoration: none;
+}
+
+dl.adminnews dd a:hover {
+	text-decoration: underline;
+}
+
+dl.adminnews dd p.more {
+	margin:0 0 5px 0;
+	padding:0;
+	text-align:right;	
+}
+dl.adminnews dd p.more a {
+	padding-right:23px;
+	background:url(/global/images/icon-arrow-nav-primary.gif) no-repeat 90% 
+60%;
+}
+dl.adminnews dd p.more a:hover {
+}
+
+dl.adminnews dd a.right-link {
+	padding-right:15px;
+	background:url(/global/images/icon-arrow-nav-primary.gif) no-repeat 
+100% 60%;
+}
+dl.adminnews dd span.date, dl.media dd span.date, dl.communitynews dd span.date {
+	color: #666;
+	padding-left: 5px;
+}
+
+dl.adminnews dd span.description, dl.media dd span.description, dl.communitynews dd span.description {
+	display: block;
+}
+
+
+/* key contacts */
+
+.members {
+	font-weight:bold;
+	background: #F5F5F5;
+}
+
+
+table.legacy tr td p {
+   font-size: 1em;
+   padding: 0.2em;
+}
+
+table.data {
+	width: 661px;
+}
+
+table.data td.right {
+	text-align: right;
+}
+table.data th.right {
+	text-align: right;
+}
+
+table.data td.center {
+	text-align: center;
+}
+table.data th.center {
+	text-align: center;
+}
+	
+table.data#fullwidth {
+	width: 100%;
+}
+
+table.data#halfwidth {
+	width: 50%;
+}
+
+/* added by NM 27/6/08 */
+body.alt ul#nav-breadcrumb
+{
+	padding-top: 0.85em;
+}
+
+
+/* Bailout for deeply nested lists */
+
+ul p, ol p {
+	font-size: 100%;
+}
+
+li ul, li ol {
+	font-size: 100%;
+}
+
+/* this bails out the font-size for deeply nested td, p, ul, ol etc */
+
+table.data th p, table.data td p, table.data td ul, table.data td ol {
+	font-size: 90%;
+}
+
+
+a.icon-rtf {
+	background: url(/global/images/icon-rtf.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+/* online form icon added by SP 250608 -----------------*/
+
+a.icon-olf {
+	background: url(/global/images/icon-olf.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+/* next icon added by SP 250608 -----------------
+the icon appears to the right of the text 
+and is centred on the text 
+*/
+
+a.icon-next {
+	background: url(/global/images/icon-next.gif) no-repeat 100% 50%;
+	padding: 0 2em 2px 0;
+}
+
+/* previous icon added by SP 250608 -----------------
+the icon appears to the left of the text 
+and is centred on the text
+*/
+
+a.icon-prev {
+	background: url(/global/images/icon-prev.gif) no-repeat 0 50%;
+	padding: 0 0 2px 2em;
+}
+
+
+/* Fix for overflowing white to the left */
+/* Changed 22% to 21% */
+
+body.two-col ul#nav-primary, body.three-col ul#nav-primary {
+	float: left;
+	width: 21%;
+	padding-left: 0;
+}
+
+
+/* Special 2 col news */
+body.news-twocol div#content-primary {
+	width: 76%;
+}
+
+body.news-twocol div#content-secondary {
+	width: 22%;
+}
+
+body.news-twocol div#content-secondary dd em small {
+	margin-left: 0.5em;
+}
+
+
+/* =content-primary news links
+-------------------------------------------------------------- */
+                                                                                                  
+body.news-twocol div#content-primary dl.links {
+        border: 1px solid #e4eaea;
+        float: left;
+        width: 40%;
+	margin-left: 0;
+}
+                                                                                                  
+body.news-twocol div#content-primary dl.links dt {
+        padding: 0.75em 20px 0.6em 47px;
+        font-size: 1.2em;
+        color:#036;
+        color:#c60;
+        background: url(/global/images/icon-quick-links.gif) no-repeat 20px 55%;
+        margin-left: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+}
+                                                                                                  
+body.news-twocol div#content-primary dl.section dt {
+        background: url(/global/images/icon-section.gif) no-repeat 20px 55%;
+}
+                                                                                                  
+body.news-twocol div#content-primary dl.links dd {
+        border-top: 1px solid #e4eaea;
+        margin-left: 1px;
+}
+                                                                                                  
+body.news-twocol div#content-primary dl.links dd a {
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+        padding: 0.2em 20px 0.1em 47px;
+        display: block;
+        height: 100%;
+        background: #e8f0ff url(/global/images/icon-arrow-nav-primary.gif) no-repeat 20px 8px;
+        text-decoration: none;
+        color:#036;
+        font-weight:bold;
+}
+                                                                                                  
+body.news-twocol div#content-primary dl.links dd a:hover {
+        text-decoration: none;
+        color: #c60;
+        background: #fff url(/global/images/icon-arrow-nav-primary-orange.gif) no-repeat 20px 8px;
+                                                                                                  
+}
+
+
+/* =NAV-TABBED
+-------------------------------------------------------------- */
+
+ul#nav-tabbed {
+	list-style-type: none;
+	margin: 1em 0 2em 0;
+	padding: 0;
+	background: white;
+	font-family: Arial, Helvetica, sans-serif;
+	clear: both;
+	width: 100%;
+	overflow: hidden;
+}
+
+ul#nav-tabbed li {
+	float: left;
+	margin-right: 1px;
+	margin-bottom: 1px;
+}
+
+ul#nav-tabbed li a {
+	color: white;
+	background:#06c url(/global/images/bg-tab-right.gif) no-repeat 100% 0;
+	display: block;
+	padding: 0.6em 20px 0.45em 20px;
+	position: relative;
+	text-decoration: none;
+}
+
+ul#nav-tabbed.az li a {
+	color: white;
+	padding: 0.6em 9px 0.45em 9px;
+	font-size: 0.9em;
+}
+
+ul#nav-tabbed li a span {
+	background: url(/global/images/bg-tab-left.gif) no-repeat 0 0;
+	width: 5px;
+	height: 5px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+ul#nav-tabbed li span {
+	background: url(/global/images/bg-tab-left.gif) no-repeat 0 0;
+	width: 5px;
+	height: 5px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+ul#nav-tabbed li a:hover {
+	text-decoration: none;
+	background: #036 url(/global/images/bg-tab-right-over.gif) no-repeat 100% 0;
+}
+ul#nav-tabbed li a:visited {
+	color:white;
+
+}
+
+ul#nav-tabbed li a:hover span {
+	background: url(/global/images/bg-tab-left-over.gif) no-repeat 100% 0;
+}
+
+ul#nav-tabbed li.active a {
+	background: #b2ccff url(/global/images/bg-tab-right-active.gif) no-repeat 100% 0; 
+	color: #000;
+	font-weight: bold;
+}
+
+ul#nav-tabbed li.active a span {
+	background: url(/global/images/bg-tab-left-active.gif) no-repeat 100% 0;
+}
+
+/* text box */
+
+div.box {
+    padding: 18px 20px 8px;
+    margin: 1em 0 1em 0;
+    border: 1px solid #ffcc66;
+    background: #ffffcc;
+}
+
+
+table.data.auto {
+  	width: auto;
+}
+
+ol.alpha.nested {
+	list-style-type: lower-alpha;
+	padding-left: 10px;
+}
+
+
+div.mark_section {
+	padding-bottom: 0.8em;
+	margin: 0;
+	margin-bottom: 1em;
+	width: 100%;
+	border-bottom: 1px solid #CCC;	
+	float: left;
+	clear: all;
+}
+
+div#content-primary a.norm {
+	text-decoration: underline;
+}	
+
+
+ul.none {
+   list-style-type: none;
+}
+
+ul.none li {
+   padding: 2px;
+}

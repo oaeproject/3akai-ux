@@ -1,0 +1,895 @@
+/* -------------------------------------------------------------- 
+  
+   CSS Framework
+   Web Design & Development by Studio 24 Ltd
+   www.studio24.net - (0870) 241 6159
+   
+   * Content Styles *
+      
+   This is the content CSS-file for the framework.
+   Include this in the layout.css file.
+   
+-------------------------------------------------------------- */
+	
+/* =TYPOGRAPHY
+-------------------------------------------------------------- */	
+
+h1 {
+	padding-top: 0.7em;
+}
+
+h2 {
+	padding-top: 0.9em;
+}
+
+/*
+
+div#banner .promo-bg h2, div#banner-1 .promo-bg h2, div#banner-2 .promo-bg h2, div#banner-3 .promo-bg h2 {
+	margin: 0;
+	padding: 0;
+	position:relative;
+	top:0;
+	left:0;
+	line-height: normal;
+	width:auto;
+	text-align: left;
+	font-family: Georgia, arial, helvetica, serif;
+	font-style: italic;
+	font-size: 1.25em;
+}
+
+div#banner h2  {
+	font-family:Georgia,"Times New Roman",Times,serif;
+	font-size:1.25em;
+	font-style:italic;
+	line-height:normal;
+	margin:0;
+	position:absolute;
+	right:5%;
+	top:30px;
+	text-align:right;
+	width:25%;
+	color:#036;
+}
+*/
+
+/* possible alternate banner quote treatment for 2-col pages */
+body.two-col div#banner h2  {
+	padding:10px;
+	background:white;
+}
+
+div#sub-brand {
+	padding-top: 0.6em;
+	padding-bottom: 0.8em;
+	margin: 0;
+	width: 100%;
+	border-bottom: 1px solid #CCC;
+	font-family: Arial, Helvetica, sans-serif;
+	overflow: hidden;
+}	
+	
+p.section {
+	float: left;
+	color: #cf5200;
+	font-size: 1.125em;
+	line-height: 1.125em;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+p code {
+	font-size: 1em;
+	color: green;
+}
+
+.flash {
+background: #fc3;
+padding: 0 2px;}
+
+span.noshow {
+	display:none;
+}
+
+body.secondary div#content-primary p {
+	padding-right: 4%;
+}	
+
+/* =LINKS	
+-------------------------------------------------------------- */	
+
+a.icon-more {
+	background: url(/dev/skins/cambridge/icon-more.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-look {
+	background: url(/dev/skins/cambridge/icon-look.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-follow {
+	background: url(/dev/skins/cambridge/icon-follow.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-top {
+	background: url(/dev/skins/cambridge/icon-top.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-rss {
+	background: url(/dev/skins/cambridge/icon-rss.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-audio {
+	background: url(/dev/skins/cambridge/icon-audio.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-photo {
+	background: url(/dev/skins/cambridge/icon-photo.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-video {
+	background: url(/dev/skins/cambridge/icon-video.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-community {
+	background: url(/dev/skins/cambridge/icon-community.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-restricted {
+	background: url(/dev/skins/cambridge/icon-restricted.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-help {
+	background: url(/dev/skins/cambridge/icon-help.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-email {
+	background: url(/dev/skins/cambridge/icon-email.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-quick-links {
+	background: url(/dev/skins/cambridge/icon-quick-links.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-media {
+	background: url(/dev/skins/cambridge/icon-media.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-down {
+	background: url(/dev/skins/cambridge/icon-down.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-external {
+	background: url(/dev/skins/cambridge/icon-external.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-section {
+	background: url(/dev/skins/cambridge/icon-section.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-pdf {
+	background: url(/dev/skins/cambridge/icon-pdf.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-word {
+	background: url(/dev/skins/cambridge/icon-word.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+a.icon-excel {
+	background: url(/dev/skins/cambridge/icon-excel.gif) no-repeat 0 0;
+	padding: 0 0 2px 2em;
+}
+
+
+/* =IMAGES and banner
+-------------------------------------------------------------- */
+
+/*
+img {
+	display: block;
+}
+*/
+
+#branding img {
+	float: left;
+}
+img.header-logo {
+	padding: 15px 0 18px 18px;
+}
+
+p.dept img {
+	float: right;
+	padding-left: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+div#content-primary p img {
+	float: right;
+	border: 5px solid #dbd7cc;
+	margin-left: 20px;
+	margin-bottom: 1.125em;
+	display: inline;
+	clear: right;
+}
+
+div#content-primary p img.aleft {
+	float: left;
+	clear: left;
+	margin-left: 0;
+	margin-right: 20px;
+	margin-bottom: 0.5em;
+}
+
+#banner, #banner-1, #banner-2, #banner-3 {
+	width: 100%;
+	height:94px;
+	overflow: hidden;
+	position: relative;
+}
+.hidden {
+	display:none;
+}
+
+#banner ul, #banner-1 ul, #banner-2 ul, #banner-3 ul {
+	outline:solid;
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#banner ul li, #banner-1 ul li, #banner-2 ul li, #banner-3 ul li {
+	float:left;
+	margin:0;
+	padding:0;
+	outline:solid;
+}
+
+.photo-credit {
+	margin:-20px 0 0 10px;
+	font-size:9px;
+}
+
+
+.promo-bg {
+	height:94px;
+	position: absolute;
+	left:60%;
+	top: 0;
+	width:38%;
+	text-align: left;
+	padding:6px 10px 10px 10px;
+	margin:0;
+}
+
+div#banner .promo-bg h2, div#banner-1 .promo-bg h2, div#banner-2 .promo-bg h2, div#banner-3 .promo-bg h2 {
+	padding:0 0 0 3px;
+	margin:0 0 -5px 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-style:normal;
+	font-size: 1em;
+}
+.promo-bg p {
+	background:transparent;
+	width:auto;
+	font-size:0.7em;
+	margin:0;
+	padding:5px;
+}
+	
+p.banner-links {
+	text-align:right;
+	position:absolute;
+	top:70px;
+	right:10px;
+	}
+
+div#content-primary div#banner .promo-bg p a, div#content-primary div#banner-1 .promo-bg p a, div#content-primary div#banner-2 .promo-bg p a, div#content-primary div#banner-3 .promo-bg p a {
+	padding:0;
+	margin:0;
+	background:none;
+	position:relative;
+	left:0;
+	top:0;
+	display:inline;
+	font-weight:bold;
+	line-height:normal;
+	text-decoration:none;
+}
+div#content-primary div#banner .promo-bg p a:hover, div#content-primary div#banner-1 .promo-bg p a:hover, div#content-primary div#banner-2 .promo-bg p a:hover, div#content-primary div#banner-3 .promo-bg p a:hover {
+	text-decoration:underline;
+}	
+
+dl.news img, dl.media img {
+	background: white;
+	padding: 5px;
+	margin: 5px 0 5px 5px;
+	display: inline;
+}
+
+dl.news dt img, dl.media dt img {
+	float: left;
+	border: none;
+	padding: 0 10px 0 0;
+	background: none;
+	position: relative;
+	top: 1px;
+	margin: 0;
+}
+
+/* =LISTS
+-------------------------------------------------------------- */
+
+/* =home page menus
+-------------------------------------------------------------- */
+
+/* IE6 margin/hover bug fix */
+div.menu-wrapper, div.spotlight-wrapper {
+	width: 100%;
+	float: left;
+}
+
+dl.menu {
+	float: left;
+	margin: 0.75em 3.4% 0 0;
+	width: 46.5%;
+	background:url(/dev/skins/cambridge/bg-home-menu-top.gif) repeat-x 0 100%;
+	padding-bottom: 1px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+dl.menu dt {
+	font-size: 1.4em;
+	font-weight: bold;
+	line-height: normal;
+	padding: 0.4em 15px 0.3em 15px;
+	background:#fff;
+	color:#c60;
+	margin-bottom: 0;
+}
+
+dl.menu dd {
+	margin: 0;
+	padding-top: 1px;
+	padding-bottom: 0;
+	background:url(/dev/skins/cambridge/bg-home-menu-top.gif) repeat-x 0 0;
+	font-size: 1.2em;
+	line-height: 1.1em;
+	font-weight: bold;
+}
+
+div#content-primary dl.menu dd a, div#content-primary dl.menu dd a:visited {
+	display: block;
+	color: #003c79;
+	padding: 0.6em 15px 0.45em 37px;
+	background: white url(/dev/skins/cambridge/icon-arrow-home-menu.gif) 
+no-repeat 15px 0.65em;
+	text-decoration: none;
+}
+
+div#content-primary dl.menu dd a:hover {
+	background: #f3f7ff url(/dev/skins/cambridge/icon-arrow-home-menu-orange.gif) 
+no-repeat 15px 0.65em;
+	color:#c60;	
+}
+
+div#content-primary ul li ul {
+	margin: 0 0 0.5em 1em;
+}
+
+/* =home page spotlights
+-------------------------------------------------------------- */
+
+div.spotlight {
+	float: left;
+	margin: 1em 2.7% 0 0;
+	width: 45.9%;
+	background:#e8f0ff;
+	border: 2px solid #aaa;	
+	position: relative;
+}
+
+body.home div.wide {
+	width: 96%;
+	margin: 2em 0 0 0;
+}
+
+div.spotlight dl {
+	margin: 5px;	
+	padding: 0 0.4em 0 0.4em;
+	overflow: hidden;
+	background:#e8f0ff;
+	min-height:150px;
+}
+
+div.spotlight dt {
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #c60;
+}
+
+div#what dt {
+	background: url(/dev/skins/cambridge/icon-cal-large.gif) no-repeat 0 0;
+	padding: 3px 0 6px 25px;
+}
+div#what dd a.more {
+	float:right;
+	margin-right:-20px;
+	padding-left:15px;
+	background: transparent url(/dev/skins/cambridge/icon-arrow-nav-primary.gif) 
+no-repeat 0 3px;
+}
+
+div#what dd a:hover.more {
+	background: transparent 
+url(/dev/skins/cambridge/icon-arrow-nav-primary-orange.gif) no-repeat 0 3px;
+}
+
+div#media dt {
+	background: url(/dev/skins/cambridge/icon-media-large.gif) no-repeat 0 0;
+	padding: 3px 0 6px 25px;
+}
+
+div.spotlight dd.title{
+	font-weight: normal;
+}
+
+div.spotlight dd.date {
+	margin-top:-7px;
+	color: #c60;
+	font-size: 0.9em;
+}
+
+div.spotlight dd.description p {
+	float: left;
+	font-size: 1em;
+	width: 99%;
+	margin: 0;
+	padding: 0;
+}
+
+div#content-primary div.spotlight dd img {
+	float: right;
+	border: none;
+	margin: 0 0 0.4em 0.4em;
+	padding: 5px;
+	display: block;
+	background: white;
+	border:solid 1px #ddd;
+}
+
+div#content-primary div.spotlight-wrapper div.spotlight dl dd.title a:hover img {
+	background: #c60;
+}
+
+div#content-primary div.spotlight a {
+	font-weight:bold;
+	padding-right: 20px;
+	text-decoration:none;
+}
+
+div#content-primary div.spotlight a:visited {
+	color:#003c79;
+}
+
+div#content-primary div.spotlight a:hover {
+	text-decoration:underline;
+	color:#c60;
+}
+
+/* =content secondary list/menu settings
+-------------------------------------------------------------- */
+
+div#content-secondary dl, div#content-secondary dd {
+	margin: 0;
+}
+
+/* =content-secondary news
+-------------------------------------------------------------- */
+
+/* amended by DMR (Studio24) 03.02.08 */
+/* amended by IL (Studio24) 15.04.08 */
+
+dl.news, dl.media, dl.communitynews {
+	clear: both;
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 0.5em;
+}
+
+dl.news dt, dl.media dt, dl.communitynews dt {
+	padding-top: 0.5em;
+	padding-bottom: 0;
+	padding-left: 21px;
+	margin-left: 2px;
+	margin-bottom: 0.5em;
+	color:#036;
+	font-size: 1.2em;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+dl.news dt a {
+	text-decoration: none;
+	color:#036;
+}
+
+dl.news dt a:hover {
+	text-decoration: underline;
+	color:#036;
+}
+
+dl.news dd, dl.media dd, dl.communitynews dd  {
+	float: left;
+	padding-left: 21px;
+	font-size: 0.95em;
+}
+
+div#media dl dd.date {
+	margin:-7px 0 5px 0;
+}
+
+div#media dl dd.first {
+	margin:0;
+}
+
+div#media dl dd a {
+	padding:0 0 0 0;
+}
+div#media dl dd a:hover {
+}
+
+dl.news dd div.item, dl.media div.item, dl.communitynews div.item {
+	float: left;
+	background:#f9f9f9;
+	border-bottom:1px #eee solid;
+	margin-bottom:5px;
+	width:100%;
+}
+
+dl.news dd div.item a:hover, dl.media div.item a:hover, dl.communitynews div.item a:hover {
+	color:#c60;
+}
+
+dl.news dd div.item a:visited, dl.media div.item a:visited, dl.communitynews div.item a:visited {
+	color:#900;
+}
+
+dl.news dd div.first {
+	padding-bottom: 0.5em;
+}
+
+dl.news dd img, dl.media dd img, dl.communitynews dd img {
+	float: right;
+	width: 72px;
+	height: 72px;
+	background:#fff;
+	margin-right:5px;
+	border:solid 1px #ddd;
+}
+
+dl.news dd p, dl.media dd p, dl.communitynews dd p {
+	font-size: 1em;
+	padding-top: 0.2em;
+	padding-left: 5px;
+    margin-bottom: 0.4em;
+    }
+
+dl.news dd div.first p {
+	padding: 0 2em 5px 5px;
+}
+
+dl.news dd p.new-date {
+	font-size:.8em;
+	font-style:normal;
+	color:#c60;
+	display:block;
+	border-top:1px #ddd solid;
+	border-bottom:0px #eee solid;
+	margin:0;
+	margin-bottom:-5px;
+	padding:0 0 0 5px;
+}
+
+dl.news dd a {
+	font-weight:bold;
+	text-decoration: none;
+}
+
+dl.news dd a:hover {
+	text-decoration: underline;
+}
+
+dl.news dd p.more {
+	margin:0 0 5px 0;
+	padding:0;
+	text-align:right;	
+}
+dl.news dd p.more a {
+	padding-right:23px;
+	background:url(/dev/skins/cambridge/icon-arrow-nav-primary.gif) no-repeat 90% 
+60%;
+}
+dl.news dd p.more a:hover {
+}
+
+dl.news dd a.right-link {
+	padding-right:15px;
+	background:url(/dev/skins/cambridge/icon-arrow-nav-primary.gif) no-repeat 
+100% 60%;
+}
+dl.news dd span.date, dl.media dd span.date, dl.communitynews dd span.date {
+	color: #666;
+	padding-left: 5px;
+}
+
+dl.news dd span.description, dl.media dd span.description, dl.communitynews dd span.description {
+	display: block;
+}
+	
+
+/* =content-secondary links
+-------------------------------------------------------------- */
+
+div#content-secondary dl.links {
+	border-bottom: 1px solid #e4eaea;	
+	float: left;
+	width: 100%;
+}
+
+div#content-secondary dl.links dt {
+	padding: 0.75em 20px 0.6em 47px;
+	font-size: 1.2em;
+	color:#036;
+	color:#c60;
+	background: url(/dev/skins/cambridge/icon-quick-links.gif) no-repeat 20px 
+55%;
+	margin-left: 2px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+div#content-secondary dl.section dt {
+	background: url(/dev/skins/cambridge/icon-section.gif) no-repeat 20px 55%;
+}
+
+div#content-secondary dl.links dd {
+	border-top: 1px solid #e4eaea;
+	margin-left: 1px;
+}
+
+div#content-secondary dl.links dd a {
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	padding: 0.2em 20px 0.1em 47px;
+	display: block;
+	height: 100%;
+	background: #e8f0ff url(/dev/skins/cambridge/icon-arrow-nav-primary.gif) 
+no-repeat 20px 8px;
+	text-decoration: none;
+	color:#036;
+	font-weight:bold;
+}
+
+div#content-secondary dl.links dd a:hover {
+	text-decoration: none;
+	color: #c60;
+	background: #fff url(/dev/skins/cambridge/icon-arrow-nav-primary-orange.gif) 
+no-repeat 20px 8px;
+
+}
+
+/* =ALERT MESSAGES
+----------------------------------------------- */
+
+div.alert {
+	padding: 18px 0 0 52px;
+	margin: 1em 0 1em 0;
+}
+
+div.alert h2 {
+	font-size: 1em;
+	line-height: normal;
+	font-weight: bold;
+	padding: 0;
+}
+
+body.home div.alert {
+	margin: 1em 3.4% 1em 0;
+}
+
+div.warning {
+	border: 1px solid red;
+	background: #FFCCCC url(/dev/skins/cambridge/icon-alert-warning.gif) 
+no-repeat 10px 10px;
+}
+
+div.normal {
+    border: 1px solid #ffcc66;
+	background: #ffffcc url(/dev/skins/cambridge/icon-alert-normal.gif) no-repeat 
+10px 10px;
+}
+
+
+/* =BOOKMARK LINKS
+----------------------------------------------- */
+
+#bookmarks {
+	clear:both;
+	float:left;
+	margin-bottom:10px;
+}
+
+
+/* =NEWS SPECIFIC
+----------------------------------------------- */
+
+body.news div#content-primary h2 {
+	margin: 0;
+	padding-bottom: 0.5em;
+}
+
+body.news div#content-primary div.primary {
+	background: #edf3fe;
+	padding: 10px;
+	margin: 0 0 1em 0;
+	overflow: hidden;
+}
+
+body.news div#content-primary div.secondary  {
+	padding: 10px;
+	overflow: hidden;
+}
+
+body.news div#content-primary div.alt {
+	background: #F5F5F5;
+} 
+
+body.news div#content-primary div.primary h1,
+body.news div#content-primary div.secondary h3 {
+	padding-top: 0;
+	line-height: normal;
+	padding-left: 20px;
+}
+
+body.news div#content-primary div.primary h1 {
+	background:url(/dev/skins/cambridge/icon-arrow-home-menu.gif) no-repeat 0 
+0.225em;
+}
+
+body.news div#content-primary div.secondary h3 {
+	background:url(/dev/skins/cambridge/icon-arrow-home-menu.gif) no-repeat 0 
+0.125em;
+}
+
+body.news div#content-primary div.primary h1 a,
+body.news div#content-primary div.secondary h3 a {
+	text-decoration: none;
+}
+
+body.news div#content-primary div.primary h1 a:hover,
+body.news div#content-primary div.secondary h3 a:hover {
+	text-decoration: underline;
+}
+
+body.news div#content-primary div.primary span,
+body.news div#content-primary div.secondary span {
+	font-size: 0.75em;
+	font-weight: normal;
+	color: #c60;
+	padding-left: 20px;
+}
+
+body.news div#content-primary div.primary p,
+body.news div#content-primary div.secondary p {
+	margin-top: 0.5em;
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
+body.news div#content-primary div.primary p a,
+body.news div#content-primary div.secondary p a {
+	float: right;
+	padding-right: 20px;
+	background: url(/dev/skins/cambridge/icon-arrow-nav-primary.gif) no-repeat 
+90% 60%;
+	text-decoration: none;
+}
+
+body.news div#content-primary div.primary p a:hover,
+body.news div#content-primary div.secondary p a:hover {
+	text-decoration: underline;
+	color:#c60;
+	background: url(/dev/skins/cambridge/icon-arrow-nav-primary-orange.gif) 
+no-repeat 90% 60%;
+}
+
+body.news div#content-primary div.primary img {
+	border: 5px solid white;
+}
+
+/* =EVENTS SPECIFIC
+----------------------------------------------- */
+
+body.events table.data {
+	width: 100%;
+}
+
+body.events table.data th {
+	background: #edf3fe;
+}
+
+body.events div#content-primary dl.primary {
+	background: #edf3fe;
+	padding: 10px;
+	margin: 0 0 1em 0;
+	overflow: hidden;
+}
+
+body.events div#content-primary form.default-form label {
+	width: auto;
+	margin-right: 0.5em;
+}
+
+/* Special Tabs per Helen */
+
+div#navtabs ul {
+       float:left;
+       list-style: none;
+       margin:0;
+       padding: 0px;
+       }
+div#navtabs li {
+       display: block;
+       float: left;
+       }
+div#navtabs a {
+       display: block;
+/*
+       float: left;
+*/
+       color: #336;
+       text-decoration: none;
+       background-color:#d3d3b1;
+       padding:4px 10px 4px 10px;
+       border-right: 1px solid #9c9;
+}
+div#navtabs a:hover {
+       display: block;
+       float: left;
+       color: #000;
+       text-decoration: none;
+       background-color: #fff;
+}
+div#navtabs a.first {
+       border-left: 1px solid #9c9;
+       border-right: 1px solid #9c9;
+}
+div#navtabs a.current {
+       background-color: #9cc;
+}
+/* Commented backslash hack hides rule from IE5-Mac \*/
+div#navtabs li a { float: none }
+/* End IE5-Mac hack */
+/*end of tabbed nav bar*/
