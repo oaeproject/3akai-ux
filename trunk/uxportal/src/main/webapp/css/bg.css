@@ -1,0 +1,7 @@
+body {
+	min-width: 814px;
+	height: 100%;
+	color: #333333;
+	background: url(../img/body.png) 100% 0 repeat-y;
+	text-align: center;
+}
