@@ -78,33 +78,38 @@ sakai.createsite = {};
 		}
 		
 		//id, name, description, type
-		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "project" };
+		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "default" };
 
-		//sdata.Ajax.request({
-		//	url :"/rest/site/" + siteid + "/exists?id=" + Math.random(),
-		//	httpMethod : "GET",
-		//	onSuccess : function(data) {
-		//		alert("A site with this URL already exists");
-		//	},
-		//	onFail : function(status) {
-				sdata.Ajax.request({
-					url :"/rest/site/create",
-					httpMethod : "POST",
-					onSuccess : function(data) {
+		sdata.Ajax.request({
+			url :"/rest/site/" + "checkId?id=" + siteid + "&sid=" + Math.random(),
+			httpMethod : "GET",
+			onSuccess : function(data) {
+				alert("A site with this URL already exists");
+			},
+			onFail : function(status) {
+				if (status != 403) {
+					sdata.Ajax.request({
+						url: "/rest/site/create",
+						httpMethod: "POST",
+						onSuccess: function(data){
 						//document.location = "/site/" + siteid;
-					},
-					onFail : function(status) {
-						if (status == 409 || status == "409"){
-							alert("A site with this URL already exists");
-						} else {
-							alert("An error has occured whilst creating the site");
-						}
-					},
-					postData : parameters,
-					contentType : "application/x-www-form-urlencoded"
-				});
-		//	},
-		//});
+						},
+						onFail: function(status){
+							if (status == 409 || status == "409") {
+								alert("A site with this URL already exists");
+							}
+							else {
+								alert("An error has occured whilst creating the site");
+							}
+						},
+						postData: parameters,
+						contentType: "application/x-www-form-urlencoded"
+					});
+				} else {
+					alert("A site with this URL already exists");
+				}
+			},
+		});
 	}
 	
 	sakai.createsite.createPortfolio = function(){
