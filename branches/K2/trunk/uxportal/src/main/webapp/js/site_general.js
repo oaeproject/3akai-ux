@@ -7,10 +7,9 @@ sakai.SiteBase = {
 	currentsite: null,
 	
 	onInit : function(){
+		qs = new Querystring();
 		$("#initialcontent").hide();
-		var str = document.location.pathname;
-		var spl = str.split("/");
-		sakai.SiteBase.currentsite = spl[2];
+		sakai.SiteBase.currentsite = qs.get("siteid","false");
 		if (sakai.SiteBase.currentsite == "false"){
 			document.location = "/dev/";
 		} else {
@@ -19,7 +18,7 @@ sakai.SiteBase = {
 	},
 	
 	loadSiteInfo : function(){
-		var url = "/sdata/site?siteid=" + sakai.SiteBase.currentsite + "&sid=" + Math.random();
+		var url = "/rest/site/get/" + sakai.SiteBase.currentsite + "?sid=" + Math.random();
     
 		sdata.Ajax.request( {
 			url : url,
