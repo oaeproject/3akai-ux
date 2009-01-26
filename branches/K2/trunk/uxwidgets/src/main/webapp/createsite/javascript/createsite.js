@@ -78,7 +78,7 @@ sakai.createsite = {};
 		}
 		
 		//id, name, description, type
-		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "default" };
+		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "project" };
 
 		sdata.Ajax.request({
 			url :"/rest/site/" + "checkId?id=" + siteid + "&sid=" + Math.random(),
@@ -92,7 +92,7 @@ sakai.createsite = {};
 						url: "/rest/site/create",
 						httpMethod: "POST",
 						onSuccess: function(data){
-						//document.location = "/site/" + siteid;
+							document.location = "/dev/site.html?siteid=" + siteid;
 						},
 						onFail: function(status){
 							if (status == 409 || status == "409") {
