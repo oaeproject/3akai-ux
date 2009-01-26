@@ -1,0 +1,15 @@
+{
+	locale: "en_US",
+	add_tools: "Add Tools",
+	all_tools: "All Tools",
+	close_window_and_cancel: "Close Window &amp; Cancel",
+	help : "Help",
+	pick_from_list : "Pick from the following tools",
+	all: "All",
+	academic: "Academic",
+	group_and_team : "Group &amp; Team",
+	personal : "Personal",
+	administrative : "Administrative",
+	finished : "Finished",
+	total: "Total"	
+}

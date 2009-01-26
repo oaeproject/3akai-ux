@@ -1,0 +1,89 @@
+#showresources td {
+	padding: 7px;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	margin-left: 5px;
+}
+
+.title {
+	font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+	font-size: 12px;
+	color: #3B5998;
+	text-decoration: none;
+}
+
+.buttonstyle {
+	color: #000000;
+	font-weight: bold;
+	font-size: 11px;
+	background-color: #6D84B4;
+	border: 1px solid;
+	border-top-color: #000000;
+	border-left-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+}
+
+.disablebutton {
+	filter: alpha(opacity = 50); /* Internet Explorer       */
+	-moz-opacity: 0.50; /* Mozilla 1.6 and below   */
+	opacity: 0.50; /* newer Mozilla and CSS-3 */
+	cursor: normal;
+}
+
+.enablebutton {
+	filter: alpha(opacity = 100); /* Internet Explorer       */
+	-moz-opacity: 1; /* Mozilla 1.6 and below   */
+	opacity: 1; /* newer Mozilla and CSS-3 */
+	cursor: hand;
+	cursor: pointer;
+}
+
+.hiddenfile {
+	filter: alpha(opacity = 25); /* Internet Explorer       */
+	-moz-opacity: 0.25; /* Mozilla 1.6 and below   */
+	opacity: 0.25; /* newer Mozilla and CSS-3 */
+}
+
+.hiddenrow {
+	filter: alpha(opacity = 50); /* Internet Explorer       */
+	-moz-opacity: 0.50; /* Mozilla 1.6 and below   */
+	opacity: 0.50; /* newer Mozilla and CSS-3 */
+}
+
+.unhiddenfile {
+	filter: alpha(opacity = 100); /* Internet Explorer       */
+	-moz-opacity: 1; /* Mozilla 1.6 and below   */
+	opacity: 1; /* newer Mozilla and CSS-3 */
+}
+
+a.dp-choose-date {
+	float: left;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin: 0px 15px 0px 5px;
+	display: block;
+	text-indent: -2000px;
+	overflow: hidden;
+	background: url(/devwidgets/Resources/images/icons/calendar.png)
+		no-repeat;
+}
+
+a.dp-choose-date.dp-disabled {
+	background-position: 0 -20px;
+	cursor: default;
+}
+
+/* makes the input field shorter once the date picker code
+ * has run (to allow space for the calendar icon
+ */
+input.dp-applied {
+	width: 140px;
+	float: left;
+}
