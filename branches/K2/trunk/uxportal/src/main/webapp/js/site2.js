@@ -23,11 +23,11 @@ sakai.dashboard = function(){
 
 	var doInit = function(){
 		sdata.Ajax.request({
-			url: "/sdata/me",
+			url: "/rest/me",
 			onSuccess: function(response){
 				var person = eval('(' + response + ')');
-				if (person.items.displayId){
-					inituser = person.items.displayId;
+				if (person.preferences.uuid){
+					inituser = person.preferences.uuid;
 					$("#userid").text(inituser);
 					$("#loginLink").hide();
 				} else {
@@ -40,7 +40,7 @@ sakai.dashboard = function(){
 				loadPagesInitial();
 			},
 			onFail: function(httpstatus){
-				document.location = "/dev/index.html";
+				//document.location = "/dev/index.html";
 			}
 		});
 		
@@ -87,43 +87,13 @@ sakai.dashboard = function(){
 				History.history_change();
 			},
 			onFail: function(httpstatus){
-			
-				var newmain = {};
-				newmain.items = [];
 				
-				var newpages = {};
-				totaltotry++;
 				
-				for (var i = 0; i < currentsite.pages.length; i++){
-					
-					var newid = randomString(8);
-					
-					newmain.items[i] = {};
-					newmain.items[i].id = newid;
-					newmain.items[i].title = currentsite.pages[i].name;
-					newmain.items[i].type = "tool";
-					newmain.items[i].top = true;
-					
-					newpages[newid] = {};
-					newpages[newid].tool = currentsite.pages[i].tools[0].url;
-					totaltotry++;
-					
-				}
-				
-				var string1 = sdata.JSON.stringify(newmain);
-				
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "", "pageconfiguration", string1, checkRetry);
-				
-				for (var i in newpages){
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/pages/" + i + "", "tool", sdata.JSON.stringify(newpages[i]), checkRetry);
-				}
-				
-				/*
 				pages = {};
 				pages.items = {};
 				pageconfiguration = pages;
 				History.history_change();
-				*/
+				
 			}
 		});
 		
@@ -194,18 +164,17 @@ sakai.dashboard = function(){
 	
 	
 	loadCurrentSiteObject = function(){
-		var str = document.location.pathname;
-		var spl = str.split("/");
-		currentsite = spl[2];
+		var qs = new Querystring();
+		currentsite = qs.get("siteid","false");
 		if (currentsite == "false") {
-			document.location = "/dev/";
+			//document.location = "/dev/";
 		}
 		else {
 		
 			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + currentsite);
 			
 			sdata.Ajax.request({
-				url: "/sdata/site?siteid=" + currentsite,
+				url: "/rest/site/get/" + currentsite + "?sid=" + Math.random(),
 				onSuccess: function(response){
 					continueLoad(response, true);
 				},
@@ -220,16 +189,8 @@ sakai.dashboard = function(){
 		if (exists) {
 			currentsite = eval('(' + response + ')');
 			
-			if (currentsite.skin) {
-				$("#createsite_portfolio_skin").attr("value", currentsite.skin);
-			}
-			
-			if (currentsite.pubView) {
-				$("#publicview").attr("checked", "checked");
-			}
-			
 			if (currentsite.id.substring(0, 1) != "~") {
-				$("#sitetitle").text(currentsite.title);
+				$("#sitetitle").text(currentsite.name);
 				if (!sakai._isAnonymous) {
 					sdata.Ajax.request({
 						url: "/sdata/me?user=" + currentsite.owner,
@@ -259,7 +220,19 @@ sakai.dashboard = function(){
 				});
 			}
 			
-			if (currentsite.isMaintainer) {
+			var isMaintainer = false;
+			
+			//"roles":[{"permissions":["read","write","delete"],"name":"admin"}]
+			for (var i = 0; i < currentsite.roles.length; i++){
+				var role = currentsite.roles[i];
+				for (var ii = 0; ii < role.permissions.length; ii++){
+					if (role.permissions[ii] == "write"){
+						isMaintainer = true;
+					}
+				}
+			}
+			
+			if (isMaintainer) {
 				$("#management_bar").show();
 				$("#sitefiles").show();
 				$("#editbutton1").show();
