@@ -25,12 +25,12 @@ sakai.sites = function(tuid,placement,showSettings){
 		
 		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/me?sid=" + Math.random(),
+			url: "/rest/me?sid=" + Math.random(),
 			onSuccess: function(data){
 				me = eval('(' + data + ')');
 				sdata.Ajax.request({
 					httpMethod: "GET",
-					url: "/sdata/mcp?sid=" + Math.random(),
+					url: "/rest/sites?sid=" + Math.random(),
 					onSuccess: function(data){
 						loadSiteList(data, true);
 					},
@@ -45,23 +45,27 @@ sakai.sites = function(tuid,placement,showSettings){
 		});
 		
 		var loadSiteList = function(response, exists){
-			var needsCreatingPersonalSite = true;
+			//var needsCreatingPersonalSite = true;
+			var needsCreatingPersonalSite = false;
 			if (exists) {
 				var json = eval('(' + response + ')');
 				var newjson = {};
-				newjson.items = [];
-				for (var i = 0; i < json.items.length; i++){
-					var site = json.items[i];
+				newjson.entry = [];
+				for (var i = 0; i < json.entry.length; i++){
+					var site = json.entry[i];
 					if (site.id.substring(0,1) != "~"){	
-						newjson.items[newjson.items.length] = site;
+						newjson.entry[newjson.entry.length] = site;
 					}
+					/*
 					if (site.id == "@" + me.items.userid){
 						needsCreatingPersonalSite = false;
 					}
+					*/
 				}
 				if (needsCreatingPersonalSite){
 					
-					var sitetitle = me.items.userid;
+					/*
+var sitetitle = me.items.userid;
 					if (me.items.firstname && me.items.lastname){
 						sitetitle = me.items.firstname + " " + me.items.lastname;
 					}
@@ -90,6 +94,7 @@ sakai.sites = function(tuid,placement,showSettings){
 						postData : parameters,
 						contentType : "application/x-www-form-urlencoded"
 					});
+*/
 					
 				} else {
 					doRender(newjson);	
