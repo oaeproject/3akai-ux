@@ -13,7 +13,8 @@ sakai.preferences = function(){
     
 	var init = function(){
         $("#back_dashboard").attr("href","/dev/dashboard.html");
-        sdata.Ajax.request({
+        /*
+sdata.Ajax.request({
             httpMethod: "GET",
             url: "/sdata/prfc",
             responseType: 'json',
@@ -65,6 +66,7 @@ sakai.preferences = function(){
                 $("#preferences_undo_id2").show();
             }
         });
+*/
     }
 
     init();
@@ -73,7 +75,15 @@ sakai.preferences = function(){
         var current_pw = $("#preferences_pw_current").val();
         var new_pw = $("#preferences_pw_new").val();
         var new_pw_retype = $("#preferences_pw_new_retype").val();
-        var data = {"currentpw":current_pw,"newpw":new_pw,"retypepw":new_pw_retype,"selected_zone":selected_zone, "seleted_language":selected_language};
+		
+		if (current_pw || new_pw || new_pw_retype){
+			
+		} else {
+			return false;
+		}
+		
+        //var data = {"currentpw":current_pw,"newpw":new_pw,"retypepw":new_pw_retype,"selected_zone":selected_zone, "seleted_language":selected_language};
+        var data = {"oldPassword":current_pw,"password":new_pw};
         
         // clear out any previous success/error info
         $("#warning1").hide();
@@ -86,7 +96,7 @@ sakai.preferences = function(){
         
         
             sdata.Ajax.request({
-                url :"/sdata/prfc?savemode=savedetail",
+                url :"/user/changepassword/",
                 httpMethod : "POST",
                 postData : data,
                 contentType : "application/x-www-form-urlencoded",
