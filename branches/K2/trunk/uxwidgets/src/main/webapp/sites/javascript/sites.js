@@ -51,16 +51,18 @@ sakai.sites = function(tuid,placement,showSettings){
 				var json = eval('(' + response + ')');
 				var newjson = {};
 				newjson.entry = [];
-				for (var i = 0; i < json.entry.length; i++){
-					var site = json.entry[i];
-					if (site.id.substring(0,1) != "~"){	
-						newjson.entry[newjson.entry.length] = site;
+				if (json.entry) {
+					for (var i = 0; i < json.entry.length; i++) {
+						var site = json.entry[i];
+						if (site.id.substring(0, 1) != "~") {
+							newjson.entry[newjson.entry.length] = site;
+						}
+						/*
+						 if (site.id == "@" + me.items.userid){
+						 needsCreatingPersonalSite = false;
+						 }
+						 */
 					}
-					/*
-					if (site.id == "@" + me.items.userid){
-						needsCreatingPersonalSite = false;
-					}
-					*/
 				}
 				if (needsCreatingPersonalSite){
 					
@@ -105,7 +107,11 @@ var sitetitle = me.items.userid;
 	}
 	
 	var doRender = function(newjson){
-		$("#" + tuid + " #sitelist").html(sdata.html.Template.render('sitelist_template2', newjson));
+		if (newjson.entry.length == 0){
+			$("#" + tuid + " #sitelist").html("<p style='text-align:left; padding: 10px'>You aren't a member of any sites yet</p>");
+		} else {
+			$("#" + tuid + " #sitelist").html(sdata.html.Template.render('sitelist_template2', newjson));
+		}
 		$("#sites_category_uncategorized", rootel).bind("click", function(ev){
 			$("#sites_list_uncategorized").toggle();
 			if (count % 2 == 0){
