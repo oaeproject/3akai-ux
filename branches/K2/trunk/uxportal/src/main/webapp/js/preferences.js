@@ -70,22 +70,27 @@ sdata.Ajax.request({
     }
 
     init();
-
+	
+	showError = function(msg){
+		 $("#current_pw_id1").css("color","rgb(250,0,0)");
+         error_input.push('current_pw_id1');
+         $("#new_pw_id1").css("color","rgb(250,0,0)");
+         error_input.push('new_pw_id1');
+         $("#retype_pw_id1").css("color","rgb(250,0,0)");
+         error_input.push('retype_pw_id1');
+		 if (msg) {
+		 	$("#alert_id1").html(msg);
+		 }
+		 else {
+		 	$("#alert_id1").html("<b>Oops!</b> Please try again.");
+		 }
+         $("#spacer").show();
+         $("#warning1").show();	
+	}
+	
     sakai.preferences.saveDetail = function(){
-        var current_pw = $("#preferences_pw_current").val();
-        var new_pw = $("#preferences_pw_new").val();
-        var new_pw_retype = $("#preferences_pw_new_retype").val();
 		
-		if (current_pw || new_pw || new_pw_retype){
-			
-		} else {
-			return false;
-		}
-		
-        //var data = {"currentpw":current_pw,"newpw":new_pw,"retypepw":new_pw_retype,"selected_zone":selected_zone, "seleted_language":selected_language};
-        var data = {"oldPassword":current_pw,"password":new_pw};
-        
-        // clear out any previous success/error info
+		// clear out any previous success/error info
         $("#warning1").hide();
 		$("#spacer").hide();
         $("#saveinfo1").hide();
@@ -93,20 +98,49 @@ sdata.Ajax.request({
         $("#current_pw_id1").css("color","");
         $("#new_pw_id1").css("color","");
         $("#retype_pw_id1").css("color","");
+		
+        var current_pw = $("#preferences_pw_current").val();
+        var new_pw = $("#preferences_pw_new").val();
+        var new_pw_retype = $("#preferences_pw_new_retype").val();
+		
+		if (current_pw || new_pw || new_pw_retype){
+			if (current_pw && new_pw && new_pw_retype){
+				if (new_pw == new_pw_retype){
+					if (new_pw.length < 5){
+						showError("Please make sure your password is at least 5 characters long");
+						return false;
+					} 
+				} else {
+					showError("Please make sure the passwords match");
+					return false;
+				}
+			} else {
+				showError("Please fill out everything");
+				return false;
+			}
+		} else {
+			showError("Please fill out everything");
+			return false;
+		}
+		
+        //var data = {"currentpw":current_pw,"newpw":new_pw,"retypepw":new_pw_retype,"selected_zone":selected_zone, "seleted_language":selected_language};
         
+		var data = {"oldPassword":current_pw,"password":new_pw};
         
             sdata.Ajax.request({
-                url :"/user/changepassword/",
+                url :"/rest/user/changepassword",
                 httpMethod : "POST",
                 postData : data,
                 contentType : "application/x-www-form-urlencoded",
                 onSuccess : function(data) {
-                    default_zone = selected_zone;
-                    if(default_language != selected_language)
-                    {
-                        default_language = selected_language;
-                        window.location.reload();
-                    }
+                    /*
+					default_zone = selected_zone;
+					if(default_language != selected_language)
+			        {
+						default_language = selected_language;
+						window.location.reload();
+					}
+					*/
                     error_input = [];
                     $("#saveinfo1").show();
 					$("#spacer").show();
@@ -114,8 +148,8 @@ sdata.Ajax.request({
                     $("#preferences_undo_id2").show();
                 },
                 onFail : function(status) {
-                    if (status == 400)
-                    {
+                    //if (status == 400)
+                    //{
                         $("#current_pw_id1").css("color","rgb(250,0,0)");
                         error_input.push('current_pw_id1');
                         $("#new_pw_id1").css("color","rgb(250,0,0)");
@@ -125,7 +159,7 @@ sdata.Ajax.request({
                         $("#alert_id1").html("<b>Oops!</b> Please try again.");
 						$("#spacer").show();
                         $("#warning1").show();
-                    }
+                    //}
                 }
             });
         
