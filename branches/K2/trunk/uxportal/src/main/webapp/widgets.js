@@ -259,7 +259,7 @@ var Widgets = {
 			id:"singlefile",
 			personalportal:0,
 			siteportal:0,
-			ca:1,
+			ca:0,
 			img:"/devwidgets/singlefile/images/singlefile.png"
 		},
 		comments :
@@ -271,7 +271,7 @@ var Widgets = {
 			id:"comments",
 			personalportal:0,
 			siteportal:0,
-			ca:1,
+			ca:0,
 			img:"/devwidgets/comments/images/icon.png"
 		},
 		poll :
@@ -283,7 +283,7 @@ var Widgets = {
 			id:"poll",
 			personalportal:0,
 			siteportal:0,
-			ca:1,
+			ca:0,
 			img:"/devwidgets/poll/images/poll.png"
 		},
 		Resources :
@@ -331,7 +331,7 @@ var Widgets = {
 			id:"navigation",
 			personalportal:0,
 			siteportal:0,
-			ca:1,
+			ca:0,
 			img:"/devwidgets/navigation/images/navigation.png"
 		},
 		form :
@@ -343,7 +343,7 @@ var Widgets = {
 			id:"form",
 			personalportal:0,
 			siteportal:0,
-			ca:1,
+			ca:0,
 			img:"/devwidgets/form/images/form.png"
 		}/*
 ,
