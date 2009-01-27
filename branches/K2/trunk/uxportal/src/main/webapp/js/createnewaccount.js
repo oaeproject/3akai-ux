@@ -55,8 +55,8 @@ sakai.newaccount = function(){
 		$("#spacer").hide();
 		resetErrorFields();
 		hideError();
-		//checkUserName();
-		doCreateSite();
+		checkUserName();
+		//doCreateSite();
 	});
 	
 	checkUserName = function(){
@@ -92,7 +92,7 @@ sakai.newaccount = function(){
 		//check existence
 		sdata.Ajax.request({
             httpMethod: "GET",
-            url: "/direct/user/" + value + "/exists?sid=" + Math.random(),
+            url: "/rest/user/" + value + "/exists?sid=" + Math.random(),
             onSuccess: function(data){
 				resetErrorFields();
 				setErrorField("username_label");
