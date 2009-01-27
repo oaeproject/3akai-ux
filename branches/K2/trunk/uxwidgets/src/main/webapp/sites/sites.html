@@ -25,11 +25,11 @@
 						<ul class="sites-menu sites-menu-min" id="sites-menu-icon">					
 							<li><a style="cursor: hand; cursor: pointer" id="sites_category_uncategorized">Uncategorized</a>
 								<ul id="sites_list_uncategorized">
-									{for site in items}
+									{for site in entry}
 										{if site.type != "portfolio"}
-										<li><a href="/site/${site.id}" class="sites-menu-blue">${site.title}</a></li>
+										<li><a href="/dev/site.html?siteid=${site.id}" class="sites-menu-blue">${site.name}</a></li>
 										{else}
-										<li><a href="/site/${site.id}" class="sites-menu-green">${site.title}</a></li>
+										<li><a href="/dev/site.html?siteid=${site.id}" class="sites-menu-green">${site.name}</a></li>
 										{/if}
 									{/for}
 								</ul>
