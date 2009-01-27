@@ -220,33 +220,46 @@ sakai.dashboard = function(){
 				});
 			}
 			
-			var isMaintainer = false;
+			sdata.Ajax.request({
+				url: "/rest/me?sid=" + Math.random(),
+				onSuccess: function(response){
+					
+					var userjson = eval('(' + response + ')');
+					var isMaintainer = false;
 			
-			//"roles":[{"permissions":["read","write","delete"],"name":"admin"}]
-			for (var i = 0; i < currentsite.roles.length; i++){
-				var role = currentsite.roles[i];
-				for (var ii = 0; ii < role.permissions.length; ii++){
-					if (role.permissions[ii] == "write"){
-						isMaintainer = true;
+					if (userjson.preferences.subjects) {
+						for (var i = 0; i < userjson.preferences.subjects.length; i++) {
+							var subject = userjson.preferences.subjects[i];
+							var siteid = subject.split(":")[0];
+							var role = subject.split(":")[1];
+							if (siteid == currentsite.id && role == "owner"){							
+								isMaintainer = true;
+							}
+						}
 					}
+					
+					if (isMaintainer) {
+						$("#management_bar").show();
+						$("#sitefiles").show();
+						$("#editbutton1").show();
+						$("#editbutton2").show();
+						$("#editbutton3").show();
+						$("#addbutton").show();
+						$("#editbutton").show();
+						$("#admin_site_settings").show();
+						$("#admin_site_files").show();
+						$("#admin_page_management").show();
+					}
+					
+					//deleteHistory();
+					doInit();
+					
+				},
+				onFail: function(httpstatus){
+				
 				}
-			}
+			});
 			
-			if (isMaintainer) {
-				$("#management_bar").show();
-				$("#sitefiles").show();
-				$("#editbutton1").show();
-				$("#editbutton2").show();
-				$("#editbutton3").show();
-				$("#addbutton").show();
-				$("#editbutton").show();
-				$("#admin_site_settings").show();
-				$("#admin_site_files").show();
-				$("#admin_page_management").show();
-			}
-			
-			//deleteHistory();
-			doInit();
 		}
 	}
 	
