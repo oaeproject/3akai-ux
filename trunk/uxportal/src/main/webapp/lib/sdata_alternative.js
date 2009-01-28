@@ -1058,7 +1058,7 @@ sdata.widgets.WidgetLoader =  {
 				} else if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe == 1) {
 					
 					var portlet = Widgets.widgets[widgetname];
-					var html = '<div style="padding:0 0 0 0; border-left: 5px solid #EEEEEE; border-right: 5px solid #EEEEEE" id="widget_content_'+ portlet.id+ '">' +
+					var html = '<div style="padding:0 0 0 0; border-left: 5px solid #EEEEEE; border-right: 5px solid #EEEEEE" allowtransparency="false" id="widget_content_'+ portlet.id+ '">' +
 		    	   			'<iframe src="'+ portlet.url+'" ' +
 		    	   			'id="widget_frame_'+ portlet.id+'" ' +
 		    	   			'name="widget_frame_'+ portlet.id+'" ' +
