@@ -130,6 +130,30 @@ var Widgets = {
 			siteportal:0,
 			img:""
 		},
+		miniclock :
+		{
+			description:"Mini Clock",
+			iframe:1,
+			url:"http://www.gmodules.com/ig/ifr?url=http://www.labpixies.com/campaigns/clock/mini_clock.xml&synd=open&w=320&h=215&title=Mini-Clock&border=%23ffffff%7C3px%2C1px+solid+%23999999?",
+            name:"Mini Clock",
+			id:"miniclock",
+			personalportal:1,
+			height:215,
+			siteportal:0,
+			img:""
+		},
+		docreuse :
+		{
+			description:"DocReuse",
+			iframe:1,
+			url:"http://prod.palette.tudor.lu/demo/portal/widgets/DocReuseWidget/index.html",
+            name:"DocReuse",
+			id:"docreuse",
+			personalportal:1,
+			height:130,
+			siteportal:0,
+			img:""
+		},
 		helloworld :
 		{
 			description:"Sakai Hackathon Example\r\n",
