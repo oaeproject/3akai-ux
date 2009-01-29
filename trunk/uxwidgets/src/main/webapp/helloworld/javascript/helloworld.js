@@ -1,9 +1,26 @@
+/*
+
+*/
 var sakai = sakai || {};
 
+/*
+
+*/
 sakai.helloworld = function(tuid,placement,showSettings){
 
+	/*
+
+	*/
+	var rootel = $("#" + tuid);
+
+	/*
+
+	*/
 	if (showSettings) {
-		$("#mainHelloContainer", $("#" + tuid)).html("No settings available<br/><br/>");
+		/*
+
+		*/
+		$("#mainHelloContainer", rootel).html("No settings available<br/><br/>");
 	}
 	else {
 	
