@@ -274,6 +274,18 @@ var Widgets = {
 			ca:1,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
+		blog :
+		{
+			description:"Blog",
+			iframe:0,
+			url:"/devwidgets/blog/blog.html",
+			name:"Blog",
+			id:"blog",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			img:"/devwidgets/blog/images/icon.png"
+		},
 		tangler :
 		{
 			description:"Tangler Forum",
