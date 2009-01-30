@@ -1,0 +1,126 @@
+<div id="mp_settings" style="display:none">
+	
+	<div id="mp_generalsettings" style="display:none">
+	
+		<b>Room 1:</b>
+		<br/><br/>
+		<table><tr><td>
+		Room Name: </td><td>
+		<input type="text" id="mp_room1name"/>
+		</td></tr><tr><td>
+		Page to link to:</td><td>
+		<input type="text" id="mp_room1page"/>
+		<a id="select_page1" href="javascript:;">Select page</a>
+		</td></tr></table>
+		
+		<br/>
+		<b>Room 2:</b>
+		<br/><br/>
+		<table><tr><td>
+		Room Name: </td><td>
+		<input type="text" id="mp_room2name"/>
+		</td></tr><tr><td>
+		Page to link to:</td><td>
+		<input type="text" id="mp_room2page"/>
+		<a id="select_page2" href="javascript:;">Select page</a>
+		</td></tr></table>
+		
+		<br/>
+		<b>Room 3:</b>
+		<br/><br/>
+		<table><tr><td>
+		Room Name: </td><td>
+		<input type="text" id="mp_room3name"/>
+		</td></tr><tr><td>
+		Page to link to:</td><td>
+		<input type="text" id="mp_room3page"/>
+		<a id="select_page3" href="javascript:;">Select page</a>
+		</td></tr></table>
+		
+		<br/>
+		<b>Room 4:</b>
+		<br/><br/>
+		<table><tr><td>
+		Room Name: </td><td>
+		<input type="text" id="mp_room4name"/>
+		</td></tr><tr><td>
+		Page to link to:</td><td>
+		<input type="text" id="mp_room4page"/>
+		<a id="select_page4" href="javascript:;">Select page</a>
+		</td></tr></table>
+	
+		<br/>
+		<input type="button" value="Save Settings" id="mp_save"/>
+		<br/><br/>
+	
+	</div>
+	<div id="mp_sitemap" style="display:none">
+		<div id="mp_sitemap_content">
+			
+		</div>
+		<div id="mp_sitemap_content_template" style="display:none"><!--
+				<b>Top pages:</b><br/><br/>
+				{var index1 = 0}
+				{for i in items}
+					{if i.top == true}
+						${index1++|eat}
+						<a style="cursor:hand; cursor:pointer" id="mp_selected_page_${i.id}" class="mp_selected_page">${i.title}</a><br/>
+					{/if}
+				{/for}
+				{if index1 == 0}
+					No top pages found<br/>
+				{/if}
+				<br/><b>Non-top pages:</b><br/><br/>
+				{var index2 = 0}
+				{for i in items}
+					{if i.top == false}
+						${index2++|eat}
+						<a style="cursor:hand; cursor:pointer" id="mp_selected_page_${i.id}" class="mp_selected_page">${i.title}</a><br/>
+					{/if}
+				{/for}
+				{if index2 == 0}
+					No non-top pages found<br/>
+				{/if}
+			--></div>
+		<br/><br/>
+		<input type="button" id="mp_sitemap_cancel" value="Cancel"/>
+		<br/><br/>
+	</div>
+
+</div>
+
+<div id="mp_output" style="display:none">
+	<div style="height:1024px; width: 761px;">
+		<img src="/devwidgets/memorypalace/images/StudentSampleFloor.png"/>
+		<div style="position:relative; left: 170px; top: -734px; font-weight: bold; font-size: 20px; height: 213px; width: 211px; text-align:center">
+			<div style="display: table; height: 213px; width: 211px; _position: relative; overflow: hidden;"> 
+				<div style=" _position: absolute; _top: 50%; display: table-cell; vertical-align: middle;">
+					<a id="link1" style=" _position: relative; _top: -50%; font-size: 20px; font-weight: bold; line-height: 30px; color:black">&nbsp;</a>
+				</div>
+			</div> 
+		</div>
+		<div style="position:relative; left: 392px; top: -945px; font-weight: bold; font-size: 20px; height: 213px; width: 211px; text-align:center;">
+			<div style="display: table; height: 213px; width: 211px; _position: relative; overflow: hidden;"> 
+				<div style=" _position: absolute; _top: 50%; display: table-cell; vertical-align: middle;">
+					<a id="link2" style=" _position: relative; _top: -50%; font-size: 20px; font-weight: bold; line-height: 30px; color:black">&nbsp;</a>
+				</div>
+			</div> 
+		</div>
+		<div style="position:relative; left: 170px; top: -934px; font-weight: bold; font-size: 20px; height: 213px; width: 211px; text-align:center">
+			<div style="display: table; height: 213px; width: 211px; _position: relative; overflow: hidden;"> 
+				<div style=" _position: absolute; _top: 50%; display: table-cell; vertical-align: middle;">
+					<a id="link3" style=" _position: relative; _top: -50%; font-size: 20px; font-weight: bold; line-height: 30px; color:black">&nbsp;</a>
+				</div>
+			</div> 
+		</div>
+		<div style="position:relative; left: 392px; top: -1145px; font-weight: bold; font-size: 20px; height: 213px; width: 211px; text-align:center;">
+			<div style="display: table; height: 213px; width: 211px; _position: relative; overflow: hidden;"> 
+				<div style=" _position: absolute; _top: 50%; display: table-cell; vertical-align: middle;">
+					<a id="link4" style=" _position: relative; _top: -50%; font-size: 20px; font-weight: bold; line-height: 30px; color:black">&nbsp;</a>
+				</div>
+			</div> 
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/memorypalace/javascript/memorypalace.js"></script>
