@@ -9,7 +9,7 @@ No settings available for this widget.
 	<br/>
 	{for i in items}
 		<div>
-			<span style="color:rgb(51, 51, 153)">Posted by ${i.userid} at ${i.time}</span>
+			<span style="color:rgb(51, 51, 153)">Posted by ${i.userid} on ${i.time} | <a href="#" style="color:rgb(51, 51, 153)">Permalink</a> | <a href="#" style="color:rgb(51, 51, 153)">Comments (0)</a></span>
 			<br/><br/>
 			${i.comment}
 		</div>
@@ -27,7 +27,8 @@ No settings available for this widget.
 		<div id="blog_add_box" style="display:none">
 			<br/>
 			Title:
-			<input type="text" id="blog_add_title"/><br/>
+			<br/>
+			<input type="text" id="blog_add_title" style="width:100%"/><br/>
 			Content:
 			<br/>
 			<TEXTAREA NAME="blog_add_textbox" value="" id="blog_add_textbox" COLS=40 ROWS=6 style="width:100%"></TEXTAREA>
