@@ -286,6 +286,18 @@ var Widgets = {
 			ca:1,
 			img:"/devwidgets/blog/images/icon.png"
 		},
+		memorypalace :
+		{
+			description:"Memory Palace",
+			iframe:0,
+			url:"/devwidgets/memorypalace/memorypalace.html",
+			name:"Memory Palace",
+			id:"memorypalace",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			img:"/devwidgets/memorypalace/images/StudentSampleFloor.png"
+		},
 		tangler :
 		{
 			description:"Tangler Forum",
