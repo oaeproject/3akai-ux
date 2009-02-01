@@ -126,13 +126,42 @@ sakai.newaccount = function(){
         	postData : data,
         	contentType : "application/x-www-form-urlencoded",
             onSuccess : function(data) {
-				$("#saveinfo1").show();
-				$("#spacer").show();
 				
-				$("#check_availability").hide();
-				$("#save_account").hide();
-				$("#cancel_button").text("Go Back");
+				var resp = eval('(' + data + ')');
+				var uuid = resp.uuid;
 				
+				// Save profile information for this new user
+				
+				var k = ["firstName","lastName","contactinfo"];
+				var a = ["u","u","u"];
+				
+				// Construct contactinfo string
+				
+				var contactinfo = {"unidepartment":null,"unicollege":null,"uniemail":$("#email").val(),"uniphone":null,"unimobile":null,"homeemail":null,"homephone":null,"homemobile":null,"uniaddress":null,"homeaddress":null};
+				var v = [$("#firstname").val(),$("#lastname").val(),sdata.JSON.stringify(contactinfo)];
+				
+				var url = "/rest/patch/f/_profiles/" + uuid + "/profile.json";
+				var tosend = {"k":k,"a":a,"v":v};
+				
+				sdata.Ajax.request({
+		        	url : url,
+		        	httpMethod : "POST",
+		        	postData : tosend,
+		        	contentType : "application/x-www-form-urlencoded",
+		            onSuccess : function(data) {
+						
+						$("#saveinfo1").show();
+						$("#spacer").show();
+						$("#check_availability").hide();
+						$("#save_account").hide();
+						$("#cancel_button").text("Go Back");
+						
+					},
+					onFail: function(data){
+						resetErrorFields();
+						setError("<b>Oops</b> A problem has occured. Please try again");
+					}
+				});
 			},
 			onFail: function(data){
 				resetErrorFields();
