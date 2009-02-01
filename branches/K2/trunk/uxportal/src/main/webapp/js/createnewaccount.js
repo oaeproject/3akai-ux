@@ -162,6 +162,7 @@ sakai.newaccount = function(){
 						setError("<b>Oops</b> A problem has occured. Please try again");
 					}
 				});
+				
 			},
 			onFail: function(data){
 				resetErrorFields();
