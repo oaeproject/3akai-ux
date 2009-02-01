@@ -84,10 +84,10 @@ sakai.profile = function(){
 			
 			if (user && user != me.preferences.uuid){
 		   		myprofile = false;
-				fileUrl = "/sdata/f/_profiles/" + user + "/profile.json?sid=" + Math.random();
+				fileUrl = "/f/_profiles/" + user + "/profile.json?sid=" + Math.random();
 		   		sdata.Ajax.request({
 					httpMethod: "GET",
-					url: "/sdata/profile?userId=" + user + "&sid=" + Math.random(),
+					url: "/sdata" + fileUrl,
 					onSuccess: function(data){
 						json = eval('(' + data + ')');
 						fillInFields();
@@ -99,10 +99,10 @@ sakai.profile = function(){
 		   } else if (!showEdit){
 		   		myprofile = false;
 				$("#link_edit_profile").show();
-				fileUrl = "/sdata/f/_profiles/" + me.preferences.uuid + "/profile.json?sid=" + Math.random();
+				fileUrl = "/f/_profiles/" + me.preferences.uuid + "/profile.json?sid=" + Math.random();
 		   		sdata.Ajax.request({
 					httpMethod: "GET",
-					url: fileUrl,
+					url: "/sdata" + fileUrl,
 					onSuccess: function(data){
 						json = eval('(' + data + ')');
 						fillInFields();
@@ -116,10 +116,10 @@ sakai.profile = function(){
 					user = false;
 				}
 				$("#link_view_profile").show();
-				fileUrl = "/sdata/f/_profiles/" + me.preferences.uuid + "/profile.json?sid=" + Math.random();
+				fileUrl = "/f/_profiles/" + me.preferences.uuid + "/profile.json?sid=" + Math.random();
 		   		sdata.Ajax.request({
 					httpMethod: "GET",
-					url: fileUrl,
+					url: "/sdata" + fileUrl,
 					onSuccess: function(data){
 						json = eval('(' + data + ')');
 						
@@ -1022,6 +1022,8 @@ sakai.profile = function(){
 		var homecontactinfo = {"txt_homeemail":"homeemail","txt_homephone":"homephone","txt_homemobile":"homemobile","txt_homeaddress":"homeaddress"};
 		
 		var tosend = {};
+		var key = false;
+		var val = false;
 		
 		var disappear = false;
 		ui.style.height = "16px";
@@ -1034,7 +1036,8 @@ sakai.profile = function(){
 		var value = ev.value;
 		if (ui.id == "txt_firstname"){
 			
-			tosend["firstName"] = value;
+			key = "firstName";
+			val = value;
 			json.firstName = value;
 			if (disappear){
 				$("#firstname").hide();
@@ -1042,7 +1045,8 @@ sakai.profile = function(){
 			
 		} else if (ui.id == "txt_lastname"){
 			
-			tosend["lastName"] = value;
+			key = "lastName";
+			val = value;
 			json.lastName = value;
 			if (disappear){
 				$("#lastname").hide();
@@ -1050,7 +1054,8 @@ sakai.profile = function(){
 			
 		} else if (ui.id == "txt_uniemail"){
 			
-			tosend["email"] = value;
+			key = "email";
+			val = value;
 			json.email = value;
 			if (disappear){
 				$("#uniemail").hide();
@@ -1063,7 +1068,8 @@ sakai.profile = function(){
 				basic = eval('(' + json.basic + ')');
 			}
 			basic[basicfields[ui.id]] = value;
-			tosend["basic"] = sdata.JSON.stringify(basic);
+			key = "basic";
+			val = sdata.JSON.stringify(basic);
 			json.basic = sdata.JSON.stringify(basic);
 				
 			if (disappear){
@@ -1077,7 +1083,8 @@ sakai.profile = function(){
 				aboutme = eval('(' + json.aboutme + ')');
 			}
 			aboutme[aboutmefields[ui.id]] = value;
-			tosend["aboutme"] = sdata.JSON.stringify(aboutme);
+			key = "aboutme";
+			val = sdata.JSON.stringify(aboutme);
 			json.aboutme = sdata.JSON.stringify(aboutme);
 				
 			if (disappear){
@@ -1091,7 +1098,8 @@ sakai.profile = function(){
 				contactinfo = eval('(' + json.contactinfo + ')');
 			}
 			contactinfo[unicontactinfo[ui.id]] = value;
-			tosend["contactinfo"] = sdata.JSON.stringify(contactinfo);
+			key = "contactinfo";
+			val = sdata.JSON.stringify(contactinfo);
 			json.contactinfo = sdata.JSON.stringify(contactinfo);
 				
 			if (disappear){
@@ -1105,7 +1113,8 @@ sakai.profile = function(){
 				contactinfo = eval('(' + json.contactinfo + ')');
 			}
 			contactinfo[homecontactinfo[ui.id]] = value;
-			tosend["contactinfo"] = sdata.JSON.stringify(contactinfo);
+			key = "contactinfo";
+			val = sdata.JSON.stringify(contactinfo);
 			json.contactinfo = sdata.JSON.stringify(contactinfo);
 				
 			if (disappear){
@@ -1114,14 +1123,18 @@ sakai.profile = function(){
 				
 		}
 		
-		var data = tosend;
+		var a = ["u","u"];
+		var k = [key,"test"];
+		var v = [val,"test"];
+		
+		var tosend = {"k":k,"a":a,"v":v};
 		
 		sdata.Ajax.request({
-        	url :"/sdata/profile",
+        	url : "/rest/patch" + fileUrl,
         	httpMethod : "POST",
-            postData : data,
+            postData : tosend,
             contentType : "application/x-www-form-urlencoded",
-            onSuccess : function(data) {
+		    onSuccess : function(data) {
 				
 			},
 			onFail : function(data){
