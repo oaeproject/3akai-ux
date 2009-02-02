@@ -262,6 +262,16 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0
 		},
+		chat2 :
+		{
+			description:"chat2",
+			iframe:0,
+			url:"/devwidgets/chat2/chat.html",
+			name:"chat2",
+			id:"chat2",
+			personalportal:0,
+			siteportal:0
+		},
 		youtubevideo :
 		{
 			description:"YouTube Video",
