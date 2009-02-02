@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" class="fl-theme-mist">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+        <link rel="stylesheet" type="text/css" href="css2/fluid.reset.css" />
+        <link rel="stylesheet" type="text/css" href="css2/fluid.theme.mist.css" />
+        <link rel="stylesheet" type="text/css" href="css2/fluid.theme.hc.css" />
+        <link rel="stylesheet" type="text/css" href="css2/fluid.theme.rust.css" />
+        <link rel="stylesheet" type="text/css" href="css2/fluid.layout.css" />
+        <link rel="stylesheet" type="text/css" href="css2/fluid.text.css" />
+		
+        <link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
+        <link rel="stylesheet" type="text/css" href="sakai_css/sakai.theme.mist.css" />
+        <link rel="stylesheet" type="text/css" href="sakai_css/sakai.theme.rust.css" />
+        <link rel="stylesheet" type="text/css" href="sakai_css/sakai.theme.hc.css" />
+		
+		<link rel="stylesheet" href="/dev/css/portal.css" type="text/css" />
+		
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/Fluid-all.js"></script> 
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.cookie.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+
+        <title>Sakai</title>
+       
+    </head>
+
+    <body>
+    	
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+
+        <div id="header" class="header fl-knockout">
+            <h1>__MSG__MY_DASHBOARD__</h1>
+            <ul>
+                <li><strong id="userid"></strong> <a href="/portal/logout">(Sign Out)</a></li>
+                <li><span id="widget_mypreferences" class="widget_inline">My Preferences</span></li>
+                <li><a accesskey='6' href='/portal/help/main' onclick="window.open('/portal/help/main', 'Help', 'resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600'); return false">Help</a></a>
+            </ul> 
+        </div>
+
+        <!-- WIDGETS COLUMNS CONTAINER -->
+        <div id="widgetscontainer" class="content fl-col-flex4 fl-container-auto"></div>
+		
+		<div id="widgetscontainer_template"><!--
+			{var index = 0}
+			{for c in columns}
+			${index++|eat}
+            <div class="fl-col groupWrapper" id="column_uid_${index}"> 
+                {for p in c.portlets}
+                <div class="fl-widget widget1" id="${p.id}_${p.uid}">
+                    <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
+                        <a href="#" class="fl-force-left fl-icon more">More</a>
+                        <a href="#" class="fl-force-right fl-icon close">Close</a>
+                        <a href="#" class="fl-force-right fl-icon settings">Settings</a>
+                        <h2>${p.title}</h2>
+                    </div>                 
+					{if p.display == "none"}
+						<div id="${p.uid}_container" style="display:none">
+					{else}
+						<div id="${p.uid}_container">
+					{/if}
+					<div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+					</div>   
+                </div>
+				{/for}
+            </div>
+			{/for}
+		--></div>
+
+        <!-- LAYOUT AND APPEARANCE -->
+        <div id="layout" class="lookNfeel fl-container fl-fix">
+            <a href="#" class="addWidget fl-button-left fl-linearEnabled"><strong>Add Widgets </strong></a>
+            <a href="#" class="skin fl-button-left fl-linearEnabled"><strong>Edit Appearance</strong></a>
+        </div>
+
+        <!-- FOOTER -->
+		<!--
+        <div id="footer" class="footer fl-container-flex fl-knockout">
+            <p>
+                &copy; 2004-2008 The Sakai Foundation <br />
+                Portions of Sakai are copyrighted by other parties as described in the <a href="#">Acknowledgments screen</a>
+            </p>
+        </div>
+		-->
+        
+        <!-- CHAT BAR -->
+		<div id="widget_chat2" class="chat fl-container widget_inline"></div>
+        <!-- <div id="chat_bar" class="chat fl-container">
+            <ul class="myStuff fl-force-left">
+                <li><a href="#" id="my_profile">My Profile</a></li>
+                <li><a href="#" id="my_profile">My People</a></li>
+                <li><a href="#" id="my_profile">My Inbox</a></li>
+            </ul>
+            <ul class="connections fl-force-right">
+                <li><a href="#" id="conn_online" class="online">Online Connections</a></li>
+            </ul>
+        </div> -->
+		
+		<script type="text/javascript" language="JavaScript" src="/dev/js/dashboard2.js"></script>
+        
+    </body>
+</html>
