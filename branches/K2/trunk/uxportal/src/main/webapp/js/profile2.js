@@ -429,11 +429,16 @@ sakai.profile = function(){
 						var data = {};
 						data[savestring] = sdata.JSON.stringify(obj.items);
 						json[savefield] = data[savestring];
+						
+						var a = ["u"];
+						var k = ["" + savefield];
+						var v = ["" + data[savestring]];
+						var tosend = {"v":v,"k":k,"a":a};
 							
 						sdata.Ajax.request({
-					       	url :"/sdata/profile",
+					       	url :"/rest/patch" + fileUrl,
 					       	httpMethod : "POST",
-					           postData : data,
+					           postData : tosend,
 					           contentType : "application/x-www-form-urlencoded",
 					           onSuccess : function(data) {
 								
@@ -541,10 +546,15 @@ sakai.profile = function(){
 				data[savestring] = sdata.JSON.stringify(obj.items);
 				json[savefield] = data[savestring];
 				
+				var a = ["u"];
+				var k = ["" + savefield];
+				var v = ["" + data[savestring]];
+				var tosend = {"v":v,"k":k,"a":a};
+				
 				sdata.Ajax.request({
-					url: "/sdata/profile",
+					url: "/rest/patch" + fileUrl,
 					httpMethod: "POST",
-					postData: data,
+					postData: tosend,
 					contentType: "application/x-www-form-urlencoded",
 					onSuccess: function(data){
 					
@@ -599,10 +609,15 @@ sakai.profile = function(){
 				data[savestring] = sdata.JSON.stringify(obj.items);
 				json[savefield] = data[savestring];
 				
+				var a = ["u"];
+				var k = ["" + savefield];
+				var v = ["" + data[savestring]];
+				var tosend = {"v":v,"k":k,"a":a};
+				
 				sdata.Ajax.request({
-					url: "/sdata/profile",
+					url: "/rest/patch" + fileUrl,
 					httpMethod: "POST",
-					postData: data,
+					postData: tosend,
 					contentType: "application/x-www-form-urlencoded",
 					onSuccess: function(data){
 					
@@ -1123,9 +1138,9 @@ sakai.profile = function(){
 				
 		}
 		
-		var a = ["u","u"];
-		var k = [key,"test"];
-		var v = [val,"test"];
+		var a = ["u"];
+		var k = [key];
+		var v = [val];
 		
 		var tosend = {"k":k,"a":a,"v":v};
 		
