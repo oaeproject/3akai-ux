@@ -4,19 +4,21 @@ sakai.myprofile = function(tuid,placement,showSettings){
 	
 	var json = false;
 	var rootel = $("#" + tuid);
+	var me = false;
 
 	if (showSettings){
 		$("#mainProfileContainer", $("#" + tuid)).html("No settings available<br/><br/>");
 	} else {
 		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/profile?sid=" + Math.random(),
+			url: "/rest/me",
 			onSuccess: function(data){
-				json = eval('(' + data + ')');
+			    me = eval('(' + data + ')');
+				json = me.profile;
 				if (json.firstName && json.lastName){
 					$("#" + tuid + " #myprofile_username").text(json.firstName + " " + json.lastName);
 				} else {
-					$("#" + tuid + " #myprofile_username").text(json.userId);
+					$("#" + tuid + " #myprofile_username").text(me.preferences.uuid);
 				}
 				if (json.basic){
 					var basic = eval('(' + json.basic + ')');
@@ -26,7 +28,7 @@ sakai.myprofile = function(tuid,placement,showSettings){
 				}
 				if (json.picture){
 					var pict = eval('(' + json.picture + ')');
-					$("#profile_picture").html("<img src='/sdata/f/public/" + json.userId + "/" + pict.name + "' width='78' class='my-profile-img' />");
+					$("#profile_picture").html("<img src='/sdata/f/_private" + me.userStoragePrefix + pict.name + "' width='78' class='my-profile-img' />");
 				} else {
 					$("#profile_picture").html("<img src='/dev/img/my-profile-img.jpg' width='78' height='78' class='my-profile-img' />");
 				}
@@ -67,10 +69,17 @@ sakai.myprofile = function(tuid,placement,showSettings){
 			basic.status = ev.value;
 		}
 		var data = {"basic":sdata.JSON.stringify(basic)};
+		
+		var a = ["u"];
+		var k = ["basic"];
+		var v = [sdata.JSON.stringify(basic)];
+		
+		var tosend = {"k":k,"v":v,"a":a};
+		
 		sdata.Ajax.request({
-        	url :"/sdata/profile",
+        	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
         	httpMethod : "POST",
-            postData : data,
+            postData : tosend,
             contentType : "application/x-www-form-urlencoded",
             onSuccess : function(data) {
 
