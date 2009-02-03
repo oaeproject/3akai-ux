@@ -85,17 +85,6 @@ var Widgets = {
 		//}
 	},
 	widgets: {
-	    tools :
-		{
-			description:"A list of tools that are available for personal use\r\n",
-			iframe:0,
-			url:"/devwidgets/tools/tools.html",
-			name:"Personal Tools",
-			id:"tools",
-			personalportal:1,
-			siteportal:0,
-			img:"/dev/img/tools.png"
-		},
 		sites :
 		{
 			description:"Listing of the sites I'm a member of\r\n",
