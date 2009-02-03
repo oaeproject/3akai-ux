@@ -27,7 +27,7 @@ sakai.dashboard = function(){
 			onSuccess: function(response){
 				var person = eval('(' + response + ')');
 				if (person.preferences.uuid){
-					inituser = person.preferences.uuid;
+					inituser = person.profile.firstName + " " + person.profile.lastName;
 					$("#userid").text(inituser);
 					$("#loginLink").hide();
 				} else {
