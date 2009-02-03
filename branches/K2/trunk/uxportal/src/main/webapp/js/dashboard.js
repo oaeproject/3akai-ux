@@ -212,8 +212,8 @@ sakai.dashboard = function(){
 					document.location = "/dev/index.html";
 				}
 				else {
-					if (person.preferences.firstname || person.preferences.lastname) {
-						$("#userid").text(person.preferences.firstname + " " + person.preferences.lastname);
+					if (person.profile.firstName || person.profile.lastName) {
+						$("#userid").text(person.profile.firstName + " " + person.profile.lastName);
 					}
 					else {
 						$("#userid").text(inituser);
