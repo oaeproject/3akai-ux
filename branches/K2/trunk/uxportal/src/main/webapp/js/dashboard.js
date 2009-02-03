@@ -67,9 +67,8 @@ sakai.dashboard = function(){
 		columns[2] = [];		
 
 		columns[0][0] = "myprofile";
-		columns[0][1] = "myfriends";
 		columns[1][0] = "sites";
-		columns[2][0] = "tools";
+		columns[2][0] = "myfriends";
 
 		var jsonstring = '{"columns":{';
 		
