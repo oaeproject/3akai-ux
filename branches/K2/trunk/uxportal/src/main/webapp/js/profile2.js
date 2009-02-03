@@ -11,12 +11,14 @@ sakai.profile = function(){
    var myprofile = true;
    var me = false;
    
+   var totalprofile = false;
+   
    var fileUrl = "";
    
    // Fields that cannot be edited
    
-   //var uneditable = ["txt_firstname","txt_unirole"];
-   var uneditable = [];
+   var uneditable = ["txt_firstname","txt_lastname"];
+   //var uneditable = [];
    
    // Fields for papers
    
@@ -73,23 +75,31 @@ sakai.profile = function(){
 		url: "/rest/me?sid=" + Math.random(),
 		onSuccess: function(data){
 			me = eval('(' + data + ')');
-			//if (me.items.firstname){
-			//	$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.items.firstname);
-			//} else if (me.items.lastname){
-			//	$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.items.lastname);
-			//} else {
-			//	$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.items.displayId);
-			//}
-			//$("#user_id").text(me.items.firstname + " " + me.items.lastname);
+			totalprofile = me;
+			if (me.profile) {
+				if (me.profile.firstName) {
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
+				}
+				else if (me.profile.lastName) {
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
+				}
+				else {
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.preferences.uuid);
+				}
+			} else {
+				
+			}
+			$("#user_id").text(me.profile.firstName + " " + me.profile.lastName);
 			
 			if (user && user != me.preferences.uuid){
 		   		myprofile = false;
-				fileUrl = "/f/_profiles/" + user + "/profile.json?sid=" + Math.random();
+				fileUrl = "/rest/me/" + user + "?sid=" + Math.random();
 		   		sdata.Ajax.request({
 					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
+					url: fileUrl,
 					onSuccess: function(data){
-						json = eval('(' + data + ')');
+						totalprofile = eval('(' + data + ')');
+						json = totalprofile.profile;
 						fillInFields();
 					},
 					onFail: function(status){
@@ -99,7 +109,7 @@ sakai.profile = function(){
 		   } else if (!showEdit){
 		   		myprofile = false;
 				$("#link_edit_profile").show();
-				fileUrl = "/f/_profiles/" + me.preferences.uuid + "/profile.json?sid=" + Math.random();
+				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
 		   		sdata.Ajax.request({
 					httpMethod: "GET",
 					url: "/sdata" + fileUrl,
@@ -116,7 +126,7 @@ sakai.profile = function(){
 					user = false;
 				}
 				$("#link_view_profile").show();
-				fileUrl = "/f/_profiles/" + me.preferences.uuid + "/profile.json?sid=" + Math.random();
+				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
 		   		sdata.Ajax.request({
 					httpMethod: "GET",
 					url: "/sdata" + fileUrl,
@@ -211,7 +221,7 @@ sakai.profile = function(){
 		var inbasic = 0;
 		var basic = false;
 		
-		$("#status_begin").html("<b><i>" + json.displayName + "</b></i> ");
+		$("#status_begin").html("<b><i>" + json.firstName + "</b></i> ");
 		if (json.basic){
 			var basic = eval('(' + json.basic + ')');
 			if (basic.status){
@@ -245,7 +255,7 @@ sakai.profile = function(){
 			$("#lastname").hide();
 		}
 		
-		if (myprofile || (user == false || user == me.items.userid)){
+		if (myprofile || (user == false || user == me.preferences.uuid)){
 			$("#sitetitle").text("My Profile");
 		} else {
 			if (json.firstName || json.lastName){
@@ -647,11 +657,11 @@ sakai.profile = function(){
 		
 		if (json.picture){
 			var picture = eval('(' + json.picture + ')');
-			$("#picture_holder").html("<img src='/sdata/f/public/" + json.userId + "/" + picture.name + "' width='250px'/>");
+			$("#picture_holder").html("<img src='/sdata/f/_private" + totalprofile.userStoragePrefix + picture.name + "' width='250px'/>");
 		}
 		
-		$("#picture_form").attr("action","/sdata/f/public/" + json.userId);
-		profileinfo_userId = json.userId;
+		$("#picture_form").attr("action","/sdata/f/_private" + totalprofile.userStoragePrefix);
+		profileinfo_userId = totalprofile.userStoragePrefix;
 		
 		fillInBasic();
 		
@@ -1265,12 +1275,18 @@ var Profile = {
 		var stringtosave = sdata.JSON.stringify(tosave);
 		var data = {"picture":stringtosave};
 		
-		$("#picture_holder").html("<img src='/sdata/f/public/" + profileinfo_userId + "/" + resp.uploads.file.name + "' width='250px'/>");
+		$("#picture_holder").html("<img src='/sdata/f/_private/" + profileinfo_userId + "/" + resp.uploads.file.name + "' width='250px'/>");
+		
+		var a = ["u"];
+		var k = ["picture"];
+		var v = [stringtosave];
+		
+		var tosend = {"k":k,"v":v,"a":a};
 		
 		sdata.Ajax.request({
-        	url :"/sdata/profile",
+        	url :"/rest/patch/f/_private" + profileinfo_userId + "profile.json",
         	httpMethod : "POST",
-            postData : data,
+            postData : tosend,
             contentType : "application/x-www-form-urlencoded",
             onSuccess : function(data) {
 				
