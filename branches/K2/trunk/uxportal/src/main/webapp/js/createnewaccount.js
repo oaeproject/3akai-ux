@@ -128,45 +128,12 @@ sakai.newaccount = function(){
             onSuccess : function(data) {
 				
 				var resp = eval('(' + data + ')');
-				var uuid = resp.uuid;
-				
-				// Save profile information for this new user
-				
-				var k = ["firstName","lastName","email"];
-				var a = ["u","u","u"];
-				
-				// Construct contactinfo string
-				
-				var v = [$("#firstname").val(),$("#lastname").val(),$("#email").val()];
-				
-				// Construct URL using SHA algorithm
-				
-				var hashed = sha1Hash(uuid);
-				var folder1 = hashed.substring(0,2).toUpperCase();
-				var folder2 = hashed.substring(2,4).toUpperCase();
-				
-				var url = "/rest/patch/f/_private/" + folder1 + "/" + folder2 + "/" + uuid + "/profile.json";
-				var tosend = {"k":k,"a":a,"v":v};
-				
-				sdata.Ajax.request({
-		        	url : url,
-		        	httpMethod : "POST",
-		        	postData : tosend,
-		        	contentType : "application/x-www-form-urlencoded",
-		            onSuccess : function(data) {
 						
-						$("#saveinfo1").show();
-						$("#spacer").show();
-						$("#check_availability").hide();
-						$("#save_account").hide();
-						$("#cancel_button").text("Go Back");
-						
-					},
-					onFail: function(data){
-						resetErrorFields();
-						setError("<b>Oops</b> A problem has occured. Please try again");
-					}
-				});
+				$("#saveinfo1").show();
+				$("#spacer").show();
+				$("#check_availability").hide();
+				$("#save_account").hide();
+				$("#cancel_button").text("Go Back");
 				
 			},
 			onFail: function(data){
