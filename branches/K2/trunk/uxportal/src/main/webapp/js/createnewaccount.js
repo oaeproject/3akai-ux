@@ -145,7 +145,7 @@ sakai.newaccount = function(){
 				var folder1 = hashed.substring(0,2).toUpperCase();
 				var folder2 = hashed.substring(2,4).toUpperCase();
 				
-				var url = "/rest/patch/p/" + folder1 + "/" + folder2 + "/" + uuid + "/profile.json";
+				var url = "/rest/patch/f/_private/" + folder1 + "/" + folder2 + "/" + uuid + "/profile.json";
 				var tosend = {"k":k,"a":a,"v":v};
 				
 				sdata.Ajax.request({
