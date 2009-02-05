@@ -1,14 +1,14 @@
 <!-- 
-
+This is the main container of where all of the DOM elements owned by this widget will be in. There is no need for a single all-containing container, but it does make it easier to control the appearance of your widget. In a slightly more advanced widget (with its own settings view), you would probably want to use 2 containers, being a output container and a settings container
 -->
 <div id="mainHelloContainer">
 	<!-- 
-
+	This p tag will be shown on the screen. The helloworld_username span is a placeholder which will be used to pull in and display the username of the current user.
 	-->
 	<p>Hello World, <span id="helloworld_username"></span></p>
 </div>
 
 <!-- 
-
+This is the javascript file that will take care of all of the interactions for this widget. Mind that we put the file at the bottom of the widget, because our javascript code will require all of the DOM elements to be available.
 -->
 <script type="text/javascript" language="JavaScript" src="/devwidgets/helloworld/javascript/helloworld.js"></script>
