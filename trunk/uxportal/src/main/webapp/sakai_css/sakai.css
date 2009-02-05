@@ -1,7 +1,9 @@
 /*********************************************************************/
 /* FSS OVERRIDES */
 .fl-theme-mist {background-color:#fff !important;}
-
+:focus {
+	outline:none;
+}
 
 /*********************************************************************/
 html {overflow:auto;}
@@ -44,7 +46,7 @@ p {margin:0; padding-bottom:1em;}
 .header h1 {font:normal 2.5em Arial, Helvetica, sans-serif; margin:0; padding:0; color:#fff; border:none; float:left;}
 .header ul {margin:1.2em 0 0 1em; padding:0; overflow:hidden; float:left; display:inline; font-size:1.1em}
 .header ul li {display:inline; border-left:1px solid #CCF1FF; padding: 0 10px; margin-left:-5px; font-weight:bold;}
-.header ul li a {color:#CCF1FF !important; font-weight:normal; font-size:0.85em}
+.header ul li a {color:#CCF1FF !important; font-weight:normal; font-size:0.85em;}
 .header ul li a:hover {color:#CCF1FF !important;}
 
 /************************************/
