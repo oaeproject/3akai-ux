@@ -29,7 +29,7 @@ sakai._findpeople = {
 		
 		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/profile?search=" + tosearchfor + "&page=" + page + "&items=5&sid=" + Math.random(),
+			url: "/rest/search?p=" + (page - 1) + "&path=/_private&n=5&q=" + tosearchfor + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
 			onSuccess: function(data){
 				sakai._findpeople.list = eval('(' + data + ')');
 				sakai._findpeople.printList();
@@ -82,9 +82,9 @@ sakai._findpeople = {
 		
 		sakai._findpeople.isbusy = true;
 		
-		$("#numberofresults").text(sakai._findpeople.list.total);
+		$("#numberofresults").text(sakai._findpeople.list.size);
 		
-		sakai._findpeople.totalpages = Math.ceil(sakai._findpeople.list.total / 5);
+		sakai._findpeople.totalpages = Math.ceil(sakai._findpeople.list.size / sakai._findpeople.list.pageSize);
 		
 		var select = document.getElementById("pages");
 		select.options.length = 0;
@@ -136,41 +136,42 @@ sakai._findpeople = {
 	doList : function(){
 		var finaljson = {};
 		finaljson.items = [];
-		for (var i = 0; i < 10; i++){
-			try {
-				var person = sakai._findpeople.list.items[i];
+		if (sakai._findpeople.list.results) {
+			for (var i = 0; i < sakai._findpeople.list.results.length; i++) {
+				var item = sakai._findpeople.list.results[i];
+				var person = eval('(' + item.content + ')');
 				if (person) {
 					var index = finaljson.items.length;
 					finaljson.items[index] = {};
-					finaljson.items[index].userid = person.userid;
-					var person = sakai._findpeople.list.items[i];
+					finaljson.items[index].userid = item.nodeproperties.properties["jcr:uuid"];
+					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
+					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
 					if (person.picture) {
 						var picture = eval('(' + person.picture + ')');
-						finaljson.items[index].picture = "/sdata/f/public/" + person.userid + "/" + picture.name;
+						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {
 						var str = person.firstName;
 						str += " " + person.lastName;
 						finaljson.items[index].name = str;
-					} else {
-						finaljson.items[index].name = person.userid;
 					}
-					if (person.basic){
+					else {
+						finaljson.items[index].name = finaljson.items[index].userid;
+					}
+					if (person.basic) {
 						var basic = eval('(' + person.basic + ')');
-						if (basic.unirole){
+						if (basic.unirole) {
 							finaljson.items[index].role = basic.unirole;
 						}
-						if (basic.unicollege){
+						if (basic.unicollege) {
 							finaljson.items[index].college = basic.unicollege;
 						}
-						if (basic.unidepartment){
+						if (basic.unidepartment) {
 							finaljson.items[index].department = basic.unidepartment;
 						}
 					}
 				}
-			} catch (err){
-				alert(err);
-			};
+			}
 		}
 		
 		$("#list_rendered").html(sdata.html.Template.render("list_rendered_template", finaljson));
