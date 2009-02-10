@@ -193,10 +193,11 @@ sakai.findpeople = function(){
 	
 	sdata.Ajax.request({
 		httpMethod: "GET",
-		url: "/sdata/me?sid=" + Math.random(),
+		url: "/rest/me?sid=" + Math.random(),
 		onSuccess: function(data){
-			var me = eval('(' + data + ')');
-			$("#user_id").text(me.items.firstname + " " + me.items.lastname);
+			var json = eval('(' + data + ')');
+			var me = json.profile;
+			$("#user_id").text(me.firstName + " " + me.lastName);
 		},
 		onFail: function(status){
 				
