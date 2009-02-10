@@ -143,7 +143,7 @@ sakai._findpeople = {
 				if (person) {
 					var index = finaljson.items.length;
 					finaljson.items[index] = {};
-					finaljson.items[index].userid = item.nodeproperties.properties["jcr:uuid"];
+					finaljson.items[index].userid = item.path.split("/")[4];
 					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
 					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
 					if (person.picture) {
