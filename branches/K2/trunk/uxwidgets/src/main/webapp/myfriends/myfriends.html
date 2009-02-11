@@ -19,6 +19,7 @@
     </div>
 </div>
 <div id="friends_list_template"><!--
+	<div style="background-color:#FFFFFF">
 	{for i in items}
 	<div class="widget1-content-in">
         <div class="block my-friends">
@@ -45,15 +46,16 @@
         </div>
     </div>
 	{forelse}
-		<br/>
+		<div style="padding:10px">
 		You currently have no connections
-		<br/>
+		</div>
 	{/for}
 	{if showMore}
-		<br/>
+		<div style="padding:10px">
 		<a href="/dev/sn/people.html">See my other connections</a>
-		<br/>
+		</div>
 	{/if}
+	</div>
 --></div>
 <div class="widget1-content mockup" id="friends_list">
     
