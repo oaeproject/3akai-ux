@@ -296,7 +296,7 @@ var Widgets = {
 			ca:1,
 			img:"/devwidgets/blog/images/icon.png"
 		},
-		/*memorypalace :
+		memorypalace :
 		{
 			description:"Memory Palace",
 			iframe:0,
@@ -305,9 +305,9 @@ var Widgets = {
 			id:"memorypalace",
 			personalportal:0,
 			siteportal:0,
-			ca:1,
+			ca:0,
 			img:"/devwidgets/memorypalace/images/StudentSampleFloor.png"
-		},*/
+		},
 		tangler :
 		{
 			description:"Tangler Forum",
