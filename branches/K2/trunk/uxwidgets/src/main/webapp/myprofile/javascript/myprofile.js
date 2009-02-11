@@ -43,12 +43,22 @@ sakai.myprofile = function(tuid,placement,showSettings){
 	
 	sdata.Ajax.request({
 		httpMethod: "GET",
-		url: "/sdata/connection?show=waiting&count=all&sid=" + Math.random(),
+		url: "/rest/friend/status?sid=" + Math.random(),
 		onSuccess: function(data){
 			var json2 = eval('(' + data + ')');
-			if (json2.total == 0){
+			
+			var total = 0;
+			if (json2.status.friends){
+				for (var i = 0; i < json2.status.friends.length; i++){
+					if (json2.status.friends[i].status == "INVITED"){
+						total++;
+					}
+				}
+			}
+			
+			if (total == 0){
 				$("#friend_requests", rootel).html("No Connection Requests");
-			} else if (json2.total == 1){
+			} else if (total == 1){
 				$("#friend_requests", rootel).html("1 Connection Request");
 			} else {
 				$("#friend_requests", rootel).html(json2.total + " Connection Requests");
