@@ -100,7 +100,13 @@ sakai.profile = function(){
 					onSuccess: function(data){
 						totalprofile = eval('(' + data + ')');
 						json = totalprofile.profile;
+						
+						if (user && user != me.preferences.uuid) {
+							doAddButton();
+						}
+						
 						fillInFields();
+						
 					},
 					onFail: function(status){
 						
@@ -902,17 +908,15 @@ sakai.profile = function(){
 			$("#additional").hide();
 		}
 		
-		doAddButton();
-		
    }
    
    $("#add_people_confirm").bind("click", function(ev){
    	
-	var inviter = json.userId;
-	var data = {"accept" : true, "inviter" : inviter};
+	var inviter = user;
+	var data = {"friendUuid" : inviter};
 	
 	sdata.Ajax.request({
-		url: "/sdata/connection/?sid=" + Math.random(),
+		url: "/rest/friend/connect/accept",
 		httpMethod: "POST",
 		onSuccess: function(data){
 			doAddButton();
@@ -929,36 +933,46 @@ sakai.profile = function(){
    var doAddButton = function(){
    		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/connection?check=true&user=" + json.userId + "&sid=" + Math.random(),
+			url: "/rest/friend/status?sid=" + Math.random(),
 			onSuccess: function(data){
 				var resp = eval('(' + data + ')');
-				if (resp.status){
+				
+				var status = false;
+				if (resp.status.friends){
+					for (var i = 0; i < resp.status.friends.length; i++){
+						if (resp.status.friends[i].friendUuid == user){
+							status = resp.status.friends[i].status;
+						}
+					}
+				}
+				
+				if (status){
 					
 					$("#add_people").hide();
 					$("#add_people_status_pending").hide();
 					$("#add_people_status_connection").hide();
 					$("#add_people_status_invited").hide();
 					
-					if (resp.status == "pending"){
+					if (status == "PENDING"){
 						$("#add_people_status_pending").show();
-					} else if (resp.status == "connection"){
+					} else if (status == "ACCEPTED"){
 						$("#add_people_status_connection").show();
-					} else if (resp.status == "invited"){
+					} else if (status == "INVITED"){
 						$("#add_people_status_invited").show();
 					}
 					
 				} else {
 					$("#add_people").show();
 					
-					if (json.firstName){
-						$("#add_friend_displayname").text(json.firstName);
-						$("#add_friend_displayname2").text(json.firstName);
-					} else if (json.lastName) {
-						$("#add_friend_displayname").text(json.lastName);
-						$("#add_friend_displayname2").text(json.lastName);
+					if (totalprofile.profile.firstName){
+						$("#add_friend_displayname").text(totalprofile.profile.firstName);
+						$("#add_friend_displayname2").text(totalprofile.profile.firstName);
+					} else if (totalprofile.profile.lastName) {
+						$("#add_friend_displayname").text(totalprofile.profile.lastName);
+						$("#add_friend_displayname2").text(totalprofile.profile.lastName);
 					} else {
-						$("#add_friend_displayname").text(json.displayName);
-						$("#add_friend_displayname2").text(json.displayName);
+						$("#add_friend_displayname").text(totalprofile.preferences.uuid);
+						$("#add_friend_displayname2").text(totalprofile.preferences.uuid);
 					}
 					
 					$("#add_friend_types").html(sdata.html.Template.render("add_friend_types_template",Widgets));
@@ -982,46 +996,35 @@ sakai.profile = function(){
 			
 			var type = toSend["add_friends_list_type"];
 			var comment = toSend["add_friend_personal_note"];
-			var receiver = json.userId;
 			
-			var data = { "connectionType" : type , "receiver" : receiver };
+			// send message to other person
+			var title = "";
+			var userstring = "";
+			if (me.profile.firstName && me.profile.lastName){
+				userstring = me.profile.firstName + " " + me.profile.lastName;
+			} else {
+				userstring = me.preferences.uuid;
+			}
+			title += userstring + " has invited you to become a connection";
+			
+			var message = "Hi, \n\n" + userstring + " has invited you to become a connection. \n";
+			message += "He/She";
+			message += " has also left the following message: \n\n" + comment + " \n \nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team";
+			
+			// construct openSocial message
+			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"PRIVATE_MESSAGE"});
+					
+			//var data = { "connectionType" : type , "receiver" : receiver };
+			var data = { "friendUuid" : user , "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
 			
 			sdata.Ajax.request({
-				url: "/sdata/connection/?sid=" + Math.random(),
+				url: "/rest/friend/connect/request",
 				httpMethod: "POST",
-				onSuccess: function(data){
+			    onSuccess: function(data){
 					
-					// send message to other person
-					
-					var title = "";
-					var user = "";
-					if (me.items.firstname && me.items.lastname){
-						user = me.items.firstname + " " + me.items.lastname;
-					} else {
-						user = me.items.displayId;
-					}
-					title += user + " has invited you to become a connection";
-					
-					var message = "Hi, \n\n" + user + " has invited you to become a connection. \n";
-					message += "He/She";
-					message += " has also left the following message: \n\n" + comment + " \n \nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team";
-					
-					data = { "isinvite" : true , "receiver" : receiver , "title" : title, "message" : message };
-					
-					sdata.Ajax.request({
-						url: "/sdata/message/?sid=" + Math.random(),
-						httpMethod: "POST",
-						onSuccess: function(data){
-							$("#add_friend_overlay_lightbox").hide();
-							$("#add_friend_lightbox").hide();
-							doAddButton();
-						},
-						onFail : function(data){
-							alert("An error has occured");
-						},
-						postData: data,
-						contentType: "application/x-www-form-urlencoded"
-					});
+					$("#add_friend_overlay_lightbox").hide();
+					$("#add_friend_lightbox").hide();
+					doAddButton();
 					
 				},
 				onFail: function(status){
