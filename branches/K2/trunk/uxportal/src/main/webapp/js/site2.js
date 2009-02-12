@@ -18,6 +18,9 @@ sakai.dashboard = function(){
 	
 	sakai.dashboard.generateUrl = function(){
 		var value = $("#new_page_title").val().toLowerCase().replace(/ /g,"-");
+		value = value.replace(/[:]/g,"_");
+		value = value.replace(/[?]/g,"_");
+		value = value.replace(/[=]/g,"_");
 		$("#new_page_id").val(value);
 	}
 
@@ -1104,6 +1107,9 @@ var layout, dropTargetPerms, grabHandle;
 		type = json["new_page_type"];
 		var pagetitle = json["new_page_title"];
 		var pageid = json["new_page_id"];
+		pageid = pageid.replace(/[:]/g,"_");
+		pageid = pageid.replace(/[?]/g,"_");
+		pageid = pageid.replace(/[=]/g,"_");
 		if (pagetitle.replace(/ /g, "") == "") {
 			valid = false;
 			validmessage = "Please specify a page name";
