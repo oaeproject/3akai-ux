@@ -996,18 +996,15 @@ sakai.profile = function(){
 			var comment = toSend["add_friend_personal_note"];
 			
 			// send message to other person
-			var title = "";
 			var userstring = "";
 			if (me.profile.firstName && me.profile.lastName){
 				userstring = me.profile.firstName + " " + me.profile.lastName;
 			} else {
 				userstring = me.preferences.uuid;
 			}
-			title += userstring + " has invited you to become a connection";
 			
-			var message = "Hi, \n\n" + userstring + " has invited you to become a connection. \n";
-			message += "He/She";
-			message += " has also left the following message: \n\n" + comment + " \n \nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team";
+			var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
+			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 			
 			// construct openSocial message
 			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"PRIVATE_MESSAGE"});
