@@ -16,9 +16,7 @@ sakai.profile = function(){
    var fileUrl = "";
    
    // Fields that cannot be edited
-   
-   var uneditable = ["txt_firstname","txt_lastname"];
-   //var uneditable = [];
+   var uneditable = Config.Profile.uneditable;
    
    // Fields for papers
    
