@@ -2187,7 +2187,9 @@ sdata.i18n = function() {
 	
 // Import the widget definitions
 if (document.location.protocol === "file:") {
-	sdata.lib.Load.requireOnce('widgets.js');
+	sdata.lib.Load.requireOnce('configuration/widgets.js');
+	sdata.lib.Load.requireOnce('configuration/config.js');
 } else {
-	sdata.lib.Load.requireOnce('/dev/widgets.js');
+	sdata.lib.Load.requireOnce('/dev/configuration/widgets.js');
+	sdata.lib.Load.requireOnce('/dev/configuration/config.js');
 }
