@@ -22,9 +22,11 @@ sakai.createsite = {};
 	
 	$("#createsite_newsitename").bind("change", function(ev){
 		var entered = $("#createsite_newsitename").val().toLowerCase().replace(/ /g,"-");
+		entered = entered.replace(/[:]/g,"_");
+		entered = entered.replace(/[?]/g,"_");
+		entered = entered.replace(/[=]/g,"_");
 		$("#createsite_newsiteid").val(entered);
 	});
-
 
 	sakai.createsite.navigate = function(source,destination){
 		$("#" + source).hide();
@@ -68,6 +70,10 @@ sakai.createsite = {};
 		var sitetitle = $("#createsite_newsitename").val();
 		var sitedescription = $("#createsite_newsitedescription").val() || "";
 		var siteid = $("#createsite_newsiteid").val();
+		
+		siteid = siteid.replace(/[:]/g,"_");
+		siteid = siteid.replace(/[?]/g,"_");
+		siteid = siteid.replace(/[=]/g,"_");
 		
 		var url = "/rest/site";
 		
