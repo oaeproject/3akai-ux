@@ -22,6 +22,9 @@ sakai.createsite = {};
 	
 	$("#createsite_newsitename").bind("change", function(ev){
 		var entered = $("#createsite_newsitename").val().toLowerCase().replace(/ /g,"-");
+		entered = entered.replace(/[:]/g,"_");
+		entered = entered.replace(/[?]/g,"_");
+		entered = entered.replace(/[=]/g,"_");
 		$("#createsite_newsiteid").val(entered);
 	});
 
@@ -64,11 +67,14 @@ sakai.createsite = {};
 	};
 	
 	sakai.createsite.createSite = function(){
-		var sitetitle = $("#createsite_newsitename").attr("value");
-		var sitedescription = $("#createsite_newsitedescription").attr("value") || "";
+		var sitetitle = $("#createsite_newsitename").val();
+		var sitedescription = $("#createsite_newsitedescription").val() || "";
 		var url = "/sdata/newsite";
 		
-		var siteid = $("#createsite_newsiteid").attr("value");
+		var siteid = $("#createsite_newsiteid").val();
+		siteid = siteid.replace(/[:]/g,"_");
+		siteid = siteid.replace(/[?]/g,"_");
+		siteid = siteid.replace(/[=]/g,"_");
 		if (!siteid)
 		{
 			alert("Please specify a site URL. ");
