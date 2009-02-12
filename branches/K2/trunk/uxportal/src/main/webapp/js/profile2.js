@@ -1014,8 +1014,7 @@ sakai.profile = function(){
 			// construct openSocial message
 			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"PRIVATE_MESSAGE"});
 					
-			//var data = { "connectionType" : type , "receiver" : receiver };
-			var data = { "friendUuid" : user , "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
+			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
 			
 			sdata.Ajax.request({
 				url: "/rest/friend/connect/request",
