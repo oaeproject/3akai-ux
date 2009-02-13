@@ -1,5 +1,4 @@
 #show_online {
-	position: fixed; 
 	bottom:24px; 
 	right: 20px; 
 	border: 1px solid #CCCCCC; 
@@ -38,7 +37,6 @@
 }
 
 .chat_with_user_1 {
-	position: fixed; 
 	bottom:24px; 
 	border: 1px solid #CCCCCC; 
 	width: 250px; 
@@ -49,7 +47,6 @@
 }
 
 .chat_with_user_2 {
-	position: fixed; 
 	bottom:24px; 
 	border: 1px solid #CCCCCC; 
 	width: 250px; 
@@ -75,7 +72,6 @@
 
 .chat_main_container {
 	width:100%; 
-	position:fixed; 
 	bottom: 0px; 
 	z-index: 99; 
 	background-color: #FFFFFF; 
