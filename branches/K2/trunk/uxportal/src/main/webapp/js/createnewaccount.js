@@ -2,7 +2,7 @@ var sakai = sakai || {};
 
 sakai.newaccount = function(){
 	
-	checkingUserExists = false;
+	var checkingUserExists = false;
 	
 	$("input").keypress(function (e) {
 		if (e.which == 13){
@@ -14,7 +14,7 @@ sakai.newaccount = function(){
 		doSave();
 	});
 	
-	resetErrorFields = function(){
+	var resetErrorFields = function(){
 		$("#firstname_label").css("color","");
 		$("#lastname_label").css("color","");
 		$("#email_label").css("color","");
@@ -24,17 +24,17 @@ sakai.newaccount = function(){
 		$("#uword_label").css("color","");
 	}
 	
-	setErrorField = function(id){
+	var setErrorField = function(id){
 		$("#" + id).css("color","rgb(250,0,0)");
 	}
 	
-	setError = function(string){
+	var setError = function(string){
 		$("#warning1").show();
 		$("#spacer").show();
 		$("#alert_id1").html(string);
 	}
 	
-	hideError = function(){
+	var hideError = function(){
 		$("#warning1").css("height","1em");
 		$("#warning1").hide();
 		$("#spacer").hide();
@@ -59,7 +59,7 @@ sakai.newaccount = function(){
 		//doCreateSite();
 	});
 	
-	checkUserName = function(){
+	var checkUserName = function(){
 		
 		//check empty
 		$("#saveinfo1").hide();
@@ -112,7 +112,7 @@ sakai.newaccount = function(){
 		
 	}
 	
-	doCreateSite = function(){
+	var doCreateSite = function(){
 		var firstname = $("#firstname").attr("value");
 		var lastname = $("#lastname").attr("value");
 		var email = $("#email").attr("value");
@@ -144,7 +144,7 @@ sakai.newaccount = function(){
 		
 	}
 	
-	doSave = function(){
+	var doSave = function(){
 		
 		$("#saveinfo1").hide();
 		$("#spacer").hide();
@@ -191,6 +191,7 @@ sakai.newaccount = function(){
 			if (checkEmpty("uword")){
 				errors[errors.length] = "Word verification";
 			}
+		
 		
 		if (errors.length > 0){
 			var result = "You need to fill out the following field(s):<br/><br/>";
@@ -241,7 +242,7 @@ sakai.newaccount = function(){
 		}
 	}
 	
-	function echeck(str) {
+	var echeck = function(str) {
 
 		var at="@"
 		var dot="."
@@ -286,7 +287,7 @@ sakai.newaccount = function(){
  		 return true					
 	}
 	
-	checkEmpty = function(field){
+	var checkEmpty = function(field){
 		var value = $("#" + field).attr("value");
 		if (!value || value.replace(/ /g,"") == ""){
 			setErrorField(field + "_label");
@@ -298,4 +299,4 @@ sakai.newaccount = function(){
 	
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("newaccount");
+sdata.registerForLoad("sakai.newaccount");
