@@ -1,6 +1,6 @@
 <link type="text/css" href="/devwidgets/chat/css/chat.css" rel="stylesheet"></link>
 
-<div id="show_online" style="display:none">
+<div id="show_online" class="doFixed" style="display:none">
 	<div id="chat_available"></div>
 </div>
 
@@ -36,9 +36,9 @@
 		</span>
 		
 		{if special != false}
-			<div id="chat_with_${i.userid}" class="chat_with_user_1" style="right: ${190 + (special*150)}px; display:none">
+			<div id="chat_with_${i.userid}" class="doFixed chat_with_user_1" style="right: ${190 + (special*150)}px; display:none">
 		{else}
-			<div id="chat_with_${i.userid}" class="chat_with_user_2" style="right: ${190 + (index*150)}px; display:none">
+			<div id="chat_with_${i.userid}" class="doFixed chat_with_user_2" style="right: ${190 + (index*150)}px; display:none">
 		{/if}
 			<div style="text-align:right">
 				<img src="/dev/img/stjr_p2_td3.png" id="chat_min_${i.userid}" class="chat_min pretend_link"/>
@@ -52,10 +52,10 @@
 	{/for}	
 --></div>
 
-<div class="chat_main_container">
-	<div id="chat_container">
-		<table class="chat_main_table">
-			<tr>
+<div class="chat_main_container doFixed" style="left:0px;">
+	<div id="chat_container" style="height:30px">
+		<table class="chat_main_table" style="height:30px">
+			<tr style="height:30px">
 				<td class="chat_social_link">
 					<a href="/dev/sn/profile.html" style="color:black;">My Profile</a>
 				</td>
