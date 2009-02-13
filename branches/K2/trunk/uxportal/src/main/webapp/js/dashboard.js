@@ -349,8 +349,8 @@ sakai.dashboard = function(){
 			
 		}
 		
-		var final = [];
-		final.columns = [];
+		var final2 = [];
+		final2.columns = [];
 		var currentindex = -1;
 		var isvalid = true;
 		
@@ -358,26 +358,26 @@ sakai.dashboard = function(){
 			for (var c in layout.columns) {
 			
 				currentindex++;
-				var index = final.columns.length;
-				final.columns[index] = [];
-				final.columns[index].portlets = [];
-				final.columns[index].width = Widgets.layouts[layout.layout].widths[currentindex];
+				var index = final2.columns.length;
+				final2.columns[index] = [];
+				final2.columns[index].portlets = [];
+				final2.columns[index].width = Widgets.layouts[layout.layout].widths[currentindex];
 				
 				var columndef = layout.columns[c];
 				for (var pi in columndef) {
 					var portaldef = columndef[pi];
 					if (portaldef.name && Widgets.widgets[portaldef.name]) {
 						var widget = Widgets.widgets[portaldef.name];
-						var iindex = final.columns[index].portlets.length;
-						final.columns[index].portlets[iindex] = [];
-						final.columns[index].portlets[iindex].id = widget.id;
-						final.columns[index].portlets[iindex].iframe = widget.iframe;
-						final.columns[index].portlets[iindex].url = widget.url;
-						final.columns[index].portlets[iindex].title = widget.name;
-						final.columns[index].portlets[iindex].display = portaldef.visible;
-						final.columns[index].portlets[iindex].uid = portaldef.uid;
-						final.columns[index].portlets[iindex].placement = "~" + person.preferences.uuid;
-						final.columns[index].portlets[iindex].height = widget.height;
+						var iindex = final2.columns[index].portlets.length;
+						final2.columns[index].portlets[iindex] = [];
+						final2.columns[index].portlets[iindex].id = widget.id;
+						final2.columns[index].portlets[iindex].iframe = widget.iframe;
+						final2.columns[index].portlets[iindex].url = widget.url;
+						final2.columns[index].portlets[iindex].title = widget.name;
+						final2.columns[index].portlets[iindex].display = portaldef.visible;
+						final2.columns[index].portlets[iindex].uid = portaldef.uid;
+						final2.columns[index].portlets[iindex].placement = "~" + person.preferences.uuid;
+						final2.columns[index].portlets[iindex].height = widget.height;
 					}
 				}
 			}
@@ -390,7 +390,7 @@ sakai.dashboard = function(){
 		
 		if (isvalid) {
 		
-			document.getElementById('widgetscontainer').innerHTML = sdata.html.Template.render("widgetscontainer_template", final);
+			document.getElementById('widgetscontainer').innerHTML = sdata.html.Template.render("widgetscontainer_template", final2);
 			
 			var grabHandleFinder, createAvatar, options;
 
@@ -686,7 +686,7 @@ sakai.dashboard = function(){
 
 	}
 
-	finishAddWidgets = function (success){
+	var finishAddWidgets = function (success){
 		if (success){
 			document.getElementById("widgetscontainer").innerHTML = "";
 			if (!Widgets.widgets[currentlyopen].multipleinstance) {
