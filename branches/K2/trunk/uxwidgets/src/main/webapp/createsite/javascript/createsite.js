@@ -114,7 +114,7 @@ sakai.createsite = {};
 				} else {
 					alert("A site with this URL already exists");
 				}
-			},
+			}
 		});
 	}
 	
