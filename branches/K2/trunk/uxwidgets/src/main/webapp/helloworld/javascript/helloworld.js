@@ -28,7 +28,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
 				$("#" + tuid + " #helloworld_username").text(feed.items.displayId);
 			}
 			else {
-				alert("An error occured");
+				//alert("An error occured");
 			}
 		}
 		
