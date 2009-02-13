@@ -36,6 +36,31 @@
 				}
 			</style>
 		<![endif]-->
+		
+	<style type="text/css">
+		html, body {
+			margin: 0;
+			background-color: white;
+		}
+		
+		.doFixed {
+			position: fixed;
+		}
+		
+	</style>
+	
+	<!--[if lte IE 6]>
+	<style type="text/css">
+		html, body
+		{
+			height: 100%;
+			overflow: auto;
+		}
+		.doFixed {
+			position: absolute;
+		}
+	</style>
+	<![endif]-->
 
 	</head>
 	<body id="body-hide2">
@@ -219,7 +244,7 @@
 		   </div>
 
 
-    <div id="body2" style="display:none">
+    <div id="body2" style="display:none; width:100%">
 	   
 	   <div id="header2">
 		   <div class="block">
