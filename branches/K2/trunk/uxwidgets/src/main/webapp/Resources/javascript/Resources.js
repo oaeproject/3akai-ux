@@ -46,9 +46,11 @@ Resources.browser = {
 		if (window.Resources_siteId){
 			Resources.browser.siteid = Resources_siteId;
 		} else {
-			var str = document.location.pathname;
-			var spl = str.split("/");
-			var currentsite = spl[2];
+			//var str = document.location.pathname;
+			//var spl = str.split("/");
+			//var currentsite = spl[2];
+			var qs = new Querystring();
+			var currentsite = qs.get("siteid",false);
 			Resources.browser.siteid = currentsite;
 			window.Resources_siteId = currentsite;
 		}
