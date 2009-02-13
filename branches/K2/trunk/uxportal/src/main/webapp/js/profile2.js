@@ -168,7 +168,7 @@ sakai.profile = function(){
 				fluid.inlineEdits("#wrapper3", {
 					useTooltip: true,
 					finishedEditing: doHomeContact,
-					defaultViewText: " ",
+					defaultViewText: " "
 				});
 				sakai.inlineEdits("#wrapper3", {
 					useTooltip: true,
