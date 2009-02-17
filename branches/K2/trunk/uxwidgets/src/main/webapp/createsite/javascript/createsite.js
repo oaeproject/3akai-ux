@@ -10,6 +10,10 @@ sakai.createsite = {};
 	$("#createsite_newsiteid_url").text(document.location.protocol + "//" + document.location.host + "/site/");
 	$("#createsite_portfolio_newsiteid_url").text(document.location.protocol + "//" + document.location.host + "/site/");
 	
+	$("#createsite_overlay-lightbox").appendTo($(document.body));
+	$("#createsite_step1").appendTo($(document.body));
+	$("#createsite_step2").appendTo($(document.body));
+	
 	sakai.createsite.initialise = function(){
 		$("#create-site-course").hide();
 		$("#create-site-noncourse").show();
