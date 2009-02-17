@@ -175,6 +175,11 @@ sakai.profile = function(){
 					finishedEditing: doHomeContact,
 					defaultViewText: " "
 				});
+				
+				$(".inlineEditable").css("height","16px");
+				$(".text").css("height","16px");
+				$(".dropdown").css("height","16px");
+				
 			}
 			
 		},
@@ -906,6 +911,10 @@ sakai.profile = function(){
 			$("#additional").hide();
 		}
 		
+		/*$(document.body).hide();
+		setTimeout((function(){
+			$(document.body).show();
+		}),10);*/
    }
    
    $("#add_people_confirm").bind("click", function(ev){
