@@ -106,7 +106,7 @@ sakai.dashboard = function(){
 	
 	var tobindtolayoutpicker = function(){
 		$(".layout-picker").bind("click", function(ev){
-			var selected = ev.currentTarget.id.split("-")[ev.currentTarget.id.split("-").length - 1];
+			var selected = this.id.split("-")[this.id.split("-").length - 1];
 			var newjson = {};
 			newjson.layouts = Widgets.layouts;
 			newjson.selected = selected;
@@ -545,13 +545,13 @@ sakai.dashboard = function(){
 			$("#btnAddWidget").show();
 		}
 		
-		$("#addwidgetslightbox").fadeIn();	
-		$("#addwidgetslightbox2").fadeIn();
+		$("#addwidgetslightbox").show();	
+		$("#addwidgetslightbox2").show();
 	}
 
 	sakai.dashboard.hideAddWidgets = function(){
-		$("#addwidgetslightbox").fadeOut();
-		$("#addwidgetslightbox2").fadeOut();
+		$("#addwidgetslightbox").hide();
+		$("#addwidgetslightbox2").hide();
 	}
 
 	sakai.dashboard.finishAddWidgets = function(){
