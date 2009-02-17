@@ -80,6 +80,20 @@
 				vertical-align: middle;
 			}
 			
+			.refreshDiv {
+				color: #FF0000;
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				z-index: 1100000;
+				height: 100%;
+				width: 100%;
+				opacity:0.01;
+				-moz-opacity:0.01;
+				display:none;
+				filter:alpha(opacity=60);
+			}
+			
 		</style>
 		
 	</head>
@@ -87,6 +101,8 @@
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
     
+	<!-- <div class="refreshDiv"></div> -->
+	
 <div id="add_friend_overlay_lightbox" class="overlay-lightbox" style="display:none"></div>
 <div id="add_fields_overlay_lightbox" class="overlay-lightbox" style="display:none; height: 100%; position: fixed"></div>
 <div class="overlay-lightbox2" id="add_friend_lightbox" style="display:none">
