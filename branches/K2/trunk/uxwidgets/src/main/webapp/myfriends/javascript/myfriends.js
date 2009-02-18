@@ -12,7 +12,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	
 	sdata.Ajax.request({
 		httpMethod: "GET",
-		url: "/rest/friend/status?sid=" + Math.random(),
+		url: "/rest/friend/status?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
 		onSuccess: function(data){
 			friends = eval('(' + data + ')');
 			getOnline();
@@ -83,25 +83,25 @@ sakai.myfriends = function(tuid,placement,showSettings){
 				
 				if (!isOnline && total < 3) {
 					var item = friends.status.friends[i];
-					//if (item.firstName && item.lastName) {
-					//	item.name = item.firstName + " " + item.lastName;
-					//}
-					//else {
-					//	item.name = item.userid;
-					//}
-					//if (item.picture) {
-					//	var pict = eval('(' + item.picture + ')');
-					//	item.photo = "/sdata/f/public/" + item.userid + "/" + pict.name;
-					//}
-					//item.online = false;
-					//if (item.basic) {
-					//	var basic = eval('(' + item.basic + ')');
-					//	if (basic.status) {
-					//		item.status = basic.status;
-					//	}
-					//}
-					//pOnline.items[pOnline.items.length] = item;
-					//total++;
+					if (item.profile.firstName && item.profile.lastName) {
+						item.name = item.profile.firstName + " " + item.profile.lastName;
+					}
+					else {
+						item.name = item.friendUuid;
+					}
+					if (item.profile.picture) {
+						var pict = eval('(' + item.profile.picture + ')');
+						//item.photo = "/sdata/f/public/" + item.userid + "/" + pict.name;
+					}
+					item.online = false;
+					if (item.profile.basic) {
+						var basic = eval('(' + item.profile.basic + ')');
+						if (basic.status) {
+							item.status = basic.status;
+						}
+					}
+					pOnline.items[pOnline.items.length] = item;
+					total++;
 				}
 				else 
 					if (total >= 3 && !isOnline) {
