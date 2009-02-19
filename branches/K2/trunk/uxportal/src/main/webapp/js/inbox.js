@@ -14,10 +14,14 @@ sakai.inbox = function(){
 	
 	sdata.Ajax.request({
 		httpMethod: "GET",
-		url: "/sdata/me?sid=" + Math.random(),
+		url: "/rest/me?sid=" + Math.random(),
 		onSuccess: function(data){
 			var me = eval('(' + data + ')');
-			$("#user_id").text(me.items.firstname + " " + me.items.lastname);
+			if (!me.preferences.uuid){
+				var redirect = document.location;
+				document.location = "/dev/?url=" + sdata.util.URL.encode(redirect.pathname + redirect.search + redirect.hash);
+			}
+			$("#user_id").text(me.profile.firstName + " " + me.profile.lastName);
 		},
 		onFail: function(status){
 				
@@ -270,12 +274,12 @@ sakai.inbox = function(){
 		$("#new_message_main").show();
 		
 		sdata.Ajax.request({
-			url: "/sdata/connection/?show=accepted&sid=" + Math.random(),
+			url: "/rest/friend/status?p=0&n=100&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
 			httpMethod: "GET",
 			onSuccess: function(data){
 				var json = eval('(' + data + ')');
 				
-				var select = document.getElementById("message_to");
+				var select = $("#message_to").get(0);
 				
 				// Remove all options
 				
@@ -288,13 +292,15 @@ sakai.inbox = function(){
 				
 				// Add all your friends
 				
-				for (var i in json.items){
-					var name = json.items[i].userid;
-					if (json.items[i].firstName && json.items[i].lastName){
-						name = json.items[i].firstName + " " + json.items[i].lastName;
+				if (json.status.friends) {
+					for (var i = 0; i < json.status.friends.length; i++) {
+						var name = json.status.friends[i].friendUuid;
+						if (json.status.friends[i].profile.firstName && json.status.friends[i].profile.lastName) {
+							name =json.status.friends[i].profile.firstName + " " + json.status.friends[i].profile.lastName;
+						}
+						var op = new Option(name, json.status.friends[i].friendUuid);
+						select.options[select.options.length] = op;
 					}
-					var op = new Option(name, json.items[i].userid);
-					select.options[select.options.length] = op;
 				}
 				
 				if (user){
