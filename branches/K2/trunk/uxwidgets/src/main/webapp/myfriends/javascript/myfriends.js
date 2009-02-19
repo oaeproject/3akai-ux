@@ -72,14 +72,14 @@ sakai.myfriends = function(tuid,placement,showSettings){
 		//}
 		
 		if (friends.status.friends) {
-			for (var i = 0; i < friends.status.friends; i++) {
+			for (var i = 0; i < friends.status.friends.length; i++) {
 				var isOnline = false;
 				
-				for (var ii = 0; ii < online.items.length; ii++) {
-					if (online.items[ii].userid == friends.items[i].userid) {
-						isOnline = true;
-					}
-				}
+				//for (var ii = 0; ii < online.items.length; ii++) {
+				//	if (online.items[ii].userid == friends.items[i].userid) {
+				//		isOnline = true;
+				//	}
+				//}
 				
 				if (!isOnline && total < 3) {
 					var item = friends.status.friends[i];
@@ -91,14 +91,18 @@ sakai.myfriends = function(tuid,placement,showSettings){
 					}
 					if (item.profile.picture) {
 						var pict = eval('(' + item.profile.picture + ')');
-						//item.photo = "/sdata/f/public/" + item.userid + "/" + pict.name;
+						item.photo = "/sdata/f/_private" + item.properties.userStoragePrefix + pict.name;
 					}
 					item.online = false;
 					if (item.profile.basic) {
 						var basic = eval('(' + item.profile.basic + ')');
 						if (basic.status) {
 							item.status = basic.status;
+						} else {
+							item.status = "";
 						}
+					} else {
+						item.status = "";
 					}
 					pOnline.items[pOnline.items.length] = item;
 					total++;
