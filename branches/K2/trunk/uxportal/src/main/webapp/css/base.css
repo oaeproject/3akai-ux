@@ -17,6 +17,15 @@ body.wip, div.wip {
 }
 */
 
+html, body {
+	margin: 0;
+	background-color: white;
+}
+		
+.doFixed {
+	position: fixed;
+}
+
 #rshStorageField {
 	left: -100px;
 }
