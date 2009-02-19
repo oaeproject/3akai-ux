@@ -1,7 +1,9 @@
 var sakai = sakai || {};
-sakai.createsite = {};
+sakai.createsite = function(tuid,placement,showSettings){
 
-(function(){
+	$("#createsite_overlay-lightbox").appendTo($(document.body));
+	$("#createsite_step1").appendTo($(document.body));
+	$("#createsite_step2").appendTo($(document.body));
 
 	var newsitejson = false;
 	var newpageid = false;
@@ -9,10 +11,6 @@ sakai.createsite = {};
 	
 	$("#createsite_newsiteid_url").text(document.location.protocol + "//" + document.location.host + "/site/");
 	$("#createsite_portfolio_newsiteid_url").text(document.location.protocol + "//" + document.location.host + "/site/");
-	
-	$("#createsite_overlay-lightbox").appendTo($(document.body));
-	$("#createsite_step1").appendTo($(document.body));
-	$("#createsite_step2").appendTo($(document.body));
 	
 	sakai.createsite.initialise = function(){
 		$("#create-site-course").hide();
@@ -255,4 +253,6 @@ sakai.createsite = {};
 	}
 
 		
-})();
+};
+
+sdata.widgets.WidgetLoader.informOnLoad("createsite");
