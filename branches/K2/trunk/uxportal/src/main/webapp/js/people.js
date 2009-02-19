@@ -12,10 +12,14 @@ sakai.people = function(){
 	
 	sdata.Ajax.request({
 		httpMethod: "GET",
-		url: "/sdata/me?sid=" + Math.random(),
+		url: "/rest/me?sid=" + Math.random(),
 		onSuccess: function(data){
 			var me = eval('(' + data + ')');
-			$("#user_id").text(me.items.firstname + " " + me.items.lastname);
+			if (!me.preferences.uuid){
+				var redirect = document.location;
+				document.location = "/dev/?url=" + sdata.util.URL.encode(redirect.pathname + redirect.search + redirect.hash);
+			}
+			$("#user_id").text(me.profile.firstName + " " + me.profile.lastName);
 		},
 		onFail: function(status){
 				
@@ -27,7 +31,7 @@ sakai.people = function(){
 		
 		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/connection?show=waiting&count=all&sid=" + Math.random(),
+			url: "/rest/friend/status?p=0&n=5&friendStatus=INVITED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
 			onSuccess: function(data){
 				mylist = eval('(' + data + ')');
 				printMyList();
@@ -43,7 +47,7 @@ sakai.people = function(){
 		
 		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/connection?show=pending&count=all&sid=" + Math.random(),
+			url: "/rest/friend/status?p=0&n=5&friendStatus=PENDING&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
 			onSuccess: function(data){
 				pendinglist = eval('(' + data + ')');
 				printPendingList();
@@ -65,7 +69,7 @@ sakai.people = function(){
 		
 		sdata.Ajax.request({
 			httpMethod: "GET",
-			url: "/sdata/connection?show=accepted&page=" + page + "&count=5&sid=" + Math.random(),
+			url: "/rest/friend/status?p=" + (page - 1) + "&n=5&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
 			onSuccess: function(data){
 				list = eval('(' + data + ')');
 				printList();
@@ -162,107 +166,67 @@ sakai.people = function(){
 		doSearch(page);
 	});
 	
-	var doList = function(){
+	var processList = function(list_var){
 		var finaljson = {};
 		finaljson.items = [];
-		for (var i = 0; i < 10; i++){
-			try {
-				var person = list.items[i];
+		if (list_var.status.friends) {
+			for (var i = 0; i < list_var.status.friends.length; i++) {
+				var person = list_var.status.friends[i];
 				if (person) {
 					var index = finaljson.items.length;
 					finaljson.items[index] = {};
-					finaljson.items[index].userid = person.userid;
-					var person = list.items[i];
-					if (person.picture) {
-						var picture = eval('(' + person.picture + ')');
-						finaljson.items[index].picture = "/sdata/f/public/" + person.userid + "/" + picture.name;
+					finaljson.items[index].userid = person.friendUuid;
+					if (person.profile.picture) {
+						var picture = eval('(' + person.profile.picture + ')');
+						finaljson.items[index].picture = "/sdata/f/_private/" + person.properties.userStoragePrefix + picture.name;
 					}
-					if (person.firstName || person.lastName) {
-						var str = person.firstName;
-						if (person.basic) {
-							var basic = eval('(' + person.basic + ')');
+					if (person.profile.firstName || person.profile.lastName) {
+						var str = person.profile.firstName;
+						if (person.profile.basic) {
+							var basic = eval('(' + person.profile.basic + ')');
 							if (basic.middlename) {
 								str + " " + basic.middlename;
 							}
 						}
-						str += " " + person.lastName;
+						str += " " + person.profile.lastName;
 						finaljson.items[index].name = str;
 					}
 					else {
-						finaljson.items[index].name = person.userid;
+						finaljson.items[index].name = person.friendUuid;
 					}
-					if (person.contactinfo){
-						var contactinfo = eval('(' + person.contactinfo + ')');
-						if (contactinfo.unidepartment){
+					if (person.profile.contactinfo) {
+						var contactinfo = eval('(' + person.profile.contactinfo + ')');
+						if (contactinfo.unidepartment) {
 							finaljson.items[index].department = contactinfo.unidepartment;
 						}
-						if (contactinfo.unicollege){
+						if (contactinfo.unicollege) {
 							finaljson.items[index].college = contactinfo.unicollege;
 						}
 					}
 				}
-			} catch (err){
-				alert(err);
-			};
+			}
 		}
 		
+		return finaljson;
+	}
+	
+	var doList = function(){
+		var finaljson = processList(list);	
 		$("#list_rendered").html(sdata.html.Template.render("list_rendered_template", finaljson));
-		
 	}
 	
 	var doMyList = function(){
-		var finaljson = {};
-		finaljson.items = [];
-		for (var i = 0; i < mylist.items.length; i++){
-			try {
-				var person = mylist.items[i];
-				if (person) {
-					var index = finaljson.items.length;
-					finaljson.items[index] = {};
-					finaljson.items[index].userid = person.userid;
-					if (person.picture) {
-						var picture = eval('(' + person.picture + ')');
-						finaljson.items[index].picture = "/sdata/f/public/" + person.userid + "/" + picture.name;
-					}
-					if (person.firstName || person.lastName) {
-						var str = person.firstName;
-						if (person.basic) {
-							var basic = eval('(' + person.basic + ')');
-							if (basic.middlename) {
-								str + " " + basic.middlename;
-							}
-						}
-						str += " " + person.lastName;
-						finaljson.items[index].name = str;
-					}
-					else {
-						finaljson.items[index].name = person.userid;
-					}
-					if (person.contactinfo){
-						var contactinfo = eval('(' + person.contactinfo + ')');
-						if (contactinfo.unidepartment){
-							finaljson.items[index].department = contactinfo.unidepartment;
-						}
-						if (contactinfo.unicollege){
-							finaljson.items[index].college = contactinfo.unicollege;
-						}
-					}
-				}
-			} catch (err){
-				alert(err);
-			};
-		}
-		
+		var finaljson = processList(mylist);	
 		$("#list_rendered_my").html(sdata.html.Template.render("my_list_rendered_template", finaljson));
 		
 		$(".accept_invitation").bind("click", function(ev){
 			var user = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
 			
 			var inviter = user;
-			var data = {"accept" : true, "inviter" : inviter};
-			
+			var data = {"friendUuid" : inviter};
+	
 			sdata.Ajax.request({
-				url: "/sdata/connection/?sid=" + Math.random(),
+				url: "/rest/friend/connect/accept",
 				httpMethod: "POST",
 				onSuccess: function(data){
 					startSearch();
@@ -281,50 +245,8 @@ sakai.people = function(){
 	}
 	
 	var doPendingList = function(){
-		var finaljson = {};
-		finaljson.items = [];
-		for (var i = 0; i < pendinglist.items.length; i++){
-			try {
-				var person = pendinglist.items[i];
-				if (person) {
-					var index = finaljson.items.length;
-					finaljson.items[index] = {};
-					finaljson.items[index].userid = person.userid;
-					if (person.picture) {
-						var picture = eval('(' + person.picture + ')');
-						finaljson.items[index].picture = "/sdata/f/public/" + person.userid + "/" + picture.name;
-					}
-					if (person.firstName || person.lastName) {
-						var str = person.firstName;
-						if (person.basic) {
-							var basic = eval('(' + person.basic + ')');
-							if (basic.middlename) {
-								str + " " + basic.middlename;
-							}
-						}
-						str += " " + person.lastName;
-						finaljson.items[index].name = str;
-					}
-					else {
-						finaljson.items[index].name = person.userid;
-					}
-					if (person.contactinfo){
-						var contactinfo = eval('(' + person.contactinfo + ')');
-						if (contactinfo.unidepartment){
-							finaljson.items[index].department = contactinfo.unidepartment;
-						}
-						if (contactinfo.unicollege){
-							finaljson.items[index].college = contactinfo.unicollege;
-						}
-					}
-				}
-			} catch (err){
-				alert(err);
-			};
-		}
-		
+		var finaljson = processList(pendinglist);	
 		$("#list_rendered_pending").html(sdata.html.Template.render("pending_list_rendered_template", finaljson));
-		
 	}
 	
 	startSearch();
