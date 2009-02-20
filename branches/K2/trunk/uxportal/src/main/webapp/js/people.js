@@ -121,11 +121,13 @@ sakai.people = function(){
 		
 		isbusy = true;
 		
-		$("#numberofresults").text(list.total);
+		var totalRecords = list.status.sizes["ACCEPTED"];
 		
-		totalpages = Math.ceil(list.total / 5);
+		$("#numberofresults").text(totalRecords);
 		
-		var select = document.getElementById("pages");
+		totalpages = Math.ceil(totalRecords / 5);
+		
+		var select = $("#pages").get(0);
 		select.options.length = 0;
 		
 		for (var i = 0; i < totalpages; i++) {
