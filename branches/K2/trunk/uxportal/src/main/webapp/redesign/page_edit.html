@@ -14,7 +14,7 @@
 		
 		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
 		<script type="text/javascript" src="Fluid-all.js"></script>
-		<script type="text/javascript" src="editor.js"></script>
+		
     </head>
     <body id="root" class="fl-centered fl-container">
         <!-- EXPLORE BAR -->
@@ -59,12 +59,17 @@
                 </form><h1>Site Title</h1>
             </div>
             <!-- Main Content -->
-            <div class="main_container  content_container">
+			<div id="show_view_container">
+				Here comes rendered page
+				<br/>
+				<a id="edit_page">Edit This Page</a>
+			</div>
+            <div id="edit_view_container" style="display:none" class="main_container  content_container">
                 <div class="content">
                     <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
                     <div class="buttonBar" style="margin-bottom:-1.2em">
                         <a href="#" class="button-default">Save</a>
-                        <a href="#" class="button">Cancel</a>
+                        <a href="#" class="button cancel-button">Cancel</a>
                         <span class="messageInformation" style="padding:20px">Auto saved 3 min 20 sec ago.</span>
                     </div>
                     <ul class="fl-tabs fl-tabs-r tab-nav">
@@ -103,7 +108,7 @@
                     </p>
                     <div class="buttonBar">
                         <a href="#" class="button-default">Save</a>
-                        <a href="#" class="button">Cancel</a>
+                        <a href="#" class="button cancel-button">Cancel</a>
                     </div>
                 </div>
             </div>
@@ -117,5 +122,8 @@
                 &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
             </p>
         </div>
+		
+		<script type="text/javascript" src="editor.js"></script>
+		
     </body>
 </html>
