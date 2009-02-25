@@ -62,12 +62,12 @@
 /* SplitButton */
 .defaultSkin .mceSplitButton {width:32px; height:20px; direction:ltr}
 .defaultSkin .mceSplitButton a, .defaultSkin .mceSplitButton span {height:20px; display:block}
-.defaultSkin .mceSplitButton a.mceAction {width:20px; border-right:0;}
+.defaultSkin .mceSplitButton a.mceAction {width:21px; border-right:0;}
 .defaultSkin .mceSplitButton span.mceAction {width:20px; background:url(../../img/icons.gif) 20px 20px;}
-.defaultSkin .mceSplitButton a.mceOpen {width:9px; background:url(../../img/icons.gif) -741px 0; margin-right:5px;}
+.defaultSkin .mceSplitButton a.mceOpen {width:11px; background:url(../../img/icons.gif) -741px 0; margin-right:5px;}
 .defaultSkin .mceSplitButton span.mceOpen {display:none}
-.defaultSkin table.mceSplitButtonEnabled:hover a.mceAction, .defaultSkin .mceSplitButtonHover a.mceAction, .defaultSkin .mceSplitButtonSelected a.mceAction {border:1px solid #0A246A; border-right:0; background-color:#B2BBD0}
-.defaultSkin table.mceSplitButtonEnabled:hover a.mceOpen, .defaultSkin .mceSplitButtonHover a.mceOpen, .defaultSkin .mceSplitButtonSelected a.mceOpen {background-color:#B2BBD0; border:1px solid #0A246A;}
+.defaultSkin table.mceSplitButtonEnabled:hover a.mceAction, .defaultSkin .mceSplitButtonHover a.mceAction, .defaultSkin .mceSplitButtonSelected a.mceAction {border:1px solid #0A246A; border-right:0; background-color:#B2BBD0; width:20px !important;}
+.defaultSkin table.mceSplitButtonEnabled:hover a.mceOpen, .defaultSkin .mceSplitButtonHover a.mceOpen, .defaultSkin .mceSplitButtonSelected a.mceOpen {background-color:#B2BBD0; border:1px solid #0A246A; width:9px !important;}
 .defaultSkin .mceSplitButtonDisabled .mceAction, .defaultSkin .mceSplitButtonDisabled a.mceOpen {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 .defaultSkin .mceSplitButtonActive a.mceAction {border:1px solid #0A246A; background-color:#C2CBE0}
 .defaultSkin .mceSplitButtonActive a.mceOpen {border-left:0;}
