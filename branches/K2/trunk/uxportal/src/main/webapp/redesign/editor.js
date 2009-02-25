@@ -118,26 +118,34 @@ BrowserDetect.init();
 		$("#elm1_toolbar1").hide();
 		$("#elm1_toolbar2").hide();
 		$("#elm1_toolbar3").hide();
-		$("#elm1_toolbar4").hide();
 		$("#elm1_toolbar" + id).show();
+		$("#elm1_external").show();
+		$(".mceExternalToolbar").show();
 	}
 
 	var myCustomInitInstance = function(){
-		document.getElementById("elm1_ifr").style.overflow = "hidden";
-		document.getElementById("elm1_ifr").scrolling = "no";
-		document.getElementById("elm1_ifr").frameborder = "0";
-		//document.getElementById("elm1_tbl").style.overflow = "hidden";
-		document.getElementById("elm1_ifr").style.height = "auto"; // helps resize (for some browsers) if new doc is shorter than previous
-		var el = $(".mceExternalToolbar");
-		//var el = $(".mceExternalToolbar",$("#maincontainer"));
-		el.parent().appendTo(".mceToolbarExternal");
-		el.show();
-		el.css("position","static");
-		el.css("border","0px solid black");
-		$(".mceExternalClose").hide();
-		showBar(1);
-		setTimeout("setIframeHeight('elm1_ifr')",100);
-		placeToolbar();
+		try{
+			document.getElementById("elm1_ifr").style.overflow = "hidden";
+			document.getElementById("elm1_ifr").scrolling = "no";
+			document.getElementById("elm1_ifr").frameborder = "0";
+			//document.getElementById("elm1_tbl").style.overflow = "hidden";
+			document.getElementById("elm1_ifr").style.height = "auto"; // helps resize (for some browsers) if new doc is shorter than previous
+			var el = $(".mceExternalToolbar");
+			//var el = $(".mceExternalToolbar",$("#maincontainer"));
+			el.parent().appendTo(".mceToolbarExternal");
+			el.show();
+			el.css("position","static");
+			el.css("border","0px solid black");
+			$(".mceExternalClose").hide();
+			showBar(1);
+			setTimeout("setIframeHeight('elm1_ifr')",100);
+			placeToolbar();
+			
+			$(".mceToolbarEnd").before("<td><span class='mceSeparator' style='width:5px'/></td><td><table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'><tbody><tr><td class='mceFirst'><a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Insert More</a></td><td class='mceLast'><a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a></td></tr></tbody></table></td><td><table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'><tbody><tr><td class='mceFirst'><a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Layout</a></td><td class='mceLast'><a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a></td></tr></tbody></table></td>");
+			
+		} catch (err){
+			
+		}
 	}
 
 	function myHandleEvent(e) {
@@ -200,7 +208,7 @@ function setIframeHeight(ifrm) {
 		var ed = tinyMCE.get('elm1');
 		$("#aidbar").remove();
 		var selected = ed.selection.getNode();
-				if (selected.nodeName.toLowerCase() == "img"){
+				if (selected && selected.nodeName.toLowerCase() == "img"){
 					var pos = tinymce.DOM.getPos(selected);
 					//alert(pos["x"]); alert(pos["y"]);
 					var div = document.createElement("div");
@@ -238,7 +246,7 @@ function setIframeHeight(ifrm) {
 		//execcommand_callback : "myHandleEvent",
 		//handle_node_change_callback : "myHandleEvent",
 		//auto_resize : true,
-		init_instance_callback : "myCustomInitInstance",
+		//init_instance_callback : "myCustomInitInstance",
 
 		//setup : function(ed) {
       		//ed.onLoad.add(function(ed, l) {
@@ -304,6 +312,24 @@ function setIframeHeight(ifrm) {
 	
 	$(window).bind("resize", function(){
 		$("#toolbarcontainer").css("width",$("#toolbarplaceholder").width() + "px");
+	});
+
+	var myCustomInitInstanced = false;
+
+	$("#edit_page").bind("click", function(ev){
+		$("#show_view_container").hide();
+		$("#edit_view_container").show();
+		if (!myCustomInitInstanced) {
+			myCustomInitInstanced = true;
+			myCustomInitInstance();
+		} 
+		
+		return false;
+	});
+	
+	$(".cancel-button").bind("click", function(ev){
+		$("#edit_view_container").hide();
+		$("#show_view_container").show();
 	});
 
 	window.onscroll = function (e) {
