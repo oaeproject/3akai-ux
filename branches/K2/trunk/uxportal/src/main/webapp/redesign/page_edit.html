@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Page edit</title>
+        <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />
+        <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
+		
+		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
+		<script type="text/javascript" src="Fluid-all.js"></script>
+		<script type="text/javascript" src="editor.js"></script>
+    </head>
+    <body id="root" class="fl-centered fl-container">
+        <!-- EXPLORE BAR -->
+        <div class="fl-container fl-fix explore_nav">
+            <ul class="explore fl-force-left">
+                <li class="explore-home">
+                    Sakai
+                </li>
+                <li>
+                    <a href="#People">People</a>
+                </li>
+                <li>
+                    <a href="#Groups">Courses &amp; Sites</a>
+                </li>
+                <li>
+                    <a href="#Sites">Search</a>
+                </li>
+            </ul>
+            <ul class="personal fl-force-right">
+                <li>
+                    <img src="images/profile_icon.png" alt="icon" style="width:16px;margin:0 5px;"/>
+					<a href="#" id="personal-actions"><strong>John Doe</strong>
+                    <img src="images/arrow_down_sm.png" alt="select" /></a>
+                </li>
+                <li>
+                    <a href="#">Inbox</a>
+                </li>
+                <li>
+                    <a href="#">Help</a>
+                </li>
+                <li class="last">
+                    <a href="#">Sign out</a>
+                </li>
+            </ul>
+        </div>
+        <!-- WORK AREA -->
+        <div class="fl-fix">
+            <!-- TITLE BAR + SEARCH -->
+            <div class="fl-container site_heading">
+                <form class="search fl-force-right" action="someaction" method="post">
+                    <input type="text" name="search" value="search site" class="fl-force-left search_field" /><input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" />
+                </form><h1>Site Title</h1>
+            </div>
+            <!-- Main Content -->
+            <div class="main_container  content_container">
+                <div class="content">
+                    <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+                    <div class="buttonBar" style="margin-bottom:-1.2em">
+                        <a href="#" class="button-default">Save</a>
+                        <a href="#" class="button">Cancel</a>
+                        <span class="messageInformation" style="padding:20px">Auto saved 3 min 20 sec ago.</span>
+                    </div>
+                    <ul class="fl-tabs fl-tabs-r tab-nav">
+						<li class="fl-activeTab tab-nav-selected"><!--fl-activeTab --><span>Text Editor</span></li><li><a href="#_bottom">HTML</a></li><li><a href="#_bottom">Preview</a></li>
+					</ul>
+                    <div class="tab-nav-panel">
+                    	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
+                        <div class="toolbar" id="toolbarcontainer">
+                        	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
+                        </div>
+                        <div class="fl-tab-content">
+                            <h2>Untitled</h2>
+                        </div>
+						<div class="fl-tab-content fl-tab-content-editor">
+							<div id="placeholderforeditor" class="textarea">
+								<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+								<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+									&lt;p&gt;
+		                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras vel orci non mauris consequat tempus. In congue magna nec quam. Pellentesque dignissim, tortor a bibendum viverra, orci eros porttitor nibh, eu congue quam lacus sit amet est. Sed consequat nisl sed velit. Donec arcu sem, pretium sed, hendrerit at, tincidunt non, erat. Morbi iaculis luctus diam. Proin et metus quis nisi tempor sagittis. Fusce faucibus. Vestibulum leo tellus, bibendum sit amet, placerat eu, cursus quis, diam. Morbi quis leo eleifend purus mattis pretium. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce aliquet. Curabitur euismod. Nunc laoreet pede et metus. Vivamus vehicula, est in hendrerit rutrum, mi nisl aliquam ipsum, et consequat est ipsum eu pede. Nullam ac risus molestie leo posuere venenatis. In pretium, est sit amet ultrices gravida, mauris arcu pharetra nunc, et ultricies pede dui quis odio. In a purus consectetuer nunc commodo posuere. Quisque purus.
+		                            &lt;/p&gt;
+		                            &lt;p&gt;
+		                                Aliquam fringilla nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ac neque. Donec tristique, urna in ullamcorper auctor, quam mi vestibulum nisi, id pellentesque nibh quam ac lacus. Proin ut tellus. Sed ultricies, tellus eget facilisis tincidunt, eros arcu viverra purus, non accumsan diam nisi ac risus. Ut quis dolor. Curabitur aliquam ante ut est. Suspendisse non purus sit amet est varius vestibulum. Mauris pede velit, placerat vel, mattis at, feugiat scelerisque, quam. Maecenas non quam et erat lacinia venenatis.
+		                            &lt;/p&gt;
+		                            &lt;h3&gt;Voluptatem accusantium doloremque laudantium&lt;/h3&gt;
+		                            &lt;p&gt;
+		                                Um ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+		                            &lt;/p&gt;
+								</textarea>
+							</div>
+                        </div>
+                    </div>
+                    <p class="new_page_path">
+                        <span>Page location:</span>
+                        Site title / Some page / <span>Untitled</span>
+                        <input class="custom_button" type="button" value="Move ..." name="somename"/>
+                    </p>
+                    <div class="buttonBar">
+                        <a href="#" class="button-default">Save</a>
+                        <a href="#" class="button">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER copyright -->
+        <div class="fl-container footer_copyright">
+            <a href="#">Back To Top</a>
+            <p>
+                Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
+                <br/>
+                &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
+            </p>
+        </div>
+    </body>
+</html>
