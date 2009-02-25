@@ -283,16 +283,19 @@ function setIframeHeight(ifrm) {
      	  		curScroll = (document.body.parentElement) ? document.body.parentElement.scrollTop : 0;
 		}
 		var barTop = curScroll;
-		$("#toolbarcontainer").css("width",$("#toolbarplaceholder").width() + "px");
+		$("#toolbarcontainer").css("width",$("#toolbarplaceholder").width() - 2 + "px");
 		if (barTop <= minTop){
 			$("#toolbarcontainer").css("position","absolute");
+			$("#toolbarcontainer").css("margin-top","10px");
 			$("#toolbarcontainer").css("top",minTop + "px");
 		} else {
 			if (BrowserDetect.browser == "Explorer" && BrowserDetect.version == 6){
 				$("#toolbarcontainer").css("position","absolute");
+				$("#toolbarcontainer").css("margin-top","0px");
 				$("#toolbarcontainer").css("top",barTop + "px");
 			} else {
 				$("#toolbarcontainer").css("position","fixed");
+				$("#toolbarcontainer").css("margin-top","0px");
 				$("#toolbarcontainer").css("top","0px");
 			}
 		}
