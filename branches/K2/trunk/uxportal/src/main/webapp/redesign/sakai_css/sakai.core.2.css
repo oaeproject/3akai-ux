@@ -235,8 +235,13 @@ a {
 	font-weight:normal;
 }
 .page_nav a strong {
-	font-size: 1.1em;
+	font-size: 1.0em;
 	color: #333;
+}
+
+.add_a_new {
+	margin:-2px 0px 5px 10px;
+	font-weight:bold !important;
 }
 
 /********************************************/
@@ -292,7 +297,7 @@ a {
 	color: #333;
 	padding: 0 0px 0 5px;
 }
-.content h1 {
+.content h1,h2,h3 {
     font-size: 1.25em;
     margin: 0;
 	padding: 0;
