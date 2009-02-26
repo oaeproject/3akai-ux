@@ -12,14 +12,14 @@
         <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
 		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
 		
-		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
-		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
-		
 		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
 		<script type="text/javascript" src="Fluid-all.js"></script>
 		<script type="text/javascript" src="BrowserDetect.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		
+		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
+		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
 		
     </head>
     <body id="root" class="fl-centered fl-container">
@@ -62,54 +62,165 @@
 			</td>   
 		--></div>
 		
-        <!-- EXPLORE BAR -->
+		<!-- EXPLORE BAR -->
         <div class="fl-container fl-fix explore_nav">
             <ul class="explore fl-force-left">
-                <li class="explore-home">
-                    Sakai
-                </li>
-                <li>
-                    <a href="#People">People</a>
-                </li>
-                <li>
-                    <a href="#Groups">Courses &amp; Sites</a>
-                </li>
-                <li>
-                    <a href="#Sites">Search</a>
-                </li>
+                <li><a href="#">My Sakai</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Inbox</a></li>
+				<li><a href="#">Contacts</a><a href="#"><small>&nbsp;(2 Online)</small></a></li>
+				<li><a href="#">Course & Sites</a></li>
+				<li><a href="#">Explore</a></li>
             </ul>
             <ul class="personal fl-force-right">
-                <li>
-                    <img src="images/profile_icon.png" alt="icon" style="width:16px;margin:0 5px;"/>
-					<a href="#" id="personal-actions"><strong id="userid"></strong>
-                    <img src="images/arrow_down_sm.png" alt="select" /></a>
-                </li>
-                <li>
-                    <a href="#">Inbox</a>
-                </li>
-                <li>
-                    <a href="#">Help</a>
-                </li>
-                <li class="last">
-                    <a href="#">Sign out</a>
-                </li>
+                <li>Signed in as <strong id="userid"></strong></li>
+                <li><a href="#">Help</a></li>
+                <li><a href="#">Sign out</a></li>
             </ul>
         </div>
-        <!-- WORK AREA -->
-        <div class="fl-fix">
-            <!-- TITLE BAR + SEARCH -->
-            <div class="fl-container site_heading">
-                <form class="search fl-force-right" action="someaction" method="post">
-                    <input type="text" name="search" value="search site" class="fl-force-left search_field" /><input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" />
-                </form><h1 id="sitetitle"></h1>
+		
+		<!-- TITLE BAR + SEARCH -->
+        <div class="fl-container site_heading">
+            <form class="search fl-force-right" action="" method="">
+                <input type="text" name="search" value="Search this site" class="fl-force-left search_field" />
+                <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" />
+            </form>
+            <h1 id="sitetitle"></h1>
+        </div>
+      
+	   <!-- WORK AREA -->
+        <div class="fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
+	       
+            <!-- Page Nav -->
+            <div class="fl-col-side page_nav">	
+				<div class="pages">
+				<ul>
+					<li><a href="#"><strong>Add a New...</strong></a></li>
+					<li><a href="#">John's Page</a></li>
+					<li><a href="#">Katy's Page</a></li>
+					<li><a href="#">Sitemap</a></li>
+					<li><a href="#">Cool Page</a></li>
+					<li><a href="#">Random Page</a></li>
+				</ul>
+				
+				<h3>Recent Activity</h3>
+                <ul>
+                    <li>
+                    	<a href="#">Another Page</a>
+						<p>Changed 4 minutes ago</p>
+					</li>
+                    <li>
+                    	<a href="#">Untitled 1</a>
+						<p>Changed 6 minutes ago</p>
+					</li>
+					<li>
+                    	<a href="#">Untitled 2</a>
+						<p>Changed 20 Dec, 2008</p>
+					</li>
+                </ul>
+				</div>
+				
+				<div class="site_management">
+				<h3>Site Management</h3>
+            	<ul>
+                	<li><a href="#">Site Settings</a></li>
+                	<li><a href="#">Members</a></li>
+                	<li><a href="#">Groups</a></li>
+                	<li><a href="#">Appereance</a></li>
+					<li><a href="#">Edit Sidebar</a></li>
+            	</ul>
+				</div>
             </div>
+            
             <!-- Main Content -->
-			<div id="show_view_container">
-				Here comes rendered page
-				<br/>
-				<a id="edit_page">Edit This Page</a>
-			</div>
-            <div id="edit_view_container" style="display:none" class="main_container  content_container">
+            <div class="fl-col-main content_container">
+                
+				<div class="content_page_options">
+					<ul class="fl-force-right">
+						<li><a href="javascript:;" id="edit_page">Edit page</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Print page</a></li>
+						<li class="divider"></li>
+						<li><a href="#">More</a></li>
+					</ul>
+				</div>
+				
+				<h1>This is the page title</h1>
+                
+				<div class="content_page_header">
+                	<img src="images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
+					<p><a href="#">John Doe</a></p>
+					<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
+                </div>
+                
+				
+				
+				<div class="content">
+                    
+					<h1>Header 1</h1>
+					
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					Nam rhoncus, risus in ultrices lacinia, augue nulla elementum nibh, id consectetur sem tellus sed elit.
+					Praesent eget nunc sed arcu tincidunt euismod. Ut dignissim, libero et pulvinar blandit, ante dui egestas lectus, 
+					ac dictum turpis magna et nisl. Suspendisse dignissim vulputate velit. Aenean vitae sapien. Curabitur fermentum accumsan tortor. 
+					Pellentesque sed nisi. Fusce odio nulla, tincidunt nec, gravida in, mattis vel, nunc. Praesent mattis felis eu pede. Cras id sapien. 
+					Integer erat arcu, venenatis malesuada, gravida ac, elementum ut, justo. Nam a velit. Cras tincidunt. Nam id arcu. Aenean consequat, 
+					nunc sit amet dignissim lacinia, mauris arcu facilisis est, a bibendum libero metus nec eros. 
+					</p>
+					
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					Nam rhoncus, risus in ultrices lacinia, augue nulla elementum nibh, id consectetur sem tellus sed elit.
+					Praesent eget nunc sed arcu tincidunt euismod. Ut dignissim, libero et pulvinar blandit, ante dui egestas lectus, 
+					ac dictum turpis magna et nisl. Suspendisse dignissim vulputate velit. Aenean vitae sapien. Curabitur fermentum accumsan tortor. 
+					Pellentesque sed nisi. Fusce odio nulla, tincidunt nec, gravida in, mattis vel, nunc. Praesent mattis felis eu pede. Cras id sapien. 
+					Integer erat arcu, venenatis malesuada, gravida ac, elementum ut, justo. Nam a velit. Cras tincidunt. Nam id arcu. Aenean consequat, 
+					nunc sit amet dignissim lacinia, mauris arcu facilisis est, a bibendum libero metus nec eros. 
+					</p>
+				
+					<h1>Header 2</h1>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					Nam rhoncus, risus in ultrices lacinia, augue nulla elementum nibh, id consectetur sem tellus sed elit.
+					Praesent eget nunc sed arcu tincidunt euismod. Ut dignissim, libero et pulvinar blandit, ante dui egestas lectus, 
+					ac dictum turpis magna et nisl. Suspendisse dignissim vulputate velit. Aenean vitae sapien. Curabitur fermentum accumsan tortor. 
+					Pellentesque sed nisi. Fusce odio nulla, tincidunt nec, gravida in, mattis vel, nunc. Praesent mattis felis eu pede. Cras id sapien. 
+					Integer erat arcu, venenatis malesuada, gravida ac, elementum ut, justo. Nam a velit. Cras tincidunt. Nam id arcu. Aenean consequat, 
+					nunc sit amet dignissim lacinia, mauris arcu facilisis est, a bibendum libero metus nec eros. 
+					</p>
+				
+					<div class="editable">
+						<h1>Discussion</h1>
+						<a href="#" class="fl-icon fl-force-right edit_icon">Edit</a>
+						<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Nam rhoncus, risus in ultrices lacinia, augue nulla elementum nibh, id consectetur sem tellus sed elit.
+						Praesent eget nunc sed arcu tincidunt euismod. Ut dignissim, libero et pulvinar blandit, ante dui egestas lectus, 
+						ac dictum turpis magna et nisl. Suspendisse dignissim vulputate velit. Aenean vitae sapien. Curabitur fermentum accumsan tortor. 
+						Pellentesque sed nisi. Fusce odio nulla, tincidunt nec, gravida in, mattis vel, nunc. Praesent mattis felis eu pede. Cras id sapien. 
+						Integer erat arcu, venenatis malesuada, gravida ac, elementum ut, justo. Nam a velit. Cras tincidunt. Nam id arcu. Aenean consequat, 
+						nunc sit amet dignissim lacinia, mauris arcu facilisis est, a bibendum libero metus nec eros.
+						</p>
+					</div>
+					
+
+					<div class="editable">
+						<h1>Video</h1>
+						<a href="#" class="fl-icon fl-force-right edit_icon">Edit</a>
+						<a href="#"><img src="images/video_poster.png" alt="User video" /></a>
+						<p class="content_caption">
+							source: <strong></>youtube.com</strong>
+						</p>
+					</div>
+					
+                </div>                
+            </div>
+        </div>
+	 
+        <!-- WORK AREA -->
+        <div class="fl-fix" id="edit_view_container" style="display:none">
+            <div class="main_container  content_container">
                 <div class="content">
                     <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
                     <div class="buttonBar" style="margin-bottom:-1.2em">
