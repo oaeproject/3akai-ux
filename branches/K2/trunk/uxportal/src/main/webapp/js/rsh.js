@@ -605,10 +605,14 @@ window.historyStorage = {
 
 	/*Public*/
 	hasKey: function(key) {
-		this.assertValidKey(key);
-		/*make sure the hash table has been loaded from the form*/
-		this.loadHashTable();
-		return (typeof this.storageHash[key] !== "undefined");
+		try {
+			this.assertValidKey(key);
+			/*make sure the hash table has been loaded from the form*/
+			this.loadHashTable();
+			return (typeof this.storageHash[key] !== "undefined");
+		} catch (err){
+			return null;
+		}
 	},
 
 	/*Public*/
@@ -677,30 +681,34 @@ window.historyStorage = {
 	},
 	fromJSON: function(s) {
 		//return s.parseJSON();
-		var j;
+		try {
+			var j;
+	
+	        function walk(k, v) {
+	        	var i;
+	        	if (v && typeof v === 'object') {
+	        		for (i in v) {
+	        			if (Object.prototype.hasOwnProperty.apply(v, [i])) {
+	        				v[i] = walk(i, v[i]);
+	         			}
+	         		}
+	         	}
+	         	return filter(k, v);
+	         }
+	
+	         if (/^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/.test(s.
+	         	replace(/\\./g, '@').
+	         	replace(/"[^"\\\n\r]*"/g, ''))) {
+	
+	         	j = eval('(' + s + ')');
+	
+	         	return typeof filter === 'function' ? walk('', j) : j;
+	         }
+		 } catch (err){
+		 	return null;
+		 }
 
-        function walk(k, v) {
-        	var i;
-        	if (v && typeof v === 'object') {
-        		for (i in v) {
-        			if (Object.prototype.hasOwnProperty.apply(v, [i])) {
-        				v[i] = walk(i, v[i]);
-         			}
-         		}
-         	}
-         	return filter(k, v);
-         }
-
-         if (/^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/.test(s.
-         	replace(/\\./g, '@').
-         	replace(/"[^"\\\n\r]*"/g, ''))) {
-
-         	j = eval('(' + s + ')');
-
-         	return typeof filter === 'function' ? walk('', j) : j;
-         }
-
-        throw new SyntaxError('parseJSON');
+        //throw new SyntaxError('parseJSON');
 	}
 };
  
