@@ -15,7 +15,7 @@
 							<li id="sites-menu-icon"><a href="#">Uncategorized</a>
 								<ul>
 									{for site in items}
-										<li><a href="/dev/site_home_page.html?siteid=${site.id}" class="sites-menu-blue">${site.title}</a></li>
+										<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}" class="sites-menu-blue">${site.title}</a></li>
 									{/for}
 								</ul>
 							</li>
@@ -27,9 +27,9 @@
 								<ul id="sites_list_uncategorized">
 									{for site in entry}
 										{if site.type != "portfolio"}
-										<li><a href="/dev/site.html?siteid=${site.id}" class="sites-menu-blue">${site.name}</a></li>
+										<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}" class="sites-menu-blue">${site.name}</a></li>
 										{else}
-										<li><a href="/dev/site.html?siteid=${site.id}" class="sites-menu-green">${site.name}</a></li>
+										<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}" class="sites-menu-green">${site.name}</a></li>
 										{/if}
 									{/for}
 								</ul>
