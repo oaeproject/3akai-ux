@@ -15,13 +15,13 @@ sdata.events.Listener.onLoad(function() {
 		onSuccess : function(data) {
 			var mejson = eval('(' + data + ')');
 			sdata.Ajax.request({
-				url : "bundle/default.json",
+				url : "/dev/bundle/default.json",
 				httpMethod : "GET",
 				onSuccess : function(data) {
 					var defaultjson = eval('(' + data + ')');
 					if (mejson.locale) {
 						sdata.Ajax.request({
-							url: "bundle/" + mejson.locale.language + "_" + mejson.locale.country + ".json",
+							url: "/dev/bundle/" + mejson.locale.language + "_" + mejson.locale.country + ".json",
 							httpMethod: "GET",
 							onSuccess: function(data){
 								var localjson = eval('(' + data + ')');
