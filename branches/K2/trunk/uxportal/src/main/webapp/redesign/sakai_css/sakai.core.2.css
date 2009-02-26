@@ -1,6 +1,9 @@
 html {
     /*background-color:#f5f5f5;*/
     background:#fff url(../images/body_bg.png) repeat-x top left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: lighter;
+	line-height: 120%;
 }
 body {
     padding:0 10px;
@@ -50,7 +53,7 @@ a {
 
 }
 .explore_nav .explore {
-    font-weight:bold;
+    font-size: 1.05em;
 }
 .explore_nav .explore li {
     padding-right:15px;
@@ -58,13 +61,21 @@ a {
 .explore_nav .explore li a {
     color:#fff;    
 }
+.explore_nav .explore li small {
+    color:#ddd;
+	font-size: 0.85em;
+}
 .explore_nav .personal {
 	padding-top:1px;
 }
 .explore_nav .personal li a{
-    font-size:0.85em;
-    padding:0 7px 0 5px;
-    border-right: 1px solid #999;
+    font-size:0.95em;
+    padding:0 5px 0 7px;
+    border-left: 1px solid #999;
+    color:#ddd;
+}
+.explore_nav .personal li strong {
+	color: #ddd;
 }
 .explore_nav .personal li.last a{
 	 border:none;
@@ -89,11 +100,12 @@ a {
     margin-top:5px;
 }
 .site_heading .search .search_field {
-    width:200px; 
+    width:230px; 
     padding:2px 5px; 
     border:2px solid #ccc; 
     border-right:none; 
     border-bottom:none;
+	color:#BBBBBB;
 }
 .site_heading .search .search_button {
     background-color:#333; 
@@ -155,6 +167,11 @@ a {
     border-left:none;
 }
 
+/* Fluid overrides */
+.fl-col-mixed2 .fl-col-side{
+	width: 150px;
+}
+
 /********************************************/
 .main_container {
     border:1px solid #ccc;
@@ -164,7 +181,7 @@ a {
 
 .column_splitter_sites {
 	/* simple hack free approach to a column divider that needs to match either columns height */
-    background:#fff url(../images/single_grey_pixel.png) repeat-y 220px top;
+    background:#fff url(../images/single_grey_pixel.png) repeat-y 170px top;
 }
 
 .main_container a {
@@ -174,64 +191,143 @@ a {
 
 /********************************************/
 /* Page Specific Nav menu */
+/********************************************/
+
+/* Page Specific Nav menu */
 .page_nav {
     /*border-right:1px solid #ccc;*/
 }
+.page_nav div {
+	position: relative;
+	left: -10px;
+}
+.page_nav .site_management {
+	border-top: 1px solid #ddd;
+}
 .page_nav h3 {
-    margin:1em 0 0 0; 
-    padding:0;
+    margin: 0; 
+    padding: 10px 0 5px 10px;
+	color: #333;
 }
 .page_nav ul {
-    margin:0; 
-    padding:0;
+    margin:0;
+	padding: 0 0 20px 10px;
 }
 .page_nav li {
     list-style-type:none;
+	padding: 2px 0 2px 0;
 }
 .page_nav li a {
     color:#666;
+	font-size: 0.95em;
 }
-.page_nav a {
-    font-weight:normal;
+.page_nav li p {
+	margin: 0;
+	padding: 0;
+	color: #bbb;
+	font-size: 0.85em;
 }
 .page_nav a {
     color:#000; 
-    padding-top:20px; 
+    padding: 0;
     display:block; 
-    font-size:.9em
+    font-size:.9em;
+	font-weight:normal;
 }
-.page_nav .fl-listmenu a {
-    padding:3px 0;
-    font-size:1em;
+.page_nav a strong {
+	font-size: 1.1em;
+	color: #333;
 }
-.page_nav .fl-listmenu {
-    border:none;
-}
-.page_nav .fl-listmenu li {
-    border:none;
-}
-
 
 /********************************************/
 /* Content  */
+/********************************************/
 .content_container {
-    /*border-left:1px solid #ccc;*/
 }
-.content_container h2 {
-    font-size: 1.5em;
-    margin: 0em 0;
-}
-.content_container .byline {
+.content_page_header{
     color:#999;
+	padding: 14px 0 14px 0;
+}
+.content_container .content_page_header p {
+	color: #999;
+	margin: 0;
+	font-size: .95em;
+	padding-bottom: 0px;
+}
+.content_container .content_page_header a {
+	color: #333;
+	font-size: .95em;
 }
 .content_container .profile {
-    background-image: url(../images/profile_icon.png);
-    width:24px;
-    height:24px;
-    margin-top:-10px;
-	padding-bottom:10px;
+    width:32px;
+	height:32px;
+    float: left;
+}
+.content_container h1 {
+    font-size: 1.6em;
+	font-weight: bold;
+    margin: 0;
+	padding: 0;
+}
+.content_page_options {
+		
 }
 
+.content_page_options ul {
+    padding: 0;
+    margin:0;
+}
+.content_page_options li {
+    display:inline;
+    list-style-type:none;
+}
+.content_page_options .divider {
+	background-image: url(../images/single_grey_pixel.png);
+	background-repeat: repeat;
+	width: 1px;
+	height: 100%;
+}
+
+.content_page_options li a {
+	color: #333;
+	padding: 0 0px 0 5px;
+}
+.content h1 {
+    font-size: 1.25em;
+    margin: 0;
+	padding: 0;
+	color: #333;
+}
+.content p {
+	color: #333;
+	line-height: 140%;
+	padding: 2px 0 10px 0;
+	font-size: .95em;
+}
+
+.content .editable h1 {
+	border-bottom: 1px solid #ddd;
+	height: 24px;
+	font-size: 1.15em;
+	margin-bottom: 5px;
+}
+
+.content .edit_icon {
+	background-image: url(../images/edit_icon.png);
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: -30px;
+}
+
+.content .content_caption {
+	font-size: .8em;
+	padding-left: 10px;
+}
+
+.content .content_caption strong {
+	color: #333;
+}
 .content_container .search_field {
     width:200px; 
     padding:2px 5px; 
@@ -269,11 +365,9 @@ a {
 }
 .content_container .custom_button {
 	border:1px solid #ccc;
-	font-size: 0.8em;
 	background:#fff url(../images/custom_button_gradient.png) repeat-x bottom center;
-	padding:2px 4px;
+	padding:0px 8px;
 	cursor: pointer;
-	margin-left: 5px;
 }
 .content_container .create_options a {
 	text-align:center;
@@ -302,6 +396,7 @@ a {
 	margin:0 auto;
 }
 /* overrides for standard fl-col */
+.fl-col-mixed2 .fl-col-main { margin-left: 170px; }
 .content_container .create_options .more_options .fl-col {margin:0; width:120px; overflow:hidden;}
 .content_container .create_options .more_options p {color:#999; margin-right:80px;}
 .content_container .create_options .more_options p a {color:#000;}
@@ -572,9 +667,6 @@ a {
 	padding:5px 5px 0px 5px;
 	border: 1px dotted #CCCCCC;
 	margin-top: 10px;
-}
-.fl-tab-content-editor{
-	padding:0px !important;
 }
 .messageInformation{
 	color:#666;
