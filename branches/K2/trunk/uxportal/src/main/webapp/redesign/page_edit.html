@@ -12,11 +12,56 @@
         <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
 		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
 		
+		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
+		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
+		
 		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
 		<script type="text/javascript" src="Fluid-all.js"></script>
+		<script type="text/javascript" src="BrowserDetect.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
 		
     </head>
     <body id="root" class="fl-centered fl-container">
+    	
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+   
+   		<!-- TrimPath Templates -->
+		<div id="editor_extra_buttons"><!--
+			<td>
+				<span class='mceSeparator' style='width:5px'/>
+			</td>
+			<td>
+				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+					<tbody>
+						<tr>
+							<td class='mceFirst'>
+								<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Insert More</a>
+							</td>
+							<td class='mceLast'>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+			<td>
+				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+					<tbody>
+						<tr>
+							<td class='mceFirst'>
+								<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Layout</a>
+							</td>
+							<td class='mceLast'>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>   
+		--></div>
+		
         <!-- EXPLORE BAR -->
         <div class="fl-container fl-fix explore_nav">
             <ul class="explore fl-force-left">
@@ -36,7 +81,7 @@
             <ul class="personal fl-force-right">
                 <li>
                     <img src="images/profile_icon.png" alt="icon" style="width:16px;margin:0 5px;"/>
-					<a href="#" id="personal-actions"><strong>John Doe</strong>
+					<a href="#" id="personal-actions"><strong id="userid"></strong>
                     <img src="images/arrow_down_sm.png" alt="select" /></a>
                 </li>
                 <li>
@@ -56,7 +101,7 @@
             <div class="fl-container site_heading">
                 <form class="search fl-force-right" action="someaction" method="post">
                     <input type="text" name="search" value="search site" class="fl-force-left search_field" /><input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" />
-                </form><h1>Site Title</h1>
+                </form><h1 id="sitetitle"></h1>
             </div>
             <!-- Main Content -->
 			<div id="show_view_container">
@@ -68,8 +113,8 @@
                 <div class="content">
                     <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
                     <div class="buttonBar" style="margin-bottom:-1.2em">
-                        <a href="#" class="button-default">Save</a>
-                        <a href="#" class="button cancel-button">Cancel</a>
+                        <a href="javascript:;" class="button-default">Save</a>
+                        <a href="javascript:;" class="button cancel-button">Cancel</a>
                         <span class="messageInformation" style="padding:20px">Auto saved 3 min 20 sec ago.</span>
                     </div>
                     <ul class="fl-tabs fl-tabs-r tab-nav">
@@ -107,8 +152,8 @@
                         <input class="custom_button" type="button" value="Move ..." name="somename"/>
                     </p>
                     <div class="buttonBar">
-                        <a href="#" class="button-default">Save</a>
-                        <a href="#" class="button cancel-button">Cancel</a>
+                        <a href="javascript:;" class="button-default">Save</a>
+                        <a href="javascript:;" class="button cancel-button">Cancel</a>
                     </div>
                 </div>
             </div>
