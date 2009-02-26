@@ -21,6 +21,10 @@ sakai.site = function(){
 	var meObject = false;
 	var pages = false;
 	var pageconfiguration = false;
+	var pagetypes = {};
+	var pagecontents = {};
+	var myportaljson = false;
+	var myportaljsons = {};
 	
 	
 	/*
@@ -158,7 +162,7 @@ sakai.site = function(){
 		pages.selected = pageid;
 		//document.getElementById("sidebar-content-pages").innerHTML = sdata.html.Template.render("menu_template", pages);
 		
-		/*
+		
 // Accessibility of right hand menu
 		
 		// Pull all the anchors out of the tab order
@@ -188,7 +192,7 @@ sakai.site = function(){
 			//$(".tool-menu1-del").show();
 		}
 		
-		var el = document.getElementById("container");
+		var el = document.getElementById("main-content-div");
 		var hasopened = false;
 		for (var i = 0; i < el.childNodes.length; i++) {
 			try {
@@ -263,8 +267,39 @@ sakai.site = function(){
 			}
 			
 		}
-*/
+
 		
+	}
+	
+	displayPage = function(response, exists){
+		if (exists) {
+			pagecontents[selectedpage] = response;
+			$("#webpage_edit").show();
+			var el = document.createElement("div");
+			el.id = selectedpage.replace(/ /g, "%20");
+			//el.className = "container_child";
+			el.className = "content";
+			el.innerHTML = response;
+			
+			pagecontents[selectedpage] = el.innerHTML;
+			
+			var els = $("a", el);
+			for (var i = 0; i < els.length; i++) {
+				var nel = els[i];
+				if (nel.className == "contauthlink") {
+					nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
+				}
+			}
+			
+			document.getElementById("main-content-div").appendChild(el);
+			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+			
+			jQuery("a", $("#container")).tabbable();
+			
+		}
+		else {
+			$("#error_404").show();
+		}
 	}
 	
 	/*
@@ -277,7 +312,9 @@ sakai.site = function(){
 		$("#elm1_toolbar4").hide();
 		$(".mceToolbarRow2").hide();
 		$(".mceToolbarRow3").hide();
-		$($(".mceExternalToolbar").get(0)).remove();
+		if (!myCustomInitInstanced) {
+			$($(".mceExternalToolbar").get(0)).remove();	
+		}
 		$("#elm1_toolbar" + id).show();
 		$("#elm1_external").show();
 		$(".mceExternalToolbar").show();
@@ -298,7 +335,9 @@ sakai.site = function(){
 			showBar(1);
 			setTimeout("sakai._site.setIframeHeight('elm1_ifr')", 100);
 			placeToolbar();
-			$(".mceToolbarEnd").before(sdata.html.Template.render("editor_extra_buttons",{}));
+			if (!myCustomInitInstanced) {
+				$(".mceToolbarEnd").before(sdata.html.Template.render("editor_extra_buttons", {}));
+			}
 			
 		} 
 		catch (err) {
@@ -445,10 +484,8 @@ sakai.site = function(){
 	$("#edit_page").bind("click", function(ev){
 		$("#show_view_container").hide();
 		$("#edit_view_container").show();
-		if (!myCustomInitInstanced) {
-			myCustomInitInstanced = true;
-			myCustomInitInstance();
-		}
+		myCustomInitInstance();
+		myCustomInitInstanced = true;
 		
 		return false;
 	});
