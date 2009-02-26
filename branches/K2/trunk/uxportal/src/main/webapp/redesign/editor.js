@@ -338,7 +338,7 @@ sakai.site = function(){
 	}
 	
 	sakai._site.setIframeHeight = function(ifrm){
-		var iframeWin = window.frames[0];
+		var iframeWin = window.frames[1];
 		var iframeEl = document.getElementById ? document.getElementById(ifrm) : document.all ? document.all[ifrm] : null;
 		if (iframeEl && iframeWin) {
 			if (BrowserDetect.browser != "Firefox") {
