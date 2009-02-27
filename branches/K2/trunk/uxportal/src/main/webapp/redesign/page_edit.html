@@ -65,7 +65,7 @@
 		<!-- EXPLORE BAR -->
         <div class="fl-container fl-fix explore_nav">
             <ul class="explore fl-force-left">
-                <li><a href="#">My Sakai</a></li>
+                <li><a href="/dev/dashboard.html">My Sakai</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Inbox</a></li>
 				<li><a href="#">Contacts</a><a href="#"><small>&nbsp;(2 Online)</small></a></li>
@@ -93,43 +93,44 @@
 	       
             <!-- Page Nav -->
             <div class="fl-col-side page_nav">	
-				<div class="pages">
 				<a class="add_a_new" href="javascript:;">Add a New ...</a>
-				<h3>Navigation Menu</h3>
-				<ul>
-					<li><a href="#"><strong>John's Page</strong></a></li>
-					<li><a href="#">Katy's Page</a></li>
-					<li><a href="#">Sitemap</a></li>
-					<li><a href="#">Cool Page</a></li>
-					<li><a href="#">Random Page</a></li>
-				</ul>
-				
-				<h3>Recent Activity</h3>
-                <ul>
-                    <li>
-                    	<a href="#">Another Page</a>
-						<p>Changed 4 minutes ago</p>
-					</li>
-                    <li>
-                    	<a href="#">Untitled 1</a>
-						<p>Changed 6 minutes ago</p>
-					</li>
-					<li>
-                    	<a href="#">Untitled 2</a>
-						<p>Changed 20 Dec, 2008</p>
-					</li>
-                </ul>
+				<div id="page_nav_content" class="pages page_nav_content">
+					<!--<h3>Navigation Menu</h3>
+					<ul>
+						<li><a href="#"><strong>John's Page</strong></a></li>
+						<li><a href="#">Katy's Page</a></li>
+						<li><a href="#">Sitemap</a></li>
+						<li><a href="#">Cool Page</a></li>
+						<li><a href="#">Random Page</a></li>
+					</ul>
+					
+					<h3>Recent Activity</h3>
+	                <ul>
+	                    <li>
+	                    	<a href="#">Another Page</a>
+							<p>Changed 4 minutes ago</p>
+						</li>
+	                    <li>
+	                    	<a href="#">Untitled 1</a>
+							<p>Changed 6 minutes ago</p>
+						</li>
+						<li>
+	                    	<a href="#">Untitled 2</a>
+							<p>Changed 20 Dec, 2008</p>
+						</li>
+	                </ul>
+					</div>-->
 				</div>
-				
+					
 				<div class="site_management">
-				<h3>Site Management</h3>
-            	<ul>
-                	<li><a href="#">Site Settings</a></li>
-                	<li><a href="#">Members</a></li>
-                	<li><a href="#">Groups</a></li>
-                	<li><a href="#">Appereance</a></li>
-					<li><a href="#">Edit Sidebar</a></li>
-            	</ul>
+					<h3>Site Management</h3>
+	            	<ul>
+	                	<li><a href="#">Site Settings</a></li>
+	                	<li><a href="#">Members</a></li>
+	                	<li><a href="#">Groups</a></li>
+	                	<li><a href="#">Appereance</a></li>
+						<li><a href="#">Edit Sidebar</a></li>
+	            	</ul>
 				</div>
             </div>
             
@@ -146,7 +147,7 @@
 					</ul>
 				</div>
 				
-				<h1>This is the page title</h1>
+				<h1 id="pagetitle"></h1>
                 
 				<div class="content_page_header">
                 	<img src="images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
