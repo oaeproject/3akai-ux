@@ -1025,8 +1025,9 @@ sdata.widgets.WidgetLoader =  {
 				var split = id.split("_");
 				var widgetname = split[1];
 				if (Widgets.widgets[widgetname]){
-					var widgetid = split[2];
-					var placement = split[3];
+					var widgetid = split[2];					
+					var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1; 
+					var placement = id.substring(length);
 					if (! bigarray[widgetname]){
 						bigarray[widgetname] = [];
 					}
