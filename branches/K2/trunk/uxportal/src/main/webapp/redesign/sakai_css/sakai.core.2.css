@@ -197,7 +197,11 @@ a {
 .page_nav {
     /*border-right:1px solid #ccc;*/
 }
-.page_nav div {
+.page_nav_content {
+	position: relative;
+	left: -10px;
+}
+.site_management {
 	position: relative;
 	left: -10px;
 }
@@ -240,7 +244,6 @@ a {
 }
 
 .add_a_new {
-	margin:-2px 0px 5px 10px;
 	font-weight:bold !important;
 }
 
