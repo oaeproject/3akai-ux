@@ -309,59 +309,7 @@ var Widgets = {
 			siteportal:0,
 			multipleinstance: true,
 			img:"/devwidgets/polltracker/images/poll_icon.gif"
-		},
-		/*
-		contactinformation :
-		{
-			description:"contactinformation",
-			iframe:0,
-			url:"/devwidgets/contactinformation/contactinformation.html",
-			name:"Contact Information",
-			id:"contactinformation",
-			personalportal:0,
-			siteportal:0,
-			ca:1,
-			img:"/devwidgets/contactinformation/images/icon.jpg"
-		},*/
-		navigation :
-		{
-			description:"navigation",
-			iframe:0,
-			url:"/devwidgets/navigation/navigation.html",
-			name:"Navigation",
-			id:"navigation",
-			personalportal:0,
-			siteportal:0,
-			ca:0,
-			img:"/devwidgets/navigation/images/navigation.png"
-		},
-		form :
-		{
-			description:"form",
-			iframe:0,
-			url:"/devwidgets/form/form.html",
-			name:"Form",
-			id:"form",
-			personalportal:0,
-			siteportal:0,
-			ca:0,
-			img:"/devwidgets/form/images/form.png"
-		}/*
-,
-		timeplot :
-		{
-			description:"timeplot",
-			iframe:0,
-			url:"/devwidgets/timeplot/partIA/index.html",
-			name:"timeplotr",
-			id:"timeplot",
-			ca: 1,
-			personalportal:0,
-			siteportal:0,
-			multipleinstance: true,
-			img:"/devwidgets/polltracker/images/poll_icon.gif"
 		}
-*/
 	},
 	orders:[
 		{
