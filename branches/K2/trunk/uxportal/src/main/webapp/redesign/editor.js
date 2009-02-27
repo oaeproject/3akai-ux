@@ -114,27 +114,41 @@ sakai.site = function(){
 		Page Loading 
 	*/
 	
-	loadPagesInitial = function(){
+	var loadPagesInitial = function(){
 	
 		$("#initialcontent").show();
 		totaltotry = 0;
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/pageconfiguration?sid=" + Math.random(),
+			url: "/sdata/f/_sites/" + currentsite.id + "/pageconfiguration?sid=" + Math.random(),
 			onSuccess: function(response){
 				pages = eval('(' + response + ')');
 				pageconfiguration = pages;
-				History.history_change();
+				loadNavigation();
 			},
 			onFail: function(httpstatus){
 				pages = {};
 				pages.items = {};
 				pageconfiguration = pages;
-				History.history_change();
+				loadNavigation();
 			}
 		});
 		
 	};
+	
+	var loadNavigation = function(){
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
+			onSuccess: function(response){
+				$("#page_nav_content").append(response);
+				sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
+				History.history_change();
+			},
+			onFail: function(httpstatus){
+				History.history_change();
+			}
+		});
+	}
 	
 	sakai.site.openPage = function(pageid){
 		History.addBEvent(pageid);
@@ -144,10 +158,17 @@ sakai.site = function(){
 	
 		if (!pageid) {
 			for (var i = 0; i < pages.items.length; i++) {
-				if (pages.items[i].top) {
+				if (pages.items[i].id.indexOf("/") == -1) {
 					pageid = pages.items[i].id;
 					break;
 				}
+			}
+		}
+		
+		for (var i = 0; i < pages.items.length; i++){
+			if (pages.items[i].id == pageid){
+				$("#pagetitle").text(pages.items[i].title);
+				break;
 			}
 		}
 		
@@ -252,7 +273,7 @@ sakai.site = function(){
 				else 
 					if (type == "webpage") {
 						sdata.Ajax.request({
-							url: "/sdata/f/" + currentsite.id + "/pages/" + selectedpage + "/content" + "?sid=" + Math.random(),
+							url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + selectedpage + "/content" + "?sid=" + Math.random(),
 							onSuccess: function(response){
 								displayPage(response, true);
 							},
