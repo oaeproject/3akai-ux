@@ -25,6 +25,7 @@ sakai.site = function(){
 	var pagecontents = {};
 	var myportaljson = false;
 	var myportaljsons = {};
+	var isEditingNavigation = false;
 	
 	
 	/*
@@ -140,6 +141,7 @@ sakai.site = function(){
 		sdata.Ajax.request({
 			url: "/sdata/f/_sites/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
 			onSuccess: function(response){
+				pagecontents["_navigation"] = response;
 				$("#page_nav_content").append(response);
 				sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
 				History.history_change();
@@ -497,25 +499,226 @@ sakai.site = function(){
 		last = new Date().getTime();
 	}
 	
+	/*
+		Edit page functionality 
+	*/
+	
+	var editPage = function(pageid){
+
+		var escaped = pageid.replace(/ /g, "%20");
+		$("#" + escaped).html("");
+		var el = document.getElementById("main-content-div");
+		var hasopened = false;
+		for (var i = 0; i < el.childNodes.length; i++) {
+			try {
+				el.childNodes[i].style.display = "none";
+			} 
+			catch (err) {
+			}
+		}
+		//$("#webpage_edit").hide();
+		
+		var pagetitle = "";
+				
+		for (var i = 0; i < pages.items.length; i++){
+			if (pages.items[i].id == selectedpage){
+				pagetitle = pages.items[i].title;
+				break;
+			}
+		}
+		if (pageid == "_navigation"){
+			$("#title-input-container").hide();
+			isEditingNavigation = true;
+		} else {
+			$("#title-input-container").show();
+			isEditingNavigation = false;
+		}
+		
+		$(".title-input").val(pagetitle);
+
+		try {
+			tinyMCE.get("elm1").setContent("");
+				
+			var content = pagecontents[pageid];
+			var content2 = pagecontents[pageid];
+			var findLinks = new RegExp("<"+"img"+".*?>","gim");
+			var extractAttributes = /\s\S*?="(.*?)"/gim;	
+			
+			while (findLinks.test(content)) {
+				var linkMatch = RegExp.lastMatch;
+				
+				var todo = 2;
+				var originalicon = "";
+				var newicon = "";
+				var typeofwidget = "";
+				
+				while (extractAttributes.test(linkMatch)) {
+					var attribute = RegExp.lastMatch;
+					var value = RegExp.lastParen;
+					attribute = attribute.split("=")[0].replace(/ /g,"")				
+					if (attribute.toLowerCase() == "id") {
+						if (value.split("_")[0] == "widget") {
+							todo -= 1;
+							typeofwidget = value.split("_")[1];
+						}
+					}
+					else 
+						if (attribute.toLowerCase() == "src") {
+							todo -= 1;
+							originalicon = value;
+						}
+					if (Widgets.widgets[typeofwidget]){
+						newicon = Widgets.widgets[typeofwidget].img;
+					}
+				}
+					
+				if (todo == 0 && originalicon && newicon && (originalicon != newicon)){
+					content2 = content2.replace(originalicon, newicon);
+				}	
+					
+			}
+					
+					
+		} catch (err){
+
+		}
+				
+		tinyMCE.get("elm1").setContent(content2);
+	}
+	
 	
 	/*
 		Local event handlers 
 	*/
 	
 	$("#edit_page").bind("click", function(ev){
-		$("#show_view_container").hide();
-		$("#edit_view_container").show();
+		editPage(selectedpage);
 		myCustomInitInstance();
 		myCustomInitInstanced = true;
-		
+		$("#show_view_container").hide();
+		$("#edit_view_container").show();
+		return false;
+	});
+	
+	$("#edit_sidebar").bind("click", function(ev){
+		editPage("_navigation");
+		myCustomInitInstance();
+		myCustomInitInstanced = true;
+		$("#show_view_container").hide();
+		$("#edit_view_container").show();
 		return false;
 	});
 	
 	$(".cancel-button").bind("click", function(ev){
+		
+		var escaped = selectedpage.replace(/ /g, "%20");
+		document.getElementById(escaped).innerHTML = pagecontents[selectedpage];
+		if (pagetypes[selectedpage] == "webpage") {
+			$("#webpage_edit").show();
+		}
+		document.getElementById(escaped).style.display = "block";
+		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+		
 		$("#edit_view_container").hide();
 		$("#show_view_container").show();
 	});
 	
+	$("#print_page").bind("click", function(ev){
+		printPage();
+	});
+	
+	$(".save_button").bind("click", function(ev){
+		
+		if (isEditingNavigation){
+			
+			// Navigation
+			
+			pagecontents["_navigation"] = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+			$("#page_nav_content").html(pagecontents["_navigation"]);
+			
+			$("#edit_view_container").hide();
+			$("#show_view_container").show();
+			
+			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
+			sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_navigation", "content", pagecontents["_navigation"], function(){});
+		
+		} else {
+		
+			// Other page
+		
+			if (pagetypes[selectedpage] == "webpage") {
+				$("#webpage_edit").show();
+			}
+			var escaped = selectedpage.replace(/ /g, "%20");
+			pagecontents[selectedpage] = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+			document.getElementById(escaped).innerHTML = pagecontents[selectedpage];
+			
+			$("#edit_view_container").hide();
+			$("#show_view_container").show();
+			
+			var els = $("a", $("#" + escaped));
+			for (var i = 0; i < els.length; i++) {
+				var nel = els[i];
+				if (nel.className == "contauthlink") {
+					nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
+				}
+			}
+			
+			document.getElementById(escaped).style.display = "block";
+			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+			sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + selectedpage, "content", pagecontents[selectedpage], function(){});
+			
+		}
+		
+	});
+	
+	/*
+		Print page 
+	*/
+	
+	var printPage = function(){
+		
+		//save page to be printed into my personal space
+		
+		var escaped = selectedpage.replace(/ /g, "%20");
+		var content = $("#" + escaped).html();
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/p/_print",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				
+				var pagetitle = "";
+				
+				for (var i = 0; i < pages.items.length; i++){
+					if (pages.items[i].id == selectedpage){
+						pagetitle = pages.items[i].title;
+						break;
+					}
+				}
+				
+				popUp("print.html?pagetitle=" + pagetitle);
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var popUp = function(URL) {
+		day = new Date();
+		id = day.getTime();
+		eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150');");
+	}
 	
 	/*
 		Global event listeners
