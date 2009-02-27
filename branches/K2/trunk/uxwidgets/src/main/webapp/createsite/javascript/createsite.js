@@ -136,9 +136,9 @@ sakai.createsite = function(tuid,placement,showSettings){
 		// Create the site navigation file
 		
 		var content = "<h3>Navigation Menu</h3>";
-		content += '<img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" />';
+		content += '<p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>';
 		content += '<h3>Recent Activity</h3>';
-		content += '<img id="widget_navigation_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" />';
+		content += '<p><img id="widget_navigation_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>';
 		
 		var data = {"items": {
 			"data": content,
@@ -165,7 +165,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		// Create dummy site homepage file
 		
-		var content = "<h2>Home</h2>";
+		var content = $("#home_page_example").html();
 		
 		var data = {"items": {
 			"data": content,
