@@ -67,11 +67,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 		$("#create-site-course-requested").show();
 	};
 	
+	var sitetitle = false;
+	var sitedescription = false;
+	var siteid = false;
+	
 	sakai.createsite.createSite = function(){
 		
-		var sitetitle = $("#createsite_newsitename").val();
-		var sitedescription = $("#createsite_newsitedescription").val() || "";
-		var siteid = $("#createsite_newsiteid").val();
+		sitetitle = $("#createsite_newsitename").val();
+		sitedescription = $("#createsite_newsitedescription").val() || "";
+		siteid = $("#createsite_newsiteid").val();
 		
 		siteid = siteid.replace(/[:]/g,"_");
 		siteid = siteid.replace(/[?]/g,"_");
@@ -88,6 +92,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 		//id, name, description, type
 		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "project" };
 
+		//remove button
+		$("#create-site-save-button").hide();
+		$("#create-site-processing-button").show();
+
 		sdata.Ajax.request({
 			url :"/rest/site/" + "checkId?id=" + siteid + "&sid=" + Math.random(),
 			httpMethod : "GET",
@@ -100,9 +108,12 @@ sakai.createsite = function(tuid,placement,showSettings){
 						url: "/rest/site/create",
 						httpMethod: "POST",
 						onSuccess: function(data){
-							document.location = "/dev/site.html?siteid=" + siteid;
+							createSiteNavigation();
 						},
 						onFail: function(status){
+							//Bring button back
+							$("#create-site-processing-button").hide();
+							$("#create-site-save-button").show();
 							if (status == 409 || status == "409") {
 								alert("A site with this URL already exists");
 							}
@@ -118,6 +129,90 @@ sakai.createsite = function(tuid,placement,showSettings){
 				}
 			}
 		});
+	}
+	
+	var createSiteNavigation = function(){
+		
+		// Create the site navigation file
+		
+		var content = "<h3>Navigation Menu</h3>";
+		content += '<img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" />';
+		content += '<h3>Recent Activity</h3>';
+		content += '<img id="widget_navigation_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" />';
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid + "/_navigation",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				createHomePage();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createHomePage = function(){
+		
+		// Create dummy site homepage file
+		
+		var content = "<h2>Home</h2>";
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid + "/_pages/welcome",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				createConfigurationFile();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createConfigurationFile = function(){
+		
+		// Create page configuration file
+		
+		var content = '{"items":[{"id":"welcome","title":"Welcome","type":"webpage"}]}';
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "pageconfiguration",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid,
+			httpMethod: "POST",
+			onSuccess: function(data){
+				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
 	}
 	
 	sakai.createsite.createPortfolio = function(){
