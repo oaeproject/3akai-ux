@@ -335,9 +335,6 @@ sakai.site = function(){
 		$("#elm1_toolbar4").hide();
 		$(".mceToolbarRow2").hide();
 		$(".mceToolbarRow3").hide();
-		if (!myCustomInitInstanced) {
-			$($(".mceExternalToolbar").get(0)).remove();	
-		}
 		$("#elm1_toolbar" + id).show();
 		$("#elm1_external").show();
 		$(".mceExternalToolbar").show();
@@ -364,7 +361,8 @@ sakai.site = function(){
 			
 		} 
 		catch (err) {
-		
+			// Firefox throws strange error, doesn't affect anything
+			// Ignore
 		}
 	}
 	
@@ -400,7 +398,7 @@ sakai.site = function(){
 	}
 	
 	sakai._site.setIframeHeight = function(ifrm){
-		var iframeWin = window.frames[1];
+		var iframeWin = window.frames[0];
 		var iframeEl = document.getElementById ? document.getElementById(ifrm) : document.all ? document.all[ifrm] : null;
 		if (iframeEl && iframeWin) {
 			if (BrowserDetect.browser != "Firefox") {
@@ -442,7 +440,8 @@ sakai.site = function(){
 	tinyMCE.init({
 		
 		// General options
-		mode: "textareas",
+		mode : "exact",
+		elements : "elm1",
 		theme: "advanced",
 		plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,spellchecker",
 		theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,spellchecker,|,image,link",
@@ -729,11 +728,12 @@ sakai.site = function(){
 	});
 	
 	$(window).bind("scroll", function(e){
-		var time = new Date().getTime();
-		if (time < last + 500) {
-			return;
-		}
-		setTimeout(placeToolbar, 100);
+		//var time = new Date().getTime();
+		//if (time < last + 500) {
+		//	return;
+		//}
+		placeToolbar();
+		//setTimeout(placeToolbar, 100);
 	});
 	
 	
