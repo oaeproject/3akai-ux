@@ -75,7 +75,7 @@
             <ul class="personal fl-force-right">
                 <li>Signed in as <strong id="userid"></strong></li>
                 <li><a href="#">Help</a></li>
-                <li><a href="#">Sign out</a></li>
+                <li><a href="/dev/logout.html">Sign out</a></li>
             </ul>
         </div>
 		
@@ -170,12 +170,14 @@
                     <div class="buttonBar" style="margin-bottom:-1.2em">
                         <a href="javascript:;" class="button-default save_button">Save</a>
                         <a href="javascript:;" class="button cancel-button">Cancel</a>
-                        <span class="messageInformation" style="padding:20px">Auto saved 3 min 20 sec ago.</span>
+                        <span class="messageInformation" style="padding:20px; display:none">Auto saved 3 min 20 sec ago.</span>
                     </div>
                     <ul class="fl-tabs fl-tabs-r tab-nav">
-						<li class="fl-activeTab tab-nav-selected"><!--fl-activeTab --><span>Text Editor</span></li><li><a href="#_bottom">HTML</a></li><li><a href="#_bottom">Preview</a></li>
+						<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
+						<li><a href="#_bottom">HTML</a></li>
+						<li id="tab_preview"><a href="javascript:;">Preview</a></li>
 					</ul>
-                    <div class="tab-nav-panel">
+                    <div class="tab-nav-panel" id="tab-nav-panel">
                     	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
                         <div class="toolbar" id="toolbarcontainer">
                         	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
@@ -192,11 +194,14 @@
 							</div>
                         </div>
                     </div>
-                    <p class="new_page_path">
+                    <p class="new_page_path" id="new_page_path">
                         <span>Page location:</span>
                         Site title / Some page / <span>Untitled</span>
                         <input class="custom_button" type="button" value="Move ..." name="somename"/>
                     </p>
+					<div class="fl-tab-content" id="page_preview_content" style="display:none; margin-bottom: 20px">
+						
+					</div>
                     <div class="buttonBar">
                         <a href="javascript:;" class="button-default save_button">Save</a>
                         <a href="javascript:;" class="button cancel-button">Cancel</a>
@@ -206,7 +211,7 @@
         </div>
         <!-- FOOTER copyright -->
         <div class="fl-container footer_copyright">
-            <a href="#">Back To Top</a>
+            <a href="javascript:;" id="back_to_top">Back To Top</a>
             <p>
                 Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
                 <br/>
