@@ -26,6 +26,7 @@ sakai.site = function(){
 	var myportaljson = false;
 	var myportaljsons = {};
 	var isEditingNavigation = false;
+	var currentEditView = false;
 	
 	
 	/*
@@ -724,18 +725,37 @@ sakai.site = function(){
 	*/
 	
 	$("#tab_preview").bind("click", function(ev){
-		$("#tab-nav-panel").hide();
-		$("#new_page_path").hide();
-		$("#page_preview_content").html("");
-		$("#page_preview_content").show();
-		$("#tab_text_editor").removeClass("fl-activeTab");
-		$("#tab_text_editor").removeClass("tab-nav-selected");
-		$("#tab_text_editor").html('<a href="javascript:;" id="tab_text_editor">Text Editor</a>');
-		$("#tab_preview").addClass("fl-activeTab");
-		$("#tab_preview").addClass("tab-nav-selected");
-		$("#tab_preview").html('<span>Preview</span>');
-		$("#page_preview_content").html(tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_preview_content");
+		if (!currentEditView) {
+			currentEditView = "preview";
+			$("#tab-nav-panel").hide();
+			$("#new_page_path").hide();
+			$("#page_preview_content").html("");
+			$("#page_preview_content").show();
+			$("#tab_text_editor").removeClass("fl-activeTab");
+			$("#tab_text_editor").removeClass("tab-nav-selected");
+			$("#tab_text_editor").html('<a href="javascript:;">Text Editor</a>');
+			$("#tab_preview").addClass("fl-activeTab");
+			$("#tab_preview").addClass("tab-nav-selected");
+			$("#tab_preview").html('<span>Preview</span>');
+			$("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
+			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_preview_content");
+		}
+	});
+	
+	$("#tab_text_editor").bind("click", function(ev){
+		if (currentEditView == "preview"){
+			currentEditView = false;
+			$("#page_preview_content").hide();
+			$("#page_preview_content").html("");
+			$("#tab-nav-panel").show();
+			$("#new_page_path").show();
+			$("#tab_text_editor").addClass("fl-activeTab");
+			$("#tab_text_editor").addClass("tab-nav-selected");
+			$("#tab_text_editor").html('<span>Text Editor</span>');
+			$("#tab_preview").removeClass("fl-activeTab");
+			$("#tab_preview").removeClass("tab-nav-selected");
+			$("#tab_preview").html('<a href="javascript:;">Preview</a>');
+		}
 	});
 	
 	/*
