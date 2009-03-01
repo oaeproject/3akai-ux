@@ -720,8 +720,31 @@ sakai.site = function(){
 	}
 	
 	/*
+		Preview tab 
+	*/
+	
+	$("#tab_preview").bind("click", function(ev){
+		$("#tab-nav-panel").hide();
+		$("#new_page_path").hide();
+		$("#page_preview_content").html("");
+		$("#page_preview_content").show();
+		$("#tab_text_editor").removeClass("fl-activeTab");
+		$("#tab_text_editor").removeClass("tab-nav-selected");
+		$("#tab_text_editor").html('<a href="javascript:;" id="tab_text_editor">Text Editor</a>');
+		$("#tab_preview").addClass("fl-activeTab");
+		$("#tab_preview").addClass("tab-nav-selected");
+		$("#tab_preview").html('<span>Preview</span>');
+		$("#page_preview_content").html(tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
+		sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_preview_content");
+	});
+	
+	/*
 		Global event listeners
 	*/
+	
+	$("#back_to_top").bind("click", function(){
+		window.scrollTo(0,0);
+	});
 	
 	$(window).bind("resize", function(){
 		$("#toolbarcontainer").css("width", $("#toolbarplaceholder").width() + "px");
