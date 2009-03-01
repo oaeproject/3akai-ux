@@ -609,8 +609,9 @@ a {
 .tab-nav li a, .tab-nav li a:visited {
     background: #fff url(../images/tab-back.png) bottom left repeat-x;
 	color:#777;
-	text-decoration:none
-		
+	text-decoration:none;
+	position: relative; 
+	bottom:-1px;
 }
 .tab-nav li a:hover {
 	color:#333;    
@@ -619,12 +620,13 @@ a {
 .tab-nav li.tab-nav-selected span { /*selected tab effect*/
     position: relative; 
     padding: 8px 7px 5px 7px;
-	bottom:-1px;
+	bottom:-2px;
     font-weight: bold;
     border-bottom: none;
     background-color: #fff;
 	color:#555
 }
+
 .tab-nav-panel{
 	background:#fff;
 	padding:0;
