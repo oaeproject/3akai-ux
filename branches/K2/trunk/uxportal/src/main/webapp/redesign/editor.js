@@ -758,6 +758,19 @@ sakai.site = function(){
 		}
 	});
 	
+	$("#tab_html").bind("click", function(ev){
+		if (!currentEditView){
+			$("#fl-tab-content-editor").hide();
+			var value = tinyMCE.get("elm1").getContent();
+			$("#html-editor-content").val(value);
+			$("#html-editor").show();
+		} else if (currentEditView == "preview"){
+			
+		}
+		currentEditView = "html";
+	});
+
+	
 	/*
 		Global event listeners
 	*/
