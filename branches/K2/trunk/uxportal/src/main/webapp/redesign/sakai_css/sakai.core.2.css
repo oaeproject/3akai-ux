@@ -210,7 +210,7 @@ a {
 }
 .page_nav h3 {
     margin: 0; 
-    padding: 10px 0 5px 10px;
+    padding: 0px 0 5px 10px;
 	color: #333;
 }
 .page_nav ul {
@@ -245,6 +245,7 @@ a {
 
 .add_a_new {
 	font-weight:bold !important;
+	margin-bottom: 10px;
 }
 
 /********************************************/
@@ -310,6 +311,11 @@ a {
 }
 #page_preview_content {
 	color: #000 !important;
+}
+#html-editor-content {
+	width:100%; 
+	border: 1px dotted #CCCCCC; 
+	padding:5px;
 }
 .content p {
 	color: #333;
