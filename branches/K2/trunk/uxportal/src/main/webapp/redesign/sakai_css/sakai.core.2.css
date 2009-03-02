@@ -300,11 +300,16 @@ a {
 	color: #333;
 	padding: 0 0px 0 5px;
 }
-.content h1,h2,h3 {
+.content h3 {
     font-size: 1.25em;
-    margin: 0;
+}
+.content h1,h2 {
+	margin: 0;
 	padding: 0;
 	color: #333;
+}
+#page_preview_content {
+	color: #000 !important;
 }
 .content p {
 	color: #333;
