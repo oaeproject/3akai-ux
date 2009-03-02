@@ -138,7 +138,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		var content = "<h3>Navigation Menu</h3>";
 		content += '<p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>';
 		content += '<h3>Recent Activity</h3>';
-		content += '<p><img id="widget_navigation_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>';
+		content += '<p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>';
 		
 		var data = {"items": {
 			"data": content,
@@ -178,6 +178,60 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/_sites/" + siteid + "/_pages/welcome",
 			httpMethod: "POST",
 			onSuccess: function(data){
+				createWeek1();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createWeek1 = function(){
+		
+		// Create dummy week 1 file
+		
+		var content = $("#week1_example").html();
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid + "/_pages/week1",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				createMonday();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createMonday = function(){
+		
+		// Create dummy monday file
+		
+		var content = $("#week1_example").html();
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/monday",
+			httpMethod: "POST",
+			onSuccess: function(data){
 				createConfigurationFile();
 			},
 			onFail: function(status){
@@ -192,7 +246,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		// Create page configuration file
 		
-		var content = '{"items":[{"id":"welcome","title":"Welcome","type":"webpage"}]}';
+		var content = '{"items":[{"id":"welcome","title":"Welcome","type":"webpage"},{"id":"week1","title":"Week 1","type":"webpage"},{"id":"week1/monday","title":"Monday","type":"webpage"}]}';
 		
 		var data = {"items": {
 			"data": content,
@@ -205,7 +259,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/_sites/" + siteid,
 			httpMethod: "POST",
 			onSuccess: function(data){
-				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
+				document.location = "/dev/site.html?siteid=" + siteid;
 			},
 			onFail: function(status){
 			},
