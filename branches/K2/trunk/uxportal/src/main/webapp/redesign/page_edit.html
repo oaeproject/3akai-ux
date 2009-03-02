@@ -174,7 +174,7 @@
                     </div>
                     <ul class="fl-tabs fl-tabs-r tab-nav">
 						<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
-						<li><a href="#_bottom">HTML</a></li>
+						<li id="tab_html"><a href="javascript:;">HTML</a></li>
 						<li id="tab_preview"><a href="javascript:;">Preview</a></li>
 					</ul>
                     <div class="tab-nav-panel" id="tab-nav-panel">
@@ -185,7 +185,7 @@
 						<div class="fl-tab-content" id="title-input-container">
                             <input type="text" value="Untitled" class="title-input" id="title-input"/>
                         </div>
-						<div class="fl-tab-content fl-tab-content-editor">
+						<div class="fl-tab-content fl-tab-content-editor" id="fl-tab-content-editor">
 							<div id="placeholderforeditor" class="textarea">
 								<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
 								<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
@@ -193,6 +193,9 @@
 								</textarea>
 							</div>
                         </div>
+						<div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
+							<textarea id="html-editor-content" style="width:100%; border: 1px dotted #CCCCCC; padding:5px;" rows="20" wrap="hard"></textarea>
+						</div>
                     </div>
                     <p class="new_page_path" id="new_page_path">
                         <span>Page location:</span>
