@@ -1,14 +1,24 @@
 <div id="navigation_settings" style="display:none">
-	
+	No settings available
 </div>
-<div id="navigation_output" style="left:auto !important;">
+<div id="navigation_output_template" style="display:none"><!--
 	<ul>
-		<li><a href="#"><strong>John's Page</strong></a></li>
-		<li><a href="#">Katy's Page</a></li>
-		<li><a href="#">Sitemap</a></li>
-		<li><a href="#">Cool Page</a></li>
-		<li><a href="#">Random Page</a></li>
+		{for i in pages}
+			{if i.selected}
+				<li><a href="#${i.id}"><strong>${i.title}</strong></a></li>
+				{if i.multiple}
+					<ul>
+						{for l in i.pages}
+							<li><a href="#${l.id}">${l.title}</a></li>
+						{/for}
+					</ul>
+				{/if}
+			{else}
+				<li><a href="#${i.id}">${i.title}</a></li>
+			{/if}
+		{/for}
 	</ul>
-</div>
+--></div>
+<div id="navigation_output" style="left:auto !important;"></div>
 
 <script type="text/javascript" language="JavaScript" src="/devwidgets/navigation/javascript/navigation.js"></script>
