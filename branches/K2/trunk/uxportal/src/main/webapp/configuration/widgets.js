@@ -227,6 +227,18 @@ var Widgets = {
 			ca:1,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
+		siterecentactivity :
+		{
+			description:"Site Recent Activity",
+			iframe:0,
+			url:"/devwidgets/siterecentactivity/siterecentactivity.html",
+			name:"Recent Activity",
+			id:"siterecentactivity",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			img:"/devwidgets/siterecentactivity/images/icon.png"
+		},
 		navigation :
 		{
 			description:"Navigation Widgets",
