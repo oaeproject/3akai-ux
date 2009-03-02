@@ -93,36 +93,12 @@
 	       
             <!-- Page Nav -->
             <div class="fl-col-side page_nav">	
-				<a class="add_a_new" href="javascript:;">Add a New ...</a>
+				<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
 				<div id="page_nav_content" class="pages page_nav_content">
-					<!--<h3>Navigation Menu</h3>
-					<ul>
-						<li><a href="#"><strong>John's Page</strong></a></li>
-						<li><a href="#">Katy's Page</a></li>
-						<li><a href="#">Sitemap</a></li>
-						<li><a href="#">Cool Page</a></li>
-						<li><a href="#">Random Page</a></li>
-					</ul>
 					
-					<h3>Recent Activity</h3>
-	                <ul>
-	                    <li>
-	                    	<a href="#">Another Page</a>
-							<p>Changed 4 minutes ago</p>
-						</li>
-	                    <li>
-	                    	<a href="#">Untitled 1</a>
-							<p>Changed 6 minutes ago</p>
-						</li>
-						<li>
-	                    	<a href="#">Untitled 2</a>
-							<p>Changed 20 Dec, 2008</p>
-						</li>
-	                </ul>
-					</div>-->
 				</div>
 					
-				<div class="site_management">
+				<div class="site_management" id="site_management" style="display:none">
 					<h3>Site Management</h3>
 	            	<ul>
 	                	<li><a href="#">Site Settings</a></li>
@@ -139,8 +115,8 @@
                 
 				<div class="content_page_options">
 					<ul class="fl-force-right">
-						<li><a href="javascript:;" id="edit_page">Edit page</a></li>
-						<li class="divider"></li>
+						<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
+						<li class="divider" style="display:none" id="li_edit_page_divider"></li>
 						<li><a href="javascript:;" id="print_page">Print page</a></li>
 						<li class="divider"></li>
 						<li><a href="#">More</a></li>
@@ -194,7 +170,7 @@
 							</div>
                         </div>
 						<div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
-							<textarea id="html-editor-content" style="width:100%; border: 1px dotted #CCCCCC; padding:5px;" rows="20" wrap="hard"></textarea>
+							<textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
 						</div>
                     </div>
                     <p class="new_page_path" id="new_page_path">
