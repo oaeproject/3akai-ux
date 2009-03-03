@@ -32,6 +32,23 @@ sakai.navigation = function(tuid, placement, showSettings){
 		
 		if (level == 0){
 			finaljson.top = true;
+		} else {
+			var splitted = selectedpage.split('/');
+			finaljson.parent = {};
+			var idtofind = "";
+			for (var ii = 0; ii < splitted.length - 1; ii++){
+				idtofind = splitted[ii];
+				if (ii < splitted.length - 2){
+					idtofind += "/";
+				}
+			}
+			for (var i = 0; i < pages.items.length; i++) {
+				var id = pages.items[i].id;
+				if (id == idtofind){
+					finaljson.parent.id = id;
+					finaljson.parent.title = pages.items[i].title;
+				}
+			}
 		}
 		
 		// Get all pages on current level
