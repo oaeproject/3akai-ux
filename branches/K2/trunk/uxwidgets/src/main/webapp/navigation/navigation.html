@@ -3,6 +3,9 @@
 </div>
 <div id="navigation_output_template" style="display:none"><!--
 	<ul>
+		{if top}
+			<li style="background:url(/dev/img/level_up.png) no-repeat;padding-left:17px"><a href="#${parent.id}">${parent.title}</a></li>
+		{/if}
 		{for i in pages}
 			{if i.selected}
 				<li><a href="#${i.id}"><strong>${i.title}</strong></a></li>
