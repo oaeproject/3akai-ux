@@ -752,15 +752,45 @@ sakai.site = function(){
 					postData: data,
 					onSuccess: function(data){
 						
+						// Move all of the subpages of the current page to stay a subpage of the current page
+				
+						var idtostartwith = selectedpage + "/";
+						for (var i = 0; i < pages.items.length; i++){
+							if (pages.items[i].id.substring(0,idtostartwith.length) == idtostartwith){
+								pages.items[i].id = newid + "/" + pages.items[i].id.substring(idtostartwith.length);
+							}
+						}
+				
 						// Adjust configuration file
-				
+						
 						sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
-							alert("Done");
-						});
-				
-						// Render the new page under the new URL
-						
-						
+							
+							// Render the new page under the new URL
+							
+								// Save page content
+								
+								var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+								sdata.widgets.WidgetPreference.save("/sdata/f" + newfolderpath, "content", content, function(){
+									
+									// Remove old div + potential new one
+								
+									$("#" + escapePageId(selectedpage)).remove();
+									$("#" + escapePageId(newid)).remove();
+								
+									// Remove old + new from pagecontents array 
+									
+									pagecontents[selectedpage] = null;
+									pagecontents[newid] = null;
+									
+									// Switch the History thing
+									
+									sakai.site.openPage(newid);
+									$("#edit_view_container").hide();
+									$("#show_view_container").show();
+									
+								});
+							
+						});		
 						
 					},
 					onFail: function(status){
