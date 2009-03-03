@@ -808,7 +808,7 @@ sakai.site = function(){
 		
 		//save page to be printed into my personal space
 		
-		var escaped = selectedpage.replace(/ /g, "%20");
+		var escaped = escapePageId(selectedpage);
 		var content = $("#" + escaped).html();
 		
 		var data = {"items": {
