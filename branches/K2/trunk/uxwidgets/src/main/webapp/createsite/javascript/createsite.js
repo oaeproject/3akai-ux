@@ -232,6 +232,60 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/monday",
 			httpMethod: "POST",
 			onSuccess: function(data){
+				createTuesday();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createTuesday = function(){
+		
+		// Create dummy monday file
+		
+		var content = $("#week1_example").html();
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/tuesday",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				createWednesday();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createWednesday = function(){
+		
+		// Create dummy monday file
+		
+		var content = $("#week1_example").html();
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": "content",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/wednesday",
+			httpMethod: "POST",
+			onSuccess: function(data){
 				createConfigurationFile();
 			},
 			onFail: function(status){
@@ -246,7 +300,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		// Create page configuration file
 		
-		var content = '{"items":[{"id":"welcome","title":"Welcome","type":"webpage"},{"id":"week1","title":"Week 1","type":"webpage"},{"id":"week1/monday","title":"Monday","type":"webpage"}]}';
+		var content = '{"items":[{"id":"welcome","title":"Welcome","type":"webpage"},{"id":"week1","title":"Week 1","type":"webpage"},{"id":"week1/monday","title":"Monday","type":"webpage"},{"id":"week1/tuesday","title":"Tuesday","type":"webpage"},{"id":"week1/wednesday","title":"Wednesday","type":"webpage"}]}';
 		
 		var data = {"items": {
 			"data": content,
