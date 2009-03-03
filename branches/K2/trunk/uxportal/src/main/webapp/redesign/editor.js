@@ -966,6 +966,10 @@ sakai.site = function(){
 		window.scrollTo(0,0);
 	});
 	
+	$("#title-input").bind("change", function(){
+		$("#new_page_path_current").text($("#title-input").val());
+	});
+	
 	$(window).bind("resize", function(){
 		$("#toolbarcontainer").css("width", $("#toolbarplaceholder").width() + "px");
 	});
