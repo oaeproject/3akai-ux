@@ -105,7 +105,39 @@ sakai.navigation = function(tuid, placement, showSettings){
 		
 		$("#navigation_output").html(sdata.html.Template.render('navigation_output_template',finaljson));
 		
+		insertA11y();
+		
 	} 
+	
+	var insertA11y = function(){
+		
+		/*
+		// Accessibility of right hand menu
+		
+		// Pull all the anchors out of the tab order
+		jQuery("a", jQuery('#navigation_output_template')).tabindex(-1);
+		
+		// Keyboard support start here
+		var tools = jQuery('#navigation_output_template');
+		tools.tabbable();
+		
+		var rows = $("li", tools);
+		
+		tools.selectable({
+			selectableElements: rows,
+			onSelect: function(){
+			}
+		});
+		var handler = function(el){
+			var pagetoopen = el.id.split("_")[1];
+			sakai.dashboard.openPage(pagetoopen);
+		};
+		rows.activatable(handler);
+		
+		// End Accessibility
+		*/
+
+	}
 	
 	sakai._site.navigationLoaded();
 
