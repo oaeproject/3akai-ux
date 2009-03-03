@@ -174,10 +174,23 @@
 						</div>
                     </div>
                     <p class="new_page_path" id="new_page_path">
-                        <span>Page location:</span>
-                        Site title / Some page / <span>Untitled</span>
+                         Site title / Some page / <span>Untitled</span>
                         <input class="custom_button" type="button" value="Move ..." name="somename"/>
                     </p>
+					<div style="display:none" id="new_page_path_template"><!--
+						{var index = 0}
+						<span>Page location:</span>
+						{for i in pages}
+							${index++|eat}
+							{if index == total}
+								<span>${i}</span>
+							{else}
+								${i}&nbsp;/&nbsp;
+							{/if}
+						{/for}
+						&nbsp;
+						<input class="custom_button" type="button" value="Move ..." name="somename"/>
+					--></div>
 					<div class="fl-tab-content content_container" id="page_preview_content" style="display:none; margin-bottom: 20px">
 						
 					</div>
