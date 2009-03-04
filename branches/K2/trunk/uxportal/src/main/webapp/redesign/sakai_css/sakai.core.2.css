@@ -30,6 +30,40 @@ a {
 .divider * {position:absolute; top:35%; padding:.5em 0;  background-color:#fff; color:#999;}
 
 /********************************************/
+/* Add New Dropdown */
+.add_new_menu {
+	position:absolute; 
+	top: 124px; 
+	left: 18px; 
+	border: 1px solid #555; 
+	background-color:#eee; 
+	padding:0px;
+}
+
+.add_new_menu ul {
+	margin:0pt;
+	list-style-type:none;
+}
+
+.add_new_menu li {
+	list-style-type:none; 
+	padding: 2px 20px 2px 4px;
+}
+
+.add_new_menu li a {
+	color:#666;
+	font-size:0.95em;
+}
+
+.selected_option {
+	background-color:#555 !important;
+}
+
+.selected_option a {
+	color:#fff !important;
+}
+
+/********************************************/
 /* Explorer Bar */
 .explore_nav{
     background-color:#333;
@@ -219,7 +253,7 @@ a {
 }
 .page_nav li {
     list-style-type:none;
-	padding: 2px 0 2px 0;
+	padding: 1px 0 1px 0;
 }
 .page_nav li a {
     color:#666;
