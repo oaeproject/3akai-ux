@@ -7,6 +7,7 @@ sakai.site = function(){
 		Configuration Variables
 	*/
 	var minHeight = 400;
+	var autosaveinterval = 10000;
 	
 	
 	/*
@@ -27,6 +28,7 @@ sakai.site = function(){
 	var myportaljsons = {};
 	var isEditingNavigation = false;
 	var currentEditView = false;
+	var timeoutid = 0;
 	
 	/*
 		Help functions 
@@ -592,49 +594,157 @@ sakai.site = function(){
 					
 					
 		} catch (err){
-
+			alert(err);
 		}
 				
 		tinyMCE.get("elm1").setContent(content2);
+		
+		$("#messageInformation").hide();
+		
+		myCustomInitInstance();
+		myCustomInitInstanced = true;
+		$("#show_view_container").hide();
+		$("#edit_view_container").show();
+		
+		timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
+		
 	}
 	
+	
+	/*
+		Auto-save functionality
+	*/
+	
+	sakai._site.doAutosave = function(){
+		
+		// Determine the view we're in
+		
+		var tosave = "";
+		
+		if (!currentEditView){
+			tosave = tinyMCE.get("elm1").getContent();
+		} else if (currentEditView == "html"){
+			tosave = $("#html-editor-content").val();
+		}
+		
+		// Save the data
+		
+		var newurl = selectedpage.split("/").join("/_pages/");
+		sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){});
+
+		// Update autosave indicator
+		
+		var now = new Date();
+		var hours = now.getHours();
+		if (hours < 10){
+			hours = "0" + hours;
+		}
+		var minutes = now.getMinutes();
+		if (minutes < 10){
+			minutes = "0" + minutes;
+		}
+		var seconds = now.getSeconds();
+		if (seconds < 10){
+			seconds = "0" + seconds;
+		}
+		$("#realtime").text(hours + ":" + minutes + ":" + seconds);
+		$("#messageInformation").show();
+		
+	}
 	
 	/*
 		Local event handlers 
 	*/
 	
 	$("#edit_page").bind("click", function(ev){
+		isEditingNewPage = false;
 		editPage(selectedpage);
-		myCustomInitInstance();
-		myCustomInitInstanced = true;
-		$("#show_view_container").hide();
-		$("#edit_view_container").show();
 		return false;
 	});
 	
 	$("#edit_sidebar").bind("click", function(ev){
 		editPage("_navigation");
-		myCustomInitInstance();
-		myCustomInitInstanced = true;
-		$("#show_view_container").hide();
-		$("#edit_view_container").show();
 		return false;
 	});
 	
 	$(".cancel-button").bind("click", function(ev){
 		
-		resetView();
+		clearInterval(timeoutid);
 		
-		var escaped = selectedpage.replace(/ /g, "%20");
-		document.getElementById(escaped).innerHTML = pagecontents[selectedpage];
-		if (pagetypes[selectedpage] == "webpage") {
-			$("#webpage_edit").show();
+		// Remove autosave file
+		
+		var newpath = selectedpage.split("/").join("/_pages/");
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + newpath + "/_content",
+			httpMethod: 'DELETE',
+			onSuccess: function(data){
+			},
+			onFail: function(data){	
+			}
+		});
+		
+		if (isEditingNewPage) {
+		
+			// Delete page from configuration file
+			
+			var index = -1;
+			for (var i = 0; i < pages.items.length; i++){
+				if (pages.items[i].id == selectedpage){
+					index = i;
+				}
+			}
+			
+			pages.items.splice(index,1);
+			
+			// Save configuration file
+			
+			sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+	
+				// Go back to view mode of previous page
+				
+				var escaped = oldSelectedPage.replace(/ /g, "%20");
+				document.getElementById(escaped).innerHTML = pagecontents[oldSelectedPage];
+				if (pagetypes[oldSelectedPage] == "webpage") {
+					$("#webpage_edit").show();
+				}
+				document.getElementById(oldSelectedPage).style.display = "block";
+				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(oldSelectedPage);
+				
+				selectedpage = oldSelectedPage;
+			
+				$("#edit_view_container").hide();
+				$("#show_view_container").show();
+			
+				// Delete the folder that has been created for the new page	
+			
+				var newpath = selectedpage.split("/").join("/_pages/");
+				sdata.Ajax.request({
+					url: "/sdata/f/_sites/" + currentsite.id + "/" + newpath,
+					httpMethod: 'DELETE',
+					onSuccess: function(data){
+					},
+					onFail: function(data){	
+					}
+				});
+			});
+	
+		
+		} else {
+		
+			resetView();
+			
+			var escaped = selectedpage.replace(/ /g, "%20");
+			document.getElementById(escaped).innerHTML = pagecontents[selectedpage];
+			if (pagetypes[selectedpage] == "webpage") {
+				$("#webpage_edit").show();
+			}
+			document.getElementById(escaped).style.display = "block";
+			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+			
+			$("#edit_view_container").hide();
+			$("#show_view_container").show();
+			
 		}
-		document.getElementById(escaped).style.display = "block";
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
-		
-		$("#edit_view_container").hide();
-		$("#show_view_container").show();
 	});
 	
 	$("#print_page").bind("click", function(ev){
@@ -642,6 +752,8 @@ sakai.site = function(){
 	});
 	
 	$(".save_button").bind("click", function(ev){
+		
+		clearInterval(timeoutid);
 		
 		resetView();
 		
@@ -794,36 +906,108 @@ sakai.site = function(){
 						
 					},
 					onFail: function(status){
-						alert("An error has occurred");
+						
+						// Move all of the subpages of the current page to stay a subpage of the current page
+				
+						var idtostartwith = selectedpage + "/";
+						for (var i = 0; i < pages.items.length; i++){
+							if (pages.items[i].id.substring(0,idtostartwith.length) == idtostartwith){
+								pages.items[i].id = newid + "/" + pages.items[i].id.substring(idtostartwith.length);
+							}
+						}
+				
+						// Adjust configuration file
+						
+						sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+							
+							// Render the new page under the new URL
+							
+								// Save page content
+								
+								var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+								sdata.widgets.WidgetPreference.save("/sdata/f" + newfolderpath, "content", content, function(){
+									
+									// Remove old div + potential new one
+								
+									$("#" + escapePageId(selectedpage)).remove();
+									$("#" + escapePageId(newid)).remove();
+								
+									// Remove old + new from pagecontents array 
+									
+									pagecontents[selectedpage] = null;
+									pagecontents[newid] = null;
+									
+									// Switch the History thing
+									
+									sakai.site.openPage(newid);
+									$("#edit_view_container").hide();
+									$("#show_view_container").show();
+									
+								});
+							
+						});		
+						
 					},
 					contentType: "application/x-www-form-urlencoded"
 				});
 				
 			} else {
 				
-				if (pagetypes[selectedpage] == "webpage") {
-					$("#webpage_edit").show();
-				}
-				var escaped = selectedpage.replace(/ /g, "%20");
-				pagecontents[selectedpage] = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-				document.getElementById(escaped).innerHTML = pagecontents[selectedpage];
-				
-				$("#edit_view_container").hide();
-				$("#show_view_container").show();
-				
-				var els = $("a", $("#" + escaped));
-				for (var i = 0; i < els.length; i++) {
-					var nel = els[i];
-					if (nel.className == "contauthlink") {
-						nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
-					}
-				}
+				if (isEditingNewPage) {
 					
-				document.getElementById(escaped).style.display = "block";
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
-				var newurl = selectedpage.split("/").join("/_pages/");
-				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){});
+					// Save page content
+								
+					var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+					var newurl = selectedpage.split("/").join("/_pages/");
+					sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "content", content, function(){
+							
+						// Remove old div + potential new one
+								
+						$("#" + escapePageId(selectedpage)).remove();
+								
+						// Remove old + new from pagecontents array 
+									
+						pagecontents[selectedpage] = null;
+									
+						// Switch the History thing
+									
+						sakai.site.openPage(selectedpage);
+						$("#edit_view_container").hide();
+						$("#show_view_container").show();
+									
+					});					
+					
+				}
+				else {
 				
+					if (pagetypes[selectedpage] == "webpage") {
+						$("#webpage_edit").show();
+					}
+					var escaped = selectedpage.replace(/ /g, "%20");
+					pagecontents[selectedpage] = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+					
+				
+					document.getElementById(escaped).innerHTML = pagecontents[selectedpage];
+				
+					$("#edit_view_container").hide();
+					$("#show_view_container").show();
+					
+					var els = $("a", $("#" + escaped));
+					for (var i = 0; i < els.length; i++) {
+						var nel = els[i];
+						if (nel.className == "contauthlink") {
+							nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
+						}
+					}
+					
+					document.getElementById(escaped).style.display = "block";
+					sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+					var newurl = selectedpage.split("/").join("/_pages/");
+					sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
+					});
+					
+				}
+			
 			}
 			
 		}
@@ -956,7 +1140,120 @@ sakai.site = function(){
 		}
 		currentEditView = false;
 	}
+	
+	
+	/*
+		"Add a new"-dropdown functions 
+	*/
+	
+	var isShowingDropdown = false;
+	
+	$("#add_a_new").bind("click", function(ev){
+		if (isShowingDropdown){
+			$("#add_new_menu").hide();
+			isShowingDropdown = false;
+		} else {
+			$("#add_new_menu").show();
+			isShowingDropdown = true;
+		}
+	});
 
+	$("#option_blank_page").hover(
+		function(over){
+			$("#option_blank_page").addClass("selected_option");
+		}, 
+		function(out){
+			$("#option_blank_page").removeClass("selected_option");
+		}
+	);
+	
+	$("#option_page_from_template").hover(
+		function(over){
+			$("#option_page_from_template").addClass("selected_option");
+		}, 
+		function(out){
+			$("#option_page_from_template").removeClass("selected_option");
+		}
+	);
+	
+	$("#option_page_dashboard").hover(
+		function(over){
+			$("#option_page_dashboard").addClass("selected_option");
+		}, 
+		function(out){
+			$("#option_page_dashboard").removeClass("selected_option");
+		}
+	);
+	
+	
+	/*
+		 Add a blank page
+	*/
+	
+	var isEditingNewPage = false;
+	var oldSelectedPage = false;
+	
+	$("#option_blank_page").bind("click", function(ev){
+		
+		$("#add_new_menu").hide();
+		
+		// Set new page flag
+		
+		isEditingNewPage = true;
+		
+		// Determine where to create the page
+		
+		var path = selectedpage + "/";
+		
+		// Determine new page id (untitled-x)
+		
+		var newid = false;
+		var counter = 0;
+		while (!newid){
+			var totest = path + "untitled";
+			if (counter != 0){
+				totest += "-" + counter;
+			}
+			counter++;
+			var exists = false;
+			for (var i = 0; i < pages.items.length;i++){
+				if (pages.items[i].id == totest){
+					exists = true;
+				}
+			}
+			if (!exists){
+				newid = totest;
+			}
+		}
+		
+		// Post the page content ?
+		
+		// Assign the empty content to the pagecontents array
+		
+		pagecontents[newid] = "";
+		
+		// Change the configuration file
+		
+		var index = pages.items.length;
+		pages.items[index] = {};
+		pages.items[index].id = newid;
+		pages.items[index].title = "Untitled";
+		pages.items[index].type = "webpage";
+		
+		// Post the new configuration file
+		
+		sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){});
+		
+		// Pull up the edit view
+		
+		oldSelectedPage = selectedpage;
+		selectedpage = newid;
+		editPage(newid);
+		
+		// Show and hide appropriate things
+		
+		
+	});
 	
 	/*
 		Global event listeners
