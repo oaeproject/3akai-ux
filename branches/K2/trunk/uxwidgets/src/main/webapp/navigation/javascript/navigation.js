@@ -31,8 +31,9 @@ sakai.navigation = function(tuid, placement, showSettings){
 		}
 		
 		if (level == 0){
-			finaljson.top = true;
+			finaljson.toppage = true;
 		} else {
+			finaljson.toppage = false;
 			var splitted = selectedpage.split('/');
 			finaljson.parent = {};
 			var idtofind = "";
