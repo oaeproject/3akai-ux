@@ -51,7 +51,7 @@ var History = {
 
 }
 
-window.dhtmlHistory.create({debugMode: false});
+//window.dhtmlHistory.create({debugMode: false});
 
 window.onload = function() {
 	dhtmlHistory.initialize();
