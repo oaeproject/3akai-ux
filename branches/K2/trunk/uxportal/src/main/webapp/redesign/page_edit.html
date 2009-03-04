@@ -13,13 +13,14 @@
 		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
 		
 		<script type="text/javascript" src="Fluid-all.js"></script>
+		
+		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
+		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
+		
 		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
 		<script type="text/javascript" src="BrowserDetect.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
-		
-		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
-		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
 		
     </head>
     <body id="root" class="fl-centered fl-container">
@@ -37,10 +38,10 @@
 					<tbody>
 						<tr>
 							<td class='mceFirst'>
-								<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Insert More</a>
+								<a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>Insert More</a>
 							</td>
 							<td class='mceLast'>
-								<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
 							</td>
 						</tr>
 					</tbody>
@@ -217,6 +218,30 @@
 				<li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
 				<li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
 			</ul>
+		</div>
+		
+		<div id="insert_more_menu" class="insert_more_menu" style="display:none">
+			<div class="insert_more_menu_border">
+				<ul>
+					<li><a href="javascript:;">Link</a></li>
+					<li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
+				</ul>
+			</div>
+			<div class="insert_more_menu_border">
+				<ul>
+					<li class="insert_more_menu_inactive">Media:</li>
+					<li><a href="javascript:;">Image</a></li>
+					<li><a href="javascript:;">Video</a></li>
+					<li><a href="javascript:;">Audio</a></li>
+				</ul>
+			</div>
+			<div>
+				<ul>
+					<li class="insert_more_menu_inactive">Sakai Goodies:</li>
+					<li><a href="javascript:;">Discussion</a></li>
+					<li class="insert_more_menu_inactive">(More coming soon)</li>
+				</ul>
+			</div>
 		</div>
 		
 		<script type="text/javascript" src="editor.js"></script>
