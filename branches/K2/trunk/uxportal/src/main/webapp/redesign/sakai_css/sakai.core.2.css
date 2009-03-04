@@ -64,6 +64,35 @@ a {
 }
 
 /********************************************/
+/* Insert More Dropdown */
+
+.insert_more_menu {
+	position:absolute; 
+	left: 5px; 
+	top: 5px; 
+	border: 1px solid #ccc; 
+	background-color: #fff; 
+	font-size:0.95em !important;
+}
+
+.insert_more_menu_border {
+	border-bottom:1px solid #ccc;
+}
+
+.insert_more_menu ul {
+	padding:5px 15px 5px 7px; 
+	margin:0px;
+}
+
+.insert_more_menu li {
+	list-style-type:none;
+}
+
+.insert_more_menu_inactive {
+	color:#aaa;
+}
+
+/********************************************/
 /* Explorer Bar */
 .explore_nav{
     background-color:#333;
