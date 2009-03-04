@@ -29,6 +29,10 @@ a {
 }
 .divider * {position:absolute; top:35%; padding:.5em 0;  background-color:#fff; color:#999;}
 
+.content ul {
+	padding-bottom: 5px !important;
+}
+
 /********************************************/
 /* Add New Dropdown */
 .add_new_menu {
