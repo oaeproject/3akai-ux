@@ -235,24 +235,36 @@
 					<li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
 				</ul>
 			</div>
-			<div class="insert_more_menu_border">
-				<ul>
-					<li class="insert_more_menu_inactive">Media:</li>
-					<li><a href="javascript:;">Image</a></li>
-					<li><a href="javascript:;">Video</a></li>
-					<li><a href="javascript:;">Audio</a></li>
-				</ul>
+			<div id="insert_more_media" class="insert_more_menu_border">
+				
 			</div>
-			<div>
-				<ul>
-					<li class="insert_more_menu_inactive">Sakai Goodies:</li>
-					<li><a href="javascript:;" id="insert_discussion_link">Discussion</a></li>
-					<li class="insert_more_menu_inactive">(More coming soon)</li>
-				</ul>
+			<div id="insert_more_goodies">
+				
 			</div>
 		</div>
 		
-		<div id="insert_discussion_dialog" class="dialog">
+		<div id="insert_more_media_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Media:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{forelse}
+					<li class="insert_more_menu_inactive"><i>No available</i></li>
+				{/for}
+			</ul>
+		--></div>
+		
+		<div id="insert_more_goodies_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Sakai Goodies:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{/for}
+				<li class="insert_more_menu_inactive">(More coming soon)</li>
+			</ul>				
+		--></div>
+		
+		<div id="insert_dialog" class="dialog">
 			<div class="dialog_header">
 				<h1 id="dialog_title"></h1>
 				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
