@@ -337,6 +337,10 @@ sakai.site = function(){
 			document.getElementById("elm1_ifr").style.height = "auto"; // helps resize (for some browsers) if new doc is shorter than previous
 			if (!myCustomInitInstanced) {
 				$(".mceToolbarEnd").before(sdata.html.Template.render("editor_extra_buttons", {}));
+				
+				$(".insert_more_dropdown_activator").bind("click", function(ev){
+					toggleInsertMore();
+				});
 			}
 			var el = $(".mceExternalToolbar");
 			el.parent().appendTo(".mceToolbarExternal");
@@ -471,20 +475,42 @@ sakai.site = function(){
 			$("#toolbarcontainer").css("position", "absolute");
 			$("#toolbarcontainer").css("margin-top", "10px");
 			$("#toolbarcontainer").css("top", minTop + "px");
+			placeInserMoreDropdown("absolute",10,minTop);
 		}
 		else {
 			if (BrowserDetect.browser == "Explorer" && BrowserDetect.version == 6) {
 				$("#toolbarcontainer").css("position", "absolute");
 				$("#toolbarcontainer").css("margin-top", "0px");
 				$("#toolbarcontainer").css("top", barTop + "px");
+				placeInserMoreDropdown("absolute",0,barTop);
 			}
 			else {
 				$("#toolbarcontainer").css("position", "fixed");
 				$("#toolbarcontainer").css("margin-top", "0px");
 				$("#toolbarcontainer").css("top", "0px");
+				placeInserMoreDropdown("fixed",0,0);
 			}
 		}
 		last = new Date().getTime();
+	}
+	
+	var placeInserMoreDropdown = function(position,marginTop,top){
+		$("#insert_more_menu").css("position", position);
+		$("#insert_more_menu").css("margin-top", marginTop + "px");
+		$("#insert_more_menu").css("top", top + 25 + "px");
+		$("#insert_more_menu").css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 1 + "px");
+	}
+	
+	var showingInsertMore = false;
+	
+	var toggleInsertMore = function(){
+		if (showingInsertMore){
+			$("#insert_more_menu").hide();
+			showingInsertMore = false;	
+		} else {
+			$("#insert_more_menu").show();
+			showingInsertMore = true;
+		}
 	}
 	
 	/*
@@ -1187,6 +1213,16 @@ sakai.site = function(){
 	
 	
 	/*
+		Add in a horizontal line 
+	*/
+	
+	$("#horizontal_line_insert").bind("click", function(ev){
+		tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<hr/>');
+		toggleInsertMore();
+	});
+	
+	
+	/*
 		 Add a blank page
 	*/
 	
@@ -1196,6 +1232,7 @@ sakai.site = function(){
 	$("#option_blank_page").bind("click", function(ev){
 		
 		$("#add_new_menu").hide();
+		isShowingDropdown = false;
 		
 		// Set new page flag
 		
