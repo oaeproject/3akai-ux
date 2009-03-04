@@ -12,6 +12,11 @@
         <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
 		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
 		
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_permissions.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.save_as_template.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
+		
 		<script type="text/javascript" src="Fluid-all.js"></script>
 		
 		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
@@ -21,6 +26,9 @@
 		<script type="text/javascript" src="BrowserDetect.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		
+		<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
+		<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>
 		
     </head>
     <body id="root" class="fl-centered fl-container">
@@ -238,10 +246,24 @@
 			<div>
 				<ul>
 					<li class="insert_more_menu_inactive">Sakai Goodies:</li>
-					<li><a href="javascript:;">Discussion</a></li>
+					<li><a href="javascript:;" id="insert_discussion_link">Discussion</a></li>
 					<li class="insert_more_menu_inactive">(More coming soon)</li>
 				</ul>
 			</div>
+		</div>
+		
+		<div id="insert_discussion_dialog" class="dialog">
+			<div class="dialog_header">
+				<h1 id="dialog_title"></h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div id="dialog_content">
+			
+				
+			
+			</div>
+			
 		</div>
 		
 		<script type="text/javascript" src="editor.js"></script>
