@@ -169,6 +169,9 @@ sakai.site = function(){
 	}
 	
 	sakai.site.openPageH = function(pageid){
+		
+		$("#insert_more_menu").hide();
+		showingInsertMore = false;	
 	
 		if (!pageid) {
 			for (var i = 0; i < pages.items.length; i++) {
@@ -697,6 +700,9 @@ sakai.site = function(){
 		
 		clearInterval(timeoutid);
 		
+		$("#insert_more_menu").hide();
+		showingInsertMore = false;	
+		
 		// Remove autosave file
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
@@ -780,6 +786,9 @@ sakai.site = function(){
 	$(".save_button").bind("click", function(ev){
 		
 		clearInterval(timeoutid);
+		
+		$("#insert_more_menu").hide();
+		showingInsertMore = false;	
 		
 		resetView();
 		
@@ -1229,17 +1238,12 @@ sakai.site = function(){
 	var renderSelectedWidget = function(hash){
 		toggleInsertMore();
 		hash.w.show();
+		
+		alert(hash.t.id);
+		
 		//$("#dialog_content").html("<img id='widget_youtubevideo_id669826766__sites/test-6/_pages/home' class='widget_inline' src='/some/url'/>");
 		//sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
 	}
-	
-	$('#insert_discussion_dialog').jqm({
-		modal: true,
-		trigger: $('#insert_discussion_link'),
-		overlay: 20,
-		toTop: true,
-		onShow: renderSelectedWidget
-	});
 	
 	/*
 		 Add a blank page
@@ -1311,6 +1315,53 @@ sakai.site = function(){
 		
 	});
 	
+	
+	/*
+		fill Insert More Dropdown 
+	*/
+	
+	var fillInsertMoreDropdown = function(){
+		
+		// Do media widgets
+		
+		var media = {};
+		media.items = [];
+		
+		for (var i in Widgets.widgets){
+			var widget = Widgets.widgets[i];
+			if (widget.ca && widget.showinmedia){
+				media.items[media.items.length] = widget;
+			}
+		}
+		
+		$("#insert_more_media").html(sdata.html.Template.render("insert_more_media_template",media));
+		
+		// Do Sakai Goodies
+		
+		var goodies = {};
+		goodies.items = [];
+		
+		for (var i in Widgets.widgets){
+			var widget = Widgets.widgets[i];
+			if (widget.ca && widget.showinsakaigoodies){
+				goodies.items[goodies.items.length] = widget;
+			}
+		}
+		
+		$("#insert_more_goodies").html(sdata.html.Template.render("insert_more_goodies_template",goodies));
+		
+		// Event handler
+		
+		$('#insert_dialog').jqm({
+			modal: true,
+			trigger: $('.insert_more_widget'),
+			overlay: 20,
+			toTop: true,
+			onShow: renderSelectedWidget
+		});
+		
+	}
+	
 	/*
 		Global event listeners
 	*/
@@ -1342,6 +1393,7 @@ sakai.site = function(){
 	*/
 	
 	loadCurrentSiteObject();
+	fillInsertMoreDropdown();
 	
 }
 
