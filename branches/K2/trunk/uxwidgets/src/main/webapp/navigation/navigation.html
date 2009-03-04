@@ -8,14 +8,15 @@
 		{/if}
 		{for i in pages}
 			{if i.selected}
-				<li><a href="#${i.id}"><strong>${i.title}</strong></a></li>
+				<li><a href="#${i.id}"><strong>${i.title}</strong></a>
 				{if i.multiple}
-					<ul>
+					<ul style="padding:2px 0px 0px 10px">
 						{for l in i.pages}
 							<li><a href="#${l.id}">${l.title}</a></li>
 						{/for}
 					</ul>
 				{/if}
+				</li>
 			{else}
 				<li><a href="#${i.id}">${i.title}</a></li>
 			{/if}
