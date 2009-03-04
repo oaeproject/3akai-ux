@@ -146,7 +146,7 @@
                     <div class="buttonBar" style="margin-bottom:-1.2em">
                         <a href="javascript:;" class="button-default save_button">Save</a>
                         <a href="javascript:;" class="button cancel-button">Cancel</a>
-                        <span class="messageInformation" style="padding:20px; display:none">Auto saved 3 min 20 sec ago.</span>
+                        <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
                     </div>
                     <ul class="fl-tabs fl-tabs-r tab-nav">
 						<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
@@ -210,6 +210,14 @@
                 &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
             </p>
         </div>
+		
+		<div class="add_new_menu" id="add_new_menu" style="display:none">
+			<ul>
+				<li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
+				<li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
+				<li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
+			</ul>
+		</div>
 		
 		<script type="text/javascript" src="editor.js"></script>
 		
