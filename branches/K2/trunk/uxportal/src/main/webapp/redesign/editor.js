@@ -1223,6 +1223,25 @@ sakai.site = function(){
 	
 	
 	/*
+		Add in selected widget 
+	*/
+	
+	var renderSelectedWidget = function(hash){
+		toggleInsertMore();
+		hash.w.show();
+		//$("#dialog_content").html("<img id='widget_youtubevideo_id669826766__sites/test-6/_pages/home' class='widget_inline' src='/some/url'/>");
+		//sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+	}
+	
+	$('#insert_discussion_dialog').jqm({
+		modal: true,
+		trigger: $('#insert_discussion_link'),
+		overlay: 20,
+		toTop: true,
+		onShow: renderSelectedWidget
+	});
+	
+	/*
 		 Add a blank page
 	*/
 	
