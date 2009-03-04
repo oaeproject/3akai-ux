@@ -37,7 +37,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 			finaljson.parent = {};
 			var idtofind = "";
 			for (var ii = 0; ii < splitted.length - 1; ii++){
-				idtofind = splitted[ii];
+				idtofind += splitted[ii];
 				if (ii < splitted.length - 2){
 					idtofind += "/";
 				}
@@ -51,6 +51,14 @@ sakai.navigation = function(tuid, placement, showSettings){
 			}
 		}
 		
+		// check whether it's the same basepath
+		
+		var basepath = "";
+		var splitted = selectedpage.split("/");
+		for (var i = 0; i < splitted.length - 1; i++){
+			basepath += splitted[i] + "/";
+		}
+		
 		// Get all pages on current level
 		
 		for (var i = 0; i < pages.items.length; i++){
@@ -60,7 +68,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 				clevel++;
 				id = id.substring(id.indexOf("/") + 1);
 			}
-			if (clevel == level){
+			if (clevel == level && pages.items[i].id.substring(0,basepath.length) == basepath){
 				var index = finaljson.pages.length;
 				if (pages.items[i].id == selectedpage){
 					finaljson.pages[index] = {};
@@ -92,6 +100,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 					}
 					
 				} else {
+					
 					finaljson.pages[index] = {};
 					finaljson.pages[index].id = pages.items[i].id;
 					finaljson.pages[index].title = pages.items[i].title;
