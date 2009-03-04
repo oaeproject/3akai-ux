@@ -215,18 +215,6 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0
 		},
-		youtubevideo :
-		{
-			description:"YouTube Video",
-			iframe:0,
-			url:"/devwidgets/youtubevideo/youtubevideo.html",
-			name:"YouTube Video",
-			id:"youtubevideo",
-			personalportal:0,
-			siteportal:0,
-			ca:1,
-			img:"/devwidgets/youtubevideo/images/icon.png"
-		},
 		siterecentactivity :
 		{
 			description:"Site Recent Activity",
@@ -251,6 +239,20 @@ var Widgets = {
 			ca:1,
 			img:"/devwidgets/navigation/images/icon.png"
 		},
+		youtubevideo :
+		{
+			description:"YouTube Video",
+			iframe:0,
+			url:"/devwidgets/youtubevideo/youtubevideo.html",
+			name:"YouTube Video",
+			id:"youtubevideo",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:1,
+			showinsakaigoodies:0,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
 		tangler :
 		{
 			description:"Tangler Forum",
@@ -261,6 +263,8 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0,
 			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
 			img:"/devwidgets/tangler/images/tangler.png"
 		},
 		singlefile :
