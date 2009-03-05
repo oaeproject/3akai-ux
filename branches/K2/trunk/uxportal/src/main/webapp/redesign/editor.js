@@ -161,7 +161,8 @@ sakai.site = function(){
 	}
 	
 	sakai.site.openPage = function(pageid){
-		History.addBEvent(pageid);
+		//History.addBEvent(pageid);
+		document.location = "#" + pageid;
 	}
 	
 	sakai._site.navigationLoaded = function(){
@@ -1498,6 +1499,76 @@ sakai.site = function(){
 		});
 		
 	}
+	
+	
+	/*
+		Wrapping functionality 
+	*/
+	
+	var showWrappingDialog = function(hash){
+		$("#context_menu").hide();
+		hash.w.show();
+	}
+	
+	var createNewStyle = function(toaddin){
+		var ed = tinyMCE.get('elm1');
+		var selected = ed.selection.getNode();
+		if (selected && selected.nodeName.toLowerCase() == "img") {
+			var style = selected.getAttribute("style").replace(/ /g, "");
+			var splitted = style.split(';');
+			var newstyle = '';
+			for (var i = 0; i < splitted.length; i++) {
+				var newsplit = splitted[i].split(":");
+				if (newsplit[0] && newsplit[0] != "display" && newsplit[0] != "float") {
+					newstyle += splitted[i] + ";";
+				}
+			}
+			newstyle += toaddin;
+			newstyle.replace(/[;][;]/g,";");
+			
+			var toinsert = '<';
+			toinsert += selected.nodeName.toLowerCase();
+			for (var i = 0; i < selected.attributes.length; i++){
+				if (selected.attributes[i].nodeName.toLowerCase() == "style") {
+					toinsert += ' ' + selected.attributes[i].nodeName.toLowerCase() + '="' + newstyle + '"';
+				} else if (selected.attributes[i].nodeName.toLowerCase() == "mce_style") {
+					toinsert += ' ' + selected.attributes[i].nodeName.toLowerCase() + '="' + newstyle + '"';
+				} else {
+					toinsert += ' ' + selected.attributes[i].nodeName.toLowerCase() + '="' + selected.attributes[i].nodeValue + '"';
+				}
+			}
+			toinsert += '/>';
+			
+			//alert(ed.selection.getContent() + "\n" + selected.getAttribute("style"));
+			
+			tinyMCE.get("elm1").execCommand('mceInsertContent', true, toinsert);
+			
+		}
+	}
+	
+	$("#wrapping_no").bind("click",function(ev){
+		createNewStyle("display:block;");
+		$('#wrapping_dialog').jqmHide();
+	});
+	
+	$("#wrapping_left").bind("click",function(ev){
+		createNewStyle("display:inline;float:left;");
+		$('#wrapping_dialog').jqmHide();
+	});
+	
+	$("#wrapping_right").bind("click",function(ev){
+		createNewStyle("display:inline;float:right;");
+		$('#wrapping_dialog').jqmHide();
+	});
+	
+	$('#wrapping_dialog').jqm({
+			modal: true,
+			trigger: $('#context_appearance_trigger'),
+			overlay: 20,
+			toTop: true,
+			onShow: showWrappingDialog
+		});
+		
 	
 	/*
 		Global event listeners
