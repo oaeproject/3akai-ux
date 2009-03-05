@@ -44,6 +44,46 @@ sdata.registerForLoad = function(id){
 	}
 }
 
+/**
+ * 
+ * SData functions which the container can use to register
+ * functions that need to be executed when a widgets finishes editing
+ * 
+ */
+
+sdata.container = {};
+
+sdata.container.toCallOnFinish = false;
+sdata.container.toCallOnCancel = false;
+
+sdata.container.registerFinishFunction = function(callback){
+	if (callback){
+		sdata.container.toCallOnFinish = callback;
+	}
+}
+
+sdata.container.registerCancelFunction = function(callback){
+	if (callback){
+		sdata.container.toCallOnCancel = callback;
+	}
+}
+
+sdata.container.informFinish = function(tuid){
+	if (sdata.container.toCallOnFinish){
+		sdata.container.toCallOnFinish(tuid);
+	}
+}
+
+sdata.container.informCancel = function(tuid){
+	if (sdata.container.toCallOnCancel){
+		sdata.container.toCallOnCancel(tuid);
+	}
+}
+
+/**
+ * 
+ */
+
 sdata.performLoad = function(){
 	for (var i = 0; i < sdata.toLoad.length; i++){
 		var fct = eval(sdata.toLoad[i]);
