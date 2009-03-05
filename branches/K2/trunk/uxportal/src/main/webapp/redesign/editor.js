@@ -7,7 +7,7 @@ sakai.site = function(){
 		Configuration Variables
 	*/
 	var minHeight = 400;
-	var autosaveinterval = 10000;
+	var autosaveinterval = 17000;
 	
 	
 	/*
@@ -416,20 +416,19 @@ sakai.site = function(){
 	
 	sakai._site.mySelectionEvent = function(){
 		var ed = tinyMCE.get('elm1');
-		$("#aidbar").remove();
+		$("#context_menu").hide();
 		var selected = ed.selection.getNode();
 		if (selected && selected.nodeName.toLowerCase() == "img") {
+			if (selected.getAttribute("class") == "widget_inline"){
+				$("#context_settings").show();
+			} else {
+				$("#context_settings").hide();
+			}
 			var pos = tinymce.DOM.getPos(selected);
-			var div = document.createElement("div");
-			div.style.position = "absolute";
-			div.id = "aidbar";
-			div.style.width = "100px";
-			div.style.height = "20px";
-			div.style.backgroundColor = "green";
-			div.innerHTML = "Test";
-			div.style.top = pos["y"] + $("#elm1_ifr").position().top + "px";
-			div.style.left = pos["x"] + $("#elm1_ifr").position().left + "px";
-			document.body.appendChild(div);
+			var el = $("#context_menu");
+			el.css("top",pos["y"] + $("#elm1_ifr").position().top + 10 + "px");
+			el.css("left",pos["x"] + $("#elm1_ifr").position().left + 10 + "px");
+			el.show();
 		}
 	}
 	
@@ -701,6 +700,7 @@ sakai.site = function(){
 		clearInterval(timeoutid);
 		
 		$("#insert_more_menu").hide();
+		$("#context_menu").hide();
 		showingInsertMore = false;	
 		
 		// Remove autosave file
@@ -786,6 +786,7 @@ sakai.site = function(){
 	$(".save_button").bind("click", function(ev){
 		
 		clearInterval(timeoutid);
+		$("#context_menu").hide();
 		
 		$("#insert_more_menu").hide();
 		showingInsertMore = false;	
@@ -1097,11 +1098,60 @@ sakai.site = function(){
 		eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150');");
 	}
 	
+	
+	/*
+		Context menu functions 
+	*/
+	
+	$("#context_remove").bind("click", function(ev){
+		tinyMCE.get("elm1").execCommand('mceInsertContent', false, '');
+	});
+	
+	$("#context_settings").bind("click", function(ev){
+		var ed = tinyMCE.get('elm1');
+		var selected = ed.selection.getNode();
+		$("#dialog_content").hide();
+		if (selected && selected.nodeName.toLowerCase() == "img") {
+			if (selected.getAttribute("class") == "widget_inline") {
+				$("#context_settings").show();
+				var id = selected.getAttribute("id");
+				var split = id.split("_");
+				var type = split[1];
+				var uid = split[2];
+				var length = split[0].length + 1 + split[1].length + 1 + split[2].length + 1; 
+				var placement = id.substring(length);
+
+				newwidget_id = type;
+				
+				$("#dialog_content").hide();
+				
+				if (Widgets.widgets[type]) {
+				
+					$('#insert_dialog').jqmShow(); 
+					var nuid = "widget_" + type + "_" + uid + "_" + placement;
+					newwidget_uid = nuid;
+					$("#dialog_content").html('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>');
+					$("#dialog_title").text(Widgets.widgets[type].name)
+					sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+					$("#dialog_content").show();
+					$("#insert_more_menu").hide();
+					showingInsertMore = false;	
+					
+				}
+			}
+		}
+
+		$("#context_menu").hide();
+		
+	});
+	
+	
 	/*
 		Preview tab 
 	*/
 	
 	$("#tab_preview").bind("click", function(ev){
+		$("#context_menu").hide();
 		$("#tab-nav-panel").hide();
 		$("#new_page_path").hide();
 		$("#html-editor").hide();
@@ -1124,6 +1174,7 @@ sakai.site = function(){
 	});
 	
 	$("#tab_html").bind("click", function(ev){
+		$("#context_menu").hide();
 		$("#fl-tab-content-editor").hide();
 		$("#toolbarplaceholder").hide();
 		$("#toolbarcontainer").hide();
@@ -1222,6 +1273,40 @@ sakai.site = function(){
 	
 	
 	/*
+		"Context menu"-dropdown functions 
+	*/
+	
+	var isShowingContext = false;
+
+	$("#context_settings").hover(
+		function(over){
+			$("#context_settings").addClass("selected_option");
+		}, 
+		function(out){
+			$("#context_settings").removeClass("selected_option");
+		}
+	);
+	
+	$("#context_remove").hover(
+		function(over){
+			$("#context_remove").addClass("selected_option");
+		}, 
+		function(out){
+			$("#context_remove").removeClass("selected_option");
+		}
+	);
+	
+	$("#context_appearance").hover(
+		function(over){
+			$("#context_appearance").addClass("selected_option");
+		}, 
+		function(out){
+			$("#context_appearance").removeClass("selected_option");
+		}
+	);
+	
+	
+	/*
 		Add in a horizontal line 
 	*/
 	
@@ -1235,15 +1320,66 @@ sakai.site = function(){
 		Add in selected widget 
 	*/
 	
+	var newwidget_id = false;
+	var newwidget_uid = false;
+	
 	var renderSelectedWidget = function(hash){
+		
 		toggleInsertMore();
-		hash.w.show();
 		
-		alert(hash.t.id);
+		var widgetid = false;
+		if (hash.t){
+			widgetid = hash.t.id.split("_")[3];
+		}
+		$("#dialog_content").hide();
 		
-		//$("#dialog_content").html("<img id='widget_youtubevideo_id669826766__sites/test-6/_pages/home' class='widget_inline' src='/some/url'/>");
-		//sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+		if (Widgets.widgets[widgetid]){
+			
+			hash.w.show();
+			
+			newwidget_id = widgetid;
+			var rnd = "id" + Math.round(Math.random() * 1000000000);
+			var id = "widget_" + widgetid + "_" + rnd + "_" + currentsite.id + "/_widgets";
+			newwidget_uid = id;
+			$("#dialog_content").html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
+			$("#dialog_title").text(Widgets.widgets[widgetid].name)
+			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+			$("#dialog_content").show();
+			window.scrollTo(0,0);
+			
+		} else if (!widgetid){
+			hash.w.show();
+			window.scrollTo(0,0);
+		}
+		
 	}
+	
+	var hideSelectedWidget = function(hash){
+		hash.w.hide();
+		hash.o.remove();
+		newwidget_id = false;
+		newwidget_uid = false;
+		$("#dialog_content").html("");
+		$("#dialog_content").hide();
+	}
+	
+	sakai._site.widgetCancel = function(tuid){
+		$('#insert_dialog').jqmHide(); 
+	}
+	
+	sakai._site.widgetFinish = function(tuid){
+		
+		// Add widget to the editor
+		
+		$("#insert_screen2_preview").html('');
+		tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[newwidget_id].img + '" id="' + newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+		
+		$('#insert_dialog').jqmHide(); 
+		
+	}
+	
+	sdata.container.registerFinishFunction(sakai._site.widgetFinish);
+	sdata.container.registerCancelFunction(sakai._site.widgetCancel);
 	
 	/*
 		 Add a blank page
@@ -1357,7 +1493,8 @@ sakai.site = function(){
 			trigger: $('.insert_more_widget'),
 			overlay: 20,
 			toTop: true,
-			onShow: renderSelectedWidget
+			onShow: renderSelectedWidget,
+			onHide: hideSelectedWidget
 		});
 		
 	}
