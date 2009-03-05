@@ -18,6 +18,18 @@ sakai.tangler = function(tuid, placement, showSettings){
 			}
 		});
 	}
+	
+	var loadSavedId = function(){
+		sdata.Ajax.request({
+			url :"/sdata/f/" + placement + "/" + tuid + "/tangler?sid=" + Math.random(),
+			httpMethod : "GET",
+			onSuccess : function(data) {
+				$("#tangler_code",rootel).val(data);
+			},
+			onFail : function(status) {
+			}
+		});
+	}
 
 	var showForum = function(response, exists){
 		if (exists){
@@ -123,14 +135,13 @@ sakai.tangler = function(tuid, placement, showSettings){
 	}
 
 	var finishNewSettings = function(success){
-		$("#" + tuid + " #tangler_output").show();
-		$("#" + tuid + " #tangler_settings").hide();
-		fillInUniqueId();
+		sdata.container.informFinish(tuid);
 	}
 
 	if (showSettings){
 		$("#" + tuid + " #tangler_output").hide();
 		$("#" + tuid + " #tangler_settings").show();
+		loadSavedId();
 	} else {
 		$("#" + tuid + " #tangler_settings").hide();
 		$("#" + tuid + " #tangler_output").show();
@@ -139,6 +150,9 @@ sakai.tangler = function(tuid, placement, showSettings){
 
 	$("#tangler_save", rootel).bind("click",function(e,ui){
 		saveNewSettings();
+	});
+	$("#tangler_cancel", rootel).bind("click",function(e,ui){
+		sdata.container.informCancel(tuid);
 	});
 
 };
