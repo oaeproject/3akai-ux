@@ -1126,7 +1126,6 @@ sdata.widgets.WidgetLoader =  {
 			onSuccess : function(response) {
 				var thisobj2 = {};
 				var newstring = sdata.i18n.processhtml(response, sdata.i18n.localBundle, sdata.i18n.defaultBundle);
-				alert(newstring);
 				sdata.widgets.WidgetLoader.sethtmloverspecial(null,newstring,bigarray,widgetname);	
 			}
 		});
