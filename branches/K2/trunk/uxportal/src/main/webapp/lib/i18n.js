@@ -1,3 +1,8 @@
+sdata.i18n = sdata.i18n || {};
+
+sdata.i18n.defaultBundle = false;
+sdata.i18n.localBundle = false;
+
 sdata.events.Listener.onLoad(function() {
 
 	document.body.style.display = "none";
@@ -19,12 +24,14 @@ sdata.events.Listener.onLoad(function() {
 				httpMethod : "GET",
 				onSuccess : function(data) {
 					var defaultjson = eval('(' + data + ')');
+					sdata.i18n.defaultBundle = defaultjson;
 					if (mejson.locale) {
 						sdata.Ajax.request({
 							url: "/dev/bundle/" + mejson.locale.language + "_" + mejson.locale.country + ".json",
 							httpMethod: "GET",
 							onSuccess: function(data){
 								var localjson = eval('(' + data + ')');
+								sdata.i18n.localBundle = localjson;
 								var newstring = sdata.i18n.processhtml(tostring, localjson, defaultjson);
 								document.body.innerHTML = newstring;
 								document.body.style.display = "block";
