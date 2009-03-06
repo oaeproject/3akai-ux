@@ -1507,6 +1507,7 @@ sakai.site = function(){
 	
 	var showWrappingDialog = function(hash){
 		$("#context_menu").hide();
+		window.scrollTo(0,0);
 		hash.w.show();
 	}
 	
@@ -1591,7 +1592,11 @@ sakai.site = function(){
 		//if (time < last + 500) {
 		//	return;
 		//}
-		placeToolbar();
+		try {
+			placeToolbar();
+		} catch (err){
+			// Ignore
+		}
 		//setTimeout(placeToolbar, 100);
 	});
 	
