@@ -1125,11 +1125,9 @@ sdata.widgets.WidgetLoader =  {
 			url : Widgets.widgets[widgetname].url,
 			onSuccess : function(response) {
 				var thisobj2 = {};
-				thisobj2.bundle = sdata.i18n.getBundles(response);
-				sdata.i18n.process(response,function(i18nrespone) {
-					sdata.widgets.WidgetLoader.sethtmloverspecial(null,i18nrespone,bigarray,widgetname);                            
-				},
-				thisobj2.bundle,"default");		
+				var newstring = sdata.i18n.processhtml(response, sdata.i18n.localBundle, sdata.i18n.defaultBundle);
+				alert(newstring);
+				sdata.widgets.WidgetLoader.sethtmloverspecial(null,newstring,bigarray,widgetname);	
 			}
 		});
 	},
