@@ -164,7 +164,7 @@
 					</ul>
                     <div class="tab-nav-panel" id="tab-nav-panel">
                     	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
-                        <div class="toolbar" id="toolbarcontainer">
+                        <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
                         	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
                         </div>
 						<div class="fl-tab-content" id="title-input-container">
@@ -272,13 +272,39 @@
 			<div id="dialog_content" style="padding:10px;"></div>
 		</div>
 		
+		<div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Appearance</h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">Select wrapping for your widget</h3>
+				
+				<ul style="margin-left:1em">
+					<li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">No wrapping</a></li>
+					<li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">Left wrapping</a></li>
+					<li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">Right wrapping</a></li>
+				</ul>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <!--<a href="javascript:;" class="button-default">Save</a>-->
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
 		<div class="context_menu" id="context_menu" style="display:none">
 			<img src="/dev/img/edit_icon.png" width="20px"/>
 			<br/>
 			<ul>
 				<li id="context_settings"><a href="javascript:;">Settings</a></li>
 				<li id="context_remove"><a href="javascript:;">Remove</a></li>
-				<li id="context_appearance"><a href="javascript:;">Appearance</a></li>
+				<li id="context_appearance"><a href="javascript:;" id="context_appearance_trigger">Wrapping</a></li>
 			</ul>
 		</div>
 		
