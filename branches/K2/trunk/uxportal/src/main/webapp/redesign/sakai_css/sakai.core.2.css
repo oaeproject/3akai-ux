@@ -132,7 +132,7 @@ a {
 /* Explorer Bar */
 .explore_nav{
     background-color:#333;
-    color:#999;
+    color:#88989f;
     padding:10px;
 	 vertical-align: middle;
  	 line-height: 1.5em;
@@ -193,25 +193,27 @@ a {
     padding:10px 0 10px 10px;
 }
 .site_heading h1 {
-    margin:0;
+    margin:0 0 0 12px;
 }
 .site_heading .search {
     margin-top:5px;
 }
 .site_heading .search .search_field {
     width:230px; 
-    padding:2px 5px; 
-    border:2px solid #ccc; 
+    padding:4px 5px; 
+    border:1px solid #c5cdd3; 
     border-right:none; 
-    border-bottom:none;
 	color:#BBBBBB;
+	height:15px;
 }
 .site_heading .search .search_button {
     background-color:#333; 
     border:none; 
     background-image:url(../images/search_icon.png); 
-    height:20px; 
-    width:20px;
+    height:25px; 
+    width:25px;
+	margin-right:21px;
+	margin-left:0px !important;
 }
 
 /********************************************/
@@ -280,12 +282,12 @@ a {
 
 .column_splitter_sites {
 	/* simple hack free approach to a column divider that needs to match either columns height */
-    background:#fff url(../images/single_grey_pixel.png) repeat-y 170px top;
+    /* background:#fff url(../images/single_grey_pixel.png) repeat-y 170px top; */
 }
 
 .main_container a {
     color:#666;
-    font-weight:bold;
+    font-weight:normal;
 }
 
 /********************************************/
@@ -321,7 +323,7 @@ a {
 	padding: 1px 0 1px 0;
 }
 .page_nav li a {
-    color:#666;
+    color:#058EC4;
 	font-size: 0.95em;
 }
 .page_nav li p {
@@ -331,20 +333,20 @@ a {
 	font-size: 0.85em;
 }
 .page_nav a {
-    color:#000; 
+    color:#333; 
     padding: 0;
     display:block; 
-    font-size:.9em;
+    font-size:0.95em;
 	font-weight:normal;
 }
 .page_nav a strong {
 	font-size: 1.0em;
-	color: #333;
+	color: #058EC4;
 }
 
 .add_a_new {
-	font-weight:bold !important;
-	margin-bottom: 10px;
+	font-weight:normal !important;
+	margin-bottom: 15px;
 }
 
 /********************************************/
@@ -399,6 +401,7 @@ a {
 .content_page_options li a {
 	color: #333;
 	padding: 0 0px 0 5px;
+	font-size:0.95em;
 }
 .content h3 {
     font-size: 1.25em;
@@ -721,7 +724,7 @@ a {
 	color:#777;
 	text-decoration:none;
 	position: relative; 
-	bottom:-1px;
+	bottom:0px;
 }
 .tab-nav li a:hover {
 	color:#333;    
@@ -730,7 +733,7 @@ a {
 .tab-nav li.tab-nav-selected span { /*selected tab effect*/
     position: relative; 
     padding: 8px 7px 5px 7px;
-	bottom:-2px;
+	bottom:-1px;
     font-weight: bold;
     border-bottom: none;
     background-color: #fff;
