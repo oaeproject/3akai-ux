@@ -97,6 +97,7 @@ sakai.profile = function(){
 					url: fileUrl,
 					onSuccess: function(data){
 						totalprofile = eval('(' + data + ')');
+						totalprofile.profile = totalprofile.users[0].profile;
 						json = totalprofile.profile;
 						
 						if (user && user != me.preferences.uuid) {
