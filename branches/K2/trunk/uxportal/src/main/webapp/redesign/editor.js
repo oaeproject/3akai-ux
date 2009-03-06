@@ -1552,12 +1552,12 @@ sakai.site = function(){
 	});
 	
 	$("#wrapping_left").bind("click",function(ev){
-		createNewStyle("display:inline;float:left;");
+		createNewStyle("display:block;float:left;");
 		$('#wrapping_dialog').jqmHide();
 	});
 	
 	$("#wrapping_right").bind("click",function(ev){
-		createNewStyle("display:inline;float:right;");
+		createNewStyle("display:block;float:right;");
 		$('#wrapping_dialog').jqmHide();
 	});
 	
