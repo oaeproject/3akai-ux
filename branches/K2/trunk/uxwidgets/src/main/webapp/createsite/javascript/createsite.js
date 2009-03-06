@@ -313,7 +313,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/_sites/" + siteid,
 			httpMethod: "POST",
 			onSuccess: function(data){
-				document.location = "/dev/site.html?siteid=" + siteid;
+				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
 			},
 			onFail: function(status){
 			},
