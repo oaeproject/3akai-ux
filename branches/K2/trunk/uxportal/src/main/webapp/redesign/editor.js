@@ -1597,6 +1597,26 @@ sakai.site = function(){
 	
 	
 	/*
+		Other
+	*/
+	
+	// Fix small arrow horizontal position
+	$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
+
+	// Round cornners for elements with '.rounded_corners' class
+	$('.rounded_corners').corners();
+
+	// IE 6 Fixes
+	if ($.browser.msie && $.browser.version < 7) {
+ 		// Tab fix
+ 		$('.fl-tabs li a').css('bottom','-3px');
+		$('.fl-tabs .fl-activeTab a').css('bottom','-4px');
+		$('.explore_nav_selected_arrow').css('bottom','-4px');
+
+	}
+	
+	
+	/*
 		Load functions 
 	*/
 	
