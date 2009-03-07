@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>The Sakai Foundation</title>
+		<meta name="Description" content="The Sakai Foundation" />
+		<meta name="Keywords" content="The Sakai Foundation" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie/iepc.css" media="screen" /><![endif]-->
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
+		<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+        <script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+		<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+	</head>
+	<body id="body-hide2">
+    <script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+    <div id="body2" style="width:100%">
+	   
+	   <div id="header3">
+		   <div class="header3-up">
+			   <h1>My Preferences</h1>
+			   <ul>
+				   <li class="m2-header3-up"><a href="#" id="back_dashboard">Close &amp; Return to My Dashboard</a></li>
+				   <li class="m1-header3-up"><a accesskey='6' href='/portal/help/main' onclick="window.open('/portal/help/main', 'Help', 'resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600'); return false">Help</a></li>
+			   </ul>
+		   </div>
+		   <div class="block">
+			   <ul class="header3-down">
+				   <li class="on"><a href="#">Account Details</a></li>
+				   <li><a href="/dev/preferences_email_notifications.html">Email Notifications</a></li>
+			   </ul>
+		   </div>
+       </div><!-- /header3 -->
+
+       <div id="wrapper3">
+        <div id="container3">
+          <div id="content3">
+            <div id="main3">
+	            <div class="pref-msg-error" id="warning1" style="display:none">
+					<div class="pref-msg">
+						<span id="alert_id1"></span>
+					</div>
+					<div class="pref-msg-remove" style="line-height:14px; background:transparent url(/dev/img/m2-header4-up.png) no-repeat scroll 0% 0pt; padding-left: 20px; cursor: pointer; cursor: hand" onclick="sakai.preferences.removealert();">
+						<a class="pref-remove-error">Remove</a>
+					</div>
+				</div>
+  
+                <div class="pref-msg-success" id="saveinfo1" style="display:none">
+					<div class="pref-msg">
+						<span class="pref-alert"><b>Success!</b></span>
+						Your changes have been saved.
+					</div>
+					<div class="pref-msg-remove" style="line-height:14px; background:transparent url(/dev/img/m2-header5-up.png) no-repeat scroll 0% 0pt; padding-left: 20px; cursor: pointer; cursor: hand" onclick="sakai.preferences.remove_save_info();">
+						<a class="pref-remove-success">Remove</a>
+					</div>
+				</div>
+				
+				<div id="spacer" style="display:none">
+					<br/>	
+				</div>
+				
+				<div class="site-settings-general">
+					<!--
+					<h2>Personal Information<span class="text-right fs11 c999999 csbc-bottom2" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span></h2>
+					<table cellpadding="0" cellspacing="0" border="0" class="pref-table">
+						<tr>
+							<td class="pref-td1"><div><strong>Username:</strong></div></td>
+							<td><div><strong><span id="preferences_username" style="position:relative; left: 0px; top: 0px"></span></strong></div></td> 
+						</tr>
+						<tr>
+							<td class="pref-td1"><div><strong>First Name:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" id="preferences_firstname" onchange="sakai.preferences.valuechanged();"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1"><div><strong>Last Name:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" id="preferences_lastname" onchange="sakai.preferences.valuechanged();"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1" id="email_id1"><div><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Email Address:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" id="preferences_email" onchange="sakai.preferences.valuechanged();"/></div></td>
+						</tr>
+					</table>
+					-->
+					<h2>Change Password</h2>
+					<table cellpadding="0" cellspacing="0" border="0" class="pref-table">
+						<tr>
+							<td class="pref-td1"  id="current_pw_id1"><div><strong>Current Password:</strong></div></td>
+							<td class="pref-td2"><div><input type="password" name="" id="preferences_pw_current" onchange="sakai.preferences.valuechanged();"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1" id="new_pw_id1"><div><strong>New Password:</strong></div></td>
+							<td class="pref-td2"><div><input type="password" name="" id="preferences_pw_new" onchange="sakai.preferences.valuechanged();"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1" id="retype_pw_id1"><div><strong>Re-Type New Password:</strong></div></td>
+							<td class="pref-td2"><div><input type="password" name="" id="preferences_pw_new_retype" onchange="sakai.preferences.valuechanged();"/></div></td>
+						</tr>
+					</table>
+					<h2>Regional Settings</h2>
+					<table cellpadding="0" cellspacing="0" border="0" class="pref-table">
+						<tr>
+							<td class="pref-td1"><div><strong>Time Zone:</strong></div></td>
+							<td class="pref-td2">
+                            <div id="preferences_choose_timezone">
+                            </div>
+                            <div id="preferences_timezones" style="display:none"><!--
+                                <select onchange="sakai.preferences.valuechanged();">
+                                    {for i in items}
+                                        {if i.show}
+                                            <option selected="selected" onclick="sakai.preferences.selectTimezone('${i.title}')">${i.title}</option>
+                                        {else}
+                                            <option  onclick="sakai.preferences.selectTimezone('${i.title}')">${i.title}</option>
+                                        {/if}
+                                    {/for}
+                                </select>
+                                -->
+							</div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1"><div><strong>Language:</strong></div></td>
+							<td class="pref-td2"><div id="preferences_choose_language">
+							</div></td>
+						</tr>
+					</table>
+					<div class="pref-btns">
+						<div class="block">
+                            <a onclick="sakai.preferences.saveDetail()" class="save buttons">Save</a>
+							<div id="preferences_undo_id1"  style="display:none"><a onclick="sakai.preferences.undo()" class="undo-changes-active buttons">Undo Changes</a></div>
+   							<div id="preferences_undo_id2"><a class="undo-changes buttons">Undo Changes</a></div>
+						</div>
+					</div>
+				</div>
+				
+            </div><!-- /main3 -->
+            
+          </div><!-- /content3 -->
+        </div><!-- /container3 -->
+       </div><!-- /wrapper3 -->
+	   
+	     <div id="widget_chat" class="widget_inline"></div>
+	   <br/><br/>
+	   
+	   </div>
+	<script type="text/javascript" language="JavaScript" src="/dev/js/preferences.js"></script>
+
+  </body>
+</html>

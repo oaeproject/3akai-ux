@@ -1,0 +1,47 @@
+<div class="widget1-subhead wip" id="mainSitesContainer" style="float:none; height: auto; padding-bottom: 6px">
+						<div class="widget1-subhead-left" style="float:none">
+							<ul>
+								<li><a href="/dev/sites_tool_join_main.html">Browse Sites</a></li>
+								<li><a href="/dev/sites_tool_edit.html">Edit Site List</a></li>
+								<li class="widget1-last"><a id="create_new_site_link" style="cursor:hand; cursor:pointer">Create a Site</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="widget1-content wip" style="float:none"><div id="sitelist" class="widget1-content-in" style="float:none; text-align:left">
+
+					</div>
+					<div id="sitelist_template" style="display:none"><!--
+						<ul class="sites-menu">
+							<li id="sites-menu-icon"><a href="#">Uncategorized</a>
+								<ul>
+									{for site in items}
+										<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}" class="sites-menu-blue">${site.title}</a></li>
+									{/for}
+								</ul>
+							</li>
+						</ul>
+					--></div>
+					<div id="sitelist_template2" style="display:none"><!--
+						<ul class="sites-menu sites-menu-min" id="sites-menu-icon">					
+							<li><a style="cursor: hand; cursor: pointer" id="sites_category_uncategorized">Uncategorized</a>
+								<ul id="sites_list_uncategorized">
+									{for site in entry}
+										{if site.type != "portfolio"}
+										<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}" class="sites-menu-blue">${site.name}</a></li>
+										{else}
+										<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}" class="sites-menu-green">${site.name}</a></li>
+										{/if}
+									{/for}
+								</ul>
+							</li>
+						</ul>
+						<br/>
+					--></div>
+					
+					</div></div>
+
+<div id="createsitecontainer" style="display:none; width:100%">
+	<div id="widget_createsite" class="widget_inline" style="width:100%"></div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/sites/javascript/sites.js"></script>

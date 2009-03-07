@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Page edit</title>
+        <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
+        <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />
+        <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.css" />
+		
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_permissions.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.save_as_template.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
+		
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
+		
+		<script type="text/javascript" src="Fluid-all.js"></script>
+		
+		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
+		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
+		
+		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
+		<script type="text/javascript" src="BrowserDetect.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.corners.js"></script>
+		
+		<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
+		<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>
+		
+    </head>
+    <body id="root" class="fl-centered fl-container">
+    	
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+   
+   		<!-- TrimPath Templates -->
+		<div id="editor_extra_buttons"><!--
+			<td>
+				<span class='mceSeparator' style='width:5px'/>
+			</td>
+			<td>
+				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+					<tbody>
+						<tr>
+							<td class='mceFirst'>
+								<a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>Insert More</a>
+							</td>
+							<td class='mceLast'>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+			<td>
+				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+					<tbody>
+						<tr>
+							<td class='mceFirst'>
+								<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Layout</a>
+							</td>
+							<td class='mceLast'>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>   
+		--></div>
+		
+		<!-- EXPLORE BAR -->
+        <!-- <div class="fl-container fl-fix explore_nav">
+            <ul class="explore fl-force-left">
+                <li><a href="/dev/dashboard.html">My Sakai</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Inbox</a></li>
+				<li><a href="#">Contacts</a><a href="#"><small>&nbsp;(2 Online)</small></a></li>
+				<li><a href="#">Course & Sites</a></li>
+				<li><a href="#">Explore</a></li>
+            </ul>
+            <ul class="personal fl-force-right">
+                <li>Signed in as <strong id="userid"></strong></li>
+                <li><a href="#">Help</a></li>
+                <li><a href="/dev/logout.html">Sign out</a></li>
+            </ul>
+        </div> -->
+		<div class="fl-container explore_nav">
+	        <ul class="explore fl-force-left">
+	            <li><a href="/dev/dashboard.html">My Sakai</a></li>
+	            <li><a href="#">Profile</a></li>
+	            <li><a href="#" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" /></li>
+	      		<li><a href="#">Courses & Sites</a></li>
+				<li><a href="#">Search</a></li>
+		  </ul>
+	        <ul class="personal fl-force-right">
+	            <li>Signed in as <strong id="userid"></strong></li>
+	
+	            <li><a href="#">Help</a></li>
+	            <li><a href="#">Sign out</a></li>
+	        </ul>
+	    </div>
+
+		
+		<!-- TITLE BAR + SEARCH -->
+        <div class="fl-container site_heading">
+            <form class="search fl-force-right" action="" method="">
+                <input type="text" name="search" value="Search this site" class="fl-force-left search_field" />
+                <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" />
+            </form>
+            <h1 id="sitetitle"></h1>
+        </div>
+      
+	   <!-- WORK AREA -->
+        <div class="fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
+	       
+            <!-- Page Nav -->
+            <div class="fl-col-side page_nav">	
+				<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
+				<div id="page_nav_content" class="pages page_nav_content">
+					
+				</div>
+					
+				<div class="site_management" id="site_management" style="display:none">
+					<h3>Site Management</h3>
+	            	<ul>
+	                	<li><a href="#">Site Settings</a></li>
+	                	<li><a href="#">Members</a></li>
+	                	<li><a href="#">Appereance</a></li>
+						<li style="margin-top:20px"><a href="javascript:;" id="edit_sidebar" style="color:#333333">Edit Sidebar</a></li>
+	            	</ul>
+				</div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="fl-col-main content_container">
+                
+				<div class="content_page_options">
+					<ul class="fl-force-right">
+						<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
+						<li class="divider" style="display:none" id="li_edit_page_divider"></li>
+						<li><a href="javascript:;" id="print_page">Print page</a></li>
+						<li class="divider"></li>
+						<li><a href="#">More</a></li>
+					</ul>
+				</div>
+				
+				<h1 id="pagetitle"></h1>
+                
+				<div class="content_page_header" style="display:none">
+                	<img src="images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
+					<p><a href="#">John Doe</a></p>
+					<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
+                </div>
+                
+				
+				<div id="main-content-div">
+				
+				</div>             
+            </div>
+        </div>
+	 
+        <!-- WORK AREA -->
+        <div class="fl-fix" id="edit_view_container" style="display:none">
+            <div class="main_container content_container">
+                <div class="content">
+                    <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+                    <div class="buttonBar" style="margin-bottom:-1.2em">
+                        <a href="javascript:;" class="button-default save_button">Save</a>
+                        <a href="javascript:;" class="button cancel-button">Cancel</a>
+                        <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
+                    </div>
+                    <ul class="fl-tabs fl-tabs-r tab-nav">
+						<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
+						<li id="tab_html"><a href="javascript:;">HTML</a></li>
+						<li id="tab_preview"><a href="javascript:;">Preview</a></li>
+					</ul>
+                    <div class="tab-nav-panel" id="tab-nav-panel">
+                    	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
+                        <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
+                        	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
+                        </div>
+						<div class="fl-tab-content" id="title-input-container">
+                            <input type="text" value="Untitled" class="title-input" id="title-input"/>
+                        </div>
+						<div class="fl-tab-content fl-tab-content-editor" id="fl-tab-content-editor">
+							<div id="placeholderforeditor" class="textarea">
+								<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+								<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+									&nbsp;
+								</textarea>
+							</div>
+                        </div>
+						<div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
+							<textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
+						</div>
+                    </div>
+                    <p class="new_page_path" id="new_page_path">
+                         Site title / Some page / <span>Untitled</span>
+                        <input class="custom_button" type="button" value="Move ..." name="somename"/>
+                    </p>
+					<div style="display:none" id="new_page_path_template"><!--
+						{var index = 0}
+						<span>Page location:</span>
+						{for i in pages}
+							${index++|eat}
+							{if index == total}
+								<span id="new_page_path_current">${i}</span>
+							{else}
+								${i}&nbsp;/&nbsp;
+							{/if}
+						{/for}
+						&nbsp;
+						<input class="custom_button" type="button" value="Move ..." name="somename"/>
+					--></div>
+					<div class="fl-tab-content content_container" id="page_preview_content" style="display:none; margin-bottom: 20px">
+						
+					</div>
+                    <div class="buttonBar">
+                        <a href="javascript:;" class="button-default save_button">Save</a>
+                        <a href="javascript:;" class="button cancel-button">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER copyright -->
+        <div class="fl-container footer_copyright">
+            <a href="javascript:;" id="back_to_top">Back To Top</a>
+            <p>
+                Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
+                <br/>
+                &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
+            </p>
+        </div>
+		
+		<div class="add_new_menu" id="add_new_menu" style="display:none">
+			<ul>
+				<li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
+				<li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
+				<li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
+			</ul>
+		</div>
+		
+		<div id="insert_more_menu" class="insert_more_menu" style="display:none">
+			<div class="insert_more_menu_border">
+				<ul>
+					<li><a href="javascript:;">Link</a></li>
+					<li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
+				</ul>
+			</div>
+			<div id="insert_more_media" class="insert_more_menu_border">
+				
+			</div>
+			<div id="insert_more_goodies">
+				
+			</div>
+		</div>
+		
+		<div id="insert_more_media_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Media:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{forelse}
+					<li class="insert_more_menu_inactive"><i>No available</i></li>
+				{/for}
+			</ul>
+		--></div>
+		
+		<div id="insert_more_goodies_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Sakai Goodies:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{/for}
+				<li class="insert_more_menu_inactive">(More coming soon)</li>
+			</ul>				
+		--></div>
+		
+		<div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
+			<div class="dialog_header">
+				<h1 id="dialog_title"></h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			<div id="dialog_content" style="padding:10px;"></div>
+		</div>
+		
+		<div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Appearance</h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">Select wrapping for your widget</h3>
+				
+				<ul style="margin-left:1em">
+					<li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">No wrapping</a></li>
+					<li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">Left wrapping</a></li>
+					<li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">Right wrapping</a></li>
+				</ul>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <!--<a href="javascript:;" class="button-default">Save</a>-->
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div class="context_menu" id="context_menu" style="display:none">
+			<img src="/dev/img/edit_icon.png" width="20px"/>
+			<br/>
+			<ul>
+				<li id="context_settings"><a href="javascript:;">Settings</a></li>
+				<li id="context_remove"><a href="javascript:;">Remove</a></li>
+				<li id="context_appearance"><a href="javascript:;" id="context_appearance_trigger">Wrapping</a></li>
+			</ul>
+		</div>
+		
+		<script type="text/javascript" src="editor.js"></script>
+		
+    </body>
+</html>

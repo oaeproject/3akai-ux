@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>The Sakai Foundation</title>
+		<meta name="Description" content="The Sakai Foundation" />
+		<meta name="Keywords" content="The Sakai Foundation" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie/iepc.css" media="screen" /><![endif]-->
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
+		<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+        <script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+		<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+	</head>
+	<body id="body-hide2">
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+    <div id="body2" style="width:100%">
+    
+	   <script type="text/javascript" language="JavaScript" src="/dev/js/preferences_notifications.js"></script>
+	   
+	   <div id="header3">
+		   <div class="header3-up">
+			   <h1>My Preferences</h1>
+			   <ul>
+				   <li class="m2-header3-up"><a href="#" id="back_dashboard">Close &amp; Return to My Dashboard</a></li>
+				   <li class="m1-header3-up"><a href="#">Help</a></li>
+			   </ul>
+		   </div>
+		   <div class="block">
+			   <ul class="header3-down">
+				   <li><a href="/dev/preferences_account_details.html">Account Details</a></li>
+				   <li class="on"><a href="#">Email Notifications</a></li>
+			   </ul>
+		   </div>
+       </div><!-- /header3 -->
+       
+       <div id="wrapper3">
+        <div id="container3">
+          <div id="content3">
+          
+            <div id="main3">
+				<div class="pref">
+					
+						<div class="pref-msg-success" id="save_success" style="display:none;">
+							<div class="pref-msg">
+								<span class="pref-alert">Success!</span>
+								Your changes have been saved.
+							</div>
+							<div class="pref-msg-remove" style="line-height:14px; background:transparent url(/dev/img/m2-header5-up.png) no-repeat scroll 0% 0pt; padding-left: 20px; cursor: pointer; cursor: hand" onclick="sakai.preferences.removeSuccessMsg();">
+								<a class="pref-remove-success">Remove</a>
+							</div>
+						</div>
+					
+						<div id="spacer" style="display:none">
+							<br/>	
+						</div>
+					
+					<p class="pref-note"><strong>Note:</strong> All high priority notifications are sent to your email address automatically. Low priority notifications can be disabled or modified using the following options:</p>
+					
+					<div id="preferences_choose_annc_notif">
+					</div>
+					<div id="preferences_annc_notif" style="display:none"><!--
+						<h2>Announcements</h2>
+						<table cellpadding="0" cellspacing="0" border="0" class="pref-table2">
+							{for option in anncNotifOptions}
+								<tr>
+									<td class="pref-td1"><div>
+										{if option.notifValue == anncNotifPref}
+											<input type="radio" class="radio" name="anncNotif" value="${option.notifValue}" checked="checked" onchange="sakai.preferences.valuechanged();" />
+										{else}
+											<input type="radio" class="radio" name="anncNotif" value="${option.notifValue}" onchange="sakai.preferences.valuechanged();" />
+										{/if}
+									</div></td>
+									<td><div>${option.notifOption}</div></td>
+								</tr>
+							{/for}
+						</table>-->
+					</div>
+					
+					<div id="preferences_choose_mail_notif">
+					</div>
+					<div id="preferences_mail_notif" style="display:none"><!--
+						<h2>Email Archives</h2>
+						<table cellpadding="0" cellspacing="0" border="0" class="pref-table2">
+							{for option in mailArchiveNotifOptions}
+								<tr>
+									<td class="pref-td1"><div>
+										{if option.notifValue == mailArchiveNotifPref}
+											<input type="radio" class="radio" name="mailArchiveNotif" value="${option.notifValue}" checked="checked" onchange="sakai.preferences.valuechanged();" />
+										{else}
+											<input type="radio" class="radio" name="mailArchiveNotif" value="${option.notifValue}" onchange="sakai.preferences.valuechanged();" />
+										{/if}
+									</div></td>
+									<td><div>${option.notifOption}</div></td>
+								</tr>
+							{/for}
+						</table>-->
+					</div>
+					
+					<div id="preferences_choose_resources_notif">
+					</div>
+					<div id="preferences_resources_notif" style="display:none"><!--
+						<h2>Resources</h2>
+						<table cellpadding="0" cellspacing="0" border="0" class="pref-table2">		
+							{for option in resourcesNotifOptions}
+								<tr>
+									<td class="pref-td1"><div>
+										{if option.notifValue == resourcesNotifPref}
+											<input type="radio" class="radio" name="resourcesNotif" value="${option.notifValue}" checked="checked" onchange="sakai.preferences.valuechanged();" />
+										{else}
+											<input type="radio" class="radio" name="resourcesNotif" value="${option.notifValue}" onchange="sakai.preferences.valuechanged();" />
+										{/if}
+									</div></td>
+									<td><div>${option.notifOption}</div></td>
+								</tr>
+							{/for}
+						</table>-->
+					</div>
+					
+					<div id="preferences_choose_syll_notif">
+					</div>
+					<div id="preferences_syll_notif" style="display:none"><!--
+						<h2>Syllabus</h2>
+						<table cellpadding="0" cellspacing="0" border="0" class="pref-table2">	
+							{for option in syllabusNotifOptions}
+								<tr>
+									<td class="pref-td1"><div>
+										{if option.notifValue == syllabusNotifPref}
+											<input type="radio" class="radio" name="syllNotif" value="${option.notifValue}" checked="checked" onchange="sakai.preferences.valuechanged();" />
+										{else}
+											<input type="radio" class="radio" name="syllNotif" value="${option.notifValue}" onchange="sakai.preferences.valuechanged();" />
+										{/if}
+									</div></td>
+									<td><div>${option.notifOption}</div></td>
+								</tr>
+							{/for}
+						</table>-->
+					</div>
+					
+					<div class="pref-btns">
+						<div class="block">
+							<a href="#" onclick="sakai.preferences.saveNotifPref()" class="save buttons">Save</a>
+							<div id="preferences_undo_id1" style="display:none"><a onclick="sakai.preferences.undo()" class="undo-changes-active buttons">Undo Changes</a></div>
+   							<div id="preferences_undo_id2"><a class="undo-changes buttons">Undo Changes</a></div>
+						</div>
+					</div>
+				</div>
+				
+            </div><!-- /main3 -->
+            
+          </div><!-- /content3 -->
+        </div><!-- /container3 -->
+       </div><!-- /wrapper3 -->
+	   
+	     <div id="widget_chat" class="widget_inline"></div>
+	   <br/><br/>
+	   
+	   </div>
+
+  </body>
+</html>

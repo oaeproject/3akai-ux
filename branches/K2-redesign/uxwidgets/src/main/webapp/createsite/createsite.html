@@ -1,0 +1,162 @@
+ <script type="text/javascript" language="JavaScript" src="lib/sdata.js">
+</script>
+<script type="text/javascript" language="JavaScript" src="lib/jquery.js">
+</script>
+<div id="createsite_overlay-lightbox" class="overlay-lightbox" style="width:100%; display:none">
+</div>
+
+<div style="display:none" class="overlay-lightbox2" id="createsite_step2">
+    <div class="lightbox size3">
+        <div class="lightbox-header">
+            <div class="lighbox-header-left">
+                <h3>Create a New Site</h3>
+            </div>
+            <ul class="lightbox-header-right">
+                <li class="lhr-help">
+                    <a href="#">Help</a>
+                </li>
+                <li class="lhr-close">
+                    <a href="#" class="sakai-create-site-close-window">Close Window &amp; Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /lightbox-header -->
+        <div class="lightbox-container2">
+           
+		   <p class="fs15 c999999 create-site-build-course-p" id="create-site-communal-1">Provide the following information and click the "Create Site" button</p>
+		    
+		    <div class="create-site-build-course-up"  id="create-site-communal-2">
+				<strong>Is This a Course Site?</strong>
+				<input type="radio" class="radio" name="choice" id="createsite_noncourse_option" checked="checked" /> No 
+				<input type="radio" class="radio" name="choice" id="createsite_course_option"/> Yes
+				<!-- <a href="#" class="fs11 scu-help">Help me decide</a> -->
+				<span class="scu-right fs11 c999999"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    </div>
+		    
+			<div id="create-site-noncourse">
+			
+			    <div class="create-site-build-course-3">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="csbc-bottom"><div><strong class="fs13 cCC0000">*</strong> <strong>Site Name:</strong></div></td>
+						</tr>
+						<tr>
+							<td><div class="csbc-bottom2"><input id="createsite_newsitename" type="text" value="" /></div></td>
+						</tr>
+						<tr>
+							<td class="csbc-bottom"><br/></td>
+						</tr>
+						<tr>
+							<td class="csbc-bottom"><div><strong class="fs13 cCC0000">*</strong> <strong>Site url:</strong>
+							<span id="createsite_newsiteid_url"></span>
+							<input id="createsite_newsiteid" type="text" value="" /></div></td>
+						</tr>
+						<tr>
+							<td class="csbc-bottom"><br/></td>
+						</tr>
+						<tr>
+							<td><div class="csbc-bottom"><strong>Site Description:</strong></div></td>
+						</tr>
+						<tr>
+							<td><div class="csbc-bottom"><textarea id="createsite_newsitedescription" rows="3" cols="30"></textarea></div></td>
+						</tr>
+						<tr>
+							<td><div class="fs11 c999999">(Max 80 characters)</div></td>
+						</tr>
+					</table>
+			    </div>
+				
+			    <div class="create-site-build-course-4">
+					<div class="block">
+						<!-- <a href="#" class="undo-changes buttons">Go Back</a> -->
+						<a onclick="sakai.createsite.createSite()" style="cursor:hand; cursor:pointer; margin-left: 0px" id="create-site-save-button" class="save buttons">Create Site</a>
+						<span id="create-site-processing-button" style="display:none">Processing ...</span>
+						<!-- <a style="cursor:hand; cursor: pointer" onclick="sakai.createsite.closeWindow()" class="csbc4-link">Close Window &amp; Cancel</a> -->
+					</div>
+			    </div>
+				
+				<div id="home_page_example" style="display:none">
+					<p><img style="margin: 6px; float: left;" title="Mona Lisa" src="http://www.geocities.com/kunstweb/mona-lisa.jpg" alt="" width="310" height="432" /></p>
+					<p><strong><em><span style="font-size: medium;">Course introduction:</span></em></strong></p>
+					<p>ART has not always been what we think it is today. An object regarded as Art today may not have been perceived as such when it was first made, nor was the person who made it necessarily regarded as an artist. Both the notion of "art" and the idea of the "artist" are relatively modern terms.</p>
+					<p>Many of the objects we identify as art today -- Greek painted pottery, medieval manuscript illuminations, and so on -- were made in times and places when people had no concept of "art" as we understand the term. These objects may have been appreciated in various ways and often admired, but not as "art" in the current sense.</p>
+					<p>ART lacks a satisfactory definition. It is easier to describe it as the way something is done -- "the use of skill and imagination in the creation of aesthetic objects, environments, or experiences that can be shared with others" (Britannica Online) -- rather than what it is.</p>
+					<p>The idea of an object being a "work of art" emerges, together with the concept of the Artist, in the 15th and 16th centuries in Italy.</p>
+					<p>During the Renaissance, the word Art emerges as a collective term encompassing Painting, Sculpture, and Architecture, a grouping given currency by the Italian artist and biographer Giorgio Vasari in the 16th century. Subsequently, this grouping was expanded to include Music and Poetry which became known in the 18th century as the 'Fine Arts'. These five Arts have formed an irreducible nucleus from which have been generally excluded the 'decorative arts' and 'crafts', such as as pottery, weaving, metalworking, and furniture making, all of which have utility as an end.</p>
+					<p>But how did Art become distinguished from the decorative arts and crafts? How and why is an artist different from a craftsperson?</p>
+					<p>In the Ancient World and Middle Ages the word we would translate as 'art' today was applied to any activity governed by rules. Painting and sculpture were included among a number of human activities, such as shoemaking and weaving, which today we would call crafts.&nbsp;</p>
+					<p>Read more on Art &amp; Artists in the Ancient World and Middle Ages...</p>
+					<p>During the Renaissance, there emerged a more exalted perception of art, and a concomitant rise in the social status of the artist. The painter and the sculptor were now seen to be subject to inspiration and their activities equated with those of the poet and the musician.&nbsp;</p>
+					<p>Read more on Art &amp; Artists in the Renaissance....</p>
+					<p>In the latter half of the 16th century the first academies of art were founded, first in Italy, then in France, and later elsewhere. Academies took on the task of educating the artist through a course of instruction that included such subjects as geometry and anatomy. Out of the academies emerged the term "Fine Arts" which held to a very narrow definition of what constituted art.&nbsp;</p>
+					<p>Read more on Art &amp; Artists in the Academies...</p>
+					<p>The institutionalizing of art in the academies eventually provoked a reaction to its strictures and definitions in the 19th century at which time new claims were made about the nature of painting and sculpture. By the middle of the century, "modernist" approaches were introduced which adopted new subject matter and new painterly values. In large measure, the modern artists rejected, or contradicted, the standards and principles of the academies and the Renaissance tradition. By the end of the 19th century and the beginning of the 20th, artists began to formulate the notion of truth to one's materials, recognizing that paint is pigment and the canvas a two-dimensional surface. At this time the call also went up for "Art for Art's Sake."&nbsp;</p>
+					<p>Read more on Art &amp; Artists and Modernism...</p>
+					<p>In the early 20th century all traditional notions of the identity of the artist and of art were thrown into disarray by Marcel Duchamp and his Dada associates. In ironic mockery of the Renaissance tradition which had placed the artist in an exalted authoritative position, Duchamp, as an artist, declared that anything the artist produces is art. For the duration of the 20th century, this position has complicated and undermined how art is perceived but at the same time it has fostered a broader, more inclusive assessment of art.&nbsp;</p>
+					<p>&nbsp;</p>
+				</div>
+				<div id="week1_example" style="display:none">
+					<h3>The standard Lorem Ipsum passage, used since the 1500s</h3>
+					<p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+					<h3>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h3>
+					<p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+					<h3>1914 translation by H. Rackham</h3>
+					<p>"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</p>
+					
+					<h3>Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h3>
+					<p>"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."</p>
+					<h3>1914 translation by H. Rackham</h3>
+					<p>"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."</p>
+				</div>
+			
+			</div>
+			
+			<div id="create-site-course" style="display:none">
+				
+				<div class="create-site-build-course-3">
+					
+					Please fill out all of your course's details and also tell what you would like to see
+					initially on your course site. Once we have authorized and created your site, we will
+					get back in touch with you with more details:
+					
+					<br/><br/>
+					
+					<textarea style="width:555px; height: 250px"></textarea>
+					
+			    </div>
+				
+				<div class="create-site-build-course-4">
+					<div class="block">
+						<!-- <a href="#" class="undo-changes buttons">Go Back</a> -->
+						<a onclick="sakai.createsite.requestSite()" style="cursor:hand; cursor:pointer; margin-left: 0px" class="save buttons">Request Site</a>
+						<!-- <a style="cursor:hand; cursor: pointer" onclick="sakai.createsite.closeWindow()" class="csbc4-link">Close Window &amp; Cancel</a> -->
+					</div>
+			    </div>
+				
+			</div>
+			
+			<div id="create-site-course-requested" style="display:none">
+				
+				<p class="fs15 c999999 create-site-build-course-p">Request successful</p>
+				
+				<div class="create-site-build-course-3">
+					<br/>
+					Your site has been successfully requested. We'll get in touch with you as soon as possible.
+				</div>
+				
+				<div class="create-site-build-course-4">
+					<div class="block">
+						<!-- <a href="#" class="undo-changes buttons">Go Back</a> -->
+						<a href="#" style="cursor:hand; cursor:pointer; margin-left: 0px" class="save buttons sakai-create-site-close-window">Close</a>
+						<!-- <a style="cursor:hand; cursor: pointer" onclick="sakai.createsite.closeWindow()" class="csbc4-link">Close Window &amp; Cancel</a> -->
+					</div>
+			    </div>
+				
+			</div>
+		   
+	   </div><!-- /lightbox-container -->
+   </div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/createsite/javascript/createsite.js">
+</script>

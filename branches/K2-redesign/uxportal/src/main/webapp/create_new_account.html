@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>The Sakai Foundation</title>
+		<meta name="Description" content="The Sakai Foundation" />
+		<meta name="Keywords" content="The Sakai Foundation" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie/iepc.css" media="screen" /><![endif]-->
+		<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+        <script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+		
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/jcap/jcap.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/jcap/md5.js"></script>
+		
+	</head>
+	<body id="body-hide2">
+    <script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+    <div id="body2" style="width:100%">
+	   
+	   <div style="height:10px; background-color: #00a5e3">
+	   	
+		</div>
+	   
+	   <div id="header3" style="height:40px">
+		   <div class="header3-up">
+			   <h1>Create a New Account</h1>
+			   <ul>
+				   <li class="m2-header3-up"><a href="index.html" id="back_dashboard">Close &amp; Return to Previous Page</a></li>
+				   <li class="m1-header3-up"><a href="#">Help</a></li>
+			   </ul>
+		   </div>
+       </div><!-- /header3 -->
+
+       <div id="wrapper3">
+        <div id="container3">
+          <div id="content3">
+            <div id="main3">
+	            <div class="pref-msg-error" id="warning1" style="display:none">
+					<div class="pref-msg">
+						<span id="alert_id1"></span>
+					</div>
+					<div class="pref-msg-remove" style="line-height:14px; background:transparent url(/dev/img/m2-header4-up.png) no-repeat scroll 0% 0pt; padding-left: 20px; cursor: pointer; cursor: hand" id="hideError">
+						<a class="pref-remove-error">Remove</a>
+					</div>
+				</div>
+  
+                <div class="pref-msg-success" id="saveinfo1" style="display:none">
+					<div class="pref-msg">
+						<span class="pref-alert"><b>Success!</b></span>
+						Your account has been created. <a href="index.html">Click here</a> to log in.
+					</div>
+					<div class="pref-msg-remove" style="line-height:14px; background:transparent url(/dev/img/m2-header5-up.png) no-repeat scroll 0% 0pt; padding-left: 20px; cursor: pointer; cursor: hand" id="hideSuccess">
+						<a class="pref-remove-success">Remove</a>
+					</div>
+				</div>
+				
+				<div id="spacer" style="display:none">
+					<br/>	
+				</div>
+				
+				<div class="site-settings-general">
+					<h2>Personal Information<span class="text-right fs11 c999999 csbc-bottom2" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span></h2>
+					<table cellpadding="0" cellspacing="0" border="0" class="pref-table">
+						<tr>
+							<td class="pref-td1"><div id="firstname_label"><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>First Name:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" value="" id="firstname"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1"><div id="lastname_label"><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Last Name:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" value="" id="lastname"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1"><div id="email_label"><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Email Address:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" value="" id="email"/></div></td>
+						</tr>
+					</table>
+					<h2>Account Information<span class="text-right fs11 c999999 csbc-bottom2" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span></h2>
+					<table cellpadding="0" cellspacing="0" border="0" class="pref-table">
+						<tr>
+							<td class="pref-td1"  id="current_pw_id1"><div id="username_label"><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Username:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" name="" value="" id="username"/>&nbsp;&nbsp;&nbsp;&nbsp;<a style="text-decoration:underline; cursor: hand; cursor: pointer" id="checkUserName">Check Availability</a></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1" id="new_pw_id1"><div id="password_label"><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Password:</strong></div></td>
+							<td class="pref-td2"><div><input type="password" name="" value="" id="password"/></div></td>
+						</tr>
+						<tr>
+							<td class="pref-td1" id="retype_pw_id1"><div id="password_repeat_label"><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Re-Type Password:</strong></div></td>
+							<td class="pref-td2"><div><input type="password" name="" value="" id="password_repeat"/></div></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+								<script type="text/javascript">sjcap();</script>
+							</td>	
+						</tr>
+						<tr>
+							<td class="pref-td1" id="uword_label"><div><strong class="fs13 cCC0000">*</strong>&nbsp;<strong>Word verification:</strong></div></td>
+							<td class="pref-td2"><div><input type="text" value="" name="uword" id="uword"/>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#888888; position:relative; left: 0px; top: 0px">Type the word exactly as it appears</span></div></td>
+						</tr>
+					</table>
+					<div class="pref-btns">
+						<div class="block">
+                            <a id="save_account" class="save buttons">Create Account</a>
+   							<div id="preferences_undo_id2"><a class="undo-changes-active buttons" id="cancel_button" href="index.html">Cancel</a></div>
+						</div>
+					</div>
+				</div>
+				
+            </div><!-- /main3 -->
+            
+          </div><!-- /content3 -->
+        </div><!-- /container3 -->
+       </div><!-- /wrapper3 -->
+       
+       
+       <div id="footer-hide">
+       
+        <p>&copy; 2004-2008 The Sakai Foundation<br /> Portions of Sakai are copyrighted by other parties as described in the <a href="#">Acknowledgments screen</a></p>
+        
+       </div><!-- /footer -->
+	   
+	   </div>
+	<script type="text/javascript" language="JavaScript" src="/dev/js/createnewaccount.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,170 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;	
+	font-size: 0.9em;
+}
+
+table {
+	font-family: Arial, Helvetica, sans-serif;	
+	font-size: 100%;
+    line-height: 150%;
+}
+
+#xEditingArea {
+	border: 1px dashed #666666;
+}
+
+#portfolio_wrapper {
+	width: 980px;
+	margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+}
+
+#portfolio_logo {
+	float: left;
+	width: 400px;
+	height: 50px;
+    background-image: url(https://ctools.umich.edu/access/content/group/184d8583-09a7-45d4-8069-91de46fc2ec8/global/logo.gif);
+	background-repeat: no-repeat;
+}
+
+#portfolio_splash {
+	text-align: right;
+}
+
+#portfolio_participant_name {
+    font-weight: bold;
+    font-size: 1.6em;
+    color: #666666;
+	padding: 0;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+#portfolio_title {
+	font-style: italic;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: serif;
+    color: #3569a1;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#portfolio_primary_navigation {
+    width: auto;
+    padding: 5px;
+    background: #3569a1;
+    border-bottom: 7px solid #F7C00D;
+    font-size: 13px;
+}
+
+#portfolio_primary_navigation ul
+{
+margin: 0;
+padding: 0;
+list-style-type: none;
+text-align: center;
+}
+
+#portfolio_primary_navigation ul li { display: inline; }
+
+#portfolio_primary_navigation ul li a
+{
+text-decoration: none;
+padding: .2em 1em;
+color: #fff;
+background-color: #036;
+}
+
+#portfolio_primary_navigation ul li a:hover
+{
+color: #fff;
+background-color: #369;
+}
+
+#portfolio_secondary_navigation {
+	/*
+    width: 225px;
+    float: left;
+    line-height: 140%;
+    margin-top: 18px;
+	text-align: left;
+	padding: 5px;
+	*/
+	display: none;
+}
+
+#portfolio_secondary_navigation a {
+    display:block;
+    text-decoration: none;     
+}
+
+#portfolio_secondary_navigation a:hover {
+    text-decoration: underline;
+}
+
+#portfolio_secondary_navigation ul li {
+    list-style-type: none;
+    list-style-image: none;
+    margin-bottom: 6px;
+}
+#portfolio_secondary_navigation ul {
+    padding-left: 2.0em;
+}
+
+
+div.portfolio_page_content {
+/*    margin-left: 275px;*/
+    line-height: 150%;
+    margin-top: 14px;
+	text-align: left;
+	padding: 5px;
+}
+
+#portfolio_footer {
+    font-size: 10px;
+    color: #999;
+    text-align: left;
+}
+
+h1 {
+	font-size: 16px;
+	color: #3569a1;
+}
+h2 {
+    font-size: 14px;
+    color: #3569a1;
+     
+}
+h3 {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 3px;
+}
+h4 {
+    font-size: 12px;
+    color: #333;
+    margin: 3px;
+    font-weight: normal;
+    font-style: italic;
+}
+
+img {
+    border: 0px;
+}
+a {
+    color: #3569a1;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a.active {
+    text-decoration: underline;
+     
+}
+ul li {
+    list-style-image: url(https://ctools.umich.edu/access/content/group/184d8583-09a7-45d4-8069-91de46fc2ec8/global/li.gif)
+}

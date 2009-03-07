@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>The Sakai Foundation</title>
+		<meta name="Description" content="The Sakai Foundation" />
+		<meta name="Keywords" content="The Sakai Foundation" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" media="screen" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie/iepc.css" media="screen" /><![endif]-->
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
+		<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+
+	 	 <script type="text/javascript" src="/dev/lib/Fluid-all.js"></script> 
+		 <script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+		 
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+			
+		<link rel="stylesheet" href="/dev/css/portal.css" type="text/css" />
+		
+		<style>
+			.header2-right li.preff {
+				background:none;
+				padding-left:9px;
+				padding-right:9px;
+			}
+			
+			.header2-right li.li-lastt {
+				padding-left:9px;
+			}
+		</style>
+
+		<!--[if IE]>
+			<style type="text/css">
+				.groupWrapper {
+					padding-right: 15px;
+				}
+			</style>
+		<![endif]-->
+	
+	</head>
+	<body id="body-hide2">
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+	
+<div id="overlay-lightbox-layout" class="overlay-lightbox" style="display:none">
+</div>
+<div class="overlay-lightbox2" id="overlay-content-layout" style="display:none">
+
+    <div class="lightbox size1" style="width:880px">
+			   
+			   <div class="lightbox-header">
+				   <div class="lighbox-header-left"><h3>Edit Layout</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-help"><a href="#">Help</a></li>
+					   <li class="lhr-close"><a href="#" id="close-edit-layout">Close Window &amp; Cancel</a></li>
+				   </ul>
+			   </div><!-- /lightbox-header -->
+			   
+			   <div class="lightbox-container">
+				   
+				   <p class="fs15 c999999 at-pl4">Use the following options to customize the look &amp; feel</p>
+				  <div class="block">
+				  <div class="elf-div">
+				  <div class="block">
+					  <!--<div class="add-tools-left">
+						<ul>
+							<li class="atl-active"><a href="#">Edit Page Layout</a></li>
+							<li><a href="#">Upload Site Logo</a></li>
+							<li><a href="#" class="atl-last">Change Style &amp; Colors</a></li>
+						</ul>
+					  </div>-->
+					  <div class="add-tools-right" style="width:100%">
+						  <h4>Select a Layout for the "Home" Page:</h4>
+						  <div class="elf-right-up" style="padding-top:40px; padding-bottom: 85px">
+							  <!--<div class="block">
+								  <div class="elf-layout1"><input type="radio" name="layout" class="radio" /></div>
+								  <div class="elf-layout2"><input type="radio" name="layout" class="radio" /></div>
+								  <div class="elf-layout3"><input type="radio" name="layout" class="radio" /></div>
+								  <div class="elf-layout4"><input type="radio" name="layout" class="radio" /></div>
+							  </div>-->
+							  <div style="display:block" id="layouts_list">
+							  </div>
+							  <div id="layouts_template"><!--
+							  	  {for i in layouts}
+								  {if i_index == selected}
+								  <div style="float:left; padding-left:25px; padding-right:13px">
+								  	<table cellpadding="0" cellspacing="0" style="width:114px; height: 62px; border: 2px solid #c5eb9f; border-right: 2px solid #c5eb9f; background-color: #f2fceb">
+										<tr>
+											{for w in i.widths}
+											<td style="width:${w}%; border-right: 1px solid #c5eb9f">
+												&nbsp;
+											</td>
+											{/for}
+										</tr>
+									</table>	
+									<br/>
+									<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker" style="margin-left:50px" checked="true"/>	
+								  </div>
+								  {else}
+								  <div style="float:left; padding-left:25px; padding-right:13px">
+								  	<table cellpadding="0" cellspacing="0" style="width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8">
+										<tr>
+											{for w in i.widths}
+											<td style="width:${w}%; border-right: 1px solid #dddfe1">
+												&nbsp;
+											</td>
+											{/for}
+										</tr>
+									</table>
+									<br/>
+									<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker" style="margin-left:50px"/>	
+								  </div>
+								  {/if}
+								  {/for}
+							  --></div>
+						  </div>
+						  <br/><br/>
+						  <!-- <div class="elf-right-down">
+							  <span class="fs13 elfrd-1"><strong>Pick a Sidebar Layout:</strong></span>
+							  <span class="fs13 elfrd-2"><input type="radio" name="side" class="radio" /> Sidebar on Left</span>
+							  <span class="fs13"><input type="radio" name="side" class="radio" /> Sidebar on Left</span>
+						  </div> -->
+						 <div class="elf-right-footer" style="padding:0pt 0pt 0pt 340px">
+							<div class="block">
+								<a href="#" id="select-layout-finished" class="save buttons">Finished</a>
+								<!-- <a href="#" class="awf-link">Close Window &amp; Cancel</a> -->
+							</div>
+						  </div>
+					  </div>
+				  </div>
+				  
+				  </div>
+				  </div> 
+				   
+			   </div><!-- /lightbox-container -->
+		   </div>
+</div>
+	
+	<div id="addwidgetslightbox" class="overlay-lightbox" style="display:none">
+	</div>
+
+	<div id="addwidgetslightbox2" class="overlay-lightbox2" style="display:none">
+		   
+		   <div class="lightbox size1">
+			   
+			   <div class="lightbox-header">
+				   <div class="lighbox-header-left"><h3>Add Widgets to Home Page</h3></div>
+				   <ul class="lightbox-header-right">
+					   <li class="lhr-help">
+							<a href="#">Help</a>
+						</li>
+					   <li class="lhr-close"><a  onclick="sakai.dashboard.hideAddWidgets()" style="cursor:pointer; cursor:hand">Close Window</a></li>
+				   </ul>
+			   </div><!-- /lightbox-header -->
+			   
+			   <div class="lightbox-container">
+				   
+				   <p class="fs15 c999999">Browse and select from the available widgets</p>
+				  <div class="block">
+					  <div class="add-widget-left">
+						  <h4>Browse Widgets</h4>
+						  <div class="add-widget-select">
+							  <select>
+								  <option>All Widgets</option>
+								  <option>All Widgets</option>
+								  <option>All Widgets</option>
+							  </select>
+						  </div>
+						  <div id="addwidgetlist" class="add-widget-menu">
+							  
+						  </div>
+						  <div id="addwidgetlist_template" style="display:none"><!--
+						  <ul>
+							{for i in items}
+								{if i.alreadyIn}
+									<li><a onclick="sakai.dashboard.showdetails('${i.id}')" id="li_${i.id}" style="cursor:hand; cursor: pointer" class="awm-minus">${i.title}</a></li>
+								{else}
+									<li><a onclick="sakai.dashboard.showdetails('${i.id}')" id="li_${i.id}" style="cursor:hand; cursor: pointer">${i.title}</a></li>
+								{/if}
+							{/for}
+						  </ul>
+						  --></div>
+					  </div>
+					  <div class="add-widget-right">
+						<div class="awr-title">
+							<div class="block">
+								  <h4 id="addWidgets_selected_title"></h4>
+								  <ul>
+									  <li><a href="#" class="awrt-b">Prev</a></li>
+									  <li><a href="#">Next</a></li>
+								  </ul>
+							  </div>
+						</div>
+						 
+						<div class="block">
+							<div class="unit span-51">
+								<div class="awr-img"><img alt="" id="widget_img" src="img/calendar.png" style="border: 1px solid #CCCCCC" /></div>
+							</div>
+							<div class="unit span-5">
+								<div class="awr-desc">
+									<p><strong class="fs13 c333333">Description:</strong><br /><br /><div id="addWidgets_selected_description"></div></p>
+								</div>
+								<div class="block">
+									<a onclick="sakai.dashboard.addWidget()" class="buttons add-widgets" id="btnAddWidget" style="cursor:hand; cursor: pointer"><span>Add to Page</span></a>
+								</div>
+							</div>
+						</div> 
+					  </div><!-- /add-widget-right -->
+					  <div class="add-widget-footer">
+						<div class="block">
+							<a onclick="sakai.dashboard.hideAddWidgets()" style="cursor:pointer; cursor:hand" class="save buttons">Finished</a>
+						</div>
+					  </div>
+				  </div> 
+				   
+			   </div><!-- /lightbox-container -->
+		   </div><!-- /lightbox -->
+		   
+		   </div>
+
+
+    <div id="body2" style="display:none; width:100%">
+	   
+	   <div id="header2">
+		   <div class="block">
+			   <div class="unit span10">
+				<h1>__MSG__MY_DASHBOARD__</h1>
+				<ul class="header2-right">
+					<li class="user"><strong id="userid"></strong>(<a href="/dev/logout.html">Sign Out</a>)</li>
+					<li class="preff"><span id="widget_mypreferences" class="widget_inline">My Preferences</span></li>
+					<li class="li-lastt"><a accesskey='6' href='/portal/help/main' onclick="window.open('/portal/help/main', 'Help', 'resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600'); return false">Help</a></li>
+				</ul>
+			   </div>
+			</div>
+       </div><!-- /header2 -->
+
+		<div id="widgetscontainer" style="padding:5px 7px 0px 7px">
+
+		</div>
+
+		<div class="block" style="padding: 15px 0px 15px 10px">
+					<a onclick="sakai.dashboard.showAddWidgets()" style="cursor:hand; cursor:pointer" class="buttons add-widgets"><span>Add Widgets</span></a>
+					<a href="#" id="edit-layout" class="buttons edit-look-feel"><span>Edit Layout</span></a>
+				</div>
+
+
+		<div id="widget_chat" class="widget_inline"></div>
+
+		<div id="widgetscontainer_template"><!--
+			<table width="100%" height="10px">
+			<tr>
+				{var index = 0}
+				{for c in columns}
+				${index++|eat}
+				<td width="${c.width}%" style="vertical-align:top; width:${c.width}%">
+				<div class="groupWrapper" id="column_uid_${index}" style="padding:10px; 7px; 10px; 7px;">
+				{for p in c.portlets}
+					<div class="widget1" id="${p.id}_${p.uid}">
+					<div class="widget1-head" id="draghandle_${p.id}_${p.uid}">
+						<div class="widget1-head-left">
+							<ul>
+								<li><a style="cursor:hand; cursor:pointer" onclick="sakai.dashboard.minimizeWidget('${p.uid}')">${p.title}</a></li>
+							</ul>
+						</div>
+						<div class="widget1-head-right">
+							<ul>
+								<li class="widget1-close"><a style="cursor: hand; cursor: pointer;" onclick="sakai.dashboard.closePortlet('${p.id}_${p.uid}')"></a></li>
+								<li class="widget1-menu-show" id="show_settings_widget_${p.id}_${p.uid}_${p.placement}"><a style="cursor: hand; cursor: pointer;" onclick="sakai.dashboard.showSettings('${p.uid}','widget_${p.id}_${p.uid}_${p.placement}')"></a></li>
+								<li class="widget1-menu-close" style="display:none" id="close_settings_widget_${p.id}_${p.uid}_${p.placement}"><a style="cursor: hand; cursor: pointer;" onclick="sakai.dashboard.showWidgetContent('${p.uid}','widget_${p.id}_${p.uid}_${p.placement}')"></a></li>
+							</ul>
+						</div>
+					</div>
+					{if p.display == "none"}
+						<div id="${p.uid}_container" style="display:none">
+					{else}
+						<div id="${p.uid}_container">
+					{/if}
+					<div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+					</div>
+					</div>
+				{/for}
+				</div>
+				</td>
+				{/for}
+			</tr>
+			</table>
+		--></div>
+	   
+	   <br/><br/><br/>
+	   
+	   </div>
+
+	<script type="text/javascript" language="JavaScript" src="/dev/js/dashboard.js"></script>
+
+  </body>
+</html>

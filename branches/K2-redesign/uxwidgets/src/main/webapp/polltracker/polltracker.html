@@ -1,0 +1,70 @@
+<script type="text/javascript" language="JavaScript" src="lib/sdata.js">
+</script>
+<script type="text/javascript" language="JavaScript" src="lib/jquery.js">
+</script>
+<div id="poll_settings" style="display: none">
+<div id="poll_existing_screen"
+	style="display: none; background-color: #FFFFFF; border: 4px solid #EEEEEE; padding: 5px; text-align: left">
+<b>Available polls:</b> <br />
+<br />
+<div id="poll_existing_list" style="margin-left: 5px"></div>
+<div id="poll_existing_list_template" style="display: none"><!--
+			{for s in sites}
+			${s.sitename}:
+			<br/><br/>
+            	{for i in s.polls}
+            	<a style="cursor:hand; cursor:pointer" class="poll_existing_poll" id="poll_existing_poll_${i.id}">${i.pollText}</a>
+            	<br/>
+            	{/for}
+				<br/>
+			{forelse}
+            No polls available
+            <br/>
+			{/for}
+     	--></div>
+<br />
+</div>
+</div>
+
+<div id="poll_output"
+	style="display: none; background-color: #FFFFFF; border: 4px solid #EEEEEE; padding: 5px; text-align: left">
+<div id="poll_output_no_available" style="display: none">No valid
+poll has been selected</div>
+<div id="poll_results" style="display: none"></div>
+<div id="poll_results_template" style="display: none"><!--
+		<b>${pollText}</b>
+		<br/><br/>
+		{if description}
+		<span style="color:#AAAAAA">${description}</span>
+		<br/><br/>
+		{/if}
+		<table cellpadding="2px" border="1" style="width:100%"><tr><td style="background-color:#CCCCCC; font-weight:bold">
+		Options
+		</td>
+		<td style="background-color:#CCCCCC; font-weight:bold">
+		Votes
+		</td>
+		<td style="background-color:#CCCCCC; font-weight:bold">
+		%
+		</td></tr>
+		{for p in processedOptions}
+		<tr>
+		<td>
+		${p.option}
+		</td>
+		<td>
+		${p.noVotes}
+		</td>
+		<td>
+		${p.percentages}
+		</td></tr>
+		{/for}
+		</table>
+		<br/><br/>
+		<div style="text-align:center"><img src="${chart}"/></div>
+	--></div>
+</div>
+
+<script type="text/javascript" language="JavaScript"
+	src="/devwidgets/polltracker/javascript/polltracker.js">
+</script>
