@@ -74,35 +74,20 @@
 			</td>   
 		--></div>
 		
-		<!-- EXPLORE BAR -->
-        <!-- <div class="fl-container fl-fix explore_nav">
-            <ul class="explore fl-force-left">
-                <li><a href="/dev/dashboard.html">My Sakai</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Inbox</a></li>
-				<li><a href="#">Contacts</a><a href="#"><small>&nbsp;(2 Online)</small></a></li>
-				<li><a href="#">Course & Sites</a></li>
-				<li><a href="#">Explore</a></li>
-            </ul>
-            <ul class="personal fl-force-right">
-                <li>Signed in as <strong id="userid"></strong></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="/dev/logout.html">Sign out</a></li>
-            </ul>
-        </div> -->
 		<div class="fl-container explore_nav">
 	        <ul class="explore fl-force-left">
 	            <li><a href="/dev/dashboard.html">My Sakai</a></li>
 	            <li><a href="#">Profile</a></li>
-	            <li><a href="#" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" /></li>
-	      		<li><a href="#">Courses & Sites</a></li>
+	            <!--<li><a href="#" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" /></li>-->
+	      		<li><a href="#">People</a></li>
+				<li><a href="#">Courses & Sites</a></li>
 				<li><a href="#">Search</a></li>
 		  </ul>
 	        <ul class="personal fl-force-right">
 	            <li>Signed in as <strong id="userid"></strong></li>
 	
 	            <li><a href="#">Help</a></li>
-	            <li><a href="#">Sign out</a></li>
+	            <li><a href="/dev/logout.html">Sign out</a></li>
 	        </ul>
 	    </div>
 
@@ -146,7 +131,7 @@
 						<li class="divider" style="display:none" id="li_edit_page_divider"></li>
 						<li><a href="javascript:;" id="print_page">Print page</a></li>
 						<li class="divider"></li>
-						<li><a href="#">More</a></li>
+						<li><a href="javascript:;" id="more_link">More</a></li>
 					</ul>
 				</div>
 				
@@ -246,6 +231,16 @@
 			</ul>
 		</div>
 		
+		<div class="add_new_menu" id="more_menu" style="display:none">
+			<ul>
+				<li id="more_settings" class="more_option"><a href="javascript:;">Settings</a></li>
+				<li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
+				<li id="more_move" class="more_option"><a href="javascript:;">Move</a></li>
+				<li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
+				<li id="more_delete" class="more_option"><a href="javascript:;">Delete</a></li>
+			</ul>
+		</div>
+		
 		<div id="insert_more_menu" class="insert_more_menu" style="display:none">
 			<div class="insert_more_menu_border">
 				<ul>
@@ -312,6 +307,50 @@
 				 <div class="buttonBar">
 			        <!--<a href="javascript:;" class="button-default">Save</a>-->
 			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Auto-save</h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">An unsaved version of this page has been found.</h3>
+				
+				<p>Do you want to load this unsaved version?</p>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" id="autosave_revert" class="button-default">Yes</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Delete a page</h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">Are you sure you want to delete this page?</h3>
+				
+				<p>Note: by deleting this page you will also delete all of its child pages</p>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" id="delete_confirm" class="button-default">Yes</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
 			     </div>
 			</div>
 		</div>
