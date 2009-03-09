@@ -13,6 +13,15 @@ jQuery = $;
 
 document.body.style.display = "none";
 
+Array.prototype.contains = function (element) { 
+	for (var i = 0; i < this.length; i++) { 
+		if (this[i] == element) { 
+			return true; 
+		} 
+	} 
+	return false; 
+}
+
 var SDATA_IGNORE_JS_LIB = {
 			"lib": 1
 };
