@@ -19,6 +19,10 @@ sakai.navigation = function(tuid, placement, showSettings){
 	
 	sakai._navigation.renderNavigation = function(selectedpage,pages){
 		
+		if (!selectedpage){
+			return;
+		}
+		
 		var cselectedpage = selectedpage;
 		var finaljson = {};
 		finaljson.pages = [];
