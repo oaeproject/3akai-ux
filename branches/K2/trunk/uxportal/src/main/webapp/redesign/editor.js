@@ -123,7 +123,7 @@ sakai.site = function(){
 		Page Loading 
 	*/
 	
-	var loadPagesInitial = function(){
+	var loadPagesInitial = function(dofalsereload){
 	
 		$("#initialcontent").show();
 		totaltotry = 0;
@@ -133,24 +133,24 @@ sakai.site = function(){
 			onSuccess: function(response){
 				pages = eval('(' + response + ')');
 				pageconfiguration = pages;
-				loadNavigation();
+				loadNavigation(dofalsereload);
 			},
 			onFail: function(httpstatus){
 				pages = {};
 				pages.items = {};
 				pageconfiguration = pages;
-				loadNavigation();
+				loadNavigation(dofalsereload);
 			}
 		});
 		
 	};
 	
-	var loadNavigation = function(){
+	var loadNavigation = function(dofalsereload){
 		sdata.Ajax.request({
 			url: "/sdata/f/_sites/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
 			onSuccess: function(response){
 				pagecontents["_navigation"] = response;
-				$("#page_nav_content").append(response);
+				$("#page_nav_content").html(response);
 				sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
 				History.history_change();
 			},
@@ -172,6 +172,7 @@ sakai.site = function(){
 	sakai.site.openPageH = function(pageid){
 		
 		$("#insert_more_menu").hide();
+		$("#more_menu").hide();
 		showingInsertMore = false;	
 	
 		if (!pageid) {
@@ -545,6 +546,8 @@ sakai.site = function(){
 	
 	var editPage = function(pageid){
 
+		$("#more_menu").hide();
+
 		var escaped = pageid.replace(/ /g, "%20");
 		$("#" + escaped).html("");
 		var el = document.getElementById("main-content-div");
@@ -635,14 +638,98 @@ sakai.site = function(){
 		$("#show_view_container").hide();
 		$("#edit_view_container").show();
 		
-		timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
+		var newpath = selectedpage.split("/").join("/_pages/");
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + newpath + "/_content?sid=" + Math.random(),
+			httpMethod: 'GET',
+			onSuccess: function(data){
+				autosavecontent = data;
+				$('#autosave_dialog').jqmShow();
+			},
+			onFail: function(data){	
+				timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
+			}
+		});
 		
 	}
 	
 	
 	/*
+		Delete a page functionality 
+	*/
+	
+	$('#delete_dialog').jqm({
+		modal: true,
+		trigger: $('.delete_dialog'),
+		overlay: 20,
+		toTop: true
+	});
+	
+	$("#more_delete").bind("click", function(){
+		$('#delete_dialog').jqmShow();
+	});
+	
+	$("#delete_confirm").bind("click", function(){
+		var newpath = selectedpage.split("/").join("/_pages/");
+		sdata.Ajax.request({
+			url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + newpath + "?sid=" + Math.random(),
+			httpMethod: 'DELETE',
+			onSuccess: function(data){
+				
+				// Save the new page configuration
+				
+				var index = -1;
+				for (var i = 0; i < pages.items.length; i++){
+					if (pages.items[i].id == selectedpage){
+						index = i;
+					}
+				}
+				
+				pages.items.splice(index, 1);
+				
+				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				
+					document.location = "/dev/redesign/page_edit.html?siteid=" + currentsite.id;
+				
+				});
+				
+			},
+			onFail: function(data){	
+				alert("An error has occured");
+				$('#delete_dialog').jqmHide();
+			}
+		});
+	});
+	
+	
+	/*
 		Auto-save functionality
 	*/
+	
+	var autosavecontent = false;
+	
+	var hideAutosave = function(hash){
+		hash.w.hide();
+		hash.o.remove();
+		timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
+		removeAutoSaveFile();
+	}
+	
+	$("#autosave_revert").bind("click", function(ev){
+		tinyMCE.get("elm1").setContent(autosavecontent);
+		$('#autosave_dialog').jqmHide();
+	});
+	
+	
+	$('#autosave_dialog').jqm({
+		modal: true,
+		trigger: $('.autosave_dialog'),
+		overlay: 20,
+		toTop: true,
+		//onShow: renderAutosave,
+		onHide: hideAutosave
+	});
+	
 	
 	sakai._site.doAutosave = function(){
 		
@@ -1313,6 +1400,32 @@ sakai.site = function(){
 		}
 	);
 	
+	
+	/*
+		More dropdown 
+	*/
+	
+	$(".more_option").hover(
+		function(over){
+			$(this).addClass("selected_option");
+		}, 
+		function(out){
+			$(this).removeClass("selected_option");
+		}
+	);
+	
+	$("#more_link").bind("click", function(ev){
+		var el = $("#more_menu");
+		if (el.css("display").toLowerCase() != "none") {
+			el.hide();
+		} else {
+			var x = $("#more_link").position().left;
+			var y = $("#more_link").position().top;
+			el.css("top",y + 17 + "px");
+			el.css("left",x - el.width() + $("#more_link").width() + 5 + "px");
+			el.show();
+		}		
+	});
 	
 	/*
 		Add in a horizontal line 
