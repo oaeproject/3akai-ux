@@ -696,14 +696,7 @@ sakai.site = function(){
 		return false;
 	});
 	
-	$(".cancel-button").bind("click", function(ev){
-		
-		clearInterval(timeoutid);
-		
-		$("#insert_more_menu").hide();
-		$("#context_menu").hide();
-		showingInsertMore = false;	
-		
+	var removeAutoSaveFile = function(){
 		// Remove autosave file
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
@@ -715,6 +708,18 @@ sakai.site = function(){
 			onFail: function(data){	
 			}
 		});
+		
+	}
+	
+	$(".cancel-button").bind("click", function(ev){
+		
+		clearInterval(timeoutid);
+		
+		$("#insert_more_menu").hide();
+		$("#context_menu").hide();
+		showingInsertMore = false;	
+
+		removeAutoSaveFile();
 		
 		if (isEditingNewPage) {
 		
@@ -788,6 +793,8 @@ sakai.site = function(){
 		
 		clearInterval(timeoutid);
 		$("#context_menu").hide();
+		
+		removeAutoSaveFile();
 		
 		$("#insert_more_menu").hide();
 		showingInsertMore = false;	
