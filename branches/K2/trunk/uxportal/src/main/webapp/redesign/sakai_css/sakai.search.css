@@ -39,9 +39,20 @@ strong {
 
 .explore_nav_selected {
 	color: #fff;
-	background-color: #00a5e3;
+	background-color: #3399CC;
 	padding: 2px 5px 2px 5px;
 	display: inline-block;
+	
+	/* needed for rounded cornered anchor buttons */
+	outline: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: -moz-inline-box;
+    display: inline-block;
+    overflow: visible;
 }
 
 .explore_nav_selected span {
@@ -70,40 +81,39 @@ strong {
 }
 
 /* TABS */
-.search_tab_nav {
-	bottom:0;
-	height:28px;
-	position:relative;
-}
-
-.search_tab_selected {
-}
 
 .fl-tabs {
 	border-bottom: 1px solid #ddd;
-	margin: 0;
 }
 
 .fl-tabs li a {
-	/*background-color:#DDDDDD;
-	border:1px solid #DDDDDD;
-	bottom:-9px;
+	background-color:#ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 	color:#3399CC;
-	margin:-1px;
-	padding:6px 20px;
-	position:relative;*/
+	padding: 6px 20px;
+	position:relative;
+	bottom: 1px;
+	margin-left: -1px;
 }
 
+
 .fl-tabs .fl-activeTab a {
-	background-color:#EEEEEE;
-	border-color:#DDDDDD #DDDDDD #EEEEEE;
-	border-style:solid;
-	border-width:1px;
-	bottom:-10px;
+	background-color: #eee;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #eee;
 	color:#333333;
 	font-weight:bold;
-	padding-top:8px;
-	position:relative;
+}
+
+
+.fl-tab-content {
+	margin: 0;
+	border: none;
 }
 
 .search_tab_content {
@@ -115,10 +125,7 @@ strong {
 .search_bar {
 	width: 600px;
 	padding: 20px 0 20px 0;
-	line-height: 29px;
-	text-align: center;
 }
-
 
 .skinned_select {
 	float: left;
@@ -140,6 +147,12 @@ strong {
 	padding-left: 5px;
 	display: block;
 }
+
+.search_button {
+	position: relative;
+	top: 3px;
+}
+
 
 /* SEARCH RESULTS TITLE */
 .search_result_title {
