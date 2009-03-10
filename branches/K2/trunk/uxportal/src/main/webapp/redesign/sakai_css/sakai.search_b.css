@@ -1,0 +1,147 @@
+
+/* TOP NAV BAR */
+.explore_nav .personal .user_link {
+	border: none;
+}
+
+.explore_nav .personal .user_link img {
+	position: relative;
+	top: -1px;
+	padding: 0 3px 0 3px;
+}
+
+.explore_nav .personal .mail {
+	color: #666;
+}
+
+.explore_nav .personal .mail img {
+	position: relative;
+	top: -1px;
+}
+
+
+/* Heading */
+.site_heading {
+	padding: 10px 0 0 10px;
+}
+
+/* Content */
+.content {
+	position: relative;
+	top: -15px;
+}
+
+
+.fl-tabs .fl-activeTab a {
+	background-color: #fff;
+	border-color:#ddd #ddd #fff;
+}
+
+.search_tab_content {
+	background-image: none;
+}
+
+.search_bar {
+padding: 20px 0 20px 15px;
+}
+
+.search_result_title {
+	text-align: left;
+	padding-left: 15px;
+}
+
+.keyword {
+	background-color: #fff;
+	font-weight: bold;
+	color: #000;
+}
+
+.search_results_part {
+	padding-bottom: 0px;
+}
+
+.search_results_part_header {
+	font-weight: normal;
+	font-size: 1.2em;
+}
+
+.display_more_link {
+	font-size: .95em;
+	font-weight: bold;
+}
+
+.search_result_header {
+	margin: 0 0 5px 0;
+}
+
+.search_result_description {
+	margin: 0 0 5px 0;
+}
+
+.search_result_footer {
+	margin: 0 0 5px 0;
+	font-size: .95em;
+}
+
+.search_result_footer a {
+	color: #339900;
+}
+
+
+.search_result_person {
+	border: none;
+	margin: 15px 8px 0 0;
+	padding: 8px 8px 8px 0;
+	width: 280px;
+}
+
+.search_result_person_name {
+	margin-left: 70px;
+}
+
+.search_result_person_dept {
+	margin-left: 70px;
+}
+
+.search_result_person_link {
+	float: left;
+	color: #3399cc;
+	font-size: .85em;
+	padding: 6px 0 0 8px;
+}
+
+.search_result_course_site {
+	padding: 15px 0 0 0;
+}
+
+.search_result_course_site_title a {
+	color: #3399cc;
+	margin: 0 0 5px 0;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.search_result_course_site_url a {
+	font-size: .95em;
+	color: #999;
+}
+
+/* FOOTER */
+
+.page_footer {
+	padding: 15px 0 50px 0;
+	margin-left: 15px;
+	border-top: 1px solid #ddd;
+	font-size: .85em;
+	color: #999;
+}
+
+.page_footer a {
+	color: #3399cc;
+	
+}
+
+.sakai_logo {
+	float: left;
+}
+
