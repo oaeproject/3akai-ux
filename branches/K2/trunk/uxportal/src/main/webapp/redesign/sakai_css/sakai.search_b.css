@@ -19,14 +19,8 @@
 	top: -1px;
 }
 
-
-/* Heading */
-.site_heading {
-	padding: 10px 0 0 10px;
-}
-
 /* Content */
-.content {
+.content_b {
 	position: relative;
 	top: -15px;
 }
