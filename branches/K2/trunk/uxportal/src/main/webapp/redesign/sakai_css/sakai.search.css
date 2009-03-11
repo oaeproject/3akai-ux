@@ -42,7 +42,7 @@ strong {
 	background-color: #3399CC;
 	padding: 2px 5px 2px 5px;
 	display: inline-block;
-	
+	margin-top:-3px;
 	/* needed for rounded cornered anchor buttons */
 	outline: none;
     border: none;
@@ -63,7 +63,7 @@ strong {
 	width: 9px;
 	height: 5px;
 	position: relative;
-	bottom: -12px;
+	bottom: -11px;
 	
 }
 
@@ -110,12 +110,6 @@ strong {
 	font-weight:bold;
 }
 
-
-.fl-tab-content {
-	margin: 0;
-	border: none;
-}
-
 .search_tab_content {
 	background-image: url(../images/body_bg2.png);
 	background-repeat: repeat-x;
@@ -150,7 +144,6 @@ strong {
 
 .search_button {
 	position: relative;
-	top: 3px;
 }
 
 
