@@ -80,6 +80,18 @@ strong {
 	color: #058ec4;
 }
 
+
+.site_heading {
+	padding: 20px 0 5px 15px;
+}
+
+.site_heading h1 {
+	margin: 0;
+	font-weight: bold;
+}
+
+
+
 /* TABS */
 
 .fl-tabs {
@@ -87,10 +99,10 @@ strong {
 }
 
 .fl-tabs li a {
-	background-color:#ddd;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-top: 1px solid #ddd;
+	background-color:#eee;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+	border-top: 1px solid #eee;
 	border-bottom: 1px solid #ddd;
 	color:#3399CC;
 	padding: 6px 20px;
@@ -108,6 +120,11 @@ strong {
 	border-bottom: 1px solid #eee;
 	color:#333333;
 	font-weight:bold;
+}
+
+.fl-tab-content {
+	border: none;
+	margin: 0;
 }
 
 .search_tab_content {
@@ -144,6 +161,7 @@ strong {
 
 .search_button {
 	position: relative;
+	top: 3px;
 }
 
 

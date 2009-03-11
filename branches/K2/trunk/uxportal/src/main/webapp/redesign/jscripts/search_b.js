@@ -18,7 +18,7 @@ if (($.browser.msie) && ($.browser.version < 8)) {
 	$('.search_button').css('top','4px');
 	
 	// Small Arrow Fix
-	$('.explore_nav_selected_arrow').css('bottom','-11px');
+	$('.explore_nav_selected_arrow').css('bottom','-10px');
 }
 
 });  

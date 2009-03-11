@@ -31,6 +31,7 @@
 	border-color:#ddd #ddd #fff;
 }
 
+
 .search_tab_content {
 	background-image: none;
 }
@@ -104,6 +105,10 @@ padding: 20px 0 20px 15px;
 	padding: 6px 0 0 8px;
 }
 
+.search_result_person_divider {
+	color: #ddd;
+}
+
 .search_result_course_site {
 	padding: 15px 0 0 0;
 }
@@ -123,8 +128,7 @@ padding: 20px 0 20px 15px;
 /* FOOTER */
 
 .page_footer {
-	padding: 15px 0 50px 0;
-	margin-left: 15px;
+	padding: 15px 0 50px 15px;
 	border-top: 1px solid #ddd;
 	font-size: .85em;
 	color: #999;
