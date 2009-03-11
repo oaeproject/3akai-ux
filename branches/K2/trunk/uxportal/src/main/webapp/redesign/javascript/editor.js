@@ -305,9 +305,11 @@ sakai.site = function(){
 			var els = $("a", el);
 			for (var i = 0; i < els.length; i++) {
 				var nel = els[i];
-				if (nel.className == "contauthlink") {
+				/*
+if (nel.className == "contauthlink") {
 					nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
 				}
+*/
 			}
 			
 			document.getElementById("main-content-div").appendChild(el);
@@ -936,9 +938,11 @@ sakai.site = function(){
 			var els = $("a", $("#" + escaped));
 			for (var i = 0; i < els.length; i++) {
 				var nel = els[i];
-				if (nel.className == "contauthlink") {
+				/*
+if (nel.className == "contauthlink") {
 					nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
 				}
+*/
 			}
 			
 			document.getElementById(escaped).style.display = "block";
@@ -1155,9 +1159,11 @@ sakai.site = function(){
 					var els = $("a", $("#" + escaped));
 					for (var i = 0; i < els.length; i++) {
 						var nel = els[i];
-						if (nel.className == "contauthlink") {
+						/*
+if (nel.className == "contauthlink") {
 							nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
 						}
+*/
 					}
 					
 					document.getElementById(escaped).style.display = "block";
@@ -1721,7 +1727,232 @@ sakai.site = function(){
 			toTop: true,
 			onShow: showWrappingDialog
 		});
+	
+	
+	/*
+		Insert Link 
+	*/	
+	
+	var createHierarchy = function(done, object, page){
+		var toinsert = page.id.substring(done.length);
+		var todo = toinsert.split("/")[0];
+		object[todo] = object[todo] || {};
+		if (toinsert.indexOf("/") != -1){
+			object[todo] = createHierarchy(done + "/" + toinsert.split("/")[0], object[todo], page);
+			return object;
+		} else {
+			object[todo]._content = page;
+			return object;
+		}
+	}
+	
+	var createHTMLHierarchy = function(object,key,active){
+		//var html = "<li>";
+		var html = "";
+		if (active){
+			if (object._content.id == active){
+				html += "<li id='" + object._content.id + "'><span>" + object._content.title + "</span>";
+			} else {
+				html += "<li id='" + object._content.id + "' rel='locked'><span>" + object._content.title + "</span>";
+			}
+		} else {
+			html += "<li id='" + object._content.id + "'><span>" + object._content.title + "</span>";
+		}
+		var size = 0;
+		for (var i in object){
+			size++;	
+		}
+		if (size > 1){
+			html += "<ul>";
+		}
+		for (var i in object){
+			if (i != "_content"){
+				html += createHTMLHierarchy(object[i],i,active);
+			}
+		}	
+		if (size > 1){
+			html += "</ul>";
+		}	
+		html += "</li>";
+		return html;
+	}
+	
+	var removePageStructure = function(hash){
+		hash.w.hide();
+		hash.o.remove();
+		$("#treeview_link_container").html("");
+	}
+	
+	$("#insert_link_confirm").bind("click", function(ev){
 		
+		var chosen = false;
+		try {
+			chosen = simpleTreeCollection.get(0).getSelected().attr("id");
+		} catch (err){
+			
+		}
+		if (!chosen){
+			return false;
+		}
+		
+		var editor = tinyMCE.get("elm1");
+		var selection = editor.selection.getContent();
+		if (selection) {
+			editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '"  class="contauthlink">' + selection + '</a>');
+		}
+		else {
+			var pagetitle = chosen;
+			for (var i = 0; i < pages.items.length; i++) {
+				if (pages.items[i].id == chosen) {
+					pagetitle = pages.items[i].title;
+				}
+			}
+			editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '" class="contauthlink">' + pagetitle + '</a>');
+		}
+		
+		$('#link_dialog').jqmHide();
+	});
+	
+	var doPageHierarchy = function(active){
+		// Generate the structure
+		
+		var object = {};
+		
+		for (var i = 0; i < pages.items.length; i++){
+			var page = pages.items[i];
+			object = createHierarchy("", object, page);
+		}
+		
+		// Generate the HTML
+		
+		var currentId = 2;
+		var html = '<ul class="simpleTree"><li class="root" id="1"><span style="display:none">Tree Root 1</span><ul>';
+		
+		for (var i in object){
+			html += createHTMLHierarchy(object[i],i,active);
+		}
+		
+		html += '</ul></li></ul>';
+		
+		return html;
+	};
+	
+	var renderPageStructure = function(hash){
+		
+		var html = doPageHierarchy();
+		
+		// Add in HTML
+		
+		$("#treeview_link_container").html(html);
+		
+		simpleTreeCollection = $('.simpleTree').simpleTree({
+			autoclose: true,
+			drag: false,
+			afterClick:function(node){
+				//alert("text-"+$('span:first',node).text());
+			},
+			afterDblClick:function(node){
+				//alert("text-"+$('span:first',node).text());
+			},
+			afterMove:function(destination, source, pos){
+				//alert("destination-"+$('span:first',destination).text()+" source-"+$('span:first',source).text()+" pos-"+pos);
+			},
+			afterAjax:function()
+			{
+				//alert('Loaded');
+			},
+			animate:true
+			//,docToFolderConvert:true
+			}
+		);
+		$("#insert_more_menu").hide();
+		showingInsertMore = false;
+		hash.w.show();
+	};
+	
+	$('#link_dialog').jqm({
+		modal: true,
+		trigger: $('#link_dialog_trigger'),
+		overlay: 20,
+		toTop: true,
+		onShow: renderPageStructure,
+		onHide: removePageStructure
+	});
+	
+	/*
+		Move a page 
+	*/
+
+	var renderMovePageStructure = function(hash){
+		var html = doPageHierarchy(selectedpage);
+		
+		// Add in HTML
+		
+		$("#treeview_move_container").html(html);
+		
+		simpleTreeCollection = $('.simpleTree').simpleTree({
+			autoclose: true,
+			afterClick:function(node){
+				//alert("text-"+$('span:first',node).text());
+			},
+			afterDblClick:function(node){
+				//alert("text-"+$('span:first',node).text());
+			},
+			afterMove:function(destination, source, pos){
+				//alert("destination-"+$('span:first',destination).text()+" source-"+$('span:first',source).text()+" pos-"+pos);
+			},
+			afterAjax:function()
+			{
+				//alert('Loaded');
+			},
+			animate:true,
+			docToFolderConvert:true
+			}
+		);
+		
+		hash.w.show();
+		
+		$("#more_menu").hide();
+		$("#" + selectedpage.replace(/ /g,"%20")).find(">span").addClass("active");
+		
+	} 
+	
+	var removeMovePageStructure = function(hash){
+		hash.w.hide();
+		hash.o.remove();
+		$("#treeview_move_container").html("");
+	}
+
+	$('#move_dialog').jqm({
+		modal: true,
+		trigger: $('.move_dialog_trigger'),
+		overlay: 20,
+		toTop: true,
+		onShow: renderMovePageStructure,
+		onHide: removeMovePageStructure
+	});
+	
+	$("#move_page_confirm").bind("click", function(ev){
+		
+		// Generate new id
+		
+		var item = $("#" + selectedpage.replace(/ /g,"%20"));
+		var parent = item.parent().parent().attr("id");
+		alert(parent);
+		
+		
+		// Move current file (generate new page id)
+		
+		
+		
+		// Rewrite configuration file
+				
+		
+		
+		
+		$('#move_dialog').jqmHide();
+	});
+
 	
 	/*
 		Global event listeners
