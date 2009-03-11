@@ -196,7 +196,7 @@ a {
     margin:0 0 0 12px;
 }
 .site_heading .search {
-    margin-top:5px;
+    margin-top:3px;
 }
 .site_heading .search .search_field {
     width:230px; 
@@ -732,8 +732,8 @@ a {
 
 .tab-nav li.tab-nav-selected span { /*selected tab effect*/
     position: relative; 
-    padding: 8px 7px 5px 7px;
-	bottom:-1px;
+    padding: 6px 20px;
+	bottom:0px;
     font-weight: bold;
     border-bottom: none;
     background-color: #fff;
