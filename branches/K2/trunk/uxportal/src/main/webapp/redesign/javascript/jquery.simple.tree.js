@@ -139,6 +139,10 @@ $.fn.simpleTree = function(opt){
 			.bind('selectstart', function() {
 				return false;
 			}).click(function(){
+				var el = $(this).parent();
+				if (el.attr("rel") == "locked"){
+					return false;
+				}
 				$('.active',TREE).attr('class','text');
 				if(this.className=='text')
 				{
