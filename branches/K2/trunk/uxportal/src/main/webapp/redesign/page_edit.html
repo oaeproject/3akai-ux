@@ -18,14 +18,15 @@
 		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
 		
 		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
+		<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search_b.css" />
 		
-		<script type="text/javascript" src="Fluid-all.js"></script>
+		<script type="text/javascript" src="javascript/Fluid-all.js"></script>
 		
 		<script type="text/javascript" language="JavaScript" src="/dev/js/rsh.js"></script>	
 		<script type="text/javascript" language="JavaScript" src="/dev/js/site_history.js"></script>
 		
 		<script type="text/javascript" src="jscripts/tiny_mce/tiny_mce_src.js"></script>
-		<script type="text/javascript" src="BrowserDetect.js"></script>
+		<script type="text/javascript" src="javascript/BrowserDetect.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.corners.js"></script>
@@ -38,6 +39,7 @@
     	
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+		<script type="text/javascript" src="javascript/tree_component.js"></script>
    
    		<!-- TrimPath Templates -->
 		<div id="editor_extra_buttons"><!--
@@ -74,7 +76,8 @@
 			</td>   
 		--></div>
 		
-		<div class="fl-container explore_nav">
+		<!-- EXPLORE BAR -->
+	    <div class="fl-container explore_nav">
 	        <ul class="explore fl-force-left">
 	            <li><a href="/dev/dashboard.html">My Sakai</a></li>
 	            <li><a href="#">Profile</a></li>
@@ -82,15 +85,14 @@
 	      		<li><a href="#">People</a></li>
 				<li><a href="#">Courses & Sites</a></li>
 				<li><a href="#">Search</a></li>
-		  </ul>
+			</ul>
 	        <ul class="personal fl-force-right">
-	            <li>Signed in as <strong id="userid"></strong></li>
-	
-	            <li><a href="#">Help</a></li>
-	            <li><a href="/dev/logout.html">Sign out</a></li>
+	            <li><a class="user_link" href="#"><img src="images/dot_green.png" alt="Status indicator" /><strong id="userid"></strong><img src="images/arrow_down_sm2_blue.png" /></a></li>
+	            <li><a class="mail" href="#"><img src="images/mail_icon.png" alt="Mail Icon" /> (2)</a></li>
+				<li><a class="help" href="#">Help</a></li>
+	            <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
 	        </ul>
 	    </div>
-
 		
 		<!-- TITLE BAR + SEARCH -->
         <div class="fl-container site_heading">
@@ -364,8 +366,9 @@
 				<li id="context_appearance"><a href="javascript:;" id="context_appearance_trigger">Wrapping</a></li>
 			</ul>
 		</div>
+
 		
-		<script type="text/javascript" src="editor.js"></script>
+		<script type="text/javascript" src="javascript/editor.js"></script>
 		
     </body>
 </html>
