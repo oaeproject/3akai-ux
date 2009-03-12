@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Site</title>        
+    <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />
+            
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
+   
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.my_sakai.css" />
+	
+	<script src="jscripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+	<script src="jscripts/jquery.corners.js" type="text/javascript"></script>
+	<script src="jscripts/my_sakai.js" type="text/javascript"></script>
+	
+</head>
+
+<body id="root" class="fl-centered fl-container">
+    <!-- EXPLORE BAR -->
+    <div class="fl-container explore_nav">
+        <ul class="explore fl-force-left">
+			<li><a href="#" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="images/arrow_down_sm2_blue.png" alt="Down arrow" class="explore_nav_selected_arrow" /></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">People</a></li>
+			<li><a href="#">Course & Sites</a></li>
+			<li><a href="#">Search</a></li>
+        </ul>
+        <ul class="personal fl-force-right">
+            <li><a class="user_link" href="#"><img src="images/dot_green.png" alt="Status indicator" /><strong>John Doe</strong><img src="images/arrow_down_sm2_blue.png" /></a></li>
+            <li><a class="mail" href="#"><img src="images/mail_icon.png" alt="Mail Icon" /> (2)</a></li>
+			<li><a class="help" href="#">Help</a></li>
+            <li><a class="sign_out" href="#">Sign out</a></li>
+        </ul>
+    </div>
+    
+	<!-- HEADER -->
+	<div class="fl-container-flex fl-col-flex2 fl-fix header">
+	
+		<!-- GREETING -->
+		<div class="fl-col greeting">
+			<a class="greeting_picture" href="#"><img src="images/person_icon.png" /></a>
+			<span class="greeting_text">Hi John!</span>
+			<a class="greeting_links" href="#">Change pic</a>
+			<span class="pipe_divider">/</span>
+			<a class="greeting_links" href="#">Edit Profile</a>
+		</div>
+		
+		<!-- SEARCH FIELD -->
+		<div class="fl-col search">
+			<form class="search_form buttonBar" action="" method="post">
+				<input type="text" class="search_input_field" value="Search for media"></input>
+				<a href="#" class="button search_button">Search</a>
+			</form>
+		</div>
+	</div>
+	
+	<!-- OPTIONS -->
+	<div class="fl-container options">
+		<a href="#">Another option</a>
+		<span class="pipe_divider">|</span>
+		<a href="#">Change layout</a>
+	</div>
+	
+	
+	<!-- CONTENT -->
+	<div class="fl-col-flex2 fl-container-auto content">
+		
+		<!-- LEFT COLUMN --> 
+		<div class="fl-col">
+			
+			<!-- WIDGET -->
+            <div class="fl-widget my_course_sites_widget">
+                <div class="fl-widget-titlebar fl-fix">
+                    <h2 class="widget_title">My Course &amp; Sites</h2>
+					<a href="#" class="fl-force-right fl-icon settings">Settings</a>
+                </div>                    
+                <div class="fl-widget-options fl-fix">
+                    <ul>
+                        <li><a href="#">Edit</a></li>
+						<li><span class="pipe_divider">|</span></li>
+                        <li><a href="#">Create a Site</a></li>
+                    </ul>
+                </div>                    
+                <div class="fl-widget-content">
+                    <ul>
+                    	<li><a href="#">Business Statistics</a></li>
+						<li><a href="#">Zanny's House of Rock</a></li>
+						<li><a href="#">MKT3400 International Marketing (Spring 2009)</a></li>
+						<li><a href="#">Chess Club</a></li>
+						<li><a href="#">ECN22 Capstone Economics (Spring 2009)</a></li>
+                    </ul>
+                </div>
+            </div>
+			
+			<!-- WIDGET -->
+            <div class="fl-widget my_contacts_widget">
+                <div class="fl-widget-titlebar fl-fix">
+                    <h2 class="widget_title">My Contacts</h2>
+					<a href="#" class="fl-force-right fl-icon settings">Settings</a>
+                </div>                    
+                <div class="fl-widget-options fl-fix">
+                    <ul>
+                        <li><a href="#">View &amp; Edit Contacts</a></li>
+						<li><span class="pipe_divider">|</span></li>
+                        <li><a href="#">Find People</a></li>
+                    </ul>
+					<a href="#" class="fl-force-right contact_requests">3 Contact Requests</a>
+                </div>                    
+                <div class="fl-widget-content">
+                    
+					<div class="contact">
+                    	<a href="#" class="fl-icon contact_picture"></a>
+						<a href="#" class="contact_name">Denzel Williams</a>
+                    </div>
+					
+					<div class="contact">
+                    	<a href="#" class="fl-icon contact_picture"></a>
+						<a href="#" class="contact_name">Florencia Cortez</a>
+                    </div>
+					
+					<div class="contact">
+                    	<a href="#" class="fl-icon contact_picture"></a>
+						<a href="#" class="contact_name">Victoryanicka Pilutzky</a>
+                    </div>
+					
+					<div class="contact">
+                    	<a href="#" class="fl-icon contact_picture"></a>
+						<a href="#" class="contact_name">Adrian Jackson</a>
+                    </div>
+					
+					<div class="contact">
+                    	<a href="#" class="fl-icon contact_picture"></a>
+						<a href="#" class="contact_name">Thomas Craig</a>
+                    </div>
+					
+					<div class="contact">
+                    	<a href="#" class="fl-icon contact_picture"></a>
+						<a href="#" class="contact_name">Alexavier Curtis</a>
+                    </div>
+					
+                </div>
+            </div>
+			
+		</div>
+		
+		
+		
+		<!-- RIGHT COLUMN -->
+		<div class="fl-col">
+			
+			<!-- WIDGET -->
+            <div class="fl-widget my_profile_widget">
+                <div class="fl-widget-titlebar fl-fix">
+                    <h2 class="widget_title">My Profile</h2>
+					<a href="#" class="fl-force-right fl-icon settings">Settings</a>
+                </div>                    
+                <div class="fl-widget-options fl-fix">
+                    <ul>
+                        <li><a href="#">Edit Profile</a></li>
+						<li><span class="pipe_divider">|</span></li>
+                        <li><a href="#">Preview Profile</a></li>
+                    </ul>
+                </div>                    
+                <div class="fl-widget-content">
+                    
+					<div class="fl-container fl-fix profile">
+						<a href="#" class="fl-icon profile_picture"></a>
+						<a href="#" class="fl-icon profile_status_led"></a>
+						<a href="#" class="profile_name">John Doe</a>
+						<a href="#" class="profile_dept">Computer Science</a>
+						<p><span>Chat Status: </span><a href="#" class="profile_chat_status">Available</a></p><a href="#" class="fl-icon profile_chat_status_dropdown"></a>
+					</div>
+					
+                </div>
+            </div>
+			
+		</div>
+		
+	</div>
+	
+	
+	<!-- FOOTER -->
+	<div class="fl-container fl-fix page_footer">
+		<a href="#" class="sakai_logo"><img src="images/sakai_logo.png" /></a>
+		<div>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></div>
+		<div>&copy; 2004-2008 <a href="#">The Sakai Foundation</a></div>
+	</div>
+	
+	
+</body>
+</html>

@@ -1,0 +1,374 @@
+/* GENERAL */
+
+.pipe_divider {
+	color: #999;
+}
+
+html {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: lighter;
+	line-height: 120%;
+	background: #fff;
+}
+
+body {
+	padding: 0;
+}
+
+strong {
+	color: #000;
+}
+
+.buttonBar .button {
+	color: #666;
+}
+
+
+/* TOP NAV */
+.explore_nav {
+	background-color: #EEEEEE;
+	height: 22px;
+}
+
+.explore_nav .explore {
+	padding-left: 15px;
+}
+
+.explore_nav .explore li a {
+	color: #475358;
+	font-weight:bold;
+	text-align: center;
+}
+
+.explore_nav_selected {
+	color: #fff;
+	background-color: #3399CC;
+	padding: 2px 5px 2px 5px;
+	display: inline-block;
+	margin-top:-3px;
+	/* needed for rounded cornered anchor buttons */
+	outline: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: -moz-inline-box;
+    display: inline-block;
+    overflow: visible;
+}
+
+.explore_nav_selected span {
+	color: #fff;
+}
+
+.explore_nav_selected_arrow {
+	width: 9px;
+	height: 5px;
+	position: relative;
+	bottom: -11px;
+	
+}
+
+.explore_nav .personal {
+	padding: 0 8px 0 0;
+	font-size: .95em;
+}
+
+.explore_nav .personal li a {
+	color: #058ec4;
+}
+
+.explore_nav .personal li strong {
+	color: #058ec4;
+}
+
+
+.explore_nav .personal .user_link {
+	border: none;
+}
+
+.explore_nav .personal .user_link img {
+	position: relative;
+	top: -1px;
+	padding: 0 3px 0 3px;
+}
+
+.explore_nav .personal .mail {
+	color: #666;
+}
+
+.explore_nav .personal .mail img {
+	position: relative;
+	top: -1px;
+}
+
+
+/* HEADER */
+.header {
+	border-bottom: 1px solid #ddd;
+}
+
+.header .greeting {
+	
+}
+
+.header .greeting .greeting_picture {
+	float: left;
+	padding: 25px 5px 25px 20px;
+}
+
+.header .greeting .greeting_picture img {
+	width: 48px;
+	height: 48px;
+}
+
+.header .greeting .greeting_text {
+	font-size: 2em;
+	display: block;
+	padding-top: 35px;
+	padding-bottom: 3px;
+	font-weight: bold;
+}
+
+.header .greeting .greeting_links {
+	font-size: .85em;
+	color: #3399CC;
+}
+
+.header .search {
+
+}
+
+.header .search .search_form {
+	height:60px;
+	position:absolute;
+	text-align:right;
+	top: 80px;
+	right: 340px;
+}
+
+.header .search .search_form .search_input_field {
+	border: 1px solid #DDDDDD;
+	color:#999999;
+	height:22px;
+	position:absolute;
+	top:0;
+	width: 250px;
+}
+
+
+.header .search .search_form .search_button {
+	left:260px;
+	position:absolute;
+	top:0;
+}
+
+/* OPTIONS */
+.options {
+	text-align: right;
+	padding: 10px 25px 10px 25px;
+}
+
+.options a {
+	font-size: 1em;
+	color: #3399CC;
+	font-weight: bold;
+}
+
+/* CONTENT */
+.content {
+	padding: 15px;
+}
+
+
+/* GENERAL WIDGET CSS */
+.fl-widget {
+
+}
+
+.fl-widget .fl-widget-titlebar {
+	border-bottom: 1px solid #ddd;
+}
+
+.fl-widget .fl-widget-titlebar .widget_title {
+	color: #333;
+	font-size: 1.2em;
+	float: left;
+}
+
+.fl-widget .fl-widget-titlebar .settings {
+	background-image: url(../images/edit_icon_widget.png);
+	position: relative;
+	height: 18px;
+	background-repeat: no-repeat;
+}
+
+.fl-widget .fl-widget-options {
+		background-color: #fff;
+		padding: 5px 10px 5px 10px;
+		margin: 0;
+}
+
+.fl-widget .fl-widget-options ul li {
+	float: left;
+	margin: 0;
+	padding: 0 3px;
+}
+
+.fl-widget .fl-widget-options ul li a {
+	color: #666;
+	font-size: .85em;	
+}
+
+.fl-widget .fl-widget-options .pipe_divider {
+	font-size: .85em;
+}
+
+.fl-widget .fl-widget-content {
+	background-color: #fff;
+	padding: 5px 10px 15px 10px;
+	margin: 0;
+}
+
+.fl-widget .fl-widget-content ul {
+	margin: 0;
+	padding: 0;
+}
+
+
+/* SPECIFIC WIDGETS */
+.my_course_sites_widget .fl-widget-options {
+	background-color: #eee;
+}
+
+.my_course_sites_widget .fl-widget-content {
+	background-color: #eee;
+}
+
+.my_course_sites_widget .fl-widget-content ul li {
+	list-style: none;
+	padding: 2px 0px;
+	margin: 0;
+}
+
+.my_course_sites_widget .fl-widget-content ul li a {
+	color: #3399CC;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+
+
+
+.my_contacts_widget .fl-widget-options ul {
+	float:left;
+}
+
+
+.my_contacts_widget .fl-widget-options .contact_requests {
+	display:block;
+	font-size: .85em;
+	color: #3399CC;
+}
+
+.my_contacts_widget .fl-widget-content .contact {
+	float:left;
+	padding: 0 20px 5px 0;
+	width: 60px;
+	margin-right: 10px;
+}
+
+.my_contacts_widget .fl-widget-content .contact .contact_picture {
+	background-image: url(../images/person_icon_50.png);
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 50px;
+	margin: 0;
+	padding: 0 0 10px 0;
+}
+
+.my_contacts_widget .fl-widget-content .contact .contact_name {
+	color: #3399CC;
+	font-size: .95em;
+	font-weight: bold;
+}
+
+
+
+
+
+.my_profile_widget .fl-widget-content .profile .profile_picture {
+	background-image: url(../images/person_icon.png);
+	width: 60px;
+	height: 60px;
+	float: left;
+	margin-right: 10px;
+}
+
+.my_profile_widget .fl-widget-content .profile .profile_status_led {
+	background-image: url(../images/dot_green.png);
+	float: left;
+	margin: 0;
+	position: relative;
+	bottom: 2px;
+}
+
+.my_profile_widget .fl-widget-content .profile .profile_name {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: #3399CC;
+	display: block;
+	margin-left: 90px;
+}
+
+.my_profile_widget .fl-widget-content .profile .profile_dept {
+	color: #999;
+	display: block;
+	margin-left: 80px;
+	font-size: .95em;
+	position: relative;
+}
+
+.my_profile_widget .fl-widget-content .profile p {
+	padding-top: 10px;
+	color: #999;
+	float: left;
+}
+
+.my_profile_widget .fl-widget-content .profile p .profile_chat_status {
+	color: #666;
+	display: inline;
+}
+
+.my_profile_widget .fl-widget-content .profile .profile_chat_status_dropdown {
+	background-image: url(../images/arrow_down_sm2.png);
+	background-repeat: no-repeat;
+	width: 9px;
+	height: 5px;
+	position: relative;
+	top: 17px;
+	left: 3px;
+}
+
+
+
+
+/* FOOTER */
+
+.page_footer {
+	padding: 15px 0 50px 15px;
+	border-top: 1px solid #ddd;
+	font-size: .85em;
+	color: #999;
+}
+
+.page_footer a {
+	color: #3399cc;
+	
+}
+
+.sakai_logo {
+	float: left;
+}
+
