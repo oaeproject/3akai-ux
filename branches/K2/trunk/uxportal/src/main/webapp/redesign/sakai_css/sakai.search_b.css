@@ -25,6 +25,10 @@
 	top: -15px;
 }
 
+.content_search {
+	margin-top:-18px;
+}
+
 
 .fl-tabs .fl-activeTab a {
 	background-color: #fff;
@@ -37,12 +41,13 @@
 }
 
 .search_bar {
-padding: 20px 0 20px 15px;
+padding: 20px 0 20px 10px;
 }
 
 .search_result_title {
 	text-align: left;
 	padding-left: 15px;
+	margin-top:10px;
 }
 
 .keyword {
@@ -58,6 +63,8 @@ padding: 20px 0 20px 15px;
 .search_results_part_header {
 	font-weight: normal;
 	font-size: 1.2em;
+	margin-bottom:10px;
+	margin-top:10px;
 }
 
 .display_more_link {
@@ -85,7 +92,7 @@ padding: 20px 0 20px 15px;
 
 .search_result_person {
 	border: none;
-	margin: 15px 8px 0 0;
+	margin: 0px 8px 10px 0;
 	padding: 8px 8px 8px 0;
 	width: 280px;
 }
@@ -110,7 +117,7 @@ padding: 20px 0 20px 15px;
 }
 
 .search_result_course_site {
-	padding: 15px 0 0 0;
+	padding: 5px 0 10px 0;
 }
 
 .search_result_course_site_title a {
@@ -128,10 +135,11 @@ padding: 20px 0 20px 15px;
 /* FOOTER */
 
 .page_footer {
-	padding: 15px 0 50px 15px;
+	padding: 15px 0 15px 15px;
 	border-top: 1px solid #ddd;
 	font-size: .85em;
 	color: #999;
+	margin-top:35px;
 }
 
 .page_footer a {
