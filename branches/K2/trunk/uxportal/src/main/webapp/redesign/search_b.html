@@ -133,7 +133,7 @@
 					
 					<div class="fl-container fl-fix search_results_part_header">
 						<a href="#" class="search_results_part_title">People</a>
-						<a href="#" class="fl-force-right display_more_link" style="display:none"><small>View all 216 People &raquo;</small></a>
+						<a href="#" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View all <span id="display_more_people_number">0</span> People &raquo;</small></a>
 					</div>
 					
 					<div id="people_search_result">
@@ -143,8 +143,12 @@
 					<div id="people_search_result_template"><!--
 						{for i in items}
 							<div class="fl-container fl-fix search_result_person">
-								<a href="#" class="fl-icon search_result_person_picture"></a>
-								<a href="#" class="search_result_person_name">${i.name}</a>
+								{if ! i.picture}
+									<a href="/dev/sn/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+								{else}
+									<a href="/dev/sn/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" style="background-image:none"><img src="${i.picture}" width="60px" height="60px"/></a>
+								{/if}
+								<a href="/dev/sn/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
 								{if i.extra}
 									<a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
 								{else}

@@ -3,6 +3,12 @@ var sakai = sakai || {};
 sakai._search = {};
 sakai.search = function(){
 	
+	/*
+		Config variables
+ 	*/
+	
+	var peopleToSearch = 10;
+	
 	var meObj = false;
 	var foundPeople = false;
 	var hasHadFocus = false;
@@ -66,7 +72,7 @@ sakai.search = function(){
 				
 				sdata.Ajax.request({
 					httpMethod: "GET",
-					url: "/rest/search?p=0&path=/_private&n=10&q=" + peoplesearchterm + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
+					url: "/rest/search?p=0&path=/_private&n=" + peopleToSearch + "&q=" + peoplesearchterm + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
 					onSuccess: function(data){
 						foundPeople = eval('(' + data + ')');
 						renderPeople();
@@ -87,6 +93,7 @@ sakai.search = function(){
 			// Set everything visible
 			
 			$("#introduction_text").hide();
+			$("#display_more_people").hide();
 			$("#content_media_header").show();
 			$("#people_header").show();
 			$("#courses_sites_header").show();
@@ -110,6 +117,16 @@ sakai.search = function(){
 		
 		var finaljson = {};
 		finaljson.items = [];
+		
+		var currentTotal = parseInt($("#numberfound").text());
+		currentTotal += foundPeople.size;
+		$("#numberfound").text(currentTotal);
+		
+		if (foundPeople.size > peopleToSearch){
+			$("#display_more_people").show();
+			$("#display_more_people_number").text(foundPeople.size);
+		}
+		
 		if (foundPeople && foundPeople.results) {
 			for (var i = 0; i < foundPeople.results.length; i++) {
 				var item = foundPeople.results[i];
