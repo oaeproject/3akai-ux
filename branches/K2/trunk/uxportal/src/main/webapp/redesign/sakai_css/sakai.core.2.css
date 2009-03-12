@@ -5,6 +5,9 @@ html {
 	font-weight: lighter;
 	line-height: 120%;
 }
+
+:focus {outline:none;}
+
 body {
     padding:0 10px;
 }
@@ -807,6 +810,11 @@ a {
 }
 
 .fl-tab-content{
+	padding:5px 5px 0px 5px;
+	border: 1px dotted #CCCCCC;
+	margin-top: 10px;
+}
+.fl-tab-content-border{
 	padding:5px 5px 0px 5px;
 	border: 1px dotted #CCCCCC;
 	margin-top: 10px;
