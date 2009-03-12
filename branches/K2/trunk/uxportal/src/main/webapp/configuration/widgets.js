@@ -107,6 +107,20 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/myprofile.png"
 		},
+		discussion :
+		{
+			description:"Discussion widget\r\n",
+			iframe:0,
+			url:"/devwidgets/discussion/discussion.html",
+			name:"Discussion",
+			id:"discussion",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/dev/img/myprofile.png"
+		},
 		helloworld :
 		{
 			description:"Sakai Hackathon Example\r\n",
