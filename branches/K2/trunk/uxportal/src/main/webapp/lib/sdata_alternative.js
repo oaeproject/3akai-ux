@@ -1895,15 +1895,20 @@ sdata.html.Template = {
 			
 			if ( ! sdata.html.Template.templateCache[templateName] ) {
 				 var templateNode = document.getElementById(templateName);
-				 var firstNode = templateNode.firstChild;
-				 var template = null;
-				 if ( firstNode && ( firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-				 	template = templateNode.firstChild.data.toString();
-				 	
+				 if (templateNode) {
+				 	var firstNode = templateNode.firstChild;
+				 	var template = null;
+				 	if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
+				 		template = templateNode.firstChild.data.toString();
+				 		
+				 	}
+				 	else {
+				 		template = templateNode.innerHTML.toString();
+				 	}
+				 	sdata.html.Template.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
 				 } else {
-				 	template = templateNode.innerHTML.toString();
+				 	alert("Something is wrong here - " + templateName);
 				 }
-				 sdata.html.Template.templateCache[templateName] = TrimPath.parseTemplate(template,templateName);
 			}
 
 			var render = sdata.html.Template.templateCache[templateName].process(contextObject);
