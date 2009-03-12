@@ -1751,12 +1751,12 @@ if (nel.className == "contauthlink") {
 		var html = "";
 		if (active){
 			if (object._content.id == active){
-				html += "<li id='" + object._content.id + "'><span>" + object._content.title + "</span>";
+				html += "<li id='" + object._content.id + "' class='open'><span>" + object._content.title + "</span>";
 			} else {
-				html += "<li id='" + object._content.id + "' rel='locked'><span>" + object._content.title + "</span>";
+				html += "<li id='" + object._content.id + "'  class='open' rel='locked'><span>" + object._content.title + "</span>";
 			}
 		} else {
-			html += "<li id='" + object._content.id + "'><span>" + object._content.title + "</span>";
+			html += "<li id='" + object._content.id + "' class='open'><span>" + object._content.title + "</span>";
 		}
 		var size = 0;
 		for (var i in object){
@@ -1891,7 +1891,7 @@ if (nel.className == "contauthlink") {
 		$("#treeview_move_container").html(html);
 		
 		simpleTreeCollection = $('.simpleTree').simpleTree({
-			autoclose: true,
+			autoclose: false,
 			afterClick:function(node){
 				//alert("text-"+$('span:first',node).text());
 			},
@@ -1913,7 +1913,7 @@ if (nel.className == "contauthlink") {
 		hash.w.show();
 		
 		$("#more_menu").hide();
-		$("#" + selectedpage.replace(/ /g,"%20")).find(">span").addClass("active");
+		$("#" + escapePageId(selectedpage)).find(">span").addClass("active");
 		
 	} 
 	
@@ -1936,22 +1936,164 @@ if (nel.className == "contauthlink") {
 		
 		// Generate new id
 		
-		var item = $("#" + selectedpage.replace(/ /g,"%20"));
-		var parent = item.parent().parent().attr("id");
-		alert(parent);
+		var pageid = "";
+		for (var i = 0; i < pages.items.length; i++){
+			if (pages.items[i].id == selectedpage){
+				pageid = pages.items[i].id;
+			}
+		}
+		pageid = pageid.split("/")[pageid.split("/").length - 1];
 		
+		var item = $("#" + escapePageId(selectedpage));
+		var parent = item.parent().parent().attr("id");
+		
+		if (parent == "1"){
+			parent = "";
+		}
+		
+		var newid = false;
+		var index = 0;
+		var b_pages = clone(pages);
+		var togoout = -1;
+		for (var i = 0; i < b_pages.items.length; i++){
+			if (b_pages.items[i].id == selectedpage){
+				togoout = i;
+			}
+		}
+		b_pages.items.splice(togoout,1);
+		while (!newid){
+			var totest = "";
+			if (parent){
+				totest += parent + "/";
+			}
+			totest += pageid;
+			if (index != 0){
+				totest += "-" + index;
+			}
+			var exists = false;
+			for (var i = 0; i < b_pages.items.length; i++){
+				if (b_pages.items[i].id == totest){
+					exists = true;
+				}
+			}
+			if (!exists){
+				newid = totest;
+			}
+			index++;
+		}
 		
 		// Move current file (generate new page id)
 		
 		
-		
-		// Rewrite configuration file
+		var oldfolderpath = "/sdata/f/_sites/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
+		var newfolderpath = "/_sites/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
 				
+		var data = {
+			to: newfolderpath,
+			f: "mv"
+		};
+				
+		sdata.Ajax.request({
+			url: oldfolderpath,
+			httpMethod: 'POST',
+			postData: data,
+			onSuccess: function(data){
+
+					
+				// Rewrite configuration file
+				
+				var parentEl = $(".root");
+				var els = $("li", parentEl);
+				
+				var newpageconfig = {};
+				newpageconfig.items = [];
+				
+				for (var i = 0; i < els.length; i++){
+					if (els[i] && els[i].id) {
+						for (var ii = 0; ii < pages.items.length; ii++){
+							if (pages.items[ii].id == els[i].id){
+								var newindex = newpageconfig.items.length;
+								newpageconfig.items[newindex] = pages.items[ii];
+								if (pages.items[ii].id == selectedpage){
+									newpageconfig.items[newindex].id = newid;
+								}
+							}	
+						}
+					}
+				}
+				
+				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+				
+					$(document.body).hide();
+					document.location = "#" + newid;
+					window.location.reload(true);
+					$('#move_dialog').jqmHide();
+				
+				});
+					
 		
+			},
+			onFail: function(data){
+				
+				// Rewrite configuration file
+				
+				alert(data);
+				
+				var parentEl = $(".root");
+				var els = $("li", parentEl);
+				
+				var newpageconfig = {};
+				newpageconfig.items = [];
+				
+				for (var i = 0; i < els.length; i++){
+					if (els[i] && els[i].id) {
+						for (var ii = 0; ii < pages.items.length; ii++){
+							if (pages.items[ii].id == els[i].id){
+								var newindex = newpageconfig.items.length;
+								newpageconfig.items[newindex] = pages.items[ii];
+								if (pages.items[ii].id == selectedpage){
+									newpageconfig.items[newindex].id = newid;
+								}
+							}	
+						}
+					}
+				}
+				
+				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+				
+					$(document.body).hide();
+					document.location = "#" + newid;
+					window.location.reload(true);
+					$('#move_dialog').jqmHide();
+				
+				});
+				
+			},
+			contentType: "application/x-www-form-urlencoded"
+		});
+
 		
-		
-		$('#move_dialog').jqmHide();
 	});
+	
+	var clone = function(obj){
+
+	    if(obj == null || typeof(obj) != 'object')
+	
+	        return obj;
+	
+	
+	
+	    var temp = new obj.constructor(); // changed (twice)
+	
+	    for(var key in obj)
+	
+	        temp[key] = clone(obj[key]);
+	
+	
+	
+	    return temp;
+
+	}
 
 	
 	/*
