@@ -46,6 +46,8 @@ var SDATA_DEMOSITES = {
 var sdata = {};
 var sakai = {};
 
+sdata.me = false;
+
 sdata.registerForLoad = function(id){
 	sdata.toLoad[sdata.toLoad.length] = id;
 	if (sdata.readyToLoad){
@@ -1085,25 +1087,25 @@ sdata.widgets.WidgetLoader =  {
 					bigarray[widgetname][index].uid = widgetid;
 					bigarray[widgetname][index].placement = placement;
 					bigarray[widgetname][index].id = id;
-					var float = "inline_class_widget_nofloat";
+					var floating = "inline_class_widget_nofloat";
 					if (divarray[i].style.cssFloat) {
 						if (divarray[i].style.cssFloat == "left") {
-							float = "inline_class_widget_leftfloat";
+							floating = "inline_class_widget_leftfloat";
 						}
 						else 
 							if (divarray[i].style.cssFloat == "right") {
-								float = "inline_class_widget_rightfloat";
+								floating = "inline_class_widget_rightfloat";
 							}
 					} else {
 						if (divarray[i].style.styleFloat == "left") {
-							float = "inline_class_widget_leftfloat";
+							floating = "inline_class_widget_leftfloat";
 						}
 						else 
 							if (divarray[i].style.styleFloat == "right") {
-								float = "inline_class_widget_rightfloat";
+								floating = "inline_class_widget_rightfloat";
 							}
 					}
-					bigarray[widgetname][index].float = float;
+					bigarray[widgetname][index].floating = floating;
 				}
 			} catch (err){alert("An error occurred NOW")};
 		}
@@ -1114,7 +1116,7 @@ sdata.widgets.WidgetLoader =  {
 					var el = document.getElementById(bigarray[i][ii].id);
 					var newel = document.createElement("div");
 					newel.id = bigarray[i][ii].uid;	
-					newel.className = bigarray[i][ii].float;
+					newel.className = bigarray[i][ii].floating;
 					newel.innerHTML = "";
 					el.parentNode.replaceChild(newel,el);
 				}
@@ -1907,7 +1909,7 @@ sdata.html.Template = {
 				 	}
 				 	sdata.html.Template.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
 				 } else {
-				 	alert("Something is wrong here - " + templateName);
+				 	return "";
 				 }
 			}
 
