@@ -8,10 +8,13 @@ sakai.search = function(){
  	*/
 	
 	var peopleToSearch = 10;
+	var cmToSearch = 5;
 	
 	var meObj = false;
 	var foundPeople = false;
+	var foundCM = false;
 	var hasHadFocus = false;
+	var searchterm = "";
 
 	var doInit = function(){
 		
@@ -56,11 +59,52 @@ sakai.search = function(){
 	
 	var doSearch = function(){
 		
-		var searchterm = $("#search_text").val();
+		searchterm = $("#search_text").val().toLowerCase();
 		
 		if (searchterm) {
 		
+			// Set searching messages
+			
+			$("#mysearchterm").text(searchterm);
+			$("#display_more_people_number").text("0");
+			$("#display_more_cm_number").text("0");
+			$("#numberfound").text("0");
+			$("#content_media_search_result").html("<b>To Do ...</b>");
+			$("#people_search_result").html("<b>Searching ...</b>");
+			$("#courses_sites_search_result").html("<b>To Do ...</b>");
+			
+			// Set everything visible
+			
+			$("#introduction_text").hide();
+			$("#display_more_people").hide();
+			$("#content_media_header").show();
+			$("#people_header").show();
+			$("#courses_sites_header").show();
+			$("#search_result_title").show();
+			$(".search_results_part_footer").show();
+		
 			// Set off the 3 AJAX requests
+			
+				// Content & Media Search
+			
+				var cmsearchterm = "";
+				var splitted = searchterm.split(" ");
+				for (var i = 0; i < splitted.length; i++){
+					cmsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
+				}
+				
+				sdata.Ajax.request({
+					httpMethod: "GET",
+					url: "/rest/search?p=0&path=/_sites&n=" + cmToSearch + "&q=" + cmsearchterm + "&mimetype=text/plain&sid=" + Math.random(),
+					onSuccess: function(data){
+						foundCM = eval('(' + data + ')');
+						renderCM();
+					},
+					onFail: function(status){
+						foundCM = {};
+						renderCM();
+					}
+				});
 			
 				// People Search
 			
@@ -83,29 +127,61 @@ sakai.search = function(){
 					}
 				});
 			
-			// Set searching messages
-			
-			$("#mysearchterm").text(searchterm);
-			$("#content_media_search_result").html("<b>To Do ...</b>");
-			$("#people_search_result").html("<b>Searching ...</b>");
-			$("#courses_sites_search_result").html("<b>To Do ...</b>");
-			
-			// Set everything visible
-			
-			$("#introduction_text").hide();
-			$("#display_more_people").hide();
-			$("#content_media_header").show();
-			$("#people_header").show();
-			$("#courses_sites_header").show();
-			$("#search_result_title").show();
-			$(".search_results_part_footer").show();
-			
 		} else {
 			
 			
 			
 		}
 	
+	}
+	
+	
+	/*
+		Content & Media Search 
+	*/
+	
+	var renderCM = function(){
+		
+		var finaljson = {};
+		finaljson.items = [];
+		
+		var currentTotal = parseInt($("#numberfound").text());
+		currentTotal += foundCM.size;
+		$("#numberfound").text(currentTotal);
+		
+		if (foundCM.size > cmToSearch){
+			$("#display_more_cm").show();
+			$("#display_more_cm_number").text(foundCM.size);
+		}
+		
+		if (foundCM && foundCM.results) {
+			for (var i = 0; i < foundCM.results.length; i++) {
+				var item = foundCM.results[i];
+				var person = item.content;
+				if (person) {
+					var index = finaljson.items.length;
+					finaljson.items[index] = {};
+					var content = person.replace(/<\/?[^>]+(>|$)/g, " ");
+					var place = content.toLowerCase().indexOf(searchterm);
+					if (place){
+						var toreplace = content.substring(place,place + searchterm.length);
+						content = content.replace(toreplace,"<strong>" + toreplace + "</strong>");
+						var start = place - (600/2);
+						if (start < 0){
+							start = 0;
+						}
+						var end = place + (600/2);
+						content = content.substring(start,end) + "...";
+					} else {
+						content = content.substring(0, 600);
+					}
+					finaljson.items[index].content = content;
+				}
+			}
+		}
+		
+		$("#content_media_search_result").html(sdata.html.Template.render("content_media_search_result_template", finaljson));
+		
 	}
 	
 	
