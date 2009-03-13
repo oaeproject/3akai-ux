@@ -2,7 +2,7 @@ var sakai = sakai || {};
 sakai.index = function(){
 
 	var isLoggingIn = false;
-	var redirecturl = "/dev/dashboard.html";
+	var redirecturl = "/dev/redesign/my_sakai.html";
 
 	var doInit = function(){
 
