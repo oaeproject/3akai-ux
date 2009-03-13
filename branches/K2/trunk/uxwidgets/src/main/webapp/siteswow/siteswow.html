@@ -1,18 +1,24 @@
 <div class="my_course_sites_widget">
-	<div class="fl-widget-options fl-fix">
+	<div class="fl-widget-options fl-fix" style="padding-left:2px">
 		<ul>
 			<li><a href="#">Edit</a></li>
 			<li><span class="pipe_divider">|</span></li>
-			<li><a href="#">Create a Site</a></li>
+			<li><a href="javascript:;" id="create_new_site_link">Create a Site</a></li>
 		</ul>
 	</div>                    
-	<div class="fl-widget-content">
-		<ul>
-			<li><a href="#">Business Statistics</a></li>
-			<li><a href="#">Zanny's House of Rock</a></li>
-			<li><a href="#">MKT3400 International Marketing (Spring 2009)</a></li>
-			<li><a href="#">Chess Club</a></li>
-			<li><a href="#">ECN22 Capstone Economics (Spring 2009)</a></li>
-		</ul>
+	<div class="fl-widget-content" style="padding-left:7px" id="sitelistwow">
 	</div>
+	<div id="sitelistwow_template"><!--
+		<ul>
+			{for site in entry}
+				<li><a href="/dev/redesign/page_edit.html?siteid=${site.id}">${site.name}</a></li>
+			{/for}
+		</ul>
+	--></div>
 </div>
+
+<div id="createsitecontainer" style="display:none; width:100%">
+	<div id="widget_createsite" class="widget_inline" style="width:100%"></div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/siteswow/javascript/siteswow.js"></script>
