@@ -19,6 +19,7 @@ sdata.events.Listener.onLoad(function() {
 		httpMethod : "GET",
 		onSuccess : function(data) {
 			var mejson = eval('(' + data + ')');
+			sdata.me = eval('(' + data + ')');
 			sdata.Ajax.request({
 				url : "/dev/bundle/default.json",
 				httpMethod : "GET",
