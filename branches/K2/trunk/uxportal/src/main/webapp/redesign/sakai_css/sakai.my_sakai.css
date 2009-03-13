@@ -185,12 +185,18 @@ strong {
 
 
 /* GENERAL WIDGET CSS */
+
+.fl-widget .fl-widget-titlebar h2 {
+	padding-left:3px;
+}
+
 .fl-widget {
 
 }
 
 .fl-widget .fl-widget-titlebar {
 	border-bottom: 1px solid #ddd;
+	height:20px;
 }
 
 .fl-widget .fl-widget-titlebar .widget_title {
@@ -208,7 +214,7 @@ strong {
 
 .fl-widget .fl-widget-options {
 		background-color: #fff;
-		padding: 5px 10px 5px 10px;
+		padding: 5px 0px 5px 2px;
 		margin: 0;
 }
 
@@ -229,7 +235,7 @@ strong {
 
 .fl-widget .fl-widget-content {
 	background-color: #fff;
-	padding: 5px 10px 15px 10px;
+	padding: 5px 10px 15px 2px;
 	margin: 0;
 }
 
