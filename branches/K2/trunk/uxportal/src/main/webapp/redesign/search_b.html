@@ -30,7 +30,7 @@
     <!-- EXPLORE BAR -->
 	<div class="fl-container explore_nav">
 	   <ul class="explore fl-force-left">
-	        <li><a href="/dev/dashboard.html">My Sakai</a></li>
+	        <li><a href="my_sakai.html">My Sakai</a></li>
 	        <li><a href="#">Profile</a></li>
 	        <!--<li><a href="#" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" /></li>-->
 	     	<li><a href="#">People</a></li>
@@ -98,28 +98,24 @@
 					
 					<div class="fl-container fl-fix search_results_part_header">
 						<a href="#" class="search_results_part_title">Content &amp; Media</a>
-						<a href="#" class="fl-force-right display_more_link" id="display_more_link_content_media" style="display:none"><small>View all 372 Content &amp; Media items &raquo;</small></a>
+						<a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View all <span id="display_more_cm_number">0</span> Content &amp; Media items &raquo;</small></a>
 					</div>
 					
 					<div id="content_media_search_result">
-						<!--<div class="fl-container fl-fix search_result">
+						
+					</div>
+					
+					<div id="content_media_search_result_template"><!--
+						{for i in items}
+						<div class="fl-container fl-fix search_result">
 							<div class="search_result_header">Business statistics</div>
-							<div class="search_result_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras euismod, risus vitae viverra sollicitudin, nibh ligula viverra justo, accumsan <span class="keyword">cool</span> consectetur neque sapien in tortor. Mauris sollicitudin nulla. Fusce non nisl eu mi molestie volutpat. Aenean et odio. Phasellus quam sem, elementum a, elementum nec, ullamcorper id, dolor. Praesent in neque. Etiam imperdiet dolor mattis felis. Nunc porttitor nunc in justo. Phasellus sollicitudin eleifend libero. Sed massa. Curabitur sagittis.</div>
+							<div class="search_result_description">${i.content}</div>
 							<div class="search_result_footer"><a href="#">Page</a> | GBS221 Business Statistics (Spring 2009)</div>
 						</div>
-						
-						<div class="fl-container fl-fix search_result">
-							<div class="search_result_header">Does anyone know how to do SWOT analysis?</div>
-							<div class="search_result_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras euismod, risus vitae viverra sollicitudin, nibh ligula viverra justo, accumsan consectetur neque sapien in tortor. Mauris sollicitudin nulla. Fusce non nisl eu mi molestie volutpat. Aenean et odio. Phasellus quam sem, elementum a, elementum nec, ullamcorper id, dolor. Praesent in neque. Etiam imperdiet dolor mattis felis. <span class="keyword">cool</span> Nunc porttitor nunc in justo. Phasellus sollicitudin eleifend libero. Sed massa. Curabitur sagittis.</div>
-							<div class="search_result_footer"><a href="#">Forum Post</a> | GBS221 Business Statistics (Spring 2009)</div>
-						</div>
-						
-						<div class="fl-container fl-fix search_result">
-							<div class="search_result_header">Angus Young's house of Rock</div>
-							<div class="search_result_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras euismod, risus vitae viverra sollicitudin, nibh ligula viverra justo, accumsan consectetur neque sapien in tortor. Mauris sollicitudin nulla. Fusce non nisl eu mi molestie volutpat. <span class="keyword">cool</span> Aenean et odio. Phasellus quam sem, elementum a, elementum nec, ullamcorper id, dolor. Praesent in neque. Etiam imperdiet dolor mattis felis. Nunc porttitor nunc in justo. Phasellus sollicitudin eleifend libero. Sed massa. Curabitur sagittis.</div>
-							<div class="search_result_footer"><a href="#">Page</a> | GBS221 Business Statistics (Spring 2009)</div>
-						</div>-->
-					</div> 
+						{forelse}
+							No Content &amp; Media found
+						{/for}
+					--></div> 
 					
 					<div class="search_results_part_footer"></div>
 					
@@ -146,7 +142,7 @@
 								{if ! i.picture}
 									<a href="/dev/sn/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
 								{else}
-									<a href="/dev/sn/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" style="background-image:none"><img src="${i.picture}" width="60px" height="60px"/></a>
+									<a href="/dev/sn/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none"><img src="${i.picture}" width="60px" height="60px"/></a>
 								{/if}
 								<a href="/dev/sn/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
 								{if i.extra}
