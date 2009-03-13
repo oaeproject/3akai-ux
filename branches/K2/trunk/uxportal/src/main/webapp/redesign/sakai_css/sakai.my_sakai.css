@@ -151,10 +151,12 @@ strong {
 .header .search .search_form .search_input_field {
 	border: 1px solid #DDDDDD;
 	color:#999999;
-	height:22px;
+	height:19px;
 	position:absolute;
 	top:0;
 	width: 250px;
+	padding-top:3px;
+	padding-left:3px;
 }
 
 
@@ -357,7 +359,7 @@ strong {
 /* FOOTER */
 
 .page_footer {
-	padding: 15px 0 50px 15px;
+	padding: 15px 0 15px 15px;
 	border-top: 1px solid #ddd;
 	font-size: .85em;
 	color: #999;
@@ -372,3 +374,52 @@ strong {
 	float: left;
 }
 
+
+/* D&D Classes */
+
+.orderable-hover {
+cursor:move;
+}
+.orderable-dragging {
+opacity:0.2;
+width:auto;
+}
+.orderable-selected {
+}
+.orderable-avatar {
+background-color:#666666;
+border:1px solid #666666;
+height:25px;
+width:50px;
+z-index:65535;
+}
+div .orderable-drop-marker {
+background-color:#FA7019;
+height:10px !important;
+}
+.orderable-avatar-clone {
+height:200px;
+opacity:0.6;
+width:400px;
+}
+.drop-warning {
+background-color:#FFD7D7;
+border:2px solid red;
+display:none;
+left:10px;
+margin:5px;
+padding:10px;
+position:absolute;
+top:50px;
+z-index:65535;
+}
+.orderable-drop-marker-box {
+background-color:#FFFFFF;
+border:2px dashed #AAAAAA;
+height:200px !important;
+margin-bottom:1em;
+width:100%;
+}
+.orderable-mouse-drag {
+display:none;
+}
