@@ -14,19 +14,25 @@ sakai.dashboard = function(){
 				doInit();
 			}
 		} else {
-			myportaljson = eval('(' + response + ')');
-			var cleanContinue = true;
-			for (var c in myportaljson.columns){
-				for (var pi in myportaljson.columns[c]){
-					if (!myportaljson.columns[c][pi].uid){
-						cleanContinue = false;
+			try {
+				myportaljson = eval('(' + response + ')');
+				var cleanContinue = true;
+				for (var c in myportaljson.columns){
+					for (var pi in myportaljson.columns[c]){
+						if (pi != "contains") {
+							if (!myportaljson.columns[c][pi].uid) {
+								cleanContinue = false;
+							}
+						}
 					}
 				}
+				if (cleanContinue){
+					domyportal = true;
+				} 
+				doInit();
+			} catch (err){
+				doInit();
 			}
-			if (cleanContinue){
-				domyportal = true;
-			} 
-			doInit();
 		}
 	}
 	
@@ -79,7 +85,7 @@ sakai.dashboard = function(){
 				jsonobj.columns["column" + (i + 1)][index] = {};
 				jsonobj.columns["column" + (i + 1)][index].name = columns[i][ii];
 				jsonobj.columns["column" + (i + 1)][index].visible = "block";
-				jsonobj.columns["column" + (i + 1)][index].uid = Math.round(Math.random() * 10000000000000);
+				jsonobj.columns["column" + (i + 1)][index].uid = 'id' + Math.round(Math.random() * 10000000000000);
 			}
 		}
 		
@@ -210,6 +216,13 @@ sakai.dashboard = function(){
 			}
 			else {
 				$("#userid").text(inituser);
+			}
+			
+			$("#hispan").text(person.profile.firstName);
+			
+			if (person.profile.picture){
+				var picture = eval('(' + person.profile.picture + ')');
+				$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "' width='80px' height='80px'/>");
 			}
 			
 			// Fix small arrow horizontal position
@@ -448,29 +461,35 @@ sakai.dashboard = function(){
 					
 					try {
 						var node = column.childNodes[ii];
-			
-						widgetdisplay = "block";
-						var nowAt = 0;
-						var id = node.style.display;
-						var uid = Math.round(Math.random() * 100000000000);
-						for (var y = 0; y < node.childNodes.length; y++){
-							if (node.childNodes[y].style){
-								if (nowAt == 1){
-									if (node.childNodes[y].style.display.toLowerCase() === "none"){
-										widgetdisplay = "none";
-									}
-									uid = node.childNodes[y].id.split("_")[0];
-								}
-								nowAt++;
-							}
-						}
 						
-						iii++;
-						if (iii != 0){
-							serString += ",";
+						if (node && node.style) {
+						
+							widgetdisplay = "block";
+							var nowAt = 0;
+							var id = node.style.display;
+							var uid = Math.round(Math.random() * 100000000000);
+							for (var y = 0; y < node.childNodes.length; y++) {
+								if (node.childNodes[y].style) {
+									if (nowAt == 1) {
+										if (node.childNodes[y].style.display.toLowerCase() === "none") {
+											widgetdisplay = "none";
+										}
+										uid = node.childNodes[y].id.split("_")[0];
+									}
+									nowAt++;
+								}
+							}
+							
+							iii++;
+							if (iii != 0) {
+								serString += ",";
+							}
+							serString += '{"name":"' + node.id.split("_")[0] + '","visible":"' + widgetdisplay + '","uid":"' + uid + '"}';
+						
 						}
-						serString += '{"name":"' + node.id.split("_")[0] + '","visible":"' + widgetdisplay + '","uid":"' + uid + '"}';
-					} catch (err){}			
+					} catch (err){
+						alert(err);
+					}			
 	
 				}
 
