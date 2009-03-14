@@ -2,10 +2,10 @@
 <!-- the main page -->
 <div id="discussion_mainContainer">
 	<h3>Discussion</h3>
+	<div id="discussion_noPosts">
+		There are no posts available.
+	</div>
 	<div id="discussion_container">
-		<span id="discussion_noPosts">
-			There are no posts available.
-		</span>
 	</div>
 	<div id="discussion_rendered_template" style="display:none"><!--
 	{var close = false}
@@ -25,8 +25,16 @@
 					{else}
 						<img alt="avatar" class="discussion_avatar" src="/dev/img/my-profile-img.jpg" />
 					{/if}
-					<a href="http://localhost:8080/dev/sn/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
-					<span class="discussion_date">posted this on ${i.date}</span>
+					<span class="discussion_posted_container">
+						<a href="http://localhost:8080/dev/sn/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
+						<span class="discussion_date">posted this on ${i.date}</span>
+					</span>
+					{if i.editedBy != ""}
+						<span class="discussion_posted_container">
+						    (<a href="http://localhost:8080/dev/sn/profile.html?user=${i.editedBy}"><span class="discussion_username_edited">${i.editedByName}</span></a>
+							<span class="discussion_date">edited this on ${i.editedByDate}</span>)
+						</span>
+					{/if}
 				</div>
 				<span class="discussion_right">
 					<span class="discussion_totalReplies">${i.replies}</span>
@@ -104,13 +112,42 @@
 <!-- the settings page -->
 <div id="discussion_settings">
 	<form class="discussion_form">
-		<h2>Post new topic</h2>
-		<label for="discussion_txtSettingsSubject">Subject</label><br />
-		<input type="text" id="discussion_txtSettingsSubject" /><br />
+		<ul class="discussion_tabs">
+			<li>
+				<a class="discussion_tab" href="javascript:;" id="discussion_MakeNew">Post New</a>
+			</li>
+			<li>
+				<a class="discussion_selectedtab" href="javascript:;" id="discussion_ChooseExisting">Insert Existing</a>
+			</li>
+		</ul>
 		
-		<label for="discussion_txtSettingsBody">Body</label><br />
-		<textarea id="discussion_txtSettingsBody"></textarea><br />
 		
+		<div id="discussion_MakeNewForm" class="discussion_Settingscontainer">
+			<label for="discussion_txtSettingsSubject">Subject</label><br />
+			<input type="text" id="discussion_txtSettingsSubject" /><br />
+		
+			<label for="discussion_txtSettingsBody">Body</label><br />
+			<textarea id="discussion_txtSettingsBody"></textarea><br />
+		</div>
+		<div id="discussion_ChooseExistingForm" class="discussion_Settingscontainer" style="display:none;">
+			<div class="discussions_noDiscussions">
+				You don't have any discussions yet.
+			</div>
+		</div>
+		<div id="discussion_ChooseExistingTemplate" ><!--
+		<h2>Select existing discussion</h2>
+		{if items.length == 0}
+			You don't have any discussions yet.
+		{else}
+		<div class="discussion_listbox">
+			{for i in items}
+				<div id="discussion_listItem${i.tuid}" class="discussion_listItem">
+					${i.subject}
+				</div>
+			{/for}
+		</div>
+		{/if}
+		--></div>
 		<div class="dialog_footer">
 			<div class="buttonBar">
 				<a class="button-default submit_button" href="javascript:;" id="discussion_SettingsSubmit">Submit</a>

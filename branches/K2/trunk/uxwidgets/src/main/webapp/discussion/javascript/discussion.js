@@ -15,6 +15,9 @@ sakai.discussion = function(tuid, placement, showSettings){
 	var isCurrentPostNew = false;	// Is the post being send a new one or not
 	var currentEditId;				// ID of the element that is currently being edited
 	var currentReplyId = "0";		// ID of the post that is currently being replied to
+	var selectedExistingDiscussionID // ID of the discussion-widget which is currently selected in the insert existing discussion form
+	var hoveredExistingDiscussionID // ID of the discussion-widget which is currently hovered in the insert existing discussion form
+	
 	/**
 	 * Get the id of the dicussion widget and show the post including replies
 	 */
@@ -218,6 +221,26 @@ sakai.discussion = function(tuid, placement, showSettings){
 	}
 	
 	/**
+	 * Get a discussion out off an array by entering the tuid
+	 * @param {String} id tuid of the post
+	 * @returns {[Object, Integer]} returns the discussion object and the index of the post inside the array
+	 */
+	var getDiscussionIndex = function(id, discussions){
+		var currentDiscussionWithIndex = [];
+		for (var i = 0; i < discussions.length; i++) {
+			if(typeof discussions != "undefined"){
+				if (discussions[i].tuid == id){
+				currentDiscussionWithIndex.push(discussions[i]);
+				currentDiscussionWithIndex.push(i);
+				return currentDiscussionWithIndex;
+				}
+			}
+			
+		}
+		return currentDiscussionWithIndex;
+	}
+	
+	/**
 	 * Submit the edited post
 	 * Gets all the posts, changes the post that has been edited and then sends them back to the server
 	 * @param {String} id Id of the post that is edited
@@ -236,33 +259,54 @@ sakai.discussion = function(tuid, placement, showSettings){
 				post = postWithIndex[0];
 				post.subject = subject;
 				post.body = message.replace(/\n/g, "<br />");
+				post.editedBy = me.preferences.uuid;
+				post.editedDate = new Date();
 				arrPosts[postWithIndex[1]] = post;
 
-				savePostsToDatabase(arrPosts, editComplete(id, subject, post.body)); // Save the adjusted posts to the database
+				savePostsToDatabase(arrPosts, editComplete); // Save the adjusted posts to the database
 			},
 			onFail : function(status) {
 				alert("The posts could not be recieved from the server.")
 			}
 		});
+		if(id == "0"){
+			sdata.Ajax.request({
+				url: "/sdata/f/" + placement.split('/',1)[0] + "/_discussion?sid=" + Math.random(),
+				httpMethod: "GET",
+				onSuccess: function(data){
+					arrDiscussions = eval('(' + data + ')'); // Evaluate all the discussions
+					var postWithIndex = getDiscussionIndex(tuid, arrDiscussions.items);
+					post2 = postWithIndex[0];
+					post2.subject = subject;
+					post2.body = message.replace(/\n/g, "<br />");
+					post2.editedBy = me.preferences.uuid;
+					post2.editedDate = new Date();
+					arrDiscussions.items[postWithIndex[1]] = post2;
+					
+					var tostring = sdata.JSON.stringify(arrDiscussions);
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + placement.split('/',1)[0], "_discussion", tostring, finishNewSettings);
+					
+				},
+				onFail: function(status){
+					
+					alert("The posts could not be recieved from the server.");
+				}
+			});
+		}
 	}
 	
 	/**
 	 * When the edit is completed
-	 * @param {String} id Id of the post that is edited
-	 * @param {String} subject Subject of the post that is edited
-	 * @param {String} message Body of the post that is edited
 	 */
-	var editComplete = function(id, subject, message){
-		/** Show new values */
-		$("#discussion_postSubject"+id, rootel).text(subject);
-		$("#discussion_postMessage"+id, rootel).html(message);
-		
+	var editComplete = function(){
+		/** Show new values */		
 		if (typeof editContainer != "undefined") {
 			$(editContainer, rootel).remove();
 		}else {
 			sakai.dashboard.showWidgetPreviewEdit();
 		}
-		$("#discussion_messages" + id, rootel).show();
+		/** Render the posts with the template engine */
+		fillInUniqueId();
 	}
 	
 	/**
@@ -303,8 +347,34 @@ sakai.discussion = function(tuid, placement, showSettings){
 				}
 			});
 		}
+		
+		if(id == "0"){
+			sdata.Ajax.request({
+				url: "/sdata/f/" + placement.split('/',1)[0] + "/_discussion?sid=" + Math.random(),
+				httpMethod: "GET",
+				onSuccess: function(data){
+					arrDiscussions = eval('(' + data + ')'); // Evaluate all the discussions
+					
+					arrDiscussions.items.splice(getDiscussionIndex(tuid, arrDiscussions.items)[1],1);
+					
+					var tostring = sdata.JSON.stringify(arrDiscussions);
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + placement.split('/',1)[0], "_discussion", tostring, finishNewSettings);
+					
+				},
+				onFail: function(status){
+					
+					alert("The posts could not be recieved from the server.");
+				}
+			});
+		}
+		
 	}
 	
+	/**
+	 * Delete all the posts of a specific id
+	 * @param {Array} posts All the posts
+	 * @param {String} id Id of the post
+	 */
 	var deleteNextPosts = function(posts, id){
 		counter = 0
 		while(true){
@@ -318,8 +388,12 @@ sakai.discussion = function(tuid, placement, showSettings){
 		}
 	}
 	
+	/**
+	 * Adjust the posts after deleting
+	 * @param {Array} posts All the posts
+	 * @param {String} id Id of the post
+	 */
 	var adjustIdAfterDelete = function(posts, id){
-		
 		counter = 0;
 		tempArray = id.split("_");
 		
@@ -385,10 +459,11 @@ sakai.discussion = function(tuid, placement, showSettings){
 				var arrPosts = eval('(' + response + ')'); // Evaluate all the posts
 				
 				if(!(arrPosts.length > 0)){
-					$("#discussion_noPosts").show();
+					$("#discussion_noPosts", rootel).show();
+					$("#discussion_container", rootel).hide();
 					$("#discussion_inputForm", rootel).hide(); // Hide the input form
 				} else{
-					$("#discussion_noPosts").hide();
+					$("#discussion_noPosts", rootel).hide();
 					var posters = [];
 					var uids = [];
 					/** Add the unique id to the array of uids if the uid is not in it already */
@@ -397,6 +472,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 							uids.push(uid);
 						};
 					};
+					
 					var getPostInfo = function() {					
 						sdata.Ajax.request({
 							httpMethod: "GET",
@@ -504,11 +580,25 @@ sakai.discussion = function(tuid, placement, showSettings){
 												}
 											}
 										}
+										
+										if(post.editedBy != ""){
+											for (var i = 0; i < uids.length; i++) {
+												if (uids[i] == post.editedBy) {
+													if (posters[i].profile) {
+														post.editedByName = posters[i].profile.firstName + " " + posters[i].profile.lastName;
+													}else{
+														post.editedByName = post.editedBy;
+													}
+												}
+											}
+											post.editedByDate = formatDate(parseDate(post.editedDate));
+										}
 										arrNPosts.push(post);
 									}
 								);
 								json = {};
 								json.posts = arrNPosts;
+								
 								/** Render the posts with the template engine */
 								$("#discussion_container", rootel).html(sdata.html.Template.render('discussion_rendered_template',json));
 								
@@ -521,9 +611,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 									$("#discussion_showall", rootel).text("Show all");
 								}
 								
-								/**
-								 * Add the action listeners
-								 */
+								/** Add the action listeners */
 								$(".discussion_t_showall", rootel).hide();
 								$(".discussion_showall", rootel).bind("click",function(e,ui){
 									//$(".discussion_posts", rootel).toggle();
@@ -566,6 +654,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 				jQuery.each(arrPosts, function(intIndex){
 					var post = this;
 					addToUids(post.uid);
+					addToUids(post.editedBy);
 				});
 				/** Only show the post if there is any unique id */
 				if(uids) {
@@ -578,7 +667,11 @@ sakai.discussion = function(tuid, placement, showSettings){
 			alert('Failed to show the posts.');
 		}
 	}
-
+	
+	/**
+	 * Toggle replies of a post
+	 * @param {String} id Id of the post where the replies need to be toggled
+	 */
 	var toggleValue = function(id){
 		if($("#discussion_t_hideall" + id, rootel).is(':visible')) {
 			$("#discussion_t_hideall" + id, rootel).hide();
@@ -629,12 +722,15 @@ sakai.discussion = function(tuid, placement, showSettings){
 		}
 		
 		/** Check if the subject is empty */
-		if (!subject || subject.replace(/ /g,"%20") == ""){
+		if ((!subject || subject.replace(/ /g,"%20") == "") && ($("#discussion_MakeNewForm", rootel).is(':visible'))){
 			alert("Please enter a valid subject.");
+		}
+		else if (((typeof selectedExistingDiscussionID == "undefined") || (selectedExistingDiscussionID == "")) && ($("#discussion_ChooseExistingForm", rootel).is(':visible'))){
+			alert("Please select an existing discussion.");
 		}
 		else {
 			if (me){
-				post = {"uid": me.preferences.uuid, "body": body, "subject": subject, "date" : new Date(), "postId" : postId+""}; // Fill in the JSON post object
+				post = {"uid": me.preferences.uuid, "body": body, "subject": subject, "date" : new Date(), "postId" : postId+"", "editedBy" : ""}; // Fill in the JSON post object
 				
 				var arrPosts = new Array();
 				
@@ -657,13 +753,106 @@ sakai.discussion = function(tuid, placement, showSettings){
 						}
 					});
 				}else {
-					arrPosts.push(post); // Add the new post to the array
-					savePostsToDatabase(arrPosts, finishNewSettings);
+					if($("#discussion_MakeNewForm", rootel).is(':visible')){
+						arrPosts.push(post); // Add the new post to the array
+						savePostsToDatabase(arrPosts, finishNewSettings);
+						
+							if(postId == "0"){
+								post2 = {"uid": me.preferences.uuid,"tuid": tuid, "body": body, "subject": subject, "date" : new Date(), "postId" : postId+""}; // Fill in the JSON post object
+								sdata.Ajax.request({
+								url: "/sdata/f/" + placement.split('/',1)[0] + "/_discussion?sid=" + Math.random(),
+								httpMethod: "GET",
+								onSuccess: function(data){
+									createExcistingDiscussion(data,true,post2);
+								
+								},
+								onFail: function(status){
+								
+									createExcistingDiscussion(status,false,post2);
+								}
+							});
+						}
+					}
+					else{
+						sdata.Ajax.request({
+							url :"/sdata/f/" + placement + "/" + selectedExistingDiscussionID + "/discussion?sid=" + Math.random(),
+							httpMethod : "GET",
+							onSuccess : function(data) {
+								sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "discussion", data, finishNewSettings);
+							},
+							onFail : function(status) {
+								alert("failed to retrieve posts.");
+							}
+						});
+					}
 				}
 			} else {
 				alert('An error occured when getting the current user.')
 			}
 		}
+	}
+	
+	/**
+	 * Gets all the existing discussions from current site
+	 */
+	var fillListWithExistingDiscussions = function(){
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/sdata/f/" + placement.split('/',1)[0] + "/_discussion?sid=" + Math.random(),
+			onSuccess: function(data){
+					var json = eval('(' + data + ')');
+					if (typeof json.items != undefined) {
+						$(".discussions_noDiscussions", rootel).hide()
+				
+						/** Render the posts with the template engine */
+						$("#discussion_ChooseExistingForm", rootel).html(sdata.html.Template.render('discussion_ChooseExistingTemplate',json));
+						
+						/** Bind discussions cmb */
+						$(".discussion_listItem", rootel).bind("click",function(e,ui){
+							if(typeof $("#discussion_listItem"  + selectedExistingDiscussionID, rootel) != "undefined"){
+								$("#discussion_listItem" + selectedExistingDiscussionID, rootel).addClass("discussion_listItem");
+								$("#discussion_listItem" + selectedExistingDiscussionID, rootel).removeClass("discussion_SelectedlistItem");
+							}
+							selectedExistingDiscussionID = e.target.id.replace("discussion_listItem","");
+							e.target.className = "discussion_SelectedlistItem";
+							
+						});
+						$(".discussion_listItem", rootel).bind("mouseover",function(e,ui){
+							if(typeof $("#discussion_listItem"  + hoveredExistingDiscussionID, rootel) != "undefined" && hoveredExistingDiscussionID != selectedExistingDiscussionID){
+								$("#discussion_listItem" + hoveredExistingDiscussionID, rootel).addClass("discussion_listItem");
+								$("#discussion_listItem" + hoveredExistingDiscussionID, rootel).removeClass("discussion_SelectedlistItem");
+							}
+							hoveredExistingDiscussionID = e.target.id.replace("discussion_listItem","");
+							e.target.className = "discussion_SelectedlistItem";
+							
+						});
+					}
+					else{
+						$(".discussions_noDiscussions", rootel).show()
+					}
+			},
+			onFail: function(status){
+				$(".discussions_noDiscussions", rootel).show()
+			}
+		});
+	}
+	
+	/**
+	 * Creates a new discussion in the _discussion file 
+	 * @param {Object} response
+	 * @param {Object} exists
+	 */
+	var createExcistingDiscussion = function(response, exists,post){
+		var json = {};
+		json.items = [];
+		if (exists){
+			json = eval('(' + response + ')');
+		}
+
+		var index = json.items.length;
+		json.items[index] = post;
+		var tostring = sdata.JSON.stringify(json);
+		sdata.widgets.WidgetPreference.save("/sdata/f/" + placement.split('/',1)[0], "_discussion", tostring, finishNewSettings);
 	}
 	
 	/** 
@@ -678,9 +867,10 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * Executes after a post has been added to the database
 	 */
 	var finishNewSettings = function() {
-		fillInUniqueId();
 		if (!isCurrentPostNew) {
 			sdata.container.informFinish(tuid);
+		}else{
+			fillInUniqueId();
 		}
 	}
 	
@@ -707,6 +897,27 @@ sakai.discussion = function(tuid, placement, showSettings){
 	$("#discussion_SettingsCancel", rootel).bind("click",function(e,ui){
 		$("#discussion_inputForm", rootel).hide();
 		sdata.container.informCancel(tuid);
+	});
+	
+	/** Bind the new discussion button */
+	$("#discussion_MakeNew", rootel).bind("click",function(e,ui){
+		$("#discussion_MakeNewForm", rootel).show();
+		$("#discussion_MakeNew", rootel).removeClass("discussion_selectedtab");
+		$("#discussion_MakeNew", rootel).addClass("discussion_tab");
+		$("#discussion_ChooseExisting", rootel).removeClass("discussion_tab");
+		$("#discussion_ChooseExisting", rootel).addClass("discussion_selectedtab");
+		$("#discussion_ChooseExistingForm", rootel).hide();
+	});
+	
+	/** Bind the existing discussion button */
+	$("#discussion_ChooseExisting", rootel).bind("click",function(e,ui){
+		$("#discussion_ChooseExistingForm", rootel).show();
+		$("#discussion_MakeNew", rootel).removeClass("discussion_tab");
+		$("#discussion_MakeNew", rootel).addClass("discussion_selectedtab");
+		$("#discussion_ChooseExisting", rootel).removeClass("discussion_selectedtab");
+		$("#discussion_ChooseExisting", rootel).addClass("discussion_tab");
+		$("#discussion_MakeNewForm", rootel).hide();
+		fillListWithExistingDiscussions();
 	});
 };
 
