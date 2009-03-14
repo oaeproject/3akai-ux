@@ -58,7 +58,7 @@ sakai.siteswow = function(tuid,placement,showSettings){
 	
 	var doRender = function(newjson){
 		if (newjson.entry.length == 0){
-			$("#" + tuid + " #sitelistwow").html("<span style='text-align:left; padding: 10px'>You aren't a member of any sites yet</span>");
+			$("#" + tuid + " #sitelistwow").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
 		} else {
 			$("#" + tuid + " #sitelistwow").html(sdata.html.Template.render('sitelistwow_template', newjson));
 		}
