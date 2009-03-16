@@ -743,6 +743,45 @@ sakai.dashboard = function(){
 		$("#overlay-content-layout").hide();
 	});
 
+
+
+	/*
+		Search field functionality		 
+	*/
+	
+	var searchHasFocus = false;
+	
+	$("#search_field").bind("focus", function(ev){
+		if (!searchHasFocus){
+			$("#search_field").css("color","#000000");
+			$("#search_field").val("");
+			searchHasFocus = true;
+		}
+	});
+	
+	$("#search_field").bind("keypress", function(ev){
+		if (ev.which == 13){
+			doSearch();
+		}
+	});
+	
+	$("#search_button").bind("click", function(ev){
+		doSearch();
+	});
+	
+	$("#search_form").bind("submit", function(ev){
+		doSearch();
+		return false;
+	});
+	
+	var doSearch = function(){
+		var value = $("#search_field").val();
+		if (value){
+			document.location = "search_b.html#1|" + value;
+		}
+	}
+
+
 	sdata.widgets.WidgetPreference.get("devstate", decideExists);
 
 };
