@@ -98,6 +98,7 @@ sakai.profile = function(){
 					onSuccess: function(data){
 						totalprofile = eval('(' + data + ')');
 						totalprofile.profile = totalprofile.users[0].profile;
+						totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
 						json = totalprofile.profile;
 						
 						if (user && user != me.preferences.uuid) {
