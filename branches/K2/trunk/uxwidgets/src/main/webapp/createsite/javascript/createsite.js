@@ -1,9 +1,16 @@
 var sakai = sakai || {};
 sakai.createsite = function(tuid,placement,showSettings){
 
-	$("#createsite_overlay-lightbox").appendTo($(document.body));
-	$("#createsite_step1").appendTo($(document.body));
-	$("#createsite_step2").appendTo($(document.body));
+	//$("#createsite_overlay-lightbox").appendTo($(document.body));
+	//$("#createsite_step1").appendTo($(document.body));
+	//$("#createsite_step2").appendTo($(document.body));
+	
+	$("#createsite_step2").jqm({
+		modal: true,
+		trigger: $('.createsite_step2_trigger'),
+		overlay: 20,
+		toTop: true
+	});
 
 	var newsitejson = false;
 	var newpageid = false;
@@ -13,13 +20,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	$("#createsite_portfolio_newsiteid_url").text(document.location.protocol + "//" + document.location.host + "/site/");
 	
 	sakai.createsite.initialise = function(){
-		$("#create-site-course").hide();
-		$("#create-site-noncourse").show();
-		$("#create-site-course-requested").hide();
-		$("#create-site-communal-1").show();
-		$("#create-site-communal-2").show();
-		$("#createsite_step2").show();
-		$("#createsite_overlay-lightbox").show();
+		$("#createsite_step2").jqmShow();
 	}
 	
 	$("#createsite_newsitename").bind("change", function(ev){
@@ -90,10 +91,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 		}
 		
 		//id, name, description, type
-		var parameters = {"name" : sitetitle, "description" : sitedescription, "id" : siteid, "type" : "project" };
+		var parameters = {"name" : sitetitle, "description" : sitedescription, "type" : "project" };
 
 		//remove button
 		$("#create-site-save-button").hide();
+		$("#create_site_cancel").hide();
 		$("#create-site-processing-button").show();
 
 		sdata.Ajax.request({
@@ -105,7 +107,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			onFail : function(status) {
 				if (status != 403) {
 					sdata.Ajax.request({
-						url: "/rest/site/create",
+						url: "/_rest/site/create/" + siteid,
 						httpMethod: "POST",
 						onSuccess: function(data){
 							createSiteNavigation();
@@ -114,6 +116,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 							//Bring button back
 							$("#create-site-processing-button").hide();
 							$("#create-site-save-button").show();
+							$("#create_site_cancel").show();
 							if (status == 409 || status == "409") {
 								alert("A site with this URL already exists");
 							}
