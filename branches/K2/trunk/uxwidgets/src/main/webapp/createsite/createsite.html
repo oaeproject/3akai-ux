@@ -1,27 +1,13 @@
- <script type="text/javascript" language="JavaScript" src="lib/sdata.js">
-</script>
-<script type="text/javascript" language="JavaScript" src="lib/jquery.js">
-</script>
-<div id="createsite_overlay-lightbox" class="overlay-lightbox" style="width:100%; display:none">
-</div>
+<link rel="stylesheet" type="text/css" href="/devwidgets/createsite/css/createsite.css"></link>
 
-<div style="display:none" class="overlay-lightbox2" id="createsite_step2">
+<div style="display:none" class="overlay-lightbox2 dialog" style="width:410px; margin-left: -205px" id="createsite_step2">
     <div class="lightbox size3">
-        <div class="lightbox-header">
-            <div class="lighbox-header-left">
-                <h3>Create a New Site</h3>
-            </div>
-            <ul class="lightbox-header-right">
-                <li class="lhr-help">
-                    <a href="#">Help</a>
-                </li>
-                <li class="lhr-close">
-                    <a href="#" class="sakai-create-site-close-window">Close Window &amp; Cancel</a>
-                </li>
-            </ul>
-        </div>
+        <div class="dialog_header">
+			<h1>Create a new site</h1>
+			<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
         <!-- /lightbox-header -->
-        <div class="lightbox-container2">
+        <div class="dialog_content">
            
 		   <p class="fs15 c999999 create-site-build-course-p" id="create-site-communal-1">Provide the following information and click the "Create Site" button</p>
 		    
@@ -38,10 +24,7 @@
 			    <div class="create-site-build-course-3">
 					<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
-							<td class="csbc-bottom"><div><strong class="fs13 cCC0000">*</strong> <strong>Site Name:</strong></div></td>
-						</tr>
-						<tr>
-							<td><div class="csbc-bottom2"><input id="createsite_newsitename" type="text" value="" /></div></td>
+							<td class="csbc-bottom"><div><strong class="fs13 cCC0000">*</strong> <strong>Site Name:</strong> <input id="createsite_newsitename" type="text" value="" /></div></td>
 						</tr>
 						<tr>
 							<td class="csbc-bottom"><br/></td>
@@ -66,14 +49,13 @@
 					</table>
 			    </div>
 				
-			    <div class="create-site-build-course-4">
-					<div class="block">
-						<!-- <a href="#" class="undo-changes buttons">Go Back</a> -->
-						<a onclick="sakai.createsite.createSite()" style="cursor:hand; cursor:pointer; margin-left: 0px" id="create-site-save-button" class="save buttons">Create Site</a>
-						<span id="create-site-processing-button" style="display:none">Processing ...</span>
-						<!-- <a style="cursor:hand; cursor: pointer" onclick="sakai.createsite.closeWindow()" class="csbc4-link">Close Window &amp; Cancel</a> -->
-					</div>
-			    </div>
+				<div class="dialog_footer" style="padding-left:0px">
+					 <div class="buttonBar">
+				        <a href="javascript:;" onclick="sakai.createsite.createSite()" id="move_page_confirm" id="create-site-save-button" class="button-default">Create Site</a>
+				        <span id="create-site-processing-button" style="display:none">Processing ...</span>
+						<a href="javascript:;" id="create_site_cancel" class="button jqmClose">Cancel</a>
+				     </div>
+				</div>
 				
 				<div id="home_page_example" style="display:none">
 					<p><img style="margin: 6px; float: left;" title="Mona Lisa" src="http://www.geocities.com/kunstweb/mona-lisa.jpg" alt="" width="310" height="432" /></p>
