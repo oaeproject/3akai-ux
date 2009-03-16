@@ -92,7 +92,7 @@ var Widgets = {
 			url:"/devwidgets/sites/sites.html",
 			name:"Sites",
 			id:"sites",
-			personalportal:1,
+			personalportal:0,
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
@@ -114,7 +114,7 @@ var Widgets = {
 			url:"/devwidgets/myprofile/myprofile.html",
 			name:"My Profile",
 			id:"myprofile",
-			personalportal:1,
+			personalportal:0,
 			siteportal:0,
 			img:"/dev/img/myprofile.png"
 		},
@@ -183,7 +183,7 @@ var Widgets = {
 			url:"/devwidgets/myfriends/myfriends.html",
 			name:"My Connections",
 			id:"myfriends",
-			personalportal:1,
+			personalportal:0,
 			siteportal:0,
 			img:"/dev/img/myprofile.png",
 			multipleinstance: false
