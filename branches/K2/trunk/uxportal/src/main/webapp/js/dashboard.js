@@ -26,7 +26,7 @@ sakai.dashboard = function(){
 			if (cleanContinue){
 				domyportal = true;
 			} 
-			doInit();
+			//doInit();
 		}
 	}
 	
