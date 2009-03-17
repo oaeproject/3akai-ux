@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
    
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.my_sakai.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
 	
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
 	
@@ -24,6 +25,7 @@
 	
 	<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
 	<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>
+	<script src="/dev/sn/jquery.imgareaselect-0.6.2.js" type="text/javascript"></script>
 	
 </head>
 
@@ -56,7 +58,7 @@
 		<div class="fl-col greeting">
 			<a class="greeting_picture" id="picture_holder"><img src="images/person_icon.png" /></a>
 			<span class="greeting_text">Hi <span id="hispan"></span>!</span>
-			<a class="greeting_links" href="#">Change pic</a>
+			<a class="greeting_links" href="javascript:;" id="changepic_container_trigger">Change pic</a>
 			<span class="pipe_divider">/</span>
 			<a class="greeting_links" href="#">Edit Profile</a>
 		</div>
@@ -115,6 +117,8 @@
 		<div>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></div>
 		<div>&copy; 2004-2008 <a href="#">The Sakai Foundation</a></div>
 	</div> -->
+	
+	<div id="widget_changepic" class="widget_inline"></div>
 	
 	<script type="text/javascript" language="JavaScript" src="javascript/mysakai.js"></script>
 	
