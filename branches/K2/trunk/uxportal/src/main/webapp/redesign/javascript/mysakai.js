@@ -222,7 +222,9 @@ sakai.dashboard = function(){
 			
 			if (person.profile.picture){
 				var picture = eval('(' + person.profile.picture + ')');
-				$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "' width='80px' height='80px'/>");
+				if (picture.name) {
+					$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + "256x256_" + picture.name + "'/>");
+				}
 			}
 			
 			// Fix small arrow horizontal position
