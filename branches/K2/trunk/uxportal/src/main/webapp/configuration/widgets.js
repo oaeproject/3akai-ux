@@ -52,14 +52,14 @@ var Widgets = {
 		"Researchers",
 		"Students"],
 	layouts : {
+		onecolumn :
+		{
+			name:"One column",
+			widths:[100]
+		},
 		dev : 
 		{
 			name:"Dev Layout",
-			widths:[25,50,25]
-		},
-		twocolumn :
-		{
-			name:"Two equal columns",
 			widths:[50,50]
 		},
 		threecolumn :
@@ -67,22 +67,16 @@ var Widgets = {
 			name:"Three equal columns",
 			widths:[33,33,33]
 		},
-		twocolumnspecial :
-		{
-			name:"One wide and one narrow column",
-			widths:[66,33]
-		},
 		fourcolumn :
 		{
 			name:"Four equal columns",
 			widths:[25,25,25,25]
-		}
-		//,
-		//onecolumn :
-		//{
-		//	name:"One column",
-		//	widths:[100]
-		//}
+		},
+		fivecolumn :
+		{
+			name:"Five equal columns",
+			widths:[20,20,20,20,20]
+		},
 	},
 	widgets: {
 		changepic :
