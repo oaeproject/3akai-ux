@@ -68,7 +68,7 @@ sakai.site = function(){
 		else {
 			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + currentsite);
 			sdata.Ajax.request({
-				url: "/rest/site/get/" + currentsite + "?sid=" + Math.random(),
+				url: "/_rest/site/get/" + currentsite + "?sid=" + Math.random(),
 				onSuccess: function(response){
 					continueLoad(response, true);
 				},
@@ -82,6 +82,8 @@ sakai.site = function(){
 	continueLoad = function(response, exists){
 		if (exists) {
 			currentsite = eval('(' + response + ')');
+			var qs = new Querystring();
+			currentsite.id = qs.get("siteid",false);
 			$("#sitetitle").text(currentsite.name);
 			
 			sdata.Ajax.request({
@@ -92,11 +94,9 @@ sakai.site = function(){
 					var isMaintainer = false;
 			
 					if (meObject.preferences.subjects) {
-						for (var i = 0; i < meObject.preferences.subjects.length; i++) {
-							var subject = meObject.preferences.subjects[i];
-							var siteid = subject.split(":")[0];
-							var role = subject.split(":")[1];
-							if (siteid == currentsite.id && role == "owner"){							
+						for (var i = 0; i < currentsite.owners.length; i++) {
+							var owner = currentsite.owners[i];
+							if (owner == sdata.me.preferences.uuid){							
 								isMaintainer = true;
 							}
 						}
@@ -129,7 +129,7 @@ sakai.site = function(){
 		totaltotry = 0;
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + currentsite.id + "/pageconfiguration?sid=" + Math.random(),
+			url: "/sdata/f/" + currentsite.id + "/.site/pageconfiguration?sid=" + Math.random(),
 			onSuccess: function(response){
 				pages = eval('(' + response + ')');
 				pageconfiguration = pages;
@@ -147,7 +147,7 @@ sakai.site = function(){
 	
 	var loadNavigation = function(dofalsereload){
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
+			url: "/sdata/f/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
 			onSuccess: function(response){
 				pagecontents["_navigation"] = response;
 				$("#page_nav_content").html(response);
@@ -174,6 +174,7 @@ sakai.site = function(){
 		$("#insert_more_menu").hide();
 		$("#more_menu").hide();
 		showingInsertMore = false;	
+		inEditView = false;
 	
 		if (!pageid) {
 			for (var i = 0; i < pages.items.length; i++) {
@@ -271,7 +272,7 @@ sakai.site = function(){
 					if (type == "webpage") {
 						var splittedurl = selectedpage.replace(/\//g,"/_pages/");
 						sdata.Ajax.request({
-							url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + splittedurl + "/content" + "?sid=" + Math.random(),
+							url: "/sdata/f/" + currentsite.id + "/_pages/" + splittedurl + "/content" + "?sid=" + Math.random(),
 							onSuccess: function(response){
 								displayPage(response, true);
 							},
@@ -551,10 +552,16 @@ if (nel.className == "contauthlink") {
 		}
 		finaljson.total = finaljson.pages.length;
 		$("#new_page_path").html(sdata.html.Template.render("new_page_path_template",finaljson));
+		
+		$("#move_inside_edit").bind("click", function(ev){
+			moveInsideEdit();
+		});
+		
 	}
 	
 	var editPage = function(pageid){
 
+		inEditView = true;
 		$("#more_menu").hide();
 
 		var escaped = pageid.replace(/ /g, "%20");
@@ -655,7 +662,7 @@ if (nel.className == "contauthlink") {
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + newpath + "/_content?sid=" + Math.random(),
+			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content?sid=" + Math.random(),
 			httpMethod: 'GET',
 			onSuccess: function(data){
 				autosavecontent = data;
@@ -687,7 +694,7 @@ if (nel.className == "contauthlink") {
 	$("#delete_confirm").bind("click", function(){
 		var newpath = selectedpage.split("/").join("/_pages/");
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + newpath + "?sid=" + Math.random(),
+			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "?sid=" + Math.random(),
 			httpMethod: 'DELETE',
 			onSuccess: function(data){
 				
@@ -702,7 +709,7 @@ if (nel.className == "contauthlink") {
 				
 				pages.items.splice(index, 1);
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 				
 					document.location = "/dev/redesign/page_edit.html?siteid=" + currentsite.id;
 				
@@ -722,7 +729,7 @@ if (nel.className == "contauthlink") {
 				
 				pages.items.splice(index, 1);
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 				
 					document.location = "/dev/redesign/page_edit.html?siteid=" + currentsite.id;
 				
@@ -777,7 +784,7 @@ if (nel.className == "contauthlink") {
 		// Save the data
 		
 		var newurl = selectedpage.split("/").join("/_pages/");
-		sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){});
+		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){});
 
 		// Update autosave indicator
 		
@@ -805,6 +812,7 @@ if (nel.className == "contauthlink") {
 	
 	$("#edit_page").bind("click", function(ev){
 		isEditingNewPage = false;
+		inEditView = true;
 		editPage(selectedpage);
 		return false;
 	});
@@ -819,7 +827,7 @@ if (nel.className == "contauthlink") {
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + currentsite.id + "/_pages/" + newpath + "/_content",
+			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content",
 			httpMethod: 'DELETE',
 			onSuccess: function(data){
 			},
@@ -836,6 +844,7 @@ if (nel.className == "contauthlink") {
 		$("#insert_more_menu").hide();
 		$("#context_menu").hide();
 		showingInsertMore = false;	
+		inEditView = false;
 
 		removeAutoSaveFile();
 		
@@ -854,7 +863,7 @@ if (nel.className == "contauthlink") {
 			
 			// Save configuration file
 			
-			sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 	
 				// Go back to view mode of previous page
 				
@@ -875,7 +884,7 @@ if (nel.className == "contauthlink") {
 			
 				var newpath = selectedpage.split("/").join("/_pages/");
 				sdata.Ajax.request({
-					url: "/sdata/f/_sites/" + currentsite.id + "/" + newpath,
+					url: "/sdata/f/" + currentsite.id + "/" + newpath,
 					httpMethod: 'DELETE',
 					onSuccess: function(data){
 					},
@@ -933,7 +942,7 @@ if (nel.className == "contauthlink") {
 			$("#show_view_container").show();
 			
 			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
-			sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_navigation", "content", pagecontents["_navigation"], function(){});
+			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_navigation", "content", pagecontents["_navigation"], function(){});
 			
 			var els = $("a", $("#" + escaped));
 			for (var i = 0; i < els.length; i++) {
@@ -969,7 +978,7 @@ if (nel.className == "contauthlink") {
 				}
 			}
 			
-			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase()){
+			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase() || (inEditView != false && inEditView != true)){
 				
 				// Generate new page id
 				
@@ -980,11 +989,19 @@ if (nel.className == "contauthlink") {
 				baseid = baseid.replace(/[:]/g,"-");
 				baseid = baseid.replace(/[?]/g,"-");
 				baseid = baseid.replace(/[=]/g,"-");
-				var abasefolder = selectedpage.split("/");
 				var basefolder = "";
-				for (var i = 0; i < abasefolder.length - 1; i++){
-					basefolder += abasefolder[i] + "/";
+				if (inEditView != false && inEditView != true){
+					var abasefolder = inEditView.split("/");
+					for (var i = 0; i < abasefolder.length - 1; i++){
+						basefolder += abasefolder[i] + "/";
+					}
+				} else {
+					var abasefolder = selectedpage.split("/");
+					for (var i = 0; i < abasefolder.length - 1; i++){
+						basefolder += abasefolder[i] + "/";
+					}
 				}
+				
 				baseid = basefolder + baseid;
 				
 				while (!newid){
@@ -1014,8 +1031,8 @@ if (nel.className == "contauthlink") {
 				
 				// Move page folder to this new id
 				
-				var oldfolderpath = "/sdata/f/_sites/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
-				var newfolderpath = "/_sites/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
+				var oldfolderpath = "/sdata/f/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
+				var newfolderpath = "/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
 				
 				var data = {
 					to: newfolderpath,
@@ -1039,7 +1056,7 @@ if (nel.className == "contauthlink") {
 				
 						// Adjust configuration file
 						
-						sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 							
 							// Render the new page under the new URL
 							
@@ -1082,7 +1099,7 @@ if (nel.className == "contauthlink") {
 				
 						// Adjust configuration file
 						
-						sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 							
 							// Render the new page under the new URL
 							
@@ -1123,7 +1140,7 @@ if (nel.className == "contauthlink") {
 								
 					var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
 					var newurl = selectedpage.split("/").join("/_pages/");
-					sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "content", content, function(){
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "content", content, function(){
 							
 						// Remove old div + potential new one
 								
@@ -1169,7 +1186,7 @@ if (nel.className == "contauthlink") {
 					document.getElementById(escaped).style.display = "block";
 					sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
 					var newurl = selectedpage.split("/").join("/_pages/");
-					sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
 					});
 					
 				}
@@ -1177,6 +1194,8 @@ if (nel.className == "contauthlink") {
 			}
 			
 		}
+		
+		inEditView = false;
 		
 	});
 	
@@ -1597,7 +1616,7 @@ if (nel.className == "contauthlink") {
 		
 		// Post the new configuration file
 		
-		sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(pages), function(success){});
+		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){});
 		
 		// Pull up the edit view
 		
@@ -1879,6 +1898,19 @@ if (nel.className == "contauthlink") {
 		onHide: removePageStructure
 	});
 	
+	
+	/*
+		Move inside edit view 
+	*/
+	
+	var inEditView = false;
+	
+	var moveInsideEdit = function(){
+		window.scrollTo(0,0);
+		$('#move_dialog').jqmShow();
+	}
+	
+	
 	/*
 		Move a page 
 	*/
@@ -1984,93 +2016,130 @@ if (nel.className == "contauthlink") {
 		
 		// Move current file (generate new page id)
 		
+		if (!inEditView) {
 		
-		var oldfolderpath = "/sdata/f/_sites/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
-		var newfolderpath = "/_sites/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
+			var oldfolderpath = "/sdata/f/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
+			var newfolderpath = "/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
+			
+			var data = {
+				to: newfolderpath,
+				f: "mv"
+			};
+			
+			sdata.Ajax.request({
+				url: oldfolderpath,
+				httpMethod: 'POST',
+				postData: data,
+				onSuccess: function(data){
 				
-		var data = {
-			to: newfolderpath,
-			f: "mv"
-		};
 				
-		sdata.Ajax.request({
-			url: oldfolderpath,
-			httpMethod: 'POST',
-			postData: data,
-			onSuccess: function(data){
-
+					// Rewrite configuration file
 					
-				// Rewrite configuration file
-				
-				var parentEl = $(".root");
-				var els = $("li", parentEl);
-				
-				var newpageconfig = {};
-				newpageconfig.items = [];
-				
-				for (var i = 0; i < els.length; i++){
-					if (els[i] && els[i].id) {
-						for (var ii = 0; ii < pages.items.length; ii++){
-							if (pages.items[ii].id == els[i].id){
-								var newindex = newpageconfig.items.length;
-								newpageconfig.items[newindex] = pages.items[ii];
-								if (pages.items[ii].id == selectedpage){
-									newpageconfig.items[newindex].id = newid;
+					var parentEl = $(".root");
+					var els = $("li", parentEl);
+					
+					var newpageconfig = {};
+					newpageconfig.items = [];
+					
+					for (var i = 0; i < els.length; i++) {
+						if (els[i] && els[i].id) {
+							for (var ii = 0; ii < pages.items.length; ii++) {
+								if (pages.items[ii].id == els[i].id) {
+									var newindex = newpageconfig.items.length;
+									newpageconfig.items[newindex] = pages.items[ii];
+									if (pages.items[ii].id == selectedpage) {
+										newpageconfig.items[newindex].id = newid;
+									}
 								}
-							}	
+							}
 						}
 					}
-				}
-				
-				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
-				
-					$(document.body).hide();
-					document.location = "#" + newid;
-					window.location.reload(true);
-					$('#move_dialog').jqmHide();
-				
-				});
 					
-		
-			},
-			onFail: function(data){
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+					
+						$(document.body).hide();
+						document.location = "#" + newid;
+						window.location.reload(true);
+						$('#move_dialog').jqmHide();
+						
+					});
+					
+					
+				},
+				onFail: function(data){
 				
-				// Rewrite configuration file
-				
-				alert(data);
-				
-				var parentEl = $(".root");
-				var els = $("li", parentEl);
-				
-				var newpageconfig = {};
-				newpageconfig.items = [];
-				
-				for (var i = 0; i < els.length; i++){
-					if (els[i] && els[i].id) {
-						for (var ii = 0; ii < pages.items.length; ii++){
-							if (pages.items[ii].id == els[i].id){
-								var newindex = newpageconfig.items.length;
-								newpageconfig.items[newindex] = pages.items[ii];
-								if (pages.items[ii].id == selectedpage){
-									newpageconfig.items[newindex].id = newid;
+					// Rewrite configuration file
+					
+					alert(data);
+					
+					var parentEl = $(".root");
+					var els = $("li", parentEl);
+					
+					var newpageconfig = {};
+					newpageconfig.items = [];
+					
+					for (var i = 0; i < els.length; i++) {
+						if (els[i] && els[i].id) {
+							for (var ii = 0; ii < pages.items.length; ii++) {
+								if (pages.items[ii].id == els[i].id) {
+									var newindex = newpageconfig.items.length;
+									newpageconfig.items[newindex] = pages.items[ii];
+									if (pages.items[ii].id == selectedpage) {
+										newpageconfig.items[newindex].id = newid;
+									}
 								}
-							}	
+							}
 						}
 					}
+					
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+					
+						$(document.body).hide();
+						document.location = "#" + newid;
+						window.location.reload(true);
+						$('#move_dialog').jqmHide();
+						
+					});
+					
+				},
+				contentType: "application/x-www-form-urlencoded"
+			});
+			
+		} else {
+			
+			inEditView = newid;
+			
+			$("#move_dialog").jqmHide();
+			
+			// Update the path shown
+			
+			var finaljson = {}
+			finaljson.pages = [];
+			finaljson.pages[0] = currentsite.name;
+			var splitted = inEditView.split('/');
+			var current = "";
+			for (var i = 0; i < splitted.length - 1; i++){
+				var id = splitted[i];
+				if (i != 0){
+					current += "/";
 				}
-				
-				sdata.widgets.WidgetPreference.save("/sdata/f/_sites/" + currentsite.id, "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
-				
-					$(document.body).hide();
-					document.location = "#" + newid;
-					window.location.reload(true);
-					$('#move_dialog').jqmHide();
-				
-				});
-				
-			},
-			contentType: "application/x-www-form-urlencoded"
-		});
+				current += id;
+				var idtofind = current;
+				for (var ii = 0; ii < pages.items.length; ii++){
+					if (pages.items[ii].id == idtofind){
+						finaljson.pages[finaljson.pages.length] = pages.items[ii].title;	
+					}
+				}
+			}
+			finaljson.pages[finaljson.pages.length] = $("#title-input").val();
+			finaljson.total = finaljson.pages.length;
+			$("#new_page_path").html(sdata.html.Template.render("new_page_path_template",finaljson));
+			
+			$("#move_inside_edit").bind("click", function(ev){
+				moveInsideEdit();
+			});
+			
+		}
 
 		
 	});
