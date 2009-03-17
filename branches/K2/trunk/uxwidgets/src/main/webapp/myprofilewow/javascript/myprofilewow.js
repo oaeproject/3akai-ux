@@ -13,8 +13,10 @@ sakai.myprofilewow = function(tuid,placement,showSettings){
 	}
 	if (json.picture){
 		var pict = eval('(' + json.picture + ')');
-		$("#profile_picture",rootel).css("text-indent","0px");
-		$("#profile_picture",rootel).html("<img src='/sdata/f/_private" + me.userStoragePrefix + pict.name + "' width='60px' height='60px' />");
+		if (pict.name) {
+			$("#profile_picture", rootel).css("text-indent", "0px");
+			$("#profile_picture", rootel).html("<img src='/sdata/f/_private" + me.userStoragePrefix + "256x256_" + pict.name + "' width='60px' height='60px' />");
+		}
 	}
 	var extra = "&nbsp;";
 	if (json.basic) {
