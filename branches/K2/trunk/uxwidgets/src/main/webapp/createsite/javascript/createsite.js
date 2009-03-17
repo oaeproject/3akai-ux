@@ -107,7 +107,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			onFail : function(status) {
 				if (status != 403) {
 					sdata.Ajax.request({
-						url: "/rest/site/create/" + siteid,
+						url: "/_rest/site/create/" + siteid,
 						httpMethod: "POST",
 						onSuccess: function(data){
 							createSiteNavigation();
@@ -151,7 +151,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid + "/_navigation",
+			url: "/sdata/f/" + siteid + "/_navigation",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				createHomePage();
@@ -178,7 +178,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid + "/_pages/welcome",
+			url: "/sdata/f/" + siteid + "/_pages/welcome",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				createWeek1();
@@ -205,7 +205,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid + "/_pages/week1",
+			url: "/sdata/f/" + siteid + "/_pages/week1",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				createMonday();
@@ -232,7 +232,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/monday",
+			url: "/sdata/f/" + siteid + "/_pages/week1/_pages/monday",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				createTuesday();
@@ -259,7 +259,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/tuesday",
+			url: "/sdata/f/" + siteid + "/_pages/week1/_pages/tuesday",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				createWednesday();
@@ -286,7 +286,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid + "/_pages/week1/_pages/wednesday",
+			url: "/sdata/f/" + siteid + "/_pages/week1/_pages/wednesday",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				createConfigurationFile();
@@ -313,7 +313,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		};
 		
 		sdata.Ajax.request({
-			url: "/sdata/f/_sites/" + siteid,
+			url: "/sdata/f/" + siteid + "/.site/",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
