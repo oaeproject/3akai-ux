@@ -429,3 +429,8 @@ width:100%;
 .orderable-mouse-drag {
 display:none;
 }
+
+#change_layout_dialog {
+	width: 840px !important;
+	margin-left: -420px !important;
+}
