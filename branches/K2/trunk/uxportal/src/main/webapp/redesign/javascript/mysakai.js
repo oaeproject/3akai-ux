@@ -199,8 +199,7 @@ sakai.dashboard = function(){
 	
 	var beforeFinishAddWidgets = function(){
 		showMyPortal();
-		$("#overlay-content-layout").hide();
-		$("#overlay-lightbox-layout").hide();
+		$("#change_layout_dialog").jqmHide();
 	}
 
 	var doInit = function (){
@@ -223,7 +222,7 @@ sakai.dashboard = function(){
 			if (person.profile.picture){
 				var picture = eval('(' + person.profile.picture + ')');
 				if (picture.name) {
-					$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + "256x256_" + picture.name + "'/>");
+					$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "'/>");
 				}
 			}
 			
@@ -371,6 +370,7 @@ sakai.dashboard = function(){
 		
 		var final2 = {};
 		final2.columns = [];
+		final2.size = Widgets.layouts[layout.layout].widths.length;
 		var currentindex = -1;
 		var isvalid = true;
 		
@@ -412,6 +412,82 @@ sakai.dashboard = function(){
 		
 			document.getElementById('widgetscontainer').innerHTML = sdata.html.Template.render("widgetscontainer_template", final2);
 			
+			$(".widget1").hover(
+				function(over){
+					var id = this.id + "_settings";
+					$("#" + id).show();
+				}, 
+				function(out){
+					if ($("#widget_settings_menu").css("display") == "none" || this.id != currentSettingsOpen){
+						var id = this.id + "_settings";
+						$("#" + id).hide();	
+					}
+				}
+			);
+			
+			$(".settings").bind("click", function(ev){
+				if (this.id.split("_")[0] + "_" + this.id.split("_")[1] == currentSettingsOpen){
+					$("#widget_" + currentSettingsOpen + "_settings").hide();
+				}	
+				currentSettingsOpen = this.id.split("_")[0] + "_" + this.id.split("_")[1];
+				
+				var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
+				if (el.css('display') == "none"){
+					$("#settings_hide_link").text("Show");
+				} else {
+					$("#settings_hide_link").text("Hide");
+				}
+				
+				var x = $(this).position().left;
+				var y = $(this).position().top;
+				$("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
+				$("#widget_settings_menu").css("top", y + 18 + "px");
+				$("#widget_settings_menu").show();
+			});
+			
+			$(".more_option").hover(
+				function(over){
+					$(this).addClass("selected_option");
+				},
+				function(out){
+					$(this).removeClass("selected_option");
+				}
+			);
+			
+			$("#settings_remove").bind("mousedown", function(ev){
+				var id = currentSettingsOpen;
+				var el = document.getElementById(id);
+				var parent = el.parentNode;
+				parent.removeChild(el);
+				saveState();
+				$("#widget_settings_menu").hide();
+				$("#" + currentSettingsOpen + "_settings").hide();
+				currentSettingsOpen = false;
+				return false;
+			});
+			
+			$("#settings_hide").bind("mousedown", function(ev){
+				
+				var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
+				if (el.css('display') == "none"){
+					el.show();
+				} else {
+					el.hide();	
+				}
+				saveState();
+				
+				$("#widget_settings_menu").hide();
+				$("#" + currentSettingsOpen + "_settings").hide();
+				currentSettingsOpen = false;
+				return false;
+			});
+			
+			$(document.body).bind("mousedown", function(ev){
+				$("#widget_settings_menu").hide();
+				$("#" + currentSettingsOpen + "_settings").hide();
+				currentSettingsOpen = false;
+			});
+			
 			var grabHandleFinder, createAvatar, options;
 
 			grabHandleFinder = function(item){
@@ -445,6 +521,8 @@ sakai.dashboard = function(){
 		}
 	
 	}		
+	
+	var currentSettingsOpen = false;
 
 	var saveState = function (){
 		
@@ -522,13 +600,6 @@ sakai.dashboard = function(){
 		}
 	}
 
-	sakai.dashboard.closePortlet = function(id){
-		var el = document.getElementById(id);
-		var parent = el.parentNode;
-		parent.removeChild(el);
-		saveState();
-	}
-
 	sakai.dashboard.showAddWidgets = function(){
 
 		addingPossible = [];
@@ -573,11 +644,6 @@ sakai.dashboard = function(){
 		
 		$("#addwidgetslightbox").show();	
 		$("#addwidgetslightbox2").show();
-	}
-
-	sakai.dashboard.hideAddWidgets = function(){
-		$("#addwidgetslightbox").hide();
-		$("#addwidgetslightbox2").hide();
 	}
 
 	sakai.dashboard.finishAddWidgets = function(){
@@ -729,20 +795,27 @@ sakai.dashboard = function(){
 	
 	var currentselectedlayout = false;
 	
-	$("#edit-layout").bind("click", function(ev){
+	
+	/*
+		Change layout functionality 
+	*/
+	
+	var renderLayouts = function(hash){
 		var newjson = {};
 		newjson.layouts = Widgets.layouts;
 		newjson.selected = myportaljson.layout;
 		currentselectedlayout = myportaljson.layout;
 		$("#layouts_list").html(sdata.html.Template.render("layouts_template",newjson));
 		tobindtolayoutpicker();
-		$("#overlay-lightbox-layout").show();
-		$("#overlay-content-layout").show();
-	});
+		hash.w.show();
+	}
 	
-	$("#close-edit-layout").bind("click", function(ev){
-		$("#overlay-lightbox-layout").hide();
-		$("#overlay-content-layout").hide();
+	$("#change_layout_dialog").jqm({
+		modal: true,
+		trigger: $('#edit-layout'),
+		overlay: 20,
+		toTop: true,
+		onShow: renderLayouts
 	});
 
 
