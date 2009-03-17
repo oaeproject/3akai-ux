@@ -51,19 +51,46 @@ sakai.changepic = function(tuid, placement, showSettings){
 				realw = $("#picture_measurer_image").width();
 				realh = $("#picture_measurer_image").height();
 				
-				if (realw > 500){
+				// Width > 500 ; Height < 300 => Width = 500
+				
+				if (realw > 500 && (realh / (realw / 500) < 300)){
 					ratio = realw / 500;
 					$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
 					$("#changepic_fullpicture").attr("width","500");
+					
+				// Width < 500 ; Height > 300 => Height = 300
+				
+				} else if (realh > 300 && (realw / (realh / 300) < 500)) {
+					ratio = realh / 300;
+					$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
+					$("#changepic_fullpicture").attr("height", "300");
+					
+				// Width > 500 ; Height > 300
+				
+				} else if (realh > 300 && (realw / (realh / 300) > 500)) {
+					
+					var heightonchangedwidth = realh / (realw / 500);
+					if (heightonchangedwidth > 300){
+						ratio = realh / 300;
+						$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
+						$("#changepic_fullpicture").attr("height", "300");	
+					} else {
+						ratio = realw / 500;
+						$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
+						$("#changepic_fullpicture").attr("width", "500");
+					}
+						
 				} else {
 					$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
-				}
+				} 
 				$("#thumbnail").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
 				
 				$('#changepic_fullpicture').imgAreaSelect({ 
 					selectionColor: 'white',
 					aspectRatio: "1:1",
-					onSelectEnd: preview
+					onSelectEnd: preview,
+					hide: false,
+					disable: false
 				});
 				
 			});
@@ -153,6 +180,13 @@ sakai.changepic = function(tuid, placement, showSettings){
 	});
 	
 	var showNewTab = function(){
+		
+		$('#changepic_fullpicture').imgAreaSelect({ 
+			hide: true,
+			disable: true
+		});
+				
+		
 		$("#changepic_select").removeClass("fl-activeTab");
 		$("#changepic_select").removeClass("search_tab_selected");
 			
@@ -222,7 +256,9 @@ sakai._changepic.completeCallback = function(response){
 					$('#changepic_fullpicture').imgAreaSelect({ 
 						selectionColor: 'blue',
 						aspectRatio: "1:1",
-						onSelectEnd: preview
+						onSelectEnd: preview,
+						hide: false,
+						disable: false
 					});
 					
 				});
