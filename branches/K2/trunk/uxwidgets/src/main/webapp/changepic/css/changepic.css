@@ -10,7 +10,7 @@
 	z-index:10000 !important;
 }
 
-.dialog {
+#changepic_container {
 	width:700px !important; 
 	margin-left: -350px !important;
 	background-color: #FFFFFF !important;
