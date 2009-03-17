@@ -33,6 +33,65 @@
  
  	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+	
+	<!-- Change layout -->
+	
+	<div id="layouts_template"><!--
+		{for i in layouts}
+			{if i_index == selected}
+				<div style="float:left; padding-left:25px; padding-right:13px">
+					<table cellpadding="0" cellspacing="0" style="width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF">
+						<tr>
+							{for w in i.widths}
+							<td style="width:${w}%; border-right: 1px solid #3399CC">
+								&nbsp;
+							</td>
+							{/for}
+						</tr>
+					</table>	
+					<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker" style="margin-left:50px; margin-top:10px" checked="true"/>	
+				</div>
+			{else}
+				<div style="float:left; padding-left:25px; padding-right:13px">
+					<table cellpadding="0" cellspacing="0" style="width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8">
+						<tr>
+							{for w in i.widths}
+							<td style="width:${w}%; border-right: 1px solid #dddfe1">
+								&nbsp;
+							</td>
+							{/for}
+						</tr>
+					</table>
+					<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker" style="margin-left:50px; margin-top: 10px"/>	
+				</div>
+			{/if}
+		{/for}
+	--></div>
+	
+	<div id="change_layout_dialog" class="dialog" style="width:400px; margin-left: -200px">
+		<div class="dialog_header">
+			<h1>Change layout</h1>
+			<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+			   
+		<div class="dialog_content">
+					  
+			<div class="add-tools-right" style="width:100%; margin-bottom: 40px">
+				<h4>Select a Layout for your "My Sakai" Page:</h4>
+				<div class="elf-right-up" style="padding-top:40px; padding-bottom: 85px">
+					<div style="display:block" id="layouts_list"></div>
+				</div>
+			</div>
+				   
+		</div><!-- /lightbox-container -->
+			   
+		<div class="dialog_footer">
+			<div class="buttonBar">
+				<a href="javascript:;" id="select-layout-finished" class="button-default">Save</a>
+			    <a href="javascript:;" id="select-layout_cancel" class="button jqmClose">Cancel</a>
+			</div>
+		</div>
+	</div>
  
     <!-- EXPLORE BAR -->
     <div class="fl-container explore_nav">
@@ -76,7 +135,7 @@
 	<div class="fl-container options">
 		<a href="#">Add Sakai Goodies</a>
 		<span class="pipe_divider">|</span>
-		<a href="#">Change layout</a>
+		<a href="javascript:;" id="edit-layout">Change layout</a>
 	</div>
 	
 	
@@ -84,15 +143,16 @@
 	
 	<div id="widgetscontainer_template"><!--
 		{var index = 0}
-		<div class="fl-col-flex2 fl-container-auto content">
+		<div class="fl-col-flex${size} fl-container-auto content">
 			{for c in columns}
 			${index++|eat}
             <div class="fl-col groupWrapper" id="column_uid_${index}">
+				<div style="height:1px"></div>
                 {for p in c.portlets}
 	                <div class="fl-widget widget1" id="${p.id}_${p.uid}" style="background-color:#FFFFFF">
 	                    <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
 	                        <h2 class="widget_title">${p.title}</h2>
-							<a href="#" class="fl-force-right fl-icon settings">Settings</a>
+							<a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">Settings</a>
 	                    </div>                 
 						{if p.display == "none"}
 							<div id="${p.uid}_container" style="display:none">
@@ -117,6 +177,13 @@
 		<div>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></div>
 		<div>&copy; 2004-2008 <a href="#">The Sakai Foundation</a></div>
 	</div> -->
+	
+	<div class="add_new_menu" id="widget_settings_menu" style="display:none">
+		<ul>
+			<li id="settings_remove" class="more_option"><a href="javascript:;">Remove</a></li>
+			<li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">Hide</a></li>
+		</ul>
+	</div>
 	
 	<div id="widget_changepic" class="widget_inline"></div>
 	
