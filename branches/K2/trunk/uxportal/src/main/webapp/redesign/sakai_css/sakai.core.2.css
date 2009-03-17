@@ -8,6 +8,10 @@ html {
 
 :focus {outline:none;}
 
+.groupWrapper .widget1:focus {
+	outline: 1px dotted #CCCCCC;
+}
+
 body {
     padding:0 10px;
 }
