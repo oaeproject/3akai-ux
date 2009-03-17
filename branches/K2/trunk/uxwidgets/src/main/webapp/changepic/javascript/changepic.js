@@ -9,6 +9,9 @@ sakai.changepic = function(tuid, placement, showSettings){
 	var ratio = 1;
 
 	function preview(img, selection){
+		
+		$("#thumbnail_real_container").hide();
+		
 		bigSelection = selection;
 		var scaleX = 100 / selection.width;
 		var scaleY = 100 / selection.height;
@@ -24,7 +27,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		
 	}
 	
-	var doInit = function(){
+	sakai._changepic.doInit = function(){
 	
 		// Check whether there is a base picture at all
 		
@@ -42,6 +45,12 @@ sakai.changepic = function(tuid, placement, showSettings){
 		}
 		
 		if (picture && picture._name) {
+			
+			if (picture.name){
+				$("#thumbnail_real").attr("src","/sdata/f/_private" + me.userStoragePrefix + picture.name);
+			}
+			
+			$("#changepic_select").show();
 		
 			$("#picture_measurer").html("<img src='/sdata/f/_private" + me.userStoragePrefix + picture._name + "' id='picture_measurer_image' />");
 			
@@ -95,9 +104,12 @@ sakai.changepic = function(tuid, placement, showSettings){
 				
 			});
 			
+			showSelectTab();
+			
 		}
 		else {
 		
+			$("#changepic_select").hide();
 			showNewTab();
 		
 		}
@@ -108,6 +120,10 @@ sakai.changepic = function(tuid, placement, showSettings){
 	
 	var bigSelection = false;
 	
+	$("#changepic_select").bind("click", function(ev){
+		sakai._changepic.doInit();
+	});
+	
 	$("#save_new_selection").bind("click", function(ev){
 		
 		var tosave = {};
@@ -117,7 +133,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		tosave["y"] = Math.floor(bigSelection.y1 * ratio);
 		tosave["height"] = Math.floor(bigSelection.height * ratio);
 		tosave["width"] = Math.floor(bigSelection.width * ratio);
-		tosave["dimensions"] = [{"width":256,"height":256},{"width":32,"height":32},{"width":60,"height":60},{"width":48,"height":48}];
+		tosave["dimensions"] = [{"width":256,"height":256}];
 		
 		var data = {
 			parameters : sdata.JSON.stringify(tosave)
@@ -131,12 +147,14 @@ sakai.changepic = function(tuid, placement, showSettings){
 			onSuccess: function(data){
 				
 				var tosave = {
-					"name": picture._name,
+					"name": "256x256_" + picture._name,
 					"_name": picture._name
 				};
 				
 				var stringtosave = sdata.JSON.stringify(tosave);
 				var data = {"picture":stringtosave};
+				
+				sdata.me.profile.picture = stringtosave;
 				
 				// $("#picture_holder").html("<img src='/sdata/f/_private/" + profileinfo_userId + "/" + resp.uploads.file.name + "' width='250px'/>");
 				
@@ -153,8 +171,10 @@ sakai.changepic = function(tuid, placement, showSettings){
 		            contentType : "application/x-www-form-urlencoded",
 		            onSuccess : function(data) {
 						
-						$("#picture_holder").html("<img src='/sdata/f" + "/_private" + me.userStoragePrefix + "256x256_" + picture._name + "?sid=" + Math.random() + "'/>");
-						$("#profile_picture").html("<img src='/sdata/f" + "/_private" + me.userStoragePrefix + "256x256_" + picture._name + "?sid=" + Math.random() + "' height='60px' width='60px'/>");
+						$("#picture_holder").html("<img src='/sdata/f" + "/_private" + me.userStoragePrefix + tosave.name + "?sid=" + Math.random() + "'/>");
+						$("#profile_picture").css("text-indent","0px");
+						$("#profile_picture").html("<img src='/sdata/f" + "/_private" + me.userStoragePrefix + tosave.name + "?sid=" + Math.random() + "' height='60px' width='60px'/>");
+						$("#changepic_container").jqmHide();
 						
 					},
 					onFail : function(data){
@@ -172,11 +192,28 @@ sakai.changepic = function(tuid, placement, showSettings){
 		
 	});
 	
+	var hideArea = function(hash){
+		$('#changepic_fullpicture').imgAreaSelect({ 
+			hide: true,
+			disable: true
+		});
+		
+		hash.w.hide();
+		hash.o.remove();
+	}
+	
+	var showArea = function(hash){
+		sakai._changepic.doInit();
+		hash.w.show();
+	}
+	
 	$("#changepic_container").jqm({
 		modal: true,
 		trigger: $('#changepic_container_trigger'),
 		overlay: 20,
 		toTop: true,
+		onHide: hideArea,
+		onShow: showArea
 	});
 	
 	var showNewTab = function(){
@@ -197,12 +234,21 @@ sakai.changepic = function(tuid, placement, showSettings){
 		$("#changepic_uploadnew").show();
 	}
 	
+	var showSelectTab = function(){				
+		
+		$("#changepic_select").addClass("fl-activeTab");
+		$("#changepic_select").addClass("search_tab_selected");
+			
+		$("#changepic_upload").removeClass("search_tab_selected");
+		$("#changepic_upload").removeClass("fl-activeTab");
+			
+		$("#changepic_selectpicture").show();
+		$("#changepic_uploadnew").hide();
+	}
+	
 	$("#changepic_upload").bind("click", function(ev){
 		showNewTab();
 	});
-	
-	
-	doInit();
 	
 };
 
@@ -230,6 +276,8 @@ sakai._changepic.completeCallback = function(response){
 		
 		var tosend = {"k":k,"v":v,"a":a};
 		
+		sdata.me.profile.picture = stringtosave;
+		
 		sdata.Ajax.request({
         	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
         	httpMethod : "POST",
@@ -237,31 +285,7 @@ sakai._changepic.completeCallback = function(response){
             contentType : "application/x-www-form-urlencoded",
             onSuccess : function(data) {
 				
-				$("#picture_measurer").html("<img src='/sdata/f/_private" + me.userStoragePrefix + picture._name + "' id='picture_measurer_image' />");
-				
-				// Check the current picture's size
-				
-				$("#picture_measurer_image").bind("load", function(ev){
-					realw = $("#picture_measurer_image").width();
-					realh = $("#picture_measurer_image").height();
-					
-					if (realw > 500){
-						$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
-						$("#changepic_fullpicture").attr("width","500");
-					} else {
-						$("#changepic_fullpicture").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
-					}
-					$("#thumbnail").attr("src", "/sdata/f/_private" + me.userStoragePrefix + picture._name);
-					
-					$('#changepic_fullpicture').imgAreaSelect({ 
-						selectionColor: 'blue',
-						aspectRatio: "1:1",
-						onSelectEnd: preview,
-						hide: false,
-						disable: false
-					});
-					
-				});
+				sakai._changepic.doInit();
 				
 			},
 			onFail : function(data){
