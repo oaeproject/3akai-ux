@@ -345,7 +345,20 @@ var Widgets = {
 			siteportal:0,
 			ca:1,
 			img:"/devwidgets/form/images/form.png"
-		}/*
+		},
+		blog :
+		{
+			description:"blog",
+			iframe:0,
+			url:"/devwidgets/blog/blog.html",
+			name:"Blog",
+			id:"blog",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			img:"/devwidgets/blog/images/blog_icon.gif"
+		}
+/*
 ,
 		timeplot :
 		{
@@ -361,6 +374,7 @@ var Widgets = {
 			img:"/devwidgets/polltracker/images/poll_icon.gif"
 		}
 */
+
 	},
 	orders:[
 		{
