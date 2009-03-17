@@ -107,7 +107,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			onFail : function(status) {
 				if (status != 403) {
 					sdata.Ajax.request({
-						url: "/_rest/site/create/" + siteid,
+						url: "/rest/site/create/" + siteid,
 						httpMethod: "POST",
 						onSuccess: function(data){
 							createSiteNavigation();
