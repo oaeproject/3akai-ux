@@ -15,7 +15,7 @@ sakai.myprofilewow = function(tuid,placement,showSettings){
 		var pict = eval('(' + json.picture + ')');
 		if (pict.name) {
 			$("#profile_picture", rootel).css("text-indent", "0px");
-			$("#profile_picture", rootel).html("<img src='/sdata/f/_private" + me.userStoragePrefix + "256x256_" + pict.name + "' width='60px' height='60px' />");
+			$("#profile_picture", rootel).html("<img src='/sdata/f/_private" + me.userStoragePrefix + pict.name + "' width='60px' height='60px' />");
 		}
 	}
 	var extra = "&nbsp;";
