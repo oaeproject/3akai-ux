@@ -85,6 +85,17 @@ var Widgets = {
 		//}
 	},
 	widgets: {
+		changepic :
+		{
+			description:"",
+			iframe:0,
+			url:"/devwidgets/changepic/changepic.html",
+			name:"changepic",
+			id:"changepic",
+			personalportal:0,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
 		sites :
 		{
 			description:"Listing of the sites I'm a member of\r\n",
