@@ -2163,6 +2163,37 @@ if (nel.className == "contauthlink") {
 	    return temp;
 
 	}
+	
+	
+	
+	/*
+		Page template functionality 
+	*/
+
+	var startSaveAsTemplate = function(hash){
+		$("#more_menu").hide();
+		$("#add_new_menu").hide();
+		isShowingDropdown = false;
+		hash.w.show();
+	}
+
+	$("#save_as_template_container").jqm({
+		modal: true,
+		trigger: $('#more_save_as_template'),
+		overlay: 20,
+		toTop: true,
+		onShow: startSaveAsTemplate
+	});
+	
+	$("#save_as_page_template_button").bind("click", function(ev){
+		var name = $("#template_name").val();
+		var description = $("#template_description").val() || "";
+		if (name){
+			
+			$("#save_as_template_container").jqmHide();
+		}
+		
+	});
 
 	
 	/*
