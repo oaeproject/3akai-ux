@@ -16,6 +16,16 @@ sakai.search = function(){
 	var hasHadFocus = false;
 	var searchterm = "";
 
+	sakai._search.reset = function(){
+		$("#content_media_header").hide();
+		$("#people_header").hide();
+		$("#courses_sites_header").hide();
+		$("#search_result_title").hide();
+		$(".search_results_part_footer").hide();
+		$("#introduction_text").show();
+		$("#display_more_people").show();
+	}
+
 	var doInit = function(){
 		
 		sdata.Ajax.request({
@@ -26,6 +36,7 @@ sakai.search = function(){
 				if (meObj.preferences.uuid){
 					inituser = meObj.profile.firstName + " " + meObj.profile.lastName;
 					$("#userid").text(inituser);
+					History.history_change();
 					placeImage();
 				} else {
 					document.location = "/dev/index.html";
@@ -57,7 +68,12 @@ sakai.search = function(){
 		}
 	}
 	
-	var doSearch = function(){
+	sakai._search.doSearch = function(page,searchquery){
+		
+		if (searchquery){
+			$("#search_text").val(searchquery); 
+			$("#search_text").addClass("search_bar_selected");
+		}
 		
 		searchterm = $("#search_text").val().toLowerCase();
 		
@@ -129,7 +145,7 @@ sakai.search = function(){
 			
 		} else {
 			
-			
+			sakai._search.reset();
 			
 		}
 	
@@ -260,12 +276,12 @@ sakai.search = function(){
 	
 	$("#search_text").bind("keypress", function(ev){
 		if (ev.keyCode == 13){
-			doSearch();
+			sakai._search.doSearch();
 		}
 	});
 	
 	$("#search_text_button").bind("click", function(ev){
-		doSearch();
+		sakai._search.doSearch();
 	});
 	
 	doInit();
