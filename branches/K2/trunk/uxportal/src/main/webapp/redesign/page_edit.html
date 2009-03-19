@@ -32,6 +32,7 @@
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
 		<script type="text/javascript" language="JavaScript" src="/dev/lib/jquery.corners.js"></script>
 		<script type="text/javascript" language="JavaScript" src="javascript/jquery.simple.tree.js"></script>
+		<script type="text/javascript" language="JavaScript" src="javascript/jqScrollPane.js"></script>
 		
 		<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
 		<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>
@@ -444,6 +445,43 @@
 			</div>
 		</div>
 
+		<div class="dialog" id="select_template_for_page">
+			<div class="dialog_header">
+				<h1>Add page from template</h1>
+				<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div class="dialog_content" style="padding-bottom:20px">
+				
+				<div id="list_container" class="fl-container template_list_container">
+				</div>
+				<div id="list_container_template"><!--
+					{if size > 0}
+					<ul class="fl-listmenu template_list">
+						{for i in items}
+				        <li>
+							<a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>
+							<a href="javascript:;" id="page_template_selection_${i.id}" class="page_template_selection">
+								<span class="menu_title">${i.name}</span>
+								<span class="description">${i.description}</span>
+							</a>
+						</li>	
+						{/for}
+			        </ul>
+					{else}
+						<span>No templates available. In order to create one, go to the page you would like to use as a template, hit the
+						more menu and select Save As Page Template.</span>
+					{/if}
+				--></div>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
 		
 		<script type="text/javascript" src="javascript/editor.js"></script>
 		
