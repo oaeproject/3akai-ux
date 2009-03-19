@@ -7,7 +7,7 @@ sakai.search = function(){
 		Config variables
  	*/
 	
-	var peopleToSearch = 10;
+	var peopleToSearch = 5;
 	var cmToSearch = 5;
 	
 	var meObj = false;
@@ -15,6 +15,8 @@ sakai.search = function(){
 	var foundCM = false;
 	var hasHadFocus = false;
 	var searchterm = "";
+	
+	var myfriends = false;
 
 	sakai._search.reset = function(){
 		$("#content_media_header").hide();
@@ -36,8 +38,8 @@ sakai.search = function(){
 				if (meObj.preferences.uuid){
 					inituser = meObj.profile.firstName + " " + meObj.profile.lastName;
 					$("#userid").text(inituser);
-					History.history_change();
 					placeImage();
+					loadFriendList();
 				} else {
 					document.location = "/dev/index.html";
 				}
@@ -45,6 +47,18 @@ sakai.search = function(){
 			}
 		});
 		
+	}
+	
+	var loadFriendList = function(){
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/rest/friend/status?p=0&n=100&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
+			onSuccess: function(data){
+				myfriends = eval('(' + data + ')');
+				History.history_change();
+			},
+			onFail: function(status){}
+		});
 	}
 	
 	var placeImage = function(){
@@ -66,6 +80,10 @@ sakai.search = function(){
 			// Small Arrow Fix
 			$('.explore_nav_selected_arrow').css('bottom','-10px');
 		}
+	}
+	
+	sakai._search.doHSearch = function(page,searchquery){
+		History.addBEvent("1|" + $("#search_text").val().toLowerCase());
 	}
 	
 	sakai._search.doSearch = function(page,searchquery){
@@ -217,6 +235,7 @@ sakai.search = function(){
 		if (foundPeople.size > peopleToSearch){
 			$("#display_more_people").show();
 			$("#display_more_people_number").text(foundPeople.size);
+			$("#display_more_people").attr("href","search_b_people.html#1|" + searchterm);
 		}
 		
 		if (foundPeople && foundPeople.results) {
@@ -253,18 +272,105 @@ sakai.search = function(){
 							finaljson.items[index].extra = basic.unidepartment;
 						}
 					}
+					finaljson.items[index].connected = false;
+					if (myfriends.status.friends) {
+						for (var ii = 0; ii < myfriends.status.friends.length; ii++) {
+							var friend = myfriends.status.friends[ii];
+							if (friend.friendUuid == finaljson.items[index].userid) {
+								finaljson.items[index].connected = true;
+							}
+						}
+					}
+					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
+						finaljson.items[index].isMe = true
+					}
 				}
 			}
 		}
 		
 		$("#people_search_result").html(sdata.html.Template.render("people_search_result_template", finaljson));
 		
+		$(".link_add_to_contacts").bind("click", function(ev){
+			contactclicked = this.id.split("_")[4]
+			$('#add_to_contacts_dialog').jqmShow();
+		});
+	
 	}
+	
+	var contactclicked = false;
+	
+	var loadContactDialog = function(hash){
+		var tosearchfor = contactclicked;
+		var person = false;
+		for (var i = 0; i < foundPeople.results.length; i++){
+			var people = eval('(' + foundPeople.results[i].content + ')');
+			if (foundPeople.results[i].path.split("/")[4] == tosearchfor){
+				person = people;
+			}
+		}
+		$("#add_friend_displayname").text(person.firstName);
+		$("#add_friend_displayname2").text(person.firstName + " is ");
+		if (person.picture && eval('(' + person.picture + ')').name){
+			$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + sha1Hash(tosearchfor).toUpperCase().substring(0,2) + "/" + sha1Hash(tosearchfor).toUpperCase().substring(2,4) + "/" + tosearchfor + "/" + eval('(' + person.picture + ')').name + "' width='40px' height='40px'/>");
+		} else {
+			$("#add_friend_profilepicture").html("<img src='images/person_icon.png' width='40px' height='40px'/>");
+		}
+		
+		$("#add_friend_types").html(sdata.html.Template.render("add_friend_types_template",Widgets));
+		$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n- " + sdata.me.profile.firstName);
+		
+		hash.w.show();
+	}
+	
+	$('#add_to_contacts_dialog').jqm({
+		modal: true,
+		overlay: 20,
+		toTop: true,
+		onShow: loadContactDialog
+	});
 	
 	
 	/*
 		Event listeners 
 	*/
+	
+	$("#add_friends_do_invite").bind("click", function(ev){
+   		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
+		if (toSend["add_friends_list_type"]){
+			
+			var type = toSend["add_friends_list_type"];
+			var comment = toSend["add_friend_personal_note"];
+			
+			// send message to other person
+			var userstring = sdata.me.profile.firstName + " " + sdata.me.profile.lastName;
+				
+			var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
+			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
+			
+			// construct openSocial message
+			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"PRIVATE_MESSAGE"});
+					
+			var data = { "friendUuid" : contactclicked , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
+			
+			sdata.Ajax.request({
+				url: "/rest/friend/connect/request",
+				httpMethod: "POST",
+			    onSuccess: function(data){
+					
+					$("#link_add_to_contacts_" + contactclicked).hide();
+					$("#link_add_to_contacts_" + contactclicked + "_divider").hide();
+					$('#add_to_contacts_dialog').jqmHide();
+					
+				},
+				onFail: function(status){
+					alert("An error has occured");
+				},
+				postData: data,
+				contentType: "application/x-www-form-urlencoded"
+			});
+			
+		}
+   });
 	
 	$("#search_text").bind("focus", function(ev){
 		if (!hasHadFocus){
@@ -276,12 +382,12 @@ sakai.search = function(){
 	
 	$("#search_text").bind("keypress", function(ev){
 		if (ev.keyCode == 13){
-			sakai._search.doSearch();
+			sakai._search.doHSearch();
 		}
 	});
 	
 	$("#search_text_button").bind("click", function(ev){
-		sakai._search.doSearch();
+		sakai._search.doHSearch();
 	});
 	
 	doInit();
