@@ -259,8 +259,8 @@ sakai._changepic.startCallback = function(){
 }
 	
 sakai._changepic.completeCallback = function(response){
-
-	response = response.replace(/<pre>/g,"").replace(/<\/pre>/g,"");
+	
+	response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
 	var resp = eval('(' + response + ')');
 	var tosave = {
 		"_name": resp.uploads.file.name
@@ -321,7 +321,6 @@ var AIM = {
     },
 
     submit : function(f, c) {
-		//alert("submit");
         AIM.form(f, AIM.frame(c));
         if (c && typeof(c.onStart) == 'function') {
             return c.onStart();
