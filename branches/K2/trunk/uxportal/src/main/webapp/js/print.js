@@ -17,7 +17,7 @@ sakai.print = function(){
 				window.print();
 			},
 			onFail: function(status){
-			},
+			}
 		});
 	}
 
