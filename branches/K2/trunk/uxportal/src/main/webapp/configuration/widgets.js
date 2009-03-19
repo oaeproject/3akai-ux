@@ -76,7 +76,7 @@ var Widgets = {
 		{
 			name:"Five equal columns",
 			widths:[20,20,20,20,20]
-		},
+		}
 	},
 	widgets: {
 		changepic :
