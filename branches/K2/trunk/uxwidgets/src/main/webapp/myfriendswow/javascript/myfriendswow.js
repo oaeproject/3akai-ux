@@ -52,10 +52,9 @@ sakai.myfriendswow = function(tuid,placement,showSettings){
 		if (friends.status.friends) {
 			for (var i = 0; i < friends.status.friends.length; i++) {
 				var isOnline = false;
-				
 				if (!isOnline && total < 6) {
-					item.id = item.friendUuid;
 					var item = friends.status.friends[i];
+					item.id = item.friendUuid;
 					if (item.profile.firstName && item.profile.lastName) {
 						item.name = item.profile.firstName + " " + item.profile.lastName;
 					}
@@ -64,7 +63,9 @@ sakai.myfriendswow = function(tuid,placement,showSettings){
 					}
 					if (item.profile.picture) {
 						var pict = eval('(' + item.profile.picture + ')');
-						item.photo = "/sdata/f/_private" + item.properties.userStoragePrefix + pict.name;
+						if (pict.name) {
+							item.photo = "/sdata/f/_private" + item.properties.userStoragePrefix + pict.name;
+						}
 					}
 					item.online = false;
 					if (item.profile.basic) {
