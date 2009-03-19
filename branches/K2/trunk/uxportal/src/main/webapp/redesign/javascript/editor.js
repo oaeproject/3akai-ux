@@ -8,6 +8,7 @@ sakai.site = function(){
 	*/
 	var minHeight = 400;
 	var autosaveinterval = 17000;
+	var createChildPageByDefault = false;
 	
 	
 	/*
@@ -1081,6 +1082,14 @@ if (nel.className == "contauthlink") {
 									$("#edit_view_container").hide();
 									$("#show_view_container").show();
 									
+									// Check in the page
+									sdata.Ajax.request({
+										url: "/sdata/f" + newfolderpath + "/content?f=ci",
+										httpMethod: 'POST',
+										onSuccess: function(data){},
+										onFail: function(data){}
+									});
+							
 								});
 							
 						});		
@@ -1124,6 +1133,14 @@ if (nel.className == "contauthlink") {
 									$("#edit_view_container").hide();
 									$("#show_view_container").show();
 									
+									// Check in the page
+									sdata.Ajax.request({
+										url: "/sdata/f" + newfolderpath + "/content?f=ci",
+										httpMethod: 'POST',
+										onSuccess: function(data){},
+										onFail: function(data){}
+									});
+									
 								});
 							
 						});		
@@ -1155,6 +1172,14 @@ if (nel.className == "contauthlink") {
 						sakai.site.openPage(selectedpage);
 						$("#edit_view_container").hide();
 						$("#show_view_container").show();
+						
+						// Check in the page
+						sdata.Ajax.request({
+							url: "/sdata/f/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
+							httpMethod: 'POST',
+							onSuccess: function(data){},
+							onFail: function(data){}
+						});
 									
 					});					
 					
@@ -1187,6 +1212,15 @@ if (nel.className == "contauthlink") {
 					sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
 					var newurl = selectedpage.split("/").join("/_pages/");
 					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
+					
+						// Check in the page
+						sdata.Ajax.request({
+							url: "/sdata/f/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
+							httpMethod: 'POST',
+							onSuccess: function(data){},
+							onFail: function(data){}
+						});
+					
 					});
 					
 				}
@@ -1565,6 +1599,12 @@ if (nel.className == "contauthlink") {
 	
 	$("#option_blank_page").bind("click", function(ev){
 		
+		createNewPage("");
+		
+	});
+	
+	var createNewPage = function(content){
+		
 		$("#add_new_menu").hide();
 		isShowingDropdown = false;
 		
@@ -1576,7 +1616,14 @@ if (nel.className == "contauthlink") {
 		
 		var path = "";
 		if (selectedpage){
-			path = selectedpage + "/";
+			if (createChildPageByDefault){
+				path = selectedpage + "/";
+			} else {
+				var splitted = selectedpage.split("/");
+				for (var i = 0; i < splitted.length - 2; i++){
+					path += splitted[i] + "/";
+				}
+			}
 		} 
 		
 		// Determine new page id (untitled-x)
@@ -1604,7 +1651,7 @@ if (nel.className == "contauthlink") {
 		
 		// Assign the empty content to the pagecontents array
 		
-		pagecontents[newid] = "";
+		pagecontents[newid] = content;
 		
 		// Change the configuration file
 		
@@ -1626,8 +1673,7 @@ if (nel.className == "contauthlink") {
 		
 		// Show and hide appropriate things
 		
-		
-	});
+	}
 	
 	
 	/*
@@ -1946,7 +1992,9 @@ if (nel.className == "contauthlink") {
 		
 		$("#more_menu").hide();
 		$("#" + escapePageId(selectedpage)).find(">span").addClass("active");
-		
+		if (inEditView){
+			$("#" + escapePageId(selectedpage)).find(">span").text($("#title-input").val());	
+		}
 	} 
 	
 	var removeMovePageStructure = function(hash){
@@ -2070,8 +2118,6 @@ if (nel.className == "contauthlink") {
 				
 					// Rewrite configuration file
 					
-					alert(data);
-					
 					var parentEl = $(".root");
 					var els = $("li", parentEl);
 					
@@ -2190,9 +2236,155 @@ if (nel.className == "contauthlink") {
 		var description = $("#template_description").val() || "";
 		if (name){
 			
-			$("#save_as_template_container").jqmHide();
+			var newid = Math.round(Math.random() * 100000000);
+			
+			var obj = {};
+			obj.name = name;
+			obj.description = description;
+			
+			var a = ["u"];
+			var k = ["" + newid];
+			var v = ["" + sdata.JSON.stringify(obj)];
+			var tosend = {"v":v,"k":k,"a":a};
+			
+			var fileUrl = "/sdata/p/_templates/pages/configuration";
+				
+			// Get templates configuration file
+			
+			sdata.Ajax.request({
+		      	url :fileUrl + "?sid=" + Math.random(),
+		      	httpMethod : "GET",
+				onSuccess : function(data) {
+					
+					var templates = eval('(' + data + ')');
+					updateTemplates(obj, newid, templates);
+					
+				},
+				onFail : function(data){
+					
+					var templates = {};
+					updateTemplates(obj, newid, templates);
+
+				}
+			});
+
 		}
 		
+	});
+	
+	var updateTemplates = function(obj, newid, templates){
+		templates[newid] = obj;
+		var tosave = sdata.JSON.stringify(templates);
+		sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", tosave, function(success){
+			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages/" + newid, "content", pagecontents[selectedpage], function(success){
+				$("#save_as_template_container").jqmHide();
+				$("#template_name").val("");
+				$("#template_description").val("");
+			});
+		});
+	}
+	
+	var mytemplates = false;
+	
+	var loadTemplates = function(hash){
+		
+		$("#add_new_menu").hide();
+		isShowingDropdown = false;
+		
+		var fileUrl = "/sdata/p/_templates/pages/configuration";
+				
+		// Get templates configuration file
+			
+		sdata.Ajax.request({
+	     	url :fileUrl + "?sid=" + Math.random(),
+	     	httpMethod : "GET",
+			onSuccess : function(data) {
+					
+				var templates = eval('(' + data + ')');
+				renderTemplates(templates);
+					
+			},
+			onFail : function(data){
+					
+				var templates = {};
+				renderTemplates(templates);
+			
+			}
+		});
+		
+		hash.w.show();
+	}
+	
+	var renderTemplates = function(templates){
+		
+		mytemplates = templates;
+		
+		var finaljson = {};
+		finaljson.items = [];
+		
+		for (var i in templates){
+			var obj = {};
+			obj.id = i;
+			obj.name = templates[i].name;
+			obj.description = templates[i].description;
+			finaljson.items[finaljson.items.length] = obj
+		}
+		
+		finaljson.size = finaljson.items.length;
+		
+		$("#list_container").hide();
+		$("#list_container").html(sdata.html.Template.render("list_container_template",finaljson));
+		
+		if ($("#list_container").height() > 250){
+			$("#list_container").css("height","250px");
+		}
+		
+		$("#list_container").show();
+		
+		$(".template_delete").bind("click", function(ev){
+		
+			var todelete = this.id.split("_")[2];
+			
+			var newobj = {};
+			for (var i in mytemplates){
+				if (i != todelete){
+					newobj[i] = mytemplates[i];
+				}
+			}
+			
+			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", sdata.JSON.stringify(newobj), function(success){});
+			
+			sdata.Ajax.request({
+		     	url :"/sdata/p/_templates/pages/" + todelete,
+		     	httpMethod : "DELETE",
+				onSuccess : function(data) {},
+				onFail : function(data){}
+			});
+			
+			renderTemplates(newobj);
+		});
+		
+		$(".page_template_selection").bind("click", function(ev){
+			var toload = this.id.split("_")[3];
+			sdata.Ajax.request({
+		     	url :"/sdata/p/_templates/pages/" + toload + "/content?sid=" + Math.random(),
+		     	httpMethod : "GET",
+				onSuccess : function(data) {
+					$("#select_template_for_page").jqmHide();
+					createNewPage(data);
+				},
+				onFail : function(data){}
+			});
+		});
+		
+	}
+
+	$("#select_template_for_page").jqm({
+		modal: true,
+		trigger: $('#option_page_from_template'),
+		overlay: 20,
+		toTop: true,
+		onShow: loadTemplates
 	});
 
 	
