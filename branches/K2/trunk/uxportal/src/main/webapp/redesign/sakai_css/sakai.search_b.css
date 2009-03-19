@@ -151,3 +151,12 @@ padding: 20px 0 20px 10px;
 	float: left;
 }
 
+#add_to_contacts_dialog {
+	width:600px !important;
+	margin-left:-300px !important;
+}
+
+#add_to_contacts_dialog td {
+	border: none !important;
+	padding:0em !important;
+}
