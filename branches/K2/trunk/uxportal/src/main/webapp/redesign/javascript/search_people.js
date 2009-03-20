@@ -8,13 +8,12 @@ sakai.search = function(){
  	*/
 	
 	var peopleToSearch = 5;
-	var cmToSearch = 5;
 	
 	var meObj = false;
 	var foundPeople = false;
-	var foundCM = false;
 	var hasHadFocus = false;
 	var searchterm = "";
+	var currentpage = 0;
 	
 	var myfriends = false;
 
@@ -80,10 +79,19 @@ sakai.search = function(){
 	}
 	
 	sakai._search.doHSearch = function(page,searchquery){
-		History.addBEvent("1|" + $("#search_text").val().toLowerCase());
+		if (! page){
+			page = 1;
+		}
+		if (! searchquery){
+			searchquery = $("#search_text").val().toLowerCase();
+		}
+		currentpage = page;
+		History.addBEvent("" + page + "|" + searchquery);
 	}
 	
 	sakai._search.doSearch = function(page,searchquery){
+		
+		currentpage = parseInt(page);
 		
 		if (searchquery){
 			$("#search_text").val(searchquery); 
@@ -116,27 +124,6 @@ sakai.search = function(){
 		
 			// Set off the 3 AJAX requests
 			
-				// Content & Media Search
-			
-				var cmsearchterm = "";
-				var splitted = searchterm.split(" ");
-				for (var i = 0; i < splitted.length; i++){
-					cmsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
-				}
-				
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/rest/search?p=0&path=/_sites&n=" + cmToSearch + "&q=" + cmsearchterm + "&mimetype=text/plain&sid=" + Math.random(),
-					onSuccess: function(data){
-						foundCM = eval('(' + data + ')');
-						renderCM();
-					},
-					onFail: function(status){
-						foundCM = {};
-						renderCM();
-					}
-				});
-			
 				// People Search
 			
 				var peoplesearchterm = "";
@@ -147,7 +134,7 @@ sakai.search = function(){
 				
 				sdata.Ajax.request({
 					httpMethod: "GET",
-					url: "/rest/search?p=0&path=/_private&n=" + peopleToSearch + "&q=" + peoplesearchterm + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
+					url: "/rest/search?p=" + (currentpage - 1) + "&path=/_private&n=" + peopleToSearch + "&q=" + peoplesearchterm + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
 					onSuccess: function(data){
 						foundPeople = eval('(' + data + ')');
 						renderPeople();
@@ -168,57 +155,16 @@ sakai.search = function(){
 	
 	
 	/*
-		Content & Media Search 
-	*/
-	
-	var renderCM = function(){
-		
-		var finaljson = {};
-		finaljson.items = [];
-		
-		var currentTotal = parseInt($("#numberfound").text());
-		currentTotal += foundCM.size;
-		$("#numberfound").text(currentTotal);
-		
-		if (foundCM.size > cmToSearch){
-			$("#display_more_cm").show();
-			$("#display_more_cm_number").text(foundCM.size);
-		}
-		
-		if (foundCM && foundCM.results) {
-			for (var i = 0; i < foundCM.results.length; i++) {
-				var item = foundCM.results[i];
-				var person = item.content;
-				if (person) {
-					var index = finaljson.items.length;
-					finaljson.items[index] = {};
-					var content = person.replace(/<\/?[^>]+(>|$)/g, " ");
-					var place = content.toLowerCase().indexOf(searchterm);
-					if (place){
-						var toreplace = content.substring(place,place + searchterm.length);
-						content = content.replace(toreplace,"<strong>" + toreplace + "</strong>");
-						var start = place - (600/2);
-						if (start < 0){
-							start = 0;
-						}
-						var end = place + (600/2);
-						content = content.substring(start,end) + "...";
-					} else {
-						content = content.substring(0, 600);
-					}
-					finaljson.items[index].content = content;
-				}
-			}
-		}
-		
-		$("#content_media_search_result").html(sdata.html.Template.render("content_media_search_result_template", finaljson));
-		
-	}
-	
-	
-	/*
 		People search 
 	*/
+	
+	// Pager click handler
+	var pager_click_handler = function(pageclickednumber){
+		currentpage = pageclickednumber;
+		sakai._search.doHSearch(currentpage,searchterm);
+	}
+	
+	var _currentTotal = 0;
 	
 	var renderPeople = function(){
 		
@@ -228,6 +174,11 @@ sakai.search = function(){
 		var currentTotal = parseInt($("#numberfound").text());
 		currentTotal += foundPeople.size;
 		$("#numberfound").text(currentTotal);
+		_currentTotal = currentTotal;
+		
+		// Pager Init
+		
+		$(".jq_pager").pager({ pagenumber: currentpage, pagecount: Math.ceil(_currentTotal/peopleToSearch), buttonClickCallback: pager_click_handler });
 		
 		if (foundPeople.size > peopleToSearch){
 			$("#display_more_people").show();
@@ -285,6 +236,12 @@ sakai.search = function(){
 			}
 		}
 		
+		if (finaljson.items.length == 0){
+			$(".jq_pager").hide();
+		} else {
+			$(".jq_pager").show();
+		}
+		
 		$("#people_search_result").html(sdata.html.Template.render("people_search_result_template", finaljson));
 		
 		$(".link_add_to_contacts").bind("click", function(ev){
@@ -306,7 +263,7 @@ sakai.search = function(){
 			}
 		}
 		$("#add_friend_displayname").text(person.firstName);
-		$("#add_friend_displayname2").text(person.firstName + " is ");
+		$("#add_friend_displayname2").text(person.firstName);
 		if (person.picture && eval('(' + person.picture + ')').name){
 			$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + sha1Hash(tosearchfor).toUpperCase().substring(0,2) + "/" + sha1Hash(tosearchfor).toUpperCase().substring(2,4) + "/" + tosearchfor + "/" + eval('(' + person.picture + ')').name + "' width='40px' height='40px'/>");
 		} else {
@@ -331,6 +288,13 @@ sakai.search = function(){
 		Event listeners 
 	*/
 	
+	$("#search_all_link").bind("click", function(ev){
+		if (searchterm) {
+			$("#search_all_link").attr("href", $("#search_all_link").attr("href") + "#1|" + searchterm);
+		} 
+		return true;
+	});
+	
 	$("#add_friends_do_invite").bind("click", function(ev){
    		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
 		if (toSend["add_friends_list_type"]){
@@ -353,6 +317,13 @@ sakai.search = function(){
 				url: "/rest/friend/connect/request",
 				httpMethod: "POST",
 			    onSuccess: function(data){
+					
+					if (!myfriends.status.friends){
+						myfriends.status.friends = [];
+					}
+					var index = myfriends.status.friends.length;
+					myfriends.status.friends[index] = {};
+					myfriends.status.friends[index].friendUuid = contactclicked;
 					
 					$("#link_add_to_contacts_" + contactclicked).hide();
 					$("#link_add_to_contacts_" + contactclicked + "_divider").hide();
