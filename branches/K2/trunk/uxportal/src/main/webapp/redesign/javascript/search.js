@@ -309,7 +309,7 @@ sakai.search = function(){
 			}
 		}
 		$("#add_friend_displayname").text(person.firstName);
-		$("#add_friend_displayname2").text(person.firstName + " is ");
+		$("#add_friend_displayname2").text(person.firstName);
 		if (person.picture && eval('(' + person.picture + ')').name){
 			$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + sha1Hash(tosearchfor).toUpperCase().substring(0,2) + "/" + sha1Hash(tosearchfor).toUpperCase().substring(2,4) + "/" + tosearchfor + "/" + eval('(' + person.picture + ')').name + "' width='40px' height='40px'/>");
 		} else {
@@ -327,6 +327,13 @@ sakai.search = function(){
 		overlay: 20,
 		toTop: true,
 		onShow: loadContactDialog
+	});
+	
+	$("#search_people_link").bind("click", function(ev){
+		if (searchterm) {
+			$("#search_people_link").attr("href", $("#search_people_link").attr("href") + "#1|" + searchterm);
+		} 
+		return true;
 	});
 	
 	
