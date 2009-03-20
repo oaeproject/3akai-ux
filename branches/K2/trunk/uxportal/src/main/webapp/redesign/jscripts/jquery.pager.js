@@ -122,10 +122,10 @@
             case "first":
                 destPage = 1;
                 break;
-            case "prev":
+            case "&laquo; Prev":
                 destPage = pagenumber - 1;
                 break;
-            case "next":
+            case "Next &raquo;":
                 destPage = pagenumber + 1;
                 break;
             case "last":
@@ -151,8 +151,3 @@
     };
 
 })(jQuery);
-
-
-
-
-
