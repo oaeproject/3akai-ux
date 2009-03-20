@@ -16,6 +16,12 @@
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search_b.css" />
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.jq_pager.css" />
 	
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_permissions.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
+	
+	
 	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
 	<script src="/dev/lib/trimpath.js" type="text/javascript"></script>
 	<script src="jscripts/jquery.corners.js" type="text/javascript"></script>
@@ -64,7 +70,7 @@
 		
 		<!-- TAB NAVIGATION -->
 		<ul class="fl-tabs fl-tabs-center search_tab_nav">
-			<li><a href="search_b.html">All</a></li>
+			<li><a id="search_all_link" href="search_b.html">All</a></li>
 			<li><a href="#">Content & Media</a></li>
 			<li class="fl-activeTab search_tab_selected"><a href="#">People</a></li>
 			<li><a href="#">Courses & Sites</a></li>
@@ -83,7 +89,7 @@
 						You'll find people with who you can connect, send messages and initiate chat conversations.
 					</p>
 				</div>
-				<form id="search_form" >
+				<div id="search_form" >
 					<select class="skinned_select">
 						<option value="entire_community">Entire Community</option>
 						<option value="friends">My Contacts</option>
@@ -94,91 +100,44 @@
         			<div class="buttonBar fl-force-left">
 						<a href="#" class="button search_button">Search</a>
 					</div>
-				</form>
+				</div>
 			</div>
 			
-			<div id="search_result_title" class="fl-left fl-container search_result_title">Found <strong>599</strong> results matching your search for <span class="keyword"><strong>cool</strong></span></div>
+			<div id="search_result_title" class="fl-left fl-container search_result_title">Found <strong id="numberfound"></strong> results matching your search for <span class="keyword"><strong id="mysearchterm"></strong></span></div>
 			
 			<!-- SEARCH RESULTS -->
 			<div id="search_results_page1" class="fl-container fl-fix search_results_container">
 				
 				<!-- CONTENT -->
-				<div class="fl-container fl-fix search_results_part">
+				<div class="fl-container fl-fix search_results_part" id="people_search_result">
 				</div>
-				
-				<!--
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">John Doe</a>
-						<a href="#" class="search_result_person_dept">Mathematics</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
+
 					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Mike Smits</a>
-						<a href="#" class="search_result_person_dept">Phisycal Sciences</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Alexander Dumansky</a>
-						<a href="#" class="search_result_person_dept">Computer Science</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Jenny Crow</a>
-						<a href="#" class="search_result_person_dept">Fine Arts</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Loren Ralph</a>
-						<a href="#" class="search_result_person_dept">Economics</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Michelle Silverstone</a>
-						<a href="#" class="search_result_person_dept">Economics</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Tina Woodrow</a>
-						<a href="#" class="search_result_person_dept">Computer Science</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-					
-					<div class="fl-container fl-fix search_result_person">
-						<a href="#" class="fl-icon search_result_person_picture"></a>
-						<a href="#" class="search_result_person_name">Gregory Allen</a>
-						<a href="#" class="search_result_person_dept">Industrial Engineering</a>
-						<a href="#" class="search_result_person_link">Add to Contacts</a>
-						<a href="#" class="search_result_person_link search_result_person_divider">|</a>
-						<a href="#" class="search_result_person_link">Message</a>
-					</div>
-				-->
+					<div id="people_search_result_template"><!--
+						{for i in items}
+							<div class="fl-container fl-fix search_result_person">
+								{if ! i.picture}
+									<a href="/dev/sn/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+								{else}
+									<a href="/dev/sn/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none"><img src="${i.picture}" width="60px" height="60px"/></a>
+								{/if}
+								<a href="/dev/sn/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+								{if i.extra}
+									<a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+								{else}
+									<a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+								{/if}
+								{if ! i.isMe}
+									{if ! i.connected}
+									<a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+									<a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+									{/if}
+									<a href="#" class="search_result_person_link">Message</a>
+								{/if}
+							</div>
+						{forelse}
+						{/for}
+					--></div>
 					
 					<div class="search_results_part_footer"></div>
 					
@@ -197,6 +156,52 @@
 		<div>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></div>
 		<div>&copy; 2004-2008 <a href="#">The Sakai Foundation</a></div>
 	</div> -->
+	
+		<div class="dialog" id="add_to_contacts_dialog">
+			<div class="dialog_header">
+				<h1>Add to Contacts</h1>
+				<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div class="dialog_content" style="padding-bottom:20px">
+				
+				<form id="add_friends_form">
+			        <h4>Invite <span id="add_friend_displayname" style="font-weight:bold"></span> to connect through Sakai</h3>
+				 	<br/></br>
+					<table style="width:100%; border:0px">
+						<tr>
+					   		<td style="vertical-align:top; width: 75px">
+					   			<span id="add_friend_displayname2" style="font-weight:bold"></span>
+								<div id="add_friend_profilepicture" style="padding-top:5px"></div>
+					   		</td>
+							<td id="add_friend_types">
+							</td>
+					   	</tr>
+					</table>
+					<br/>
+					<h4>Add a personal note to the invitation:</h4>
+					<br/>
+					<textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note"></textarea>
+				</form>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+				 	<a href="javascript:;" class="button-default" id="add_friends_do_invite">Invite</a>
+			        <a href="javascript:;" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div> 
+		
+		<div id="add_friend_types_template" style="display:none"><!--
+			{var index = 0}
+			{for i in connections}
+				<input type="checkbox" name="add_friends_list_type" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
+				<br/>
+				${index++|eat}
+			{/for}
+		--></div>
 	
 	<script type="text/javascript" language="JavaScript" src="javascript/search_people.js"></script>
 	
