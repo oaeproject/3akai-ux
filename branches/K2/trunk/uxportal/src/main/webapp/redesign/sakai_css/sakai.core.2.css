@@ -24,6 +24,12 @@ a {
 }
 /********************************************/
 /* Miscellaneous */
+.inline_class_widget_rightfloat {
+	float:right;
+}
+.inline_class_widget_leftfloat {
+	float:left;
+}
 .disabledState {
 	opacity:0.3;
 	filter:alpha(opacity=30);
