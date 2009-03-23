@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* inbox_main.html */
+.inbox_main .user-personal a{color: #058ec4; font-size: 12px;}
+.inbox_main .user-personal strong{color: #058ec4;}
+.inbox_main .user-personal li{border-left: 1px solid #999; padding: 0 2px 0 6px;}
+.inbox_main .user-personal .first{border-left: none;}
+.inbox_main .user-name{color: #058ec4; background: url(../images/user_online.gif) no-repeat 7px 2px;}
+.inbox_main .user-name strong{padding-left: 14px;}
+.inbox_main .user-arrow-down{position: relative; top: -1px; padding-left: 3px;}
+.inbox_main .user-mail{background: url(../images/user_mail_icon.gif) no-repeat 6px 3px;}
+.inbox_main .user-mail a{color: #666; padding-left: 16px;}
+.inbox_main .site_heading{padding: 30px 0px 10px 25px;font-size: 14px;border-bottom: 1px solid #ebebeb;}
+.inbox_main .fl-col-fixed{padding: 15px 0 0 20px;}
+.inbox_main .drop-menu{position: absolute;}
+.inbox_main .inbox-folders{border: 1px solid #ccc;width: 148px; position:relative; top: 40px; padding-bottom: 3px; font-size: 12px; letter-spacing: -.2px; color: #333;}
+.inbox_main .inbox-folders ul{margin: 0; padding-left: 10px;}
+.inbox_main .inbox-folders ul li{list-style-type: none; padding: 1px 0 3px 0;}
+.inbox_main .inbox-folders .active_tab{background: #f4f4f4; width: 148px; height: 20px; padding: 0; margin: 0; font-weight: bold;}
+.inbox_main .inbox-folders .active_tab div{padding: 2px 0 0 10px;}
+.inbox_main .fl-col-flex{margin-left: 185px;}
+.inbox_main .inbox-heading{font-weight: bold; color: #333; font-size: 17px; border-bottom: 1px solid #ebebeb; padding: 12px 0 10px 5px;}
+.inbox_main .inbox-checkbox{width: 16px;}
+.inbox_main .inbox-delete{padding: 10px 0 12px 0;}
+.inbox_main .inbox-table{width: 100%;}
+.inbox_main .inbox-table td{border: none; border-bottom: 1px solid #ebebeb; color: #666;}
+.inbox_main .inbox-table th{border: 1px solid #ccc; color: #333; background: #ebebeb; text-align: left;}
+.inbox_main .inbox-table .inbox-subject-read a{color: #058ec4;}
+.inbox_main .inbox-table .inbox-subject-unread a{color: #058ec4; font-weight: bold;}
+.inbox_main .drop-menu{z-index: 9;}
+.inbox_main .drop-box{border:1px solid #999; background: #fff; padding:0; margin:0;}
+.inbox_main .drop-box ul{padding:0 0 5px 0; margin:0;}
+.inbox_main .drop-box ul li{list-style-type: none; padding: 4px 5px 0 5px;}
+
+/* inbox_compose.htl */
+.inbox_main .compose-message{background: #f4f4f4; width: 100%; height: auto;}
+.inbox_main .compose-reply{background: #f4f4f4; width: 100%; height: auto; position: relative; top:-15px;}
+.inbox_main .compose-form{padding: 10px 15px 12px 15px; color: #333; font-weight: bold; font-size: 13px;}
+.inbox_main .compose-form span{font-weight: 100; padding-left: 5px;}
+.inbox_main .compose-form .compose-to, .compose-subject, .compose-body{border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6;}
+.inbox_main .compose-form .compose-to{height: 45px; width:490px; padding:0; margin:0;}
+.inbox_main .compose-form .compose-subject{width: 490px; padding:0; margin:0;}
+.inbox_main .compose-form .compose-body{height: 140px; width:490px; padding:0; margin:0;}
+.inbox_main .compose-form div{padding-bottom: 10px;}
+.inbox_main .compose-cancel{padding-left: 7px;}
+
+/* inbox_message_detail.html */
+.inbox_detail .inbox-heading a{color: #058ec4; font-size: 13px;}
+.inbox_detail .inbox-heading span{font-size: 16px;}
+.inbox_detail .sender-picture{padding: 9px 5px 15px 5px;}
+.inbox_detail .sender-name{color: #058ec4; font-weight: bold; position: relative; top: -32px;}
+.inbox_detail .sender-timestamp{color: #999999; font-size: 11px; position: relative; position: relative; left:47px; top:-34px;}
+.inbox_detail .sender-options{color:#058ec4; font-size: 12px; position: relative; top: -55px;}
+.inbox_detail .sender-options a{color:#058ec4; font-size: 12px;}
+.inbox_detail .sender-body{background:#f4f4f4; position: relative; top:-20px;} !important /* IE6 FIX */
+.inbox_detail .sender-message{display:inline; height: auto; width: 100%;}
+.inbox_detail .message-arrow{background: url(../images/message_arrow.gif) no-repeat 0 0; height: 7px; width: 10px; position: relative; top: -7px; left: 15px;}
+.inbox_detail .message-body{padding: 0 15px 15px 15px; color:#333; font-size: 13px;}
+.inbox_detail .message-header{font-weight: bold; font-size: 15px; padding-bottom: 5px;}
+.inbox_detail .message-options{padding: 0 0 15px 15px;}
+.inbox_detail .message-options a{color:#058ec4; font-weight: bold;}
+.inbox_detail .pipe-divider{color:#d2d2d2; padding: 0 3px 0 3px;}
+.inbox_detail .reply-options{padding: 15px 0 0 0;}
+.inbox_detail .reply-options a{color:#058ec4; font-weight: bold;}
+
+
