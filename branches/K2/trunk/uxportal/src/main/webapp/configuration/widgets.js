@@ -148,6 +148,34 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/dev/img/myprofile.png"
 		},
+		wookiechat :
+		{
+			description:"wookiechat\r\n",
+			iframe:0,
+			url:"/devwidgets/wookiechat/wookiechat.html",
+			name:"Wookie Chat",
+			id:"wookiechat",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/dev/img/myprofile.png"
+		},
+		wookieforum :
+		{
+			description:"wookieforum\r\n",
+			iframe:0,
+			url:"/devwidgets/wookieforum/wookieforum.html",
+			name:"Wookie Forum",
+			id:"wookieforum",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/dev/img/myprofile.png"
+		},
 		helloworld :
 		{
 			description:"Sakai Hackathon Example\r\n",
