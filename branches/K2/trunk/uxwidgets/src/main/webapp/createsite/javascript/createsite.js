@@ -316,12 +316,58 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/.site/",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
+				createPlaceHolderFile();
 			},
 			onFail: function(status){
 			},
 			postData: data,
 			contentType: "multipart/form-data"
+		});
+		
+	}
+	
+	var createPlaceHolderFile = function(){
+		var content = 'Test';
+		
+		var data = {"items": {
+			"data": content,
+			"fileName": ".test",
+			"contentType": "text/plain"
+			}
+		};
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/" + siteid + "/_widgets/",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				setWidgetsPermissions();
+			},
+			onFail: function(status){
+			},
+			postData: data,
+			contentType: "multipart/form-data"
+		});
+	}
+	
+	var setWidgetsPermissions = function(){
+		
+		var data = {
+			action : "replace",
+			acl : "k:*,s:AN,g:1,p:1",
+			f : "pe"
+		}
+		
+		sdata.Ajax.request({
+			url: "/sdata/f/" + siteid + "/_widgets?f=pe",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
+			},
+			onFail: function(status){
+				alert("Failed: " + status);
+			},
+			postData: data,
+			contentType: "application/x-www-form-urlencoded"
 		});
 		
 	}
