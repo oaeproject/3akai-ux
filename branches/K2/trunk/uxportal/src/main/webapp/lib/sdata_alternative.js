@@ -1942,42 +1942,6 @@ sdata.html.Template = {
 
 };
 
-sdata.client = {};
-
-sdata.client.me = function() {
-	var person = null;
-	function _get(callback, failcallback){
-		_getWithFail(callback,function(httpstatus) {
-					if ( httpstatus != 401 ) {
-						failcallback(httpstatus);	
-	        		}			
-		});
-	};
-	function _getWithFail(callback,failcallback) {
-		if ( person == null ) {
-			sdata.Ajax.request( { 
-				url : "/sdata/me",
-				sendToLoginOnFail : "false",
-				onSuccess :  function (response) {
-					person = eval('(' + response + ')');
-					callback(person);
-				},
-				onFail : function(httpstatus) {
-					failcallback(httpstatus);
-	        	}
-	    	});
-		} else {
-			callback(person);
-		}
-	};
-	return {
-		get : _get,
-		getWithFail : _getWithFail
-	};
-	
-}();
-
-
 /**
  * Provides i18n capabilities to SData. 
  * Message bundles are retrieved over ajax, the bundle is used to process
@@ -1994,42 +1958,39 @@ sdata.i18n = function() {
 	 * @param {Object} defaultLocale the default locale key
 	 */	
 	function _get(callback,failcallback,bundleLocations,defaultLocale) {
-		sdata.client.me.getWithFail(
-			/** 
-			 * Sucess callback
-			 * @param {Object} person
-			 */
-			function(person) {
-				// we have a person object, work out the prefered locale
-				var localeKey = "";
-				try {
-					localeKey = person.items.userLocale.language+"_"+person.items.userLocale.country;
-				} catch (err){}
+		
+		// we have a person object, work out the prefered locale
+		var localeKey = "";
+		try {
+			localeKey = sdata.me.locale.language+"_"+sdata.me.locale.country;
+		} catch (err){}
 				
-				if ( !preferences[localeKey] ) {
-					// not loaded, get the target URL
-					var targetUrl = bundleLocations[defaultLocale];
-					var defaultTargetUrl = targetUrl;
-					if ( bundleLocations[localeKey] ) {
-						targetUrl = bundleLocations[localeKey];
-					}
-					if ( !targetUrl ) {
-						failcallback();
-						return;
-					}
-					// load the target URL
-					_loadBundle(callback,failcallback,localeKey,targetUrl,defaultTargetUrl);				
-				} else {
-					var bundle = preferences[localeKey];
-					callback(bundle);
-					return;
-				}
-				
-			}, 
-			/**
-			 * The failure callback
-			 * @param {Object} httpstatus
-			 */
+		if ( !preferences[localeKey] ) {
+			// not loaded, get the target URL
+			var targetUrl = bundleLocations[defaultLocale];
+			var defaultTargetUrl = targetUrl;
+			if ( bundleLocations[localeKey] ) {
+				targetUrl = bundleLocations[localeKey];
+			}
+			if ( !targetUrl ) {
+				failcallback();
+				return;
+			}
+			// load the target URL
+			_loadBundle(callback,failcallback,localeKey,targetUrl,defaultTargetUrl);				
+		} else {
+			var bundle = preferences[localeKey];
+			callback(bundle);
+			return;
+		}
+		
+		
+		/**
+		 * The failure callback
+		 * @param {Object} httpstatus
+		 */
+	
+		/*
 			function(httpstatus) {
 			    // we have no personal information, 
 			    // get the default Locale
@@ -2047,6 +2008,8 @@ sdata.i18n = function() {
 					return;
 				}				
 		   });
+		*/
+		
 	};
 	/**
 	 * Load a bundle using async calls and callbacks
