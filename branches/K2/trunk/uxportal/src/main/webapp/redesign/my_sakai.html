@@ -15,8 +15,8 @@
    
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.my_sakai.css" />
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
-	
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
+	<link type="text/css" href="/devwidgets/chat/css/chat.css" rel="stylesheet"/>
 	
 	<script src="/dev/lib/Fluid-all.js" type="text/javascript"></script>
 	<script src="/dev/lib/trimpath.js" type="text/javascript"></script>
@@ -26,6 +26,7 @@
 	<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
 	<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>
 	<script src="/dev/sn/jquery.imgareaselect-0.6.2.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
 	
 </head>
 
@@ -33,7 +34,7 @@
  
  	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
-	
+
 	<!-- Change layout -->
 	
 	<div id="layouts_template"><!--
@@ -92,23 +93,9 @@
 			</div>
 		</div>
 	</div>
- 
-    <!-- EXPLORE BAR -->
-    <div class="fl-container explore_nav">
-        <ul class="explore fl-force-left">
-			<li><a href="javascript:;" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="images/arrow_down_sm2.png" alt="Down arrow" class="explore_nav_selected_arrow" /></li>
-            <li><a href="/dev/sn/profile.html">Profile</a></li>
-            <li><a href="/dev/sn/people.html">People</a></li>
-			<li><a href="#">Course & Sites</a></li>
-			<li><a href="search_b.html">Search</a></li>
-        </ul>
-        <ul class="personal fl-force-right">
-            <li><a class="user_link" href="#"><img src="images/dot_green.png" alt="Status indicator" /><strong id="userid"></strong><img src="images/arrow_down_sm2_blue.png" /></a></li>
-            <li><a class="mail" href="#"><img src="images/mail_icon.png" alt="Mail Icon" /> (2)</a></li>
-			<li><a class="help" href="#">Help</a></li>
-            <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
-        </ul>
-    </div>
+    
+	<!-- EXPLORE BAR -->
+ 	<div id="widget_chat" class="widget_inline"></div>
     
 	<!-- HEADER -->
 	<div class="fl-container-flex fl-col-flex2 fl-fix header">
