@@ -1,4 +1,20 @@
-<link type="text/css" href="/devwidgets/chat/css/chat.css" rel="stylesheet"></link>
+<div id="explore_nav_container" style="display:none">
+	<div class="fl-container explore_nav">
+		<ul class="explore fl-force-left">
+			<li id="nav_my_sakai_link"><a  href="/dev/redesign/my_sakai.html">My Sakai</a></li>
+	        <li><a href="/dev/sn/profile.html">Profile</a></li>
+	        <li id="nav_people_link"><a href="/dev/redesign/people.html">People</a></li>
+			<li><a href="javascript:;">Course & Sites</a></li>
+			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
+	    </ul>
+	    <ul class="personal fl-force-right">
+	    	<li><a class="user_link" href="#"><img src="images/dot_green.png" alt="Status indicator" /><strong id="userid"></strong><img src="images/arrow_down_sm2_blue.png" /></a></li>
+	        <li><a class="mail" href="#"><img src="images/mail_icon.png" alt="Mail Icon" /> (2)</a></li>
+			<li><a class="help" href="#">Help</a></li>
+	        <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
+	    </ul>
+	</div>
+</div>
 
 <div id="show_online" class="doFixed" style="display:none">
 	<div id="chat_available"></div>
@@ -52,24 +68,15 @@
 	{/for}	
 --></div>
 
-<div class="chat_main_container doFixed" style="left:0px;">
+<div class="chat_main_container doFixed" id="chat_main_container" style="display:none; left:0px;">
 	<div id="chat_container" style="height:30px">
 		<table class="chat_main_table" style="height:30px">
 			<tr style="height:30px">
-				<td class="chat_social_link">
-					<a href="/dev/sn/profile.html" style="color:black;">My Profile</a>
-				</td>
-				<td class="chat_social_link">
-					<a href="/dev/sn/people.html" style="color:black;">My People</a>
-				</td>
-				<td class="chat_social_link">
-					<a href="/dev/sn/inbox.html"  style="color:black;"><span id="widget_myinbox" class="widget_inline">My Inbox</span></a>
-				</td>
 				<td id="chat_windows"></td>
 				<td class="chat_online_connections_link">
 					<span id="online_button">
-						<img src="/dev/img/people.png" width="16px" class="chat_people_icon"/>
-						&nbsp;<a class="chat_straight_link" id="chat_online">Online connections</a>
+						<img src="/dev/img/people.png"  id="chat_online" width="16px" class="chat_people_icon chat_online_trigger"/>
+						&nbsp;<a class="chat_straight_link" id="chat_online chat_online_trigger"></a>
 					</span>
 				</td>
 			</tr>
