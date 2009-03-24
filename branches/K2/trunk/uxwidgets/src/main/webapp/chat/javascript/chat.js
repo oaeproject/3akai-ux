@@ -85,6 +85,56 @@ sakai.chat = function(tuid, placement, showSettings){
 	var online = false;
 	var goBackToLogin = false;
 	
+	var doInit = function(){
+		
+		// Select the page we're on
+		
+		if (window.location.pathname.toLowerCase().indexOf("/my_sakai.html") != -1){
+			$("#nav_my_sakai_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+		} else if (window.location.pathname.toLowerCase().indexOf("/search_b.html") != -1 || window.location.pathname.toLowerCase().indexOf("/search_b_people.html") != -1){
+			$("#nav_search_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Search</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+		} else if (window.location.pathname.toLowerCase().indexOf("/people.html") != -1){
+			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+		}
+		
+		var person = sdata.me;
+		
+		if (!person.preferences.uuid){
+			return;
+		} else {
+			$("#explore_nav_container").show();
+			$("#chat_main_container").show();
+		}
+		
+		if (person.profile.firstName || person.profile.lastName) {
+			$("#userid").text(person.profile.firstName + " " + person.profile.lastName);
+		}
+		
+		$("#hispan").text(person.profile.firstName);
+		
+		if (person.profile.picture){
+			var picture = eval('(' + person.profile.picture + ')');
+			if (picture.name) {
+				$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "'/>");
+			}
+		}
+		
+		// Fix small arrow horizontal position
+		$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
+		
+		// Round cornners for elements with '.rounded_corners' class
+		$('.rounded_corners').corners("2px");
+		
+		// IE Fixes
+		if (($.browser.msie) && ($.browser.version < 8)) {
+			
+			// Small Arrow Fix
+			$('.explore_nav_selected_arrow').css('bottom','-10px');
+			
+			
+		}
+	}
+	
 	var informPresent = function(){
 	
 		if (sakai._isAnonymous && goBackToLogin == false) {
@@ -97,7 +147,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 		
 		sdata.Ajax.request({
-			url: "/sdata/presence/",
+			url: "/_rest/presence/status",
 			httpMethod: "POST",
 			onSuccess: function(data){
 				setTimeout(informPresent, 20000);
@@ -106,7 +156,9 @@ sakai.chat = function(tuid, placement, showSettings){
 			onFail: function(status){
 				setTimeout(informPresent, 20000);
 			},
-			postData: {},
+			postData: {
+				status: "online"
+			},
 			contentType: "application/x-www-form-urlencoded",
 			sendToLoginOnFail: sendToLoginOnFail
 		});
@@ -125,7 +177,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 	
 		sdata.Ajax.request({
-			url: "/sdata/presence?sid=" + Math.random(),
+			url: "/_rest/presence/friends?sid=" + Math.random(),
 			httpMethod: "GET",
 			onSuccess: function(data){
 				online = eval('(' + data + ')');
@@ -143,11 +195,17 @@ sakai.chat = function(tuid, placement, showSettings){
 	var showOnlineFriends = function(){
 	
 		var json = online;
-		if (!json.total || json.total == 0) {
-			$("#chat_online").html("Online connections");
+		var total = 0;
+		for (var i in json){
+			if (json[i] != "offline"){
+				total++;
+			}
+		}
+		if (!total || total == 0) {
+			$("#chat_online").html("");
 		}
 		else {
-			$("#chat_online").html("<b>Online connections (" + json.total + ")</b>");
+			$("#chat_online").html("<b>(" + total + ")</b>");
 		}
 		
 		for (var i = 0; i < json.items.length; i++) {
@@ -440,7 +498,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 	}
 	
-	$("#chat_online").bind("click", function(ev){
+	$(".chat_online_trigger").bind("click", function(ev){
 	
 		for (var i = 0; i < activewindows.items.length; i++) {
 			$("#chat_with_" + activewindows.items[i].userid).hide();
@@ -635,6 +693,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		loadPersistence();
 		informPresent();
 		checkOnline();
+		doInit();
 	}
 
 };
