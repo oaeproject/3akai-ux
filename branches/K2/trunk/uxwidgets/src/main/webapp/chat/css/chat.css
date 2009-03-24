@@ -101,26 +101,43 @@
 }
 
 .chat_online_connections_link {
-	width: 170px;
+	width: 66px;
 }
 
 #online_button {
-	width:170px; 
+	width:66px; 
 	border-left: 1px solid #CCCCCC; 
-	line-height: 25px; 
-	height: 25px; 
+	line-height: 30px; 
+	height: 30px; 
 	text-align: center; 
 	margin-left: auto; 
 	float:right;	
+	top:-1px;
 }
 
 .chat_people_icon {
 	position:relative; 
-	top: 2px;
+	top: 0px;
+	cursor: hand;
+	cursor: pointer;
 }
 
 .chat_straight_link {
 	color:black; 
 	cursor: hand; 
 	cursor: pointer;	
+}
+
+.doFixed {
+	position: fixed;
+}
+
+#chat_main_container th, td {
+	border:none;
+	padding:0 !important;
+}
+
+.chat_main_table a {
+	position: relative;
+	top: -3px;
 }
