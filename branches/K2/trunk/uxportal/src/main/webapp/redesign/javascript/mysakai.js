@@ -210,12 +210,6 @@ sakai.dashboard = function(){
 			document.location = "/dev/index.html";
 		}
 		else {
-			if (person.profile.firstName || person.profile.lastName) {
-				$("#userid").text(person.profile.firstName + " " + person.profile.lastName);
-			}
-			else {
-				$("#userid").text(inituser);
-			}
 			
 			$("#hispan").text(person.profile.firstName);
 			
@@ -224,21 +218,6 @@ sakai.dashboard = function(){
 				if (picture.name) {
 					$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "'/>");
 				}
-			}
-			
-			// Fix small arrow horizontal position
-			$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
-			
-			// Round cornners for elements with '.rounded_corners' class
-			$('.rounded_corners').corners("2px");
-			
-			// IE Fixes
-			if (($.browser.msie) && ($.browser.version < 8)) {
-				
-				// Small Arrow Fix
-				$('.explore_nav_selected_arrow').css('bottom','-10px');
-				
-				
 			}
 			
 			$(".body-container").show();
