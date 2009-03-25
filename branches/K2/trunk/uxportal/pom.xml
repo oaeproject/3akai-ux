@@ -22,15 +22,6 @@
 	<description>UX Project Portal</description>
 	<packaging>war</packaging>
 	<dependencies>
-		<!-- 	
-			<dependency>
-			<artifactId>jstester</artifactId>
-			<groupId>net.sf.jstester</groupId>
-			<classifier>jdk15</classifier>
-			<version>1.4.1</version>
-			<scope>test</scope>
-			</dependency>
-		-->
 		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>
@@ -38,16 +29,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<!-- 
-		<repositories>
-		<repository>
-		<id>jstester</id>
-		<name>JS Tester</name>
-		<url>http://jstester.sourceforge.net/m2/repo/release</url>
-		</repository>
-		</repositories>
-	-->
-	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>CodeHaus Snapshot</id>
