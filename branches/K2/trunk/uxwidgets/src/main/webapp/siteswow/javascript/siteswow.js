@@ -67,6 +67,9 @@ sakai.siteswow = function(tuid,placement,showSettings){
 	}
 	
 	var doRender = function(newjson){
+		for (var i = 0; i < newjson.entry.length; i++){
+			newjson.entry[i].location = newjson.entry[i].location.substring(1);
+		}
 		if (newjson.entry.length == 0){
 			$("#" + tuid + " #sitelistwow").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
 		} else {
