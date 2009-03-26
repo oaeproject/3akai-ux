@@ -141,3 +141,165 @@
 	position: relative;
 	top: -3px;
 }
+
+/* NAVIGATION DROPDOWN CSS */
+
+
+/* MAIN */
+.dropdown {
+	background-color:#F6F6F6;
+	border-bottom:1px solid #DDDDDD;
+	height:160px;
+	padding:15px 0 15px 0;
+}
+
+.dropdown h2 {
+	color: #333;
+	font-size: 1.1em;
+	padding: 10px 0 10px 0;
+}
+
+/* CONTANCTS */
+.dropdown .dropdown_contacts {
+	border-right:1px solid #DDDDDD;
+	float:left;
+	height:100%;
+	padding-left:25px;
+	width:380px;
+}
+
+.dropdown .dropdown_contacts .dropdown_person {
+	width: 80px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	float: left;
+}
+
+.dropdown .dropdown_contacts .dropdown_person_picture {
+	background-image: url(/dev/redesign/images/person_icon.png);
+	background-repeat: no-repeat;
+	width: 60px;
+	height: 60px;
+	display: block;
+	padding: 0 0 5px 10px;
+}
+
+.dropdown .dropdown_contacts .dropdown_person_name {
+	color: #3399CC;
+	font-weight: bold;
+}
+
+.dropdown .dropdown_contacts .view_all_link {
+	color: #333;
+	font-size: .95em;
+}
+
+
+/* SEARCH */
+.dropdown .dropdown_search_people {
+	margin-left: 450px;
+	
+}
+
+.dropdown .dropdown_search_container {
+	
+}
+
+.dropdown .dropdown_search_input {
+	border:1px solid #DDDDDD;
+	color:#999999;
+	float:left;
+	height:18px;
+	margin-right:5px;
+	padding:3px 0 0 3px;
+	width:250px;
+}
+
+.dropdown .search_button {
+	position: relative;
+	top: 4px;
+}
+
+.dropdown .close {
+	position: relative;
+	right: 50px;
+	
+}
+
+.dropdown .close a {
+	font-weight: bold;
+	color: #333;
+	font-weight: bold;
+}
+
+.dropdown .close img {
+	position: relative;
+	top: 5px;
+	padding-left: 5px;
+}
+
+
+/* SITES */
+.dropdown .dropdown_sites {
+	width: 230px;
+}
+
+.dropdown .dropdown_recent_sites {
+	width: 230px;
+}
+
+.dropdown .dropdown_search_course_sites {
+	margin-left: 500px;
+}
+
+.dropdown ul {
+	margin: 0;
+	padding: 0 0 10px 0;
+}
+
+.dropdown ul li {
+	list-style-type: none;
+	padding: 2px 0;
+}
+
+.dropdown ul li a {
+	color: #3399CC;
+	font-weight: bold;
+}
+
+.dropdown .dropdown_create_sakai_site {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.dropdown .dropdown_create_sakai_site a {
+	background-image:url(../images/add_icon_middle.png);
+background-position: center bottom;
+background-repeat:repeat-x;
+display:block;
+float:left;
+height:27px;
+text-indent:0;
+width: 148px;
+padding: 0 0 9px 0;
+
+}
+
+.dropdown .dropdown_create_sakai_site img {
+	position: relative;
+	top: 9px;
+	padding-right: 5px;
+}
+
+.close {
+	margin-bottom:-25px;
+	position:relative;
+	top:-25px;
+	margin-right:25px;
+}
+
+.close_icon {
+	padding-left:5px;
+	position:relative;
+	top:4px;
+}
