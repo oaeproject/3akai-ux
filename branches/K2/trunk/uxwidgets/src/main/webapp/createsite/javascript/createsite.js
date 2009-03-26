@@ -181,7 +181,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/_pages/welcome",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				createWeek1();
+				sdata.Ajax.request({
+					url: "/sdata/f/" + siteid + "/_pages/welcome/content?f=ci",
+					httpMethod: "POST",
+					onSuccess: function(data){
+						createWeek1();
+					},
+					onFail: function(status){
+					}
+				});
 			},
 			onFail: function(status){
 			},
@@ -208,7 +216,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/_pages/week1",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				createMonday();
+				sdata.Ajax.request({
+					url: "/sdata/f/" + siteid + "/_pages/week1/content?f=ci",
+					httpMethod: "POST",
+					onSuccess: function(data){
+						createMonday();
+					},
+					onFail: function(status){
+					}
+				});
 			},
 			onFail: function(status){
 			},
@@ -235,7 +251,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/_pages/week1/_pages/monday",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				createTuesday();
+				sdata.Ajax.request({
+					url: "/sdata/f/" + siteid + "/_pages/week1/_pages/monday/content?f=ci",
+					httpMethod: "POST",
+					onSuccess: function(data){
+						createTuesday();
+					},
+					onFail: function(status){
+					}
+				});
 			},
 			onFail: function(status){
 			},
@@ -262,7 +286,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/_pages/week1/_pages/tuesday",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				createWednesday();
+				sdata.Ajax.request({
+					url: "/sdata/f/" + siteid + "/_pages/week1/_pages/tuesday/content?f=ci",
+					httpMethod: "POST",
+					onSuccess: function(data){
+						createWednesday();
+					},
+					onFail: function(status){
+					}
+				});
 			},
 			onFail: function(status){
 			},
@@ -289,7 +321,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/_pages/week1/_pages/wednesday",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				createConfigurationFile();
+				sdata.Ajax.request({
+					url: "/sdata/f/" + siteid + "/_pages/week1/_pages/wednesday/content?f=ci",
+					httpMethod: "POST",
+					onSuccess: function(data){
+						createConfigurationFile();
+					},
+					onFail: function(status){
+					}
+				});
 			},
 			onFail: function(status){
 			},
