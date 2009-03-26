@@ -441,6 +441,7 @@ if (nel.className == "contauthlink") {
 		}
 	}
 	
+	
 	tinyMCE.init({
 		
 		// General options
