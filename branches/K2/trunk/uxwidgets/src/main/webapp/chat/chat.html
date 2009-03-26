@@ -23,43 +23,40 @@
 	<div class="fl-col dropdown_contacts">
 			
 		<h2>My Contacts</h2>
-			
-		<div class="fl-container">
-		<div class="dropdown_person">
-			<a href="#" class="dropdown_person_picture"></a>
-			<a href="#" class="dropdown_person_name">Denzel Williams</a>
-		</div>
-			
-		<div class="dropdown_person">
-			<a href="#" class="dropdown_person_picture"></a>
-			<a href="#" class="dropdown_person_name">Florencia Williams</a>
-		</div>
 		
-		<div class="dropdown_person">
-			<a href="#" class="dropdown_person_picture"></a>
-			<a href="#" class="dropdown_person_name">Sonja Kieslowskaya</a>
+		<div class="fl-container" id="people_dropdown_my_contacts_list">
 		</div>
+		<div id="people_dropdown_my_contacts_list_template"><!--
+			{for i in items}
+				<div class="dropdown_person">
+					{if i.photo}
+						<a href="/dev/sn/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
+					{else}
+						<a href="/dev/sn/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
+					{/if}
+					<a href="/dev/sn/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
+				</div>	
+			{forelse}
+				<span style="font-size:0.95em">You currently have no contacts</span>
+			{/for}	
+		--></div>
 		
-		<div class="dropdown_person">
-			<a href="#" class="dropdown_person_picture"></a>
-			<a href="#" class="dropdown_person_name">Tracy Hughes</a>
+		<div style="clear:both">
+			<a href="people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
 		</div>
-		</div>
-		
-		<a href="people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
-		
+
 	</div>
 	
 		<!-- SEARCH -->
 	<div class="dropdown_search_people">
 		<h2>Search for People</h2>
 		<div class="fl-fix dropdown_search_container">
-		<form>
-			<input type="text" class="dropdown_search_input" value="Type name or keywords"></input>
-			<div class="buttonBar fl-force-left">
-				<a href="javascript:;" id="search_text_button" class="button search_button">Search</a>
+			<div>
+				<input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"></input>
+				<div class="buttonBar fl-force-left">
+					<a href="javascript:;" id="dropdown_people_search_button" class="button search_button">Search</a>
+				</div>
 			</div>
-		</form>
 		</div>
 	</div>
 	
