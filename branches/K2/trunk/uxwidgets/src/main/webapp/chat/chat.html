@@ -4,7 +4,7 @@
 			<li id="nav_my_sakai_link"><a  href="/dev/redesign/my_sakai.html">My Sakai</a></li>
 	        <li><a href="/dev/sn/profile.html">Profile</a></li>
 	        <li id="nav_people_link"><a href="javascript:;">People</a></li>
-			<li><a href="javascript:;">Course & Sites</a></li>
+			<li id="nav_courses_sites_link"><a href="javascript:;">Courses & Sites</a></li>
 			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
 	    </ul>
 	    <ul class="personal fl-force-right">
@@ -65,6 +65,73 @@
 <div class="fl-force-right close" id="people_dropdown_close" style="display:none">
 	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="images/close_icon.png" alt="Close Icon" class="close_icon"></img></a>
 </div>
+
+	
+<!-- DROPDOWN -->
+<div class="fl-container-flex fl-col-flex3 fl-fix dropdown dropdown_mysites" id="mysites_dropdown_main" style="display:none">
+		
+	<!-- MY SITES -->
+	<div class="fl-col dropdown_sites">
+			
+		<h2>My Sites</h2>
+		
+		<div id="top_navigation_my_sites_list"></div>	
+		<div id="top_navigation_my_sites_list_template"><!--
+			<ul class="my_site_list">
+				{for i in entry}
+					<li><a href="/dev/redesign/page_edit.html?siteid=${i.id}">${i.name}</a></li>
+				{/for}
+			</ul>
+		--></div>
+			
+		<a href="javascript:;" class="view_all_link">View &amp; Edit All &raquo;</a>
+			
+	</div>
+		
+	<!-- RECENTLY VISITED -->
+	<div class="fl-col dropdown_recent_sites">
+			
+		<h2>Recent Sites</h2>
+		
+		<ul class="my_site_list">
+			<li><a href="#">Business Statistics</a></li>
+			<li><a href="#">Zanny's House of Rock</a></li>
+			<li><a href="#">International Marketing</a></li>
+			<li><a href="#">Chess Club</a></li>
+			<li><a href="#">ECN234 Capstone Economics</a></li>
+		</ul>
+		
+	</div>
+	
+	<!-- SEARCH -->
+	<div class="dropdown_search_course_sites">
+		<h2>Search for Courses &amp; Sites</h2>
+		<div class="fl-fix dropdown_search_container">
+		<div>
+			<input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"></input>
+			<div class="buttonBar fl-force-left">
+				<a href="javascript:;" id="courses_sites_search_button" class="button search_button">Search</a>
+			</div>
+		</div>
+		</div>
+		
+		<div class="dropdown_create_sakai_site">
+			<a href="javascript:;" id="top_navigation_create_site"><img src="images/add_icon.png" alt="Close Icon"></img>Create a Sakai Site</a>
+			<img src="images/add_icon_end.png" alt="Close Icon"></img>
+		</div>
+		
+	</div>
+	
+</div>
+
+<div class="fl-force-right close" style="display:none" id="mysites_dropdown_close">
+	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="images/close_icon.png" alt="Close Icon" class="close_icon"></img></a>
+</div>
+
+
+<!-- CREATE A SITE WIDGET -->
+
+<div id="top_navigation_widgets"></div>
 
 
 <div id="show_online" class="doFixed" style="display:none">
