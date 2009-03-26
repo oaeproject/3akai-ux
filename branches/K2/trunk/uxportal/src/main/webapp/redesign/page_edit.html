@@ -117,7 +117,7 @@
             <!-- Main Content -->
             <div class="fl-col-main content_container">
                 
-				<div class="content_page_options">
+				<div class="content_page_options" id="content_page_options">
 					<ul class="fl-force-right">
 						<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
 						<li class="divider" style="display:none" id="li_edit_page_divider"></li>
@@ -125,6 +125,15 @@
 						<li class="divider"></li>
 						<li><a href="javascript:;" id="more_link">More</a></li>
 					</ul>
+				</div>
+				
+				<div class="fl-container revision_history" id="revision_history_container"  style="display:none">
+					<span class="revision_history_viewing">Viewing:</span>
+					<select id="revision_history_list" style="font-size:0.9em; margin-left: 5px; margin-right:15px;">
+						
+					</select>
+					<a href="javascript:;" class="button-default" id="revision_history_revert" style="color:black; font-weight: bold">Use this Version</a>
+			        <a href="javascript:;" class="button-default" id="revision_history_cancel" style="color:black; font-weight: normal">Cancel</a>
 				</div>
 				
 				<h1 id="pagetitle"></h1>
