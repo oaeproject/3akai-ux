@@ -1,10 +1,6 @@
 var sakai = sakai || {};
 sakai.createsite = function(tuid,placement,showSettings){
 
-	//$("#createsite_overlay-lightbox").appendTo($(document.body));
-	//$("#createsite_step1").appendTo($(document.body));
-	//$("#createsite_step2").appendTo($(document.body));
-	
 	$("#createsite_step2").jqm({
 		modal: true,
 		trigger: $('.createsite_step2_trigger'),
