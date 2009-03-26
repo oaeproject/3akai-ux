@@ -115,6 +115,9 @@ sakai.chat = function(tuid, placement, showSettings){
 			onSuccess: function(data){
 				
 			var newjson = eval('(' + data + ')');
+			for (var i = 0; i < newjson.entry.length; i++){
+				newjson.entry[i].location = newjson.entry[i].location.substring(1);
+			}
 			newjson.entry = newjson.entry.sort(doSort);
 			if (newjson.entry.length > 5){
 				newjson.entry = newjson.entry.splice(0,5);
