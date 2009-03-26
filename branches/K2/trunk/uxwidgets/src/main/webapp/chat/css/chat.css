@@ -242,14 +242,20 @@
 /* SITES */
 .dropdown .dropdown_sites {
 	width: 230px;
+	border-right: 1px solid #ccc;
+	height: 160px;
+	padding-left:23px;
 }
 
 .dropdown .dropdown_recent_sites {
 	width: 230px;
+	border-right: 1px solid #ccc;
+	margin-left: 25px;
+	height: 160px;
 }
 
 .dropdown .dropdown_search_course_sites {
-	margin-left: 500px;
+	margin-left: 550px;
 }
 
 .dropdown ul {
@@ -302,4 +308,16 @@ padding: 0 0 9px 0;
 	padding-left:5px;
 	position:relative;
 	top:4px;
+}
+
+.dropdown .dropdown_create_sakai_site a {
+	background-image:url(/dev/redesign/images/add_icon_middle.png);
+	background-position:center bottom;
+	background-repeat:repeat-x;
+	display:block;
+	float:left;
+	height:27px;
+	padding:0 0 9px;
+	text-indent:0;
+	width:148px;
 }
