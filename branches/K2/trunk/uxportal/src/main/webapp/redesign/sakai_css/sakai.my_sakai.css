@@ -142,10 +142,10 @@ strong {
 
 .header .search .search_form {
 	height:60px;
-	position:absolute;
+	position:relative;
+	right:275px;
 	text-align:right;
-	top: 80px;
-	right: 340px;
+	top:35px;
 }
 
 .header .search .search_form .search_input_field {
@@ -162,8 +162,8 @@ strong {
 
 .header .search .search_form .search_button {
 	left:260px;
-	position:absolute;
-	top:0;
+	position:relative;
+	top:4px;
 }
 
 /* OPTIONS */
