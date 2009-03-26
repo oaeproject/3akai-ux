@@ -839,3 +839,15 @@ a {
 	color:#fff;
 	font-size: 135%
 }
+
+.revision_history {
+	background-color: #EEEEEE;
+	padding: 20px 10px 20px 10px;
+	margin-bottom: 20px;
+}
+
+.revision_history_viewing {
+	color:#475358;
+	font-weight:bold;
+	text-align:center;
+}
