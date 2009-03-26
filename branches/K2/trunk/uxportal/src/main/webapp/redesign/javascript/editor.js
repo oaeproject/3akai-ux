@@ -30,6 +30,7 @@ sakai.site = function(){
 	var isEditingNavigation = false;
 	var currentEditView = false;
 	var timeoutid = 0;
+	var selectedpage = false;
 	
 	/*
 		Help functions 
@@ -48,8 +49,6 @@ sakai.site = function(){
 	
 	var startSiteLoad = function(){
 		if (meObject.preferences.uuid){
-			inituser = meObject.profile.firstName + " " + meObject.profile.lastName;
-			$("#userid").text(inituser);
 			$("#loginLink").hide();
 		} else {
 			$(".explore_nav").hide();
@@ -86,35 +85,28 @@ sakai.site = function(){
 			var qs = new Querystring();
 			currentsite.id = qs.get("siteid",false);
 			$("#sitetitle").text(currentsite.name);
+					
+			meObject = sdata.me;
+			var isMaintainer = false;
 			
-			sdata.Ajax.request({
-				url: "/rest/me?sid=" + Math.random(),
-				onSuccess: function(response){
-					
-					meObject = eval('(' + response + ')');
-					var isMaintainer = false;
-			
-					if (meObject.preferences.subjects) {
-						for (var i = 0; i < currentsite.owners.length; i++) {
-							var owner = currentsite.owners[i];
-							if (owner == sdata.me.preferences.uuid){							
-								isMaintainer = true;
-							}
-						}
+			if (meObject.preferences.subjects) {
+				for (var i = 0; i < currentsite.owners.length; i++) {
+					var owner = currentsite.owners[i];
+					if (owner == sdata.me.preferences.uuid){							
+						isMaintainer = true;
 					}
-					
-					if (isMaintainer) {
-						$("#li_edit_page_divider").show();
-						$("#li_edit_page").show();
-						$("#add_a_new").show();
-						$("#site_management").show();
-						$(".page_nav h3").css("padding-top","10px");
-					}
-					
-					startSiteLoad();
-					
 				}
-			});
+			}
+					
+			if (isMaintainer) {
+				$("#li_edit_page_divider").show();
+				$("#li_edit_page").show();
+				$("#add_a_new").show();
+				$("#site_management").show();
+				$(".page_nav h3").css("padding-top","10px");
+			}
+					
+			startSiteLoad();
 			
 		}
 	}
@@ -171,7 +163,9 @@ sakai.site = function(){
 	}
 	
 	sakai.site.openPageH = function(pageid){
-		
+	
+		resetVersionHistory();
+	
 		$("#insert_more_menu").hide();
 		$("#more_menu").hide();
 		showingInsertMore = false;	
@@ -1599,6 +1593,7 @@ if (nel.className == "contauthlink") {
 	
 	$("#option_blank_page").bind("click", function(ev){
 		
+		resetVersionHistory();
 		createNewPage("");
 		
 	});
@@ -2288,6 +2283,8 @@ if (nel.className == "contauthlink") {
 	
 	var loadTemplates = function(hash){
 		
+		resetVersionHistory();
+		
 		$("#add_new_menu").hide();
 		isShowingDropdown = false;
 		
@@ -2386,6 +2383,206 @@ if (nel.className == "contauthlink") {
 		toTop: true,
 		onShow: loadTemplates
 	});
+	
+	
+	/*
+		Revision history 
+	*/
+
+	$("#more_revision_history").bind("click", function(ev){
+		$("#content_page_options").hide();
+		$("#revision_history_container").show();
+		$("#more_menu").hide();
+		sdata.Ajax.request({
+		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?f=vh&sid=" + Math.random(),
+		    httpMethod : "GET",
+			onSuccess : function(data) {
+				var history = eval('(' + data + ')');
+				
+				// Get list of user profiles of updaters
+				
+				var tofind = [];
+				for (var i = history.versions.length - 1; i >= 0; i--){
+					if (history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"]){
+						 var username = history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"];
+						 var exists = false;
+						 for (i in tofind){
+						 	if (i == username){
+								exists = true;
+							}
+						 }
+						 if (!exists){
+						 	tofind[tofind.length] = username;
+						 }
+					}
+				}
+				
+				var searchstring = tofind.join(",");
+				
+				sdata.Ajax.request({
+				   	url :"/rest/me/" + searchstring,
+				    httpMethod : "GET",
+					onSuccess : function(data) {
+						
+						var result = eval('(' + data + ')');
+						var userDatabase = [];
+						if (result.users) {
+							for (var i = 0; i < result.users.length; i++) {
+								var userid = (result.users[i].userStoragePrefix.split("/")[result.users[i].userStoragePrefix.split("/").length - 2]);
+								userDatabase[userid] = result.users[i].profile.firstName + " " + result.users[i].profile.lastName;
+							}
+						}
+						
+						// Populate the select box
+				
+						var select = $("#revision_history_list").get(0);
+						
+						$(select).unbind("change",changeVersionPreview);
+						
+						select.options.length = 0;
+						for (var i = history.versions.length - 1; i >= 1; i--){
+							var name = "Version " + (i);
+							
+							// Transform date
+							
+							var date = history.versions[i].properties["jcr:created"];
+							var datestring = transformDate(date["date"],date["month"],date["year"],date["hours"],date["minutes"]);
+							
+							name += " - " + datestring;
+						
+							if (history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"]){
+								 name += " - " + userDatabase[history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"]];
+							}
+							var id = history.versions[i].name;
+							var option = new Option(name,id);
+							select.options[select.options.length] = option;
+							
+							$(select).bind("change",changeVersionPreview);
+							
+						}
+
+					},
+					onFail : function(data) {
+						alert("An error has occured");	
+					}
+				});
+			
+			},
+			onFail : function(data){
+				alert("An error has occured");
+			}
+		});
+	});
+	
+	$("#revision_history_cancel").bind("click", function(ev){
+		resetVersionHistory();
+	});
+	
+	$("#revision_history_revert").bind("click", function(ev){
+		var select = $("#revision_history_list").get(0);
+		var version = select.options[select.selectedIndex].value;
+		sdata.Ajax.request({
+		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		    httpMethod : "GET",
+			onSuccess : function(data) {
+				
+				$("#" + escapePageId(selectedpage)).html(data);
+				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				
+				// Save new version of this page
+				
+				var newfolderpath = currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/");
+				
+				sdata.widgets.WidgetPreference.save("/sdata/f/" + newfolderpath, "content", data, function(){
+									
+					// Check in the page
+					sdata.Ajax.request({
+						url: "/sdata/f/" + newfolderpath + "/content?f=ci",
+						httpMethod: 'POST',
+						onSuccess: function(data){},
+						onFail: function(data){}
+					});
+							
+				});
+				
+				pagecontents[selectedpage] = data;
+				
+				resetVersionHistory();
+				
+			},
+			onFail : function(data){
+				alert("An error has occured");
+			}
+		});
+	});
+	
+	var changeVersionPreview = function(){
+		var select = $("#revision_history_list").get(0);
+		var version = select.options[select.selectedIndex].value;
+		sdata.Ajax.request({
+		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		    httpMethod : "GET",
+			onSuccess : function(data) {
+				$("#" + escapePageId(selectedpage)).html(data);
+				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+			},
+			onFail : function(data){
+				alert("An error has occured");
+			}
+		});
+	}
+	
+	var resetVersionHistory = function(){
+		try {
+			if (selectedpage) {
+				$("#revision_history_container").hide();
+				$("#content_page_options").show();
+				$("#" + escapePageId(selectedpage)).html(pagecontents[selectedpage]);
+				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+			}
+		} catch (err){
+			// Ignore	
+		};
+	}
+	
+	var transformDate = function(day, month, year, hour, minute){
+		var string = "";
+		var smonth = "Jan";
+		if (month == 1){
+			smonth = "Feb";
+		} else if (month == 2){
+			smonth = "Mar";
+		} else if (month == 3){
+			smonth = "Apr";
+		} else if (month == 4){
+			smonth = "May";
+		} else if (month == 5){
+			smonth = "Jun";
+		} else if (month == 6){
+			smonth = "Jul";
+		} else if (month == 7){
+			smonth = "Aug";
+		} else if (month == 8){
+			smonth = "Sep";
+		} else if (month == 9){
+			smonth = "Oct";
+		} else if (month == 10){
+			smonth = "Nov";
+		} else if (month == 11){
+			smonth = "Dec";
+		}
+		string += smonth + " " + day + ", " + (1900 + year);
+		string += " ";
+		if (hour < 10) {
+			hour = "0" + hour;
+		} 
+		string += hour + ":";
+		if (minute < 10){
+			minute = "0" + minute;
+		}
+		string +=  minute;
+		return string;
+	}
 
 	
 	/*
@@ -2416,27 +2613,6 @@ if (nel.className == "contauthlink") {
 		}
 		//setTimeout(placeToolbar, 100);
 	});
-	
-	
-	/*
-		Other
-	*/
-	
-	// Fix small arrow horizontal position
-	$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
-
-	// Round cornners for elements with '.rounded_corners' class
-	$('.rounded_corners').corners();
-
-	// IE 6 Fixes
-	if ($.browser.msie && $.browser.version < 7) {
- 		// Tab fix
- 		$('.fl-tabs li a').css('bottom','-3px');
-		$('.fl-tabs .fl-activeTab a').css('bottom','-4px');
-		$('.explore_nav_selected_arrow').css('bottom','-4px');
-
-	}
-	
 	
 	/*
 		Load functions 
