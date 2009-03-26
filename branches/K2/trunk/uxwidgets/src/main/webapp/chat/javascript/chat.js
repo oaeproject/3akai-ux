@@ -84,8 +84,46 @@ sakai.chat = function(tuid, placement, showSettings){
 	activewindows.items = [];
 	var online = false;
 	var goBackToLogin = false;
+	var defaultNav = false;
 	
-	var doInit = function(){
+	defaultNav = $(".explore").html();
+	
+	var setPeopleDropdown = function(){
+		$("#nav_people_link").bind("click", function(ev){
+			$("#people_dropdown_main").show();
+			$("#people_dropdown_close").show();
+			$(".explore").html(defaultNav);
+			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			setRoundedCorners();
+		});
+	}
+	
+	$("#people_dropdown_close_link").bind("click", function(ev){
+		$("#people_dropdown_main").hide();
+		$("#people_dropdown_close").hide();
+		$(".explore").html(defaultNav);
+		selectPage();
+		setPeopleDropdown();
+	});
+	
+	var setRoundedCorners = function(){
+		// Fix small arrow horizontal position
+		$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
+		
+		// Round cornners for elements with '.rounded_corners' class
+		$('.rounded_corners').corners("2px");
+		
+		// IE Fixes
+		if (($.browser.msie) && ($.browser.version < 8)) {
+			
+			// Small Arrow Fix
+			$('.explore_nav_selected_arrow').css('bottom','-10px');
+			
+			
+		}
+	}
+	
+	var selectPage = function(){
 		
 		// Select the page we're on
 		
@@ -96,6 +134,11 @@ sakai.chat = function(tuid, placement, showSettings){
 		} else if (window.location.pathname.toLowerCase().indexOf("/people.html") != -1){
 			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		}
+		
+		setRoundedCorners();
+	}
+	
+	var doInit = function(){
 		
 		var person = sdata.me;
 		
@@ -119,20 +162,9 @@ sakai.chat = function(tuid, placement, showSettings){
 			}
 		}
 		
-		// Fix small arrow horizontal position
-		$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
+		selectPage();
+		setPeopleDropdown();
 		
-		// Round cornners for elements with '.rounded_corners' class
-		$('.rounded_corners').corners("2px");
-		
-		// IE Fixes
-		if (($.browser.msie) && ($.browser.version < 8)) {
-			
-			// Small Arrow Fix
-			$('.explore_nav_selected_arrow').css('bottom','-10px');
-			
-			
-		}
 	}
 	
 	var informPresent = function(){
