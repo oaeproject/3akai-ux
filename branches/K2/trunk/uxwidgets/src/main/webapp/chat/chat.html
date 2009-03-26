@@ -3,7 +3,7 @@
 		<ul class="explore fl-force-left">
 			<li id="nav_my_sakai_link"><a  href="/dev/redesign/my_sakai.html">My Sakai</a></li>
 	        <li><a href="/dev/sn/profile.html">Profile</a></li>
-	        <li id="nav_people_link"><a href="/dev/redesign/people.html">People</a></li>
+	        <li id="nav_people_link"><a href="javascript:;">People</a></li>
 			<li><a href="javascript:;">Course & Sites</a></li>
 			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
 	    </ul>
@@ -15,6 +15,60 @@
 	    </ul>
 	</div>
 </div>
+
+<!-- DROPDOWN -->
+<div class="fl-container-flex fl-col-flex2 fl-fix dropdown" id="people_dropdown_main" style="display:none">
+		
+	<!-- MY CONTACTS -->
+	<div class="fl-col dropdown_contacts">
+			
+		<h2>My Contacts</h2>
+			
+		<div class="fl-container">
+		<div class="dropdown_person">
+			<a href="#" class="dropdown_person_picture"></a>
+			<a href="#" class="dropdown_person_name">Denzel Williams</a>
+		</div>
+			
+		<div class="dropdown_person">
+			<a href="#" class="dropdown_person_picture"></a>
+			<a href="#" class="dropdown_person_name">Florencia Williams</a>
+		</div>
+		
+		<div class="dropdown_person">
+			<a href="#" class="dropdown_person_picture"></a>
+			<a href="#" class="dropdown_person_name">Sonja Kieslowskaya</a>
+		</div>
+		
+		<div class="dropdown_person">
+			<a href="#" class="dropdown_person_picture"></a>
+			<a href="#" class="dropdown_person_name">Tracy Hughes</a>
+		</div>
+		</div>
+		
+		<a href="people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
+		
+	</div>
+	
+		<!-- SEARCH -->
+	<div class="dropdown_search_people">
+		<h2>Search for People</h2>
+		<div class="fl-fix dropdown_search_container">
+		<form>
+			<input type="text" class="dropdown_search_input" value="Type name or keywords"></input>
+			<div class="buttonBar fl-force-left">
+				<a href="javascript:;" id="search_text_button" class="button search_button">Search</a>
+			</div>
+		</form>
+		</div>
+	</div>
+	
+</div>
+
+<div class="fl-force-right close" id="people_dropdown_close" style="display:none">
+	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="images/close_icon.png" alt="Close Icon" class="close_icon"></img></a>
+</div>
+
 
 <div id="show_online" class="doFixed" style="display:none">
 	<div id="chat_available"></div>
