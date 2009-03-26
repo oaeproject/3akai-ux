@@ -87,6 +87,116 @@ sakai.chat = function(tuid, placement, showSettings){
 	var defaultNav = false;
 	
 	/*
+		Courses & Sites dropdown handler 
+	*/
+	
+	var sitesShown = false;
+	var sitesFocus = false;
+	
+	var doSort = function(a,b){
+		if (a.name > b.name) {
+			return 1;
+		} else if (a.name == b.name) {
+			return 0;
+		} else {
+			return -1;
+		}
+	}
+	
+	var loadSites = function(){
+		var el = $("#widget_createsite");
+		if (!el.get(0)){
+			$("#top_navigation_widgets").append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
+			sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
+		}
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/rest/sites?sid=" + Math.random(),
+			onSuccess: function(data){
+				
+			var newjson = eval('(' + data + ')');
+			newjson.entry = newjson.entry.sort(doSort);
+			if (newjson.entry.length > 5){
+				newjson.entry = newjson.entry.splice(0,5);
+			}
+			if (newjson.entry.length == 0){
+				$("#top_navigation_my_sites_list").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
+			} else {
+				$("#top_navigation_my_sites_list").html(sdata.html.Template.render('top_navigation_my_sites_list_template', newjson));
+			}
+		
+			},
+			onFail: function(status){
+				alert("An error has occured");
+			}
+		});
+	}
+	
+	$("#top_navigation_create_site").bind("click", function(ev){
+		createNewSite();
+	});
+	
+	var createNewSite = function(){
+		$("#createsitecontainer").show();
+		sakai.createsite.initialise();
+	}
+	
+	$("#courses_sites_search").bind("focus", function(ev){
+		if (!sitesFocus){
+			sitesFocus = true;
+			var el = $("#courses_sites_search");
+			el.val("");
+			el.css("color","#000000");
+		}
+	});
+	
+	$("#courses_sites_search").bind("keypress", function(ev){
+		if (ev.which == 13){
+			doSitesSearch();
+		}
+	})
+	
+	$("#courses_sites_search_button").bind("click", function(ev){
+		doSitesSearch();
+	})
+	
+	var doSitesSearch = function(){
+		var tosearch = $("#courses_sites_search").val();
+		if (tosearch){
+			document.location = "search_b_sites.html#1|" + tosearch;
+		}
+	}
+	
+	/*
+		Course & Sites dropdown hide/show 
+	*/
+	
+	defaultNav = $(".explore").html();
+	
+	var setSitesDropdown = function(){
+		$("#nav_courses_sites_link").bind("click", function(ev){
+			$("#mysites_dropdown_main").show();
+			$("#mysites_dropdown_close").show();
+			$(".explore").html(defaultNav);
+			$("#nav_courses_sites_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Courses &amp; Sites</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			setRoundedCorners();
+			if (!sitesShown){
+				loadSites();
+				sitesShown = true;
+			}
+		});
+	}
+	
+	$("#mysites_dropdown_close_link").bind("click", function(ev){
+		$("#mysites_dropdown_main").hide();
+		$("#mysites_dropdown_close").hide();
+		$(".explore").html(defaultNav);
+		selectPage();
+		setSitesDropdown();
+	});
+	
+	
+	/*
 		People dropdown handler 
 	*/
 	
@@ -256,6 +366,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		selectPage();
 		setPeopleDropdown();
+		setSitesDropdown();
 		
 	}
 	
