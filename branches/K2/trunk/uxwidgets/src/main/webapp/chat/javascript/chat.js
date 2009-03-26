@@ -86,6 +86,94 @@ sakai.chat = function(tuid, placement, showSettings){
 	var goBackToLogin = false;
 	var defaultNav = false;
 	
+	/*
+		People dropdown handler 
+	*/
+	
+	var peopleShown = false;
+	var peopleFocus = false;
+	
+	var loadPeople = function(){
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/rest/friend/status?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
+			onSuccess: function(data){
+				var friends = eval('(' + data + ')');
+				
+				var pOnline = {};
+				pOnline.items = [];
+				var total = 0;
+				pOnline.showMore = false;
+				
+				if (friends.status.friends) {
+					for (var i = 0; i < friends.status.friends.length; i++) {
+						var isOnline = false;
+						if (!isOnline && total < 4) {
+							var item = friends.status.friends[i];
+							item.id = item.friendUuid;
+							if (item.profile.firstName && item.profile.lastName) {
+								item.name = item.profile.firstName + " " + item.profile.lastName;
+							}
+							else {
+								item.name = item.friendUuid;
+							}
+							if (item.profile.picture) {
+								var pict = eval('(' + item.profile.picture + ')');
+								if (pict.name) {
+									item.photo = "/sdata/f/_private" + item.properties.userStoragePrefix + pict.name;
+								}
+							}
+							item.online = false;
+							pOnline.items[pOnline.items.length] = item;
+							total++;
+						}
+					}
+				}
+				
+				$("#people_dropdown_my_contacts_list").html(sdata.html.Template.render("people_dropdown_my_contacts_list_template", pOnline));
+				
+				if (pOnline.items.length == 0){
+					$("#people_dropdown_main").css("height","80px");
+					$("#people_dropdown_my_contacts_list").css("margin-bottom","10px");
+				}
+				
+			},
+			onFail: function(status){
+				$("#list_rendered").html("<b>An error has occurred.</b> Please try again later");
+			}
+		});
+	}
+	
+	$("#dropdown_people_search").bind("focus", function(ev){
+		if (!peopleFocus){
+			peopleFocus = true;
+			var el = $("#dropdown_people_search");
+			el.val("");
+			el.css("color","#000000");
+		}
+	});
+	
+	$("#dropdown_people_search").bind("keypress", function(ev){
+		if (ev.which == 13){
+			doPeopleSearch();
+		}
+	})
+	
+	$("#dropdown_people_search_button").bind("click", function(ev){
+		doPeopleSearch();
+	})
+	
+	var doPeopleSearch = function(){
+		var tosearch = $("#dropdown_people_search").val();
+		if (tosearch){
+			document.location = "search_b_people.html#1|" + tosearch;
+		}
+	}
+	
+	/*
+		People dropdown hide/show 
+	*/
+	
 	defaultNav = $(".explore").html();
 	
 	var setPeopleDropdown = function(){
@@ -95,6 +183,10 @@ sakai.chat = function(tuid, placement, showSettings){
 			$(".explore").html(defaultNav);
 			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 			setRoundedCorners();
+			if (!peopleShown){
+				loadPeople();
+				peopleShown = true;
+			}
 		});
 	}
 	
