@@ -148,6 +148,20 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/dev/img/myprofile.png"
 		},
+		pollwow :
+		{
+			description:"Poll widget\r\n",
+			iframe:0,
+			url:"/devwidgets/pollwow/pollwow.html",
+			name:"Poll",
+			id:"pollwow",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/dev/img/myprofile.png"
+		},
 		wookiechat :
 		{
 			description:"wookiechat\r\n",
