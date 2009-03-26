@@ -1627,14 +1627,15 @@ sdata.widgets.WidgetPreference =  {
 	 * @param prefcontent the content to be saved
 	 * @param {function} callback, the call back to call when the save is complete
 	 */
-	save : function(url, prefname, prefcontent, callback, requireslogin){
+	save : function(url, prefname, prefcontent, callback, requireslogin,contentType){
+		var ct = contentType || "text/plain";
 		var cb = callback || function() {}; 
 		var args = "true";
 		if (requireslogin){
 			args = "false";
 		}
 		var url= url + "?sid=" + Math.random();
-		var data = {"items":{"data": prefcontent,"fileName": prefname,"contentType":"text/plain"}};
+		var data = {"items":{"data": prefcontent,"fileName": prefname,"contentType": ct}};
 		sdata.Ajax.request({
 			url :url,
 			httpMethod : "POST",
