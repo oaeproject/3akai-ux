@@ -211,8 +211,22 @@ sakai.search = function(){
 				url: "/rest/friend/connect/accept",
 				httpMethod: "POST",
 				onSuccess: function(data){
-					loadContacts(1);
-					loadInvitations();
+					setTimeout('loadContacts(1)',500);
+					
+					// remove from json file
+					
+					var index = -1;
+					for (var i = 0; i < foundInvitations.status.friends.length; i++){
+						if (foundInvitations.status.friends[i].friendUuid == user){
+							index = i;
+						}
+					}
+					foundInvitations.status.friends.splice(index,1);
+					
+					// rerender
+					
+					renderInvitations();
+					
 				},
 				onFail : function(data){
 					alert("An error has occured");
