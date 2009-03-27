@@ -25,17 +25,13 @@ sakai.myfriendswow = function(tuid,placement,showSettings){
 			
 			var total = 0;
 			if (json2.status.friends){
-				for (var i = 0; i < json2.status.friends.length; i++){
-					if (json2.status.friends[i].status == "INVITED"){
-						total++;
-					}
-				}
+				total += json2.status.sizes["INVITED"];
 			}
 			
 			if (total == 1){
 				$("#contact_requests", rootel).html("1 Contact Request");
 			} else if (total > 1) {
-				$("#contact_requests", rootel).html(json2.total + " Connection Requests");
+				$("#contact_requests", rootel).html(total + " Connection Requests");
 			}
 		},
 		onFail: function(status){
