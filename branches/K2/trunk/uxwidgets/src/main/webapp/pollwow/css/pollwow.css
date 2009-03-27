@@ -215,6 +215,10 @@
 	margin: 0px 10px 10px 0px;
 	width: 84px;
 }
+#pollwow_polltype a:hover {
+	border: solid #cccccc 1px;
+	text-decoration: none;
+}
 #pollwow_polltype a span {
 	background-color: #707070;
 	color: #faf8f8;

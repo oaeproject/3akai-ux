@@ -889,7 +889,7 @@ sakai.pollwow = function(tuid, placement, showSettings){
 		
 		/** Bind the toggle advanced settings button */
 		$("#pollwow_toggle_advanced_settings", rootel).click(function(){
-			$("#pollwow_advanced_settings", rootel).toggle(400);
+			$("#pollwow_advanced_settings", rootel).slideToggle(400);
 			if($("#pollwow_toggle_advanced_settings_up", rootel).is(":visible")){
 				$("#pollwow_toggle_advanced_settings_up").hide();
 				$("#pollwow_toggle_advanced_settings_down").show();
@@ -923,6 +923,7 @@ sakai.pollwow = function(tuid, placement, showSettings){
 		d = new Date();
 		$("#pollwow_startdate", rootel).datepicker({
 			showOn: 'both',
+			showAnim: 'slideDown',
 			buttonImage: '/devwidgets/pollwow/images/pollwow_drop_down.gif',
 			buttonImageOnly: true,
 			buttonText: "Please select a start date",
@@ -933,6 +934,7 @@ sakai.pollwow = function(tuid, placement, showSettings){
 
 		$("#pollwow_stopdate", rootel).datepicker({
 			showOn: 'both',
+			showAnim: 'slideDown',
 			buttonImage: '/devwidgets/pollwow/images/pollwow_drop_down.gif',
 			buttonImageOnly: true,
 			buttonText: "Please select a stop date",
