@@ -167,7 +167,7 @@ var Widgets = {
 			description:"wookiechat\r\n",
 			iframe:0,
 			url:"/devwidgets/wookiechat/wookiechat.html",
-			name:"Wookie Chat",
+			name:"Chat",
 			id:"wookiechat",
 			personalportal:0,
 			siteportal:0,
@@ -187,7 +187,7 @@ var Widgets = {
 			siteportal:0,
 			ca:1,
 			showinmedia:0,
-			showinsakaigoodies:1,
+			showinsakaigoodies:0,
 			img:"/dev/img/myprofile.png"
 		},
 		helloworld :
@@ -344,8 +344,36 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0,
 			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:0,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
+		video :
+		{
+			description:"Video",
+			iframe:0,
+			url:"/devwidgets/video/video.html",
+			name:"Video",
+			id:"video",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
 			showinmedia:1,
 			showinsakaigoodies:0,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
+		commentswow :
+		{
+			description:"Comments",
+			iframe:0,
+			url:"/devwidgets/commentswow/commentswow.html",
+			name:"Comments",
+			id:"commentswow",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
 		tangler :
