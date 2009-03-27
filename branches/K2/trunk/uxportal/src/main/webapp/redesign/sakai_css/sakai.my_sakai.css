@@ -143,7 +143,7 @@ strong {
 .header .search .search_form {
 	height:60px;
 	position:relative;
-	right:275px;
+	right:270px;
 	text-align:right;
 	top:35px;
 }
@@ -152,18 +152,19 @@ strong {
 	border: 1px solid #DDDDDD;
 	color:#999999;
 	height:19px;
-	position:absolute;
+	position:relative;
 	top:0;
 	width: 250px;
 	padding-top:3px;
 	padding-left:3px;
+	left: 255px;
 }
 
 
 .header .search .search_form .search_button {
 	left:260px;
 	position:relative;
-	top:4px;
+	top:0px;
 }
 
 /* OPTIONS */
