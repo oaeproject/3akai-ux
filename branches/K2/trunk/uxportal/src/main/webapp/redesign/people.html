@@ -126,7 +126,7 @@
 					
 					<div id="invited_search_result_template"><!--
 						{for i in items}
-							<div class="fl-container fl-fix search_result_person">
+							<div class="fl-container fl-fix search_result_person" id="accept_contact_container_${i.userid}">
 								{if ! i.picture}
 									<a href="/dev/sn/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
 								{else}
