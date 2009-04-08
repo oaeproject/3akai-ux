@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Create New Account</title>        
+    <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />   
+    
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />	    
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.3.css" />
+	
+	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
+	
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/jcap/jcap.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/jcap/md5.js"></script>
+	<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+	
+</head>
+
+<body class="fl-centered create_account">
+	
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+	
+    <!-- HEADER -->
+    <div class="bigheader">
+    	<div class="header-version">
+        	3.0 RC1
+        </div>
+        <div class="header-title">
+        	__MSG__INSTANCE_NAME__
+			<!-- sakai -->
+        </div>
+        <div class="header-byline">
+        	Open Source Collaborative Learning. Designed by educators, for educators.
+        </div>
+		<div class="header-smallline">
+			Sakai is a powerful yet flexible solution that supports not only teaching and learning but
+			also research and administrative collaboration. The Sakai CLE is distributed free of charge
+			and our license is designed to encourage innovation and customization in order to meet
+			local campus needs.
+		</div>
+		<div style="padding: 20px 0px 0px 45px; width: 400px;">
+			<img src="images/gateway.png" height="267px"/>
+		</div>
+		<div style="padding:20px; position: absolute; left: 510px; top: 255px;">
+			<strong style="color:#D8D8D8; font-size: 1em;">__MSG__USERNAME__:</strong><br/>
+			<input type="text" id="username" value="" style="margin-bottom:15px;" /><br/>
+			<strong style="color:#D8D8D8; font-size: 1em">__MSG__PASSWORD__:</strong><br/>
+			<input type="password" id="password" value=""/>
+
+			<div id="failed" style="display:none; margin-top:10px; color: #D8D8D8; width:260px">__MSG__LOGIN_FAILED__!<br/></div>
+
+			<div class="block" style="margin-top:20px;">
+				<input type="button" class="button button-primary create-confirm" id="loginbutton" value="Sign In" />
+				<span id="loginloader" style="display:none; color: #D8D8D8;">__MSG__SIGNING_IN__</span>
+			</div>
+			
+			<div style="margin-top:65px; color: #D8D8D8; font-size: 0.95em">
+				&raquo; No account yet? <a href="create_new_account_flat.html" style="color:#D8D8D8; text-decoration: underline;">Register here</a>
+			</div>
+		</div>
+    </div>
+	
+	<div style="height:75px; width: 100px;"></div>
+	
+	<script type="text/javascript" language="JavaScript" src="javascript/index.js"></script>
+	
+</body>
+</html>
