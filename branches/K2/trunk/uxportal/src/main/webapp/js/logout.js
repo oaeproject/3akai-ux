@@ -1,14 +1,16 @@
 var sakai = sakai || {};
 sakai.logout = function(){
 
+	var LOGIN_PAGE = "/dev/redesign/index.html";
+
 	sdata.Ajax.request({
 		url: "/rest/logout",
 		httpMethod: "POST",
 		onSuccess: function(data){
-			document.location = "/dev/";
+			document.location = LOGIN_PAGE;
 		},
 		onFail: function(status){
-			document.location = "/dev/";
+			document.location = LOGIN_PAGE;
 		},
 		postData: {"logout":"logout"},
 		contentType: "multipart/form-data"
