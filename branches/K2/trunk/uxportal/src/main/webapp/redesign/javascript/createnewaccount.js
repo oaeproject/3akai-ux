@@ -20,6 +20,21 @@ sakai.newaccount = function(){
 	
 	var resetErrorFields = function(){
 		$("input").removeClass("invalid");
+		$("#username_taken").hide();
+		$("#username_short").hide();
+		$("#username_spaces").hide();
+		$("#username_empty").hide();
+		$("#firstname_empty").hide();
+		$("#lastname_empty").hide();
+		$("#email_empty").hide();
+		$("#password_repeat_empty").hide();
+		$("#password_empty").hide();
+		$("#password_short").hide();
+		$("#password_repeat_nomatch").hide();
+		$("#uword_empty").hide();
+		$("#uword_nomatch").hide();
+		$("#email_invalid").hide();
+		$("#username_label").css("color","#666")
 		$(".create-account-notification").hide();
 	}
 
@@ -38,24 +53,24 @@ sakai.newaccount = function(){
 		var value = $("#username").attr("value");
 		if (!value || value.replace(/ /g, "") == ""){
 			resetErrorFields();
-			setErrorField("username_label");
-			setError("The username shouldn't be empty");
+			$("#username").addClass("invalid");
+			$("#username_empty").show();
 			return false;
 		}
 		
 		//check spaces
 		if (value.indexOf(" ") != -1){
 			resetErrorFields();
-			setErrorField("username_label");
-			setError("The username shouldn't contain spaces");
+			$("#username").addClass("invalid");
+			$("#username_spaces").show();
 			return false;
 		}
 		
 		//check length of username
 		if (value.length < 3){
 			resetErrorFields();
-			setErrorField("username_label");
-			setError("The username should be at least 3 characters long");
+			$("#username").addClass("invalid");
+			$("#username_short").show();
 			return false;
 		}
 		
@@ -65,8 +80,8 @@ sakai.newaccount = function(){
             url: "/rest/user/" + value + "/exists?sid=" + Math.random(),
             onSuccess: function(data){
 				resetErrorFields();
-				setErrorField("username_label");
-				setError("The username already exists");
+				$("#username").addClass("invalid");
+				$("#username_taken").show();
 				return false;
 			}, 
 			onFail : function(data){
@@ -75,19 +90,20 @@ sakai.newaccount = function(){
 					$("#username_label").css("color","#2E8A28");
 					return true;
 				} else {
-					doCreateSite();
+					doCreateUser();
 				}	
 			}	
 		});
 		
 	}
 	
-	var doCreateSite = function(){
-		var firstname = $("#firstname").attr("value");
-		var lastname = $("#lastname").attr("value");
-		var email = $("#email").attr("value");
-		var username = $("#username").attr("value");
-		var password = $("#password").attr("value");
+	var doCreateUser = function(){
+		
+		var firstname = $("#firstname").val();
+		var lastname = $("#lastname").val();
+		var email = $("#email").val();
+		var username = $("#username").val();
+		var password = $("#password").val();
 		
 		var data = {"userType":"default","firstName":firstname, "lastName":lastname, "email":email, "password":password, "eid": username};
 		sdata.Ajax.request({
@@ -99,16 +115,13 @@ sakai.newaccount = function(){
 				
 				var resp = eval('(' + data + ')');
 						
-				$("#saveinfo1").show();
-				$("#spacer").show();
-				$("#check_availability").hide();
-				$("#save_account").hide();
-				$("#cancel_button").text("Go Back");
+				$("#buttons").hide();
+				$("#success_message").show();
 				
 			},
 			onFail: function(data){
 				resetErrorFields();
-				setError("<b>Oops</b> A problem has occured. Please try again");
+				//setError("<b>Oops</b> A problem has occured. Please try again");
 			}
 		});
 		
@@ -121,7 +134,6 @@ sakai.newaccount = function(){
 		checkingUserExists = false;
 		
 		resetErrorFields();
-		hideError();
 		
 		//check empty
 		var errors = [];
@@ -129,80 +141,79 @@ sakai.newaccount = function(){
 		
 			//firstname
 			if (checkEmpty("firstname")){
-				errors[errors.length] = "First Name";
+				$("#firstname").addClass("invalid");
+				$("#firstname_empty").show();
 			}
 			
 			//lastname
 			if (checkEmpty("lastname")){
-				errors[errors.length] = "Last Name";
+				$("#lastname").addClass("invalid");
+				$("#lastname_empty").show();
 			}
 			
 			//email
 			if (checkEmpty("email")){
-				errors[errors.length] = "Email Address";
+				$("#email").addClass("invalid");
+				$("#email_empty").show();
 			}
 			
 			//username
 			if (checkEmpty("username")){
-				errors[errors.length] = "Username";
+				$("#username").addClass("invalid");
+				$("#username_empty").show();
 			}
 			
 			//password
 			if (checkEmpty("password")){
-				errors[errors.length] = "Password";
+				$("#password").addClass("invalid");
+				$("#password_empty").show();
 			}
 			
 			//repeat password
 			if (checkEmpty("password_repeat")){
-				errors[errors.length] = "Re-Type Password";
+				$("#password_repeat").addClass("invalid");
+				$("#password_repeat_empty").show();
 			}
 			
 			//uword
 			if (checkEmpty("uword")){
-				errors[errors.length] = "Word verification";
+				$("#uword").addClass("invalid");
+				$("#uword_empty").show();
 			}
 		
 		
 		if (errors.length > 0){
-			var result = "You need to fill out the following field(s):<br/><br/>";
-			for (var i = 0; i < errors.length; i++){
-				result += "- " + errors[i] + "<br/>";
-			}
-			var height = 2*16 + (errors.length*16);
-			$("#warning1").css("height","" + height + "px");
-			setError(result);
 			return false;
 		}
 		
 		//check CAPTCHA
 		
 		if (!jcap()){
-			setErrorField("uword_label");
-			setError("The given word does not match the text inside the image!");
+			$("#uword").addClass("invalid");
+			$("#uword_nomatch").show();
 			return false;
 		}
 		
 		//check valid email
 		if (!echeck($("#email").attr("value"))){
-			setErrorField("email_label");
-			setError("Invalid email address");
+			$("#email").addClass("invalid");
+			$("#email_invalid").show();
 			return false;
 		}
 		
 		//check length password
-		var pass = $("#password").attr("value");
+		var pass = $("#password").val();
 		if (pass.length < 4){
-			setErrorField("password_label");
-			setError("The password should contain at least 4 characters");
+			$("#password").addClass("invalid");
+			$("#password_short").show();
 			return false;
 		}
 		
 		//check match password
 		var pass2 = $("#password_repeat").attr("value");
 		if (pass != pass2){
-			setErrorField("password_label");
-			setErrorField("password_repeat_label");
-			setError("The passwords don't match");
+			$("#password_repeat").addClass("invalid");
+			$("#password_repeat_nomatch").show();
 			return false;
 		}
 		
@@ -258,9 +269,8 @@ sakai.newaccount = function(){
 	}
 	
 	var checkEmpty = function(field){
-		var value = $("#" + field).attr("value");
+		var value = $("#" + field).val();
 		if (!value || value.replace(/ /g,"") == ""){
-			setErrorField(field + "_label");
 			return true;
 		} else {
 			return false;
