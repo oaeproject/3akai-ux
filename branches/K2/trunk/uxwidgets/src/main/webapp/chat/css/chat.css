@@ -132,7 +132,7 @@
 	position: fixed;
 }
 
-#chat_main_container th, td {
+#chat_main_container th, #chat_main_container td {
 	border:none;
 	padding:0 !important;
 }
@@ -320,4 +320,32 @@ padding: 0 0 9px 0;
 	padding:0 0 9px;
 	text-indent:0;
 	width:148px;
+}
+
+.dialogue_body .dialogue_add_goodies_description {
+	color:#666666;
+	font-size:12px;
+	font-weight:100;
+}
+
+.dialogue_body .dialogue_remove_goodies_title {
+	color:#999999;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.dialogue_body .dialogue_remove_goodies_description {
+	color:#999999;
+	font-size:12px;
+	font-weight:100;
+}
+
+.dialogue_body .dialogue_add_goodies_title {
+	color:#333333;
+	font-size:13px;
+	font-weight:bold;
+}
+
+.dialogue_body .remove {
+	background:#F8F8F8 none repeat scroll 0 0;
 }
