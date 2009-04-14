@@ -54,28 +54,32 @@
             	<tr>
                 	<td colspan="1">
                     	<label for="first">First Name:</label><br />
-                    	<input type="text" id="first" class="create-input-short" value="" /> 
-						<div style="display:none" class="create-account-notification">Please enter your first name!</div>
+                    	<input type="text" id="firstname" class="create-input-short" value="" /> 
+						<div style="display:none" id="firstname_empty" class="create-account-notification">Please enter your first name!</div>
                     </td>
                     <td colspan="1">                  
                     	<label for="last">Last Name:</label><br />
-                    	<input type="text" id="last" class="create-input-short" value="" />
-						<div style="display:none" class="create-account-notification">Please enter your last name!</div>
+                    	<input type="text" id="lastname" class="create-input-short" value="" />
+						<div style="display:none" id="lastname_empty" class="create-account-notification">Please enter your last name!</div>
                     </td>
                 </tr>
                 <tr>
                 	<td colspan="2">
                     	<label for="email">Email:</label><br />
                         <input type="text" id="email" class="create-input-long" />
-						<div style="display:none" class="create-account-notification">This is an invalid email address</div>
+						<div style="display:none" id="email_empty" class="create-account-notification">Please enter your email address!</div>
+						<div style="display:none" id="email_invalid" class="create-account-notification">This is an invalid email address!</div>
                     </td>                    
                 </tr>
                 <tr>
                 	<td>
-                    	<label for="username">Username:</label><br />
+                    	<label id="username_label" for="username">Username:</label><br />
                         <input type="text" id="username" class="create-input-short" />
-						<div style="display:none" class="create-account-notification">This username has already be taken!</div>
-                    </td>
+						<div style="display:none" id="username_taken" class="create-account-notification">This username has already be taken!</div>
+						<div style="display:none" id="username_spaces" class="create-account-notification">The username shouldn't contain spaces!</div>
+						<div style="display:none" id="username_short" class="create-account-notification">The username should be at least 3 characters long!</div>
+                    	<div style="display:none" id="username_empty" class="create-account-notification">The username should be at least 3 characters long!</div>
+					</td>
                     <td>
                     	<div class="check-username" id="checkUserName"><span>&raquo;</span> Check if this username is available</div>
                     </td>
@@ -83,20 +87,23 @@
                 <tr>
                 	<td>
                     	<label for="password">Password:</label><br />
-                        <input type="text" id="password" class="create-input-short" />
-						<div style="display:none" class="create-account-notification">Your password should be 4 characters long!</div>
+                        <input type="password" id="password" class="create-input-short" />
+						<div style="display:none" id="password_empty" class="create-account-notification">Please enter your password!</div>
+						<div style="display:none" id="password_short" class="create-account-notification">Your password should be 4 characters long!</div>
                     </td>
                     <td>
                     	<label for="re_password">Re-type password:</label><br />
-                        <input type="text" id="re_password" class="create-input-short" />
-                        <div style="display:none" class="create-account-notification">This password does not match the first one!</div>
-                    </td>
+                        <input type="password" id="password_repeat" class="create-input-short" />
+                        <div style="display:none" id="password_repeat_empty" class="create-account-notification">Please repeat your password!</div>
+                    	<div style="display:none" id="password_repeat_nomatch" class="create-account-notification">This password does not match the first one!</div>
+					</td>
                 </tr>
                 <tr rowspan="2">
                 	<td class="bottom">
                     	<label for="captcha_answer">Please type the word on the right:</label><br />
-                        <input type="text" id="captcha_answer bottom" class="create-input-short" />
-						<div style="display:none" class="create-account-notification">This does not match the word on the right!</div>
+                        <input type="text" id="uword" class="create-input-short" />
+						<div style="display:none" id="uword_empty" class="create-account-notification">Please enter the word on the right!</div>
+						<div style="display:none" id="uword_nomatch" class="create-account-notification">This does not match the word on the right!</div>
                     </td>
                     <td class="captcha_container">
                     	<script type="text/javascript">sjcap();</script>
@@ -104,10 +111,13 @@
                 </tr>                
             </table>
         </form>
-        <div class="buttons">
+        <div class="buttons" id="buttons">
             <input type="button" class="button button-secondary create-cancel" id="cancel_button" value="Cancel" /> 
 			<input type="button" class="button button-primary create-confirm" id="save_account" value="Create Account" />
         </div>
+		<div id="success_message" style="margin:13px 0 0 330px; padding-bottom:50px; display:none">
+			Account successfully created. <a style="font-weight:bold" href="index.html">Click here to login.</a>
+		</div>
     </div>
 	
 	<script type="text/javascript" language="JavaScript" src="javascript/createnewaccount.js"></script>
