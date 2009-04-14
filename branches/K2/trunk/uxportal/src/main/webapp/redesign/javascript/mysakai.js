@@ -666,7 +666,7 @@ sakai.dashboard = function(){
 		$("#btnAddWidget").show();
 	}
 
-	sakai.dashboard.addWidget = function(){
+	sakai.dashboard.addWidget = function(id){
 		
 		var selectedlayout = myportaljson.layout;
 
@@ -718,7 +718,7 @@ sakai.dashboard = function(){
 			}
 		} 
 
-		var currentWidget = currentlyopen;
+		var currentWidget = id;
 	
 		var lowestnumber = -1;
 		var lowestcolumn = -1;
@@ -760,11 +760,6 @@ sakai.dashboard = function(){
 	var finishAddWidgets = function (success){
 		if (success){
 			document.getElementById("widgetscontainer").innerHTML = "";
-			if (!Widgets.widgets[currentlyopen].multipleinstance) {
-				document.getElementById('li_' + currentlyopen).className = "awm-minus";
-				$("#btnAddWidget").hide();
-				$("#btnRemoveWidget").show();
-			}
 			showMyPortal();
 		} 
 		else {
@@ -796,7 +791,69 @@ sakai.dashboard = function(){
 		toTop: true,
 		onShow: renderLayouts
 	});
+	
+	
+	/*
+	 	Add Sakai Goodies
+	 */
 
+	var renderGoodies = function(hash){
+		
+		addingPossible = [];
+		addingPossible.items = [];
+		document.getElementById("add_goodies_body").innerHTML = "";
+	
+		for (var l in Widgets.widgets){
+			var alreadyIn = false;
+			//if (! Widgets.widgets[l].multipleinstance) {
+				for (var c in myportaljson.columns) {
+					for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
+						if (myportaljson.columns[c][ii].name === l) {
+							alreadyIn = true;
+						}
+					}
+				}
+			//}
+			if (Widgets.widgets[l].personalportal){
+				var index = addingPossible.items.length;
+				addingPossible.items[index] = [];
+				addingPossible.items[index].alreadyIn = alreadyIn;
+				addingPossible.items[index].title = Widgets.widgets[l].name;
+				addingPossible.items[index].id = Widgets.widgets[l].id;
+				addingPossible.items[index].description = Widgets.widgets[l].description;
+				addingPossible.items[index].img = Widgets.widgets[l].img;
+			}
+		}
+		
+		$("#add_goodies_body").html(sdata.html.Template.render("add_goodies_body_template", addingPossible));
+		
+		$(".goodies_add_button").bind("click", function(ev){
+			var id = this.id.split("_")[this.id.split("_").length - 1];
+			$("#row_add_" + id).hide();
+			$("#row_remove_" + id).show();
+			sakai.dashboard.addWidget(id);
+		});
+		
+		$(".goodies_remove_button").bind("click", function(ev){
+			var id = this.id.split("_")[this.id.split("_").length - 1];
+			$("#row_remove_" + id).hide();
+			$("#row_add_" + id).show();
+			var el = $("[id^=" + id + "]").get(0);
+			var parent = el.parentNode;
+			parent.removeChild(el);
+			saveState();
+		});
+		
+		hash.w.show();
+	}
+	
+	$("#add_goodies_dialog").jqm({
+		modal: true,
+		trigger: $('#add-goodies'),
+		overlay: 20,
+		toTop: true,
+		onShow: renderGoodies
+	});
 
 
 	/*
