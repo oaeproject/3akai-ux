@@ -95,7 +95,7 @@ body {
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
 .add-members .current-members span{color: #999; font-weight: bold;}
 .add-members .current-members .manage-members{background: url(../images/button_current_members.png) repeat-x top left; width: 190px; height: 21px; float: right; vertical-align: middle; line-height: 21px; margin-top: 18px;}
-.add-members .third_heading{margin-top: 45px; color: #666;}
+.add-members .third_heading{color: #666;}
 .add-members .fl-col-mixed-200{margin-left: 23px;}
 .add-members .fl-col-fixed{background-color: #eee; margin: 0; padding: 0;}
 .add-members .fl-col-fixed .fixed-container{padding: 20px 15px 15px 15px; font-size: 12px; color: #333;}
