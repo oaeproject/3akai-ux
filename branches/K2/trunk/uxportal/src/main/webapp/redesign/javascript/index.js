@@ -64,6 +64,7 @@ sakai.index = function(){
 			$("#failed").hide();
 			$("#loginloader").show();
 			$("#loginbutton").hide();
+			$("#register_here").hide();
 
 			var url= "/rest/login";
 			var requestbody = {"l":1, "a":"FORM", "u" : $('#username').attr("value"), "p" : $('#password').attr("value")};
@@ -132,6 +133,7 @@ sakai.index = function(){
 				$("#failed").show();
 				$("#loginloader").hide();
 				$("#loginbutton").show();
+				$("#register_here").show();
 				isLoggingIn = false;
 			}
 		} else {
