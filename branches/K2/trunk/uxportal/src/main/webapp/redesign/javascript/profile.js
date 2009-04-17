@@ -79,21 +79,7 @@ sakai.profile = function(){
 		}
 		
 		totalprofile = me;
-		if (me.profile) {
-			if (me.profile.firstName) {
-				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
-			}
-			else 
-				if (me.profile.lastName) {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
-				}
-				else {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.preferences.uuid);
-				}
-		}
-		else {
-		
-		}
+		fillInvitePopup();
 		
 		if (user && user != me.preferences.uuid) {
 			myprofile = false;
@@ -371,11 +357,8 @@ sakai.profile = function(){
 		
 		if (json.picture){
 			var picture = eval('(' + json.picture + ')');
-			$("#picture_holder img").attr("href",'/sdata/f/_private' + totalprofile.userStoragePrefix + picture.name);
+			$("#picture_holder img").attr("src",'/sdata/f/_private' + totalprofile.userStoragePrefix + picture.name);
 		}
-		
-		$("#picture_form").attr("action","/sdata/f/_private" + totalprofile.userStoragePrefix);
-		profileinfo_userId = totalprofile.userStoragePrefix;
 		
 		fillInBasic();
 		
@@ -622,121 +605,6 @@ sakai.profile = function(){
 		}),10);*/
    }
    
-   $("#add_people_confirm").bind("click", function(ev){
-   	
-	var inviter = user;
-	var data = {"friendUuid" : inviter};
-	
-	sdata.Ajax.request({
-		url: "/rest/friend/connect/accept",
-		httpMethod: "POST",
-		onSuccess: function(data){
-			doAddButton();
-		},
-		onFail : function(data){
-			alert("An error has occured");
-		},
-		postData: data,
-		contentType: "application/x-www-form-urlencoded"
-	});
-	
-   });
-   
-   var doAddButton = function(){
-   		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?sid=" + Math.random(),
-			onSuccess: function(data){
-				var resp = eval('(' + data + ')');
-				
-				var status = false;
-				if (resp.status.friends){
-					for (var i = 0; i < resp.status.friends.length; i++){
-						if (resp.status.friends[i].friendUuid == user){
-							status = resp.status.friends[i].status;
-						}
-					}
-				}
-				
-				if (! status){
-					
-					$("#add_to_contacts_button").show();
-					
-					if (totalprofile.profile.firstName){
-						$("#add_friend_displayname").text(totalprofile.profile.firstName);
-						$("#add_friend_displayname2").text(totalprofile.profile.firstName);
-					} else if (totalprofile.profile.lastName) {
-						$("#add_friend_displayname").text(totalprofile.profile.lastName);
-						$("#add_friend_displayname2").text(totalprofile.profile.lastName);
-					} else {
-						$("#add_friend_displayname").text(totalprofile.preferences.uuid);
-						$("#add_friend_displayname2").text(totalprofile.preferences.uuid);
-					}
-					
-					$("#add_friend_types").html(sdata.html.Template.render("add_friend_types_template",Widgets));
-					
-				}
-			},
-			onFail: function(status){
-				//alert("An error has occured");	
-			}
-		});	
-   }
-   
-   $("#add_people_link").bind("click", function(ev){
-   		$("#add_friend_overlay_lightbox").show();
-		$("#add_friend_lightbox").show();
-   });
-   
-   $("#add_friends_do_invite").bind("click", function(ev){
-   		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
-		if (toSend["add_friends_list_type"]){
-			
-			var type = toSend["add_friends_list_type"];
-			var comment = toSend["add_friend_personal_note"];
-			
-			// send message to other person
-			var userstring = "";
-			if (me.profile.firstName && me.profile.lastName){
-				userstring = me.profile.firstName + " " + me.profile.lastName;
-			} else {
-				userstring = me.preferences.uuid;
-			}
-			
-			var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
-			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
-			
-			// construct openSocial message
-			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
-					
-			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
-			
-			sdata.Ajax.request({
-				url: "/rest/friend/connect/request",
-				httpMethod: "POST",
-			    onSuccess: function(data){
-					
-					$("#add_friend_overlay_lightbox").hide();
-					$("#add_friend_lightbox").hide();
-					doAddButton();
-					
-				},
-				onFail: function(status){
-					alert("An error has occured");
-				},
-				postData: data,
-				contentType: "application/x-www-form-urlencoded"
-			});
-			
-		}
-   });
-   
-   $("#close_add_friend_lightbox").bind("click", function(ev){
-   		$("#add_friend_overlay_lightbox").hide();
-		$("#add_friend_lightbox").hide();
-   });
-   
-   
    /*
     * Sending a message
     */
@@ -779,7 +647,7 @@ sakai.profile = function(){
 		} else {
 			
 			var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
-			var toSend = {"to": user,"message":openSocialMessage};
+			var toSend = {"to": user,"message":sdata.JSON.stringify(openSocialMessage)};
 			
 			sdata.Ajax.request({
 				url: "/_rest/message/send",
@@ -801,6 +669,144 @@ sakai.profile = function(){
 		}
 		
 	});
+	
+	
+	/*
+	 * Add to contacts
+	 */
+	
+	$('#add_to_contacts_dialog').jqm({
+		modal: true,
+		trigger: $('#add_to_contacts_button'),
+		overlay: 20,
+		toTop: true
+	});
+	
+	var fillInvitePopup = function(){
+		if (me.profile) {
+			if (me.profile.firstName) {
+				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
+			}
+			else 
+				if (me.profile.lastName) {
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
+				}
+				else {
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.preferences.uuid);
+				}
+		}
+	}
+	
+	var doAddButton = function(){
+   		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/rest/friend/status?sid=" + Math.random(),
+			onSuccess: function(data){
+				var resp = eval('(' + data + ')');
+				
+				var status = false;
+				if (resp.status.friends){
+					for (var i = 0; i < resp.status.friends.length; i++){
+						if (resp.status.friends[i].friendUuid == user){
+							status = resp.status.friends[i].status;
+						}
+					}
+				}
+				
+				if (! status){
+					
+					$("#add_to_contacts_button").show();
+					
+					if (totalprofile.profile.firstName){
+						$("#add_friend_displayname").text(totalprofile.profile.firstName);
+						$("#add_friend_displayname2").text(totalprofile.profile.firstName);
+					} else if (totalprofile.profile.lastName) {
+						$("#add_friend_displayname").text(totalprofile.profile.lastName);
+						$("#add_friend_displayname2").text(totalprofile.profile.lastName);
+					} else {
+						$("#add_friend_displayname").text(totalprofile.preferences.uuid);
+						$("#add_friend_displayname2").text(totalprofile.preferences.uuid);
+					}
+					
+					if (totalprofile.profile.picture && eval('(' + totalprofile.profile.picture + ')').name){
+						$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + totalprofile.userStoragePrefix + "/" + eval('(' + totalprofile.profile.picture + ')').name + "' width='40px' height='40px'/>");
+					} else {
+						$("#add_friend_profilepicture").html("<img src='images/person_icon.png' width='40px' height='40px'/>");
+					}
+					
+					$("#add_friend_types").html(sdata.html.Template.render("add_friend_types_template",Widgets));
+					
+				} else if (status == "INVITED"){
+					$("#accept_invitation_button").show();
+				}
+			},
+			onFail: function(status){
+				//alert("An error has occured");	
+			}
+		});
+   }
+   
+   $("#add_friends_do_invite").bind("click", function(ev){
+   		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
+		if (toSend["add_friends_list_type"]){
+			
+			var type = toSend["add_friends_list_type"];
+			var comment = toSend["add_friend_personal_note"];
+			
+			// send message to other person
+			var userstring = "";
+			if (me.profile.firstName && me.profile.lastName){
+				userstring = me.profile.firstName + " " + me.profile.lastName;
+			} else {
+				userstring = me.preferences.uuid;
+			}
+			
+			var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
+			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
+			
+			// construct openSocial message
+			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
+					
+			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
+			
+			sdata.Ajax.request({
+				url: "/rest/friend/connect/request",
+				httpMethod: "POST",
+			    onSuccess: function(data){
+					
+					$('#add_to_contacts_dialog').jqmHide();
+					$("#add_to_contacts_button").hide();
+					
+				},
+				onFail: function(status){
+					alert("An error has occured");
+				},
+				postData: data,
+				contentType: "application/x-www-form-urlencoded"
+			});
+			
+		}
+   });
+   
+   $("#accept_invitation_button").bind("click", function(ev){
+   	
+		var inviter = user;
+		var data = {"friendUuid" : inviter};
+		
+		sdata.Ajax.request({
+			url: "/rest/friend/connect/accept",
+			httpMethod: "POST",
+			onSuccess: function(data){
+				$("#accept_invitation_button").hide();
+			},
+			onFail : function(data){
+				alert("An error has occured");
+			},
+			postData: data,
+			contentType: "application/x-www-form-urlencoded"
+		});
+	
+   });
 	
 	
 	doInit();
