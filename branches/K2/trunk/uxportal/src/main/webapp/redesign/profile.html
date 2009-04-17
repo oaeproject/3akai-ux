@@ -28,6 +28,7 @@
 	<script src="jscripts/jquery.corners.js" type="text/javascript"></script>
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/SHA.js"></script>
 	<script src="jscripts/jquery.pager.js" type="text/javascript"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/message.js"></script>
 	
 	<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
 	<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>	
@@ -44,6 +45,28 @@
 		
 		#picture_holder img {
 			width: 75px !important;
+		}
+		
+		#message_dialog {
+			width: 520px;
+			margin-left: -260px;
+		}
+		
+		.dialogue_box {
+			background:#FFFFFF none repeat scroll 0 0;
+			border:none;
+			height:auto;
+			left:auto;
+			margin-left:0px;
+			margin-top:0px;
+			position:relative;
+			top:0%;
+			width:520px;
+			z-index:101;
+		}
+		
+		.invalid {
+			background-color: #FFCCCC;
 		}
 	</style>
 
@@ -77,7 +100,7 @@
         	<div class="profile_user_info">
                 <div class="fl-force-right profile_user_buttons">	
 					<!-- button-disabled -->
-                	<a href="javascript:;" id="add_to_contacts_button" class="button add_con_btn">Add to Contacts</a>
+                	<a href="javascript:;" style="display:none" id="add_to_contacts_button" class="button add_con_btn">Add to Contacts</a>
                   <a href="javascript:;" id="send_message_button" class="button send_msg_btn">Send Message</a>
                 </div>
                	<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="images/profile_pic_75.gif" width='75px' /></a>
@@ -465,6 +488,39 @@
     <!-- FOOTER -->    
     <div class="page-footer">
     </div>
+	
+	<div class="dialog" id="message_dialog">
+		<div class="dialog_header">
+			<h1>Send Message</h1>
+			<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		
+		<!-- DIALOGUE BOX -->
+		<div class="send_message dialogue_box fl-centered">
+   	    <div class="compose-form" action="" method="" style="padding-bottom:10px">
+           	<div>
+                From: <span id="message_from"></span>
+            </div>
+            <div>
+                To: <span id="message_to"></span>
+            </div>
+            <div>
+                <label for="comp-subject">Subject</label><br />
+                <input type="text" class="text-field compose-subject" id="comp-subject" />
+            </div>
+            <div>
+               	<label for="comp-body">Body</label><br />
+                <textarea class="text-field compose-body" id="comp-body"></textarea>
+            </div>   
+        </div>
+		</div>
+		<div class="dialog_footer" style="padding-left: 15px; height: 40px;">
+			 <div class="buttonBar" style="position: relative; top: 5px; padding-bottom: 15px">
+			 	<a href="javascript:;" class="button-default" id="save_as_page_template_button" style="font-weight:bold">Send Message</a>
+		        <a href="javascript:;" class="button jqmClose" style="float:none;display:inline;">Cancel</a>
+		     </div>
+		</div>
+	</div>
 	
 	<script type="text/javascript" language="JavaScript" src="javascript/profile.js"></script>
 	
