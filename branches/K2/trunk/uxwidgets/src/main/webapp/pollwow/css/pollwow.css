@@ -183,7 +183,7 @@
 	color: #363636 !important;
 }
 /* Pollwow Options */
-#pollwow_options{
+#pollwow_options, #pollwow_add_new_option_container{
 	width: 430px;
 }
 #pollwow_options input[type=text] {
