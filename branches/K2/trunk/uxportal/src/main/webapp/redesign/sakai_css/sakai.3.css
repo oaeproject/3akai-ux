@@ -32,7 +32,7 @@ body {
 .section_header{font-weight: bold; border-bottom: 1px solid #ebebeb; font-size: 17px; padding-bottom: 3px;}
 .button{display: block; float: left; padding: 3px 5px; text-align: center; border: 1px solid #ccc; background: url(../images/button_bg.png) repeat-x bottom left; color: #333;}
 .submit-button{padding: 2px 5px; background: url(../images/button_bg.png) repeat-x bottom left; border: 1px solid #ccc; color: #333; text-align: center; font-size: 13px; margin:0;}
-.text-field{ padding: 4px 4px; width: 230px; color: #aaa; border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2;}
+.text-field{ padding: 4px 4px; width: 230px; color: #222; border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2;}
 .button-secondary{font-weight: normal;}
 .button-primary{font-weight: bold;}
 .button-disabled{color: #c5c5c5;}
@@ -160,8 +160,8 @@ body {
 .profile_preview .fl-tabs-right{padding-right: 26px;}
 .profile_preview .profile_container{padding: 30px 20px 20px 20px;}
 .profile_preview .profile_section{padding-bottom: 35px;}
-.profile_preview .profile_user_name{font-weight: bold; font-size: 19px; position: relative; margin-left: 88px; top: -68px; color: #333;}
-.profile_preview .profile_user_headline{font-weight: 100; color: #999; font-size: 13px; position: relative; margin-left: 88px; top: -63px;}
+.profile_preview .profile_user_name{font-weight: bold; font-size: 19px; position: relative; margin-left: 88px; margin-right: 200px; top: -68px; color: #333;}
+.profile_preview .profile_user_headline{font-weight: 100; color: #999; font-size: 13px; position: relative;  margin-right: 200px; margin-left: 88px; top: -63px;}
 .profile_preview .profile_user_status{background: url(../images/user_online_icon.gif) no-repeat top left; width: 64px; height: 20px; position: relative; margin-left: 88px; top: -53px; padding: 2px 0 0 18px;}
 .profile_preview .profile_user_info{padding-left: 5px;}
 .profile_preview .profile_section_header{border-bottom: 1px solid #ebebeb; font-weight: bold; font-size: 16px; padding: 0 0 3px 5px; margin-top: -20px;}
@@ -176,6 +176,7 @@ body {
 
 /* send_message_lightbox.html */
 .send_message .compose-form{font-weight: bold; padding: 15px 15px 15px 15px}
+.send_message .compose-form input, .send_message .compose-form textarea{font-weight: normal;}
 .send_message .compose-form span{font-weight: 100; padding-left: 4px;}
 .send_message .compose-form div{padding-bottom: 10px;}
 .send_message .compose-form .compose-subject{width: 478px;}
