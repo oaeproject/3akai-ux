@@ -101,6 +101,7 @@
                 <div class="fl-force-right profile_user_buttons">	
 					<!-- button-disabled -->
                 	<a href="javascript:;" style="display:none" id="add_to_contacts_button" class="button add_con_btn">Add to Contacts</a>
+					<a href="javascript:;" style="display:none" id="accept_invitation_button" class="button add_con_btn">Accept Invitation</a>
                   <a href="javascript:;" id="send_message_button" class="button send_msg_btn">Send Message</a>
                 </div>
                	<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="images/profile_pic_75.gif" width='75px' /></a>
@@ -497,22 +498,22 @@
 		
 		<!-- DIALOGUE BOX -->
 		<div class="send_message dialogue_box fl-centered">
-   	    <div class="compose-form" action="" method="" style="padding-bottom:10px">
-           	<div>
-                From: <span id="message_from"></span>
-            </div>
-            <div>
-                To: <span id="message_to"></span>
-            </div>
-            <div>
-                <label for="comp-subject">Subject</label><br />
-                <input type="text" class="text-field compose-subject" id="comp-subject" />
-            </div>
-            <div>
-               	<label for="comp-body">Body</label><br />
-                <textarea class="text-field compose-body" id="comp-body"></textarea>
-            </div>   
-        </div>
+	   	    <div class="compose-form" action="" method="" style="padding-bottom:10px">
+	           	<div>
+	                From: <span id="message_from"></span>
+	            </div>
+	            <div>
+	                To: <span id="message_to"></span>
+	            </div>
+	            <div>
+	                <label for="comp-subject">Subject</label><br />
+	                <input type="text" class="text-field compose-subject" id="comp-subject" />
+	            </div>
+	            <div>
+	               	<label for="comp-body">Body</label><br />
+	                <textarea class="text-field compose-body" id="comp-body"></textarea>
+	            </div>   
+	        </div>
 		</div>
 		<div class="dialog_footer" style="padding-left: 15px; height: 40px;">
 			 <div class="buttonBar" style="position: relative; top: 5px; padding-bottom: 15px">
@@ -521,6 +522,52 @@
 		     </div>
 		</div>
 	</div>
+	
+	<div class="dialog" id="add_to_contacts_dialog">
+		<div class="dialog_header">
+			<h1>Add to Contacts</h1>
+			<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		
+		<div class="dialog_content" style="padding-bottom:20px">
+			
+			<form id="add_friends_form">
+		        <h4>Invite <span id="add_friend_displayname" style="font-weight:bold"></span> to connect through Sakai</h3>
+			 	<br/></br>
+				<table style="width:100%; border:0px">
+					<tr>
+				   		<td style="vertical-align:top; width: 75px">
+				   			<span id="add_friend_displayname2" style="font-weight:bold"></span>
+							<div id="add_friend_profilepicture" style="padding-top:5px"></div>
+				   		</td>
+						<td id="add_friend_types">
+						</td>
+				   	</tr>
+				</table>
+				<br/>
+				<h4>Add a personal note to the invitation:</h4>
+				<br/>
+				<textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note" style="padding:4px"></textarea>
+			</form>
+			
+		</div>
+		
+		<div class="dialog_footer">
+			 <div class="buttonBar">
+			 	<a href="javascript:;" class="button-default" id="add_friends_do_invite" style="font-weight:bold">Invite</a>
+		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
+		     </div>
+		</div>
+	</div> 
+	
+	<div id="add_friend_types_template" style="display:none"><!--
+		{var index = 0}
+		{for i in connections}
+			<input type="checkbox" name="add_friends_list_type" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
+			<br/>
+			${index++|eat}
+		{/for}
+	--></div>
 	
 	<script type="text/javascript" language="JavaScript" src="javascript/profile.js"></script>
 	
