@@ -76,7 +76,7 @@
                 	<a href="javascript:;" id="add_to_contacts_button" class="button add_con_btn">Add to Contacts</a>
                   <a href="javascript:;" id="send_message_button" class="button send_msg_btn">Send Message</a>
                 </div>
-               	<a href="#"><img class="profile_user_pic" src="images/profile_pic_75.gif" /></a>
+               	<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="images/profile_pic_75.gif" /></a>
                 <div id="profile_user_name" class="profile_user_name"></div>
                 <div id="txt_status" class="profile_user_headline"></div>
                 <div class="profile_user_status">Online</div>
@@ -345,6 +345,118 @@
 				{/for}
 			--></div>
         </div>
+		<div class="profile_section" id="additional" style="display:none">
+            <div class="profile_section_header">
+                Additional Information
+            </div> 
+            <div class="profile_section_body">
+                <table>
+                    <tr id="awards">
+                        <th>Awards &amp; Honors:</th>
+                        <td id="txt_awards"></td>
+                    </tr>
+					<tr id="clubs">
+                        <th>Clubs:</th>
+                        <td id="txt_clubs"></td>
+                    </tr>
+					<tr id="societies">
+                        <th>Societies:</th>
+                        <td id="txt_societies"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+		<div class="profile_section" id="websites" style="display:none">
+            <div class="profile_section_header">
+                Websites
+            </div> 
+            <div class="profile_section_body" id="websites_list">
+            	<table style="width:100%">
+					<tr id="no_websites" style="display:block">
+						<td colspan="2">
+							<span>No websites added yet</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		 	<div id="websites_list_template"><!--
+				{for i in items}
+					<div class="website_record" id="website_record_${i.id}" style="padding-bottom:0px">
+						<table style="width:100%; margin-bottom:0px">
+							<tr>
+								<td style="padding-bottom:0px; padding-left:0px">
+									<div class="website_record_div multifield_out" id="website_record_${i.id}_div" style="padding-bottom:0px">
+										<a target="_blank" style="margin-left:5px; line-height:20px" href="${i.url}">${i.title}</a>
+									</div>
+								</td>
+								<td style="width:15px; padding-bottom:0px" class="centertd">
+									<img src="/dev/img/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				{forelse}
+					<table style="width:100%">
+						<tr>
+							<td colspan="2" style="padding-bottom:0px; padding-left:0px">
+								<span>No websites added yet</span>
+							</td>
+						</tr>
+					</table>
+				{/for}
+				<div style="height:1em"></div>
+			--></div>
+        </div>
+		<div class="profile_section" id="unicontactinfo" style="display:none">
+            <div class="profile_section_header">
+                University Contact Info
+            </div> 
+            <div class="profile_section_body">
+                <table>
+                    <tr id="uniemail">
+                        <th>Email Address:</th>
+                        <td id="txt_uniemail"></td>
+                    </tr>
+					<tr id="uniphone">
+                        <th>Phone:</th>
+                        <td id="txt_uniphone"></td>
+                    </tr>
+					<tr id="unimobile">
+                        <th>Mobile:</th>
+                        <td id="txt_unimobile"></td>
+                    </tr>
+					<tr id="uniaddress">
+                        <th>Address:</th>
+                        <td id="txt_uniaddress"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+		<div class="profile_section" id="homecontactinfo" style="display:none">
+            <div class="profile_section_header">
+                Home Contact Info
+            </div> 
+            <div class="profile_section_body">
+                <table>
+                    <tr id="homeemail">
+                        <th>Email Address:</th>
+                        <td id="txt_homeemail"></td>
+                    </tr>
+					<tr id="homephone">
+                        <th>Phone:</th>
+                        <td id="txt_homephone"></td>
+                    </tr>
+					<tr id="homemobile">
+                        <th>Mobile:</th>
+                        <td id="txt_homemobile"></td>
+                    </tr>
+					<tr id="homeaddress">
+                        <th>Address:</th>
+                        <td id="txt_homeaddress"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         
     <!-- FOOTER -->    
     <div class="page-footer">
@@ -354,4 +466,3 @@
 	
 </body>
 </html>
-
