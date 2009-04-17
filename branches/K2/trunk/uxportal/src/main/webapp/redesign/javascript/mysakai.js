@@ -9,7 +9,7 @@ sakai.dashboard = function(){
 	var decideExists = function (response, exists){
 		if (exists === false) {
 			if (response === 401 || response === "error"){
-				document.location = "/dev/index.html?url=/dev/redesign/my_sakai.html";
+				document.location = Config.logoutUrl;
 			} else {
 				doInit();
 			}
