@@ -309,7 +309,7 @@ sakai.search = function(){
 			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 			
 			// construct openSocial message
-			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"PRIVATE_MESSAGE"});
+			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
 					
 			var data = { "friendUuid" : contactclicked , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
 			
