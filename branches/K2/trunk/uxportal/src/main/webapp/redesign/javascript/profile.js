@@ -676,7 +676,7 @@ sakai.profile = function(){
 		
 		if (json.picture){
 			var picture = eval('(' + json.picture + ')');
-			$("#picture_holder").html("<img src='/sdata/f/_private" + totalprofile.userStoragePrefix + picture.name + "' width='250px'/>");
+			$("#picture_holder").html("<img src='/sdata/f/_private" + totalprofile.userStoragePrefix + picture.name + "' width='75px'/>");
 		}
 		
 		$("#picture_form").attr("action","/sdata/f/_private" + totalprofile.userStoragePrefix);
@@ -796,7 +796,7 @@ sakai.profile = function(){
 		if (inunicontactinfo > 0){
 			$("#unicontactinfo").show();
 			$("#no_unicontactinfo").hide();
-		} else if (myprofile) {
+		} else if (myprofile && showEdit) {
 			$("#unicontactinfo").show();
 			if (!inedit_basic) {
 				$("#no_unicontactinfo").show();
@@ -857,7 +857,7 @@ sakai.profile = function(){
 		if (inhomecontactinfo > 0){
 			$("#homecontactinfo").show();
 			$("#no_homecontactinfo").hide();
-		} else if (myprofile) {
+		} else if (myprofile && showEdit) {
 			$("#homecontactinfo").show();
 			if (!inedit_basic) {
 				$("#no_homecontactinfo").show();
@@ -910,7 +910,7 @@ sakai.profile = function(){
 		if (inadditional > 0){
 			$("#additional").show();
 			$("#no_additional").hide();
-		} else if (myprofile) {
+		} else if (myprofile && showEdit) {
 			$("#additional").show();
 			if (!inedit_basic) {
 				$("#no_additional").show();
