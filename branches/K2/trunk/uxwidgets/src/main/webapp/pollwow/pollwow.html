@@ -1,6 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/pollwow/css/pollwow.css"></link>
 <link rel="stylesheet" type="text/css" href="/devwidgets/pollwow/css/pollwow_datepicker.css"></link>
-
 <!-- the settings page -->
 <div id="pollwow_main_container" style="display:none;">
 	<div id="pollwow_container">
@@ -45,6 +44,11 @@
 			<label>Options:</label>
 			<div id="pollwow_options">
 				
+			</div>
+			<div id="pollwow_add_new_option_container">
+				<div class="buttonBar">
+					<a class="button-default" href="javascript:;" id="pollwow_add_new_option">Add new option...</a>
+				</div>
 			</div>
 			<br class="pollwow_cls" />
 			<div class="pollwow_left">
@@ -115,25 +119,12 @@
 		</form>
 	</div>
 --></div>
-	<div id="pollwow_insert_existing_rendered_template"><!--
-		{for option in pollwow.options}
-			<div id="pollwow_question${option_index}">
-				<input type="text" id="pollwow_question_input${option_index}" value="${option.answer}" /><a class="pollwow_close" href="javascript:;">x</a>
-			</div>
-		{/for}
-		<div class="buttonBar">
-			<a class="button-default" href="javascript:;" id="pollwow_add_new_option">Add new option...</a>
-		</div>
-	--></div>
 	<div id="pollwow_options_rendered_template"><!--
 		{for option in pollwow.options}
 			<div id="pollwow_question${option_index}">
 				<input type="text" id="pollwow_question_input${option_index}" value="${option.answer}" /><a class="pollwow_close" href="javascript:;">x</a>
 			</div>
 		{/for}
-		<div class="buttonBar">
-			<a class="button-default" href="javascript:;" id="pollwow_add_new_option">Add new option...</a>
-		</div>
 	--></div>
 	<!-- the show page -->
 	<div id="pollwow_show_container">
@@ -290,5 +281,6 @@
 	</div>
 --></div>
 
+<script type="text/javascript" src="/devwidgets/pollwow/javascript/json_parse.js"></script>
 <script type="text/javascript" src="/devwidgets/pollwow/javascript/pollwow.js"></script>
 <script type="text/javascript" src="/devwidgets/pollwow/javascript/jquery-ui-1.7.custom.min.js"></script>
