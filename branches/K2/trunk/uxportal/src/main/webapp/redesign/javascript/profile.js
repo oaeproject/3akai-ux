@@ -71,7 +71,11 @@ sakai.profile = function(){
 		
 		
 		if (!me.preferences.uuid && !me.preferences.eid) {
-			document.location = Config.logoutUrl + "?url=/dev/redesign/profile.html";
+			var redirect =  Config.logoutUrl + "?url=/dev/redesign/profile.html";
+			if (user){
+				redirect += sdata.util.URL.encode("?user=" + user);
+			}
+			document.location = redirect;
 		}
 		
 		totalprofile = me;
@@ -175,6 +179,8 @@ sakai.profile = function(){
 		
 		var inbasic = 0;
 		var basic = false;
+		
+		fillInMessagePopUp();
 		
 		$("#profile_user_name").text(json.firstName + " " + json.lastName);
 		if (json.basic){
@@ -652,23 +658,9 @@ sakai.profile = function(){
 					}
 				}
 				
-				if (status){
+				if (! status){
 					
-					$("#add_people").hide();
-					$("#add_people_status_pending").hide();
-					$("#add_people_status_connection").hide();
-					$("#add_people_status_invited").hide();
-					
-					if (status == "PENDING"){
-						$("#add_people_status_pending").show();
-					} else if (status == "ACCEPTED"){
-						$("#add_people_status_connection").show();
-					} else if (status == "INVITED"){
-						$("#add_people_status_invited").show();
-					}
-					
-				} else {
-					$("#add_people").show();
+					$("#add_to_contacts_button").show();
 					
 					if (totalprofile.profile.firstName){
 						$("#add_friend_displayname").text(totalprofile.profile.firstName);
@@ -715,7 +707,7 @@ sakai.profile = function(){
 			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 			
 			// construct openSocial message
-			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"PRIVATE_MESSAGE"});
+			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
 					
 			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
 			
@@ -743,6 +735,73 @@ sakai.profile = function(){
    		$("#add_friend_overlay_lightbox").hide();
 		$("#add_friend_lightbox").hide();
    });
+   
+   
+   /*
+    * Sending a message
+    */
+	
+	$('#message_dialog').jqm({
+		modal: true,
+		trigger: $('#send_message_button'),
+		overlay: 20,
+		toTop: true
+	});
+	
+	var fillInMessagePopUp = function(){
+		$("#message_from").text(me.profile.firstName + " " + me.profile.lastName);
+		$("#message_to").text(totalprofile.profile.firstName + " " + totalprofile.profile.lastName);
+	}
+	
+	$("#save_as_page_template_button").bind("click", function(ev){
+		
+		var subjectEl = $("#comp-subject");
+		var bodyEl = $("#comp-body");
+		
+		var valid = true;
+		var	subject = subjectEl.val();
+		var body = bodyEl.val();
+		
+		subjectEl.removeClass("invalid");
+		bodyEl.removeClass("invalid");
+		
+		if (!subject){
+			valid = false;
+			subjectEl.addClass("invalid");
+		}
+		if (!body){
+			valid = false;
+			bodyEl.addClass("invalid");
+		}
+		
+		if (!valid){
+			return false;
+		} else {
+			
+			var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
+			var toSend = {"to": user,"message":openSocialMessage};
+			
+			sdata.Ajax.request({
+				url: "/_rest/message/send",
+				httpMethod: "POST",
+			    onSuccess: function(data){
+					
+				},
+				onFail: function(status){
+					alert("Sending messages isn't possible yet");
+				},
+				postData: toSend,
+				contentType: "application/x-www-form-urlencoded"
+			});
+			
+			subjectEl.val("");
+			bodyEl.val("");
+			
+			$('#message_dialog').jqmHide();
+		}
+		
+	});
+	
 	
 	doInit();
    
