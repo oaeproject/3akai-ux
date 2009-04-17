@@ -30,11 +30,11 @@
 			{for i in items}
 				<div class="dropdown_person">
 					{if i.photo}
-						<a href="/dev/sn/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
+						<a href="/dev/redesign/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
 					{else}
-						<a href="/dev/sn/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
+						<a href="/dev/redesign/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
 					{/if}
-					<a href="/dev/sn/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
+					<a href="/dev/redesign/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
 				</div>	
 			{forelse}
 				<span style="font-size:0.95em">You currently have no contacts</span>
