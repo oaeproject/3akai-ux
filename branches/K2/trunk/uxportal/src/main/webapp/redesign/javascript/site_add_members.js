@@ -20,7 +20,6 @@ sakai.site_add_members = function() {
     var selectedSite = "";
 	var pageSize = 10;
 	var selectedPeople = [];
-   
   
    	/**
    	 * gets the sitedid from the url
@@ -29,6 +28,8 @@ sakai.site_add_members = function() {
 		var qs = new Querystring();
 		selectedSite = qs.get("siteid",false);
 		$(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
+		
+		$("#manage_members_role_rbts").html(sdata.html.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
 	};
 	getSiteId();
 
@@ -80,7 +81,7 @@ sakai.site_add_members = function() {
 	 * @param {Object} personIndex
 	 * @param {Object} isNewSelection
 	 */
-    var selectPerson = function(personIndex, isNewSelection) {
+    var selectPerson = function(personIndex, isNewSelection, selectAll) {
        
         if (typeof  json.foundPeople === "undefined") {
              json.foundPeople.results = [];
@@ -93,6 +94,11 @@ sakai.site_add_members = function() {
             json.foundPeople.results[personIndex].selected = true;
             $("#siteManage_person" +  personIndex , "#siteManage_people").parent().attr("class", "selected");
         }
+		else if(!selectAll){
+ 			unselectCorrectPerson(json.foundPeople.results[personIndex]);
+			selectedPeople.splice(getSelectedIndex(json.foundPeople.results[personIndex]),1);
+            updateSelectedPersons();
+		}
 
     };
 	/**
@@ -119,6 +125,9 @@ sakai.site_add_members = function() {
             for (var i = 0; i < people.results.length; i++) {
 				if(typeof people.results[i].content === "string"){
 					people.results[i].content = json_parse(people.results[i].content);
+					if(typeof people.results[i].content.picture !== "undefined"){
+						people.results[i].content.picture = json_parse(people.results[i].content.picture);
+					}
                 people.results[i].userid = people.results[i].path.split("/")[4];
 				}
                 
@@ -130,7 +139,7 @@ sakai.site_add_members = function() {
             $(".siteManage_person").bind("click",
             function(e, ui) {
                 var userindex = parseInt(e.target.parentNode.id.replace("siteManage_person", ""), 10);
-                selectPerson(userindex, true);
+                selectPerson(userindex, true,false);
                 updateSelectedPersons();
             });
         }
@@ -143,7 +152,7 @@ sakai.site_add_members = function() {
 		for(var i =0; i< selectedPeople.length; i++){
 			for (var j = 0; j < json.foundPeople.results.length; j++) {
 				if( json.foundPeople.results[j].userid === selectedPeople[i].userid){
-					selectPerson(j,false);
+					selectPerson(j,false,false);
 				}
 			}
 		}
@@ -327,7 +336,7 @@ sakai.site_add_members = function() {
        if (typeof json.foundPeople !== "undefined") {
 	   	for (var i = 0; i < json.foundPeople.results.length; i++) {
 			if(!json.foundPeople.results[i].isMember){
-				selectPerson(i, true);
+				selectPerson(i, true,true);
 			}
 	   	}
 	   	updateSelectedPersons();
