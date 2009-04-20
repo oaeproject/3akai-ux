@@ -45,10 +45,11 @@
         
         <!-- SEARCH FIELD -->
 			<div class="site_search">
-				<form class="fl-force-right search_form" id="search_form" action="#" method="post">
-					<input type="text" class="text-field" value="Search this site" />
-					<input type="submit" value="Search" class="submit-button" />
-				</form>
+				<form method="" action="" class="search fl-force-right">
+                	<input type="text" class="fl-force-left search_field" value="Search this site" name="search"/>
+					<a href="javascript:;" class="button-default save_button search_btn">Search</a>
+                <!-- <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" /> -->
+            </form>
 			</div>        			
       <h1>John's New Site</h1>
     </div>   
@@ -165,9 +166,9 @@
 							</a>
 							
 							{if (typeof i.profile !== "undefined")}
-							<a href="../sn/profile.html?user=${i.userid}" target="_blank" class="member-label">${i.profile.firstName} ${i.profile.lastName}</a><div class="member-title"></div>
+							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.profile.firstName} ${i.profile.lastName}</a><div class="member-title"></div>
 							{else}
-							<a href="../sn/profile.html?user=${i.userid}" target="_blank" class="member-label">${i.userid}</a><div class="member-title"></div>
+							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.userid}</a><div class="member-title"></div>
 							{/if}
 							<span class="siteManage_person_roleView">${i.role}</span>
 						</li>
