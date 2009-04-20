@@ -29,6 +29,8 @@ sakai.site_manage_members = function() {
 		var qs = new Querystring();
 		selectedSite = qs.get("siteid",false);
 		$(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
+		
+		$("#manage_members_role_rbts").html(sdata.html.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
 	};
 	getSiteId();
 	
@@ -82,7 +84,7 @@ sakai.site_manage_members = function() {
 	 * @param {Object} personIndex
 	 * @param {Object} isNewSelection
 	 */
-    var selectPerson = function(personIndex, isNewSelection) {
+    var selectPerson = function(personIndex, isNewSelection, selectAll) {
       
         if (typeof json.members === "undefined") {
             json.members.users = [];
@@ -95,7 +97,11 @@ sakai.site_manage_members = function() {
             json.members.users[personIndex].selected = true;
             $("#siteManage_person" +  personIndex ).parent().attr("class", "selected");
         }
-
+		else if(!selectAll){
+ 			unselectCorrectPerson(json.members.users[personIndex]);
+			selectedPeople.splice(getSelectedIndex(json.members.users[personIndex]),1);
+            updateSelectedPersons();
+		}
     };
 
 	/**
@@ -121,13 +127,16 @@ sakai.site_manage_members = function() {
     var renderMembers = function(members, isNew) {
 		 	for (var i = 0; i < members.users.length; i++) {
 				members.users[i].userid = members.users[i].userStoragePrefix.split("/")[3];
+				if(typeof members.users[i].profile.picture !== "undefined"){
+						members.users[i].profile.picture = json_parse(members.users[i].profile.picture);
+				}
             }
             $("#siteManage_members").html(sdata.html.Template.render("siteManage_people_template", json.members));
             $("#manage_members_count").html(getNumMembers(json.members.users));
             $(".siteManage_person").bind("click",
             function(e, ui) {
                 var userindex = parseInt(e.target.parentNode.id.replace("siteManage_person", ""), 10);
-                selectPerson(userindex,true);
+                selectPerson(userindex,true,false);
                 updateSelectedPersons();
             });
 			
@@ -140,7 +149,7 @@ sakai.site_manage_members = function() {
 		for(var i =0; i< selectedPeople.length; i++){
 			for (var j = 0; j < json.members.users.length; j++) {
 				if( json.members.users[j].userid === selectedPeople[i].userid){
-					selectPerson(j,false);
+					selectPerson(j,false,false);
 				}
 			}
 		}
@@ -350,7 +359,7 @@ sakai.site_manage_members = function() {
     $("#btn_members_selectAll").bind("click",
     function(e, ui) {
         for (var i = 0; i < json.members.users.length; i++) {
-            selectPerson(i,true);
+            selectPerson(i,true,true);
         }
         updateSelectedPersons();
     });
