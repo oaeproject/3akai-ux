@@ -780,7 +780,7 @@ if (nel.className == "contauthlink") {
 		// Save the data
 		
 		var newurl = selectedpage.split("/").join("/_pages/");
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){});
+		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){}, null, "x-sakai-page");
 
 		// Update autosave indicator
 		
@@ -1085,7 +1085,7 @@ if (nel.className == "contauthlink") {
 										onFail: function(data){}
 									});
 							
-								});
+								}, null, "x-sakai-page");
 							
 						});		
 						
@@ -1136,7 +1136,7 @@ if (nel.className == "contauthlink") {
 										onFail: function(data){}
 									});
 									
-								});
+								}, null, "x-sakai-page");
 							
 						});		
 						
@@ -1176,7 +1176,7 @@ if (nel.className == "contauthlink") {
 							onFail: function(data){}
 						});
 									
-					});					
+					}, null, "x-sakai-page");					
 					
 				}
 				else {
@@ -1216,7 +1216,7 @@ if (nel.className == "contauthlink") {
 							onFail: function(data){}
 						});
 					
-					});
+					}, null, "x-sakai-page");
 					
 				}
 			
@@ -2504,7 +2504,7 @@ if (nel.className == "contauthlink") {
 						onFail: function(data){}
 					});
 							
-				});
+				}, null, "x-sakai-page");
 				
 				pagecontents[selectedpage] = data;
 				
