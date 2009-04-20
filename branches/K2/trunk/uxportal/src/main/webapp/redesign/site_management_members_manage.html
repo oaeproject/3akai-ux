@@ -22,7 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
 	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.jq_pager.css" />		    
     <link rel="stylesheet" type="text/css" href="sakai_css/sakai.3.css" />
-	
+	<link rel="stylesheet" type="text/css" href="sakai_css/site.managment.css" /> 
 	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/json_parse.js"></script>
 	<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
@@ -88,20 +88,17 @@
 				<div class="fixed-container">
 					<form class="member-options" method="" action="">
 						<strong class="manage_members_role">Make selected people:</strong>							
-							<table class="add-people-table">
-								<tr>
-									<td><input name="membership_role" id="manage_members_role_teacher" value="teacher" type="radio" checked="checked" /></td>
-									<th><label for="manage_members_role_teacher">Teacher</label></th>
-								</tr>
-								<tr>
-									<td><input name="membership_role" id="manage_members_role_student" value="student" type="radio" /></td>
-									<th><label for="manage_members_role_student">Student</label></th>
-								</tr>
-								<tr>
-									<td><input name="membership_role" id="manage_members_role_instructor" value="instructor" type="radio" /></td>
-									<th><label for="manage_members_role_instructor">Instructor</label></th>
-								</tr>
-							</table>						
+							<table id="manage_members_role_rbts" class="add-people-table">
+								
+							</table>
+							<div style="display:none;" id="manage_members_role_rbts_template"><!--
+							{for i in roles}
+							<tr>
+								<td><input name="membership_role" id="manage_members_role_${i}" value="${i}" type="radio" checked="checked" /></td>
+								<th><label for="manage_members_role_${i}">${i}</label></th>
+							</tr>
+							{/for}
+							--></div>						
 						<strong>Tag selected people as:</strong>
 						<input type="text" class="tag-people" value="Add your tags here" />
 						<div id="membership-status-settings">
@@ -160,13 +157,19 @@
 					{for i in users}
 						<li class="unselected">
 							<a href="javascript:;" class="siteManage_person" id="siteManage_person${users.indexOf(i)}">
+							{if typeof i.profile.picture == "undefined"}
 							<img src="images/member.png" />
+							{else}
+							<img src="../../webdav/_private${i.userStoragePrefix}${i.profile.picture.name}" />
+							{/if}
 							</a>
+							
 							{if (typeof i.profile !== "undefined")}
 							<a href="../sn/profile.html?user=${i.userid}" target="_blank" class="member-label">${i.profile.firstName} ${i.profile.lastName}</a><div class="member-title"></div>
 							{else}
 							<a href="../sn/profile.html?user=${i.userid}" target="_blank" class="member-label">${i.userid}</a><div class="member-title"></div>
 							{/if}
+							<span class="siteManage_person_roleView">${i.role}</span>
 						</li>
 					{/for}
 					</ul>
