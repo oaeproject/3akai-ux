@@ -1,0 +1,19 @@
+.add-members .fl-col-flex .flex-container .members-container li.selected img{border-style:solid;border-color:#000000;border-width:2px;}
+.add-members .fl-col-flex .flex-container .members-container .member-label{color: #3399cc; font-weight: bold; font-size: 15px; margin: 20px 0 0 0; display: block;}
+.add-members .fl-col-flex .flex-container .members-container .sitemember-label{color: #999; font-weight: bold; font-size: 15px; margin: 20px 0 0 0; display: block;}
+.add-members .fl-col-flex .flex-container .members-container .member-title{color: #999;}
+.add-members .fl-col-flex .flex-container .members-container li img{float: left; margin-right: 8px; padding:0;
+width:70px;}
+.add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
+#site_add_members_search_csv textarea{
+	width:497px;
+	height:250px;
+	margin:10px;
+}
+#site_manage_searchViaCsv{
+	margin-right:15px;
+}
+.siteManage_person_roleView{
+	color: #ddd;
+}
+.add-members .fl-col-fixed .fixed-container .selected-people-table{padding: 0; margin: 0 0 10px 10px; width: 100%;}
