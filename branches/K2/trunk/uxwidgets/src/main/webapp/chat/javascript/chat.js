@@ -135,7 +135,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		});
 	}
 	
-	$("#top_navigation_create_site").bind("click", function(ev){
+	$("#top_navigation_create_site").live("click", function(ev){
 		createNewSite();
 	});
 	
@@ -144,7 +144,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		sakai.createsite.initialise();
 	}
 	
-	$("#courses_sites_search").bind("focus", function(ev){
+	$("#courses_sites_search").live("focus", function(ev){
 		if (!sitesFocus){
 			sitesFocus = true;
 			var el = $("#courses_sites_search");
@@ -153,13 +153,13 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 	});
 	
-	$("#courses_sites_search").bind("keypress", function(ev){
+	$("#courses_sites_search").live("keypress", function(ev){
 		if (ev.which == 13){
 			doSitesSearch();
 		}
 	})
 	
-	$("#courses_sites_search_button").bind("click", function(ev){
+	$("#courses_sites_search_button").live("click", function(ev){
 		doSitesSearch();
 	})
 	
@@ -177,7 +177,8 @@ sakai.chat = function(tuid, placement, showSettings){
 	defaultNav = $(".explore").html();
 	
 	var setSitesDropdown = function(){
-		$("#nav_courses_sites_link").bind("click", function(ev){
+		$("#nav_courses_sites_link").live("click", function(ev){
+			$("#people_dropdown_main").hide();
 			$("#mysites_dropdown_main").show();
 			$("#mysites_dropdown_close").show();
 			$(".explore").html(defaultNav);
@@ -190,7 +191,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		});
 	}
 	
-	$("#mysites_dropdown_close_link").bind("click", function(ev){
+	$("#mysites_dropdown_close_link").live("click", function(ev){
 		$("#mysites_dropdown_main").hide();
 		$("#mysites_dropdown_close").hide();
 		$(".explore").html(defaultNav);
@@ -257,7 +258,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		});
 	}
 	
-	$("#dropdown_people_search").bind("focus", function(ev){
+	$("#dropdown_people_search").live("focus", function(ev){
 		if (!peopleFocus){
 			peopleFocus = true;
 			var el = $("#dropdown_people_search");
@@ -266,13 +267,13 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 	});
 	
-	$("#dropdown_people_search").bind("keypress", function(ev){
+	$("#dropdown_people_search").live("keypress", function(ev){
 		if (ev.which == 13){
 			doPeopleSearch();
 		}
 	})
 	
-	$("#dropdown_people_search_button").bind("click", function(ev){
+	$("#dropdown_people_search_button").live("click", function(ev){
 		doPeopleSearch();
 	})
 	
@@ -290,7 +291,8 @@ sakai.chat = function(tuid, placement, showSettings){
 	defaultNav = $(".explore").html();
 	
 	var setPeopleDropdown = function(){
-		$("#nav_people_link").bind("click", function(ev){
+		$("#nav_people_link").live("click", function(ev){
+			$("#mysites_dropdown_main").hide();
 			$("#people_dropdown_main").show();
 			$("#people_dropdown_close").show();
 			$(".explore").html(defaultNav);
@@ -303,7 +305,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		});
 	}
 	
-	$("#people_dropdown_close_link").bind("click", function(ev){
+	$("#people_dropdown_close_link").live("click", function(ev){
 		$("#people_dropdown_main").hide();
 		$("#people_dropdown_close").hide();
 		$(".explore").html(defaultNav);
