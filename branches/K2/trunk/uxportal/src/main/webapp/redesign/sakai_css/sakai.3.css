@@ -14,7 +14,6 @@ body {
 
 
 /* Global */
-.explore_nav{padding-right: 30px;}
 .user-personal a{color: #058ec4; font-size: 12px;}
 .user-personal strong{color: #058ec4;}
 .user-personal li{border-left: 1px solid #999; padding: 0 0 0 5px;}
@@ -24,7 +23,7 @@ body {
 .user-arrow-down{position: relative; top: -1px; padding-left: 3px;}
 .user-mail{background: url(../images/user_mail_icon.gif) no-repeat 6px 3px;}
 .user-mail a{color: #666; padding-left: 16px;}
-.site_heading {padding: 25px 25px 10px 25px; border-bottom: 1px solid #ebebeb;}
+.site_heading {padding: 25px 0px 10px 25px; border-bottom: 1px solid #ebebeb;}
 .site_heading h1 {margin: 0; 	padding: 0;	font-weight: bold;}
 .site_secondary_heading {font-weight: bold; font-size: 20px; padding: 30px 0px 20px 25px;}
 .site_secondary_heading a{color: #0c91c5; font-size: 14px; padding-left: 10px;}
@@ -115,7 +114,7 @@ body {
 .add-members .fl-col-fixed .fixed-container .selected-people-table  a{color: #999;}
 .add-members .fl-col-fixed .fixed-container .selected-people-table td{padding:7px 2px 0 0; margin:0; border: 0;}
 .add-members .fl-col-flex { margin: 0 0 0 215px; padding: 0; }
-.add-members .fl-col-flex .flex-container{padding: 0 55px 0 0; margin:0;}
+.add-members .fl-col-flex .flex-container{padding: 0 25px 0 0; margin:0;}
 .add-members .fl-col-flex .flex-container .member-search{padding-bottom: 23px; border-bottom: 1px solid #ccc;}
 .add-members .fl-col-flex .flex-container .member-search .member-search-field{color: #ccc; border: 1px solid #ccc; width: 375px; padding: 4px 4px 4px 4px; margin-left: 12px;}
 .add-members .fl-col-flex .flex-container .member-search a{float: left;  display: block; padding: 4px 4px 4px 4px; border: 1px solid #ccc; width: 162px; color: #666; background: url(../images/arrow_down_sm2.png) no-repeat 95% 60%;}
