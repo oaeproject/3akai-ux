@@ -21,11 +21,16 @@ sakai.helloworld = function(tuid,placement,showSettings){
 	*/
 	if (showSettings) {
 		/*
-		If the settings mode is requested, then I will take our main container by doing a jQuery selector that selects the main container, and I replace the content of it by a No Settings available HTML string. This way, when the settings mode is requested for this widget, it'll just show "No settings available".
+		If the settings mode is requested, then we make the settings container visible. This will end up in simply showing the "No Settings available" string on the screen.
 		*/
-		$("#mainHelloContainer", rootel).html("No settings available<br/><br/>");
+		$("#settingsHelloContainer", rootel).show();
 	}
 	else {
+		/*
+		If the view mode is requested, we make our main container visible.
+		*/
+		$("#mainHelloContainer", rootel).show();
+
 		/*
 		If the view mode is requested, we'll do a request to one of the available json feeds (/sdata/me = A feed about all of my personal details and profile info). sdata.Ajax.request is a function that is available in sdata.js, and this file will be loaded in the page when your widget is being rendered. You specify the http method (GET, POST, DELETE or PUT), the URL (it's easiest to specify absolute URLs and to be careful about caching issues. The random id behind the URL you see will cause it no to get this feed out of the browser cache), the onSuccess function that will be executed when the feed came through in a correct way and an onFail function that will be executed when the AJAX request to that URL failed.
 		*/
