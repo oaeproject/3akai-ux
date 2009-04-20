@@ -1,4 +1,4 @@
-.add-members .fl-col-flex .flex-container .members-container li.selected img{border-style:solid;border-color:#000000;border-width:2px;}
+.add-members .fl-col-flex .flex-container .members-container li.selected img{border-style:solid;border-color:#000000;border-width:2px; position: relative; top:1px; left: 1px;}
 .add-members .fl-col-flex .flex-container .members-container .member-label{color: #3399cc; font-weight: bold; font-size: 15px; margin: 20px 0 0 0; display: block;}
 .add-members .fl-col-flex .flex-container .members-container .sitemember-label{color: #999; font-weight: bold; font-size: 15px; margin: 20px 0 0 0; display: block;}
 .add-members .fl-col-flex .flex-container .members-container .member-title{color: #999;}
