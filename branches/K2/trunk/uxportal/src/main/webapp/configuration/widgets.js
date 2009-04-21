@@ -348,6 +348,20 @@ var Widgets = {
 			showinsakaigoodies:0,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
+		rss :
+		{
+			description:"RSS Feed",
+			iframe:0,
+			url:"/devwidgets/rss/rss.html",
+			name:"RSS Feed",
+			id:"rss",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
 		video :
 		{
 			description:"Video",
