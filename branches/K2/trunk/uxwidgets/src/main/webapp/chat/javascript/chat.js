@@ -179,6 +179,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	var setSitesDropdown = function(){
 		$("#nav_courses_sites_link").live("click", function(ev){
 			$("#people_dropdown_main").hide();
+			$("#people_dropdown_close").hide();
 			$("#mysites_dropdown_main").show();
 			$("#mysites_dropdown_close").show();
 			$(".explore").html(defaultNav);
@@ -358,6 +359,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	var setPeopleDropdown = function(){
 		$("#nav_people_link").live("click", function(ev){
 			$("#mysites_dropdown_main").hide();
+			$("#mysites_dropdown_close").hide();
 			$("#people_dropdown_main").show();
 			$("#people_dropdown_close").show();
 			$(".explore").html(defaultNav);
