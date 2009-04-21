@@ -1,0 +1,90 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/rss/css/rss.css"></link>
+<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.jq_pager.css" />
+
+<div id="rss_settings" style="display:none">
+	<p>
+		Fill in the form below to add news from other sources to your page, the only thing you need to know is the URL to the rss feed, 
+		the url looks simular to "<span class="rss_quote">http://www.website.com/rss.xml</span>"
+	</p>
+	<form class="rss_settings_form">
+		<label for="rss_settings_txtTitle">Title:</label><br />
+		<input type="text" id="rss_settings_txtTitle" /><br />
+		<br />
+		<label for="rss_settings_txtUrl">RSS feed url:</label><br />
+		<input type="text" id="rss_settings_txtUrl" />
+		<a class="button-default rss_settings_btnAddUrl" href="javascript:;">Add url</a>
+		<br />
+		
+	
+	<div id="rss_settings_rssFeedList">
+		
+	</div>
+	<div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
+	{for i in feeds}
+	<div class="rss_settings_rssFeedListItem">
+		<span class="rss_bold rss_setting_listLeft">${i.title}</span>
+		<a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/devwidgets/rss/images/rss_close.png"></img></a>
+		<div style="clear:both"></div>
+		<span>
+		${i.items.length}
+		{if i.items.length == 1}
+		 item
+		{else}
+		 items
+		{/if}
+		</span>
+	</div>
+	{/for}
+	--></div>
+	<br />
+	<br />
+	Show the latest <input type="text" id="rss_settings_numEntries" style="width:30px;" /> entries.<br />
+	<input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">Display source</label><br />
+	<input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">Display headlines only</label><br />
+	
+	<div class="rss_settings_buttonbar">
+		<a class="button-default" style="float:left;" id="rss_setting_cancel" href="javascript:;">Cancel</a>
+		<a class="button-default" style="float:right;" id="rss_setting_finish" href="javascript:;">Finish</a>
+	</div>
+	</form>
+</div>
+<div id="rss_output" style="display:none">
+	
+<div id="rss_output_template" style="display:none"><!--
+	<div class="rss_output_header">
+		<h1>${title}</h1>
+		<a class="button-default rss_output_order" style="float:right;" id="rss_output_order_date" href="javascript:;">sort by date</a>
+		<a class="button-default rss_output_order" style="float:right;" id="rss_output_order_source" href="javascript:;">sort by source</a>
+	</div>
+	
+	{for i in shownEntries}
+	<div class="rss_output_entry">
+		{if !displayHeadlines}
+		<h2 style="float:left">${i.title}</h2>
+		<span class="rss_title" style="float:right">${i.parsedDate}</span>
+		<div style="clear:both"></div>
+		<p>${i.description}
+		{if i.link != ""}
+		<a href="${i.link}">read more</a>
+		{/if}
+		</p>
+		{else}
+		<a href="${i.link}"><h2 style="float:left">${i.title}</h2></a>
+		<span class="rss_title" style="float:right">${i.parsedDate}</span>
+		<div style="clear:both"></div>
+			{if displaySource}
+				<br />
+			{/if}
+		{/if}
+		{if displaySource}
+		<span style="float:left;"><span class="rss_title">Source: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
+		{/if}
+		<a style="float:right" class="rss_sendToFriend" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="inbox_main.html?articleid=${shownEntries.indexOf(i)}">Send article to a friend</a>
+		
+	</div>
+	{/for}
+	<div class="jq_pager"></div>
+--></div>
+</div>
+<script src="/devwidgets/rss/lib/jquery.pager.js" language="JavaScript" type="text/javascript"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/rss/javascript/rss.js"></script>
