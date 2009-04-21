@@ -89,19 +89,21 @@
 	</div>
 		
 	<!-- RECENTLY VISITED -->
-	<div class="fl-col dropdown_recent_sites">
-			
+	<div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
 		<h2>Recent Sites</h2>
-		
-		<ul class="my_site_list">
-			<li><a href="#">Business Statistics</a></li>
-			<li><a href="#">Zanny's House of Rock</a></li>
-			<li><a href="#">International Marketing</a></li>
-			<li><a href="#">Chess Club</a></li>
-			<li><a href="#">ECN234 Capstone Economics</a></li>
-		</ul>
-		
 	</div>
+	
+	<div id='chat_dropdown_recent_sites_template'><!--
+		{if count == 0}
+			No recent sites found
+		{else}
+			<ul class="my_site_list">
+				{for i in items}
+					<li><a href="/dev/redesign/page_edit.html?siteid=${i.location}">${i.name}</a></li>
+				{/for}
+			</ul>
+		{/if}
+	--></div>
 	
 	<!-- SEARCH -->
 	<div class="dropdown_search_course_sites">
