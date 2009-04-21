@@ -71,6 +71,7 @@ sakai.site = function(){
 				url: "/_rest/site/get/" + currentsite + "?sid=" + Math.random(),
 				onSuccess: function(response){
 					continueLoad(response, true);
+					saveToRecentSites(response);
 				},
 				onFail: function(httpstatus){
 					continueLoad(httpstatus, false);
@@ -2584,7 +2585,52 @@ if (nel.className == "contauthlink") {
 		string +=  minute;
 		return string;
 	}
+	
+	
+	/*
+		Save to the list of recent sites, displayed in the top navigation header 
+	*/
+	
+	var saveToRecentSites = function(response){
+		
+		sdata.Ajax.request({
+		   	url :"/sdata/p/recentsites.json?sid=" + Math.random(),
+		    httpMethod : "GET",
+			onSuccess : function(data) {
+				var items = eval('(' + data + ')');
+				transformRecentSitesList(items, response);
+			},
+			onFail : function(data){
+				transformRecentSitesList({"items":[]}, response);
+			}
+		});
+		
+	}
+	
+	var transformRecentSitesList = function(items, response){
+		
+		var site = eval('(' + response + ')').location.substring(1);
+		//Filter out this site
+		var index = -1;
+		for (var i = 0; i < items.items.length; i++){
+			if (items.items[i] == site){
+				index = i;
+			}
+		}
+		if (index > -1){
+			items.items.splice(index,1);
+		}
+		items.items.unshift(site);
+		items.items = items.items.splice(0,5);
+		writeRecentSiteList(items);
+		
+	}
 
+	var writeRecentSiteList = function(items){
+		
+		sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", sdata.JSON.stringify(items), function(success){});
+		
+	}
 	
 	/*
 		Global event listeners
