@@ -186,9 +186,74 @@ sakai.chat = function(tuid, placement, showSettings){
 			setRoundedCorners();
 			if (!sitesShown){
 				loadSites();
+				loadRecentSites();
 				sitesShown = true;
 			}
 		});
+	}
+	
+	var loadRecentSites = function(){
+		
+		sdata.Ajax.request({
+		   	url :"/sdata/p/recentsites.json?sid=" + Math.random(),
+		    httpMethod : "GET",
+			onSuccess : function(data) {
+				
+				var items = eval('(' + data + ')');
+				
+				var url = "/_rest/site/get/";
+				var count = 0;
+				
+				for (var i = 0; i < items.items.length; i++){
+					url += items.items[i] + ",";
+					count++;
+				}
+				
+				sdata.Ajax.request({
+				   	url : url + "?sid=" + Math.random(),
+				    httpMethod : "GET",
+					onSuccess : function(data) {
+						
+						var response = eval('(' + data + ')');
+						var json = {};
+						json.items = [];
+						var newcount = 0;
+						
+						if (count == 1){
+							newcount++;
+							var el = {};
+							el.location = response.location.substring(1);
+							el.name = response.name;
+							json.items[json.items.length] = el;
+						} else {
+							for (var i = 0; i < response.length; i++){
+								if (response[i] != "404"){
+									newcount++;
+									var el = {};
+									el.location = response[i].location.substring(1);
+									el.name = response[i].name;
+									json.items[json.items.length] = el;
+								}
+							}
+						}
+						
+						json.count = newcount;
+						$("#chat_dropdown_recent_sites").append(sdata.html.Template.render("chat_dropdown_recent_sites_template",json));
+					
+					},
+					onFail : function(data){
+						
+						$("#chat_dropdown_recent_sites").append("<span>No recent sites found</span>");
+						
+					}
+				});
+
+			},
+			onFail : function(data){
+				$("#chat_dropdown_recent_sites").append("<span>No recent sites found</span>");
+			}
+		});
+		
 	}
 	
 	$("#mysites_dropdown_close_link").live("click", function(ev){
