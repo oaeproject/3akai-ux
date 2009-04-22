@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/commentswow/css/commentswow.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/commentswow/css/sakai.components.jq_pager.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/commentswow/css/sakai.components.jq_pager.css"></link>
 <!-- the main page -->
 <div id="commentswow_mainContainer"  style="display:none;">
 	<div id="commentswow_titlebar">
@@ -10,7 +10,7 @@
 		<a class="button-default" style="float:left;" id="commentswow_comment_top" href="javascript:;">Add Comment</a>	
 		<!--<a class="button-default" style="float:right;" id="commentswow_nextPage" href="javascript:;">Next page</a>
 		<a class="button-default" style="float:right;margin-right:10px;display:none;" id="commentswow_prevPage" href="javascript:;">Previous page</a><br />-->
-		<div class="jq_pager"></div>
+		<div class="jq_pager commentswow_jqpager"></div>
 	</div>
 	
 	<div id="commentswow_fillInCommentTop"  style="display:none;">
@@ -63,7 +63,7 @@
 							${index.timeAgo} <span style="color:#BBBBBB;">(${index.parseddate})</span>
 						</div>
 					{else if index.mail != false && index.name !=false && index.uid ==""}
-						<img alt="avatar" class="commentswow_avatar" src="../../devwidgets/commentswow/images/commentswow_smiley.jpg" />
+						<img alt="avatar" class="commentswow_avatar" src="/dev/redesign/images/member.png" />
 						<div class="commentswow_posterData">
 							<span class="commentswow_posterDataName">${index.name} (<a href="mailto:${index.mail}">${index.mail}</a>)</span><br />
 							${index.timeAgo} <span style="color:#BBBBBB;">(${index.parseddate})</span>
@@ -94,7 +94,7 @@
 		<a class="button-default" style="float:left;" id="commentswow_comment_bottom" href="javascript:;">Add Comment</a>	
 		<!--<a class="button-default" style="float:right;" id="commentswow_nextPage" href="javascript:;">Next page</a>
 		<a class="button-default" style="float:right;margin-right:10px;display:none;" id="commentswow_prevPage" href="javascript:;">Previous page</a><br />-->
-		<div class="jq_pager"></div>
+		<div class="jq_pager commentswow_jqpager"></div>
 	</div>
 	<div id="commentswow_fillInCommentBottom"  style="display:none;">
 		
