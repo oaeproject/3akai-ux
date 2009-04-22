@@ -49,7 +49,7 @@ sakai.getRssFeed = function(){
 		var current_minutes = d.getMinutes() + "";
 		if (current_minutes.length === 1){current_minutes = "0" + current_minutes;}
 		
-		return(d.getDate() + "/" + d.getMonth() + "/" +  d.getFullYear() + " " + current_hour + ":" + current_minutes +  " " + am_or_pm);
+		return(d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() + " " + current_hour + ":" + current_minutes +  " " + am_or_pm);
 	};
 	/**
 	 * converts the xml-feed to a json-object
@@ -155,7 +155,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	var pagerClickHandler = function(pageClicked){
 		json.shownEntries = getShownEntries(pageClicked);
 				$("#rss_output", rootel).html(sdata.html.Template.render('rss_output_template', json));
-				$(".jq_pager").pager({
+				$(".rss_jq_pager",rootel).pager({
                             pagenumber: pageClicked,
                             pagecount: Math.ceil(json.entries.length / 3),
                             buttonClickCallback: pagerClickHandler
@@ -290,6 +290,7 @@ sakai.rss = function(tuid, placement, showSettings){
         });
 		}
 	};
+		
 	showHideSettings(showSettings);
 	
 	/**
