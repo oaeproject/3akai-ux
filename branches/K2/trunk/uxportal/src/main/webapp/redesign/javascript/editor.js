@@ -66,6 +66,7 @@ sakai.site = function(){
 			document.location = "/dev/";
 		}
 		else {
+			$("#site_management_members_link").attr("href", $("#site_management_members_link").attr("href") + currentsite);
 			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + currentsite);
 			sdata.Ajax.request({
 				url: "/_rest/site/get/" + currentsite + "?sid=" + Math.random(),
