@@ -349,3 +349,8 @@ padding: 0 0 9px 0;
 .dialogue_body .remove {
 	background:#F8F8F8 none repeat scroll 0 0;
 }
+
+#people_dropdown_main .button, #mysites_dropdown_main .button {
+	float: none;
+	display: inline;
+}
