@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Create New Account</title>        
+    <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />   
+    
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />	    
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.3.css" />
+	
+	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
+	
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/jcap/jcap.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/jcap/md5.js"></script>
+	
+</head>
+
+<body class="fl-centered create_account">
+	
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+	
+    <!-- HEADER -->
+    <div class="header">
+    	<div class="header-version">
+        	3.0 RC1
+        </div>
+        <div class="header-title">
+        	sakai
+        </div>
+        <div class="header-byline">
+        	Open Source Collaborative Learning. Designed by educators, for educators.
+        </div>
+    </div>
+    
+    <!-- CONTENT -->
+    <div class="create-account-content">
+    	<div class="all-fields">
+        	Please fill in all fields!
+        </div>
+        <div class="site_secondary_heading">
+        	Create a New Account
+        </div>
+		
+		<!-- Set fields red by adding the invalid class -->
+		
+        <div class="create-account-form">
+        	<table>
+            	<tr>
+                	<td colspan="1">
+                    	<label for="first">First Name:</label><br />
+                    	<input type="text" id="firstname" class="create-input-short" value="" /> 
+						<div style="display:none" id="firstname_empty" class="create-account-notification">Please enter your first name!</div>
+                    </td>
+                    <td colspan="1">                  
+                    	<label for="last">Last Name:</label><br />
+                    	<input type="text" id="lastname" class="create-input-short" value="" />
+						<div style="display:none" id="lastname_empty" class="create-account-notification">Please enter your last name!</div>
+                    </td>
+                </tr>
+                <tr>
+                	<td colspan="2">
+                    	<label for="email">Email:</label><br />
+                        <input type="text" id="email" class="create-input-long" />
+						<div style="display:none" id="email_empty" class="create-account-notification">Please enter your email address!</div>
+						<div style="display:none" id="email_invalid" class="create-account-notification">This is an invalid email address!</div>
+                    </td>                    
+                </tr>
+                <tr>
+                	<td>
+                    	<label id="username_label" for="username">Username:</label><br />
+                        <input type="text" id="username" class="create-input-short" />
+						<div style="display:none" id="username_taken" class="create-account-notification">This username has already be taken!</div>
+						<div style="display:none" id="username_spaces" class="create-account-notification">The username shouldn't contain spaces!</div>
+						<div style="display:none" id="username_short" class="create-account-notification">The username should be at least 3 characters long!</div>
+                    	<div style="display:none" id="username_empty" class="create-account-notification">The username should be at least 3 characters long!</div>
+					</td>
+                    <td>
+                    	<div class="check-username" id="checkUserName"><span>&raquo;</span> Check if this username is available</div>
+                    </td>
+                </tr>
+                <tr>
+                	<td>
+                    	<label for="password">Password:</label><br />
+                        <input type="password" id="password" class="create-input-short" />
+						<div style="display:none" id="password_empty" class="create-account-notification">Please enter your password!</div>
+						<div style="display:none" id="password_short" class="create-account-notification">Your password should be 4 characters long!</div>
+                    </td>
+                    <td>
+                    	<label for="re_password">Re-type password:</label><br />
+                        <input type="password" id="password_repeat" class="create-input-short" />
+                        <div style="display:none" id="password_repeat_empty" class="create-account-notification">Please repeat your password!</div>
+                    	<div style="display:none" id="password_repeat_nomatch" class="create-account-notification">This password does not match the first one!</div>
+					</td>
+                </tr>
+                <tr rowspan="2">
+                	<td class="bottom">
+                    	<label for="captcha_answer">Please type the word on the right:</label><br />
+                        <input type="text" id="uword" class="create-input-short" />
+						<div style="display:none" id="uword_empty" class="create-account-notification">Please enter the word on the right!</div>
+						<div style="display:none" id="uword_nomatch" class="create-account-notification">This does not match the word on the right!</div>
+                    </td>
+                    <td class="captcha_container">
+                    	<script type="text/javascript">sjcap();</script>
+                    </td>
+                </tr>                
+            </table>
+        </div>
+        <div class="buttons" id="buttons">
+            <input type="button" class="button button-secondary create-cancel" id="cancel_button" value="Cancel" /> 
+			<input type="button" class="button button-primary create-confirm" id="save_account" value="Create Account" />
+        </div>
+		<div id="success_message" style="margin:13px 0 0 330px; padding-bottom:50px; display:none">
+			Account successfully created. <a style="font-weight:bold" href="index.html">Click here to login.</a>
+		</div>
+    </div>
+	
+	<script type="text/javascript" language="JavaScript" src="javascript/createnewaccount.js"></script>
+	
+</body>
+</html>

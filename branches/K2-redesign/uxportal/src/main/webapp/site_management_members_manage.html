@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Add Members</title>        
+    
+	<link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />
+            
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.people.css" />
+	<link type="text/css" href="/devwidgets/chat/css/chat.css" rel="stylesheet"/>
+	
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.jq_pager.css" />		    
+    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="sakai_css/site.managment.css" /> 
+	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/json_parse.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/querystring.js"></script>
+	<script src="jscripts/jquery.pager.js" type="text/javascript"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/trimpath.js"></script>
+	<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+	<script src="jscripts/jquery.corners.js" type="text/javascript"></script>
+	
+</head>
+
+<body class="fl-centered add-members">
+		<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+	
+    <!-- EXPLORE BAR -->
+    <div id="widget_chat" class="widget_inline"></div>
+    
+    <!-- TITLE BAR  -->
+    <div class="site_heading">
+        
+        <!-- SEARCH FIELD -->
+			<div class="site_search">
+				<form method="" action="" class="search fl-force-right">
+                	<input type="text" class="fl-force-left search_field" value="Search this site" name="search"/>
+					<a href="javascript:;" class="button-default save_button search_btn">Search</a>
+                <!-- <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" /> -->
+            </form>
+			</div>        			
+      <h1>John's New Site</h1>
+    </div>   
+    
+    <!-- CONTENT -->  
+    
+    	<!-- SECOND HEADING -->  
+        <div class="site_secondary_heading">
+            Site Management <a id="back_to_site_link" href="page_edit.html?siteid=">&laquo; Back to Site</a>
+        </div> 
+        
+        <!-- TAB NAVIGATION -->
+        <div class="primary-tabs">
+	        <ul class="fl-tabs fl-tabs-left">            
+	            <li><a href="#">Basic Settings</a></li>
+	            <li class="fl-activeTab"><a href="javscript:;">Members</a></li>	
+	            <li><a href="#">Appearance</a></li>		
+	        </ul>
+        </div>    
+				
+		<!-- CURRENT MEMBERS -->
+		<div class="fl-force-right current-members">
+			Currently you have <span id="manage_members_count">0 members</span> for this site
+			<a href="site_management_members_add.html" class="button button-primary manage-members">Add people to my site</a>
+		</div>	
+		<div class="site_secondary_heading third_heading">
+			Manage current members:
+		</div>
+		
+		<!-- MIXED COLUMN -->
+		<div class="fl-col-mixed-200">
+			
+			<!-- FIXED COLUMN -->
+			<div class="fl-col-fixed fl-force-left">
+				<div class="fixed-container">
+					<form class="member-options" method="" action="">
+						<strong class="manage_members_role">Make selected people:</strong>							
+							<table id="manage_members_role_rbts" class="add-people-table">
+								
+							</table>
+							<div style="display:none;" id="manage_members_role_rbts_template"><!--
+							{for i in roles}
+							<tr>
+								<td><input name="membership_role" id="manage_members_role_${i}" value="${i}" type="radio" checked="checked" /></td>
+								<th><label for="manage_members_role_${i}">${i}</label></th>
+							</tr>
+							{/for}
+							--></div>						
+						<!-- <strong>Tag selected people as:</strong>
+						<input type="text" class="tag-people" value="Add your tags here" /> -->
+						<div id="membership-status-settings">
+	                        <div class="status"><strong>Membership status:</strong></div>
+	                        <ul>
+	                        	<li><input type="radio" name="status" class="membership-status" checked="checked" /> Active </li>	
+	                            <li><input type="radio" name="status" class="membership-status" /> Suspended </li>
+	                        </ul>
+						</div>
+                        <input type="button" class="button button-primary update-people selected_people_addToSite" value="Update selected people"/>
+                        <input type="button" class="button button-secondary remove-people" id="selected_members_delete" value="Remove selected people" />		
+					</form>		
+					<div id="selected-members-container"  class="selected_personsContainer"></div>
+					<div style="display:none" id="selected-people-template"><!--
+							<span class="selected-people">Selected People ( ${selectedPeople.length} ):</span>
+					<table class="selected-people-table">
+					{for i in selectedPeople}
+					
+						<tr>
+							{if (typeof i.profile !== "undefined")}
+							<th>${i.profile.firstName} ${i.profile.lastName}</th>
+							{else}
+							<th>${i.userid}</th>
+							{/if}
+							<td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}">X</a></td>
+						</tr>
+						
+					{/for}	
+					</table>
+					--></div>
+				</div>
+			</div>
+			
+			<!-- FLEX COLUMN -->
+			<div class="fl-col-flex">
+				<div class="flex-container">
+					<div class="member-search">
+						<input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, or comma separated lists" />
+						<input type="submit" value="Search" id="btn_members_search" class="submit-button" />
+					</div>
+					<div class="explore_nav">
+						<ul class="user-personal fl-force-left">
+							<li class="first"><a href="site_management_members_add.html" class="manage-members">Add new members</a></li>   
+							<li><a href="javascript:;" id="btn_members_selectAll">Select all</a></li>            
+							<li><a href="javascript:;" id="btn_members_selectNone">Select none</a></li>
+						</ul>	
+					</div>
+					<div class="jq_pager"></div>
+					<div id="siteManage_members" class="siteManagepeopleContainers">
+						
+					</div>
+					<div id="siteManage_people_template" style="display:none"><!--
+					<div class="members-container">
+					<ul width="100%">
+					{for i in users}
+						<li class="unselected">
+							<a href="javascript:;" class="siteManage_person" id="siteManage_person${users.indexOf(i)}">
+							{if typeof i.profile.picture == "undefined"}
+							<img src="images/member.png" />
+							{else}
+							<img src="../../webdav/_private${i.userStoragePrefix}${i.profile.picture.name}" />
+							{/if}
+							</a>
+							
+							{if (typeof i.profile !== "undefined")}
+							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.profile.firstName} ${i.profile.lastName}</a><div class="member-title"></div>
+							{else}
+							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.userid}</a><div class="member-title"></div>
+							{/if}
+							<span class="siteManage_person_roleView">${i.role}</span>
+						</li>
+					{/for}
+					</ul>
+					</div>
+					--></div>
+				</div>				
+			</div>			
+		</div>
+		<div id="site_add_members_search_csv" class="dialog add_goodies" style="width:520px; background-color: #fff; margin-left: -260px; ">
+			<div class="dialog_header">
+				<h1>CSV file</h1>
+				<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			<textarea></textarea>
+			<div class="dialog_footer">
+			<div class="buttonBar">
+				<a href="javascript:;" id="site_manage_searchViaCsv" class="button-default" style="float:right">Search</a>
+			    <a href="javascript:;" class="button jqmClose" style="float:left">Cancel</a>
+			</div>
+			</div>
+		</div>
+    <!-- FOOTER -->    
+    <div class="page-footer">
+    </div>
+	<script src="javascript/site_manage_members.js" type="text/javascript"></script>
+</body>
+</html>
