@@ -4,20 +4,6 @@ sakai.newaccount = function(){
 	
 	var checkingUserExists = false;
 	
-	$("input").keypress(function (e) {
-		if (e.which == 13){
-			doSave();
-		}
-	});
-	
-	$("#save_account").bind("click", function(ev){
-		doSave();
-	});
-	
-	$("#cancel_button").bind("click", function(ev){
-		document.location = "/dev/redesign/index.html";
-	});
-	
 	var resetErrorFields = function(){
 		$("input").removeClass("invalid");
 		$("#username_taken").hide();
@@ -222,6 +208,16 @@ sakai.newaccount = function(){
 			return false;
 		}
 	}
+	
+	$("input").keypress(function(e){
+		e.which == 13 ? doSave() : null;
+	});
+	
+	$("#save_account").bind("click", doSave);
+	
+	$("#cancel_button").bind("click", function(ev){
+		document.location = Config.logoutUrl;
+	});
 	
 	var echeck = function(str) {
 
