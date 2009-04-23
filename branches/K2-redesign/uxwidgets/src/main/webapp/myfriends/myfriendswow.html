@@ -1,0 +1,29 @@
+<div class="my_contacts_widget">
+	<div class="fl-widget-options fl-fix">
+		<ul>
+			<li><a href="people.html">View &amp; Edit Contacts</a></li>
+			<li><span class="pipe_divider">|</span></li>
+			<li><a href="search_b_people.html">Find People</a></li>
+		</ul>
+		<a href="people.html" class="fl-force-right contact_requests" id="contact_requests"></a>
+	</div>                    
+	<div class="fl-widget-content" id="my_contacts_list" style="padding-left:8px">
+	</div>
+	
+	<div id="my_contacts_list_template"><!--
+		{for i in items}
+			<div class="contact">
+				{if i.photo}
+					<a href="/dev/redesign/profile.html?user=${i.id}" class="fl-icon contact_picture" style="text-indent:0px"><img src="${i.photo}" style="width:50px;height:50px"/></a>
+				{else}
+					<a href="/dev/redesign/profile.html?user=${i.id}" class="fl-icon contact_picture"></a>
+				{/if}
+				<a href="/dev/redesign/profile.html?user=${i.id}" class="contact_name">${i.name}</a>
+			</div>	
+		{forelse}
+			<span style="font-size:0.95em">You currently have no contacts</span>
+		{/for}	
+	--></div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/myfriendswow/javascript/myfriendswow.js"></script>

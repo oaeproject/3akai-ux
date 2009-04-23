@@ -1,0 +1,286 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/pollwow/css/pollwow.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/pollwow/css/pollwow_datepicker.css"></link>
+<!-- the settings page -->
+<div id="pollwow_main_container" style="display:none;">
+	<div id="pollwow_container">
+		<div id="pollwow_settings">
+			
+		</div>
+		<div id="pollwow_preview">
+			<div id="pollwow_preview_question">
+				
+			</div>
+			<div class="pollwow_center">
+				Question view
+			</div>
+			<hr />
+			<div id="pollwow_preview_chart">
+				
+			</div>
+			<div class="pollwow_center">
+				Chart view
+			</div>
+			<hr />
+			<div class="buttonBar pollwow_bar_bottom">
+				<a class="button cancel-button" href="javascript:;" id="pollwow_preview_back">Back</a>
+				<a class="button-default" href="javascript:;" id="pollwow_preview_insert">Insert Widget</a>
+			</div>
+			<br class="pollwow_cls"/>
+		</div>
+	</div>
+	<div id="pollwow_rendered_template" style="display:none"><!--
+	<ul id="pollwow_tabs">
+		<li><a href="javascript:;" id="pollwow_create_new_tab" class="pollwow_selectedtab">Create New Poll</a></li>
+		<li><a href="javascript:;" id="pollwow_insert_existing_tab">Insert Existing</a></li>
+	</ul>
+	<div id="pollwow_create_new">
+		<form>
+			<div class="buttonBar">
+				<a class="button-default" href="javascript:;" id="pollwow_create_placeholder">Create a quick placeholder</a>
+			</div>
+			<br class="pollwow_cls" />
+			<label for="pollwow_question">Question:</label>
+			<textarea id="pollwow_question">${pollwow.question}</textarea><br />
+			<label>Options:</label>
+			<div id="pollwow_options">
+				
+			</div>
+			<div id="pollwow_add_new_option_container">
+				<div class="buttonBar">
+					<a class="button-default" href="javascript:;" id="pollwow_add_new_option">Add new option...</a>
+				</div>
+			</div>
+			<br class="pollwow_cls" />
+			<div class="pollwow_left">
+				<input id="pollwow_allow_multiple" {if pollwow.allow_multiple==1}checked="checked"{/if} type="checkbox"/><label for="pollwow_allow_multiple" class="pollwow_radiocheck_label">Allow users to select multiple options</label>
+			</div>
+			<div class="buttonBar">
+				<a class="button-default" href="javascript:;" id="pollwow_toggle_advanced_settings">Advanced settings <span id="pollwow_toggle_advanced_settings_down">&#8595;</span><span id="pollwow_toggle_advanced_settings_up">&#8593;</span></a>
+			</div>
+			<br class="pollwow_cls" />
+			<div id="pollwow_advanced_settings">
+				<div id="pollwow_date_left">
+					<label for="pollwow_startdate">Start date and time:</label><br />
+					<input type="text" id="pollwow_startdate" class="pollwow_date_input" value="${pollwow.startdate}" readonly="true"/>
+					<input type="text" id="pollwow_starthour" class="pollwow_time_input" value="${pollwow.starthour}" readonly="true"/>
+					<img id="pollwow_starthour_down" class="pollwow_dropdown" src="/devwidgets/pollwow/images/pollwow_drop_down.gif" alt="Please select an hour" title="Please select an hour"/>
+					<div id="pollwow_starthour_div" class="pollwow_time"></div>
+					<span class="pollwow_minutes_seconds">:</span>
+					<input type="text" id="pollwow_startmin" class="pollwow_time_input" value="${pollwow.startmin}" readonly="true"/>
+					<img id="pollwow_startmin_down" class="pollwow_dropdown" src="/devwidgets/pollwow/images/pollwow_drop_down.gif" alt="Please select a minute" title="Please select a minute"/>
+					<div id="pollwow_startmin_div" class="pollwow_time"></div>
+				</div>
+				<div id="pollwow_date_right">
+					<label for="pollwow_stopdate">Stop date and time:</label><br />
+					<input type="text" id="pollwow_stopdate" class="pollwow_date_input" value="${pollwow.stopdate}" readonly="true"/>
+					<input type="text" id="pollwow_stophour" class="pollwow_time_input" value="${pollwow.stophour}" readonly="true"/>
+					<img id="pollwow_stophour_down" class="pollwow_dropdown" src="/devwidgets/pollwow/images/pollwow_drop_down.gif" alt="Please select an hour" title="Please select an hour"/>
+					<div id="pollwow_stophour_div" class="pollwow_time"></div>
+					<span class="pollwow_minutes_seconds">:</span>
+					<input type="text" id="pollwow_stopmin" class="pollwow_time_input" value="${pollwow.stopmin}" readonly="true"/>
+					<img id="pollwow_stopmin_down" class="pollwow_dropdown" src="/devwidgets/pollwow/images/pollwow_drop_down.gif" alt="Please select a minute" title="Please select a minute"/>
+					<div id="pollwow_stopmin_div" class="pollwow_time"></div>
+				</div>
+				<br class="pollwow_cls" />
+				<hr />
+				<label>Poll type:</label>
+				<ul id="pollwow_polltype">
+					<li{if pollwow.poll_type == 0} class="pollwow_polltype_active"{/if} id="pollwow_polltype_vertical"><a href="javascript:;"><span>vertical</span></a></li>
+					<li{if pollwow.poll_type == 1} class="pollwow_polltype_active"{/if} id="pollwow_polltype_horizontal"><a href="javascript:;"><span>horizontal</span></a></li>
+					<li{if pollwow.poll_type == 2} class="pollwow_polltype_active"{/if} id="pollwow_polltype_pie"><a href="javascript:;"><span>piechart</span></a></li>
+					<li{if pollwow.poll_type == 3} class="pollwow_polltype_active"{/if} id="pollwow_polltype_text"><a href="javascript:;"><span>text only</span></a></li>
+				</ul>
+				<br class="pollwow_cls" />
+				<input id="pollwow_not_see_chart_view" {if pollwow.not_see_chart_view}checked="checked"{/if} type="checkbox"/><label for="pollwow_not_see_chart_view" class="pollwow_radiocheck_label">Users can NOT see the chart view</label><br class="pollwow_cls" />
+				<input id="pollwow_allow_see_results" {if pollwow.allow_see_results}checked="checked"{/if} type="checkbox"/><label for="pollwow_allow_see_results" class="pollwow_radiocheck_label">Allow users to see results before voting</label>
+			</div>
+			<br class="pollwow_cls" />
+			<div class="buttonBar pollwow_bar_bottom">
+				<a class="button cancel-button" href="javascript:;" id="pollwow_cancel">Cancel</a>
+				<a class="button-default" href="javascript:;" id="pollwow_preview_button">Preview</a>
+			</div>
+			<br class="pollwow_cls" />
+		</form>
+	</div>
+	<div id="pollwow_insert_existing">
+		<form>
+			<label>Select existing poll:</label>
+			<div id="pollwow_insert_existing_items">
+				{for item in pollwow.pollwows}
+					<a href="javascript:;" id="pollwow_insert_existing_item${item.tuid}">${item.question}</a>
+				{/for}
+			</div>
+			<br class="pollwow_cls" />
+			<div class="buttonBar pollwow_bar_bottom">
+				<a class="button cancel-button" href="javascript:;" id="pollwow_cancel_existing">Cancel</a>
+				<a class="button-default" href="javascript:;" id="pollwow_widget_insert">Insert Widget</a>
+			</div>
+			<br class="pollwow_cls" />
+		</form>
+	</div>
+--></div>
+	<div id="pollwow_options_rendered_template"><!--
+		{for option in pollwow.options}
+			<div id="pollwow_question${option_index}">
+				<input type="text" id="pollwow_question_input${option_index}" value="${option.answer}" /><a class="pollwow_close" href="javascript:;">x</a>
+			</div>
+		{/for}
+	--></div>
+	<!-- the show page -->
+	<div id="pollwow_show_container">
+		<div id="pollwow_show">
+			<div id="pollwow_show_question">
+				
+			</div>
+			<div id="pollwow_show_chart">
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div id="pollwow_show_question_view_rendered_template"><!--
+	{if pollwow.placeholder == 1}
+		<img src="/devwidgets/pollwow/images/pollwow_placeholder.jpg" alt="Pollwow placeholder" />
+	{else}
+		<p id="pollwow_question_view_header">
+			${pollwow.question}
+		</p>
+		<hr />
+		<form>
+			<div id="pollwow_question_view_options">
+				{for option in pollwow.options}
+					<input value="${option_index}" id="pollwow_question_view_option${option_index}" {if pollwow.allow_multiple == 0}type="radio"{elseif pollwow.allow_multiple == 1}type="checkbox"{/if} name="pollwow_question_view_options"/>
+					<label for="pollwow_question_view_option${option_index}" class="pollwow_radiocheck_label">${option.answer}</label><br class="pollwow_cls" />
+				{/for}
+			</div>
+			<hr />
+			<div class="buttonBar pollwow_question_view_bar_bottom">
+				{if pollwow.temp.userVoted == 0 && pollwow.temp.polldateok == 1}
+				<a class="button-default" href="javascript:;" id="pollwow_question_view_vote">Vote</a>
+				{/if}
+				{if pollwow.allow_see_results == 1}
+					{if pollwow.not_see_chart_view == 0}
+					<a class="button-default" href="javascript:;" id="pollwow_question_view_results">View results</a>
+					{/if}
+				{/if}
+			</div>
+		</form>
+	{/if}
+--></div>
+<div id="pollwow_question_view_rendered_template"><!--
+	<p id="pollwow_question_view_header">
+		${pollwow.temp.question}
+	</p>
+	<hr />
+	<form>
+		<div id="pollwow_question_view_options">
+			{for option in pollwow.temp.options}
+				<input id="pollwow_question_view_option${option_index}" type="radio" name="pollwow_question_view_options"/>
+				<label for="pollwow_question_view_option${option_index}" class="pollwow_radiocheck_label">${option.answer}</label><br class="pollwow_cls" />
+			{/for}
+		</div>
+		<hr />
+		<div class="buttonBar pollwow_question_view_bar_bottom">
+			<a class="button-default" href="javascript:;" id="pollwow_question_view_vote">Vote</a>
+			<a class="button-default" href="javascript:;" id="pollwow_question_view_results">View results</a>
+		</div>
+	</form>
+	<div class="pollwow_specimen">
+		 <img src="/devwidgets/pollwow/images/pollwow_specimen.png" alt="Specimen" />
+	</div>	
+--></div>
+<div id="pollwow_show_chart_view_rendered_template"><!--
+	<p class="pollwow_chart_view_header"
+	{if pollwow.poll_type == 0} id="pollwow_chart_view_header_vertical"
+	{elseif pollwow.poll_type == 1} id="pollwow_chart_view_header_horizontal"
+	{elseif pollwow.poll_type == 2} id="pollwow_chart_view_header_pie"
+	{elseif pollwow.poll_type == 3} id="pollwow_chart_view_header_text"
+	{/if}>
+		${pollwow.question}
+	</p>
+	<hr />
+	<form>
+		{if pollwow.poll_type == 0}
+			<ul id="pollwow_chart_view_options">
+				{for option in pollwow.options}
+					<li id="pollwow_chart_view_options${option_index}"><span class="pollwow_chart_view_bullet pollwow_color_${option.color}">&nbsp</span><span class="pollwow_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${pollwow.image}" alt="Vertical chart" />
+		{elseif pollwow.poll_type == 1}
+			<ul id="pollwow_chart_view_options">
+				{for option in pollwow.options}
+					<li id="pollwow_chart_view_options${option_index}"><span class="pollwow_chart_view_bullet pollwow_color_${option.color}">&nbsp</span><span class="pollwow_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${pollwow.image}" alt="Horizontal chart" />
+		{elseif pollwow.poll_type == 2}
+			<ul id="pollwow_chart_view_options">
+				{for option in pollwow.options}
+					<li id="pollwow_chart_view_options${option_index}"><span class="pollwow_chart_view_bullet pollwow_color_${option.color}">&nbsp</span><span class="pollwow_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${pollwow.image}" alt="Pie chart" />
+		{elseif pollwow.poll_type == 3}
+			<ul id="pollwow_text_view_options">
+				{for option in pollwow.options}
+					<li class="pollwow_front_color_${option.color}"><span class="pollwow_text_view_percentage">${option.percentage}</span><span class="pollwow_text_view_content">${option.answer}</span><br class="pollwow_cls"/></li>
+				{/for}
+			</ul>
+		{/if}
+		{if pollwow.allow_see_results == 1 && pollwow.temp.userVoted == 0 && pollwow.temp.polldateok == 1}
+		<hr />
+		<div class="buttonBar pollwow_question_view_bar_bottom">
+			<a class="button-default" href="javascript:;" id="pollwow_chart_view_back">Back</a>
+		</div>
+		{/if}
+	</form>
+--></div>
+<div id="pollwow_chart_view_rendered_template"><!--
+	<p class="pollwow_chart_view_header"
+	{if pollwow.poll_type == 0} id="pollwow_chart_view_header_vertical"
+	{elseif pollwow.poll_type == 1} id="pollwow_chart_view_header_horizontal"
+	{elseif pollwow.poll_type == 2} id="pollwow_chart_view_header_pie"
+	{elseif pollwow.poll_type == 3} id="pollwow_chart_view_header_text"
+	{/if}>
+		${pollwow.temp.question}
+	</p>
+	<hr />
+	<form>
+		{if pollwow.poll_type == 0}
+			<ul id="pollwow_chart_view_options">
+				{for option in pollwow.temp.options}
+					<li id="pollwow_chart_view_options${option_index}"><span class="pollwow_chart_view_bullet pollwow_color_${option.color}">&nbsp</span><span class="pollwow_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${pollwow.image}" alt="Vertical chart" />
+		{elseif pollwow.poll_type == 1}
+			<ul id="pollwow_chart_view_options">
+				{for option in pollwow.temp.options}
+					<li id="pollwow_chart_view_options${option_index}"><span class="pollwow_chart_view_bullet pollwow_color_${option.color}">&nbsp</span><span class="pollwow_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${pollwow.image}" alt="Horizontal chart" />
+		{elseif pollwow.poll_type == 2}
+			<ul id="pollwow_chart_view_options">
+				{for option in pollwow.temp.options}
+					<li id="pollwow_chart_view_options${option_index}"><span class="pollwow_chart_view_bullet pollwow_color_${option.color}">&nbsp</span><span class="pollwow_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${pollwow.image}" alt="Pie chart" />
+		{elseif pollwow.poll_type == 3}
+			<ul id="pollwow_text_view_options">
+				{for option in pollwow.temp.options}
+					<li class="pollwow_front_color_${option.color}"><span class="pollwow_text_view_percentage">${option.percentage}</span><span class="pollwow_text_view_content">${option.answer}</span><br class="pollwow_cls"/></li>
+				{/for}
+			</ul>
+		{/if}
+	</form>
+	<div class="pollwow_specimen">
+		 <img src="/devwidgets/pollwow/images/pollwow_specimen.png" alt="Specimen" />
+	</div>
+--></div>
+
+<script type="text/javascript" src="/devwidgets/pollwow/javascript/json_parse.js"></script>
+<script type="text/javascript" src="/devwidgets/pollwow/javascript/pollwow.js"></script>
+<script type="text/javascript" src="/devwidgets/pollwow/javascript/jquery-ui-1.7.custom.min.js"></script>
