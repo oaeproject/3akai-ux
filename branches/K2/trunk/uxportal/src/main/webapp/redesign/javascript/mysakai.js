@@ -36,27 +36,19 @@ sakai.dashboard = function(){
 		}
 	}
 	
-	sakai.dashboard.showSettings = function(id, generic){
+	sakai.dashboard.finishEditSettings = function(tuid, widgetname){
+		var generic = "widget_" + widgetname + "_" + tuid + "_~" + sdata.me.preferences.uuid;
+		var id = tuid;
 		var old = document.getElementById(id);
 		var newel = document.createElement("div");
 		newel.id = generic;
 		newel.className = "widget_inline";
 		old.parentNode.replaceChild(newel,old);
-		document.getElementById("close_settings_" + generic).style.display = "";
-		document.getElementById("show_settings_" + generic).style.display = "none";
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,true);
-	}
-	
-	sakai.dashboard.showWidgetContent = function(id, generic){
-		var old = document.getElementById(id);
-		var newel = document.createElement("div");
-		newel.id = generic;
-		newel.className = "widget_inline";
-		old.parentNode.replaceChild(newel,old);
-		document.getElementById("close_settings_" + generic).style.display = "none";
-		document.getElementById("show_settings_" + generic).style.display = "";
 		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,false);
 	}
+	
+	sdata.container.registerFinishFunction(sakai.dashboard.finishEditSettings);
+	sdata.container.registerCancelFunction(sakai.dashboard.finishEditSettings);
 
 	var showInit = function(){
 		
@@ -69,7 +61,7 @@ sakai.dashboard = function(){
 		var olayout = null;
 		
 		columns[0] = [];
-		columns[1] = [];	
+		columns[1] = [];
 
 		columns[0][0] = "siteswow";
 		columns[1][0] = "myprofilewow";
@@ -236,7 +228,7 @@ sakai.dashboard = function(){
 	
 		if (success){
 	
-			selected = "General"
+			selected = "General";
 
 			var jsonstring = '{"items":{"group":"' + selected + '"}}';
 			
@@ -405,10 +397,19 @@ sakai.dashboard = function(){
 			);
 			
 			$(".settings").bind("click", function(ev){
-				if (this.id.split("_")[0] + "_" + this.id.split("_")[1] == currentSettingsOpen){
+				
+				$("#settings_settings").hide();
+				
+				var splitted = this.id.split("_");
+				if (splitted[0] + "_" + splitted[1] == currentSettingsOpen){
 					$("#widget_" + currentSettingsOpen + "_settings").hide();
 				}	
-				currentSettingsOpen = this.id.split("_")[0] + "_" + this.id.split("_")[1];
+				currentSettingsOpen = splitted[0] + "_" + splitted[1];
+				var widgetId = splitted[0];
+				
+				if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings){
+					$("#settings_settings").show();
+				}
 				
 				var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
 				if (el.css('display') == "none"){
@@ -458,6 +459,20 @@ sakai.dashboard = function(){
 				$("#widget_settings_menu").hide();
 				$("#" + currentSettingsOpen + "_settings").hide();
 				currentSettingsOpen = false;
+				return false;
+			});
+			
+			$("#settings_settings").bind("mousedown", function(ev){
+				var generic = "widget_" + currentSettingsOpen + "_~" + sdata.me.preferences.uuid;
+				var id = currentSettingsOpen.split("_")[1]; 
+				var old = document.getElementById(id);
+				var newel = document.createElement("div");
+				newel.id = generic;
+				newel.className = "widget_inline";
+				old.parentNode.replaceChild(newel,old);
+				$("#widget_settings_menu").hide();
+				currentSettingsOpen = false;
+				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,true);
 				return false;
 			});
 			
