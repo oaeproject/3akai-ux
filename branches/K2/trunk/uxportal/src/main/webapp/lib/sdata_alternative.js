@@ -79,15 +79,15 @@ sdata.container.registerCancelFunction = function(callback){
 	}
 }
 
-sdata.container.informFinish = function(tuid){
+sdata.container.informFinish = function(tuid, widgetname){
 	if (sdata.container.toCallOnFinish){
-		sdata.container.toCallOnFinish(tuid);
+		sdata.container.toCallOnFinish(tuid, widgetname);
 	}
 }
 
-sdata.container.informCancel = function(tuid){
+sdata.container.informCancel = function(tuid, widgetname){
 	if (sdata.container.toCallOnCancel){
-		sdata.container.toCallOnCancel(tuid);
+		sdata.container.toCallOnCancel(tuid, widgetname);
 	}
 }
 
@@ -100,7 +100,9 @@ sdata.performLoad = function(){
 		var fct = eval(sdata.toLoad[i]);
 		try {
 			fct();
-		} catch (err){}
+		} catch (err){
+			alert(err);
+		}
 	}
 	sdata.toLoad = []
 }
