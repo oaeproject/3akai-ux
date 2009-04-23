@@ -28,6 +28,7 @@ sakai.site_manage_members = function() {
 	var getSiteId = function(){
 		var qs = new Querystring();
 		selectedSite = qs.get("siteid",false);
+		$("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
 		$(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
 		
 		$("#manage_members_role_rbts").html(sdata.html.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
