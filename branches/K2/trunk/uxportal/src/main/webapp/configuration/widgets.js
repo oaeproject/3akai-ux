@@ -199,6 +199,7 @@ var Widgets = {
 			id:"helloworld",
 			personalportal:1,
 			siteportal:0,
+			hasSettings: 1,
 			img:"/dev/img/myprofile.png"
 		},
 		sparkline :
