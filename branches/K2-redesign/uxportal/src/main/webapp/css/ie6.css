@@ -1,8 +1,0 @@
-html, body
-{
-	height: 100%;
-	overflow: auto;
-}
-.doFixed {
-	position: absolute;
-}
