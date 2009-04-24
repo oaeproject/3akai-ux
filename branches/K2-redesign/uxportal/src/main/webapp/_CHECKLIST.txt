@@ -25,7 +25,7 @@ Developer Check List
  - Valid HTML:          V
  - License header:      V
  - Well structured JS:  V
- - JSLint validated:    X
+ - JSLint validated:    V
 
 * Create an account
 

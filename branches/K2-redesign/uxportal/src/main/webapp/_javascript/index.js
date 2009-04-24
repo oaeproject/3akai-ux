@@ -51,16 +51,17 @@ sakai.index = function(){
 	 */
 	var decideLoggedIn = function(data){
 		var mejson = (data === undefined ? sdata.me : json_parse(data));
-		if (mejson.preferences.uuid !== "anon" && mejson.preferences.uuid !== null){
+		if (mejson.preferences.uuid !== "anon" && mejson.preferences.uuid !== null) {
 			document.location = redirecturl;
-		} else {
+		}
+		else {
 			$(loadingMessage).hide();
 			$(loginButton).show();
 			$(registerLink).show();
-			data !== undefined ? function(){
+			if (data) {
 				$(failMessage).show();
-			} : function(){};
-		}	
+			}
+		} 
 	};
 	
 	/*
@@ -149,7 +150,9 @@ sakai.index = function(){
 	 * we initiate the login function
 	 */
 	$("input").bind("keydown", function(e){
-		e.keyCode === 13 ? performLogIn() : function(){}();
+		if (e.keyCode === 13){
+			performLogIn();
+		}
 	});
 	
 	$(loginButton).bind("click", performLogIn);
