@@ -1,0 +1,98 @@
+.dialog_tab_nav li {
+	border-bottom: 1px solid #ddd;
+}
+
+.dialog_tab_nav li a, .dialog_tab_nav li a:visited{
+	background-color:#eee;
+	border-color:#eee #FFFFFF;
+	border-style:solid;
+	border-width:1px;
+	color:#333333;
+	font-size:0.95em;
+	margin:0 0 0 -5px;
+	padding:10px 20px;
+	text-decoration:none;
+}
+
+.dialog_tab_nav li.dialog_tab_selected span {
+	background-color:#FFFFFF;
+	border-color:#DDDDDD #DDDDDD #FFFFFF;
+	border-style:solid;
+	border-width:1px;
+	bottom:0;
+	color:#333333;
+	margin-left:-20px;
+	margin-right:-20px;
+	padding:11px 16px;
+	position:relative;
+}
+
+.dialog_content .dialog_tab_content {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 12px 12px 40px 12px;
+}
+
+.dialog_tab_menu {
+	border: none;
+	width: 150px;
+	font-size: .95em;
+	border: 1px solid #ddd;
+	color: #333;
+	height: 120px;
+	float: left;
+	margin:0;
+}
+
+.dialog_tab_menu li {
+	border: none;
+}
+
+.dialog_tab_menu a {
+	padding: 2px;
+}
+
+.dialog_tab_menu_selected a {
+	background-color: #333;
+	color: #fff;
+	padding: 2px;
+}
+
+/* fl-tab overrides */
+.fl-tabs {
+	border-bottom: 1px solid #ddd;
+	padding-bottom:0.8em;
+}
+.fl-tabs-left {
+	padding-left: 4px;
+}
+
+.dialog_panel {
+	position: relative;
+	left: 19px;
+	top: -10px;
+	width: 200px;
+	height: 90px;
+	background-color: #ddd;
+	padding: 15px;
+}
+
+.dialog_panel p {
+	padding: 0;
+	margin: 0;
+}
+
+.dialog_panel label {
+	position: relative;
+	left: 10px;
+}
+
+#small_arrow {
+	width: 20px;
+	height: 12px;
+	background-image: url(../images/small_arrow_left.png);
+	position: relative;
+	left: 1px;
+	top: 25px;
+}
