@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject.kernel2</groupId>
+    <artifactId>base</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+  <name>bootstrap</name>
+  <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+  <artifactId>bootstrap</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+      <artifactId>assembly</artifactId>
+      <version>${project.version}</version>
+      <classifier>kernel-core</classifier>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+      <artifactId>webapps-assembly</artifactId>
+      <version>${project.version}</version>
+      <classifier>kernel-core</classifier>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>tomcat.tomcat</groupId>
+      <artifactId>tomcat</artifactId>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+      <artifactId>kernel</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <profile>
+      <id>run</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile</id>
+                <phase>compile</phase>
+                <configuration>
+                  <tasks>
+                 <!-- unzip tomcat -->
+                    <delete dir="${basedir}/target/runtime" />
+                    <unzip
+                      src="${settings.localRepository}/tomcat/tomcat/tomcat/5.5.26/tomcat-5.5.26.zip"
+                      dest="${basedir}/target/unpack" overwrite="true" />
+                    <move
+                      file="${basedir}/target/unpack/apache-tomcat-5.5.26"
+                      tofile="${basedir}/target/runtime" />
+                    <delete dir="${basedir}/target/runtime/webapps/webdav" />
+                 <!-- unzip the overlay -->
+                    <unzip
+                      src="${settings.localRepository}/org/sakaiproject/kernel2/agnostic/assembly/${project.version}/assembly-${project.version}-kernel-core.zip"
+                      dest="${basedir}/target/runtime" overwrite="true" />
+                    <unzip
+                      src="${settings.localRepository}/org/sakaiproject/kernel2/agnostic/webapps-assembly/${project.version}/webapps-assembly-${project.version}-kernel-core.zip"
+                      dest="${basedir}/target/runtime" overwrite="true" />
+                 <!-- execute tomcat -->
+                    <chmod file="${basedir}/target/runtime/bin/catalina.sh"
+                      perm="775" />
+                    <chmod
+                      file="${basedir}/target/runtime/bin/setclasspath.sh"
+                      perm="775" />
+                    <chmod file="${basedir}/start.sh" perm="775" />
+		    <condition property="run.arg" value="${tomcat.args}" else="run">
+		      <isset property="tomcat.args" />
+		    </condition>
+                    <condition property="startscript" value="start.bat">
+                     <os family="windows"/>
+                    </condition>
+                    <condition property="startscript" value="start.sh">
+                     <os family="unix"/>
+                    </condition>
+                    <exec dir="${basedir}" executable="${basedir}/${startscript}"
+                      failonerror="true">
+		      <arg value="${run.arg}" />
+                    </exec>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>overlay-run-only</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile</id>
+                <phase>compile</phase>
+                <configuration>
+                  <tasks>
+                    <!-- unzip the overlay -->
+                    <unzip
+                      src="${settings.localRepository}/org/sakaiproject/kernel2/agnostic/assembly/${project.version}/assembly-${project.version}-kernel-core.zip"
+                      dest="${basedir}/target/runtime" overwrite="true" />
+                    <unzip
+                      src="${settings.localRepository}/org/sakaiproject/kernel2/agnostic/webapps-assembly/${project.version}/webapps-assembly-${project.version}-kernel-core.zip"
+                      dest="${basedir}/target/runtime" overwrite="true" />
+                    <!-- execute tomcat -->
+                    <chmod file="${basedir}/target/runtime/bin/catalina.sh"
+                      perm="775" />
+                    <chmod
+                      file="${basedir}/target/runtime/bin/setclasspath.sh"
+                      perm="775" />
+                    <chmod file="${basedir}/start.sh" perm="775" />
+		    <condition property="run.arg" value="${tomcat.args}" else="run">
+		      <isset property="tomcat.args" />
+		    </condition>
+                    <exec dir="${basedir}" executable="${basedir}/start.sh"
+                      failonerror="true">
+		      <arg value="${run.arg}" />
+                    </exec>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>run-only</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile</id>
+                <phase>compile</phase>
+                <configuration>
+                  <tasks>
+                    <!-- execute tomcat -->
+                    <chmod file="${basedir}/target/runtime/bin/catalina.sh"
+                      perm="775" />
+                    <chmod
+                      file="${basedir}/target/runtime/bin/setclasspath.sh"
+                      perm="775" />
+                    <chmod file="${basedir}/start.sh" perm="775" />
+		    <condition property="run.arg" value="${tomcat.args}" else="run">
+		      <isset property="tomcat.args" />
+		    </condition>
+                    <exec dir="${basedir}" executable="${basedir}/start.sh"
+                      failonerror="true">
+		      <arg value="${run.arg}" />
+                    </exec>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
