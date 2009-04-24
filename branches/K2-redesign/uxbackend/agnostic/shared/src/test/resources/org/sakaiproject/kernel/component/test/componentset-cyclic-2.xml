@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://ns.sakaiproject.org/2008/components">
+  <groupId>org.sakaiproject.kernel2.agnostic 
+  </groupId>
+  <artifactId>componentset-good-2</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <documentation>ComponentSet Good 2 depends on 4 
+  </documentation>
+  <activator>org.sakaiproject.simple</activator>
+  <componentDependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic 
+      </groupId>
+      <artifactId>componentset-good-4</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+  </componentDependencies>
+</component>

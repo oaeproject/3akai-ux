@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sakaiproject.kernel2</groupId>
+    <artifactId>base</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <name>loader</name>
+  <groupId>org.sakaiproject.kernel2</groupId>
+  <artifactId>agnostic</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>shared</module>
+    <module>common</module>
+    <module>server</module>
+    <module>server-test</module>
+    <module>assembly</module>
+    <module>webapp-test</module>
+    <module>integration</module>
+  </modules>
+  
+</project>
