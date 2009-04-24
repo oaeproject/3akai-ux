@@ -1,75 +1,76 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Sakai 3 RC 1 - Log In</title>        
-    
-	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	    
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<head>
 		
-	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Jcap/jcap.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Jcap/md5.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
-	
-</head>
-
-<body class="fl-centered create_account">
-	
-	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
-	
-    <!-- HEADER -->
-    <div class="bigheader">
-    	<div class="header-version">
-        	3.0 RC1
-        </div>
-        <div class="header-title">
-        	__MSG__INSTANCE_NAME__
-			<!-- sakai -->
-        </div>
-        <div class="header-byline">
-        	Open Source Collaborative Learning. Designed by educators, for educators.
-        </div>
-		<div class="header-smallline">
-			Sakai is a powerful yet flexible solution that supports not only teaching and learning but
-			also research and administrative collaboration. The Sakai CLE is distributed free of charge
-			and our license is designed to encourage innovation and customization in order to meet
-			local campus needs.
-		</div>
-		<div style="padding: 20px 0px 0px 45px; width: 400px;">
-			<img src="_images/gateway.png" height="267px"/>
-		</div>
-		<div style="padding:20px; position: absolute; left: 510px; top: 255px;">
-			<strong style="color:#D8D8D8; font-size: 1em;">__MSG__USERNAME__:</strong><br/>
-			<input type="text" id="username" value="" style="margin-bottom:15px; height: 20px; padding: 4px 0px 0px 3px; width:200px" /><br/>
-			<strong style="color:#D8D8D8; font-size: 1em">__MSG__PASSWORD__:</strong><br/>
-			<input type="password" id="password" value="" style="height: 20px; padding: 4px 0px 0px 3px; width:200px"/>
-
-			<div id="failed" style="display:none; margin-top:10px; color: #D8D8D8; width:260px">__MSG__LOGIN_FAILED__!<br/></div>
-
-			<div class="block" style="margin-top:20px;">
-				<input type="button" class="button button-primary create-confirm" id="loginbutton" value="Sign In" style="margin-left:40px" />
-				<span id="loginloader" style="display:none; color: #D8D8D8;">__MSG__SIGNING_IN__</span>
-			</div>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Sakai 3.0 RC 1 - Sign In</title>        
+	    
+		<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
+	    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	    
+	    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
 			
-			<div id="register_here" style="margin-top:65px; color: #D8D8D8; font-size: 0.95em">
-				&raquo; No account yet? <a href="create_new_account_flat.html" style="color:#D8D8D8; text-decoration: underline;">Register here</a>
+		<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Jcap/jcap.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Jcap/md5.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
+		
+	</head>
+	
+	<body class="fl-centered create_account">
+		
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
+		
+	    <div class="bigheader">
+	    	<!-- HEADER -->
+	    	<div class="header-version">
+	        	3.0 RC1
+	        </div>
+	        <div class="header-title">
+	        	__MSG__INSTANCE_NAME__
+	        </div>
+	        <div class="header-byline">
+	        	Open Source Collaborative Learning. Designed by educators, for educators.
+	        </div>
+			<div class="header-smallline">
+				Sakai is a powerful yet flexible solution that supports not only teaching and learning but
+				also research and administrative collaboration. The Sakai CLE is distributed free of charge
+				and our license is designed to encourage innovation and customization in order to meet
+				local campus needs.
 			</div>
-		</div>
-    </div>
+			<!-- System preview image -->
+			<div class="system_preview_image">
+				<img src="_images/gateway.png" alt="Sakai 3.0 RC1"/>
+			</div>
+			<!-- Login functionality -->
+			<div class="login_container">
+				<strong>__MSG__USERNAME__:</strong><br/>
+				<input type="text" id="username" class="login_container_username login_container_textfield"/><br/>
+				<strong>__MSG__PASSWORD__:</strong><br/>
+				<input type="password" id="password" class="login_container_textfield"/>
 	
-	<div style="height:75px; width: 100px;"></div>
+				<div id="failed" class="login_failed">__MSG__LOGIN_FAILED__!<br/></div>
 	
-	<script type="text/javascript" language="JavaScript" src="_javascript/index.js"></script>
-	
-</body>
+				<div class="block" style="margin-top:20px;">
+					<input type="button" class="button button-primary create-confirm" id="loginbutton" value="Sign In" />
+					<span id="loginloader">__MSG__SIGNING_IN__</span>
+				</div>
+				
+				<div id="register_here">
+					&raquo; No account yet? <a href="create_new_account_flat.html">Register here</a>
+				</div>
+			</div>
+	    </div>
+		
+		<div class="bottom_placeholder"></div>
+		
+		<script type="text/javascript" language="JavaScript" src="_javascript/index.js"></script>
+		
+	</body>
 </html>
