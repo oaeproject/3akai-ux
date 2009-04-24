@@ -1,0 +1,42 @@
+Developer Check List
+--------------------
+
+* SData.js
+
+ - Well structured JS:  X
+ - JSLint validated:    X
+ - License header:      X
+
+* i18n.js
+
+ - Well structured JS:  X
+ - JSLint validated:    X
+ - License header:      X
+
+* Logout
+
+ - Valid HTML:          V
+ - License header:      V
+ - Well structured JS:  V
+ - JSLint validated:    V
+
+* Login
+
+ - Valid HTML:          V
+ - License header:      V
+ - Well structured JS:  V
+ - JSLint validated:    X
+
+* Create an account
+
+ - Valid HTML:          X
+ - License header:      X
+ - Well structured JS:  X
+ - JSLint validated:    X
+
+* MySakai Dashboard
+
+ - Valid HTML:          X
+ - License header:      X
+ - Well structured JS:  X
+ - JSLint validated:    X
