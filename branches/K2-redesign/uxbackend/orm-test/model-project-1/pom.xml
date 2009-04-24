@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject.kernel2</groupId>
+    <artifactId>base</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>org.sakaiproject.kernel2.orm-test</groupId>
+  <artifactId>model-project-1</artifactId>
+  <packaging>jar</packaging>
+  <name>orm-model1-test</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+      <artifactId>kernel</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+      <artifactId>shared</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>

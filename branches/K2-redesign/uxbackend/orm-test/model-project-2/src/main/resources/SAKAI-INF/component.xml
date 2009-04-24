@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://ns.sakaiproject.org/2008/components">
+  <groupId>org.sakaiproject.kernel2.orm-test</groupId>
+  <artifactId>model-project-2</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <documentation>Kernel 2 Component</documentation>
+  <activator>org.sakaiproject.kernel2.mp2.Activator</activator>
+  <exports>
+    <export>
+      <name>org.sakaiproject.kernel2.mp2</name>
+    </export>
+  </exports>
+  <componentDependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic</groupId>
+      <artifactId>kernel</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+  </componentDependencies>
+  <dependencies>
+  </dependencies>
+</component>
