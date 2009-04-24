@@ -1,0 +1,6 @@
+{
+  uuid : "user5",
+  eid : "user5",
+  superUser: false,
+  subjects : []
+}
