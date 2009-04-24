@@ -271,3 +271,17 @@ body {
 .explore_nav .personal li strong {color: #058ec4;}
 .captcha_container p {margin-bottom:0pt;}
 .header-smallline {padding:10px 0 0 40px;color:#D8D8D8; width:700px; font-size: 1em;}
+
+/* LOG IN PAGE */
+.system_preview_image {padding: 20px 0px 0px 45px; width: 400px;}
+.system_preview_image img {height: 267px;}
+.login_container {padding: 20px; position: absolute; left: 510px; top: 255px;}
+.login_container strong {color:#D8D8D8; font-size: 1em;}
+.login_container_textfield {height: 20px; padding: 4px 0px 0px 3px; width:200px !important;}
+.login_container_username {margin-bottom:15px;}
+.login_failed {display:none; margin-top:10px; color: #D8D8D8; width:260px;}
+#loginbutton {margin-left:40px;}
+#loginloader {display:none; color: #D8D8D8;}
+#register_here {margin-top:65px; color: #D8D8D8; font-size: 0.95em;}
+#register_here a {color:#D8D8D8; text-decoration: underline;}
+.bottom_placeholder {height:75px; width: 100px;}
