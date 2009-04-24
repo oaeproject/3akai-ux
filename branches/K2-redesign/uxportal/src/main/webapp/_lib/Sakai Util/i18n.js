@@ -21,14 +21,14 @@ sdata.events.Listener.onLoad(function() {
 			var mejson = eval('(' + data + ')');
 			sdata.me = eval('(' + data + ')');
 			sdata.Ajax.request({
-				url : "/dev/bundle/default.json",
+				url : Config.URL.BUNDLE_ROOT + "default.json",
 				httpMethod : "GET",
 				onSuccess : function(data) {
 					var defaultjson = eval('(' + data + ')');
 					sdata.i18n.defaultBundle = defaultjson;
 					if (mejson.locale) {
 						sdata.Ajax.request({
-							url: "/dev/bundle/" + mejson.locale.language + "_" + mejson.locale.country + ".json",
+							url: Config.URL.BUNDLE_ROOT + mejson.locale.language + "_" + mejson.locale.country + ".json",
 							httpMethod: "GET",
 							onSuccess: function(data){
 								var localjson = eval('(' + data + ')');
