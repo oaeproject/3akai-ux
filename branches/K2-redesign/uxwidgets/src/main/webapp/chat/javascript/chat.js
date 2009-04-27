@@ -402,13 +402,13 @@ sakai.chat = function(tuid, placement, showSettings){
 		// Select the page we're on
 		
 		if (window.location.pathname.toLowerCase().indexOf("/my_sakai.html") != -1){
-			$("#nav_my_sakai_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			$("#nav_my_sakai_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		} else if (window.location.pathname.toLowerCase().indexOf("/search_b.html") != -1 || window.location.pathname.toLowerCase().indexOf("/search_b_people.html") != -1){
-			$("#nav_search_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Search</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			$("#nav_search_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Search</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		} else if (window.location.pathname.toLowerCase().indexOf("/people.html") != -1){
-			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		} else if (window.location.pathname.toLowerCase().indexOf("/profile.html") != -1){
-			$("#nav_profile_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Profile</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			$("#nav_profile_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Profile</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		}
 		
 		setRoundedCorners();
