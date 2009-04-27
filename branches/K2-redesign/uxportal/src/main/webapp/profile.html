@@ -1,81 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Profile Preview</title>        
-    <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />
-            
-    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search_b.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.people.css" />
-	<link type="text/css" href="/devwidgets/chat/css/chat.css" rel="stylesheet"/>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Sakai 3 RC 1 - Profile</title>        
+    
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />        
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.people.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />		    
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.profile.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
 	
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.page_from_template.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.jq_pager.css" />		    
-    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.3.css" />
-	
-	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
-	<script src="/dev/lib/trimpath.js" type="text/javascript"></script>
-	<script src="/dev/lib/querystring.js" type="text/javascript"></script>
-	<script src="jscripts/jquery.corners.js" type="text/javascript"></script>
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/SHA.js"></script>
-	<script src="jscripts/jquery.pager.js" type="text/javascript"></script>
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/message.js"></script>
-	
-	<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
-	<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>	
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/message.js"></script>
-	<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
-	
-	<style>
-		.greydotted {
-			border-top: 1px dotted #CCC;
-			height:1px;
-			position:relative;
-			top: -7px;
-		}
-		
-		#picture_holder img {
-			width: 75px !important;
-		}
-		
-		#message_dialog {
-			width: 520px;
-			margin-left: -260px;
-		}
-		
-		.dialogue_box {
-			background:#FFFFFF none repeat scroll 0 0;
-			border:none;
-			height:auto;
-			left:auto;
-			margin-left:0px;
-			margin-top:0px;
-			position:relative;
-			top:0%;
-			width:520px;
-			z-index:101;
-		}
-		
-		.invalid {
-			background-color: #FFCCCC;
-		}
-	</style>
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/SHA.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/modal_dialog.js"></script>	
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
 
 </head>
 
 <body class="fl-centered profile_preview">
 
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 	
     <!-- EXPLORE BAR -->
     <div id="widget_chat" class="widget_inline"></div>
@@ -104,7 +68,7 @@
 					<a href="javascript:;" style="display:none" id="accept_invitation_button" class="button add_con_btn">Accept Invitation</a>
                   <a href="javascript:;" id="send_message_button" class="button send_msg_btn">Send Message</a>
                 </div>
-               	<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="images/profile_pic_75.gif" width='75px' /></a>
+               	<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="_images/profile_pic_75.gif" width='75px' /></a>
                 <div id="profile_user_name" class="profile_user_name"></div>
                 <div id="txt_status" class="profile_user_headline">&nbsp;</div>
                 <div class="profile_user_status">Online</div>
@@ -192,7 +156,7 @@
 									</div>
 								</td>
 								<td style="width:15px" class="centertd">
-									<img src="/dev/img/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+									<img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 								</td>
 							</tr>
 						</table>
@@ -251,12 +215,12 @@
 										(<span class="overalltitle">${i.ovtitle}</span>
 										<span class="number">${i.number}</span>)
 										{if i.url}
-											<a href="${i.url}" target="_blank"><img src="/dev/img/link_icon.gif" border="0"></a>
+											<a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
 										{/if}
 									</div>
 								</td>
 								<td style="width:15px" class="centertd">
-									<img src="/dev/img/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+									<img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 								</td>
 							</tr>
 						</table>
@@ -295,7 +259,7 @@
 									<div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
 										<b>${i.title}</b>
 										{if i.url}
-											<a href="${i.url}" target="_blank"><img src="/dev/img/link_icon.gif" border="0"></a>
+											<a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
 										{/if}
 										<br/>
 										{if i.coauth}
@@ -307,7 +271,7 @@
 									</div>
 								</td>
 								<td style="width:15px" class="centertd">
-									<img src="/dev/img/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+									<img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 								</td>
 							</tr>
 						</table>
@@ -356,7 +320,7 @@
 									</div>
 								</td>
 								<td style="width:15px" class="centertd">
-									<img src="/dev/img/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+									<img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 								</td>
 							</tr>
 						</table>
@@ -418,7 +382,7 @@
 									</div>
 								</td>
 								<td style="width:15px; padding-bottom:0px" class="centertd">
-									<img src="/dev/img/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+									<img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 								</td>
 							</tr>
 						</table>
@@ -493,7 +457,7 @@
 	<div class="dialog" id="message_dialog">
 		<div class="dialog_header">
 			<h1>Send Message</h1>
-			<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
 		
 		<!-- DIALOGUE BOX -->
@@ -526,7 +490,7 @@
 	<div class="dialog" id="add_to_contacts_dialog">
 		<div class="dialog_header">
 			<h1>Add to Contacts</h1>
-			<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
 		
 		<div class="dialog_content" style="padding-bottom:20px">
@@ -569,7 +533,7 @@
 		{/for}
 	--></div>
 	
-	<script type="text/javascript" language="JavaScript" src="javascript/profile.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_javascript/profile.js"></script>
 	
 </body>
 </html>
