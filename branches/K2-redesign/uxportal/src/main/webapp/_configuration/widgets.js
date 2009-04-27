@@ -95,19 +95,8 @@ var Widgets = {
 			description:"Listing of the sites I'm a member of\r\n",
 			iframe:0,
 			url:"/devwidgets/sites/sites.html",
-			name:"Sites",
-			id:"sites",
-			personalportal:0,
-			siteportal:0,
-			img:"/dev/img/sites.png"
-		},
-		siteswow :
-		{
-			description:"Listing of the sites I'm a member of\r\n",
-			iframe:0,
-			url:"/devwidgets/siteswow/siteswow.html",
 			name:"My Courses & Sites",
-			id:"siteswow",
+			id:"sites",
 			personalportal:1,
 			siteportal:0,
 			img:"/dev/img/sites.png"
@@ -119,17 +108,6 @@ var Widgets = {
 			url:"/devwidgets/myprofile/myprofile.html",
 			name:"My Profile",
 			id:"myprofile",
-			personalportal:0,
-			siteportal:0,
-			img:"/dev/img/myprofile.png"
-		},
-		myprofilewow :
-		{
-			description:"My Personal Profile\r\n",
-			iframe:0,
-			url:"/devwidgets/myprofilewow/myprofilewow.html",
-			name:"My Profile",
-			id:"myprofilewow",
 			personalportal:1,
 			siteportal:0,
 			img:"/dev/img/myprofile.png"
@@ -229,20 +207,8 @@ var Widgets = {
 			description:"A list of my connections\r\n",
 			iframe:0,
 			url:"/devwidgets/myfriends/myfriends.html",
-			name:"My Connections",
-			id:"myfriends",
-			personalportal:0,
-			siteportal:0,
-			img:"/dev/img/myprofile.png",
-			multipleinstance: false
-		},
-		myfriendswow :
-		{
-			description:"A list of my connections\r\n",
-			iframe:0,
-			url:"/devwidgets/myfriendswow/myfriendswow.html",
 			name:"My Contacts",
-			id:"myfriendswow",
+			id:"myfriends",
 			personalportal:1,
 			siteportal:0,
 			img:"/dev/img/myprofile.png",
