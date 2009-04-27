@@ -1,6 +1,6 @@
 var sakai = sakai || {};
 
-sakai.siteswow = function(tuid,placement,showSettings){
+sakai.sites = function(tuid,placement,showSettings){
 
 	var me = false;
 	var rootel = $("#" + tuid);
@@ -80,4 +80,4 @@ sakai.siteswow = function(tuid,placement,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("siteswow");
+sdata.widgets.WidgetLoader.informOnLoad("sites");

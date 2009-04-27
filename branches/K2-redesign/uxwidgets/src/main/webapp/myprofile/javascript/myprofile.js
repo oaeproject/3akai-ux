@@ -1,6 +1,6 @@
 var sakai = sakai || {};
 
-sakai.myprofilewow = function(tuid,placement,showSettings){
+sakai.myprofile = function(tuid,placement,showSettings){
 
 	var rootel = $("#" + tuid);
 
@@ -37,4 +37,4 @@ sakai.myprofilewow = function(tuid,placement,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("myprofilewow");
+sdata.widgets.WidgetLoader.informOnLoad("myprofile");
