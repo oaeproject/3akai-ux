@@ -1,6 +1,6 @@
 html {
     /*background-color:#f5f5f5;*/
-    background:#fff url(../images/body_bg.png) repeat-x top left;
+    background:#fff url(../../_images/body_bg.png) repeat-x top left;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: lighter;
 	line-height: 120%;
@@ -223,7 +223,7 @@ a {
 .site_heading .search .search_button {
     background-color:#333; 
     border:none; 
-    background-image:url(../images/search_icon.png); 
+    background-image:url(../../_images/search_icon.png); 
     height:25px; 
     width:25px;
 	margin-right:21px;
@@ -310,7 +310,7 @@ a {
 
 .column_splitter_sites {
 	/* simple hack free approach to a column divider that needs to match either columns height */
-    /* background:#fff url(../images/single_grey_pixel.png) repeat-y 170px top; */
+    /* background:#fff url(../../_images/single_grey_pixel.png) repeat-y 170px top; */
 }
 
 .main_container a {
@@ -425,7 +425,7 @@ a {
     list-style-type:none;
 }
 .content_page_options .divider {
-	background-image: url(../images/single_grey_pixel.png);
+	background-image: url(../../_images/single_grey_pixel.png);
 	background-repeat: repeat;
 	width: 1px;
 	height: 100%;
@@ -467,7 +467,7 @@ a {
 }
 
 .content .edit_icon {
-	background-image: url(../images/edit_icon.png);
+	background-image: url(../../_images/edit_icon.png);
 	width: 24px;
 	height: 24px;
 	position: relative;
@@ -519,7 +519,7 @@ a {
 }
 .content_container .custom_button {
 	border:1px solid #ccc;
-	background:#fff url(../images/custom_button_gradient.png) repeat-x bottom center;
+	background:#fff url(../../_images/custom_button_gradient.png) repeat-x bottom center;
 	padding:0px 8px;
 	cursor: pointer;
 }
@@ -598,12 +598,12 @@ a {
     border:none;
 }
 .gateway_heading .search .fl-tabs li.fl-activeTab a {
-    background:#999 url(../images/gateway_search_indicator.png) no-repeat scroll center bottom;
+    background:#999 url(../../_images/gateway_search_indicator.png) no-repeat scroll center bottom;
     color:#fff;
 }
 
 .gateway_block {    
-    background:#fff url(../images/gateway_block_bg.png) repeat-x left top;
+    background:#fff url(../../_images/gateway_block_bg.png) repeat-x left top;
     padding:15px;
 }
 
@@ -658,13 +658,13 @@ a {
     padding:0 0 20px 35px ;
 }
 .whats_new .heirarchy {
-    background:transparent url(../images/gateway_icon_proxy.png) no-repeat top left;
+    background:transparent url(../../_images/gateway_icon_proxy.png) no-repeat top left;
 }
 .whats_new .discussion {
-    background:transparent url(../images/gateway_icon_proxy.png) no-repeat top left;
+    background:transparent url(../../_images/gateway_icon_proxy.png) no-repeat top left;
 }
 .whats_new .media {
-    background:transparent url(../images/gateway_icon_proxy.png) no-repeat top left;
+    background:transparent url(../../_images/gateway_icon_proxy.png) no-repeat top left;
 }
 
 .whos_on {color:#999}
@@ -754,7 +754,7 @@ a {
 }
 
 .tab-nav li a, .tab-nav li a:visited {
-    background: #fff url(../images/tab-back.png) bottom left repeat-x;
+    background: #fff url(../../_images/tab-back.png) bottom left repeat-x;
 	color:#777;
 	text-decoration:none;
 	position: relative; 
@@ -784,7 +784,7 @@ a {
 	background:#eee;
 	padding:0px;
 	vertical-align: middle;
-    background: #fff url(../images/tab-back.png) bottom left repeat-x;
+    background: #fff url(../../_images/tab-back.png) bottom left repeat-x;
 	margin-top:10px;
 	border: 1px solid #CCCCCC;
 }
@@ -809,7 +809,7 @@ a {
 
 }
 .buttonBar .button, .buttonBar .button-default, .button-default {
-	background:#FFFFFF url(../images/custom_button_gradient.png) repeat-x scroll center bottom;
+	background:#FFFFFF url(../../_images/custom_button_gradient.png) repeat-x scroll center bottom;
 	border:1px solid #CCCCCC;
 	font-weight: normal;
 	cursor:pointer;
