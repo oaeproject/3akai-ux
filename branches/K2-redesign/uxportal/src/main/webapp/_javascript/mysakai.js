@@ -1,6 +1,58 @@
-var sakai = sakai || {};
-sakai.dashboard = function(){
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
+var Config = Config || function(){ throw "Config file not available"; };
+var $ = $ || function(){ throw "JQuery not available"; };
+var sdata = sdata || function(){ throw "SData.js not available"; };
+var json_parse = json_parse || function(){ throw "SData.js not available"; };
+
+var sakai = sakai || {};
+
+sakai.dashboard = function(){
+	
+	
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
+
+	var stateFile = "devstate";
+	var focussedFieldClass = "focussedInput";
+	
+	// Search related fields
+	var searchField = "#search_field";
+	var searchButton = "#search_button";
+	var searchForm = "#search_form";
+	
+	// Add Goodies related fields
+	var addGoodiesDialog = "#add_goodies_dialog";
+	var addGoodiesTrigger = '#add-goodies';
+	var addGoodiesListContainer = "#add_goodies_body";
+	var addGoodiesListTemplate = "add_goodies_body_template";
+	var goodiesAddButton = ".goodies_add_button";
+	var goodiesRemoveButton = ".goodies_remove_button";
+	var addRow = "#row_add_";
+	var removeRow = "#row_remove_";
+	
+
+	////////////////////
+	// Help variables //
+	////////////////////
+	
 	var domyportal = false;
 	var myportaljson = false;
 	var startSaving = true;
@@ -9,7 +61,7 @@ sakai.dashboard = function(){
 	var decideExists = function (response, exists){
 		if (exists === false) {
 			if (response === 401 || response === "error"){
-				document.location = Config.logoutUrl;
+				document.location = Config.URL.GATEWAY_URL;
 			} else {
 				doInit();
 			}
@@ -613,12 +665,8 @@ sakai.dashboard = function(){
 			}
 			if (Widgets.widgets[l].personalportal){
 				var index = addingPossible.items.length;
-				addingPossible.items[index] = [];
+				addingPossible.items[index] = Widgets.widgets[l];
 				addingPossible.items[index].alreadyIn = alreadyIn;
-				addingPossible.items[index].title = Widgets.widgets[l].name;
-				addingPossible.items[index].id = Widgets.widgets[l].id;
-				addingPossible.items[index].description = Widgets.widgets[l].description;
-				addingPossible.items[index].img = Widgets.widgets[l].img;
 			}
 		}
 
@@ -697,10 +745,7 @@ sakai.dashboard = function(){
 		for (var l in myportaljson.columns){
 			if (index < newlength){
 				for (var i = 0; i < myportaljson.columns[l].length; i++){
-					columns[index][i] = new Object();
-					columns[index][i].name = myportaljson.columns[l][i].name;
-					columns[index][i].visible = myportaljson.columns[l][i].visible;
-					columns[index][i].uid = myportaljson.columns[l][i].uid;
+					columns[index][i] = myportaljson.columns[l][i];
 				}
 				index++;
 			}
@@ -722,10 +767,7 @@ sakai.dashboard = function(){
 								}
 							}
 							var _i = columns[lowestcolumn].length;
-							columns[lowestcolumn][_i] = new Object();
-							columns[lowestcolumn][_i].name = myportaljson.columns[l][i].name;
-							columns[lowestcolumn][_i].visible = myportaljson.columns[l][i].visible;
-							columns[lowestcolumn][_i].uid = myportaljson.columns[l][i].uid;
+							columns[lowestcolumn][_i] = myportaljson.columns[l][i];
 						}
 					}
 					index++;
@@ -808,107 +850,151 @@ sakai.dashboard = function(){
 	});
 	
 	
-	/*
-	 	Add Sakai Goodies
-	 */
+	///////////////////////
+	// Add Sakai Goodies //
+	///////////////////////
 
-	var renderGoodies = function(hash){
+	var renderGoodiesEventHandlers = function(){
 		
-		addingPossible = [];
-		addingPossible.items = [];
-		document.getElementById("add_goodies_body").innerHTML = "";
-	
-		for (var l in Widgets.widgets){
-			var alreadyIn = false;
-			//if (! Widgets.widgets[l].multipleinstance) {
-				for (var c in myportaljson.columns) {
-					for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
-						if (myportaljson.columns[c][ii].name === l) {
-							alreadyIn = true;
-						}
-					}
-				}
-			//}
-			if (Widgets.widgets[l].personalportal){
-				var index = addingPossible.items.length;
-				addingPossible.items[index] = [];
-				addingPossible.items[index].alreadyIn = alreadyIn;
-				addingPossible.items[index].title = Widgets.widgets[l].name;
-				addingPossible.items[index].id = Widgets.widgets[l].id;
-				addingPossible.items[index].description = Widgets.widgets[l].description;
-				addingPossible.items[index].img = Widgets.widgets[l].img;
-			}
-		}
-		
-		$("#add_goodies_body").html(sdata.html.Template.render("add_goodies_body_template", addingPossible));
-		
-		$(".goodies_add_button").bind("click", function(ev){
+		/*
+		 * When you click the Add button, next to a widget in the Add Goodies screen,
+		 * this function will figure out what widget we chose and will hide the Add row
+		 * and show the Remove row for that widget
+		 */
+		$(goodiesAddButton).bind("click", function(ev){
+			// The expected is goodies_add_button_WIDGETNAME
 			var id = this.id.split("_")[this.id.split("_").length - 1];
-			$("#row_add_" + id).hide();
-			$("#row_remove_" + id).show();
+			$(addRow + id).hide();
+			$(removeRow + id).show();
 			sakai.dashboard.addWidget(id);
 		});
 		
-		$(".goodies_remove_button").bind("click", function(ev){
+		/*
+		 * When you click the Remove button, next to a widget in the Add Goodies screen,
+		 * this function will figure out what widget we chose and will hide the Remove row
+		 * and show the Add row for that widget
+		 */
+		$(goodiesRemoveButton).bind("click", function(ev){
+			// The expected id is goodies_add_button_WIDGETNAME
 			var id = this.id.split("_")[this.id.split("_").length - 1];
-			$("#row_remove_" + id).hide();
-			$("#row_add_" + id).show();
+			$(removeRow + id).hide();
+			$(addRow + id).show();
+			// We find the widget container itself, and then find its parent,
+			// which is the column the widget is in, and then remove the widget
+			// from the column
 			var el = $("[id^=" + id + "]").get(0);
 			var parent = el.parentNode;
 			parent.removeChild(el);
 			saveState();
 		});
 		
+	}
+
+	var renderGoodies = function(hash){
+		
+		var addingPossible = {};
+		addingPossible.items = [];
+		
+		$(addGoodiesListContainer).html("");
+	
+		for (var l in Widgets.widgets){
+			var alreadyIn = false;
+			// Run through the list of widgets that are already on my dashboard and decide
+			// whether the current widget is already on the dashboard (so show the Remove row),
+			// or whether the current widget is not on the dashboard (and thus show the Add row)
+			for (var c in myportaljson.columns) {
+				for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
+					if (myportaljson.columns[c][ii].name === l) {
+						alreadyIn = true;
+					}
+				}
+			}
+			if (Widgets.widgets[l].personalportal){
+				var index = addingPossible.items.length;
+				addingPossible.items[index] = Widgets.widgets[l];
+				addingPossible.items[index].alreadyIn = alreadyIn;
+			}
+		}
+		
+		// Render the list of widgets. The template will render a remove and add row for each widget, but will
+		// only show one based on whether that widget is already on my dashboard
+		$(addGoodiesListContainer).html(sdata.html.Template.render(addGoodiesListTemplate, addingPossible));
+		renderGoodiesEventHandlers();
+		
+		// Show the modal dialog
 		hash.w.show();
+		
 	}
 	
-	$("#add_goodies_dialog").jqm({
+	/*
+	 * We bring up the modal dialog that contains the list of widgets I can add
+	 * to my dashboard. Before it shows on the screen, we'll render the list of
+	 * widgets through a TrimPath template
+	 */
+	$(addGoodiesDialog).jqm({
 		modal: true,
-		trigger: $('#add-goodies'),
+		trigger: $(addGoodiesTrigger),
 		overlay: 20,
 		toTop: true,
 		onShow: renderGoodies
 	});
 
 
+	////////////////////////////////
+	// Search field functionality //		 
+	////////////////////////////////
+	
 	/*
-		Search field functionality		 
-	*/
+	 * This variable will tell us whether the search field has had focus. If not, when the
+	 * field gets focus for the first time, we'll change it's text color and remove the default
+	 * text out of the input field
+	 */
+	var searchHadFocus = false;
 	
-	var searchHasFocus = false;
+	var doSearch = function(){
+		var value = $(searchField).val();
+		// Check whether the field is not empty
+		if (value){
+			// Redirecting back to the general search page. This expects the URL to be
+			// in a format like this one: page.html#pageid|searchstring
+			document.location = Config.URL.SEARCH_GENERAL_URL + "#1|" + value;
+		}
+	}
 	
-	$("#search_field").bind("focus", function(ev){
-		if (!searchHasFocus){
-			$("#search_field").css("color","#000000");
-			$("#search_field").val("");
-			searchHasFocus = true;
+	/*
+	 * If this is the first time the field gets focus, we'll make his text color black
+	 * and remove the default value
+	 */
+	$(searchField).bind("focus", function(ev){
+		if (!searchHadFocus){
+			$(searchField).addClass(focussedFieldClass);
+			$(searchField).val("");
+			searchHadFocus = true;
 		}
 	});
 	
-	$("#search_field").bind("keypress", function(ev){
+	$(searchField).bind("keypress", function(ev){
 		if (ev.which == 13){
 			doSearch();
 		}
 	});
 	
-	$("#search_button").bind("click", function(ev){
-		doSearch();
-	});
+	$(searchButton).bind("click", doSearch);
 	
-	$("#search_form").bind("submit", function(ev){
+	$(searchForm).bind("submit", function(ev){
 		doSearch();
 		return false;
 	});
-	
-	var doSearch = function(){
-		var value = $("#search_field").val();
-		if (value){
-			document.location = "search_b.html#1|" + value;
-		}
-	}
 
 
-	sdata.widgets.WidgetPreference.get("devstate", decideExists);
+	/////////////////////////////
+	// Initialisation function //
+	/////////////////////////////
+
+	/*
+	 * This will try to load the dashboard state file from the SData personal space
+	 */
+	sdata.widgets.WidgetPreference.get(stateFile, decideExists);
 
 };
 
