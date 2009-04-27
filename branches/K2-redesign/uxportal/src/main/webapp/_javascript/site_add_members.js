@@ -357,9 +357,13 @@ sakai.site_add_members = function() {
 	 	 $("#site_add_members_search_csv").hide();
 	 });
 	 
-    $("#site_manage_btnSearchCsv").bind("click", function(e,ui){
-	 	 $("#site_add_members_search_csv").show();
-	 });
+	 $("#site_add_members_search_csv").jqm({
+		modal: true,
+		trigger: $('#site_manage_btnSearchCsv'),
+		overlay: 20,
+		toTop: true
+	});
+	 
 	 $("#site_manage_searchViaCsv").bind("click", function(e,ui){
 	 	searchPeople($("#site_add_members_search_csv textarea").val(),1,"\n");
 		$("#site_add_members_search_csv textarea").val("");
