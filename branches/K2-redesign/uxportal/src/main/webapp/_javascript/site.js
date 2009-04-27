@@ -462,7 +462,7 @@ if (nel.className == "contauthlink") {
 		
 		// Example content CSS (should be your site CSS)
 		//content_css: "style.css",
-		content_css: "css/fluid.reset.css,css/fluid.theme.mist.css,css/fluid.theme.hc.css,css/fluid.theme.rust.css,css/fluid.layout.css,css/fluid.text.css,sakai_css/sakai.core.2.css,sakai_css/sakai.css,sakai_css/sakai.editor.css",
+		content_css: "_css/FSS/fluid.reset.css,_css/FSS/fluid.theme.mist.css,_css/FSS/fluid.theme.hc.css,_css/FSS/fluid.theme.rust.css,_css/FSS/fluid.layout.css,_css/FSS/fluid.text.css,_css/Sakai CSS/sakai.core.2.css,_css/Sakai CSS/sakai.css,_css/Sakai CSS/sakai.editor.css",
 		
 		// Drop lists for link/image/media/template dialogs
 		template_external_list_url: "lists/template_list.js",
