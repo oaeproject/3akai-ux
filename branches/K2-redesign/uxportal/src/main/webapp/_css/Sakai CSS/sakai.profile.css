@@ -1,0 +1,6 @@
+.greydotted {border-top: 1px dotted #CCC; height:1px; position:relative; top: -7px;}
+#picture_holder img {width: 75px !important;}
+#message_dialog {width: 520px; margin-left: -260px;}
+.dialogue_box {background:#FFFFFF none repeat scroll 0 0; border:none; height:auto; left:auto; margin-left:0px; 
+			   margin-top:0px; position:relative; top:0%; width:520px; z-index:101;}
+.invalid {background-color: #FFCCCC;}
