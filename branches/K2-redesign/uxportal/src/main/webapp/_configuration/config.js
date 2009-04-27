@@ -26,7 +26,8 @@ var Config = {
 		ME_SERVICE: "/rest/me",
 		LOGIN_SERVICE: "/rest/login",
 		CREATE_USER_SERVICE: "/rest/user/new",
-		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists"
+		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists",
+		SEARCH_GENERAL_URL: "search_b.html"
 	},
 	Profile : {
 		// Fields that cannot be edited and so controlled by LDAP, ...
