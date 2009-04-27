@@ -8,7 +8,7 @@
 
 <!-- Begin
 
-var imgdir = "/dev/lib/jcap/cimg/"; // identify directory where captcha images are located
+var imgdir = "/dev/_lib/Jcap/cimg/"; // identify directory where captcha images are located
 var jfldid = "uword"; // identify word field id name
 var jfldsz = 20; // identify word field size
 
