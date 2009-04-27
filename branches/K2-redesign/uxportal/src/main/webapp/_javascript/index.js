@@ -32,7 +32,7 @@ sakai.index = function(){
 	// Configuration variables //
 	/////////////////////////////
 	
-	var redirecturl = Config.URL.MY_DASHBOARD;
+	var redirectUrl = Config.URL.MY_DASHBOARD;
 	var loginButton = "#loginbutton";
 	var usernameField = "#username";
 	var passwordField = "#password";
@@ -51,10 +51,9 @@ sakai.index = function(){
 	 */
 	var decideLoggedIn = function(data){
 		var mejson = (data === undefined ? sdata.me : json_parse(data));
-		if (mejson.preferences.uuid !== "anon" && mejson.preferences.uuid !== null) {
-			document.location = redirecturl;
-		}
-		else {
+		if (mejson.preferences.uuid !== "anon" && mejson.preferences.uuid !== undefined) {
+			document.location = redirectUrl;
+		} else {
 			$(loadingMessage).hide();
 			$(loginButton).show();
 			$(registerLink).show();
@@ -175,7 +174,7 @@ sakai.index = function(){
 		var qs = new Querystring();
 		var red = qs.get("url", false);
 		if (red !== false){
-			redirecturl = sdata.util.URL.decode(red);
+			redirectUrl = sdata.util.URL.decode(red);
 		}
 		
 		$(usernameField).focus();
