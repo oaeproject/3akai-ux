@@ -1,39 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
-
 <head>
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Site</title>        
-    <link rel="stylesheet" type="text/css" href="css/fluid.reset.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.theme.mist.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.theme.hc.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.theme.rust.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="css/fluid.text.css" />
+	<title>Sakai 3 RC 1 - My Sakai</title>        
+    
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.my_sakai.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css" />
 	
-    <link rel="stylesheet" type="text/css" href="sakai_css/sakai.core.2.css" />
-   
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.my_sakai.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="sakai_css/sakai.components.modal_dialog.css" />
-	<link type="text/css" href="/devwidgets/chat/css/chat.css" rel="stylesheet"/>
-	
-	<script src="javascript/Fluid-all.js" type="text/javascript"></script>
-	<script src="/dev/lib/trimpath.js" type="text/javascript"></script>
-	<script src="jscripts/jquery.corners.js" type="text/javascript"></script>
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/SHA.js"></script>
-	
-	<script src="/dev/lib/jqModal.js" type="text/javascript"></script>
-	<script src="/dev/lib/modal_dialog.js" type="text/javascript"></script>
-	<script src="/dev/sn/jquery.imgareaselect-0.6.2.js" type="text/javascript"></script>
-	<script type="text/javascript" src="/dev/lib/jquery.cookie.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/SHA.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/modal_dialog.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.imgareaselect-0.6.2.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
 	
 </head>
 
 <body id="root" class="body-container fl-centered fl-container">
  
- 	<script type="text/javascript" language="JavaScript" src="/dev/lib/sdata_alternative.js"></script>
-	<script type="text/javascript" language="JavaScript" src="/dev/lib/i18n.js"></script>
+ 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 
 	<!-- Change layout -->
 	
@@ -72,7 +70,7 @@
 	<div id="change_layout_dialog" class="dialog" style="width:400px; margin-left: -200px">
 		<div class="dialog_header">
 			<h1>Change layout</h1>
-			<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
 			   
 		<div class="dialog_content">
@@ -97,7 +95,7 @@
 	<div id="add_goodies_dialog" class="dialog add_goodies" style="width:520px; height: 374px; background-color: #fff; margin-left: -260px">
 		<div class="dialog_header">
 			<h1>Add Goodies</h1>
-			<img src="/dev/img/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
 		<div id="add_goodies_body" class="dialogue_body">   
 		</div>
@@ -145,7 +143,7 @@
 	
 		<!-- GREETING -->
 		<div class="fl-col greeting">
-			<a class="greeting_picture" id="picture_holder"><img src="images/person_icon.png" /></a>
+			<a class="greeting_picture" id="picture_holder"><img src="_images/person_icon.png" /></a>
 			<span class="greeting_text">Hi <span id="hispan"></span>!</span>
 			<a class="greeting_links" href="javascript:;" id="changepic_container_trigger">Change pic</a>
 			<span class="pipe_divider">/</span>
@@ -218,7 +216,7 @@
 	
 	<div id="widget_changepic" class="widget_inline"></div>
 	
-	<script type="text/javascript" language="JavaScript" src="javascript/mysakai.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_javascript/mysakai.js"></script>
 	
 </body>
 </html>
