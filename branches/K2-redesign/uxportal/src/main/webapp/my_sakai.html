@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
-<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -34,56 +34,51 @@
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 
 	<!-- Change layout -->
-	
 	<div id="layouts_template"><!--
 		{for i in layouts}
 			{if i_index == selected}
-				<div style="float:left; padding-left:25px; padding-right:13px">
-					<table cellpadding="0" cellspacing="0" style="width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF">
+				<div class="layout_container">
+					<table cellpadding="0" cellspacing="0" class="layout_picker_item">
 						<tr>
 							{for w in i.widths}
-							<td style="width:${w}%; border-right: 1px solid #3399CC">
+							<td style="width:${w}%;" class="layout_picker_item_column">
 								&nbsp;
 							</td>
 							{/for}
 						</tr>
 					</table>	
-					<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker" style="margin-left:50px; margin-top:10px" checked="true"/>	
+					<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio" checked="true"/>	
 				</div>
 			{else}
-				<div style="float:left; padding-left:25px; padding-right:13px">
-					<table cellpadding="0" cellspacing="0" style="width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8">
+				<div class="layout_container_unselected">
+					<table cellpadding="0" cellspacing="0" class="layout_picker_item_unselected">
 						<tr>
 							{for w in i.widths}
-							<td style="width:${w}%; border-right: 1px solid #dddfe1">
+							<td style="width:${w}%;" class="layout_picker_item_column_unselected">
 								&nbsp;
 							</td>
 							{/for}
 						</tr>
 					</table>
-					<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker" style="margin-left:50px; margin-top: 10px"/>	
+					<input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio_unselected"/>	
 				</div>
 			{/if}
 		{/for}
 	--></div>
 	
-	<div id="change_layout_dialog" class="dialog" style="width:400px; margin-left: -200px">
+	<div id="change_layout_dialog" class="dialog">
 		<div class="dialog_header">
 			<h1>Change layout</h1>
 			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
-			   
-		<div class="dialog_content">
-					  
-			<div class="add-tools-right" style="width:100%; margin-bottom: 40px">
+		<div class="dialog_content">		  
+			<div class="add-tools-right">
 				<h4>Select a Layout for your "My Sakai" Page:</h4>
-				<div class="elf-right-up" style="padding-top:40px; padding-bottom: 85px">
-					<div style="display:block" id="layouts_list"></div>
+				<div class="elf-right-up">
+					<div id="layouts_list"></div>
 				</div>
-			</div>
-				   
+			</div>	   
 		</div><!-- /lightbox-container -->
-			   
 		<div class="dialog_footer">
 			<div class="buttonBar">
 				<a href="javascript:;" id="select-layout-finished" class="button-default">Save</a>
@@ -92,7 +87,9 @@
 		</div>
 	</div>
 	
-	<div id="add_goodies_dialog" class="dialog add_goodies" style="width:520px; height: 374px; background-color: #fff; margin-left: -260px">
+	
+	<!-- Add goodies -->
+	<div id="add_goodies_dialog" class="dialog add_goodies">
 		<div class="dialog_header">
 			<h1>Add Goodies</h1>
 			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
@@ -101,14 +98,14 @@
 		</div>
 		
 		<div id="add_goodies_body_template"><!--
-			<table width="471px">
+			<table>
 				{for i in items}
 					{if i.alreadyIn}
 						<tr class="add" id="row_add_${i.id}" style="display:none">
 					{else}
 						<tr id="row_add_${i.id}" class="add">
 					{/if}
-	                	<td width="80px"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">Add</a></td>
+	                	<td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">Add</a></td>
 	                    <td>
 	                    	<div class="dialogue_add_goodies_title">${i.title}</div>
 	                        <div class="dialogue_add_goodies_description">
@@ -135,7 +132,7 @@
 		
 	</div>
     
-	<!-- EXPLORE BAR -->
+	<!-- NAVIGATION + CHAT -->
  	<div id="widget_chat" class="widget_inline"></div>
     
 	<!-- HEADER -->
@@ -143,7 +140,7 @@
 	
 		<!-- GREETING -->
 		<div class="fl-col greeting">
-			<a class="greeting_picture" id="picture_holder"><img src="_images/person_icon.png" /></a>
+			<a class="greeting_picture" id="picture_holder"><img alt="My avatar" src="_images/person_icon.png" /></a>
 			<span class="greeting_text">Hi <span id="hispan"></span>!</span>
 			<a class="greeting_links" href="javascript:;" id="changepic_container_trigger">Change pic</a>
 			<span class="pipe_divider">/</span>
@@ -168,16 +165,15 @@
 	
 	
 	<!-- CONTENT -->
-	
 	<div id="widgetscontainer_template"><!--
 		{var index = 0}
 		<div class="fl-col-flex${size} fl-container-auto content">
 			{for c in columns}
 			${index++|eat}
             <div class="fl-col groupWrapper" id="column_uid_${index}">
-				<div style="height:1px"></div>
+				<div class="widget_spacer"></div>
                 {for p in c.portlets}
-	                <div class="fl-widget widget1" id="${p.id}_${p.uid}" style="background-color:#FFFFFF">
+	                <div class="fl-widget widget1" id="${p.id}_${p.uid}">
 	                    <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
 	                        <h2 class="widget_title">${p.title}</h2>
 							<a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">Settings</a>
@@ -198,14 +194,7 @@
 	
 	<div id="widgetscontainer"></div>
 	
-	
-	<!-- FOOTER -->
-	<!-- <div class="fl-container fl-fix page_footer">
-		<a href="#" class="sakai_logo"><img src="images/sakai_logo.png" /></a>
-		<div>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></div>
-		<div>&copy; 2004-2008 <a href="#">The Sakai Foundation</a></div>
-	</div> -->
-	
+	<!-- Dropdown menu shown when clicking on a widget's pencil -->
 	<div class="add_new_menu" id="widget_settings_menu" style="display:none">
 		<ul>
 			<li id="settings_remove" class="more_option"><a href="javascript:;">Remove</a></li>
@@ -214,6 +203,7 @@
 		</ul>
 	</div>
 	
+	<!-- Widget used for changing your personal avatar -->
 	<div id="widget_changepic" class="widget_inline"></div>
 	
 	<script type="text/javascript" language="JavaScript" src="_javascript/mysakai.js"></script>
