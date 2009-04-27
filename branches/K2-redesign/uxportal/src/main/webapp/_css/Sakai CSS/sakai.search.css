@@ -128,7 +128,7 @@ strong {
 }
 
 .search_tab_content {
-	background-image: url(../images/body_bg2.png);
+	background-image: url(../../_images//body_bg2.png);
 	background-repeat: repeat-x;
 }
 
@@ -231,7 +231,7 @@ strong {
 }
 
 .search_result_star {
-	background-image: url(../images/star.png);
+	background-image: url(../../_images//star.png);
 	display: block;
 	float: left;
 	position: relative;
@@ -276,7 +276,7 @@ strong {
 .search_result_person_picture {
 	float: left;
 	display: block;
-	background-image: url(../images/person_icon.png);
+	background-image: url(../../_images//person_icon.png);
 	background-repeat: no-repeat;
 	width: 60px;
 	height: 60px;
