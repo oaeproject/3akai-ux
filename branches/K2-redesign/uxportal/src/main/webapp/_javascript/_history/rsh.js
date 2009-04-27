@@ -228,8 +228,8 @@ window.dhtmlHistory = {
 
 				/*Change the hidden iframe's location if on IE*/
 				if (that.isIE) {
-					//that.iframe.src = "/dev/js/history/blank.html?" + newLocation;
-					document.getElementById("rshHistoryFrame").src = "/dev/js/history/blank.html?" + newLocation;
+					//that.iframe.src = "/dev/_javascript/_history/blank.html?" + newLocation;
+					document.getElementById("rshHistoryFrame").src = "/dev/_javascript/_history/blank.html?" + newLocation;
 				}
 
 				/*End of atomic location change block for IE*/
@@ -336,7 +336,7 @@ window.dhtmlHistory = {
 			: historyStorage.hideStyles
 		);
 		var iframeID = "rshHistoryFrame";
-		var iframeHTML = '<iframe frameborder="0" name="' + iframeID + '" id="' + iframeID + '" style="' + styles + '" src="/dev/js/history/blank.html?' + initialHash + '"></iframe>';
+		var iframeHTML = '<iframe frameborder="0" name="' + iframeID + '" id="' + iframeID + '" style="' + styles + '" src="/dev/_javascript/_history/blank.html?' + initialHash + '"></iframe>';
 		document.write(iframeHTML);
 		this.iframe = document.getElementById(iframeID);
 	},
@@ -434,7 +434,7 @@ window.dhtmlHistory = {
 		this.ieAtomicLocationChange = true;
 
 		if (this.isIE && this.getIframeHash() != hash) {
-			this.iframe.src = "/dev/js/history/blank.html?" + hash;
+			this.iframe.src = "/dev/_javascript/_history/blank.html?" + hash;
 		}
 		else if (this.isIE) {
 			/*the iframe is unchanged*/
