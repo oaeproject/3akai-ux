@@ -176,7 +176,7 @@
 }
 
 .dropdown .dropdown_contacts .dropdown_person_picture {
-	background-image: url(/dev/redesign/images/person_icon.png);
+	background-image: url(/dev/_images/person_icon.png);
 	background-repeat: no-repeat;
 	width: 60px;
 	height: 60px;
@@ -311,7 +311,7 @@ padding: 0 0 9px 0;
 }
 
 .dropdown .dropdown_create_sakai_site a {
-	background-image:url(/dev/redesign/images/add_icon_middle.png);
+	background-image:url(/dev/_images/add_icon_middle.png);
 	background-position:center bottom;
 	background-repeat:repeat-x;
 	display:block;
