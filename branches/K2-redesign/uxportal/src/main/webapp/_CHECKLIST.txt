@@ -50,6 +50,22 @@ Framework
  - JSLint validated:    X
  - jqUnit tests:        X
 
+* Profile
+
+ - Valid HTML:          V
+ - License header:      V
+ - Well structured JS:  X (down till add sakai goodies)
+ - JSLint validated:    X
+ - jqUnit tests:        X
+
+* Contacts
+
+ - Valid HTML:          V
+ - License header:      V
+ - Well structured JS:  X (down till add sakai goodies)
+ - JSLint validated:    X
+ - jqUnit tests:        X
+
 
 Widgets
 -------
