@@ -207,7 +207,7 @@ strong {
 }
 
 .fl-widget .fl-widget-titlebar .settings {
-	background-image: url(../images/edit_icon_widget.png);
+	background-image: url(../../_images/edit_icon_widget.png);
 	position: relative;
 	height: 18px;
 	background-repeat: no-repeat;
@@ -289,7 +289,7 @@ strong {
 }
 
 .my_contacts_widget .fl-widget-content .contact .contact_picture {
-	background-image: url(../images/person_icon_50.png);
+	background-image: url(../../_images/person_icon_50.png);
 	background-repeat: no-repeat;
 	width: 50px;
 	height: 50px;
@@ -308,7 +308,7 @@ strong {
 
 
 .my_profile_widget .fl-widget-content .profile .profile_picture {
-	background-image: url(../images/person_icon.png);
+	background-image: url(../../_images/person_icon.png);
 	width: 60px;
 	height: 60px;
 	float: left;
@@ -316,7 +316,7 @@ strong {
 }
 
 .my_profile_widget .fl-widget-content .profile .profile_status_led {
-	background-image: url(../images/dot_green.png);
+	background-image: url(../../_images/dot_green.png);
 	float: left;
 	margin: 0;
 	position: relative;
@@ -351,7 +351,7 @@ strong {
 }
 
 .my_profile_widget .fl-widget-content .profile .profile_chat_status_dropdown {
-	background-image: url(../images/arrow_down_sm2.png);
+	background-image: url(../../_images/arrow_down_sm2.png);
 	background-repeat: no-repeat;
 	width: 9px;
 	height: 5px;
@@ -441,7 +441,7 @@ display:none;
  */
 
 .add-button {
-	background:transparent url(../images/button_bg.png) repeat-x scroll left bottom;
+	background:transparent url(../../_images/button_bg.png) repeat-x scroll left bottom;
 	border:1px solid #CCCCCC;
 	color:#333333;
 	display:block;
