@@ -36,10 +36,10 @@ Framework
 
 * Create an account
 
- - Valid HTML:          X
- - License header:      X
- - Well structured JS:  X
- - JSLint validated:    X
+ - Valid HTML:          V
+ - License header:      V
+ - Well structured JS:  V
+ - JSLint validated:    V
  - jqUnit tests:        X
 
 * MySakai Dashboard
