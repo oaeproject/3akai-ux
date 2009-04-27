@@ -44,9 +44,9 @@ Framework
 
 * MySakai Dashboard
 
- - Valid HTML:          X
- - License header:      X
- - Well structured JS:  X
+ - Valid HTML:          V
+ - License header:      V
+ - Well structured JS:  X (down till add sakai goodies)
  - JSLint validated:    X
  - jqUnit tests:        X
 
@@ -54,3 +54,34 @@ Framework
 Widgets
 -------
 
+* Chat + Top navigation
+
+ - Valid HTML:          X
+ - License header:      X
+ - Well structured JS:  X
+ - JSLint validated:    X
+ - jqUnit tests:        X
+
+* My Sites
+
+ - Valid HTML:          X
+ - License header:      X
+ - Well structured JS:  X
+ - JSLint validated:    X
+ - jqUnit tests:        X
+
+* My Profile
+
+ - Valid HTML:          X
+ - License header:      X
+ - Well structured JS:  X
+ - JSLint validated:    X
+ - jqUnit tests:        X
+
+* My Contacts
+
+ - Valid HTML:          X
+ - License header:      X
+ - Well structured JS:  X
+ - JSLint validated:    X
+ - jqUnit tests:        X
