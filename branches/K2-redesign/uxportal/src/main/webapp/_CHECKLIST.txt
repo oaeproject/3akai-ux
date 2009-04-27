@@ -1,17 +1,22 @@
 Developer Check List
 --------------------
 
+Framework
+---------
+
 * SData.js
 
  - Well structured JS:  X
  - JSLint validated:    X
  - License header:      X
+ - jqUnit tests:        X
 
 * i18n.js
 
  - Well structured JS:  X
  - JSLint validated:    X
  - License header:      X
+ - jqUnit tests:        X
 
 * Logout
 
@@ -19,6 +24,7 @@ Developer Check List
  - License header:      V
  - Well structured JS:  V
  - JSLint validated:    V
+ - jqUnit tests:        X
 
 * Login
 
@@ -26,6 +32,7 @@ Developer Check List
  - License header:      V
  - Well structured JS:  V
  - JSLint validated:    V
+ - jqUnit tests:        X
 
 * Create an account
 
@@ -33,6 +40,7 @@ Developer Check List
  - License header:      X
  - Well structured JS:  X
  - JSLint validated:    X
+ - jqUnit tests:        X
 
 * MySakai Dashboard
 
@@ -40,3 +48,9 @@ Developer Check List
  - License header:      X
  - Well structured JS:  X
  - JSLint validated:    X
+ - jqUnit tests:        X
+
+
+Widgets
+-------
+
