@@ -84,11 +84,15 @@ body {
 .create_account .check-username{margin-top: 20px; color: #666; cursor: pointer; cursor: hand;}
 .create_account label{color: #666; font-size: 14px; font-weight: bold;}
 .create_account .invalid{background: #ffcccc; border: 1px solid #a1a1a1;}
-.create_account .create-account-notification{float: right; color: #ff4040; font-weight: bold; font-size: 12px; padding-right: 15px;}
+.create_account .invalid_label{color: #ffcccc;}
+.create_account .valid_label{color: #2E8A28;}
+.create_account .create-account-notification{float: right; color: #ff4040; font-weight: bold; font-size: 12px; padding-right: 15px; display:none;}
 .create_account .captcha{border: 1px solid #ccc;}
 .create_account .buttons{margin: 13px 0 0 407px; padding-bottom: 50px;}
 .create_account .create-cancel{width: 72px; height: 27px; background: url(../../_images/button_bg_2.png) repeat-x top left; cursor: hand; cursor: pointer;}
 .create_account .create-confirm{width: 121px; height: 27px; background: url(../../_images/button_bg_2.png) repeat-x top left; margin-left: 15px; cursor: hand; cursor: pointer;}
+#success_message {margin:13px 0 0 330px; padding-bottom:50px; display:none;}
+#success_message a {font-weight:bold;}
 
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
