@@ -24,7 +24,9 @@ var Config = {
 		BUNDLE_ROOT : "/dev/_bundle/",
 		MY_DASHBOARD: "/dev/my_sakai.html",
 		ME_SERVICE: "/rest/me",
-		LOGIN_SERVICE: "/rest/login"
+		LOGIN_SERVICE: "/rest/login",
+		CREATE_USER_SERVICE: "/rest/user/new",
+		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists"
 	},
 	Profile : {
 		// Fields that cannot be edited and so controlled by LDAP, ...
