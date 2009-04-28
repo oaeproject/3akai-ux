@@ -320,4 +320,14 @@ public class MessageImpl implements Message {
   public List<Message> getParts() {
     return parts;
   }
+  
+  
+  public void setCategory(String category) {
+	  setHeader(Message.Field.CATEGORY, category);
+  }
+  
+  public String getCategory() {
+	  return getHeader(Message.Field.CATEGORY);
+  }
+
 }
