@@ -298,7 +298,8 @@ sakai.chat = function(tuid, placement, showSettings){
 								item.name = item.friendUuid;
 							}
 							if (item.profile.picture) {
-								var pict = eval('(' + item.profile.picture + ')');
+								//var pict = eval('(' + item.profile.picture + ')');
+								var pict = item.profile.picture;
 								if (pict.name) {
 									item.photo = "/sdata/f/_private" + item.properties.userStoragePrefix + pict.name;
 								}
@@ -414,6 +415,18 @@ sakai.chat = function(tuid, placement, showSettings){
 		setRoundedCorners();
 	}
 	
+	var getUnreadMessages = function() {
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/_rest/messages/count?types=inbox&categories=*&read=false",
+			onSuccess: function(data){
+				var json = eval('(' + data + ')');
+				if (json.response == "OK" && json.count)
+				$("#chat_unreadMessages").text(json.count[0]);
+			}
+		});
+	};
+	
 	var doInit = function(){
 		
 		var person = sdata.me;
@@ -434,6 +447,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		selectPage();
 		setPeopleDropdown();
 		setSitesDropdown();
+		getUnreadMessages();
 		
 	}
 	
@@ -518,7 +532,8 @@ sakai.chat = function(tuid, placement, showSettings){
 				json.items[i].name = json.items[i].userid;
 			}
 			if (json.items[i].picture) {
-				var pict = eval('(' + json.items[i].picture + ')');
+				//var pict = eval('(' + json.items[i].picture + ')');
+				var pict = json.items[i].picture;
 				json.items[i].photo = "/sdata/f/public/" + json.items[i].userid + "/" + pict.name;
 			}
 		}
@@ -572,7 +587,8 @@ sakai.chat = function(tuid, placement, showSettings){
 					specialjson.items[0].name = clicked;
 				}
 				if (item.picture) {
-					var pict = eval('(' + item.picture + ')');
+					//var pict = eval('(' + item.picture + ')');
+					var pict = item.picture;
 					activewindows.items[index].photo = "/sdata/f/public/" + clicked + "/" + pict.name;
 					specialjson.items[0].photo = "/sdata/f/public/" + clicked + "/" + pict.name;
 				}
@@ -943,7 +959,8 @@ sakai.chat = function(tuid, placement, showSettings){
 							special.items[0].name = i;
 						}
 						if (item.picture) {
-							var pict = eval('(' + item.picture + ')');
+							//var pict = eval('(' + item.picture + ')');
+							var pict = item.picture;
 							activewindows.items[index].photo = "/sdata/f/public/" + i + "/" + pict.name;
 							special.items[0].photo = "/sdata/f/public/" + i + "/" + pict.name;
 						}
@@ -992,9 +1009,9 @@ sakai.chat = function(tuid, placement, showSettings){
 		return;
 	}
 	else {
-		loadPersistence();
-		informPresent();
-		checkOnline();
+		//loadPersistence();
+		//informPresent();
+		//checkOnline();
 		doInit();
 	}
 
