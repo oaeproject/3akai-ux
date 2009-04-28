@@ -29,8 +29,12 @@ import org.sakaiproject.kernel.rest.search.RestSearchProvider;
 import org.sakaiproject.kernel.rest.image.ImageProvider;
 import org.sakaiproject.kernel.rest.site.SiteProvider;
 import org.sakaiproject.kernel.webapp.Initialisable;
+import org.sakaiproject.kernel.rest.messages.MessagesProvider;
 
 import java.util.List;
+import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
  *
@@ -46,9 +50,10 @@ public class RestServiceListProvider implements Provider<List<Initialisable>> {
   public RestServiceListProvider(RestFriendsProvider restFriendsProvider,
       DefaultRestProvider defaultRestProvider, RestMeProvider restMeProvider,
       RestSnoopProvider restSnoopProvider, RestSearchProvider restSearchProvider,
-      PresenceProvider presenceProvider, ImageProvider imageProvider, SiteProvider siteProvider, RestCountProvider restCountProvider) {
+      PresenceProvider presenceProvider, ImageProvider imageProvider, SiteProvider siteProvider, 
+      RestCountProvider restCountProvider, MessagesProvider messagesProvider) {
     list = ImmutableList.of((Initialisable) restFriendsProvider, defaultRestProvider,
-	   restMeProvider, restSnoopProvider, restSearchProvider, presenceProvider, imageProvider, siteProvider, restCountProvider);
+	   restMeProvider, restSnoopProvider, restSearchProvider, presenceProvider, imageProvider, siteProvider, restCountProvider,messagesProvider);
   }
 
   /**
