@@ -189,6 +189,7 @@ public class RestSearchProvider implements RestProvider, Initialisable {
       IOException {
     Session session = jcrService.getSession();
     String query = request.getParameter(QUERY);
+    String queryType = request.getParameter("queryType");
     String nresults = request.getParameter(NRESUTS_PER_PAGE);
     String page = request.getParameter(PAGE);
     String sql = request.getParameter(SQL);
@@ -255,7 +256,7 @@ public class RestSearchProvider implements RestProvider, Initialisable {
     }
 
     try {
-      q = queryManager.createQuery(sqlQuery, Query.SQL);
+      q = queryManager.createQuery(sqlQuery, (queryType != null && queryType.equals("xpath") ? Query.XPATH : Query.SQL));
 
     } catch (InvalidQueryException ex) {
       throw new RestServiceFaultException(HttpServletResponse.SC_BAD_REQUEST,
