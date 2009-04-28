@@ -90,6 +90,8 @@ public class JcrMessagingService implements MessagingService {
 
       // set the type, recipients and date as node properties
       n.setProperty(JCRConstants.JCR_MESSAGE_TYPE, msg.getType());
+      n.setProperty(JCRConstants.JCR_MESSAGE_SUBJECT, msg.getSubject());
+      n.setProperty(JCRConstants.JCR_MESSAGE_CATEGORY, msg.getCategory());
       n.setProperty(JCRConstants.JCR_MESSAGE_FROM, msg.getFrom());
       n.setProperty(JCRConstants.JCR_MESSAGE_RCPTS, msg.getTo());
       n.setProperty(JCRConstants.JCR_MESSAGE_DATE, date);
