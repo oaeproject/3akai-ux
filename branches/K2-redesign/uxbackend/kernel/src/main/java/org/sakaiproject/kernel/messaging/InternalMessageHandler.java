@@ -82,6 +82,13 @@ public class InternalMessageHandler implements MessageHandler {
           InputStream in = nodeFactory.getInputStream(filePath);
           Node n = nodeFactory.setInputStream(msgPath, in, "UTF-8");
           JcrUtils.addNodeLabel(jcr, n, "inbox");
+          n.setProperty(JCRConstants.JCR_MESSAGE_READ, false);
+          n.setProperty(JCRConstants.JCR_MESSAGE_TYPE, node.getProperty(JCRConstants.JCR_MESSAGE_TYPE).getString());
+          n.setProperty(JCRConstants.JCR_MESSAGE_SUBJECT, node.getProperty(JCRConstants.JCR_MESSAGE_SUBJECT).getString());
+          n.setProperty(JCRConstants.JCR_MESSAGE_CATEGORY, node.getProperty(JCRConstants.JCR_MESSAGE_CATEGORY).getString());
+          n.setProperty(JCRConstants.JCR_MESSAGE_FROM, node.getProperty(JCRConstants.JCR_MESSAGE_FROM).getString());
+          n.setProperty(JCRConstants.JCR_MESSAGE_RCPTS, node.getProperty(JCRConstants.JCR_MESSAGE_RCPTS).getString());
+          n.setProperty(JCRConstants.JCR_MESSAGE_DATE, node.getProperty(JCRConstants.JCR_MESSAGE_DATE).getString());
           /** TODO remove any properties that are associated to the sender */
         }
       }
