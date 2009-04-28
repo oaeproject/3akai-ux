@@ -85,6 +85,17 @@ public class SqlSmartNodeHandler extends JcrSmartNodeHandler {
     JSONArray jsonArray = transform(nodes);
     writeUtf8(response, jsonArray);
   }
+  
+  /**
+   * {@inheritDoc}
+   *
+   * @see org.sakaiproject.kernel.api.jcr.SmartNodeHandler#handle(javax.jcr.Node,
+   *      java.lang.String)
+   */
+  public NodeIterator handle(Node node, Node smartNode, String statement) throws RepositoryException, IOException {
+    NodeIterator nodes = performQuery(Query.SQL, statement);
+    return nodes;    
+  }
 
   /**
    * {@inheritDoc}
