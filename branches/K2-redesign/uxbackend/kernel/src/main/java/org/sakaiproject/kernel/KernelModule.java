@@ -361,13 +361,13 @@ public class KernelModule extends AbstractModule {
     bind(outboxNodeHandlerList).toProvider(OutboxNodeHandlerListProvider.class)
         .asEagerSingleton();
 
-    // lock manager
-    bind(LockManager.class).to(LockManagerImpl.class).in(Scopes.SINGLETON);
-
     // bring in the user provision agents so they can register
     TypeLiteral<List<UserProvisionAgent>> userProvAgentList = new TypeLiteral<List<UserProvisionAgent>>() {
     };
     bind(userProvAgentList).toProvider(UserProvisionAgentListProvider.class)
         .asEagerSingleton();
+    
+    // lock manager
+    bind(LockManager.class).to(LockManagerImpl.class).in(Scopes.SINGLETON);
   }
 }
