@@ -258,7 +258,7 @@ sakai.dashboard = function(){
 			$("#hispan").text(person.profile.firstName);
 			
 			if (person.profile.picture){
-				var picture = eval('(' + person.profile.picture + ')');
+				var picture = person.profile.picture;
 				if (picture.name) {
 					$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "'/>");
 				}
