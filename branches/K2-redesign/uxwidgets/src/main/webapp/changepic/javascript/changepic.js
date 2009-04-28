@@ -40,7 +40,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		
 		if (json.picture) {
 		
-			picture = eval('(' + json.picture + ')');
+			picture = json.picture;
 			
 		}
 		
@@ -154,7 +154,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 				var stringtosave = sdata.JSON.stringify(tosave);
 				var data = {"picture":stringtosave};
 				
-				sdata.me.profile.picture = stringtosave;
+				sdata.me.profile.picture = tosave;
 				
 				// $("#picture_holder").html("<img src='/sdata/f/_private/" + profileinfo_userId + "/" + resp.uploads.file.name + "' width='250px'/>");
 				
@@ -276,7 +276,7 @@ sakai._changepic.completeCallback = function(response){
 		
 		var tosend = {"k":k,"v":v,"a":a};
 		
-		sdata.me.profile.picture = stringtosave;
+		sdata.me.profile.picture = tosave;
 		
 		sdata.Ajax.request({
         	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
