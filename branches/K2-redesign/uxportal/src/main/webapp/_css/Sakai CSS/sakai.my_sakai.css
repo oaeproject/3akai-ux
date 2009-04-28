@@ -73,7 +73,7 @@ strong {color: #000;}
 .my_contacts_widget .fl-widget-content .contact .contact_name {color: #3399CC; font-size: .95em; font-weight: bold;}
 .my_profile_widget .fl-widget-content .profile .profile_picture {background-image: url(../../_images/person_icon.png); width: 60px; height: 60px; float: left; margin-right: 10px;}
 .my_profile_widget .fl-widget-content .profile .profile_status_led {background-image: url(../../_images/dot_green.png); float: left; margin: 0; position: relative; bottom: 2px;}
-.my_profile_widget .fl-widget-content .profile .profile_name {font-weight: bold; font-size: 1.1em; color: #3399CC; display: block; margin-left: 90px;}
+.my_profile_widget .fl-widget-content .profile .profile_name {font-weight: bold; font-size: 1.1em; color: #3399CC; display: block; margin-left: 75px;}
 .my_profile_widget .fl-widget-content .profile .profile_dept {color: #999; display: block; margin-left: 80px; font-size: .95em; position: relative;}
 .my_profile_widget .fl-widget-content .profile p {padding-top: 10px; color: #999; float: left;} 
 .my_profile_widget .fl-widget-content .profile p .profile_chat_status {color: #666; display: inline;}
