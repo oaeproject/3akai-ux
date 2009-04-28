@@ -31,6 +31,7 @@ import org.sakaiproject.kernel.api.authz.AuthzResolverService;
 import org.sakaiproject.kernel.api.authz.PermissionQueryService;
 import org.sakaiproject.kernel.api.jcr.JCRService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
+import org.sakaiproject.kernel.api.messaging.MessagingService;
 import org.sakaiproject.kernel.api.presence.PresenceService;
 import org.sakaiproject.kernel.api.serialization.BeanConverter;
 import org.sakaiproject.kernel.api.session.SessionManagerService;
@@ -92,6 +93,12 @@ public class RestModule extends AbstractModule {
     bind(ServiceManager.class).toInstance(serviceManager);
 
     // make some services available
+    
+    //	messages
+    bind(MessagingService.class).toProvider(
+            new ServiceProvider<MessagingService>(serviceManager, MessagingService.class)).in(
+            Scopes.SINGLETON);
+    
     bind(RegistryService.class).toProvider(
         new ServiceProvider<RegistryService>(serviceManager, RegistryService.class)).in(
         Scopes.SINGLETON);
@@ -143,6 +150,8 @@ public class RestModule extends AbstractModule {
     bind(PermissionQueryService.class).toProvider(
         new ServiceProvider<PermissionQueryService>(serviceManager, PermissionQueryService.class)).in(
         Scopes.SINGLETON);
+    
+    
 
     // activate all the services
     TypeLiteral<List<Initialisable>> initType = new TypeLiteral<List<Initialisable>>() {
