@@ -50,7 +50,9 @@ public interface Message extends Serializable {
     /** field name for body mime type */
     MIME_TYPE("mimeType"),
     /** field name for the send date */
-    DATE("date");
+    DATE("date"),
+    /** field name for the category of this message (Chat/Invitation/..) */
+    CATEGORY("category");
 
     /**
      * the name of the field.
@@ -308,4 +310,20 @@ public interface Message extends Serializable {
    *         found.
    */
   List<Message> getParts();
+  
+  /**
+   * Get the category for this message.
+   * ex: Chat / Announcement
+   * @return
+   */
+  String getCategory();
+  
+  /**
+   * Set the category for this message.
+   * ex: Chat / Announcement
+   * @param category
+   */
+  void setCategory(String category);
+  
+  
 }
