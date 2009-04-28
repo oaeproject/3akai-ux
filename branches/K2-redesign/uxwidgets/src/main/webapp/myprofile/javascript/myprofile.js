@@ -12,7 +12,7 @@ sakai.myprofile = function(tuid,placement,showSettings){
 		$("#profile_name",rootel).text(me.preferences.uuid);
 	}
 	if (json.picture){
-		var pict = eval('(' + json.picture + ')');
+		var pict = json.picture;
 		if (pict.name) {
 			$("#profile_picture", rootel).css("text-indent", "0px");
 			$("#profile_picture", rootel).html("<img src='/sdata/f/_private" + me.userStoragePrefix + pict.name + "' width='60px' height='60px' />");
