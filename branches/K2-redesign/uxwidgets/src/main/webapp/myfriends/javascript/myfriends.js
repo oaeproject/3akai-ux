@@ -1,6 +1,6 @@
 var sakai = sakai || {};
 
-sakai.myfriendswow = function(tuid,placement,showSettings){
+sakai.myfriends = function(tuid,placement,showSettings){
 
 	var rootel = $("#" + tuid);
 	var friends = false;
@@ -89,4 +89,4 @@ sakai.myfriendswow = function(tuid,placement,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("myfriendswow");
+sdata.widgets.WidgetLoader.informOnLoad("myfriends");
