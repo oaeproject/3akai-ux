@@ -21,23 +21,11 @@ sakai.inbox = function(){
     var messagesPerPage = 5; //	The number of messages per page.
     var allMessages = []; //	Array that will hold all the messages.
     var messages = []; //	Array that will hold the messages that have to be displayed (include the paged ones!).
-    //	Type of messages.
-    var CATEGORIES = {
-        'message': 'Message',
-        'announcement': 'Announcement',
-        'chat': 'Chat',
-        'invitation': 'Invitation'
-    };
-    var TYPES = {
-        'inbox': 'inbox',
-        'sent': 'sent',
-        'trash': 'trash'
-    };
     var me = sdata.me;
     var allFriends = [];
     var selectedFriendsToPostTo = [];
     var selectedEmailsToPostTo = [];
-    var generalMessageFadeOutTime = 5000; //	The amount of time it takes till the general message box fades out
+    var generalMessageFadeOutTime = 3000; //	The amount of time it takes till the general message box fades out
     var selectedMessage = {}; //	The current message
     var selectedType = 'inbox';
     var selectedCategory = "";
@@ -166,14 +154,6 @@ sakai.inbox = function(){
                         
                         //	do checkboxes
                         tickMessages();
-                        
-                        
-                        //	Add events
-                        //	Show a specific message
-                        $(".inbox_inbox_message").live("click", function(){
-                            var id = $(this).attr('id').replace(/inbox_inbox_message_/, '');
-                            displayMessage(id);
-                        });
                     }
                     
                     
@@ -223,6 +203,7 @@ sakai.inbox = function(){
             onSuccess: function(data){
                 var json = json_parse(data);
                 if (json.response === "OK") {
+                    messagesForTypeCat = json.count[0];
                     if (json.count[0] === 0) {
 						//	remove preloader
         				$(".inbox_message").remove();
@@ -233,9 +214,11 @@ sakai.inbox = function(){
                         };
                         //	show new messages.
                         $("#inbox_table").append(sdata.html.Template.render('inbox_messageTemplate', tplData));
+						
+						//	do the pager
+						pageMessages(1);
                     }
                     else {
-                        messagesForTypeCat = json.count[0];
                         currentPage = 0;
                         showPage(currentPage + 1);
                     }
@@ -469,7 +452,7 @@ sakai.inbox = function(){
         selectedMessage = message;
         if (typeof message !== "undefined") {
             $("#inbox_message_subject").text(message.subject);
-            $("#inbox_message_body").text(message.bodyText.replace(/\n/gi, "<br />"));
+            $("#inbox_message_body").html(message.bodyText.replace(/\n/gi, "<br />"));
             $("#inbox_message_date").text(message.date);
             $("#inbox_message_from").text(message.userFrom.profile.firstName + ' ' + message.userFrom.profile.lastName);
             
@@ -488,8 +471,12 @@ sakai.inbox = function(){
                 var replies = {
                     "reply": message.parts[0]
                 };
+				$("#inbox_previous_messages").show();
                 $("#inbox_compose_replies").html(sdata.html.Template.render('inbox_compose_replies_template', replies));
             }
+			else {
+				$("#inbox_previous_messages").hide();
+			}
             
             if (!message.read) {
                 //	If this message is unread, then do a request to mark it read.
@@ -515,23 +502,23 @@ sakai.inbox = function(){
                         $("#inbox_inbox_subject_" + id).removeClass('inbox-subject-unread');
 						
 						//	Set the unread messages in the header.
-						if (message.types.contains(TYPES.inbox)) {
+						if (message.types.contains(Config.Messages.Types.inbox)) {
 							var i = $("#chat_unreadMessages").text();
 							$("#chat_unreadMessages").text(i-1);
 						}
 						
                         //	Edit the nr of messages
 						var messId = "#inbox_filter_messages";
-						if (message.category === CATEGORIES.message) {
+						if (message.category === Config.Messages.Categories.message) {
 							messId = "#inbox_filter_messages";
 						}
-						else if (message.category === CATEGORIES.announcement) {
+						else if (message.category === Config.Messages.Categories.announcement) {
 							messId = "#inbox_filter_announcements";
 						}
-						else if (message.category === CATEGORIES.chat) {
+						else if (message.category === Config.Messages.Categories.chat) {
 							messId = "#inbox_filter_chats";
 						}
-						else if (message.category === CATEGORIES.invitation) {
+						else if (message.category === Config.Messages.Categories.invitation) {
 							messId = "#inbox_filter_invitations";
 						}
 						var i = parseInt($(messId + " span").text().replace(/\(/gi,"").replace(/\)/gi,""), 10);
@@ -564,9 +551,9 @@ sakai.inbox = function(){
      * Will do a count of all the unread messages and change the values in the DOM.
      */
     var showUnreadMessages = function(){
-        
-		var type = [TYPES.inbox, TYPES.inbox, TYPES.inbox, TYPES.inbox];
-		var cats = [CATEGORIES.message, CATEGORIES.announcement, CATEGORIES.chat, CATEGORIES.invitation];
+		
+		var type = [Config.Messages.Types.inbox, Config.Messages.Types.inbox, Config.Messages.Types.inbox, Config.Messages.Types.inbox];
+		var cats = [Config.Messages.Categories.message, Config.Messages.Categories.announcement, Config.Messages.Categories.chat, Config.Messages.Categories.invitation];
 		var read = ["false","false","false","false"];
 	
 		
@@ -608,21 +595,18 @@ sakai.inbox = function(){
      * @param {String} body
      */
     var sendMessage = function(to, subject, body, category, reply){
-        var fields = {
-            "TITLE": subject,
-            "TYPE": category,
-            "BODY": body
-        };
-        var message = sdata.JSON.stringify({
-            "fields_": fields
-        });
-        
-        var postParameters = {
-            'to': to,
-            'message': message
-        };
+        //	Construct the message.
+		var openSocialMessage = new opensocial.Message(body, {
+			"title": subject,
+			"type": Config.Messages.Categories.message
+		});
+		var toSend = {
+			"to": to,
+			"message": sdata.JSON.stringify(openSocialMessage)
+		};
+		
         if (typeof reply !== "undefined" && reply !== "") {
-            postParameters.reply = reply;
+            toSend.reply = reply;
         }
         sdata.Ajax.request({
             url: "/_rest/messages/send",
@@ -635,7 +619,7 @@ sakai.inbox = function(){
             onFail: function(status){
                 showGeneralMessage("Unable to send message.", true);
             },
-            postData: postParameters,
+            postData: toSend,
             contentType: "application/x-www-form-urlencoded"
         });
     };
@@ -654,7 +638,9 @@ sakai.inbox = function(){
             $(".inbox_compose_to_result").remove();
             selectedFriendsToPostTo = [];
 			//	Show the sent part
-			filterMessages(TYPES.sent, '', "all", "#inbox_filter_sent");
+			filterMessages(Config.Messages.Types.sent, '', "all", "#inbox_filter_sent");
+			
+      		$("#inbox_tableHeader_from span").text("To");
         }
         else {
             showGeneralMessage("Something went wrong trying to send your message.", true);
@@ -909,7 +895,7 @@ sakai.inbox = function(){
         }
         else {
             var sTo = selectedFriendsToPostTo.join(",");
-            sendMessage(sTo, subject, body, CATEGORIES.message);
+            sendMessage(sTo, subject, body, Config.Messages.Categories.message);
         }
     });
     $("#inbox_compose_cancel").click(function(){
@@ -926,39 +912,44 @@ sakai.inbox = function(){
     
     //	Inbox
     //	*****************************
-    
+    //	Show a specific message
+    $(".inbox_inbox_message").live("click", function(){
+        var id = $(this).attr('id').replace(/inbox_inbox_message_/, '');
+        displayMessage(id);
+    });
+	
     //	Filter the messages.
     $("#inbox_filter_messages").click(function(){
         $("#inbox_tableHeader_from span").text("From");
-		filterMessages(TYPES.inbox, CATEGORIES.message, "all", "#inbox_filter_messages");
+		filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.message, "all", "#inbox_filter_messages");
     });
     $("#inbox_filter_announcements").click(function(){
         $("#inbox_tableHeader_from span").text("From");
-		filterMessages(TYPES.inbox, CATEGORIES.announcement, "all", "#inbox_filter_announcements");
+		filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.announcement, "all", "#inbox_filter_announcements");
     });
     $("#inbox_filter_chats").click(function(){
         $("#inbox_tableHeader_from span").text("From");
-		filterMessages(TYPES.inbox, CATEGORIES.chat, "all", "#inbox_filter_chats");
+		filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.chat, "all", "#inbox_filter_chats");
     });
     $("#inbox_filter_invitations").click(function(){
         $("#inbox_tableHeader_from span").text("From");
-		filterMessages(TYPES.inbox, CATEGORIES.invitation, "all", "#inbox_filter_invitations");
+		filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.invitation, "all", "#inbox_filter_invitations");
     });
     $("#inbox_filter_inbox").click(function(){
         $("#inbox_tableHeader_from span").text("From");
-        filterMessages(TYPES.inbox, '', "all", "#inbox_filter_inbox");
+        filterMessages(Config.Messages.Types.inbox, '', "all", "#inbox_filter_inbox");
     });
     
     $("#inbox_filter_sent").click(function(){
         //	Change header to 'to' instead of 'from'
         $("#inbox_tableHeader_from span").text("To");
 		
-        filterMessages(TYPES.sent, '', "all", "#inbox_filter_sent");
+        filterMessages(Config.Messages.Types.sent, '', "all", "#inbox_filter_sent");
     });
     
     $("#inbox_filter_trash").click(function(){
         $("#inbox_tableHeader_from span").text("From/To");
-        filterMessages(TYPES.trash, '', "all", "#inbox_filter_trash");
+        filterMessages(Config.Messages.Types.trash, '', "all", "#inbox_filter_trash");
     });
     
 	var filterMessages = function(type, category, read, id) {
@@ -991,7 +982,7 @@ sakai.inbox = function(){
         });
         
         //	If we are in trash we hard delete the messages
-        deleteMessages(pathToMessages, (selectedType === TYPES.trash));
+        deleteMessages(pathToMessages, (selectedType === Config.Messages.Types.trash));
         
     });
 	
@@ -1003,9 +994,7 @@ sakai.inbox = function(){
 		}
 		else {
 			$(this).append('<img src="_images/arrow_down_inbox.png" alt="DOWN" class="inbox_arrow" />');
-		}
-		
-		$(this).style.cursor = "hand";
+		}		
     });
     $(".inbox_tableHeader_sort").bind("mouseout", function(){
         $(".inbox_arrow").remove();
@@ -1061,7 +1050,7 @@ sakai.inbox = function(){
         var subject = $("#inbox_message_compose_subject").val();
         var body = $("#inbox_message_compose_body").val();
         
-        sendMessage([selectedMessage.from], subject, body, CATEGORIES.message, selectedMessage.pathToMessage);
+        sendMessage([selectedMessage.from], subject, body, Config.Messages.Categories.message, selectedMessage.pathToMessage);
     });
     
     
