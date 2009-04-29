@@ -21,10 +21,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.sakaiproject.kernel.chat.ChatProvider;
+import org.sakaiproject.kernel.rest.chatstatus.ChatStatusProvider;
 import org.sakaiproject.kernel.rest.count.RestCountProvider;
 import org.sakaiproject.kernel.rest.friends.RestFriendsProvider;
 import org.sakaiproject.kernel.rest.me.RestMeProvider;
+import org.sakaiproject.kernel.rest.messages.MessagesProvider;
 import org.sakaiproject.kernel.rest.presence.PresenceProvider;
+import org.sakaiproject.kernel.rest.presencewow.PresencewowProvider;
 import org.sakaiproject.kernel.rest.search.RestSearchProvider;
 import org.sakaiproject.kernel.rest.image.ImageProvider;
 import org.sakaiproject.kernel.rest.site.SiteProvider;
@@ -51,9 +55,10 @@ public class RestServiceListProvider implements Provider<List<Initialisable>> {
       DefaultRestProvider defaultRestProvider, RestMeProvider restMeProvider,
       RestSnoopProvider restSnoopProvider, RestSearchProvider restSearchProvider,
       PresenceProvider presenceProvider, ImageProvider imageProvider, SiteProvider siteProvider, 
-      RestCountProvider restCountProvider, MessagesProvider messagesProvider) {
+				 RestCountProvider restCountProvider, MessagesProvider messagesProvider,
+				 PresencewowProvider presencewowProvider, ChatStatusProvider chatStatusProvider, ChatProvider chatProvider) {
     list = ImmutableList.of((Initialisable) restFriendsProvider, defaultRestProvider,
-	   restMeProvider, restSnoopProvider, restSearchProvider, presenceProvider, imageProvider, siteProvider, restCountProvider,messagesProvider);
+			    restMeProvider, restSnoopProvider, restSearchProvider, presenceProvider, imageProvider, siteProvider, restCountProvider,messagesProvider,presencewowProvider,chatStatusProvider,chatProvider);
   }
 
   /**
