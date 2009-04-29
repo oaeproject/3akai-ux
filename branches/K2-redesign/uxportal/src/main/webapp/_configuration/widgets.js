@@ -202,6 +202,17 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		sendmessage :
+		{
+			description:"Send a message\r\n",
+			iframe:0,
+			url:"/devwidgets/sendmessage/sendmessage.html",
+			name:"Send a message",
+			id:"sendmessage",
+			personalportal:0,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
 		myfriends :
 		{
 			description:"A list of my connections\r\n",
