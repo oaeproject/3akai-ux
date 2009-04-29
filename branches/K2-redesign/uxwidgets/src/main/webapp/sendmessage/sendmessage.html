@@ -1,0 +1,43 @@
+<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.modal_dialog.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/sendmessage/css/sendmessage.css" />
+
+
+<div class="dialog" id="message_dialog">
+	<div class="dialog_header">
+		<h1>Send Message</h1>
+		<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+	</div>
+	
+	<div id="message_form">
+		<div class="send_message dialogue_box fl-centered">
+	   	    <div class="compose-form" action="" method="" style="padding-bottom:10px">
+	           	<div>
+	                From: <span id="message_from"></span>
+	            </div>
+	            <div>
+	                To: <span id="message_to"></span>
+	            </div>
+	            <div>
+	                <label for="comp-subject">Subject</label><br />
+	                <input type="text" class="text-field compose-subject" id="comp-subject" />
+	            </div>
+	            <div>
+	               	<label for="comp-body">Body</label><br />
+	                <textarea class="text-field compose-body" id="comp-body"></textarea>
+	            </div>   
+	        </div>
+		</div>
+		<div class="dialog_footer" style="padding-left: 15px; height: 40px;">
+			 <div class="buttonBar" style="position: relative; top: 5px; padding-bottom: 15px">
+			 	<a href="javascript:;" class="button-default" id="send_message" style="font-weight:bold">Send Message</a>
+		        <a href="javascript:;" class="button jqmClose" style="float:none;display:inline;">Cancel</a>
+		     </div>
+		</div>
+	</div>
+	<div id="message_done">
+		
+	</div>
+</div>
+
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/sendmessage/javascript/sendmessage.js"></script>
