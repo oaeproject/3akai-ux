@@ -43,6 +43,13 @@ public interface PresenceService {
    * @param status the presence status
    */
   void setStatus(String uuid, String status);
+  
+  /**
+   * Update the chat status of the user.
+   * @param uuid the user id of the user.
+   * @param status the presence status
+   */
+  void setChatStatus(String userId, String status);
 
   /**
    * @param uuid the user id.
@@ -60,4 +67,5 @@ public interface PresenceService {
    * @return a map of userid to online status.
    */
   Map<String, String> online(String location);
+
 }
