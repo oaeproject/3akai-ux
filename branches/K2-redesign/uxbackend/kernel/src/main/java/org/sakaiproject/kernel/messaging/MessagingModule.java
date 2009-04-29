@@ -18,14 +18,15 @@
 
 package org.sakaiproject.kernel.messaging;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
-import com.google.inject.name.Names;
+import java.util.Properties;
 
+import org.sakaiproject.kernel.api.messaging.ChatMessagingService;
 import org.sakaiproject.kernel.api.messaging.MessagingService;
 import org.sakaiproject.kernel.messaging.email.MailSessionProvider;
 
-import java.util.Properties;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import com.google.inject.name.Names;
 
 /**
  *
@@ -64,6 +65,10 @@ public class MessagingModule extends AbstractModule {
 
     // create messaging service
     bind(MessagingService.class).to(JcrMessagingService.class).in(
+        Scopes.SINGLETON);
+    
+    // create chat messaging service
+    bind(ChatMessagingService.class).to(JcrChatMessagingService.class).in(
         Scopes.SINGLETON);
   }
 }
