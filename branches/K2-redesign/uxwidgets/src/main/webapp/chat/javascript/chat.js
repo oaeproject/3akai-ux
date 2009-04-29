@@ -123,6 +123,7 @@ sakai.chat = function(tuid, placement, showSettings){
             onSuccess: function(data){
             
                 var newjson = eval('(' + data + ')');
+				newjson.entry = newjson.entry || [];
                 for (var i = 0; i < newjson.entry.length; i++) {
                     newjson.entry[i].location = newjson.entry[i].location.substring(1);
                 }
@@ -131,7 +132,7 @@ sakai.chat = function(tuid, placement, showSettings){
                     newjson.entry = newjson.entry.splice(0, 5);
                 }
                 if (newjson.entry.length == 0) {
-                    $("#top_navigation_my_sites_list").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
+                    $("#top_navigation_my_sites_list").html("<span style='font-size:0.95em'>You aren't a member of any sites yet<br/><br/></span>");
                 }
                 else {
                     $("#top_navigation_my_sites_list").html(sdata.html.Template.render('top_navigation_my_sites_list_template', newjson));
@@ -185,20 +186,23 @@ sakai.chat = function(tuid, placement, showSettings){
     defaultNav = $(".explore").html();
     
     var setSitesDropdown = function(){
-        $("#nav_courses_sites_link").bind("click", function(ev){
-            $("#mysites_dropdown_main").show();
+        $("#nav_courses_sites_link").live("click", function(ev){
+            $("#people_dropdown_main").hide();
+            $("#people_dropdown_close").hide();
+			$("#mysites_dropdown_main").show();
             $("#mysites_dropdown_close").show();
             $(".explore").html(defaultNav);
-            $("#nav_courses_sites_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Courses &amp; Sites</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+            $("#nav_courses_sites_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Courses &amp; Sites</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
             setRoundedCorners();
             if (!sitesShown) {
                 loadSites();
+				loadRecentSites();
                 sitesShown = true;
             }
         });
     }
     
-    $("#mysites_dropdown_close_link").bind("click", function(ev){
+    $("#mysites_dropdown_close_link").live("click", function(ev){
         $("#mysites_dropdown_main").hide();
         $("#mysites_dropdown_close").hide();
         $(".explore").html(defaultNav);
@@ -300,7 +304,7 @@ sakai.chat = function(tuid, placement, showSettings){
             $("#people_dropdown_main").show();
             $("#people_dropdown_close").show();
             $(".explore").html(defaultNav);
-            $("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+            $("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
             setRoundedCorners();
             if (!peopleShown) {
                 loadPeople();
@@ -339,15 +343,15 @@ sakai.chat = function(tuid, placement, showSettings){
         // Select the page we're on
         
         if (window.location.pathname.toLowerCase().indexOf("/my_sakai.html") != -1) {
-            $("#nav_my_sakai_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+            $("#nav_my_sakai_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>My Sakai</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
         }
         else 
             if (window.location.pathname.toLowerCase().indexOf("/search_b.html") != -1 || window.location.pathname.toLowerCase().indexOf("/search_b_people.html") != -1) {
-                $("#nav_search_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Search</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+                $("#nav_search_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Search</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
             }
             else 
                 if (window.location.pathname.toLowerCase().indexOf("/people.html") != -1) {
-                    $("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+                    $("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
                 }
         
         setRoundedCorners();
@@ -380,8 +384,9 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var updateChatStatus = function(){
 		updateChatStatusElement($("#userid"));
-		updateChatStatusElement($("#profile_name"));
-		
+		if ($("#profile_name")) {
+			updateChatStatusElement($("#profile_name"));
+		}
 		showOnlineFriends();
 	};
 	
@@ -604,7 +609,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			$("#people_dropdown_main").show();
 			$("#people_dropdown_close").show();
 			$(".explore").html(defaultNav);
-			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/img/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 			setRoundedCorners();
 			if (!peopleShown){
 				loadPeople();
@@ -992,8 +997,8 @@ sakai.chat = function(tuid, placement, showSettings){
 						specialjson.items[0].photo = "/sdata/f/public/" + clicked + "/" + pict.name;
 					}
 					else {
-						activewindows.items[index].photo = "/dev/img/my-profile-img.jpg";
-						specialjson.items[0].photo = "/dev/img/my-profile-img.jpg";
+						activewindows.items[index].photo = "/dev/_images/my-profile-img.jpg";
+						specialjson.items[0].photo = "/dev/_images/my-profile-img.jpg";
 					}
 				}
 			}
@@ -1475,8 +1480,8 @@ sakai.chat = function(tuid, placement, showSettings){
 								special.items[0].photo = "/sdata/f/public/" + i + "/" + pict.name;
 							}
 							else {
-								activewindows.items[index].photo = "/dev/img/my-profile-img.jpg";
-								special.items[0].photo = "/dev/img/my-profile-img.jpg";
+								activewindows.items[index].photo = "/dev/_images/my-profile-img.jpg";
+								special.items[0].photo = "/dev/_images/my-profile-img.jpg";
 							}
 							for (var ii = 0; ii < activewindows.items.length; ii++) {
 								if (activewindows.items[ii].userid == i) {
