@@ -40,6 +40,7 @@ sakai.myprofile = function(tuid,placement,showSettings){
 		chatstatus = me.profile.chatstatus;
 	}
 	$("#profile_name").addClass("chat_available_status_"+chatstatus);
+	$("#profile_chat_status_" + chatstatus).show();
 
 };
 
