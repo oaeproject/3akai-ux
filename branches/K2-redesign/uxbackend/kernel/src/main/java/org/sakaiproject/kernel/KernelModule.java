@@ -18,10 +18,14 @@
 
 package org.sakaiproject.kernel;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.jms.ConnectionFactory;
+import javax.servlet.http.HttpSession;
 
 import net.sf.ezmorph.Morpher;
 import net.sf.json.JsonConfig;
@@ -44,6 +48,10 @@ import org.sakaiproject.kernel.api.jcr.SmartNodeHandler;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
 import org.sakaiproject.kernel.api.locking.LockManager;
 import org.sakaiproject.kernel.api.memory.CacheManagerService;
+import org.sakaiproject.kernel.api.messaging.ChatMessage;
+import org.sakaiproject.kernel.api.messaging.ChatMessageConverter;
+import org.sakaiproject.kernel.api.messaging.ChatMessageHandler;
+import org.sakaiproject.kernel.api.messaging.ChatMessagingService;
 import org.sakaiproject.kernel.api.messaging.EmailMessage;
 import org.sakaiproject.kernel.api.messaging.Message;
 import org.sakaiproject.kernel.api.messaging.MessageConverter;
@@ -85,10 +93,14 @@ import org.sakaiproject.kernel.jcr.smartNode.SmartNodeHandlerListProvider;
 import org.sakaiproject.kernel.jcr.support.JCRNodeFactoryServiceImpl;
 import org.sakaiproject.kernel.locking.LockManagerImpl;
 import org.sakaiproject.kernel.memory.CacheManagerServiceImpl;
+import org.sakaiproject.kernel.messaging.ChatMessageImpl;
 import org.sakaiproject.kernel.messaging.EmailMessageImpl;
+import org.sakaiproject.kernel.messaging.JcrChatMessagingService;
 import org.sakaiproject.kernel.messaging.JmsConnectionFactoryProvider;
+import org.sakaiproject.kernel.messaging.JsonChatMessageConverter;
 import org.sakaiproject.kernel.messaging.JsonMessageConverter;
 import org.sakaiproject.kernel.messaging.MessageImpl;
+import org.sakaiproject.kernel.messaging.OutboxChatNodeHandlerListProvider;
 import org.sakaiproject.kernel.messaging.OutboxNodeHandlerListProvider;
 import org.sakaiproject.kernel.messaging.email.EmailMessagingService;
 import org.sakaiproject.kernel.messaging.email.MailSessionProvider;
@@ -110,14 +122,10 @@ import org.sakaiproject.kernel.user.UserProvisionAgentListProvider;
 import org.sakaiproject.kernel.user.jcr.JcrUserFactoryService;
 import org.sakaiproject.kernel.util.user.NullUserEnvironment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.jms.ConnectionFactory;
-import javax.servlet.http.HttpSession;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 
 /**
  * A Guice module used to create the kernel component.
@@ -199,8 +207,12 @@ public class KernelModule extends AbstractModule {
     bind(CacheManagerService.class).to(CacheManagerServiceImpl.class)
         .in(Scopes.SINGLETON);
 
-    bind(MessagingService.class).to(EmailMessagingService.class).in(Scopes.SINGLETON);
+    bind(MessagingService.class).to(EmailMessagingService.class)
+    	.in(Scopes.SINGLETON);
 
+    bind(ChatMessagingService.class).to(JcrChatMessagingService.class)
+    	.in(Scopes.SINGLETON);
+    
     bind(SessionManagerService.class).to(SessionManagerServiceImpl.class).in(
         Scopes.SINGLETON);
 
@@ -344,10 +356,12 @@ public class KernelModule extends AbstractModule {
 
     // messages
     bind(Message.class).to(MessageImpl.class);
+    bind(ChatMessage.class).to(ChatMessageImpl.class);
     bind(EmailMessage.class).to(EmailMessageImpl.class);
 
     // message serializer
     bind(MessageConverter.class).to(JsonMessageConverter.class);
+    bind(ChatMessageConverter.class).to(JsonChatMessageConverter.class);
 
     // bring this smart node handler list up early so it can register itself
     TypeLiteral<List<SmartNodeHandler>> smartFolderHandlerList = new TypeLiteral<List<SmartNodeHandler>>() {
@@ -359,6 +373,10 @@ public class KernelModule extends AbstractModule {
     TypeLiteral<List<MessageHandler>> outboxNodeHandlerList = new TypeLiteral<List<MessageHandler>>() {
     };
     bind(outboxNodeHandlerList).toProvider(OutboxNodeHandlerListProvider.class)
+        .asEagerSingleton();
+    TypeLiteral<List<ChatMessageHandler>> outboxChatNodeHandlerList = new TypeLiteral<List<ChatMessageHandler>>() {
+    };
+    bind(outboxChatNodeHandlerList).toProvider(OutboxChatNodeHandlerListProvider.class)
         .asEagerSingleton();
 
     // bring in the user provision agents so they can register
