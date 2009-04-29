@@ -1,0 +1,59 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/remotecontent/css/remotecontent.css"></link>
+
+<div id="remotecontent_settings" style="display:none;">
+	<div class="remotecontent_set">
+		<p>
+			<input type="text" id="remotecontent_settingsUrl" /><br />
+			<div id="urlError" class="remotecontent_error"></div>
+		</p>
+		<p>
+			<label style="font-weight:bold;">Preview</label> (not actual size):<br class="remotecontent_clearer" />
+		</p>
+		<div id="remotecontent_preview">
+			<iframe id="remotecontent_previewFrame" style="border-style:solid;"></iframe>
+		</div>
+		<a class="button-default" href="javascript:;" id="remotecontent_settingsBtnAdvanced">Advanced Settings &darr;</a>
+	</div>
+	<div id="remotecontent_settingsAdvanced" style="display:none;">
+		<div class="remotecontent_set">
+			<span style="font-weight:bold;">Size:</span><br />
+			<div class="remotecontent_block">
+				<label for="remotecontent_width">Width:</label>
+				<input type="text" id="remotecontent_width" /> px<br />
+				<label for="remotecontent_height">Height:</label>
+				<input type="text" id="remotecontent_height" /> px 
+				<a class="button-default" href="javascript:;" id="remotecontent_settingsSizeReset">Reset to original size</a>
+				<br class="remotecontent_clearer" />
+				<div id="sizeError" class="remotecontent_error"></div>
+			</div>
+		</div>
+		
+		<div class="remotecontent_set">
+			<span style="font-weight:bold;">Borders:</span><br />
+			<div class="remotecontent_block">
+				<label for="remotecontent_borders">Size:</label>
+				<input type="text" id="remotecontent_borders" /> px<br /><br />
+				
+				<label>Colour:</label>
+				<span class="remotecontent_colourBox" style="background-color:#000000"></span>
+				<span class="remotecontent_colourBox" style="background-color:#cccccc"></span>
+				<span class="remotecontent_colourBox" style="background-color:red"></span>
+				<span class="remotecontent_colourBox" style="background-color:green"></span>
+				<span class="remotecontent_colourBox" style="background-color:blue"></span>
+				<br class="remotecontent_clearer" />
+				<br class="remotecontent_clearer" />
+				<div id="borderError" class="remotecontent_error"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<a class="button-default" href="javascript:;" id="remotecontent_view_cancel">Cancel</a>
+	<a class="button-default" href="javascript:;" id="remotecontent_view_insert">Save Remote Content Widget</a>
+	<br class="remotecontent_clearer" />
+</div>
+<div id="remotecontent_mainContainer" style="display:none;">
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/remotecontent/javascript/remotecontent.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/remotecontent/javascript/json_parse.js"></script>
