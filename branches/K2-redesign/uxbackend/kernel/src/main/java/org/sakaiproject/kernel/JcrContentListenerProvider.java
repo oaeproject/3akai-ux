@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import org.sakaiproject.kernel.authz.simple.SubjectPermissionListener;
 import org.sakaiproject.kernel.authz.simple.UserEnvironmentListener;
 import org.sakaiproject.kernel.jcr.api.JcrContentListener;
+import org.sakaiproject.kernel.messaging.OutboxChatListener;
 import org.sakaiproject.kernel.messaging.OutboxListener;
 import org.sakaiproject.kernel.social.FriendsListener;
 
@@ -44,11 +45,13 @@ public class JcrContentListenerProvider implements
   public JcrContentListenerProvider(
       UserEnvironmentListener userEnvironmentListener,
       SubjectPermissionListener subjectPermissionListener,
-      FriendsListener friendsListener, OutboxListener outboxListener) {
+      FriendsListener friendsListener, OutboxListener outboxListener,
+      OutboxChatListener outboxChatListener) {
     list.add(userEnvironmentListener);
     list.add(subjectPermissionListener);
     list.add(friendsListener);
     list.add(outboxListener);
+    list.add(outboxChatListener);
   }
 
   /**
