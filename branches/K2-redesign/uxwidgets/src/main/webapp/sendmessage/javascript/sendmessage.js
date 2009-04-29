@@ -31,6 +31,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	 */
 	var loadMessageDialog = function(hash) {
 	
+		window.scrollTo(0,0);
 		$("#message_from").text(me.profile.firstName + " " + me.profile.lastName);
 		$("#message_to").text(user.firstName + " " + user.lastName);
 		
