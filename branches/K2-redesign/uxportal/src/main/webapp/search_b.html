@@ -3,8 +3,9 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Site</title>        
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	<title>Sakai 3 RC 1 - Search All</title>        
+    
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
@@ -83,7 +84,7 @@
 					<input type="text" id="search_text" class="input" value="Insert name or keyword ..." />
 					
         			<div class="buttonBar fl-force-left">
-						<a href="javascript:;" id="search_text_button" class="button search_button">Search</a>
+						<a href="javascript:;" id="search_text_button" style="display:inline; float: none;" class="button search_button">Search</a>
 					</div>
 				</div>
 			</div>
@@ -256,6 +257,7 @@
 			{/for}
 		--></div>
 		
+		<div id="footer" style="height:30px"></div>
 		
 		<div id="sendmessagecontainer" style="display:none; width:100%">
 			<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
