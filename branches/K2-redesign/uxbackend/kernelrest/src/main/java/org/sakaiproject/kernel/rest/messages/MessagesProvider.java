@@ -211,9 +211,9 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		Map<String, Object> mapJSON = beanConverter.convertToMap(parameters
 				.getString("fields_"));
 
-		String subject = mapJSON.get("TITLE").toString();
-		String type = mapJSON.get("TYPE").toString();
-		String body = mapJSON.get("BODY").toString();
+		String subject = mapJSON.get("title").toString();
+		String type = mapJSON.get("type").toString();
+		String body = mapJSON.get("body").toString();
 
 		// Make sure we have all nescecary information.
 		if (subject.equals("") || type.equals("") || body.equals("")
@@ -370,6 +370,10 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		Node n = jcrNodeFactoryService.getNode(userFactoryService
 				.getUserPrivatePath(sessionManagerService.getCurrentUserId()));
 
+		if (n == null) {
+			return generateResponse("OK", "count", "0");
+		}
+
 		String[] arrTypes = new String[0];
 		if (types != null) {
 			arrTypes = types.split(",");
@@ -384,10 +388,11 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		}
 
 		long[] count = new long[arrTypes.length];
+		String path = n.getPath();
 
 		for (int i = 0; i < arrTypes.length; i++) {
 			QueryManager queryManager = jcrService.getQueryManager();
-			String xpathQuery = n.getPath();
+			String xpathQuery = path;
 			xpathQuery = "/jcr:root/"
 					+ ISO9075.encodePath(xpathQuery + "/messages")
 					+ "//element(*," + JCRConstants.NT_FILE + ")";
