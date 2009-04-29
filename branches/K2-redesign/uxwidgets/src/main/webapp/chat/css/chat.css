@@ -406,7 +406,7 @@
 }
 
 .dropdown .dropdown_create_sakai_site a {
-	background-image:url(../images/add_icon_middle.png);
+	background-image:url(/dev/_images/add_icon_middle.png);
 	background-position: center bottom;
 	background-repeat:repeat-x;
 	display:block;
