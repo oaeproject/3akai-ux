@@ -8,7 +8,7 @@
 			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
 	    </ul>
 	    <ul class="personal fl-force-right">
-	    	<li><a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img src="images/arrow_down_sm2_blue.png" /></a></li>
+	    	<li><a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img src="_images/arrow_down_sm2_blue.png" /></a></li>
 			<li><a class="mail" href="inbox.html"><img src="_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
 			<li><a class="help" href="#">Help</a></li>
 	        <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
@@ -48,11 +48,11 @@
 			{for i in items}
 				<div class="dropdown_person">
 					{if i.photo}
-						<a href="/dev/redesign/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
+						<a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
 					{else}
-						<a href="/dev/redesign/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
+						<a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
 					{/if}
-					<a href="/dev/redesign/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
+					<a href="/dev/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
 				</div>	
 			{forelse}
 				<span style="font-size:0.95em">You currently have no contacts</span>
@@ -97,7 +97,7 @@
 		<div id="top_navigation_my_sites_list_template"><!--
 			<ul class="my_site_list">
 				{for i in entry}
-					<li><a href="/dev/redesign/page_edit.html?siteid=${i.location}">${i.name}</a></li>
+					<li><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></li>
 				{/for}
 			</ul>
 		--></div>
@@ -117,7 +117,7 @@
 		{else}
 			<ul class="my_site_list">
 				{for i in items}
-					<li><a href="/dev/redesign/page_edit.html?siteid=${i.location}">${i.name}</a></li>
+					<li><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></li>
 				{/for}
 			</ul>
 		{/if}
@@ -169,7 +169,7 @@
 				{if me.photo}
 					<img src="${me.photo}" width="40px" height="40px"/>
 				{else}
-					<img src="/dev/redesign/images/person_icon.png" width="40px" height="40px"/>
+					<img src="_images/person_icon.png" width="40px" height="40px"/>
 				{/if}
 			</td>
 			<td>
@@ -188,7 +188,7 @@
 						{if i.photo}
 							<img src="${i.photo}" width="32px" height="32px"/>
 						{else}
-							<img src="/dev/redesign/images/person_icon.png" width="32px" height="32px"/>
+							<img src="_images/person_icon.png" width="32px" height="32px"/>
 						{/if}
 					</td>
 					<td>
@@ -226,7 +226,7 @@
 						{if i.photo}
 							<img src="${i.photo}" width="40px" height="40px"/>
 						{else}
-							<img src="/dev/redesign/images/person_icon.png" width="40px" height="40px"/>
+							<img src="_images/person_icon.png" width="40px" height="40px"/>
 						{/if}
 					</td>
 					<td>
