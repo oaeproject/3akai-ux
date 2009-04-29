@@ -36,7 +36,7 @@ sakai.search = function() {
 					getMySites();
 				}
 				else {
-					document.location = "/dev/redesign/index.html";
+					document.location = "/dev/index.html";
 				}
 				
 			}
@@ -144,7 +144,7 @@ sakai.search = function() {
 			
 			sdata.Ajax.request({
 				httpMethod: "GET",
-				url: "/dev/redesign/dummyjson/searchSites.json?p=" + (currentpage - 1) + "&path=/_private&n=" + sitesToSearch + "&q=" + sitessearchterm + "&sites=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
+				url: "/dev/dummyjson/searchSites.json?p=" + (currentpage - 1) + "&path=/_private&n=" + sitesToSearch + "&q=" + sitessearchterm + "&sites=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
 				onSuccess: function(data) {
 					foundsites = eval('(' + data + ')');
 					rendersites();
