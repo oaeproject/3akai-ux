@@ -92,6 +92,21 @@ sakai.chat = function(tuid, placement, showSettings){
 	var allFriends = false;
 	var currentChatStatus = "";
     
+	/* Unread inbox messages */
+	
+	var getUnreadMessages = function() {
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: "/_rest/messages/count?types=inbox&categories=*&read=false",
+			onSuccess: function(data){
+				var json = eval('(' + data + ')');
+				if (json.response == "OK" && json.count)
+				$("#chat_unreadMessages").text(json.count[0]);
+			}
+		});
+	};
+
+	
     /*
      Courses & Sites dropdown handler
      */
@@ -739,6 +754,8 @@ sakai.chat = function(tuid, placement, showSettings){
         setSitesDropdown();
 		getChatStatus();
 		addBinding();
+		getUnreadMessages();
+		
 	};
 
 	
@@ -1195,6 +1212,12 @@ sakai.chat = function(tuid, placement, showSettings){
 			$("#chat_with_" + clicked).show();
 			hasOpenChatWindow = true;
 		}
+		
+		$(".user_chat").unbind("click");
+        $(".user_chat").bind("click", function(ev){
+        	var selected =  ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
+        	toggleChatWindow(selected);
+        });
 		
 		$(".chat_minimize").unbind("click");
 		$(".chat_minimize").bind("click", function(ev){
