@@ -29,6 +29,7 @@ var Config = {
 		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists",
 		SEARCH_GENERAL_URL: "search_b.html"
 	},
+	SakaiDomain : "http://localhost:8080/",
 	Profile : {
 		// Fields that cannot be edited and so controlled by LDAP, ...
    		uneditable : ["txt_firstname","txt_lastname"]
@@ -47,5 +48,23 @@ var Config = {
 	Site : {
 		// Default roles that will be available within a site, next to Owner
 		Roles : ["Collaborator", "Viewer"]
+	},
+	Messages : {
+		Types : {
+			inbox : "inbox",
+			sent : "sent",
+			trash : "trash"
+		},
+		Categories : {
+	        message: 'Message',
+	        announcement: 'Announcement',
+	        chat: 'Chat',
+	        invitation: 'Invitation'
+		},
+		Subject : "subject",
+		Type : "type",
+		Body : "body",
+		To : "to",
+		read : "read"
 	}
 };
