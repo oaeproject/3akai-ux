@@ -368,6 +368,20 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
+		remotecontent :
+		{
+			description:"Remote Content",
+			iframe:0,
+			url:"/devwidgets/remotecontent/remotecontent.html",
+			name:"Remote Content",
+			id:"remotecontent",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
 		tangler :
 		{
 			description:"Tangler Forum",
