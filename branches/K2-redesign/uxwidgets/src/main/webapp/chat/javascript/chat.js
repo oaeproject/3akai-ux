@@ -917,7 +917,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		if (!total || total == 0) {
 			json.items = [];
 			json.totalitems = total;
-			$("#chat_online").html("");
+			$("#chat_online").html("(0)");
 		}
 		else {
 			json.totalitems = total;
@@ -925,7 +925,6 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 		
 		var currentMe = sdata.me;
-		alert(json);
 		json.me = {};
 		json.me.name = parseName(sdata.me.preferences.userInfo.user.uuid, sdata.me.profile.firstName, sdata.me.profile.lastName);
 		json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
