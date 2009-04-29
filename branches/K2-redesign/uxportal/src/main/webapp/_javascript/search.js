@@ -215,6 +215,7 @@ sakai.search = function() {
 		if (foundCM.size > cmToSearch) {
 			$("#display_more_cm").show();
 			$("#display_more_cm_number").text(foundCM.size);
+			$("#display_more_cm").attr("href", "search_b_content.html#1|" + searchterm);
 		}
 		
 		if (foundCM && foundCM.results) {
