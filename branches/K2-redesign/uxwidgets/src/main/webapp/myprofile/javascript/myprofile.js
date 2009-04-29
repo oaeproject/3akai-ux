@@ -34,6 +34,12 @@ sakai.myprofile = function(tuid,placement,showSettings){
 	if (extra){
 		$("#profile_dept",rootel).html(extra);
 	}
+	
+	var chatstatus = "online";
+	if (me.profile.chatstatus){
+		chatstatus = me.profile.chatstatus;
+	}
+	$("#profile_name").addClass("chat_available_status_"+chatstatus);
 
 };
 
