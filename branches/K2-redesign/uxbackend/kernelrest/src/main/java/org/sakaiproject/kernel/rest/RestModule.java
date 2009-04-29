@@ -18,10 +18,10 @@
 
 package org.sakaiproject.kernel.rest;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
+import java.util.List;
+import java.util.Properties;
+
+import javax.persistence.EntityManager;
 
 import org.sakaiproject.kernel.api.Kernel;
 import org.sakaiproject.kernel.api.KernelManager;
@@ -31,6 +31,7 @@ import org.sakaiproject.kernel.api.authz.AuthzResolverService;
 import org.sakaiproject.kernel.api.authz.PermissionQueryService;
 import org.sakaiproject.kernel.api.jcr.JCRService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
+import org.sakaiproject.kernel.api.messaging.ChatMessagingService;
 import org.sakaiproject.kernel.api.messaging.MessagingService;
 import org.sakaiproject.kernel.api.presence.PresenceService;
 import org.sakaiproject.kernel.api.serialization.BeanConverter;
@@ -45,10 +46,10 @@ import org.sakaiproject.kernel.component.core.guice.ServiceProvider;
 import org.sakaiproject.kernel.util.PropertiesLoader;
 import org.sakaiproject.kernel.webapp.Initialisable;
 
-import java.util.List;
-import java.util.Properties;
-
-import javax.persistence.EntityManager;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 
 /**
  * A Guice module used to create the rest component.
@@ -98,6 +99,9 @@ public class RestModule extends AbstractModule {
     bind(MessagingService.class).toProvider(
             new ServiceProvider<MessagingService>(serviceManager, MessagingService.class)).in(
             Scopes.SINGLETON);
+    bind(ChatMessagingService.class).toProvider(
+	    new ServiceProvider<ChatMessagingService>(serviceManager, ChatMessagingService.class)).in(
+	    Scopes.SINGLETON);
     
     bind(RegistryService.class).toProvider(
         new ServiceProvider<RegistryService>(serviceManager, RegistryService.class)).in(
@@ -137,8 +141,6 @@ public class RestModule extends AbstractModule {
     bind(PresenceService.class).toProvider(
         new ServiceProvider<PresenceService>(serviceManager, PresenceService.class)).in(
         Scopes.SINGLETON);
-
-
     bind(SiteService.class).toProvider(
         new ServiceProvider<SiteService>(serviceManager, SiteService.class)).in(
         Scopes.SINGLETON);
