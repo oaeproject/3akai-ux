@@ -13,11 +13,20 @@
 			<a href="javascript:;" id="profile_dept" class="profile_dept"></a>
 			<p>
 				<span>Chat Status: </span>
-				<a href="#" class="profile_chat_status">Available</a>
+				<a href="#" id="profile_chat_status_online" style="display:none" class="profile_chat_status">Available</a>
+				<a href="#" id="profile_chat_status_busy" style="display:none" class="profile_chat_status">Busy</a>
+				<a href="#" id="profile_chat_status_offline" style="display:none" class="profile_chat_status">Offline</a>
 			</p>
 			<a href="#" class="fl-icon profile_chat_status_dropdown"></a>
 		</div>
 	</div>
+	<div id="user_link_menu" style="display:none"> 
+	    <ul>
+            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
+            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
+			<li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
+        </ul>
+    </div>
 </div>
 
 <script type="text/javascript" language="JavaScript" src="/devwidgets/myprofile/javascript/myprofile.js"></script>
