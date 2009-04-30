@@ -89,7 +89,8 @@ sakai.search = function(){
 					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
 					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
 					if (person.picture) {
-						var picture = eval('(' + person.picture + ')');
+						//var picture = eval('(' + person.picture + ')');
+						var picture = person.picture;
 						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {
@@ -173,7 +174,8 @@ sakai.search = function(){
 					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
 					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
 					if (person.picture) {
-						var picture = eval('(' + person.picture + ')');
+						//var picture = eval('(' + person.picture + ')');
+						var picture = person.picture;
 						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {
@@ -286,7 +288,8 @@ sakai.search = function(){
 					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
 					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
 					if (person.picture) {
-						var picture = eval('(' + person.picture + ')');
+						//var picture = eval('(' + person.picture + ')');
+						var picture = person.picture;
 						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {

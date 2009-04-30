@@ -65,6 +65,8 @@ sakai.profile = function(){
 		}
 	});
 	
+	
+	
 	var doInit = function(){
 	
 		me = sdata.me;
@@ -91,6 +93,12 @@ sakai.profile = function(){
 					totalprofile = eval('(' + data + ')');
 					totalprofile.profile = totalprofile.users[0].profile;
 					totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
+					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
+						totalprofile._status = totalprofile.profile.chatstatus;
+					} 
+					else {
+						totalprofile._status = totalprofile.profile.status;
+					}
 					json = totalprofile.profile;
 					
 					if (user && user != me.preferences.uuid) {
@@ -352,13 +360,31 @@ sakai.profile = function(){
 		$("#" + field + "s_list").html(sdata.html.Template.render(field + "s_list_template",obj));
    	
     }
+	
+	
+	
+	/**
+	 * Update a certain element
+	 * @param {Object} element Element that needs to be updated
+	 */
+	var updateChatStatusElement = function(element, status){
+		element.removeClass("profile_available_status_online");
+		element.removeClass("profile_available_status_busy");
+		element.removeClass("profile_available_status_offline");
+		element.addClass("profile_available_status_"+status);
+	}
    
    //////////////////////////
    // General Popup Fields //
    //////////////////////////
    
    var fillInFields = function(){
-   		
+   		//	status
+		$("#profile_user_status").text(totalprofile._status);
+		//	status picture
+		updateChatStatusElement($("#profile_user_status"), totalprofile._status);
+		
+		
 		//Picture
 		
 		if (json.picture && json.picture.name){
