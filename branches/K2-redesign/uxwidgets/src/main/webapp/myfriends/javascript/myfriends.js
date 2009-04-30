@@ -58,7 +58,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 						item.name = item.friendUuid;
 					}
 					if (item.profile.picture) {
-						var pict = eval('(' + item.profile.picture + ')');
+						var pict = item.profile.picture;
 						if (pict.name) {
 							item.photo = "/sdata/f/_private" + item.properties.userStoragePrefix + pict.name;
 						}
