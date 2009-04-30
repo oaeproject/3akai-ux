@@ -128,14 +128,13 @@ public class ChatProvider implements Documentable, JaxRsSingletonProvider,
 
 		String[] arrUsers;
 		// Put the different users in an array.
-		if (users != null) {
-			arrUsers = users.split(",");
+		System.err.println("UUUUUUUUUUUUUUUSSSSSSSSSERRRRRRS: " + users);
+		if (users == null || StringUtils.isEmpty(users)) {
+			arrUsers = new String[0];
 		} else {
-			return generateResponse("ERROR", "messages",
-			"Provide at least one user parameter.");
+			arrUsers = users.split(",");
 		}
 		
-		System.err.println("IIIIIIIIIIIIIIIIIIINITIAL: " + initial);
 		// Check the initial param
 		if (initial == null){
 			initial = true;
@@ -192,24 +191,24 @@ public class ChatProvider implements Documentable, JaxRsSingletonProvider,
 		queryPath = "/jcr:root/" + ISO9075.encodePath(queryPath + "/chats")
 				+ "//element(*," + JCRConstants.NT_FILE + ")";
 		
-		String whereQuery = "MetaData[";
-		String userQuery = "";
-		for (String s : arrUsers) {
-			userQuery += "@" + JCRConstants.JCR_MESSAGE_FROM
-					+ "='" + s + "' or ";
-			userQuery += "@" + JCRConstants.JCR_MESSAGE_RCPTS
-			+ "='" + s + "' or ";
-		}
-		userQuery = "("
-				+ userQuery.subSequence(0, userQuery.lastIndexOf(" or "))
-						.toString() + ")";
-		whereQuery += userQuery;
+		if(arrUsers.length > 0){
+			String whereQuery = "MetaData[";
+			String userQuery = "";
+			for (String s : arrUsers) {
+				userQuery += "@" + JCRConstants.JCR_MESSAGE_FROM
+						+ "='" + s + "' or ";
+				userQuery += "@" + JCRConstants.JCR_MESSAGE_RCPTS
+				+ "='" + s + "' or ";
+			}
+			userQuery = "("
+					+ userQuery.subSequence(0, userQuery.lastIndexOf(" or "))
+							.toString() + ")";
+			whereQuery += userQuery;
 
-		queryPath += whereQuery + "]";
+			queryPath += whereQuery + "]";
+		}
 		
 		queryPath += " order by @" + JCRConstants.JCR_CREATED + " ascending";
-		
-		System.err.println("-------------------Querypath: " + queryPath);
 		
 		Query query = queryManager.createQuery(queryPath, Query.XPATH);
 
@@ -253,36 +252,37 @@ public class ChatProvider implements Documentable, JaxRsSingletonProvider,
 				}else{
 					otheruser = from;
 				}
-				if(initial || (!initial && !read)){
-					if (chatusers.get(otheruser) != null) {
-						chatusers.get(otheruser).add(jsonObj);
+				System.err.println("//////////////////==== ArrUsers: " + arrUsers.toString());
+				System.err.println("//////////////////==== ArrUsers: " + arrUsers.length);
+				if(arrUsers.length == 0){
+					if(!read){
+						if (chatusers.get(otheruser) != null) {
+							chatusers.get(otheruser).add(jsonObj);
+						}
+						else {
+							ArrayList<Object> o = new ArrayList<Object>();
+							o.add(jsonObj);
+							chatusers.put(otheruser, o);
+						}
 					}
-					else {
-						ArrayList<Object> o = new ArrayList<Object>();
-						o.add(jsonObj);
-						chatusers.put(otheruser, o);
+				}else{
+					if(initial || (!initial && !read)){
+						if (chatusers.get(otheruser) != null) {
+							chatusers.get(otheruser).add(jsonObj);
+						}
+						else {
+							ArrayList<Object> o = new ArrayList<Object>();
+							o.add(jsonObj);
+							chatusers.put(otheruser, o);
+						}
 					}
 				}
+				
 			}
 		} finally {
 			if (in != null)
 				in.close();
-		}
-		
-		
-		/*
-		ArrayList<JSONObject> messages = new ArrayList<JSONObject>();
-		
-		QueryManager queryManager = jcrService.getQueryManager();
-		String queryPath = "";
-		Query query = null;
-		
-		for(String user : arrUsers){
-			queryPath = n.getPath() + "/chats/" + user;
-			query = queryManager.createQuery(queryPath, Query.XPATH);
-		}
-		*/
-		
+		}		
 		
 		return chatusers;
 	}
@@ -313,10 +313,6 @@ public class ChatProvider implements Documentable, JaxRsSingletonProvider,
 			@FormParam("message") String message) {
 		// Get the current userId
 		String userId = sessionManagerService.getCurrentUserId();
-
-		System.err.println("//////////// To: " + to);
-		System.err.println("//////////// Message: " + message);
-		System.err.println("//////////// UserId: " + userId);
 
 		// Check if the user is logged in or if it's an anon user
 		// Anon users can't send messages
