@@ -14,14 +14,14 @@ sakai.search = function(){
 	var foundInvitations = false;
 	var foundPending = false;
 	var currentpage = 0;
-	
+	var profiles = {};
 	var myfriends = false;
 
 	var doInit = function(){
 		
 		meObj = sdata.me;
 		if (! meObj.preferences.uuid){
-			document.location = "/dev/index.html?url=/dev/redesign/people.html";
+			document.location = "/dev/index.html?url=/dev/people.html";
 		}
 		
 		loadContacts(1);
@@ -80,6 +80,8 @@ sakai.search = function(){
 			for (var i = 0; i < foundContacts.status.friends.length; i++) {
 				var item = foundContacts.status.friends[i];
 				var person = item.profile;
+				profiles[item.friendUuid] = item;
+				profiles[item.friendUuid].profile.uuid = item.friendUuid;
 				if (person) {
 					var index = finaljson.items.length;
 					finaljson.items[index] = {};
@@ -164,6 +166,8 @@ sakai.search = function(){
 				var person = item.profile;
 				if (person) {
 					var index = finaljson.items.length;
+					profiles[item.friendUuid] = item;
+					profiles[item.friendUuid].profile.uuid = item.friendUuid;
 					finaljson.items[index] = {};
 					finaljson.items[index].userid = item.friendUuid;
 					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
@@ -275,6 +279,8 @@ sakai.search = function(){
 				var person = item.profile;
 				if (person) {
 					var index = finaljson.items.length;
+					profiles[item.friendUuid] = item;
+					profiles[item.friendUuid].profile.uuid = item.friendUuid;
 					finaljson.items[index] = {};
 					finaljson.items[index].userid = item.friendUuid;
 					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
@@ -313,6 +319,15 @@ sakai.search = function(){
 		$("#pending_search_result").html(sdata.html.Template.render("pending_search_result_template", finaljson));
 	
 	}
+	
+	$(".person_message_link").live("click", function(ev){
+		
+		var userid = this.id.split("_")[this.id.split("_").length - 1];
+		if (profiles[userid]){
+			sakai.sendmessage.initialise(profiles[userid].profile);
+		}
+		
+	});
 	
 	doInit();
 	
