@@ -257,7 +257,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sdata/f/" + siteid + "/_widgets?f=pe",
 			httpMethod: "POST",
 			onSuccess: function(data){
-				document.location = "/dev/redesign/page_edit.html?siteid=" + siteid;
+				document.location = "/dev/site.html?siteid=" + siteid;
 			},
 			onFail: function(status){
 				alert("Failed: " + status);
@@ -268,65 +268,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 	}
 	
-	sakai.createsite.createPortfolio = function(){
-		// title is a required field
-		var sitetitle = $("#createsite_portfolio_newsitename").attr("value");
-		if (!sitetitle)
-		{
-			alert("Please specify site title. ");
-			return;
-		}
-		
-		var siteid = $("#createsite_portfolio_newsiteid").attr("value");
-		if (!siteid)
-		{
-			alert("Please specify a site URL. ");
-			return;
-		}
-		
-		var sitedescription = null;
-		if (!sitedescription)
-		{
-			sitedescription ="";
-		}
-		
-		var skin = null;
-		var skinselector = document.getElementById("createsite_portfolio_skin");
-		skin = skinselector.options[skinselector.selectedIndex].value;
-		
-		if (sitetitle && siteid)
-		{
-			
-			sdata.Ajax.request({
-				url :"/direct/site/" + siteid + "/exists",
-				httpMethod : "GET",
-				onSuccess : function(data) {
-					alert("This site url already exists");
-				},
-				onFail : function(status) {
-					newsitetitle = sitetitle;
-			
-					var url = "/sdata/newsite";
-					var parameters = {"sitename" : sitetitle, "sitedescription" : sitedescription, "siteid" : siteid, "template" : "template001", "skin": skin, "type" : "portfolio" };
-			
-					sdata.Ajax.request({
-						url :url,
-						httpMethod : "POST",
-						onSuccess : function(data) {
-							document.location = "/site/" + siteid;
-						},
-						onFail : function(status) {
-							alert("An error occured");
-						},
-						postData : parameters,
-						contentType : "application/x-www-form-urlencoded"
-					});
-				}
-			});
-			
-		}
-	}
-	
+
 	randomString = function(string_length) {
 		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 		var randomstring = '';
@@ -335,69 +277,6 @@ sakai.createsite = function(tuid,placement,showSettings){
 			randomstring += chars.substring(rnum,rnum+1);
 		}
 		return randomstring;
-	}
-
-	createPage1 = function(response, exists){
-		if (exists){
-			newsitejson = eval('(' + response + ')');
-			if (newsitejson.status == "success") {
-				newpageid = randomString(8);
-				newpageid = newpageid.replace(/\//g, "_");
-				newpageid = newpageid.replace(/"/g, "_");
-				newpageid = newpageid.replace(/'/g, "_");
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + newsitejson.id + "/pages/" + newpageid, "metadata", '{"type":"webpage"}', createPage2);	
-			} else {
-				alert("An error has occured");
-			}
-		} else {
-			alert("An error has occured");
-		}
-	} 
-	
-	createPage2 = function(success){
-		if (success){
-			sdata.Ajax.request({
-				url :"/sdata/f/" + newsitejson.id + "/pageconfiguration?sid=" + Math.random(),
-				httpMethod : "GET",
-				onSuccess : function(data) {
-					createPage3(data,true);
-				},
-				onFail : function(status) {
-					createPage3(status,false);
-				}
-			});
-		} else {
-			alert("An error has occured");
-		}
-	}
-	
-	createPage3 = function(response, exists){
-		var pagetitle = "Welcome";
-		var json = {};
-		json.items = [];
-		if (exists){
-			json = eval('(' + response + ')');
-		}
-		var index = json.items.length;
-		json.items[index] = {};
-		json.items[index].id = newpageid;
-		json.items[index].title = "Welcome";
-		json.items[index].type = "webpage";
-		json.items[index].top = true;
-		var tostring = sdata.JSON.stringify(json);
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + newsitejson.id + "", "pageconfiguration", tostring, createPage4);
-	}
-	
-	createPage4 = function(success){
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + newsitejson.id + "/pages/" + newpageid, "content", "Welcome to " + newsitetitle + " !", doRedirect);
-	}
-
-	doRedirect = function(success){
-		if (success){
-			document.location = "/dev/site_home_page.html?siteid=" + newsitejson.id;
-		} else {
-			alert("An error occured");
-		}
 	}
 
 		
