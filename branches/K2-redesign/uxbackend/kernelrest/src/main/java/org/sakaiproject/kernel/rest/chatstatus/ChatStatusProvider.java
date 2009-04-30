@@ -112,7 +112,6 @@ public class ChatStatusProvider implements Documentable,
 			try {
 				// Get the profile path of a user
 				profilePath = userFactoryService.getUserProfilePath(userId);
-				System.err.println(".............................."+profilePath);
 				if (!StringUtils.isEmpty(profilePath)) {
 					inputStream = 
 						jcrNodeFactoryService.getInputStream(profilePath);
@@ -125,7 +124,6 @@ public class ChatStatusProvider implements Documentable,
 				}
 
 				content = IOUtils.readFully(inputStream, "UTF-8");
-				System.err.println(content);
 				o = JSONObject.fromObject(content);
 				return o.getString("chatstatus");
 			// The JSONExeption occurs when there is no chatstatus found
@@ -154,7 +152,6 @@ public class ChatStatusProvider implements Documentable,
 	public String setstatus(@FormParam("chatstatus") String chatstatus) throws IOException {
 		// Get the user's id
 		String userId = sessionManagerService.getCurrentUserId();
-		System.err.println("/////////////" + userId);
 		if (!StringUtils.isEmpty(userId) && !"anon".equals(userId)) {
 			InputStream inputStream = null;
 			String profilePath = "";
@@ -175,7 +172,6 @@ public class ChatStatusProvider implements Documentable,
 				}
 
 				content = IOUtils.readFully(inputStream, "UTF-8");
-				System.err.println(content);
 				o = JSONObject.fromObject(content);
 				o.put("chatstatus", chatstatus);
 				saveChatStatus(o, profilePath);

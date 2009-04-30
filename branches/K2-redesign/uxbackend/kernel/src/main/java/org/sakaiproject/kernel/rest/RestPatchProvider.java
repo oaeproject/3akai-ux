@@ -284,7 +284,7 @@ public class RestPatchProvider implements RestProvider {
 					in.close();
 				} catch (IOException ex) {
 				}
-				map = beanConverter.convertToObject(content, Map.class);
+				map = beanConverter.convertToMap(content);
 			} else {
 				map = new HashMap<String, Object>();
 			}

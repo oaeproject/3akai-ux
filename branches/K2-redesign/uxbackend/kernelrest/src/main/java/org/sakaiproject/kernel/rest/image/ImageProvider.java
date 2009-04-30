@@ -31,7 +31,6 @@ import org.sakaiproject.kernel.api.serialization.BeanConverter;
 import org.sakaiproject.kernel.util.rest.RestDescription;
 import org.sakaiproject.kernel.webapp.Initialisable;
 
-import org.sakaiproject.kernel.rest.image.HTMLtoImage;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -40,24 +39,20 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.StreamingOutput;
-
-import java.net.MalformedURLException;
 
 /**
  * 
@@ -87,11 +82,6 @@ public class ImageProvider implements Documentable, JaxRsSingletonProvider,
 				+	" - dimensions : An array containing all of the desired images.\n"
 				+	"     - width : The width of the scaled & cropped image.\n"
 				+	"     - height : The height of the scaled & cropped image.\n");
-		REST_DOCS.addURLTemplate("/urlpreview", 
-				"This will generate a PNG image out of a url website. \n"
-				+	" Add a url=<yoururl> in the querystring to add a url."
-				
-		);
 
 	}
 
@@ -103,8 +93,7 @@ public class ImageProvider implements Documentable, JaxRsSingletonProvider,
 			RegistryService registryService, BeanConverter beanConverter) {
 		this.beanConverter = beanConverter;
 		this.jcrNodeFactoryService = jcrNodeFactoryService;
-		jaxRsSingletonRegistry = registryService
-				.getRegistry(JaxRsSingletonProvider.JAXRS_SINGLETON_REGISTRY);
+		jaxRsSingletonRegistry = registryService.getRegistry(JaxRsSingletonProvider.JAXRS_SINGLETON_REGISTRY);
 
 		jaxRsSingletonRegistry.add(this);
 
@@ -113,178 +102,267 @@ public class ImageProvider implements Documentable, JaxRsSingletonProvider,
 	@POST
 	@Path("/cropit")
 	@Produces(MediaType.TEXT_PLAIN)
-	    public String cropit(@FormParam("parameters") String parameters) throws JCRNodeFactoryServiceException, RepositoryException, IOException {
+	public String cropit(@FormParam("parameters") String parameters) throws JCRNodeFactoryServiceException, RepositoryException, IOException {
 		if (parameters == null) {
 			return "{\"response\" : \"ERROR: No parameters were entered.\"}";
 		} else {
 			// convert the JSON into a MAP
-			Map<String, Object> mapParameters = beanConverter
-					.convertToMap(parameters);
 
-			// get the parameters out of JSON
-			int x = Integer.parseInt(mapParameters.get("x").toString());
-			int y = Integer.parseInt(mapParameters.get("y").toString());
-			int width = Integer.parseInt(mapParameters.get("width").toString());
-			int height = Integer.parseInt(mapParameters.get("height")
-					.toString());
-			String urlImgtoCrop = mapParameters.get("urlImgtoCrop").toString();
-			String urlSaveIn = mapParameters.get("urlSaveIn").toString();
-			Object[] dimensions = (Object[]) mapParameters.get("dimensions");
-
-			String s = "";
-			String sType = "";
-
-			String[] arrFile = urlImgtoCrop.split("/");
-			String sImg = arrFile[arrFile.length - 1];
-   
 			InputStream in = null;
-
+			ByteArrayOutputStream out = null;
+			
 			try {
+			
+				Map<String, Object> mapParameters = beanConverter.convertToMap(parameters);
+				
+	
+				// get the parameters out of JSON
+				int x = Integer.parseInt(mapParameters.get("x").toString());
+				int y = Integer.parseInt(mapParameters.get("y").toString());
+				int width = Integer.parseInt(mapParameters.get("width").toString());
+				int height = Integer.parseInt(mapParameters.get("height").toString());
+				String urlImgtoCrop = mapParameters.get("urlImgtoCrop").toString();
+				String urlSaveIn = mapParameters.get("urlSaveIn").toString();
+				Object[] dimensions = (Object[]) mapParameters.get("dimensions");
+	
+				String sType = "";
+	
+				String[] arrFile = urlImgtoCrop.split("/");
+				String sImg = arrFile[arrFile.length - 1];
+			
+			
 
 				Node nImgToCrop = jcrNodeFactoryService.getNode(urlImgtoCrop);
-				// get the MIME type of the image
-
 				
-				System.err.println("got node");
+				if (nImgToCrop != null) {
 				
-				//	check the MIME type out of JCR
-				if (nImgToCrop.hasProperty(JCRConstants.JCR_MIMETYPE)) {
-					System.err.println("it has property mimetype");
-					Property mimeTypeProperty = nImgToCrop
-							.getProperty(JCRConstants.JCR_MIMETYPE);
-					System.err.println("retrieved mimetype");
-					if (mimeTypeProperty != null) {
-						sType = mimeTypeProperty.getString();
-						System.err.println("mimetype is not null");
-					}
-					else {
-						sType = "image/" + getMimeViaExtension(sImg);
+					// get the MIME type of the image
+					sType = getMimeTypeForNode(nImgToCrop, sImg);			
+	
+					// check if this is a valid image
+					if (sType.equalsIgnoreCase("image/png")
+							|| sType.equalsIgnoreCase("image/jpg")
+							|| sType.equalsIgnoreCase("image/bmp")
+							|| sType.equalsIgnoreCase("image/gif")
+							|| sType.equalsIgnoreCase("image/jpeg")) {
+						
+						// Read the image
+						in = jcrNodeFactoryService.getInputStream(urlImgtoCrop);
+						BufferedImage img = ImageIO.read(in);
+	
+						// Cut the desired piece out of the image.
+						BufferedImage subImage = img.getSubimage(x, y, width, height);
+						
+						String[] arrFiles = new String[dimensions.length];
+	
+						// Loop the dimensions and create and save an image for each one.
+						for (int i = 0; i < dimensions.length; i++) {
+	
+							Object o = dimensions[i];
+							String sDimension = beanConverter.convertToString(o);
+	
+							Map<String, Object> mapDimensions = beanConverter.convertToMap(sDimension);
+							
+							//	get dimension size
+							int iWidth = Integer.parseInt(mapDimensions.get("width").toString());
+							int iHeight = Integer.parseInt(mapDimensions.get("height").toString());
+	
+							// Create the image.
+							out = scaleAndWriteToStream(iWidth, iHeight, subImage, sType, sImg);								
+							
+							String sPath = urlSaveIn + iWidth + "x" + iHeight + "_" + sImg;
+							//	Save new image to JCR.
+							SaveImageToJCR(sPath, sType, out);
+							
+							out.close();
+							arrFiles[i] = sPath;
+						}
+						
+						//	Output a JSON string.
+						return generateResponse("OK", "files", arrFiles);
+					} else {
+						//	This is not a valid image.
+						return generateResponse("ERROR", "message", "This is not a picture!");
 					}
 				}
 				else {
-					sType = "image/" + getMimeViaExtension(sImg);
+					throw new NumberFormatException();
 				}
+
+			} 
+			catch (NumberFormatException nfe) {
+				return generateResponse("ERROR", "message", "Invalid parameters");
+			}
+			catch (Exception ex) {
+				return generateResponse("ERROR", "message", ex.toString());
+			}
+			finally {
+				//	close the streams
+				if (in != null) in.close();
+				if (out != null) out.close();
+			}
+		}
+	}
+	
+	/**
+	 * Generate a JSON response.
+	 * @param response		ERROR or OK
+	 * @param typeOfResponse The name of the extra tag you want to add. ex: message or files
+	 * @param parameters	The object you wish to parse.
+	 * @return
+	 */
+	public String generateResponse(String response, String typeOfResponse, Object parameters) {
+		Map<String, Object> mapResponse = new HashMap<String, Object>();
+		mapResponse.put("response", response);
+		mapResponse.put(typeOfResponse,parameters);
+		return beanConverter.convertToString(mapResponse);
+	}
+	
+
+	/**
+	 * Will save a stream of an image to the JCR.
+	 * @param sPath		The JCR path to save the image in.
+	 * @param sType		The Mime type of the node that will be saved.
+	 * @param out		The stream you wish to save.
+	 * @throws RepositoryException
+	 * @throws JCRNodeFactoryServiceException
+	 * @throws IOException
+	 */
+	public void SaveImageToJCR(String sPath, String sType, ByteArrayOutputStream out) throws RepositoryException, JCRNodeFactoryServiceException, IOException {
+		// Save image into the jcr
+		Node n = jcrNodeFactoryService.getNode(sPath);
+
+		//	This node doesn't exist yet. Create and save it.
+		if (n == null) {
+			n = jcrNodeFactoryService.createFile(sPath, sType);
+			n.getParent().save();
+		}
+		
+		//	convert stream to inputstream
+		ByteArrayInputStream bais = new ByteArrayInputStream(out.toByteArray());
+		try {
+			jcrNodeFactoryService.setInputStream(sPath, bais, sType);
+			n.setProperty(JCRConstants.JCR_MIMETYPE, sType);
+			n.save();
+		} finally {
+			bais.close();
+		}
+	}
+
+	/**
+	 * This method will scale an image to a desired width and height and shall output the stream of that scaled image.
+	 * @param width			The desired width of the scaled image.
+	 * @param height		The desired height of the scaled image.
+	 * @param img			The image that you want to scale
+	 * @param sType			The mime type of the image. 
+	 * @param sImg			Filename of the image
+	 * @return				Returns an outputstream of the scaled image.
+	 * @throws IOException
+	 */
+	public ByteArrayOutputStream scaleAndWriteToStream(int width, int height, BufferedImage img, String sType, String sImg) throws IOException {
+		ByteArrayOutputStream out = null;
+		try {
+			Image imgScaled = img.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
 			
-
-				System.err.println("mime type of image - " + sType);
-
-				// check if this is a valid image
-				if (sType.equalsIgnoreCase("image/png")
-						|| sType.equalsIgnoreCase("image/jpg")
-						|| sType.equalsIgnoreCase("image/bmp")
-						|| sType.equalsIgnoreCase("image/gif")
-						|| sType.equalsIgnoreCase("image/jpeg")) {
-					
-					// Get the filename
-					System.err.println("file - " + sImg + "type: " + sType.split("/")[1]);
-
-					// Read the image
-					in = jcrNodeFactoryService.getInputStream(urlImgtoCrop);
-					BufferedImage img = ImageIO.read(in);
-					in.close();
-
-					System.err.println("image read: ");
-
-					// Cut the desired piece out of the image.
-					BufferedImage subImage = img.getSubimage(x, y, width, height);
-					System.err.println("subimage created: height of subimage = " + subImage.getHeight());
-
-					
-					String[] arrFiles = new String[dimensions.length];
-
-					// Loop the dimensions and create and save an image for each
-					// one.
-					for (int i = 0; i < dimensions.length; i++) {
-
-						Object o = dimensions[i];
-						String sDimension = beanConverter.convertToString(o);
-
-						Map<String, Object> mapDimensions = beanConverter.convertToMap(sDimension);
-
-						
-						//	get dimension size
-						int iWidth = Integer.parseInt(mapDimensions.get("width").toString());
-						int iHeight = Integer.parseInt(mapDimensions.get("height").toString());
-
-						// Create the image.
-						Image imgScaled = subImage.getScaledInstance(iWidth, iHeight, Image.SCALE_AREA_AVERAGING);
-						BufferedImage biScaled = toBufferedImage(imgScaled, BufferedImage.TYPE_INT_RGB);
-						
-
-						System.err.println("image created");
-
-						// Convert image to a stream
-						ByteArrayOutputStream out = new ByteArrayOutputStream();
-						
-						String sIOtype = sType.split("/")[1];
-						//	If it's a gif try to write it as a jpg
-						if (sType.equalsIgnoreCase("image/gif")) {
-							sImg = sImg.replaceAll("\\.gif", ".jpg");
-							sIOtype = "jpg";
-						}
-
-
-						ImageIO.write(biScaled, sIOtype, out);
-						
-						out.close();
-						System.err.println("stream written " + sImg + " iotype: " + sIOtype);
-
-						
-						String sPath = urlSaveIn + iWidth + "x" + iHeight + "_" + sImg;
-						
-						// Save image into the jcr
-						Node n = jcrNodeFactoryService.getNode(sPath);
-
-						if (n == null) {
-							n = jcrNodeFactoryService.createFile(sPath, sType);
-							n.getParent().save();
-							System.out.println("new node saved: " + sPath);
-						}
-						
-						ByteArrayInputStream bais = new ByteArrayInputStream(out.toByteArray());
-						
-						jcrNodeFactoryService.setInputStream(sPath, bais, sType);
-						n.setProperty(JCRConstants.JCR_MIMETYPE, sType);
-						n.save();
-						bais.close();
-						
-
-						arrFiles[i] = sPath;
-
-					}
-					
-					s += "{\"response\" : \"OK\", \"files\" : " + beanConverter.convertToString(arrFiles) + "}";
-
-
-				} else {
-					s = "{\"response\" : \"ERROR: This is not a picture.\"}";
-				}
-
-			} catch (Exception ex) {
-				return "{\"response\" : \"ERROR: " + ex.getMessage() + "\"}";
-			} finally {
-				if (in != null){
-					in.close();
-				}	
+			Map<String, Integer> mapExtensionsToRGBType = new HashMap<String, Integer>();
+			mapExtensionsToRGBType.put("image/jpg", BufferedImage.TYPE_INT_RGB);
+			mapExtensionsToRGBType.put("image/jpeg", BufferedImage.TYPE_INT_RGB);
+			mapExtensionsToRGBType.put("image/gif", BufferedImage.TYPE_INT_RGB);
+			mapExtensionsToRGBType.put("image/png", BufferedImage.TYPE_INT_ARGB);
+			mapExtensionsToRGBType.put("image/bmp", BufferedImage.TYPE_INT_RGB);
+			
+			Integer type = BufferedImage.TYPE_INT_RGB;
+			if (mapExtensionsToRGBType.containsKey(sType)) {
+				type = mapExtensionsToRGBType.get(sType);
 			}
 			
-			return s;
-		}
-
-	}
-
+			BufferedImage biScaled = toBufferedImage(imgScaled, type);
+			
 	
-	private String getMimeViaExtension(String img) {
-		String[] arr = img.split("\\.");
-		if (arr.length > 1) {
-			return arr[1];
+			// Convert image to a stream
+			out = new ByteArrayOutputStream();
+			
+			String sIOtype = sType.split("/")[1];
+			
+			//	If it's a gif try to write it as a jpg
+			if (sType.equalsIgnoreCase("image/gif")) {
+				sImg = sImg.replaceAll("\\.gif", ".jpg");
+				sIOtype = "jpg";
+			}
+			
+			
+			ImageIO.write(biScaled, sIOtype, out);
 		}
-		else {
-			return "";
+		finally {
+			if (out != null) out.close();
 		}
+		
+		return out;
 	}
 
-	public static BufferedImage toBufferedImage(Image image, int type) {
+	/**
+	 * Tries to fetch the mime type for a node. If the node lacks on, the mimetype will be determined via the extension.
+	 * @param imgToCrop		Node of the image.
+	 * @param sImg			Filename of the image.
+	 * @return
+	 * @throws PathNotFoundException
+	 * @throws ValueFormatException
+	 * @throws RepositoryException
+	 */
+	public String getMimeTypeForNode(Node imgToCrop, String sImg) throws PathNotFoundException, ValueFormatException, RepositoryException {
+		String sType = "";
+		
+		//	Standard list of images we support.
+		Map<String, String> mapExtensionsToMimes = new HashMap<String, String>();
+		mapExtensionsToMimes.put("jpg", "image/jpeg");
+		mapExtensionsToMimes.put("gif", "image/gif");
+		mapExtensionsToMimes.put("png", "image/png");
+		mapExtensionsToMimes.put("bmp", "image/bmp");
+		
+		
+		
+		//		check the MIME type out of JCR
+		if (imgToCrop.hasProperty(JCRConstants.JCR_MIMETYPE)) {
+			Property mimeTypeProperty = imgToCrop.getProperty(JCRConstants.JCR_MIMETYPE);
+			if (mimeTypeProperty != null) {
+				sType = mimeTypeProperty.getString();
+			}
+			
+		}
+		//	If we couldn't find it in the JCR we will check the extension
+		if (sType.equals("")) {
+			String ext = getExtension(sImg);
+			if (mapExtensionsToMimes.containsKey(ext)) {
+				sType = mapExtensionsToMimes.get(ext);
+			}
+			//	default = jpg
+			else {
+				sType = mapExtensionsToMimes.get("jpg");
+			}
+		}
+		
+		
+		return sType;
+	}
+
+	/**
+	 * Returns the extension of a filename.
+	 * If no extension is found, the entire filename is returned.
+	 * @param img
+	 * @return
+	 */
+	public String getExtension(String img) {
+		String[] arr = img.split("\\.");
+		return arr[arr.length - 1];
+	}
+
+	/**
+	 * Takes an Image and converts it to a BufferedImage.
+	 * @param image		The image  you want to convert.
+	 * @param type	The type of the image you want it to convert to. ex: BufferedImage.TYPE_INT_ARGB)
+	 * @return
+	 */
+	public BufferedImage toBufferedImage(Image image, int type) {
 		int w = image.getWidth(null);
 		int h = image.getHeight(null);
 		BufferedImage result = new BufferedImage(w, h, type);
@@ -295,32 +373,7 @@ public class ImageProvider implements Documentable, JaxRsSingletonProvider,
 	}
 
 	
-	@GET
-	@Path("/urlpreview")
-	@Produces("image/png")
-	public StreamingOutput urlpreview(@QueryParam("url") String sUrl) throws MalformedURLException, IOException {
-
-		System.out.println("urlpreview");
-		System.out.println("---------------------------");
-		//URL url = new URL(sUrl);
-		//	Feed an URL to it.
-		//final BufferedImage bufImage = HTMLtoImage.createImage(url);
-		final BufferedImage bufImage = HTMLtoImage.create(sUrl, 640, 480);
-		
-		//Image img = Toolkit.getDefaultToolkit().createImage(bufImage.getSource());
-		
-		return new StreamingOutput() {
-
-			public void write(OutputStream output) throws IOException,
-					WebApplicationException {
-				ImageIO.write(bufImage, "png", output);				
-			}
-			
-		};
-	}
 	
-	
-
 	/**
 	 * {@inheritDoc}
 	 * 

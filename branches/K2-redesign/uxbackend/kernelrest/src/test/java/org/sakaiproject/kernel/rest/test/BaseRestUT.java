@@ -44,6 +44,7 @@ import org.sakaiproject.kernel.api.user.UserResolverService;
 import org.sakaiproject.kernel.api.userenv.UserEnvironment;
 import org.sakaiproject.kernel.api.userenv.UserEnvironmentResolverService;
 import org.sakaiproject.kernel.registry.RegistryServiceImpl;
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
 import org.sakaiproject.kernel.util.StringUtils;
 import org.sakaiproject.kernel.webapp.SakaiServletRequest;
 
@@ -89,6 +90,7 @@ public class BaseRestUT {
   private String sessionID;
   protected AuthzResolverService authzResolverService;
   protected PermissionQueryService permissionQueryService;
+  protected DefaultUserInfoParser defaultUserInfoParser;
 
   /**
    *
@@ -229,6 +231,8 @@ public class BaseRestUT {
     authzResolverService = createMock(AuthzResolverService.class);
     permissionQueryService = createMock(PermissionQueryService.class);
 
+    defaultUserInfoParser = createMock(DefaultUserInfoParser.class);
+    
     siteService = createMock(SiteService.class);
     userResolverService = createMock(UserResolverService.class);
     request = createMock(HttpServletRequest.class);

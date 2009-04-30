@@ -17,6 +17,32 @@
  */
 package org.sakaiproject.kernel.rest.messages;
 
+import net.sf.json.JSONException;
+
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
+
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
+
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
+
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
+
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
+
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -50,7 +76,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
 import net.sf.json.JSONArray;
@@ -137,16 +162,17 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 	private SessionManagerService sessionManagerService;
 	private MessagingService messagingService;
 	private JCRService jcrService;
-	private UserResolverService userResolverService;
+	private DefaultUserInfoParser defaultUserInfoParser;
 
 	private Map<String, Object> users = new HashMap<String, Object>();
 
 	@Inject
 	public MessagesProvider(JCRNodeFactoryService jcrNodeFactoryService,
 			SessionManagerService sessionManagerService,
-			UserFactoryService userFactoryService,
+			UserFactoryService userFactoryService, PresenceService presenceService,
 			RegistryService registryService, BeanConverter beanConverter,
 			MessagingService messagingService, JCRService jcrService,
+			DefaultUserInfoParser defaultUserInfoParser,
 			UserResolverService userResolverService) {
 		this.beanConverter = beanConverter;
 		this.jcrNodeFactoryService = jcrNodeFactoryService;
@@ -154,13 +180,15 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		this.sessionManagerService = sessionManagerService;
 		this.messagingService = messagingService;
 		this.jcrService = jcrService;
-		this.userResolverService = userResolverService;
+		
+		this.defaultUserInfoParser = defaultUserInfoParser;
 
 		jaxRsSingletonRegistry = registryService
 				.getRegistry(JaxRsSingletonProvider.JAXRS_SINGLETON_REGISTRY);
 		jaxRsSingletonRegistry.add(this);
 
 	}
+	
 
 	@GET
 	@Path("/createDummyMessages")
@@ -521,7 +549,7 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 			for (String userId : userIds) {
 				// This is a user we havent fetched already.
 				if (!users.containsKey(userId)) {
-					JSONObject jsonObject = getJSONInfoForUser(userId);
+					JSONObject jsonObject = defaultUserInfoParser.getJSONForUser(userId);
 					users.put(userId, jsonObject);
 					userObjects.add(jsonObject);
 				}
@@ -534,57 +562,12 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		} else {
 			// Only a single user
 			if (!users.containsKey(recepeint)) {
-				JSONObject jsonObject = getJSONInfoForUser(recepeint);
+				JSONObject jsonObject = defaultUserInfoParser.getJSONForUser(recepeint);
 				users.put(recepeint, jsonObject);
 				o = jsonObject;
 			} else {
 				o = users.get(recepeint);
 			}
-		}
-		return o;
-	}
-
-	/**
-	 * Returns the userinfo for a user as a JSONObject.
-	 * 
-	 * @param userId
-	 * @return
-	 * @throws RepositoryException
-	 * @throws JCRNodeFactoryServiceException
-	 * @throws UnsupportedEncodingException
-	 * @throws IOException
-	 */
-	private JSONObject getJSONInfoForUser(String userId)
-			throws RepositoryException, JCRNodeFactoryServiceException,
-			UnsupportedEncodingException, IOException {
-		JSONObject o = new JSONObject();
-		InputStream in = null;
-		try {
-
-			// Preferences
-			User user = userResolverService.resolveWithUUID(userId);
-			if (user == null) {
-				o = JSONObject.fromObject(ImmutableMap.of("statusCode", "404",
-						"userId", userId));
-			} else {
-				Map<String, Object> mapUser = new HashMap<String, Object>();
-				mapUser.put("statusCode", "200");
-				mapUser.put("restricted", "true");
-				mapUser.put("userStoragePrefix", userFactoryService
-						.getUserPathPrefix(userId));
-
-				// Profile
-				in = jcrNodeFactoryService.getInputStream(userFactoryService
-						.getUserProfilePath(userId));
-				String content = IOUtils.readFully(in, "UTF-8");
-				mapUser.put("profile", JSONObject.fromObject(content));
-				mapUser.put("uuid", user.getUuid());
-
-				o = JSONObject.fromObject(mapUser);
-			}
-		} finally {
-			if (in != null)
-				in.close();
 		}
 		return o;
 	}

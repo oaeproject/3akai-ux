@@ -18,6 +18,8 @@
 
 package org.sakaiproject.kernel.user;
 
+import org.sakaiproject.kernel.api.presence.PresenceService;
+
 import com.google.inject.Inject;
 
 import org.apache.commons.logging.Log;
@@ -48,18 +50,21 @@ public class ProfileResolverServiceImpl implements ProfileResolverService {
   private JCRNodeFactoryService jcrNodeFactoryService;
   private UserFactoryService userFactoryService;
   private BeanConverter beanConverter;
+private PresenceService presenceService;
+
 
   /**
    *
    */
   @Inject
   public ProfileResolverServiceImpl(
-      BeanConverter beanConverter,
+      BeanConverter beanConverter, PresenceService presenceService,
       JCRNodeFactoryService jcrNodeFactoryService,
       UserFactoryService userFactoryService) {
     this.beanConverter = beanConverter;
     this.userFactoryService = userFactoryService;
     this.jcrNodeFactoryService = jcrNodeFactoryService;
+    this.presenceService = presenceService;
   }
 
   /**
@@ -79,7 +84,8 @@ public class ProfileResolverServiceImpl implements ProfileResolverService {
           + userFactoryService.getUserProfileTempate(userType) + " as "
           + template);
       Map<String, Object> profileMap = beanConverter.convertToMap(template);
-
+      profileMap.put("status", presenceService.getStatus(uuid));
+      
       return new UserProfileImpl(uuid, profileMap, userFactoryService,
           jcrNodeFactoryService, beanConverter);
     } catch (RepositoryException e) {
@@ -113,7 +119,8 @@ public class ProfileResolverServiceImpl implements ProfileResolverService {
       .getInputStream(userFactoryService.getUserProfilePath(uuid));
       String template = IOUtils.readFully(profileInputStream, "UTF-8");
       Map<String, Object> profileMap = beanConverter.convertToMap(template);
-
+      profileMap.put("status", presenceService.getStatus(uuid));
+      
       return new UserProfileImpl(uuid, profileMap, userFactoryService,
           jcrNodeFactoryService, beanConverter);
 

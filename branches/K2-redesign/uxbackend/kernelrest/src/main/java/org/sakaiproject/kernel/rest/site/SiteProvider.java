@@ -17,9 +17,7 @@
  */
 package org.sakaiproject.kernel.rest.site;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
-import com.thoughtworks.xstream.converters.collections.ArrayConverter;
 
 import org.apache.commons.lang.StringUtils;
 import org.sakaiproject.kernel.api.Registry;
@@ -42,7 +40,6 @@ import org.sakaiproject.kernel.model.SiteBean;
 import org.sakaiproject.kernel.util.PathUtils;
 import org.sakaiproject.kernel.util.rest.CollectionOptions;
 import org.sakaiproject.kernel.util.rest.RestDescription;
-import org.sakaiproject.kernel.util.rest.CollectionOptions.PagingOptions;
 import org.sakaiproject.kernel.util.user.AnonUser;
 import org.sakaiproject.kernel.webapp.Initialisable;
 
@@ -58,7 +55,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -77,8 +73,6 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
   private AuthzResolverService authzResolverService;
   private PermissionQueryService permissionQueryService;
   private Registry<String, MembershipHandler> membershipHandlerRegistry;
-  private ArrayConverter arrayConverter;
-
   private static final RestDescription DESC = new RestDescription();
   private static final String SITE_PATH_PARAM = "sitePath";
   private static final String SITE_TYPE_PARAM = "siteType";

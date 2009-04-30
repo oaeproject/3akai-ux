@@ -48,11 +48,12 @@ public class RestMeProviderTest extends BaseRestUT {
   private RestMeProvider rmp;
 
   @Test
-  public void testAnonGet() throws ServletException, IOException, RepositoryException, JCRNodeFactoryServiceException {
+  public void testAnonGet() throws ServletException, IOException,
+      RepositoryException, JCRNodeFactoryServiceException {
     setupServices();
     newSession();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    setupAnyTimes("user1",  baos);
+    setupAnyTimes("user1", baos);
 
     // expect(request.getParameter("friendUuid")).andReturn(null);
     // expect(request.getParameter("message")).andReturn(null);
@@ -68,20 +69,25 @@ public class RestMeProviderTest extends BaseRestUT {
     expect(userEnvironmentResolverService.resolve(user)).andReturn(
         userEnvironment).anyTimes();
     expect(userEnvironment.getUser()).andReturn(user).anyTimes();
-    
-    Capture<Map<String,Object>> responseMap = new Capture<Map<String,Object>>();
-    expect(beanConverter.convertToString(capture(responseMap))).andReturn("OK").atLeastOnce();
-    
+
+    Capture<Map<String, Object>> responseMap = new Capture<Map<String, Object>>();
+    expect(beanConverter.convertToString(capture(responseMap))).andReturn("OK")
+        .atLeastOnce();
+
     userEnvironment.setProtected(true);
     expectLastCall();
     userEnvironment.setProtected(false);
     expectLastCall();
-    
-    expect(userFactoryService.getUserPathPrefix("user1")).andReturn("somepath1/").anyTimes();
-    expect(userFactoryService.getUserProfilePath("user1")).andReturn("somepath2/").anyTimes();
-    expect(jcrNodeFactoryService.getInputStream("somepath1/")).andReturn(null).anyTimes();
-    expect(jcrNodeFactoryService.getInputStream("somepath2/")).andReturn(null).anyTimes();
-    
+
+    expect(userFactoryService.getUserPathPrefix("user1")).andReturn(
+        "somepath1/").anyTimes();
+    expect(userFactoryService.getUserProfilePath("user1")).andReturn(
+        "somepath2/").anyTimes();
+    expect(jcrNodeFactoryService.getInputStream("somepath1/")).andReturn(null)
+        .anyTimes();
+    expect(jcrNodeFactoryService.getInputStream("somepath2/")).andReturn(null)
+        .anyTimes();
+
     response.setContentType(RestProvider.CONTENT_TYPE);
     expectLastCall().atLeastOnce();
 
@@ -104,8 +110,8 @@ public class RestMeProviderTest extends BaseRestUT {
    */
   private void createProvider() {
     rmp = new RestMeProvider(registryService, sessionManagerService,
-        jcrNodeFactoryService, userResolverService, userFactoryService,
-         beanConverter, userEnvironmentResolverService);
+        jcrNodeFactoryService, userResolverService, defaultUserInfoParser,
+        userFactoryService, beanConverter, userEnvironmentResolverService);
   }
 
   @Test
@@ -113,26 +119,28 @@ public class RestMeProviderTest extends BaseRestUT {
     setupServices();
     newSession();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    setupAnyTimes("user1",  baos);
+    setupAnyTimes("user1", baos);
 
     expect(request.getLocale()).andReturn(new Locale("en", "US")).anyTimes();
     expect(session.getAttribute("sakai.locale.")).andReturn(null).anyTimes();
-    
-    expect(userResolverService.resolveWithUUID("garbage")).andReturn(null).anyTimes();
+
+    expect(userResolverService.resolveWithUUID("garbage")).andReturn(null)
+        .anyTimes();
     response.setContentType(RestProvider.CONTENT_TYPE);
     expectLastCall().atLeastOnce();
-    Capture<Map<String,String>> responseMap = new Capture<Map<String,String>>();
+    Capture<Map<String, String>> responseMap = new Capture<Map<String, String>>();
     String testResponse = "{\"tested\":\"true\"}";
-    expect(beanConverter.convertToString(capture(responseMap))).andReturn(testResponse);
+    expect(beanConverter.convertToString(capture(responseMap))).andReturn(
+        testResponse);
 
     replayMocks();
     createProvider();
 
     rmp.dispatch(new String[] { "me", "garbage" }, request, response);
-    
+
     String responseString = new String(baos.toByteArray(), "UTF-8");
     System.err.println("Response Testing garbage " + responseString);
-    Map<String,String> rm = responseMap.getValue();
+    Map<String, String> rm = responseMap.getValue();
     assertEquals("404", rm.get("statusCode"));
     assertEquals("garbage", rm.get("userId"));
 
@@ -140,31 +148,35 @@ public class RestMeProviderTest extends BaseRestUT {
   }
 
   @Test
-  public void testUserNoEnv() throws ServletException, IOException, RepositoryException, JCRNodeFactoryServiceException {
+  public void testUserNoEnv() throws ServletException, IOException,
+      RepositoryException, JCRNodeFactoryServiceException {
     setupServices();
     newSession();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    setupAnyTimes("user1",  baos);
+    setupAnyTimes("user1", baos);
 
     Locale locale = new Locale("en", "US");
     expect(request.getLocale()).andReturn(locale).anyTimes();
     expect(session.getAttribute("sakai.locale.")).andReturn(null).anyTimes();
 
     expect(userEnvironmentResolverService.getUserLocale(locale, sakaiSession))
-    .andReturn(locale).anyTimes();
-    
-    expect(userEnvironmentResolverService.resolve(user)).andReturn(
-        null).anyTimes();
+        .andReturn(locale).anyTimes();
+
+    expect(userEnvironmentResolverService.resolve(user)).andReturn(null)
+        .anyTimes();
     response.setContentType(RestProvider.CONTENT_TYPE);
     expectLastCall().atLeastOnce();
-    
-    Capture<Map<String,Object>> responseMap = new Capture<Map<String,Object>>();
-    expect(beanConverter.convertToString(capture(responseMap))).andReturn("OK").atLeastOnce();
 
-    expect(userFactoryService.getUserPathPrefix("user1")).andReturn("somepath1/").atLeastOnce();
-    expect(userFactoryService.getUserProfilePath("user1")).andReturn("somepath2/").atLeastOnce();
-    expect(jcrNodeFactoryService.getInputStream("somepath2/")).andReturn(null).atLeastOnce();
+    Capture<Map<String, Object>> responseMap = new Capture<Map<String, Object>>();
+    expect(beanConverter.convertToString(capture(responseMap))).andReturn("OK")
+        .atLeastOnce();
 
+    expect(userFactoryService.getUserPathPrefix("user1")).andReturn(
+        "somepath1/").atLeastOnce();
+    expect(userFactoryService.getUserProfilePath("user1")).andReturn(
+        "somepath2/").atLeastOnce();
+    expect(jcrNodeFactoryService.getInputStream("somepath2/")).andReturn(null)
+        .atLeastOnce();
 
     replayMocks();
     createProvider();
@@ -176,6 +188,5 @@ public class RestMeProviderTest extends BaseRestUT {
 
     verifyMocks();
   }
-
 
 }

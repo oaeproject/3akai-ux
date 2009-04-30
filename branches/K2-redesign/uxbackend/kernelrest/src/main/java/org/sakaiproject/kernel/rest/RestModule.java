@@ -153,6 +153,7 @@ public class RestModule extends AbstractModule {
         new ServiceProvider<PermissionQueryService>(serviceManager, PermissionQueryService.class)).in(
         Scopes.SINGLETON);
     
+    bind(DefaultUserInfoParser.class).to(DefaultUserInfoParserImpl.class);
     
 
     // activate all the services

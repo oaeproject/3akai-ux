@@ -17,25 +17,21 @@
  */
 package org.sakaiproject.kernel.rest;
 
-import com.google.common.collect.ImmutableList;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import java.util.List;
 
 import org.sakaiproject.kernel.chat.ChatProvider;
 import org.sakaiproject.kernel.rest.chatstatus.ChatStatusProvider;
 import org.sakaiproject.kernel.rest.count.RestCountProvider;
 import org.sakaiproject.kernel.rest.friends.RestFriendsProvider;
+import org.sakaiproject.kernel.rest.image.ImageProvider;
 import org.sakaiproject.kernel.rest.me.RestMeProvider;
 import org.sakaiproject.kernel.rest.messages.MessagesProvider;
 import org.sakaiproject.kernel.rest.presence.PresenceProvider;
 import org.sakaiproject.kernel.rest.presencewow.PresencewowProvider;
 import org.sakaiproject.kernel.rest.search.RestSearchProvider;
-import org.sakaiproject.kernel.rest.image.ImageProvider;
 import org.sakaiproject.kernel.rest.site.SiteProvider;
 import org.sakaiproject.kernel.webapp.Initialisable;
-import org.sakaiproject.kernel.rest.messages.MessagesProvider;
 
-import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

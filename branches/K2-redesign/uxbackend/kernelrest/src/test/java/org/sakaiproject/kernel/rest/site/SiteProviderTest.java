@@ -544,7 +544,7 @@ public class SiteProviderTest extends BaseRestUT {
     requestMap.add(CollectionOptions.FILTER_VALUE, "ian");
     requestMap.add(CollectionOptions.FILTER_VALUE, "bost%");
     
-    String resp = siteProvider.list("/testsite/in/some/location",requestMap);
+    String resp = siteProvider.list("/testsite/in/some/location");
     assertEquals("OK", resp);
     assertEquals("/testsite/in/some/location", listPath.getValue());
     assertEquals(5, collectionOptions.getValue().getPagingOptions().getStartIndex());

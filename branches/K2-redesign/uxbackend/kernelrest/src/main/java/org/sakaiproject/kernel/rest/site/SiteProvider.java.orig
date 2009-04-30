@@ -17,7 +17,6 @@
  */
 package org.sakaiproject.kernel.rest.site;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,7 +40,6 @@ import org.sakaiproject.kernel.model.SiteBean;
 import org.sakaiproject.kernel.util.PathUtils;
 import org.sakaiproject.kernel.util.rest.CollectionOptions;
 import org.sakaiproject.kernel.util.rest.RestDescription;
-import org.sakaiproject.kernel.util.rest.CollectionOptions.PagingOptions;
 import org.sakaiproject.kernel.util.user.AnonUser;
 import org.sakaiproject.kernel.webapp.Initialisable;
 
@@ -57,7 +55,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -76,7 +73,6 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
   private AuthzResolverService authzResolverService;
   private PermissionQueryService permissionQueryService;
   private Registry<String, MembershipHandler> membershipHandlerRegistry;
-
   private static final RestDescription DESC = new RestDescription();
   private static final String SITE_PATH_PARAM = "sitePath";
   private static final String SITE_TYPE_PARAM = "siteType";
@@ -331,11 +327,26 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
   @Produces(MediaType.TEXT_PLAIN)
   public String getSite(@PathParam(SITE_PATH_PARAM) String path) {
     path = PathUtils.normalizePath(path);
-    if (siteService.siteExists(path)) {
-      SiteBean siteBean = siteService.getSite(path);
-      return beanConverter.convertToString(siteBean);
+    System.err.println("--------------/get/---- " + path);
+    String[] siteObjects = new String[path.split(",").length];
+    String[] sites = path.substring(1, path.length()).split(",");
+    for(int i = 0 ; i < sites.length ; i++){
+    	if (siteService.siteExists("/" + sites[i])) {
+    	      SiteBean siteBean = siteService.getSite("/" + sites[i]);
+    	      if(sites.length == 1){
+    	    	  return beanConverter.convertToString(siteBean);
+    	      }
+    	      siteObjects[i] = beanConverter.convertToString(siteBean);
+	    }
+    	else{
+    		siteObjects[i] = "404";
+    	}
+    	if(sites.length == 1){
+    		throw new WebApplicationException(Response.status(Status.NOT_FOUND).build());
+    	}
     }
-    throw new WebApplicationException(Response.status(Status.NOT_FOUND).build());
+    return beanConverter.convertToString(siteObjects);
+    
   }
 
   /**
