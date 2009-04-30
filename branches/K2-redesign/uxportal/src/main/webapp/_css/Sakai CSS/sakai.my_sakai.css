@@ -35,7 +35,7 @@ strong {color: #000;}
 .header .search .search_form {height:60px; position:relative; right:270px; text-align:right; top:35px;}
 .header .search .search_form .search_input_field {border: 1px solid #DDDDDD; color:#999999; height:19px; position:relative; top:0; width: 250px; padding-top:3px; padding-left:3px; left: 255px;}
 .header .search .search_form .search_button {left:260px; position:relative; top:0px;}
-.focussedInput {color: #000000;}
+.focussedInput {color: #000000 !important;}
 
 /* OPTIONS */
 .options {text-align: right; padding: 10px 25px 10px 25px;}
@@ -125,3 +125,25 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
 #change_layout_dialog {width:400px; margin-left: -200px;}
 #layouts_list {display:block;}
+
+/* My Profile Widget */
+#myprofile_status {
+	background-color:#FFFFFF;
+	border:1px solid #CCCCCC;
+	font-size:0.95em !important;
+	position:relative;
+	left:145px;
+	top:-35px;
+	width: 70px;
+	z-index:10;
+}
+
+#myprofile_status li {
+	list-style-type: none;
+	padding:0px;
+}
+
+#myprofile_status ul {
+	margin:0;
+	padding:5px 15px 5px 7px;
+}
