@@ -192,7 +192,7 @@
 						{/if}
 					</td>
 					<td>
-						<span class="chat_available_status_online initiate_chat_window" id="initiate_chat_window_${i.userid}">${i.name}</span><br />
+						<span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.userid}">${i.name}</span><br />
 						<span class="chat_available_statusmessage">${i.statusmessage}</span>
 					</td>
 				</tr>
@@ -212,7 +212,7 @@
 	{var index = 0}
 	{for i in items}
 		<span id="online_button_${i.userid}" class="user_chat">
-			<a class="chat_name_link chat_available_status_${i.status}">${i.name}</a>
+			<a class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
 		</span>
 		
 		{if special != false}
