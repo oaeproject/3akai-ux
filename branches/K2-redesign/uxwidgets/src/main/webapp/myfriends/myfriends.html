@@ -14,11 +14,11 @@
 		{for i in items}
 			<div class="contact">
 				{if i.photo}
-					<a href="/dev/redesign/profile.html?user=${i.id}" class="fl-icon contact_picture" style="text-indent:0px"><img src="${i.photo}" style="width:50px;height:50px"/></a>
+					<a href="/dev/profile.html?user=${i.id}" class="fl-icon contact_picture" style="text-indent:0px"><img src="${i.photo}" style="width:50px;height:50px"/></a>
 				{else}
-					<a href="/dev/redesign/profile.html?user=${i.id}" class="fl-icon contact_picture"></a>
+					<a href="/dev/profile.html?user=${i.id}" class="fl-icon contact_picture"></a>
 				{/if}
-				<a href="/dev/redesign/profile.html?user=${i.id}" class="contact_name">${i.name}</a>
+				<a href="/dev/profile.html?user=${i.id}" class="contact_name">${i.name}</a>
 			</div>	
 		{forelse}
 			<span style="font-size:0.95em">You currently have no contacts</span>
