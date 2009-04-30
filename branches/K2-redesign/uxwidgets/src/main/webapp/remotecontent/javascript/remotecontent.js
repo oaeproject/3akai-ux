@@ -142,10 +142,10 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     		$("#sizeError").append("Please enter a valid number for both input fields.<br />");
     	}
     	if (sWidth !== "" && sHeight !== "") {
-    		if (!/^\d+$/.test(sWidth) || !/^\d+$/.test(sHeight)) {
-        		bOK = false;
-        		$("#sizeError").append("Please enter valid numbers only.<br />");
-    		}
+    		//if (!/^\d+$/.test(sWidth) || !/^\d+$/.test(sHeight)) {
+        	//	bOK = false;
+        	//	$("#sizeError").append("Please enter valid numbers only.<br />");
+    		//}
     	}
     	if (sBorderSize !== "" && !/^\d+$/.test(sBorderSize)) {
     		bOK = false;
