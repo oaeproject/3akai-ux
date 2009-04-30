@@ -41,6 +41,59 @@ sakai.myprofile = function(tuid,placement,showSettings){
 	}
 	$("#profile_name").addClass("chat_available_status_"+chatstatus);
 	$("#profile_chat_status_" + chatstatus).show();
+	
+	/*
+	 * Status dropdown handler
+	 */
+	
+	$(".profile_chat_status_dropdown_link").bind("click", function(ev){
+		$("#myprofile_status").toggle();
+	});
+	
+	var changeStatus = function(status){
+		$("#myprofile_status").toggle();
+		sdata.me.profile.chatstatus = status;
+		
+		var a = ["u"];
+		var k = ["chatstatus"];
+		var v = [status];
+		
+		var tosend = {"k":k,"v":v,"a":a};
+		
+		sdata.Ajax.request({
+	      	url :"/rest/patch/f/_private" + sdata.me.userStoragePrefix + "profile.json",
+        	httpMethod : "POST",
+            postData : tosend,
+            contentType : "application/x-www-form-urlencoded",
+            onSuccess : function(data) {
+				updateChatStatus(status);
+			},
+			onFail : function(data){}
+		});
+	};
+	
+	var updateChatStatusElement = function(element, status){
+		if (element){
+			element.removeClass("chat_available_status_online");
+			element.removeClass("chat_available_status_busy");
+			element.removeClass("chat_available_status_offline");
+			element.addClass("chat_available_status_"+status);	
+		}
+	}
+	
+	var updateChatStatus = function(status){
+		$(".myprofile_chat_status").hide();
+		$("#profile_chat_status_" + status).show();
+		
+		updateChatStatusElement($("#userid"),status);
+		updateChatStatusElement($("#profile_name"),status);
+		
+	}
+	
+	$(".myprofile_chat_status_picker").live("click", function(ev){
+		var statusChosen = this.id.split("_")[this.id.split("_").length - 1];
+		changeStatus(statusChosen);
+	});
 
 };
 
