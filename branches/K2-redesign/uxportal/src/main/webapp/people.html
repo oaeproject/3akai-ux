@@ -4,7 +4,7 @@
 <head>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Sakai 3 RC 1 - My Contact</title>        
+	<title>Sakai 3 RC 1 - My Contacts</title>        
     
 	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
@@ -21,6 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />	
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
 	
 	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
@@ -93,7 +94,7 @@
 									<a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
 									<a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
 									{/if}
-									<a href="#" class="search_result_person_link">Message</a>
+									<a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
 								{/if}
 							</div>
 						{forelse}
@@ -139,7 +140,7 @@
 								{if ! i.isMe}
 									<a href="javascript:;" class="search_result_person_link link_accept_contact" id="link_accept_contact_${i.userid}">Accept Invitation</a>
 									<a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-									<a href="#" class="search_result_person_link">Message</a>
+									<a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
 								{/if}
 							</div>
 						{forelse}
@@ -179,7 +180,7 @@
 									<a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
 								{/if}
 								{if ! i.isMe}
-									<a href="#" class="search_result_person_link">Message</a>
+									<a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
 								{/if}
 							</div>
 						{forelse}
@@ -195,12 +196,6 @@
 		</div>
 	
 	</div>
-	
-	 <!-- <div class="fl-container fl-fix page_footer">
-		<a href="#" class="sakai_logo"><img src="images/sakai_logo.png" /></a>
-		<div>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></div>
-		<div>&copy; 2004-2008 <a href="#">The Sakai Foundation</a></div>
-	</div> -->
 	
 	<div class="dialog" id="add_to_contacts_dialog">
 			<div class="dialog_header">
@@ -247,6 +242,10 @@
 				${index++|eat}
 			{/for}
 		--></div>
+		
+		<div id="sendmessagecontainer" style="display:none; width:100%">
+			<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
+		</div>
 	
 	<script type="text/javascript" language="JavaScript" src="_javascript/people.js"></script>
 
