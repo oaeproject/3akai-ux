@@ -71,7 +71,7 @@ sakai.profile = function(){
 		
 		
 		if (!me.preferences.uuid && !me.preferences.eid) {
-			var redirect =  Config.logoutUrl + "?url=/dev/redesign/profile.html";
+			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/redesign/profile.html";
 			if (user){
 				redirect += sdata.util.URL.encode("?user=" + user);
 			}
@@ -181,6 +181,12 @@ sakai.profile = function(){
 		} else if (!inedit_basic) {
 			$("#status").hide();
 		}
+		
+		var chatstatus = "offline";
+		if (json.chatstatus){
+			chatstatus = json.chatstatus;
+		}
+		$("#profile_user_status_" + chatstatus).show();
 		
 		// Basic Information
 		
@@ -355,8 +361,8 @@ sakai.profile = function(){
    		
 		//Picture
 		
-		if (json.picture){
-			var picture = eval('(' + json.picture + ')');
+		if (json.picture && json.picture.name){
+			var picture = json.picture;
 			$("#picture_holder img").attr("src",'/sdata/f/_private' + totalprofile.userStoragePrefix + picture.name);
 		}
 		
