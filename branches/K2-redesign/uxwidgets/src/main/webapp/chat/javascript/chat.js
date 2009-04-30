@@ -7,6 +7,7 @@ sakai._chat = {
     // Just flash
     
     doFlash: function(toFlash){
+		console.log("doFlash");
         var busy = false;
         for (var i = 0; i < sakai._chat.flashing.length; i++) {
             if (sakai._chat.flashing[i] == toFlash) {
@@ -21,6 +22,7 @@ sakai._chat = {
     // Open window and flash
     
     doOpenFlash: function(toFlash){
+		console.log("doOpenFlash");
         var busy = false;
         for (var i = 0; i < sakai._chat.flashing.length; i++) {
             if (sakai._chat.flashing[i] == toFlash) {
@@ -33,10 +35,11 @@ sakai._chat = {
     },
     
     startOpenFlashing: function(toFlash, i){
+		console.log("startOpenFlashing");
         var el = $("#online_button_" + toFlash);
         $("#chat_with_" + toFlash).show();
         if (i % 2 == 0) {
-            el.css("background-color", "#00A5E3");
+            el.css("background-color", "#f6f6f6");
         }
         else {
             el.css("background-color", "#EEEEEE");
@@ -57,9 +60,10 @@ sakai._chat = {
     },
     
     startFlashing: function(toFlash, i){
+		console.log("startFlashing");
         var el = $("#online_button_" + toFlash);
         if (i % 2 == 0) {
-            el.css("background-color", "#00A5E3");
+            el.css("background-color", "#f6f6f6");
         }
         else {
             el.css("background-color", "#EEEEEE");
@@ -91,6 +95,7 @@ sakai.chat = function(tuid, placement, showSettings){
     var defaultNav = false;
 	var allFriends = false;
 	var currentChatStatus = "";
+	var hasOpenChatWindow = false; // Does the current user has open chat windows
     
 	/* Unread inbox messages */
 	
@@ -435,24 +440,6 @@ sakai.chat = function(tuid, placement, showSettings){
 		});
 	};
 	
-	/*
-	sdata.Ajax.request({
-         url: "/_rest/chatstatus/set",
-            httpMethod: "POST",
-            onSuccess: function(data){
-				updateChatStatus();
-          },
-            onFail: function(status){
-                alert("It was not possible to set your status;");
-            },
-            postData: {
-                "chatstatus": chatstatus
-            },
-            contentType: "application/x-www-form-urlencoded"
-        });
-	*/
-
-	
 	var loadRecentSites = function(){
 		
 		sdata.Ajax.request({
@@ -680,7 +667,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			httpMethod: "GET",
 			url: "/_rest/messages/count?types=inbox&categories=*&read=false",
 			onSuccess: function(data){
-				var json = eval('(' + data + ')');
+				var json = json_parse(data);
 				if (json.response == "OK" && json.count)
 				$("#chat_unreadMessages").text(json.count[0]);
 			}
@@ -697,10 +684,9 @@ sakai.chat = function(tuid, placement, showSettings){
             httpMethod: "GET",
             onSuccess: function(data){
 				if(typeof data === "string"){
-				currentChatStatus = data;
-			}
-			updateChatStatus();
-				
+					currentChatStatus = parseChatStatus(data);
+				}
+				updateChatStatus();
             },
             onFail: function(status){
 				currentChatStatus = "online";
@@ -743,7 +729,7 @@ sakai.chat = function(tuid, placement, showSettings){
         $("#hispan").text(person.profile.firstName);
         
         if (person.profile.picture) {
-            var picture = eval('(' + person.profile.picture + ')');
+            var picture = person.profile.picture;
             if (picture.name) {
                 $("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "'/>");
             }
@@ -855,10 +841,14 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 	};
 	
+	/**
+	 * Parse the picture for a user
+	 * @param {Object} picture The picture path for a user
+	 * @param {Object} userStoragePrefix The user's storage prefix
+	 */
 	var parsePicture = function(picture, userStoragePrefix){
 		if (picture) {
-			var pict = eval('(' + picture + ')');
-			return "/webdav/_private" + userStoragePrefix + pict.name;
+			return "/webdav/_private" + userStoragePrefix + picture.name;
 		}
 	};
 	
@@ -906,6 +896,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		user.userid = jsonitem.userid;
 		user.name = jsonitem.name;
 		user.photo = jsonitem.photo;
+		user.chatstatus = jsonitem.chatstatus;
 		user.status = jsonitem.status;
 		user.statusmessage = jsonitem.statusmessage;
 		allFriends.users.push(user);
@@ -929,6 +920,7 @@ sakai.chat = function(tuid, placement, showSettings){
 					json.items[i].name = parseName(json.items[i].userid, json.items[i].profile.firstName, json.items[i].profile.lastName)
 					json.items[i].photo = parsePicture(json.items[i].profile.picture, json.items[i].userStoragePrefix);
 					json.items[i].statusmessage = parseStatusMessage(json.items[i].profile.basic);
+					json.items[i].chatstatus = parseChatStatus(json.items[i].profile.chatstatus);
 				}
 				else {
 				//json.items.splice(i,1);
@@ -946,21 +938,20 @@ sakai.chat = function(tuid, placement, showSettings){
 			$("#chat_online").html("<b>(" + total + ")</b>");
 		}
 		
-		var currentMe = sdata.me;
 		json.me = {};
-		json.me.name = parseName(sdata.me.preferences.userInfo.user.uuid, sdata.me.profile.firstName, sdata.me.profile.lastName);
-		json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
-		json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
-		json.me.chatstatus = currentChatStatus;
+		if (json.me){
+			json.me.name = parseName(sdata.me.preferences.userInfo.user.uuid, sdata.me.profile.firstName, sdata.me.profile.lastName);
+			json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
+			json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
+			json.me.chatstatus = currentChatStatus;
+			$("#chat_available").html(sdata.html.Template.render("chat_available_template", json));
+		}
 		
-		$("#chat_available").html(sdata.html.Template.render("chat_available_template", json));
 		addChatBinding();
 		
 		enableDisableOnline();
 		
 	}
-	
-	var hasOpenChatWindow = false;
 	
 	var openChat = function(clicked){
 	
@@ -996,7 +987,10 @@ sakai.chat = function(tuid, placement, showSettings){
 			specialjson.items[0].status = user.status;
 			activewindows.items[index].statusmessage = user.statusmessage;
 			specialjson.items[0].statusmessage = user.statusmessage;
+			activewindows.items[index].chatstatus = user.chatstatus;
+			specialjson.items[0].chatstatus = user.chatstatus;
 		}else{
+			alert("ERROR -")
 			for (var i = 0; i < online.items.length; i++) {
 				if (online.items[i].userid == clicked) {
 					var item = online.items[i];
@@ -1024,7 +1018,6 @@ sakai.chat = function(tuid, placement, showSettings){
 		doWindowRender(clicked, specialjson);
 		
 		loadChatTextInitial(true, specialjson);
-		
 	}
 	
 	var enableDisableOnline = function(){
@@ -1088,20 +1081,39 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 	}
 	
+	var hideOnlineWindow = function(elementWindow, elementButton){
+		elementWindow.hide();
+		elementButton.removeClass("show_online_visible");
+		elementButton.addClass("show_online_unvisible");
+	};
+ 	
+	var showOnlineWindow = function(elementWindow, elementButton){
+		elementWindow.show();
+		elementButton.removeClass("show_online_unvisible");
+		elementButton.addClass("show_online_visible");
+	};
+	
+	/**
+	 * Toggle a certain chat window
+	 * @param {Object} selected The uuid of the user's window that
+	 * needs to be toggled
+	 */
 	var toggleChatWindow = function(selected){
 		var el = $("#chat_with_" + selected);
-		if (el.css("display") === "none") {
+		var el_content = $("#chat_with_" + selected + "_content");
+		var el_button = $("#online_button_" + selected);
+		
+		if (!el.is(":visible")) {
 			for (var i = 0; i < activewindows.items.length; i++) {
-				$("#chat_with_" + activewindows.items[i].userid).hide();
+				hideOnlineWindow($("#chat_with_" + activewindows.items[i].userid), $("#online_button_" + activewindows.items[i].userid));
 				activewindows.items[i].active = false;
 				if (activewindows.items[i].userid === selected) {
 					activewindows.items[i].active = true;
 				}
 			}
 			hideOnline();
-			el.show();
+			showOnlineWindow(el, $("#online_button_" + selected));
 			hasOpenChatWindow = true;
-			$("#online_button_" + selected).css("background-color","#EEEEEE");
 		}
 		else {
 			for (var i = 0; i < activewindows.items.length; i++) {
@@ -1109,15 +1121,12 @@ sakai.chat = function(tuid, placement, showSettings){
 					activewindows.items[i].active = false;
 				}
 			}
-			el.hide();
+			hideOnlineWindow(el, el_button);
 			hasOpenChatWindow = false;
 		}
-		try {
-			var el2 = document.getElementById("chat_with_" + selected + "_content");
-			el2.scrollTop = el2.scrollHeight;
-		} 
-		catch (err) {
-		}
+		
+		/** Scroll to the bottom of the content div */
+		scroll_to_bottom(el_content);
 	}
 	
 	/**
@@ -1136,19 +1145,23 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var checkHeight = function(el, nooverflow, overflow){
 		if(el.hasClass(nooverflow)){
-			/*for(var i = 0; i < el.children(); i++){
-				
-			}*/
 			var totalHeight = 0;
 			el.children().each(function() {
 				totalHeight += $(this).attr('scrollHeight');
-				console.log(totalHeight + "|" + el.height());
 				if(totalHeight >= el.height()){
 					el.removeClass(nooverflow);
 					el.addClass(overflow);
 				}
 			});
 		}
+	};
+	
+	/**
+	 * Scroll to the bottom of an element
+	 * @param {Object} el The element that needs to be scrolled down
+	 */
+	var scroll_to_bottom = function(el){
+		el.attr("scrollTop", el.attr("scrollHeight"));
 	};
 	
 	/**
@@ -1160,7 +1173,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		if(el.length > 0){
 			el.append(render_chat_message(message));
 			checkHeight(el, "chat_with_content_nooverflow", "chat_with_content_overflow");
-			el.attr("scrollTop", el.attr("scrollHeight"));
+			scroll_to_bottom(el);
 		};		
 	};
 	
@@ -1209,7 +1222,9 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		if (clicked) {
 			hideOnline();
-			$("#chat_with_" + clicked).show();
+			var el = $("#chat_with_" + clicked);
+			var el_button = $("#online_button_" + clicked);
+			showOnlineWindow(el, el_button);
 			hasOpenChatWindow = true;
 		}
 		
@@ -1413,14 +1428,12 @@ sakai.chat = function(tuid, placement, showSettings){
 		var tosend = onlineUsers.join(",");
 		
 		sdata.Ajax.request({
-			//url: "/sdata/chat/?users=" + tosend + "&initial=" + initial + "&sid=" + Math.random(),
 			url: "/_rest/chat/get?users=" + tosend + "&initial=" + initial + "&sid=" + Math.random(),
 			httpMethod: "GET",
 			sendToLoginOnFail: "false",
 			onSuccess: function(data){
 				var json = json_parse(data);
 				if(json.messages){
-					console.log("in lus");
 					for(var i in json.messages) {
 						var isMessageFromOtherUser = false;
 						var chatwithuserUid = i;
@@ -1440,43 +1453,24 @@ sakai.chat = function(tuid, placement, showSettings){
 								
 								message = createChatMessage(isMessageFromOtherUser, chatwithusername, json.messages[i].messages[j].bodyText, json.messages[i].messages[j].date);
 								add_chat_message(el, message);
-							}							
-							
-							/*
-							for (var ii = 0; ii < json.messages.length; ii++) {
 								
-								
-								
-								string += "<span style='color:#CCCCCC'>";
-								if (json.items[i].items[ii].sender == person.userid) {
-									string += otheruser + " &gt; </span>";
-								}
-								else {
-									string += "me &gt; </span>";
-								}
-								string += json.items[i].items[ii].text + "<br/>";
-								var togo = true;
-								if (json.items[i].items[ii].isread == false) {
-									for (var iii = 0; iii < activewindows.items.length; iii++) {
-										if (activewindows.items[iii].userid == i) {
-											if (activewindows.items[iii].active) {
-												togo = false;
-											}
+								//'alert(\'Surprise!\')', 5000
+								var flash = true;
+								if(json.messages[i].messages[j].read ==- false){
+									for(var k = 0; k < activewindows.items.length; k++){
+										if(activewindows.items[k] === i && activewindows.items[k].active){
+											flash = false;
 										}
 									}
-									if (togo) {
-										if (hasOpenChatWindow) {
-											//Just flash and change color
-											setTimeout("sakai._chat.doFlash('" + json.items[i].items[ii].sender + "')", 500);
-										}
-										else {
-											//Flash and open window
-											setTimeout("sakai._chat.doOpenFlash('" + json.items[i].items[ii].sender + "')", 500);
+									if(flash){
+										if(hasOpenChatWindow){
+											setTimeout("sakai._chat.doFlash('" + chatwithuserUid + "')", 500);
+										}else{
+											setTimeout("sakai._chat.doOpenFlash('" + chatwithuserUid + "')", 500);
 										}
 									}
 								}
-							}*/
-						
+							}						
 						}
 						else {
 							var index = activewindows.items.length;
@@ -1488,27 +1482,18 @@ sakai.chat = function(tuid, placement, showSettings){
 							special.items[0].userid = i;
 							activewindows.items[index].active = false;
 							special.items[0].active = false;
-							var item = json.items[i].profile;
-							if (item.firstName && item.lastName) {
-								activewindows.items[index].name = item.firstName + " " + item.lastName;
-								special.items[0].name = item.firstName + " " + item.lastName;
-							}
-							else {
-								activewindows.items[index].name = i;
-								special.items[0].name = i;
-							}
-							if (item.picture) {
-								var pict = eval('(' + item.picture + ')');
-								activewindows.items[index].photo = "/sdata/f/public/" + i + "/" + pict.name;
-								special.items[0].photo = "/sdata/f/public/" + i + "/" + pict.name;
-							}
-							else {
-								activewindows.items[index].photo = "/dev/_images/my-profile-img.jpg";
-								special.items[0].photo = "/dev/_images/my-profile-img.jpg";
-							}
-							for (var ii = 0; ii < activewindows.items.length; ii++) {
-								if (activewindows.items[ii].userid == i) {
-									if (activewindows.items[ii].active) {
+							var friendProfile = json.messages[i].profile;
+							
+							activewindows.items[index].name = parseName(chatwithuserUid, friendProfile.firstName, friendProfile.lastName);
+							special.items[0].name = parseName(chatwithuserUid, friendProfile.firstName, friendProfile.lastName);
+
+							activewindows.items[index].photo = parsePicture(friendProfile.picture, friendProfile.userStoragePrefix);
+							special.items[0].photo = parsePicture(friendProfile.picture, friendProfile.userStoragePrefix);
+							
+							var togo = true;
+							for (var j = 0; j < activewindows.items.length; j++) {
+								if (activewindows.items[j].userid == i) {
+									if (activewindows.items[j].active) {
 										togo = false;
 									}
 								}
@@ -1516,18 +1501,15 @@ sakai.chat = function(tuid, placement, showSettings){
 						
 							if (togo) {
 								if (hasOpenChatWindow) {
-									//Just flash and change color
 									setTimeout("sakai._chat.doFlash('" + i + "')", 500);
 
 								} else {
-									//Flash and open window
 									setTimeout("sakai._chat.doOpenFlash('" + i + "')", 500);
 								}
 							}
 							
 							doWindowRender(null, special);
 							loadChatTextInitial(true, special);
-
 						}
 						
 					}
