@@ -8,30 +8,32 @@
 			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
 	    </ul>
 	    <ul class="personal fl-force-right">
-	    	<li><a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img src="_images/arrow_down_sm2_blue.png" /></a></li>
+	    	<li id="user_link_container">
+	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img src="_images/arrow_down_sm2_blue.png" /></a>
+				<div id="user_link_menu" style="display:none">
+			        <div class="user_link_menu_border">
+			            <ul>
+			            	<li class="insert_more_menu_inactive">Chat Status</li>
+			                <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
+			                <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
+							<li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
+			            </ul>
+			        </div>
+					<div>
+			            <ul>
+			                <li><a href="javascript:;">Inbox</a></li>
+			                <li><a href="javascript:;">Contacts</a></li>
+							<li><a href="javascript:;">My Account</a></li>
+						<li><a id="user_link_chat_status_offline" href="javascript:;">Preferences</a></li>
+			            </ul>
+			        </div>
+			    </div>
+			</li>
 			<li><a class="mail" href="inbox.html"><img src="_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
 			<li><a class="help" href="#">Help</a></li>
 	        <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
 	    </ul>
 	</div>
-	<div id="user_link_menu" style="display:none">
-        <div class="user_link_menu_border">
-            <ul>
-            	<li class="insert_more_menu_inactive">Chat Status</li>
-                <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
-                <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
-				<li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
-            </ul>
-        </div>
-		<div>
-            <ul>
-                <li><a href="javascript:;">Inbox</a></li>
-                <li><a href="javascript:;">Contacts</a></li>
-				<li><a href="javascript:;">My Account</a></li>
-			<li><a id="user_link_chat_status_offline" href="javascript:;">Preferences</a></li>
-            </ul>
-        </div>
-    </div>
 </div>
 
 <!-- DROPDOWN -->
@@ -182,7 +184,7 @@
 	<div id="chat_available_others" {if totalitems > 4} class="chat_available_others_overflow" {else} class="chat_available_others_nooverflow" {/if}>
 		<table>
 		{for i in items}
-			{if i.status == "online"}
+			{if i.status == "online" && i.chatstatus != "offline"}
 				<tr class="chat_available_friend">
 					<td class="chat_available_image">
 						{if i.photo}
@@ -212,7 +214,7 @@
 	{var index = 0}
 	{for i in items}
 		<span id="online_button_${i.userid}" class="user_chat">
-			<a class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+			<a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
 		</span>
 		
 		{if special != false}
@@ -224,9 +226,9 @@
 				<tr class="chat_top_container">
 					<td class="chat_available_image">
 						{if i.photo}
-							<img src="${i.photo}" width="40px" height="40px"/>
+							<img src="${i.photo}" id="chat_window_photo_${i.userid}" width="40px" height="40px"/>
 						{else}
-							<img src="_images/person_icon.png" width="40px" height="40px"/>
+							<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" width="40px" height="40px"/>
 						{/if}
 					</td>
 					<td>
@@ -236,8 +238,8 @@
 						<a href="javascript:;">
 							<img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
 						</a>
-						<span class="chat_windows_name">${i.name}</span><br />
-						<span class="chat_available_statusmessage">${i.statusmessage}</span>
+						<span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
+						<span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
 					</td>
 				</tr>
 			</table>

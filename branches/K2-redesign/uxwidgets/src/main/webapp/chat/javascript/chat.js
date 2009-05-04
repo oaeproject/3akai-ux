@@ -96,6 +96,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	var allFriends = false;
 	var currentChatStatus = "";
 	var hasOpenChatWindow = false; // Does the current user has open chat windows
+	var defaultPhotoPath = "_images/person_icon.png";
     
 	/* Unread inbox messages */
 	
@@ -391,21 +392,22 @@ sakai.chat = function(tuid, placement, showSettings){
 	/**
 	 * Update a certain element
 	 * @param {Object} element Element that needs to be updated
+	 * @param {String} chatstatus The chatstatus that needs to be added
 	 */
-	var updateChatStatusElement = function(element){
+	var updateChatStatusElement = function(element, chatstatus){
 		element.removeClass("chat_available_status_online");
 		element.removeClass("chat_available_status_busy");
 		element.removeClass("chat_available_status_offline");
-		element.addClass("chat_available_status_"+currentChatStatus);
+		element.addClass("chat_available_status_"+chatstatus);
 	}
 	
 	/**
 	 * Update the status on the page
 	 */
 	var updateChatStatus = function(){
-		updateChatStatusElement($("#userid"));
+		updateChatStatusElement($("#userid"), currentChatStatus);
 		if ($("#profile_name")) {
-			updateChatStatusElement($("#profile_name"));
+			updateChatStatusElement($("#profile_name"), currentChatStatus);
 		}
 		showOnlineFriends();
 	};
@@ -417,8 +419,6 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var sendChatStatus = function(chatstatus){
 		currentChatStatus = chatstatus;
-		var basic = {};
-		basic.status = json.status;
 	
 		var a = ["u"];
 		var k = ["chatstatus"];
@@ -427,7 +427,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		var tosend = {"k":k,"v":v,"a":a};
 		
 		sdata.Ajax.request({
-	      	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
+	      	url :"/rest/patch/f/_private" + sdata.me.userStoragePrefix + "profile.json",
         	httpMethod : "POST",
             postData : tosend,
             contentType : "application/x-www-form-urlencoded",
@@ -887,6 +887,70 @@ sakai.chat = function(tuid, placement, showSettings){
 	};
 	
 	/**
+	 * Update an item in the activewindow
+	 * @param {String} userid User id of the user
+	 * @param {String} item Item that needs to be updated
+	 * @param {String} value Value of the item that needs to be updated
+	 */
+	var updateActiveWindows = function(userid, item, value){
+		for (var i = 0; i < activewindows.items.length; i++) {
+			if (activewindows.items[i].userid === userid) {
+				activewindows.items[i][item] = value;
+			}
+		}
+	}
+	
+	/**
+	 * Update and element (only if it has to) with a value
+	 * @param {String} userid The user id of the user
+	 * @param {String} item Item that needs to be updated
+	 * @param {String} value Value in the element that needs to be updated
+	 */
+	var updateChatWindowElement = function(userid, item, value){
+		var el = $("#chat_window_" + item + "_" + userid);
+		switch(el.get(0).tagName.toLowerCase()){
+			case "span":
+				if (el.text() !== value){
+					el.text(value);
+					updateActiveWindows(userid, item, value);
+				}
+				break;
+			case "img":
+				if (el.attr("src") !== value){
+					el.attr("src", value);
+					updateActiveWindows(userid, item, value);
+				}
+				break;	
+		}
+	};
+	
+	/**
+	 * Update the chat status of a specific chat window
+	 * @param {Object} userid The user id of the user
+	 * @param {Object} value The status which should be updated if necessary
+	 */
+	var updateChatWindowChatStatus = function(userid, value){
+		var el = $("#chat_window_chatstatus_" + userid);
+		if(!el.hasClass("chat_available_status_"+value)){
+			updateChatStatusElement(el, value);
+			updateActiveWindows(userid, "chatstatus", value);
+		}
+	}
+	
+	/**
+	 * Update the chatwindow for a certain user
+	 * @param {Object} user Object that contains the user information
+	 */
+	var updateChatWindow = function(user){
+		if($("#chat_with_"+user.userid).length > 0){
+			updateChatWindowChatStatus(user.userid, user.chatstatus);
+			updateChatWindowElement(user.userid, "photo", user.photo);
+			updateChatWindowElement(user.userid, "name",  user.name);
+			updateChatWindowElement(user.userid, "statusmessage", user.statusmessage);
+		}
+	};
+	
+	/**
 	 * Save the json object containing all friends 
 	 * to an easier to read friends object
 	 * @param {Object} jsonitem
@@ -900,27 +964,29 @@ sakai.chat = function(tuid, placement, showSettings){
 		user.status = jsonitem.status;
 		user.statusmessage = jsonitem.statusmessage;
 		allFriends.users.push(user);
+		updateChatWindow(user);
 	};
-
 	
+	/**
+	 * Show the friends that are online (status and chatstatus)
+	 */
 	var showOnlineFriends = function(){
-	
 		var json = online;
 		var total = 0; //Total online friends
 		allFriends = {};
 		allFriends.users = [];
 		if (json.items !== undefined) {
 			for (var i = 0; i < json.items.length; i++) {
+				if (typeof json.items[i].profile === "string") {
+					json.items[i].profile = eval('(' + json.items[i].profile + ')');
+				}
+				json.items[i].chatstatus = parseChatStatus(json.items[i].profile.chatstatus);
 				/** Check if a friend is online or not */
-				if (json.items[i].status === "online") {
+				if (json.items[i].status === "online" && json.items[i].chatstatus !== "offline") {
 					total++;
-					if (typeof json.items[i].profile === "string") {
-						json.items[i].profile = eval('(' + json.items[i].profile + ')');
-					}
 					json.items[i].name = parseName(json.items[i].userid, json.items[i].profile.firstName, json.items[i].profile.lastName)
 					json.items[i].photo = parsePicture(json.items[i].profile.picture, json.items[i].userStoragePrefix);
 					json.items[i].statusmessage = parseStatusMessage(json.items[i].profile.basic);
-					json.items[i].chatstatus = parseChatStatus(json.items[i].profile.chatstatus);
 				}
 				else {
 				//json.items.splice(i,1);
@@ -954,9 +1020,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	}
 	
 	var openChat = function(clicked){
-	
-		$("#online_button_" + clicked).css("background-color","#ffffff");
-	
+			
 		for (var i = 0; i < activewindows.items.length; i++) {
 			if (activewindows.items[i].userid == clicked) {
 				toggleChatWindow(clicked);
@@ -990,29 +1054,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			activewindows.items[index].chatstatus = user.chatstatus;
 			specialjson.items[0].chatstatus = user.chatstatus;
 		}else{
-			alert("ERROR -")
-			for (var i = 0; i < online.items.length; i++) {
-				if (online.items[i].userid == clicked) {
-					var item = online.items[i];
-					if (item.firstName && item.lastName) {
-						activewindows.items[index].name = item.firstName + " " + item.lastName;
-						specialjson.items[0].name = item.firstName + " " + item.lastName;
-					}
-					else {
-						activewindows.items[index].name = clicked;
-						specialjson.items[0].name = clicked;
-					}
-					if (item.picture) {
-						var pict = eval('(' + item.picture + ')');
-						activewindows.items[index].photo = "/sdata/f/public/" + clicked + "/" + pict.name;
-						specialjson.items[0].photo = "/sdata/f/public/" + clicked + "/" + pict.name;
-					}
-					else {
-						activewindows.items[index].photo = "/dev/_images/my-profile-img.jpg";
-						specialjson.items[0].photo = "/dev/_images/my-profile-img.jpg";
-					}
-				}
-			}
+			alert("ERROR -");
 		}
 		
 		doWindowRender(clicked, specialjson);
@@ -1020,22 +1062,34 @@ sakai.chat = function(tuid, placement, showSettings){
 		loadChatTextInitial(true, specialjson);
 	}
 	
-	var enableDisableOnline = function(){
-		// Disable / Enable for Online / Offline users
-		
+	/**
+	 * Check if a certain user is online or not
+	 * @param {Array} onlinefriends Array that contains all the friends
+	 * @param {String} userid Userid of the user
+	 * @return Boolean true if the user is online
+	 */
+	var checkOnlineFriend = function(onlinefriends, userid){
+		var isOnline = false;
+		if (onlinefriends) {
+			for (var i = 0; i < onlinefriends.length; i++) {
+				if (onlinefriends[i].userid === userid) {
+					isOnline = true;
+				}
+			}
+		}
+		return isOnline;
+	}
+	
+	/**
+	 * Enable / disable the chat input for online / offline users
+	 */
+	var enableDisableOnline = function(){		
 		if (activewindows.items) {
 			for (var i = 0; i < activewindows.items.length; i++) {
 				var user = activewindows.items[i].userid;
 				var displayUser = activewindows.items[i].name;
-				if (activewindows.items[i].onlineNow == null) {
-					var isOnline = false;
-					if (online.items) {
-						for (var ii = 0; ii < online.items.length; ii++) {
-							if (online.items[ii].userid == user) {
-								isOnline = true;
-							}
-						}
-					}
+				if (activewindows.items[i].onlineNow === null) {
+					var isOnline = checkOnlineFriend(online.items, user);
 					if (isOnline) {
 						activewindows.items[i].onlineNow = true;
 						$("#chat_with_" + user + "_txt").removeAttr("disabled");
@@ -1043,37 +1097,23 @@ sakai.chat = function(tuid, placement, showSettings){
 					else {
 						activewindows.items[i].onlineNow = false;
 						$("#chat_with_" + user + "_txt").attr("disabled", true);
-						$("#chat_with_" + user + "_txt").attr("value", displayUser + " is offline");
+						$("#chat_with_" + user + "_txt").val(displayUser + " is offline");
 					}
 				}
 				if (activewindows.items[i].onlineNow === true) {
-					var isOnline = false;
-					if (online.items) {
-						for (var ii = 0; ii < online.items.length; ii++) {
-							if (online.items[ii].userid == user) {
-								isOnline = true;
-							}
-						}
-					}
+					var isOnline = checkOnlineFriend(online.items, user);
 					if (!isOnline) {
 						activewindows.items[i].onlineNow = false;
 						$("#chat_with_" + user + "_txt").attr("disabled", true);
-						$("#chat_with_" + user + "_txt").attr("value", displayUser + " is offline");
+						$("#chat_with_" + user + "_txt").val(displayUser + " is offline");
 					}
 				}
 				else 
 					if (activewindows.items[i].onlineNow === false) {
-						var isOnline = false;
-						if (online.items) {
-							for (var ii = 0; ii < online.items.length; ii++) {
-								if (online.items[ii].userid == user) {
-									isOnline = true;
-								}
-							}
-						}
+						var isOnline = checkOnlineFriend(online.items, user);
 						if (isOnline) {
 							activewindows.items[i].onlineNow = true;
-							$("#chat_with_" + user + "_txt").attr("value", "");
+							$("#chat_with_" + user + "_txt").val("");
 							$("#chat_with_" + user + "_txt").removeAttr("disabled");
 						}
 					}
@@ -1346,9 +1386,8 @@ sakai.chat = function(tuid, placement, showSettings){
 	};
 	
 	$("#chat_online_connections_link").bind("click", function(ev){
-	
 		for (var i = 0; i < activewindows.items.length; i++) {
-			$("#chat_with_" + activewindows.items[i].userid).hide();
+			hideOnlineWindow($("#chat_with_" + activewindows.items[i].userid), $("#online_button_" + activewindows.items[i].userid));
 		}
 		showHideOnline();
 	});
@@ -1454,9 +1493,8 @@ sakai.chat = function(tuid, placement, showSettings){
 								message = createChatMessage(isMessageFromOtherUser, chatwithusername, json.messages[i].messages[j].bodyText, json.messages[i].messages[j].date);
 								add_chat_message(el, message);
 								
-								//'alert(\'Surprise!\')', 5000
 								var flash = true;
-								if(json.messages[i].messages[j].read ==- false){
+								if(json.messages[i].messages[j].read === false){
 									for(var k = 0; k < activewindows.items.length; k++){
 										if(activewindows.items[k] === i && activewindows.items[k].active){
 											flash = false;
@@ -1489,6 +1527,12 @@ sakai.chat = function(tuid, placement, showSettings){
 
 							activewindows.items[index].photo = parsePicture(friendProfile.picture, friendProfile.userStoragePrefix);
 							special.items[0].photo = parsePicture(friendProfile.picture, friendProfile.userStoragePrefix);
+							
+							activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
+							special.items[0].statusmessage = parseStatusMessage(friendProfile.basic);
+
+							activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
+							special.items[0].chatstatus = parseChatStatus(friendProfile.chatstatus);
 							
 							var togo = true;
 							for (var j = 0; j < activewindows.items.length; j++) {
