@@ -50,6 +50,7 @@ import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryServiceException;
 import org.sakaiproject.kernel.api.messaging.ChatMessage;
 import org.sakaiproject.kernel.api.messaging.ChatMessagingService;
+import org.sakaiproject.kernel.api.presence.PresenceService;
 import org.sakaiproject.kernel.api.rest.Documentable;
 import org.sakaiproject.kernel.api.rest.JaxRsSingletonProvider;
 import org.sakaiproject.kernel.api.serialization.BeanConverter;
@@ -84,19 +85,22 @@ public class ChatProvider implements Documentable, JaxRsSingletonProvider,
 	private JCRService jcrService;
 	private SessionManagerService sessionManagerService;
 	private UserFactoryService userFactoryService;
+	private PresenceService presenceService;
 
 	@Inject
 	public ChatProvider(SessionManagerService sessionManagerService,
 			RegistryService registryService, BeanConverter beanConverter,
 			JCRService jcrService, ChatMessagingService chatMessagingService,
 			JCRNodeFactoryService jcrNodeFactoryService,
-			UserFactoryService userFactoryService) {
+			UserFactoryService userFactoryService,
+			PresenceService presenceService) {
 		this.beanConverter = beanConverter;
 		this.chatMessagingService = chatMessagingService;
 		this.jcrNodeFactoryService = jcrNodeFactoryService;
 		this.jcrService = jcrService;
 		this.sessionManagerService = sessionManagerService;
 		this.userFactoryService = userFactoryService;
+		this.presenceService = presenceService;
 
 		jaxRsSingletonRegistry = registryService
 				.getRegistry(JaxRsSingletonProvider.JAXRS_SINGLETON_REGISTRY);
@@ -167,14 +171,16 @@ public class ChatProvider implements Documentable, JaxRsSingletonProvider,
 	}
 
 	
-	private Object getUserProfile(String s)  throws RepositoryException, 
+	private JSONObject getUserProfile(String s)  throws RepositoryException, 
 	JCRNodeFactoryServiceException, UnsupportedEncodingException, IOException {
 		InputStream in = null;
-		Object o = new Object();
+		JSONObject o = new JSONObject();
 		try{
 			in = jcrNodeFactoryService.getInputStream(userFactoryService
 					.getUserProfilePath(s));
 			o = JSONObject.fromObject(IOUtils.readFully(in, "UTF-8"));
+			o.put("userStoragePrefix",  userFactoryService.getUserPathPrefix(s));
+			o.put("status", presenceService.getStatus(s));
 		}finally{
 			if(in != null){
 				in.close();

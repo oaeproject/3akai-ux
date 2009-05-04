@@ -23,6 +23,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.sakaiproject.kernel.api.serialization.BeanConverter;
 import org.sakaiproject.kernel.api.user.ProfileResolverService;
 import org.sakaiproject.kernel.api.user.User;
 import org.sakaiproject.kernel.api.user.UserFactoryService;
@@ -37,14 +38,16 @@ public class DefaultUserInfoParserImpl implements DefaultUserInfoParser {
   private UserResolverService userResolverService;
   private UserFactoryService userFactoryService;
   private ProfileResolverService profileResolverService;
-
+  private BeanConverter beanConverter;
+  
   @Inject
   public DefaultUserInfoParserImpl(UserFactoryService userFactoryService,
-      UserResolverService userResolverService,
+      UserResolverService userResolverService, BeanConverter beanConverter,
       ProfileResolverService profileResolverService) {
     this.userResolverService = userResolverService;
     this.userFactoryService = userFactoryService;
     this.profileResolverService = profileResolverService;
+    this.beanConverter = beanConverter;
   }
 
   /**
@@ -84,8 +87,8 @@ public class DefaultUserInfoParserImpl implements DefaultUserInfoParser {
    * @see org.sakaiproject.kernel.rest.DefaultUserInfoParser#getJSONforUserProfile(java.lang.String)
    */
   public JSONObject getJSONforUserProfile(String userid) {
-    UserProfile userprofile = profileResolverService.resolve(userid);
-    return JSONObject.fromObject(userprofile.getProperties());
+     UserProfile userprofile = profileResolverService.resolve(userid);
+     return JSONObject.fromObject(beanConverter.convertToString(userprofile.getProperties()));
   }
 
 }
