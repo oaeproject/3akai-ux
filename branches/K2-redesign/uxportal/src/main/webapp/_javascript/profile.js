@@ -178,7 +178,7 @@ sakai.profile = function(){
 		
 		$("#profile_user_name").text(json.firstName + " " + json.lastName);
 		if (json.basic){
-			var basic = eval('(' + json.basic + ')');
+			var basic = json.basic;
 			if (basic.status){
 				inbasic++;
 				$("#txt_status").html(basic.status);
@@ -230,7 +230,7 @@ sakai.profile = function(){
 		
 		if (json.basic){
 			
-			basic = eval('(' + json.basic + ')');
+			basic = json.basic;
 			
 			if (basic.middlename){
 				inbasic++;
@@ -584,7 +584,7 @@ sakai.profile = function(){
 		var inadditional = 0;
 		if (json.basic) {
 		
-			additional = eval('(' + json.basic + ')');
+			additional = json.basic;
 			
 			if (additional.awards){
 				inadditional++;
