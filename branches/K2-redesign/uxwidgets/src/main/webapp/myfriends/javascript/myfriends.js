@@ -65,7 +65,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 					}
 					item.online = false;
 					if (item.profile.basic) {
-						var basic = eval('(' + item.profile.basic + ')');
+						var basic = item.profile.basic;
 						if (basic.status) {
 							item.status = basic.status;
 						} else {
