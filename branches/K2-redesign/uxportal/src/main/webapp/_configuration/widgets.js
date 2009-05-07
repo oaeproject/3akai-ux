@@ -126,13 +126,13 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/dev/img/myprofile.png"
 		},
-		pollwow :
+		poll :
 		{
 			description:"Poll widget\r\n",
 			iframe:0,
-			url:"/devwidgets/pollwow/pollwow.html",
+			url:"/devwidgets/poll/poll.html",
 			name:"Poll",
-			id:"pollwow",
+			id:"poll",
 			personalportal:0,
 			siteportal:0,
 			ca:1,
@@ -354,13 +354,13 @@ var Widgets = {
 			showinsakaigoodies:0,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
-		commentswow :
+		comments :
 		{
 			description:"Comments",
 			iframe:0,
-			url:"/devwidgets/commentswow/commentswow.html",
+			url:"/devwidgets/comments/commentswow.html",
 			name:"Comments",
-			id:"commentswow",
+			id:"comments",
 			personalportal:0,
 			siteportal:0,
 			ca:1,
@@ -407,30 +407,6 @@ var Widgets = {
 			siteportal:0,
 			ca:0,
 			img:"/devwidgets/singlefile/images/singlefile.png"
-		},
-		comments :
-		{
-			description:"Comments",
-			iframe:0,
-			url:"/devwidgets/comments/comments.html",
-			name:"Comments",
-			id:"comments",
-			personalportal:0,
-			siteportal:0,
-			ca:0,
-			img:"/devwidgets/comments/images/icon.png"
-		},
-		poll :
-		{
-			description:"Poll",
-			iframe:0,
-			url:"/devwidgets/poll/poll.html",
-			name:"Poll",
-			id:"poll",
-			personalportal:0,
-			siteportal:0,
-			ca:0,
-			img:"/devwidgets/poll/images/poll.png"
 		},
 		Resources :
 		{
