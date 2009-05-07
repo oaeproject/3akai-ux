@@ -20,7 +20,7 @@ sakai.myprofile = function(tuid,placement,showSettings){
 	}
 	var extra = "&nbsp;";
 	if (json.basic) {
-		var basic = eval('(' + json.basic + ')');
+		var basic = json.basic;
 		if (json.unirole) {
 			extra = json.unirole;
 		}
