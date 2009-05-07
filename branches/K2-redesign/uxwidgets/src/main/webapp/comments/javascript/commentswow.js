@@ -196,11 +196,11 @@ sakai.displayComments = function(rootel, json){
                     json.users = json_parse(data);
                     for (var i = 0; i < json.users.users.length; i++) {
                         if (typeof json.users.users[i].profile.picture !== "undefined") {
-                            var image = json_parse(json.users.users[i].profile.picture);
+                            var image = json.users.users[i].profile.picture;
                             json.users.users[i].picture = "/sdata/f/_private" + json.users.users[i].userStoragePrefix + image.name;
                         }
                         else {
-                            json.users.users[i].picture = "/dev/redesign/images/member.png";
+                            json.users.users[i].picture = "/dev/_images/member.png";
                         }
 
                     }
@@ -237,7 +237,7 @@ sakai.displayComments = function(rootel, json){
  * @param {String} placement Widget place
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.commentswow = function(tuid, placement, showSettings) {
+sakai.comments = function(tuid, placement, showSettings) {
     var json = false; // Variable used to recieve information by json
     var me = false; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
@@ -443,4 +443,4 @@ sakai.commentswow = function(tuid, placement, showSettings) {
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("commentswow");
+sdata.widgets.WidgetLoader.informOnLoad("comments");
