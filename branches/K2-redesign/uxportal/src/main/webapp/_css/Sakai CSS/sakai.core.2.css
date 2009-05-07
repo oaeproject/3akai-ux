@@ -26,9 +26,11 @@ a {
 /* Miscellaneous */
 .inline_class_widget_rightfloat {
 	float:right;
+	padding: 5px;
 }
 .inline_class_widget_leftfloat {
 	float:left;
+	padding: 5px;
 }
 .disabledState {
 	opacity:0.3;
