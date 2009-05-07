@@ -23,15 +23,15 @@
 					{if i.picture != ""}
 						<img alt="avatar" class="discussion_avatar" src="${i.picture}" />
 					{else}
-						<img alt="avatar" class="discussion_avatar" src="/dev/img/my-profile-img.jpg" />
+						<img alt="avatar" class="discussion_avatar" src="/dev/_images/member.png" />
 					{/if}
 					<span class="discussion_posted_container">
-						<a href="http://localhost:8080/dev/sn/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
+						<a href="/dev/sn/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
 						<span class="discussion_date">posted this on ${i.date}</span>
 					</span>
 					{if i.editedBy != ""}
 						<span class="discussion_posted_container">
-						    (<a href="http://localhost:8080/dev/sn/profile.html?user=${i.editedBy}"><span class="discussion_username_edited">${i.editedByName}</span></a>
+						    (<a href="/dev/sn/profile.html?user=${i.editedBy}"><span class="discussion_username_edited">${i.editedByName}</span></a>
 							<span class="discussion_date">edited this on ${i.editedByDate}</span>)
 						</span>
 					{/if}
