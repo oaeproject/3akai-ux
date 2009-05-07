@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="/devwidgets/commentswow/css/commentswow.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/commentswow/css/sakai.components.jq_pager.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/commentswow.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/sakai.components.jq_pager.css"></link>
 <!-- the main page -->
 <div id="commentswow_mainContainer"  style="display:none;">
 	<div id="commentswow_titlebar">
@@ -63,7 +63,7 @@
 							${index.timeAgo} <span style="color:#BBBBBB;">(${index.parseddate})</span>
 						</div>
 					{else if index.mail != false && index.name !=false && index.uid ==""}
-						<img alt="avatar" class="commentswow_avatar" src="/dev/redesign/images/member.png" />
+						<img alt="avatar" class="commentswow_avatar" src="/dev/_images/member.png" />
 						<div class="commentswow_posterData">
 							<span class="commentswow_posterDataName">${index.name} (<a href="mailto:${index.mail}">${index.mail}</a>)</span><br />
 							${index.timeAgo} <span style="color:#BBBBBB;">(${index.parseddate})</span>
@@ -173,5 +173,5 @@
 	</form>
 </div>
 
-<script src="/devwidgets/commentswow/lib/jquery.pager.js" language="JavaScript" type="text/javascript"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/commentswow/javascript/commentswow.js"></script>
+<script src="/devwidgets/comments/lib/jquery.pager.js" language="JavaScript" type="text/javascript"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/javascript/commentswow.js"></script>
