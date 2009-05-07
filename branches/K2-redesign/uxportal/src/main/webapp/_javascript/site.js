@@ -709,7 +709,7 @@ if (nel.className == "contauthlink") {
 				
 				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 				
-					document.location = "/dev/redesign/page_edit.html?siteid=" + currentsite.id;
+					document.location = "/dev/site.html?siteid=" + currentsite.id;
 				
 				});
 				
@@ -729,7 +729,7 @@ if (nel.className == "contauthlink") {
 				
 				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 				
-					document.location = "/dev/redesign/page_edit.html?siteid=" + currentsite.id;
+					document.location = "/dev/site.html?siteid=" + currentsite.id;
 				
 				});
 				
