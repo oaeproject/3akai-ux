@@ -153,4 +153,4 @@
 })(jQuery);
 
 
-sdata.widgets.WidgetLoader.informOnLoad("commentswow");
+sdata.widgets.WidgetLoader.informOnLoad("comments");
