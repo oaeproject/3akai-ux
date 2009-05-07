@@ -129,7 +129,7 @@ sakai.site_manage_members = function() {
 		 	for (var i = 0; i < members.users.length; i++) {
 				members.users[i].userid = members.users[i].userStoragePrefix.split("/")[3];
 				if(typeof members.users[i].profile.picture !== "undefined"){
-						members.users[i].profile.picture = json_parse(members.users[i].profile.picture);
+						members.users[i].profile.picture = members.users[i].profile.picture;
 				}
             }
             $("#siteManage_members").html(sdata.html.Template.render("siteManage_people_template", json.members));
