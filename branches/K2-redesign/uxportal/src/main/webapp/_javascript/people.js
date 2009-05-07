@@ -102,7 +102,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					if (person.basic) {
-						var basic = eval('(' + person.basic + ')');
+						var basic = person.basic;
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
 						}
@@ -187,7 +187,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					if (person.basic) {
-						var basic = eval('(' + person.basic + ')');
+						var basic = person.basic;
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
 						}
@@ -301,7 +301,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					if (person.basic) {
-						var basic = eval('(' + person.basic + ')');
+						var basic = person.basic;
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
 						}
