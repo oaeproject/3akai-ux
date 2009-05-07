@@ -125,9 +125,9 @@ sakai.site_add_members = function() {
         if (people.results.length > 0) {
             for (var i = 0; i < people.results.length; i++) {
 				if(typeof people.results[i].content === "string"){
-					people.results[i].content = json_parse(people.results[i].content);
+					people.results[i].content = eval('(' + people.results[i].content + ')');
 					if(typeof people.results[i].content.picture !== "undefined"){
-						people.results[i].content.picture = json_parse(people.results[i].content.picture);
+						people.results[i].content.picture = people.results[i].content.picture;
 					}
                 people.results[i].userid = people.results[i].path.split("/")[4];
 				}
@@ -178,7 +178,7 @@ sakai.site_add_members = function() {
             httpMethod: "GET",
             url: "/rest/search?&path=/_private&q=" + peoplesearchterm + "&s=sakai:firstName&s=sakai:lastName&n=" + pageSize + "&p=" + (page - 1) + "&mimetype=text/plain&sid=" + Math.random(),
             onSuccess: function(data) {
-                json.foundPeople = json_parse(data);
+                json.foundPeople = eval('(' + data + ')');
                 renderPeople(json.foundPeople);
 				updateSelectedPersons();
 				selectCorrectPeople();
@@ -254,7 +254,7 @@ sakai.site_add_members = function() {
             httpMethod: "GET",
             url: "/_rest/site/members/list/" + selectedSite + "?sid=" + Math.random(),
             onSuccess: function(data) {
-                json.members = json_parse(data);
+                json.members = eval('(' + data + ')');
 				 var arrPeople = [];
 		         $.each(json.members,
 		         function(i, val) {
