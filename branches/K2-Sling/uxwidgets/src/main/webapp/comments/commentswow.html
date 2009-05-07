@@ -1,0 +1,177 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/commentswow.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/sakai.components.jq_pager.css"></link>
+<!-- the main page -->
+<div id="commentswow_mainContainer"  style="display:none;">
+	<div id="commentswow_titlebar">
+		<span style="float:left;font-size:1.25em;font-weight:bold;color:#333333;">Comments:</span><span style="float:right;"><span id="commentswow_numComments" style="color:#333333;">0</span id="commentswow_commentscomment"> comments</span>
+	</div>
+	
+	<div class="commentswow_nextButtons">
+		<a class="button-default" style="float:left;" id="commentswow_comment_top" href="javascript:;">Add Comment</a>	
+		<!--<a class="button-default" style="float:right;" id="commentswow_nextPage" href="javascript:;">Next page</a>
+		<a class="button-default" style="float:right;margin-right:10px;display:none;" id="commentswow_prevPage" href="javascript:;">Previous page</a><br />-->
+		<div class="jq_pager commentswow_jqpager"></div>
+	</div>
+	
+	<div id="commentswow_fillInCommentTop"  style="display:none;">
+		
+	</div>
+	<div id="commentswow_fillInCommentTemplate"><!--
+		
+		<div style="margin-bottom:80px;">
+		<br />
+		<h1>Add a new comment:</h1>
+		{if loggedIn != true}
+			{if permissions.postWhenLoggedOut == "commentswow_DontRequireLogin"}
+				{if permissions.nameRequired == true}
+					<label for="commentswow_txtNamePoster">Name:</label><br/>
+					<input type="text" class="commentswow_inputFields" id="commentswow_txtNamePoster" style="width:350px;"><br />
+				{/if}
+				{if permissions.mailRequired == true}
+					<label for="commentswow_txtMailPoster">Email:</label><br/>
+					<input type="text" class="commentswow_inputFields" id="commentswow_txtMailPoster" style="width:350px;"><br />
+				{/if}
+			{/if}
+		{/if}
+		
+		<label for="commentswow_txtMessage">Your comment:</label><br/>
+		<textarea id="commentswow_txtMessage" class="commentswow_inputFields" style="height:100px;width:100%;"></textarea><br />
+	
+		<a class="button-default" style="float:right;margin-right:20px;margin-top:20px;;" id="commentswow_postComment${place}" href="javascript:;">Submit comment</a>
+		
+		</div>
+	--></div>
+	<div id="commentswow_showComments">
+		
+	</div>
+	<div id="commentswow_showCommentsTemplate"><!--
+	<div>	
+	<table style="width:95%;margin-left:20px" border="0">
+	
+		{for i in comments}
+		{var index = i}
+		{if direction == "commentswow_FirstUp"}
+			
+			{var index = comments[comments.length - 1 - i.sortIndex]}
+		{/if}
+			<tr border="0">
+				<div style="margin-top:25px;">
+					{if i.uid !=""}
+						<img alt="avatar" class="commentswow_avatar" src="${users.users[index.id].picture}" />
+						<div class="commentswow_posterData">
+							<span class="commentswow_posterDataName"><a href="/dev/sn/profile.html?user=${index.uid}"">${users.users[index.id].profile.firstName} ${users.users[index.id].profile.lastName}</a></span><br />
+							${index.timeAgo} <span style="color:#BBBBBB;">(${index.parseddate})</span>
+						</div>
+					{else if index.mail != false && index.name !=false && index.uid ==""}
+						<img alt="avatar" class="commentswow_avatar" src="/dev/_images/member.png" />
+						<div class="commentswow_posterData">
+							<span class="commentswow_posterDataName">${index.name} (<a href="mailto:${index.mail}">${index.mail}</a>)</span><br />
+							${index.timeAgo} <span style="color:#BBBBBB;">(${index.parseddate})</span>
+						</div>
+					{/if}
+				</div>
+				<div style="clear:both;" />
+			</tr>
+			<tr>
+			<div class="commentswow_arrowUp"></div>
+				
+				<div class="commentswow_commentMessage">
+				<div class="commentswow_commentLinks">
+					<ul>
+						<li><a href="javascript:;" class="commentswow_option" id="commentswow_option${index.originalIndex}">Option 2</a> | </li>  
+						<li><a href="javascript:;" class="commentswow_abuse" id="commentswow_abuse${index.originalIndex}">Report Abuse</a></li>
+					</ul>
+				</div>
+				${index.message}
+				</div>
+			</tr>
+			{/for}
+	</table>
+	
+	</div>	
+	--></div>
+	<div class="commentswow_nextButtons">
+		<a class="button-default" style="float:left;" id="commentswow_comment_bottom" href="javascript:;">Add Comment</a>	
+		<!--<a class="button-default" style="float:right;" id="commentswow_nextPage" href="javascript:;">Next page</a>
+		<a class="button-default" style="float:right;margin-right:10px;display:none;" id="commentswow_prevPage" href="javascript:;">Previous page</a><br />-->
+		<div class="jq_pager commentswow_jqpager"></div>
+	</div>
+	<div id="commentswow_fillInCommentBottom"  style="display:none;">
+		
+	</div>
+</div>
+
+<!-- the settings page -->
+<div id="commentswow_settings" style="display:none;">
+	<form class="commentswow_form">
+		<div class="commentswow_settingsPart">
+			<h3>Display:</h3>
+			<ul>
+				<li>
+					<input type="radio" name="commentswow_ChooseDisplayComments" value="commentswow_showAll" id="commentswow_showAllID" checked="checked">
+						<label for="commentswow_showAllID" class="video_source_rbtLabel">Display all comments</label>
+					</input>
+				</li>
+				<li>
+					<input type="radio" name="commentswow_ChooseDisplayComments" value="commentswow_PerPage" id="commentswow_PerPageID">
+						<label for="commentswow_PerPageID" class="video_source_rbtLabel">Display only <input type="text" id="commentswow_txtPage" style="width:30px;">
+					</input> comments then paginate the rest</label></input><br />
+				</li>
+				<li>
+					<input type="radio" name="commentswow_ChooseDirectionComments" value="commentswow_FirstUp" id="commentswow_FirstUpID" checked="checked">
+						<label for="commentswow_FirstUpID" class="video_source_rbtLabel">Latest command is at the top of the comment list</label>
+					</input>
+				</li>
+				<li>
+					<input type="radio" name="commentswow_ChooseDirectionComments" value="commentswow_FirstDown" id="commentswow_FirstDownID">
+						<label for="commentswow_FirstDownID" class="video_source_rbtLabel">Latest command is at the bottom of the comment list</label>
+					</input>
+				</li>
+			</ul>
+			
+			
+		</div>
+		<div class="commentswow_settingsPart">
+			<h3>Permissions:</h3>
+			<ul>
+				<li><input type="radio" name="commentswow_ChoosePermissionComments" value="commentswow_RequireLogIn" id="commentswow_RequireLogInID" Name="commentswow_RequireLogIn"><label for="commentswow_RequireLogInID" class="video_source_rbtLabel">Only registered users can comment</label></input><br /></li>
+				<li>
+					<input type="radio" name="commentswow_ChoosePermissionComments" value="commentswow_DontRequireLogin" id="commentswow_DontRequireLoginID" Name="commentswow_DontRequireLogin"  checked="checked">
+						<label for="commentswow_DontRequireLoginID" class="video_source_rbtLabel">Allow anyone to comment</label>
+					</input>
+				</li>
+				<li>
+					<ul>
+						<li>
+							<input type="checkbox" id="commentswow_Namerequired">
+								<label for="commentswow_Namerequired" class="video_source_rbtLabel">Comments require name</label>
+							</input>
+						</li>
+						<li>
+							<input type="checkbox" id="commentswow_Emailrequired">
+								<label for="commentswow_Emailrequired" class="video_source_rbtLabel" >Comments require email</label>
+							</input>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			
+			<br />
+		</div>
+		
+		<div class="commentswow_settingsPart">
+			<h3>Notification:</h3>
+			
+			<input type="checkbox" id="commentswow_SendMail"><label for="commentswow_SendMail" class="video_source_rbtLabel">Email me when there is a new command</label></input><br />
+			<br />
+		</div>
+		
+		<a class="button-default" style="float:left;margin-left:20px;margin-top:20px;" id="commentswow_cancel" href="javascript:;">Cancel</a>	
+		<a class="button-default" style="float:right;margin-right:20px;margin-top:20px;" id="commentswow_submit" href="javascript:;">Insert Comment Widget</a>
+		<div style="clear:both;"></div>
+	</form>
+</div>
+
+<script src="/devwidgets/comments/lib/jquery.pager.js" language="JavaScript" type="text/javascript"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/javascript/commentswow.js"></script>

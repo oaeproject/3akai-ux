@@ -1,0 +1,114 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/createsite/css/createsite.css"></link>
+
+<div style="display:none" class="overlay-lightbox2 dialog" style="width:410px; margin-left: -205px" id="createsite_step2">
+    <div class="lightbox size3">
+        <div class="dialog_header">
+			<h1>Create a new site</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+        <!-- /lightbox-header -->
+        <div class="dialog_content">
+           
+		   <p class="fs15 c999999 create-site-build-course-p" id="create-site-communal-1">Provide the following information and click the "Create Site" button</p>
+		    
+		    <div class="create-site-build-course-up"  id="create-site-communal-2">
+				<strong>Is This a Course Site?</strong>
+				<input type="radio" class="radio" name="choice" id="createsite_noncourse_option" checked="checked" /> No 
+				<input type="radio" class="radio" name="choice" id="createsite_course_option"/> Yes
+				<!-- <a href="#" class="fs11 scu-help">Help me decide</a> -->
+				<span class="scu-right fs11 c999999"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    </div>
+		    
+			<div id="create-site-noncourse">
+			
+			    <div class="create-site-build-course-3">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="csbc-bottom"><div><strong class="fs13 cCC0000">*</strong> <strong>Site Name:</strong> <input id="createsite_newsitename" type="text" value="" /></div></td>
+						</tr>
+						<tr>
+							<td class="csbc-bottom"><br/></td>
+						</tr>
+						<tr>
+							<td class="csbc-bottom"><div><strong class="fs13 cCC0000">*</strong> <strong>Site url:</strong>
+							<span id="createsite_newsiteid_url"></span>
+							<input id="createsite_newsiteid" type="text" value="" /></div></td>
+						</tr>
+						<tr>
+							<td class="csbc-bottom"><br/></td>
+						</tr>
+						<tr>
+							<td><div class="csbc-bottom"><strong>Site Description:</strong></div></td>
+						</tr>
+						<tr>
+							<td><div class="csbc-bottom"><textarea id="createsite_newsitedescription" rows="3" cols="30"></textarea></div></td>
+						</tr>
+						<tr>
+							<td><div class="fs11 c999999">(Max 80 characters)</div></td>
+						</tr>
+					</table>
+			    </div>
+				
+				<div class="dialog_footer" style="padding-left:0px">
+					 <div class="buttonBar">
+				        <a href="javascript:;" onclick="sakai.createsite.createSite()" id="create-site-save-button" id="create-site-save-button" class="button-default">Create Site</a>
+				        <span id="create-site-processing-button" style="display:none">Processing ...</span>
+						<a href="javascript:;" id="create_site_cancel" class="button jqmClose">Cancel</a>
+				     </div>
+				</div>
+				
+				<div id="home_page_example" style="display:none">
+					<p>Welcome to your new site!</p>
+				</div>
+			
+			</div>
+			
+			<div id="create-site-course" style="display:none">
+				
+				<div class="create-site-build-course-3">
+					
+					Please fill out all of your course's details and also tell what you would like to see
+					initially on your course site. Once we have authorized and created your site, we will
+					get back in touch with you with more details:
+					
+					<br/><br/>
+					
+					<textarea style="width:555px; height: 250px"></textarea>
+					
+			    </div>
+				
+				<div class="create-site-build-course-4">
+					<div class="block">
+						<!-- <a href="#" class="undo-changes buttons">Go Back</a> -->
+						<a onclick="sakai.createsite.requestSite()" style="cursor:hand; cursor:pointer; margin-left: 0px" class="save buttons">Request Site</a>
+						<!-- <a style="cursor:hand; cursor: pointer" onclick="sakai.createsite.closeWindow()" class="csbc4-link">Close Window &amp; Cancel</a> -->
+					</div>
+			    </div>
+				
+			</div>
+			
+			<div id="create-site-course-requested" style="display:none">
+				
+				<p class="fs15 c999999 create-site-build-course-p">Request successful</p>
+				
+				<div class="create-site-build-course-3">
+					<br/>
+					Your site has been successfully requested. We'll get in touch with you as soon as possible.
+				</div>
+				
+				<div class="create-site-build-course-4">
+					<div class="block">
+						<!-- <a href="#" class="undo-changes buttons">Go Back</a> -->
+						<a href="#" style="cursor:hand; cursor:pointer; margin-left: 0px" class="save buttons sakai-create-site-close-window">Close</a>
+						<!-- <a style="cursor:hand; cursor: pointer" onclick="sakai.createsite.closeWindow()" class="csbc4-link">Close Window &amp; Cancel</a> -->
+					</div>
+			    </div>
+				
+			</div>
+		   
+	   </div><!-- /lightbox-container -->
+   </div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/createsite/javascript/createsite.js">
+</script>

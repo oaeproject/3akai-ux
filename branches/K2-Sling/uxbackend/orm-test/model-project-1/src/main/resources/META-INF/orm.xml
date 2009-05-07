@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="1.0" xmlns="http://java.sun.com/xml/ns/persistence/orm"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_1_0.xsd">
+  <!--
+  <entity name="Address" class="org.sakaiproject.jpa.Address" access="PROPERTY">
+    <attributes>
+      <id name="addressId">
+        <generated-value strategy="AUTO" generator="addressId" />
+      </id>
+      <one-to-one name="employee" />
+    </attributes>
+  </entity>
+  <entity name="Employee" class="org.sakaiproject.jpa.Employee" access="PROPERTY">
+    <attributes>
+      <id name="employeeId">
+        <generated-value strategy="AUTO" generator="employeeId" />
+      </id>
+      <one-to-many name="addresses" />
+      <one-to-many name="phones" />
+      <many-to-many name="projects" />
+    </attributes>
+  </entity>
+  <entity name="Phone" class="org.sakaiproject.jpa.Phone" access="PROPERTY">
+    <attributes>
+      <id name="phoneId" />
+    </attributes>
+  </entity>
+  <entity name="Project" class="org.sakaiproject.jpa.Project" access="PROPERTY">
+    <attributes>
+      <id name="projectId">
+        <generated-value strategy="AUTO" generator="projectId" />
+      </id>
+      <many-to-many name="employees" />
+    </attributes>
+  </entity>
+  -->
+</entity-mappings>

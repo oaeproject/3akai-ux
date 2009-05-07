@@ -1,0 +1,160 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/discussion/css/discussion.css"></link>
+<!-- the main page -->
+<div id="discussion_mainContainer">
+	<h3>Discussion</h3>
+	<div id="discussion_noPosts">
+		There are no posts available.
+	</div>
+	<div id="discussion_container">
+	</div>
+	<div id="discussion_rendered_template" style="display:none"><!--
+	{var close = false}
+	{for i in posts}
+		{if i_index==0}
+			<div id="discussion_first">
+		{elseif i_index >= 1 && i.firstReply == true}
+			${close = true|eat}
+			<div class="discussion_posts">
+		{/if}
+
+		<div class="discussion_post" id="discussion_post${i.postId}">
+			<div class="discussion_header">
+				<div class="discussion_left">
+					{if i.picture != ""}
+						<img alt="avatar" class="discussion_avatar" src="${i.picture}" />
+					{else}
+						<img alt="avatar" class="discussion_avatar" src="/dev/_images/member.png" />
+					{/if}
+					<span class="discussion_posted_container">
+						<a href="/dev/sn/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
+						<span class="discussion_date">posted this on ${i.date}</span>
+					</span>
+					{if i.editedBy != ""}
+						<span class="discussion_posted_container">
+						    (<a href="/dev/sn/profile.html?user=${i.editedBy}"><span class="discussion_username_edited">${i.editedByName}</span></a>
+							<span class="discussion_date">edited this on ${i.editedByDate}</span>)
+						</span>
+					{/if}
+				</div>
+				<span class="discussion_right">
+					<span class="discussion_totalReplies">${i.replies}</span>
+					{if i.replies == 1}
+						<span class="discussion_countReplies"> reply </span>
+					{else}
+						<span class="discussion_countReplies"> replies </span>
+					{/if}
+					{if i.replies > 0}
+						<span class="discussion_showAllContainer"> 
+						(<a class="discussion_showall" id="discussion_showall${i.postId}" href="javascript:;"><span id="discussion_t_hideall${i.postId}">Hide all</span><span class="discussion_t_showall" id="discussion_t_showall${i.postId}">Show all</span></a>)
+						</span>
+					{/if}
+				</span>
+			</div>
+			<div class="discussion_content">
+				<div id="discussion_messages${i.postId}">
+					<p class="discussion_subject" id="discussion_postSubject${i.postId}">${i.subject}</p>
+					<div id="discussion_postMessage${i.postId}">${i.body}</div>
+				</div>
+				<div id="discussion_postActions${i.postId}" class="discussion_postActions link">
+					<ul> 
+						<li id="discussion_replyPost" class="discussion_noBorder"><a id="discussion_reply${i.postId}" class="discussion_reply" href="javascript:;">Reply</a></li>
+						{if i.showEdit}
+						<li id="discussion_editPost"><a id="discussion_edit${i.postId}" class="discussion_edit" href="javascript:;">Edit</a></li>
+						{/if}
+						{if i.showDelete}
+	 					<li id="discussion_deletePost"><a id="discussion_delete${i.postId}" class="discussion_delete" href="javascript:;">Delete</a></li>
+						{/if}
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		{if i_index==0}
+			</div>
+		{/if}
+		{if i_index >= 1 && i.lastReply == true}
+			{for j in i.countCloseDivs}
+				</div>
+			{/for}
+		{/if}
+	{/for}
+	{if close = true}
+		</div>
+	{/if}
+--></div>	
+	<div id="discussion_edit_template" style="display:none;">
+		<form>
+			<input type="text" id="discussion_txtEditSubject" /><br />
+			<textarea id="discussion_txtEditMessage"></textarea><br />
+			<div class="buttonBar">
+				<a class="button-default save_button" href="javascript:;" id="discussion_edit_Save">Save</a>
+				<a class="button cancel-button" href="javascript:;" id="discussion_edit_Cancel">Cancel</a>
+			</div>
+		</form>
+	</div>
+	<form>
+		<div id="discussion_inputForm">
+			<label for="discussion_txtSubject">Subject</label>
+			<input type="text" id="discussion_txtSubject" /><br />
+			<label for="discussion_txtBody">Body</label>
+			<textarea id="discussion_txtBody"></textarea><br />
+			
+			<div class="dialog_footer">
+				<div class="buttonBar">
+					<a class="button-default submit_button" href="javascript:;" id="discussion_Submit">Reply</a>
+					<a class="button cancel-button" href="javascript:;" id="discussion_Cancel">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- the settings page -->
+<div id="discussion_settings">
+	<form class="discussion_form">
+		<ul class="discussion_tabs">
+			<li>
+				<a class="discussion_tab" href="javascript:;" id="discussion_MakeNew">Post New</a>
+			</li>
+			<li>
+				<a class="discussion_selectedtab" href="javascript:;" id="discussion_ChooseExisting">Insert Existing</a>
+			</li>
+		</ul>
+		
+		
+		<div id="discussion_MakeNewForm" class="discussion_Settingscontainer">
+			<label for="discussion_txtSettingsSubject">Subject</label><br />
+			<input type="text" id="discussion_txtSettingsSubject" /><br />
+		
+			<label for="discussion_txtSettingsBody">Body</label><br />
+			<textarea id="discussion_txtSettingsBody"></textarea><br />
+		</div>
+		<div id="discussion_ChooseExistingForm" class="discussion_Settingscontainer" style="display:none;">
+			<div class="discussions_noDiscussions">
+				You don't have any discussions yet.
+			</div>
+		</div>
+		<div id="discussion_ChooseExistingTemplate" ><!--
+		<h2>Select existing discussion</h2>
+		{if items.length == 0}
+			You don't have any discussions yet.
+		{else}
+		<div class="discussion_listbox">
+			{for i in items}
+				<div id="discussion_listItem${i.tuid}" class="discussion_listItem">
+					${i.subject}
+				</div>
+			{/for}
+		</div>
+		{/if}
+		--></div>
+		<div class="dialog_footer">
+			<div class="buttonBar">
+				<a class="button-default submit_button" href="javascript:;" id="discussion_SettingsSubmit">Submit</a>
+				<a class="button cancel-button" href="javascript:;" id="discussion_SettingsCancel">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/discussion/javascript/discussion.js"></script>

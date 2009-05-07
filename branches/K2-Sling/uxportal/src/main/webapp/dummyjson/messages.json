@@ -1,0 +1,165 @@
+{	"response" : "OK",
+	"responseCode" : 200,
+	"messages": [
+		{
+			"from" : "admin",
+			"subject" : "Hi!",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Message",
+			"date" : "Jan 22, 2009 10:25 PM",
+			"read" : true		
+		},
+		{
+			"from" : "user1",
+			"subject" : "Scheduled system maintenance",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Announcement",
+			"date" : "Jan 21, 2009 10:25 PM",
+			"read" : false		
+		},
+		{
+			"from" : "admin",
+			"subject" : "Are you online?",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Chat",
+			"date" : "Jan 20, 2009 10:25 PM",
+			"read" : false		
+		},
+		{
+			"from" : "user2",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "invalidusername",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : true	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : true	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : true	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		},
+		{
+			"from" : "admin",
+			"subject" : "New Contact Request",
+			"body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ligula neque, vulputate quis, tristique adipiscing, euismod quis, arcu. Ut arcu. Curabitur lectus nisi, gravida elementum, porttitor non, accumsan in, nunc. Aliquam quis nibh. Curabitur metus velit, convallis et, cursus sed, laoreet a, turpis. Nam mi. Phasellus sem quam, fringilla id, porta quis, vehicula sed, quam. Nullam iaculis. Donec nisl nulla, pharetra sed, tempus at, pellentesque porta, risus. Fusce in tellus eu risus hendrerit luctus.\nNullam condimentum, nisi sed semper accumsan, sem arcu auctor nibh, non interdum ligula sapien eget orci. Sed ultrices vehicula nulla. Nulla tellus velit, molestie ut, elementum sit amet, mollis sit amet, libero. Nam vel arcu ac purus dapibus pharetra. Quisque eget diam id nisl posuere ornare. Praesent a sem non tellus congue pellentesque. Sed pharetra. Aliquam ut risus non dolor rhoncus pulvinar. Nunc eleifend turpis molestie mauris. Nullam pellentesque tortor nec nisl.",
+			"type" : "Invitation",
+			"date" : "Jan 19, 2009 10:25 PM",
+			"read" : false	
+		}
+	]
+}

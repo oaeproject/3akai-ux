@@ -1,0 +1,41 @@
+<html>
+<head>
+</head>
+<body>
+	<a href="/tests/" >Back to tests</a>
+
+<form method="POST" action="/rest/friend/connect/request" >
+<input type="text" name="friendUuid" value="user2" />
+<input type="text" name="friendType" value="friend" />
+<input type="text" name="message" value="Hi Please Join" />
+<input type="submit" name="submit" value="Connect" />
+</form>
+
+<form method="POST" action="/rest/friend/connect/accept" >
+<input type="text" name="friendUuid" value="user2" />
+<input type="submit" name="submit" value="Accept" />
+</form>
+
+<form method="POST" action="/rest/friend/connect/reject" >
+<input type="text" name="friendUuid" value="user2" />
+<input type="submit" name="submit" value="Reject" />
+</form>
+
+<form method="POST" action="/rest/friend/connect/ignore" >
+<input type="text" name="friendUuid" value="user2" />
+<input type="submit" name="submit" value="Ignore" />
+</form>
+
+<form method="POST" action="/rest/friend/connect/cancel" >
+<input type="text" name="friendUuid" value="user2" />
+<input type="submit" name="submit" value="Cancel" />
+</form>
+
+
+<ul>
+<li>
+<a href="/rest/friend/status?p=0&n=5&s=firstName&s=lastName&o=asc&o=asc" >List Friends</a>
+</li>
+</ul>
+</body>
+</html>

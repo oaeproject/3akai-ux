@@ -1,0 +1,5 @@
+{
+ uuid : "admin",
+ eid : "admin",
+ superUser: true
+}

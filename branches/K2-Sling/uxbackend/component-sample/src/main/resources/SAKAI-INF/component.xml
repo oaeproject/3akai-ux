@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://ns.sakaiproject.org/2008/components">
+  <groupId>org.sakaiproject.kernel2.agnostic
+  </groupId>
+  <artifactId>component-sample</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <documentation>Kernel 2 Component Sample</documentation>
+  <!--
+    Component Loader will use this class to startup the component, it
+    must implement the ComponentActivator class
+  -->
+  <activator>org.sakaiproject.componentsample.GuiceActivator</activator>
+  <exports>
+    <!--
+      being a component this component provides something, we will put
+      its api classes in the following package, and export that package
+      to the shared classloader.
+    -->
+    <export>
+      <name>org.sakaiproject.componentsample.api
+      </name>
+    </export>
+  </exports>
+  <dependencies>
+    <!--
+      lets pretend, this component depends on jcr, we would ask for it
+      to be added to shared. Putting it here with SHARE will cause the
+      loader to add it to the shared classloader. It may apply some
+      rules so only compatible versions get added.
+    -->
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <version>1.0</version>
+      <scope>SHARE</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0</version>
+      <scope>SHARE</scope>
+    </dependency>
+  </dependencies>
+  <componentDependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic
+      </groupId>
+      <artifactId>kernel</artifactId>
+      <version>0.1-SNAPSHOT</version>
+      <unmanaged>true</unmanaged>
+    </dependency>
+  </componentDependencies>
+</component>

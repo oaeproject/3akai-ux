@@ -1,0 +1,85 @@
+#remotecontent_settings {
+	padding-bottom:10px;	
+}
+
+.remotecontent_colourBox {
+	display:block;
+	float:left;
+	width:26px;
+	height:26px;
+	margin-left:9px;
+	border-color:#dddddd;
+	border-style:solid;
+	border-width:0px;
+	cursor:pointer;
+}
+
+.remoteContent_colourBox:hover {
+	border:1px solid #cccccc;
+}
+.remotecontent_colourBoxSelected {
+	border:1px solid #000000;
+}
+
+#remotecontent_settings input[type="text"] {
+	background-color: #f1f1f1;
+	border: 1px solid #d6d6d6;
+	margin:3px 0px 0px 0px;	
+	padding: 3px;
+	width: 99%;
+}
+
+#remotecontent_settingsBtnAdvanced { margin-top:-30px; float:right; }
+
+#remotecontent_settingsAdvanced input[type="text"] {
+	width:65px;
+}
+#remotecontent_settingsSizeReset {
+	margin-left:20px;
+}
+#remotecontent_view_insert {
+	float:right;
+}
+
+#remotecontent_settings hr {
+	margin:3px 0px 3px 0px;
+	color:#dddddd;
+	background-color:#dddddd;
+}
+
+remotecontent_clearer { clear:both; }
+
+.remotecontent_block { 
+	margin-left:15px;
+}
+.remotecontent_block label > .remotecontent_colourBox {
+	margin-left: 0xp;	
+}
+.remotecontent_block label { 
+	float:left;
+	margin-right:5px;
+	margin-top:3px;	
+	padding-top:5px;
+	width:75px;
+}
+.remotecontent_error {
+	color:red;
+}
+
+#remotecontent_settingsSizeReset {
+	margin-left:15px;
+}
+
+#remotecontent_view_cancel { float:left; }
+#remotecontent_view_insert { float:right; }
+#remotecontent_preview {
+	margin-bottom:15px;
+	padding-bottom:15px;
+}
+#remotecontent_preview * { display:block; margin:0 auto; margin-bottom:10px; }
+
+.remotecontent_set {
+	border-bottom:1px solid #dddddd;
+	margin-bottom:15px;
+	padding-bottom:10px;
+}

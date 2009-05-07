@@ -1,0 +1,28 @@
+#message_dialog {
+    width: 520px;
+    margin-left: -260px;
+} .dialogue_box {
+    background: #FFFFFF none repeat scroll 0 0;
+    border: none;
+    height: auto;
+    left: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+    position: relative;
+    top: 0%;
+    width: 520px;
+    z-index: 101;
+} .error_message {
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ff0000;
+    background-color: #f7d8d8;
+} .normal_message {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #00ff00;
+    background-color: #d9f7d8;
+} .invalid {
+    background-color: #FFCCCC;
+}

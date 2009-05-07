@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script language="JavaScript">
+        function pageLoaded() {
+	       window.parent.dhtmlHistory.iframeLoaded(window.location);
+	       document.getElementById("output").innerHTML = window.location;
+        }
+    </script>
+</head>
+<body onload="pageLoaded();" style="width:700px;padding:2px;margin:0;">
+    <p>blank.html - Needed for Internet Explorer's hidden iframe</p>
+	<p id="output"></p>
+</body>
+</html>

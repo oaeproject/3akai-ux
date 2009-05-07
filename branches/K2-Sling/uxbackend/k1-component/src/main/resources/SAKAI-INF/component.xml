@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://ns.sakaiproject.org/2008/components">
+  <groupId>org.sakaiproject.kernel2.agnostic
+  </groupId>
+  <artifactId>k1-component</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <documentation>kernel 1 as Kernel 2 Component</documentation>
+  <!--
+    Component Loader will use this class to startup the component, it
+    must implement the ComponentActivator class
+  -->
+  <activator>org.sakaiproject.kernel1.Activator
+  </activator>
+  <exports>
+    <!--
+      being a component this component provides something, we will put
+      its api classes in the following package, and export that package
+      to the shared classloader.
+    -->
+    <export><name>org.apache.commons.dbcp</name></export>
+	<export><name>org.sakaiproject.alias.api</name></export>
+	<export><name>org.sakaiproject.alias.cover</name></export>
+	<export><name>org.sakaiproject.authz.api</name></export>
+	<export><name>org.sakaiproject.authz.cover</name></export>
+	<export><name>org.sakaiproject.cluster.api</name></export>
+	<export><name>org.sakaiproject.cluster.cover</name></export>
+	<export><name>org.sakaiproject.content.api</name></export>
+	<export><name>org.sakaiproject.content.api.providers</name></export>
+	<export><name>org.sakaiproject.content.cover</name></export>
+	<export><name>org.sakaiproject.content.hbm</name></export>
+	<export><name>org.sakaiproject.db.api</name></export>
+	<export><name>org.sakaiproject.db.cover</name></export>
+	<export><name>org.sakaiproject.email.api</name></export>
+	<export><name>org.sakaiproject.email.cover</name></export>
+	<export><name>org.sakaiproject.entity.api</name></export>
+	<export><name>org.sakaiproject.entity.api.serialize</name></export>
+	<export><name>org.sakaiproject.entity.cover</name></export>
+	<export><name>org.sakaiproject.event.api</name></export>
+	<export><name>org.sakaiproject.event.cover</name></export>
+	<export><name>org.sakaiproject.exception</name></export>
+	<export><name>org.sakaiproject.i18n</name></export>
+	<export><name>org.sakaiproject.id.api</name></export>
+	<export><name>org.sakaiproject.id.cover</name></export>
+	<export><name>org.sakaiproject.javax</name></export>
+	<export><name>org.sakaiproject.jcr.api</name></export>
+	<export><name>org.sakaiproject.jcr.support.api</name></export>
+	<export><name>org.sakaiproject.log.api</name></export>
+	<export><name>org.sakaiproject.log.cover</name></export>
+	<export><name>org.sakaiproject.memory.api</name></export>
+	<export><name>org.sakaiproject.memory.cover</name></export>
+	<export><name>org.sakaiproject.site.api</name></export>
+	<export><name>org.sakaiproject.site.cover</name></export>
+	<export><name>org.sakaiproject.thread_local.api</name></export>
+	<export><name>org.sakaiproject.thread_local.cover</name></export>
+	<export><name>org.sakaiproject.time.api</name></export>
+	<export><name>org.sakaiproject.time.cover</name></export>
+	<export><name>org.sakaiproject.tool.api</name></export>
+	<export><name>org.sakaiproject.tool.cover</name></export>
+	<export><name>org.sakaiproject.user.api</name></export>
+	<export><name>org.sakaiproject.user.cover</name></export>
+	<export><name>org.sakaiproject.util</name></export>
+	<export><name>org.sakaiproject.webapp.api</name></export>
+
+  </exports>
+  <dependencies>
+    <!--
+      It haunts me that this might a big task: adding k1 dependencies
+    -->
+    <dependency>
+      <groupId>org.sakaiproject.kernel</groupId>
+      <artifactId>sakai-kernel-api</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>SHARE</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject.kernel</groupId>
+      <artifactId>sakai-component-manager</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>SHARE</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring</artifactId>
+      <version>2.0.6</version>
+      <scope>SHARE</scope>
+    </dependency>
+  </dependencies>
+  <componentDependencies>
+    <dependency>
+      <groupId>org.sakaiproject.kernel2.agnostic
+      </groupId>
+      <artifactId>kernel</artifactId>
+      <version>0.1-SNAPSHOT</version>
+      <unmanaged>true</unmanaged>
+    </dependency>
+    
+    
+  </componentDependencies>
+</component>

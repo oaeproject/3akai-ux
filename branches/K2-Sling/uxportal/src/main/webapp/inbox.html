@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Sakai 3 RC 1 - My Inbox</title>        
+    
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.inbox.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />	
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />    
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+    
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
+	<script type="text/javascript" language="JavaScript" src='_lib/AutoComplete/jquery.bgiframe.min.js'></script>
+	<script type="text/javascript" language="JavaScript" src='_lib/AutoComplete/jquery.ajaxQueue.js'></script>
+	<script type="text/javascript" language="JavaScript" src='_lib/AutoComplete/thickbox-compressed.js'></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/BrowserDetect.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
+	
+</head>
+
+<body class="fl-centered inbox_main inbox_detail">
+ 	
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
+
+    <!-- EXPLORE BAR -->
+ 	<div id="widget_chat" class="widget_inline"></div> 
+    
+    <!-- TITLE BAR  -->
+    <div class="site_heading">
+        <h1>Inbox</h1>
+    </div>
+    
+    <!-- CONTENT -->
+	<div class="fl-col-mixed-150">
+    
+    	<!-- LEFT MARGIN -->
+        <div class="fl-col-fixed fl-force-left">
+                
+            <!-- DROP DOWN -->
+            <div class="drop-menu" id="inbox_compose_new"> 
+            	<a href="javascript:;"><img src="_images/compose_new.gif" alt="Compose" /></a>
+				<div class="drop-box" id="inbox_compose_new_panel" style="display:none;">
+	                <ul>
+	                    <li id="inbox_compose_message"><a href="javascript:;">Message</a></li>
+	                    <li id="inbox_compose_announcement"><a href="javascript:;">Announcement</a></li>
+	                </ul>
+				</div>      
+            </div>
+                
+            <!-- FOLDERS -->
+            <div class="inbox-folders">
+            	<div class="active_tab"><div><a href="#" class="inbox_filter" id="inbox_filter_inbox">Inbox</a></div></div>
+                <ul>                	
+                    <li>                        
+                        <ul>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">Messages</a></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">Announcements</a></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">Chats</a></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">Invitations</a></li>
+                        </ul>  
+                    </li>
+                    <li><a href="#" class="inbox_filter" id="inbox_filter_sent">Sent</a></li>
+                    <li><a href="#" class="inbox_filter" id="inbox_filter_trash">Trash</a></li>
+                </ul> 
+            </div>       	             
+      </div>
+            
+        <!-- RIGHT MARGIN -->        
+		<div class="fl-col-flex">
+			<div id="inbox_general_message"></div>
+            
+			<!-- MAIN INBOX -->
+			<div id="inbox_pane_inbox" class="inbox_pane">
+	            <!-- HEADER -->                
+	            <div class="inbox-heading"> 
+	            	Inbox               
+	            </div>
+	                
+	            
+				<div id="inbox_messageTemplate"><!--
+					{for m in messages}
+						<tr class="inbox_message" id="inbox_message_${m.id}">
+	                        <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.pathToMessage}" id="inbox_check_delete_${m.id}" /></td>
+					
+							{if m.types.contains('sent')}							
+								{if m.userTo}
+									{if typeof m.userTo[0] === "undefined"}
+										<td><a href="/dev/redesign/profile.html?user=${m.to}">${m.userTo.profile.firstName} ${m.userTo.profile.lastName}</a></td>
+									{else}
+										<td>
+											{for pr in m.userTo}
+												<a href="/dev/redesign/profile.html?user=${pr.uuid}">${pr.profile.firstName} ${pr.profile.lastName}{if pr_index < (m.userTo.length - 1)}, {/if}</a>
+											{/for}
+										</td>
+									{/if}
+								{else}
+		                        	<td><a href="/dev/redesign/profile.html?user=${m.to}">${m.to}</a></td>
+								{/if}
+							{else}
+								{if m.userFrom}
+									<td><a href="/dev/redesign/profile.html?user=${m.from}">${m.userFrom.profile.firstName} ${m.userFrom.profile.lastName}</a></td>
+								{else}
+		                        	<td><a href="/dev/redesign/profile.html?user=${m.from}">${m.from}</a></td>
+								{/if}
+							{/if}
+							{if m.read}
+								<td class="inbox-subject-read" id="inbox_inbox_subject_${m.id}">
+							{else}
+								<td class="inbox-subject-unread" id="inbox_inbox_subject_${m.id}">
+							{/if}
+	                        <a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
+	                        <td>${m.category}</td>
+	                        <td>${m.date}</td>
+	                    </tr>
+					{forelse}
+						<tr class="inbox_message">
+							<td colspan="5" style="text-align:center;">No messages found.</td>
+						</tr>
+					{/for}
+				--></div>
+	            <form name="my-inbox" action="" method="">       
+	            <!-- DELETE -->
+					<a class="button-default" href="javascript:;" id="inbox_delete">Delete</a> 
+	                
+	            <!-- INBOX -->                            	
+	                <table class="inbox-table" id="inbox_table">                	
+	                    <tr class="different">
+	                        <th class="inbox-checkbox" id="inbox_tableHeader_chk"><input type="checkbox" id="inbox_checkAll" /></th>
+	                        <th class="inbox_tableHeader_sort" id="inbox_tableHeader_from"><span>From</span></th>
+	                        <th class="inbox_tableHeader_sort" id="inbox_tableHeader_subject"><span>Subject</span></th>
+	                        <th class="inbox_tableHeader_sort" id="inbox_tableHeader_type"><span>Type</span></th>
+	                        <th class="inbox_tableHeader_sort" id="inbox_tableHeader_date"><span>Date Arrived</span></th>
+	                    </tr>
+	               </table>
+				   <div id="inbox_pager" class="jq_pager"></div>
+				   <p id="inbox_results"></p>       
+	        	</form>
+			</div>
+			
+			
+			<!-- VIEW A SPECIFIC MESSAGE -->
+			<div id="inbox_pane_message" class="inbox_pane" style="display:none;">
+			
+				 <!-- HEADER -->                
+	            <div class="inbox-heading"> 
+	            	<a href="javascript:;" id="inbox_message_back_to_inbox"><span>&laquo;</span> Back to Inbox</a>              
+	            </div>
+	                
+	            <!-- SENDER DETAILS-->      
+	            <a href="#"><img src="_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" /></a>
+	            <a href="#" class="sender-name" id="inbox_message_from">Kelly Swift</a><br />
+	            <span class="sender-timestamp" id="inbox_message_date">22, 2009 10:25 PM</span>           
+	            <div class="fl-force-right sender-options">
+	
+	                <a href="#" id="inbox_message_option_delete">Delete</a>
+	            </div>                                
+	                                                   
+	            <!-- MESSAGE -->            
+	            <div class="sender-body">
+	            	<div class="message-arrow">
+	            	</div>
+	                <div class="sender-message">
+	                    <div class="message-body">
+	
+	                        <div class="message-header" id="inbox_message_subject"></div>                
+	                        <div id="inbox_message_body"></div>
+	                        <div class="message-options">
+	                        	<a href="#" id="inbox_message_option_reply">Reply</a>                   
+	                        </div>
+	
+	                	</div> 
+	           		</div> 
+	           	</div>
+				<h4 id="inbox_previous_messages">Previous messages</h4>
+				<div id="inbox_compose_replies"></div>
+				<div id="inbox_compose_replies_template"><!--
+					{macro showReply(r)}
+			            <a href="#">
+						{if r.userFrom.profile.picture}
+							<img src="/sdata/f/_private/${r.userFrom.userStoragePrefix}${r.userFrom.profile.picture._name}" class="sender-picture" id="inbox_message_picture" />
+						{else}
+							<img src="_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" />
+						{/if}
+						</a>
+			            <a href="/dev/redesign/profile.html?user=${r.from}" class="sender-name" id="inbox_message_from">${r.userFrom.profile.firstName} ${r.userFrom.profile.lastName}</a><br />
+			            <span class="sender-timestamp" id="inbox_message_date">${r.date}</span>                             
+			                                        
+			            <div class="sender-body">
+			            	<div class="message-arrow">
+			            	</div>
+			                <div class="sender-message">
+			                    <div class="message-body">
+			                        <div class="message-header" id="inbox_message_subject">${r.subject}</div>                
+			                        <div id="inbox_message_body">${r.bodyText}</div>
+			                        <div class="message-options">
+			                        	<a href="#" id="inbox_message_option_reply_${r.id}">Reply</a>                   
+			                        </div>
+			                	</div> 
+			           		</div> 
+			           	</div>
+						{if r.parts}					
+							${showReply(r.parts[0])}
+						{/if}
+					{/macro}
+					
+					${showReply(reply)}
+				--></div>
+				
+				<!-- COMPOSE MESSAGE --> 
+	            <div class="compose-message" id="inbox_message_compose" style="display:none;">                           
+					<form class="compose-form" method="" action="">  
+	                       <div>
+	                            <label for="comp-subject">Subject</label><br />
+	                            <input type="text" class="compose-subject" id="inbox_message_compose_subject" />
+	                        </div>
+	                        <div>
+	                            <label for="comp-body">Body</label><br />
+	                            <textarea class="compose-body" id="inbox_message_compose_body"></textarea>
+	                        </div>
+							
+							<a class="button-default submit_button" href="javascript:;" id="inbox_message_compose_send" style="font-weight:bold;">Send Message</a>
+							<a class="button-default cancel-button" href="javascript:;" id="inbox_message_compose_cancel">Cancel</a>
+							
+							<p id="inbox_compose_result"></p>
+						</form>
+	            </div> 
+
+			
+			
+			</div>
+			
+			
+			
+			<!-- NEW MESSAGE -->
+			<div id="inbox_pane_compose" class="inbox_pane" style="display:none;">
+				<!-- HEADER -->                
+	            <div class="inbox-heading"> 
+	            	Compose a New Message            
+	            </div>
+	            <!-- COMPOSE MESSAGE --> 
+	            <div class="compose-message">          
+	                <form class="compose-form" method="" action="">                        
+	                        <div>
+	                        	From: <span id="inbox_compose_me">John Doe</span>
+	                        </div>
+	                        <div>
+	                            <label for="comp-to">To</label><br />
+								<div id="inbox_compose_to_container">
+	                            	<input type="text" style="border:0;" id="inbox_compose_to" />
+								</div>
+								<div id="inbox_compose_to_what" style="display:none;">Type the name of a friend or an email address.</div>
+	                        </div>
+	                        <div>
+	                            <label for="comp-subject">Subject</label><br />
+	                            <input type="text" class="compose-subject" id="inbox_compose_subject" />
+	                        </div>
+	                        <div>
+	                            <label for="comp-body">Body</label><br />
+								
+	                            <textarea class="compose-body" id="inbox_compose_body"></textarea>
+	                        </div>
+							
+							<a class="button-default submit_button" href="javascript:;" id="inbox_compose_send" style="font-weight:bold;">Send Message</a>
+							<a class="button-default cancel-button" href="javascript:;" id="inbox_compose_cancel">Cancel</a>
+							
+							<p id="inbox_compose_result"></p>
+
+	                </form>    
+	            </div> 
+			</div>
+			
+		</div>	
+    </div>
+    
+    <!-- FOOTER -->    
+    <div class="page-footer"></div>
+	
+	<script type="text/javascript" language="JavaScript" src="_javascript/inbox.js"></script>
+	
+</body>
+</html>

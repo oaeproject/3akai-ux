@@ -1,0 +1,32 @@
+<div class="my_profile_widget">
+	<div class="fl-widget-options fl-fix">
+		<ul>
+			<li><a href="profile_edit.html">Edit Profile</a></li>
+			<li><span class="pipe_divider">|</span></li>
+			<li><a href="profile.html">Preview Profile</a></li>
+		</ul>
+	</div>                    
+	<div class="fl-widget-content">                    
+		<div class="fl-container fl-fix profile">
+			<a href="javascript:;" id="profile_picture" class="fl-icon profile_picture"></a>
+			<a href="javascript:;" id="profile_name" class="profile_name"></a>
+			<a href="javascript:;" id="profile_dept" class="profile_dept"></a>
+			<p class="profile_chat_status_dropdown_link">
+				<span>Chat Status: </span>
+				<a href="#" id="profile_chat_status_online" style="display:none" class="myprofile_chat_status">Available</a>
+				<a href="#" id="profile_chat_status_busy" style="display:none" class="myprofile_chat_status">Busy</a>
+				<a href="#" id="profile_chat_status_offline" style="display:none" class="myprofile_chat_status">Offline</a>
+			</p>
+			<a href="#" class="fl-icon profile_chat_status_dropdown profile_chat_status_dropdown_link"></a>
+		</div>
+	</div>
+	<div id="myprofile_status" style="display:none"> 
+	    <ul>
+            <li><a id="user_link_chat_status_online" class="myprofile_chat_status_picker" href="javascript:;">Available</a></li>
+            <li><a id="user_link_chat_status_busy" class="myprofile_chat_status_picker" href="javascript:;">Busy</a></li>
+			<li><a id="user_link_chat_status_offline" class="myprofile_chat_status_picker" href="javascript:;">Offline</a></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/myprofile/javascript/myprofile.js"></script>

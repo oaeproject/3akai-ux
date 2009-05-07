@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+</head>
+
+<body>
+
+<h1>
+<p style="text-align: center;">
+K2 Kernel
+</p>
+</h1>
+You are running the Sakai K2 kernel! </p>
+The following URLs may be interesting. </p>
+<table>
+  <TH>    URL</TH><TH>  Notes  </TH>
+  <TR>
+    <td>
+      <a href="/webapp-sample/status.jsp">http://localhost:8080/webapp-sample/status.js</a> </p>
+    </td>
+    <td>Allows you to see what the classloaders are like and allows you to see        the loading process of various classes. </td>
+  </TR>
+
+  <TR>
+    <td><a href="/webapp-sample/status.jsp?testclass=org.sakaiproject.kernel.api.jcr.JCRService&go=Find#" >http://localhost:8080/webapp-sample/status.jsp?testclass=org.sakaiproject.kernel.api.jcr.JCRService&go=Find#</td>
+    <td>Will load an instance of the JCRService interface that you should see  	was exported by org.sakaiproject.kernel2.agnostic:kernel:0.1-SNAPSHOT. i.e... the Kernel.</td>
+
+  </TR>
+
+  <TR>
+    <TD><a href="/webapp-sample/helloworld.jsp"> http://localhost:8080/webapp-sample/helloworld.jsp</a></TD>
+    <TD>Shows a very simple JSP that uses the kernel.</TD>
+  </TR>
+
+  <TR>
+    <TD><a href="/webapp-sample/hello" />  http://localhost:8080/webapp-sample/hello</a></TD>
+    <TD>
+      A sample servlet that uses the kernel: http://localhost:8080/webapp-sample/hello      Is bound to a servlet that uses the kernel.
+    </TD>
+  </TR>
+
+  <TR>
+    <TD>
+      <a href="/webdav" /> http://localhost:8080/webdav webdav folder </a>
+    </TD>
+    <TD>
+      is the base of the webdav server, which you can also mount in Finder  	or Explorer  (note no trailing /)
+    </TD>
+  </TR>
+
+</table>
+
+<h1>These URLs are interesting, but may not be working.</h1>
+
+<table>
+  <TH>    URL</TH><TH>  Notes  </TH>
+  <TR>
+    <TD><a href="/sdata/f" /> http://localhost:8080/sdata/f</a></TD>
+    <TD> JCR files </TD>
+  </TR>
+  <TR>
+    <TD><a href="/sdata/p" /> http://localhost:8080/sdata/p</a></TD> <TD>JCR personal space </TD>
+  </TR>
+  <TR>
+    <TD><a href="/rest/__describe__" /> http://localhost:8080/rest/__describe__</a></TD> <TD>A description of all the rest services </TD>
+  </TR>
+  <TR>
+    <TD><a href="/sdata/?doc=1" /> http://localhost:8080/sdata/?doc=1</a></TD> <TD>A description of all the rest services </TD>
+  </TR>
+  <TR>
+    <TD><a href="/tests/" /> http://localhost:8080/test/</a></TD> <TD>Various REST Tests</TD>
+  </TR>
+
+</table>
+
+</body>
+</html>

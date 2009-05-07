@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Sakai 3.0 RC 1 - Sign In</title>        
+	    
+		<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
+	    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	    
+	    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+			
+		<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Jcap/jcap.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Jcap/md5.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
+		
+	</head>
+	
+	<body class="fl-centered create_account">
+		
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
+		
+	    <div class="bigheader">
+	    	<!-- HEADER -->
+	    	<div class="header-version">
+	        	3.0 RC1
+	        </div>
+	        <div class="header-title">
+	        	__MSG__INSTANCE_NAME__
+	        </div>
+	        <div class="header-byline">
+	        	Open Source Collaborative Learning. Designed by educators, for educators.
+	        </div>
+			<div class="header-smallline">
+				Sakai is a powerful yet flexible solution that supports not only teaching and learning but
+				also research and administrative collaboration. The Sakai CLE is distributed free of charge
+				and our license is designed to encourage innovation and customization in order to meet
+				local campus needs.
+			</div>
+			<!-- System preview image -->
+			<div class="system_preview_image">
+				<img src="_images/gateway.png" alt="Sakai 3.0 RC1"/>
+			</div>
+			<!-- Login functionality -->
+			<div class="login_container">
+				<strong>__MSG__USERNAME__:</strong><br/>
+				<input type="text" id="username" class="login_container_username login_container_textfield"/><br/>
+				<strong>__MSG__PASSWORD__:</strong><br/>
+				<input type="password" id="password" class="login_container_textfield"/>
+	
+				<div id="failed" class="login_failed">__MSG__LOGIN_FAILED__!<br/></div>
+	
+				<div class="block login_button_container">
+					<input type="button" class="button button-primary create-confirm" id="loginbutton" value="Sign In" />
+					<span id="loginloader">__MSG__SIGNING_IN__</span>
+				</div>
+				
+				<div id="register_here">
+					&raquo; No account yet? <a href="create_new_account.html">Register here</a>
+				</div>
+			</div>
+	    </div>
+		
+		<div class="bottom_placeholder"></div>
+		
+		<script type="text/javascript" language="JavaScript" src="_javascript/index.js"></script>
+		
+	</body>
+</html>
