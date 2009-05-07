@@ -9,7 +9,7 @@ var json_parse = json_parse || function() { throw "Json_parse is undefined"; };
  * @param {String} placement Widget place
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.pollwow = function(tuid, placement, showSettings){
+sakai.poll = function(tuid, placement, showSettings){
 	var json = false; // Variable used to recieve information by json
 	var jsonAll = false; // Contains all the pollwows
 	var me = sdata.me; // Contains information about the current user
@@ -1053,4 +1053,4 @@ sakai.pollwow = function(tuid, placement, showSettings){
 		$("#pollwow_main_container", rootel).show();
 	}
 };
-sdata.widgets.WidgetLoader.informOnLoad("pollwow");
+sdata.widgets.WidgetLoader.informOnLoad("poll");
