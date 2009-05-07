@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component xmlns="http://ns.sakaiproject.org/2008/components">
-  <groupId>org.sakaiproject.kernel2.agnostic 
-  </groupId>
-  <artifactId>simplecomponent</artifactId>
-  <version>0.1-SNAPSHOT</version>
-  <documentation>A simple component with some documentation</documentation>
-  <activator>org.sakaiproject.simple</activator>
-</component>
