@@ -1,5 +1,6 @@
 var sakai = sakai || {};
 
+
 sakai._chat = {
 	
     flashing: [],
@@ -207,29 +208,33 @@ sakai.chat = function(tuid, placement, showSettings){
     defaultNav = $(".explore").html();
     
     var setSitesDropdown = function(){
-        $("#nav_courses_sites_link").live("click", function(ev){
-            $("#people_dropdown_main").hide();
-            $("#people_dropdown_close").hide();
-			$("#mysites_dropdown_main").show();
-            $("#mysites_dropdown_close").show();
-            $(".explore").html(defaultNav);
-            $("#nav_courses_sites_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Courses &amp; Sites</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
-            setRoundedCorners();
-            if (!sitesShown) {
-                loadSites();
-				loadRecentSites();
-                sitesShown = true;
-            }
-        });
+		if ($("#nav_courses_sites_link").live){
+	        $("#nav_courses_sites_link").live("click", function(ev){
+	            $("#people_dropdown_main").hide();
+	            $("#people_dropdown_close").hide();
+				$("#mysites_dropdown_main").show();
+	            $("#mysites_dropdown_close").show();
+	            $(".explore").html(defaultNav);
+	            $("#nav_courses_sites_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Courses &amp; Sites</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+	            setRoundedCorners();
+	            if (!sitesShown) {
+	                loadSites();
+					loadRecentSites();
+	                sitesShown = true;
+	            }
+	        });
+		}
     }
     
-    $("#mysites_dropdown_close_link").live("click", function(ev){
-        $("#mysites_dropdown_main").hide();
-        $("#mysites_dropdown_close").hide();
-        $(".explore").html(defaultNav);
-        selectPage();
-        setSitesDropdown();
-    });
+	if ($("#mysites_dropdown_close_link").live) {
+		$("#mysites_dropdown_close_link").live("click", function(ev){
+			$("#mysites_dropdown_main").hide();
+			$("#mysites_dropdown_close").hide();
+			$(".explore").html(defaultNav);
+			selectPage();
+			setSitesDropdown();
+		});
+	}
     
     
     /*
@@ -504,13 +509,15 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 	}
 	
-	$("#mysites_dropdown_close_link").live("click", function(ev){
-		$("#mysites_dropdown_main").hide();
-		$("#mysites_dropdown_close").hide();
-		$(".explore").html(defaultNav);
-		selectPage();
-		setSitesDropdown();
-	});
+	if ($("#mysites_dropdown_close_link").live) {
+		$("#mysites_dropdown_close_link").live("click", function(ev){
+			$("#mysites_dropdown_main").hide();
+			$("#mysites_dropdown_close").hide();
+			$(".explore").html(defaultNav);
+			selectPage();
+			setSitesDropdown();
+		});
+	}
 	
 	
 	/*
@@ -572,24 +579,30 @@ sakai.chat = function(tuid, placement, showSettings){
 		});
 	}
 	
-	$("#dropdown_people_search").live("focus", function(ev){
-		if (!peopleFocus){
-			peopleFocus = true;
-			var el = $("#dropdown_people_search");
-			el.val("");
-			el.css("color","#000000");
-		}
-	});
+	if ($("#dropdown_people_search").live) {
+		$("#dropdown_people_search").live("focus", function(ev){
+			if (!peopleFocus) {
+				peopleFocus = true;
+				var el = $("#dropdown_people_search");
+				el.val("");
+				el.css("color", "#000000");
+			}
+		});
+	}
 	
-	$("#dropdown_people_search").live("keypress", function(ev){
-		if (ev.which == 13){
+	if ($("#dropdown_people_search").live) {
+		$("#dropdown_people_search").live("keypress", function(ev){
+			if (ev.which == 13) {
+				doPeopleSearch();
+			}
+		})
+	}
+	
+	if ($("#dropdown_people_search_button").live) {
+		$("#dropdown_people_search_button").live("click", function(ev){
 			doPeopleSearch();
-		}
-	})
-	
-	$("#dropdown_people_search_button").live("click", function(ev){
-		doPeopleSearch();
-	})
+		})
+	}
 	
 	var doPeopleSearch = function(){
 		var tosearch = $("#dropdown_people_search").val();
@@ -605,28 +618,32 @@ sakai.chat = function(tuid, placement, showSettings){
 	defaultNav = $(".explore").html();
 	
 	var setPeopleDropdown = function(){
-		$("#nav_people_link").live("click", function(ev){
-			$("#mysites_dropdown_main").hide();
-			$("#mysites_dropdown_close").hide();
-			$("#people_dropdown_main").show();
-			$("#people_dropdown_close").show();
-			$(".explore").html(defaultNav);
-			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
-			setRoundedCorners();
-			if (!peopleShown){
-				loadPeople();
-				peopleShown = true;
-			}
-		});
+		if ($("#nav_people_link").live) {
+			$("#nav_people_link").live("click", function(ev){
+				$("#mysites_dropdown_main").hide();
+				$("#mysites_dropdown_close").hide();
+				$("#people_dropdown_main").show();
+				$("#people_dropdown_close").show();
+				$(".explore").html(defaultNav);
+				$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
+				setRoundedCorners();
+				if (!peopleShown) {
+					loadPeople();
+					peopleShown = true;
+				}
+			});
+		}
 	}
 	
-	$("#people_dropdown_close_link").live("click", function(ev){
-		$("#people_dropdown_main").hide();
-		$("#people_dropdown_close").hide();
-		$(".explore").html(defaultNav);
-		selectPage();
-		setPeopleDropdown();
-	});
+	if ($("#people_dropdown_close_link").live) {
+		$("#people_dropdown_close_link").live("click", function(ev){
+			$("#people_dropdown_main").hide();
+			$("#people_dropdown_close").hide();
+			$(".explore").html(defaultNav);
+			selectPage();
+			setPeopleDropdown();
+		});
+	}
 	
 	var setRoundedCorners = function(){
 		// Fix small arrow horizontal position
@@ -854,7 +871,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	
 	var parseStatusMessage = function(basic){
 		if (basic) {
-			var base = eval('(' + basic + ')');
+			var base = basic;
 			if(base.status){
 				return shortenString(base.status, 20);
 			}
