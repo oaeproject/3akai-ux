@@ -468,7 +468,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 					var uids = [];
 					/** Add the unique id to the array of uids if the uid is not in it already */
 					var addToUids = function(uid) {
-						if(!uids.contains(uid)) {
+						if(!uids.contains(uid) && uid) {
 							uids.push(uid);
 						};
 					};
@@ -567,16 +567,18 @@ sakai.discussion = function(tuid, placement, showSettings){
 										for(var i = 0; i < uids.length; i++) {
 											if(uids[i] == uid) {
 												post.picture = "";
-												if (posters[i].profile) {
-													post.name = posters[i].profile.firstName + " " + posters[i].profile.lastName
-													
-													if (posters[i].profile.picture) {
-														image = eval('(' + posters[i].profile.picture + ')');
-														post.picture = "/sdata/f/_private" + posters[i].userStoragePrefix + image.name;
+												if (posters[i]) {
+													if (posters[i].profile) {
+														post.name = posters[i].profile.firstName + " " + posters[i].profile.lastName
+														
+														if (posters[i].profile.picture) {
+															image = posters[i].profile.picture;
+															post.picture = "/sdata/f/_private" + posters[i].userStoragePrefix + image.name;
+														}
 													}
-												}
-												else {
-													post.name = uid; // if the name can't be recieved, use the uid
+													else {
+														post.name = uid; // if the name can't be recieved, use the uid
+													}
 												}
 											}
 										}
