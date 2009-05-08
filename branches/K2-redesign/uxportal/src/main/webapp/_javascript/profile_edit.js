@@ -73,7 +73,7 @@ sakai.profile = function(){
 		
 		
 		if (!me.preferences.uuid && !me.preferences.eid) {
-			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/redesign/profile.html";
+			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
 			if (user){
 				redirect += sdata.util.URL.encode("?user=" + user);
 			}
@@ -164,21 +164,27 @@ sakai.profile = function(){
 			$("#send_message_button").hide();
 			
 			
-fluid.inlineEdits(".profile_preview", {
-					useTooltip: true,
-					finishedEditing: doHomeContact,
-					defaultViewText: " "
-				});
+			fluid.inlineEdits(".profile_preview", {
+				useTooltip: true,
+				tooltipDelay : 500,
+				listeners : {
+					onFinishEdit: doHomeContact
+				},
+				defaultViewText: " ",
+				paddings: {
+				    minimumView: 0
+				}
+			});
 
-				sakai.inlineEdits(".profile_preview", {
-					useTooltip: true,
-					finishedEditing: doHomeContact,
-					defaultViewText: " "
-				});
-				
-				$(".inlineEditable").css("height","16px");
-				$(".text").css("height","16px");
-				$(".dropdown").css("height","16px");
+			sakai.inlineEdits(".profile_preview", {
+				useTooltip: true,
+				finishedEditing: doHomeContact,
+				defaultViewText: " "
+			});
+			
+			$(".inlineEditable").css("height","16px");
+			$(".text").css("height","16px");
+			$(".dropdown").css("height","16px");
 			
 		}
 		
@@ -1006,7 +1012,7 @@ for (var i = 2015; i >= 1900; i--){
 	
    });
    
-   var doHomeContact = function(ev, ui){
+   var doHomeContact = function(newvalue, oldvalue, ev, ui){
 		
 		var basicfields = {"txt_status":"status","txt_middlename":"middlename","txt_gender":"gender","txt_unidepartment":"unidepartment","txt_unicollege":"unicollege","txt_unirole":"unirole","txt_birthday":"birthday","txt_awards":"awards","txt_clubs":"clubs","txt_societies":"societies"};
 		var aboutmefields = {"txt_aboutme":"aboutme","txt_relationstatus":"relationstatus","txt_personalinterests":"personalinterests", "txt_academicinterests":"academicinterests","txt_hobbies":"hobbies"};
@@ -1019,13 +1025,13 @@ for (var i = 2015; i >= 1900; i--){
 		
 		var disappear = false;
 		ui.style.height = "16px";
-		if (ev.value.replace(/ /g,"") == ""){
+		if (newvalue.replace(/ /g,"") == ""){
 			if (!inedit_basic) {
 				disappear = true;
 			}
 		}
 		
-		var value = ev.value;
+		var value = newvalue;
 		if (ui.id == "txt_firstname"){
 			
 			key = "firstName";
@@ -1152,7 +1158,7 @@ sakai.inlineEdits = function(container, options){
 		defaultViewText = options.defaultViewText;
 	}
 	var rootel = $(container);
-	var els = $(".inlineEditable", rootel);
+	var els = $(".inlineEditableAlt", rootel);
 	for (var i = 0; i < els.length; i++){
 		var el = $(els[i]);
 		var dropdown = $(".dropdown", el);
