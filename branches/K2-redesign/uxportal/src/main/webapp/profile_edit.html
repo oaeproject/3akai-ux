@@ -21,103 +21,10 @@
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />		    
     <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.profile.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.profile.edit.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
-
-	<style>
-		<style>
-			.field {
-				padding: 2px;
-				height: 20px;
-				display:none;
-				height:16px;
-			}
-			.fieldtitle {
-				color: #808080;
-				width: 125px;
-				vertical-align: top;
-				height:20px;
-			}
-			.inlineEdit-invitation {
-				top:0px;
-				width: 250px;
-			}
-			.inlineEditable {
-				cursor: default;
-				width: 250px;
-			}
-			
-			.text {
-				width: 250px;
-				min-height: 16px;
-			}
-			.dropdown {
-				width: 250px;
-				min-height: 16px;
-				padding: 0px;
-				background-color: #FFFFFF;
-				border-bottom: none;
-			}
-			.editContainer {
-				display:none;
-			}
-			
-			.overlay-lightbox-fixed {
-				display:block;
-				height:1000px;
-				left:0%;
-				position:fixed;
-				top:0%;
-				width:100%;
-				z-index:2001;
-			}
-			
-			.multifield_over {
-				background-color:#EEEEEE;
-				border: 1px dotted #AAAAAA;
-			}
-			.multifield_out {
-				background-color:#FFFFFF;
-				border: 1px dotted #FFFFFF;
-			}
-			
-			.greydotted {
-				background:transparent url(/dev/img/greydotted.gif) repeat-x scroll 0pt;
-				height:10px;
-			}
-			
-			td {
-				vertical-align: top;
-			}
-			
-			.centertd {
-				vertical-align: middle;
-			}
-			
-			.refreshDiv {
-				color: #FF0000;
-				position: absolute;
-				left: 0px;
-				top: 0px;
-				z-index: 1100000;
-				height: 100%;
-				width: 100%;
-				opacity:0.01;
-				-moz-opacity:0.01;
-				display:none;
-				filter:alpha(opacity=60);
-			}
-
-			.options {
-				padding: 0px;
-			}
-
-			.inlineEdit-invitation {
-				background-color: #EEEEEE;
-				border: 1px dotted #CCCCCC;
-			}
-	</style>
 	
-	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all-old.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
@@ -176,14 +83,26 @@
             <h4 class="profile_section_header"> Basic Info</h4>                  
             <div class="profile_section_body">            	
                 <table>
-                    <tr>
-                        <th>Name:</th>
-                        <td><span id="txt_firstname"></span> <span id="txt_lastname"></span></td>
+                	<tr id="firstname">
+                        <th>Firstname:</th>
+                        <td>
+							<div class="inlineEditable">
+								<div id="txt_firstname" class="text"></div>
+							</div>
+						</td>
+                    </tr>
+					<tr id="lastname">
+                        <th>Lastname:</th>
+                        <td>
+							<div class="inlineEditable">
+								<div id="txt_lastname" class="text"></div>
+							</div>
+						</td>
                     </tr>
                     <tr id="unirole">
                         <th>Role/Position:</th>
                         <td>
-							<div class="inlineEditable">
+							<div class="inlineEditableAlt">
 								<div id="txt_unirole" class="dropdown"></div>
 									<div class="editContainer">
                                     	<select class="options">
@@ -212,11 +131,19 @@
                     </tr>
 					<tr id="unicollege">
                         <th>College:</th>
-                        <td id="txt_unicollege"></td>
+                        <td>
+                        	<div class="inlineEditable">
+								<div id="txt_unicollege" class="text"></div>
+							</div>
+                        </td>
                     </tr>
 					<tr id="birthday">
                         <th>Date of birth:</th>
-                        <td id="txt_birthday"></td>
+                        <td>
+                        	<div class="inlineEditable">
+								<div id="txt_birthday" class="text"></div>
+							</div>
+                        </td>
                     </tr>
                 </table>
             </div>
