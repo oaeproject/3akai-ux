@@ -382,6 +382,20 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
+		linktool :
+		{
+			description:"Link Tool",
+			iframe:0,
+			url:"/devwidgets/linktool/linktool.html",
+			name:"Link Tool",
+			id:"linktool",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
 		tangler :
 		{
 			description:"Tangler Forum",
