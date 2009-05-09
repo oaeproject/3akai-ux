@@ -33,6 +33,8 @@ sakai.index = function(){
 	/////////////////////////////
 	
 	var redirectUrl = Config.URL.MY_DASHBOARD;
+	
+	//JQuery Selectors
 	var loginButton = "#loginbutton";
 	var usernameField = "#username";
 	var passwordField = "#password";
@@ -45,7 +47,7 @@ sakai.index = function(){
 	// Login functions //
 	/////////////////////
 	
-	/*
+	/**
 	 * This will determine whether there is a valid session. If there is, we'll
 	 * redirect to the URL requested or the personal dashboard if nothing has been provided. 
 	 */
