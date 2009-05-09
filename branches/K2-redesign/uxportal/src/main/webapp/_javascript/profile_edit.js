@@ -572,7 +572,7 @@ for (var i = 2015; i >= 1900; i--){
 		var inabout = 0;
 		if (json.aboutme) {
 		
-			about = eval('(' + json.aboutme + ')');
+			about = json.aboutme;
 			
 			if (about.aboutme){
 				inabout++;
@@ -643,7 +643,7 @@ for (var i = 2015; i >= 1900; i--){
 		
 		if (json.contactinfo) {
 		
-			unicontactinfo = eval('(' + json.contactinfo + ')');
+			unicontactinfo = json.contactinfo;
 			
 			if (unicontactinfo.uniphone) {
 				inunicontactinfo++;
@@ -695,7 +695,7 @@ for (var i = 2015; i >= 1900; i--){
 		var inhomecontactinfo = 0;
 		if (json.contactinfo) {
 		
-			homecontactinfo = eval('(' + json.contactinfo + ')');
+			homecontactinfo = json.contactinfo;
 			
 			if (homecontactinfo.homeemail) {
 				inhomecontactinfo++;
@@ -1078,12 +1078,12 @@ for (var i = 2015; i >= 1900; i--){
 			
 			var aboutme = {};
 			if (json.aboutme) {
-				aboutme = eval('(' + json.aboutme + ')');
+				aboutme = json.aboutme;
 			}
 			aboutme[aboutmefields[ui.id]] = value;
 			key = "aboutme";
 			val = sdata.JSON.stringify(aboutme);
-			json.aboutme = sdata.JSON.stringify(aboutme);
+			json.aboutme = aboutme;
 				
 			if (disappear){
 				$("#" + aboutmefields[ui.id]).hide();
@@ -1093,12 +1093,12 @@ for (var i = 2015; i >= 1900; i--){
 			
 			var contactinfo = {};
 			if (json.contactinfo) {
-				contactinfo = eval('(' + json.contactinfo + ')');
+				contactinfo = json.contactinfo;
 			}
 			contactinfo[unicontactinfo[ui.id]] = value;
 			key = "contactinfo";
 			val = sdata.JSON.stringify(contactinfo);
-			json.contactinfo = sdata.JSON.stringify(contactinfo);
+			json.contactinfo = contactinfo;
 				
 			if (disappear){
 				$("#" + unicontactinfo[ui.id]).hide();
@@ -1108,12 +1108,12 @@ for (var i = 2015; i >= 1900; i--){
 			
 			var contactinfo = {};
 			if (json.contactinfo) {
-				contactinfo = eval('(' + json.contactinfo + ')');
+				contactinfo = json.contactinfo;
 			}
 			contactinfo[homecontactinfo[ui.id]] = value;
 			key = "contactinfo";
 			val = sdata.JSON.stringify(contactinfo);
-			json.contactinfo = sdata.JSON.stringify(contactinfo);
+			json.contactinfo = contactinfo;
 				
 			if (disappear){
 				$("#" + homecontactinfo[ui.id]).hide();
