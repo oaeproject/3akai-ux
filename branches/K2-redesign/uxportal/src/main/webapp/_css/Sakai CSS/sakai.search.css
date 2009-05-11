@@ -24,7 +24,7 @@ strong {
 /* TOP NAV */
 .explore_nav {
 	background-color: #EEEEEE;
-	height: 22px;
+	overflow: auto;
 }
 
 .explore_nav .explore {
