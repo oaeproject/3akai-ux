@@ -7,7 +7,7 @@ strong {color: #000;}
 
 /* TOP NAV */
 .pipe_divider {color: #999;}
-.explore_nav {background-color: #EEEEEE; height: 22px;}
+.explore_nav {background-color: #EEEEEE; overflow: auto;}
 .explore_nav .explore {padding-left: 15px;}
 .explore_nav .explore li a {color: #475358; font-weight:bold; text-align: center;}
 .explore_nav_selected {color: #fff; background-color: #666666; padding: 2px 5px 2px 5px; display: inline-block; margin-top:-3px; 
@@ -32,9 +32,9 @@ strong {color: #000;}
 .header .greeting .greeting_text {font-size: 2em; display: block; padding-top: 35px; padding-bottom: 3px; font-weight: bold;}
 .header .greeting .greeting_links {font-size: .85em; color: #3399CC;}
 .header .search {}
-.header .search .search_form {height:60px; position:relative; right:270px; text-align:right; top:35px;}
-.header .search .search_form .search_input_field {border: 1px solid #DDDDDD; color:#999999; height:19px; position:relative; top:0; width: 250px; padding-top:3px; padding-left:3px; left: 255px;}
-.header .search .search_form .search_button {left:260px; position:relative; top:0px;}
+.header .search .search_form {height:60px; position:relative; right:14px; text-align:right; top:35px;}
+.header .search .search_form .search_input_field {border: 1px solid #DDDDDD; color:#999999; height:19px; position:relative; top:0; width: 250px; padding-top:3px; padding-left:3px;}
+.header .search .search_form .search_button {position:relative; top:0px;}
 .focussedInput {color: #000000 !important;}
 
 /* OPTIONS */
