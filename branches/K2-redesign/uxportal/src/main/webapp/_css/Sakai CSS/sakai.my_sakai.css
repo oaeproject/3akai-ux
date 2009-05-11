@@ -68,8 +68,8 @@ strong {color: #000;}
 .my_course_sites_widget .fl-widget-content ul li a {color: #3399CC; font-size: 1em; font-weight: bold;}
 .my_contacts_widget .fl-widget-options ul {float:left;}
 .my_contacts_widget .fl-widget-options .contact_requests {display:block; font-size: .85em; color: #3399CC;}
-.my_contacts_widget .fl-widget-content .contact {float:left; padding: 0 20px 5px 0; width: 60px; margin-right: 10px;}
-.my_contacts_widget .fl-widget-content .contact .contact_picture {background-image: url(../../_images/person_icon_50.png); background-repeat: no-repeat; width: 50px; height: 50px; margin: 0; padding: 0 0 10px 0;}
+.my_contacts_widget .fl-widget-content .contact {float:left; padding: 0 20px 5px 0; width: 60px; margin-right: 10px; overflow: hidden;}
+.my_contacts_widget .fl-widget-content .contact .contact_picture {background-image: url(../../_images/person_icon_50.png); background-repeat: no-repeat; background-position:center top; width: 50px; height: 50px; margin: 0; padding: 0 0 10px 0;}
 .my_contacts_widget .fl-widget-content .contact .contact_name {color: #3399CC; font-size: .95em; font-weight: bold;}
 .my_profile_widget .fl-widget-content .profile .profile_picture {background-image: url(../../_images/person_icon.png); width: 60px; height: 60px; float: left; margin-right: 10px;}
 .my_profile_widget .fl-widget-content .profile .profile_status_led {background-image: url(../../_images/dot_green.png); float: left; margin: 0; position: relative; bottom: 2px;}
