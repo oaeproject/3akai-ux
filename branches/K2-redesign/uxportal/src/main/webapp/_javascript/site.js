@@ -437,8 +437,8 @@ if (nel.className == "contauthlink") {
 			}
 			var pos = tinymce.DOM.getPos(selected);
 			var el = $("#context_menu");
-			el.css("top",pos["y"] + $("#elm1_ifr").position().top + 10 + "px");
-			el.css("left",pos["x"] + $("#elm1_ifr").position().left + 10 + "px");
+			el.css("top",pos["y"] + $("#elm1_ifr").position().top + 15 + "px");
+			el.css("left",pos["x"] + $("#elm1_ifr").position().left + 15 + "px");
 			el.show();
 		}
 	}
@@ -450,7 +450,8 @@ if (nel.className == "contauthlink") {
 		mode : "exact",
 		elements : "elm1",
 		theme: "advanced",
-		plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,spellchecker",
+		plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,spellchecker",
+		//contextmenu
 		theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,spellchecker,|,image,link",
 		theme_advanced_toolbar_location: "external",
 		theme_advanced_toolbar_align: "left",
