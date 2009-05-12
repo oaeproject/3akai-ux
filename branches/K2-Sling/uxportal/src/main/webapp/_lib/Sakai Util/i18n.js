@@ -72,7 +72,7 @@ $(document).ready(function(){
 	// LANGUAGE BUNDLE LOADER //
 	////////////////////////////
 	
-	/*
+	/**
 	 * This function will load the general language bundle specific to the language chosen by
 	 * the user and will store it in a global variable. This language will either be the prefered 
 	 * user language or the prefered server language. The language will be available in the me feed 
@@ -99,7 +99,7 @@ $(document).ready(function(){
 		}
 	};
 	
-	/*
+	/**
 	 * This will load the default language bundle and will store it in a global variable. This default bundle
 	 * will be saved in a file called _bundle/default.properties.
 	 */
@@ -135,20 +135,22 @@ $(document).ready(function(){
 		//sdataMeUrl = "dummyjson/demo_me_auth.json";
 	}
 	
-	/*
+	/**
 	 * This function will load the me feed. This feed should normally contain:
 	 *  - locale
 	 *    + country: a 2 letter abbreviation of the country chosen by the user (f.e. GB) 
 	 *    + displayCountry: full name of the country chosen by the user (f.e. United Kingdom)
 	 *    + ISO3Country: official ISO3 Country code chosen by the user (f.e. GBR)
-	 *    + language: 
-	 *    + displayLanguage:
-	 *    + ISO3Language:
-	 *    + displayName:
+	 *    + language: a 2 letter abbreviation of the language chosen by the user (f.e. en)
+	 *    + displayLanguage: full name of the language chosen by the user (f.e. English)
+	 *    + ISO3Language: official ISO3 Language code chosen by the user (f.e. eng)
+	 *    + displayName: 
 	 *  - preferences
 	 *    + uuid:
 	 *  - userStoragePrefix:
 	 *  - profile: 
+	 *  The local bundle we will try to load will be constructed by combining language and 
+	 *  country (f.e. en_GB.properties)
 	 */
 	var loadMe = function(){	
 		$.ajax({
@@ -170,16 +172,41 @@ $(document).ready(function(){
 	// I18N FUNCTIONS //
 	////////////////////
 	
-	
+	/**
+	 * Once all of the i18n strings have been replaced, we will finish the i18n step.
+	 * The content of the body tag is hidden by default (sakai.core.2.css, line 17), in
+	 * order not to show the non-translated string before they are translated. When i18n has
+	 * finished, we can show the body again. 
+	 * We then tell the container that pre-loading of the page has finished and that widgets are
+	 * now ready to be loaded. This will mostly mean that now the general page/container code
+	 * will be executed.
+	 * Finally, we will look for the definition of widgets inside the HTML code, which should look
+	 * like this:
+	 *  - Single instance: <div id="widget_WIDGETNAME" class="widget_inline"></div>
+	 *  - Multiple instance support: <div id="widget_WIDGETNAME_UID_PLACEMENT" class="widget_inline"></div>
+	 * and load them into the document
+	 */
 	var finishI18N = function(){
 		$(document.body).show();
-		sdata.readyToLoad = true;
-		sdata.performLoad();
-		sdata.widgets.WidgetLoader.insertWidgets(null);
+		sdata.setReadyToLoad(true);
+		sdata.widgets.WidgetLoader.insertWidgets(null, false);
 	};
 	
+	/**
+	 * This will give the body's HTML string, the local bundle (if present) and the default bundle to the
+	 * general i18n function. This will come back with an HTML string where all of the i18n strings will
+	 * be replaced. We then change the HTML of the body tag to this new HTML string. 
+	 * @param {Object} localjson
+	 *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
+	 * @param {Object} defaultjson
+	 *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
+	 *  in the default language
+	 */
 	var doI18N = function(localjson, defaultjson){
 		var newstring = sdata.i18n.processhtml(tostring, localjson, defaultjson);
+		// We actually use the old innerHTML function here because the jQuery.html() function will
+		// try to reload all of the JavaScript files declared in the HTML, which we don't want as they
+		// will already be loaded
 		document.body.innerHTML = newstring;
 		finishI18N();
 	};
@@ -189,14 +216,27 @@ $(document).ready(function(){
 	// UTILITY FUNCTIONS //
 	///////////////////////
 	
+	/**
+	 * This function will convert a properties file into a JavaScript object where the keys in
+	 * the object are the keys from the properties file, and where the values in the object are
+	 * the values from the properties file.
+	 * @param {Object} data
+	 *  The content of a .properties files in the form of:
+	 *   KEY_1 = "value 1"
+	 *   KEY_2 = "value 2"
+	 */
 	var parsePropertiesFile = function(data){
 		var obj = {};
+		// Split on line break characters
    		var dataArray =  data.split("\n");	
 		for (var loop = 0; loop < dataArray.length ; loop++){
+			// Make sure the line we are currently at isn't commented out
 			if(dataArray[loop].charAt(0) !== "#" && dataArray[loop].charAt(0) !== "\r"){
-				var optData = dataArray[loop].replace(/\r/g,"");				
+				var optData = dataArray[loop].replace(/\r/g,"");
+				// Find the = in this line			
 				var indexEqual = optData.indexOf("=");
 				if (indexEqual !== -1) {
+					// The value before the = sign becomes the key in the object, the value after the = sign becomes the value in the object
 					obj[$.trim(optData.substring(0, indexEqual).replace(/[\r"]/g,""))] = $.trim(optData.substring(indexEqual+1).replace(/[\r"]/g,""));
 				}
 			}
