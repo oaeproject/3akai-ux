@@ -16,10 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Config = Config || function(){ throw "Config file not available"; };
-var $ = $ || function(){ throw "JQuery not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
-var json_parse = json_parse || function(){ throw "SData.js not available"; };
+
+/*global Config, $, sdata */
+
 
 var sakai = sakai || {};
 
