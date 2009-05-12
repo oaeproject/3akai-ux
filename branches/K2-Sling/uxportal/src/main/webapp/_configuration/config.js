@@ -25,7 +25,7 @@ var Config = {
 		MY_DASHBOARD: "/dev/my_sakai.html",
 		ME_SERVICE: "/rest/me",
 		LOGIN_SERVICE: "/rest/login",
-		CREATE_USER_SERVICE: "/rest/user/new",
+		CREATE_USER_SERVICE: "/system/userManager/user.create.html",
 		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists",
 		SEARCH_GENERAL_URL: "search_b.html"
 	},
