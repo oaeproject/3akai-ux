@@ -168,6 +168,18 @@ var Widgets = {
 			showinsakaigoodies:0,
 			img:"/dev/img/myprofile.png"
 		},
+		google :
+		{
+			description:"Google\r\n",
+			iframe:1,
+			url:"http://www.google.be",
+			height: 100,
+			name:"Google",
+			id:"google",
+			personalportal:0,
+			siteportal:0,
+			hasSettings: 0,
+		},
 		helloworld :
 		{
 			description:"Sakai Hackathon Example\r\n",
