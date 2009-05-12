@@ -256,38 +256,54 @@
 })(jQuery);
 
 
+///////////////////////
+// Utility functions //
+///////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Array.prototype.contains = function (element) { 
-	for (var i = 0; i < this.length; i++) { 
-		if (this[i] == element) { 
-			return true; 
-		} 
-	} 
-	return false; 
-}
-
-
-/**
- * @fileoverview
- * SData provides a name space that interfaces to the SData REST API's provided on the server
- * The aim of this namespace is to make it easier to write widgets
- * 
+/*
+ * There is no specific logging function within Sakai, but using console.debug will
+ * only work in Firefox, and if written poorly, will brake the code in IE, ... If we
+ * do want to use logging, we will reuse the logging function available in the Fluid
+ * Infusion framework. In order to use this, you need to uncomment the fluid.setLogging(true)
+ * line. After this has been done, all calls to 
+ *	fluid.log(message);
+ * will be logged in the most appropriate console
+ *  NOTE: always disable debugging for production systems, as logging calls are quite
+ *  expensive.
  */
+fluid.setLogging(false);
+//fluid.setLogging(true);
+
+/*
+ * In order to check whether an array contains an element, use the following function:
+ *  $.inArray(valueToMatch, theArray)
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * 
@@ -359,84 +375,18 @@ sdata.performLoad = function(){
 	sdata.toLoad = []
 }
 
+sdata.setReadyToLoad = function(set){
+	sdata.readyToLoad = set;
+	if (set){
+		sdata.performLoad();
+	}
+}
+
 sdata.readyToLoad = false;
 sdata.toLoad = [];
 
 
-/**
- * @static 
- * @class Logger Class
- * @name sdata.Log
- */
-sdata.Log =  {
-	/**
-	 * Appends a message to a an element with the id 'log' in the current document.
-	 * @param msg the log message
-	 * @static
-	 * 
-	 */
-	info : function(msg) {
-		var logWindow = document.getElementById('log');
-		if ( logWindow ) {
-			logWindow.innerHTML += "<br />"+msg;
-		}
-	},
-	
-	/**
-	 * Clear the log element in the current dom, identified by id='log' 
-	 */
-	clear : function() {
-		var logWindow = document.getElementById('log');
-		if ( logWindow ) {
-			logWindow.innerHTML = "";
-		}
-	}
-};
-
 sdata.widgets = {};
-
-/**
- * Create a Loader Object to pull HTML for widgets
- * @constructor
- * @class 
- */
-sdata.widgets.Loader = function(){
-	
-		this.div = "";
-		this.url = "";
-		this.id = "";
-		this.bundle = null;
-
-};
-/**
- * initialise the widget
- * @param {Object} divName
- * @param {Object} loadurl
- */
-sdata.widgets.Loader.prototype.init = function(divName,loadurl) {
-	this.div = divName;
-	this.url = loadurl;	
-	this.id =  Math.random();	
-};
-
-/**
- * load the widget and bundles
- */
-sdata.widgets.Loader.prototype.load = function() {
-	var thisobj = this;
-	sdata.Ajax.request({
-		url : this.url,
-		onSuccess : function(response) {
-			var thisobj2 = thisobj;
-			thisobj2.bundle = sdata.i18n.getBundles(response);
-			sdata.i18n.process(response,function(i18nrespone) {
-				sdata.widgets.WidgetLoader.sethtmlover(thisobj2.div,i18nrespone);                            
-			},
-			thisobj2.bundle,"default");		
-		}
-	});	    				
-};
-
 
 
 /**
@@ -481,10 +431,14 @@ sdata.widgets.WidgetLoader =  {
 	/**
 	 * Insert inline widgets into divs in the template
 	 */
-	insertWidgetsAdvanced : function(id, showSettings){
+	insertWidgets : function(id, showSettings){
 
-		//"widget_uid_" + rnd + "_" + currentsite.id + "_" + selectedpage.replace(/ /g,"%20");
-		var divarray = sdata.widgets.WidgetLoader.getElementsByClassName("widget_inline", id);
+		var el = $(document.body);
+		if (id){
+			el = $("#" + id);
+		}
+		
+		var divarray = $(".widget_inline", el);
 		var bigarray = {};
 		if (showSettings){
 			sdata.widgets.WidgetLoader.showSettings = true;
@@ -496,10 +450,34 @@ sdata.widgets.WidgetLoader =  {
 				var id = divarray[i].id;
 				var split = id.split("_");
 				var widgetname = split[1];
-				if (Widgets.widgets[widgetname]){
-					var widgetid = split[2];					
+				if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe === 1){
+					
+					var portlet = Widgets.widgets[widgetname];
+					var html = '<div style="padding:0 0 0 0" id="widget_content_'+ split[1] + '">' +
+		    	   				'<iframe src="'+ portlet.url+'" ' +
+		    	   				'id="widget_frame_'+ split[1]+'" ' +
+		    	   				'name="widget_frame_'+ split[1]+'" ' +
+		    	   				'frameborder="0" ' +
+		    	   				'height="'+ portlet.height +'px" ' +
+		    	   				'width="100%" ' +
+		    	   				'scrolling="no"' +
+		    	   				'></iframe></div>';
+					$("#" + divarray[i].id).html(html);
+					
+				} else if (Widgets.widgets[widgetname]){
+					
+					var widgetid = "id0";
+					if (split[2]){
+						widgetid = split[2];
+					}
+									
 					var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1; 
-					var placement = id.substring(length);
+					
+					var placement = "";
+					if (split[3]){
+						placement = id.substring(length);
+					}
+					
 					if (! bigarray[widgetname]){
 						bigarray[widgetname] = [];
 					}
@@ -528,7 +506,9 @@ sdata.widgets.WidgetLoader =  {
 					}
 					bigarray[widgetname][index].floating = floating;
 				}
-			} catch (err){alert("An error occurred NOW")};
+			} catch (err){
+				fluid.log("An error occured whilst searching for widget definitions");
+			};
 		}
 
 		for (var i in bigarray){
@@ -553,17 +533,17 @@ sdata.widgets.WidgetLoader =  {
 	},
 
 	loadWidgetFiles : function(bigarray,widgetname){
-		sdata.Ajax.request({
+		$.ajax({
 			url : Widgets.widgets[widgetname].url,
-			onSuccess : function(response) {
+			success : function(response) {
 				var thisobj2 = {};
 				var newstring = sdata.i18n.processhtml(response, sdata.i18n.localBundle, sdata.i18n.defaultBundle);
-				sdata.widgets.WidgetLoader.sethtmloverspecial(null,newstring,bigarray,widgetname);	
+				sdata.widgets.WidgetLoader.sethtmlover(null,newstring,bigarray,widgetname);	
 			}
 		});
 	},
 
-	sethtmloverspecial : function (div,content,bigarray,widgetname){
+	sethtmlover : function (div,content,bigarray,widgetname){
    
    		var anotherone = true;
 
@@ -646,315 +626,13 @@ sdata.widgets.WidgetLoader =  {
 		sdata.widgets.WidgetLoader.toload[widgetname].todo = scripttags.length;
 		sdata.widgets.WidgetLoader.toload[widgetname].done = 0;
 	
-		//sdata.widgets.WidgetLoader.loadDelayScriptTags(scripttags, 0);		
-	   	for (var iii = 0; iii < scripttags.length; iii++){
+		for (var iii = 0; iii < scripttags.length; iii++){
 			document.getElementsByTagName("head").item(0).appendChild(scripttags[iii]);
 		}	
 			
 	},
 	
-	loadDelayScriptTags : function(scripttags, id){
-		if (id >= scripttags.length){
-			
-		} else {
-			document.getElementsByTagName("head").item(0).appendChild(scripttags[id]);
-			id = id + 1;
-			setTimeout(function(){
-				sdata.widgets.WidgetLoader.loadDelayScriptTags(scripttags, id);
-			}, 750);
-		}
-	},
-	
-	loadScript : function(id){
-		
-	},
-
-	/**
-	 * Insert inline widgets into divs in the template
-	 */
-	insertWidgets : function(id){
-		
-		var divarray = sdata.widgets.WidgetLoader.getElementsByClassName("widget_inline", id);
-		for (var i = 0; i < divarray.length; i++){
-			var portlet = Widgets.widgets[divarray[i].id.substring(7)];
-			try {
-	    		if ( portlet.url !== null ) {
-					if ( portlet.iframe === 1 ) {
-		    	   		var html = '<div style="padding:0 0 0 0" id="widget_content_'+ portlet.id+ '">' +
-		    	   				'<iframe src="'+ portlet.url+'" ' +
-		    	   				'id="widget_frame_'+ portlet.id+'" ' +
-		    	   				'name="widget_frame_'+ portlet.id+'" ' +
-		    	   				'frameborder="0" ' +
-		    	   				'height="'+ portlet.height +'px" ' +
-		    	   				'width="100%" ' +
-		    	   				'scrolling="no"' +
-		    	   				'></iframe></div>';
-						document.getElementById(divarray[i].id).innerHTML = html;
-		    	   } else {
-	    				var divName = portlet.divid;
-	    				var loader = new sdata.widgets.Loader();
-	    				loader.init(divarray[i].id,portlet.url);
-	    				loader.load();	
-					}    			
-	    		}
-			} catch (err){ alert(divarray[i].id + ' didn\'t find a portlet (' + err + ')')}
-		}
-
-		var divarray = sdata.widgets.WidgetLoader.getElementsByClassName("widget_mountable", id);
-		for (var i = 0; i < divarray.length; i++){
-			
-			var portlet = Widgets.widgets[divarray[i].id.substring(7)];
-			try {
-	
-				var button = Ext.get(divarray[i].id);
-				if (!sdata.widgets.WidgetLoader.mountable_widgets[divarray[i].id.substring(7)]){
-					sdata.widgets.WidgetLoader.mountable_widgets[divarray[i].id.substring(7)] = new Object();
-				}
-
-				var el = document.getElementById(divarray[i].id);
-
-    			el.onclick = function() {
-					var tid = this.id;
-
-					var ihtml = "<div id='floatable_widget_" + tid.substring(7) + "'><img src='/resources/images/loader.gif'/></div>";
-					var iheight = 400;
-					var iwidth = 600;
-					var ititle = "Widget"
-
-					var portlet = Widgets.widgets[tid.substring(7)];
-					try {
-	    				if ( portlet.url !== null ) {
-							ititle = portlet.name;
-							if ( portlet.iframe === 1 ) {
-		    	   				ihtml = '<div id="floatable_widget_' + tid.substring(7) + '">' +
-										'<div style="padding:0 0 0 0" id="widget_content_'+ portlet.id+ '">' +
-		    	   						'<iframe src="'+ portlet.url+'" ' +
-		    	   						'id="widget_frame_'+ portlet.id+'" ' +
-		    	   						'name="widget_frame_'+ portlet.id+'" ' +
-		    	   						'frameborder="0" ' +
-		    	   						'height="'+ portlet.height +'px" ' +
-		    	   						'width="100%" ' +
-		    	   						'scrolling="no"' +
-		    	   						'></iframe></div></div>';	
-								iheight = portlet.height + 70;	
-							}
-						}
-					} catch (err){ }
-
-        			if(!sdata.widgets.WidgetLoader.mountable_widgets[tid.substring(7)].win){
-            			sdata.widgets.WidgetLoader.mountable_widgets[tid.substring(7)].win = new Ext.Window({
-							title : ititle,
-							header : true,
-                			layout:'fit',
-                			width: iwidth,
-                			height: iheight,
-                			closeAction:'hide',
-                			plain: true,
-							html : ihtml,
-							border:true,
-                    		bodyStyle:'position:relative',
-                    		anchor:'100% 100%',
-                    		overflow:'auto',
-                    		fitToFrame:'true',
-                    		autoScroll:'true',
-							style:'background-color:#FFFFFF',
-                    		defaults:{autoHeight:true,autoWidth:true,bodyStyle:'padding:10px'},
-                
-	                		buttons: [{
-    	                		text: 'Close',
-        	            		handler: function(){
-            	            		sdata.widgets.WidgetLoader.mountable_widgets[tid.substring(7)].win.hide();
-                	    		}
-                			}]
-            			});
-
-						var portlet = Widgets.widgets[tid.substring(7)];
-						try {
-	    					if ( portlet.url !== null ) {
-								if ( portlet.iframe === 0 ) {
-	    							var loader = new sdata.widgets.Loader();
-	    							loader.init("floatable_widget_" + tid.substring(7),portlet.url);
-	    							loader.load();	    			
-	    						}
-							}
-						} catch (err){ alert(err) }
-	
-        			}
-        			sdata.widgets.WidgetLoader.mountable_widgets[tid.substring(7)].win.show(this);
-    			};
-
-			} catch (err){ alert(err) }
-		}
-
-	},	
-
-	getElementsByClassName : function (needle, divid) { 
-   		var s, i, r = [], l = 0, e; 
-    	var re = new RegExp('(^|\\s)' + needle + '(\\s|$)'); 
-
-		var div = document.body;
-		if (divid){
-			div = document.getElementById(divid);
-		}
-
-    	if (navigator.userAgent.indexOf('Opera') > -1) 
-   	 	{ 
-        	//s = [document.documentElement || document.body], i = 0; 
-			s = [div], i = 0; 
-
-        	do 
-        	{ 
-            	e = s[i]; 
-
- 	           	while (e) 
-            	{ 
-                	if (e.nodeType == 1) 
-                	{ 
-                    	if (e.className && re.test(e.className)) r[l++] = e; 
-
-                    	s[i++] = e.firstChild; 
-                	} 
-
-                	e = e.nextSibling; 
-            	} 
-        	} 
-        	while (i--); 
-    	} 
-    	else 
-    	{ 
-        	s = div.getElementsByTagName('*'), i = s.length; 
-
-        	while (i--) 
-        	{ 
-            	e = s[i]; 
-            	if (e.className && re.test(e.className)) r[l++] = e; 
-        	} 
-    	} 
-
-    	return r; 
-	},
-
-	/**
-	 * Gets an associative array of bundles from the widget. 
-	 * Bundles are defined using <link href="budlesrc" hreflang="en_US"  type="messagebundle/json" />
-     * where bundle src is the source url of the bundle for the widget
-	 * @param {String} tag
-	 * @param {String} widgetMarkup
-	 */
-	getLinks : function(tag,widgetMarkup) {
-		var findLinks = new RegExp("<"+tag+".*?>","gim");
-		var extractAttributes = /\s\S*?="(.*?)"/gim;	
-		var bundle = [];	
-		while (findLinks.test(widgetMarkup)) {
-			var linkMatch = RegExp.lastMatch;
-			var linkTag = new Array();
-			while (extractAttributes.test(linkMatch)) {
-				var attribute = RegExp.lastMatch;
-				
-				var value = RegExp.lastParen;
-				var attributeName = attribute.substring(1,attribute.indexOf("="));
-				linkTag[attributeName] = value;
-			}
-			bundle.push(linkTag);
-		}
-		return bundle;				
-	},
-
-
-	/**
-	 * Load Widget HTML
-	 * @param div the target div
-	 * @param the content of the widget as HTML
-	 */
-	sethtmlover : function (div,content,callback){
-   
-   		var anotherone = true;
-
-		
-
-		while (anotherone === true){
-			
-			var startscript = content.indexOf("<link");
-   			var eindscript = content.indexOf("<\/link>");
-
-			if (startscript !== -1 && eindscript !== -1){
-   			
-   				var linktag = content.substring(startscript, eindscript);
-   				linktag = linktag.substring(linktag.indexOf("href=") + 6);
-   				linktag = linktag.substring(0, linktag.indexOf("\""));
-				
-				if (linktag !== "/resources/css/ext-all.css"){
-   			
-   					var oScript = document.createElement('link');
-  					oScript.setAttribute('rel','stylesheet');
-  					oScript.setAttribute('type','text/css');
-   					oScript.setAttribute('href',linktag);
-   					document.getElementsByTagName("head").item(0).appendChild(oScript);
-	
-				}
-
-				var tussencontent = content;
-				content = tussencontent.substring(0, startscript);
-				content += tussencontent.substring(eindscript + 7);
-   			
-   			} else {
-
-				anotherone = false;
-
-			}
-
-		}
-
-		anotherone = true;
-
-		var scripttags = [];
-		while (anotherone === true){
-			
-			startscript = content.indexOf("<script");
-   			eindscript = content.indexOf("<\/script>");
-
-			if (startscript !== -1 && eindscript !== -1){
-   			
-   				var linktag = content.substring(startscript, eindscript);
-				
-   				linktag = linktag.substring(linktag.indexOf("src=") + 5);
-   				linktag = linktag.substring(0, linktag.indexOf("\""));
-
-				if ( sdata.widgets.WidgetLoader.acceptJS(linktag) ) {
-	   				var oScript = document.createElement('script');
-	  				oScript.setAttribute('language','JavaScript');
-	  				oScript.setAttribute('type','text/javascript');
-	   				oScript.setAttribute('src',linktag);
-			
-					scripttags[scripttags.length] = oScript;									
-				}
-				
-				var tussencontent = content;
-				content = tussencontent.substring(0, startscript);
-				content += tussencontent.substring(eindscript + 9);
-   			
-   			} else {
-
-				anotherone = false;
-
-			}
-
-		}
-		
-		if ($("#" + div)) {
-			$("#" + div).html(content);
-		} else {
-			//console.debug("help");
-		}
-			
-		for (var iii = 0; iii < scripttags.length; iii++){
-			document.getElementsByTagName("head").item(0).appendChild(scripttags[iii]);
-		}
-	   		
-	},
-	
 	acceptJS : function(link) {
-		
 		
 		var elements = link.split("/");
 		if ( elements.length > 0 ) {
@@ -962,12 +640,12 @@ sdata.widgets.WidgetLoader =  {
 			if ( elements[locate] === "" ) {
 				locate++;
 			}
-			if ( SDATA_DEMOSITES[elements[locate]] === 1 ) {
-				locate++;
-			}
-			if ( SDATA_IGNORE_JS_LIB[elements[locate]] === 1 ) {
-				return false;
-			}
+			//if ( SDATA_DEMOSITES[elements[locate]] === 1 ) {
+			//	locate++;
+			//}
+			//if ( SDATA_IGNORE_JS_LIB[elements[locate]] === 1 ) {
+			//	return false;
+			//}
 		}
 		return true;
 	}
