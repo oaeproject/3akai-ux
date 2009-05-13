@@ -140,6 +140,20 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/dev/img/myprofile.png"
 		},
+		quiz :
+		{
+			description:"Quiz widget\r\n",
+			iframe:0,
+			url:"/devwidgets/quiz/quiz.html",
+			name:"Quiz",
+			id:"quiz",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/dev/img/myprofile.png"
+		},
 		wookiechat :
 		{
 			description:"wookiechat\r\n",
