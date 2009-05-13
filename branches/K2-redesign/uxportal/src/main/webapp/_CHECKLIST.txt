@@ -8,14 +8,14 @@ Framework
 
  - Well structured JS:  X
  - JSLint validated:    X
- - License header:      X
+ - License header:      V
  - jqUnit tests:        X
 
 * i18n.js
 
- - Well structured JS:  X
- - JSLint validated:    X
- - License header:      X
+ - Well structured JS:  V
+ - JSLint validated:    V
+ - License header:      V
  - jqUnit tests:        X
 
 * Logout
