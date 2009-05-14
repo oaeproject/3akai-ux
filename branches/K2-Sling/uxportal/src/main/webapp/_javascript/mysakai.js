@@ -95,7 +95,7 @@ sakai.dashboard = function(){
 		newel.id = generic;
 		newel.className = "widget_inline";
 		old.parentNode.replaceChild(newel,old);
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,false);
+		sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,false);
 	}
 	
 	sdata.container.registerFinishFunction(sakai.dashboard.finishEditSettings);
@@ -136,7 +136,7 @@ sakai.dashboard = function(){
 		
 		myportaljson = jsonobj;
 	
-		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",sdata.JSON.stringify(jsonobj), saveGroup);
+		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",$.toJSON(jsonobj), saveGroup);
 		
 	}
 	
@@ -248,8 +248,8 @@ sakai.dashboard = function(){
 	var doInit = function (){
 
 		person = sdata.me;
-		inituser = person.preferences.uuid;
-		if (!inituser || inituser == "anon") {
+		inituser = person.user.userid;
+		if (!inituser) {
 			document.location = "/dev/index.html";
 		}
 		else {
@@ -523,7 +523,7 @@ sakai.dashboard = function(){
 				old.parentNode.replaceChild(newel,old);
 				$("#widget_settings_menu").hide();
 				currentSettingsOpen = false;
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,true);
+				sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,true);
 				return false;
 			});
 			
@@ -559,7 +559,7 @@ sakai.dashboard = function(){
 			
 			fluid.reorderLayout("#widgetscontainer", options);
 			
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("widgetscontainer");
+			sdata.widgets.WidgetLoader.insertWidgets("widgetscontainer");
 			
 		} else {
 			showInit();
