@@ -1,4 +1,7 @@
 var sakai = sakai || {};
+
+/*global $ */
+
 sakai.createsite = function(tuid,placement,showSettings){
 
 	$("#createsite_step2").jqm({
@@ -88,44 +91,34 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		//id, name, description, type
 		var parameters = {"name" : sitetitle, "description" : sitedescription, "type" : "project" };
+		
+		var tosave = $.toJSON(parameters);
 
 		//remove button
 		$("#create-site-save-button").hide();
 		$("#create_site_cancel").hide();
 		$("#create-site-processing-button").show();
 
-		sdata.Ajax.request({
-			url :"/rest/site/" + "checkId?id=" + siteid + "&sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
-				alert("A site with this URL already exists");
-			},
-			onFail : function(status) {
-				if (status != 403) {
-					sdata.Ajax.request({
-						url: "/_rest/site/create/" + siteid,
-						httpMethod: "POST",
-						onSuccess: function(data){
-							createSiteNavigation();
-						},
-						onFail: function(status){
-							//Bring button back
-							$("#create-site-processing-button").hide();
-							$("#create-site-save-button").show();
-							$("#create_site_cancel").show();
-							if (status == 409 || status == "409") {
-								alert("A site with this URL already exists");
-							}
-							else {
-								alert("An error has occured whilst creating the site");
-							}
-						},
-						postData: parameters,
-						contentType: "application/x-www-form-urlencoded"
-					});
-				} else {
+		$.ajax({
+			url :"/sites/" + siteid + ".json",
+			cache : false,
+			success : function(data) {
+				
 					alert("A site with this URL already exists");
-				}
+					
+					//remove button
+		$("#create-site-processing-button").hide();
+		$("#create-site-save-button").show();
+		$("#create_site_cancel").show();
+		
+				
+			},
+			error : function(status) {
+				//if (status != 403) {
+					sdata.widgets.WidgetPreference.save("/sites/" + siteid, "meta", tosave, createSiteNavigation);
+				/*} else {
+					alert("A site with this URL already exists");
+				} */
 			}
 		});
 	}
@@ -139,7 +132,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 		content += '<h3>Recent Activity</h3>';
 		content += '<p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>';
 		
-		var data = {"items": {
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_navigation", "content", content, createHomePage);
+		
+		/*
+var data = {"items": {
 			"data": content,
 			"fileName": "content",
 			"contentType": "text/plain"
@@ -157,6 +153,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			postData: data,
 			contentType: "multipart/form-data"
 		});
+*/
 		
 	}
 	
@@ -166,7 +163,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		var content = $("#home_page_example").html();
 		
-		var data = {"items": {
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_pages/welcome", "content", content, createConfigurationFile);
+		
+		/*
+var data = {"items": {
 			"data": content,
 			"fileName": "content",
 			"contentType": "text/plain"
@@ -192,6 +192,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			postData: data,
 			contentType: "multipart/form-data"
 		});
+*/
 		
 	}
 	
@@ -201,7 +202,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		var content = '{"items":[{"id":"welcome","title":"Welcome","type":"webpage"}]}';
 		
-		var data = {"items": {
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid, "pageconfiguration", content, createPlaceHolderFile);
+		
+		/*
+var data = {"items": {
 			"data": content,
 			"fileName": "pageconfiguration",
 			"contentType": "text/plain"
@@ -219,13 +223,45 @@ sakai.createsite = function(tuid,placement,showSettings){
 			postData: data,
 			contentType: "multipart/form-data"
 		});
+*/
 		
 	}
 	
 	var createPlaceHolderFile = function(){
 		var content = 'Test';
 		
-		var data = {"items": {
+		$.ajax({
+			url: "/sdata/p/mysites.json",
+			cache: false,
+			success: function(data){
+			
+				try {
+					if (typeof eval('(' +  data + ')') === "string"){
+						throw "Invalid Format";
+					}
+					updateMySites(eval('(' +  data + ')'));
+				} catch (err){
+					updateMySites({});
+				}
+				
+				
+			},
+			error: function(status){
+				
+				updateMySites({});
+				
+			}
+		});
+	}
+	
+	var updateMySites = function(mysites){
+		mysites[siteid] = sitetitle;
+		sdata.widgets.WidgetPreference.save("/sdata/p", "mysites.json", $.toJSON(mysites), setWidgetsPermissions);
+		
+	}
+		
+		/*
+var data = {"items": {
 			"data": content,
 			"fileName": ".test",
 			"contentType": "text/plain"
@@ -243,11 +279,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			postData: data,
 			contentType: "multipart/form-data"
 		});
-	}
+*/
+	
 	
 	var setWidgetsPermissions = function(){
 		
-		var data = {
+		document.location = "/dev/site.html?siteid=" + siteid;
+		
+		/*
+var data = {
 			action : "replace",
 			acl : "k:*,s:AN,g:1,p:1",
 			f : "pe"
@@ -265,6 +305,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 			postData: data,
 			contentType: "application/x-www-form-urlencoded"
 		});
+*/
 		
 	}
 	
