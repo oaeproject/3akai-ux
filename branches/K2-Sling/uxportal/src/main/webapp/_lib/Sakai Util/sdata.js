@@ -17,20 +17,42 @@
  */
 
 
-/*global $, jQuery */
+/*global $, jQuery, Config */
+
+
+/*
+ * Namespace that will be used for all of the utility functions related
+ * to the mechanism of loading widgets into the document
+ */
+var sdata = {};
+/*
+ * Namespace that will be used for all of the widgets that are being loaded
+ * into the document. Every widget will have an object called sakai.widgetid
+ */
+var sakai = {};
 
 
 ///////////////////////////
 // jQuery AJAX extention //
 ///////////////////////////
 
+/*
+ * We override the standard jQuery.ajax error function, which is being executed when
+ * a request fails. We will check whether the request has failed due to an authorization
+ * required error, by checking the response code and then doing a request to the me service
+ * to find out whether we are no longer logged in. If we are no longer logged in, and the
+ * sendToLoginOnFail variable has been set in the options of the request, we will redirect
+ * to the login page with the current URL encoded in the url. This will cause the system to
+ * redirect to the page we used to be on once logged in.
+ */
 (function($){
 	
 	$.handleError = function (s, xhr, status, e) {
 		
-		var status = xhr.status;
-		s.sendToLoginOnFail = s.sendToLoginOnFail || false;
-		if ((status === 401 || status === 403) && s.sendToLoginOnFail){
+		var requestStatus = xhr.status;
+		// if the sendToLoginOnFail hasn't been set, we assume that we want to redirect
+		s.sendToLoginOnFail = s.sendToLoginOnFail || true;
+		if ((requestStatus === 401 || requestStatus === 403) && s.sendToLoginOnFail){
 			
 			var decideLoggedIn = function(response, exists){
 				var originalURL = document.location;
@@ -38,11 +60,11 @@
 				var redirecturl = Config.URL.GATEWAY_URL + "?url=" + originalURL;
 				if (exists) {
 					var me = $.evalJSON(response);
-					if (me.preferences && (me.preferences.uuid === "anon" || !me.preferences.uuid)) {
+					if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
 						document.location = redirecturl;
 					}
 				}	
-			}
+			};
 			
 			$.ajax({
 				url : Config.URL.ME_SERVICE,
@@ -305,14 +327,13 @@ fluid.setLogging(false);
 
 
 
+
+
 /**
  * 
  * Mechanism that will be used for registering widgets
  * 
  */
-
-var sdata = {};
-var sakai = {};
 
 sdata.me = false;
 
@@ -702,17 +723,14 @@ sdata.widgets.WidgetPreference =  {
 	 */
 	get : function(prefname, callback, requireslogin){ 
 		var url= "/sdata/p/widgets/" + prefname;
-		url = url +"?sid="+Math.random();
-		var args = "true";
-		if (requireslogin){
-			args = "false";
-		}
-		sdata.Ajax.request( {
+		var args = (requireslogin === false ? false : true);
+		$.ajax ( {
 			url : url,
-			onSuccess : function(data) {
+			cache : false,
+			success : function(data) {
 				callback(data,true);
 			},
-			onFail : function(status) {
+			error : function(status) {
 				callback(status,false);
 			},
 			sendToLoginOnFail: args
@@ -729,23 +747,21 @@ sdata.widgets.WidgetPreference =  {
 	save : function(url, prefname, prefcontent, callback, requireslogin,contentType){
 		var ct = contentType || "text/plain";
 		var cb = callback || function() {}; 
-		var args = "true";
-		if (requireslogin){
-			args = "false";
-		}
-		var url= url + "?sid=" + Math.random();
-		var data = {"items":{"data": prefcontent,"fileName": prefname,"contentType": ct}};
-		sdata.Ajax.request({
+		var args = (requireslogin === false ? false : true);
+		var ct = contentType || "text/plain";
+		var data = {};
+		data[prefname] = prefcontent;
+		
+		$.ajax({
 			url :url,
-			httpMethod : "POST",
-			onSuccess : function(data) {
+			type : "POST",
+			success : function(data) {
 				cb(data,true);
 			},
-			onFail : function(status) {
+			error : function(status) {
 				cb(status,false);
 			},
-			postData : data,
-			contentType : "multipart/form-data",
+			data : data,
 			sendToLoginOnFail: args
 		});
 			
