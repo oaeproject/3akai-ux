@@ -20,11 +20,11 @@ var Config = {
 	URL : {
 		LOGOUT_URL : "/dev/logout.html",
 		GATEWAY_URL : "/dev/index.html",
-		LOGOUT_SERVICE : "/rest/logout",
+		LOGOUT_SERVICE : "/system/sling/formlogin",
 		BUNDLE_ROOT : "/dev/_bundle/",
 		MY_DASHBOARD: "/dev/my_sakai.html",
-		ME_SERVICE: "/rest/me",
-		LOGIN_SERVICE: "/rest/login",
+		ME_SERVICE: "/system/me",
+		LOGIN_SERVICE: "/system/sling/formlogin",
 		CREATE_USER_SERVICE: "/system/userManager/user.create.html",
 		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists",
 		SEARCH_GENERAL_URL: "search_b.html"
