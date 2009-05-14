@@ -23,6 +23,7 @@ var sakai = sakai || {};
 
 sakai.logout = function(){
 
+	var data = {"sakaiauth:logout" : 1};
 	/*
 	 * Will do a POST request to the logout service, which will cause the
 	 * session to be destroyed. After this, we will redirect again to the
@@ -30,17 +31,16 @@ sakai.logout = function(){
 	 * that there is no current session. We can then just redirect to the login
 	 * page again without notifying the user.
 	 */
-	sdata.Ajax.request({
+	$.ajax({
 		url: Config.URL.LOGOUT_SERVICE,
-		httpMethod: "POST",
-		onSuccess: function(data){
+		type: "POST",
+		data : data,
+		success: function(data){
 			window.location = Config.URL.GATEWAY_URL;
 		},
-		onFail: function(status){
+		error: function(status){
 			window.location = Config.URL.GATEWAY_URL;
-		},
-		postData: {"logout":"logout"},
-		contentType: "multipart/form-data"
+		}
 	});
 	
 };
