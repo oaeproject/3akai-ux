@@ -102,10 +102,10 @@ sakai.chat = function(tuid, placement, showSettings){
 	/* Unread inbox messages */
 	
 	var getUnreadMessages = function() {
-		sdata.Ajax.request({
-			httpMethod: "GET",
+		$.ajax ({
 			url: "/_rest/messages/count?types=inbox&categories=*&read=false",
-			onSuccess: function(data){
+			cache : false,
+			success: function(data){
 				var json = eval('(' + data + ')');
 				if (json.response == "OK" && json.count)
 				$("#chat_unreadMessages").text(json.count[0]);
@@ -139,10 +139,10 @@ sakai.chat = function(tuid, placement, showSettings){
             $("#top_navigation_widgets").append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
             sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
         }
-        sdata.Ajax.request({
-            httpMethod: "GET",
-            url: "/rest/sites?sid=" + Math.random(),
-            onSuccess: function(data){
+        S.ajax({
+            url: "/rest/sites",
+			cache : false,
+            success: function(data){
             
                 var newjson = eval('(' + data + ')');
 				newjson.entry = newjson.entry || [];
@@ -161,7 +161,7 @@ sakai.chat = function(tuid, placement, showSettings){
                 }
                 
             },
-            onFail: function(status){
+            error: function(status){
                 alert("An error has occured");
             }
         });
@@ -244,10 +244,10 @@ sakai.chat = function(tuid, placement, showSettings){
     var peopleFocus = false;
     
     var loadPeople = function(){
-        sdata.Ajax.request({
-            httpMethod: "GET",
-            url: "/rest/friend/status?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-            onSuccess: function(data){
+        $.ajax({
+            url: "/rest/friend/status?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			cache : false,
+            success: function(data){
                 var friends = eval('(' + data + ')');
                 
                 var pOnline = {};
@@ -288,7 +288,7 @@ sakai.chat = function(tuid, placement, showSettings){
                 }
                 
             },
-            onFail: function(status){
+            error: function(status){
                 $("#list_rendered").html("<b>An error has occurred.</b> Please try again later");
             }
         });
@@ -431,15 +431,14 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		var tosend = {"k":k,"v":v,"a":a};
 		
-		sdata.Ajax.request({
+		$.ajax({
 	      	url :"/rest/patch/f/_private" + sdata.me.userStoragePrefix + "profile.json",
-        	httpMethod : "POST",
-            postData : tosend,
-            contentType : "application/x-www-form-urlencoded",
-            onSuccess : function(data) {
+        	type : "POST",
+            data : tosend,
+            success : function(data) {
 				updateChatStatus();
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error occurend when sending the status to the server.");
 			}
 		});
@@ -447,10 +446,10 @@ sakai.chat = function(tuid, placement, showSettings){
 	
 	var loadRecentSites = function(){
 		
-		sdata.Ajax.request({
-		   	url :"/sdata/p/recentsites.json?sid=" + Math.random(),
-		    httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+		   	url :"/sdata/p/recentsites.json",
+			cache : false,
+		    success : function(data) {
 				
 				var items = eval('(' + data + ')');
 				
@@ -502,7 +501,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				});
 
 			},
-			onFail : function(data){
+			error : function(data){
 				$("#chat_dropdown_recent_sites").append("<span>No recent sites found</span>");
 			}
 		});
@@ -528,10 +527,10 @@ sakai.chat = function(tuid, placement, showSettings){
 	var peopleFocus = false;
 	
 	var loadPeople = function(){
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-			onSuccess: function(data){
+		$.ajax({
+			url: "/rest/friend/status?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			cache : false,
+			success: function(data){
 				var friends = eval('(' + data + ')');
 				
 				var pOnline = {};
@@ -573,7 +572,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 				
 			},
-			onFail: function(status){
+			error: function(status){
 				$("#list_rendered").html("<b>An error has occurred.</b> Please try again later");
 			}
 		});
@@ -680,10 +679,9 @@ sakai.chat = function(tuid, placement, showSettings){
 	}
 	
 	var getUnreadMessages = function() {
-		sdata.Ajax.request({
-			httpMethod: "GET",
+		$.ajax({
 			url: "/_rest/messages/count?types=inbox&categories=*&read=false",
-			onSuccess: function(data){
+			success: function(data){
 				var json = json_parse(data);
 				if (json.response == "OK" && json.count)
 				$("#chat_unreadMessages").text(json.count[0]);
@@ -696,16 +694,15 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
  	
 	var getChatStatus = function(){	
- 		sdata.Ajax.request({
+ 		$.ajax({
             url: "/_rest/chatstatus/get",
-            httpMethod: "GET",
-            onSuccess: function(data){
+            success: function(data){
 				if(typeof data === "string"){
 					currentChatStatus = parseChatStatus(data);
 				}
 				updateChatStatus();
             },
-            onFail: function(status){
+            error: function(status){
 				currentChatStatus = "online";
 				updateChatStatus();
             }
@@ -731,7 +728,7 @@ sakai.chat = function(tuid, placement, showSettings){
     
         var person = sdata.me;
         
-        if (!person.preferences.uuid) {
+        if (!person.user.userid) {
             return;
         }
         else {
@@ -773,20 +770,19 @@ sakai.chat = function(tuid, placement, showSettings){
 			sendToLoginOnFail = "true";
 		}
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: "/_rest/presence/status",
-			httpMethod: "POST",
-			onSuccess: function(data){
+			type: "POST",
+			success: function(data){
 				setTimeout(informPresent, 20000);
 				goBackToLogin = true;
 			},
-			onFail: function(status){
+			error: function(status){
 				setTimeout(informPresent, 20000);
 			},
-			postData: {
+			data: {
 				status: "online"
 			},
-			contentType: "application/x-www-form-urlencoded",
 			sendToLoginOnFail: goBackToLogin
 		});
 		
@@ -802,16 +798,16 @@ sakai.chat = function(tuid, placement, showSettings){
 			sendToLoginOnFail = "true";
 		}
 	
-		sdata.Ajax.request({
-			url: "/_rest/presencewow/friends?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
+		$.ajax({
+			url: "/_rest/presencewow/friends",
+			cache : false,
+			success: function(data){
 				online = eval('(' + data + ')');
 				showOnlineFriends();
 				setTimeout(checkOnline, 20000);
 				goBackToLogin = true;
 			},
-			onFail: function(status){
+			error: function(status){
 			},
 			sendToLoginOnFail: sendToLoginOnFail
 		});
@@ -1372,7 +1368,6 @@ sakai.chat = function(tuid, placement, showSettings){
 							alert("An error has occured when sending the message.");
 						},
 						postData: data,
-						contentType: "application/x-www-form-urlencoded"
 					});
 					
 				}
@@ -1414,7 +1409,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			return;
 		}
 		else {
-			set_cookie('sakai_chat', sdata.JSON.stringify(activewindows), null, null, null, "/", null, null);
+			set_cookie('sakai_chat', $.toJSON(activewindows), null, null, null, "/", null, null);
 		}
 	});
 	
@@ -1483,11 +1478,11 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		var tosend = onlineUsers.join(",");
 		
-		sdata.Ajax.request({
-			url: "/_rest/chat/get?users=" + tosend + "&initial=" + initial + "&sid=" + Math.random(),
-			httpMethod: "GET",
+		$.ajax({
+			url: "/_rest/chat/get?users=" + tosend + "&initial=" + initial,
+			cache : false,
 			sendToLoginOnFail: "false",
-			onSuccess: function(data){
+			success: function(data){
 				var json = json_parse(data);
 				if(json.messages){
 					for(var i in json.messages) {
@@ -1579,7 +1574,7 @@ sakai.chat = function(tuid, placement, showSettings){
 					setTimeout("loadChatTextInitial(false)", 5000);
 				}
 			},
-			onFail: function(status){
+			error: function(status){
 				if (doreload) {
 					setTimeout("loadChatTextInitial(false)", 5000);
 				}
