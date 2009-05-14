@@ -14,7 +14,8 @@ sakai.sites = function(tuid,placement,showSettings){
 	else {
 	
 		sdata.widgets.WidgetLoader.insertWidgets(tuid);
-		$("#" + tuid + " #create_new_site_link").bind("click", function(ev){
+		//$("#" + tuid + " #create_new_site_link").bind("click", function(ev){
+		$("#create_new_site_link").bind("click", function(ev){
 			createNewSite();
 		});
 		
@@ -25,6 +26,21 @@ sakai.sites = function(tuid,placement,showSettings){
 		
 		me = sdata.me;
 		$.ajax({
+			url: "/sdata/p/mysites.json",
+			cache: false,
+			success: function(data){
+			
+				loadSiteList(data, true);
+				
+			},
+			error: function(status){
+				
+				loadSiteList("{}", true);
+				
+			}
+		});
+		/*
+$.ajax({
 			url: "/rest/sites",
 			cache : false,
 			success: function(data){
@@ -34,6 +50,7 @@ sakai.sites = function(tuid,placement,showSettings){
 				loadSiteList("", false);
 			}
 		});
+*/
 		
 		var loadSiteList = function(response, exists){
 			//var needsCreatingPersonalSite = true;
@@ -42,14 +59,14 @@ sakai.sites = function(tuid,placement,showSettings){
 				var json = eval('(' + response + ')');
 				var newjson = {};
 				newjson.entry = [];
-				if (json.entry) {
-					for (var i = 0; i < json.entry.length; i++) {
-						var site = json.entry[i];
-						if (site.id.substring(0, 1) != "~") {
-							newjson.entry[newjson.entry.length] = site;
-						}
+				
+					for (var i in json) {
+						var obj = {};
+						obj.location = i;
+						obj.name = json[i];
+						newjson.entry[newjson.entry.length] = obj;
 					}
-				}
+				
 				doRender(newjson);		
 			}
 		}
@@ -68,13 +85,13 @@ sakai.sites = function(tuid,placement,showSettings){
 	
 	var doRender = function(newjson){
 		for (var i = 0; i < newjson.entry.length; i++){
-			newjson.entry[i].location = newjson.entry[i].location.substring(1);
+			//newjson.entry[i].location = newjson.entry[i].location.substring(1);
 		}
 		if (newjson.entry.length == 0){
-			$("#" + tuid + " #sitelistwow").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
+			$("#sitelistwow").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
 		} else {
 			newjson.entry = newjson.entry.sort(doSort);
-			$("#" + tuid + " #sitelistwow").html(sdata.html.Template.render('sitelistwow_template', newjson));
+			$("#sitelistwow").html(sdata.html.Template.render('sitelistwow_template', newjson));
 		}
 	}
 
