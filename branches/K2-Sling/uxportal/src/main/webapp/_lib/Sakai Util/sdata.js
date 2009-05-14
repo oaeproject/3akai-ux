@@ -425,6 +425,10 @@ sdata.widgets.WidgetLoader =  {
 	informOnLoad : function(widgetname){
 		try {
 			sdata.widgets.WidgetLoader.toload[widgetname].done++;
+			//console.debug(widgetname);
+			if (widgetname === "sites"){
+				console.debug($.toJSON(sdata.widgets.WidgetLoader.bigarray));
+			}
 			if (sdata.widgets.WidgetLoader.toload[widgetname].done == sdata.widgets.WidgetLoader.toload[widgetname].todo){
 				var initfunction = eval('sakai.' + widgetname);
 				for (var i = 0; i < sdata.widgets.WidgetLoader.bigarray[widgetname].length; i++){
@@ -533,22 +537,29 @@ sdata.widgets.WidgetLoader =  {
 		}
 
 		for (var i in bigarray){
-			try {
-				for (var ii = 0; ii < bigarray[i].length; ii++){
-					var el = document.getElementById(bigarray[i][ii].id);
-					var newel = document.createElement("div");
-					newel.id = bigarray[i][ii].uid;	
-					newel.className = bigarray[i][ii].floating;
-					newel.innerHTML = "";
-					el.parentNode.replaceChild(newel,el);
-				}
-			} catch(err){alert("Another error")};
+			if (bigarray[i]) {
+				try {
+					for (var ii = 0; ii < bigarray[i].length; ii++) {
+						var el = document.getElementById(bigarray[i][ii].id);
+						var newel = document.createElement("div");
+						newel.id = bigarray[i][ii].uid;
+						newel.className = bigarray[i][ii].floating;
+						newel.innerHTML = "";
+						el.parentNode.replaceChild(newel, el);
+					}
+				} 
+				catch (err) {
+					console.debug(err + " - " + bigarray[i][ii].id);
+				};
+			}
 		}
 
 		sdata.widgets.WidgetLoader.bigarray = bigarray;
 
 		for (var i in bigarray){
-			sdata.widgets.WidgetLoader.loadWidgetFiles(bigarray, i);
+			if (bigarray[i]) {
+				sdata.widgets.WidgetLoader.loadWidgetFiles(bigarray, i);
+			}
 		}
 
 	},
