@@ -53,7 +53,7 @@ $(document).ready(function(){
 	 * Definines whether there is a me feed available or not. If not, the system will use a static file
 	 * somewhere on disk, to mock up the server behaviour.
 	 */
-	var isMeFeed = false;
+	var isMeFeed = true;
 	var sdataMeUrl = Config.URL.ME_SERVICE;
 	
 	
@@ -157,7 +157,36 @@ $(document).ready(function(){
 			url: sdataMeUrl,
 			cache: false,
 			success: function(data){
+				
 				sdata.me = $.evalJSON(data);
+				
+				/*
+				 * HACK: This is temporary until a more complete me service comes through
+				 */
+				sdata.me["locale"] = {
+						"country":"GB",
+						"variant":"",
+						"displayCountry":"United Kingdom",
+						"ISO3Country":"GBR",
+						"displayVariant":"",
+						"language":"en",
+						"displayLanguage":"English",
+						"ISO3Language":"eng",
+						"displayName":"English (United Kingdom)"
+					};
+				sdata.me["preferences"] = {};
+				sdata.me["profile"] = {
+						"firstName" : "Admin",
+						"lastName" : "User",
+						"email" : "nicolaas.matthijs@caret.cam.ac.uk",
+						"chatstatus" : "online"
+					}; 
+				sdata.me["status"] = "online";
+				
+				/*
+				 * END HACK
+				 */
+				
 				loadDefaultBundle();
 		  	},
 		  	error : function(data){
