@@ -17,19 +17,7 @@ sakai.video = function(tuid, placement, showSettings){
 	 * Get the current user
 	 */
 	var getCurrentUser = function() {
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/me",
-			onSuccess: function(data){
-				me = eval('(' + data + ')');
-				if (!me) {
-					alert('An error occured when getting the current user.');
-				}
-			},
-			onFail: function(status){
-				alert("Couldn't connect to the server.");
-			}
-		});
+		me = sdata.me;
 	}
 	getCurrentUser();
 	
@@ -60,13 +48,12 @@ sakai.video = function(tuid, placement, showSettings){
 	 */
 	if (showSettings){
 		/** Check if it is an edit or a new video */
-		sdata.Ajax.request({
-			url :"/sdata/f/" + placement + "/" + tuid + "/video?sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+			url :"/sites/" + placement + "/" + tuid + "/video?sid=" + Math.random(),
+			success : function(data) {
 				showSettingsScreen(data,true);
 			},
-			onFail : function(status) {
+			error : function(status) {
 				showSettingsScreen(status,false);
 			}
 		});
@@ -75,13 +62,12 @@ sakai.video = function(tuid, placement, showSettings){
 		$("#video_settings", rootel).hide();
 		$("#video_maincontainer", rootel).show();
 		
-		sdata.Ajax.request({
-			url: "/sdata/f/" + placement + "/" + tuid + "/video?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sites/" + placement + "/" + tuid + "/video?sid=" + Math.random(),
+			success: function(data){
 				showVideos(data,true);
 			},
-			onFail: function(status){
+			error: function(status){
 				showVideos(status,false);
 			}
 		});
@@ -111,8 +97,8 @@ sakai.video = function(tuid, placement, showSettings){
 	 * @param {Object} video
 	 */
 	var addVideo = function(video){
-		var tostring = sdata.JSON.stringify(video);
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "video", tostring, finishNewSettings);
+		var tostring = $.toJSON(video);
+		sdata.widgets.WidgetPreference.save("/sites/" + placement + "/" + tuid, "video", tostring, finishNewSettings);
 	}
 	
 	
