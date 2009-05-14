@@ -36,6 +36,7 @@ sakai.index = function(){
 	var failMessage = "#failed";
 	var loadingMessage = "#loginloader";
 	var registerLink = "#register_here";
+	var loginForm = "#login_container";
 	
 	
 	/////////////////////
@@ -47,8 +48,8 @@ sakai.index = function(){
 	 * redirect to the URL requested or the personal dashboard if nothing has been provided. 
 	 */
 	var decideLoggedIn = function(data){
-		var mejson = (data === undefined ? sdata.me : json_parse(data));
-		if (mejson.preferences.uuid !== "anon" && mejson.preferences.uuid !== undefined) {
+		var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
+		if (mejson.user.userid) {
 			document.location = redirectUrl;
 		} else {
 			$(loadingMessage).hide();
@@ -69,13 +70,13 @@ sakai.index = function(){
 	 */
 	var checkLogInSuccess = function(response, exists){
 		
-		sdata.Ajax.request({
-			url : Config.URL.ME_SERVICE + "?sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+			url : Config.URL.ME_SERVICE,
+			cache : false,
+			success : function(data) {
 				decideLoggedIn(data,true);
 			},
-			onFail : function(data){
+			error : function(data){
 				throw "Me service has failed";
 			}
 		});
@@ -99,27 +100,27 @@ sakai.index = function(){
 			$(registerLink).hide();
 
 			/*
-			 * u : the username entered in the username textfield
-			 * p : the password entered in the password textfield
-			 * l : set to 1 because we want to perform a login action
-			 * a : the login method set to FORM because we are doing a FORM-based login
+			 * sakaiauth:un : the username entered in the username textfield
+			 * sakaiauth:pw : the password entered in the password textfield
+			 * sakaiauth:login : set to 1 because we want to perform a login action
 			 */
-			var requestbody = {"l":1, "a":"FORM", "u" : username, "p" : password};
+			var requestbody = {"sakaiauth:login":1, "sakaiauth:un" : username, "sakaiauth:pw" : password};
 	
-			sdata.Ajax.request({
-				url :Config.URL.LOGIN_SERVICE,
-				httpMethod : "POST",
-				onSuccess : function(data) {
+			$.ajax({
+				url : Config.URL.LOGIN_SERVICE,
+				type : "POST",
+				success : function(data) {
 					checkLogInSuccess(data,true);
 				},
-				onFail : function(status) {
+				error : function(status) {
 					checkLogInSuccess(status,false);
 				},
-				postData : requestbody,
-				contentType : "application/x-www-form-urlencoded"
+				data : requestbody
 			});
 
 		}
+		
+		return false;
 
 	};
 	
@@ -142,17 +143,10 @@ sakai.index = function(){
 	////////////////////
 	
 	/*
-	 * Check on every keypress whether the enter key has been pressed or not. If so,
+	 * When the user is trying to initiate the form submission,
 	 * we initiate the login function
 	 */
-	$("input").bind("keydown", function(e){
-		if (e.keyCode === 13){
-			performLogIn();
-		}
-	});
-	
-	$(loginButton).bind("click", performLogIn);
-	
+	$(loginForm).submit(performLogIn);
 
 	/////////////////////////////
 	// Initialisation function //
