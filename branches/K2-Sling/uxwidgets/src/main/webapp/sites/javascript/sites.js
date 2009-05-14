@@ -24,13 +24,13 @@ sakai.sites = function(tuid,placement,showSettings){
 		}
 		
 		me = sdata.me;
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/sites?sid=" + Math.random(),
-			onSuccess: function(data){
+		$.ajax({
+			url: "/rest/sites",
+			cache : false,
+			success: function(data){
 				loadSiteList(data, true);
 			},
-			onFail: function(status){
+			error: function(status){
 				loadSiteList("", false);
 			}
 		});
