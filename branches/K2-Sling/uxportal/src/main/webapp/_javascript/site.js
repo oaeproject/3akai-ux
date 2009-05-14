@@ -48,7 +48,7 @@ sakai.site = function(){
 	*/
 	
 	var startSiteLoad = function(){
-		if (meObject.preferences.uuid){
+		if (meObject.user.userid){
 			$("#loginLink").hide();
 		} else {
 			$(".explore_nav").hide();
@@ -68,13 +68,14 @@ sakai.site = function(){
 		else {
 			$("#site_management_members_link").attr("href", $("#site_management_members_link").attr("href") + currentsite);
 			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + currentsite);
-			sdata.Ajax.request({
-				url: "/_rest/site/get/" + currentsite + "?sid=" + Math.random(),
-				onSuccess: function(response){
+			$.ajax({
+				url: "/sites/" + currentsite + "/meta",
+				cache : false,
+				success: function(response){
 					continueLoad(response, true);
 					saveToRecentSites(response);
 				},
-				onFail: function(httpstatus){
+				error: function(httpstatus){
 					continueLoad(httpstatus, false);
 				}
 			});
@@ -89,7 +90,7 @@ sakai.site = function(){
 			$("#sitetitle").text(currentsite.name);
 					
 			meObject = sdata.me;
-			var isMaintainer = false;
+			var isMaintainer = true;
 			
 			if (meObject.preferences.subjects) {
 				for (var i = 0; i < currentsite.owners.length; i++) {
@@ -123,14 +124,14 @@ sakai.site = function(){
 		$("#initialcontent").show();
 		totaltotry = 0;
 		
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/.site/pageconfiguration?sid=" + Math.random(),
-			onSuccess: function(response){
+		$.ajax({
+			url: "/sites/" + currentsite.id + "/pageconfiguration?sid=" + Math.random(),
+			success: function(response){
 				pages = eval('(' + response + ')');
 				pageconfiguration = pages;
 				loadNavigation(dofalsereload);
 			},
-			onFail: function(httpstatus){
+			error: function(httpstatus){
 				pages = {};
 				pages.items = {};
 				pageconfiguration = pages;
@@ -141,15 +142,15 @@ sakai.site = function(){
 	};
 	
 	var loadNavigation = function(dofalsereload){
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
-			onSuccess: function(response){
+		$.ajax({
+			url: "/sites/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
+			success: function(response){
 				pagecontents["_navigation"] = response;
 				$("#page_nav_content").html(response);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
+				sdata.widgets.WidgetLoader.insertWidgets("page_nav_content");
 				History.history_change();
 			},
-			onFail: function(httpstatus){
+			error: function(httpstatus){
 				History.history_change();
 			}
 		});
@@ -254,7 +255,7 @@ sakai.site = function(){
 					el.appendChild(cel);
 					document.getElementById("container").appendChild(el);
 					sdata.Ajax.request({
-						url: "/sdata/f/" + currentsite.id + "/pages/" + selectedpage + "/state?sid=" + Math.random(),
+						url: "/sites/" + currentsite.id + "/pages/" + selectedpage + "/state?sid=" + Math.random(),
 						httpMethod: "GET",
 						onSuccess: function(data){
 							decideDashboardExists(data, true, el);
@@ -268,12 +269,12 @@ sakai.site = function(){
 				else 
 					if (type == "webpage") {
 						var splittedurl = selectedpage.replace(/\//g,"/_pages/");
-						sdata.Ajax.request({
-							url: "/sdata/f/" + currentsite.id + "/_pages/" + splittedurl + "/content" + "?sid=" + Math.random(),
-							onSuccess: function(response){
+						$.ajax({
+							url: "/sites/" + currentsite.id + "/_pages/" + splittedurl + "/content" + "?sid=" + Math.random(),
+							success: function(response){
 								displayPage(response, true);
 							},
-							onFail: function(httpstatus){
+							eror: function(httpstatus){
 								displayPage(httpstatus, false);
 							}
 						});
@@ -311,7 +312,7 @@ if (nel.className == "contauthlink") {
 			}
 			
 			document.getElementById("main-content-div").appendChild(el);
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g,"%20"));
+			sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g,"%20"));
 			
 			//jQuery("a", $("#container")).tabbable();
 			
@@ -659,14 +660,13 @@ if (nel.className == "contauthlink") {
 		$("#edit_view_container").show();
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content?sid=" + Math.random(),
-			httpMethod: 'GET',
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sites/" + currentsite.id + "/_pages/" + newpath + "/_content?sid=" + Math.random(),
+			success: function(data){
 				autosavecontent = data;
 				$('#autosave_dialog').jqmShow();
 			},
-			onFail: function(data){	
+			error: function(data){	
 				timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
 			}
 		});
@@ -691,10 +691,10 @@ if (nel.className == "contauthlink") {
 	
 	$("#delete_confirm").bind("click", function(){
 		var newpath = selectedpage.split("/").join("/_pages/");
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "?sid=" + Math.random(),
-			httpMethod: 'DELETE',
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sites/" + currentsite.id + "/_pages/" + newpath + "?sid=" + Math.random(),
+			type: 'DELETE',
+			success: function(data){
 				
 				// Save the new page configuration
 				
@@ -707,14 +707,14 @@ if (nel.className == "contauthlink") {
 				
 				pages.items.splice(index, 1);
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 				
 					document.location = "/dev/site.html?siteid=" + currentsite.id;
 				
 				});
 				
 			},
-			onFail: function(data){	
+			error: function(data){	
 				
 				// Save the new page configuration
 				
@@ -727,7 +727,7 @@ if (nel.className == "contauthlink") {
 				
 				pages.items.splice(index, 1);
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 				
 					document.location = "/dev/site.html?siteid=" + currentsite.id;
 				
@@ -782,7 +782,7 @@ if (nel.className == "contauthlink") {
 		// Save the data
 		
 		var newurl = selectedpage.split("/").join("/_pages/");
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){}, null, "x-sakai-page");
+		sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/_pages/" + newurl, "_content", tosave, function(){}, null, "x-sakai-page");
 
 		// Update autosave indicator
 		
@@ -824,13 +824,9 @@ if (nel.className == "contauthlink") {
 		// Remove autosave file
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content",
-			httpMethod: 'DELETE',
-			onSuccess: function(data){
-			},
-			onFail: function(data){	
-			}
+		$.ajax({
+			url: "/sites" + currentsite.id + "/_pages/" + newpath + "/_content",
+			type: 'DELETE'
 		});
 		
 	}
@@ -861,7 +857,7 @@ if (nel.className == "contauthlink") {
 			
 			// Save configuration file
 			
-			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+			sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 	
 				// Go back to view mode of previous page
 				
@@ -871,7 +867,7 @@ if (nel.className == "contauthlink") {
 					$("#webpage_edit").show();
 				}
 				document.getElementById(oldSelectedPage).style.display = "block";
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(oldSelectedPage);
+				sdata.widgets.WidgetLoader.insertWidgets(oldSelectedPage);
 				
 				selectedpage = oldSelectedPage;
 			
@@ -882,7 +878,7 @@ if (nel.className == "contauthlink") {
 			
 				var newpath = selectedpage.split("/").join("/_pages/");
 				sdata.Ajax.request({
-					url: "/sdata/f/" + currentsite.id + "/" + newpath,
+					url: "/sites/" + currentsite.id + "/" + newpath,
 					httpMethod: 'DELETE',
 					onSuccess: function(data){
 					},
@@ -902,7 +898,7 @@ if (nel.className == "contauthlink") {
 				$("#webpage_edit").show();
 			}
 			document.getElementById(escaped).style.display = "block";
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+			sdata.widgets.WidgetLoader.insertWidgets(escaped);
 			
 			$("#edit_view_container").hide();
 			$("#show_view_container").show();
@@ -939,8 +935,8 @@ if (nel.className == "contauthlink") {
 			$("#edit_view_container").hide();
 			$("#show_view_container").show();
 			
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
-			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_navigation", "content", pagecontents["_navigation"], function(){});
+			sdata.widgets.WidgetLoader.insertWidgets("page_nav_content");
+			sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/_navigation", "content", pagecontents["_navigation"], function(){});
 			
 			var els = $("a", $("#" + escaped));
 			for (var i = 0; i < els.length; i++) {
@@ -953,7 +949,7 @@ if (nel.className == "contauthlink") {
 			}
 			
 			document.getElementById(escaped).style.display = "block";
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+			sdata.widgets.WidgetLoader.insertWidgets(escaped);
 		
 		} else {
 		
@@ -1029,7 +1025,7 @@ if (nel.className == "contauthlink") {
 				
 				// Move page folder to this new id
 				
-				var oldfolderpath = "/sdata/f/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
+				var oldfolderpath = "/sites/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
 				var newfolderpath = "/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
 				
 				var data = {
@@ -1037,11 +1033,11 @@ if (nel.className == "contauthlink") {
 					f: "mv"
 				};
 				
-				sdata.Ajax.request({
+				$.ajax({
 					url: oldfolderpath,
-					httpMethod: 'POST',
-					postData: data,
-					onSuccess: function(data){
+					type: 'POST',
+					data: data,
+					success: function(data){
 						
 						// Move all of the subpages of the current page to stay a subpage of the current page
 				
@@ -1054,14 +1050,14 @@ if (nel.className == "contauthlink") {
 				
 						// Adjust configuration file
 						
-						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+						sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 							
 							// Render the new page under the new URL
 							
 								// Save page content
 								
 								var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-								sdata.widgets.WidgetPreference.save("/sdata/f" + newfolderpath, "content", content, function(){
+								sdata.widgets.WidgetPreference.save("/sites" + newfolderpath, "content", content, function(){
 									
 									// Remove old div + potential new one
 								
@@ -1081,7 +1077,7 @@ if (nel.className == "contauthlink") {
 									
 									// Check in the page
 									sdata.Ajax.request({
-										url: "/sdata/f" + newfolderpath + "/content?f=ci",
+										url: "/sites" + newfolderpath + "/content?f=ci",
 										httpMethod: 'POST',
 										onSuccess: function(data){},
 										onFail: function(data){}
@@ -1092,7 +1088,7 @@ if (nel.className == "contauthlink") {
 						});		
 						
 					},
-					onFail: function(status){
+					error: function(status){
 						
 						// Move all of the subpages of the current page to stay a subpage of the current page
 				
@@ -1105,14 +1101,14 @@ if (nel.className == "contauthlink") {
 				
 						// Adjust configuration file
 						
-						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+						sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
 							
 							// Render the new page under the new URL
 							
 								// Save page content
 								
 								var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-								sdata.widgets.WidgetPreference.save("/sdata/f" + newfolderpath, "content", content, function(){
+								sdata.widgets.WidgetPreference.save("/sites" + newfolderpath, "content", content, function(){
 									
 									// Remove old div + potential new one
 								
@@ -1132,7 +1128,7 @@ if (nel.className == "contauthlink") {
 									
 									// Check in the page
 									sdata.Ajax.request({
-										url: "/sdata/f" + newfolderpath + "/content?f=ci",
+										url: "/sites" + newfolderpath + "/content?f=ci",
 										httpMethod: 'POST',
 										onSuccess: function(data){},
 										onFail: function(data){}
@@ -1154,7 +1150,7 @@ if (nel.className == "contauthlink") {
 								
 					var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
 					var newurl = selectedpage.split("/").join("/_pages/");
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "content", content, function(){
+					sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/_pages/" + newurl, "content", content, function(){
 							
 						// Remove old div + potential new one
 								
@@ -1172,7 +1168,7 @@ if (nel.className == "contauthlink") {
 						
 						// Check in the page
 						sdata.Ajax.request({
-							url: "/sdata/f/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
+							url: "/sites/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
 							httpMethod: 'POST',
 							onSuccess: function(data){},
 							onFail: function(data){}
@@ -1206,17 +1202,19 @@ if (nel.className == "contauthlink") {
 					}
 					
 					document.getElementById(escaped).style.display = "block";
-					sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+					sdata.widgets.WidgetLoader.insertWidgets(escaped);
 					var newurl = selectedpage.split("/").join("/_pages/");
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
+					sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
 					
 						// Check in the page
-						sdata.Ajax.request({
-							url: "/sdata/f/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
+						/*
+sdata.Ajax.request({
+							url: "/sites/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
 							httpMethod: 'POST',
 							onSuccess: function(data){},
 							onFail: function(data){}
 						});
+*/
 					
 					}, null, "x-sakai-page");
 					
@@ -1312,7 +1310,7 @@ if (nel.className == "contauthlink") {
 					newwidget_uid = nuid;
 					$("#dialog_content").html('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>');
 					$("#dialog_title").text(Widgets.widgets[type].name)
-					sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+					sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true);
 					$("#dialog_content").show();
 					$("#insert_more_menu").hide();
 					showingInsertMore = false;	
@@ -1345,7 +1343,7 @@ if (nel.className == "contauthlink") {
 			switchtab("html","HTML","preview","Preview");
 		}
 		$("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_preview_content");
+		sdata.widgets.WidgetLoader.insertWidgets("page_preview_content");
 		currentEditView = "preview";
 	});
 	
@@ -1549,7 +1547,7 @@ if (nel.className == "contauthlink") {
 			newwidget_uid = id;
 			$("#dialog_content").html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
 			$("#dialog_title").text(Widgets.widgets[widgetid].name)
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+			sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true);
 			$("#dialog_content").show();
 			window.scrollTo(0,0);
 			
@@ -1661,7 +1659,7 @@ if (nel.className == "contauthlink") {
 		
 		// Post the new configuration file
 		
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){});
+		sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){});
 		
 		// Pull up the edit view
 		
@@ -2064,7 +2062,7 @@ if (nel.className == "contauthlink") {
 		
 		if (!inEditView) {
 		
-			var oldfolderpath = "/sdata/f/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
+			var oldfolderpath = "/sites/" + currentsite.id + "/_pages/" + selectedpage.split("/").join("/_pages/");
 			var newfolderpath = "/" + currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
 			
 			var data = {
@@ -2101,7 +2099,7 @@ if (nel.className == "contauthlink") {
 						}
 					}
 					
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+					sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
 					
 						$(document.body).hide();
 						document.location = "#" + newid;
@@ -2136,7 +2134,7 @@ if (nel.className == "contauthlink") {
 						}
 					}
 					
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+					sdata.widgets.WidgetPreference.save("/sites/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
 					
 						$(document.body).hide();
 						document.location = "#" + newid;
@@ -2397,7 +2395,7 @@ if (nel.className == "contauthlink") {
 		$("#revision_history_container").show();
 		$("#more_menu").hide();
 		sdata.Ajax.request({
-		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?f=vh&sid=" + Math.random(),
+		   	url :"/sites/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?f=vh&sid=" + Math.random(),
 		    httpMethod : "GET",
 			onSuccess : function(data) {
 				var history = eval('(' + data + ')');
@@ -2485,22 +2483,22 @@ if (nel.className == "contauthlink") {
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
 		sdata.Ajax.request({
-		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		   	url :"/sites/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
 		    httpMethod : "GET",
 			onSuccess : function(data) {
 				
 				$("#" + escapePageId(selectedpage)).html(data);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g, "%20"));
 				
 				// Save new version of this page
 				
 				var newfolderpath = currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/");
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + newfolderpath, "content", data, function(){
+				sdata.widgets.WidgetPreference.save("/sites/" + newfolderpath, "content", data, function(){
 									
 					// Check in the page
 					sdata.Ajax.request({
-						url: "/sdata/f/" + newfolderpath + "/content?f=ci",
+						url: "/sites/" + newfolderpath + "/content?f=ci",
 						httpMethod: 'POST',
 						onSuccess: function(data){},
 						onFail: function(data){}
@@ -2523,11 +2521,11 @@ if (nel.className == "contauthlink") {
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
 		sdata.Ajax.request({
-		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		   	url :"/sites/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
 		    httpMethod : "GET",
 			onSuccess : function(data) {
 				$("#" + escapePageId(selectedpage)).html(data);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g, "%20"));
 			},
 			onFail : function(data){
 				alert("An error has occured");
@@ -2541,7 +2539,7 @@ if (nel.className == "contauthlink") {
 				$("#revision_history_container").hide();
 				$("#content_page_options").show();
 				$("#" + escapePageId(selectedpage)).html(pagecontents[selectedpage]);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g, "%20"));
 			}
 		} catch (err){
 			// Ignore	
@@ -2594,23 +2592,23 @@ if (nel.className == "contauthlink") {
 	
 	var saveToRecentSites = function(response){
 		
-		sdata.Ajax.request({
-		   	url :"/sdata/p/recentsites.json?sid=" + Math.random(),
-		    httpMethod : "GET",
-			onSuccess : function(data) {
+	$.ajax({
+		   	url :"/sdata/p/recentsites?sid=" + Math.random(),
+		   success : function(data) {
 				var items = eval('(' + data + ')');
 				transformRecentSitesList(items, response);
 			},
-			onFail : function(data){
+			error : function(data){
 				transformRecentSitesList({"items":[]}, response);
 			}
 		});
+
 		
 	}
 	
 	var transformRecentSitesList = function(items, response){
 		
-		var site = eval('(' + response + ')').location.substring(1);
+		var site = currentsite.id;
 		//Filter out this site
 		var index = -1;
 		for (var i = 0; i < items.items.length; i++){
@@ -2629,7 +2627,7 @@ if (nel.className == "contauthlink") {
 
 	var writeRecentSiteList = function(items){
 		
-		sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", sdata.JSON.stringify(items), function(success){});
+		sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites",$.toJSON(items), function(success){});
 		
 	}
 	
