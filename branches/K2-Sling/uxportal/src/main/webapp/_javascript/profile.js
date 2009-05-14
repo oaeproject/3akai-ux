@@ -72,8 +72,8 @@ sakai.profile = function(){
 		me = sdata.me;
 		
 		
-		if (!me.preferences.uuid && !me.preferences.eid) {
-			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/redesign/profile.html";
+		if (!me.user.userid) {
+			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile.html";
 			if (user){
 				redirect += sdata.util.URL.encode("?user=" + user);
 			}
@@ -85,11 +85,11 @@ sakai.profile = function(){
 		
 		if (user && user != me.preferences.uuid) {
 			myprofile = false;
-			fileUrl = "/rest/me/" + user + "?sid=" + Math.random();
-			sdata.Ajax.request({
-				httpMethod: "GET",
+			fileUrl = "/rest/me/" + user;
+			$.ajax({
 				url: fileUrl,
-				onSuccess: function(data){
+				cache : false,
+				success: function(data){
 					totalprofile = eval('(' + data + ')');
 					totalprofile.profile = totalprofile.users[0].profile;
 					totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
@@ -108,7 +108,7 @@ sakai.profile = function(){
 					fillInFields();
 					
 				},
-				onFail: function(status){
+				error: function(status){
 				
 				}
 			});
@@ -117,43 +117,21 @@ sakai.profile = function(){
 			if (!showEdit) {
 				//myprofile = false;
 				$("#link_edit_profile").show();
-				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
-					onSuccess: function(data){
-						json = eval('(' + data + ')');
-						fillInFields();
-					},
-					onFail: function(status){
-					
-					}
-				});
+				json = sdata.me.profile;
+				fillInFields();
 			}
 			else {
 				if (user == me.preferences.uuid) {
 					user = false;
 				}
 				$("#link_view_profile").show();
-				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
-					onSuccess: function(data){
-						json = eval('(' + data + ')');
-						
-						setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
-						setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
-						setFunctions(jobfield, jobsavefield, jobsavestring, jobfields, jobrequired);
-						setFunctions(educationfield, educationsavefield, educationsavestring, educationfields, educationrequired);
-						setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);
-						
-						fillInFields();
-					},
-					onFail: function(status){
-					
-					}
-				});
+				json = sdata.me;
+				setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
+				setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
+				setFunctions(jobfield, jobsavefield, jobsavestring, jobfields, jobrequired);
+				setFunctions(educationfield, educationsavefield, educationsavestring, educationfields, educationrequired);
+				setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);		
+				fillInFields();
 			}
 		
 		if (myprofile) {
@@ -730,9 +708,9 @@ sakai.profile = function(){
 	}
 	
 	var doAddButton = function(){
-   		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?sid=" + Math.random(),
+   		$.ajax({
+			url: "/rest/friend",
+			cache : false,
 			onSuccess: function(data){
 				var resp = eval('(' + data + ')');
 				
