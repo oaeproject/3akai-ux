@@ -36,13 +36,13 @@ sakai.helloworld = function(tuid,placement,showSettings){
 	}
 
 	var getPreferedColor = function(callback){
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/sdata/p/" + placement + "/" + tuid + "/" + saveLocation + "?sid=" + Math.random(),
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sdata/p/" + placement + "/" + tuid + "/" + saveLocation,
+			cache : false,
+			success: function(data){
 				callback(data);
 			},
-			onFail: function(status){
+			error: function(status){
 				callback(defaultColor);
 			}
 		});
