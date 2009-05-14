@@ -17,6 +17,10 @@ body {
 	display:none;
 }
 
+.mceContentBody {
+	display: block !important;
+}
+
 h1 {
     font:normal 2em Arial, Helvetica, sans-serif;
 }
