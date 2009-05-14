@@ -33,32 +33,37 @@ sakai.newaccount = function(){
 	
 	var defaultUserType = "default";
 	
-	var formContainer = "#create-account-form";
-	
 	// Links and labels
 	var checkUserNameLink = "#checkUserName ";
 	var buttonsContainer = "#buttons";
 	var successMessage = "#success_message";
 	
 	// Input fields
-	var userNameField = "#username";
-	var firstnameField = "#firstname";
-	var lastnameField = "#lastname";
-	var emailField = "#email";
-	var passwordField = "#password";
-	var passwordRepeatField = "#password_repeat";
-	var captchaField = "#uword";
+	var username = "username";
+	var firstName = "firstname";
+	var lastName = "lastname";
+	var email = "email";
+	var password = "password";
+	var passwordRepeat = "password_repeat";
+	var captcha = "uword";
+	var usernameField = "#" + username;
+	var firstnameField = "#" + firstName;
+	var lastnameField = "#" + lastName;
+	var emailField = "#" + email;
+	var passwordField = "#" + password;
+	var passwordRepeatField = "#" + passwordRepeat;
+	var captchaField = "#" + captcha;
 	
 	// Error fields
-	var usernameTaken = userNameField + "_taken";
-	var usernameShort = userNameField + "_short";
-	var usernameSpaces = userNameField + "_spaces";
-	var usernameEmpty = userNameField + "_empty";
+	var usernameTaken = usernameField + "_taken";
+	var usernameShort = usernameField + "_short";
+	var usernameSpaces = usernameField + "_spaces";
+	var usernameEmpty = usernameField + "_empty";
 	var firstnameEmpty = firstnameField + "_empty";
 	var lastnameEmpty = lastnameField + "_empty";
 	var emailEmpty = emailField + "_empty";
 	var emailInvalid = emailField + "_invalid";
-	var passwordEmpty = passwordField + "_empty";
+	var passwordEmpty = emailField + "_empty";
 	var passwordShort = passwordField + "_short";
 	var passwordRepeatEmpty = passwordRepeatField + "_empty";
 	var passwordRepeatNoMatch = passwordRepeatField + "_nomatch";
@@ -71,6 +76,7 @@ sakai.newaccount = function(){
 	var invalidFieldClass = "invalid";
 	var invalidLabelClass = "invalid_label";
 	var validLabelClass = "valid_label";
+	var formContainer = "#create-account-form";
 	
 	
 	///////////////////////
@@ -144,6 +150,15 @@ sakai.newaccount = function(){
 		}
 	};
 	
+	/**
+	 * Uses the FormBinder to get all of the values out of the form fields. This will return
+	 * a JSON object where the keys are the names of all of the form fields, and the values are
+	 * the values entered by the user in those fields.
+	 */
+	var getFormValues = function(){
+		return $.FormBinder.serialize($(formContainer));
+	}
+	
 	
 	////////////////////
 	// Error handling //
@@ -186,26 +201,20 @@ sakai.newaccount = function(){
 	 */
 	var doCreateUser = function(){
 		
-		var values = $.FormBinder.serialize($(".create-account-form"));
-		alert($.toJSON(values));
-		var firstname = $(firstnameField).val();
-		var lastname = $(lastnameField).val();
-		var email = $(emailField).val();
-		var username = $(userNameField).val();
-		var password = $(passwordField).val();
-		var data = {":firstName": firstname, ":lastName": lastname, ":email": email, "pwd": password, "pwdConfirm": password, ":name": username};
+		var values = getFormValues();
+		var data = {":firstName": values[firstName], ":lastName": values[lastName], ":email": values[email], 
+					"pwd": values[password], "pwdConfirm": values[password], ":name": values[username]};
 		
-		sdata.Ajax.request({
+		$.ajax ({
         	url : Config.URL.CREATE_USER_SERVICE,
-        	httpMethod : "POST",
-        	postData : data,
-        	contentType : "application/x-www-form-urlencoded",
-            onSuccess : function(data) {
+        	type : "POST",
+        	data : data,
+        	success : function(data) {
 				// This will hide the Create and Cancel button and offer a link back to the login page
 				$(buttonsContainer).hide();
 				$(successMessage).show();
 			},
-			onFail: function(data){
+			error: function(data){
 				resetErrorFields();
 			}
 		});
@@ -239,7 +248,7 @@ sakai.newaccount = function(){
 		resetErrorFields();
 		
 		var fields = [{id: firstnameField, error: firstnameEmpty},{id: lastnameField, error: lastnameEmpty},{id: emailField, error: emailEmpty},
-					  {id: userNameField, error: usernameEmpty},{id: passwordField, error: passwordEmpty},
+					  {id: usernameField, error: usernameEmpty},{id: passwordField, error: passwordEmpty},
 					  {id: passwordRepeatField, error: passwordRepeatEmpty},{id: captchaField, error: captchaEmpty}];
 		
 		var totalEmpty = checkAllFieldsForEmpty(fields);
@@ -301,23 +310,24 @@ sakai.newaccount = function(){
 	 */
 	var checkUserName = function(checkingOnly){
 		
-		var username = $(userNameField).val();
+		var values = getFormValues();
+		var usernameEntered = values[username];
 		// Check whether the username is an empty string or contains of spaces only
-		if (checkEmpty(userNameField)){
-			setError(userNameField,usernameEmpty);
+		if (checkEmpty(usernameField)){
+			setError(usernameField,usernameEmpty);
 			return false;
 		}
 		
 		// Check whether the username contains spaces
 		if (username.indexOf(" ") !== -1){
-			setError(userNameField,usernameSpaces);
+			setError(usernameField,usernameSpaces);
 			return false;
 		}
 		
 		// Check whether the length of the username is at least 3, which is the minimum length
 		// required by the backend
 		if (username.length < 3){
-			setError(userNameField,usernameShort);
+			setError(usernameField,usernameShort);
 			return false;
 		}
 		
@@ -326,9 +336,10 @@ sakai.newaccount = function(){
 		// exists and a 401 if it doesn't exist yet.
 		$.ajax({
             // Replace the preliminary parameter in the service URL by the real username entered
-            url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,username) + "?sid=" + Math.random(),
+            url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,username),
+			cache : false,
             success: function(data){
-				setError(userNameField,usernameTaken);
+				setError(usernameField,usernameTaken);
 			}, 
 			error : function(data){
 				if (checkingOnly){
