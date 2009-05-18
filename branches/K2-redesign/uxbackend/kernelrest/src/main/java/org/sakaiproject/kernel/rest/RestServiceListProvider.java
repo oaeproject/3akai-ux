@@ -51,10 +51,10 @@ public class RestServiceListProvider implements Provider<List<Initialisable>> {
       DefaultRestProvider defaultRestProvider, RestMeProvider restMeProvider,
       RestSnoopProvider restSnoopProvider, RestSearchProvider restSearchProvider,
       PresenceProvider presenceProvider, ImageProvider imageProvider, SiteProvider siteProvider, 
-				 RestCountProvider restCountProvider, MessagesProvider messagesProvider,
-				 PresencewowProvider presencewowProvider, ChatStatusProvider chatStatusProvider, ChatProvider chatProvider) {
-    list = ImmutableList.of((Initialisable) restFriendsProvider, defaultRestProvider,
-			    restMeProvider, restSnoopProvider, restSearchProvider, presenceProvider, imageProvider, siteProvider, restCountProvider,messagesProvider,presencewowProvider,chatStatusProvider,chatProvider);
+	  RestCountProvider restCountProvider, MessagesProvider messagesProvider, 
+	  PresencewowProvider presencewowProvider, ChatStatusProvider chatStatusProvider, ChatProvider chatProvider) {
+   
+ 	list = ImmutableList.of((Initialisable) restFriendsProvider, defaultRestProvider, restMeProvider, restSnoopProvider, restSearchProvider, presenceProvider, imageProvider, siteProvider, restCountProvider,messagesProvider,presencewowProvider,chatStatusProvider,chatProvider);
   }
 
   /**
