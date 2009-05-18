@@ -24,13 +24,12 @@ sakai.sites = function(tuid,placement,showSettings){
 		}
 		
 		me = sdata.me;
-		sdata.Ajax.request({
-			httpMethod: "GET",
+		$.ajax({
 			url: "/rest/sites?sid=" + Math.random(),
-			onSuccess: function(data){
+			success: function(data){
 				loadSiteList(data, true);
 			},
-			onFail: function(status){
+			error: function(status){
 				loadSiteList("", false);
 			}
 		});
@@ -74,7 +73,7 @@ sakai.sites = function(tuid,placement,showSettings){
 			$("#" + tuid + " #sitelistwow").html("<span style='font-size:0.95em'>You aren't a member of any sites yet</span>");
 		} else {
 			newjson.entry = newjson.entry.sort(doSort);
-			$("#" + tuid + " #sitelistwow").html(sdata.html.Template.render('sitelistwow_template', newjson));
+			$("#" + tuid + " #sitelistwow").html($.Template.render('sitelistwow_template', newjson));
 		}
 	}
 
