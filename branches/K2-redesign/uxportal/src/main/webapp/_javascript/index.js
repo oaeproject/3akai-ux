@@ -16,31 +16,27 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Querystring = Querystring || function(){ throw "Querystring not available"; };
-var Config = Config || function(){ throw "Config file not available"; };
-var $ = $ || function(){ throw "JQuery not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
-var json_parse = json_parse || function(){ throw "SData.js not available"; };
-var set_cookie = set_cookie || function(){ throw "JQuery cookie is not available"; };
+
+/*global Querystring, Config, $, sdata, set_cookie */
+
 
 var sakai = sakai || {};
 
 sakai.index = function(){
-
+	
 	
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
 	
 	var redirectUrl = Config.URL.MY_DASHBOARD;
-	
-	//JQuery Selectors
-	var loginButton = "#loginbutton";
-	var usernameField = "#username";
-	var passwordField = "#password";
+	var usernameField = "username";
+	var passwordField = "password";
 	var failMessage = "#failed";
 	var loadingMessage = "#loginloader";
 	var registerLink = "#register_here";
+	var loginButton = "#loginbutton";
+	var loginForm = "#login_container";
 	
 	
 	/////////////////////
@@ -52,8 +48,8 @@ sakai.index = function(){
 	 * redirect to the URL requested or the personal dashboard if nothing has been provided. 
 	 */
 	var decideLoggedIn = function(data){
-		var mejson = (data === undefined ? sdata.me : json_parse(data));
-		if (mejson.preferences.uuid !== "anon" && mejson.preferences.uuid !== undefined) {
+		var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
+		if (mejson.preferences.uuid) {
 			document.location = redirectUrl;
 		} else {
 			$(loadingMessage).hide();
@@ -65,66 +61,57 @@ sakai.index = function(){
 		} 
 	};
 	
-	/*
+	/**
 	 * This will be executed after the post to the login service has finished. 
 	 * We send a new request to the Me service, explicity disabling cache by
 	 * adding a random number behind the URL, becasue otherwise it would get
 	 * the cached version of the me object which would still say I'm not logged
 	 * in.
 	 */
-	var checkLogInSuccess = function(response, exists){
-		
-		sdata.Ajax.request({
-			url : Config.URL.ME_SERVICE + "?sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
-				decideLoggedIn(data,true);
-			},
-			onFail : function(data){
+	var checkLogInSuccess = function(){
+		$.ajax({
+			url : Config.URL.ME_SERVICE,
+			cache : false,
+			success : decideLoggedIn,
+			error : function(status){
 				throw "Me service has failed";
 			}
 		});
-	
 	};
 	
+	/**
+	 * This will extract the username and password entered by the user, will hide the
+	 * login button and the register here link andwill put up a Signing in ... message
+	 * It will then call the login service and attempt to log you in. Once the login request
+	 * has completed, we'll do a new request to the me service and check whether we're 
+	 * logged in
+	 */
 	var performLogIn = function(){
 
-		var username = $(usernameField).val();
-		var password = $(passwordField).val();
+		var values = $.FormBinder.serialize($(loginForm));
+		
+		$(failMessage).hide();
+		$(loginButton).hide();
+		$(registerLink).hide();
+		$(loadingMessage).show();
 
 		/*
-		 * We check whether the username and password are empty (including trimming). If one of them is,
-		 * we ignore this request to login and wait unti something has been filled out in both fields.
+		 * a : set to FORM because we're trying to do a FORM based login
+		 * u : the username entered in the username textfield
+		 * p : the password entered in the password textfield
+		 * l : set to 1 because we want to perform a login action
 		 */
-		if (!(!username || !password || username.replace(/ /g,"") === "" || password.replace(/ /g,"") === "")){
+		var data = {"l" : 1, "u" : values[usernameField], "p" : values[passwordField], "a" : "FORM"};
+		
+		$.ajax({
+			url : Config.URL.LOGIN_SERVICE,
+			type : "POST",
+			success : checkLogInSuccess,
+			error : checkLogInSuccess,
+			data : data
+		});
 
-			$(failMessage).hide();
-			$(loadingMessage).show();
-			$(loginButton).hide();
-			$(registerLink).hide();
-
-			/*
-			 * u : the username entered in the username textfield
-			 * p : the password entered in the password textfield
-			 * l : set to 1 because we want to perform a login action
-			 * a : the login method set to FORM because we are doing a FORM-based login
-			 */
-			var requestbody = {"l":1, "a":"FORM", "u" : username, "p" : password};
-	
-			sdata.Ajax.request({
-				url :Config.URL.LOGIN_SERVICE,
-				httpMethod : "POST",
-				onSuccess : function(data) {
-					checkLogInSuccess(data,true);
-				},
-				onFail : function(status) {
-					checkLogInSuccess(status,false);
-				},
-				postData : requestbody,
-				contentType : "application/x-www-form-urlencoded"
-			});
-
-		}
+		return false;
 
 	};
 	
@@ -147,17 +134,10 @@ sakai.index = function(){
 	////////////////////
 	
 	/*
-	 * Check on every keypress whether the enter key has been pressed or not. If so,
+	 * When the user is trying to initiate the form submission,
 	 * we initiate the login function
 	 */
-	$("input").bind("keydown", function(e){
-		if (e.keyCode === 13){
-			performLogIn();
-		}
-	});
-	
-	$(loginButton).bind("click", performLogIn);
-	
+	$(loginForm).submit(performLogIn);
 
 	/////////////////////////////
 	// Initialisation function //
@@ -179,7 +159,9 @@ sakai.index = function(){
 			redirectUrl = sdata.util.URL.decode(red);
 		}
 		
-		$(usernameField).focus();
+		// Set the cursor in the username field
+		$("#" + usernameField).focus();
+		// Check whether we are already logged in
 		decideLoggedIn();
 
 	};
