@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Config = Config || function(){ throw "Config file not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
+
+/*global $, Config */
 
 var sakai = sakai || {};
 
@@ -30,17 +30,16 @@ sakai.logout = function(){
 	 * that there is no current session. We can then just redirect to the login
 	 * page again without notifying the user.
 	 */
-	sdata.Ajax.request({
+	$.ajax({
 		url: Config.URL.LOGOUT_SERVICE,
-		httpMethod: "POST",
-		onSuccess: function(data){
+		type: "POST",
+		success: function(data){
 			window.location = Config.URL.GATEWAY_URL;
 		},
-		onFail: function(status){
+		error: function(status){
 			window.location = Config.URL.GATEWAY_URL;
 		},
-		postData: {"logout":"logout"},
-		contentType: "multipart/form-data"
+		data: {"logout":"logout"}
 	});
 	
 };
