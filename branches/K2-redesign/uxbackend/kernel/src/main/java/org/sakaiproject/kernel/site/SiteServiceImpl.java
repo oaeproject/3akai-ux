@@ -24,10 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.kernel.KernelConstants;
 import org.sakaiproject.kernel.api.authz.AuthzResolverService;
+import org.sakaiproject.kernel.api.jcr.JCRConstants;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryServiceException;
 import org.sakaiproject.kernel.api.rest.RestProvider;
@@ -53,11 +56,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jcr.Node;
+import javax.jcr.Property;
+import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -199,7 +208,8 @@ public class SiteServiceImpl implements SiteService {
     try {
 
       String path = siteBean.getLocation();
-
+      
+      // Check if the site exists or not
       boolean isnew = false;
       try {
         Node n = jcrNodeFactoryService.getNode(path);
@@ -213,10 +223,12 @@ public class SiteServiceImpl implements SiteService {
       jcrNodeFactoryService.setInputStream(buildFilePath(path), bais,
           RestProvider.CONTENT_TYPE);
 
-      // make the private and shares spaces for the user owned by this used.
+      // Make the private and shares spaces for the user owned by this used.
       jcrNodeFactoryService.setOwner(buildSiteFolder(path), siteBean.getOwners()[0]);
       if (isnew) {
         jcrNodeFactoryService.setOwner(path, siteBean.getOwners()[0]);
+        
+        executeTemplate(siteBean);
       }
     } catch (UnsupportedEncodingException e) {
       LOG.error(e);
@@ -233,7 +245,105 @@ public class SiteServiceImpl implements SiteService {
     }
   }
 
-  /**
+  
+  
+  private void executeTemplate(SiteBean siteBean) throws SiteException {
+	 createNavigationFromTemplate(siteBean);
+	 
+	 createPageFromTemplate(siteBean);
+	 
+	 createWidgetsFolder(siteBean);
+  }
+
+  private void createWidgetsFolder(SiteBean siteBean) throws SiteException {
+	String path = siteBean.getLocation();
+	String widgetsFolder = buildWidgetsFolder(path);
+	
+	ByteArrayInputStream bais = null;
+	try{
+		bais = new ByteArrayInputStream("TEST".getBytes("UTF-8"));
+	    jcrNodeFactoryService.setInputStream(buildWidgetsPath(path), bais, RestProvider.CONTENT_TYPE);	    
+	}catch (UnsupportedEncodingException e) {
+	  LOG.error(e);
+	} catch (JCRNodeFactoryServiceException e) {
+	  throw new SiteException("Failed to save site ", e);
+	} catch (RepositoryException e) {
+	  throw new SiteException("Failed to save site ", e);
+	} finally {
+	  try {
+	    bais.close();
+	  } catch (Exception e) {
+	    LOG.warn("Failed to close internal stream " + e.getMessage());
+	  }
+	}		
+  }
+
+private void createPageFromTemplate(SiteBean siteBean) throws SiteException {
+	String path = siteBean.getLocation();
+	String pagesFolder = buildPagesFolder(path);
+	
+	String pages = siteBean.getTemplate().getString("pages");
+	
+	if(pages != null){
+		JSONObject pagesObject = (JSONObject) siteBean.getTemplate().get("pages");
+		String content = pagesObject.getString("content");
+		String id = pagesObject.getString("id");
+		String pageconfiguration = pagesObject.getString("pageconfiguration");
+		
+		ByteArrayInputStream bais = null;
+		try{
+			// Create content
+			bais = new ByteArrayInputStream(content.getBytes("UTF-8"));
+		    jcrNodeFactoryService.setInputStream(buildPagesPath(path, id), bais, RestProvider.CONTENT_TYPE);
+		    
+		    // Create configuration
+		    bais = new ByteArrayInputStream(pageconfiguration.getBytes("UTF-8"));
+		    jcrNodeFactoryService.setInputStream(buildPageconfigurationPath(path), bais, RestProvider.CONTENT_TYPE);
+		}catch (UnsupportedEncodingException e) {
+	      LOG.error(e);
+	    } catch (JCRNodeFactoryServiceException e) {
+	      throw new SiteException("Failed to save site ", e);
+	    } catch (RepositoryException e) {
+	      throw new SiteException("Failed to save site ", e);
+	    } finally {
+	      try {
+	        bais.close();
+	      } catch (Exception e) {
+	        LOG.warn("Failed to close internal stream " + e.getMessage());
+	      }
+	    }
+	}
+}
+
+private void createNavigationFromTemplate(SiteBean siteBean) throws SiteException {
+	String path = siteBean.getLocation();
+	String navigationFolder = buildNavigationFolder(path);
+	
+	String navigation = siteBean.getTemplate().getString("navigation");
+	
+	if(navigation != null){
+		navigation.replace("__SITEID__", siteBean.getId());
+		ByteArrayInputStream bais = null;
+		try{
+			bais = new ByteArrayInputStream(navigation.getBytes("UTF-8"));
+		    jcrNodeFactoryService.setInputStream(buildNavigationPath(path), bais, RestProvider.CONTENT_TYPE);
+		}catch (UnsupportedEncodingException e) {
+	      LOG.error(e);
+	    } catch (JCRNodeFactoryServiceException e) {
+	      throw new SiteException("Failed to save site ", e);
+	    } catch (RepositoryException e) {
+	      throw new SiteException("Failed to save site ", e);
+	    } finally {
+	      try {
+	        bais.close();
+	      } catch (Exception e) {
+	        LOG.warn("Failed to close internal stream " + e.getMessage());
+	      }
+	    }
+	}
+}
+
+/**
    * {@inheritDoc}
    *
    * @see org.sakaiproject.kernel.api.site.SiteService#createSite(java.lang.String,
@@ -244,30 +354,35 @@ public class SiteServiceImpl implements SiteService {
       throw new SiteException("Site at " + path + " already exists, cant create");
     }
     String userId = sessionManagerService.getCurrentUserId();
-    String siteTemplatePath = getSiteTemplate(siteType);
-
+    String siteTemplatePath = getSiteTemplate(siteType);  
+    
     InputStream templateInputStream = null;
     try {
 
       // load the template
       authzResolverService.setRequestGrant("Loading Site Template");
       String template = null;
+      JSONObject templateObject = null;
+      
       try {
         templateInputStream = jcrNodeFactoryService.getInputStream(siteTemplatePath);
         template = IOUtils.readFully(templateInputStream, "UTF-8");
+        
+        templateObject = JSONObject.fromObject(template);		
       } finally {
         authzResolverService.clearRequestGrant();
       }
       LOG.info("Loading Site Template from " + siteTemplatePath + " as " + template);
       SiteBean siteBean = beanConverter.convertToObject(template, SiteBean.class);
-
+      
       // make the template this user
       siteBean.setOwners(new String[] {userId});
       siteBean.setId(generateSiteUuid(path));
       siteBean.setType(siteType);
       siteBean.location(path);
       siteBean.service(this);
-
+      siteBean.setTemplate(templateObject);
+      
       return siteBean;
 
     } catch (RepositoryException e) {
@@ -288,7 +403,7 @@ public class SiteServiceImpl implements SiteService {
     return null;
   }
 
-  /**
+/**
    * Build the full path with file name to the group definition for a given site ID.
    *
    * @param id
@@ -296,6 +411,24 @@ public class SiteServiceImpl implements SiteService {
    */
   private String buildFilePath(String path) {
     return buildSiteFolder(path) + "/" + FILE_GROUPDEF;
+  } 
+  
+  private String buildPageconfigurationPath(String path) {
+	return buildSiteFolder(path) + "/" + FILE_PAGE_CONFIGURATION;
+  }
+  
+
+  private String buildNavigationPath(String path) {
+	 return  buildNavigationFolder(path) + "/" + FILE_CONTENT;
+  }
+  
+
+  private String buildPagesPath(String path, String id) {
+	 return buildPagesFolder(path) + "/" + id + "/" + FILE_CONTENT;
+  }
+  
+  private String buildWidgetsPath(String path) {
+	    return buildWidgetsFolder(path) + "/.test";
   }
 
   /**
@@ -304,6 +437,18 @@ public class SiteServiceImpl implements SiteService {
    */
   private String buildSiteFolder(String path) {
     return path + PATH_SITE;
+  }  
+  
+  private String buildNavigationFolder(String path) {
+    return path + PATH_NAVIGATION;
+  }
+  
+  private String buildPagesFolder(String path) {
+	return path + PATH_PAGES;
+  }
+
+  private String buildWidgetsFolder(String path) {
+  	return path + PATH_WIDGETS;
   }
 
   public String locateSite(String groupDefFile) {
@@ -337,7 +482,9 @@ public class SiteServiceImpl implements SiteService {
     if (siteType == null) {
       return defaultTemplate;
     }
+    
     String template = siteTemplateMap.get(siteType);
+
     if (template == null) {
       return defaultTemplate;
     }

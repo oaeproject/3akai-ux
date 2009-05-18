@@ -295,7 +295,7 @@ public class RestPatchProvider implements RestProvider {
 					//	If this is a JSON object we add it like that.
 					try {
 						JSONObject obj = JSONObject.fromObject(params.values[i]);	
-						map.put(params.names[i], obj);					
+						map.put(params.names[i], obj);
 					}
 					catch (JSONException jsonEx) {
 						map.put(params.names[i], params.values[i]);

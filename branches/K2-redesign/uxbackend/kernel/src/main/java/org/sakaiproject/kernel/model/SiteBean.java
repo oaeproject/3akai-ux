@@ -24,6 +24,8 @@ import com.google.common.collect.Sets;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.sakaiproject.kernel.api.site.SiteException;
 import org.sakaiproject.kernel.api.site.SiteService;
@@ -43,6 +45,7 @@ public class SiteBean extends GroupBean {
   private String membershipHandler;
   private transient String sitePath;
   private transient SiteService siteService;
+private JSONObject template;
 
   /**
    * Get the ID of this site.
@@ -229,5 +232,13 @@ public class SiteBean extends GroupBean {
    */
   public void setMembershipHandler(String membershipHandler) {
     this.membershipHandler = membershipHandler;
+  }
+
+  public void setTemplate(JSONObject templateObject) {
+    this.template = templateObject;
+  }
+  
+  public JSONObject getTemplate(){
+	  return this.template;
   }
 }

@@ -1,1 +1,8 @@
-{}
+{
+	navigation : '<h3>Navigation Menu</h3><p><img id="widget_navigation_id759008084__sites/__SITEID__/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p><h3>Recent Activity</h3><p><img id="widget_siterecentactivity_id669827676__sites/__SITEID__/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="../devwidgets/youtubevideo/images/icon.png" border="1" alt="" /></p>',
+	pages : {
+		content : '<p>Welcome to your new project site!</p>',
+		id: 'welcome',
+		pageconfiguration : {"items":[{"id":"welcome","title":"Welcome to your project site","type":"webpage"}]}
+	}
+}

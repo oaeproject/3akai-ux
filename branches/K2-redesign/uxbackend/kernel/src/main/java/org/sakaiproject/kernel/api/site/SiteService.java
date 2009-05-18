@@ -31,12 +31,22 @@ public interface SiteService {
    * Path where site information is stored in the user environment.
    */
   String PATH_SITE = "/.site";
+  
+  String PATH_NAVIGATION = "/_navigation";
+  
+  String PATH_PAGES = "/_pages";
+  
+  String PATH_WIDGETS = "/_widgets";
 
   /**
    * Name of the group definition file.
    */
   String FILE_GROUPDEF = "groupdef.json";
 
+  String FILE_CONTENT = "content";
+  
+  String FILE_PAGE_CONFIGURATION = "pageconfiguration";
+  
   /**
    * Validates if a given path contains a site
    *
