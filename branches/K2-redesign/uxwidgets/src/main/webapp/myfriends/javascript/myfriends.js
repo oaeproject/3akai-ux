@@ -5,22 +5,20 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	var rootel = $("#" + tuid);
 	var friends = false;
 	
-	sdata.Ajax.request({
-		httpMethod: "GET",
+	$.ajax({
 		url: "/rest/friend/status?p=0&n=6&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-		onSuccess: function(data){
+		success: function(data){
 			friends = eval('(' + data + ')');
 			doProcessing();
 		},
-		onFail: function(status){
+		error: function(status){
 			$("#list_rendered").html("<b>An error has occurred.</b> Please try again later");
 		}
 	});
 	
-	sdata.Ajax.request({
-		httpMethod: "GET",
+	$.ajax({
 		url: "/rest/friend/status?sid=" + Math.random(),
-		onSuccess: function(data){
+		success: function(data){
 			var json2 = eval('(' + data + ')');
 			
 			var total = 0;
@@ -33,9 +31,6 @@ sakai.myfriends = function(tuid,placement,showSettings){
 			} else if (total > 1) {
 				$("#contact_requests", rootel).html(total + " Connection Requests");
 			}
-		},
-		onFail: function(status){
-			
 		}
 	});
 	
@@ -84,7 +79,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 			}
 		}
 		
-		$("#my_contacts_list").html(sdata.html.Template.render("my_contacts_list_template", pOnline));
+		$("#my_contacts_list").html($.Template.render("my_contacts_list_template", pOnline));
 	}
 
 };
