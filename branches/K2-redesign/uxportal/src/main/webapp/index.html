@@ -19,13 +19,12 @@
 		<script type="text/javascript" language="JavaScript" src="_lib/Jcap/md5.js"></script>
 		<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 		
 	</head>
 	
 	<body class="fl-centered create_account">
-		
-		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
-		<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 		
 	    <div class="bigheader">
 	    	<!-- HEADER -->
@@ -49,25 +48,25 @@
 				<img src="_images/gateway.png" alt="Sakai 3.0 RC1"/>
 			</div>
 			<!-- Login functionality -->
-			<div class="login_container">
+			<form class="login_container" id="login_container">
 				<strong>__MSG__USERNAME__:</strong><br/>
-				<input type="text" id="username" class="login_container_username login_container_textfield"/><br/>
+				<input type="text" id="username" name="username" class="login_container_username login_container_textfield"/><br/>
 				<strong>__MSG__PASSWORD__:</strong><br/>
-				<input type="password" id="password" class="login_container_textfield"/>
-	
+				<input type="password" id="password" name="password" class="login_container_textfield"/>
+				
 				<div id="failed" class="login_failed">__MSG__LOGIN_FAILED__!<br/></div>
 	
 				<div class="block login_button_container">
-					<input type="button" class="button button-primary create-confirm" id="loginbutton" value="Sign In" />
+					<input type="submit" class="button button-primary create-confirm" id="loginbutton" value="Sign In"/>
 					<span id="loginloader">__MSG__SIGNING_IN__</span>
 				</div>
 				
 				<div id="register_here">
 					&raquo; No account yet? <a href="create_new_account.html">Register here</a>
 				</div>
-			</div>
+			</form>
 	    </div>
-		
+			
 		<div class="bottom_placeholder"></div>
 		
 		<script type="text/javascript" language="JavaScript" src="_javascript/index.js"></script>
