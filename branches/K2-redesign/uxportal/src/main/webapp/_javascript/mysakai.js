@@ -16,10 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Config = Config || function(){ throw "Config file not available"; };
-var $ = $ || function(){ throw "JQuery not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
-var json_parse = json_parse || function(){ throw "SData.js not available"; };
+
+/*global Config, $, sdata */
 
 var sakai = sakai || {};
 
@@ -96,7 +94,7 @@ sakai.dashboard = function(){
 		newel.id = generic;
 		newel.className = "widget_inline";
 		old.parentNode.replaceChild(newel,old);
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,false);
+		sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,false);
 	}
 	
 	sdata.container.registerFinishFunction(sakai.dashboard.finishEditSettings);
@@ -158,7 +156,7 @@ sakai.dashboard = function(){
 			newjson.layouts = Widgets.layouts;
 			newjson.selected = selected;
 			currentselectedlayout = selected;
-			$("#layouts_list").html(sdata.html.Template.render("layouts_template",newjson));
+			$("#layouts_list").html($.Template.render("layouts_template",newjson));
 			tobindtolayoutpicker();
 		});	
 	}
@@ -433,7 +431,7 @@ sakai.dashboard = function(){
 		
 		if (isvalid) {
 		
-			document.getElementById('widgetscontainer').innerHTML = sdata.html.Template.render("widgetscontainer_template", final2);
+			document.getElementById('widgetscontainer').innerHTML = $.Template.render("widgetscontainer_template", final2);
 			
 			$(".widget1").hover(
 				function(over){
@@ -524,7 +522,7 @@ sakai.dashboard = function(){
 				old.parentNode.replaceChild(newel,old);
 				$("#widget_settings_menu").hide();
 				currentSettingsOpen = false;
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(newel.parentNode.id,true);
+				sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,true);
 				return false;
 			});
 			
@@ -560,7 +558,7 @@ sakai.dashboard = function(){
 			
 			fluid.reorderLayout("#widgetscontainer", options);
 			
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("widgetscontainer");
+			sdata.widgets.WidgetLoader.insertWidgets("widgetscontainer");
 			
 		} else {
 			showInit();
@@ -670,7 +668,7 @@ sakai.dashboard = function(){
 			}
 		}
 
-		document.getElementById("addwidgetlist").innerHTML = sdata.html.Template.render("addwidgetlist_template", addingPossible);
+		document.getElementById("addwidgetlist").innerHTML = $.Template.render("addwidgetlist_template", addingPossible);
 		currentlyopen = addingPossible.items[0].id;
 
 		$("#addWidgets_selected_title").text(addingPossible.items[0].title);
@@ -836,7 +834,7 @@ sakai.dashboard = function(){
 		newjson.layouts = Widgets.layouts;
 		newjson.selected = myportaljson.layout;
 		currentselectedlayout = myportaljson.layout;
-		$("#layouts_list").html(sdata.html.Template.render("layouts_template",newjson));
+		$("#layouts_list").html($.Template.render("layouts_template",newjson));
 		tobindtolayoutpicker();
 		hash.w.show();
 	}
@@ -918,7 +916,7 @@ sakai.dashboard = function(){
 		
 		// Render the list of widgets. The template will render a remove and add row for each widget, but will
 		// only show one based on whether that widget is already on my dashboard
-		$(addGoodiesListContainer).html(sdata.html.Template.render(addGoodiesListTemplate, addingPossible));
+		$(addGoodiesListContainer).html($.Template.render(addGoodiesListTemplate, addingPossible));
 		renderGoodiesEventHandlers();
 		
 		// Show the modal dialog
