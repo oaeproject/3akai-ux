@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>My Settings</title>        
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	    
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />	
+</head>
+
+<body class="fl-centered basic_management" style="display:block">
+	
+    <!-- EXPLORE BAR -->
+    <div class="explore_nav">
+        <ul class="explore fl-force-left">
+            <li><a href="#">My Sakai</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">People</a></li>			
+	    	<li><a href="#">Course &amp; Sites</a></li>
+	    	<li><a href="#">Search</a></li>
+        </ul>	
+        <ul class="user-personal fl-force-right">
+            <li class="user-name first"><a href="#"><strong>John Doe</strong></a><img src="images/arrow_down.gif" class="user-arrow-down"/></li>      
+    		<li class="user-mail"><a href="#">(2)</a></li>   
+            <li class="user-help"><a href="#">Help</a></li>            
+            <li class="user-logout"><a href="#">Sign out</a></li>
+        </ul>	
+    </div>   
+    
+    <!-- TITLE BAR  -->
+    <div class="site_heading">
+        
+        <!-- SEARCH FIELD -->
+			<div class="site_search">
+				<form class="fl-force-right search_form" id="search_form" action="#" method="post">
+					<input type="text" class="text-field" value="Search this site" />
+					<input type="submit" value="Search" class="submit-button" />
+				</form>
+			</div>        			
+      <h1>John's New Site</h1>
+    </div>   
+    
+    <!-- CONTENT -->  
+    
+    	<!-- SECOND HEADING -->  
+        <div class="site_secondary_heading">
+            Site Management <a href="#">&laquo; Back to Site</a>
+        </div> 
+        
+        <!-- TAB NAVIGATION -->
+        <div class="primary-tabs">
+	        <ul class="fl-tabs fl-tabs-left">            
+	            <li class="fl-activeTab"><a href="#">Basic Settings</a></li>
+	            <li><a href="#">Members</a></li>	
+	            <li><a href="#">Appearance</a></li>			
+	        </ul>
+        </div>
+        <div class="section_container">
+            <div class="section_header">
+                Summary
+            </div>           
+            <a href="#" class="delete_site"><span>Delete this Site</span></a>  
+            <div class="delete_site_warning"><strong>WARNING!</strong> This operation is not reversible</div>         
+            <form method="" action="" class="site_summary_form">
+	            <div class="summary-form-item">
+	            	<label for="site_title">Site Title:</label>
+	            	<input type="text" id="site_title" class="text-field site_title" />
+	            </div>
+	            <div class="summary-form-item">
+                	<label>Site URL:</label>
+	            	www.sakai.university.edu/johns_site <a class="edit-link" href="#">Edit</a>
+                </div>
+                <div class="summary-form-item">       
+	            	<label for="site_description">Description:</label>
+	            	<input type="textarea" id="site_description" class="text-field site_description" />
+                </div>                
+	      	</form>
+        </div>
+        <div class="section_container">
+            <div class="section_header">
+                Site Access
+            </div>
+            <form class="site_access_form" method="" action="">
+            	<div class="access-form-item">                	
+                    <div class="site_access_label">Site status:</div>                                      	
+                    <input type="radio" id="site_status_on" class="site_online" checked="checked" name="status" /><label class="site_status_on" for="site_status_on"> Online</label><br />
+                    <input type="radio" id="site_status_off" class="site_offline" name="status" /><label class="site_status_off" for="site_status_off"> Offine</label>                     
+                </div>
+                <div class="access-form-item">          
+                    <div class="site_access_label">Site is available to:</div>                                        	
+                    <input type="radio" id="allow_public" class="site_public" checked="checked" name="privacy" /><label for="allow_public"> The general public <span>(including anonymous visitors)</span></label><br />                        
+                    <input type="radio" id="allow_sakai_users" class="site_sakai_users" name="privacy" /><label for="allow_sakai_users"> Any registered Sakai user</label><br />                      
+                    <input type="radio" id="allow_invite" class="site_private" name="privacy" /><label for="allow_invite"> Only people I invite</label>  
+                </div>           
+                <div class="settings_confirm_container">
+                	<a href="#" class="button button-primary save" />Save</a> 
+                	<a href="#" class="button button-secondary cancel" />Cancel</a>
+                </div>
+            </form>
+        </div>        
+    
+    <!-- FOOTER -->    
+    <div class="page-footer">
+    </div>
+</body>
+</html>

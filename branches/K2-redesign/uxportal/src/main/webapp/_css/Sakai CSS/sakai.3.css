@@ -238,3 +238,11 @@ body {
 #register_here a {color:#D8D8D8; text-decoration: underline;}
 .bottom_placeholder {height:75px; width: 100px;}
 .login_button_container {margin-top: 20px;}
+
+/* GENERAL SITE MANAGEMENT */
+.basic_management .site_summary_form .summary-form-item label {color:#333333; float:left; font-weight:bold; margin-right:15px; text-align:right; width:90px;}
+.basic_management .site_summary_form .summary-form-item {margin-bottom:15px;}
+.basic_management .site_access_form {padding:20px 0 30px 4px; width:550px;}
+.basic_management .site_access_form .access-form-item {margin-bottom:35px;}
+.basic_management .site_access_form .site_access_label {color:#333333;float:left;font-weight:bold;height:52px;margin-right:25px;text-align:right;width:125px;}
+.basic_management .site_access_form .access-form-item .site_access_label {color:#333333;float:left;font-weight:bold;text-align:right;width:130px;}
