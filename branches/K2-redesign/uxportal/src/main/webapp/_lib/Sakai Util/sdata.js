@@ -236,9 +236,9 @@ sdata.me = false;
 						}
 					}
 				} else if (nodeName === "select"){
-					for (var ii = 0; ii < json[name].length; ii++){
+					for (var select = 0; select < json[name].length; select++){
 						for (var iii = 0; iii < el.options.length; iii++) {
-							if (el.options[iii].value === json[name][ii]) {
+							if (el.options[iii].value === json[name][select]) {
 								el.options[iii].selected = true;
 							}
 						}
@@ -292,7 +292,6 @@ sdata.widgets.WidgetLoader = {
 		
 		
 		var informOnLoad = function(widgetname){
-			
 			var doDelete = false;
 			if (widgets[widgetname] && widgets[widgetname].length > 0){
 				for (var i = 0; i < widgets[widgetname].length; i++){
@@ -307,7 +306,6 @@ sdata.widgets.WidgetLoader = {
 			if (doDelete){
 				delete widgets[widgetname];
 			}
-			
 		};
 	
 		var insertWidgets = function(containerId, showSettings){
@@ -382,26 +380,26 @@ sdata.widgets.WidgetLoader = {
 				}
 			}
 	
-			for (var i in widgets){
+			for (i in widgets){
 				if (widgets[i]) {
 					for (var ii = 0; ii < widgets[i].length; ii++) {
-						var el = document.getElementById(widgets[i][ii].id);
+						var originalEl = document.getElementById(widgets[i][ii].id);
 						var newel = document.createElement("div");
 						newel.id = widgets[i][ii].uid;
 						newel.className = widgets[i][ii].floating;
 						newel.innerHTML = "";
-						el.parentNode.replaceChild(newel, el);
+						originalEl.parentNode.replaceChild(newel, originalEl);
 					}
 				} 
 			}
 			
-			for (var i in widgets){
+			for (i in widgets){
 				if (widgets[i]) {
 					loadWidgetFiles(widgets, i);
 				}
 			}
 	
-		}
+		};
 		
 		var loadWidgetFiles = function(widgets,widgetname){
 			$.ajax({
@@ -432,7 +430,7 @@ sdata.widgets.WidgetLoader = {
 			}
 			returnObj.content = content;
 			return returnObj;
-		}
+		};
 	
 		var sethtmlover = function (div,content,widgets,widgetname){
 	   
@@ -446,13 +444,13 @@ sdata.widgets.WidgetLoader = {
 			var JSTags = locateTagAndRemove(content, "script", "src");
 			content = JSTags.content;
 			
-			for (var i = 0; i < widgets[widgetname].length; i++){
+			for (var widget = 0; widget < widgets[widgetname].length; widget++){
 				var container = $("<div>");
 				container.html(content);
-				$("#" + widgets[widgetname][i].uid).append(container);
+				$("#" + widgets[widgetname][widget].uid).append(container);
 				
-				widgets[widgetname][i].todo = JSTags.URL.length;
-				widgets[widgetname][i].done = 0;		
+				widgets[widgetname][widget].todo = JSTags.URL.length;
+				widgets[widgetname][widget].done = 0;		
 			}
 		
 			for (var JSURL = 0; JSURL < JSTags.URL.length; JSURL++){
@@ -475,6 +473,112 @@ sdata.widgets.WidgetLoader = {
 		}
 	}
 	
+};
+
+
+//////////////////////////////
+// Widget Utility Functions //
+//////////////////////////////
+
+/**
+ * <pre>
+ *	In your widget you can use the following functions to save/get widget preferences
+ *	
+ *		* Save a preference with feedback:	var response = WidgetPreference.save(preferencename:String, preferencontent:String, myCallbackFunction);	
+ *		
+ *			This will warn the function myCallbackFunction, which should look like this:
+ *			
+ *				function myCallbackFunction(success){
+ *					if (success) {
+ *						//Preference saved successfull
+ *						//Do something ...
+ *					} else {
+ *						//Error saving preference
+ *						//Do something ...
+ *					}
+ *				}
+ *		
+ *		* Save a preference without feedback:	var response = WidgetPreference.quicksave(preferencename:String, preferencontent:String);
+ *		
+ *			This will not warn you when saving the preference was successfull or unsuccessfull
+ *		
+ *		* Get the content of a preference:	var response = WidgetPreference.get(preferencename:String, myCallbackFunction);
+ *		
+ *			This will warn the function myCallbackFunction, which should look like this:
+ *			
+ *				function myCallbackFunction(response, exists){
+ *					if (exists) {
+ *						//Preference exists
+ *						//Do something with response ...
+ *					} else {
+ *						//Preference does not exists
+ *						//Do something ...
+ *					}
+ *				}
+ *	 </pre>
+ */
+sdata.widgets.WidgetPreference =  {
+	/**
+	 * Get a preference from personal storage
+	 * @param {string} prefname the preference name
+	 * @param {function} callback the function to call on sucess
+	 * 
+	 */
+	get : function(prefname, callback, requireslogin){ 
+		var url= "/sdata/p/widgets/" + prefname;
+		var args = (requireslogin === false ? false : true);
+		$.ajax ( {
+			url : url,
+			cache : false,
+			success : function(data) {
+				callback(data,true);
+			},
+			error : function(status) {
+				callback(status,false);
+			},
+			sendToLoginOnFail: args
+		});
+
+	},
+
+	/**
+	 * Save a preference to a name
+	 * @param {string} prefname the preference name
+	 * @param prefcontent the content to be saved
+	 * @param {function} callback, the call back to call when the save is complete
+	 */
+	save : function(url, prefname, prefcontent, callback, requireslogin,contentType){
+		
+		var cb = callback || function() {}; 
+		var args = (requireslogin === false ? false : true);
+		var ct = contentType || "text/plain";
+		
+		var boundaryString = "bound"+Math.floor(Math.random() * 9999999999999);
+		var boundary = '--' + boundaryString;
+		
+		var outputData = boundary + '\r\n' +
+					 'Content-Disposition: form-data; name="' + prefname + '"; filename="' + prefname + '"\r\n'+ 
+					 'Content-Type: '+ ct + '\r\n' +
+					 '\r\n'+
+					 prefcontent +
+					 '\r\n'+
+					 boundary + "--";
+		
+		$.ajax({
+			url :url,
+			type : "POST",
+			contentType : "multipart/form-data; boundary=" + boundaryString,
+			success : function(data) {
+				cb(data,true);
+			},
+			error : function(status) {
+				cb(status,false);
+			},
+			data : outputData,
+			sendToLoginOnFail: args
+		});
+			
+ 	}
 };
 
 
@@ -686,10 +790,38 @@ sdata.container = {
 		if (sdata.container.toCallOnCancel){
 			sdata.container.toCallOnCancel(tuid, widgetname);
 		}
+	},
+	
+	readyToLoad : false,	
+	toLoad : [],
+	
+	registerForLoad : function(id){
+		sdata.container.toLoad[sdata.container.toLoad.length] = id;
+		if (sdata.container.readyToLoad){
+			sdata.container.performLoad();
+		}
+	},
+	
+	performLoad : function(){
+		for (var i = 0; i < sdata.container.toLoad.length; i++){
+			var fct = eval(sdata.container.toLoad[i]);
+			try {
+				fct();
+			} catch (err){
+				fluid.log(err);
+			}
+		}
+		sdata.toLoad = [];
+	},
+	
+	setReadyToLoad : function(set){
+		sdata.container.readyToLoad = set;
+		if (set){
+			sdata.container.performLoad();
+		}
 	}
 	
 };
-
 
 ///////////////////////
 // Utility functions //
@@ -785,159 +917,3 @@ jQuery.fn.stripTags = function() {
 $.Load.requireJS('/dev/_configuration/widgets.js');
 // Load the general config file that contains all of the service URLs
 $.Load.requireJS('/dev/_configuration/config.js');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-sdata.toLoad = [];
-
-sdata.registerForLoad = function(id){
-	sdata.toLoad[sdata.toLoad.length] = id;
-	if (sdata.readyToLoad){
-		sdata.performLoad();
-	}
-};
-
-sdata.performLoad = function(){
-	for (var i = 0; i < sdata.toLoad.length; i++){
-		var fct = eval(sdata.toLoad[i]);
-		try {
-			fct();
-		} catch (err){
-			alert(err);
-		}
-	}
-	sdata.toLoad = [];
-};
-
-sdata.setReadyToLoad = function(set){
-	sdata.readyToLoad = set;
-	if (set){
-		sdata.performLoad();
-	}
-};
-
-sdata.readyToLoad = false;
-
-
-
-	
-/**
- * @static 
- * @class Widget Preference persistance
- * @name sdata.widgets.WidgetPreference
- * <pre>
- *	In your widget you can use the following functions to save/get widget preferences
- *	
- *		* Save a preference with feedback:	var response = WidgetPreference.save(preferencename:String, preferencontent:String, myCallbackFunction);	
- *		
- *			This will warn the function myCallbackFunction, which should look like this:
- *			
- *				function myCallbackFunction(success){
- *					if (success) {
- *						//Preference saved successfull
- *						//Do something ...
- *					} else {
- *						//Error saving preference
- *						//Do something ...
- *					}
- *				}
- *		
- *		* Save a preference without feedback:	var response = WidgetPreference.quicksave(preferencename:String, preferencontent:String);
- *		
- *			This will not warn you when saving the preference was successfull or unsuccessfull
- *		
- *		* Get the content of a preference:	var response = WidgetPreference.get(preferencename:String, myCallbackFunction);
- *		
- *			This will warn the function myCallbackFunction, which should look like this:
- *			
- *				function myCallbackFunction(response, exists){
- *					if (exists) {
- *						//Preference exists
- *						//Do something with response ...
- *					} else {
- *						//Preference does not exists
- *						//Do something ...
- *					}
- *				}
- *	 </pre>
- */
-sdata.widgets.WidgetPreference =  {
-	/**
-	 * Get a preference from personal storage
-	 * @param {string} prefname the preference name
-	 * @param {function} callback the function to call on sucess
-	 * 
-	 */
-	get : function(prefname, callback, requireslogin){ 
-		var url= "/sdata/p/widgets/" + prefname;
-		var args = (requireslogin === false ? false : true);
-		$.ajax ( {
-			url : url,
-			cache : false,
-			success : function(data) {
-				callback(data,true);
-			},
-			error : function(status) {
-				callback(status,false);
-			},
-			sendToLoginOnFail: args
-		});
-
-	},
-
-	/**
-	 * Save a preference to a name
-	 * @param {string} prefname the preference name
-	 * @param prefcontent the content to be saved
-	 * @param {function} callback, the call back to call when the save is complete
-	 */
-	save : function(url, prefname, prefcontent, callback, requireslogin,contentType){
-		var cb = callback || function() {}; 
-		var args = (requireslogin === false ? false : true);
-		var ct = contentType || "text/plain";
-		var data = {};
-		data[prefname] = prefcontent;
-		
-		$.ajax({
-			url :url,
-			type : "POST",
-			success : function(data) {
-				cb(data,true);
-			},
-			error : function(status) {
-				cb(status,false);
-			},
-			data : data,
-			sendToLoginOnFail: args
-		});
-			
- 	}
-};
