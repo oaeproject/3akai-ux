@@ -50,7 +50,7 @@ body {
 .account_preferences .section_header{font-size: 14px;}
 .account_preferences .site_heading{padding-top: 30px; padding-bottom: 10px;}
 .account_preferences .preferences-container{padding: 20px 0 0 40px; width: 560px; }
-.account_preferences .password{margin-top: 30px;}
+.account_preferences .password{margin-top: 10px;}
 .account_preferences .preferred-name{float: right;}
 .account_preferences .preferences-name{color: #ccc; margin-top: 5px;}
 .account_preferences .password-preferences-form table{margin-left: 15px;}
@@ -194,7 +194,7 @@ body {
 
 /* my_sakai_add_goodies.html */
 .add_goodies .dialogue_body{border: 1px solid #e5e5e5;}
-.add_goodies .button{height: 21; width: 63px; margin-left: 9px;}
+.add_goodies .button{height: 21px; width: 63px; margin-left: 9px;}
 .add_goodies .add{font-weight: bold;}
 .dialogue_body .remove{background: #f8f8f8;}
 .dialogue_body td{padding:8px; border: 0; border-bottom: 1px solid #e5e5e5; margin: 0;}
@@ -246,3 +246,9 @@ body {
 .basic_management .site_access_form .access-form-item {margin-bottom:35px;}
 .basic_management .site_access_form .site_access_label {color:#333333;float:left;font-weight:bold;height:52px;margin-right:25px;text-align:right;width:125px;}
 .basic_management .site_access_form .access-form-item .site_access_label {color:#333333;float:left;font-weight:bold;text-align:right;width:130px;}
+
+/* ACCOUNT PREFERENCES */
+.account_preferences .form-item label {float:left;font-weight:bold;margin-right:15px;text-align:right;width:155px;}
+.account_preferences .form-item {margin:0 0 15px 15px;}
+.account_preferences .regional .preferences-form select {height:21px;width:280px;}
+.account_preferences .preferences-form {margin-top:25px;}
