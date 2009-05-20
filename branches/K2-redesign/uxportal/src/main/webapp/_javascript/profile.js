@@ -90,7 +90,7 @@ sakai.profile = function(){
 				httpMethod: "GET",
 				url: fileUrl,
 				onSuccess: function(data){
-					totalprofile = eval('(' + data + ')');
+					totalprofile = $.evalJSON(data);
 					totalprofile.profile = totalprofile.users[0].profile;
 					totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
 					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
@@ -165,7 +165,7 @@ sakai.profile = function(){
 			
 		}
 		
-	}
+	};
 			
    var inedit_basic = false;
    
@@ -328,7 +328,7 @@ sakai.profile = function(){
 				}
 			}
 		}
-   }
+   };
    
    //////////////////////////
    // General Popup Fields //
@@ -352,14 +352,14 @@ sakai.profile = function(){
 			}
 		}
    
-	   	var obj = {};
-		obj.items = [];
+	   	var toRender = {};
+		toRender.items = [];
 		if (json[savefield]){
-			obj.items = eval('(' + json[savefield] + ')');
+			toRender.items = $.evalJSON(json[savefield]);
 		}
-		$("#" + field + "s_list").html(sdata.html.Template.render(field + "s_list_template",obj));
+		$("#" + field + "s_list").html(sdata.html.Template.render(field + "s_list_template",toRender));
    	
-    }
+    };
 	
 	
 	
@@ -372,7 +372,7 @@ sakai.profile = function(){
 		element.removeClass("profile_available_status_busy");
 		element.removeClass("profile_available_status_offline");
 		element.addClass("profile_available_status_"+status);
-	}
+	};
    
    //////////////////////////
    // General Popup Fields //
@@ -471,7 +471,7 @@ sakai.profile = function(){
 		
 		if (json.contactinfo) {
 		
-			unicontactinfo = eval('(' + json.contactinfo + ')');
+			unicontactinfo = $.evalJSON(json.contactinfo);
 			
 			if (unicontactinfo.uniphone) {
 				inunicontactinfo++;
@@ -523,7 +523,7 @@ sakai.profile = function(){
 		var inhomecontactinfo = 0;
 		if (json.contactinfo) {
 		
-			homecontactinfo = eval('(' + json.contactinfo + ')');
+			homecontactinfo = $.evalJSON(json.contactinfo);
 			
 			if (homecontactinfo.homeemail) {
 				inhomecontactinfo++;
@@ -635,7 +635,7 @@ sakai.profile = function(){
 		setTimeout((function(){
 			$(document.body).show();
 		}),10);*/
-   }
+   };
    
    /*
     * Sending a message
@@ -651,7 +651,7 @@ sakai.profile = function(){
 	var fillInMessagePopUp = function(){
 		$("#message_from").text(me.profile.firstName + " " + me.profile.lastName);
 		$("#message_to").text(totalprofile.profile.firstName + " " + totalprofile.profile.lastName);
-	}
+	};
 	
 	$("#save_as_page_template_button").bind("click", function(ev){
 		
@@ -760,8 +760,8 @@ sakai.profile = function(){
 						$("#add_friend_displayname2").text(totalprofile.preferences.uuid);
 					}
 					
-					if (totalprofile.profile.picture && eval('(' + totalprofile.profile.picture + ')').name){
-						$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + totalprofile.userStoragePrefix + "/" + eval('(' + totalprofile.profile.picture + ')').name + "' width='40px' height='40px'/>");
+					if (totalprofile.profile.picture && $.evalJSON(totalprofile.profile.picture).name){
+						$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + totalprofile.userStoragePrefix + "/" + $.evalJSON(totalprofile.profile.picture) + "' width='40px' height='40px'/>");
 					} else {
 						$("#add_friend_profilepicture").html("<img src='images/person_icon.png' width='40px' height='40px'/>");
 					}
@@ -776,14 +776,14 @@ sakai.profile = function(){
 				//alert("An error has occured");	
 			}
 		});
-   }
+   };
    
    $("#add_friends_do_invite").bind("click", function(ev){
    		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
-		if (toSend["add_friends_list_type"]){
+		if (toSend.add_friends_list_type){
 			
-			var type = toSend["add_friends_list_type"];
-			var comment = toSend["add_friend_personal_note"];
+			var type = toSend.add_friends_list_type;
+			var comment = toSend.add_friend_personal_note;
 			
 			// send message to other person
 			var userstring = "";
@@ -801,20 +801,19 @@ sakai.profile = function(){
 					
 			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
 			
-			sdata.Ajax.request({
+			$.ajax({
 				url: "/rest/friend/connect/request",
-				httpMethod: "POST",
-			    onSuccess: function(data){
+				type: "POST",
+			    success: function(data){
 					
 					$('#add_to_contacts_dialog').jqmHide();
 					$("#add_to_contacts_button").hide();
 					
 				},
-				onFail: function(status){
+				error: function(status){
 					alert("An error has occured");
 				},
-				postData: data,
-				contentType: "application/x-www-form-urlencoded"
+				data: data
 			});
 			
 		}
@@ -825,17 +824,16 @@ sakai.profile = function(){
 		var inviter = user;
 		var data = {"friendUuid" : inviter};
 		
-		sdata.Ajax.request({
+		$.ajaxt({
 			url: "/rest/friend/connect/accept",
-			httpMethod: "POST",
-			onSuccess: function(data){
+			type: "POST",
+			success: function(data){
 				$("#accept_invitation_button").hide();
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			},
-			postData: data,
-			contentType: "application/x-www-form-urlencoded"
+			data: data
 		});
 	
    });
@@ -845,4 +843,4 @@ sakai.profile = function(){
    
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("profile");
+sdata.container.registerForLoad("sakai.profile");
