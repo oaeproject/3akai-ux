@@ -16,11 +16,11 @@
 	background-color: #FFFFFF !important;
 }
 
-.fl-tabs li a {
+.dailog_changepic .fl-tabs li a {
 	bottom:3px !important;
 }
 
-.fl-tabs .fl-activeTab a {
+.dailog_changepic .fl-tabs .fl-activeTab a {
 	background-color:#FFFFFF !important;
 	border-color:#DDDDDD #DDDDDD #EEEEEE;
 	border-style:solid;
@@ -29,7 +29,7 @@
 	font-weight:normal !important;
 }
 
-.fl-tabs li a {
+.dailog_changepic .fl-tabs li a {
 	background-color:#EEEEEE;
 	border-color:#EEEEEE #EEEEEE #DDDDDD;
 	border-style:solid;

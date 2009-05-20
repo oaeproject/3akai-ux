@@ -127,8 +127,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 	$("#save_new_selection").bind("click", function(ev){
 		
 		var tosave = {};
-		tosave["urlImgtoCrop"] = "/_private" + me.userStoragePrefix + picture._name; 
-		tosave["urlSaveIn"] = "/_private" + me.userStoragePrefix;
+		tosave["urlImgtoCrop"] = "/_private" + sdata.me.userStoragePrefix + picture._name; 
+		tosave["urlSaveIn"] = "/_private" + sdata.me.userStoragePrefix;
 		tosave["x"] = Math.floor(bigSelection.x1 * ratio);
 		tosave["y"] = Math.floor(bigSelection.y1 * ratio);
 		tosave["height"] = Math.floor(bigSelection.height * ratio);
@@ -136,22 +136,22 @@ sakai.changepic = function(tuid, placement, showSettings){
 		tosave["dimensions"] = [{"width":256,"height":256}];
 		
 		var data = {
-			parameters : sdata.JSON.stringify(tosave)
+			parameters : $.toJSON(tosave)
 		}
 		
 		// Post all of this to the server
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: "/_rest/image/cropit",
-			httpMethod: "POST",
-			onSuccess: function(data){
+			type: "POST",
+			success: function(data){
 				
 				var tosave = {
 					"name": "256x256_" + picture._name,
 					"_name": picture._name
 				};
 				
-				var stringtosave = sdata.JSON.stringify(tosave);
+				var stringtosave = $.toJSON(tosave);
 				var data = {"picture":stringtosave};
 				
 				sdata.me.profile.picture = tosave;
@@ -164,30 +164,28 @@ sakai.changepic = function(tuid, placement, showSettings){
 				
 				var tosend = {"k":k,"v":v,"a":a};
 				
-				sdata.Ajax.request({
-		        	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
-		        	httpMethod : "POST",
-		            postData : tosend,
-		            contentType : "application/x-www-form-urlencoded",
-		            onSuccess : function(data) {
+				$.ajax({
+		        	url :"/rest/patch/f/_private" + sdata.me.userStoragePrefix + "profile.json",
+		        	type : "POST",
+		            data : tosend,
+		            success : function(data) {
 						
-						$("#picture_holder").html("<img src='/sdata/f" + "/_private" + me.userStoragePrefix + tosave.name + "?sid=" + Math.random() + "'/>");
+						$("#picture_holder").html("<img src='/sdata/f" + "/_private" + sdata.me.userStoragePrefix + tosave.name + "?sid=" + Math.random() + "'/>");
 						$("#profile_picture").css("text-indent","0px");
-						$("#profile_picture").html("<img src='/sdata/f" + "/_private" + me.userStoragePrefix + tosave.name + "?sid=" + Math.random() + "' height='60px' width='60px'/>");
+						$("#profile_picture").html("<img src='/sdata/f" + "/_private" + sdata.me.userStoragePrefix + tosave.name + "?sid=" + Math.random() + "' height='60px' width='60px'/>");
 						$("#changepic_container").jqmHide();
 						
 					},
-					onFail : function(data){
+					error : function(data){
 						alert("An error has occured");
 					}
 				});
 				
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			},
-			postData: data,
-			contentType: "application/x-www-form-urlencoded"
+			data: data
 		});
 		
 	});
@@ -265,7 +263,7 @@ sakai._changepic.completeCallback = function(response){
 	var tosave = {
 		"_name": resp.uploads.file.name
 	};
-		var stringtosave = sdata.JSON.stringify(tosave);
+		var stringtosave = $.toJSON(tosave);
 		var data = {"picture":stringtosave};
 		
 		// $("#picture_holder").html("<img src='/sdata/f/_private/" + profileinfo_userId + "/" + resp.uploads.file.name + "' width='250px'/>");
@@ -278,17 +276,16 @@ sakai._changepic.completeCallback = function(response){
 		
 		sdata.me.profile.picture = tosave;
 		
-		sdata.Ajax.request({
-        	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
-        	httpMethod : "POST",
-            postData : tosend,
-            contentType : "application/x-www-form-urlencoded",
-            onSuccess : function(data) {
+		$.ajax({
+        	url :"/rest/patch/f/_private" + sdata.me.userStoragePrefix + "profile.json",
+        	type : "POST",
+            data : tosend,
+            success : function(data) {
 				
 				sakai._changepic.doInit();
 				
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			}
 		});
