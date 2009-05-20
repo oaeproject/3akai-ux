@@ -156,7 +156,7 @@ sakai.index = function(){
 		var qs = new Querystring();
 		var red = qs.get("url", false);
 		if (red !== false){
-			redirectUrl = sdata.util.URL.decode(red);
+			redirectUrl = $.URLDecode(red);
 		}
 		
 		// Set the cursor in the username field
