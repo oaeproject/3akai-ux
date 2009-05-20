@@ -135,7 +135,7 @@ sakai.dashboard = function(){
 		
 		myportaljson = jsonobj;
 	
-		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",sdata.JSON.stringify(jsonobj), saveGroup);
+		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",$.toJSON(jsonobj), saveGroup);
 		
 	}
 	
@@ -996,4 +996,4 @@ sakai.dashboard = function(){
 
 };
 
-sdata.registerForLoad("sakai.dashboard");
+sdata.container.registerForLoad("sakai.dashboard");
