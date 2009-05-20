@@ -662,7 +662,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			$("#nav_search_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Search</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		} else if (window.location.pathname.toLowerCase().indexOf("/people.html") != -1){
 			$("#nav_people_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>People</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
-		} else if (window.location.pathname.toLowerCase().indexOf("/profile.html") != -1){
+		} else if (window.location.pathname.toLowerCase().indexOf("/profile.html") != -1 || window.location.pathname.toLowerCase().indexOf("/profile_edit.html") != -1){
 			$("#nav_profile_link").html('<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>Profile</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />');
 		}
 		
