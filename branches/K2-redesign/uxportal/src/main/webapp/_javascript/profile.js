@@ -73,9 +73,9 @@ sakai.profile = function(){
 		
 		
 		if (!me.preferences.uuid && !me.preferences.eid) {
-			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/redesign/profile.html";
+			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile.html";
 			if (user){
-				redirect += sdata.util.URL.encode("?user=" + user);
+				redirect += $.URLEncode("?user=" + user);
 			}
 			document.location = redirect;
 		}
@@ -85,11 +85,11 @@ sakai.profile = function(){
 		
 		if (user && user != me.preferences.uuid) {
 			myprofile = false;
-			fileUrl = "/rest/me/" + user + "?sid=" + Math.random();
-			sdata.Ajax.request({
-				httpMethod: "GET",
+			fileUrl = "/rest/me/" + user;
+			$.ajax({
 				url: fileUrl,
-				onSuccess: function(data){
+				cache: false,	
+				success: function(data){
 					totalprofile = $.evalJSON(data);
 					totalprofile.profile = totalprofile.users[0].profile;
 					totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
@@ -107,54 +107,15 @@ sakai.profile = function(){
 					
 					fillInFields();
 					
-				},
-				onFail: function(status){
-				
 				}
 			});
 		}
-		else 
-			if (!showEdit) {
-				//myprofile = false;
-				$("#link_edit_profile").show();
-				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
-					onSuccess: function(data){
-						json = eval('(' + data + ')');
-						fillInFields();
-					},
-					onFail: function(status){
-					
-					}
-				});
-			}
-			else {
-				if (user == me.preferences.uuid) {
-					user = false;
-				}
-				$("#link_view_profile").show();
-				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
-					onSuccess: function(data){
-						json = eval('(' + data + ')');
-						
-						setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
-						setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
-						setFunctions(jobfield, jobsavefield, jobsavestring, jobfields, jobrequired);
-						setFunctions(educationfield, educationsavefield, educationsavestring, educationfields, educationrequired);
-						setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);
-						
-						fillInFields();
-					},
-					onFail: function(status){
-					
-					}
-				});
-			}
+		else if (!showEdit) {
+			//myprofile = false;
+			$("#link_edit_profile").show();
+			json = sdata.me.profile;
+			fillInFields();
+		}
 		
 		if (myprofile) {
 		
@@ -173,12 +134,13 @@ sakai.profile = function(){
 		
 		var inbasic = 0;
 		var basic = false;
+		var str = "";
 		
 		fillInMessagePopUp();
 		
 		$("#profile_user_name").text(json.firstName + " " + json.lastName);
 		if (json.basic){
-			var basic = json.basic;
+			basic = json.basic;
 			if (basic.status){
 				inbasic++;
 				$("#txt_status").html(basic.status);
@@ -201,7 +163,7 @@ sakai.profile = function(){
 		if (json.firstName){
 			inbasic++;
 			$("#firstname").show();
-			var str = json.firstName;
+			str = json.firstName;
 			$("#txt_firstname").text("" + str);
 		} else if (!inedit_basic) {
 			$("#firstname").hide();
@@ -210,13 +172,13 @@ sakai.profile = function(){
 		if (json.lastName){
 			inbasic++;
 			$("#lastname").show();
-			var str = json.lastName;
+			str = json.lastName;
 			$("#txt_lastname").text("" + str);
 		} else if (!inedit_basic) {
 			$("#lastname").hide();
 		}
 		
-		if (myprofile || (user == false || user == me.preferences.uuid)){
+		if (myprofile || (user === false || user == me.preferences.uuid)){
 			$("#sitetitle").text("My Profile");
 		} else {
 			if (json.firstName || json.lastName){
@@ -235,7 +197,7 @@ sakai.profile = function(){
 			if (basic.middlename){
 				inbasic++;
 				$("#middlename").show();
-				var str = basic.middlename;
+				str = basic.middlename;
 				$("#txt_middlename").text("" + str);
 			} else if (!inedit_basic) {
 				$("#middlename").hide();
@@ -252,7 +214,7 @@ sakai.profile = function(){
 			if (basic.unirole){
 				inbasic++;
 				$("#unirole").show();
-				var str = basic.unirole;
+				str = basic.unirole;
 				$("#txt_unirole").text("" + str);
 			} else if (!inedit_basic) {
 				$("#unirole").hide();
@@ -261,7 +223,7 @@ sakai.profile = function(){
 			if (basic.unidepartment){
 				inbasic++;
 				$("#unidepartment").show();
-				var str = basic.unidepartment;
+				str = basic.unidepartment;
 				$("#txt_unidepartment").text("" + str);
 			} else if (!inedit_basic) {
 				$("#unidepartment").hide();
@@ -270,7 +232,7 @@ sakai.profile = function(){
 			if (basic.unicollege){
 				inbasic++;
 				$("#unicollege").show();
-				var str = basic.unicollege;
+				str = basic.unicollege;
 				$("#txt_unicollege").text("" + str);
 			} else if (!inedit_basic) {
 				$("#unicollege").hide();
@@ -344,7 +306,7 @@ sakai.profile = function(){
 				var obj = {};
 				obj.items = [];
 				if (json[savefield]){
-					obj.items = eval('(' + json[savefield] + ')');
+					obj.items = $.evalJSON(json[savefield]);
 				}
 				if (obj.items.length > 0){
 					$("#" + field + "s").show();
@@ -357,7 +319,7 @@ sakai.profile = function(){
 		if (json[savefield]){
 			toRender.items = $.evalJSON(json[savefield]);
 		}
-		$("#" + field + "s_list").html(sdata.html.Template.render(field + "s_list_template",toRender));
+		$("#" + field + "s_list").html($.Template.render(field + "s_list_template",toRender));
    	
     };
 	
@@ -400,7 +362,7 @@ sakai.profile = function(){
 		var inabout = 0;
 		if (json.aboutme) {
 		
-			about = eval('(' + json.aboutme + ')');
+			about = $.evalJSON(json.aboutme);
 			
 			if (about.aboutme){
 				inabout++;
@@ -471,7 +433,7 @@ sakai.profile = function(){
 		
 		if (json.contactinfo) {
 		
-			unicontactinfo = $.evalJSON(json.contactinfo);
+			unicontactinfo = json.contactinfo;
 			
 			if (unicontactinfo.uniphone) {
 				inunicontactinfo++;
@@ -523,7 +485,7 @@ sakai.profile = function(){
 		var inhomecontactinfo = 0;
 		if (json.contactinfo) {
 		
-			homecontactinfo = $.evalJSON(json.contactinfo);
+			homecontactinfo = json.contactinfo;
 			
 			if (homecontactinfo.homeemail) {
 				inhomecontactinfo++;
@@ -679,19 +641,15 @@ sakai.profile = function(){
 		} else {
 			
 			var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
-			var toSend = {"to": user,"message":sdata.JSON.stringify(openSocialMessage)};
+			var toSend = {"to": user,"message":$.toJSON(openSocialMessage)};
 			
-			sdata.Ajax.request({
+			$.ajax({
 				url: "/_rest/message/send",
-				httpMethod: "POST",
-			    onSuccess: function(data){
-					
+				type: "POST",
+				error: function(status){
+					alert("An error has occured whilst sending the messages");
 				},
-				onFail: function(status){
-					alert("Sending messages isn't possible yet");
-				},
-				postData: toSend,
-				contentType: "application/x-www-form-urlencoded"
+				data: toSend
 			});
 			
 			subjectEl.val("");
@@ -727,14 +685,14 @@ sakai.profile = function(){
 					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.preferences.uuid);
 				}
 		}
-	}
+	};
 	
 	var doAddButton = function(){
-   		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?sid=" + Math.random(),
-			onSuccess: function(data){
-				var resp = eval('(' + data + ')');
+   		$.ajax({
+			url: "/rest/friend/status",
+			cache: false,
+			success: function(data){
+				var resp = $.evalJSON(data);
 				
 				var status = false;
 				if (resp.status.friends){
@@ -766,20 +724,20 @@ sakai.profile = function(){
 						$("#add_friend_profilepicture").html("<img src='images/person_icon.png' width='40px' height='40px'/>");
 					}
 					
-					$("#add_friend_types").html(sdata.html.Template.render("add_friend_types_template",Widgets));
+					$("#add_friend_types").html($.Template.render("add_friend_types_template",Widgets));
 					
 				} else if (status == "INVITED"){
 					$("#accept_invitation_button").show();
 				}
 			},
-			onFail: function(status){
+			error: function(status){
 				//alert("An error has occured");	
 			}
 		});
    };
    
    $("#add_friends_do_invite").bind("click", function(ev){
-   		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
+   		var toSend = $.FormBinder.serialize($("#add_friends_form"));
 		if (toSend.add_friends_list_type){
 			
 			var type = toSend.add_friends_list_type;
@@ -799,7 +757,7 @@ sakai.profile = function(){
 			// construct openSocial message
 			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
 					
-			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
+			var data = { "friendUuid" : user , "friendType" : type, "message" :  $.toJSON({"title":title,"body":openSocialMessage})};
 			
 			$.ajax({
 				url: "/rest/friend/connect/request",
@@ -824,7 +782,7 @@ sakai.profile = function(){
 		var inviter = user;
 		var data = {"friendUuid" : inviter};
 		
-		$.ajaxt({
+		$.ajax({
 			url: "/rest/friend/connect/accept",
 			type: "POST",
 			success: function(data){
