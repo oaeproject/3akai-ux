@@ -71,90 +71,32 @@ sakai.profile = function(){
 	
 		me = sdata.me;
 		
-		
 		if (!me.preferences.uuid && !me.preferences.eid) {
 			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
 			if (user){
-				redirect += sdata.util.URL.encode("?user=" + user);
+				redirect += $.URLEncode("?user=" + user);
 			}
 			document.location = redirect;
 		}
 		
 		totalprofile = me;
-		fillInvitePopup();
 		
-		if (user && user != me.preferences.uuid) {
-			myprofile = false;
-			fileUrl = "/rest/me/" + user + "?sid=" + Math.random();
-			sdata.Ajax.request({
-				httpMethod: "GET",
-				url: fileUrl,
-				onSuccess: function(data){
-					totalprofile = eval('(' + data + ')');
-					totalprofile.profile = totalprofile.users[0].profile;
-					totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
-					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
-						totalprofile._status = totalprofile.profile.chatstatus;
-					} 
-					else {
-						totalprofile._status = totalprofile.profile.status;
-					}
-					json = totalprofile.profile;
-					
-					if (user && user != me.preferences.uuid) {
-						doAddButton();
-					}
-					
-					fillInFields();
-					
-				},
-				onFail: function(status){
-				
-				}
-			});
+		
+		if (user == me.preferences.uuid) {
+			user = false;
 		}
-		else 
-			if (!showEdit) {
-				//myprofile = false;
-				$("#link_edit_profile").show();
-				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
-					onSuccess: function(data){
-						json = eval('(' + data + ')');
-						fillInFields();
-					},
-					onFail: function(status){
-					
-					}
-				});
-			}
-			else {
-				if (user == me.preferences.uuid) {
-					user = false;
-				}
-				$("#link_view_profile").show();
-				fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
-				sdata.Ajax.request({
-					httpMethod: "GET",
-					url: "/sdata" + fileUrl,
-					onSuccess: function(data){
-						json = eval('(' + data + ')');
-						
-						setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
-						setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
-						setFunctions(jobfield, jobsavefield, jobsavestring, jobfields, jobrequired);
-						setFunctions(educationfield, educationsavefield, educationsavestring, educationfields, educationrequired);
-						setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);
-						
-						fillInFields();
-					},
-					onFail: function(status){
-					
-					}
-				});
-			}
+		$("#link_view_profile").show();
+		fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
+				
+		json = sdata.me.profile;
+				
+		setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
+		setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
+		setFunctions(jobfield, jobsavefield, jobsavestring, jobfields, jobrequired);
+		setFunctions(educationfield, educationsavefield, educationsavestring, educationfields, educationrequired);
+		setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);
+				
+		fillInFields();		
 		
 		if (myprofile) {
 		
@@ -188,7 +130,7 @@ sakai.profile = function(){
 			
 		}
 		
-	}
+	};
 			
    var inedit_basic = true;
    
@@ -196,22 +138,17 @@ sakai.profile = function(){
 		
 		var inbasic = 0;
 		var basic = false;
-		
-		fillInMessagePopUp();
+		var str = "";
 		
 		$("#profile_user_name").text(json.firstName + " " + json.lastName);
 		if (json.basic){
-			var basic = json.basic;
+			basic = json.basic;
 			if (basic.status){
 				inbasic++;
 				$("#txt_status").html(basic.status);
-				$("#status").show();
-			} else if (!inedit_basic) {
-				$("#status").hide();
-			}
-		} else if (!inedit_basic) {
-			$("#status").hide();
+			} 
 		}
+		$("#status").show();
 		
 		var chatstatus = "offline";
 		if (json.chatstatus){
@@ -223,23 +160,19 @@ sakai.profile = function(){
 		
 		if (json.firstName){
 			inbasic++;
-			$("#firstname").show();
-			var str = json.firstName;
+			str = json.firstName;
 			$("#txt_firstname").text("" + str);
-		} else if (!inedit_basic) {
-			$("#firstname").hide();
-		}
+		} 
+		$("#firstname").show();
 		
 		if (json.lastName){
 			inbasic++;
-			$("#lastname").show();
-			var str = json.lastName;
+			str = json.lastName;
 			$("#txt_lastname").text("" + str);
-		} else if (!inedit_basic) {
-			$("#lastname").hide();
-		}
+		} 
+		$("#lastname").show();
 		
-		if (myprofile || (user == false || user == me.preferences.uuid)){
+		if (myprofile || (user === false || user === me.preferences.uuid)){
 			$("#sitetitle").text("My Profile");
 		} else {
 			if (json.firstName || json.lastName){
@@ -258,7 +191,7 @@ sakai.profile = function(){
 			if (basic.middlename){
 				inbasic++;
 				$("#middlename").show();
-				var str = basic.middlename;
+				str = basic.middlename;
 				$("#txt_middlename").text("" + str);
 			} else if (!inedit_basic) {
 				$("#middlename").hide();
@@ -275,7 +208,7 @@ sakai.profile = function(){
 			if (basic.unirole){
 				inbasic++;
 				$("#unirole").show();
-				var str = basic.unirole;
+				str = basic.unirole;
 				$("#txt_unirole").text("" + str);
 			} else if (!inedit_basic) {
 				$("#unirole").hide();
@@ -284,7 +217,7 @@ sakai.profile = function(){
 			if (basic.unidepartment){
 				inbasic++;
 				$("#unidepartment").show();
-				var str = basic.unidepartment;
+				str = basic.unidepartment;
 				$("#txt_unidepartment").text("" + str);
 			} else if (!inedit_basic) {
 				$("#unidepartment").hide();
@@ -293,7 +226,7 @@ sakai.profile = function(){
 			if (basic.unicollege){
 				inbasic++;
 				$("#unicollege").show();
-				var str = basic.unicollege;
+				str = basic.unicollege;
 				$("#txt_unicollege").text("" + str);
 			} else if (!inedit_basic) {
 				$("#unicollege").hide();
@@ -337,23 +270,24 @@ sakai.profile = function(){
 			fields[1] = document.getElementById("new_degree_until");
 			fields[2] = document.getElementById("edit_degree_from");
 			fields[3] = document.getElementById("edit_degree_until");
-			fields[4] = document.getElementById("new_job_from");
-			fields[5] = document.getElementById("new_job_until");
-			fields[6] = document.getElementById("edit_job_from");
-			fields[7] = document.getElementById("edit_job_until");
-			fields[8] = document.getElementById("new_paper_year");
-			fields[9] = document.getElementById("edit_paper_year");
+			fields[4] = document.getElementById("new_paper_year");
+			fields[5] = document.getElementById("edit_paper_year");
+			fields[6] = document.getElementById("new_job_from");
+			fields[7] = document.getElementById("new_job_until");
+			fields[8] = document.getElementById("edit_job_from");
+			fields[9] = document.getElementById("edit_job_until");
 			
-			/*
-for (var i = 2015; i >= 1900; i--){
+			
+			
+			for (var i = 2015; i >= 1900; i--){
 				for (var ii = 0; ii < fields.length; ii++){
 					var option = new Option("" + i,"" + i);
 					fields[ii].options[fields[ii].options.length] = option;
 				}
 			}
-*/
+
 		}
-   }
+   };
    
    //////////////////////////
    // General Popup Fields //
@@ -369,7 +303,7 @@ for (var i = 2015; i >= 1900; i--){
 				var obj = {};
 				obj.items = [];
 				if (json[savefield]){
-					obj.items = eval('(' + json[savefield] + ')');
+					obj.items = $.evalJSON(json[savefield]);
 				}
 				if (obj.items.length > 0){
 					$("#" + field + "s").show();
@@ -377,14 +311,155 @@ for (var i = 2015; i >= 1900; i--){
 			}
 		}
    
-	   	var obj = {};
+	   	obj = {};
 		obj.items = [];
 		if (json[savefield]){
-			obj.items = eval('(' + json[savefield] + ')');
+			obj.items = $.evalJSON(json[savefield]);
 		}
-		$("#" + field + "s_list").html(sdata.html.Template.render(field + "s_list_template",obj));
+		$("#" + field + "s_list").html($.Template.render(field + "s_list_template",obj));
+	
+		$("." + field + "_record").hover( 
+			function(){
+				var id = this.id;
+				$("#" + id + "_div").removeClass("multifield_out");
+				$("#" + id + "_div").addClass("multifield_over");
+				$("#" + id + "_remove").show();
+			}, function(){
+				var id = this.id;
+				$("#" + id + "_div").removeClass("multifield_over");
+				$("#" + id + "_div").addClass("multifield_out");
+				$("#" + id + "_remove").hide();
+			}
+		);
+			
+		$("." + field + "_record_remove").click(
+			function(){
+				var id = this.id.split("_")[this.id.split("_").length - 2];
+				var index = -1;
+				
+				var obj = {};
+				obj.items = [];
+				if (json[savefield]){
+					obj.items = $.evalJSON(json[savefield]);
+				}
+			
+				index = 0;
+				for (var i = 0; i < obj.items.length; i++){
+					if (obj.items[i].id == id){
+						index = i;
+					}
+				}
+				
+				if (index != -1){
+					
+					obj.items.splice(index, 1);
+					
+					var data = {};
+					data[savestring] = $.toJSON(obj.items);
+					json[savefield] = data[savestring];
+					
+					var a = ["u"];
+					var k = ["" + savefield];
+					var v = ["" + data[savestring]];
+					var tosend = {"v":v,"k":k,"a":a};
+						
+					$.ajax({
+				       	url :"/rest/patch" + fileUrl,
+				       	type : "POST",
+				        data : tosend,
+						error : function(data){
+							alert("An error has occured");
+						}
+					});
+					
+					fillGeneralPopupField(field, savefield, savestring, fields);
+					
+				}
+			}
+		);
+		
+		$("." + field + "_record_div").click(
+			function(){
+				var id = this.id.split("_")[this.id.split("_").length - 2];
+				var index = -1;
+				
+				var obj = {};
+				obj.items = [];
+				if (json[savefield]){
+					obj.items = $.evalJSON(json[savefield]);
+				}
+			
+				index = 0;
+				for (var i = 0; i < obj.items.length; i++){
+					if (obj.items[i].id == id){
+						index = i;
+					}
+				}
+				
+				if (index != -1) {
+				
+					$("#edit_" + field + "_id").val(obj.items[index].id);
+					for (var index2 = 0; index2 < fields.length; index2++){
+						$("#edit_" + field + "_" + fields[index2]).val(obj.items[index][fields[index2]]);
+					}
+				
+					$("#edit_" + field + "s_lightbox").jqmShow();
+					
+				}
+			}
+		);
    	
-    }
+    };
+	
+	$("#add_degrees_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#edit_degrees_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#add_papers_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#edit_papers_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#add_talks_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#edit_talks_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#add_jobs_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#edit_jobs_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	
 	
 	var setFunctions = function(field, savefield, savestring, fields, required){
 	
@@ -392,30 +467,26 @@ for (var i = 2015; i >= 1900; i--){
 			for (var index = 0; index < fields.length; index++){
 				$("#new_" + field + "_" + fields[index]).val("");
 			}
-			
-			$("#add_fields_overlay_lightbox").show();
-			$("#add_" + field + "s_lightbox").show();
+			$("#add_" + field + "s_lightbox").jqmShow();
 		});
 		
 		$(".sakai-close-add-" + field + "s").bind("click", function(ev){
-			$("#add_" + field + "s_lightbox").hide();
-			$("#add_fields_overlay_lightbox").hide();
+			$("#add_" + field + "s_lightbox").jqmHide();
 		});
 		$(".sakai-close-edit-" + field + "s").bind("click", function(ev){
-			$("#edit_" + field + "s_lightbox").hide();
-			$("#add_fields_overlay_lightbox").hide();
+			$("#add_" + field + "s_lightbox").jqmHide();
 		});
 		
 		$("#edit_" + field + "_button").bind("click", function(ev){
 		
-			var id = parseInt($("#edit_" + field + "_id").val());
+			var id = parseInt($("#edit_" + field + "_id").val(), 10);
 			var arrayToSave = {};
 			for (var index = 0; index < fields.length; index++){
 				arrayToSave[fields[index]] = $("#edit_" + field + "_" + fields[index]).val();
 			}
 			
 			var valid = true;
-			for (var index = 0; index < required.length; index++){
+			for (index = 0; index < required.length; index++){
 				if (!arrayToSave[required[index]]){
 					valid = false;
 				}
@@ -426,20 +497,20 @@ for (var i = 2015; i >= 1900; i--){
 				var obj = {};
 				obj.items = [];
 				if (json[savefield]) {
-					obj.items = eval('(' + json[savefield] + ')');
+					obj.items = $.evalJSON(json[savefield]);
 				}
 				
-				var index = 0;
+				index = 0;
 				for (var i = 0; i < obj.items.length; i++) {
 					if (obj.items[i].id == id) {
-						for (var index = 0; index < fields.length; index++){
+						for (index = 0; index < fields.length; index++){
 							obj.items[i][fields[index]] = arrayToSave[fields[index]];
 						}
 					}
 				}
 				
 				var data = {};
-				data[savestring] = sdata.JSON.stringify(obj.items);
+				data[savestring] = $.toJSON(obj.items);
 				json[savefield] = data[savestring];
 				
 				var a = ["u"];
@@ -447,23 +518,18 @@ for (var i = 2015; i >= 1900; i--){
 				var v = ["" + data[savestring]];
 				var tosend = {"v":v,"k":k,"a":a};
 				
-				sdata.Ajax.request({
+				$.ajax({
 					url: "/rest/patch" + fileUrl,
-					httpMethod: "POST",
-					postData: tosend,
-					contentType: "application/x-www-form-urlencoded",
-					onSuccess: function(data){
-					
-					},
-					onFail: function(data){
+					type: "POST",
+					data: tosend,
+					error: function(data){
 						alert("An error has occured");
 					}
 				});
 				
 				fillGeneralPopupField(field, savefield, savestring, fields);
 				
-				$("#edit_" + field + "s_lightbox").hide();
-				$("#add_fields_overlay_lightbox").hide();
+				$("#edit_" + field + "s_lightbox").jqmHide();
 				
 			}
 			else {
@@ -478,7 +544,7 @@ for (var i = 2015; i >= 1900; i--){
 			}
 			
 			var valid = true;
-			for (var index = 0; index < required.length; index++){
+			for (index = 0; index < required.length; index++){
 				if (!arrayToSave[required[index]]){
 					valid = false;
 				}
@@ -491,9 +557,9 @@ for (var i = 2015; i >= 1900; i--){
 				var obj = {};
 				obj.items = [];
 				if (json[savefield]) {
-					obj.items = eval('(' + json[savefield] + ')');
+					obj.items = $.evalJSON(json[savefield]);
 				}
-				var index = obj.items.length;
+				index = obj.items.length;
 				obj.items[index] = {};
 				
 				for (var index2 = 0; index2 < fields.length; index2++){
@@ -502,7 +568,7 @@ for (var i = 2015; i >= 1900; i--){
 			
 				obj.items[index].id = Math.round(Math.random() * 100000);
 				var data = {};
-				data[savestring] = sdata.JSON.stringify(obj.items);
+				data[savestring] = $.toJSON(obj.items);
 				json[savefield] = data[savestring];
 				
 				var a = ["u"];
@@ -510,28 +576,23 @@ for (var i = 2015; i >= 1900; i--){
 				var v = ["" + data[savestring]];
 				var tosend = {"v":v,"k":k,"a":a};
 				
-				sdata.Ajax.request({
+				$.ajax({
 					url: "/rest/patch" + fileUrl,
-					httpMethod: "POST",
-					postData: tosend,
-					contentType: "application/x-www-form-urlencoded",
-					onSuccess: function(data){
-					
-					},
-					onFail: function(data){
+					type: "POST",
+					data: tosend,
+					error: function(data){
 						alert("An error has occured");
 					}
 				});
 				
-				$("#add_" + field + "s_lightbox").hide();
-				$("#add_fields_overlay_lightbox").hide();
+				$("#add_" + field + "s_lightbox").jqmHide();
 				
 				fillGeneralPopupField(field, savefield, savestring, fields);
 				
 			}
 		});
 		
-	}
+	};
 	
 	
 	
@@ -544,7 +605,7 @@ for (var i = 2015; i >= 1900; i--){
 		element.removeClass("profile_available_status_busy");
 		element.removeClass("profile_available_status_offline");
 		element.addClass("profile_available_status_"+status);
-	}
+	};
    
    //////////////////////////
    // General Popup Fields //
@@ -807,210 +868,7 @@ for (var i = 2015; i >= 1900; i--){
 		setTimeout((function(){
 			$(document.body).show();
 		}),10);*/
-   }
-   
-   /*
-    * Sending a message
-    */
-	
-	$('#message_dialog').jqm({
-		modal: true,
-		trigger: $('#send_message_button'),
-		overlay: 20,
-		toTop: true
-	});
-	
-	var fillInMessagePopUp = function(){
-		$("#message_from").text(me.profile.firstName + " " + me.profile.lastName);
-		$("#message_to").text(totalprofile.profile.firstName + " " + totalprofile.profile.lastName);
-	}
-	
-	$("#save_as_page_template_button").bind("click", function(ev){
-		
-		var subjectEl = $("#comp-subject");
-		var bodyEl = $("#comp-body");
-		
-		var valid = true;
-		var	subject = subjectEl.val();
-		var body = bodyEl.val();
-		
-		subjectEl.removeClass("invalid");
-		bodyEl.removeClass("invalid");
-		
-		if (!subject){
-			valid = false;
-			subjectEl.addClass("invalid");
-		}
-		if (!body){
-			valid = false;
-			bodyEl.addClass("invalid");
-		}
-		
-		if (!valid){
-			return false;
-		} else {
-			
-			var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
-			var toSend = {"to": user,"message":sdata.JSON.stringify(openSocialMessage)};
-			
-			sdata.Ajax.request({
-				url: "/_rest/message/send",
-				httpMethod: "POST",
-			    onSuccess: function(data){
-					
-				},
-				onFail: function(status){
-					alert("Sending messages isn't possible yet");
-				},
-				postData: toSend,
-				contentType: "application/x-www-form-urlencoded"
-			});
-			
-			subjectEl.val("");
-			bodyEl.val("");
-			
-			$('#message_dialog').jqmHide();
-		}
-		
-	});
-	
-	
-	/*
-	 * Add to contacts
-	 */
-	
-	$('#add_to_contacts_dialog').jqm({
-		modal: true,
-		trigger: $('#add_to_contacts_button'),
-		overlay: 20,
-		toTop: true
-	});
-	
-	var fillInvitePopup = function(){
-		if (me.profile) {
-			if (me.profile.firstName) {
-				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
-			}
-			else 
-				if (me.profile.lastName) {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
-				}
-				else {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.preferences.uuid);
-				}
-		}
-	}
-	
-	var doAddButton = function(){
-   		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?sid=" + Math.random(),
-			onSuccess: function(data){
-				var resp = eval('(' + data + ')');
-				
-				var status = false;
-				if (resp.status.friends){
-					for (var i = 0; i < resp.status.friends.length; i++){
-						if (resp.status.friends[i].friendUuid == user){
-							status = resp.status.friends[i].status;
-						}
-					}
-				}
-				
-				if (! status){
-					
-					$("#add_to_contacts_button").show();
-					
-					if (totalprofile.profile.firstName){
-						$("#add_friend_displayname").text(totalprofile.profile.firstName);
-						$("#add_friend_displayname2").text(totalprofile.profile.firstName);
-					} else if (totalprofile.profile.lastName) {
-						$("#add_friend_displayname").text(totalprofile.profile.lastName);
-						$("#add_friend_displayname2").text(totalprofile.profile.lastName);
-					} else {
-						$("#add_friend_displayname").text(totalprofile.preferences.uuid);
-						$("#add_friend_displayname2").text(totalprofile.preferences.uuid);
-					}
-					
-					if (totalprofile.profile.picture && eval('(' + totalprofile.profile.picture + ')').name){
-						$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + totalprofile.userStoragePrefix + "/" + eval('(' + totalprofile.profile.picture + ')').name + "' width='40px' height='40px'/>");
-					} else {
-						$("#add_friend_profilepicture").html("<img src='images/person_icon.png' width='40px' height='40px'/>");
-					}
-					
-					$("#add_friend_types").html(sdata.html.Template.render("add_friend_types_template",Widgets));
-					
-				} else if (status == "INVITED"){
-					$("#accept_invitation_button").show();
-				}
-			},
-			onFail: function(status){
-				//alert("An error has occured");	
-			}
-		});
-   }
-   
-   $("#add_friends_do_invite").bind("click", function(ev){
-   		var toSend = sdata.FormBinder.serialize($("#add_friends_form"));
-		if (toSend["add_friends_list_type"]){
-			
-			var type = toSend["add_friends_list_type"];
-			var comment = toSend["add_friend_personal_note"];
-			
-			// send message to other person
-			var userstring = "";
-			if (me.profile.firstName && me.profile.lastName){
-				userstring = me.profile.firstName + " " + me.profile.lastName;
-			} else {
-				userstring = me.preferences.uuid;
-			}
-			
-			var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
-			var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
-			
-			// construct openSocial message
-			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
-					
-			var data = { "friendUuid" : user , "friendType" : type, "message" :  sdata.JSON.stringify({"title":title,"body":openSocialMessage})};
-			
-			sdata.Ajax.request({
-				url: "/rest/friend/connect/request",
-				httpMethod: "POST",
-			    onSuccess: function(data){
-					
-					$('#add_to_contacts_dialog').jqmHide();
-					$("#add_to_contacts_button").hide();
-					
-				},
-				onFail: function(status){
-					alert("An error has occured");
-				},
-				postData: data,
-				contentType: "application/x-www-form-urlencoded"
-			});
-			
-		}
-   });
-   
-   $("#accept_invitation_button").bind("click", function(ev){
-   	
-		var inviter = user;
-		var data = {"friendUuid" : inviter};
-		
-		sdata.Ajax.request({
-			url: "/rest/friend/connect/accept",
-			httpMethod: "POST",
-			onSuccess: function(data){
-				$("#accept_invitation_button").hide();
-			},
-			onFail : function(data){
-				alert("An error has occured");
-			},
-			postData: data,
-			contentType: "application/x-www-form-urlencoded"
-		});
-	
-   });
+   };
    
    var doHomeContact = function(newvalue, oldvalue, ev, ui){
 		
@@ -1019,13 +877,12 @@ for (var i = 2015; i >= 1900; i--){
 		var unicontactinfo = {"txt_uniphone":"uniphone","txt_unimobile":"unimobile","txt_uniaddress":"uniaddress"};
 		var homecontactinfo = {"txt_homeemail":"homeemail","txt_homephone":"homephone","txt_homemobile":"homemobile","txt_homeaddress":"homeaddress"};
 		
-		var tosend = {};
 		var key = false;
 		var val = false;
 		
 		var disappear = false;
 		ui.style.height = "16px";
-		if (newvalue.replace(/ /g,"") == ""){
+		if (newvalue.replace(/ /g,"") === ""){
 			if (!inedit_basic) {
 				disappear = true;
 			}
@@ -1067,7 +924,7 @@ for (var i = 2015; i >= 1900; i--){
 			}
 			basic[basicfields[ui.id]] = value;
 			key = "basic";
-			val = sdata.JSON.stringify(basic);
+			val = $.toJSON(basic);
 			json.basic = basic;
 				
 			if (disappear){
@@ -1082,7 +939,7 @@ for (var i = 2015; i >= 1900; i--){
 			}
 			aboutme[aboutmefields[ui.id]] = value;
 			key = "aboutme";
-			val = sdata.JSON.stringify(aboutme);
+			val = $.toJSON(aboutme);
 			json.aboutme = aboutme;
 				
 			if (disappear){
@@ -1091,14 +948,14 @@ for (var i = 2015; i >= 1900; i--){
 				
 		} else if (unicontactinfo[ui.id]) {
 			
-			var contactinfo = {};
+			var unicontactinfoToSave = {};
 			if (json.contactinfo) {
-				contactinfo = json.contactinfo;
+				unicontactinfoToSave = json.contactinfo;
 			}
-			contactinfo[unicontactinfo[ui.id]] = value;
+			unicontactinfoToSave[unicontactinfo[ui.id]] = value;
 			key = "contactinfo";
-			val = sdata.JSON.stringify(contactinfo);
-			json.contactinfo = contactinfo;
+			val = $.toJSON(unicontactinfoToSave);
+			json.contactinfo = unicontactinfoToSave;
 				
 			if (disappear){
 				$("#" + unicontactinfo[ui.id]).hide();
@@ -1106,14 +963,14 @@ for (var i = 2015; i >= 1900; i--){
 				
 		} else if (homecontactinfo[ui.id]) {
 			
-			var contactinfo = {};
+			var homecontactinfoToSave = {};
 			if (json.contactinfo) {
-				contactinfo = json.contactinfo;
+				homecontactinfoToSave = json.contactinfo;
 			}
-			contactinfo[homecontactinfo[ui.id]] = value;
+			homecontactinfoToSave[homecontactinfo[ui.id]] = value;
 			key = "contactinfo";
-			val = sdata.JSON.stringify(contactinfo);
-			json.contactinfo = contactinfo;
+			val = $.toJSON(homecontactinfoToSave);
+			json.contactinfo = homecontactinfoToSave;
 				
 			if (disappear){
 				$("#" + homecontactinfo[ui.id]).hide();
@@ -1127,30 +984,37 @@ for (var i = 2015; i >= 1900; i--){
 		
 		var tosend = {"k":k,"a":a,"v":v};
 		
-		sdata.Ajax.request({
+		$.ajax({
         	url : "/rest/patch" + fileUrl,
-        	httpMethod : "POST",
-            postData : tosend,
-            contentType : "application/x-www-form-urlencoded",
-		    onSuccess : function(data) {
-				
-			},
-			onFail : function(data){
+        	type : "POST",
+            data : tosend,
+			error : function(data){
 				alert("An error has occured");
 			}
 		});
 		
 		fillInFields();
 		
-	}
+	};
 	
 	
+	////////////////////
+	// Change picture //
+	////////////////////
+	
+	$("#accept_invitation_button").bind("click", function(ev){
+		sakai.createsite.initialise();
+	});
+	
+	
+	/////////////////////////////
+	// Initialisation function //
+	/////////////////////////////
 	
 	doInit();
    
 };
 
-var sakai = sakai || {};
 sakai._inlineedits = [];
 sakai.inlineEdits = function(container, options){
 	var defaultViewText = "Click here to edit";
@@ -1164,7 +1028,7 @@ sakai.inlineEdits = function(container, options){
 		var dropdown = $(".dropdown", el);
 		if (dropdown.length > 0){
 			
-			if (dropdown.html() == ""){
+			if (dropdown.html() === ""){
 				dropdown.html(defaultViewText);
 			}
 			
@@ -1202,7 +1066,7 @@ sakai.inlineEdits = function(container, options){
 				var index = changedel[0].selectedIndex;
 				var newvalue = changedel[0].options[index].text;
 				var orig = newvalue;
-				if (newvalue == ""){
+				if (newvalue === ""){
 					newvalue = defaultViewText;
 				}
 				dropdown.html(newvalue);
@@ -1212,17 +1076,18 @@ sakai.inlineEdits = function(container, options){
 					dropdown.show();
 				}
 				
-				var ev = {};
-				ev.value = orig;
+				var obj = {};
+				obj.value = orig;
 				
 				if (options.finishedEditing){
-					options.finishedEditing(ev , dropdown[0]);
+					options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
 				}
 				
 			});
 			
 		}
 	}
-}
+	
+};
 
-sdata.widgets.WidgetLoader.informOnLoad("profile");
+sdata.container.registerForLoad("sakai.profile");
