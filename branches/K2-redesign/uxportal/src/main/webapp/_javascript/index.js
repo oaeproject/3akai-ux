@@ -170,4 +170,4 @@ sakai.index = function(){
 
 };
 
-sdata.registerForLoad("sakai.index");
+sdata.container.registerForLoad("sakai.index");
