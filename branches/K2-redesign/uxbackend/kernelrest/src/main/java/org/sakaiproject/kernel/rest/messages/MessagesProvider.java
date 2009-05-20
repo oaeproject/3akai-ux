@@ -17,32 +17,6 @@
  */
 package org.sakaiproject.kernel.rest.messages;
 
-import net.sf.json.JSONException;
-
-import org.sakaiproject.kernel.api.presence.PresenceService;
-
-import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
-
-import org.sakaiproject.kernel.api.presence.PresenceService;
-
-import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
-
-import org.sakaiproject.kernel.api.presence.PresenceService;
-
-import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
-
-import org.sakaiproject.kernel.api.presence.PresenceService;
-
-import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
-
-import org.sakaiproject.kernel.api.presence.PresenceService;
-
-import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
-
-import org.sakaiproject.kernel.api.presence.PresenceService;
-
-import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -76,8 +50,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.google.inject.Inject;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -91,6 +63,7 @@ import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryServiceException;
 import org.sakaiproject.kernel.api.locking.LockTimeoutException;
 import org.sakaiproject.kernel.api.messaging.Message;
 import org.sakaiproject.kernel.api.messaging.MessagingService;
+import org.sakaiproject.kernel.api.presence.PresenceService;
 import org.sakaiproject.kernel.api.rest.Documentable;
 import org.sakaiproject.kernel.api.rest.JaxRsSingletonProvider;
 import org.sakaiproject.kernel.api.serialization.BeanConverter;
@@ -98,11 +71,14 @@ import org.sakaiproject.kernel.api.session.SessionManagerService;
 import org.sakaiproject.kernel.api.user.User;
 import org.sakaiproject.kernel.api.user.UserFactoryService;
 import org.sakaiproject.kernel.api.user.UserResolverService;
+import org.sakaiproject.kernel.rest.DefaultUserInfoParser;
 import org.sakaiproject.kernel.util.IOUtils;
 import org.sakaiproject.kernel.util.ISO9075;
 import org.sakaiproject.kernel.util.JcrUtils;
 import org.sakaiproject.kernel.util.rest.RestDescription;
 import org.sakaiproject.kernel.webapp.Initialisable;
+
+import com.google.inject.Inject;
 
 /**
  * 
@@ -169,10 +145,10 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 	@Inject
 	public MessagesProvider(JCRNodeFactoryService jcrNodeFactoryService,
 			SessionManagerService sessionManagerService,
-			UserFactoryService userFactoryService, PresenceService presenceService,
-			RegistryService registryService, BeanConverter beanConverter,
-			MessagingService messagingService, JCRService jcrService,
-			DefaultUserInfoParser defaultUserInfoParser,
+			UserFactoryService userFactoryService,
+			PresenceService presenceService, RegistryService registryService,
+			BeanConverter beanConverter, MessagingService messagingService,
+			JCRService jcrService, DefaultUserInfoParser defaultUserInfoParser,
 			UserResolverService userResolverService) {
 		this.beanConverter = beanConverter;
 		this.jcrNodeFactoryService = jcrNodeFactoryService;
@@ -180,7 +156,7 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		this.sessionManagerService = sessionManagerService;
 		this.messagingService = messagingService;
 		this.jcrService = jcrService;
-		
+
 		this.defaultUserInfoParser = defaultUserInfoParser;
 
 		jaxRsSingletonRegistry = registryService
@@ -188,7 +164,6 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		jaxRsSingletonRegistry.add(this);
 
 	}
-	
 
 	@GET
 	@Path("/createDummyMessages")
@@ -243,7 +218,7 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		String type = mapJSON.get("type").toString();
 		String body = mapJSON.get("body").toString();
 
-		// Make sure we have all nescecary information.
+		// Make sure we have all nessecary information.
 		if (subject.equals("") || type.equals("") || body.equals("")
 				|| to.equals("")) {
 			return generateResponse("ERROR", "message",
@@ -549,7 +524,8 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 			for (String userId : userIds) {
 				// This is a user we havent fetched already.
 				if (!users.containsKey(userId)) {
-					JSONObject jsonObject = defaultUserInfoParser.getJSONForUser(userId);
+					JSONObject jsonObject = defaultUserInfoParser
+							.getJSONForUser(userId);
 					users.put(userId, jsonObject);
 					userObjects.add(jsonObject);
 				}
@@ -562,7 +538,8 @@ public class MessagesProvider implements Documentable, JaxRsSingletonProvider,
 		} else {
 			// Only a single user
 			if (!users.containsKey(recepeint)) {
-				JSONObject jsonObject = defaultUserInfoParser.getJSONForUser(recepeint);
+				JSONObject jsonObject = defaultUserInfoParser
+						.getJSONForUser(recepeint);
 				users.put(recepeint, jsonObject);
 				o = jsonObject;
 			} else {

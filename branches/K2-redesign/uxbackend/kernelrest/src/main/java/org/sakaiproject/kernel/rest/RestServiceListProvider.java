@@ -19,7 +19,7 @@ package org.sakaiproject.kernel.rest;
 
 import java.util.List;
 
-import org.sakaiproject.kernel.chat.ChatProvider;
+import org.sakaiproject.kernel.rest.chat.ChatProvider;
 import org.sakaiproject.kernel.rest.chatstatus.ChatStatusProvider;
 import org.sakaiproject.kernel.rest.count.RestCountProvider;
 import org.sakaiproject.kernel.rest.friends.RestFriendsProvider;

@@ -361,6 +361,8 @@ public interface JCRConstants {
 
   String JCR_LABELS = "sakaijcr:labels";
   String JCR_MESSAGE_TYPE = "sakaijcr:messageType";
+  String JCR_MESSAGE_ID = "sakaijcr:messageId";
+  String JCR_MESSAGE_CHAT_CONVERSATION_ID = "sakaijcr:messageChatConversationId";
   String JCR_MESSAGE_CATEGORY = "sakaijcr:messageCategory";
   String JCR_MESSAGE_RCPTS = "sakaijcr:messageRcpts";
   String JCR_MESSAGE_DATE = "sakaijcr:messageDate";

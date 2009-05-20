@@ -201,4 +201,20 @@ public class ChatMessageImpl implements ChatMessage {
 	public String getType() {
 		return getHeader(ChatMessage.Field.TYPE.toString());
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.sakaiproject.kernel.api.messaging.ChatMessage#getCid()
+	 */
+	public String getCid() {
+		return getHeader(ChatMessage.Field.CID.toString());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.sakaiproject.kernel.api.messaging.ChatMessage#setCid(java.lang.String)
+	 */
+	public void setCid(String cid) {
+		setHeader(ChatMessage.Field.CID.toString(), cid);
+	}
 }

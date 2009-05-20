@@ -29,6 +29,8 @@ public interface ChatMessage extends Serializable {
 	 * An enumeration of field names in a chat message.
 	 */
 	public static enum Field {
+		/** conversation id */
+		CID("cid"),
 		/** field name for the sender. */
 		FROM("from"),
 		/** field name for recipient */
@@ -69,7 +71,7 @@ public interface ChatMessage extends Serializable {
 	 */
 	public static enum Type {
 		/** A message that can be delivered within the system **/
-		INTERNAL("internal");
+		INTERNAL("internalchat");
 
 		/**
 		 * The type of message.
@@ -207,6 +209,21 @@ public interface ChatMessage extends Serializable {
 	 * @see Type
 	 */
 	void setType(String newType);
+	
+
+	/**
+	 * Gets the conversation id.
+	 * 
+	 * @return
+	 */
+	String getCid();
+	
+	/**
+	 * Set the Conversation id
+	 * @param cid
+	 */
+	void setCid(String cid);
+	
 	
 	/**
 	 * Send the message. The implementation by which this is sent depends on how

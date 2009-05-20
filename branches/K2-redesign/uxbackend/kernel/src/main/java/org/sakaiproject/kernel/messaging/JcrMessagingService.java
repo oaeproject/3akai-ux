@@ -89,6 +89,9 @@ public class JcrMessagingService implements MessagingService {
           "application/json");
 
       // set the type, recipients and date as node properties
+      // A sent message is automaticly read.
+      n.setProperty(JCRConstants.JCR_MESSAGE_READ, true);
+      n.setProperty(JCRConstants.JCR_MESSAGE_ID, msgName);
       n.setProperty(JCRConstants.JCR_MESSAGE_TYPE, msg.getType());
       n.setProperty(JCRConstants.JCR_MESSAGE_SUBJECT, msg.getSubject());
       n.setProperty(JCRConstants.JCR_MESSAGE_CATEGORY, msg.getCategory());

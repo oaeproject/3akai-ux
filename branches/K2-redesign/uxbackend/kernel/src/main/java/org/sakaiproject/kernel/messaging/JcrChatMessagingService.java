@@ -95,6 +95,7 @@ public class JcrChatMessagingService implements ChatMessagingService {
       n.setProperty(JCRConstants.JCR_MESSAGE_TYPE, msg.getType());
       n.setProperty(JCRConstants.JCR_MESSAGE_FROM, msg.getFrom());
       n.setProperty(JCRConstants.JCR_MESSAGE_RCPTS, msg.getTo());
+      n.setProperty(JCRConstants.JCR_MESSAGE_CHAT_CONVERSATION_ID, msg.getCid());
       n.setProperty(JCRConstants.JCR_MESSAGE_DATE, date);
     } catch (JCRNodeFactoryServiceException e) {
       throw new MessagingException(e.getMessage(), e);
