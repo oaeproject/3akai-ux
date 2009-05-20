@@ -193,7 +193,7 @@ $(document).ready(function(){
 	 */
 	var finishI18N = function(){
 		$(document.body).show();
-		sdata.setReadyToLoad(true);
+		sdata.container.setReadyToLoad(true);
 		sdata.widgets.WidgetLoader.insertWidgets(null, false);
 	};
 	
