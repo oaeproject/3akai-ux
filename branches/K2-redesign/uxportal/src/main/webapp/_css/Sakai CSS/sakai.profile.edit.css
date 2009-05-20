@@ -69,3 +69,30 @@ td {
     background-color: #EEEEEE !important;
     border: 1px dotted #CCCCCC !important;
 }
+
+.popup_field_trigger {
+	position: relative;
+	top: -15px;
+	cursor:pointer; 
+	cursor:hand; 
+	background:transparent url(/dev/_images/add-icon-profile.png) no-repeat; 
+	background-position: 0px 2px; 
+	padding: 0px 0px 2px 15px; 
+	float: right;
+	font-weight: normal !important;
+	font-size: 12px !important;	
+}
+
+.dialog td {
+	border: none !important;
+	padding: 0px 0px 5px 10px !important;
+}
+
+.dialog_content select {
+	margin:0pt !important;
+}
+
+.dialog {
+	position: fixed !important;
+	top: 50px !important;
+}
