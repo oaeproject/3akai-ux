@@ -1,17 +1,9 @@
 var sakai = sakai || {};
 
-var profileinfo_userId = false;
-
 sakai.profile = function(){
 
-	var qs = new Querystring();
-	var user = qs.get("user", false);
-	var showEdit = true;
 	var json = false;
-	var myprofile = true;
 	var me = false;
-	
-	var totalprofile = false;
 	
 	var fileUrl = "";
 	
@@ -73,19 +65,9 @@ sakai.profile = function(){
 		
 		if (!me.preferences.uuid && !me.preferences.eid) {
 			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
-			if (user){
-				redirect += $.URLEncode("?user=" + user);
-			}
 			document.location = redirect;
 		}
 		
-		totalprofile = me;
-		
-		
-		if (user == me.preferences.uuid) {
-			user = false;
-		}
-		$("#link_view_profile").show();
 		fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
 				
 		json = sdata.me.profile;
@@ -98,37 +80,27 @@ sakai.profile = function(){
 				
 		fillInFields();		
 		
-		if (myprofile) {
-		
-			$("#myprofile_placeholder").hide();
-			$("#myprofile_tabs").show();
-			$("#add_to_contacts_button").hide();
-			$("#send_message_button").hide();
-			
-			
-			fluid.inlineEdits(".profile_preview", {
-				useTooltip: true,
-				tooltipDelay : 500,
-				listeners : {
-					onFinishEdit: doHomeContact
-				},
-				defaultViewText: " ",
-				paddings: {
-				    minimumView: 0
-				}
-			});
+		fluid.inlineEdits(".profile_preview", {
+			useTooltip: true,
+			tooltipDelay : 500,
+			listeners : {
+				onFinishEdit: doHomeContact
+			},
+			defaultViewText: " ",
+			paddings: {
+			    minimumView: 0
+			}
+		});
 
-			sakai.inlineEdits(".profile_preview", {
-				useTooltip: true,
-				finishedEditing: doHomeContact,
-				defaultViewText: " "
-			});
-			
-			$(".inlineEditable").css("height","16px");
-			$(".text").css("height","16px");
-			$(".dropdown").css("height","16px");
-			
-		}
+		sakai.inlineEdits(".profile_preview", {
+			useTooltip: true,
+			finishedEditing: doHomeContact,
+			defaultViewText: " "
+		});
+		
+		$(".inlineEditable").css("height","16px");
+		$(".text").css("height","16px");
+		$(".dropdown").css("height","16px");
 		
 	};
 			
@@ -148,13 +120,6 @@ sakai.profile = function(){
 				$("#txt_status").html(basic.status);
 			} 
 		}
-		$("#status").show();
-		
-		var chatstatus = "offline";
-		if (json.chatstatus){
-			chatstatus = json.chatstatus;
-		}
-		$("#profile_user_status_" + chatstatus).show();
 		
 		// Basic Information
 		
@@ -163,26 +128,12 @@ sakai.profile = function(){
 			str = json.firstName;
 			$("#txt_firstname").text("" + str);
 		} 
-		$("#firstname").show();
 		
 		if (json.lastName){
 			inbasic++;
 			str = json.lastName;
 			$("#txt_lastname").text("" + str);
 		} 
-		$("#lastname").show();
-		
-		if (myprofile || (user === false || user === me.preferences.uuid)){
-			$("#sitetitle").text("My Profile");
-		} else {
-			if (json.firstName || json.lastName){
-				$("#sitetitle").text(json.firstName + " " + json.lastName);
-			} else {
-				$("#sitetitle").text(json.displayName);
-			}
-		}
-		
-		$("#basic").show();
 		
 		if (json.basic){
 			
@@ -190,70 +141,34 @@ sakai.profile = function(){
 			
 			if (basic.middlename){
 				inbasic++;
-				$("#middlename").show();
 				str = basic.middlename;
 				$("#txt_middlename").text("" + str);
-			} else if (!inedit_basic) {
-				$("#middlename").hide();
-			}
+			} 
 			
 			if (basic.birthday){
 				inbasic++;
-				$("#birthday").show();
 				$("#txt_birthday").text(basic.birthday);
-			} else if (!inedit_basic) {
-				$("#birthday").hide();
-			}
+			} 
 			
 			if (basic.unirole){
 				inbasic++;
-				$("#unirole").show();
 				str = basic.unirole;
 				$("#txt_unirole").text("" + str);
-			} else if (!inedit_basic) {
-				$("#unirole").hide();
-			}
+			} 
 			
 			if (basic.unidepartment){
 				inbasic++;
-				$("#unidepartment").show();
 				str = basic.unidepartment;
 				$("#txt_unidepartment").text("" + str);
-			} else if (!inedit_basic) {
-				$("#unidepartment").hide();
 			}
 			
 			if (basic.unicollege){
 				inbasic++;
-				$("#unicollege").show();
 				str = basic.unicollege;
 				$("#txt_unicollege").text("" + str);
-			} else if (!inedit_basic) {
-				$("#unicollege").hide();
 			}
 			
-			
-		} else if (!inedit_basic){
-			$("#middlename").hide();
-			$("#birthday").hide();
-			$("#unicollege").hide();
-			$("#unidepartment").hide();
-			$("#unirole").hide();
-		}
-		
-		if (inbasic > 0){
-			$("#basic").show();
-			$("#no_basic").hide();
-		} else if (myprofile) {
-			$("#basic").show();
-			if (!inedit_basic) {
-				$("#no_basic").show();
-			} else {
-				$("#no_basic").hide();
-			}
-		} else {
-			$("#basic").hide();
-		}
+		} 
 		
 		fillGeneralPopupField(paperfield, papersavefield, papersavestring, paperfields);
 		fillGeneralPopupField(talkfield, talksavefield, talksavestring, talkfields);
@@ -261,32 +176,26 @@ sakai.profile = function(){
 		fillGeneralPopupField(educationfield, educationsavefield, educationsavestring, educationfields);
 		fillGeneralPopupField(websitefield, websitesavefield, websitesavestring, websitefields);
 		
-		// ! Set dropdown for paper year		
-
-		if (myprofile && showEdit){
-			// filling the years into the dropdowns
-			var fields = [];
-			fields[0] = document.getElementById("new_degree_from");
-			fields[1] = document.getElementById("new_degree_until");
-			fields[2] = document.getElementById("edit_degree_from");
-			fields[3] = document.getElementById("edit_degree_until");
-			fields[4] = document.getElementById("new_paper_year");
-			fields[5] = document.getElementById("edit_paper_year");
-			fields[6] = document.getElementById("new_job_from");
-			fields[7] = document.getElementById("new_job_until");
-			fields[8] = document.getElementById("edit_job_from");
-			fields[9] = document.getElementById("edit_job_until");
+		// filling the years into the dropdowns
+		var fields = [];
+		fields[0] = document.getElementById("new_degree_from");
+		fields[1] = document.getElementById("new_degree_until");
+		fields[2] = document.getElementById("edit_degree_from");
+		fields[3] = document.getElementById("edit_degree_until");
+		fields[4] = document.getElementById("new_paper_year");
+		fields[5] = document.getElementById("edit_paper_year");
+		fields[6] = document.getElementById("new_job_from");
+		fields[7] = document.getElementById("new_job_until");
+		fields[8] = document.getElementById("edit_job_from");
+		fields[9] = document.getElementById("edit_job_until");
 			
-			
-			
-			for (var i = 2015; i >= 1900; i--){
-				for (var ii = 0; ii < fields.length; ii++){
-					var option = new Option("" + i,"" + i);
-					fields[ii].options[fields[ii].options.length] = option;
-				}
+		for (var i = 2015; i >= 1900; i--){
+			for (var ii = 0; ii < fields.length; ii++){
+				var option = new Option("" + i,"" + i);
+				fields[ii].options[fields[ii].options.length] = option;
 			}
-
 		}
+
    };
    
    //////////////////////////
@@ -295,23 +204,10 @@ sakai.profile = function(){
    
     var fillGeneralPopupField = function(field, savefield, savestring, fields){
    
-   		if (myprofile && showEdit){
-			$("#" + field + "s").show();
-			$("#" + field + "sadd").show();
-		} else {
-			if (json[savefield]){
-				var obj = {};
-				obj.items = [];
-				if (json[savefield]){
-					obj.items = $.evalJSON(json[savefield]);
-				}
-				if (obj.items.length > 0){
-					$("#" + field + "s").show();
-				}
-			}
-		}
+   		$("#" + field + "s").show();
+		$("#" + field + "sadd").show();
    
-	   	obj = {};
+	   	var obj = {};
 		obj.items = [];
 		if (json[savefield]){
 			obj.items = $.evalJSON(json[savefield]);
@@ -411,70 +307,21 @@ sakai.profile = function(){
    	
     };
 	
-	$("#add_degrees_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#edit_degrees_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#add_papers_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#edit_papers_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#add_talks_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#edit_talks_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#add_jobs_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#edit_jobs_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#add_websites_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	$("#edit_websites_lightbox").jqm({
-		modal: true,
-		trigger: "#trigger",
-		overlay: 20,
-		toTop: true
-	});
-	
-	
 	var setFunctions = function(field, savefield, savestring, fields, required){
-	
+		
+		$("#add_" + field + "s_lightbox").jqm({
+			modal: true,
+			trigger: "#trigger",
+			overlay: 20,
+			toTop: true
+		});
+		$("#edit_" + field + "s_lightbox").jqm({
+			modal: true,
+			trigger: "#trigger",
+			overlay: 20,
+			toTop: true
+		});
+		
 		$("." + field + "sadd").bind("click", function(ev){
 			for (var index = 0; index < fields.length; index++){
 				$("#new_" + field + "_" + fields[index]).val("");
@@ -606,8 +453,6 @@ sakai.profile = function(){
 		
 	};
 	
-	
-	
 	/**
 	 * Update a certain element
 	 * @param {Object} element Element that needs to be updated
@@ -624,17 +469,17 @@ sakai.profile = function(){
    //////////////////////////
    
    var fillInFields = function(){
-   		//	status
-		$("#profile_user_status").text(totalprofile._status);
+   		
+		//	status
+		$("#profile_user_status").text(me._status);
 		//	status picture
-		updateChatStatusElement($("#profile_user_status"), totalprofile._status);
-		
+		updateChatStatusElement($("#profile_user_status"), me._status);
 		
 		//Picture
 		
 		if (json.picture && json.picture.name){
 			var picture = json.picture;
-			$("#picture_holder img").attr("src",'/sdata/f/_private' + totalprofile.userStoragePrefix + picture.name);
+			$("#picture_holder img").attr("src",'/sdata/f/_private' + me.userStoragePrefix + picture.name);
 		}
 		
 		fillInBasic();
@@ -649,56 +494,25 @@ sakai.profile = function(){
 			
 			if (about.aboutme){
 				inabout++;
-				$("#aboutme").show();
 				$("#txt_aboutme").html("" + about.aboutme.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#aboutme").hide();
 			}
 			
 			if (about.personalinterests) {
 				inabout++;
-				$("#personalinterests").show();
 				$("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#personalinterests").hide();
-			}
+			} 
 			
 			if (about.academicinterests) {
 				inabout++;
-				$("#academicinterests").show();
 				$("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#academicinterests").hide();
-			}
+			} 
 			
 			if (about.hobbies) {
 				inabout++;
-				$("#hobbies").show();
 				$("#txt_hobbies").html("" + about.hobbies.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#hobbies").hide();
-			}
+			} 
 			
 			
-		} else if (!inedit_basic){
-			$("#aboutme").hide();
-			$("#academicinterests").hide();
-			$("#hobbies").hide();
-			$("#personalinterests").hide();
-		}
-		
-		if (inabout > 0){
-			$("#about").show();
-			$("#no_about").hide();
-		} else if (myprofile && showEdit) {
-			$("#about").show();
-			if (!inedit_basic) {
-				$("#no_about").show();
-			} else {
-				$("#no_about").hide();
-			}
-		} else {
-			$("#about").hide();
 		}
 		
 		// Uni Contact Info
@@ -708,11 +522,8 @@ sakai.profile = function(){
 		
 		if (json.email){
 			inunicontactinfo++;
-			$("#uniemail").show();
 			$("#txt_uniemail").text(json.email);
-		} else if (!inedit_basic) {
-			$("#uniemail").hide();
-		}
+		} 
 		
 		if (json.contactinfo) {
 		
@@ -720,46 +531,19 @@ sakai.profile = function(){
 			
 			if (unicontactinfo.uniphone) {
 				inunicontactinfo++;
-				$("#uniphone").show();
 				$("#txt_uniphone").text("" + unicontactinfo.uniphone);
-			} else if (!inedit_basic) {
-				$("#uniphone").hide();
-			}
+			} 
 			
 			if (unicontactinfo.unimobile) {
 				inunicontactinfo++;
-				$("#unimobile").show();
 				$("#txt_unimobile").text("" + unicontactinfo.unimobile);
-			} else if (!inedit_basic) {
-				$("#unimobile").hide();
 			}
 			
 			if (unicontactinfo.uniaddress) {
 				inunicontactinfo++;
-				$("#uniaddress").show();
 				$("#txt_uniaddress").html("" + unicontactinfo.uniaddress.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#uniaddress").hide();
 			}
 			
-		} else if (!inedit_basic) {
-			$("#uniphone").hide();
-			$("#unimobile").hide();
-			$("#uniaddress").hide();
-		}
-		
-		if (inunicontactinfo > 0){
-			$("#unicontactinfo").show();
-			$("#no_unicontactinfo").hide();
-		} else if (myprofile && showEdit) {
-			$("#unicontactinfo").show();
-			if (!inedit_basic) {
-				$("#no_unicontactinfo").show();
-			} else {
-				$("#no_unicontactinfo").hide();
-			}
-		} else {
-			$("#unicontactinfo").hide();
 		}
 		
 		// Home Contact Info
@@ -772,55 +556,24 @@ sakai.profile = function(){
 			
 			if (homecontactinfo.homeemail) {
 				inhomecontactinfo++;
-				$("#homeemail").show();
 				$("#txt_homeemail").text("" + homecontactinfo.homeemail);
-			} else if (!inedit_basic) {
-				$("#homeemail").hide();
-			}
+			} 
 			
 			if (homecontactinfo.homephone) {
 				inhomecontactinfo++;
-				$("#homephone").show();
 				$("#txt_homephone").text("" + homecontactinfo.homephone);
-			} else if (!inedit_basic) {
-				$("#homephone").hide();
 			}
 			
 			if (homecontactinfo.homemobile) {
 				inhomecontactinfo++;
-				$("#homemobile").show();
 				$("#txt_homemobile").text("" + homecontactinfo.homemobile);
-			} else if (!inedit_basic) {
-				$("#homemobile").hide();
-			}
+			} 
 			
 			if (homecontactinfo.homeaddress) {
 				inhomecontactinfo++;
-				$("#homeaddress").show();
 				$("#txt_homeaddress").html("" + homecontactinfo.homeaddress.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#homeaddress").hide();
-			}
+			} 
 			
-		} else if (!inedit_basic) {
-			$("#homeemail").hide();
-			$("#homephone").hide();
-			$("#homeaddress").hide();
-			$("#homemobile").hide();
-		}
-		
-		if (inhomecontactinfo > 0){
-			$("#homecontactinfo").show();
-			$("#no_homecontactinfo").hide();
-		} else if (myprofile && showEdit) {
-			$("#homecontactinfo").show();
-			if (!inedit_basic) {
-				$("#no_homecontactinfo").show();
-			} else {
-				$("#no_homecontactinfo").hide();
-			}
-		} else {
-			$("#homecontactinfo").hide();
 		}
 		
 		// Additional
@@ -831,55 +584,22 @@ sakai.profile = function(){
 		
 			additional = json.basic;
 			
-			if (additional.awards){
+			if (additional.awards) {
 				inadditional++;
-				$("#awards").show();
 				$("#txt_awards").html("" + additional.awards.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#awards").hide();
 			}
 			
-			if (additional.clubs){
+			if (additional.clubs) {
 				inadditional++;
-				$("#clubs").show();
 				$("#txt_clubs").html("" + additional.clubs.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#clubs").hide();
 			}
 			
-			if (additional.societies){
+			if (additional.societies) {
 				inadditional++;
-				$("#societies").show();
 				$("#txt_societies").html("" + additional.societies.replace(/\n/g, "<br/>"));
-			} else if (!inedit_basic) {
-				$("#societies").hide();
 			}
-			
-			
-		} else if (!inedit_basic){
-			$("#awards").hide();
-			$("#societies").hide();
-			$("#clubs").hide();
 		}
 		
-		if (inadditional > 0){
-			$("#additional").show();
-			$("#no_additional").hide();
-		} else if (myprofile && showEdit) {
-			$("#additional").show();
-			if (!inedit_basic) {
-				$("#no_additional").show();
-			} else {
-				$("#no_additional").hide();
-			}
-		} else {
-			$("#additional").hide();
-		}
-		
-		/*$(document.body).hide();
-		setTimeout((function(){
-			$(document.body).show();
-		}),10);*/
    };
    
    var doHomeContact = function(newvalue, oldvalue, ev, ui){
