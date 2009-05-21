@@ -592,7 +592,87 @@
 //////////
 -->
 
+<!--
+//////////////
+// Websites //
+//////////////
+-->
 
+<div class="dialog" id="add_websites_lightbox">
+
+        <div class="dialog_header">
+			<h1>Website</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+        <!-- /lightbox-header -->
+        <div class="dialog_content" style="padding-bottom:20px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Add a website to your site list</h4>
+			<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="add_website_form">
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+					<td><input type="text" style="width:250px" id="new_website_title"/></td>
+				</tr>
+				<tr>
+					<td><strong class="fs13 cCC0000">*</strong> URL:</td>
+					<td><input type="text" style="width:250px" class="url_field" id="new_website_url"/></td>
+				</tr>
+			</table>
+		   </form>
+        </div>
+		<div class="dialog_footer">
+			 <div class="buttonBar">
+			 	<a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">Save</a>
+		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
+		     </div>
+		</div>
+        <!-- /lightbox-container -->
+    
+</div>
+
+<div class="dialog" id="edit_websites_lightbox">
+
+        <div class="dialog_header">
+			<h1>Website</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+        <!-- /lightbox-header -->
+        <div class="dialog_content" style="padding-bottom:20px">
+        	<br/>
+			<h4 style="color:#333333; float: left">Edit a website from your list</h4>
+			<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+		    <br/><br/>
+        	<form id="edit_website_form">
+        	<input type="hidden" id="edit_website_id"/>
+            <table>
+            	<tr>
+            		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+					<td><input type="text" style="width:250px" id="edit_website_title"/></td>
+				</tr>
+				<tr>
+					<td><strong class="fs13 cCC0000">*</strong> URL:</td>
+					<td><input type="text" style="width:250px" class="url_field" id="edit_website_url"/></td>
+				</tr>
+			</table>
+		   </form>
+        </div>
+		<div class="dialog_footer">
+			 <div class="buttonBar">
+			 	<a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">Update</a>
+		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
+		     </div>
+		</div>
+        <!-- /lightbox-container -->
+</div>
+
+<!--
+//////////////
+// Websites //
+//////////////
+-->
 
 
 
@@ -994,6 +1074,7 @@
 		<div class="profile_section" id="websites" style="display:none">
             <div class="profile_section_header">
                 Websites
+				<a href="javascript:;" class="websitesadd popup_field_trigger">Add a website</a>
             </div> 
             <div class="profile_section_body" id="websites_list">
             	<table summary="Websites" style="width:100%">
@@ -1009,7 +1090,7 @@
 					<div class="website_record" id="website_record_${i.id}" style="padding-bottom:0px">
 						<table style="width:100%; margin-bottom:0px">
 							<tr>
-								<td style="padding-bottom:0px; padding-left:0px">
+								<td style="padding-bottom:0px;">
 									<div class="website_record_div multifield_out" id="website_record_${i.id}_div" style="padding-bottom:0px">
 										<a target="_blank" style="margin-left:5px; line-height:20px" href="${i.url}">${i.title}</a>
 									</div>
@@ -1023,7 +1104,7 @@
 				{forelse}
 					<table style="width:100%">
 						<tr>
-							<td colspan="2" style="padding-bottom:0px; padding-left:0px">
+							<td colspan="2" style="padding-bottom:0px;">
 								<span>No websites added yet</span>
 							</td>
 						</tr>
