@@ -486,7 +486,7 @@
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
         	<form id="add_job_form">
-            <table>
+            <table summary="New Job">
             	<tr>
             		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
 					<td><input type="text" style="width:250px" id="new_job_role"/>
@@ -543,7 +543,7 @@
 		    <br/><br/>
         	<form id="edit_jobs_form">
         	<input type="hidden" id="edit_job_id"/>
-            <table>
+            <table summary="Edit Job">
             	<tr>
             		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
 					<td><input type="text" style="width:250px" id="edit_job_role"/>
@@ -611,7 +611,7 @@
 			<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
         	<form id="add_website_form">
-            <table>
+            <table summary="Add Website">
             	<tr>
             		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
 					<td><input type="text" style="width:250px" id="new_website_title"/></td>
@@ -647,7 +647,7 @@
 		    <br/><br/>
         	<form id="edit_website_form">
         	<input type="hidden" id="edit_website_id"/>
-            <table>
+            <table summary="Edit Website">
             	<tr>
             		<td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
 					<td><input type="text" style="width:250px" id="edit_website_title"/></td>
@@ -682,16 +682,15 @@
     
     <!-- TITLE BAR  -->
     <div class="site_heading fl-force-left" style="padding:15px 25px 10px;">
-      <h1 id="sitetitle">Profile</h1>
+      <h1 id="sitetitle">My Profile</h1>
     </div>   
 
 		<!-- TAB NAVIGATION -->
 		<div class="primary-tabs">
-			<ul class="fl-tabs fl-tabs-right" id="myprofile_tabs" style="display:none">
+			<ul class="fl-tabs fl-tabs-right" id="myprofile_tabs">
 				<li class="fl-activeTab"><a href="javascript:;" style="padding:6px 20px;">Edit</a></li>
 				<li><a href="profile.html" style="padding:6px 20px;">Preview</a></li>			
-			</ul>
-			<div style="height:18px" id="myprofile_placeholder"></div>		  
+			</ul>		  
 		</div>     
     
     <!-- CONTENT -->
@@ -780,7 +779,7 @@
                 </table>
             </div>
         </div>
-        <div class="profile_section" id="about" style="display:none">
+        <div class="profile_section" id="about">
             <div class="profile_section_header">
                 About Me
             </div> 
@@ -821,7 +820,7 @@
                 </table>
             </div>
         </div>
-        <div class="profile_section" id="degrees" style="display:none">
+        <div class="profile_section" id="degrees">
             <div class="profile_section_header">
                 Degrees
 				<a href="javascript:;" class="degreesadd popup_field_trigger">Add a degree</a>
@@ -871,7 +870,7 @@
 				{/for}
 			--></div>
         </div>
-		<div class="profile_section" id="papers" style="display:none">
+		<div class="profile_section" id="papers">
             <div class="profile_section_header">
                 Publications
 				<a href="javascript:;" class="papersadd popup_field_trigger">Add a publication</a>
@@ -936,7 +935,7 @@
 					 {/for}
 				--></div>
         </div>
-		<div class="profile_section" id="talks" style="display:none">
+		<div class="profile_section" id="talks">
             <div class="profile_section_header">
                 Talks
 				<a href="javascript:;" class="talksadd popup_field_trigger">Add a talk</a>
@@ -988,7 +987,7 @@
 				{/for}
 			--></div>
         </div>
-		<div class="profile_section" id="jobs" style="display:none">
+		<div class="profile_section" id="jobs">
             <div class="profile_section_header">
                 Professional Experience
 				<a href="javascript:;" class="jobsadd popup_field_trigger">Add a position</a>
@@ -1038,7 +1037,7 @@
 				{/for}
 			--></div>
         </div>
-		<div class="profile_section" id="additional" style="display:none">
+		<div class="profile_section" id="additional">
             <div class="profile_section_header">
                 Additional Information
             </div> 
@@ -1071,7 +1070,7 @@
                 </table>
             </div>
         </div>
-		<div class="profile_section" id="websites" style="display:none">
+		<div class="profile_section" id="websites">
             <div class="profile_section_header">
                 Websites
 				<a href="javascript:;" class="websitesadd popup_field_trigger">Add a website</a>
@@ -1113,7 +1112,7 @@
 				<div style="height:1em"></div>
 			--></div>
         </div>
-		<div class="profile_section" id="unicontactinfo" style="display:none">
+		<div class="profile_section" id="unicontactinfo">
             <div class="profile_section_header">
                 University Contact Info
             </div> 
@@ -1154,7 +1153,7 @@
                 </table>
             </div>
         </div>
-		<div class="profile_section" id="homecontactinfo" style="display:none">
+		<div class="profile_section" id="homecontactinfo">
             <div class="profile_section_header">
                 Home Contact Info
             </div> 
