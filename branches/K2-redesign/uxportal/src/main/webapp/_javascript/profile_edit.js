@@ -459,6 +459,18 @@ sakai.profile = function(){
 		overlay: 20,
 		toTop: true
 	});
+	$("#add_websites_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
+	$("#edit_websites_lightbox").jqm({
+		modal: true,
+		trigger: "#trigger",
+		overlay: 20,
+		toTop: true
+	});
 	
 	
 	var setFunctions = function(field, savefield, savestring, fields, required){
