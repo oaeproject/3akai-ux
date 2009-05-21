@@ -25,6 +25,7 @@ import org.sakaiproject.kernel.KernelConstants;
 import org.sakaiproject.kernel.api.Registry;
 import org.sakaiproject.kernel.api.RegistryService;
 import org.sakaiproject.kernel.api.authz.AuthzResolverService;
+import org.sakaiproject.kernel.api.authz.SubjectPermissionService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryServiceException;
 import org.sakaiproject.kernel.api.rest.RestProvider;
@@ -50,6 +51,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.jcr.Node;
@@ -70,6 +72,8 @@ public class RestUserProvider implements RestProvider {
   private static final String EMAIL_PARAM = "email";
   private static final String EXTERNAL_USERID_PARAM = "eid";
   private static final String PASSWORD_PARAM = "password";
+  private static final String LANGUAGE_PARAM = "language";
+  private static final String TIMEZONE_PARAM = "timezone";
   private static final String USER_TYPE_PARAM = "userType";
   private static final String PASSWORD_OLD_PARAM = "oldPassword";
   private static final String EXISTS = "exists";
@@ -83,9 +87,11 @@ public class RestUserProvider implements RestProvider {
   private AuthenticationManagerService authenticationManagerService;
   private ProfileResolverService profileResolverService;
   private AuthzResolverService authzResolverService;
-
+  private SubjectPermissionService subjectPermissionService;
+  private RegistryService registryService;
   /**
-   * @param sessionManager
+   * @param subjectPermissionService 
+ * @param sessionManager
    *
    */
   @Inject
@@ -97,7 +103,7 @@ public class RestUserProvider implements RestProvider {
       AuthenticationManagerService authenticationManagerService,
       ProfileResolverService profileResolverService,
       @Named(KernelConstants.PROP_ANON_ACCOUNTING) boolean anonymousAccounting,
-      AuthzResolverService authzResolverService) {
+      AuthzResolverService authzResolverService, SubjectPermissionService subjectPermissionService) {
     Registry<String, RestProvider> restRegistry = registryService
         .getRegistry(RestProvider.REST_REGISTRY);
     restRegistry.add(this);
@@ -111,6 +117,8 @@ public class RestUserProvider implements RestProvider {
     this.profileResolverService = profileResolverService;
     this.anonymousAccounting = anonymousAccounting;
     this.authzResolverService = authzResolverService;
+    this.subjectPermissionService = subjectPermissionService;
+    this.registryService = registryService;
 
   }
 
@@ -131,7 +139,10 @@ public class RestUserProvider implements RestProvider {
         } else if ("changepassword".equals(elements[1])) {
           map = changePassword(request, response, elements.length > 2 ? elements[2]
               : null);
-        }
+        } else if ("changelocale".equals(elements[1])) {
+            map = changeLocale(request, response, elements.length > 2 ? elements[2]
+                : null);
+          }
 
         if (map != null) {
           String responseBody = beanConverter.convertToString(map);
@@ -189,6 +200,32 @@ public class RestUserProvider implements RestProvider {
       }
     }
 
+  }
+  
+  private Map<String, Object> changeLocale(HttpServletRequest request,
+		  HttpServletResponse response, String externalId)
+		  throws UnsupportedEncodingException, NoSuchAlgorithmException, IOException,
+	      RepositoryException, JCRNodeFactoryServiceException{
+	  Session session = sessionManagerService.getCurrentSession();
+	    if (session == null) {
+	      throw new RestServiceFaultException(HttpServletResponse.SC_UNAUTHORIZED);
+	    }
+	    UserEnvironment ue = userEnvironmentResolverService.resolve(session);
+	    if (ue == null) {
+	      throw new RestServiceFaultException(HttpServletResponse.SC_UNAUTHORIZED);
+	    }
+	    User thisUser = ue.getUser();
+	    if (thisUser == null || thisUser instanceof AnonUser) {
+	      throw new RestServiceFaultException(HttpServletResponse.SC_UNAUTHORIZED);
+	    }
+	    UserEnvironmentBean newUserEnvironment = new UserEnvironmentBean(subjectPermissionService, 0, registryService);
+	    newUserEnvironment.copyFrom(ue);
+	    newUserEnvironment.setLocale(request.getParameter(LANGUAGE_PARAM));
+	    newUserEnvironment.setTimezone(request.getParameter(TIMEZONE_PARAM));
+	    userEnvironmentResolverService.save(newUserEnvironment);
+		Map<String, Object> r = new HashMap<String, Object>();
+		r.put("response", "OK");
+		return r;
   }
 
   /**

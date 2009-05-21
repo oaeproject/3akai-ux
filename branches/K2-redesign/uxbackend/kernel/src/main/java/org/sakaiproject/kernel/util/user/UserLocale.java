@@ -42,5 +42,15 @@ public class UserLocale {
     localeMap.put("variant", l.getVariant());
     return localeMap;
   }
+  /**
+   * @param locale
+   * @return
+   */
+  public static Map<String, Object> localeToMap(Locale l, String timezone) {
+    Map<String, Object> localeMap = localeToMap(l);
+    System.err.println("LOCALETOMAP: " + timezone);
+    localeMap.put("timezone", timezone);
+    return localeMap;
+  }
 
 }

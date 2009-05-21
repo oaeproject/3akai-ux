@@ -261,6 +261,8 @@ public class RestMeProvider implements RestProvider, Initialisable {
 
 		Locale locale = userEnvironmentResolverService.getUserLocale(request
 				.getLocale(), session);
+		String timezone = userEnvironmentResolverService.getUserTimezone(request
+				.getLocale(), session);
 		if (user == null || user.getUuid() == null
 				|| "anon".equals(user.getUuid())) {
 			sendOutput(response, locale, new AnonUser(), ANON_UE_FILE);
@@ -272,7 +274,7 @@ public class RestMeProvider implements RestProvider, Initialisable {
 				sendDefaultUserOutput(response, locale, user);
 			} else {
 				sendOutput(response, locale, userEnvironment.getUser(),
-						userEnvironment);
+						userEnvironment, timezone);
 			}
 		}
 	}
@@ -285,14 +287,14 @@ public class RestMeProvider implements RestProvider, Initialisable {
 	 * @throws IOException
 	 */
 	private void sendOutput(HttpServletResponse response, Locale locale,
-			User user, UserEnvironment userEnvironment)
+			User user, UserEnvironment userEnvironment, String timezone)
 			throws RepositoryException, JCRNodeFactoryServiceException,
 			IOException {
 		response.setContentType(RestProvider.CONTENT_TYPE);
 		ServletOutputStream outputStream = response.getOutputStream();
 		outputStream.print("{ \"locale\" :");
 		outputStream.print(beanConverter.convertToString(UserLocale
-				.localeToMap(locale)));
+				.localeToMap(locale, timezone)));
 		outputStream.print(", \"preferences\" :");
 		userEnvironment.setProtected(true);
 		String json = beanConverter.convertToString(userEnvironment);
@@ -317,7 +319,7 @@ public class RestMeProvider implements RestProvider, Initialisable {
 		ServletOutputStream outputStream = response.getOutputStream();
 		outputStream.print("{ \"locale\" :");
 		outputStream.print(beanConverter.convertToString(UserLocale
-				.localeToMap(locale)));
+				.localeToMap(locale, "")));
 		sendFile("preferences", path, outputStream);
 		outputPathPrefix(user.getUuid(), outputStream);
 		outputStream.print(", \"profile\" : {}");
@@ -371,9 +373,10 @@ public class RestMeProvider implements RestProvider, Initialisable {
 			JCRNodeFactoryServiceException, IOException {
 		response.setContentType(RestProvider.CONTENT_TYPE);
 		ServletOutputStream outputStream = response.getOutputStream();
+		NullUserEnvironment nullUserEnviroment = new NullUserEnvironment();
 		outputStream.print("{ \"locale\" :");
 		outputStream.print(beanConverter.convertToString(UserLocale
-				.localeToMap(locale)));
+				.localeToMap(locale, nullUserEnviroment.getTimezone())));
 		outputStream.print(", \"preferences\" :");
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("uuid", user.getUuid());

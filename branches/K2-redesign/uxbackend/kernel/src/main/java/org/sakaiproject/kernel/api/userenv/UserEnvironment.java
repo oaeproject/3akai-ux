@@ -17,10 +17,13 @@
  */
 package org.sakaiproject.kernel.api.userenv;
 
+import java.util.Locale;
+
 import org.sakaiproject.kernel.api.Sealable;
 import org.sakaiproject.kernel.api.authz.ReferencedObject;
 import org.sakaiproject.kernel.api.authz.SubjectStatement;
 import org.sakaiproject.kernel.api.authz.UserSubjects;
+import org.sakaiproject.kernel.api.session.Session;
 import org.sakaiproject.kernel.api.user.User;
 import org.sakaiproject.kernel.api.user.UserInfo;
 
@@ -80,6 +83,8 @@ public interface UserEnvironment extends Sealable {
    * @return
    */
   String getLocale();
+  
+  void setLocale(String locale);
 
   /**
    * @return the UserInfo for this user.
@@ -91,5 +96,8 @@ public interface UserEnvironment extends Sealable {
    * @param b
    */
   void setProtected(boolean b);
+  
+  void setTimezone(String timezone);
+  String getTimezone();	
 
 }

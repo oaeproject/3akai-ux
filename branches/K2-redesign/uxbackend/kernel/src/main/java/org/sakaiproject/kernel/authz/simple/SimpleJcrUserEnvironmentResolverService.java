@@ -267,20 +267,64 @@ public class SimpleJcrUserEnvironmentResolverService implements
       localeKey = userEnvironment.getLocale();
     }
     if (localeKey != null){
-    String[] locValues = localeKey.split("_");
-    if (locValues != null && locValues.length > 1) {
-      loc = new Locale(locValues[0], locValues[1]);
-    } else if (locValues != null && locValues.length == 1) {
-      loc = new Locale(locValues[0]);
-    } else if (browserLocale != null) {
-      loc = browserLocale;
+      String[] locValues = localeKey.split("_");
+      if (locValues != null && locValues.length > 1) {
+        loc = new Locale(locValues[0], locValues[1]);
+      } else if (locValues != null && locValues.length == 1) {
+        loc = new Locale(locValues[0]);
+      } else if (browserLocale != null) {
+        loc = browserLocale;
+      } else {
+        loc = Locale.getDefault();
+      }
     } else {
-      loc = Locale.getDefault();
-    }
-    } else {
-	loc = Locale.getDefault();
+	  loc = Locale.getDefault();
     }
     return loc;
+  }
+  
+  /**
+   * @param locale * *
+   * @return user's timezone
+   */
+  public String getUserTimezone(Locale browserLocale, Session session) {
+
+    User user = session.getUser();
+    UserEnvironment userEnvironment = null;
+    if (user != null && user.getUuid() != null) {
+      userEnvironment = resolve(user.getUuid());
+    }
+    String tz = (String) session.getAttribute(LOCALE_SESSION_KEY);
+    if (userEnvironment != null && tz == null) {
+      tz = userEnvironment.getTimezone();
+    }
+    if (tz != null){
+      return tz;
+    } else {
+	  tz = "UTC";
+    }
+    return tz;
+  }
+  
+  /**
+   * * Return user's prefered locale * First: return locale from Sakai user preferences,
+   * if available * Second: return locale from user session, if available * Last: return
+   * system default locale
+   *
+   * @param locale * *
+   * @return user's Locale object
+   */
+  public void setUserLocale(Locale browserLocale, Session session, String locale) {
+
+    User user = session.getUser();
+    UserEnvironment userEnvironment = null;
+    if (user != null && user.getUuid() != null) {
+    	userEnvironment = resolve(user.getUuid());
+    }
+    String localeKey = (String) session.getAttribute(LOCALE_SESSION_KEY);
+    if (userEnvironment != null && localeKey == null) {
+        userEnvironment.setLocale(locale);
+    }
   }
 
   /**
@@ -301,6 +345,7 @@ public class SimpleJcrUserEnvironmentResolverService implements
       Map<String, Object> userMap = loadUserMap(userEnvironmentPath);
 
       userMap.put("locale", userEnvironment.getLocale());
+      userMap.put("timezone", userEnvironment.getTimezone());
       userMap.put("subjects", userEnvironment.getSubjects());
 
       // save the template
@@ -454,5 +499,7 @@ public class SimpleJcrUserEnvironmentResolverService implements
 
     save(newUserEnvironment);
   }
+
+
 
 }

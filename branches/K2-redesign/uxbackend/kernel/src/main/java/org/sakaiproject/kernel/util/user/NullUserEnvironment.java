@@ -149,4 +149,14 @@ public class NullUserEnvironment implements UserEnvironment {
    */
   public void setProtected(boolean b) {
   }
+
+	public void setLocale(String locale) {
+	}
+
+	public String getTimezone() {
+		return "UTC";
+	}
+
+	public void setTimezone(String timezone) {
+	}
 }

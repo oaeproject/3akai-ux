@@ -60,6 +60,7 @@ public class UserEnvironmentBean implements UserEnvironment {
   private Registry<String, SubjectTokenProvider<String>> registry;
   private String locale;
   private boolean protect = false;
+private String timezone;
 
   @Inject
   public UserEnvironmentBean(SubjectPermissionService subjectPermissionService,
@@ -388,6 +389,18 @@ public class UserEnvironmentBean implements UserEnvironment {
    */
   public void setProtected(boolean protect) {
     this.protect = protect;
+  }
+
+  public void setTimezone(String timezone) {
+	  if (sealed) {
+	      throw new RuntimeException(
+	          "Attempt to unseal a sealed UserEnvironmentBean ");
+	    }
+	  this.timezone = timezone;
+  }
+  
+  public String getTimezone() {
+		return timezone;
   }
 
 }

@@ -88,6 +88,8 @@ public interface UserEnvironmentResolverService {
    * @return the computed Locale
    */
   Locale getUserLocale(Locale browserLocale, Session session);
+  
+  void setUserLocale(Locale browserLocale, Session session, String locale);
 
 
   /**
@@ -120,5 +122,7 @@ public interface UserEnvironmentResolverService {
    * @param membershipType
    */
   void addMembership(String userId, String siteId, String membershipType);
+  
+  String getUserTimezone(Locale browserLocale, Session session);
 
 }
