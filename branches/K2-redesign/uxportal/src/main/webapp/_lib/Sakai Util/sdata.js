@@ -402,14 +402,31 @@ sdata.widgets.WidgetLoader = {
 		};
 		
 		var loadWidgetFiles = function(widgets,widgetname){
-			$.ajax({
-				url : Widgets.widgets[widgetname].url,
-				success : function(response) {
-					var thisobj2 = {};
-					var newstring = $.i18n(response, sdata.i18n.localBundle, sdata.i18n.defaultBundle);
-					sethtmlover(null,newstring,widgets,widgetname);	
+			var url = Widgets.widgets[widgetname].url;
+			if (Widgets.widgets[widgetname].gwt == 1) {
+				for (var i = 0; i < widgets[widgetname].length; i++) {
+					var iframescr = url + "?placement=" + widgets[widgetname][i].placement + "&tuid=" + widgets[widgetname][i].uid + "&showSettings=" + settings + "&sid=" + Math.random();
+					var oiFrame = document.createElement('iframe');
+					oiFrame.setAttribute("width", "100%");
+					oiFrame.setAttribute("scrolling", "auto");
+					oiFrame.setAttribute("id", "widget_gwt_" + widgets[widgetname][i].uid);
+					oiFrame.setAttribute("frameBorder", "0");
+					oiFrame.setAttribute("border", "0");
+					oiFrame.setAttribute("height", "0");
+					oiFrame.style.border = 0 + "px";
+					oiFrame.src = iframescr;
+					document.getElementById(widgets[widgetname][i].uid).appendChild(oiFrame);
 				}
-			});
+			} else {
+				$.ajax({
+					url: url,
+					success: function(response){
+						var thisobj2 = {};
+						var newstring = $.i18n(response, sdata.i18n.localBundle, sdata.i18n.defaultBundle);
+						sethtmlover(null, newstring, widgets, widgetname);
+					}
+				});
+			}
 		};
 		
 		var locateTagAndRemove = function(content, tagName, URLIdentifier){

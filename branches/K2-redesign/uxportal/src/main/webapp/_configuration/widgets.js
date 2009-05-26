@@ -194,6 +194,19 @@ var Widgets = {
 			hasSettings: 1,
 			img:"/dev/img/myprofile.png"
 		},
+		helloworldwow :
+		{
+			description:"GWT Widget Example\r\n",
+			iframe:0,
+			url:"/devwidgets/helloworldwow/war/Helloworldwow.html",
+			name:"Hello World GWT",
+			id:"helloworldwow",
+			personalportal:1,
+			siteportal:0,
+			hasSettings: 1,
+			img:"/dev/img/myprofile.png",
+			gwt: 1
+		},
 		sparkline :
 		{
 			description:"Sparkline\r\n",
