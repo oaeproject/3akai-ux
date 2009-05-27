@@ -44,4 +44,4 @@ sakai.logout = function(){
 	
 };
 
-sdata.registerForLoad("sakai.logout");
+sdata.container.registerForLoad("sakai.logout");
