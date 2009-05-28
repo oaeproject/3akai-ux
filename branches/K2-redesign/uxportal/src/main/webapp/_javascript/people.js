@@ -28,29 +28,28 @@ sakai.search = function(){
 		loadInvitations();
 		loadPending();
 		
-	}
+	};
 	
 	loadContacts = function(page){
 		
-		currentpage = parseInt(page);
+		currentpage = parseInt(page, 10);
 		
 		// Set searching messages
 			
 		$("#contacts_search_result").html("<b>Loading ...</b>");
 			
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?p=" + (page - 1) + "&n=" + peopleToSearch + "&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-			onSuccess: function(data){
-				foundContacts = eval('(' + data + ')');
+		$.ajax({
+			url: "/rest/friend/status?p=" + (page - 1) + "&n=" + peopleToSearch + "&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			success: function(data){
+				foundContacts = $.evalJSON(data);
 				renderContacts();
 			},
-			onFail: function(status){
+			error: function(status){
 				$("#contacts_search_result").html("<b>An error has occurred.</b> Please try again later");
 			}
 		});
 	
-	}
+	};
 	
 	
 	/*
@@ -61,7 +60,7 @@ sakai.search = function(){
 	var pager_click_handler = function(pageclickednumber){
 		currentpage = pageclickednumber;
 		loadContacts(currentpage);
-	}
+	};
 	
 	var _currentTotal = 0;
 	
@@ -70,7 +69,7 @@ sakai.search = function(){
 		var finaljson = {};
 		finaljson.items = [];
 		
-		_currentTotal = foundContacts.status.sizes["ACCEPTED"];
+		_currentTotal = foundContacts.status.sizes.ACCEPTED;
 		
 		// Pager Init
 		
@@ -113,24 +112,23 @@ sakai.search = function(){
 							finaljson.items[index].extra = basic.unidepartment;
 						}
 					}
-					finaljson.items[index].connected = false;
 					finaljson.items[index].connected = true;
 					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
-						finaljson.items[index].isMe = true
+						finaljson.items[index].isMe = true;
 					}
 				}
 			}
 		}
 		
-		if (finaljson.items.length == 0){
+		if (finaljson.items.length === 0){
 			$(".jq_pager").hide();
 		} else {
 			$(".jq_pager").show();
 		}
 		
-		$("#contacts_search_result").html(sdata.html.Template.render("contacts_search_result_template", finaljson));
+		$("#contacts_search_result").html($.Template.render("contacts_search_result_template", finaljson));
 	
-	}
+	};
 	
 	/*
 		Invitation search 
@@ -142,19 +140,19 @@ sakai.search = function(){
 			
 		$("#invited_search_result").html("<b>Loading ...</b>");
 			
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?p=0&n=100&friendStatus=INVITED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-			onSuccess: function(data){
-				foundInvitations = eval('(' + data + ')');
+		$.ajax({
+			url: "/rest/friend/status?p=0&n=100&friendStatus=INVITED&s=firstName&s=lastName&o=asc&o=asc",
+			cache: false,
+			success: function(data){
+				foundInvitations = $.evalJSON(data);
 				renderInvitations();
 			},
-			onFail: function(status){
+			error: function(status){
 				$("#invited_search_result").html("<b>An error has occurred.</b> Please try again later");
 			}
 		});
 	
-	}
+	};
 	
 	var renderInvitations = function(){
 		
@@ -199,13 +197,13 @@ sakai.search = function(){
 						}
 					}
 					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
-						finaljson.items[index].isMe = true
+						finaljson.items[index].isMe = true;
 					}
 				}
 			}
 		}
 		
-		$("#invited_search_result").html(sdata.html.Template.render("invited_search_result_template", finaljson));
+		$("#invited_search_result").html($.Template.render("invited_search_result_template", finaljson));
 	
 		$(".link_accept_contact").bind("click", function(ev){
 			var user = this.id.split("_")[this.id.split("_").length - 1];
@@ -213,11 +211,11 @@ sakai.search = function(){
 			var inviter = user;
 			var data = {"friendUuid" : inviter};
 	
-			sdata.Ajax.request({
+			$.ajax({
 				url: "/rest/friend/connect/accept",
-				httpMethod: "POST",
-				onSuccess: function(data){
-					setTimeout('loadContacts(1)',500);
+				type: "POST",
+				success: function(data){
+					setTimeout(loadContacts,500,[1]);
 					
 					// remove from json file
 					
@@ -234,16 +232,15 @@ sakai.search = function(){
 					renderInvitations();
 					
 				},
-				onFail : function(data){
+				error : function(data){
 					alert("An error has occured");
 				},
-				postData: data,
-				contentType: "application/x-www-form-urlencoded"
+				data: data
 			});
 			
 		});
 	
-	}
+	};
 	
 	
 	/*
@@ -256,19 +253,19 @@ sakai.search = function(){
 			
 		$("#invited_search_result").html("<b>Loading ...</b>");
 			
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: "/rest/friend/status?p=0&n=100&friendStatus=PENDING&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-			onSuccess: function(data){
-				foundPending = eval('(' + data + ')');
+		$.ajax({
+			url: "/rest/friend/status?p=0&n=100&friendStatus=PENDING&s=firstName&s=lastName&o=asc&o=asc",
+			cache: false,
+			success: function(data){
+				foundPending = $.evalJSON(data);
 				renderPending();
 			},
-			onFail: function(status){
+			error: function(status){
 				$("#pending_search_result").html("<b>An error has occurred.</b> Please try again later");
 			}
 		});
 	
-	}
+	};
 	
 	var renderPending = function(){
 		
@@ -313,15 +310,15 @@ sakai.search = function(){
 						}
 					}
 					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
-						finaljson.items[index].isMe = true
+						finaljson.items[index].isMe = true;
 					}
 				}
 			}
 		}
 		
-		$("#pending_search_result").html(sdata.html.Template.render("pending_search_result_template", finaljson));
+		$("#pending_search_result").html($.Template.render("pending_search_result_template", finaljson));
 	
-	}
+	};
 	
 	$(".person_message_link").live("click", function(ev){
 		
@@ -334,6 +331,6 @@ sakai.search = function(){
 	
 	doInit();
 	
-}
+};
 
-sdata.registerForLoad("sakai.search");
+sdata.container.registerForLoad("sakai.search");
