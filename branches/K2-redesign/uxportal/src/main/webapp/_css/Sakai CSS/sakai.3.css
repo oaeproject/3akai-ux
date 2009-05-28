@@ -36,6 +36,42 @@ body {
 .button-primary{font-weight: bold;}
 .button-disabled{color: #c5c5c5;}
 
+/* site_management_appearance_flat.html*/
+.basic_appearance h4{margin: 10px 0 10px 0;}
+.basic_appearance h3{margin:0; padding:0 0 3px 0; font-size: 16px; border-bottom: 1px solid #ebebeb;}
+.basic_appearance .fl-col-mixed-400 .fl-col-fixed-400{width: 350px; margin: 0 0 0 50px; padding:0;}
+.basic_appearance .fl-col-mixed-400 .fl-col-flex{margin: 0 0 0 425px; padding:1px 0 0 0;}
+.basic_appearance .button{width: 83px;}
+.basic_appearance .cancel{margin-left: 10px;}
+.basic_appearance .fl-col-mixed{padding:0; margin:0;}
+.basic_appearance .change-logo{float: right; margin-right: 55px;}
+.basic_appearance .logo-preview-container{width: 200px; height: 100px; border: 1px solid #ebebeb; background: #f9f9f9; text-align: center; color: #999; vertical-align: middle; line-height: 95px; margin-bottom: 40px;}
+.basic_appearance .region-container{margin:0 0 10px 0;padding:0;}
+.basic_appearance .region-container li{list-style-type: none; height: 145px; margin-right: 30px; float: left; width: 82px;}
+.basic_appearance .region-container .thumbnail{width: 82px; height: 82px;}
+.basic_appearance .region-container  .selected .thumbnail{width: 86px; height: 86px;}
+.basic_appearance .region-container .thumbnail-label{color: #3399cc; font-weight: bold; font-size: 13px; display: block; margin-top: 3px;}
+.basic_appearance .region-container .selected .thumbnail-label{margin-top: 0px;}
+.basic_appearance .button-container {clear: both; margin: 50px 25px 0 25px; background: #f9f9f9; height: 30px; padding: 7px 0 0 10px;}
+.basic_appearance .full-preview{width: 518px; height: 495px; border: 1px solid #333;}
+.basic_appearance .full-preview .heading-bg{background: #eee; height: 79px; width: 100%; border-bottom: 1px solid #ccc;}
+.basic_appearance .full-preview .preview-heading{float: right;}
+.basic_appearance .full-preview .preview-logo{line-height: 80px; width: 105px; text-align: center; border-right: 1px solid #ccc; font-weight: bold;}
+.basic_appearance .full-preview .site_search{margin: 10px 22px 0 0;}
+.basic_appearance .full-preview  h1{margin: 0; 	padding: 0;	font-weight: bold; font-size: 26px; vertical-align: middle; line-height: 80px; padding-right: 200px;}
+.basic_appearance .full-preview  h2{margin-top: 50px;}
+.basic_appearance .full-preview  h5{margin: 15px 0 5px 0;}
+.basic_appearance .full-preview  .preview-container{margin: 22px; font-size: 11px;}
+.basic_appearance .full-preview  .preview-image-container{float:right; margin-left: 25px;}
+.basic_appearance .full-preview .image-caption{color: #999; margin-top: 5px;}
+.basic_appearance .full-preview .preview-link{color: #3399cc; font-weight: bold; }
+.basic_appearance .full-preview .link-field-text{float: left; background: #f9f9f9; border: 1px solid #ebebeb; width: 198px; height: 16px; color: #999; padding: 4px 4px 4px 4px; margin-top: 15px;}
+.basic_appearance .full-preview .button{margin: 15px 0 0 10px;}
+.basic_appearance .preview-footer{margin-top: 85px; border-top: 1px solid #ccc; height: 34px; color: #999; font-size: 10px; padding: 0 20px 0 20px; vertical-align: middle; line-height: 34px;}
+.basic_appearance .preview-footer a{color: #3399cc; font-weight: bold; font-size: 10px;}
+.basic_appearance .preview-footer span{font-weight: 100;}
+.basic_appearance .preview-footer .preview-footer-links{float: right;}
+
 /* dialog box overlay */
 .overlay{background-color: #000; opacity: 0.1; filter:alpha(opacity=10); position: absolute; top:0; left:0; width:100%; height: 100%; z-index: 100;}
 .dialogue_box{width: 520px; height: 374px; border: 3px solid #333; background: #fff; z-index: 101; position: absolute; left: 50%; margin-left: -260px; top: 50%; margin-top: -187px;}
