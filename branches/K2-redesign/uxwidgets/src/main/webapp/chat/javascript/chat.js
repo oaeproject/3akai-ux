@@ -1,0 +1,1729 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*global Config, $, jQuery, sdata, json_parse, get_cookie, delete_cookie, set_cookie, window */
+
+var sakai = sakai || {};
+
+sakai.flashChat = {
+
+	
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
+	
+    flashing: [], // Array that contains all the uids of the users that need to flash
+	
+	// Links and labels
+	onlineButton: "#online_button",
+	chatWith: "#chat_with",
+	
+	// CSS Classes
+	showOnlineVisibleClass : "show_online_visible",
+	showOnlineUnvisibleClass : "show_online_unvisible",
+	
+	
+	///////////////////////
+	// Utility functions //
+	///////////////////////
+	
+	/**
+	 * Scroll to the bottom of an element
+	 * @param {Object} el The element that needs to be scrolled down
+	 */
+	scroll_to_bottom: function(el){
+		el.attr("scrollTop", el.attr("scrollHeight"));
+	},
+	
+	/////////////////////
+	// Flash functions //
+	/////////////////////
+	
+	/**
+	 * This will give the command to start the bar to flash
+	 * @param {String} uid 
+	 *  The uid of the user which window needs to flash
+	 * @param {Boolean} openWindow
+	 *  true:  Open the chat window during the flash
+	 *  false: Don't open the chat window
+	 */
+	doFlash: function(uid, openWindow){
+		
+		var busy = false;
+		
+		for (var i = 0; i < sakai.flashChat.flashing.length; i++) {
+			if (sakai.flashChat.flashing[i] === uid) {
+				busy = true;
+			}
+		}
+		
+		if (!busy) {
+			sakai.flashChat.startFlashing(uid, 0, openWindow);
+		}
+		
+	},
+	
+	/**
+	 * This will start the flashing for a certain window
+	 * @param {String} uid
+	 * 	The uid of the user which window needs to flash
+	 * @param {Integer} i
+	 * 	The count of how many times it has flashed already
+	 * @param {Boolean} openWindow
+	 * 	true:  Open the chat window during the flashing
+	 *  false: Don't open the chat window
+	 */
+	startFlashing: function(uid, i, openWindow){
+		
+		var till = 0;
+		var el = $(sakai.flashChat.onlineButton + "_" + uid);
+		
+		// Check if the openWindow variable is true or false
+		if(openWindow){
+			till = 9;
+			// Open the window and show the chats for this user
+			$(sakai.flashChat.chatWith + "_" + uid).show();
+			
+			// Scroll to the bottom of the content div
+			var el_content = $(sakai.flashChat.chatWith + "_" + uid + "_content");
+			sakai.flashChat.scroll_to_bottom(el_content);
+		}else {
+			till = 10;
+		}
+		
+		// Check if the count is even or not
+		if (i % 2 === 0) {
+			el.removeClass(sakai.flashChat.showOnlineVisibleClass);
+			el.addClass(sakai.flashChat.showOnlineUnvisibleClass);
+		}
+		else {
+			el.removeClass(sakai.flashChat.showOnlineUnvisibleClass);
+			el.addClass(sakai.flashChat.showOnlineVisibleClass);
+		}
+		
+		// Check whether it should stop flashing
+		if (i < till) {
+			i = i + 1;
+			setTimeout("sakai.flashChat.startFlashing('" + uid + "'," + i + "," + openWindow + ")", 500);
+		}
+		else {
+			//	The box has flashed enough times.
+			//	Look for the uuid in the flashing array and remove it.
+			var index = -1;
+			for (var k = 0; k < sakai.flashChat.flashing.length; k++) {
+				if (sakai.flashChat.flashing[k] === uid) {
+					index = k;
+				}
+			}
+			sakai.flashChat.flashing.splice(index, 1);
+		}
+		
+	}
+};
+
+sakai.chat = function(tuid, placement, showSettings){
+
+
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
+
+	var currentChatStatus = "";
+	var hasOpenChatWindow = false; // Does the current user has open chat windows
+	var peopleFocus = false;
+	var peopleShown = false;
+	var personIconUrl = Config.URL.PERSON_ICON_URL;
+	var sitesFocus = false;
+	var sitesShown = false;
+	
+	// JSON
+	var activewindows = {};
+	activewindows.items = [];
+	var allFriends = false;
+	var defaultNav = false;
+	var goBackToLogin = false;
+	var online = false;	
+	
+	// Links and labels
+	var hiLabel = "#hispan";
+	var onlineButton = "#online_button";
+	var pictureHolder = "#picture_holder";
+	var profileName = "#profile_name";
+	var showOnlineLink = "#show_online";
+	var userIdLabel = "#userid";
+	var widgetCreateSite = "#widget_createsite";
+	
+	// Chat
+	var chat = "#chat";
+	var chatAvailable = chat + "_available";
+	var chatAvailableMinimize = chatAvailable + "_minimize";
+	var chatDropdownRecentSites = chat + "_dropdown_recent_sites";
+	var chatOnline = chat + "_online";
+	var chatOnlineConnectionsLink = chatOnline + "_connections_link";
+	var chatUnreadMessages = chat + "_unreadMessages";
+	var chatWindow = chat + "_window";
+	var chatWindowChatstatus = chatWindow + "_chatstatus";
+	var chatWindows = chat + "_windows";
+	var chatWith = chat + "_with";
+	
+	// Courses & Sites
+	var coursesSitesSearch = "#courses_sites_search";
+	var coursesSitesSearchButton = coursesSitesSearch + "_button";
+	
+	// Dropdown: people
+	var dropdownPeopleSearch = "#dropdown_people_search";
+	var dropdownPeopleSearchButton = dropdownPeopleSearch + "_button";
+	
+	// My Sites
+	var mySitesDropDown = "#mysites_dropdown";
+	var mySitesDropDownMain = mySitesDropDown + "_main";
+	var mySitesDropDownClose = mySitesDropDown + "_close";
+	var mySitesDropDownCloseLink = mySitesDropDownClose + "_link";
+	
+	// Navigation
+	var nav = "#nav";
+	var navCoursesSitesLink = nav + "_courses_sites_link";
+	var navPeopleLink = nav + "_people_link";
+	var navMySakaiLink = nav + "_my_sakai_link";
+	var navSearchLink = nav + "_search_link";
+	var navProfileLink = nav + "_profile_link";
+	
+	// People
+	var peopleDropDown = "#people_dropdown";
+	var peopleDropDownMain = peopleDropDown + "_main";
+	var peopleDropDownClose = peopleDropDown + "_close";
+	var peopleDropDownCloseLink = peopleDropDownClose + "_link";
+	var peopleDropDownMyContactsList = peopleDropDown + "_my_contacts_list";
+	
+	// Top Navigation
+	var topNavigation = "#top_navigation";
+	var topNavigationCreateSite = topNavigation + "_create_site";
+	var topNavigationWidgets = topNavigation + "_widgets";
+	var topNavigationMySitesList = topNavigation + "_my_sites_list";
+	
+	// User Link
+	var userLink = "#user_link";
+	var userLinkMenu = userLink + "_menu";
+	
+	// CSS Classes
+	var focussedFieldClass = "focussedInput";
+	
+	var chatAvailableStatusClass = "chat_available_status";
+	var chatAvailableStatusClassOnline = chatAvailableStatusClass + "_online";
+	var chatAvailableStatusClassBusy = chatAvailableStatusClass + "_busy";
+	var chatAvailableStatusClassOffline = chatAvailableStatusClass + "_offline";
+	
+	var chatWithContentClass = "chat_with_content";
+	var chatWithContentNooverflowClass = chatWithContentClass + "_nooverflow";
+	var chatWithContentOverflowClass = chatWithContentClass + "_overflow";
+	
+	var showOnlineVisibleClass = "show_online_visible";
+	var showOnlineUnvisibleClass = "show_online_unvisible";
+	
+	// CSS Classes with .
+	var initiateWindowClass = ".initiate_chat_window";
+	var roundedCornersClass = ".rounded_corners";
+	var userLinkChatStatusClass = ".user_link_chat_status";
+	var userChatClass = ".user_chat";
+	
+	var chatClass = ".chat";
+	var chatCloseClass = chatClass + "_close";
+	var chatMinClass = chatClass + "_min";
+	var chatMinimizeClass = chatClass + "_minimize";
+	var chatWithTxtClass = chatClass + "_with_txt";
+	
+	var exploreClass = ".explore";
+	var exploreClassNav = exploreClass + "_nav";
+	var exploreClassNavSelected = exploreClassNav + "_selected";
+	var exploreClassNavSelectedArrow = exploreClassNavSelected + "_arrow";
+	
+	// Containers
+	var chatMainContainer = "#chat_main_container";
+	var createSiteContainer = "#createsitecontainer";
+	var exploreNavigationContainer = "#explore_nav_container";
+
+	// Templates
+	var chatAvailableTemplate = "chat_available_template";
+	var chatContentTemplate = "chat_content_template";
+	var chatDropdownRecentSitesTemplate = "chat_dropdown_recent_sites_template";
+	var chatWindowsTemplate = "chat_windows_template";
+	var navSelectedPageTemplate = "nav_selected_page_template";
+	var peopleDropDownMyContactsListTemplate = "people_dropdown_my_contacts_list_template";
+	var topNavigationMySitesListTemplate = "top_navigation_my_sites_list_template";
+
+
+	///////////////////////
+	// Utility functions //
+	///////////////////////
+	
+	/*
+	 * Placeholders that will be replaced by the real functions. This
+	 * is necessary to comply with the JSLint rules
+	 */
+	sakai.chat.loadChatTextInitial = function(){};
+	var doWindowRender = function(){};
+	
+	/*
+	 * Sort the sites by their name
+	 */
+	var doSortSites = function(a, b){
+		if (a.name > b.name) {
+			return 1;
+		}
+		else {
+			if (a.name === b.name) {
+				return 0;
+			}
+			else {
+				return -1;
+			}
+		}
+	};
+	
+	/**
+	 * Clone a certain object.
+	 * We need this in activewindows, to not change the original object
+	 * @param {Object} obj Object that needs to be cloned
+	 */
+	var clone = function(obj) {
+		return jQuery.extend(true, {}, obj);
+	};
+		
+	/**
+	 * Scroll to the bottom of an element
+	 * @param {Object} el The element that needs to be scrolled down
+	 */
+	var scroll_to_bottom = function(el){
+		el.attr("scrollTop", el.attr("scrollHeight"));
+	};
+	
+	/**
+	 * Shorten a string and add 3 dots if the string is too long
+	 * @param {String} input The string you want to shorten
+	 * @param {Int} maxlength Maximum length of the string
+	 */
+	var shortenString = function(input, maxlength){
+		if(typeof input === "string" && input.length > maxlength){
+			input = input.substr(0, maxlength) + "...";
+		}
+		return input;
+	};
+	
+	/**
+	 * Parse the chatstatus for a user
+	 * @param {String} chatStatus The chatstatus which should be 
+	 * online, busy or offline
+	 */
+	var parseChatStatus = function(chatStatus){
+		// Check if the status is defined
+		if (!chatStatus) {
+			chatStatus = "online";
+		}
+		return chatStatus;
+ 	};
+ 	
+	/**
+	 * Parse the name for a user
+	 * @param {String} uuid Uuid of the user
+	 * @param {String} firstName Firstname of the user
+	 * @param {String} lastName Lastname of the user
+	 */
+	var parseName = function(uuid, firstName, lastName){
+		if (firstName && lastName) {
+			return shortenString(firstName + " " + lastName, 11);
+		}
+		else {
+			return shortenString(uuid, 11);
+		}
+	};
+	
+	/**
+	 * Parse the picture for a user
+	 * @param {String} picture The picture path for a user
+	 * @param {String} userStoragePrefix The user's storage prefix
+	 */
+	var parsePicture = function(picture, userStoragePrefix){
+		if (picture) {
+			// Check if the picture is undefined or not
+			// The picture will be undefined if the other user is in process of
+			// changing his/her picture
+			if (picture.name) {
+				return Config.URL.WEBDAV_PRIVATE_URL + userStoragePrefix + picture.name;				
+			}
+			else {
+				return personIconUrl;
+			}
+		}
+	};
+	
+	/**
+	 * Parse the status message for a user
+	 * @param {Object} basic JSON basic variable inside the profile information
+	 */
+	var parseStatusMessage = function(basic){
+		if (basic) {
+			var base = json_parse(basic);
+			if(base.status){
+				return shortenString(base.status, 20);
+			}
+		}
+		return shortenString("No status message");
+	};
+	
+
+	//////////////////////////////
+	// Courses & Sites dropdown //
+	//////////////////////////////
+
+	/**
+	 * Load the sites for the current user
+	 */
+	var loadSites = function(){		
+		var el = $(widgetCreateSite);
+		if (!el.get(0)) {
+			/** TODO Remove the inline html */
+			$(topNavigationWidgets).append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
+			sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
+		}
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: Config.URL.SITES_SERVICE +"?sid=" + Math.random(),
+			onSuccess: function(data){
+				var newjson = json_parse(data);
+				newjson.entry = newjson.entry || [];
+				for (var i = 0; i < newjson.entry.length; i++) {
+					newjson.entry[i].location = newjson.entry[i].location.substring(1);
+				}
+				newjson.entry = newjson.entry.sort(doSortSites);
+				if (newjson.entry.length > 5) {
+					newjson.entry = newjson.entry.splice(0, 5);
+				}
+				$(topNavigationMySitesList).html(sdata.html.Template.render(topNavigationMySitesListTemplate, newjson));
+			},
+			onFail: function(status){
+				alert("An error has occured");
+			}
+		});
+	};
+	
+	/**
+	 * Show the create new site lightbox
+	 */
+	var createNewSite = function(){
+		$(createSiteContainer).show();
+		// Initialise the createsite widget.
+		sakai.createsite.initialise();
+	};
+	
+	/**
+	 * Search for the site(s) you putted in the input field 
+	 */
+	var doSitesSearch = function(){
+		var tosearch = $(coursesSitesSearch).val();
+		if (tosearch) {
+			document.location = Config.URL.SEARCH_SITES_URL + "#1|" + tosearch;
+		}
+	};
+	
+	/*
+	 * Bind the create site button in the top navigation
+	 */
+	$(topNavigationCreateSite).bind("click", function(ev){
+		createNewSite();
+	});	
+	
+	/*
+	 * If this is the first time the field gets focus, we'll make his text color black
+	 * and remove the default value
+	 */
+	$(coursesSitesSearch).bind("focus", function(ev){
+		if (!sitesFocus) {
+			var el = $(coursesSitesSearch);
+			el.val("");
+			el.addClass(focussedFieldClass);
+			sitesFocus = true;
+		}
+	});
+	
+	/*
+	 * Check on every keypress whether the enter key has been pressed or not. If so,
+	 * search for sites
+	 */
+	$(coursesSitesSearch).bind("keypress", function(ev){
+		if (ev.which === 13) {
+			doSitesSearch();
+		}
+	});
+	
+	$(coursesSitesSearchButton).bind("click", doSitesSearch);
+	
+	
+	////////////////////////////////////////////
+	// Courses & Sites dropdown : Show & Hide //
+	////////////////////////////////////////////
+	
+	defaultNav = $(exploreClass).html();
+		
+	/**
+	 * Fix some rounded corner layout issues
+	 */
+	var setRoundedCorners = function(){
+		// Fix small arrow horizontal position
+		$(exploreClassNavSelectedArrow).css('right', $(exploreClassNavSelected).width() / 2 + 10);
+		
+		// Round corners for elements with '.rounded_corners' class
+		$(roundedCornersClass).corners("2px");
+		
+		// IE Fixes
+		if (($.browser.msie) && ($.browser.version < 8)) {
+		
+			// Small Arrow Fix
+			$(exploreClassNavSelectedArrow).css('bottom', '-10px');
+		}
+	};
+	
+	/**
+	 * Render the template to show on which page you are currently on.
+	 * You can see this by the dark border in the top navigation of a page
+	 * @param {String} value The value of the page name
+	 * @return {String} The result of the render
+	 */
+	var renderSelectedPage = function(value){
+		var page = {};
+		page.value = value;
+		return sdata.html.Template.render(navSelectedPageTemplate, page);
+	};
+	
+	/**
+	 * Select the page in the top navigation where you are currently on.
+	 * This will display a dark balloon around the page we are on now.
+	 * This is decided by looking at the current url.
+	 */
+	var selectPage = function(){
+		var windowLocationPath = window.location.pathname.toLowerCase();
+		
+		if (windowLocationPath.indexOf(Config.URL.MY_DASHBOARD) !== -1){
+			$(navMySakaiLink).html(renderSelectedPage("My Sakai"));
+		} else if (windowLocationPath.indexOf(Config.URL.SEARCH_GENERAL_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_PEOPLE_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_SITES_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_CONTENT_URL) !== -1){
+			$(navSearchLink).html(renderSelectedPage("Search"));
+		} else if (windowLocationPath.indexOf(Config.URL.PEOPLE_URL) !== -1){
+			$(navPeopleLink).html(renderSelectedPage("People"));
+		} else if (windowLocationPath.indexOf(Config.URL.PROFILE_URL) !== -1){
+			$(navProfileLink).html(renderSelectedPage("Profile"));
+		}
+		
+		//	Add some rounded corners to the dark "balloon tooltip"
+		setRoundedCorners();
+	};
+	
+	/**
+	 * Render the recent sites for the current user
+	 * @param {Object} json JSON object that contains the recent sites
+	 * and a count with how many there are
+	 */
+	var renderRecentSites = function(json){
+		$(chatDropdownRecentSites).append(sdata.html.Template.render(chatDropdownRecentSitesTemplate,json));
+	};
+	
+	/**
+	 * Load the recent sites that the current user has visited
+	 */
+	var loadRecentSites = function(){
+		var json = {};
+		json.count = 0;
+		
+		sdata.Ajax.request({
+		   	url: Config.URL.RECENT_SITES_URL + "?sid=" + Math.random(),
+			httpMethod: "GET",
+			onSuccess: function(data) {
+				//	The response is a json object with an "items" array that contains the 
+				//	names for the recent sites.
+				var items = json_parse(data);
+				
+				//	Do a request to the site service with all the names in it.
+				//	This will give us the proper location, owner, siteid,..
+				var url = Config.URL.SITE_GET_SERVICE + "/";
+				var count = 0;
+				
+				for (var i = 0; i < items.items.length; i++){
+					url += items.items[i] + ",";
+					count++;
+				}
+				
+				sdata.Ajax.request({
+				   	url : url + "?sid=" + Math.random(),
+					httpMethod : "GET",
+					onSuccess : function(data) {
+						
+						var response = json_parse(data);
+						json = {};
+						json.items = [];
+						var newcount = 0;
+						var el = {};
+						
+						//	We do a check for the number of sites we have.
+						//	If we only have 1 site we will get a JSONObject
+						//	If we have multiple it will be an array of JSONObjects.
+						if(count === 1){
+							newcount++;
+							el = {};
+							el.location = response.location.substring(1);	//	Remove the first slash
+							el.name = response.name;
+							json.items[json.items.length] = el;
+						}else{
+							for (var i = 0; i < response.length; i++){
+								if (response[i] !== "404"){
+									newcount++;
+									el = {};
+									el.location = response[i].location.substring(1);
+									el.name = response[i].name;
+									json.items[json.items.length] = el;
+								}
+							}
+						}
+						
+						json.count = newcount;
+						renderRecentSites(json);
+					},
+					onFail : function(data){
+						renderRecentSites(json);
+					}
+				});
+
+			},
+			onFail : function(data){
+				renderRecentSites(json);
+			}
+		});
+		
+	};
+	
+	/**
+	 * Drop down the sites container under the top navigation bar
+	 */
+	var setSitesDropdown = function() {
+		$(navCoursesSitesLink).live("click", function(ev) {
+			//	Hide the people dropdown
+			$(peopleDropDownMain).hide();
+			$(peopleDropDownClose).hide();
+			//	Show the courses and sites.
+			$(mySitesDropDownMain).show();
+			$(mySitesDropDownClose).show();
+			
+			$(exploreClass).html(defaultNav);
+			$(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites"));
+			setRoundedCorners();
+			if (!sitesShown) {
+				loadSites();
+				loadRecentSites();
+				sitesShown = true;
+			}
+		});
+	};
+	
+	/*
+	 * Bind the close button for the sites container
+	 */
+	$(mySitesDropDownCloseLink).live("click", function(ev){
+		$(mySitesDropDownMain).hide();
+		$(mySitesDropDownClose).hide();
+		$(exploreClass).html(defaultNav);
+		selectPage();
+		setSitesDropdown();
+	});
+	
+	
+	///////////////////////////////
+	// People dropdown : Handler //
+	///////////////////////////////
+	
+	/**
+	 * Load all the friends for the current user
+	 */
+	var loadPeople = function(){
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
+			onSuccess: function(data){
+				var friends = json_parse(data);
+				
+				var pOnline = {};
+				pOnline.items = [];
+				var total = 0;
+				pOnline.showMore = false;
+				
+				if (friends.status.friends) {
+					for (var i = 0; i < friends.status.friends.length; i++) {
+						var isOnline = false;
+						if (!isOnline && total < 4) {
+							var item = friends.status.friends[i];							
+							item.id = item.friendUuid;
+							item.name = parseName(item.id, item.profile.firstName, item.profile.lastName);
+							item.photo = parsePicture(item.profile.picture, item.properties.userStoragePrefix);
+							item.online = false;
+							pOnline.items[pOnline.items.length] = item;
+							total++;
+						}
+					}
+				}
+				
+				$(peopleDropDownMyContactsList).html(sdata.html.Template.render(peopleDropDownMyContactsListTemplate, pOnline));
+				
+				if (pOnline.items.length === 0) {
+					$(peopleDropDownMain).css("height", "80px");
+					$(peopleDropDownMyContactsListTemplate).css("margin-bottom", "10px");
+				}
+				
+			},
+			onFail: function(status){
+				alert("An error has occurred. /n Please try again later");
+			}
+		});
+	};
+	
+	/**
+	 * Perform a search for the people the user inserted in the input field
+	 */
+	var doPeopleSearch = function(){
+		var tosearch = $(dropdownPeopleSearch).val();
+		if (tosearch) {
+			document.location = Config.URL.SEARCH_PEOPLE_URL + "#1|" + tosearch;
+		}
+	};
+	
+	/*
+	 * If this is the first time the field gets focus, we'll make his text color black
+	 * and remove the default value
+	 */
+	$(dropdownPeopleSearch).bind("focus", function(ev){
+		if (!peopleFocus) {
+			peopleFocus = true;
+			var el = $(dropdownPeopleSearch);
+			el.val("");
+			el.addClass(focussedFieldClass);
+		}
+	});
+	
+	/*
+	 * Check on every keypress whether the enter key has been pressed or not. If so,
+	 * search for people
+	 */
+	$(dropdownPeopleSearch).live("keypress", function(ev){
+		if (ev.which === 13) {
+			doPeopleSearch();
+		}
+	});
+	
+	$(dropdownPeopleSearchButton).live("click", doPeopleSearch);
+	
+	
+	////////////////////////////////////////////
+	// Courses & Sites dropdown : Show & Hide //
+	////////////////////////////////////////////
+	
+	/*
+	 * Drop down the people container beneath the top navigation bar
+	 */
+	var setPeopleDropdown = function() {
+		$(navPeopleLink).live("click", function(ev) {
+			$(mySitesDropDownMain).hide();
+			$(mySitesDropDownClose).hide();
+			$(peopleDropDownMain).show();
+			$(peopleDropDownClose).show();
+			$(exploreClass).html(defaultNav);
+			$(navPeopleLink).html(renderSelectedPage("People"));
+			setRoundedCorners();
+			if (!peopleShown) {
+				loadPeople();
+				peopleShown = true;
+			}
+		});
+	};
+	
+	/*
+	 * Bind the close button for the people container
+	 */
+	$(peopleDropDownCloseLink).live("click", function(ev){
+		$(peopleDropDownMain).hide();
+		$(peopleDropDownClose).hide();
+		$(exploreClass).html(defaultNav);
+		selectPage();
+		setPeopleDropdown();
+	});
+	
+	
+	//////////////
+	// Messages //
+	//////////////
+	
+	/**
+	 * Get the number of messages that are unread and show it.
+	 */
+	var getCountUnreadMessages = function() {
+		//	We only get the number of messages in our inbox folder that we havent read yet.
+		sdata.Ajax.request({
+			httpMethod: "GET",
+			url: Config.URL.MESSAGES_COUNT_SERVICE + "?types=inbox&categories=*&read=false",
+			onSuccess: function(data){
+				var json = json_parse(data);
+				if (json.response === "OK" && json.count){
+					$(chatUnreadMessages).text(json.count[0]);
+				}
+			}
+		});
+	};
+	
+	
+	//////////
+	// Chat //
+	//////////
+	
+	/**
+	 * Hide the container with your online friends
+	 */
+	var hideOnline = function(){
+		$(showOnlineLink).hide();
+		$(onlineButton).removeClass(showOnlineVisibleClass);
+		$(onlineButton).addClass(showOnlineUnvisibleClass);
+	};
+	
+ 	/**
+ 	 * Show the container with your online friends
+ 	 */
+	var showOnline = function(){
+		$(showOnlineLink).show();
+		$(onlineButton).removeClass(showOnlineUnvisibleClass);
+		$(onlineButton).addClass(showOnlineVisibleClass);
+	};
+	
+	/**
+	 * Hide/Show the container with your online friends
+	 */
+	var showHideOnline = function(){
+		if ($(showOnlineLink).is(":visible")) {
+			hideOnline();
+		}
+		else {
+			showOnline();
+		}
+	};
+	
+	/**
+	 * Get a user from the all friends object
+	 * @param {Object} uuid Uid of the user you want to get
+	 * @return 
+	 *  Will return a userobject matching the uuid
+	 *  Will return null if no match is found
+	 */
+	var getUserFromAllFriends = function(uuid){
+		for(var i = 0; i < allFriends.users.length; i++){
+			if(allFriends.users[i].userid === uuid){
+				return allFriends.users[i];
+			}
+		}
+		return null;
+	};
+	
+	/**
+	 * Update an item in the activewindow
+	 * @param {String} userid User id of the user
+	 * @param {String} item Item that needs to be updated
+	 * @param {String} value Value of the item that needs to be updated
+	 */
+	var updateActiveWindows = function(userid, item, value){
+		for (var i = 0; i < activewindows.items.length; i++) {
+			if (activewindows.items[i].userid === userid) {
+				activewindows.items[i][item] = value;
+			}
+		}
+	};
+	
+	/**
+	 * Update and element (only if it has to) with a value
+	 * @param {String} userid The user id of the user
+	 * @param {String} item Item that needs to be updated
+	 * @param {String} value Value in the element that needs to be updated
+	 */
+	var updateChatWindowElement = function(userid, item, value){
+		var el = $(chatWindow + "_" + item + "_" + userid);
+		switch(el.get(0).tagName.toLowerCase()){
+			case "span":
+				//	To avoid flickering of the element we check if the element already has this value.
+				//	This improves the overall performance.
+				if (el.text() !== value){
+					el.text(value);
+					updateActiveWindows(userid, item, value);
+				}
+				break;
+			case "img":
+				if (el.attr("src") !== value){
+					el.attr("src", value);
+					updateActiveWindows(userid, item, value);
+				}
+				break;	
+		}
+	};
+		
+	/**
+	 * Update a certain element with a specific chatstatus
+	 * @param {Object} element Element that needs to be updated
+	 * @param {String} chatstatus The chatstatus that needs to be added
+	 */
+	var updateChatStatusElement = function(element, chatstatus){
+		element.removeClass(chatAvailableStatusClassOnline);
+		element.removeClass(chatAvailableStatusClassBusy);
+		element.removeClass(chatAvailableStatusClassOffline);
+		element.addClass(chatAvailableStatusClass + "_"+ chatstatus);
+	};
+	
+	/**
+	 * Update the chat status of a specific chat window
+	 * @param {Object} userid The user id of the user
+	 * @param {Object} value The status which should be updated if necessary
+	 */
+	var updateChatWindowChatStatus = function(userid, value){
+		var el = $(chatWindowChatstatus + "_" + userid);
+		//	Do a check to make sure that this element doesn't already have this class.
+		if(!el.hasClass(chatAvailableStatusClass+"_"+value)){
+			updateChatStatusElement(el, value);
+			updateActiveWindows(userid, "chatstatus", value);
+		}
+	};
+	
+	/**
+	 * Update the chatwindow for a certain user
+	 * @param {Object} user Object that contains the user information
+	 */
+	var updateChatWindow = function(user){
+		if($(chatWith + "_"+user.userid).length > 0){
+			updateChatWindowChatStatus(user.userid, user.chatstatus);
+			updateChatWindowElement(user.userid, "photo", user.photo);
+			updateChatWindowElement(user.userid, "name",  user.name);
+			updateChatWindowElement(user.userid, "statusmessage", user.statusmessage);
+		}
+	};
+	
+	/**
+	 * Hide the chat window for a specific element and button
+	 * @param {Object} elementWindow The element that contains the window
+	 * @param {Object} elementButton The button of the window
+	 */
+	var hideOnlineWindow = function(elementWindow, elementButton){
+		elementWindow.hide();
+		elementButton.removeClass(showOnlineVisibleClass);
+		elementButton.addClass(showOnlineUnvisibleClass);
+	};
+ 	
+	/**
+	 * Show the chat window for a specific element and button
+	 * @param {Object} elementWindow The element that contains the window
+	 * @param {Object} elementButton The button of the window
+	 */
+	var showOnlineWindow = function(elementWindow, elementButton){
+		elementWindow.show();
+		elementButton.removeClass(showOnlineUnvisibleClass);
+		elementButton.addClass(showOnlineVisibleClass);
+	};
+	
+	/**
+	 * Toggle a certain chat window
+	 * @param {String} selected The uuid of the user's window that
+	 * needs to be toggled
+	 */
+	var toggleChatWindow = function(selected){
+		var el = $(chatWith + "_" + selected);
+		var el_content = $(chatWith + "_" + selected + "_content");
+		var el_button = $(onlineButton + "_" + selected);
+		
+		if (!el.is(":visible")) {
+			// Run over all the activewindows and set their active property on false
+			// Only if the activewindow is from the 'selected' userid, the active property should be true
+			for (var i = 0; i < activewindows.items.length; i++) {
+				hideOnlineWindow($(chatWith + "_" + activewindows.items[i].userid), $(onlineButton + "_" + activewindows.items[i].userid));
+				activewindows.items[i].active = false;
+				if (activewindows.items[i].userid === selected) {
+					activewindows.items[i].active = true;
+				}
+			}
+			// Hide the window containing all the online friends
+			hideOnline();
+			// Show the selected window
+			showOnlineWindow(el, $(onlineButton + "_" + selected));
+			hasOpenChatWindow = true;
+		}
+		else {
+			// If the selected element is visible, hide all the windows
+			for (var k = 0; k < activewindows.items.length; k++) {
+				if (activewindows.items[k].userid === selected) {
+					activewindows.items[k].active = false;
+				}
+			}
+			hideOnlineWindow(el, el_button);
+			hasOpenChatWindow = false;
+		}
+		
+		/** Scroll to the bottom of the content div */
+		scroll_to_bottom(el_content);
+	};
+	
+	/**
+	 * Open the chat window and execute some functions for a specific user
+	 * @param {String} clicked The uid of the user's window that needs to
+	 * be opened
+	 */
+	var openChat = function(clicked){
+		
+		// Close the other chat windows
+		for (var i = 0; i < activewindows.items.length; i++) {
+			if (activewindows.items[i].userid === clicked) {
+				toggleChatWindow(clicked);
+				return;
+			}
+		}
+	
+		hasOpenChatWindow = true;
+		
+		var index = activewindows.items.length;
+		activewindows.items[index] = {};
+		activewindows.items[index].userid = clicked;
+		activewindows.items[index].active = true;
+		
+		// To limit the requests (and so have less load on the server and client) we
+		// just get the user from an object we created from a previous requests.
+		var user = getUserFromAllFriends(clicked);
+		
+		if(user !== null){
+			activewindows.items[index].name = user.name;
+			activewindows.items[index].photo = user.photo;
+			activewindows.items[index].status = user.status;
+			activewindows.items[index].statusmessage = user.statusmessage;
+			activewindows.items[index].chatstatus = user.chatstatus;
+		}else{
+			alert("An error has occured");
+		}
+		
+		doWindowRender(clicked, activewindows);
+		
+		sakai.chat.loadChatTextInitial(true, activewindows);
+	};
+	
+	/**
+	 * Add binding to the chat windows
+	 */
+	var addChatBinding = function(){
+		$(chatAvailableMinimize).bind("click", function(){
+			hideOnline();
+		});
+		
+		$(initiateWindowClass).bind("click", function(ev){
+			var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
+			openChat(clicked);
+		});
+	};
+	
+	/**
+	 * Save the json object containing all friends 
+	 * to an easier to read friends object
+	 * @param {Object} jsonitem
+	 */
+	var saveToAllFriends = function(jsonitem){
+		var user ={};
+		user.userid = jsonitem.userid;
+		user.name = jsonitem.name;
+		user.photo = jsonitem.photo;
+		user.chatstatus = jsonitem.chatstatus;
+		user.status = jsonitem.status;
+		user.statusmessage = jsonitem.statusmessage;
+		allFriends.users.push(user);
+		updateChatWindow(user);
+	};
+	
+	/**
+	 * Check if a certain user is online or not
+	 * @param {Array} onlinefriends Array that contains all the friends
+	 * @param {String} userid Userid of the user
+	 * @return Boolean true if the user is online
+	 */
+	var checkOnlineFriend = function(onlinefriends, userid){
+		var isOnline = false;
+		if (onlinefriends) {
+			for (var i = 0; i < onlinefriends.length; i++) {
+				if (onlinefriends[i].userid === userid) {
+					isOnline = true;
+				}
+			}
+		}
+		return isOnline;
+	};
+	
+	/**
+	 * Enable / disable the chat input for online / offline users
+	 */
+	var enableDisableOnline = function(){		
+		if (activewindows.items) {
+			for (var i = 0; i < activewindows.items.length; i++) {
+				var user = activewindows.items[i].userid;
+				var displayUser = activewindows.items[i].name;
+				var isOnline = false;
+				if (activewindows.items[i].onlineNow === null) {
+					isOnline = checkOnlineFriend(online.items, user);
+					if (isOnline) {
+						activewindows.items[i].onlineNow = true;
+						$(chatWith + "_" + user + "_txt").removeAttr("disabled");
+					}
+					else {
+						activewindows.items[i].onlineNow = false;
+						$(chatWith + "_" + user + "_txt").attr("disabled", true);
+						$(chatWith + "_" + user + "_txt").val(displayUser + " is offline");
+					}
+				}
+				if (activewindows.items[i].onlineNow === true) {
+					isOnline = checkOnlineFriend(online.items, user);
+					if (!isOnline) {
+						activewindows.items[i].onlineNow = false;
+						$(chatWith + "_" + user + "_txt").attr("disabled", true);
+						$(chatWith + "_" + user + "_txt").val(displayUser + " is offline");
+					}
+				}
+				else 
+					if (activewindows.items[i].onlineNow === false) {
+						isOnline = checkOnlineFriend(online.items, user);
+						if (isOnline) {
+							activewindows.items[i].onlineNow = true;
+							$(chatWith + "_" + user + "_txt").val("");
+							$(chatWith + "_" + user + "_txt").removeAttr("disabled");
+						}
+					}
+			}
+		}
+	};
+	
+	/**
+	 * Show the friends that are online (status and chatstatus)
+	 */
+	var showOnlineFriends = function(){
+		var json = online;
+		var total = 0; //Total online friends
+		allFriends = {};
+		allFriends.users = [];
+		if (json.items !== undefined) {
+			for (var i = 0; i < json.items.length; i++) {
+				if (typeof json.items[i].profile === "string") {
+					json.items[i].profile = json_parse(json.items[i].profile);
+				}
+				json.items[i].chatstatus = parseChatStatus(json.items[i].profile.chatstatus);
+				/** Check if a friend is online or not */
+				if (json.items[i].status === "online" && json.items[i].chatstatus !== "offline") {
+					total++;
+					json.items[i].name = parseName(json.items[i].userid, json.items[i].profile.firstName, json.items[i].profile.lastName);
+					json.items[i].photo = parsePicture(json.items[i].profile.picture, json.items[i].userStoragePrefix);
+					json.items[i].statusmessage = parseStatusMessage(json.items[i].profile.basic);
+				}
+				saveToAllFriends(json.items[i]);
+			}
+		}
+		if (!total || total === 0) {
+			json.items = [];
+			json.totalitems = total;
+			$(chatOnline).html("(0)");
+		}
+		else {
+			json.totalitems = total;
+			$(chatOnline).html("<b>(" + total + ")</b>");
+		}
+		
+		json.me = {};
+		if (json.me){
+			json.me.name = parseName(sdata.me.preferences.userInfo.user.uuid, sdata.me.profile.firstName, sdata.me.profile.lastName);
+			json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
+			json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
+			json.me.chatstatus = currentChatStatus;
+			$(chatAvailable).html(sdata.html.Template.render(chatAvailableTemplate, json));
+		}
+		
+		addChatBinding();
+		
+		enableDisableOnline();
+		
+	};
+	
+	/**
+	 * Show or hide the user link menu
+	 */
+	var showHideUserLinkMenu = function(){
+		if($(userLinkMenu).is(":visible")){
+			$(userLinkMenu).hide();
+		}else{
+			$(userLinkMenu).show();
+		}
+	};
+	
+	/**
+	 * Update the status on the page
+	 */
+	var updateChatStatus = function(){
+		updateChatStatusElement($(userIdLabel), currentChatStatus);
+		if ($(profileName)) {
+			updateChatStatusElement($(profileName), currentChatStatus);
+		}
+		showOnlineFriends();
+	};
+	
+	/**
+	 * Set the chatstatus of the user
+	 * @param {String} chatstatus The chatstatus which should be 
+	 * online/offline or busy
+	 */
+	var sendChatStatus = function(chatstatus){
+		currentChatStatus = chatstatus;
+	
+		var a = ["u"];
+		var k = ["chatstatus"];
+		var v = [chatstatus];
+		
+		var tosend = {"k":k,"v":v,"a":a};
+		
+		sdata.Ajax.request({
+			url: Config.URL.PATCH_PROFILE_URL.replace(/__USERSTORAGEPREFIX__/g, sdata.me.userStoragePrefix),
+			httpMethod : "POST",
+			postData : tosend,
+			contentType : "application/x-www-form-urlencoded",
+			onSuccess : function(data) {
+				updateChatStatus();
+			},
+			onFail : function(data){
+				alert("An error occurend when sending the status to the server.");
+			}
+		});
+	};
+	
+	/**
+	 * Get the chat status for the current user
+	 */
+	var getChatStatus = function(){	
+ 		sdata.Ajax.request({
+			url: Config.URL.ME_SERVICE,
+			httpMethod: "GET",
+			onSuccess: function(data){
+				var me = json_parse(data);
+				if(me.profile){
+					currentChatStatus = parseChatStatus(me.profile.chatstatus);
+				}else{
+					currentChatStatus = "online";
+				}
+				updateChatStatus();
+			},
+			onFail: function(status){
+				currentChatStatus = "online";
+				updateChatStatus();
+			}
+		});
+	};
+	
+	/**
+	 * Add binding to some elements
+	 */
+	var addBinding = function(){
+		$(userLink).bind("click", function(){
+			showHideUserLinkMenu();
+		});
+		
+		$(userLinkChatStatusClass).bind("click", function(ev){
+			showHideUserLinkMenu();
+			var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
+			sendChatStatus(clicked);
+		});
+	};
+	
+	/**
+	 * Return the render of a certain chat message
+	 * @param {Object} message Message that needs to be rendered
+	 */
+	var render_chat_message = function(message){
+		return sdata.html.Template.render(chatContentTemplate, message);
+	};
+	
+	/**
+	 * Check the height of an element and add overflow or not
+	 * @param {Object} el Element that needs to be checked
+	 * @param {String} nooverflow Class that will be added if the height is not too big
+	 * @param {String} overflow Class that will be added it the height is too big
+	 */
+	var checkHeight = function(el, nooverflow, overflow){
+		if(el.hasClass(nooverflow)){
+			var totalHeight = 0;
+			el.children().each(function() {
+				totalHeight += $(this).attr('scrollHeight');
+				if(totalHeight >= el.height()){
+					el.removeClass(nooverflow);
+					el.addClass(overflow);
+				}
+			});
+		}
+	};
+	
+	/**
+	 * Add a chat message
+	 * @param {Object} el Elment where the element needs to be attached to
+	 * @param {Object} message Message that needs to be appended
+	 */
+	var add_chat_message = function(el, message){
+		if(el.length > 0){
+			el.append(render_chat_message(message));
+			checkHeight(el, chatWithContentNooverflowClass, chatWithContentOverflowClass);
+			scroll_to_bottom(el);
+		}	
+	};
+		
+	/**
+	 * Format the input date to a AM/PM Date
+	 * @param {Date} d Date that needs to be formatted
+	 */
+	var parseToAMPM = function(d){
+		var current_hour = d.getHours();
+		var am_or_pm = "";
+		if (current_hour < 12) {am_or_pm = "AM";} else{am_or_pm = "PM";}
+		if (current_hour === 0){current_hour = 12;}
+		if (current_hour > 12){current_hour = current_hour - 12;}
+		
+		var current_minutes = d.getMinutes() + "";
+		if (current_minutes.length === 1){current_minutes = "0" + current_minutes;}
+		
+		return current_hour + ":" + current_minutes + am_or_pm;
+	};
+	
+	/**
+	 * Create a chat message
+	 * @param {Object} isMessageFromOtherUser Is the message from another user
+	 * @param {Object} otherUserName The name of the other user
+	 * @param {Object} inputmessage The message that needs to be added to the message
+	 * @param {Object} inputdate The date of the message
+	 */
+	var createChatMessage = function(isMessageFromOtherUser, otherUserName, inputmessage, inputdate){
+		var message = {};
+		/** Check if the message is from the other user */
+		if(isMessageFromOtherUser){
+			message.name = otherUserName;
+		}else{
+			message.name = "Me";
+		}
+
+		message.message = inputmessage;
+		
+		/** Parse the date to get the hours and minutes */
+		var messageDate = new Date(inputdate);
+		message.time = parseToAMPM(messageDate);
+		
+		return message;
+	};
+
+	/**
+	 * Render all the chat windows on the bottom of the page
+	 * @param {String} clicked The uuid of the friend that needs to be rendered
+	 * @param {Object} special JSON Object containing information about the user(s)
+	 * that need to be rendered seperately without rendering everything
+	 */
+	doWindowRender = function(clicked, special){
+	
+		if (sdata.me.preferences.uuid === undefined) {
+			return;
+		}
+	
+		if (special) {
+			// We only add one extra chatbox and we clone the activewindows object
+			// to not change the values of it, only in an extra value
+			var tempSpecial = clone(activewindows);
+			tempSpecial.special = activewindows.items.length - 1;
+			// This value will be used to calculate the left value for the box
+			$(chatWindows).append(sdata.html.Template.render(chatWindowsTemplate, tempSpecial));
+		}
+		else {
+			// Render all the current chats.
+			activewindows.special = false;
+			$(chatWindows).html(sdata.html.Template.render(chatWindowsTemplate, activewindows));
+		}
+		
+		enableDisableOnline();
+		
+		if (clicked) {
+			hideOnline();
+			var el = $(chatWith + "_" + clicked);
+			var el_button = $(onlineButton + "_" + clicked);
+			showOnlineWindow(el, el_button);
+			hasOpenChatWindow = true;
+		}
+		
+		// We don't use the live feature of jquery here.
+		// Sometimes it gives an NSDocument exeption in firefox.
+		
+		// Every time we do this functions these events listeners will be binded.
+		// So we have to remove them every time as well.
+		$(userChatClass).unbind("click");
+		$(userChatClass).bind("click", function(ev){
+			var selected =  ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
+			toggleChatWindow(selected);
+		});
+		
+		$(chatMinimizeClass).unbind("click");
+		$(chatMinimizeClass).bind("click", function(ev){
+			var selected = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
+			toggleChatWindow(selected);
+		});
+		
+		
+		$(chatCloseClass).unbind("click");
+		$(chatCloseClass).bind("click", function(ev){
+			var selected = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
+			var toremove = -1;
+			for (var i = 0; i < activewindows.items.length; i++) {
+				if (activewindows.items[i].userid === selected) {
+					toremove = i;
+				}
+			}
+			activewindows.items.splice(toremove, 1);
+			
+			$(onlineButton + "_" + selected).remove();
+			$(chatWith + "_" + selected).remove();
+			
+			hasOpenChatWindow = false;
+			
+			for (var j = 0; j < activewindows.items.length; j++) {
+				$(chatWith + "_" + activewindows.items[j].userid).css("left", "" + (20 + (j * 145)) + "px");
+			}
+		});
+		
+		$(chatWithTxtClass).unbind("keydown");
+		$(chatWithTxtClass).bind("keydown", function(ev){
+			if (ev.keyCode === 13) {
+				var currentuser = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 2];
+				var text = $(chatWith + "_" + currentuser + "_txt").val();
+				if (text !== "") {
+					/** Create a chat message */
+					var message = {};
+					message = createChatMessage(false, "", text, new Date());
+					add_chat_message($(chatWith + "_" + currentuser + "_content"), message);
+					$(chatWith + "_" + currentuser + "_txt").val("");
+					
+					var data = {
+						message: text,
+						to: currentuser
+					};
+					
+					sdata.Ajax.request({
+						url: Config.URL.CHAT_SEND_SERVICE,
+						httpMethod: "POST",
+						onSuccess: function(data){
+						},
+						onFail: function(status){
+							alert("An error has occured when sending the message.");
+						},
+						postData: data,
+						contentType: "application/x-www-form-urlencoded"
+					});
+					
+				}
+			}
+		});
+		
+	};
+	
+	$(chatOnlineConnectionsLink).bind("click", function(ev){
+		for (var i = 0; i < activewindows.items.length; i++) {
+			hideOnlineWindow($(chatWith + "_" + activewindows.items[i].userid), $(onlineButton + "_" + activewindows.items[i].userid));
+		}
+		showHideOnline();
+	});
+	
+	/*
+	 * Write a cookie with the current active windows when you go to another page
+	 */
+	$(window).bind("unload", function(ev){
+		if (sdata.me.preferences.uuid === undefined) {
+			return;
+		}
+		else {
+			set_cookie('sakai_chat', sdata.JSON.stringify(activewindows), null, null, null, "/", null, null);
+		}
+	});
+	
+		
+	///////////////////////
+	// Initial functions //
+	///////////////////////
+	
+	if (sdata.me.preferences.uuid === undefined) {
+		return;
+	}
+	else {
+		sdata.widgets.WidgetLoader.insertWidgets("chat_container");
+	}
+	
+	/**
+	 * Load the chat windows 
+	 * @param {Boolean} initial
+	 *  true:	Load the initial chat (receive all the messages)
+	 *  false:	It's not an initial load
+	 * @param {Object} specialjson
+	 *  JSON object that contains information about the user window that
+	 *  needs to be loaded
+	 */
+	sakai.chat.loadChatTextInitial = function(initial, specialjson){
+
+		// Check if the current user is anonymous.
+		// If this is the cause, exit this function
+		if (sdata.me.preferences.uuid === undefined) {
+			return;
+		}
+
+		// Only completely reload everything if we didn't got a specialjson object
+		var doreload = false;
+		if (!specialjson) {
+			specialjson = activewindows;
+			doreload = true;
+		}
+		
+		// Onlineusers is an array containing the uids that are in the specialjson.items
+		var onlineUsers = [];
+		if (specialjson.items) {
+			for (var i = 0; i < specialjson.items.length; i++) {
+				onlineUsers[onlineUsers.length] = specialjson.items[i].userid;
+			}
+		}
+		
+		// Combine all the online users with a comma
+		var tosend = onlineUsers.join(",");
+		
+		// Send and Ajax request to get the chat messages
+		sdata.Ajax.request({
+			url: Config.URL.CHAT_GET_SERVICE + "?users=" + tosend + "&initial=" + initial + "&sid=" + Math.random(),
+			httpMethod: "GET",
+			sendToLoginOnFail: "true",
+			onSuccess: function(data){
+				var json = json_parse(data);
+				
+				// Check if there are any messages inside the JSON object
+				if(json.messages){
+					
+					for(var i in json.messages) {
+						// We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
+						if(json.messages.hasOwnProperty(i)){
+							var isMessageFromOtherUser = false;
+							var chatwithuserUid = i;
+							
+							// Check if there exists a window for the user
+							if ($(chatWith + "_" + i).length > 0) {
+								var el = $(chatWith + "_" + chatwithuserUid + "_content");
+								var chatwithusername = parseName(chatwithuserUid, json.messages[i].profile.firstName, json.messages[i].profile.lastName);
+								
+								// Create a message object
+								var message = {};
+								
+								for(var j = 0; j < json.messages[i].messages.length; j++){
+									// Check if the message is from the current user or from the friend you are talking to
+									if (sdata.me.preferences.userInfo.user.uuid === json.messages[i].messages[j].from) {
+										isMessageFromOtherUser = false;
+									}
+									else {
+										isMessageFromOtherUser = true;
+									}
+									
+									// Create a chat message and add it
+									message = createChatMessage(isMessageFromOtherUser, chatwithusername, json.messages[i].messages[j].bodyText, json.messages[i].messages[j].date);
+									add_chat_message(el, message);
+									
+									var flash = true;
+									
+									if(json.messages[i].messages[j].read === false){
+										
+										// Check if the window is active (already open) or not
+										// If it is not open, the window should flash
+										for(var k = 0; k < activewindows.items.length; k++){
+											if(activewindows.items[k] === i && activewindows.items[k].active){
+												flash = false;
+											}
+										}
+										
+										if (flash){
+											setTimeout("sakai.flashChat.doFlash('" + chatwithuserUid + "', '" + !hasOpenChatWindow + "')", 500);
+										}
+										
+									}
+								}						
+							}
+							else {
+								// Add the user information to the active windows
+								var index = activewindows.items.length;
+								activewindows.items[index] = {};
+								activewindows.items[index].userid = i;
+								activewindows.items[index].active = false;
+								var friendProfile = json.messages[i].profile;
+								
+								// Parse the name, photo, statusmessage and chatstatus into the activewindows objects
+								activewindows.items[index].name = parseName(chatwithuserUid, friendProfile.firstName, friendProfile.lastName);	
+								activewindows.items[index].photo = parsePicture(friendProfile.picture, friendProfile.userStoragePrefix);
+								activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
+								activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
+								
+								var togo = true;
+								// Togo will be false if the userid is in the activewindows and it's window is active
+								for (var l = 0; l < activewindows.items.length; l++) {
+									if (activewindows.items[l].userid === i) {
+										if (activewindows.items[l].active) {
+											togo = false;
+										}
+									}
+								}
+							
+								if (togo) {
+									if (hasOpenChatWindow) {
+										setTimeout("sakai.flashChat.doFlash('" + i + "', false)", 500);
+	
+									} else {
+										setTimeout("sakai.flashChat.doFlash('" + i + "', true)", 500);
+									}
+								}
+								
+								// Render the windows and load the initial chat text function again
+								doWindowRender(null, activewindows);
+								sakai.chat.loadChatTextInitial(true, activewindows);
+							}
+						}
+					}
+				}
+				
+				if (doreload) {
+					setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
+				}
+			},
+			
+			onFail: function(status){
+				
+				if (doreload) {
+					setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
+				}
+			}
+		});
+	};
+	
+	/**
+	 * Check if there were any windows open during the last visit
+	 * and load the initial chat windows
+	 */
+	var loadPersistence = function(){
+		
+		// Check if there is a cookie from a previous visit
+		if (get_cookie('sakai_chat')) {
+			activewindows = json_parse(get_cookie('sakai_chat'));
+			delete_cookie('sakai_chat');
+			var toshow = false;
+			for (var i = 0; i < activewindows.items.length; i++) {
+				if (activewindows.items[i].active === true) {
+					toshow = activewindows.items[i].userid;
+				}
+			}
+			doWindowRender(toshow);
+		}
+		
+		sakai.chat.loadChatTextInitial(true);
+	};
+	
+	/**
+	 * Check who of your friends is online or not
+	 * This function is executed every 20 seconds
+	 */
+	var checkOnline = function(){
+		
+		if (sdata.me.preferences.uuid === undefined && goBackToLogin === false) {
+			return;
+		}
+		
+		var sendToLoginOnFail = "false";
+		if (goBackToLogin) {
+			sendToLoginOnFail = "true";
+		}
+	
+		// Receive your online friends through an Ajax request
+		sdata.Ajax.request({
+			url: Config.URL.PRESENCE_FRIENDS_SERVICE + "?sid=" + Math.random(),
+			httpMethod: "GET",
+			onSuccess: function(data){
+				online = json_parse(data);
+				showOnlineFriends();
+				setTimeout(checkOnline, 20000);
+				goBackToLogin = true;
+			},
+			onFail: function(status){
+			},
+			sendToLoginOnFail: sendToLoginOnFail
+		});
+		
+	};
+	
+	/**
+	 * Contains all the functions and methods that need to be
+	 * executed on the initial load of the page
+	 */
+	var doInit = function(){
+	
+		var person = sdata.me;
+		
+		// Check if it is possible to receive the uid for the
+		// current user
+		if (!person.preferences.uuid) {
+			return;
+		}
+		else {
+			$(exploreNavigationContainer).show();
+			$(chatMainContainer).show();
+		}
+		
+		// Fill in the name of the user in the different fields
+		if (person.profile.firstName || person.profile.lastName) {
+			$(userIdLabel).text(person.profile.firstName + " " + person.profile.lastName);
+			$(hiLabel).text(person.profile.firstName);
+		}
+		
+		// Show the profile picture on the dashboard page
+		/** TODO : Remove the lines beneath if this functionality is inside changepic.js */
+		if (person.profile.picture) {
+			var picture = person.profile.picture;
+			if (picture.name) {
+				$(pictureHolder).attr("src", parsePicture(picture.name, person.userStoragePrefix));
+			}
+		}
+		
+	   	selectPage();
+		setPeopleDropdown();
+		getChatStatus();
+		setSitesDropdown();
+		addBinding();
+		getCountUnreadMessages();
+	};
+	
+	if (sdata.me.preferences.uuid === undefined) {
+		return;
+	}
+	else {
+		loadPersistence();
+		checkOnline();
+		doInit();
+	}
+	
+};
+
+sdata.widgets.WidgetLoader.informOnLoad("chat");

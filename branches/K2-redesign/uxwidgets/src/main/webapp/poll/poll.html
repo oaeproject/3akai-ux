@@ -1,0 +1,291 @@
+<!-- STYLESHEETS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/poll/css/poll.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/poll/css/poll_datepicker.css"></link>
+
+<!-- MAIN CONTAINER -->
+<div id="poll_main_container" style="display:none;">
+	<div id="poll_container">
+		<div id="poll_settings">
+			
+		</div>
+		<div id="poll_preview">
+			<div id="poll_preview_question">
+				
+			</div>
+			<div class="poll_center">
+				<span>Question view</span>
+			</div>
+			<hr />
+			<div id="poll_preview_chart">
+				
+			</div>
+			<div class="poll_center">
+				<span>Chart view</span>
+			</div>
+			<hr />
+			<div class="buttonBar poll_bar_bottom">
+				<a class="button cancel-button" href="javascript:;" id="poll_preview_back">Back</a>
+				<a class="button-default" href="javascript:;" id="poll_preview_insert">Insert Widget</a>
+			</div>
+			<br class="poll_cls"/>
+		</div>
+	</div>
+	<div id="poll_settings_template" style="display:none"><!--
+	<ul id="poll_tabs">
+		<li><a href="javascript:;" id="poll_create_new_tab" class="poll_selectedtab">Create New Poll</a></li>
+		<li><a href="javascript:;" id="poll_insert_existing_tab">Insert Existing</a></li>
+	</ul>
+	<div id="poll_create_new">
+		<form>
+			<div class="buttonBar">
+				<a class="button-default" href="javascript:;" id="poll_create_placeholder">Create a quick placeholder</a>
+			</div>
+			<br class="poll_cls" />
+			<label for="poll_question">Question:</label>
+			<textarea id="poll_question">${poll.question}</textarea><br />
+			<label>Options:</label>
+			<div id="poll_options">
+				
+			</div>
+			<div id="poll_add_new_option_container">
+				<div class="buttonBar">
+					<a class="button-default" href="javascript:;" id="poll_add_new_option">Add new option...</a>
+				</div>
+			</div>
+			<br class="poll_cls" />
+			<div class="poll_left">
+				<input id="poll_allow_multiple" {if poll.allow_multiple==1}checked="checked"{/if} type="checkbox"/><label for="poll_allow_multiple" class="poll_radiocheck_label">Allow users to select multiple options</label>
+			</div>
+			<div class="buttonBar">
+				<a class="button-default" href="javascript:;" id="poll_toggle_advanced_settings">Advanced settings <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></a>
+			</div>
+			<br class="poll_cls" />
+			<div id="poll_advanced_settings">
+				<div id="poll_date_left">
+					<label for="poll_startdate">Start date and time:</label><br />
+					<input type="text" id="poll_startdate" class="poll_date_input" value="${poll.startdate}" readonly="true"/>
+					<input type="text" id="poll_starthour" class="poll_time_input" value="${poll.starthour}" readonly="true"/>
+					<img id="poll_starthour_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select an hour" title="Please select an hour"/>
+					<div id="poll_starthour_div" class="poll_time"></div>
+					<span class="poll_minutes_seconds">:</span>
+					<input type="text" id="poll_startmin" class="poll_time_input" value="${poll.startmin}" readonly="true"/>
+					<img id="poll_startmin_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select a minute" title="Please select a minute"/>
+					<div id="poll_startmin_div" class="poll_time"></div>
+				</div>
+				<div id="poll_date_right">
+					<label for="poll_stopdate">Stop date and time:</label><br />
+					<input type="text" id="poll_stopdate" class="poll_date_input" value="${poll.stopdate}" readonly="true"/>
+					<input type="text" id="poll_stophour" class="poll_time_input" value="${poll.stophour}" readonly="true"/>
+					<img id="poll_stophour_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select an hour" title="Please select an hour"/>
+					<div id="poll_stophour_div" class="poll_time"></div>
+					<span class="poll_minutes_seconds">:</span>
+					<input type="text" id="poll_stopmin" class="poll_time_input" value="${poll.stopmin}" readonly="true"/>
+					<img id="poll_stopmin_down" class="poll_dropdown" src="/devwidgets/poll/images/poll_drop_down.gif" alt="Please select a minute" title="Please select a minute"/>
+					<div id="poll_stopmin_div" class="poll_time"></div>
+				</div>
+				<br class="poll_cls" />
+				<hr />
+				<label>Poll type:</label>
+				<ul id="poll_polltype">
+					<li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><a href="javascript:;"><span>vertical</span></a></li>
+					<li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><a href="javascript:;"><span>horizontal</span></a></li>
+					<li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><a href="javascript:;"><span>piechart</span></a></li>
+					<li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><a href="javascript:;"><span>text only</span></a></li>
+				</ul>
+				<br class="poll_cls" />
+				<input id="poll_not_see_chart_view" {if poll.not_see_chart_view}checked="checked"{/if} type="checkbox"/><label for="poll_not_see_chart_view" class="poll_radiocheck_label">Users can NOT see the chart view</label><br class="poll_cls" />
+				<input id="poll_allow_see_results" {if poll.allow_see_results}checked="checked"{/if} type="checkbox"/><label for="poll_allow_see_results" class="poll_radiocheck_label">Allow users to see results before voting</label>
+			</div>
+			<br class="poll_cls" />
+			<div class="buttonBar poll_bar_bottom">
+				<a class="button cancel-button" href="javascript:;" id="poll_cancel">Cancel</a>
+				<a class="button-default" href="javascript:;" id="poll_preview_button">Preview</a>
+			</div>
+			<br class="poll_cls" />
+		</form>
+	</div>
+	<div id="poll_insert_existing">
+		<form>
+			<label>Select existing poll:</label>
+			<div id="poll_insert_existing_items">
+				{for item in poll.polls}
+					<a href="javascript:;" id="poll_insert_existing_item${item.tuid}">${item.question}</a>
+				{/for}
+			</div>
+			<br class="poll_cls" />
+			<div class="buttonBar poll_bar_bottom">
+				<a class="button cancel-button" href="javascript:;" id="poll_cancel_existing">Cancel</a>
+				<a class="button-default" href="javascript:;" id="poll_widget_insert">Insert Widget</a>
+			</div>
+			<br class="poll_cls" />
+		</form>
+	</div>
+--></div>
+
+	<!-- OPTIONS -->
+	<div id="poll_options_template"><!--
+		{for option in poll.options}
+			<div id="poll_question${option_index}">
+				<input type="text" id="poll_question_input${option_index}" value="${option.answer}" /><a class="poll_close" href="javascript:;">x</a>
+			</div>
+		{/for}
+	--></div>
+	
+	<!-- SHOW PAGE -->
+	<div id="poll_show_container">
+		<div id="poll_show">
+			<div id="poll_show_question">
+				
+			</div>
+			<div id="poll_show_chart">
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div id="poll_show_question_template"><!--
+	{if poll.placeholder == 1}
+		<img src="/devwidgets/poll/images/poll_placeholder.jpg" alt="Poll placeholder" />
+	{else}
+		<p id="poll_question_view_header">
+			${poll.question}
+		</p>
+		<hr />
+		<form>
+			<div id="poll_question_view_options">
+				{for option in poll.options}
+					<input value="${option_index}" id="poll_question_view_option${option_index}" {if poll.allow_multiple == 0}type="radio"{elseif poll.allow_multiple == 1}type="checkbox"{/if} name="poll_question_view_options"/>
+					<label for="poll_question_view_option${option_index}" class="poll_radiocheck_label">${option.answer}</label><br class="poll_cls" />
+				{/for}
+			</div>
+			<hr />
+			<div class="buttonBar poll_question_view_bar_bottom">
+				{if poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
+				<a class="button-default" href="javascript:;" id="poll_question_view_vote">Vote</a>
+				{/if}
+				{if poll.allow_see_results == 1}
+					{if poll.not_see_chart_view == 0}
+					<a class="button-default" href="javascript:;" id="poll_question_view_results">View results</a>
+					{/if}
+				{/if}
+			</div>
+		</form>
+	{/if}
+--></div>
+<div id="poll_preview_question_template"><!--
+	<p id="poll_question_view_header">
+		${poll.temp.question}
+	</p>
+	<hr />
+	<form>
+		<div id="poll_question_view_options">
+			{for option in poll.temp.options}
+				<input id="poll_question_view_option${option_index}" type="radio" name="poll_question_view_options"/>
+				<label for="poll_question_view_option${option_index}" class="poll_radiocheck_label">${option.answer}</label><br class="poll_cls" />
+			{/for}
+		</div>
+		<hr />
+		<div class="buttonBar poll_question_view_bar_bottom">
+			<a class="button-default" href="javascript:;" id="poll_question_view_vote">Vote</a>
+			<a class="button-default" href="javascript:;" id="poll_question_view_results">View results</a>
+		</div>
+	</form>
+	<div class="poll_specimen">
+		 <img src="/devwidgets/poll/images/poll_specimen.png" alt="Specimen" />
+	</div>	
+--></div>
+<div id="poll_show_chart_template"><!--
+	<p class="poll_chart_view_header"
+	{if poll.poll_type == 0} id="poll_chart_view_header_vertical"
+	{elseif poll.poll_type == 1} id="poll_chart_view_header_horizontal"
+	{elseif poll.poll_type == 2} id="poll_chart_view_header_pie"
+	{elseif poll.poll_type == 3} id="poll_chart_view_header_text"
+	{/if}>
+		${poll.question}
+	</p>
+	<hr />
+	<form>
+		{if poll.poll_type == 0}
+			<ul id="poll_chart_view_options">
+				{for option in poll.options}
+					<li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp</span><span class="poll_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${poll.image}" alt="Vertical chart" />
+		{elseif poll.poll_type == 1}
+			<ul id="poll_chart_view_options">
+				{for option in poll.options}
+					<li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp</span><span class="poll_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${poll.image}" alt="Horizontal chart" />
+		{elseif poll.poll_type == 2}
+			<ul id="poll_chart_view_options">
+				{for option in poll.options}
+					<li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp</span><span class="poll_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${poll.image}" alt="Pie chart" />
+		{elseif poll.poll_type == 3}
+			<ul id="poll_text_view_options">
+				{for option in poll.options}
+					<li class="poll_front_color_${option.color}"><span class="poll_text_view_percentage">${option.percentage}</span><span class="poll_text_view_content">${option.answer}</span><br class="poll_cls"/></li>
+				{/for}
+			</ul>
+		{/if}
+		{if poll.allow_see_results == 1 && poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
+		<hr />
+		<div class="buttonBar poll_question_view_bar_bottom">
+			<a class="button-default" href="javascript:;" id="poll_chart_view_back">Back</a>
+		</div>
+		{/if}
+	</form>
+--></div>
+<div id="poll_preview_chart_template"><!--
+	<p class="poll_chart_view_header"
+	{if poll.poll_type == 0} id="poll_chart_view_header_vertical"
+	{elseif poll.poll_type == 1} id="poll_chart_view_header_horizontal"
+	{elseif poll.poll_type == 2} id="poll_chart_view_header_pie"
+	{elseif poll.poll_type == 3} id="poll_chart_view_header_text"
+	{/if}>
+		${poll.temp.question}
+	</p>
+	<hr />
+	<form>
+		{if poll.poll_type == 0}
+			<ul id="poll_chart_view_options">
+				{for option in poll.temp.options}
+					<li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp</span><span class="poll_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${poll.image}" alt="Vertical chart" />
+		{elseif poll.poll_type == 1}
+			<ul id="poll_chart_view_options">
+				{for option in poll.temp.options}
+					<li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp</span><span class="poll_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${poll.image}" alt="Horizontal chart" />
+		{elseif poll.poll_type == 2}
+			<ul id="poll_chart_view_options">
+				{for option in poll.temp.options}
+					<li id="poll_chart_view_options${option_index}"><span class="poll_chart_view_bullet poll_color_${option.color}">&nbsp</span><span class="poll_chart_view_content">${option.answer}</span></li>
+				{/for}
+			</ul>
+			<img src="${poll.image}" alt="Pie chart" />
+		{elseif poll.poll_type == 3}
+			<ul id="poll_text_view_options">
+				{for option in poll.temp.options}
+					<li class="poll_front_color_${option.color}"><span class="poll_text_view_percentage">${option.percentage}</span><span class="poll_text_view_content">${option.answer}</span><br class="poll_cls"/></li>
+				{/for}
+			</ul>
+		{/if}
+	</form>
+	<div class="poll_specimen">
+		 <img src="/devwidgets/poll/images/poll_specimen.png" alt="Specimen" />
+	</div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/poll/javascript/poll.js"></script>
+<script type="text/javascript" src="/devwidgets/poll/javascript/jquery-ui-1.7.custom.min.js"></script>

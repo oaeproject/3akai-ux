@@ -1,0 +1,163 @@
+<!-- CSS -->
+<link type="text/css" href="/devwidgets/blog/css/blog.css" rel="stylesheet"></link>
+
+<!-- SETTINGS VIEW -->
+<div id="blog_settings" style="display:none;">
+	<h1>Settings</h1>
+	<label>Select which tags you are interested in</label><br />
+	<input type="text" id="blog_settingsTags" />
+	 <div id="blog_settingsTagsListContainer">
+	 	<span id="blog_tagLoader"><img src="/devwidgets/blog/images/ajax-loader.gif" alt="Loading, please hold on ..." title="Loading, please hold on ..." /> Loading, please hold on ...</span>
+		<div id="blog_settingsTagsList">
+			
+		</div>
+	</div>
+	<div id="blog_settingsTagsListTemplate"><!--
+	 {for t in tags}
+	 	<label class="blog_settingsTag" title="${t}">${t}</label>
+	 {forelse}
+	 	<label id="blog_settingsNoTagFound" title="No tags found">There were no tags found.</label>
+	 {/for}
+	 --></div>
+	
+	<span id="blog_settings_selectedTags"><span style="font-weight:bold;" id="blog_settings_nrOfSelectedTags">0</span> tags selected</span><br />
+	
+	 
+	<div id="blog_settings_selectedTagsCloud"></div>
+	<div id="blog_settings_selectedTagsCloudTemplate"><!--
+	 {for t in tags}
+	 	<span id="blog_settingsSelectedTag_${t}" class="blog_settingsSelectedTag" >${t} <img src="/dev/_images/close_icon_small.png" alt="X" title="Delete tag: ${t}" id="blog_delete_tag_${t}" /></span>
+	 {/for}
+	 --></div>
+	<span class="blog_note">Note: If no tags are selected then all available blog posts will be shown.</span><br />
+	<input type="checkbox" id="blog_settings_allowComments" /> Allow users to add comments<br />
+	
+	<hr />
+	
+	<a class="button-default cancel-button" href="javascript:;" id="blog_settingsCancel">Cancel</a>
+	<a class="button-default submit_button" href="javascript:;" id="blog_settingsSubmit">Save blog settings</a>	
+</div>
+
+
+<!-- MAIN VIEW -->
+<div id="blog_view" style="display:none;">
+	<img src="/devwidgets/blog/images/newpost.png" alt="New post" class="blog_view_newpost" />
+	<div id="blog_view_showBlogTagsContainer">
+		This blog show posts for the following tags:<br />
+		<span id="blog_view_showBlogTags"></span>
+	</div>
+	<div id="blog_view_noPosts" style="display:none;">There are no posts found for the following tags:</div>
+	<div id="blog_view_postTemplate" style="display:none;"><!--
+	{macro showComment(arrComments)}
+					{for c in arrComments}
+						{if c.blogpost}
+							<div id="blog_comment${c.id}" class="blog_post">
+						{else}
+							<div id="blog_comment${c.id}" class="blog_comment">
+						{/if}
+							<div class="blog_postUser">
+								<img src="/devwidgets/blog/images/arrow.png" alt="arrow" class="blog_arrowToUser" />
+								
+								{if c.picture != ""}
+									<img src="${c.picture}" alt="${c.name}'s picture"
+								{else}
+									<img src="/dev/_images/profile_picture.gif" alt="${c.name}'s picture"
+								{/if}
+								
+								{if c.blogpost}
+									 class="blog_picture"  />
+								{else}
+									 class="blog_picture_comment"  />
+								{/if}
+								<a href="/dev/profile.html?user=${c.poster}" class="blog_poster">${c.name}</a>
+							</div>
+							
+							
+							<div class="blog_message">
+								<ul id="blog_postActions${c.id}" class="blog_postActions link"> 
+									{if c.allowComments}<li id="blog_replyPost" class="blog_noBorder"><a id="blog_reply${c.id}" class="blog_ActionReply" href="javascript:;">Reply</a></li>{/if}
+									{if c.showEdit}
+										<li id="blog_editPost"><a id="blog_edit${c.id}" class="blog_ActionEdit" href="javascript:;">Edit</a></li>
+									{/if}
+									{if c.showDelete}
+				 						<li id="blog_deletePost"><a id="blog_delete${c.id}" class="blog_ActionDelete" href="javascript:;">Delete</a></li>
+									{/if}
+								</ul>
+								<div id="blog_block${c.id}">
+									<h5 id="blog_subject_${c.id}">${c.title}</h5>
+									<div class="blog_messagePost" id="blog_messagePost_${c.id}">${c.message}</div>
+									
+									{if c.comments.length == 1}
+										<span class="blog_nrComments" id="blog_nrOfComments_${c.id}">1 comment - <a href="javascript:;" class="blog_showHide" id="blog_showHide${c.id}">Hide all</a></span>
+									{elseif c.comments.length == 0}
+										<span class="blog_nrComments" id="blog_nrOfComments_${c.id}">0 comments</span>
+									{else}
+										<span class="blog_nrComments" id="blog_nrOfComments_${c.id}">${c.comments.length} comments - <a href="javascript:;" class="blog_showHide" id="blog_showHide${c.id}">Hide all</a></span>
+									{/if}
+									
+									{if c.blogpost}<span class="blog_tags" id="blog_tags${c.id}">Tags: ${c.tags}</span><br />{/if}
+									<span class="blog_date">Posted on: ${c.postDate}</span>
+								</div>
+							</div>
+							{if c.comments.length > 0}
+								<div style="margin-left:25px;" id="blog_comments${c.id}">
+									${showComment(c.comments)}
+								</div>
+							{/if}
+						</div>
+					{/for}
+				{/macro}
+	
+	${showComment(posts)}
+	
+	{if posts.length == 0}
+		<p style="text-align:center;">There are no posts yet matching the blog criteria.</p>
+	{/if}
+--></div>
+
+
+
+	<div id="blog_view_posts"></div>
+
+	<!--	WRITE A NEW POST -->
+	<img src="/devwidgets/blog/images/newpost.png" alt="New post" class="blog_view_newpost" /><br /><br />
+	
+	<!-- THE FORM TO WRITE/EDIT A NEW POST -->
+	<div id="blog_form" class="blog_form" style="display:none;"><br />
+		<label for="blog_postTitle">Title:</label><br />
+		<input type="text" id="blog_postTitle" class="blog_input" /><br />
+		
+		<label for="blog_postMessage">Content:</label><br />
+		<textarea id="blog_postMessage" class="blog_input" rows="10" cols="50" ></textarea><br />
+		
+		<span id="blog_postMedia">add media: <img src="/devwidgets/blog/images/media_image.png" alt="Image" /> <img src="/devwidgets/blog/images/media_video.png" alt="Video" /></span>
+		
+		<label for="blog_postTags">Tags:</label><br />
+		<textarea id="blog_postTags" class="blog_input" ></textarea><br />
+		
+		<a class="button-default cancel-button" href="javascript:;" id="blog_formCancel">Cancel</a>
+		<a class="button-default submit_button" href="javascript:;" id="blog_formSubmit">Publish</a>
+		
+		<br class="blog_clearer" />
+	</div>
+	
+	<!-- THE FORM TO WRITE/EDIT A COMMENT -->
+	<div id="blog_commentForm" class="blog_commentForm" style="display:none;clear: right;">
+		<label for="blog_txtCommentSubject">Subject</label>
+		<input type="text" id="blog_txtCommentSubject" /><br />
+		<label for="blog_txtCommentBody">Body</label>
+		<textarea id="blog_txtCommentBody" rows="2" cols="50"></textarea><br />
+		
+		<div class="dialog_footer">
+			<div class="buttonBar">
+				<a class="button-default submit_button" href="javascript:;" id="blog_commentSubmit">Publish comment</a>
+				<a class="button cancel-button" href="javascript:;" id="blog_commentCancel">Cancel</a>
+			</div>
+		</div>
+	</div>
+
+</div>
+<br style="clear:both;" />
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/blog/javascript/blog.js"></script>

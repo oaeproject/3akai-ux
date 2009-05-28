@@ -1,0 +1,42 @@
+#addtocontacts_dialog {
+	width:600px !important;
+	margin-left:-300px !important;
+}
+
+#addtocontacts_dialog td {
+	border: none !important;
+	padding:0em !important;
+}
+
+.dialog_content {
+    padding-bottom:20px;
+}
+.addtocontacts_bold {font-weight:bold;}
+#addtocontacts_form_invite { font-weight:bold;}
+.dialog_footer {
+    padding-left: 15px; height: 40px;
+}
+.addcontact {
+    width:100%; 
+    border:0px;
+    margin-top:5px;
+}
+#addtocontacts_profilepicture { margin:10px 5px 0px 5px; }
+.addtocontacts_piccol { vertical-align:top; width: 75px; }
+
+.buttonBar {
+    position: relative; top: 5px; padding-bottom: 15px;
+}
+.buttonBar .button {
+	display:inline;
+    float:none;
+}
+
+#addtocontacts_done {
+    background-color:#D9F7D8;
+    border:1px solid #00FF00;
+    margin:10px auto 10px auto;
+    padding:10px 0 10px 10px;
+    text-align:center;
+    width:75%;
+}

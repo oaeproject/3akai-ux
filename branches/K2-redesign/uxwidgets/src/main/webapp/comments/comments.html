@@ -1,0 +1,164 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/comments.css"></link>
+<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css"></link>
+
+<!-- MAIN VIEW -->
+<div id="comments_mainContainer"  style="display:none;">
+	<div id="comments_titlebar">
+		<span class="comments_titleLeft">Comments:</span><span class="comments_titleRight"><span id="comments_numComments" >0</span id="comments_commentscomment"> comments</span>
+	</div>
+	
+	<div class="comments_nextButtons">
+		<a class="button-default comments_comment" id="comments_comment_Top" href="javascript:;">Add Comment</a>	
+		<div class="jq_pager comments_jqpager"></div>
+	</div>
+	
+	<div id="comments_fillInCommentTop"  style="display:none;">
+		
+	</div>
+	<div id="comments_fillInCommentTemplate" style="display:none"><!--
+		
+		<div class="comments_fillInCommentTopContainer">
+		<br />
+		<h1>Add a new comment:</h1>
+		{if loggedIn != true}
+			{if permissions.postWhenLoggedOut == "comments_DontRequireLogin"}
+				{if permissions.nameRequired == true}
+					<label for="comments_txtNamePoster">Name:</label><br/>
+					<input type="text" class="comments_inputFields" id="comments_txtNamePoster"><br />
+				{/if}
+				{if permissions.mailRequired == true}
+					<label for="comments_txtMailPoster">Email:</label><br/>
+					<input type="text" class="comments_inputFields" id="comments_txtMailPoster"><br />
+				{/if}
+			{/if}
+		{/if}
+		
+		<label for="comments_txtMessage">Your comment:</label><br/>
+		<textarea id="comments_txtMessage" class="comments_inputFields"></textarea><br />
+	
+		<a class="button-default comment_postCommentTopBottom" id="comments_postComment${place}" href="javascript:;">Submit comment</a>
+		
+		</div>
+	--></div>
+	<div id="comments_showComments">
+		
+	</div>
+	<div id="comments_showCommentsTemplate" style="display:none"><!--
+	<div>	
+	<table class="commentsTable" border="0">
+	
+		{for i in comments}
+			<tr border="0">
+				<div class="comments_topCommentBar">
+					<img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
+					<div class="comments_posterData">
+						<span class="comments_posterDataName"><a href="${i.user.profile}"">${i.user.fullName}</a></span><br />
+						${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
+					</div>
+				</div>
+				<div class="comments_clear" />
+			</tr>
+			<tr>
+			<div class="comments_arrowUp"></div>
+				
+				<div class="comments_commentMessage">
+				<div class="comments_commentLinks">
+					<ul>
+						<li><a href="javascript:;" class="comments_option" id="comments_option${i.originalIndex}">Option 2</a> | </li>  
+						<li><a href="javascript:;" class="comments_abuse" id="comments_abuse${i.originalIndex}">Report Abuse</a></li>
+					</ul>
+				</div>
+				${i.message}
+				</div>
+			</tr>
+			{/for}
+	</table>
+	
+	</div>	
+	--></div>
+	<div class="comments_nextButtons">
+		<a class="button-default comments_comment" id="comments_comment_Bottom" href="javascript:;">Add Comment</a>	
+		<a class="button-default" id="comments_prevPage" href="javascript:;">Previous page</a><br />
+		<div class="jq_pager comments_jqpager"></div>
+	</div>
+	<div id="comments_fillInCommentBottom" style="display:none;">
+		
+	</div>
+</div>
+
+<!-- SETTINGS VIEW -->
+<div id="comments_settings" style="display:none;">
+	<form class="comments_form">
+		<div class="comments_settingsPart">
+			<h3>Display:</h3>
+			<ul>
+				<li>
+					<input type="radio" name="comments_ChooseDisplayComments" value="comments_showAll" id="comments_showAllID" checked="checked">
+						<label for="comments_showAllID" class="video_source_rbtLabel">Display all comments</label>
+					</input>
+				</li>
+				<li>
+					<input type="radio" name="comments_ChooseDisplayComments" value="comments_PerPage" id="comments_PerPageID">
+						<label for="comments_PerPageID" class="video_source_rbtLabel">Display only <input type="text" id="comments_txtPage" >
+					</input> comments then paginate the rest</label></input><br />
+				</li>
+				<li>
+					<input type="radio" name="comments_ChooseDirectionComments" value="comments_FirstUp" id="comments_FirstUpID" checked="checked">
+						<label for="comments_FirstUpID" class="video_source_rbtLabel">Latest comment is at the top of the comment list</label>
+					</input>
+				</li>
+				<li>
+					<input type="radio" name="comments_ChooseDirectionComments" value="comments_FirstDown" id="comments_FirstDownID">
+						<label for="comments_FirstDownID" class="video_source_rbtLabel">Latest comment is at the bottom of the comment list</label>
+					</input>
+				</li>
+			</ul>
+			
+			
+		</div>
+		<div class="comments_settingsPart">
+			<h3>Permissions:</h3>
+			<ul>
+				<li><input type="radio" name="comments_ChoosePermissionComments" value="comments_RequireLogIn" id="comments_RequireLogInID" Name="comments_RequireLogIn"><label for="comments_RequireLogInID" class="video_source_rbtLabel">Only registered users can comment</label></input><br /></li>
+				<li>
+					<input type="radio" name="comments_ChoosePermissionComments" value="comments_DontRequireLogin" id="comments_DontRequireLoginID" Name="comments_DontRequireLogin"  checked="checked">
+						<label for="comments_DontRequireLoginID" class="video_source_rbtLabel">Allow anyone to comment</label>
+					</input>
+				</li>
+				<li>
+					<ul>
+						<li>
+							<input type="checkbox" id="comments_Namerequired">
+								<label for="comments_Namerequired" class="video_source_rbtLabel">Comments require name</label>
+							</input>
+						</li>
+						<li>
+							<input type="checkbox" id="comments_Emailrequired">
+								<label for="comments_Emailrequired" class="video_source_rbtLabel" >Comments require email</label>
+							</input>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			
+			<br />
+		</div>
+		
+		<div class="comments_settingsPart">
+			<h3>Notification:</h3>
+			
+			<input type="checkbox" id="comments_SendMail"><label for="comments_SendMail" class="video_source_rbtLabel">Email me when there is a new comment</label></input><br />
+			<br />
+		</div>
+			<a class="button-default" id="comments_cancel" href="javascript:;">Cancel</a>	
+			<a class="button-default" id="comments_submit" href="javascript:;">Insert Comment Widget</a>
+			<div class="comments_clear"></div>
+		
+	</form>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/lib/jquery.pager.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/javascript/comments.js"></script>

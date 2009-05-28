@@ -1,0 +1,63 @@
+.imgareaselect-outer {
+	z-index:10000 !important;
+} 
+
+.imgareaselect-border2 {
+	z-index:10000 !important;
+}
+
+.imgareaselect-selection {
+	z-index:10000 !important;
+}
+
+#changepic_container {
+	width:700px !important; 
+	margin-left: -350px !important;
+	background-color: #FFFFFF !important;
+}
+
+.fl-tabs li a {
+	bottom:3px !important;
+}
+
+.fl-tabs .fl-activeTab a {
+	background-color:#FFFFFF !important;
+	border-color:#DDDDDD #DDDDDD #EEEEEE;
+	border-style:solid;
+	border-width:1px;
+	color:#000000 !important;
+	font-weight:normal !important;
+}
+
+.fl-tabs li a {
+	background-color:#EEEEEE;
+	border-color:#EEEEEE #EEEEEE #DDDDDD;
+	border-style:solid;
+	border-width:1px;
+	bottom:1px;
+	color:#000000 !important;
+	margin-left:-1px;
+	padding:6px 20px;
+	position:relative;
+}
+#thumbnail_container {
+	float:left; 
+	position:relative; 
+	overflow:hidden; 
+	width:100px; 
+	height:100px;
+}
+
+#changepic_upload { background-color:#CCCCCC; }
+
+#changepic_selectpicture {padding-top:10px;padding-left:10px;}
+#changepic_selectpicture .buttonBar { padding-left:0px; clear: both; height: 45px; }
+
+#changepic_fullpicture {float: left; margin-right: 10px;}
+
+#thumbnail { position:relative;}
+
+#changepic_uploadnew { padding-top:10px; padding-left:10px; }
+#changepic_form {padding-top:10px;}
+#changepic_form .buttonBar { padding-left:0px; clear: both; margin-top:10px; }
+#profile_upload { padding:2px 8px; }

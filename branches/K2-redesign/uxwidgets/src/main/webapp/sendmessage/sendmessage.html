@@ -1,0 +1,70 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.modal_dialog.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/sendmessage/css/sendmessage.css"></link>
+
+
+<!-- ERROR MESSAGES -->
+<span id="sendmessage_message_ok" style="display:none;">The message has been sent.</span>
+<span id="sendmessage_message_error" style="display:none;">The message could not be sent.</span>
+<span id="sendmessage_friends_error" style="display:none;">Failed to retrieve your friends.</span>
+<span id="sendmessage_fields_error" style="display:none;">Please fill in all the fields.</span>
+
+
+<div class="dialog" id="message_dialog">
+	<div class="dialog_header">
+		<h1>Send Message</h1>
+		<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+	</div>
+	
+	<!-- CONTAINER FOR MESSAGES -->
+	<div id="message_done"></div>
+	
+	
+	<!-- FORM -->
+	<div id="message_form">
+		<div id="sendmessage_dialog_box" class="send_message dialogue_box fl-centered">
+	   	    <form class="compose-form" action="" method="post">
+	           	<div>
+	                From: <span id="message_from"></span>
+	            </div>
+	            <div id="sendmessage_fixed_to_user">
+	                To: <span id="message_to"></span>
+	            </div>
+	             <div id="sendmessage_multiple_to_container" style="display:none;">
+                    <label for="sendmessage_multiple_to">To</label><br />
+					<div id="sendmessage_multiple_to_input_container">
+                    	<input type="text" id="sendmessage_multiple_to" />
+					</div>
+					<div id="sendmessage_multiple_to_what" style="display:none;">Type the name of a friend.</div>
+                </div>
+	            <div>
+	                <label for="comp-subject">Subject</label><br />
+	                <input type="text" class="text-field compose-subject" id="comp-subject" />
+	            </div>
+	            <div>
+	               	<label for="comp-body">Body</label><br />
+	                <textarea class="text-field compose-body" id="comp-body" cols="90" rows="10"></textarea>
+	            </div>   
+	        </form>
+		</div>
+		<div id="sendmessage_dialog_footer" class="dialog_footer" style="padding-left: 15px; height: 40px;">
+			 <div class="buttonBar" style="position: relative; top: 5px; padding-bottom: 15px">
+			 	<a href="javascript:;" class="button-default" id="send_message" style="font-weight:bold">Send Message</a>
+		        <a href="javascript:;" class="button jqmClose" id="send_message_cancel" style="float:none;display:inline;">Cancel</a>
+		     </div>
+		</div>
+	</div>
+	
+</div>
+
+<!-- TEMPLATE FOR THE MULTPLE TO LIST -->
+<div id="sendmessage_box_template"><!--
+	<span class="sendmessage_multipleBox_result" id="sendmessage_to_result_${uid}"> ${name}
+    	<img src="/dev/_images/close_icon.png" alt="X" width="15" height="15" class="sendmessage_multipleBox_delete" id="sendmessage_to_result_img_${uid}" />
+	</span>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" language="JavaScript" src="/dev/_lib/OpenSocial/message.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/sendmessage/javascript/sendmessage.js"></script>
