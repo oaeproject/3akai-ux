@@ -430,23 +430,17 @@ sdata.widgets.WidgetLoader = {
 		};
 		
 		var locateTagAndRemove = function(content, tagName, URLIdentifier){
-			var returnObj = {};
-			returnObj.URL = [];
-			var openTag = content.indexOf("<" + tagName);
- 			var closeTag = content.indexOf("<\/" + tagName + ">");	
-			while (openTag !== -1 && closeTag != -1){
-				var tag = content.substring(openTag, closeTag);
-				tag = tag.substring(tag.indexOf(URLIdentifier + "=") + URLIdentifier.length + 2);
-				tag = tag.substring(0, tag.indexOf("\""));
-				returnObj.URL[returnObj.URL.length] = tag;
-				var contentCopy = content;
-				content = contentCopy.substring(0, openTag);
-				content += contentCopy.substring(closeTag + tagName.length + 3);
-				openTag = content.indexOf("<" + tagName + ">");
- 				closeTag = content.indexOf("<\/" + tagName + ">");	
+			var returnObject = {};
+			returnObject.URL = [];
+			returnObject.content = content;
+			var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?["|'+'\''+']([^"]*)["|'+'\''+'].*/.*?>', "gi");
+			var regexp_match_result = regexp.exec(content);			
+			while (regexp_match_result !== null) {
+				returnObject.URL[returnObject.URL.length] = regexp_match_result[1]; // value of URLIdentifier attrib
+				returnObject.content = content.replace(regexp_match_result[0],""); // whole tag
+				regexp_match_result = regexp.exec(content);
 			}
-			returnObj.content = content;
-			return returnObj;
+			return returnObject;
 		};
 	
 		var sethtmlover = function (div,content,widgets,widgetname){
