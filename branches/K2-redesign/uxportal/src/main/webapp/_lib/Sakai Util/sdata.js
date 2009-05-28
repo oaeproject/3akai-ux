@@ -88,7 +88,7 @@ sdata.me = false;
 		}
 					
 	    if (s.error) {
-	        s.error(xhr, status, e);
+	        s.error(requestStatus, status, e);
 	    }
 	    if (s.global) {
 	        jQuery.event.trigger("ajaxError", [xhr, s, e]);
