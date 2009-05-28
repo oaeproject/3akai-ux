@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, json_parse, sakai, sdata */
+/*global $, Config, jQuery, sakai, sdata */
 
 sakai.blog = function(tuid, placement, showSettings) {
 	
@@ -70,7 +70,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var settingsTagLoader = blogID + "_tagLoader";
 	var settingsSelectedTagClass = ".blog_settingsSelectedTag";
 	
-	var settingsTagListTemplate = "blog_settingsTagsListTemplate"
+	var settingsTagListTemplate = "blog_settingsTagsListTemplate";
 	var settingsSelectedTagCloudTemplate = "blog_settings_selectedTagsCloudTemplate";
 	
 	
@@ -89,8 +89,8 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var txtTitle = "#blog_postTitle";
 	var txtContent = "#blog_postMessage";
 	var txtTags = "#blog_postTags";
-	var txtCommentTitle = "#blog_txtCommentSubject"
-	var txtCommentBody= "#blog_txtCommentBody"
+	var txtCommentTitle = "#blog_txtCommentSubject";
+	var txtCommentBody= "#blog_txtCommentBody";
 	
 	
 	//	actions
@@ -132,7 +132,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 */
 	var escapeHTML = function(str) {
 		return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-	}
+	};
 	
 	/**
 	 * 
@@ -140,7 +140,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 */
 	var unescapeHTML = function(str) {
 		return str.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-	}
+	};
 	
 	/**
 	 * Loops over an array and remove all the strings that are empty or just spaces.
@@ -171,8 +171,8 @@ sakai.blog = function(tuid, placement, showSettings) {
 				toreturn.push(s);
 			}
 		}
-		return toreturn
-	}
+		return toreturn;
+	};
 	
 	/**
 	 * Parse a json string to a valid date
@@ -266,7 +266,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 */
 	var convertAndSaveToJCR = function(siteid, json, callback) {
 		//	save it to jcr
-		var str = sdata.JSON.stringify(json);
+		var str = $.toJSON(json);
 		sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + siteid, "_blog", str, callback); 
 	};
 	
@@ -285,7 +285,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 		
 		if (bExists) {
 			//	there are already some posts in the database, add them so we don't overwrite them.
-			var previousPosts = json_parse(sPreviousPosts);
+			var previousPosts = $.evalJSON(sPreviousPosts);
 			json.items = previousPosts.items;
 			
 		}
@@ -324,14 +324,13 @@ sakai.blog = function(tuid, placement, showSettings) {
 			//	If it exists we will have onSucces, if it fails we end up with an onFail.
 			//	Since all the blogposts and comments are saved under one node we 
 			//	check this to make sure we don't overwrite any posts.
-			sdata.Ajax.request({
-				url: Config.URL.SDATA_FETCH + "/" + sSiteId + "/_blog?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
+			$.ajax({
+				url: Config.URL.SDATA_FETCH + "/" + sSiteId + "/_blog",
+				success: function(data){
 					//	There are some posts in here. Pass them along.
 					savePostToJCR(sSiteId, data, true, json, callback);				
 				},
-				onFail: function(data){
+				error: function(data){
 					//	This is the first post.
 					savePostToJCR(sSiteId, data, false, json, callback);
 				}
@@ -415,11 +414,11 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var deletePost = function(id) {
 		//	Get all the posts
 		//	We do a request to get all the posts so that we don't unintentionally delete another post.
-		sdata.Ajax.request({
-			url: Config.URL.SDATA_FETCH + "/" + placement + "/_blog?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
-				var json = json_parse(data);
+		$.ajax({
+			url: Config.URL.SDATA_FETCH + "/" + placement + "/_blog",
+			cache: false,
+			success: function(data){
+				var json = $.evalJSON(data);
 				var deletePost = getPostWithId(json.items, id);
 				if (deletePost !== null) {
 					//	Delete the post out of the array.
@@ -477,11 +476,11 @@ sakai.blog = function(tuid, placement, showSettings) {
 		
 		if (sTitle !== "" && sMessage !== "") {			
 			//	get all the other posts so we don't overwrite one.
-			sdata.Ajax.request({
-				url: Config.URL.SDATA_FETCH + "/" + placement + "/_blog?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
-					var json = json_parse(data);
+			$.ajax({
+				url: Config.URL.SDATA_FETCH + "/" + placement + "/_blog",
+				cache: false,
+				success: function(data){
+					var json = $.evalJSON(data);
 					
 					var editPost = getPostWithId(json.items, id);
 					if (editPost !== null) {
@@ -597,11 +596,11 @@ sakai.blog = function(tuid, placement, showSettings) {
 		
 		if (sTitle !== "" && sMessage !== "") {
 			if (blogSettings.allowComments) {
-				sdata.Ajax.request({
-					url: "/sdata/f/" + placement + "/_blog?sid=" + Math.random(),
-					httpMethod: "GET",
-					onSuccess: function(data){
-						var json = json_parse(data);
+				$.ajax({
+					url: "/sdata/f/" + placement + "/_blog",
+					cache: false,
+					success: function(data){
+						var json = $.evalJSON(data);
 						
 						var replyToPost = getPostWithId(json.items, id);
 						if (replyToPost !== null) {
@@ -639,7 +638,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 							
 							
 							//	save it to jcr
-							var str = sdata.JSON.stringify(json);
+							var str = $.toJSON(json);
 							sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + placement, "_blog", str, displayPosts);
 						}
 					}
@@ -764,11 +763,10 @@ sakai.blog = function(tuid, placement, showSettings) {
 			var sUserNames = arrUserNames.join(',');
 			
 			//	Get the usernames
-			sdata.Ajax.request({
+			$.ajax({
 				url: "/rest/me/" + sUserNames,
-				httpMethod: "GET",
-				onSuccess: function(userdata){
-					var users = json_parse(userdata);
+				success: function(userdata){
+					var users = $.evalJSON(userdata);
 					var arrPostsToDisplay = [];
 										
 					//	We check the widget settings if we are interested in a specific set of tags.
@@ -795,7 +793,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 					
 					//	Render template.
 					json = {'posts' : arrPostsToDisplay};
-					$(postsContainer, rootel).html(sdata.html.Template.render(postsTemplate,  json));
+					$(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
 				}
 			});
 			
@@ -808,17 +806,17 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 * Displays all the posts
 	 */
 	var displayPosts = function() {
-		sdata.Ajax.request({
-				url: "/sdata/f/" + placement + "/_blog?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
-					var json = json_parse(data);
+		$.ajax({
+				url: "/sdata/f/" + placement + "/_blog",
+				cache: false,
+				success: function(data){
+					var json = $.evalJSON(data);
 					showPosts(json, true);	
 				},
-				onFail: function(data) {
+				error: function(data) {
 					//	Show empty page.
 					var json = {'posts' : []};
-					$(postsContainer, rootel).html(sdata.html.Template.render(postsTemplate,  json));
+					$(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
 				}
 			});
 	};
@@ -844,8 +842,8 @@ sakai.blog = function(tuid, placement, showSettings) {
 		arrTags.sort();
 		var context = {'tags' : arrTags};
 		//	add them to the DOM
-		$(where, rootel).html(sdata.html.Template.render(template, context));
-	}
+		$(where, rootel).html($.Template.render(template, context));
+	};
 	
 	/**
 	 * Will display a list of tags.
@@ -862,12 +860,12 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var getAllTags = function(callback) {
 		$(settingsTagLoader).show();
 		
-		sdata.Ajax.request({
-			url: "/sdata/f/" + placement + "/_blog?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sdata/f/" + placement + "/_blog",
+			cache: false,
+			success: function(data){
 				arrAllTags = [];
-				var posts = json_parse(data);
+				var posts = $.evalJSON(data);
 				//	get all the tags for this site.
 				for (var i = 0;i < posts.items.length;i++) {
 					var post = posts.items[i];
@@ -887,7 +885,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 					callback();
 				}
 			},
-			onFail:function(data) {
+			error:function(data) {
 				$(settingsTagLoader).hide();
 			}
 		});
@@ -921,11 +919,11 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var getBlogSettings = function(callback) {
 		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "blog");
 		
-		sdata.Ajax.request({
-				url: url + "?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
-					blogSettings = json_parse(data);
+		$.ajax({
+				url: url,
+				cache: false,
+				success: function(data){
+					blogSettings = $.evalJSON(data);
 					
 					//	Show the tags in the page.
 					if (blogSettings.tags.length === 0) {
@@ -940,7 +938,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 						callback();
 					}
 				},
-				onFail: function(data) {
+				error: function(data) {
 					getAllTags();
 				}
 		});
@@ -969,7 +967,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 		var json = {};
 		json.allowComments = $(settingsAllowComments, rootel).is(":checked");
 		json.tags = arrSelectedTags;
-		var str = sdata.JSON.stringify(json);
+		var str = $.toJSON(json);
 		var url = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 		sdata.widgets.WidgetPreference.save(url, "blog", str, callback); 
 	};
