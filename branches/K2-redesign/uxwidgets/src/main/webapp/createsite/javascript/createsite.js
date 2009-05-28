@@ -161,19 +161,18 @@ sakai.createsite = function(tuid,placement,showSettings){
 			f : "pe"
 		};
 			
-		sdata.Ajax.request({
+		$.ajax({
 			url: Config.URL.SDATA_FETCH + "/" + siteid + "/_widgets?f=pe",
-			httpMethod: "POST",
-			onSuccess: function(data){
+			type: "POST",
+			success: function(data){
 				
 				// Redirect the user to the site he/she just created
 				document.location = Config.URL.SITE_URL + "?siteid=" + siteid;
 			},
-			onFail: function(status){
+			error: function(status){
 				alert("Failed: " + status);
 			},
-			postData: data,
-			contentType: "application/x-www-form-urlencoded"
+			data: data
 		});
 		
 	};
@@ -208,14 +207,13 @@ sakai.createsite = function(tuid,placement,showSettings){
 		// Hide the buttons and show the process status
 		showProcess(true);
 
-		sdata.Ajax.request({
+		$.ajax({
 			url : Config.URL.SITE_GET_SERVICE + "/" + siteid,
-			httpMethod : "GET",
-			onSuccess : function(data) {
+			success : function(data) {
 				showProcess(false);
 				alert("A site with this URL already exists");
 			},
-			onFail : function(status) {
+			error : function(status) {
 				switch(status){
 					case 401:
 						showProcess(false);
@@ -223,13 +221,13 @@ sakai.createsite = function(tuid,placement,showSettings){
 						break;
 
 					case 404:
-						sdata.Ajax.request({
+						$.ajax({
 							url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
-							httpMethod: "POST",
-							onSuccess: function(data){
+							type: "POST",
+							success: function(data){
 								setWidgetsPermissions(siteid);
 							},
-							onFail: function(status){
+							error: function(status){
 								showProcess(false);
 								
 								if (status === 409) {
@@ -239,8 +237,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 									alert("An error has occured whilst creating the site");
 								}
 							},
-							postData: parameters,
-							contentType: "application/x-www-form-urlencoded"
+							data: parameters
 						});
 						break;
 

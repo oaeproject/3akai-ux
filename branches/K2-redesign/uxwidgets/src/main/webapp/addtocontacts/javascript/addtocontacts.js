@@ -15,7 +15,8 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, json_parse, sakai, sdata, History, opensocial */
+
+/*global $, Config, sakai, sdata, History, opensocial */
 
 /**
  * This is a widget that can be placed in other pages and widgets.
@@ -73,11 +74,11 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
     ///////////////////
     
     var renderTemplates = function() {
-        $(addToContactsInfoTypes).html(sdata.html.Template.render(addToContactsFormTypeTemplate.replace(/#/, ''), Widgets));
+        $(addToContactsInfoTypes).html($.Template.render(addToContactsFormTypeTemplate.replace(/#/, ''), Widgets));
         var json = {
             me: sdata.me
         };
-        $(addToContactsFormPersonalNote).html(sdata.html.Template.render(addToContactsFormPersonalNoteTemplate.replace(/#/, ''), json));
+        $(addToContactsFormPersonalNote).html($.Template.render(addToContactsFormPersonalNoteTemplate.replace(/#/, ''), json));
     };
     
     /**
@@ -121,11 +122,11 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
      * @param {string} userid The userid to send the message to.
      */
     var sendMessage = function(userid, toSend) {
-        sdata.Ajax.request({
+        $.ajax({
             url: Config.URL.MESSAGES_SEND_SERVICE,
-            httpMethod: "POST",
-            onSuccess: function(data) {
-                var json = json_parse(data);
+            type: "POST",
+            success: function(data) {
+                var json = $.evalJSON(data);
                 if (json.response === "OK") {
                     // Everything went OK
                     contactAdded();
@@ -134,11 +135,10 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     $(addToContactsResponse).text($(addToContactsErrorMessage).text());
                 }
             },
-            onFail: function(status) {
+            error: function(status) {
                 $(addToContactsResponse).text($(addToContactsErrorMessage).text());
             },
-            postData: toSend,
-            contentType: "application/x-www-form-urlencoded"
+            data: toSend
         });
     };
     
@@ -147,7 +147,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
      * @param {String} userid
      */
     var doInvite = function(userid) {
-        var toSend = sdata.FormBinder.serialize($(addToContactsForm));
+        var toSend = $.FormBinder.serialize($(addToContactsForm));
         $(addToContactsResponse).text("");
         if (toSend[addToContactsFormType.replace(/#/, '')]) {
         
@@ -169,17 +169,17 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
             var data = {
                 "friendUuid": userid,
                 "friendType": type,
-                "message": sdata.JSON.stringify({
+                "message": $.toJSON({
                     "title": title,
                     "body": openSocialMessage
                 })
             };
             
             // Do the invite.
-            sdata.Ajax.request({
+            $.ajax({
                 url: Config.URL.FRIEND_CONNECT_SERVICE,
-                httpMethod: "POST",
-                onSuccess: function(data) {
+                type: "POST",
+                success: function(data) {
                     // We succesfully invited this user, now let's send him/her a message.
                     var toSend = {
                         "to": userid,
@@ -187,11 +187,10 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     };
                     sendMessage(userid, toSend);
                 },
-                onFail: function(status) {
+                error: function(status) {
                     $(addToContactsResponse).text($(addToContactsErrorRequest).text());
                 },
-                postData: data,
-                contentType: "application/x-www-form-urlencoded"
+                data: data
             });
             
         }
@@ -243,17 +242,13 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
         // Check if we have a JSON object or a userid String.
         if (typeof user == "string") {
             // This is a uuid. Fetch the info from /rest/me
-            sdata.Ajax.request({
+            $.ajax({
                 url: Config.URL.ME_SERVICE_USERS.replace(/__USERS__/, user),
-                httpMethod: "GET",
-                onSuccess: function(data) {
-                    friend = json_parse(data).users[0];
+                success: function(data) {
+                    friend = $.evalJSON(data).users[0];
                     friend.uuid = user;
                     // We have the data, render it.
                     fillInUserInfo(friend);
-                },
-                onFail: function(status) {
-                
                 }
             });
         }

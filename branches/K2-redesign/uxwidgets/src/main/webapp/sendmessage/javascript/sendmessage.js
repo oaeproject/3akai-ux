@@ -16,14 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*global $, sdata, opensocial, Config */
 
 var sakai = sakai || {};
-var $ = $ || function() { throw "JQuery undefined"; };
-var sdata = sdata || function() { throw "sdata undefined"; };
-var json_parse = json_parse || function() { throw "json_parse undefined"; };
-var opensocial = opensocial || function() { throw "opensocial undefined"; };
-var Config = Config || function() { throw "Config undefined"; };
-
 sakai.sendmessage = function(tuid, placement, showSettings) {
 
 
@@ -130,7 +125,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
     var createToBox = function(name, uid){
 		var json = {'name' : name, 'uid' : uid};
 		//	Get the tpl
-		var box = sdata.html.Template.render(messageMultipleToBox.replace(/#/,''), json);
+		var box = $.Template.render(messageMultipleToBox.replace(/#/,''), json);
         
         //	Add it too the DOM tree.
         $(messageFieldMultipleTo, rootel).before(box);
@@ -149,11 +144,10 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
      * Will fetch all the friends of this user and start the autoComplete method.
      */
     var getAllFriends = function(){
-        sdata.Ajax.request({
-            httpMethod: "GET",
+        $.ajax({
             url: Config.URL.FRIEND_STATUS_SERVICE,
-            onSuccess: function(data){
-                var json = json_parse(data);
+            success: function(data){
+                var json = $.evalJSON(data);
                 if (json.response === "OK") {
                     json = json.status;
                     allFriends = [];
@@ -177,7 +171,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 					showGeneralMessage(messageDone, $(messageErrorFriends).text(), true,0);
                 }
             },
-            onFail: function(status){
+            error: function(status){
 				showGeneralMessage(messageDone, $(messageErrorFriends).text(), true,0);
             }
         });
@@ -411,15 +405,15 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 			//	The POST data that we will be sending.
 			var toSend = {
 				"to": sTo,
-				"message": sdata.JSON.stringify(openSocialMessage)
+				"message": $.toJSON(openSocialMessage)
 			};
 			
 			//	The request to the messaging service.
-			sdata.Ajax.request({
+			$.ajax({
 				url: Config.URL.MESSAGES_SEND_SERVICE,
-				httpMethod: "POST",
-				onSuccess: function(data) {
-					var json = json_parse(data);
+				type: "POST",
+				success: function(data) {
+					var json = $.evalJSON(data);
 					if (json.response === "OK") {
 						showMessageSent(true);
 					}
@@ -427,11 +421,10 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 						showMessageSent(false);
 					}
 				},
-				onFail: function(status) {
+				error: function(status) {
 					showMessageSent(false);
 				},
-				postData: toSend,
-				contentType: "application/x-www-form-urlencoded"
+				data: toSend
 			});
 		}
 	};

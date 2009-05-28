@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global Config, $, jQuery, sdata, json_parse, get_cookie, delete_cookie, set_cookie, window */
+/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie, window */
 
 var sakai = sakai || {};
 
@@ -400,11 +400,11 @@ sakai.chat = function(tuid, placement, showSettings){
 			$(topNavigationWidgets).append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
 			sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
 		}
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.SITES_SERVICE +"?sid=" + Math.random(),
-			onSuccess: function(data){
-				var newjson = json_parse(data);
+		$.ajax({
+			url: Config.URL.SITES_SERVICE,
+			cache: false,
+			success: function(data){
+				var newjson = $.evalJSON(data);
 				newjson.entry = newjson.entry || [];
 				for (var i = 0; i < newjson.entry.length; i++) {
 					newjson.entry[i].location = newjson.entry[i].location.substring(1);
@@ -413,9 +413,9 @@ sakai.chat = function(tuid, placement, showSettings){
 				if (newjson.entry.length > 5) {
 					newjson.entry = newjson.entry.splice(0, 5);
 				}
-				$(topNavigationMySitesList).html(sdata.html.Template.render(topNavigationMySitesListTemplate, newjson));
+				$(topNavigationMySitesList).html($.Template.render(topNavigationMySitesListTemplate, newjson));
 			},
-			onFail: function(status){
+			error: function(status){
 				alert("An error has occured");
 			}
 		});
@@ -506,7 +506,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	var renderSelectedPage = function(value){
 		var page = {};
 		page.value = value;
-		return sdata.html.Template.render(navSelectedPageTemplate, page);
+		return $.Template.render(navSelectedPageTemplate, page);
 	};
 	
 	/**
@@ -537,7 +537,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * and a count with how many there are
 	 */
 	var renderRecentSites = function(json){
-		$(chatDropdownRecentSites).append(sdata.html.Template.render(chatDropdownRecentSitesTemplate,json));
+		$(chatDropdownRecentSites).append($.Template.render(chatDropdownRecentSitesTemplate,json));
 	};
 	
 	/**
@@ -547,13 +547,13 @@ sakai.chat = function(tuid, placement, showSettings){
 		var json = {};
 		json.count = 0;
 		
-		sdata.Ajax.request({
-		   	url: Config.URL.RECENT_SITES_URL + "?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data) {
+		$.ajax({
+		   	url: Config.URL.RECENT_SITES_URL,
+			cache: false,
+			success: function(data) {
 				//	The response is a json object with an "items" array that contains the 
 				//	names for the recent sites.
-				var items = json_parse(data);
+				var items = $.evalJSON(data);
 				
 				//	Do a request to the site service with all the names in it.
 				//	This will give us the proper location, owner, siteid,..
@@ -565,12 +565,12 @@ sakai.chat = function(tuid, placement, showSettings){
 					count++;
 				}
 				
-				sdata.Ajax.request({
-				   	url : url + "?sid=" + Math.random(),
-					httpMethod : "GET",
-					onSuccess : function(data) {
+				$.ajax({
+				   	url : url,
+					cache: false,
+					success : function(data) {
 						
-						var response = json_parse(data);
+						var response = $.evalJSON(data);
 						json = {};
 						json.items = [];
 						var newcount = 0;
@@ -600,13 +600,13 @@ sakai.chat = function(tuid, placement, showSettings){
 						json.count = newcount;
 						renderRecentSites(json);
 					},
-					onFail : function(data){
+					error : function(data){
 						renderRecentSites(json);
 					}
 				});
 
 			},
-			onFail : function(data){
+			error : function(data){
 				renderRecentSites(json);
 			}
 		});
@@ -656,11 +656,11 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Load all the friends for the current user
 	 */
 	var loadPeople = function(){
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-			onSuccess: function(data){
-				var friends = json_parse(data);
+		$.ajax({
+			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			cache: false,
+			success: function(data){
+				var friends = $.evalJSON(data);
 				
 				var pOnline = {};
 				pOnline.items = [];
@@ -682,7 +682,7 @@ sakai.chat = function(tuid, placement, showSettings){
 					}
 				}
 				
-				$(peopleDropDownMyContactsList).html(sdata.html.Template.render(peopleDropDownMyContactsListTemplate, pOnline));
+				$(peopleDropDownMyContactsList).html($.Template.render(peopleDropDownMyContactsListTemplate, pOnline));
 				
 				if (pOnline.items.length === 0) {
 					$(peopleDropDownMain).css("height", "80px");
@@ -690,7 +690,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 				
 			},
-			onFail: function(status){
+			error: function(status){
 				alert("An error has occurred. /n Please try again later");
 			}
 		});
@@ -776,11 +776,10 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var getCountUnreadMessages = function() {
 		//	We only get the number of messages in our inbox folder that we havent read yet.
-		sdata.Ajax.request({
-			httpMethod: "GET",
+		$.ajax({
 			url: Config.URL.MESSAGES_COUNT_SERVICE + "?types=inbox&categories=*&read=false",
-			onSuccess: function(data){
-				var json = json_parse(data);
+			success: function(data){
+				var json = $.evalJSON(data);
 				if (json.response === "OK" && json.count){
 					$(chatUnreadMessages).text(json.count[0]);
 				}
@@ -1153,7 +1152,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
 			json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
 			json.me.chatstatus = currentChatStatus;
-			$(chatAvailable).html(sdata.html.Template.render(chatAvailableTemplate, json));
+			$(chatAvailable).html($.Template.render(chatAvailableTemplate, json));
 		}
 		
 		addChatBinding();
@@ -1198,15 +1197,14 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		var tosend = {"k":k,"v":v,"a":a};
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: Config.URL.PATCH_PROFILE_URL.replace(/__USERSTORAGEPREFIX__/g, sdata.me.userStoragePrefix),
-			httpMethod : "POST",
-			postData : tosend,
-			contentType : "application/x-www-form-urlencoded",
-			onSuccess : function(data) {
+			type : "POST",
+			data : tosend,
+			success : function(data) {
 				updateChatStatus();
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error occurend when sending the status to the server.");
 			}
 		});
@@ -1216,11 +1214,10 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Get the chat status for the current user
 	 */
 	var getChatStatus = function(){	
- 		sdata.Ajax.request({
+ 		$.ajax({
 			url: Config.URL.ME_SERVICE,
-			httpMethod: "GET",
-			onSuccess: function(data){
-				var me = json_parse(data);
+			success: function(data){
+				var me = $.evalJSON(data);
 				if(me.profile){
 					currentChatStatus = parseChatStatus(me.profile.chatstatus);
 				}else{
@@ -1228,7 +1225,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 				updateChatStatus();
 			},
-			onFail: function(status){
+			error: function(status){
 				currentChatStatus = "online";
 				updateChatStatus();
 			}
@@ -1255,7 +1252,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * @param {Object} message Message that needs to be rendered
 	 */
 	var render_chat_message = function(message){
-		return sdata.html.Template.render(chatContentTemplate, message);
+		return $.Template.render(chatContentTemplate, message);
 	};
 	
 	/**
@@ -1350,12 +1347,12 @@ sakai.chat = function(tuid, placement, showSettings){
 			var tempSpecial = clone(activewindows);
 			tempSpecial.special = activewindows.items.length - 1;
 			// This value will be used to calculate the left value for the box
-			$(chatWindows).append(sdata.html.Template.render(chatWindowsTemplate, tempSpecial));
+			$(chatWindows).append($.Template.render(chatWindowsTemplate, tempSpecial));
 		}
 		else {
 			// Render all the current chats.
 			activewindows.special = false;
-			$(chatWindows).html(sdata.html.Template.render(chatWindowsTemplate, activewindows));
+			$(chatWindows).html($.Template.render(chatWindowsTemplate, activewindows));
 		}
 		
 		enableDisableOnline();
@@ -1424,16 +1421,15 @@ sakai.chat = function(tuid, placement, showSettings){
 						to: currentuser
 					};
 					
-					sdata.Ajax.request({
+					$.ajax({
 						url: Config.URL.CHAT_SEND_SERVICE,
-						httpMethod: "POST",
-						onSuccess: function(data){
+						type: "POST",
+						success: function(data){
 						},
-						onFail: function(status){
+						error: function(status){
 							alert("An error has occured when sending the message.");
 						},
-						postData: data,
-						contentType: "application/x-www-form-urlencoded"
+						data: data
 					});
 					
 				}
@@ -1457,7 +1453,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			return;
 		}
 		else {
-			set_cookie('sakai_chat', sdata.JSON.stringify(activewindows), null, null, null, "/", null, null);
+			set_cookie('sakai_chat', $.toJSON(activewindows), null, null, null, "/", null, null);
 		}
 	});
 	
@@ -1509,12 +1505,12 @@ sakai.chat = function(tuid, placement, showSettings){
 		var tosend = onlineUsers.join(",");
 		
 		// Send and Ajax request to get the chat messages
-		sdata.Ajax.request({
-			url: Config.URL.CHAT_GET_SERVICE + "?users=" + tosend + "&initial=" + initial + "&sid=" + Math.random(),
-			httpMethod: "GET",
-			sendToLoginOnFail: "true",
-			onSuccess: function(data){
-				var json = json_parse(data);
+		$.ajax({
+			url: Config.URL.CHAT_GET_SERVICE + "?users=" + tosend + "&initial=" + initial,
+			cache: false,
+			sendToLoginOnFail: true,
+			success: function(data){
+				var json = $.evalJSON(data);
 				
 				// Check if there are any messages inside the JSON object
 				if(json.messages){
@@ -1611,7 +1607,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 			},
 			
-			onFail: function(status){
+			error: function(status){
 				
 				if (doreload) {
 					setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
@@ -1628,7 +1624,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		// Check if there is a cookie from a previous visit
 		if (get_cookie('sakai_chat')) {
-			activewindows = json_parse(get_cookie('sakai_chat'));
+			activewindows = $.evalJSON(get_cookie('sakai_chat'));
 			delete_cookie('sakai_chat');
 			var toshow = false;
 			for (var i = 0; i < activewindows.items.length; i++) {
@@ -1652,22 +1648,20 @@ sakai.chat = function(tuid, placement, showSettings){
 			return;
 		}
 		
-		var sendToLoginOnFail = "false";
+		var sendToLoginOnFail = false;
 		if (goBackToLogin) {
-			sendToLoginOnFail = "true";
+			sendToLoginOnFail = true;
 		}
 	
 		// Receive your online friends through an Ajax request
-		sdata.Ajax.request({
-			url: Config.URL.PRESENCE_FRIENDS_SERVICE + "?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
-				online = json_parse(data);
+		$.ajax({
+			url: Config.URL.PRESENCE_FRIENDS_SERVICE,
+			cache: false,
+			success: function(data){
+				online = $.evalJSON(data);
 				showOnlineFriends();
 				setTimeout(checkOnline, 20000);
 				goBackToLogin = true;
-			},
-			onFail: function(status){
 			},
 			sendToLoginOnFail: sendToLoginOnFail
 		});

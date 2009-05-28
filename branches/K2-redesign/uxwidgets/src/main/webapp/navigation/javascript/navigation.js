@@ -202,7 +202,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 		}
 		
 		// Render the output template		
-		$(navigationOutput).html(sdata.html.Template.render(navigationOutputTemplate,jsonNavigation));	
+		$(navigationOutput).html($.Template.render(navigationOutputTemplate,jsonNavigation));	
 	};
 	
 		

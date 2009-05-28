@@ -24,13 +24,9 @@
  * If there is no blog found on the website, one will be created.
  */
 
-
+/*global $, sdata, Config */
 
 var sakai = sakai || {};
-var $ = $ || function() { throw "JQuery undefined"; };
-var sdata = sdata || function() { throw "SDATA undefined"; };
-var json_parse = json_parse || function() { throw "json_parse undefined"; };
-var Config = Config || function() { throw "Config file not found."; };
 
 /**
  * Initialize the dashboard widget for a blog
@@ -89,8 +85,8 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 				toreturn.push(s);
 			}
 		}
-		return toreturn
-	}
+		return toreturn;
+	};
 	
 	/**
 	 * Resets the fields of the form.
@@ -184,7 +180,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 		
 		if (bExists) {
 			//	there are already some posts in the database, add them so we don't overwrite them.
-			var previousPosts = json_parse(sPreviousPosts);
+			var previousPosts = $.evalJSON(sPreviousPosts);
 			json.items = previousPosts.items;
 		}
 		
@@ -194,7 +190,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 		json.items.push(post);
 		
 		//	save it to jcr
-		var str = sdata.JSON.stringify(json);
+		var str = $.toJSON(json);
 		sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + siteid, "_blog", str, callback); 
 	};
 
@@ -223,14 +219,14 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 			//	If it exists we will have onSucces, if it fails we end up with an onFail.
 			//	Since all the blogposts and comments are saved under one node we 
 			//	check this to make sure we don't overwrite any posts.
-			sdata.Ajax.request({
-				url: Config.URL.SDATA_FETCH + "/" + sSiteId + "/_blog?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
+			$.ajax({
+				url: Config.URL.SDATA_FETCH + "/" + sSiteId + "/_blog",
+				cache: false,
+				success: function(data){
 					//	There are some posts in here. Pass them along.
 					savePostToJCR(sSiteId, data, true, json, callback);				
 				},
-				onFail: function(data){
+				error: function(data){
 					//	This is the first post.
 					savePostToJCR(sSiteId, data, false, json, callback);
 				}
@@ -290,7 +286,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 		}
 		newjson.entry = newjson.entry.sort(doSort);
 		//	run trimpath and show the sites.
-		$(cboSite, rootel).html(sdata.html.Template.render(siteTemplate.replace(/#/gi,''), newjson));
+		$(cboSite, rootel).html($.Template.render(siteTemplate.replace(/#/gi,''), newjson));
 	};
 	
 	/**
@@ -298,7 +294,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	 * @param {Object} response	The response we got from the server
 	 */
 	var loadSiteList = function(response){
-		var json = json_parse(response);
+		var json = $.evalJSON(response);
 		var newjson = {};
 		newjson.entry = [];
 		if (json.entry) {
@@ -326,13 +322,13 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	
 	var doInit = function() {
 		//	We do a request to get all the sites.
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.SITES_SERVICE + "?sid=" + Math.random(),
-			onSuccess: function(data){
+		$.ajax({
+			url: Config.URL.SITES_SERVICE,
+			cache: false,
+			success: function(data){
 				loadSiteList(data);
 			},
-			onFail: function(status){
+			error: function(status){
 				showGeneralMessage("Failed to retrieve the sites.", true);
 			}
 		});

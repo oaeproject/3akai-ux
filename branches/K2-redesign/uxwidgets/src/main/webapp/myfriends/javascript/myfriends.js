@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, json_parse */
+/*global $, Config, sdata */
 
 var sakai = sakai || {};
 
@@ -120,7 +120,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 		}
 		
 		// Render the template with the friends
-		$(myfriendsList).html(sdata.html.Template.render(myfriendsListTemplate, jsonFriends));
+		$(myfriendsList).html($.Template.render(myfriendsListTemplate, jsonFriends));
 	};
 
 	
@@ -130,18 +130,18 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	 * and the request is ordered by the first and last name of the friends
 	 */
 	var getFriends = function(){
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=6&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc&sid=" + Math.random(),
-			onSuccess: function(data){
+		$.ajax({
+			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=6&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			cache: false,
+			success: function(data){
 				
 				// Parse the data into a JSON object
-				var friends = json_parse(data);
+				var friends = $.evalJSON(data);
 				
 				// Process the friends: username, picture, ...
 				doProcessing(friends);
 			},
-			onFail: function(status){
+			error: function(status){
 				
 				// Show the contact error
 				$(myfriendsErrorContactserver, rootel).show();
@@ -159,11 +159,11 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	 * them on the page.
 	 */
 	var getContactRequests = function(){
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.FRIEND_STATUS_SERVICE + "?sid=" + Math.random(),
-			onSuccess: function(data){
-				var contactrequests = json_parse(data);
+		$.ajax({
+			url: Config.URL.FRIEND_STATUS_SERVICE,
+			cache: false,
+			success: function(data){
+				var contactrequests = $.evalJSON(data);
 				var jsonTotal = {};
 				jsonTotal.total = 0;
 				
@@ -175,7 +175,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 				}
 				
 				// Render the requests on the page
-				$(myfriendsRequests).html(sdata.html.Template.render(myfriendsRequestsTemplate, jsonTotal));
+				$(myfriendsRequests).html($.Template.render(myfriendsRequestsTemplate, jsonTotal));
 			}
 		});
 	};

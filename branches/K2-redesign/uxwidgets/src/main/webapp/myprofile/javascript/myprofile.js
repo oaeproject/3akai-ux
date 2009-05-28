@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, jQuery, json_parse, sakai, sdata */
+/*global $, Config, jQuery, sakai, sdata */
 
 var sakai = sakai || {};
 
@@ -103,12 +103,11 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		
 		var tosend = {"k":k,"v":v,"a":a};
 		var url = Config.URL.PATCH_PROFILE_URL.replace(/__USERSTORAGEPREFIX__/, sdata.me.userStoragePrefix);
-		sdata.Ajax.request({
+		$.ajax({
 	      	url : url,
-        	httpMethod : "POST",
-            postData : tosend,
-            contentType : "application/x-www-form-urlencoded",
-            onSuccess : function (data) {
+        	type : "POST",
+            data : tosend,
+            success : function (data) {
 				updateChatStatus(status);
 			}
 		});
@@ -140,7 +139,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		//	Any extra information we may have.
 		var extra = "";
 		if (json.basic) {
-			var basic = json_parse(json.basic);
+			var basic = $.evalJSON(json.basic);
 			if (json.unirole) {
 				extra = json.unirole;
 			}

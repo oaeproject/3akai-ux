@@ -16,13 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/* global $, sdata, opensocial, Config */
 
 var sakai = sakai || {};
-var $ = $ || function() { throw "JQuery undefined"; };
-var sdata = sdata || function() { throw "sdata undefined"; };
-var json_parse = json_parse || function() { throw "json_parse undefined"; };
-var opensocial = opensocial || function() { throw "opensocial undefined"; };
-var Config = Config || function() { throw "Config undefined"; };
 
 sakai._changepic = {};
 sakai.changepic = function(tuid, placement, showSettings){
@@ -261,23 +257,22 @@ sakai.changepic = function(tuid, placement, showSettings){
 		tosave.width = Math.floor(userSelection.width * ratio);
 		tosave.dimensions = [{"width":256,"height":256}];
 		var data = {
-			parameters : sdata.JSON.stringify(tosave)
+			parameters : $.toJSON(tosave)
 		};
 		
 		// Post all of this to the server
-		sdata.Ajax.request({
+		$.ajax({
 			url: Config.URL.IMAGE_SERVICE,
-			httpMethod: "POST",
-			postData: data,
-			contentType: "application/x-www-form-urlencoded",
-			onSuccess: function(data){
+			type: "POST",
+			data: data,
+			success: function(data){
 				
 				var tosave = {
 					"name": "256x256_" + picture._name,
 					"_name": picture._name
 				};
 				
-				var stringtosave = sdata.JSON.stringify(tosave);
+				var stringtosave = $.toJSON(tosave);
 				
 				sdata.me.profile.picture = tosave;
 				
@@ -288,12 +283,11 @@ sakai.changepic = function(tuid, placement, showSettings){
 				var tosend = {"k":k,"v":v,"a":a};
 				
 				//	Do a patch request to the profile info so that it gets updated with the new information.
-				sdata.Ajax.request({
+				$.ajax({
 		        	url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
-		        	httpMethod : "POST",
-		            postData : tosend,
-		            contentType : "application/x-www-form-urlencoded",
-		            onSuccess : function(data) {
+		        	type : "POST",
+		            data : tosend,
+		            success : function(data) {
 						//	Change the picture in the page. (This is for my_sakai.html)
 						//	Math.random is for cache issues.						
 						for (var i = 0; i < imagesToChange.length;i++) {
@@ -304,13 +298,13 @@ sakai.changepic = function(tuid, placement, showSettings){
 						$(container).jqmHide();
 						
 					},
-					onFail : function(data){
+					error : function(data){
 						alert("An error has occured");
 					}
 				});
 				
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			}
 		});
@@ -373,7 +367,7 @@ sakai._changepic.completeCallback = function(response){
 	
 	//	Replace any <pre> tags the response might contain.
 	response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
-	var resp = json_parse(response);
+	var resp = $.evalJSON(response);
 	
 	var tosave = {
 		"_name": resp.uploads.file.name
@@ -384,7 +378,7 @@ sakai._changepic.completeCallback = function(response){
 	sdata.me.profile.picture = tosave;
 	
 	//	We edit the profile.json file with the new profile picture.
-	var stringtosave = sdata.JSON.stringify(tosave);
+	var stringtosave = $.toJSON(tosave);
 	//	the object we wish to insert into the profile.json file.
 	var data = {"picture":stringtosave};
 	
@@ -393,17 +387,15 @@ sakai._changepic.completeCallback = function(response){
 	var v = [stringtosave];
 	var tosend = {"k":k,"v":v,"a":a};
 	
-	sdata.Ajax.request({
+	$.ajax({
     	url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
-    	httpMethod : "POST",
-        postData : tosend,
-        contentType : "application/x-www-form-urlencoded",
-        onSuccess : function(data) {
+    	type : "POST",
+        data : tosend,
+        success : function(data) {
 			//	we have saved the profile, now do the widgets other stuff.
-			sakai._changepic.doInit();
-			
+			sakai._changepic.doInit();	
 		},
-		onFail : function(data){
+		error : function(data){
 			alert("An error has occured");
 		}
 	});

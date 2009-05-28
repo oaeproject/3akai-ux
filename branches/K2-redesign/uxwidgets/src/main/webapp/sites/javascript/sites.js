@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, json_parse, sakai, sdata */
+/*global $, Config, jQuery, sakai, sdata */
 
 sakai.sites = function(tuid,placement,showSettings){
 
@@ -78,7 +78,7 @@ sakai.sites = function(tuid,placement,showSettings){
 		else {
 			// Sort the sites by their name
 			newjson.entry = newjson.entry.sort(doSort);
-			$(sitesList, rootel).html(sdata.html.Template.render(sitesListTemplate.replace(/#/,''), newjson));
+			$(sitesList, rootel).html($.Template.render(sitesListTemplate.replace(/#/,''), newjson));
 		}
 	};
 	
@@ -90,7 +90,7 @@ sakai.sites = function(tuid,placement,showSettings){
 	var loadSiteList = function(response, succes){
 		// Check if the request was ok
 		if (succes) {
-			var json = json_parse(response);
+			var json = $.evalJSON(response);
 			var newjson = {};
 			newjson.entry = [];
 			//	if the response contained any entries.
@@ -113,13 +113,13 @@ sakai.sites = function(tuid,placement,showSettings){
 	 * Will initiate a request to the site service.
 	 */
 	var doInit = function() {
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.SITES_SERVICE + "?sid=" + Math.random(),
-			onSuccess: function(data){
+		$.ajax({
+			url: Config.URL.SITES_SERVICE,
+			cache: false,
+			success: function(data){
 				loadSiteList(data, true);
 			},
-			onFail: function(status){
+			error: function(status){
 				loadSiteList("", false);
 			}
 		});
