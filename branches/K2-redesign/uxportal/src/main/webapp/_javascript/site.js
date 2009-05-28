@@ -41,7 +41,7 @@ sakai.site = function(){
 		escaped = pageid.replace(/[.]/g, "\\\\\\.");
 		escaped = pageid.replace(/\//g, "\\\/");
 		return escaped;
-	}
+	};
 	
 	/*
 		Loading site definition
@@ -68,22 +68,23 @@ sakai.site = function(){
 		else {
 			$("#site_management_members_link").attr("href", $("#site_management_members_link").attr("href") + currentsite);
 			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + currentsite);
-			sdata.Ajax.request({
-				url: "/_rest/site/get/" + currentsite + "?sid=" + Math.random(),
-				onSuccess: function(response){
+			$.ajax({
+				url: "/_rest/site/get/" + currentsite,
+				cache: false,
+				success: function(response){
 					continueLoad(response, true);
 					saveToRecentSites(response);
 				},
-				onFail: function(httpstatus){
+				error: function(httpstatus){
 					continueLoad(httpstatus, false);
 				}
 			});
 		}
-	}
+	};
 	
 	continueLoad = function(response, exists){
 		if (exists) {
-			currentsite = eval('(' + response + ')');
+			currentsite = $.evalJSON(response);
 			var qs = new Querystring();
 			currentsite.id = qs.get("siteid",false);
 			$("#sitetitle").text(currentsite.name);
@@ -111,7 +112,7 @@ sakai.site = function(){
 			startSiteLoad();
 			
 		}
-	}
+	};
 	
 	
 	/*
@@ -123,14 +124,15 @@ sakai.site = function(){
 		$("#initialcontent").show();
 		totaltotry = 0;
 		
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/.site/pageconfiguration?sid=" + Math.random(),
-			onSuccess: function(response){
-				pages = eval('(' + response + ')');
+		$.ajax({
+			url: "/sdata/f/" + currentsite.id + "/.site/pageconfiguration",
+			cache: false,
+			success: function(response){
+				pages = $.evalJSON(response);
 				pageconfiguration = pages;
 				loadNavigation(dofalsereload);
 			},
-			onFail: function(httpstatus){
+			error: function(httpstatus){
 				pages = {};
 				pages.items = {};
 				pageconfiguration = pages;
@@ -141,28 +143,29 @@ sakai.site = function(){
 	};
 	
 	var loadNavigation = function(dofalsereload){
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_navigation/content?sid=" + Math.random(),
-			onSuccess: function(response){
+		$.ajax({
+			url: "/sdata/f/" + currentsite.id + "/_navigation/content",
+			cache: false,
+			success: function(response){
 				pagecontents["_navigation"] = response;
 				$("#page_nav_content").html(response);
 				sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
 				History.history_change();
 			},
-			onFail: function(httpstatus){
+			error: function(httpstatus){
 				History.history_change();
 			}
 		});
-	}
+	};
 	
 	sakai.site.openPage = function(pageid){
 		//History.addBEvent(pageid);
 		document.location = "#" + pageid;
-	}
+	};
 	
 	sakai._site.navigationLoaded = function(){
 		sakai._navigation.renderNavigation(selectedpage, pages);
-	}
+	};
 	
 	sakai.site.openPageH = function(pageid){
 	
@@ -182,14 +185,14 @@ sakai.site = function(){
 			}
 		}
 		
-		for (var i = 0; i < pages.items.length; i++){
+		for (i = 0; i < pages.items.length; i++){
 			if (pages.items[i].id == pageid){
 				$("#pagetitle").text(pages.items[i].title);
 				break;
 			}
 		}
 		
-		$("#loginLink").attr("href","/dev/index.html?url=" + sdata.util.URL.encode(document.location.pathname + document.location.search + document.location.hash));
+		$("#loginLink").attr("href","/dev/index.html?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash));
 		
 		//sakai.dashboard.hidepopup();
 		$("#webpage_edit").hide();
@@ -210,7 +213,7 @@ sakai.site = function(){
 		
 		var el = document.getElementById("main-content-div");
 		var hasopened = false;
-		for (var i = 0; i < el.childNodes.length; i++) {
+		for (i = 0; i < el.childNodes.length; i++) {
 			try {
 				if (el.childNodes[i] && el.childNodes[i].style) {
 					el.childNodes[i].style.display = "none";
@@ -236,7 +239,7 @@ sakai.site = function(){
 		}
 		else {
 			var type = false;
-			for (var i = 0; i < pages.items.length; i++) {
+			for (i = 0; i < pages.items.length; i++) {
 				if (pages.items[i].id == pageid) {
 					type = pages.items[i].type;
 				}
@@ -245,7 +248,7 @@ sakai.site = function(){
 			if (type) {
 				pagetypes[selectedpage] = type;
 				if (type == "dashboard") {
-					var el = document.createElement("div");
+					el = document.createElement("div");
 					el.id = selectedpage.replace(/ /g, "%20");
 					el.className = "container_child";
 					var cel = document.createElement("div");
@@ -253,27 +256,27 @@ sakai.site = function(){
 					cel.style.padding = "0px 7px 0px 7px";
 					el.appendChild(cel);
 					document.getElementById("container").appendChild(el);
-					sdata.Ajax.request({
-						url: "/sdata/f/" + currentsite.id + "/pages/" + selectedpage + "/state?sid=" + Math.random(),
-						httpMethod: "GET",
-						onSuccess: function(data){
+					$.ajax({
+						url: "/sdata/f/" + currentsite.id + "/pages/" + selectedpage + "/state",
+						cache: false,
+						success: function(data){
 							decideDashboardExists(data, true, el);
 						},
-						onFail: function(status){
+						error: function(status){
 							decideDashboardExists(status, false, el);
-						},
-						contentType: "multipart/form-data"
+						}
 					});
 				}
 				else 
 					if (type == "webpage") {
 						var splittedurl = selectedpage.replace(/\//g,"/_pages/");
-						sdata.Ajax.request({
-							url: "/sdata/f/" + currentsite.id + "/_pages/" + splittedurl + "/content" + "?sid=" + Math.random(),
-							onSuccess: function(response){
+						$.ajax({
+							url: "/sdata/f/" + currentsite.id + "/_pages/" + splittedurl + "/content",
+							cache: false,
+							success: function(response){
 								displayPage(response, true);
 							},
-							onFail: function(httpstatus){
+							error: function(httpstatus){
 								displayPage(httpstatus, false);
 							}
 						});
@@ -286,7 +289,7 @@ sakai.site = function(){
 		}
 
 		
-	}
+	};
 	
 	displayPage = function(response, exists){
 		if (exists) {
@@ -311,7 +314,7 @@ if (nel.className == "contauthlink") {
 			}
 			
 			document.getElementById("main-content-div").appendChild(el);
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g,"%20"));
+			sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g,"%20"));
 			
 			//jQuery("a", $("#container")).tabbable();
 			
@@ -319,14 +322,14 @@ if (nel.className == "contauthlink") {
 		else {
 			//$("#error_404").show();
 			pagecontents[selectedpage] = "";
-			var el = document.createElement("div");
-			el.id = selectedpage.replace(/ /g, "%20");
-			el.className = "content";
-			el.innerHTML = "";
+			var errorel = document.createElement("div");
+			errorel.id = selectedpage.replace(/ /g, "%20");
+			errorel.className = "content";
+			errorel.innerHTML = "";
 			
-			document.getElementById("main-content-div").appendChild(el);
+			document.getElementById("main-content-div").appendChild(errorel);
 		}
-	}
+	};
 	
 	/*
 		TinyMCE Functions
@@ -341,7 +344,7 @@ if (nel.className == "contauthlink") {
 		$("#elm1_toolbar" + id).show();
 		$("#elm1_external").show();
 		$(".mceExternalToolbar").show();
-	}
+	};
 	
 	var myCustomInitInstance = function(){
 		try {
@@ -350,7 +353,7 @@ if (nel.className == "contauthlink") {
 			document.getElementById("elm1_ifr").frameborder = "0";
 			document.getElementById("elm1_ifr").style.height = "auto"; // helps resize (for some browsers) if new doc is shorter than previous
 			if (!myCustomInitInstanced) {
-				$(".mceToolbarEnd").before(sdata.html.Template.render("editor_extra_buttons", {}));
+				$(".mceToolbarEnd").before($.Template.render("editor_extra_buttons", {}));
 				
 				$(".insert_more_dropdown_activator").bind("click", function(ev){
 					toggleInsertMore();
@@ -363,7 +366,7 @@ if (nel.className == "contauthlink") {
 			el.css("border", "0px solid black");
 			$(".mceExternalClose").hide();
 			showBar(1);
-			setTimeout("sakai._site.setIframeHeight('elm1_ifr')", 100);
+			setTimeout(sakai._site.setIframeHeight, 100, ['elm1_ifr']);
 			placeToolbar();
 			
 		} 
@@ -371,36 +374,41 @@ if (nel.className == "contauthlink") {
 			// Firefox throws strange error, doesn't affect anything
 			// Ignore
 		}
-	}
+	};
 	
 	sakai._site.myHandleEvent = function(e){
 		if (e.type == "click" || e.type == "keyup" || e.type == "mouseup" || !e || !e.type) {
 			curScroll = document.body.scrollTop;
 			
-			if (curScroll == 0) {
-				if (window.pageYOffset) 
+			if (curScroll === 0) {
+				if (window.pageYOffset) {
 					curScroll = window.pageYOffset;
-				else 
+				} else {
 					curScroll = (document.body.parentElement) ? document.body.parentElement.scrollTop : 0;
+				}
 			}
 			sakai._site.setIframeHeight("elm1_ifr");
 		}
 		return true; // Continue handling
-	}
+	};
 	
 	function getDocHeight(doc){
 		var docHt = 0, sh, oh;
-		if (doc.height) 
+		if (doc.height) {
 			docHt = doc.height;
-		else 
+		} else {
 			if (doc.body) {
-				if (doc.body.scrollHeight) 
+				if (doc.body.scrollHeight) {
 					docHt = sh = doc.body.scrollHeight;
-				if (doc.body.offsetHeight) 
+				}
+				if (doc.body.offsetHeight) {
 					docHt = oh = doc.body.offsetHeight;
-				if (sh && oh) 
+				}
+				if (sh && oh) {
 					docHt = Math.max(sh, oh);
+				}
 			}
+		}
 		return docHt;
 	}
 	
@@ -423,7 +431,7 @@ if (nel.className == "contauthlink") {
 				placeToolbar();
 			}
 		}
-	}
+	};
 	
 	sakai._site.mySelectionEvent = function(){
 		var ed = tinyMCE.get('elm1');
@@ -437,11 +445,11 @@ if (nel.className == "contauthlink") {
 			}
 			var pos = tinymce.DOM.getPos(selected);
 			var el = $("#context_menu");
-			el.css("top",pos["y"] + $("#elm1_ifr").position().top + 15 + "px");
-			el.css("left",pos["x"] + $("#elm1_ifr").position().left + 15 + "px");
+			el.css("top",pos.y + $("#elm1_ifr").position().top + 15 + "px");
+			el.css("left",pos.x + $("#elm1_ifr").position().left + 15 + "px");
 			el.show();
 		}
-	}
+	};
 	
 	
 	tinyMCE.init({
@@ -476,11 +484,12 @@ if (nel.className == "contauthlink") {
 	var placeToolbar = function(){
 		minTop = $("#toolbarplaceholder").position().top;
 		curScroll = document.body.scrollTop;
-		if (curScroll == 0) {
-			if (window.pageYOffset) 
+		if (curScroll === 0) {
+			if (window.pageYOffset) {
 				curScroll = window.pageYOffset;
-			else 
+			} else {
 				curScroll = (document.body.parentElement) ? document.body.parentElement.scrollTop : 0;
+			}
 		}
 		var barTop = curScroll;
 		$("#toolbarcontainer").css("width", $("#toolbarplaceholder").width() - 2 + "px");
@@ -505,14 +514,14 @@ if (nel.className == "contauthlink") {
 			}
 		}
 		last = new Date().getTime();
-	}
+	};
 	
 	var placeInserMoreDropdown = function(position,marginTop,top){
 		$("#insert_more_menu").css("position", position);
 		$("#insert_more_menu").css("margin-top", marginTop + "px");
 		$("#insert_more_menu").css("top", top + 25 + "px");
 		$("#insert_more_menu").css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 1 + "px");
-	}
+	};
 	
 	var showingInsertMore = false;
 	
@@ -524,21 +533,21 @@ if (nel.className == "contauthlink") {
 			$("#insert_more_menu").show();
 			showingInsertMore = true;
 		}
-	}
+	};
 	
 	/*
 		Edit page functionality 
 	*/
 	
 	var showPageLocation = function(){
-		var finaljson = {}
+		var finaljson = {};
 		finaljson.pages = [];
 		finaljson.pages[0] = currentsite.name;
 		var splitted = selectedpage.split('/');
 		var current = "";
 		for (var i = 0; i < splitted.length; i++){
 			var id = splitted[i];
-			if (i != 0){
+			if (i !== 0){
 				current += "/";
 			}
 			current += id;
@@ -550,13 +559,13 @@ if (nel.className == "contauthlink") {
 			}
 		}
 		finaljson.total = finaljson.pages.length;
-		$("#new_page_path").html(sdata.html.Template.render("new_page_path_template",finaljson));
+		$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));
 		
 		$("#move_inside_edit").bind("click", function(ev){
 			moveInsideEdit();
 		});
 		
-	}
+	};
 	
 	var editPage = function(pageid){
 
@@ -582,7 +591,7 @@ if (nel.className == "contauthlink") {
 
 		var pagetitle = "";
 				
-		for (var i = 0; i < pages.items.length; i++){
+		for (i = 0; i < pages.items.length; i++){
 			if (pages.items[i].id == selectedpage){
 				pagetitle = pages.items[i].title;
 				break;
@@ -620,7 +629,7 @@ if (nel.className == "contauthlink") {
 				while (extractAttributes.test(linkMatch)) {
 					var attribute = RegExp.lastMatch;
 					var value = RegExp.lastParen;
-					attribute = attribute.split("=")[0].replace(/ /g,"")				
+					attribute = attribute.split("=")[0].replace(/ /g,"");
 					if (attribute.toLowerCase() == "id") {
 						if (value.split("_")[0] == "widget") {
 							todo -= 1;
@@ -637,7 +646,7 @@ if (nel.className == "contauthlink") {
 					}
 				}
 					
-				if (todo == 0 && originalicon && newicon && (originalicon != newicon)){
+				if (todo === 0 && originalicon && newicon && (originalicon != newicon)){
 					content2 = content2.replace(originalicon, newicon);
 				}	
 					
@@ -660,19 +669,19 @@ if (nel.className == "contauthlink") {
 		$("#edit_view_container").show();
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content?sid=" + Math.random(),
-			httpMethod: 'GET',
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content",
+			cache: false,
+			success: function(data){
 				autosavecontent = data;
 				$('#autosave_dialog').jqmShow();
 			},
-			onFail: function(data){	
+			error: function(data){	
 				timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
 			}
 		});
 		
-	}
+	};
 	
 	
 	/*
@@ -692,10 +701,10 @@ if (nel.className == "contauthlink") {
 	
 	$("#delete_confirm").bind("click", function(){
 		var newpath = selectedpage.split("/").join("/_pages/");
-		sdata.Ajax.request({
-			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "?sid=" + Math.random(),
-			httpMethod: 'DELETE',
-			onSuccess: function(data){
+		$.ajax({
+			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath,
+			type: 'DELETE',
+			success: function(data){
 				
 				// Save the new page configuration
 				
@@ -708,14 +717,14 @@ if (nel.className == "contauthlink") {
 				
 				pages.items.splice(index, 1);
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 				
 					document.location = "/dev/site.html?siteid=" + currentsite.id;
 				
 				});
 				
 			},
-			onFail: function(data){	
+			error: function(data){	
 				
 				// Save the new page configuration
 				
@@ -728,7 +737,7 @@ if (nel.className == "contauthlink") {
 				
 				pages.items.splice(index, 1);
 				
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 				
 					document.location = "/dev/site.html?siteid=" + currentsite.id;
 				
@@ -750,7 +759,7 @@ if (nel.className == "contauthlink") {
 		hash.o.remove();
 		timeoutid = setInterval(sakai._site.doAutosave, autosaveinterval);
 		removeAutoSaveFile();
-	}
+	};
 	
 	$("#autosave_revert").bind("click", function(ev){
 		tinyMCE.get("elm1").setContent(autosavecontent);
@@ -803,7 +812,7 @@ if (nel.className == "contauthlink") {
 		$("#realtime").text(hours + ":" + minutes + ":" + seconds);
 		$("#messageInformation").show();
 		
-	}
+	};
 	
 	/*
 		Local event handlers 
@@ -825,16 +834,12 @@ if (nel.className == "contauthlink") {
 		// Remove autosave file
 		
 		var newpath = selectedpage.split("/").join("/_pages/");
-		sdata.Ajax.request({
+		$.ajax({
 			url: "/sdata/f/" + currentsite.id + "/_pages/" + newpath + "/_content",
-			httpMethod: 'DELETE',
-			onSuccess: function(data){
-			},
-			onFail: function(data){	
-			}
+			type: 'DELETE'
 		});
 		
-	}
+	};
 	
 	$(".cancel-button").bind("click", function(ev){
 		
@@ -862,7 +867,7 @@ if (nel.className == "contauthlink") {
 			
 			// Save configuration file
 			
-			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 	
 				// Go back to view mode of previous page
 				
@@ -872,7 +877,7 @@ if (nel.className == "contauthlink") {
 					$("#webpage_edit").show();
 				}
 				document.getElementById(oldSelectedPage).style.display = "block";
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(oldSelectedPage);
+				sdata.widgets.WidgetLoader.insertWidgets(oldSelectedPage);
 				
 				selectedpage = oldSelectedPage;
 			
@@ -882,13 +887,9 @@ if (nel.className == "contauthlink") {
 				// Delete the folder that has been created for the new page	
 			
 				var newpath = selectedpage.split("/").join("/_pages/");
-				sdata.Ajax.request({
+				$.ajax({
 					url: "/sdata/f/" + currentsite.id + "/" + newpath,
-					httpMethod: 'DELETE',
-					onSuccess: function(data){
-					},
-					onFail: function(data){	
-					}
+					type: 'DELETE'
 				});
 			});
 	
@@ -903,7 +904,7 @@ if (nel.className == "contauthlink") {
 				$("#webpage_edit").show();
 			}
 			document.getElementById(escaped).style.display = "block";
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+			sdata.widgets.WidgetLoader.insertWidgets(escaped);
 			
 			$("#edit_view_container").hide();
 			$("#show_view_container").show();
@@ -940,7 +941,7 @@ if (nel.className == "contauthlink") {
 			$("#edit_view_container").hide();
 			$("#show_view_container").show();
 			
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
+			sdata.widgets.WidgetLoader.insertWidgets("page_nav_content");
 			sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_navigation", "content", pagecontents["_navigation"], function(){});
 			
 			var els = $("a", $("#" + escaped));
@@ -954,7 +955,7 @@ if (nel.className == "contauthlink") {
 			}
 			
 			document.getElementById(escaped).style.display = "block";
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+			sdata.widgets.WidgetLoader.insertWidgets(escaped);
 		
 		} else {
 		
@@ -971,13 +972,13 @@ if (nel.className == "contauthlink") {
 			// Check whether the pagetitle has changed
 			
 			var oldpagetitle = "";
-			for (var i = 0; i < pages.items.length; i++){
+			for (i = 0; i < pages.items.length; i++){
 				if (pages.items[i].id == selectedpage){
 					oldpagetitle = pages.items[i].title;
 				}
 			}
 			
-			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase() || (inEditView != false && inEditView != true)){
+			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase() || (inEditView !== false && inEditView !== true)){
 				
 				// Generate new page id
 				
@@ -989,15 +990,15 @@ if (nel.className == "contauthlink") {
 				baseid = baseid.replace(/[?]/g,"-");
 				baseid = baseid.replace(/[=]/g,"-");
 				var basefolder = "";
-				if (inEditView != false && inEditView != true){
+				if (inEditView !== false && inEditView !== true){
 					var abasefolder = inEditView.split("/");
-					for (var i = 0; i < abasefolder.length - 1; i++){
+					for (i = 0; i < abasefolder.length - 1; i++){
 						basefolder += abasefolder[i] + "/";
 					}
 				} else {
-					var abasefolder = selectedpage.split("/");
-					for (var i = 0; i < abasefolder.length - 1; i++){
-						basefolder += abasefolder[i] + "/";
+					var abasefolder2 = selectedpage.split("/");
+					for (i = 0; i < abasefolder2.length - 1; i++){
+						basefolder += abasefolder2[i] + "/";
 					}
 				}
 				
@@ -1010,7 +1011,7 @@ if (nel.className == "contauthlink") {
 					}
 					counter++;
 					var exists = false;
-					for (var i = 0; i < pages.items.length; i++){
+					for (i = 0; i < pages.items.length; i++){
 						if (pages.items[i].id == testid){
 							exists = true;
 						}
@@ -1020,7 +1021,7 @@ if (nel.className == "contauthlink") {
 					}
 				}
 				
-				for (var i = 0; i < pages.items.length; i++){
+				for (i = 0; i < pages.items.length; i++){
 					if (pages.items[i].id == selectedpage){
 						pages.items[i].id = newid;
 						pages.items[i].title = newpagetitle;
@@ -1038,11 +1039,11 @@ if (nel.className == "contauthlink") {
 					f: "mv"
 				};
 				
-				sdata.Ajax.request({
+				$.ajax({
 					url: oldfolderpath,
-					httpMethod: 'POST',
-					postData: data,
-					onSuccess: function(data){
+					type: 'POST',
+					data: data,
+					success: function(data){
 						
 						// Move all of the subpages of the current page to stay a subpage of the current page
 				
@@ -1055,7 +1056,7 @@ if (nel.className == "contauthlink") {
 				
 						// Adjust configuration file
 						
-						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 							
 							// Render the new page under the new URL
 							
@@ -1081,11 +1082,9 @@ if (nel.className == "contauthlink") {
 									$("#show_view_container").show();
 									
 									// Check in the page
-									sdata.Ajax.request({
+									$.ajax({
 										url: "/sdata/f" + newfolderpath + "/content?f=ci",
-										httpMethod: 'POST',
-										onSuccess: function(data){},
-										onFail: function(data){}
+										type: 'POST'
 									});
 							
 								}, null, "x-sakai-page");
@@ -1093,7 +1092,7 @@ if (nel.className == "contauthlink") {
 						});		
 						
 					},
-					onFail: function(status){
+					error: function(status){
 						
 						// Move all of the subpages of the current page to stay a subpage of the current page
 				
@@ -1106,7 +1105,7 @@ if (nel.className == "contauthlink") {
 				
 						// Adjust configuration file
 						
-						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){
+						sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){
 							
 							// Render the new page under the new URL
 							
@@ -1132,19 +1131,16 @@ if (nel.className == "contauthlink") {
 									$("#show_view_container").show();
 									
 									// Check in the page
-									sdata.Ajax.request({
+									$.ajax({
 										url: "/sdata/f" + newfolderpath + "/content?f=ci",
-										httpMethod: 'POST',
-										onSuccess: function(data){},
-										onFail: function(data){}
+										type: 'POST'
 									});
 									
 								}, null, "x-sakai-page");
 							
 						});		
 						
-					},
-					contentType: "application/x-www-form-urlencoded"
+					}
 				});
 				
 			} else {
@@ -1172,11 +1168,9 @@ if (nel.className == "contauthlink") {
 						$("#show_view_container").show();
 						
 						// Check in the page
-						sdata.Ajax.request({
+						$.ajax({
 							url: "/sdata/f/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
-							httpMethod: 'POST',
-							onSuccess: function(data){},
-							onFail: function(data){}
+							type: 'POST'
 						});
 									
 					}, null, "x-sakai-page");					
@@ -1207,16 +1201,14 @@ if (nel.className == "contauthlink") {
 					}
 					
 					document.getElementById(escaped).style.display = "block";
-					sdata.widgets.WidgetLoader.insertWidgetsAdvanced(escaped);
+					sdata.widgets.WidgetLoader.insertWidgets(escaped);
 					var newurl = selectedpage.split("/").join("/_pages/");
 					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/_pages/" + newurl, "content", pagecontents[selectedpage], function(){
 					
 						// Check in the page
-						sdata.Ajax.request({
+						$.ajax({
 							url: "/sdata/f/" + currentsite.id + "/_pages/" + newurl + "/content?f=ci",
-							httpMethod: 'POST',
-							onSuccess: function(data){},
-							onFail: function(data){}
+							type: 'POST'
 						});
 					
 					}, null, "x-sakai-page");
@@ -1249,10 +1241,10 @@ if (nel.className == "contauthlink") {
 			}
 		};
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: "/sdata/p/_print",
-			httpMethod: "POST",
-			onSuccess: function(data){
+			type: "POST",
+			success: function(data){
 				
 				var pagetitle = "";
 				
@@ -1264,10 +1256,8 @@ if (nel.className == "contauthlink") {
 				}
 				
 				popUp("print.html?pagetitle=" + pagetitle);
-			},
-			onFail: function(status){
-			},
-			postData: data,
+			}
+			data: data,
 			contentType: "multipart/form-data"
 		});
 		
@@ -2534,7 +2524,7 @@ if (nel.className == "contauthlink") {
 				alert("An error has occured");
 			}
 		});
-	}
+	};
 	
 	var resetVersionHistory = function(){
 		try {
@@ -2546,8 +2536,8 @@ if (nel.className == "contauthlink") {
 			}
 		} catch (err){
 			// Ignore	
-		};
-	}
+		}
+	};
 	
 	var transformDate = function(day, month, year, hour, minute){
 		var string = "";
@@ -2586,7 +2576,7 @@ if (nel.className == "contauthlink") {
 		}
 		string +=  minute;
 		return string;
-	}
+	};
 	
 	
 	/*
@@ -2599,7 +2589,7 @@ if (nel.className == "contauthlink") {
 		   	url :"/sdata/p/recentsites.json?sid=" + Math.random(),
 		    httpMethod : "GET",
 			onSuccess : function(data) {
-				var items = eval('(' + data + ')');
+				var items = $.evalJSON(data);
 				transformRecentSitesList(items, response);
 			},
 			onFail : function(data){
@@ -2607,11 +2597,11 @@ if (nel.className == "contauthlink") {
 			}
 		});
 		
-	}
+	};
 	
 	var transformRecentSitesList = function(items, response){
 		
-		var site = eval('(' + response + ')').location.substring(1);
+		var site = $.evalJSON(response).location.substring(1);
 		//Filter out this site
 		var index = -1;
 		for (var i = 0; i < items.items.length; i++){
@@ -2626,7 +2616,7 @@ if (nel.className == "contauthlink") {
 		items.items = items.items.splice(0,5);
 		writeRecentSiteList(items);
 		
-	}
+	};
 
 	var writeRecentSiteList = function(items){
 		
@@ -2670,6 +2660,6 @@ if (nel.className == "contauthlink") {
 	loadCurrentSiteObject();
 	fillInsertMoreDropdown();
 	
-}
+};
 
-sdata.registerForLoad("sakai.site");
+sdata.container.registerForLoad("sakai.site");
