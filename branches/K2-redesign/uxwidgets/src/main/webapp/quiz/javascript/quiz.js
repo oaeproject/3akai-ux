@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, json_parse, sakai, sdata, Querystring, DOMParser, RND, window */
+/*global $, Config, sdata, Querystring, DOMParser, RND */
 
 var sakai = sakai || {};
 
@@ -322,7 +322,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         json.values = json.values.join("|");
         json.colorsJoined = json.colors.join("|");
 		// render the results
-        $(quizResultGraphContainer, rootel).html(sdata.html.Template.render(quizResultGraphTemplate, json));
+        $(quizResultGraphContainer, rootel).html($.Template.render(quizResultGraphTemplate, json));
         $(quizResultGraphContainer, rootel).show();
 
     };
@@ -380,7 +380,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         jsonTemp.results.push(result);
 		
 		// Save the JSON-object
-        var tostring = sdata.JSON.stringify(jsonTemp);
+        var tostring = $.toJSON(jsonTemp);
 		var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 		json = jsonTemp;
         sdata.widgets.WidgetPreference.save(saveUrl, "quiz", tostring, renderResultHtml());
@@ -392,15 +392,15 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	 */
     var addUserResult = function() {
 		// First update the results in case someone solved the quiz while you were taking it
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "quiz") + "?sid=" + Math.random();
-		sdata.Ajax.request({
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "quiz");
+		$.ajax({
 		    url: url,
-		    httpMethod: "GET",
-		    onSuccess: function(data) {
-			 	var jsonTemp = json_parse(data);
+		    cache: false,
+		    success: function(data) {
+			 	var jsonTemp = $.evalJSON(data);
 				addUserResultToResults(jsonTemp);
 		    },
-		    onFail: function(status) {
+		    error: function(status) {
 		        json = {};
 		    }
 		});
@@ -430,7 +430,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		// put the points in a string
         jsonAnswers.points = json.points + "/" + questionOrder.length;
 		// show the ansers in a list
-        $(quizOverviewAnswersListContainer, rootel).html(sdata.html.Template.render(quizOverviewAnswersListTemplate, jsonAnswers));
+        $(quizOverviewAnswersListContainer, rootel).html($.Template.render(quizOverviewAnswersListTemplate, jsonAnswers));
 		renderResultHtml();
         $(quizOverviewAnswersList, rootel).show();
         $(quizShowPoints,rootel).show();
@@ -576,7 +576,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         }
         json.questions[questionOrder[index]].index = index;
 		// render the question
-        $(quizSolveQuestionContainer, rootel).html(sdata.html.Template.render(quizSolveQuestionTemplate, json.questions[questionOrder[index]]));
+        $(quizSolveQuestionContainer, rootel).html($.Template.render(quizSolveQuestionTemplate, json.questions[questionOrder[index]]));
         $(quizShowPoints).hide();
         $(quizSolveQuestion, rootel).show();
         // bind the show results button
@@ -607,7 +607,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             "ShowAnswer": json.showAnswers,
             "answer": correction.answer
         };
-        $(quizAnswerPopup, rootel).html(sdata.html.Template.render(quizPopupTemplate, popup));
+        $(quizAnswerPopup, rootel).html($.Template.render(quizPopupTemplate, popup));
         $(quizAnswerPopup, rootel).show();
 		// bind the popup click event
 		// goes to the results page if this is the last question or if timedout
@@ -721,7 +721,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		// put the points to 0
         json.points = 0;
 		// render the start quiz screen
-        $(quizQuizContainer, rootel).html(sdata.html.Template.render(quizQuizTemplate, json));
+        $(quizQuizContainer, rootel).html($.Template.render(quizQuizTemplate, json));
         $(quizQuizContainer, rootel).show();
         
 		// bind the start quiz button
@@ -800,7 +800,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		// get the next index (for the next button)
         question.Nextindex = (question.index + 1) % (questionsTemp.length);
 		// render the existing question list
-        $(quizExistingQuestions, rootel).html(sdata.html.Template.render(quizExistingQuestionsTemplate, question));
+        $(quizExistingQuestions, rootel).html($.Template.render(quizExistingQuestionsTemplate, question));
         $(quizExistingQuestions, rootel).show();
         // bind the next and previous buttons
 		$(quizChangeQuestion).bind("click",
@@ -845,7 +845,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             "items": quizes
         };
 		// render the existing quizes list
-        $(quizExistingQuizList, rootel).html(sdata.html.Template.render(quizExistingQuizListTemplate, existingQuizList));
+        $(quizExistingQuizList, rootel).html($.Template.render(quizExistingQuizListTemplate, existingQuizList));
 		
         $(quizExistingQuizList, rootel).show();
 		
@@ -868,7 +868,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	 */
     var addQuiz = function(quiz) {
 		// stringify the quizes
-        var tostring = sdata.JSON.stringify(quiz);
+        var tostring = $.toJSON(quiz);
 		// Save the quiz to the widget-node
 		var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
         sdata.widgets.WidgetPreference.save(saveUrl, "quiz", tostring, finishNewSettings);
@@ -883,7 +883,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		// save that JSON object to the _quiz node in the site-node
 		// this contains all quizes created in the site
 		var saveUrl2 = Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement.split("/")[0]);
-        var tostring2 = sdata.JSON.stringify(quizes);
+        var tostring2 = $.toJSON(quizes);
         sdata.widgets.WidgetPreference.save(saveUrl2, "_quiz", tostring2, finishNewSettings);
     };
 	
@@ -893,7 +893,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
     var renderListItems = function() {
         var question = {};
         question.answers = currentQuestion.answers;
-        $(quizMulipleAnswerListContainer, rootel).html(sdata.html.Template.render(quizMulipleAnswerListTemplate, question));
+        $(quizMulipleAnswerListContainer, rootel).html($.Template.render(quizMulipleAnswerListTemplate, question));
         $(quizMulipleAnswerListContainer, rootel).show();
         
     };
@@ -1373,7 +1373,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		// and the question
         imgTaggerJson.question = question.question;
 		// render that JSON-object
-        $(quizSettingsImgTagger, rootel).html(sdata.html.Template.render(quizSettingsImgTaggerTemplate, imgTaggerJson));
+        $(quizSettingsImgTagger, rootel).html($.Template.render(quizSettingsImgTaggerTemplate, imgTaggerJson));
         // hide the tabs
 		$(quizTabs, rootel).hide();
         $("." + quizMainTabContainer, rootel).hide();
@@ -1440,7 +1440,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             selectedItem.answers = [];
         }
 		// render the question overview list
-        $(quizListOverview, rootel).html(sdata.html.Template.render(quizListOverviewTemplate, quiz));
+        $(quizListOverview, rootel).html($.Template.render(quizListOverviewTemplate, quiz));
         $(quizListOverview, rootel).show();
 
 		// focus on textboxes which ar eselected
@@ -1732,33 +1732,33 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	 * Initializes the quiz widget
 	 */
 	var doInit = function(){
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "quiz") + "?sid=" + Math.random();
-		var urlAllQuizes = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/,  placement.split("/")[0]).replace(/__TUID__/, "_quiz") + "?sid=" + Math.random();
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "quiz");
+		var urlAllQuizes = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/,  placement.split("/")[0]).replace(/__TUID__/, "_quiz");
 		// show settings page
 		if (showSettings) {
 		// quiz request
-        sdata.Ajax.request({
+        $.ajax({
             url: url,
-            httpMethod: "GET",
-            onSuccess: function(data) {
+            cache: false,
+            success: function(data) {
 				// load the quiz settings
-                json = json_parse(data);
+                json = $.evalJSON(data);
                 loadQuizSettings(true, json);
             },
-            onFail: function(status) {
+            error: function(status) {
                 loadQuizSettings(false, status);
             }
         });
 		// existing quizes request
-        sdata.Ajax.request({
+        $.ajax({
             url: urlAllQuizes,
-            httpMethod: "GET",
-            onSuccess: function(data) {
+            cache: false,
+            success: function(data) {
 				// load the existing quizes page
-                quizes = json_parse(data);
+                quizes = $.evalJSON(data);
                 loadExistingQuizes(true, quizes);
             },
-            onFail: function(status) {
+            error: function(status) {
                 loadExistingQuizes(false, status);
             }
         });
@@ -1768,15 +1768,15 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	        $(quizOutput, rootel).show();
 	
 			// request the quiz data
-	        sdata.Ajax.request({
+	        $.ajax({
 	            url: url,
-	            httpMethod: "GET",
-	            onSuccess: function(data) {
-	                json = json_parse(data);
+	            cache: false,
+	            success: function(data) {
+	                json = $.evalJSON(data);
 					// show the start quiz screen
 	                showQuestions();
 	            },
-	            onFail: function(status) {
+	            error: function(status) {
 	                alert("Could not receive quiz data.");
 	            }
 	        });
