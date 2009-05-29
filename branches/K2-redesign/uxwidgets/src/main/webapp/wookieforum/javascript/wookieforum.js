@@ -16,12 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Config = Config || function() {throw "Config is undefined"; };
-var sakai = sakai || {};
-var $ = $ || function() { throw "JQuery undefined"; };
-var sdata = sdata || function() { throw "SDATA undefined"; };
-var json_parse = json_parse || function() { throw "json_parse undefined"; };
+/*global Config, $, sdata */
 
+var sakai = sakai || {};
 sakai.wookieforum = function(tuid, placement, showSettings){
 
 
@@ -126,13 +123,13 @@ sakai.wookieforum = function(tuid, placement, showSettings){
     var showForumPage = function() {
 
         //	Get the forum 
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookieforum") + "?sid=" + Math.random();
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookieforum");
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: url,
-   			httpMethod : "GET",
-   			onSuccess : function(data) {
-        		var forum = json_parse(data);
+			cache: false,
+   			success : function(data) {
+        		var forum = $.evalJSON(data);
 	        	   
 				//	Construct the iframe
 				var sFrame = '<iframe style="border:0px;" border="0" width="640" height="380" src="' + forum.url;
@@ -142,7 +139,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 					sFrame += "&nickname=" + me.profile.firstName + '-' + me.profile.lastName;
 					//	avatar
 					if (me.profile.picture) {
-						var oPicture = json_parse(me.profile.picture);
+						var oPicture = $.evalJSON(me.profile.picture);
 						var sAvatar = getSakaiDomain() + getSakaiPort() + "/sdata/f/_private" + me.userStoragePrefix + oPicture.name;
 						sFrame += "&avatar=" + sAvatar;
 					}
@@ -153,7 +150,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 				$(mainContainer, rootel).append(sFrame);
         	   
    			},
-   			onFail : function(status) {
+   			error : function(status) {
    				showGeneralMessage(mainMessagesContainer, $(error_unableforumPrefs).text(), true, 0);
    			}
    		});
@@ -186,7 +183,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 		var forum = {"url" : url, "width" : width, "height" : height, "maximze" : maximize};
 		
 		//	sava data to widgets jcr
-		var str = sdata.JSON.stringify(forum); // Convert the posts to a JSON string
+		var str = $.toJSON(forum); // Convert the posts to a JSON string
 		sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "wookieforum", str, forumSaved);
 	};
    
@@ -218,17 +215,16 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 		var oPostData = {"method" : "POST", "url" : url, "post" : encodeURIComponent(sDataToWookie)};
         
 		//	The request
-        sdata.Ajax.request({
+        $.ajax({
             url: Config.URL.PROXY_SERVICE,
-            httpMethod : "POST",
-            onSuccess : function(data) {
+            type : "POST",
+            success : function(data) {
 				createForumFinished(data);
             },
-            onFail : function(status) {
+            error : function(status) {
 				showGeneralMessage(settingsMessagesContainer, $(error_unableContactWookie).text(), true, 0);
             },
-            postData : oPostData,
-            contentType : "application/x-www-form-urlencoded"
+            data : oPostData
         });
 	};   
 	
@@ -239,13 +235,13 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 	var doSettings = function() {
 		
 		// Get the chat settings
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookieforum") + "?sid=" + Math.random();
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookieforum");
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: url,
-			httpMethod: "GET",
-			onSuccess: function(data) {
-				var forum = json_parse(data);
+			cache: false,
+			success: function(data) {
+				var forum = $.evalJSON(data);
 				if (forum.url) {
 					//	There is already some data so this must be an existing forum.
 					$(settingsAdd).hide();
@@ -257,7 +253,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 				}
 				
 			},
-			onFail: function(data) {
+			error: function(data) {
 				$(settingsCreate).hide();
 				$(settingsAdd).show();
 			}
