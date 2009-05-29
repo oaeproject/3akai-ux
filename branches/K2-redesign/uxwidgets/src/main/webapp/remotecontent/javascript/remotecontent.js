@@ -1,9 +1,24 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*global $, sdata, Querystring */
+
 var sakai = sakai || {};
-var $ = $ || function() { throw "JQuery undefined"; };
-var sdata = sdata || function() { throw "SDATA undefined"; };
-var json_parse = json_parse || function() { throw "json_parse undefined"; };
-
-
 sakai.remotecontent = function(tuid, placement, showSettings){
     var rootel = $("#" + tuid);
     var me = false;
@@ -93,12 +108,12 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * view we are in, fill in the settings or display an iframe.
      */
     var getRemoteContent = function() {
-    	sdata.Ajax.request({
-   			url :"/sdata/f/" + placement + "/" + tuid + "/remotecontent?sid=" + Math.random(),
-   			httpMethod : "GET",
-   			onSuccess : function(data) {
+    	$.ajax({
+   			url :"/sdata/f/" + placement + "/" + tuid + "/remotecontent",
+			cache: false,
+   			success : function(data) {
     			//	We will get a JSON string that will contain the necessary information.
-    			var parameters = json_parse(data);
+    			var parameters = $.evalJSON(data);
     			
     			if (showSettings) {
     		    	//	Fill in the settings page.
@@ -147,7 +162,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
         	//	$("#sizeError").append("Please enter valid numbers only.<br />");
     		//}
     	}
-    	if (sBorderSize !== "" && !/^\d+$/.test(sBorderSize)) {
+    	if (sBorderSize !== "" && ! (/^\d+$/).test(sBorderSize)) {
     		bOK = false;
     		$("#borderError").append("Please enter valid numbers only.<br />");
     	}
@@ -162,7 +177,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     		//	Everything is OK, save it to JCR.
     		var parameters = {"url" : sURL, "width" : sWidth, "height" : sHeight, "borderSize" : sBorderSize, "borderColor" : selectedBorderColor};
 
-        	var str = sdata.JSON.stringify(parameters); // Convert the posts to a JSON string
+        	var str = $.toJSON(parameters); // Convert the posts to a JSON string
 
     		sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "remotecontent", str, savedDataToJCR);
     	}
