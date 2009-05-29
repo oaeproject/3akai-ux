@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, json_parse, sakai, sdata, Querystring, DOMParser */
+/*global $, Config, sdata, Querystring, DOMParser */
 
 var sakai = sakai || {};
 
@@ -155,19 +155,18 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * @param {function} The function where the response will be send to;
 	 */
 	var getFeed = function(url, onResponse){
-			feedUrl = url;
-			var oPostData = {"method" : "GET", "url" : feedUrl};
- 			sdata.Ajax.request({
+		feedUrl = url;
+		var oPostData = {"method" : "GET", "url" : feedUrl};
+ 		$.ajax({
 			url :Config.URL.PROXY_SERVICE,
-			httpMethod : "POST",
-			onSuccess : function(data) {
+			type : "POST",
+			success : function(data) {
 					onResponse(printFeed(data));
 			},
-			onFail : function(status) {
+			error : function(status) {
 					alert("Unable to contact the rss feed.");
 			},
-			postData : oPostData,
-			contentType : "application/x-www-form-urlencoded"
+			data : oPostData
  		});
 	};
 	
@@ -227,7 +226,7 @@ sakai.rss = function(tuid, placement, showSettings){
 			}
 			// if all the feed are retrieved render the rss
 			else{
-				$(rssFeedListContainer, rootel).html(sdata.html.Template.render(rssFeedListTemplate, json));
+				$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, json));
 			}		
 		});
 	};
@@ -260,7 +259,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		// first get the entries that need to be shown on this page
 		json.shownEntries = getShownEntries(pageClicked);
 		// render these entries
-		$(rssOutput, rootel).html(sdata.html.Template.render(rssOutputTemplate, json));
+		$(rssOutput, rootel).html($.Template.render(rssOutputTemplate, json));
 		// change the pageNumeber
 		$(rssPager,rootel).pager({
 			pagenumber: pageClicked,
@@ -345,7 +344,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		if(rssFeed !== false){
 			json.feeds = json.feeds || [];
 			json.feeds.push(rssFeed);
-			$(rssFeedListContainer, rootel).html(sdata.html.Template.render(rssFeedListTemplate, json));
+			$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, json));
 			
 		}
 	};
@@ -411,7 +410,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	$(rssSubmit, rootel).bind("click",function(e,ui){
 		var object = getSettingsObject();
 		if(object !== false){
-			var tostring = sdata.JSON.stringify(object);
+			var tostring = $.toJSON(object);
 			var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 			sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, sdata.container.informFinish(tuid));
 		}
@@ -419,7 +418,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	$(rootel + " " + rssRemove).live("click", function(e,ui){
 		var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
 		json.feeds.splice(index,1);
-		$(rssFeedListContainer, rootel).html(sdata.html.Template.render(rssFeedListTemplate, json));
+		$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, json));
 	});
 	$(rootel + " " + rssOrderBySource).live("click", function(e,ui){
 		json.entries.sort(sortBySourcefunction);
@@ -453,16 +452,16 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * @param {Object} show
 	 */
 	var showHideSettings = function(show){
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "rss") + "?sid=" + Math.random();
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "rss");
 		if(show){
-			sdata.Ajax.request({
+			$.ajax({
 				url: url,
-				httpMethod: "GET",
-				onSuccess: function(data) {
-					json = json_parse(data);
+				cache: false,
+				success: function(data) {
+					json = $.evalJSON(data);
 					loadSettings(true);
 				},
-				onFail: function(status) {
+				error: function(status) {
 					loadSettings(false);
 				}
 			});
@@ -471,16 +470,16 @@ sakai.rss = function(tuid, placement, showSettings){
 			$(rssSettings,rootel).hide();
 			$(rssOutput,rootel).show();
 			
-			sdata.Ajax.request({
+			$.ajax({
 				url: url,
-				httpMethod: "GET",
-				onSuccess: function(data) {
-					json = json_parse(data);
+				cache: false,
+				success: function(data) {
+					json = $.evalJSON(data);
 					json.entries = [];
 					json.feeds = [];
 					fillRssOutput(json);
 				},
-				onFail: function(status) {
+				error: function(status) {
 					alert("Failed to retrieve rss feeds");
 				}
 			});
