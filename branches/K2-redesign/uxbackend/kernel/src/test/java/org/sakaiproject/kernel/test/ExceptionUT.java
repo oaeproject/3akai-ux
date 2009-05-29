@@ -36,7 +36,6 @@ public class ExceptionUT {
     RepositoryStartupException e = new RepositoryStartupException();
     RepositoryStartupException e1 = new RepositoryStartupException(
         "Startup Test");
-
     RepositoryStartupException e2 = new RepositoryStartupException(e);
     RepositoryStartupException e3 = new RepositoryStartupException(
         "Startup Test", e);

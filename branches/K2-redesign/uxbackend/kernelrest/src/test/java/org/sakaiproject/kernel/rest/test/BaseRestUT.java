@@ -65,6 +65,7 @@ import javax.servlet.http.HttpSession;
  */
 public class BaseRestUT {
 
+	
   protected RegistryService registryService;
   protected UserEnvironmentResolverService userEnvironmentResolverService;
   protected SessionManagerService sessionManagerService;

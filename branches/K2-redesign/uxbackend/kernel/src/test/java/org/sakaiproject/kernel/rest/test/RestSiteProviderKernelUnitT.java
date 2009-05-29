@@ -142,6 +142,8 @@ public class RestSiteProviderKernelUnitT extends BaseRestUnitT {
     expect(request.getParameter("id")).andReturn("sitethatdoesnotexist");
     expect(siteService.siteExists("sitethatdoesnotexist")).andReturn(false);
     expect(request.getParameter("name")).andReturn("Name:sitethatdoesnotexist");
+    expect(request.getParameter("status")).andReturn("Status:sitethatdoesnotexist");
+    expect(request.getParameter("access")).andReturn("Access:sitethatdoesnotexist");
     expect(request.getParameter("description")).andReturn(
         "Description:sitethatdoesnotexist");
     expect(request.getParameter("type")).andReturn("Type:sitethatdoesnotexist");

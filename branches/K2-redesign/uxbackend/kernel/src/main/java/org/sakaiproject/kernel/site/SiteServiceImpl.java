@@ -18,11 +18,18 @@
 
 package org.sakaiproject.kernel.site;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.name.Named;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Map;
+
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import net.sf.json.JSONObject;
 
@@ -30,7 +37,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.kernel.KernelConstants;
 import org.sakaiproject.kernel.api.authz.AuthzResolverService;
-import org.sakaiproject.kernel.api.jcr.JCRConstants;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryService;
 import org.sakaiproject.kernel.api.jcr.support.JCRNodeFactoryServiceException;
 import org.sakaiproject.kernel.api.rest.RestProvider;
@@ -51,24 +57,11 @@ import org.sakaiproject.kernel.util.PathUtils;
 import org.sakaiproject.kernel.util.StringUtils;
 import org.sakaiproject.kernel.util.rest.CollectionOptions;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.jcr.Node;
-import javax.jcr.Property;
-import javax.jcr.PropertyIterator;
-import javax.jcr.RepositoryException;
-import javax.jcr.ValueFormatException;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
 
 /**
  *

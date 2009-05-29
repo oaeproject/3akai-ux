@@ -47,5 +47,5 @@ import org.sakaiproject.kernel.webapp.test.SakaiServletResponseUT;
     RegistryServiceUT.class, DataSourceServiceUT.class, UserLocaleUT.class,
     SakaiUserPrincipalUT.class, JCRAnonymousPrincipalUT.class,
     RestAuthenticationProviderUT.class, FriendsBeanUT.class })
-public class AllStandardTest {
+public class AllStandardTest {	
 }

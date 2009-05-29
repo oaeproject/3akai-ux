@@ -68,6 +68,7 @@ import javax.transaction.TransactionManager;
  * correctly.
  */
 public class KernelIntegrationBase {
+	
   private static final Log LOG = LogFactory.getLog(KernelIntegrationBase.class);
   private static KernelLifecycle kernelLifecycle;
   private static KernelManager kernelManager;

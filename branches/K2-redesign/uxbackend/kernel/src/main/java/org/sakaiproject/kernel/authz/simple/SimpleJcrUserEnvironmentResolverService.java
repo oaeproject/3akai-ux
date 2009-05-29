@@ -475,8 +475,7 @@ public class SimpleJcrUserEnvironmentResolverService implements
 
     String newSubject = siteId + ":" + membershipType;
     String[] subjects = newUserEnvironment.getSubjects();
-    subjects = org.sakaiproject.kernel.util.StringUtils.addString(subjects,
-        newSubject);
+    subjects = org.sakaiproject.kernel.util.StringUtils.addString(subjects, newSubject);
     newUserEnvironment.setSubjects(subjects);
 
     save(newUserEnvironment);

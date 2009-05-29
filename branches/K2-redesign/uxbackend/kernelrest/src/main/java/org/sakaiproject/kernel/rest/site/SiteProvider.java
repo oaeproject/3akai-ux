@@ -80,6 +80,8 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
   private static final String USER_PARAM = "uuserid";
   private static final String MEMBERSHIP_PARAM = "membertoken";
   private static final String NAME_PARAM = "name";
+  private static final String STATUS_PARAM = "status";
+  private static final String ACCESS_PARAM = "access";
   private static final String DESCRIPTION_PARAM = "description";
   private static final String ROLES_ADD_PARAM = "addrole";
   private static final String ROLES_REMOVE_PARAM = "removerole";
@@ -163,6 +165,8 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
     DESC.addParameter(NAME_PARAM, "The Site Name");
     DESC.addParameter(DESCRIPTION_PARAM, "The Site Description");
     DESC.addParameter(SITE_TYPE_PARAM, "The Site Type");
+    DESC.addParameter(STATUS_PARAM, "The Site Status - Note this is just the data, this won't set any permissions.");
+    DESC.addParameter(ACCESS_PARAM, "The Site Access - Note this is just the data, this won't set any permissions.");
     DESC
         .addParameter(OWNER_PARAM, "The Site Owner, only available to owners of the site");
     DESC.addParameter(USER_PARAM, "An array of unique user ids");
@@ -237,7 +241,9 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
       @FormParam(SITE_TYPE_PARAM) String type, @FormParam(NAME_PARAM) String name,
       @FormParam(DESCRIPTION_PARAM) String description,
       @FormParam(ROLES_ADD_PARAM) String[] roles,
-      @FormParam(JOINABLE_PARAM) String joningMembershipType) {
+      @FormParam(JOINABLE_PARAM) String joningMembershipType,
+      @FormParam(STATUS_PARAM) String status,
+      @FormParam(ACCESS_PARAM) String access) {
     try {
       User u = getAuthenticatedUser();
       path = PathUtils.normalizePath(path);
@@ -252,6 +258,13 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
       siteBean.setName(name);
       siteBean.addRoles(roles);
       siteBean.setJoiningMembership(joningMembershipType);
+
+      if (status != null) {
+        siteBean.setStatus(status);
+      }
+      if (access != null) {
+        siteBean.setAccess(access);
+      }
 
       userEnvironmentResolverService
           .addMembership(u.getUuid(), siteBean.getId(), "owner");
@@ -280,6 +293,8 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
   public String updateSite(@PathParam(SITE_PATH_PARAM) String path,
       @FormParam(SITE_TYPE_PARAM) String type, @FormParam(NAME_PARAM) String name,
       @FormParam(DESCRIPTION_PARAM) String description,
+      @FormParam(STATUS_PARAM) String status,
+      @FormParam(ACCESS_PARAM) String access,
       @FormParam(ROLES_ADD_PARAM) String[] toAdd,
       @FormParam(ROLES_REMOVE_PARAM) String[] toRemove,
       @FormParam(JOINABLE_PARAM) String joiningMembershipType) {
@@ -294,6 +309,12 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
         }
         if (name != null) {
           siteBean.setName(name);
+        }
+        if (status != null) {
+          siteBean.setStatus(status);
+        }
+        if (access != null) {
+          siteBean.setAccess(access);
         }
         if (toRemove != null && toRemove.length > 0) {
           siteBean.removeRoles(toRemove);
@@ -316,6 +337,23 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
       throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
     }
     return OK;
+  }
+  
+  
+  @GET
+  @Path("/delete/{" + SITE_PATH_PARAM + ":.*}")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String deleteSite(@PathParam(SITE_PATH_PARAM) String path) {
+	  path = PathUtils.normalizePath(path);
+      authzResolverService.check(path + SiteService.PATH_SITE, permissionQueryService
+          .getPermission(PermissionQuery.WRITE));
+      if (siteService.siteExists(path)) {
+    	  siteService.deleteSite(path);
+      }
+      
+      
+      return OK;
+	  
   }
 
   /**

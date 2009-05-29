@@ -168,6 +168,7 @@ public class BaseRestUnitT {
     expect(request.getRequestedSessionId()).andReturn(sessionID).anyTimes();
     expect(session.getId()).andReturn(sessionID).anyTimes();
     expect(session.getAttribute("check-valid")).andReturn(null).anyTimes(); // indicates
+    
     // that
     // the
     // session
@@ -194,9 +195,5 @@ public class BaseRestUnitT {
     expect(response.getOutputStream()).andReturn(out).anyTimes();
 
   }
-
-
-
-
-
+  
 }

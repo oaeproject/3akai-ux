@@ -23,7 +23,7 @@ import org.sakaiproject.kernel.api.user.User;
  * 
  */
 public class InternalUser implements User {
-
+	
   /**
    * 
    */

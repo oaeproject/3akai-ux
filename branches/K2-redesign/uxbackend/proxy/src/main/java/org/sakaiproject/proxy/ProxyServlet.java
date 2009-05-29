@@ -18,32 +18,25 @@
 
 package org.sakaiproject.proxy;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
 import org.apache.commons.codec.binary.Base64;
-
-import javax.servlet.ServletConfig;
-import java.io.*;
-import java.net.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -54,11 +47,6 @@ public class ProxyServlet extends HttpServlet {
 	   *
 	   */
 	private static final long serialVersionUID = 2383631675063579262L;
-
-	private static final Log LOG = LogFactory.getLog(ProxyServlet.class);
-
-	private int READ_BUFFER_SIZE = 1024;
-
 
 	/**
      * To set a referer limitation, add an init parameter to the Servlet
@@ -109,7 +97,7 @@ public class ProxyServlet extends HttpServlet {
 		System.out.println("parameters.");
 		System.out.flush();
 		
-		Map headers = new HashMap();
+		Map<String, String> headers = new HashMap<String, String>();
 		for (Object anEntrySet : entrySet) {
 			Map.Entry header = (Map.Entry) anEntrySet;
 			String key = (String) header.getKey();

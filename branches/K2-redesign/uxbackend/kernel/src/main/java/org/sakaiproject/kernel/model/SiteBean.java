@@ -40,12 +40,14 @@ import java.util.Map.Entry;
 public class SiteBean extends GroupBean {
 
   private String id;
+  private String status;
+  private String access;
   private String type;
   private String joiningMembership;
   private String membershipHandler;
   private transient String sitePath;
   private transient SiteService siteService;
-private JSONObject template;
+  private JSONObject template;
 
   /**
    * Get the ID of this site.
@@ -82,8 +84,39 @@ private JSONObject template;
   public void setType(String type) {
     this.type = type;
   }
+  /**
+   * Get the status for this site.
+   * 
+   * @return
+   */
+  public String getStatus() {
+	  return status;
+  }
 
   /**
+   * Set the status for this site.
+   * @param status
+   */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	/**
+	 * Get the access for this site.
+	 * @return
+	 */
+	public String getAccess() {
+		return access;
+	}
+	
+	/**
+	 * Set the access for this site.
+	 * @param access
+	 */
+	public void setAccess(String access) {
+		this.access = access;
+	}
+
+/**
    * {@inheritDoc}
    *
    * @see java.lang.Object#toString()
