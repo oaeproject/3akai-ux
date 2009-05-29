@@ -1,247 +1,281 @@
-var sakai = sakai ||
-{};
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
-sakai._search = {};
+/*global $, Config, sdata, History */
+
+var sakai = sakai || {};
 sakai.search = function() {
 
-	/*
-	 Config variables
-	 */
-	var contentToSearch = 10;
+
+	//////////////////////////
+	//	Config variables	//
+	//////////////////////////
 	
-	var meObj = false;
-	var foundcontent = false;
-	var hasHadFocus = false;
+	var resultsToDisplay = 10;
 	var searchterm = "";
 	var currentpage = 0;
 	
-	sakai._search.reset = function() {
-		$("#search_result_title").hide();
-		$(".search_results_part_footer").hide();
-		$("#introduction_text").show();
-		$("#display_more_content").show();
-	}
 	
-	var doInit = function() {
+	//	CSS IDs
 	
-		sdata.Ajax.request({
-			url: "/rest/me?sid=" + Math.random(),
-			onSuccess: function(response) {
-			
-				meObj = eval('(' + response + ')');
-				if (meObj.preferences.uuid) {
-					inituser = meObj.profile.firstName + " " + meObj.profile.lastName;
-					$("#userid").text(inituser);
-					placeImage();
-					getMySites();
+	
+	var search = "#search";
+	
+	var searchConfig = {
+		search : "#search",
+		global : {
+			button : search + "_button",
+			text  :search + '_text',
+			numberFound : search + '_numberFound',
+			searchTerm : search + "_mysearchterm",
+			searchBarSelectedClass : "search_bar_selected",
+			pagerClass : ".jq_pager"
+		},
+		filters : {
+			filter : search + "_filter",
+			sites : {
+				filterSites : search + "_filter_my_sites",
+				filterSitesTemplate : "search_filter_my_sites_template",
+				ids : { 
+					entireCommunity : '#search_filter_community',
+					allMySites : '#search_filter_all_my_sites',
+					specificSite : '#search_filter_my_sites_'
+				},
+				values : {
+					entireCommunity :'entire_community',
+					allMySites : "all_my_sites"
 				}
-				else {
-					document.location = Config.URL.GATEWAY_URL;
-				}
-				
 			}
-		});
-		
-	};
-	
-	var getMySites = function() {
-		sdata.Ajax.request({
-			url: "/rest/sites?sid=" + Math.random(),
-			onSuccess: function(response) {
-				var data = json_parse(response);
-				var finaljson = {}
-				finaljson.items = [];
-				if (data.entry) {
-					finaljson.items = data.entry;
-				}
-				$("#search_filter_my_sites").html(sdata.html.Template.render("search_filter_my_sites_template", finaljson));
-				History.history_change();
-				
-			}
-		});
-	};
-	
-	var placeImage = function() {
-		// Fix small arrow horizontal position
-		$('.explore_nav_selected_arrow').css('right', $('.explore_nav_selected').width() / 2 + 10);
-		
-		// Round cornners for elements with '.rounded_corners' class
-		$('.rounded_corners').corners("2px");
-		
-		// IE Fixes
-		if (($.browser.msie) && ($.browser.version < 8)) {
-			// Tab fix
-			$('.fl-tabs li a').css('bottom', '-1px');
-			$('.fl-tabs .fl-activeTab a').css('bottom', '-1px');
-			
-			//Search button fix
-			$('.search_button').css('top', '4px');
-			
-			// Small Arrow Fix
-			$('.explore_nav_selected_arrow').css('bottom', '-10px');
+		},
+		tabs : {
+			all : "#tab_search_all",
+			content : "#tab_search_content",
+			people : "#tab_search_people",
+			sites : "#tab_search_sites"
+		},
+		results : {
+			container : search + '_results_container',
+			header : search + '_results_header',
+			template : 'search_results_template'
 		}
-	}
+	};
 	
-	sakai._search.doHSearch = function(page, searchquery) {
+		
+	
+	
+	//////////////////
+	//	functions	//
+	//////////////////
+	
+	
+	/**
+	 * This method will show all the appropriate elements for when a search is executed.
+	 */
+	var showSearchContent = function() {
+		$(searchConfig.global.searchTerm).text(searchterm);
+		$(searchConfig.global.numberFound).text("0");
+		$(searchConfig.results.header).show();
+	};
+		
+	
+	//////////////////////////////
+	//	Search functionality	//
+	//////////////////////////////
+	
+	
+	/**
+	 * Used to do a search. This will add the page and the searchterm to the url and add 
+	 * it too the history without reloading the page. This way the user can navigate
+	 * using the back and forward button.
+	 * @param {Integer} page The page you are on (optional / default = 1.)
+	 * @param {String} searchquery The searchterm you want to look for (optional / default = input box value.)
+	 */
+	var doHSearch = function(page, searchquery, searchwhere) {
 		if (!page) {
 			page = 1;
 		}
 		if (!searchquery) {
-			searchquery = $("#search_text").val().toLowerCase();
+			searchquery = $(searchConfig.global.text).val().toLowerCase();
+		}
+		if (!searchwhere) {
+			searchwhere = mainSearch.getSearchWhereSites();
 		}
 		currentpage = page;
-		History.addBEvent("" + page + "|" + searchquery);
-	}
+		//	This will invoke the sakai._search.doSearch function and change the url.
+		History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+	};	
 	
-	sakai._search.doSearch = function(page, searchquery) {
-	
-		currentpage = parseInt(page);
-		
-		if (searchquery) {
-			$("#search_text").val(searchquery);
-			$("#search_text").addClass("search_bar_selected");
+	/**
+	 * When the pager gets clicked.
+	 * @param {integer} pageclickednumber The page you want to go to.
+	 */
+	var pager_click_handler = function(pageclickednumber) {
+		currentpage = pageclickednumber;
+		//	Redo the search
+		doHSearch(currentpage, searchterm);
+	};
+
+	/**
+	 * This will render all the results we have found.
+	 * @param {Object} results The json object containing all the result info.
+	 * @param {Boolean} success
+	 */
+	var renderResults = function(results, success) {
+		var finaljson = {};
+		finaljson.items = [];
+		if (success) {
+			//	Adjust the number of sites we have found.
+			$(searchConfig.global.numberFound).text(results.size);
+			
+			//	Reset the pager.
+			$(searchConfig.global.pagerClass).pager({
+				pagenumber: currentpage,
+				pagecount: Math.ceil(results.size / resultsToDisplay),
+				buttonClickCallback: pager_click_handler
+			});
+			
+			//	If we have results we add them to the object.
+			if (results && results.results) {
+				finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
+			}
+						
+			//	If we don't have any results or they are less then the number we should display 
+			//	we hide the pager
+			if (results.size < resultsToDisplay) {
+				$(searchConfig.global.pagerClass).hide();
+			}
+			else {
+				$(searchConfig.global.pagerClass).show();
+			}
 		}
+		else {
+			$(searchConfig.global.pagerClass).hide();
+		}
+		//	Render the results.
+		$(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+	};
+	
+	
+	
+	//////////////////////////
+	//	_search functions	//
+	//////////////////////////
+	
+	/*
+	 * These are functions that are defined in search_history.js .
+	 * We override these with our owm implementation.
+	 */
+	
+	
+	/**
+	 * This function gets called everytime the page loads and a new searchterm is entered.
+	 * It gets called by search_history.js
+	 * @param {Integer} page The page you are on.
+	 * @param {String} searchquery The searchterm you want to search trough.
+	 * @param {string} searchwhere The subset of sites you want to search in.
+	 *  * = entire community
+	 *  mysites = the site the user is registered on
+	 *  /a-site-of-mine = specific site from the user
+	 */
+	sakai._search.doSearch = function(page, searchquery, searchwhere) {
 		
-		searchterm = $("#search_text").val().toLowerCase();
+		currentpage = parseInt(page,  10);
+		
+		//	Set all the input fields and paging correct.	
+		mainSearch.fillInElements(page, searchquery, searchwhere);
+		
+		
+		//	Get the search term out of the input box.
+		//	If we were redirected to this page it will be added previously already.
+		searchterm = $(searchConfig.global.text).val().toLowerCase();
+		
+		//	Rebind everything
+		mainSearch.addEventListeners(searchterm, searchwhere);
 		
 		if (searchterm) {
-			// Set searching messages
-			
-			$("#mysearchterm").text(searchterm);
-			$("#numberfound").text("0");
-			
-			// Set everything visible
-			
-			$("#introduction_text").hide();
-			$("#display_more_content").hide();
-			$("#content_media_header").show();
-			$("#content_header").show();
-			$("#courses_content_header").show();
-			$("#search_result_title").show();
-			$(".search_results_part_footer").show();
+			// Show and hide the correct elements.
+			showSearchContent();
 			
 			// Set off the AJAX request
 			
-			// content Search
-			var searchFilter = $('#search_filter option:selected"').val();
-			var searchWhere = '*';
-			if (searchFilter === 'entire_community') {
-				searchWhere = '*';
-			}
-			else if (searchFilter === 'all_my_sites') {
-				searchWhere = 'mysites';
-			}
-			else {
-				//	Specific site add the location.
-				searchWhere = searchFilter;
-			}
+			// sites Search
+			var searchWhere = mainSearch.getSearchWhereSites();
 			
-			var contentsearchterm = "";
+			//	What are we looking for?
+			var urlsearchterm = "";
 			var splitted = searchterm.split(" ");
 			for (var i = 0; i < splitted.length; i++) {
-				contentsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
+				urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
 			}
 			
-			sdata.Ajax.request({
+			$.ajax({
 				httpMethod: "GET",
-				url: "/dev/dummyjson/searchContent.json?p=" + (currentpage - 1) + "&path=/_private&n=" + contentToSearch + "&q=" + contentsearchterm + "&sites=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName&sid=" + Math.random(),
-				onSuccess: function(data) {
-					foundcontent = eval('(' + data + ')');
-					rendercontent();
+				url: "/dev/dummyjson/searchContent.json?p=" + (currentpage - 1) + "&path=/_private&n=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName",
+				success: function(data) {
+					var json = $.evalJSON(data);
+					renderResults(json, true);
 				},
-				onFail: function(status) {
-					foundcontent = {};
-					rendercontent();
+				error: function(status) {
+					var json = {};
+					renderResults(json, false);
 				}
 			});
 			
 		}
 		else {
-		
 			sakai._search.reset();
-			
 		}
-		
-	}
+	};
 	
-	
-	/*
-	 content search
+	/**
+	 * Will reset the view to standard.
 	 */
-	// Pager click handler
-	var pager_click_handler = function(pageclickednumber) {
-		currentpage = pageclickednumber;
-		sakai._search.doHSearch(currentpage, searchterm);
-	}
+	sakai._search.reset = function() {
+		$(searchConfig.results.header).hide();
+	};
 	
-	var _currentTotal = 0;
 	
-	var rendercontent = function() {
+	//////////////////////
+	//	init function	//
+	//////////////////////
 	
-		var finaljson = {};
-		finaljson.items = [];
-		
-		$("#numberfound").text(foundcontent.size);
-		_currentTotal = foundcontent.size;
-		
-		// Pager Init
-		
-		$(".jq_pager").pager({
-			pagenumber: currentpage,
-			pagecount: Math.ceil(_currentTotal / contentToSearch),
-			buttonClickCallback: pager_click_handler
-		});
-		
-		if (foundcontent.size > contentToSearch) {
-			$("#display_more_content").show();
-			$("#display_more_content_number").text(foundcontent.size);
-			$("#display_more_content").attr("href", "search_b_content.html#1|" + searchterm);
-		}
-		
-		if (foundcontent && foundcontent.results) {
-			finaljson.items = foundcontent.results;
-		}
-		$("#content_search_results").html(sdata.html.Template.render("content_search_results_remplate", finaljson));
-		
-		if (finaljson.items.length == 0) {
-			$(".jq_pager").hide();
-		}
-		else {
-			$(".jq_pager").show();
-		}
-		
-	}
-	
-	/*
-	 Event listeners
+	/**
+	 * Will fetch the sites and add a new item to the history list.
 	 */
-    $("#tab_search_all, #tab_search_content, #tab_search_people, #tab_search_sites").bind("click", function(ev){
-        if (searchterm) {
-            $(this).attr("href", $(this).attr("href").split('#')[0] + "#1|" + searchterm);
-        }
-        return true;
-    });
-	
-	$("#search_text").bind("focus", function(ev) {
-		if (!hasHadFocus) {
-			$("#search_text").val("");
-			$("#search_text").addClass("search_bar_selected");
+	var doInit = function() {
+		//	Make sure that we are still logged in.
+		if (mainSearch.isLoggedIn()) {
+			//	Get my sites
+			mainSearch.getMySites();
+			//	add the bindings
+			mainSearch.addEventListeners();
 		}
-		hasHadFocus = true;
-	});
+	};
 	
-	$("#search_text").bind("keypress", function(ev) {
-		if (ev.keyCode == 13) {
-			sakai._search.doHSearch();
-		}
-	});
 	
-	$("#search_button").bind("click", function(ev) {
-		sakai._search.doHSearch();
-	});
+	var thisFunctionality = {
+		"doHSearch" : doHSearch
+	};
+	
+	var mainSearch = sakai._search(searchConfig, thisFunctionality);
 	
 	doInit();
 	
-}
+};
 
-sdata.registerForLoad("sakai.search");
+sdata.container.registerForLoad("sakai.search");
