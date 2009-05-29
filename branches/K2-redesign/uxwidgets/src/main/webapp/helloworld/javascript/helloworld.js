@@ -15,7 +15,8 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, jQuery, json_parse, sakai, sdata */
+
+/*global $, Config, sdata */
 
 var sakai = sakai || {};
 
@@ -101,14 +102,14 @@ sakai.helloworld = function(tuid,placement,showSettings){
 	 * @param {Object} callback
 	 */
 	var getPreferedColor = function(callback){
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation) + "?sid=" + Math.random();
-		sdata.Ajax.request({
-			httpMethod: "GET",
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation);
+		$.ajax({
+			cache: false,
 			url: url,
-			onSuccess: function(data){
+			success: function(data){
 				callback(data);
 			},
-			onFail: function(status){
+			error: function(status){
 				callback(defaultColor);
 			}
 		});
