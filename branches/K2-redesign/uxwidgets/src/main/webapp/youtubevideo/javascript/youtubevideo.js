@@ -15,7 +15,8 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, jQuery, json_parse, sakai, sdata, Querystring */
+
+/*global $, Config, sakai, sdata, Querystring */
 
 var sakai = sakai || {};
 
@@ -155,14 +156,14 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
 	 * @param {Object} settings
 	 */
 	var displayYouTubeVideo = function(settings){
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "youtubeurl") + "?sid=" + Math.random();
-		sdata.Ajax.request({
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "youtubeurl");
+		$.ajax({
 			url :url,
-			httpMethod : "GET",
-			onSuccess : function(data) {
+			cache: false,
+			success : function(data) {
 				showVideo(data,true, youtubevideoVideo, settings);
 			},
-			onFail : function(status) {
+			error : function(status) {
 				showVideo(status,false, youtubevideoVideo, settings);
 			}
 		});
