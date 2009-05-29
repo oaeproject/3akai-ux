@@ -149,7 +149,7 @@ sakai.site = function(){
 			success: function(response){
 				pagecontents["_navigation"] = response;
 				$("#page_nav_content").html(response);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_nav_content");
+				sdata.widgets.WidgetLoader.insertWidgets("page_nav_content");
 				History.history_change();
 			},
 			error: function(httpstatus){
@@ -1234,31 +1234,15 @@ if (nel.className == "contauthlink") {
 		var escaped = escapePageId(selectedpage);
 		var content = $("#" + escaped).html();
 		
-		var data = {"items": {
-			"data": content,
-			"fileName": "content",
-			"contentType": "text/plain"
-			}
-		};
-		
-		$.ajax({
-			url: "/sdata/p/_print",
-			type: "POST",
-			success: function(data){
-				
-				var pagetitle = "";
-				
-				for (var i = 0; i < pages.items.length; i++){
-					if (pages.items[i].id == selectedpage){
-						pagetitle = pages.items[i].title;
-						break;
-					}
+		sdata.widgets.WidgetPreference.save("/sdata/p/","_print",content,function(data){
+			var pagetitle = "";
+			for (var i = 0; i < pages.items.length; i++){
+				if (pages.items[i].id == selectedpage){
+					pagetitle = pages.items[i].title;
+					break;
 				}
-				
-				popUp("print.html?pagetitle=" + pagetitle);
-			},
-			data: data,
-			contentType: "multipart/form-data"
+			}
+			popUp("print.html?pagetitle=" + pagetitle);
 		});
 		
 	};
@@ -1303,7 +1287,7 @@ if (nel.className == "contauthlink") {
 					newwidget_uid = nuid;
 					$("#dialog_content").html('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>');
 					$("#dialog_title").text(Widgets.widgets[type].name)
-					sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+					sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true);
 					$("#dialog_content").show();
 					$("#insert_more_menu").hide();
 					showingInsertMore = false;	
@@ -1336,7 +1320,7 @@ if (nel.className == "contauthlink") {
 			switchtab("html","HTML","preview","Preview");
 		}
 		$("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
-		sdata.widgets.WidgetLoader.insertWidgetsAdvanced("page_preview_content");
+		sdata.widgets.WidgetLoader.insertWidgets("page_preview_content");
 		currentEditView = "preview";
 	});
 	
@@ -1539,8 +1523,8 @@ if (nel.className == "contauthlink") {
 			var id = "widget_" + widgetid + "_" + rnd + "_" + currentsite.id + "/_widgets";
 			newwidget_uid = id;
 			$("#dialog_content").html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
-			$("#dialog_title").text(Widgets.widgets[widgetid].name)
-			sdata.widgets.WidgetLoader.insertWidgetsAdvanced("dialog_content", true);
+			$("#dialog_title").text(Widgets.widgets[widgetid].name);
+			sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true);
 			$("#dialog_content").show();
 			window.scrollTo(0,0);
 			
@@ -1549,7 +1533,7 @@ if (nel.className == "contauthlink") {
 			window.scrollTo(0,0);
 		}
 		
-	}
+	};
 	
 	var hideSelectedWidget = function(hash){
 		hash.w.hide();
@@ -1558,11 +1542,11 @@ if (nel.className == "contauthlink") {
 		newwidget_uid = false;
 		$("#dialog_content").html("");
 		$("#dialog_content").hide();
-	}
+	};
 	
 	sakai._site.widgetCancel = function(tuid){
 		$('#insert_dialog').jqmHide(); 
-	}
+	};
 	
 	sakai._site.widgetFinish = function(tuid){
 		
@@ -1652,7 +1636,7 @@ if (nel.className == "contauthlink") {
 		
 		// Post the new configuration file
 		
-		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(pages), function(success){});
+		sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(pages), function(success){});
 		
 		// Pull up the edit view
 		
@@ -1683,7 +1667,7 @@ if (nel.className == "contauthlink") {
 			}
 		}
 		
-		$("#insert_more_media").html(sdata.html.Template.render("insert_more_media_template",media));
+		$("#insert_more_media").html($.Template.render("insert_more_media_template",media));
 		
 		// Do Sakai Goodies
 		
@@ -1697,7 +1681,7 @@ if (nel.className == "contauthlink") {
 			}
 		}
 		
-		$("#insert_more_goodies").html(sdata.html.Template.render("insert_more_goodies_template",goodies));
+		$("#insert_more_goodies").html($.Template.render("insert_more_goodies_template",goodies));
 		
 		// Event handler
 		
@@ -2063,11 +2047,11 @@ if (nel.className == "contauthlink") {
 				f: "mv"
 			};
 			
-			sdata.Ajax.request({
+			$.ajax({
 				url: oldfolderpath,
-				httpMethod: 'POST',
-				postData: data,
-				onSuccess: function(data){
+				type: 'POST',
+				data: data,
+				success: function(data){
 				
 				
 					// Rewrite configuration file
@@ -2092,7 +2076,7 @@ if (nel.className == "contauthlink") {
 						}
 					}
 					
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(newpageconfig), function(success){
 					
 						$(document.body).hide();
 						document.location = "#" + newid;
@@ -2103,7 +2087,7 @@ if (nel.className == "contauthlink") {
 					
 					
 				},
-				onFail: function(data){
+				error: function(data){
 				
 					// Rewrite configuration file
 					
@@ -2127,7 +2111,7 @@ if (nel.className == "contauthlink") {
 						}
 					}
 					
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", sdata.JSON.stringify(newpageconfig), function(success){
+					sdata.widgets.WidgetPreference.save("/sdata/f/" + currentsite.id + "/.site", "pageconfiguration", $.toJSON(newpageconfig), function(success){
 					
 						$(document.body).hide();
 						document.location = "#" + newid;
@@ -2136,8 +2120,7 @@ if (nel.className == "contauthlink") {
 						
 					});
 					
-				},
-				contentType: "application/x-www-form-urlencoded"
+				}
 			});
 			
 		} else {
@@ -2148,14 +2131,14 @@ if (nel.className == "contauthlink") {
 			
 			// Update the path shown
 			
-			var finaljson = {}
+			var finaljson = {};
 			finaljson.pages = [];
 			finaljson.pages[0] = currentsite.name;
 			var splitted = inEditView.split('/');
 			var current = "";
 			for (var i = 0; i < splitted.length - 1; i++){
 				var id = splitted[i];
-				if (i != 0){
+				if (i !== 0){
 					current += "/";
 				}
 				current += id;
@@ -2168,7 +2151,7 @@ if (nel.className == "contauthlink") {
 			}
 			finaljson.pages[finaljson.pages.length] = $("#title-input").val();
 			finaljson.total = finaljson.pages.length;
-			$("#new_page_path").html(sdata.html.Template.render("new_page_path_template",finaljson));
+			$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));
 			
 			$("#move_inside_edit").bind("click", function(ev){
 				moveInsideEdit();
@@ -2233,23 +2216,23 @@ if (nel.className == "contauthlink") {
 			
 			var a = ["u"];
 			var k = ["" + newid];
-			var v = ["" + sdata.JSON.stringify(obj)];
+			var v = ["" + $.toJSON(obj)];
 			var tosend = {"v":v,"k":k,"a":a};
 			
 			var fileUrl = "/sdata/p/_templates/pages/configuration";
 				
 			// Get templates configuration file
 			
-			sdata.Ajax.request({
-		      	url :fileUrl + "?sid=" + Math.random(),
-		      	httpMethod : "GET",
-				onSuccess : function(data) {
+			$.ajax({
+		      	url :fileUrl,
+				cache: false,
+				success : function(data) {
 					
-					var templates = eval('(' + data + ')');
+					var templates = $.evalJSON(data);
 					updateTemplates(obj, newid, templates);
 					
 				},
-				onFail : function(data){
+				error : function(data){
 					
 					var templates = {};
 					updateTemplates(obj, newid, templates);
@@ -2263,7 +2246,7 @@ if (nel.className == "contauthlink") {
 	
 	var updateTemplates = function(obj, newid, templates){
 		templates[newid] = obj;
-		var tosave = sdata.JSON.stringify(templates);
+		var tosave = $.toJSON(templates);
 		sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", tosave, function(success){
 			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages/" + newid, "content", pagecontents[selectedpage], function(success){
 				$("#save_as_template_container").jqmHide();
@@ -2271,7 +2254,7 @@ if (nel.className == "contauthlink") {
 				$("#template_description").val("");
 			});
 		});
-	}
+	};
 	
 	var mytemplates = false;
 	
@@ -2286,16 +2269,16 @@ if (nel.className == "contauthlink") {
 				
 		// Get templates configuration file
 			
-		sdata.Ajax.request({
-	     	url :fileUrl + "?sid=" + Math.random(),
-	     	httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+	     	url :fileUrl,
+			cache: false,
+			success : function(data) {
 					
-				var templates = eval('(' + data + ')');
+				var templates = $.evalJSON(data);
 				renderTemplates(templates);
 					
 			},
-			onFail : function(data){
+			error : function(data){
 					
 				var templates = {};
 				renderTemplates(templates);
@@ -2304,7 +2287,7 @@ if (nel.className == "contauthlink") {
 		});
 		
 		hash.w.show();
-	}
+	};
 	
 	var renderTemplates = function(templates){
 		
@@ -2318,13 +2301,13 @@ if (nel.className == "contauthlink") {
 			obj.id = i;
 			obj.name = templates[i].name;
 			obj.description = templates[i].description;
-			finaljson.items[finaljson.items.length] = obj
+			finaljson.items[finaljson.items.length] = obj;
 		}
 		
 		finaljson.size = finaljson.items.length;
 		
 		$("#list_container").hide();
-		$("#list_container").html(sdata.html.Template.render("list_container_template",finaljson));
+		$("#list_container").html($.Template.render("list_container_template",finaljson));
 		
 		if ($("#list_container").height() > 250){
 			$("#list_container").css("height","250px");
@@ -2343,13 +2326,11 @@ if (nel.className == "contauthlink") {
 				}
 			}
 			
-			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", sdata.JSON.stringify(newobj), function(success){});
+			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", $.toJSON(newobj), function(success){});
 			
-			sdata.Ajax.request({
+			$.ajax({
 		     	url :"/sdata/p/_templates/pages/" + todelete,
-		     	httpMethod : "DELETE",
-				onSuccess : function(data) {},
-				onFail : function(data){}
+		     	type : "DELETE"
 			});
 			
 			renderTemplates(newobj);
@@ -2357,18 +2338,17 @@ if (nel.className == "contauthlink") {
 		
 		$(".page_template_selection").bind("click", function(ev){
 			var toload = this.id.split("_")[3];
-			sdata.Ajax.request({
-		     	url :"/sdata/p/_templates/pages/" + toload + "/content?sid=" + Math.random(),
-		     	httpMethod : "GET",
-				onSuccess : function(data) {
+			$.ajax({
+		     	url :"/sdata/p/_templates/pages/" + toload + "/content",
+				cache: false,
+				success : function(data) {
 					$("#select_template_for_page").jqmHide();
 					createNewPage(data);
-				},
-				onFail : function(data){}
+				}
 			});
 		});
 		
-	}
+	};
 
 	$("#select_template_for_page").jqm({
 		modal: true,
@@ -2387,11 +2367,11 @@ if (nel.className == "contauthlink") {
 		$("#content_page_options").hide();
 		$("#revision_history_container").show();
 		$("#more_menu").hide();
-		sdata.Ajax.request({
-		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?f=vh&sid=" + Math.random(),
-		    httpMethod : "GET",
-			onSuccess : function(data) {
-				var history = eval('(' + data + ')');
+		$.ajax({
+		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?f=vh",
+			cache: false,
+			success : function(data) {
+				var history = $.evalJSON(data);
 				
 				// Get list of user profiles of updaters
 				
@@ -2413,12 +2393,11 @@ if (nel.className == "contauthlink") {
 				
 				var searchstring = tofind.join(",");
 				
-				sdata.Ajax.request({
+				$.ajax({
 				   	url :"/rest/me/" + searchstring,
-				    httpMethod : "GET",
-					onSuccess : function(data) {
+				    success : function(data) {
 						
-						var result = eval('(' + data + ')');
+						var result = $.evalJSON(data);
 						var userDatabase = [];
 						if (result.users) {
 							for (var i = 0; i < result.users.length; i++) {
@@ -2456,13 +2435,13 @@ if (nel.className == "contauthlink") {
 						}
 
 					},
-					onFail : function(data) {
+					error : function(data) {
 						alert("An error has occured");	
 					}
 				});
 			
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			}
 		});
@@ -2475,13 +2454,12 @@ if (nel.className == "contauthlink") {
 	$("#revision_history_revert").bind("click", function(ev){
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
-		sdata.Ajax.request({
+		$.ajax({
 		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
-		    httpMethod : "GET",
-			onSuccess : function(data) {
+		    success : function(data) {
 				
 				$("#" + escapePageId(selectedpage)).html(data);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g, "%20"));
 				
 				// Save new version of this page
 				
@@ -2490,11 +2468,9 @@ if (nel.className == "contauthlink") {
 				sdata.widgets.WidgetPreference.save("/sdata/f/" + newfolderpath, "content", data, function(){
 									
 					// Check in the page
-					sdata.Ajax.request({
+					$.ajax({
 						url: "/sdata/f/" + newfolderpath + "/content?f=ci",
-						httpMethod: 'POST',
-						onSuccess: function(data){},
-						onFail: function(data){}
+						type: 'POST'
 					});
 							
 				}, null, "x-sakai-page");
@@ -2504,7 +2480,7 @@ if (nel.className == "contauthlink") {
 				resetVersionHistory();
 				
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			}
 		});
@@ -2513,14 +2489,13 @@ if (nel.className == "contauthlink") {
 	var changeVersionPreview = function(){
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
-		sdata.Ajax.request({
+		$.ajax({
 		   	url :"/sdata/f/" + currentsite.id + "/_pages/"+ selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
-		    httpMethod : "GET",
-			onSuccess : function(data) {
+		    success : function(data) {
 				$("#" + escapePageId(selectedpage)).html(data);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g, "%20"));
 			},
-			onFail : function(data){
+			error : function(data){
 				alert("An error has occured");
 			}
 		});
@@ -2532,7 +2507,7 @@ if (nel.className == "contauthlink") {
 				$("#revision_history_container").hide();
 				$("#content_page_options").show();
 				$("#" + escapePageId(selectedpage)).html(pagecontents[selectedpage]);
-				sdata.widgets.WidgetLoader.insertWidgetsAdvanced(selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(selectedpage.replace(/ /g, "%20"));
 			}
 		} catch (err){
 			// Ignore	
@@ -2585,14 +2560,14 @@ if (nel.className == "contauthlink") {
 	
 	var saveToRecentSites = function(response){
 		
-		sdata.Ajax.request({
-		   	url :"/sdata/p/recentsites.json?sid=" + Math.random(),
-		    httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+		   	url :"/sdata/p/recentsites.json",
+			cache: false,
+			success : function(data) {
 				var items = $.evalJSON(data);
 				transformRecentSitesList(items, response);
 			},
-			onFail : function(data){
+			error : function(data){
 				transformRecentSitesList({"items":[]}, response);
 			}
 		});
@@ -2620,7 +2595,7 @@ if (nel.className == "contauthlink") {
 
 	var writeRecentSiteList = function(items){
 		
-		sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", sdata.JSON.stringify(items), function(success){});
+		sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", $.toJSON(items), function(success){});
 		
 	}
 	
