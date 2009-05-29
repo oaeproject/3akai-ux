@@ -31,7 +31,7 @@
 
 </head>
 
-<body id="root" class="body-container fl-centered fl-container">
+<body id="root" class="body-container fl-centered fl-container i18nable">
  
 	<!-- Change layout -->
 	<div id="layouts_template"><!--
@@ -141,7 +141,7 @@
 		<!-- GREETING -->
 		<div class="fl-col greeting">
 			<a class="greeting_picture" id="picture_holder"><img alt="My avatar" src="_images/person_icon.png" /></a>
-			<span class="greeting_text">Hi <span id="hispan"></span>!</span>
+			<span class="greeting_text">__MSG__HI__ <span id="hispan"></span>!</span>
 			<a class="greeting_links" href="javascript:;" id="changepic_container_trigger">Change pic</a>
 			<span class="pipe_divider">/</span>
 			<a class="greeting_links" href="profile_edit.html">Edit Profile</a>
@@ -150,7 +150,7 @@
 		<!-- SEARCH FIELD -->
 		<div class="fl-col search">
 			<form class="search_form buttonBar" id="search_form" action="" method="post">
-				<input type="text" id="search_field" class="search_input_field" value="Search for media, people and sites"></input>
+				<input type="text" id="search_field" class="search_input_field" value="Search for media, people and sites"/>
 				<a href="javascript:;" id="search_button" class="button search_button">Search</a>
 			</form>
 		</div>
