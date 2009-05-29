@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global Config, $, jQuery, sdata, json_parse */
+/*global Config, $, sdata */
 
 var sakai = sakai || {};
 
@@ -245,13 +245,13 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * Get the id of the dicussion widget and show the post including replies
 	 */
 	var getPostsFromJCR = function(){
-		sdata.Ajax.request({
-			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion") + "?sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion"),
+			cache: false,
+			success : function(data) {
 				showPosts(data,true);
 			},
-			onFail : function(status) {
+			error : function(status) {
 				showPosts(status,false);
 			}
 		});
@@ -281,7 +281,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 		});
 		
 		// Convert the posts to a JSON string
-		var str = sdata.JSON.stringify(posts);
+		var str = $.toJSON(posts);
 		
 		// Do the actual save and execute a function after completion
 		var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
@@ -361,7 +361,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 */
 	var getPostWithIndex = function(id, posts) {
 		var currentPostWithIndex = [];
-		jQuery.each(posts, function(intIndex){
+		$.each(posts, function(intIndex){
 			if (this.postId === id){
 				currentPostWithIndex.push(this);
 				currentPostWithIndex.push(intIndex);
@@ -411,11 +411,11 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * @param {String} message Body of the post that is edited
 	 */
 	editPost = function(id, subject, message){
-		sdata.Ajax.request({
-			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion") + "?sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
-				var arrPosts = json_parse(data);
+		$.ajax({
+			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion"),
+			cache: false,
+			success : function(data) {
+				var arrPosts = $.evalJSON(data);
 				
 				// Change the subject and body of the post
 				var postWithIndex = getPostWithIndex(id, arrPosts);
@@ -449,18 +449,18 @@ sakai.discussion = function(tuid, placement, showSettings){
 					savePostsToDatabase(arrPosts, editComplete);
 				}				
 			},
-			onFail : function(status) {
+			error : function(status) {
 				alert("The posts could not be recieved from the server.");
 			}
 		});
 		// If the id is 0, it means that you edited the post on top of the hierarchy.
 		// So you also have to update the discussion that is in the "all discussions" list
 		if(id === "0"){
-			sdata.Ajax.request({
-				url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
-					var arrDiscussions = json_parse(data); // Evaluate all the discussions
+			$.ajax({
+				url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion",
+				cache: false,
+				success: function(data){
+					var arrDiscussions = $.evalJSON(data); // Evaluate all the discussions
 					var postWithIndex = getDiscussionIndex(tuid, arrDiscussions.items);
 					var post2 = postWithIndex[0];
 					if(post2){
@@ -470,11 +470,11 @@ sakai.discussion = function(tuid, placement, showSettings){
 						post2.editedDate = getCurrentDateTime();
 						arrDiscussions.items[postWithIndex[1]] = post2;
 						
-						var tostring = sdata.JSON.stringify(arrDiscussions);
+						var tostring = $.toJSON(arrDiscussions);
 						sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement), "_discussion", tostring, finishNewSettings);
 					}
 				},
-				onFail: function(status){
+				error: function(status){
 					alert("The posts could not be recieved from the server.");
 				}
 			});
@@ -579,29 +579,29 @@ sakai.discussion = function(tuid, placement, showSettings){
 			savePostsToDatabase(arrPosts, deleteComplete);
 			
 			// If we delete the first post, we also need do delete it from the list with all the discussions
-			sdata.Ajax.request({
-				url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion?sid=" + Math.random(),
-				httpMethod: "GET",
-				onSuccess: function(data){
-					var arrDiscussions = json_parse(data);
+			$.ajax({
+				url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion",
+				cache: false,
+				success: function(data){
+					var arrDiscussions = $.evalJSON(data);
 					
 					arrDiscussions.items.splice(getDiscussionIndex(tuid, arrDiscussions.items)[1],1);
 					
-					var tostring = sdata.JSON.stringify(arrDiscussions);
+					var tostring = $.toJSON(arrDiscussions);
 					sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement), "_discussion", tostring, finishNewSettings);
 					
 				},
-				onFail: function(status){
+				error: function(status){
 					alert("The posts could not be recieved from the server.");
 				}
 			});
 		}else {
 			// First get all the posts (they may be modified by another user) and then remove the post(s)
-			sdata.Ajax.request({
-				url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion") + "?sid=" + Math.random(),
-				httpMethod : "GET",
-				onSuccess : function(data) {
-					var arrPosts = json_parse(data);
+			$.ajax({
+				url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion"),
+				cache: false,
+				success : function(data) {
+					var arrPosts = $.evalJSON(data);
 					
 					// Remove the post out of the array
 					arrPosts.splice(getPostWithIndex(id, arrPosts)[1],1);
@@ -615,7 +615,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 					// Save the adjusted posts to the database
 					savePostsToDatabase(arrPosts, deleteComplete);
 				},
-				onFail : function(status) {
+				error : function(status) {
 					alert("The posts could not be found.");
 				}
 			});
@@ -631,7 +631,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 */
 	var addToUids = function(uid) {
 		// We also check if the uid that we are adding is not empty
-		uid = jQuery.trim(uid);
+		uid = $.trim(uid);
 		if(!uids.contains(uid) && uid !== "") {
 			uids.push(uid);
 		}
@@ -764,7 +764,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 */
 	var renderPostsAddBinding = function(jsonPosts){
 		// Render the posts with the template engine
-		$(discussionContainer, rootel).html(sdata.html.Template.render(discussionContainerTemplate, jsonPosts));
+		$(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
 		
 		// Add the action listeners
 		$(discussionToggleShowAllClass, rootel).hide();
@@ -806,7 +806,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	var getPostInfo = function(arrPosts, data) {
 		if(data){
 			// Parse the info of the users
-			var users = json_parse(data).users;
+			var users = $.evalJSON(data).users;
 		}
 
 		// Clear the old posts
@@ -885,13 +885,12 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * @param {Object[]} arrPosts An array containing all the posts
 	 */
 	var getUserInfo = function(arrPosts) {					
-		sdata.Ajax.request({
-			httpMethod: "GET",
+		$.ajax({
 			url: Config.URL.ME_SERVICE + "/" + uids.join(','),
-			onSuccess: function(data){
+			success: function(data){
 				getPostInfo(arrPosts, data);
 			},
-			onFail: function(status){
+			error: function(status){
 				// This will result in a fail when the user is logged out
 				// but even then he should be able to see the posts
 				getPostInfo(arrPosts, false);
@@ -907,7 +906,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	showPosts = function(response, exists){
 		if (exists){
 			try {
-				var arrPosts = json_parse(response);
+				var arrPosts = $.evalJSON(response);
 				
 				$(discussionNoPosts, rootel).hide();
 				$(discussionContainer, rootel).show();
@@ -969,12 +968,12 @@ sakai.discussion = function(tuid, placement, showSettings){
 		var json = {};
 		json.items = [];
 		if (exists){
-			json = json_parse(response);
+			json = $.evalJSON(response);
 		}
 
 		var index = json.items.length;
 		json.items[index] = post;
-		var tostring = sdata.JSON.stringify(json);
+		var tostring = $.toJSON(json);
 		sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement), "_discussion", tostring);
 	};
 
@@ -1029,14 +1028,14 @@ sakai.discussion = function(tuid, placement, showSettings){
 								"date" : getCurrentDateTime(),
 								"postId" : postId+""
 							};
-							sdata.Ajax.request({
-								url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion?sid=" + Math.random(),
-								httpMethod: "GET",
-								onSuccess: function(data){
+							$.ajax({
+								url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion",
+								cache: false,
+								success: function(data){
 									createExistingDiscussion(data, true, post2);
 									savePostsToDatabase(arrPosts, finishNewSettings);
 								},
-								onFail: function(status){
+								error: function(status){
 								
 									createExistingDiscussion(status, false, post2);
 									savePostsToDatabase(arrPosts, finishNewSettings);
@@ -1047,25 +1046,25 @@ sakai.discussion = function(tuid, placement, showSettings){
 						}
 					}
 					else{
-						sdata.Ajax.request({
-							url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, selectedExistingDiscussionID).replace(/__NAME__/, "discussion") + "?sid=" + Math.random(),
-							httpMethod : "GET",
-							onSuccess : function(data) {
+						$.ajax({
+							url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, selectedExistingDiscussionID).replace(/__NAME__/, "discussion"),
+							cache: false,
+							success : function(data) {
 								var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 								sdata.widgets.WidgetPreference.save(saveUrl, "discussion", data, finishNewSettings);
 							},
-							onFail : function(status) {
+							error : function(status) {
 								alert("failed to retrieve posts.");
 							}
 						});
 					}
 				}else {
-					sdata.Ajax.request({
-						url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion") + "?sid=" + Math.random(),
-						httpMethod: "GET",
-						onSuccess: function(data){
+					$.ajax({
+						url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion"),
+						cache: false,
+						success: function(data){
 							// Parse all the posts
-							arrPosts = json_parse(data);
+							arrPosts = $.evalJSON(data);
 							
 							// Adjust the id for the posts
 							post.postId = adjustPostId(arrPosts, postId);
@@ -1079,7 +1078,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 							// Clear the fields of the reply form
 							clearReplyFields();
 						},
-						onFail: function(status){
+						error: function(status){
 							alert("failed to retrieve other posts.");
 						}
 					});
@@ -1094,33 +1093,33 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * Gets all the existing discussions for the current site
 	 */
 	var fillListWithExistingDiscussions = function(){
-		sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion?sid=" + Math.random(),
-			onSuccess: function(data){
-					var json = json_parse(data);
-					if (typeof json.items !== undefined) {
-						$(discussionNoDiscussions, rootel).hide();
-				
-						// Render the list that contains the existing discussions
-						$(discussionSettingsExistingContainer, rootel).html(sdata.html.Template.render(discussionSettingsExistingContainerTemplate,json));
+		$.ajax({
+			cache: false,
+			url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion",
+			success: function(data){
+				var json = $.evalJSON(data);
+				if (typeof json.items !== undefined) {
+					$(discussionNoDiscussions, rootel).hide();
+			
+					// Render the list that contains the existing discussions
+					$(discussionSettingsExistingContainer, rootel).html($.Template.render(discussionSettingsExistingContainerTemplate,json));
+					
+					// Bind the discussion list items
+					$("." + discussionSettingsListItemClass, rootel).bind("click",function(e,ui){
+						if(typeof $(discussionSettingsListItem  + selectedExistingDiscussionID, rootel) !== "undefined"){
+							$(discussionSettingsListItem + selectedExistingDiscussionID, rootel).addClass(discussionSettingsListItemClass);
+							$(discussionSettingsListItem + selectedExistingDiscussionID, rootel).removeClass(discussionSettingsListItemSelectedClass);
+						}
+						selectedExistingDiscussionID = e.target.id.split("_")[e.target.id.split("_").length - 1];
+						e.target.className = discussionSettingsListItemSelectedClass;
 						
-						// Bind the discussion list items
-						$("." + discussionSettingsListItemClass, rootel).bind("click",function(e,ui){
-							if(typeof $(discussionSettingsListItem  + selectedExistingDiscussionID, rootel) !== "undefined"){
-								$(discussionSettingsListItem + selectedExistingDiscussionID, rootel).addClass(discussionSettingsListItemClass);
-								$(discussionSettingsListItem + selectedExistingDiscussionID, rootel).removeClass(discussionSettingsListItemSelectedClass);
-							}
-							selectedExistingDiscussionID = e.target.id.split("_")[e.target.id.split("_").length - 1];
-							e.target.className = discussionSettingsListItemSelectedClass;
-							
-						});
-					}
-					else{
-						$(discussionNoDiscussions, rootel).show();
-					}
+					});
+				}
+				else{
+					$(discussionNoDiscussions, rootel).show();
+				}
 			},
-			onFail: function(status){
+			error: function(status){
 				$(discussionNoDiscussions, rootel).show();
 			}
 		});
@@ -1201,7 +1200,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 			});
 			
 			// Parse all the posts
-			var arrAllPosts = json_parse(response);
+			var arrAllPosts = $.evalJSON(response);
 			
 			// Get the first post
 			var firstPost = arrAllPosts[0];
@@ -1228,13 +1227,13 @@ sakai.discussion = function(tuid, placement, showSettings){
 		$(discussionSettings, rootel).show();
 		
 		// Check if you are editing a post or making a new one
-		sdata.Ajax.request({
-			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion") + "?sid=" + Math.random(),
-			httpMethod : "GET",
-			onSuccess : function(data) {
+		$.ajax({
+			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "discussion"),
+			cache: false,
+			success : function(data) {
 				showPostInSettings(data,true);
 			},
-			onFail : function(status) {
+			error : function(status) {
 				showPostInSettings(status,false);
 			}
 		});
