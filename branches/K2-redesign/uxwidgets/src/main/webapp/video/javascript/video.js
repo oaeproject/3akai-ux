@@ -15,10 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, jQuery, json_parse, sakai, sdata, Querystring, SWFID, swfobject */
+
+/*global $, Config, sdata, Querystring, SWFID, swfobject */
+
 
 var sakai = sakai || {};
-
 
 /**
  * Initialize the video widget
@@ -111,7 +112,7 @@ sakai.video = function(tuid, placement, showSettings) {
 			// This is needed as a parameter for the sakai-player
             var isTouTube = (video.URL.search("www.youtube.com") !== -1);
 			// Renders the video-template (title, source and conatiner to place flash-player in)
-            $(container, rootel).html(sdata.html.Template.render(videoTemplate, video));
+            $(container, rootel).html($.Template.render(videoTemplate, video));
             // some more parameters needed for the sakai-videoplayer
 			var flashvars = {
                 videoURL: video.URL,
@@ -159,7 +160,7 @@ sakai.video = function(tuid, placement, showSettings) {
                 videoTemp.html = ('<object width="320" height="305"><param name="movie" value="http://www.youtube.com/v/' + id + '&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/' + id + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="320" height="305"></embed></object>');
             }
 			// render the video
-		 	$(container, rootel).html(sdata.html.Template.render(videoTemplate, videoTemp));
+		 	$(container, rootel).html($.Template.render(videoTemplate, videoTemp));
         } catch(err) {
             $(videoTempShowMain, rootel).text("No valid video found.");
         }
@@ -193,7 +194,7 @@ sakai.video = function(tuid, placement, showSettings) {
     var showSettingsScreen = function(response, exists) {
         if (exists) {
 			// Fill in the info 
-            json = json_parse(response);
+            json = $.evalJSON(response);
             $(videoTitle, rootel).val(json.title);
             $(videoUrl, rootel).val(json.URL);
             $("input[name=" + videoSourceRbt + "][value=" + json.selectedvalue + "]", rootel).attr("checked", true);
@@ -255,7 +256,7 @@ sakai.video = function(tuid, placement, showSettings) {
 	 * @param {Object} video
 	 */
     var addVideo = function(video) {
-        var tostring = sdata.JSON.stringify(video);
+        var tostring = $.toJSON(video);
 	 	var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
         sdata.widgets.WidgetPreference.save(saveUrl, "video", tostring, sdata.container.informFinish(tuid));
     };
@@ -273,7 +274,7 @@ sakai.video = function(tuid, placement, showSettings) {
     var showVideos = function(response, exists) {
         if (exists) {
             try {
-                var video = json_parse(response);
+                var video = $.evalJSON(response);
 				// Show the video in the right player
                 showVideo(video, videoShowMain, video.isSakaiVideoPlayer);
             }
@@ -370,16 +371,16 @@ sakai.video = function(tuid, placement, showSettings) {
 	 * Switch between main and settings page
 	 * @param {Boolean} showSettings Show the settings of the widget or not
 	 */
-	var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "video") + "?sid=" + Math.random();
+	var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "video");
     if (showSettings) {
         /** Check if it is an edit or a new video */
-        sdata.Ajax.request({
+        $.ajax({
             url: url,
-            httpMethod: "GET",
-            onSuccess: function(data) {
+            cache: false,
+            success: function(data) {
                 showSettingsScreen(data, true);
             },
-            onFail: function(status) {
+            error: function(status) {
                 showSettingsScreen(status, false);
             }
         });
@@ -388,13 +389,13 @@ sakai.video = function(tuid, placement, showSettings) {
         $(videoSettings, rootel).hide();
         $(videoOutput, rootel).show();
 
-        sdata.Ajax.request({
+        $.ajax({
             url: url,
-            httpMethod: "GET",
-            onSuccess: function(data) {
+			cache: false,
+            success: function(data) {
                 showVideos(data, true);
             },
-            onFail: function(status) {
+            error: function(status) {
                 showVideos(status, false);
             }
         });
