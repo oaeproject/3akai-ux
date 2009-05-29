@@ -90,7 +90,25 @@ var Config = {
 	},	
 	Site : {
 		// Default roles that will be available within a site, next to Owner
-		Roles : ["Collaborator", "Viewer"]
+		Roles : ["Collaborator", "Viewer"],
+		Styles : {
+			original : {
+				name : "Original sakai theme",
+				image : "_images/sakai_grey.png"
+			},
+			blue : {
+				name : "Blue theme",
+				image : "_images/sakai_blue.png"
+			},
+			green : {
+				name: "Green theme",
+				image : "_images/sakai_green.png"
+			},
+			green2col : {
+				name : "Two column green theme",
+				image : "_images/sakai_green_2col.png"
+			}
+		}
 	},
 	Messages : {
 		Types : {
