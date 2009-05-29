@@ -16,13 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var $ = $ || function(){ throw "JQuery not available"; };
-var Config = Config || function(){ throw "Config file not available"; };
-var json_parse = json_parse || function(){ throw "JSON parse not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
+/*global $, Config, sdata */
 
 var sakai = sakai || {};
-
 sakai.wookiechat = function(tuid, placement, showSettings) {
 
 
@@ -152,7 +148,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 		};
 		
 		// sava data to widgets jcr
-		var str = sdata.JSON.stringify(chat);
+		var str = $.toJSON(chat);
 		var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 		sdata.widgets.WidgetPreference.save(saveUrl, "wookiechat", str, chatRoomSaved);
 	};	
@@ -189,20 +185,19 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 		};
 				
 		// The request.
-		sdata.Ajax.request({
+		$.ajax({
 			url: Config.URL.PROXY_SERVICE,
-			httpMethod: "POST",
-			onSuccess: function(data) {
+			type: "POST",
+			success: function(data) {
 				// The chat room has created on wookie's side.
 				// Save the date we get back to JCR.
 				createChatRoomFinished(data);
 			},
-			onFail: function(status) {
+			error: function(status) {
 				// For some reason we couldn't contact the wookie server.
 				showGeneralMessage(settingsMessagesContainer, $(error_unableContactWookie).text(), true, 0);
 			},
-			postData: oPostData,
-			contentType: "application/x-www-form-urlencoded"
+			data: oPostData
 		});
 	};
 	
@@ -212,13 +207,13 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 	 */
 	var doSettings = function() {
 		// Get the chat settings
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat") + "?sid=" + Math.random();
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: url,
-			httpMethod: "GET",
-			onSuccess: function(data) {
-				var chat = json_parse(data);
+			cache: false,
+			success: function(data) {
+				var chat = $.evalJSON(data);
 				if (chat.url) {
 					// There is already some data here ..
 					// This must be an existing chatbox.
@@ -231,7 +226,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 				}
 				
 			},
-			onFail: function(data) {
+			error: function(data) {
 				$(settingsCreate).hide();
 				$(settingsAdd).show();
 			}
@@ -250,13 +245,13 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 	 */
 	var showChatPage = function() {
 		// Get the chat settings
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat") + "?sid=" + Math.random();
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
 		
-		sdata.Ajax.request({
+		$.ajax({
 			url: url,
-			httpMethod: "GET",
-			onSuccess: function(data) {
-				var chat = json_parse(data);
+			cache: false,
+			success: function(data) {
+				var chat = $.evalJSON(data);
 				
 				// Construct the iframe
 				// The wookie chat box always has a fixed size.
@@ -281,7 +276,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 				$(mainContainer, rootel).append(sFrame);
 				
 			},
-			onFail: function(status) {
+			error: function(status) {
 				showGeneralMessage(mainMessagesContainer,$(error_unableChatPrefs).text(), true, 0);
 			}
 		});
