@@ -1,21 +1,24 @@
-var sakai = sakai || {};
-var $ = $ ||
-function() {
-    throw "JQuery undefined";
-};
-var sdata = sdata ||
-function() {
-    throw "sdata undefined";
-};
-var Querystring = Querystring ||
-function() {
-    throw "Querystring undefined";
-};
-var json_parse = json_parse || 
-function(){
-	throw "json_parse undefined";
-};
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
+/*global $, sdata, Querystring */
+
+var sakai = sakai || {};
 sakai.site_manage_members = function() {
     var json = {};
     var selectedSite = "";
@@ -31,7 +34,7 @@ sakai.site_manage_members = function() {
 		$("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
 		$(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
 		
-		$("#manage_members_role_rbts").html(sdata.html.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
+		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
 	};
 	getSiteId();
 	
@@ -69,7 +72,7 @@ sakai.site_manage_members = function() {
                 'users': []
             };
         }
-        $("#selected-members-container").html(sdata.html.Template.render("selected-people-template", {"selectedPeople" :selectedPeople}));
+        $("#selected-members-container").html($.Template.render("selected-people-template", {"selectedPeople" :selectedPeople}));
 
         $(".selected-person-remove").bind("click",
         function(e, ui) {
@@ -132,7 +135,7 @@ sakai.site_manage_members = function() {
 						members.users[i].profile.picture = members.users[i].profile.picture;
 				}
             }
-            $("#siteManage_members").html(sdata.html.Template.render("siteManage_people_template", json.members));
+            $("#siteManage_members").html($.Template.render("siteManage_people_template", json.members));
             $("#manage_members_count").html(getNumMembers(json.members.users));
             $(".siteManage_person").bind("click",
             function(e, ui) {
@@ -157,7 +160,7 @@ sakai.site_manage_members = function() {
 	};
 	
 	var getSiteMembersData = function(searchTerm ,page,splitChar){
-		var sMembers = ""
+		var sMembers = "";
 		var roles = [];
 		 $.each(json.members,
 	        function(i, val) {
@@ -165,11 +168,10 @@ sakai.site_manage_members = function() {
 	            sMembers += val.userid + ",";
 				roles.push(val.role);
 	       });
-		 sdata.Ajax.request({
-            httpMethod: "GET",
+		 $.ajax({
             url: "/rest/me/" + sMembers.substring(0, sMembers.length -1),
-            onSuccess: function(data) {
-                json.members = json_parse(data);
+            success: function(data) {
+                json.members = $.evalJSON(data);
 				for(var i = 0 ; i < roles.length ; i++){
 					json.members.users[i].role = roles[i];
 				}
@@ -180,7 +182,7 @@ sakai.site_manage_members = function() {
 				} });
 				
             },
-            onFail: function(status) {
+            error: function(status) {
                 json.members = {};
                 renderMembers(json.members,true);
             }
@@ -188,7 +190,7 @@ sakai.site_manage_members = function() {
         });
 		
 				
-	}
+	};
 	
 	/**
 	 * gets all the site members
@@ -212,16 +214,16 @@ sakai.site_manage_members = function() {
 		}
 		
 		
-        sdata.Ajax.request({
-            httpMethod: "GET",
-            url: "/_rest/site/members/list/" + selectedSite + "?mimetype=text/plain"  + peoplesearchterm + "&n=" +  pageSize + "&p=" + (page - 1)  + "&sid=" + Math.random(),
-            onSuccess: function(data) {
-                json.members = json_parse(data);
+        $.ajax({
+            cache: false,
+            url: "/_rest/site/members/list/" + selectedSite + "?mimetype=text/plain"  + peoplesearchterm + "&n=" +  pageSize + "&p=" + (page - 1),
+            success: function(data) {
+                json.members = $.evalJSON(data);
 				
                 getSiteMembersData(searchTerm, page, splitChar);
 				
             },
-            onFail: function(status) {
+            error: function(status) {
                 json.members = {};
                 renderMembers(json.members,true);
             }
@@ -292,12 +294,11 @@ sakai.site_manage_members = function() {
     var deleteSelectedMembers = function() {
         var data = getPostData(true);
         if (data.uuserid.length > 0) {
-            sdata.Ajax.request({
+            $.ajax({
                 url: "/_rest/site/members/remove/" + selectedSite,
-                httpMethod: "POST",
-                postData: data,
-                contentType: "application/x-www-form-urlencoded",
-                onSuccess: function(data) {
+                type: "POST",
+                data: data,
+                success: function(data) {
                     var arrItemsToRemove = [];
                     for (var i = 0; i < json.members.users.length; i++) {
                         if (json.members.users[i].selected === true) {
@@ -307,7 +308,7 @@ sakai.site_manage_members = function() {
                     removeItemsFromArray(arrItemsToRemove);
 					
                 },
-                onFail: function(data) {
+                error: function(data) {
                     alert(data);
                 }
             });
@@ -321,16 +322,15 @@ sakai.site_manage_members = function() {
     var addSelectedPeopleToSite = function() {
         var data = getPostData(false);
         if (data.uuserid.length > 0) {
-            sdata.Ajax.request({
+            $.ajax({
                 url: "/_rest/site/members/add/" + selectedSite,
-                httpMethod: "POST",
-                postData: data,
-                contentType: "application/x-www-form-urlencoded",
-                onSuccess: function(data) {
+                type: "POST",
+                data: data,
+                success: function(data) {
                     getSiteMembers(null, 1,"");
                     selectNone();
                 },
-                onFail: function(data) {
+                error: function(data) {
                     alert(data);
                 }
             });
@@ -398,4 +398,4 @@ sakai.site_manage_members = function() {
 
 };
 
-sdata.registerForLoad("sakai.site_manage_members");
+sdata.container.registerForLoad("sakai.site_manage_members");

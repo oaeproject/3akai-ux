@@ -1,36 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>My Settings</title>        
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>       
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sakai 3 RC 1 - Site settings</title>
+    
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
     <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	    
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />	
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/site.management.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.treeview.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/site.managment.css" />
+    <link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css" />
+
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/SHA.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/modal_dialog.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.simpletip-1.3.1.min.js"></script>
 </head>
 
 <body class="fl-centered basic_management" style="display:block">
+    <!-- MESSAGES -->
+    <span id="siteSettings_error_unauthorized" style="display:none;">You are not allowed to change this site. Are you still logged in?</span>
+    <span id="siteSettings_error_saveFail" style="display:none;">Failed to save the site settings.</span>
+    <span id="siteSettings_error_saveSuccess" style="display:none;">Updated the site settings.</span>
+    
+    
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 	
     <!-- EXPLORE BAR -->
-    <div class="explore_nav">
-        <ul class="explore fl-force-left">
-            <li><a href="#">My Sakai</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">People</a></li>			
-	    	<li><a href="#">Course &amp; Sites</a></li>
-	    	<li><a href="#">Search</a></li>
-        </ul>	
-        <ul class="user-personal fl-force-right">
-            <li class="user-name first"><a href="#"><strong>John Doe</strong></a><img src="images/arrow_down.gif" class="user-arrow-down"/></li>      
-    		<li class="user-mail"><a href="#">(2)</a></li>   
-            <li class="user-help"><a href="#">Help</a></li>            
-            <li class="user-logout"><a href="#">Sign out</a></li>
-        </ul>	
-    </div>   
+    <div id="widget_chat" class="widget_inline"></div> 
     
     <!-- TITLE BAR  -->
     <div class="site_heading">
@@ -42,70 +55,99 @@
 					<input type="submit" value="Search" class="submit-button" />
 				</form>
 			</div>        			
-      <h1>John's New Site</h1>
+      <h1 class="siteSettings_title">John's New Site</h1>
     </div>   
     
     <!-- CONTENT -->  
     
     	<!-- SECOND HEADING -->  
         <div class="site_secondary_heading">
-            Site Management <a href="#">&laquo; Back to Site</a>
+            Site Management <a href="site.html" class="siteSettings_appendSiteIDtoURL">&laquo; Back to Site</a>
         </div> 
         
         <!-- TAB NAVIGATION -->
         <div class="primary-tabs">
 	        <ul class="fl-tabs fl-tabs-left">            
 	            <li class="fl-activeTab"><a href="#">Basic Settings</a></li>
-	            <li><a href="#">Members</a></li>	
-	            <li><a href="#">Appearance</a></li>			
+	            <li><a href="site_management_members_add.html" class="siteSettings_appendSiteIDtoURL">Members</a></li>	
+	            <li><a href="#">Appearance</a></li>		
 	        </ul>
         </div>
         <div class="section_container">
-            <div class="section_header">
-                Summary
-            </div>           
-            <a href="#" class="delete_site"><span>Delete this Site</span></a>  
-            <div class="delete_site_warning"><strong>WARNING!</strong> This operation is not reversible</div>         
+            <div class="section_header">Summary</div>
+            <!-- DELETE SITE -->    
+            <div id="siteSettings_delete_button_container">
+                <a href="javascript:;" class="delete_site" id="siteSettings_delete_button"><span>Delete this Site</span></a>  
+                <div class="delete_site_warning"><strong>WARNING!</strong> This operation is not reversible</div>         
+            </div>
+            
+            <!-- SITE INFO -->
             <form method="" action="" class="site_summary_form">
 	            <div class="summary-form-item">
 	            	<label for="site_title">Site Title:</label>
-	            	<input type="text" id="site_title" class="text-field site_title" />
+	            	<input type="text" id="siteSettings_info_title" class="text-field site_title" />
 	            </div>
 	            <div class="summary-form-item">
                 	<label>Site URL:</label>
-	            	www.sakai.university.edu/johns_site <a class="edit-link" href="#">Edit</a>
+	            	<span id="siteSettings_info_sakaiDomain"></span><span id="siteSettings_info_sitePart"></span><div style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span>
+                        <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_text_edit">Edit</a>
+                    </div>
+                    <div id="siteSettings_info_sitePart_edit" style="display:none;">
+                       <input type="text" id="siteSettings_info_sitePart_edit_input" class="text-field site_location" />
+                       <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_edit_cancel">Cancel</a>
+                       <div id="siteSettings_info_sitePart_edit_input_tooltip" style="display:none;">Only alpha numerical characters.</div>
+                    </div>
+              
                 </div>
                 <div class="summary-form-item">       
 	            	<label for="site_description">Description:</label>
-	            	<input type="textarea" id="site_description" class="text-field site_description" />
+	            	<input type="textarea" id="siteSettings_info_description" class="text-field site_description" />
                 </div>                
 	      	</form>
         </div>
         <div class="section_container">
-            <div class="section_header">
-                Site Access
-            </div>
-            <form class="site_access_form" method="" action="">
+            <div class="section_header">Site Access</div>
+            <form class="site_access_form" method="post" action="javascript:;">
             	<div class="access-form-item">                	
                     <div class="site_access_label">Site status:</div>                                      	
-                    <input type="radio" id="site_status_on" class="site_online" checked="checked" name="status" /><label class="site_status_on" for="site_status_on"> Online</label><br />
-                    <input type="radio" id="site_status_off" class="site_offline" name="status" /><label class="site_status_off" for="site_status_off"> Offine</label>                     
+                    <input type="radio" id="siteSettings_status_on" class="site_online" checked="checked" name="status" /><label class="site_status_on" for="site_status_on"> Online</label><br />
+                    <input type="radio" id="siteSettings_status_off" class="site_offline" name="status" /><label class="site_status_off" for="site_status_off"> Offine</label>                     
                 </div>
-                <div class="access-form-item">          
+                <div class="access-form-item" id="siteSettings_access">          
                     <div class="site_access_label">Site is available to:</div>                                        	
-                    <input type="radio" id="allow_public" class="site_public" checked="checked" name="privacy" /><label for="allow_public"> The general public <span>(including anonymous visitors)</span></label><br />                        
-                    <input type="radio" id="allow_sakai_users" class="site_sakai_users" name="privacy" /><label for="allow_sakai_users"> Any registered Sakai user</label><br />                      
-                    <input type="radio" id="allow_invite" class="site_private" name="privacy" /><label for="allow_invite"> Only people I invite</label>  
+                    <input type="radio" id="siteSettings_access_public" class="siteSetting_access site_public" checked="checked" name="privacy" /><label for="allow_public"> The general public <span>(including anonymous visitors)</span></label><br />                        
+                    <input type="radio" id="siteSettings_access_sakaiUsers" class="siteSetting_access site_sakai_users" name="privacy" /><label for="allow_sakai_users"> Any registered Sakai user</label><br />                      
+                    <input type="radio" id="siteSettings_access_invite" class="siteSetting_access site_private" name="privacy" /><label for="allow_invite"> Only people I invite</label>  
                 </div>           
-                <div class="settings_confirm_container">
-                	<a href="#" class="button button-primary save" />Save</a> 
-                	<a href="#" class="button button-secondary cancel" />Cancel</a>
+                <div id="siteSettings_confirm" class="settings_confirm_container">
+                	<a href="javascript:;" class="button button-primary save" id="siteSettings_save">Save</a> 
+                	<a href="javascript:;" class="button button-secondary cancel" id="siteSettings_cancel">Cancel</a>
                 </div>
+                          
+                <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
             </form>
-        </div>        
+        </div>
+        
+        <div class="dialog" id="siteSettings_delete_container">
+			<div class="dialog_header">
+				<h1>Delete this website</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div class="dialog_content">
+				<p>Are you sure you want to delete this website? Deleting this website will delete all related content and widgets.</p>	
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" class="button-default" id="siteSettings_delete_yes">Yes</a>
+			        <a href="javascript:;" class="button jqmClose" id="siteSettings_delete_no" style="float: none; display: inline;">No</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div style="margin-bottom: 50px"/>
     
-    <!-- FOOTER -->    
-    <div class="page-footer">
-    </div>
+    <script type="text/javascript" src="_javascript/site_basic_settings.js"></script>
 </body>
 </html>

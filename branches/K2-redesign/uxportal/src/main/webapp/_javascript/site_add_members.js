@@ -1,20 +1,25 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+
+/*global $, sdata, Querystring */
+
 var sakai = sakai || {};
-var $ = $ ||
-function() {
-    throw "JQuery undefined";
-};
-var sdata = sdata ||
-function() {
-    throw "sdata undefined";
-};
-var Querystring = Querystring ||
-function() {
-    throw "Querystring undefined";
-};
-var json_parse = json_parse || 
-function(){
-	throw "json_parse undefined";
-};
 sakai.site_add_members = function() {
     var json = {};
     var selectedSite = "";
@@ -30,7 +35,7 @@ sakai.site_add_members = function() {
 		$("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
 		$(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
 		
-		$("#manage_members_role_rbts").html(sdata.html.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
+		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
 	};
 	getSiteId();
 
@@ -67,7 +72,7 @@ sakai.site_add_members = function() {
                 'results': []
             };
         }
-        $("#selected-people-container").html(sdata.html.Template.render("selected-people-template", {"selectedPeople" : selectedPeople}));
+        $("#selected-people-container").html($.Template.render("selected-people-template", {"selectedPeople" : selectedPeople}));
 		$("#selected-people-container").show();
         $(".selected-person-remove").bind("click",
         function(e, ui) {
@@ -125,7 +130,7 @@ sakai.site_add_members = function() {
         if (people.results.length > 0) {
             for (var i = 0; i < people.results.length; i++) {
 				if(typeof people.results[i].content === "string"){
-					people.results[i].content = eval('(' + people.results[i].content + ')');
+					people.results[i].content = $.evalJSON(people.results[i].content);
 					if(typeof people.results[i].content.picture !== "undefined"){
 						people.results[i].content.picture = people.results[i].content.picture;
 					}
@@ -134,7 +139,7 @@ sakai.site_add_members = function() {
                 
 				people.results[i].isMember = checkIfUserIDExists(people.results[i].userid);
             }
-            $("#siteManage_people").html(sdata.html.Template.render("siteManage_people_template", people));
+            $("#siteManage_people").html($.Template.render("siteManage_people_template", people));
             updateSelectedPersons();
 
             $(".siteManage_person").bind("click",
@@ -174,11 +179,11 @@ sakai.site_add_members = function() {
 				}
         }
 		var peoplesearchterm = arrSearchTerms.join(" OR ");
-        sdata.Ajax.request({
-            httpMethod: "GET",
-            url: "/rest/search?&path=/_private&q=" + peoplesearchterm + "&s=sakai:firstName&s=sakai:lastName&n=" + pageSize + "&p=" + (page - 1) + "&mimetype=text/plain&sid=" + Math.random(),
-            onSuccess: function(data) {
-                json.foundPeople = eval('(' + data + ')');
+        $.ajax({
+            cache: false,
+            url: "/rest/search?&path=/_private&q=" + peoplesearchterm + "&s=sakai:firstName&s=sakai:lastName&n=" + pageSize + "&p=" + (page - 1) + "&mimetype=text/plain",
+            success: function(data) {
+                json.foundPeople = $.evalJSON(data);
                 renderPeople(json.foundPeople);
 				updateSelectedPersons();
 				selectCorrectPeople();
@@ -186,7 +191,7 @@ sakai.site_add_members = function() {
 					searchPeople(searchterm, parseInt(pageclickednumber, 10), splitChar);
 				} });
             },
-            onFail: function(status) {
+            error: function(status) {
                 json.foundPeople = {};
                 renderPeople(json.foundPeople);
             }
@@ -250,11 +255,11 @@ sakai.site_add_members = function() {
 	 * gets the site members (for counting) *temporary
 	 */
  	var getSiteMembers = function() {
-        sdata.Ajax.request({
-            httpMethod: "GET",
-            url: "/_rest/site/members/list/" + selectedSite + "?sid=" + Math.random(),
-            onSuccess: function(data) {
-                json.members = eval('(' + data + ')');
+        $.ajax({
+            cache: false,
+            url: "/_rest/site/members/list/" + selectedSite,
+            success: function(data) {
+                json.members = $.evalJSON(data);
 				 var arrPeople = [];
 		         $.each(json.members,
 		         function(i, val) {
@@ -284,7 +289,7 @@ sakai.site_add_members = function() {
 		}
 		$("#manage_members_count").html(getNumMembers(json.members.results));
 		renderPeople(json.foundPeople);
-	}
+	};
 	
 		/**
 	 * add/update all selected people to the site
@@ -293,16 +298,15 @@ sakai.site_add_members = function() {
 		if(typeof json.foundPeople !== "undefined"){
 			var dataTemp = getPostData(false);
         	if (dataTemp.uuserid.length > 0) {
-            sdata.Ajax.request({
+            $.ajax({
                 url: "/_rest/site/members/add/" + selectedSite,
-                httpMethod: "POST",
-                postData: dataTemp,
-                contentType: "application/x-www-form-urlencoded",
-                onSuccess: function(data) {
+                type: "POST",
+                data: dataTemp,
+                success: function(data) {
                     updateSiteMembers(dataTemp);
                     selectNone();
                 },
-                onFail: function(data) {
+                error: function(data) {
                     alert(data);
                 }
             });
@@ -372,4 +376,4 @@ sakai.site_add_members = function() {
 
 };
 
-sdata.registerForLoad("sakai.site_add_members");
+sdata.container.registerForLoad("sakai.site_add_members");

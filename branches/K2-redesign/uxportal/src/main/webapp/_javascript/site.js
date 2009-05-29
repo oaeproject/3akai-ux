@@ -67,6 +67,8 @@ sakai.site = function(){
 		}
 		else {
 			$("#site_management_members_link").attr("href", $("#site_management_members_link").attr("href") + currentsite);
+			$("#site_management_basic_link").attr("href", $("#site_management_basic_link").attr("href") + currentsite);
+			$("#site_management_appearance_link").attr("href", $("#site_management_appearance_link").attr("href") + currentsite);
 			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + currentsite);
 			$.ajax({
 				url: "/_rest/site/get/" + currentsite,
@@ -76,7 +78,12 @@ sakai.site = function(){
 					saveToRecentSites(response);
 				},
 				error: function(httpstatus){
-					continueLoad(httpstatus, false);
+					if (httpstatus === 401) {
+						document.location = Config.URL.GATEWAY_URL;
+					}
+					else {
+						continueLoad(httpstatus, false);
+					}
 				}
 			});
 		}
