@@ -16,11 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var $ = $ || function(){ throw "JQuery is not available"; };
-var sdata = sdata || function(){ throw "sdata.js is not available"; };
-var get_cookie = get_cookie || function(){ throw "JQuery cookie is not available"; };
-var json_parse = json_parse || function(){ throw "JSON parse is not available"; };
-var Querystring = Querystring || function(){ throw "Querystring is not available"; }; 
+/*global $, sdata, get_cookie, Querystring */
 
 var sakai = sakai || {};
 
@@ -156,7 +152,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 			jsonDefaultSize.width = defaultWidth;
 			jsonDefaultSize.width_unit = defaultWidthUnit;
 			jsonDefaultSize.height = defaultHeight;
-			$(linktoolSettingsPreview).html(sdata.html.Template.render(linktoolSettingsPreviewTemplate, json));
+			$(linktoolSettingsPreview).html($.Template.render(linktoolSettingsPreviewTemplate, json));
 		}else{
 			$(linktoolSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
 		}
@@ -168,7 +164,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 	var renderIframe = function(){
 		if(json){
 			json.url = generateCompleteUrl();
-			$(linktoolMainContainer, rootel).html(sdata.html.Template.render(linktoolSettingsPreviewTemplate, json));
+			$(linktoolMainContainer, rootel).html($.Template.render(linktoolSettingsPreviewTemplate, json));
 		}
 	};
 	
@@ -177,7 +173,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 	 */
 	var renderLinkToolSettings = function() {
 		if(json){
-			$(linktoolSettings).html(sdata.html.Template.render(linktoolSettingsTemplate, json));
+			$(linktoolSettings).html($.Template.render(linktoolSettingsTemplate, json));
 		}
 	};
 	
@@ -186,7 +182,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 	 */
 	var renderColorContainer = function(){
 		if(json){
-			$(linktoolSettingsColorContainer).html(sdata.html.Template.render(linktoolSettingsColorContainerTemplate, json));
+			$(linktoolSettingsColorContainer).html($.Template.render(linktoolSettingsColorContainerTemplate, json));
 		}
 	};
 	
@@ -197,7 +193,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 		if(json){
 			var jsoncomplete = {};
 			jsoncomplete.url_complete_preview = generateCompleteUrl();
-			$(linktoolSettingsQuerystringPreview).html(sdata.html.Template.render(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
+			$(linktoolSettingsQuerystringPreview).html($.Template.render(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
 		}
 	};
 	
@@ -220,7 +216,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 	 */
 	var saveLinkTool = function() {		
 		if (json.url !== "") {
-			var str = sdata.JSON.stringify(json); // Convert the posts to a JSON string
+			var str = $.toJSON(json); // Convert the posts to a JSON string
 			var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 			sdata.widgets.WidgetPreference.save(saveUrl, "linktool", str, savedDataToJCR);
 		}
@@ -433,12 +429,12 @@ sakai.linktool = function(tuid, placement, showSettings){
 	 * view we are in, fill in the settings or display an iframe.
 	 */
 	var getLinkTool = function() {
-		sdata.Ajax.request({
-			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool") + "?sid=" + Math.random(),
-   			httpMethod : "GET",
-   			onSuccess : function(data) {
+		$.ajax({
+			url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool"),
+			cache: false,
+   			success : function(data) {
 				// Get a JSON string that contains the necessary information.
-				var parameters = json_parse(data);
+				var parameters = $.evalJSON(data);
 				
 				if (showSettings) {
 					displaySettings(parameters, true); // Fill in the settings page.
@@ -447,7 +443,7 @@ sakai.linktool = function(tuid, placement, showSettings){
 					displayLinkTool(parameters); // Show the frame
 				}
 			},
-			onFail: function(status){
+			error: function(status){
 				displaySettings(null, false);
 			}
 		});
