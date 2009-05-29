@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, json_parse */
+/*global $, Config, sdata */
 
 var sakai = sakai || {};
 
@@ -215,36 +215,36 @@ sakai.poll = function(tuid, placement, showSettings){
 	 * Render the show question of the widget
 	 */
 	var renderShowQuestion = function(){
-		$(pollShowQuestion, rootel).html(sdata.html.Template.render(pollShowQuestionTemplate,json));
+		$(pollShowQuestion, rootel).html($.Template.render(pollShowQuestionTemplate,json));
 	};
 	
 	/**
 	 * Render the show chart view of the widget
 	 */
 	var renderShowChart = function(){
-		$(pollShowChart, rootel).html(sdata.html.Template.render(pollShowChartTemplate,json));
+		$(pollShowChart, rootel).html($.Template.render(pollShowChartTemplate,json));
 	};
 	
 	/**
 	 * Render the preview of the widget
 	 */
 	var renderPreview = function(){
-		$(pollPreviewQuestion, rootel).html(sdata.html.Template.render(pollPreviewQuestionTemplate,json));
-		$(pollPreviewChart, rootel).html(sdata.html.Template.render(pollPreviewChartTemplate,json));
+		$(pollPreviewQuestion, rootel).html($.Template.render(pollPreviewQuestionTemplate,json));
+		$(pollPreviewChart, rootel).html($.Template.render(pollPreviewChartTemplate,json));
 	};
 	
 	/**
 	 * Render the options for the poll
 	 */
 	var renderOptions = function(){
-		$(pollOptions, rootel).html(sdata.html.Template.render(pollOptionsTemplate,json));
+		$(pollOptions, rootel).html($.Template.render(pollOptionsTemplate,json));
 	};
 	
 	/**
 	 * Render the settings of the widget
 	 */
 	var renderSettings = function(){
-		$(pollSettings, rootel).html(sdata.html.Template.render(pollSettingsTemplate,json));
+		$(pollSettings, rootel).html($.Template.render(pollSettingsTemplate,json));
 		renderOptions();
 	};
 	
@@ -469,7 +469,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		saveAllToDatabase = saveAll;
 		 // Clear polls array
 		json.poll.polls = [];
-		var jsonToString = sdata.JSON.stringify(json);
+		var jsonToString = $.toJSON(json);
 		var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 		sdata.widgets.WidgetPreference.save(saveUrl, "poll", jsonToString, functionOnComplete);		
 	};
@@ -616,7 +616,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		if (exists){
 			if(me){
 				try {
-					json = json_parse(response);
+					json = $.evalJSON(response);
 					
 					json.poll.temp = {};
 					
@@ -756,7 +756,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		if (exists) {
 			if (me) {
 				try {
-					jsonAll = json_parse(response);
+					jsonAll = $.evalJSON(response);
 					if(jsonAll && jsonAll.polls.length > 0){
 						json.poll.polls = jsonAll.polls;
 					}else{
@@ -803,7 +803,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		json.poll.temp = {};
 		jsonAll.polls.push(json.poll);
 		
-		var jsonToString = sdata.JSON.stringify(jsonAll);
+		var jsonToString = $.toJSON(jsonAll);
 		sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/", "_poll", jsonToString, finishSettingsAfterSave);
 	};
 	
@@ -813,10 +813,10 @@ sakai.poll = function(tuid, placement, showSettings){
 	 * @param {Function} functionOnComplete Function to be executed on completion
 	 */
 	var getAllPoll = function(addToAll, functionOnComplete){
-		sdata.Ajax.request({
-			url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_poll?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
+		$.ajax({
+			url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_poll",
+			cache: false,
+			success: function(data){
 				parseAllPoll(data, true);
 				if (addToAll){addCurrentToAllPoll();}
 				if (functionOnComplete !== null){
@@ -824,7 +824,7 @@ sakai.poll = function(tuid, placement, showSettings){
 					$(pollInsertExisting, rootel).hide();
 				}
 			},
-			onFail: function(status){
+			error: function(status){
 				parseAllPoll(status, false);
 				if (addToAll) {addCurrentToAllPoll();}
 				if (functionOnComplete !== null) {
@@ -1315,13 +1315,13 @@ sakai.poll = function(tuid, placement, showSettings){
 	 * Get the post including replies
 	 */
 	var getPostsFromJCR = function(){
-		sdata.Ajax.request({
-			url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll") + "?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
+		$.ajax({
+			url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll"),
+			cache: false,
+			success: function(data){
 				showPoll(data, true);
 			},
-			onFail: function(status){
+			error: function(status){
 				showPoll(status, false);
 			}
 		});
@@ -1358,7 +1358,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		if (exists) {
 			
 			// Parse the response to a json object
-			json = json_parse(response);
+			json = $.evalJSON(response);
 			
 			// Render and bind the settings
 			renderAndBindSettings();
@@ -1405,13 +1405,13 @@ sakai.poll = function(tuid, placement, showSettings){
 
 		showHidePreview(false);
 		
-		sdata.Ajax.request({
-			url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll") + "?sid=" + Math.random(),
-			httpMethod: "GET",
-			onSuccess: function(data){
+		$.ajax({
+			url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll"),
+			cache: false,
+			success: function(data){
 				showPollSettings(data, true);
 			},
-			onFail: function(status){
+			error: function(status){
 				showPollSettings(status, false);
 			}
 		});
