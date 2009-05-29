@@ -16,26 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Config = Config ||
-function() {
-    throw "Config file is not available";
-};
-var $ = $ ||
-function() {
-    throw "JQuery is not available";
-};
-var jQuery = jQuery ||
-function() {
-    throw "JQuery is not available";
-};
-var sdata = sdata ||
-function() {
-    throw "sdata.js is not available";
-};
-var json_parse = json_parse ||
-function() {
-    throw "JSON parse is not available";
-};
+/*global Config, $, sdata */
 
 var sakai = sakai || {};
 
@@ -250,7 +231,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 		// Splices the temporary comments-array (starting from the start of the page to the end)
         jsonTemp.comments = jsonTemp.comments.splice((pageclickednumber - 1) * json.perPage, json.perPage);
 		// Let's the JSON-object render
-        $(commentsShowComments, rootel).html(sdata.html.Template.render(commentsShowCommentsTemplate, jsonTemp));
+        $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonTemp));
     };
 	/**
 	 * Show the comments in a paged state or not
@@ -291,7 +272,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         }
 		// Show all the comments on 1 page
         else {
-            $(commentsShowComments, rootel).html(sdata.html.Template.render(commentsShowCommentsTemplate, jsonDisplay));
+            $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonDisplay));
         }
     };
 	
@@ -319,11 +300,10 @@ sakai.comments = function(tuid, placement, showSettings) {
 	            }
 	
 				// retrieves al the users profile information
-	            sdata.Ajax.request({
-	                httpMethod: "GET",
+	            $.ajax({
 	                url: Config.URL.ME_SERVICE + "/" + users.join(","),
-	                onSuccess: function(data) {
-	                    var jsonUsers = json_parse(data);
+	                success: function(data) {
+	                    var jsonUsers = $.evalJSON(data);
 	                    users = [];
 	                    for (i = 0; i < jsonUsers.users.length; i++) {
 							// Puts the userinformation in a better structure for trimpath
@@ -341,7 +321,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 	                    }
 	                    displayCommentsPagedOrNot(users);
 	                },
-	                onFail: function(status) {
+	                error: function(status) {
 	                    alert("Couldn't connect to the server.");
 	                }
 	            });	
@@ -355,12 +335,12 @@ sakai.comments = function(tuid, placement, showSettings) {
 	 */
     var postComment = function(container) {
         // Before you post the current posts should be retrieved, in this way no posts get overwritten
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "comments") + "?sid=" + Math.random();
-        sdata.Ajax.request({
+        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "comments");
+        $.ajax({
             url: url,
-            httpMethod: "GET",
-            onSuccess: function(data) {
-                json = json_parse(data);
+            cache: false,
+            success: function(data) {
+                json = $.evalJSON(data);
                 $(container, rootel).toggle();
                 var comment = {
                     // Replaces the \n (enters) with <br />
@@ -379,12 +359,12 @@ sakai.comments = function(tuid, placement, showSettings) {
                 comment.date = new Date();
                 json.comments.push(comment);
                 // Converting JSON-object to a string
-                var tostring = sdata.JSON.stringify(json);
+                var tostring = $.toJSON(json);
                 var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
                 // Sending Stringified JSON-object to JCR
                 sdata.widgets.WidgetPreference.save(saveUrl,"comments", tostring, showComments());
             },
-            onFail: function(status) {
+            error: function(status) {
                 alert("An error occured while adding the comment");
             }
         });
@@ -503,7 +483,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         if (getCommentsSettings()) {
             var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
             // gets the JSON-settings-object and converts it to a string
-            var tostring = sdata.JSON.stringify(getCommentsSettings());
+            var tostring = $.toJSON(getCommentsSettings());
             sdata.widgets.WidgetPreference.save(saveUrl, "comments", tostring, finishNewSettings);
         }
 
@@ -518,7 +498,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 		// gets the place where the add comments buttons is clicked (Top or Bottom) 
         jsonTemp.place = e.target.id.replace(commentsCommentBtnNoDot + "_", "");
 		// Renders the put commentTextbox, can be dynamic because of the require-login, require-name and require-mail properties
-        $(commentsFillInComment + jsonTemp.place, rootel).html(sdata.html.Template.render(commentsFillInCommentTemplate, jsonTemp));
+        $(commentsFillInComment + jsonTemp.place, rootel).html($.Template.render(commentsFillInCommentTemplate, jsonTemp));
         $(commentsFillInComment + jsonTemp.place, rootel).toggle();
         $(commentsMessageTxt, $(rootel.selector + " " + commentsFillInComment + jsonTemp.place)).focus();
         /** Bind submit comment button */
@@ -544,16 +524,16 @@ sakai.comments = function(tuid, placement, showSettings) {
 	 * @param {Boolean} showSettings Show the settings of the widget or not
 	 */
     var doInit = function() {
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "comments") + "?sid=" + Math.random();
+        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "comments");
         if (showSettings) {
-            sdata.Ajax.request({
+            $.ajax({
                 url: url,
-                httpMethod: "GET",
-                onSuccess: function(data) {
-                    json = json_parse(data);
+                cache: false,
+                success: function(data) {
+                    json = $.evalJSON(data);
                     ShowSettingScreen(true, data);
                 },
-                onFail: function(status) {
+                error: function(status) {
                     ShowSettingScreen(false, status);
                 }
             });
@@ -561,14 +541,14 @@ sakai.comments = function(tuid, placement, showSettings) {
         } else {
             $(commentsSettingsContainer, rootel).hide();
             $(commentsOutputContainer, rootel).show();
-            sdata.Ajax.request({
+            $.ajax({
                 url: url,
-                httpMethod: "GET",
-                onSuccess: function(data) {
-                    json = json_parse(data);
+                cache: false,
+                success: function(data) {
+                    json = $.evalJSON(data);
                     showComments();
                 },
-                onFail: function(status) {
+                error: function(status) {
                     alert("An error occured while receiving the comments");
                 }
             });
