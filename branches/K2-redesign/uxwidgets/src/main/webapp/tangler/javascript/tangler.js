@@ -16,13 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var Config = Config || function(){ throw "Config file not available"; };
-var $ = $ || function(){ throw "JQuery not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
-var json_parse = json_parse || function(){ throw "SData.js not available"; };
+/*global Config, $, sdata */
 
 var sakai = sakai || {};
-
 sakai.tangler = function(tuid, placement, showSettings){
 
 	/////////////////////////////
@@ -59,7 +55,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 	 */
 	var finishNewSettings = function(){
 		sdata.container.informFinish(tuid);
-	}
+	};
 	
 	/**
 	 * Show the forum widget in the main view after the request to get the data and
@@ -98,7 +94,9 @@ sakai.tangler = function(tuid, placement, showSettings){
 				// Quit if this function already has been called.
 				// We do this before executing the javascript and after adding
 				// the paragraph.
-				if (argumentsCalleeDone) return;
+				if (argumentsCalleeDone) {
+					return;
+				}
 		
 				// Flag this function so we don't do the same thing twice.
 				argumentsCalleeDone = true;
@@ -118,8 +116,9 @@ sakai.tangler = function(tuid, placement, showSettings){
 					height = embedElement.style.height?embedElement.style.height:'480px';
 				}
 				var iframeSrc = 'http://www.tangler.com/embed/topic/' + id;
-				if( contextUrl )
+				if( contextUrl ){
 					iframeSrc = contextUrl + "/embed/topic/" + id;
+				}
 					
 				var iframe = document.createElement("iframe");
 				iframe.src = iframeSrc;
@@ -147,7 +146,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 		} else {
 			$(tanglerOutput, rootel).text("No valid Tangler forum found");
 		}
-	}
+	};
 
 	/**
 	 * Function that is executed after clicking the save button. We also check if the
@@ -158,22 +157,18 @@ sakai.tangler = function(tuid, placement, showSettings){
 		// To check if the textarea contains anything, we use regular expressions.
 		// The reason we don't use the length method for the string is that a space " "
 		// is in fact also a character.
-		if (!val || val.replace(/ /g, "%20") == "") {
-			sdata.Ajax.request({
-				url: "/sdata/f/" + placement + "/" + tuid + "/tangler?sid=" + Math.random(),
-				httpMethod: "DELETE",
-				onSuccess: function(data){
-					finishNewSettings();
-				},
-				onFail: function(status){
-					finishNewSettings();
-				}
+		if (!val || val.replace(/ /g, "%20") === "") {
+			$.ajax({
+				url: "/sdata/f/" + placement + "/" + tuid + "/tangler",
+				type: "DELETE",
+				success: finishNewSettings,
+				error: finishNewSettings
 			});
 		}
 		else {
 			sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "tangler", val, finishNewSettings);
 		}
-	}
+	};
 	
 	
 	////////////////////
@@ -209,12 +204,12 @@ sakai.tangler = function(tuid, placement, showSettings){
 	 * That is the reason why we combined both functionalities in this one method
 	 */
 	var fillInUniqueId = function(){
-		sdata.Ajax.request({
-			url :"/sdata/f/" + placement + "/" + tuid + "/tangler?sid=" + Math.random(),
-			httpMethod : "GET",
+		$.ajax({
+			url :"/sdata/f/" + placement + "/" + tuid + "/tangler",
+			cache: false,
 			// The GET request will be succesful if you are editing a tangler forum
 			// that is already on the page
-			onSuccess : function(data) {
+			success : function(data) {
 				if(showSettings){
 					// Fill in the textarea that contains the tangler code you have to
 					// get from the tangler website
@@ -225,14 +220,14 @@ sakai.tangler = function(tuid, placement, showSettings){
 			},
 			// This will fail when it is not possible to connect to the server
 			// and when you are creating a completely new tangler forum
-			onFail : function(status) {
+			error : function(status) {
 				// Only execute the function if you aren't in settings mode.
 				if(!showSettings){
 					showForum(status,false);
 				}
 			}
 		});
-	}
+	};
 	
 	/**
 	 * Excecute this function when the widget is loaded.
@@ -249,7 +244,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 			$(tanglerSettings, rootel).hide();
 			$(tanglerOutput, rootel).show();
 		}
-	}
+	};
 	doInit();
 };
 
