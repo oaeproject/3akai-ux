@@ -20,6 +20,8 @@ package org.sakaiproject.kernel.util.user;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
+
 
 public class UserLocale {
 
@@ -48,8 +50,13 @@ public class UserLocale {
    */
   public static Map<String, Object> localeToMap(Locale l, String timezone) {
     Map<String, Object> localeMap = localeToMap(l);
-    System.err.println("LOCALETOMAP: " + timezone);
-    localeMap.put("timezone", timezone);
+    TimeZone tz = TimeZone.getTimeZone(timezone);
+	int offset = tz.getRawOffset() + tz.getDSTSavings();
+    Map<String, Object> timezoneMap = new HashMap<String, Object>();
+    timezoneMap.put("name", timezone);
+    timezoneMap.put("GMT", offset / 3600000);
+    localeMap.put("timezone", timezoneMap);
+    
     return localeMap;
   }
 

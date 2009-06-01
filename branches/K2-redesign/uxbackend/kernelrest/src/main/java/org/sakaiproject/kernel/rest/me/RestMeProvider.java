@@ -291,6 +291,7 @@ public class RestMeProvider implements RestProvider, Initialisable {
 			throws RepositoryException, JCRNodeFactoryServiceException,
 			IOException {
 		response.setContentType(RestProvider.CONTENT_TYPE);
+
 		ServletOutputStream outputStream = response.getOutputStream();
 		outputStream.print("{ \"locale\" :");
 		outputStream.print(beanConverter.convertToString(UserLocale
@@ -374,6 +375,8 @@ public class RestMeProvider implements RestProvider, Initialisable {
 		response.setContentType(RestProvider.CONTENT_TYPE);
 		ServletOutputStream outputStream = response.getOutputStream();
 		NullUserEnvironment nullUserEnviroment = new NullUserEnvironment();
+		
+		
 		outputStream.print("{ \"locale\" :");
 		outputStream.print(beanConverter.convertToString(UserLocale
 				.localeToMap(locale, nullUserEnviroment.getTimezone())));

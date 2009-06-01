@@ -154,7 +154,7 @@ public class NullUserEnvironment implements UserEnvironment {
 	}
 
 	public String getTimezone() {
-		return "UTC";
+		return "GMT";
 	}
 
 	public void setTimezone(String timezone) {
