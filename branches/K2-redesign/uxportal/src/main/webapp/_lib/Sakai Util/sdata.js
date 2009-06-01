@@ -696,30 +696,33 @@ sdata.widgets.WidgetPreference =  {
 		var lastend = 0;
 		while(expression.test(toprocess)) {
 			var replace = RegExp.lastMatch;
-			var toreplace = "";
 			var lastParen = RegExp.lastParen;
-			try {
-				if (localbundle[lastParen]){
-					toreplace = localbundle[lastParen];
-				} else {
-					throw "Not in local file";
-				}
-			} catch (notInLocalFile){
-				try {
-					if (defaultbundle[lastParen]){
-						toreplace = defaultbundle[lastParen];
-					} else {
-						throw "Not in default file";
-					}
-				} catch (notInDefaultFile){
-					fluid.log("i18n key " + lastParen + " was not found in any bundle");
-				}
-			}
+			var toreplace = $.i18n.getValueForKey(lastParen);
 			processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
 			lastend = expression.lastIndex;
 		}
 		processed += toprocess.substring(lastend);
 		return processed;
+	};
+	
+	$.i18n.getValueForKey = function(key){
+		try {
+			if (sdata.i18n.localBundle[key]){
+				return sdata.i18n.localBundle[key];
+			} else {
+				throw "Not in local file";
+			}
+		} catch (notInLocalFile){
+			try {
+				if (sdata.i18n.defaultBundle[key]){
+					return sdata.i18n.defaultBundle[key];
+				} else {
+					throw "Not in default file";
+				}
+			} catch (notInDefaultFile){
+				fluid.log("i18n key " + key + " was not found in any bundle");
+			}
+		}
 	};
 	
 })(jQuery);

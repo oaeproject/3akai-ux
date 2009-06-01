@@ -263,24 +263,130 @@ $(document).ready(function(){
 // Localisation L10N plugin //
 //////////////////////////////
 
+/*
+ * This plugin will handle localisation in Sakai. It will offer a set of global
+ * functions that can be used to localise times, dates and numbers throughout the
+ * user interface.
+ */
+
 (function($){
 	
 	$.L10N = {};
 	
+	/**
+	 * Function that will take in a date object and will transform that
+	 * date object into a date only string
+	 * @param {Date} date
+	 *  JavaScript date object that we would like to transform in a 
+	 *  date string
+	 * @return {String}
+	 *  Fomatted date string, following the format as specified in
+	 *  Config.L10N.DateFormat
+	 */
 	$.L10N.transformDate = function(date){
-		
+		var sdf = new SimpleDateFormat(Config.L10N.DateFormat);
+		return sdf.format(date);
 	};
 	
+	/**
+	 * Function that will take in a date object and will transform that
+	 * date object into a time only string
+	 * @param {Date} date
+	 *  JavaScript date object that we would like to transform in a 
+	 *  time string
+	 * @return {String}
+	 *  Fomatted time string, following the format as specified in
+	 *  Config.L10N.TimeFormat
+	 */
 	$.L10N.transformTime = function(date){
-		
+		var sdf = new SimpleDateFormat(Config.L10N.TimeFormat);
+		return sdf.format(date);
 	};
 	
+	/**
+	 * Function that will take in a date object and will transform that
+	 * date object into a date and time string
+	 * @param {Date} date
+	 *  JavaScript date object that we would like to transform in a 
+	 *  date and time string
+	 * @return {String}
+	 *  Fomatted date and time string, following the format as specified in
+	 *  Config.L10N.DateTimeFormat
+	 */
 	$.L10N.transformDateTime = function(date){
-		
+		var sdf = new SimpleDateFormat(Config.L10N.DateTimeFormat);
+		return sdf.format(date);
 	};
 	
+	/**
+	 * Function that will take in a date object and will transform that
+	 * date object into a GMT date object. This should always be done before
+	 * we try to save a date back to a file or the database. The timezone
+	 * we are currently in will be determined from our timezone set in the
+	 * personal preferences page
+	 * @param {Date} date
+	 *  JavaScript date object that we would like to transform in a 
+	 *  GMT date object
+	 * @return {Date}
+	 *  Date object, that will have transformed the given date and time into
+	 *  GMT date and time
+	 */
+	$.L10N.toGMT = function(date){
+		date.setHours(date.getHours() - sdata.me.locale.timezone.GMT);
+		return date;
+	};
+	
+	/**
+	 * Function that will take in a GMT date object and will transform that
+	 * date object into a local date object. This should always be done after
+	 * we load a date back from a file or the database. The timezone
+	 * we are currently in will be determined from our timezone set in the
+	 * personal preferences page
+	 * @param {Date} date
+	 *  JavaScript GMT date object that we would like to transform to a local date object
+	 * @return {Date}
+	 *  Date object, that will have transformed the given GMT date and time into
+	 *  a local date and time
+	 */
+	$.L10N.fromGMT = function(date){
+		date.setHours(date.getHours() + sdata.me.locale.timezone.GMT);
+		return date;
+	};
+	
+	/**
+	 * Function that will take in a JavaScript Number and will transform it into
+	 * a localised number string that complies with decimal points and character used as separator
+	 * as specified in the config file
+	 * @param {Number} number
+	 * Number we want to localise (eg 10000000.442)
+	 * @return {String}
+	 * Localised string of the number given to this function (eg "10.000.000,442")
+	 */
 	$.L10N.transformNumber = function(number){
+		var string = number.toString();
+		var splitted = string.split(".");
+		var result = "";
 		
+		var part1 = splitted[0];
+		var start = part1.length % 3;
+		result += part1.substring(0, start);
+		part1 = part1.substring(start);
+		if (part1){
+			result += Config.L10N.NumberSeparator;
+		}
+		while (part1){
+			result += part1.substring(0,3);
+			part1 = part1.substring(3);
+			if (part1){
+				result += Config.L10N.NumberSeparator;
+			}
+		}
+		
+		if (splitted.length > 1){
+			return result + Config.L10N.DecimalPoint + splitted[1];
+		} else {
+			return result;
+		}
 	};
 	
 })(jQuery);
@@ -361,6 +467,16 @@ var SimpleDateFormat;
 	var ONE_DAY = 24 * 60 * 60 * 1000;
 	var ONE_WEEK = 7 * ONE_DAY;
 	var DEFAULT_MINIMAL_DAYS_IN_FIRST_WEEK = 1;
+	
+	var i18nMonthsAndDays = function(){
+		monthNames = [$.i18n.getValueForKey("JANUARY"), $.i18n.getValueForKey("FEBRUARY"), $.i18n.getValueForKey("MARCH"), 
+		$.i18n.getValueForKey("APRIL"), $.i18n.getValueForKey("MAY"), $.i18n.getValueForKey("JUNE"),
+		$.i18n.getValueForKey("JULY"), $.i18n.getValueForKey("AUGUST"), $.i18n.getValueForKey("SEPTEMBER"), 
+		$.i18n.getValueForKey("OCTOBER"), $.i18n.getValueForKey("NOVEMBER"), $.i18n.getValueForKey("DECEMBER")];
+		dayNames = [$.i18n.getValueForKey("SUNDAY"), $.i18n.getValueForKey("MONDAY"), $.i18n.getValueForKey("TUESDAY"), 
+		$.i18n.getValueForKey("WEDNESDAY"), $.i18n.getValueForKey("THURSDAY"), $.i18n.getValueForKey("FRIDAY"), 
+		$.i18n.getValueForKey("SATURDAY")];
+	};
 
 	var newDateAtMidnight = function(year, month, day) {
 		var d = new Date(year, month, day, 0, 0, 0);
@@ -433,6 +549,7 @@ var SimpleDateFormat;
 	/* ----------------------------------------------------------------- */
 
 	SimpleDateFormat = function(formatString) {
+		i18nMonthsAndDays();
 		this.formatString = formatString;
 	};
 
