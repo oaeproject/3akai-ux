@@ -127,5 +127,12 @@ var Config = {
 		Body : "body",
 		To : "to",
 		read : "read"
+	},
+	L10N: {
+		DateFormat: "dd/MM/yyyy",
+		TimeFormat: "HH:mm:ss",
+		DateTimeFormat: "EEEEE, d MMMMM yy",
+		DecimalPoint: ",",
+		NumberSeparator: "."
 	}
 };
