@@ -1,0 +1,56 @@
+/* Twitter CSS */
+/* Main Container */
+#twitter_main_container{
+	margin: 1em;
+}
+#twitter_main_container label{
+	padding: 2px 0;
+	margin-bottom: 2px;
+}
+#twitter_main_container input[type=radio] {
+	float: left;
+	margin-top: 5px;
+}
+.twitter_clear {
+	clear: both;
+}
+.twitter_radiocheck_label{
+	float: left;
+	margin: 4px 0 0 5px;
+	padding: 1px !important;
+}
+/* Sub Container */
+#twitter_sub_container {
+	clear: both;
+	margin-top:30px;
+}
+.twitter_input_label {
+	display: block;
+	clear: both;
+}
+/* Message Container */
+#twitter_message_container{
+	clear:both;
+}
+.twitter_error{
+	color: #ff0000 !important;
+}
+.twitter_info{
+	color: #4aa02c !important;
+}
+/* */
+.twitter_input_text {
+	border: 1px solid #dddddd;
+	height: 19px;
+	padding-left: 3px;
+	padding-top: 3px;
+	float: left;
+}
+.twitter_buttonBar {
+	float: left;
+	margin-top: 2px;
+}
+.twitter_button {
+	float:left;
+	margin-top:-2px !important;
+}
