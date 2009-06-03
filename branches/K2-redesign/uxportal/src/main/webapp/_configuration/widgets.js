@@ -112,6 +112,28 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/myprofile.png"
 		},
+		addtocontacts :
+		{
+			description:"Add a contact\r\n",
+			iframe:0,
+			url:"/devwidgets/addtocontacts/addtocontacts.html",
+			name:"Add a contact",
+			id:"addtocontacts",
+			personalportal:0,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
+		sendmessage :
+		{
+			description:"Send a message\r\n",
+			iframe:0,
+			url:"/devwidgets/sendmessage/sendmessage.html",
+			name:"Send a message",
+			id:"sendmessage",
+			personalportal:0,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
 		discussion :
 		{
 			description:"Discussion widget\r\n",
@@ -189,6 +211,18 @@ var Widgets = {
 			url:"/devwidgets/helloworld/helloworld.html",
 			name:"Hello World",
 			id:"helloworld",
+			personalportal:1,
+			siteportal:0,
+			hasSettings: 1,
+			img:"/dev/img/myprofile.png"
+		},
+		twitter :
+		{
+			description:"Twitter Widget\r\n",
+			iframe:0,
+			url:"/devwidgets/twitter/twitter.html",
+			name:"Twitter",
+			id:"twitter",
 			personalportal:1,
 			siteportal:0,
 			hasSettings: 1,
