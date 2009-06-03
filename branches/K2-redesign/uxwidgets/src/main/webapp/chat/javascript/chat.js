@@ -377,7 +377,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var parseStatusMessage = function(basic){
 		if (basic) {
-			var base = json_parse(basic);
+			var base = basic;
 			if(base.status){
 				return shortenString(base.status, 20);
 			}
@@ -1123,7 +1123,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		if (json.items !== undefined) {
 			for (var i = 0; i < json.items.length; i++) {
 				if (typeof json.items[i].profile === "string") {
-					json.items[i].profile = json_parse(json.items[i].profile);
+					json.items[i].profile = $.evalJSON(json.items[i].profile);
 				}
 				json.items[i].chatstatus = parseChatStatus(json.items[i].profile.chatstatus);
 				/** Check if a friend is online or not */
