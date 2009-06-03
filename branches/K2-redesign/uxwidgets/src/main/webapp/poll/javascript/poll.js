@@ -506,7 +506,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		if(me){
 			
 			// A user can only vote once
-			if(!json.poll.users.contains(me.preferences.uuid)){
+			if(!$.inArray(json.poll.users, me.preferences.uuid) > -1){
 				
 				// Double check (it is already checked in the bindUnbindVote function)
 				// if the user has checked an element. We do this double check to make it
@@ -623,7 +623,7 @@ sakai.poll = function(tuid, placement, showSettings){
 					// Check if the date are correct
 					checkDates();
 					
-					if (json.poll.users.contains(me.preferences.uuid)) {
+					if ($.inArray(json.poll.users,me.preferences.uuid) > -1) {
 						json.poll.temp.userVoted = 1;
 						
 						// Check if the user is allowed to see the chart or not
