@@ -78,16 +78,33 @@ $(document).ready(function(){
 	////////////////////////////
 	
 	/**
+	 * Gets the site id if the user is currently on a site
+	 * if the user is on any other page then false is returned
+	 */
+	var getSiteId = function(){
+		var site = false;
+		if(("" + document.location).indexOf(Config.URL.SITE_URL > -1)){
+			var queryString = ("" + document.location).substring(("" + document.location).indexOf("?") + 1);
+			var items = queryString.split("&");
+			for(var i = 0 ; i < items.length ; i++){
+				if(items[0].indexOf("siteid") === 0 && items[0].indexOf("=") > -1){
+					site = items[0].split("=")[1];
+				}
+			}
+		}
+		return site;
+	};
+	
+	/**
 	 * This function will load the general language bundle specific to the language chosen by
 	 * the user and will store it in a global variable. This language will either be the prefered 
 	 * user language or the prefered server language. The language will be available in the me feed 
 	 * and we'll use the global sdata.me object to extract it from. If there is no prefered langauge, 
 	 * we'll use the default bundle to translate everything.
 	 */
-	var loadLocalBundle = function(){
-		if (sdata.me.locale) {
+	var loadLocalBundle = function(langCode){
 			$.ajax({
-				url: Config.URL.BUNDLE_ROOT + sdata.me.locale.language + "_" + sdata.me.locale.country + ".properties",
+				url: Config.URL.BUNDLE_ROOT + langCode + ".properties",
 				success: function(data){ 
 					sdata.i18n.localBundle = parsePropertiesFile(data);
 					doI18N(sdata.i18n.localBundle, sdata.i18n.defaultBundle);
@@ -98,10 +115,28 @@ $(document).ready(function(){
 					doI18N(null, sdata.i18n.defaultBundle);
 				}
 			});
-		} else {
-			// There is no locale set for the current user. We'll switch to using the default bundle only
-			doI18N(null, sdata.i18n.defaultBundle);
-		}
+	};
+	
+	var loadSiteLanguage = function(site){
+			$.ajax({
+				url : "/_rest/site/get/" + site + "?sid=" + Math.random(),
+				success : function(data) {
+					var siteJSON = $.evalJSON(data);
+					if (siteJSON.language && siteJSON.language !== "default_default") {
+						loadLocalBundle(siteJSON.language);
+					}
+					else if (sdata.me.locale){
+						loadLocalBundle(sdata.me.locale.language + "_" + sdata.me.locale.country);
+					}
+					else {
+						// There is no locale set for the current user. We'll switch to using the default bundle only
+						doI18N(null, sdata.i18n.defaultBundle);
+					}
+				},
+				error : function(status) {
+					loadLocalBundle();
+				}
+		});
 	};
 	
 	/**
@@ -113,7 +148,19 @@ $(document).ready(function(){
 			url : Config.URL.BUNDLE_ROOT + "default.properties",
 			success : function(data) {
 				sdata.i18n.defaultBundle = parsePropertiesFile(data);
-				loadLocalBundle();
+				var site = getSiteId();
+				if (!site) {
+					if(sdata.me.locale){
+						loadLocalBundle(sdata.me.locale.language + "_" + sdata.me.locale.country);
+					}
+					else {
+						// There is no locale set for the current user. We'll switch to using the default bundle only
+						doI18N(null, sdata.i18n.defaultBundle);
+					}
+				}
+				else{
+					loadSiteLanguage(site);
+				}
 			},
 			error : function(status) {
 				// There is no default bundle, so we'll just show the interface without doing any translations

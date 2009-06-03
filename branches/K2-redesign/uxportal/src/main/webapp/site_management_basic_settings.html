@@ -102,7 +102,17 @@
                 <div class="summary-form-item">       
 	            	<label for="site_description">Description:</label>
 	            	<input type="textarea" id="siteSettings_info_description" class="text-field site_description" />
-                </div>                
+                </div>       
+				<div class="summary-form-item">       
+	            	<label for="site_description">Language:</label>
+					<select id="siteSettings_language" name="language"></select>  
+					<div id="siteSettings_languagesTemplate" style="display:none"><!--
+						<option value="default">User's language</option>
+						{for i in languages}
+							<option value="${i.language}_${i.country}">${i.displayName}</option>
+						{/for}		
+				    --></div> 
+                </div>         
 	      	</form>
         </div>
         <div class="section_container">

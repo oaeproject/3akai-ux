@@ -60,6 +60,7 @@ sakai.site_basic_settings = function() {
     
     var siteSettings = "#siteSettings";
     var siteSettingsClass = ".siteSettings";
+	var siteSettingsName = "siteSettings";
     var siteSettingsAppendSiteIDtoURL = siteSettingsClass + "_appendSiteIDtoURL";
     
     var siteSettingsTitleClass = siteSettingsClass + "_title";
@@ -103,6 +104,10 @@ sakai.site_basic_settings = function() {
     var siteSettingsErrorUnauthorized = siteSettingsError + "_unauthorized";
     var siteSettingsErrorSaveFail = siteSettingsError + "_saveFail";
     var siteSettingsErrorSaveSuccess = siteSettingsError + "_saveSuccess";
+	
+	// Language fields
+	var siteSettingLanguageCmb = siteSettings + "_language";
+	var siteSettingLanguageTemplate = siteSettingsName + "_languagesTemplate";
     
     
     
@@ -135,6 +140,33 @@ sakai.site_basic_settings = function() {
         url += key + "=" + value;
         $(id).attr('href', url);
     };
+	
+		/**
+	 * Puts the languages in a combobox
+	 * @param {Object} languages
+	 */
+	var putLangsinCmb = function(languages, json){
+		$(siteSettingLanguageCmb).html($.Template.render(siteSettingLanguageTemplate, languages));
+		if(json.language){
+			$(siteSettingLanguageCmb + " option[value=" + json.language + "]").attr("selected", true);
+		}
+	};
+	
+	/**
+	 * Gets all the languages supported and puts them in a combobox
+	 */
+	var getLanguages = function(json){
+		$.ajax({
+			url : "/dev/_configuration/languages.json",
+			success : function(data) {
+				languages = $.evalJSON(data);	
+				putLangsinCmb(languages, json);
+			},
+			error: function(status){
+				alert("Failed to retrieve languages.");
+			}
+		});
+	};
     
     /**
      * This will fill in all the field settings for the site.
@@ -157,7 +189,8 @@ sakai.site_basic_settings = function() {
                     $(siteSettingsTitleClass).text(json.name);
                     $(siteSettingsInfoSitePart).text(Config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
                     $(siteSettingsInfoSitePartTextLocation).text(json.location);
-                    
+                    getLanguages(json);
+					
                     // Status
                     if (json.status && json.status === 'offline') {
                         $(siteSettingsStatusOff).attr('checked', 'checked');
@@ -346,11 +379,13 @@ sakai.site_basic_settings = function() {
                 access = "invite";
             }
             
+            var language = $(siteSettingLanguageCmb + " option:selected").val();
             var tosend = {
                 'name' : titleEL.val(),
                 'description' : descEL.val(),
                 'status' : status,
-                'access' : access
+                'access' : access,
+				'language' : language
             };
                         
             //	Do a patch request to the profile info so that it gets updated with the new information.
