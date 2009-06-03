@@ -65,7 +65,7 @@ sakai.dashboard = function(){
 			}
 		} else {
 			try {
-				myportaljson = eval('(' + response + ')');
+				myportaljson = $.evalJSON(response);
 				var cleanContinue = true;
 				for (var c in myportaljson.columns){
 					for (var pi in myportaljson.columns[c]){
@@ -84,7 +84,7 @@ sakai.dashboard = function(){
 				doInit();
 			}
 		}
-	}
+	};
 	
 	sakai.dashboard.finishEditSettings = function(tuid, widgetname){
 		var generic = "widget_" + widgetname + "_" + tuid + "_~" + sdata.me.preferences.uuid;
@@ -95,15 +95,15 @@ sakai.dashboard = function(){
 		newel.className = "widget_inline";
 		old.parentNode.replaceChild(newel,old);
 		sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,false);
-	}
+	};
 	
 	sdata.container.registerFinishFunction(sakai.dashboard.finishEditSettings);
 	sdata.container.registerCancelFunction(sakai.dashboard.finishEditSettings);
 
 	var showInit = function(){
 		
-		var toAdd = new Array();
-		var added = new Array();
+		var toAdd = [];
+		var added = [];
 		var grouptype = "General";
 	
 		var columns = [];
@@ -137,7 +137,7 @@ sakai.dashboard = function(){
 	
 		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",$.toJSON(jsonobj), saveGroup);
 		
-	}
+	};
 	
 	sakai.dashboard.minimizeWidget = function(id){
 		var el = $("#" + id + "_container");
@@ -147,7 +147,7 @@ sakai.dashboard = function(){
 			el.hide();	
 		}
 		saveState();
-	}
+	};
 	
 	var tobindtolayoutpicker = function(){
 		$(".layout-picker").bind("click", function(ev){
@@ -159,7 +159,7 @@ sakai.dashboard = function(){
 			$("#layouts_list").html($.Template.render("layouts_template",newjson));
 			tobindtolayoutpicker();
 		});	
-	}
+	};
 	
 	$("#select-layout-finished").bind("click", function(ev){
 		if (currentselectedlayout == myportaljson.layout){
