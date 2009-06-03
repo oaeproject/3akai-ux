@@ -86,6 +86,7 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
   private static final String ROLES_ADD_PARAM = "addrole";
   private static final String ROLES_REMOVE_PARAM = "removerole";
   private static final String JOINABLE_PARAM = "joinas";
+  private static final String LANGUAGE_PARAM = "language";
   static {
     DESC.setTitle("Site Service");
     DESC.setShortDescription("The rest service to support site management");
@@ -297,7 +298,8 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
       @FormParam(ACCESS_PARAM) String access,
       @FormParam(ROLES_ADD_PARAM) String[] toAdd,
       @FormParam(ROLES_REMOVE_PARAM) String[] toRemove,
-      @FormParam(JOINABLE_PARAM) String joiningMembershipType) {
+      @FormParam(JOINABLE_PARAM) String joiningMembershipType,
+      @FormParam(LANGUAGE_PARAM) String language) {
     try {
       path = PathUtils.normalizePath(path);
       authzResolverService.check(path + SiteService.PATH_SITE, permissionQueryService
@@ -324,6 +326,9 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
         }
         if (joiningMembershipType != null) {
           siteBean.setJoiningMembership(joiningMembershipType);
+        }
+        if (language != null) {
+          siteBean.setLanguage(language);
         }
         siteBean.save();
       } else {
@@ -371,6 +376,7 @@ public class SiteProvider implements Documentable, JaxRsSingletonProvider, Initi
     for(int i = 0 ; i < sites.length ; i++){
     	if (siteService.siteExists("/" + sites[i])) {
     	      SiteBean siteBean = siteService.getSite("/" + sites[i]);
+    	      System.err.println("--------------/get/---- " + siteBean.getLanguage());
     	      if(sites.length == 1){
     	    	  return beanConverter.convertToString(siteBean);
     	      }

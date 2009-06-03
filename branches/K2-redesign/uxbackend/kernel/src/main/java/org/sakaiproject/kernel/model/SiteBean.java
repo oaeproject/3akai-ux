@@ -45,6 +45,7 @@ public class SiteBean extends GroupBean {
   private String type;
   private String joiningMembership;
   private String membershipHandler;
+  private String language;
   private transient String sitePath;
   private transient SiteService siteService;
   private JSONObject template;
@@ -114,6 +115,14 @@ public class SiteBean extends GroupBean {
 	 */
 	public void setAccess(String access) {
 		this.access = access;
+	}
+	
+	/**
+	 * Set the language for this site.
+	 * @param access
+	 */
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 /**
@@ -257,6 +266,13 @@ public class SiteBean extends GroupBean {
    */
   public String getMembershipHandler() {
     return membershipHandler;
+  }
+  
+  /**
+   * @return the membershipHandler
+   */
+  public String getLanguage() {
+    return language;
   }
 
   /**
