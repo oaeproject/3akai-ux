@@ -195,6 +195,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	};
 	
 	doInit();
+	
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("myfriends");

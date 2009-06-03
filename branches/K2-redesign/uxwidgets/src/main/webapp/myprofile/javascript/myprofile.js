@@ -139,7 +139,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		//	Any extra information we may have.
 		var extra = "";
 		if (json.basic) {
-			var basic = $.evalJSON(json.basic);
+			var basic = json.basic;
 			if (json.unirole) {
 				extra = json.unirole;
 			}
