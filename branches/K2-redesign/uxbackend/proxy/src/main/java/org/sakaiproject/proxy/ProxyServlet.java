@@ -36,8 +36,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
-
 /**
  *
  */
@@ -131,9 +129,7 @@ public class ProxyServlet extends HttpServlet {
 			String digest = null;
 			if (user != null && password != null) {
 				digest = "Basic "
-						+ new String(Base64
-								.encodeBase64((user + ":" + password)
-										.getBytes()));
+						+ new String(Base64Converter.encode((user + ":" + password).getBytes()));
 			}
 
 			boolean foundRedirect = false;
