@@ -21,7 +21,6 @@
 var sakai = sakai || {};
 sakai.sendmessage = function(tuid, placement, showSettings) {
 
-
 	//////////////////////////////
 	// Configuration variables 	//
 	//////////////////////////////
@@ -468,7 +467,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		
 		//	Maybe we dont want to display a popup but instead want to add it in another div.
 		if (typeof insertInId !== "undefined") {
-			
+					
 			//	Make sure this id exists.
 			if ($(insertInId).length > 0) {
 				//	The id exists!
@@ -483,6 +482,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 			
 				//	Altough this isnt strictly nescecary it is cleaner.
 				rootel = $(insertInId);
+				rootel.append($(messageDialogContainer));
 			}
 			
 		}
@@ -594,4 +594,5 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		onShow: loadMessageDialog
 	});
 };
+
 sdata.widgets.WidgetLoader.informOnLoad("sendmessage");

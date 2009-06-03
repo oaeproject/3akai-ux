@@ -174,6 +174,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     "body": openSocialMessage
                 })
             };
+			
+			alert("Here");
             
             // Do the invite.
             $.ajax({
@@ -183,7 +185,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     // We succesfully invited this user, now let's send him/her a message.
                     var toSend = {
                         "to": userid,
-                        "message": sdata.JSON.stringify(openSocialMessage)
+                        "message": $.toJSON(openSocialMessage)
                     };
                     sendMessage(userid, toSend);
                 },
@@ -288,4 +290,5 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
         onShow: loadDialog
     });
 };
+
 sdata.widgets.WidgetLoader.informOnLoad("addtocontacts");
