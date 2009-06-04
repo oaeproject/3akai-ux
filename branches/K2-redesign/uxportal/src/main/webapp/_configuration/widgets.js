@@ -387,6 +387,20 @@ var Widgets = {
 			showinsakaigoodies:0,
 			img:"/devwidgets/youtubevideo/images/icon.png"
 		},
+		tlrp :
+		{
+			description:"TLRP Bera Widget",
+			iframe:0,
+			url:"/devwidgets/tlrp/tlrp.html",
+			name:"TLRP-Bera",
+			id:"tlrp",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:0,
+			img:"/devwidgets/youtubevideo/images/icon.png"
+		},
 		rss :
 		{
 			description:"RSS Feed",
