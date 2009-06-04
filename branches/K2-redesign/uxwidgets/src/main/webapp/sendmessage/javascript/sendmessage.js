@@ -587,7 +587,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	////////////////////////
 	
 	
-	$(messageDialogContainer, rootel).jqm({
+	$(messageDialogContainer).jqm({
 		modal: true,
 		overlay: 20,
 		toTop: true,
