@@ -122,8 +122,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		try{
 			// Make the json-object where the rss-data will be saved
 			var rss = {"items" : []};
-			// parse the feed-string to an xml-Object
-			var xmlobject = (new DOMParser()).parseFromString(feed, "text/xml");
+			var xmlobject = feed;
 			// retrieve data from the xmlobject and put it in the JSON-object
 			var channel = $(xmlobject).find("channel");
 			rss.title = getContent(channel.find("title")[0]);
@@ -435,7 +434,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		var body = json.entries[index].description + "\n";
 		body += "read more: " + json.entries[index].link;
 		// Show the sendmessage widget
-		$(rssSendMessage).show();
+		//$(rssSendMessage).show();
 		// initialize the sendmessage-widget
 		var o = sakai.sendmessage.initialise(null, true);
 		o.setSubject(subject);
