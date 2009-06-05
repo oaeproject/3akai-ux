@@ -146,7 +146,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/dev/img/myprofile.png"
+			img:"/devwidgets/discussion/images/discussion.png"
 		},
 		poll :
 		{
@@ -160,7 +160,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/dev/img/myprofile.png"
+			img:"/devwidgets/poll/images/poll.png"
 		},
 		quiz :
 		{
@@ -174,7 +174,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/dev/img/myprofile.png"
+			img:"/devwidgets/quiz/images/quiz.png"
 		},
 		wookiechat :
 		{
@@ -188,7 +188,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/dev/img/myprofile.png"
+			img:"/devwidgets/wookiechat/images/wookiechat.png"
 		},
 		wookieforum :
 		{
@@ -202,7 +202,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:0,
-			img:"/dev/img/myprofile.png"
+			img:"/devwidgets/wookieforum/images/wookieforum.png"
 		},
 		helloworld :
 		{
@@ -241,17 +241,6 @@ var Widgets = {
 			img:"/dev/img/myprofile.png",
 			gwt: 1
 		},
-		sparkline :
-		{
-			description:"Sparkline\r\n",
-			iframe:0,
-			url:"/devwidgets/sparkline/sparkline.html",
-			name:"Sparkline",
-			id:"sparkline",
-			personalportal:0,
-			siteportal:1,
-			img:"/dev/img/sparkline.png"
-		},
 		createsite :
 		{
 			description:"Create site\r\n",
@@ -283,18 +272,6 @@ var Widgets = {
 			id:"myfriends",
 			personalportal:1,
 			siteportal:0,
-			img:"/dev/img/myprofile.png",
-			multipleinstance: false
-		},
-		announcementupdates :
-		{
-			description:"A list of Announcements & Updates\r\n",
-			iframe:0,
-			url:"/devwidgets/announcementupdates/announcementupdates.html",
-			name:"Announcements & Updates",
-			id:"announcementupdates",
-			personalportal:0,
-			siteportal:1,
 			img:"/dev/img/myprofile.png",
 			multipleinstance: false
 		},
@@ -399,7 +376,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:0,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/tlrp/images/tlrp.png"
 		},
 		rss :
 		{
@@ -413,7 +390,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/rss/images/rss.png"
 		},
 		video :
 		{
@@ -427,13 +404,13 @@ var Widgets = {
 			ca:1,
 			showinmedia:1,
 			showinsakaigoodies:0,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/video/images/video.png"
 		},
 		comments :
 		{
 			description:"Comments",
 			iframe:0,
-			url:"/devwidgets/comments/commentswow.html",
+			url:"/devwidgets/comments/comments.html",
 			name:"Comments",
 			id:"comments",
 			personalportal:0,
@@ -441,7 +418,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/comments/images/comments.png"
 		},
 		remotecontent :
 		{
@@ -455,7 +432,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/remotecontent/images/remotecontent.png"
 		},
 		linktool :
 		{
@@ -469,7 +446,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/linktool/images/linktool.png"
 		},
 		tangler :
 		{
@@ -485,18 +462,6 @@ var Widgets = {
 			showinsakaigoodies:1,
 			img:"/devwidgets/tangler/images/tangler.png"
 		},
-		singlefile :
-		{
-			description:"Single File Reference",
-			iframe:0,
-			url:"/devwidgets/singlefile/singlefile.html",
-			name:"Single File Reference",
-			id:"singlefile",
-			personalportal:0,
-			siteportal:0,
-			ca:0,
-			img:"/devwidgets/singlefile/images/singlefile.png"
-		},
 		Resources :
 		{
 			description:"Resources tool",
@@ -507,18 +472,6 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0,
 			history : {"init":"Resources.initHistory","nav":"Resources.browser.printResources",tag:"Resources.tagging.showTagViewReal"}
-		},
-		polltracker :
-		{
-			description:"Track the results of all of the polls on the sites you are a member of",
-			iframe:0,
-			url:"/devwidgets/polltracker/polltracker.html",
-			name:"Poll Tracker",
-			id:"polltracker",
-			personalportal:1,
-			siteportal:0,
-			multipleinstance: true,
-			img:"/devwidgets/polltracker/images/poll_icon.gif"
 		}
 	},
 	orders:[
