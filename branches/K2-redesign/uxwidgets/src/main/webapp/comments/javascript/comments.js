@@ -294,7 +294,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 				
 				// puts all the userids who added comments to this widget in an array
 	            for (var i = 0; i < json.comments.length; i++) {
-	                if (!users.contains(json.comments[i].uid)) {
+	                if (!$.inArray(users,json.comments[i].uid) > -1) {
 	                    users.push(json.comments[i].uid);
 	                }
 	            }
