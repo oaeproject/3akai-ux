@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 RC 1</title>
+		
+		<link rel="stylesheet" type="text/css" href="/dev/_skins/camuniversity/css/camuniversity.css" />
+    </head>
+    <body>
+    	<div id="maincontainer">
+	   		<!-- TrimPath Templates -->
+			<div id="editor_extra_buttons"><!--
+				<td>
+					<span class='mceSeparator' style='width:5px'/>
+				</td>
+				<td>
+					<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+						<tbody>
+							<tr>
+								<td class='mceFirst'>
+									<a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>Insert More</a>
+								</td>
+								<td class='mceLast'>
+									<a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td>
+					<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+						<tbody>
+							<tr>
+								<td class='mceFirst'>
+									<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Layout</a>
+								</td>
+								<td class='mceLast'>
+									<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>   
+			--></div>
+			
+			<div class="header">
+				<div id="branding">
+					<a accesskey="1" href="http://www.cam.ac.uk/">
+						<img class="header-logo" alt="University of Cambridge" src="http://3akai.sakaiproject.org/dev/skins/cambridge/identifier4.gif"/>
+					</a>
+					<a href="http://www.cam.ac.uk/800/">
+						<img alt="800 Years, 1209 - 2009" src="http://3akai.sakaiproject.org/dev/skins/cambridge/800-2.gif"/>
+					</a>
+				</div>
+			</div>
+			
+			<div id="container">
+				<h1 id="sitetitle"></h1>	      
+				<!-- WORK AREA -->
+		        <div class="fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
+			       
+		            <!-- Page Nav -->
+		            <div class="fl-col-side page_nav">	
+						<div id="page_nav_content" class="pages page_nav_content">
+							
+						</div>
+							
+						<div class="site_management" id="site_management" style="display:none">
+							<h3>Site Management</h3>
+			            	<ul>
+			            		<li><a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a></li>
+			                	<li><a id="site_management_basic_link" href="site_management_basic_settings.html?siteid=">Site Settings</a></li>
+			                	<li><a id="site_management_members_link" href="site_management_members_manage.html?siteid=">Members</a></li>
+			                	<li><a id="site_management_appearance_link" href="site_management_appearance.html?siteid=">Appereance</a></li>
+								<li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
+			            	</ul>
+						</div>
+		            </div>
+		            
+		            <!-- Main Content -->
+		            <div class="fl-col-main content_container">
+						
+						<div class="fl-container revision_history" id="revision_history_container"  style="display:none">
+							<span class="revision_history_viewing">Viewing:</span>
+							<select id="revision_history_list" style="font-size:0.95em; margin-left: 5px; margin-right:15px; padding:2px; border: 1px solid #cccccc">
+								
+							</select>
+							<a href="javascript:;" class="button-default" id="revision_history_revert" style="color:black; font-weight: bold">Use this Version</a>
+					        <a href="javascript:;" class="button-default" id="revision_history_cancel" style="color:black; font-weight: normal">Cancel</a>
+						</div>
+		                
+						<div class="content_page_header" style="display:none">
+		                	<img src="_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
+							<p><a href="#">John Doe</a></p>
+							<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
+		                </div>
+		                
+						
+						<div id="main-content-div">
+						
+						</div>             
+		            </div>
+		        </div>
+			 
+		        <!-- WORK AREA -->
+		        <div class="fl-fix" id="edit_view_container" style="display:none">
+		            <div class="main_container content_container">
+		                <div class="content">
+		                    <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+		                    <div class="buttonBar" style="margin-bottom:-1.2em">
+		                        <a href="javascript:;" class="button-default save_button">Save</a>
+		                        <a href="javascript:;" class="button cancel-button">Cancel</a>
+		                        <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
+		                    </div>
+		                    <ul class="fl-tabs fl-tabs-r tab-nav">
+								<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
+								<li id="tab_html"><a href="javascript:;">HTML</a></li>
+								<li id="tab_preview"><a href="javascript:;">Preview</a></li>
+							</ul>
+		                    <div class="tab-nav-panel" id="tab-nav-panel">
+		                    	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
+		                        <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
+		                        	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
+		                        </div>
+								<div class="fl-tab-content-border" id="title-input-container">
+		                            <input type="text" value="Untitled" class="title-input" id="title-input"/>
+		                        </div>
+								<div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
+									<div id="placeholderforeditor" class="textarea">
+										<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+										<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+											&nbsp;
+										</textarea>
+									</div>
+		                        </div>
+								<div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
+									<textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
+								</div>
+		                    </div>
+		                    <p class="new_page_path" id="new_page_path">
+		                         Site title / Some page / <span>Untitled</span>
+		                        <input class="custom_button" type="button" value="Move ..." name="somename"/>
+		                    </p>
+							<div style="display:none" id="new_page_path_template"><!--
+								{var index = 0}
+								<span>Page location:</span>
+								{for i in pages}
+									${index++|eat}
+									{if index == total}
+										<span id="new_page_path_current">${i}</span>
+									{else}
+										${i}&nbsp;/&nbsp;
+									{/if}
+								{/for}
+								&nbsp;
+								<input class="custom_button" type="button" value="Move ..." name="somename" id="move_inside_edit"/>
+							--></div>
+							<div class="fl-tab-content-border content_container" id="page_preview_content" style="display:none; margin-bottom: 20px">
+								
+							</div>
+		                    <div class="buttonBar">
+		                        <a href="javascript:;" class="button-default save_button">Save</a>
+		                        <a href="javascript:;" class="button cancel-button">Cancel</a>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		        <!-- FOOTER copyright -->
+		        <div class="fl-container footer_copyright">
+		        	<div class="fl-force-left">
+		        		<a href="javascript:;" id="back_to_top">Back To Top</a>
+			            <p>
+			                Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
+			                <br/>
+			                &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
+			            </p>
+		        	</div>
+		           
+					<div class="content_page_options" id="content_page_options">
+						<ul class="fl-force-right">
+							<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
+							<li class="divider" style="display:none" id="li_edit_page_divider"></li>
+							<li><a href="javascript:;" id="print_page">Print page</a></li>
+							<li class="divider"></li>
+							<li><a href="javascript:;" id="more_link">More</a></li>
+						</ul>
+					</div>
+		        </div>
+				
+				<div class="add_new_menu" id="add_new_menu" style="display:none">
+					<ul>
+						<li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
+						<li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
+						<li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
+					</ul>
+				</div>
+				
+				<div class="add_new_menu" id="more_menu" style="display:none">
+					<ul>
+						<li id="more_settings" class="more_option"><a href="javascript:;">Settings</a></li>
+						<li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
+						<li id="more_move" class="more_option move_dialog_trigger"><a href="javascript:;">Move</a></li>
+						<li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
+						<li id="more_delete" class="more_option"><a href="javascript:;">Delete</a></li>
+					</ul>
+				</div>
+				
+				<div id="insert_more_menu" class="insert_more_menu" style="display:none">
+					<div class="insert_more_menu_border">
+						<ul>
+							<li><a href="javascript:;" id="link_dialog_trigger">Link</a></li>
+							<li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
+						</ul>
+					</div>
+					<div id="insert_more_media" class="insert_more_menu_border">
+						
+					</div>
+					<div id="insert_more_goodies">
+						
+					</div>
+				</div>
+				
+				<div id="insert_more_media_template" style="display:none"><!--
+					<ul>
+						<li class="insert_more_menu_inactive">Media:</li>
+						{for i in items}
+							<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+						{forelse}
+							<li class="insert_more_menu_inactive"><i>No available</i></li>
+						{/for}
+					</ul>
+				--></div>
+				
+				<div id="insert_more_goodies_template" style="display:none"><!--
+					<ul>
+						<li class="insert_more_menu_inactive">Sakai Goodies:</li>
+						{for i in items}
+							<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+						{/for}
+						<li class="insert_more_menu_inactive">(More coming soon)</li>
+					</ul>				
+				--></div>
+				
+				<div class="context_menu" id="context_menu" style="display:none">
+					<img src="/dev/_images/edit_icon.png" width="20px"/>
+					<br/>
+					<ul>
+						<li id="context_settings"><a href="javascript:;">Settings</a></li>
+						<li id="context_remove"><a href="javascript:;">Remove</a></li>
+						<li id="context_appearance"><a href="javascript:;" id="context_appearance_trigger">Wrapping</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
