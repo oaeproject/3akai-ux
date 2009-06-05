@@ -40,6 +40,7 @@ var Config = {
 		SDATA_FETCH_URL: "/sdata/f/__PLACEMENT__/__TUID__/__NAME__",
 		SDATA_FUNCTION_PROPERTIES: "/sdata/f/__URL__?f=pr",
 		SDATA_FUNCTION_PERMISSIONS: "/sdata/f/__URL__?f=pe",
+		SITE_GROUPDEF_URL: "/f/__SITEID__/.site/groupdef.json",
 		SITE_URL: "/dev/site.html",
 		SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
 		WEBDAV_PRIVATE_URL: "/webdav/_private",
@@ -107,6 +108,10 @@ var Config = {
 			green2col : {
 				name : "Two column green theme",
 				image : "_images/sakai_green_2col.png"
+			},
+			camuniversity : {
+				name : "Cambridge University theme",
+				image : "/dev/_skins/camuniversity/images/camuniversity.png"
 			}
 		}
 	},

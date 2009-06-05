@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Sakai 3 RC 1 - Appearance</title>
 	
 	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />		
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/site.appearance.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
 	<link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css" />
 	
 	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
@@ -24,6 +25,7 @@
 	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/modal_dialog.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.simpletip-1.3.1.min.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.imgareaselect-0.8.min.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 </head>
@@ -67,72 +69,84 @@
 	<div class="fl-col-mixed-400">
 		<div class="fl-force-left fl-col-fixed-400">
 			<h4>Site logo:</h4>
-			<input type="button" class="button button-secondary change-logo" value="Change" />
-			<div class="logo-preview-container">
+			<input type="button" id="site_appearance_change_logo_trigger" class="button button-secondary change-logo" value="Change" />
+			<div class="logo-preview-container" id="site_appearance_logo">
 				none
 			</div>
+			<div id="site_appearance_logo_template"><!--
+				<img src="${fullName}" alt="Site logo" />
+			--></div>
 			<h4>Site style:</h4>
 			<div id="site_appearance_style_container"></div>
 			<div id="site_appearance_style_container_template"><!--
 				<ul class="region-container">
 					{for style in styles}
-						<li {if style_index == 0} class="selected" {/if} id="${style.id}"><a href="javascript:;" class="thumbnail-label"><img src="${style.image}" alt="${style.name}" class="thumbnail" /><span>${style.name}</span></a></li>
+						<li {if selectedStyle == style.id} class="selected" {/if} id="${style.id}"><a href="javascript:;" class="thumbnail-label"><img src="${style.image}" alt="${style.name}" class="thumbnail" /><span>${style.name}</span></a></li>
 					{/for}
 				</ul>
 			--></div>
 		</div>
 		<div class="fl-col-flex">
-			<h4>Style preview - Original Sakai Style:</h4>
-			<div class="full-preview">
-				<div class="heading-bg">
-					<div class="preview-heading">
-						<h1>John's New Site</h1>
-					</div>
-					<div class="preview-logo">
-						Your Logo
-					</div>
-
-					<!-- SEARCH FIELD -->
-					<div class="site_search">
-						<form class="fl-force-right search_form" id="search_form" action="#" method="post">
-							<input type="text" class="text-field" value="Search this site" />
-							<input type="submit" value="Search" class="submit-button" />
-						</form>
-					</div>
-
-					<!-- FULL PREVIEW -->
-					<div class="preview-container">
-					<h2>Page Title</h2>
-					<h5>Header</h5>
-						<div class="preview-image-container">
-							<img src="_images/duck.png" alt="duck" class="preview-image" />
-							<div class="image-caption">Image caption</div>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-						magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis 
-						nisl ut aliquip ex ea commodo consequat.</p> 
-						<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie 
-						consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit 
-						praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
-						<a href="#" class="preview-link">This is a link to another page</a>
-						<form>
-							<input type="text" value="Input field text" class="link-field-text" />
-							<input type="submit" value="Change" class="button button-secondary" />
-						</form>
-					</div>
-
-					<!-- PREVIEW FOOTER -->
-					<div class="preview-footer">
-						<div class="preview-footer-links"><a href="#">Another Option</a> | <a href="#">Option</a></div>
-						Footer - page created by <a href="#"><span>John Doe</span></a>
-					</div>
-				</div>
+			<h4>Style preview - <span id="site_appearance_preview_title"></span>:</h4>
+			<div>
+				<iframe src="" frameborder="0" scrolling="0">Your browser does not support iframes.</iframe>
 			</div>
 		</div>
 	</div>
 	<div class="button-container">
-		<input type="submit" class="button button-primary" value="Save" /><input type="button" class="button button-secondary cancel" value="Cancel" />
+		<input type="submit" class="button button-primary" value="Save" id="site_appearance_save" /><input type="button" class="button button-secondary cancel" value="Cancel" id="site_appearance_cancel" />
 	</div>
+	
+	<div style="display:none" class="dialog" id="site_appearance_change_container">
+		<div class="dialog_header">
+			<h1>Select your site picture</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+	    <div class="dialog_content">
+	    	
+			<!-- TABS -->
+	    	<ul class="fl-tabs fl-tabs-left search_tab_nav">
+				<li id="site_appearance_change_select_tab" class="fl-activeTab"><a href="javascript:;">Select Picture</a></li>
+				<li id="site_appearance_change_upload_tab"><a href="javascript:;">Upload a new picture</a></li>
+			</ul>
+	
+			<!-- SELECT AREA -->
+			<div id="site_appearance_change_select_content">
+				<h4>Select the area you want to use as your site picture</h4>
+				<img id="site_appearance_change_picture_full" alt="Create Thumbnail" src="" />
+				<!-- Set the width and height of the thumbnail container in CSS. We use this in our JavaScript -->
+				<div id="site_appearance_change_picture_thumbnail_container">
+					<img id="site_appearance_change_picture_thumbnail" alt="Thumbnail Preview" src="" />
+				</div>
+				
+				<div class="dialog_footer buttonBar">
+					<a class="button button-default" id="site_appearance_change_picture_save" href="javascript:;">Save</a>
+					<a class="button jqmClose" href="javascript:;">Cancel</a>
+				</div>
+			
+			</div>
+	
+			<!-- UPLOAD PICTURE -->
+			<div id="site_appearance_change_upload_content" style="display:none;">
+				<form id="site_appearance_change_upload_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai.site_appearance_change.startCallback, 'onComplete' : sakai.site_appearance_change.completeCallback});">
+					<h4>Upload new picture</h4>
+					<input type="file" name="file" id="site_appearance_change_upload_form_file" />
+					<input type="hidden" name="realname" id="realname" value="" />
+					<!-- BUTTONS -->
+					<div class="dialog_footer buttonBar">
+						<!-- We need a button here because we are doing a form upload -->
+						<input type="submit" class="button button-default" id="profile_upload" value="Upload" href="javascript:;"/>
+						<a class="button jqmClose" id="profile_upload_cancel" href="javascript:;">Cancel</a>
+					</div>
+				</form>
+	
+			</div>
+	
+		</div>
+	</div>
+	
+	<!-- Contains the new uploade picture. Will be used to check the width and height of the uploaded image -->
+	<div id="site_appearance_change_picture_measurer" style="left:-100000px; top: -100000px; position:absolute"></div>
 	
 	<!-- JAVASCRIPT -->
 	<script src="_javascript/site_appearance.js" type="text/javascript"></script>

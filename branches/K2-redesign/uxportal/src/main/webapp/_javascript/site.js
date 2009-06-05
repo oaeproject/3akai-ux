@@ -2643,5 +2643,3 @@ if (nel.className == "contauthlink") {
 	fillInsertMoreDropdown();
 	
 };
-
-sdata.container.registerForLoad("sakai.site");
