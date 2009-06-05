@@ -6,7 +6,7 @@ Framework
 
 * SData.js
 
- - Well structured JS:  X
+ - Well structured JS:  V
  - JSLint validated:    X
  - License header:      V
  - jqUnit tests:        X
