@@ -45,10 +45,12 @@ public class SiteBean extends GroupBean {
   private String type;
   private String joiningMembership;
   private String membershipHandler;
+  private String style;
   private String language;
   private transient String sitePath;
   private transient SiteService siteService;
   private JSONObject template;
+  private JSONObject picture;
 
   /**
    * Get the ID of this site.
@@ -288,6 +290,22 @@ public class SiteBean extends GroupBean {
   }
   
   public JSONObject getTemplate(){
-	  return this.template;
+	return this.template;
+  }
+
+  public void setPicture(JSONObject picture) {
+    this.picture = picture;
+  }
+
+  public JSONObject getPicture() {
+    return picture;
+  }
+
+  public void setStyle(String style) {
+    this.style = style;
+  }
+
+  public String getStyle() {
+    return style;
   }
 }
