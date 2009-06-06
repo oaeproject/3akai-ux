@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie, window */
+/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie */
 
 var sakai = sakai || {};
 

@@ -1,3 +1,21 @@
+<div id="user_link_menu" style="display:none">
+	<div class="user_link_menu_border">
+		<ul>
+			<li class="insert_more_menu_inactive">Chat Status</li>
+			<li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
+			<li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
+			<li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
+		</ul>
+	</div>
+	<div>
+		<ul>
+			<li><a href="/dev/inbox.html">Inbox</a></li>
+			<li><a href="/dev/people.html">Contacts</a></li>
+			<li><a href="/dev/profile.html">My Account</a></li>
+			<li><a href="/dev/account_preferences.html">Preferences</a></li>
+		</ul>
+	</div>
+</div>
 
 <!-- EXPLORE NAV CONTAINER -->
 <div id="explore_nav_container" style="display:none">
@@ -6,7 +24,7 @@
 			<li id="nav_my_sakai_link"><a  href="my_sakai.html">My Sakai</a></li>
 	        <li id="nav_profile_link"><a href="profile.html">Profile</a></li>
 	        <li id="nav_people_link"><a href="javascript:;">People</a></li>
-			<li id="nav_courses_sites_link"><a href="javascript:;">Courses & Sites</a></li>
+			<li id="nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a></li>
 			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
 	    </ul>
 	    <ul class="personal fl-force-right">
@@ -14,25 +32,7 @@
 			<!-- CHAT STATUS DROPDOWN -->
 			
 	    	<li id="user_link_container">
-	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img src="_images/arrow_down_sm2_blue.png" /></a>
-				<div id="user_link_menu" style="display:none">
-			        <div class="user_link_menu_border">
-			            <ul>
-			            	<li class="insert_more_menu_inactive">Chat Status</li>
-			                <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
-			                <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
-							<li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
-			            </ul>
-			        </div>
-					<div>
-			            <ul>
-			                <li><a href="/dev/inbox.html">Inbox</a></li>
-			                <li><a href="javascript:;">Contacts</a></li>
-							<li><a href="/dev/profile.html">My Account</a></li>
-							<li><a href="/dev/account_preferences.html">Preferences</a></li>
-			            </ul>
-			        </div>
-			    </div>
+	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="_images/arrow_down_sm2_blue.png" /></a>
 			</li>
 			<li><a class="mail" href="inbox.html"><img src="_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
 			<li><a class="help" href="#">Help</a></li>
@@ -82,7 +82,7 @@
 		<h2>Search for People</h2>
 		<div class="fl-fix dropdown_search_container">
 			<div>
-				<input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"></input>
+				<input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"/>
 				<div class="buttonBar fl-force-left">
 					<a href="javascript:;" id="dropdown_people_search_button" class="button search_button">Search</a>
 				</div>
@@ -93,7 +93,7 @@
 </div>
 
 <div class="fl-force-right close" id="people_dropdown_close" style="display:none">
-	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="_images/close_icon.png" alt="Close Icon" class="close_icon"></img></a>
+	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
 </div>
 
 	
@@ -142,7 +142,7 @@
 		<h2>Search for Courses &amp; Sites</h2>
 		<div class="fl-fix dropdown_search_container">
 		<div>
-			<input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"></input>
+			<input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"/>
 			<div class="buttonBar fl-force-left">
 				<a href="javascript:;" id="courses_sites_search_button" class="button search_button">Search</a>
 			</div>
@@ -150,8 +150,8 @@
 		</div>
 		
 		<div class="dropdown_create_sakai_site">
-			<a href="javascript:;" id="top_navigation_create_site"><img src="_images/add_icon.png" alt="Close Icon"></img>Create a Sakai Site</a>
-			<img src="_images/add_icon_end.png" alt="Close Icon"></img>
+			<a href="javascript:;" id="top_navigation_create_site"><img src="_images/add_icon.png" alt="Close Icon"/>Create a Sakai Site</a>
+			<img src="_images/add_icon_end.png" alt="Close Icon"/>
 		</div>
 		
 	</div>
@@ -159,7 +159,7 @@
 </div>
 
 <div class="fl-force-right close" style="display:none" id="mysites_dropdown_close">
-	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="_images/close_icon.png" alt="Close Icon" class="close_icon"></img></a>
+	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
 </div>
 
 
@@ -274,12 +274,12 @@
 <!-- CHAT BOTTOM CONTAINER -->
 <div class="chat_main_container doFixed" id="chat_main_container" style="display:none; left:0px;">
 	<div id="chat_container" style="height:30px">
-		<table class="chat_main_table">
+		<table class="chat_main_table" summary="Chat">
 			<tr>
 				<td id="chat_windows"></td>
 				<td id="chat_online_connections_link">
 					<span id="online_button">
-						<img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon"/>
+						<img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
 						<a class="chat_straight_link" id="chat_online"></a>
 					</span>
 				</td>
