@@ -632,7 +632,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	var addToUids = function(uid) {
 		// We also check if the uid that we are adding is not empty
 		uid = $.trim(uid);
-		if(!uids.contains(uid) && uid !== "") {
+		if(!($.inArray(uids, uid) > -1) && uid !== "") {
 			uids.push(uid);
 		}
 	};
