@@ -837,7 +837,7 @@ sakai.dashboard = function(){
 		$("#layouts_list").html($.Template.render("layouts_template",newjson));
 		tobindtolayoutpicker();
 		hash.w.show();
-	}
+	};
 	
 	$("#change_layout_dialog").jqm({
 		modal: true,

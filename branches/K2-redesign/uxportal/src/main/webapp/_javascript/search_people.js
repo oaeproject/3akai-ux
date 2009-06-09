@@ -21,7 +21,6 @@
 var sakai = sakai || {};
 sakai.search = function() {
 
-
 	//////////////////////////
 	//	Config variables	//
 	//////////////////////////

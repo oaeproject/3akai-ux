@@ -38,6 +38,7 @@
 	<script src="_lib/Jquery/jquery.corners.js" type="text/javascript"></script>
 	<script src="_lib/Jquery/jquery.pager.js" type="text/javascript"></script>
 	<script src="_lib/OpenSocial/message.js" type="text/javascript" language="JavaScript"></script>
+	<script src="_lib/AutoComplete/jquery.autocomplete.min.js" type="text/javascript" language="JavaScript" ></script>
 	
 </head>
 
@@ -70,7 +71,7 @@
 					
 			<!-- SEARCH BAR -->
 			<div class="fl-left fl-container fl-fix search_bar">
-				<form id="search_form" action="javascript:;" method="post">
+				<div id="search_form">
 					<select class="skinned_select" id="search_filter">
 						<option value="entire_community" id="search_filter_community">Entire Community</option>
 						<option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
@@ -80,7 +81,7 @@
 						</optgroup>
 					</select>
 					<!-- SITEs TEMPLATE -->
-					<div id="search_filter_my_sites_template"><!--
+					<div id="search_filter_my_sites_template" style="display:none"><!--
 					{for i in items}
 						<option value="${i.location}" id="search_filter_my_sites_${i.location.substring(1)}">${i.name}</option>
 					{/for}
@@ -90,7 +91,7 @@
         			<div class="buttonBar fl-force-left">
 						<a href="javascript:;" class="button search_button" id="search_button">Search</a>
 					</div>
-				</form>
+				</div>
 			</div>
 			
 			<div class="fl-left fl-container search_result_title" id="search_results_header">

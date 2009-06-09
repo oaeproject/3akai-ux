@@ -259,7 +259,7 @@ $(document).ready(function(){
 		// We actually use the old innerHTML function here because the jQuery.html() function will
 		// try to reload all of the JavaScript files declared in the HTML, which we don't want as they
 		// will already be loaded
-		document.body.innerHTML = newstring;
+		document.body.innerHTML= newstring;
 		finishI18N();
 	};
 	

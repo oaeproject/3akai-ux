@@ -204,7 +204,7 @@ sakai.accountPreferences =function(){
 	 * @param {String} timezone: timezone
 	 */
 	var selectTimezone= function(timezone){
-		$(timezonesContainer + " option[value=" + timezone + "]").attr("selected", true);
+		$(timezonesContainer + " option[value=" + timezone.name + "]").attr("selected", true);
 	};
 	
 	/**

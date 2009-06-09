@@ -38,13 +38,14 @@
 	<script src="_lib/Jquery/jquery.corners.js" type="text/javascript"></script>
 	<script src="_lib/Jquery/jquery.pager.js" type="text/javascript"></script>
 	<script src="_lib/OpenSocial/message.js" type="text/javascript" language="JavaScript"></script>
-	
-</head>
-
-<body id="root" class="fl-centered fl-container">
-	
+	<script src="_lib/AutoComplete/jquery.autocomplete.min.js" type="text/javascript" language="JavaScript" ></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
+</head>
+
+<body id="root" class="fl-centered fl-container i18nable">
+	
+	
 	
 <!-- EXPLORE BAR -->
 	<div id="widget_chat" class="widget_inline"></div>
@@ -78,17 +79,17 @@
 						You'll find people with who you can connect, send messages and initiate chat conversations.
 					</p>
 				</div>
-				<form id="search_form" action="javascript:;" method="post">
+				<div id="search_form">
 					<select class="skinned_select" id="search_filter">
 						<option value="entire_community" id="search_filter_community">Entire Community</option>
 						<option value="my_contacts" id="search_filter_my_contacts">My contacts</option>
 					</select>
 					<input type="text" id="search_text" class="input" value="Enter a searchterm" />
 					
-        			<div class="buttonBar fl-force-left">
+        			<div class="fl-force-left">
 						<a href="javascript:;" class="button search_button" id="search_button">Search</a>
 					</div>
-				</form>
+				</div>
 			</div>
 			
 			<div class="fl-left fl-container search_result_title" id="search_results_header">

@@ -33,8 +33,29 @@
 
 <body id="root" class="body-container fl-centered fl-container i18nable">
  
+	
+	<div id="change_layout_dialog" class="dialog">
+		<div class="dialog_header">
+			<h1>Change layout</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		<div class="dialog_content">
+			<div class="add-tools-right">
+				<h4>Select a Layout for your "My Sakai" Page:</h4>
+				<div class="elf-right-up">
+					<div id="layouts_list">TEST</div>
+				</div>
+			</div>	   
+		</div><!-- /lightbox-container -->
+		<div class="dialog_footer">
+			<div class="buttonBar">
+				<a href="javascript:;" id="select-layout-finished" class="button-default">Save</a>
+			    <a href="javascript:;" id="select-layout_cancel" class="button jqmClose">Cancel</a>
+			</div>
+		</div>
+	</div>
 	<!-- Change layout -->
-	<div id="layouts_template"><!--
+	<div id="layouts_template" style="display:none;"><!--
 		{for i in layouts}
 			{if i_index == selected}
 				<div class="layout_container">
@@ -65,28 +86,6 @@
 			{/if}
 		{/for}
 	--></div>
-	
-	<div id="change_layout_dialog" class="dialog">
-		<div class="dialog_header">
-			<h1>Change layout</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
-		</div>
-		<div class="dialog_content">		  
-			<div class="add-tools-right">
-				<h4>Select a Layout for your "My Sakai" Page:</h4>
-				<div class="elf-right-up">
-					<div id="layouts_list"></div>
-				</div>
-			</div>	   
-		</div><!-- /lightbox-container -->
-		<div class="dialog_footer">
-			<div class="buttonBar">
-				<a href="javascript:;" id="select-layout-finished" class="button-default">Save</a>
-			    <a href="javascript:;" id="select-layout_cancel" class="button jqmClose">Cancel</a>
-			</div>
-		</div>
-	</div>
-	
 	
 	<!-- Add goodies -->
 	<div id="add_goodies_dialog" class="dialog add_goodies">

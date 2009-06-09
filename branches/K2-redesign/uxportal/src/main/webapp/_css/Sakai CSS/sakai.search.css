@@ -105,10 +105,9 @@ strong {
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #ddd;
 	color:#3399CC;
-	padding: 6px 20px;
-	position:relative;
-	bottom: 1px;
+	padding: 6px 20px 5px;
 	margin-left: -1px;
+	margin-bottom:-9px;
 }
 
 
@@ -124,17 +123,17 @@ strong {
 
 .fl-tab-content {
 	border: none;
-	margin: 0;
+	margin: 0px;
 }
 
 .search_tab_content {
-	background-image: url(../../_images//body_bg2.png);
+	background-image: url(../../_images/body_bg2.png);
 	background-repeat: repeat-x;
 }
 
 /* SEARCH BAR */
 .search_bar {
-	width: 620px;
+	width: 640px;
 	padding: 20px 0 20px 0;
 }
 
@@ -167,9 +166,8 @@ strong {
 	color: #000 !important;
 	
 }
-
 .search_button {
-	position: relative;
+	/*position: relative;*/
 	top: 3px;
 }
 
@@ -183,10 +181,6 @@ strong {
 	padding: 0;
 }
 
-.buttonBar .button {
-	/*position: relative;
-	bottom: 3px;*/
-}
 .keyword {
 	background-color: #ffff00;
 }

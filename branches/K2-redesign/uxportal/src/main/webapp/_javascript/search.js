@@ -21,7 +21,6 @@
 var sakai = sakai || {};
 sakai.search = function() {
     
-    
     ///////////////////////
     //    CONFIG VARS    //
     ///////////////////////
@@ -375,7 +374,7 @@ sakai.search = function() {
 		"doHSearch" : doHSearch
 	};
 	
-	var doInit = function() {        
+	var doInit = function() {     
 	    mainSearch = sakai._search(searchConfig, thisFunctionality);
 		//	Make sure that we are still logged in.
 		if (mainSearch.isLoggedIn()) {
