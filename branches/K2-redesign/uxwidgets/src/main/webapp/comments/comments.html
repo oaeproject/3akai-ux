@@ -1,6 +1,6 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/comments.css"></link>
-<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/comments.css" />
+<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css" />
 
 <!-- MAIN VIEW -->
 <div id="comments_mainContainer"  style="display:none;">
@@ -10,11 +10,11 @@
 	
 	<div class="comments_nextButtons">
 		<a class="button-default comments_comment" id="comments_comment_Top" href="javascript:;">Add Comment</a>	
-		<div class="jq_pager comments_jqpager"></div>
+		<div class="jq_pager comments_jqpager"><!-- In this container the pager on top will be shown --></div>
 	</div>
 	
 	<div id="comments_fillInCommentTop"  style="display:none;">
-		
+		<!-- In this container the fill in comment will be shown (on top) -->
 	</div>
 	<div id="comments_fillInCommentTemplate" style="display:none"><!--
 		
@@ -42,24 +42,21 @@
 		</div>
 	--></div>
 	<div id="comments_showComments">
-		
+		<!-- In this container all comments will be shown -->
 	</div>
 	<div id="comments_showCommentsTemplate" style="display:none"><!--
 	<div>	
-	<table class="commentsTable" border="0">
+	<div class="commentsTable">
 	
 		{for i in comments}
-			<tr border="0">
-				<div class="comments_topCommentBar">
-					<img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
-					<div class="comments_posterData">
-						<span class="comments_posterDataName"><a href="${i.user.profile}"">${i.user.fullName}</a></span><br />
-						${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
-					</div>
+			<div class="comments_topCommentBar">
+				<img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
+				<div class="comments_posterData">
+					<span class="comments_posterDataName"><a href="${i.user.profile}"">${i.user.fullName}</a></span><br />
+					${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
 				</div>
-				<div class="comments_clear" />
-			</tr>
-			<tr>
+			</div>
+			<div>
 			<div class="comments_arrowUp"></div>
 				
 				<div class="comments_commentMessage">
@@ -71,19 +68,19 @@
 				</div>
 				${i.message}
 				</div>
-			</tr>
+			</div>
 			{/for}
-	</table>
+	</div>
 	
 	</div>	
 	--></div>
 	<div class="comments_nextButtons">
 		<a class="button-default comments_comment" id="comments_comment_Bottom" href="javascript:;">Add Comment</a>	
 		<a class="button-default" id="comments_prevPage" href="javascript:;">Previous page</a><br />
-		<div class="jq_pager comments_jqpager"></div>
+		<div class="jq_pager comments_jqpager"><!-- In this container the pager will be shown (bottom) --></div>
 	</div>
 	<div id="comments_fillInCommentBottom" style="display:none;">
-		
+		<!-- In this container the fill in comment will be shown (bottom) -->
 	</div>
 </div>
 
@@ -100,8 +97,8 @@
 				</li>
 				<li>
 					<input type="radio" name="comments_ChooseDisplayComments" value="comments_PerPage" id="comments_PerPageID">
-						<label for="comments_PerPageID" class="video_source_rbtLabel">Display only <input type="text" id="comments_txtPage" >
-					</input> comments then paginate the rest</label></input><br />
+						<label for="comments_PerPageID" class="video_source_rbtLabel">Display only <input type="text" id="comments_txtPage" />
+					comments then paginate the rest</label></input><br />
 				</li>
 				<li>
 					<input type="radio" name="comments_ChooseDirectionComments" value="comments_FirstUp" id="comments_FirstUpID" checked="checked">
@@ -160,5 +157,5 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/lib/jquery.pager.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/javascript/comments.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/lib/jquery.pager.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/comments/javascript/comments.js" />

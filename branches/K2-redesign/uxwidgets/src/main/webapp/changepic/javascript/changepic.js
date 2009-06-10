@@ -66,13 +66,10 @@ sakai.changepic = function(tuid, placement, showSettings){
 	//	An array with selectors pointing to images that need to be changed.
 	var imagesToChange = ["#picture_holder img", "#myprofile_pic", "#chat_available_me .chat_available_image img"];
 	
-	
-	
-	
 		
-	//////////////////////
-	//	TAB FUNCTIONS	//
-	//////////////////////	
+	///////////////////
+	// TAB FUNCTIONS //
+	///////////////////	
 	
 	
 	/**

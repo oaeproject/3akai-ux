@@ -93,6 +93,13 @@
     cursor: pointer;
 }
 
+#sendmessage_dialog_footer{
+	padding-left: 15px; height: 40px;
+}
+
+#sendmessage_buttonBar{
+	position: relative; top: 5px; padding-bottom: 15px
+}
 
 /* send_message_lightbox.html */
 .send_message .compose-form{font-weight: bold; padding: 15px 15px 15px 15px}
@@ -106,7 +113,8 @@
 .send_message .button{margin-top: 5px; color: #333;}
 .send_message .send{width: 107px; font-size: 12px;}
 .send_message .cancel{margin-left: 9px; width: 74px;  font-size: 12px;}
-
+#send_message{font-weight:bold}
+#send_message_cancel{float:none;display:inline;}
 
 
 /*	AUTOCOMPLETE CSS */

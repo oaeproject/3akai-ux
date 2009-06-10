@@ -77,7 +77,31 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	var messageOK = "#sendmessage_message_ok";
 	var messageError = "#sendmessage_message_error";
 	var messageErrorFriends = "#sendmessage_friends_error";
-	var messageErrorFields = "#sendmessage_fields_error";
+		
+
+	/**
+	 * This function will show a message in either a red or a green square.
+	 * @param {String} idToAppend The id of the element you wish to set this message in.
+	 * @param {String} msg The message you want to display.
+	 * @param {Boolean} isError true for error (red block)/false for normal message(green block).
+	 * @param {Number} timeout The amount of milliseconds you want the message to be displayed, 0 = always (till the next message)
+	 */
+	var showGeneralMessage = function(idToAppend, msg, isError, timeout) {
+		$(idToAppend).html(msg);
+		if (isError) {
+			$(idToAppend).addClass(errorClass);
+			$(idToAppend).removeClass(normalClass);
+		}
+		else {
+			$(idToAppend).removeClass(errorClass);
+			$(idToAppend).addClass(normalClass);
+		}
+		
+		$(idToAppend).show();
+		if (typeof timeout === "undefined" || timeout !== 0) {
+			$(idToAppend).fadeOut(generalMessageFadeOutTime);
+		}
+	};
 		
 	
 	//////////////////////////
@@ -107,9 +131,9 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		    },
 		    //	The formatting of the results in the dropdown list.
 		    formatItem: function(row){
-		        var s = '<img src="_images/profile_icon.png" alt="" width="24" height="24" /> ';
+		        var s = '<img src="_images/profile_icon.png" alt="profile icon" width="24" height="24" /> ';
 		        if (row.profile.picture) {
-		            s = '<img src="/sdata/f/_private' + row.properties.userStoragePrefix + row.profile.picture.name + '" alt="" width="24" height="24" /> ';
+		            s = '<img src="/sdata/f/_private' + row.properties.userStoragePrefix + row.profile.picture.name + '" alt="profile icon" width="24" height="24" /> ';
 		        }
 		        return s + row.profile.firstName + ' ' + row.profile.lastName;
 		    }
@@ -181,30 +205,6 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	// 		Aid functions		 //
 	///////////////////////////////
 
-	/**
-	 * This function will show a message in either a red or a green square.
-	 * @param {String} idToAppend The id of the element you wish to set this message in.
-	 * @param {String} msg The message you want to display.
-	 * @param {Boolean} isError true for error (red block)/false for normal message(green block).
-	 * @param {Number} timeout The amount of milliseconds you want the message to be displayed, 0 = always (till the next message)
-	 */
-	var showGeneralMessage = function(idToAppend, msg, isError, timeout) {
-		$(idToAppend).html(msg);
-		if (isError) {
-			$(idToAppend).addClass(errorClass);
-			$(idToAppend).removeClass(normalClass);
-		}
-		else {
-			$(idToAppend).removeClass(errorClass);
-			$(idToAppend).addClass(normalClass);
-		}
-		
-		$(idToAppend).show();
-		if (typeof timeout === "undefined" || timeout !== 0) {
-			$(idToAppend).fadeOut(generalMessageFadeOutTime);
-		}
-	};
-	
 	/**
 	 * Fade the message and close it.
 	 */
@@ -457,7 +457,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		
 		//	Maybe this message can be sent to multiple people.
 		allowOthers = false;
-		if (typeof allowOtherReceivers !== "undefined") {
+		if (allowOtherReceivers) {
 			allowOthers = allowOtherReceivers;
 		}
 		
@@ -466,7 +466,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		$(messageFieldSubject).val(subject);
 		
 		//	Maybe we dont want to display a popup but instead want to add it in another div.
-		if (typeof insertInId !== "undefined") {
+		if (insertInId) {
 					
 			//	Make sure this id exists.
 			if ($(insertInId).length > 0) {
@@ -488,7 +488,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		}
 		
 		//	Store the callback
-		if (typeof callback !== "undefined") {
+		if (callback) {
 			callbackWhenDone = callback;
 		}
 		

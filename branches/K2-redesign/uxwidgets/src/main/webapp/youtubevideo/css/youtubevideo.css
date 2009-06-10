@@ -22,6 +22,10 @@
 #youtubevideo_back{
 	float: left;
 }
+#youtubevideo_youtubeurl{
+	width:100px;
+	margin-bottom:10px;
+}
 .youtubevideo_clear{
 	clear: both;
 }
@@ -29,6 +33,7 @@
 	width:425px;
 	margin-left:auto;
 	margin-right:auto;
+	margin-bottom: 20px;
 }
 #youtubevideo_settings input[type=text]{
 	width:450px;

@@ -1,11 +1,11 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.cat.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.tag.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.year.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.author.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.sorter.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.settings.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.cat.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.tag.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.year.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.author.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.sorter.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/tlrp/css/tlrp.settings.css" />
 
 <!-- SETTINGS VIEW -->
 <div id="tlrp_settings" style="display:none">
@@ -328,10 +328,10 @@
                           {var title = a.title}
                           {var creator = a.creator || "Unknown"}
                           {if typeof a.title === "object"}
-                              ${title = a.title.join(',')}
+                              ${title = a.title.join(',')|eat}
                           {/if}                          
                           {if typeof a.creator === "object"}
-                              ${creator = a.creator.join(',')}
+                              ${creator = a.creator.join(',')|eat}
                           {/if}
                           
                           {if title.length > 80}
@@ -400,14 +400,14 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/jquery.sort.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/jquery.mousewheel.min.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.author.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.category.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.author.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.tags.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.year.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/jquery.sort.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/jquery.mousewheel.min.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.author.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.category.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.author.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.tags.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.year.js" />
 
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.breadcrumb.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.sort.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.breadcrumb.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/tlrp/javascript/tlrp.sort.js" />

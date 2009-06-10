@@ -108,18 +108,16 @@ sakai.comments = function(tuid, placement, showSettings) {
     var parseDate = function(dateInput) {
         /** Get the date with the use of regular expressions */
         if (dateInput !== null) {
-            var match = /([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-03-03T17:53:48Z
-            if (match === null) {
-                return null;
-            }
-            var d = new Date();
-            d.setDate(match[3]);
-            d.setMonth(match[2] - 1);
-            d.setYear(match[1]);
-            d.setHours(parseInt(match[4], 10) + 1);
-            d.setMinutes(match[5]);
-            d.setSeconds(match[6]);
-            return d;
+            /** Get the date with the use of regular expressions */
+			var match = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})T([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 03/03/2009T17:53:48Z 
+			var d = new Date();
+			d.setDate(match[1]);
+			d.setMonth(match[2]-1);
+			d.setYear(match[3]);
+			d.setHours(match[4]);
+			d.setMinutes(match[5]);
+			d.setSeconds(match[6]);
+			return d;
         }
         return null;
 
@@ -245,9 +243,14 @@ sakai.comments = function(tuid, placement, showSettings) {
         for (var i = 0; i < json.comments.length; i++) {
             jsonDisplay.comments[i] = {};
 			// Checks if the date is already parsed to a date object
-            if (typeof json.comments[i].date === "string") {
-                json.comments[i].date = parseDate(json.comments[i].date);
-            }
+			var tempDate = json.comments[i].date;
+			try{
+				// if the date is not a string this should generate en exception
+				json.comments[i].date = parseDate(json.comments[i].date);
+			}
+			catch(ex){
+				json.comments[i].date= tempDate;
+			}
             jsonDisplay.comments[i].timeAgo = "about " + getTimeAgo(json.comments[i].date) + " ago";
             jsonDisplay.comments[i].formatDate = formatDate(json.comments[i].date);
 			jsonDisplay.comments[i].date = json.comments[i].date;
@@ -288,8 +291,7 @@ sakai.comments = function(tuid, placement, showSettings) {
             $(commentsCommentComments, rootel).html = "comment";
         }
 		// Checks if the comments undefined or if it's length is 0
-        if (typeof json.comments !== "undefined") {
-			if(json.comments.length !== 0){
+        if (json.comments && json.comments.length !== 0) {
 				var users = [];
 				
 				// puts all the userids who added comments to this widget in an array
@@ -322,10 +324,9 @@ sakai.comments = function(tuid, placement, showSettings) {
 	                    displayCommentsPagedOrNot(users);
 	                },
 	                error: function(status) {
-	                    alert("Couldn't connect to the server.");
+	                    alert("comments-widget: Problem while connecting to the service. (" + status + ")");
 	                }
 	            });	
-			}
         }
     };
 	
@@ -356,7 +357,7 @@ sakai.comments = function(tuid, placement, showSettings) {
                 if (json.permissions.mailRequired) {
                     comment.mail = $(commentsMailPosterTxt, $(rootel.selector + " " + container)).val();
                 }
-                comment.date = new Date();
+                comment.date = $.L10N.transformDate(new Date()) + "T" + $.L10N.transformTime(new Date()) + "Z";
                 json.comments.push(comment);
                 // Converting JSON-object to a string
                 var tostring = $.toJSON(json);
@@ -365,7 +366,7 @@ sakai.comments = function(tuid, placement, showSettings) {
                 sdata.widgets.WidgetPreference.save(saveUrl,"comments", tostring, showComments());
             },
             error: function(status) {
-                alert("An error occured while adding the comment");
+                alert("comments widget: An error occured while adding the comment (" + status + ")");
             }
         });
 
@@ -387,7 +388,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 
 		// If you're changing an comment-widget, then the saved values need to be filled in
         if (exists) {
-            var comments = json_parse(response);
+            var comments = $.evalJSON(response);
             $("input[name=" + commentsDisplayRbt + "][value=" + comments.display + "]", rootel).attr("checked", true);
             $("input[name=" + commentsDirectionRbt + "][value=" + comments.direction + "]", rootel).attr("checked", true);
             $("input[name=" + commentsPermissionsRbt + "][value=" + comments.permissions.postWhenLoggedOut + "]", rootel).attr("checked", true);
@@ -416,9 +417,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         comments.comments = [];
 
         // Checks if there's already some comments placed on the widget
-        if (typeof json.comments !== "undefined") {
-            comments.comments = json.comments;
-        }
+		comments.comments = json.comments || [];
 
         comments.display = $("input[name=" + commentsDisplayRbt + "]:checked", rootel).val();
         comments.perPage = parseInt($(commentsPageTxt, rootel).val(), 10);
@@ -430,7 +429,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 	            return false;
 	        }
 	        // Check if a valid number is inserted
-	        else if (comments.perPage + "" === "NaN") {
+	        else if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
 	            alert("Please fill in a valid number.");
 	            return false;
 	        }
@@ -494,7 +493,12 @@ sakai.comments = function(tuid, placement, showSettings) {
     function(e, ui) {
 		var jsonTemp = cloneObject(json);
 		// checks if the user is loggedIn
-        jsonTemp.loggedIn = (typeof me.preferences.uuid !== "undefined");
+		if( me.preferences.uuid){
+			jsonTemp.loggedIn = true;
+		}
+		else{
+			jsonTemp.loggedIn = false;
+		}
 		// gets the place where the add comments buttons is clicked (Top or Bottom) 
         jsonTemp.place = e.target.id.replace(commentsCommentBtnNoDot + "_", "");
 		// Renders the put commentTextbox, can be dynamic because of the require-login, require-name and require-mail properties
@@ -549,7 +553,7 @@ sakai.comments = function(tuid, placement, showSettings) {
                     showComments();
                 },
                 error: function(status) {
-                    alert("An error occured while receiving the comments");
+                    alert("comments: An error occured while receiving the comments (" + status + ")");
                 }
             });
         }

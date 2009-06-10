@@ -152,6 +152,7 @@
 }
 .comments_topCommentBar{
 	margin-top:25px;
+	overflow:auto;
 }
 .comments_fillInCommentTopContainer{
 	margin-bottom:80px;

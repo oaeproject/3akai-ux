@@ -30,6 +30,13 @@ var sakai = sakai || {};
 sakai.video = function(tuid, placement, showSettings) {
 
 
+	var FlashPlayerParams = {
+        menu: "false",
+        allowScriptAccess: "always",
+        scale: "noscale",
+        allowFullScreen: "true"
+    };
+
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
@@ -37,6 +44,7 @@ sakai.video = function(tuid, placement, showSettings) {
     var json = false; // Variable used to recieve information by json
     var me = sdata.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
+   var youtubeUrl = "www.youtube.com";
    
     // Main-ids
     var videoID = "#video";
@@ -92,9 +100,7 @@ sakai.video = function(tuid, placement, showSettings) {
 	 * @param {Object} the cloned JSON-object
 	 */
     var cloneObject = function(object) {
-        var clonedObject = {};
-        $.extend(true,clonedObject, object);
-        return clonedObject;
+        return $.extend(true,{}, object);
     };
 
     //////////////////////
@@ -110,7 +116,7 @@ sakai.video = function(tuid, placement, showSettings) {
         try {
 			// Checks if the video is a youtube-video 
 			// This is needed as a parameter for the sakai-player
-            var isTouTube = (video.URL.search("www.youtube.com") !== -1);
+            var isTouTube = (video.URL.search(youtubeUrl) !== -1);
 			// Renders the video-template (title, source and conatiner to place flash-player in)
             $(container, rootel).html($.Template.render(videoTemplate, video));
             // some more parameters needed for the sakai-videoplayer
@@ -118,19 +124,26 @@ sakai.video = function(tuid, placement, showSettings) {
                 videoURL: video.URL,
                 isYoutubeUrl: isTouTube
             };
-            var params = {
-                menu: "false",
-                allowScriptAccess: "always",
-                scale: "noscale",
-                allowFullScreen: "true"
-            };
-            var attributes = {};
-            swfobject.embedSWF(videoPlayer, videoTempShowMain.replace("#", ""), 320, 305, "9.0.0", expressInstall, flashvars, params, attributes);
+            
+			// videoPlayer: url to the swf file
+			// id: id of the container where the videoplayer should be placed
+			// width
+			// height
+			// version
+			// expressInstall: url to the expressInstall swf
+			// flashvars: JSON-object containing the url and boolean stating if video is YouTube or not
+			// flashPlayerVars: Some variables specieing some extra features for the video
+				 // menu: show a menu or not (when right click should the user have the possibility to zoom in and such)
+       	 		 // allowScriptAccess: does the player allow sript access
+        		 // scale: should the player be scaled down
+        		 // allowFullScreen: can the player go full screen
+            swfobject.embedSWF(videoPlayer, videoTempShowMain.replace("#", ""), 320, 305, "9.0.0", expressInstall, flashvars, FlashPlayerParams);
 
             //init the youTubeLoader javascript methods
             if (isTouTube) {
 				// By putting this variable to the container of the videoPlayer, the streamingprocess for the youtube-video is started
 				// This uses the youtubeloader.js file and is the main problem for showing multiple youtubevideos in the sakaiplayer on 1 page
+				// this will give a global violation in jsLint, however this is how the youtubeloader works so this can be ignored
                 SWFID = videoTempShowMain.replace("#", "");
             }
         } catch(err) {
@@ -157,7 +170,7 @@ sakai.video = function(tuid, placement, showSettings) {
             if (!id) {
                 videoTemp.html = ("No valid video found");
             } else {
-                videoTemp.html = ('<object width="320" height="305"><param name="movie" value="http://www.youtube.com/v/' + id + '&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/' + id + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="320" height="305"></embed></object>');
+                videoTemp.html = ('<object width="320" height="305"><param name="movie" value="http://' + youtubeUrl + '/v/' + id + '&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://' + youtubeUrl + '/v/' + id + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="320" height="305"></embed></object>');
             }
 			// render the video
 		 	$(container, rootel).html($.Template.render(videoTemplate, videoTemp));
@@ -235,7 +248,7 @@ sakai.video = function(tuid, placement, showSettings) {
             "checkviews": $(videoTrackViews, rootel).attr('checked')
         }; 
 		// Fill in the JSON post object	
-        video.isYoutube = (video.URL.search("www.youtube.com") !== -1);
+        video.isYoutube = (video.URL.search(youtubeUrl) !== -1);
         video.isSakaiVideoPlayer = ($("input[name=" + videoChoosePlayer + "]:checked", rootel).val() === videoChoosePlayerSakai);
 
 		// Show the choose-player on the preview screen
@@ -321,7 +334,7 @@ sakai.video = function(tuid, placement, showSettings) {
             $(videoShowPreview, rootel).show();
             $(videoFillInfo, rootel).hide();
             $("input[name=" + videoChoosePlayer + "][value=" + videoChoosePlayerSakai + "]", rootel).attr("checked", true);
-            var isYouTube = ($(videoUrl, rootel).val().search("www.youtube.com") !== -1);
+            var isYouTube = ($(videoUrl, rootel).val().search(youtubeUrl) !== -1);
             // If the url is a YouTube-video the player should be the YouTubePlayer by default
 			if (isYouTube) {
                 $("input[name=" + videoChoosePlayer + "][value=" + videoChoosePlayerYoutube + "]", rootel).attr("checked", true);

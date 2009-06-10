@@ -20,11 +20,6 @@
 
 sakai.blog = function(tuid, placement, showSettings) {
 	
-	//////////////////////
-	//	Config vars		//
-	//////////////////////
-	
-	
 	var me = sdata.me;					// Contains information about the current user
 	var rootel = $("#" + tuid);		// Get the main div used by the widget
 	var arrSelectedTags = [];
@@ -37,6 +32,12 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var editId;
 	var isAdding = false;
 	var toAddId;
+	var displayPosts = {};
+	
+	
+	/////////////////
+	// Config vars //
+	/////////////////
 	
 	//	CSS ids
 	var blog = "blog";
@@ -72,18 +73,13 @@ sakai.blog = function(tuid, placement, showSettings) {
 	
 	var settingsTagListTemplate = "blog_settingsTagsListTemplate";
 	var settingsSelectedTagCloudTemplate = "blog_settings_selectedTagsCloudTemplate";
-	
-	
-	//	Main view
-	///////////////////
-	
+
+	// Main view
 	var postsContainer = "#blog_view_posts";
 	var postsTemplate = "blog_view_postTemplate";
 	
 	var viewBlogTagsContainer = "#blog_view_showBlogTagsContainer";
 	var viewBlogTags = "#blog_view_showBlogTags";
-	
-	
 	
 	//	input fields
 	var txtTitle = "#blog_postTitle";
@@ -91,7 +87,6 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var txtTags = "#blog_postTags";
 	var txtCommentTitle = "#blog_txtCommentSubject";
 	var txtCommentBody= "#blog_txtCommentBody";
-	
 	
 	//	actions
 	var postActions = "#blog_postActions";
@@ -116,15 +111,11 @@ sakai.blog = function(tuid, placement, showSettings) {
 	var blogCommentForm = '#blog_commentForm';
 	
 	var blockContainer = "#blog_block";
-	
-	
-	
-	
-	
-	//////////////////////////
-	//		Aid functions	//
-	//////////////////////////
-	
+
+
+	////////////////////
+	// Util functions //
+	////////////////////
 	
 	/**
 	 * Escape HTML
@@ -146,12 +137,13 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 * Loops over an array and remove all the strings that are empty or just spaces.
 	 * Will also trim each value.
 	 * @param {Object} arr
+	 * @param {Boolean} removeDoubles: should doubles be removed as well
 	 */
-	var removeEmptyStringsFromArray = function(arr) {
+	var removeEmptyStringsFromArray = function(arr, removeDoubles) {
 		var arrNew = [];
-		for (var i = 0;i < arr.length;i++) {
+		for (var i = 0, iMax = arr.length;i < iMax;i++) {
 			var s = jQuery.trim(arr[i]);
-			if (s !== '') {
+			if ((!removeDoubles || arrNew.indexOf(s) === -1) && s !== '') {
 				arrNew.push(s);
 			}
 		}
@@ -159,20 +151,25 @@ sakai.blog = function(tuid, placement, showSettings) {
 	};
 	
 	/**
-	 * Will loop over an array and trim everything. Double values will be thrown out.
-	 * @param {String[]} arr
-	 * @return {String[]} Trimmed and cleaned array.
+	 * Gets all the user ids from an array of posts.
+	 * @param {Object} arrPosts
+	 * @param {Object} us This object should contain 2 fields
+	 * 	arr - Array where the usernames will be in
+	 *  str - String where the usernames will get in via a comma s
 	 */
-	var trimArray = function(arr) {
-		var toreturn = [];
-		for (var i = 0;i < arr.length;i++) {
-			var s = jQuery.trim(arr[i]);
-			if (!toreturn.contains(s) && s !== '') {
-				toreturn.push(s);
+	var getUserUIDSFromPosts = function(arrPosts, arr) {		
+		for (var i = 0, iMax = arrPosts.length; i < iMax;i++) {
+			if (arr.indexOf(arrPosts[i].poster) === -1) {
+				arr.push(arrPosts[i].poster);
+			}			
+			//	Check for sub posts.
+			if (arrPosts[i].comments.length > 0) {
+				arr = getUserUIDSFromPosts(arrPosts[i].comments, arr);
 			}
-		}
-		return toreturn;
+		}		
+		return arr;
 	};
+	
 	
 	/**
 	 * Parse a json string to a valid date
@@ -181,15 +178,14 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 */
 	var parseDate = function(dateInput) {
 		/** Get the date with the use of regular expressions */
-		var match = /([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-03-03T17:53:48Z
+		var match = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})T([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 03/03/2009T17:53:48Z
 		var d = new Date();
-		d.setDate(match[3]);
+		d.setDate(match[1]);
 		d.setMonth(match[2]-1);
-		d.setYear(match[1]);
+		d.setYear(match[3]);
 		d.setHours(match[4]);
 		d.setMinutes(match[5]);
 		d.setSeconds(match[6]);
-		
 		return d;
 	};
 	
@@ -221,42 +217,98 @@ sakai.blog = function(tuid, placement, showSettings) {
 	};
 	
 	/**
+	 * Shows errors on the supplied fields 
+	 * @param {Object} fields: array of fields
+	 * @param {String} errorClass: name of the errorclass
+	 */
+	var showErrors = function(fields, errorClass){
+		var ok = true;
+		for(var i=0, iMax=fields.length; i<iMax;i++){
+			var sField = jQuery.trim($(fields[i], rootel).val());
+			if(sField === ''){
+				ok = false;
+				$(fields[i], rootel).addClass(errorClass);
+			}
+			else{
+				$(fields[i], rootel).removeClass(errorClass);
+			}
+		}
+		return ok;
+	};
+	
+	/**
 	 * Checks if the fields are filled in correctly.
 	 * The fields who are empty will be given a class.
 	 * Returns true of false;
 	 */
-	var checkFields = function() {
-		//	Get the values.
-		var sTitle = jQuery.trim($(txtTitle, rootel).val());
-		var sMessage = jQuery.trim($(txtContent, rootel).val());
-		var sTags = jQuery.trim($(txtTags, rootel).val());
-		
-		//	set everything to standard
-		var ok = true;
-		$(txtTitle, rootel).removeClass(errorClass);
-		$(txtContent, rootel).removeClass(errorClass);
-		$(txtTags, rootel).removeClass(errorClass);
-		
-		if (sTitle === '') {
-			ok = false;
-			$(txtTitle, rootel).addClass(errorClass);
-		}
-		if (sMessage === '') {
-			ok = false;
-			$(txtContent, rootel).addClass(errorClass);
-		}
-		if (sTags === '') {
-			ok = false;
-			$(txtTags, rootel).addClass(errorClass);
-		}
-		
-		return ok;
+	var checkFields = function(fields) {
+		var txts = [txtTitle, txtContent, txtTags];
+		return showErrors(txts, errorClass);
 	};
 	
 	
-	//////////////////////////
-	//	Save post to JCR	//
-	//////////////////////////
+	///////////////
+	// View mode //
+	///////////////
+	
+	/**
+	 * Takes an array, sorts it and renders the provided template at the provided place.
+	 * @param {Object} where	Where the rendered template should go.
+	 * @param {Object} template	Which template should be used.
+	 * @param {Object} arrTags	The tags
+	 */
+	var renderTags = function(where, template, arrTags) {
+		//	Sort the tags alphabetically.
+		arrTags.sort();
+		var context = {'tags' : arrTags};
+		//	add them to the DOM
+		$(where, rootel).html($.Template.render(template, context));
+	};
+	
+	/**
+	 * Will do a reauest to JCR and get all the tags that are currently registered for this site.
+	 * @param {Object} callback
+	 */
+	var getAllTags = function(callback) {
+		$(settingsTagLoader).show();
+		
+		$.ajax({
+			url: "/sdata/f/" + placement + "/_blog",
+			cache: false,
+			success: function(data){
+				arrAllTags = [];
+				var posts = $.evalJSON(data);
+				//	get all the tags for this site.
+				for (var i = 0, iMax=posts.items.length;i < iMax;i++) {
+					var post = posts.items[i];
+					var sTags = post.tags;
+					var arrPostTags = sTags.split(',');
+					for (var t = 0, tMax=arrPostTags.length; t < tMax; t++) {
+						if (arrAllTags.indexOf(jQuery.trim(arrPostTags[t])) === -1) {
+							arrAllTags.push(jQuery.trim(arrPostTags[t]));
+						}
+					}
+				}
+				
+				$(settingsTagLoader).hide();
+				renderTags(settingsTagList, settingsTagListTemplate, arrAllTags);
+				
+				if (typeof callback !== "undefined" && callback !== null) {
+					callback();
+				}
+			},
+			error:function(data) {
+				$(settingsTagLoader).hide();
+			}
+		});
+	};
+	
+	var viewMode = function(){
+		
+		
+	//////////////////////////////
+	// View mode util functions //
+	//////////////////////////////
 	
 	/**
 	 * Takes a JSON object, converts it and saves it to JCR.
@@ -300,6 +352,10 @@ sakai.blog = function(tuid, placement, showSettings) {
 	};
 	
 	
+	////////////////////////////
+	// View mode UI functions //
+	////////////////////////////
+	
 	/**
 	 * Start the creation proces of a new blog post
 	 * @param {String} siteId
@@ -314,12 +370,12 @@ sakai.blog = function(tuid, placement, showSettings) {
 		if (sTitle !== "" && sMessage !== "" && sTags !== "") {
 			
 			var arrTags = sTags.split(",");
-			arrTags = trimArray(arrTags);
+			arrTags = removeEmptyStringsFromArray(arrTags, true);
 			sTags = arrTags.join(', ');
 
 			//	save the post to the JCR.
-			var json = {'id' : "0", 'title' : sTitle, 'message' : sMessage, 'tags' : sTags, 'arrTags' : arrTags, 'postDate' : new Date(), 'poster' : me.preferences.uuid, 'comments' : [], 'blogpost' : true};
-			
+			var date = $.L10N.transformDate(new Date()) + "T" + $.L10N.transformTime(new Date()) + "Z";
+			var json = {'id' : "0", 'title' : sTitle, 'message' : sMessage, 'tags' : sTags, 'arrTags' : arrTags, 'postDate' : date, 'poster' : me.preferences.uuid, 'comments' : [], 'blogpost' : true};
 			//	We do a check to see if the node for this blog already exists
 			//	If it exists we will have onSucces, if it fails we end up with an onFail.
 			//	Since all the blogposts and comments are saved under one node we 
@@ -363,24 +419,39 @@ sakai.blog = function(tuid, placement, showSettings) {
 	};
 	
 	/**
+	 * Does an action (remove or update) to a post
+	 * @param {Object} arrPosts: array of posts that contains the post to be updated 
+	 * @param {Object} post: the post than need's updating
+	 * @param {Object} remove: does this post have to be removed or updated
+	 */
+	var doActionOnPost = function(arrPosts, post, remove){
+		for (var i = 0;i < arrPosts.length;i++) {
+			//	We use the == instead of ===
+			//	Because the id can sometimes be a string or a number (depending if it is a blog or a comment post)
+			if (arrPosts[i].id == post.id) {
+				if(remove){
+					arrPosts.splice(i, 1);
+				}
+				else{
+					arrPosts[i] = post;
+				}
+				break;
+			}
+			else {
+				if (arrPosts[i].comments.length > 0) {
+					doActionOnPost(arrPosts[i].comments, post,remove);
+				}
+			}
+		}
+	};
+	
+	/**
 	 * Seaches in the array for a post with the same id as the post.id and replaces it with the new post.
 	 * @param {Object} arrPosts
 	 * @param {Object} post
 	 */
 	var updatePostWithId = function(arrPosts, post) {
-		for (var i = 0;i < arrPosts.length;i++) {
-			//	We use the == instead of ===
-			//	Because the id can sometimes be a string or a number (depending if it is a blog or a comment post)
-			if (arrPosts[i].id == post.id) {
-				arrPosts[i] = post;
-				break;
-			}
-			else {
-				if (arrPosts[i].comments.length > 0) {
-					arrPosts[i].comments = updatePostWithId(arrPosts[i].comments, post);
-				}
-			}
-		}
+		doActionOnPost(arrPosts,post,false);
 		return arrPosts;
 	};
 	
@@ -390,19 +461,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 	 * @param {Object} postToDelete
 	 */
 	var deletePostFromArray = function(arrPosts, postToDelete) {
-		for (var i = 0; i < arrPosts.length; i++) {
-			//	We use the == instead of ===
-			//	Because the id can sometimes be a string or a number (depending if it is a blog or a comment post)
-			if (arrPosts[i].id == postToDelete.id) {
-				arrPosts.splice(i, 1);
-				return arrPosts;
-			}
-			else {
-				if (arrPosts[i].comments.length > 0) {
-					arrPosts[i].comments = deletePostFromArray(arrPosts[i].comments, postToDelete);
-				}
-			}
-		}
+		doActionOnPost(arrPosts,postToDelete,true);
 		return arrPosts;
 	};
 	
@@ -425,9 +484,8 @@ sakai.blog = function(tuid, placement, showSettings) {
 					json.items = deletePostFromArray(json.items, deletePost);
 					
 					//	loop over all the posts and edit the ids.
-					var adjustId = '0';
 					var editPostsIds = function(arrItems, startId) {
-						for (var i = 0;i < arrItems.length;i++) {
+						for (var i = 0, iMax=arrItems.length;i < iMax;i++) {
 							arrItems[i].id = startId + "_" + i;
 							if (arrItems[i].comments.lenth > 0) {
 								arrItems[i].comments = editPostsIds(arrItems[i].comments, startId + '_' + i);
@@ -454,14 +512,14 @@ sakai.blog = function(tuid, placement, showSettings) {
 		var sTitle = '';
 		var sMessage = '';
 		if (isComment) {
-			sTitle = $(blogCommentForm + id + " " + txtCommentTitle).val();
-			sMessage = $(blogCommentForm + id + " " + txtCommentBody).val();
+			sTitle = $(blogCommentForm + id + " " + txtCommentTitle, rootel).val();
+			sMessage = $(blogCommentForm + id + " " + txtCommentBody, rootel).val();
 		}
 		else {
 			//	blog post
-			sTitle = $(blogForm + id + " " + txtTitle).val();
-			sMessage = $(blogForm + id + " " + txtContent).val();
-			var sTags = $(blogForm + id + " " + txtTags).val();
+			sTitle = $(blogForm + id + " " + txtTitle, rootel).val();
+			sMessage = $(blogForm + id + " " + txtContent, rootel).val();
+			var sTags = $(blogForm + id + " " + txtTags, rootel).val();
 			
 			sTags = escapeHTML(sTags);
 			
@@ -507,7 +565,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 	};
 	
 	/**
-	 * Removes the edit forn and shows the normal text again.
+	 * Removes the edit form and shows the normal text again.
 	 * @param {Object} id
 	 */
 	var stopEditing = function(id, isBlogPost) {
@@ -607,19 +665,18 @@ sakai.blog = function(tuid, placement, showSettings) {
 							//	found the post we're replying to
 							var newId = replyToPost.id + '_' + replyToPost.comments.length;
 							
-							
+							var date = $.L10N.transformDate(new Date()) + "T" + $.L10N.transformTime(new Date()) + "Z";
 							var newPost = {
 								'id': newId,
 								'title': sTitle,
 								'message': sMessage,
-								'postDate': new Date(),
+								'postDate': date,
 								'poster': me.preferences.uuid,
 								'comments': []
 							};
-							
 							var replyId = "" + replyToPost.id;
 							var addPostToArray = function(arrPosts, addPost){
-								for (var i = 0; i < arrPosts.length; i++) {
+								for (var i = 0, iMax= arrPosts.length; i < iMax; i++) {
 									if (arrPosts[i].id == replyId) {
 										//	This is the post we are replying too
 										//	Add it too the list.
@@ -639,6 +696,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 							
 							//	save it to jcr
 							var str = $.toJSON(json);
+						
 							sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + placement, "_blog", str, displayPosts);
 						}
 					}
@@ -708,7 +766,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 				arrComments[i].showDelete = true;
 			}
 			
-			for (var u = 0; u < arrUserNames.length; u++) {
+			for (var u = 0, uMax =arrUserNames.length; u < uMax; u++) {
 				if (arrUserNames[u] === arrComments[i].poster) {
 					arrComments[i].name = users[u].profile.firstName + " " + users[u].profile.lastName;
 							
@@ -726,26 +784,6 @@ sakai.blog = function(tuid, placement, showSettings) {
 			}
 		}
 		return arrComments;
-	};
-	
-	/**
-	 * Gets all the user ids from an array of posts.
-	 * @param {Object} arrPosts
-	 * @param {Object} us This object should contain 2 fields
-	 * 	arr - Array where the usernames will be in
-	 *  str - String where the usernames will get in via a comma s
-	 */
-	var getUserUIDSFromPosts = function(arrPosts, arr) {		
-		for (var i = 0; i < arrPosts.length;i++) {
-			if (!arr.contains(arrPosts[i].poster)) {
-				arr.push(arrPosts[i].poster);
-			}			
-			//	Check for sub posts.
-			if (arrPosts[i].comments.length > 0) {
-				arr = getUserUIDSFromPosts(arrPosts[i].comments, arr);
-			}
-		}		
-		return arr;
 	};
 	
 		
@@ -776,8 +814,8 @@ sakai.blog = function(tuid, placement, showSettings) {
 						jQuery.each(json.items, function(index) {
 					
 							//	Check if this post has a tag this blog also has.
-							for (var i = 0; i < blogSettings.tags.length; i++) {
-								if (json.items[index].arrTags.contains(blogSettings.tags[i]) && !arrPostsToDisplay.contains(json.items[index])) {
+							for (var i = 0, iMax=blogSettings.tags.length; i < iMax; i++) {
+								if (json.items[index].arrTags.indexOf(blogSettings.tags[i]) > -1 && !arrPostsToDisplay.indexOf(json.items[index]) === -1) {
 									arrPostsToDisplay.push(json.items[index]);
 								}
 							}
@@ -801,194 +839,10 @@ sakai.blog = function(tuid, placement, showSettings) {
 	};
 	
 	
-	
-	/**
-	 * Displays all the posts
-	 */
-	var displayPosts = function() {
-		$.ajax({
-				url: "/sdata/f/" + placement + "/_blog",
-				cache: false,
-				success: function(data){
-					var json = $.evalJSON(data);
-					showPosts(json, true);	
-				},
-				error: function(data) {
-					//	Show empty page.
-					var json = {'posts' : []};
-					$(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
-				}
-			});
-	};
-	
-	
-	
-	
 	//////////////////////
-	// Blog	settings	//
+	// View mode Events //
 	//////////////////////
 	
-	
-	
-	
-	/**
-	 * Takes an array, sorts it and renders the provided template at the provided place.
-	 * @param {Object} where	Where the rendered template should go.
-	 * @param {Object} template	Which template should be used.
-	 * @param {Object} arrTags	The tags
-	 */
-	var renderTags = function(where, template, arrTags) {
-		//	Sort the tags alphabetically.
-		arrTags.sort();
-		var context = {'tags' : arrTags};
-		//	add them to the DOM
-		$(where, rootel).html($.Template.render(template, context));
-	};
-	
-	/**
-	 * Will display a list of tags.
-	 * @param {Object} arrTags
-	 */	
-	var setTagsInList = function(arrTags) {
-		renderTags(settingsTagList, settingsTagListTemplate, arrTags);
-	};
-	
-	/**
-	 * Will do a reauest to JCR and get all the tags that are currently registered for this site.
-	 * @param {Object} callback
-	 */
-	var getAllTags = function(callback) {
-		$(settingsTagLoader).show();
-		
-		$.ajax({
-			url: "/sdata/f/" + placement + "/_blog",
-			cache: false,
-			success: function(data){
-				arrAllTags = [];
-				var posts = $.evalJSON(data);
-				//	get all the tags for this site.
-				for (var i = 0;i < posts.items.length;i++) {
-					var post = posts.items[i];
-					var sTags = post.tags;
-					var arrPostTags = sTags.split(',');
-					for (var t = 0; t < arrPostTags.length; t++) {
-						if (!arrAllTags.contains(jQuery.trim(arrPostTags[t]))) {
-							arrAllTags.push(jQuery.trim(arrPostTags[t]));
-						}
-					}
-				}
-				
-				$(settingsTagLoader).hide();
-				renderTags(settingsTagList, settingsTagListTemplate, arrAllTags);
-				
-				if (typeof callback !== "undefined" && callback !== null) {
-					callback();
-				}
-			},
-			error:function(data) {
-				$(settingsTagLoader).hide();
-			}
-		});
-	};
-	
-	/**
-	 * Will loop over all the tags and check if it matches against the input the user typed in.
-	 */
-	var searchSettingsTags = function() {
-		var sSearch = $(settingsFilterTags, rootel).val();
-		if (sSearch !== sPreviousSearch) {
-			sPreviousSearch = sSearch;
-			
-			//	new text, let's filter the tags
-			//	When a tag starts with the same text as the user typed in, it should be considered as a match.
-			var reg = new RegExp("^" + sSearch, 'gi');
-			var arrFilteredTags = [];
-			for (var i = 0; i < arrAllTags.length; i++) {
-				if (arrAllTags[i].match(reg)) {
-					arrFilteredTags.push(arrAllTags[i]);
-				}
-			}
-			renderTags(settingsTagList, settingsTagListTemplate, arrFilteredTags);
-		}
-	};
-	
-	/**
-	 * Get the blog settings out of JCR.
-	 * @param {Object} callback
-	 */
-	var getBlogSettings = function(callback) {
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "blog");
-		
-		$.ajax({
-				url: url,
-				cache: false,
-				success: function(data){
-					blogSettings = $.evalJSON(data);
-					
-					//	Show the tags in the page.
-					if (blogSettings.tags.length === 0) {
-						$(viewBlogTagsContainer).hide();
-					}
-					else {
-						$(viewBlogTagsContainer).show();
-						$(viewBlogTags).text(blogSettings.tags.join(', '));
-					}
-					
-					if (typeof callback !== "undefined" && callback !== null) {
-						callback();
-					}
-				},
-				error: function(data) {
-					getAllTags();
-				}
-		});
-	};
-	
-	/**
-	 * Sets all the fields in the blog view to the correct values.
-	 */
-	var displayBlogSettings = function() {
-		if (blogSettings.allowComments) {
-			$(settingsAllowComments, rootel).attr('checked', 'checked');
-		}
-		if (blogSettings.tags) {
-			arrSelectedTags = blogSettings.tags;
-			renderTags(settingsSelectedTagCloud, settingsSelectedTagCloudTemplate, blogSettings.tags);	
-		}
-		//	Fetch all the other tags.
-		getAllTags();
-	};
-	
-	/**
-	 * Saves the blog settings to JCR.
-	 * @param {Object} callback
-	 */
-	var saveBlogSettings = function(callback) {
-		var json = {};
-		json.allowComments = $(settingsAllowComments, rootel).is(":checked");
-		json.tags = arrSelectedTags;
-		var str = $.toJSON(json);
-		var url = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-		sdata.widgets.WidgetPreference.save(url, "blog", str, callback); 
-	};
-	
-	/**
-	 * Closes the overlay.
-	 */
-	var closeSettingsView = function() {
-    	sdata.container.informFinish(tuid);
-	};
-	
-	
-	
-	
-	//////////////
-	//	Events	//
-	//////////////
-	
-	
-	
-	//	EVENTS IN POSTS
 	//	reply
 	$(actionReplyClass).live('click', function() {
 		var id = $(this).attr('id').replace(actionReplyId, '');		//	ID of the post we are replying to.
@@ -1060,12 +914,92 @@ sakai.blog = function(tuid, placement, showSettings) {
 	});
 	
 	
-	//	SETTINGS
+	/**
+	 * Displays all the posts
+	 */
+	displayPosts = function() {
+		$.ajax({
+				url: "/sdata/f/" + placement + "/_blog",
+				cache: false,
+				success: function(data){
+					var json = $.evalJSON(data);
+					showPosts(json, true);	
+				},
+				error: function(data) {
+					//	Show empty page.
+					var json = {'posts' : []};
+					$(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
+				}
+			});
+	};
+	displayPosts();
+	};
 	
-	//	When a tag in the list gets clicked..
+	
+	///////////////////
+	// Blog	settings //
+	///////////////////
+	
+	var settingsMode = function(){
+	
+	
+	////////////////////////////////
+	// Blog	settings UI functions //
+	////////////////////////////////
+	
+	
+	
+	/**
+	 * Will loop over all the tags and check if it matches against the input the user typed in.
+	 */
+	var searchSettingsTags = function() {
+		var sSearch = $(settingsFilterTags, rootel).val();
+		if (sSearch !== sPreviousSearch) {
+			sPreviousSearch = sSearch;
+			
+			//	new text, let's filter the tags
+			//	When a tag starts with the same text as the user typed in, it should be considered as a match.
+			var reg = new RegExp("^" + sSearch, 'gi');
+			var arrFilteredTags = [];
+			for (var i = 0, iMax = arrAllTags.length; i < iMax; i++) {
+				if (arrAllTags[i].match(reg)) {
+					arrFilteredTags.push(arrAllTags[i]);
+				}
+			}
+			renderTags(settingsTagList, settingsTagListTemplate, arrFilteredTags);
+		}
+	};
+	
+	
+	/**
+	 * Saves the blog settings to JCR.
+	 * @param {Object} callback
+	 */
+	var saveBlogSettings = function(callback) {
+		var json = {};
+		json.allowComments = $(settingsAllowComments, rootel).is(":checked");
+		json.tags = arrSelectedTags;
+		var str = $.toJSON(json);
+		var url = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
+		sdata.widgets.WidgetPreference.save(url, "blog", str, callback); 
+	};
+	
+	/**
+	 * Closes the overlay.
+	 */
+	var closeSettingsView = function() {
+    	sdata.container.informFinish(tuid);
+	};
+	
+	
+	//////////////////////////
+	// Blog	settings Events //
+	//////////////////////////
+	
+	/** When a tag in the list gets clicked.. */
 	$(settingsTagClass).live('click', function() {			
 		var sTag = $(this).attr('title');
-		if (!arrSelectedTags.contains(sTag)) {
+		if (arrSelectedTags.indexOf(sTag) === -1) {
 			//	We haven't selected this tag before, add it.
 			arrSelectedTags.push(sTag);
 			//	Display them
@@ -1077,10 +1011,10 @@ sakai.blog = function(tuid, placement, showSettings) {
 	});
 	
 	
-	//	When the image next to a tag in the tagcloud gets clicked.
+	/**	When the image next to a tag in the tagcloud gets clicked. */
 	$(settingsSelectedTagClass + " img").live('click', function() {
 		var sTag = $(this).attr('id').replace(/blog_delete_tag_/gi, '');
-		if (arrSelectedTags.contains(sTag)) {
+		if (arrSelectedTags.indexOf(sTag) > -1) {
 			//	delete it
 			arrSelectedTags.splice(arrSelectedTags.indexOf(sTag), 1);
 			
@@ -1099,22 +1033,72 @@ sakai.blog = function(tuid, placement, showSettings) {
 	$(buttonSettingsCancel, rootel).bind('click', function(){
     	sdata.container.informCancel(tuid);
 	});	
+		
+	/**
+	 * Sets all the fields in the blog view to the correct values.
+	 */
+	var displayBlogSettings = function() {
+		
+		if (blogSettings.allowComments) {
+			$(settingsAllowComments, rootel).attr('checked', 'checked');
+		}
+		if (blogSettings.tags) {
+			arrSelectedTags = blogSettings.tags;
+			renderTags(settingsSelectedTagCloud, settingsSelectedTagCloudTemplate, blogSettings.tags);	
+		}
+		//	Fetch all the other tags.
+		getAllTags();
+	};
+	displayBlogSettings();
+	//	start the search interval
+	//	This will check if the user wants to filter the tags and filter them for him
+	oSearchInterval = setInterval(searchSettingsTags, iSearchInterval);
+	
+	};
 	
 	
+	//////////
+	// init //
+	//////////
 	
-	//////////////
-	//	INIT	//
-	//////////////
+	/**
+	 * Get the blog settings out of JCR.
+	 * @param {Object} callback
+	 */
+	var getBlogSettings = function(callback) {
+		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "blog");
+		
+		$.ajax({
+				url: url,
+				cache: false,
+				success: function(data){
+					blogSettings = $.evalJSON(data);
+					
+					//	Show the tags in the page.
+					if (blogSettings.tags.length === 0) {
+						$(viewBlogTagsContainer).hide();
+					}
+					else {
+						$(viewBlogTagsContainer).show();
+						$(viewBlogTags).text(blogSettings.tags.join(', '));
+					}
+					
+					if (typeof callback !== "undefined" && callback !== null) {
+						callback();
+					}
+				},
+				error: function(data) {
+					getAllTags();
+				}
+		});
+	};
 	
 	if (showSettings) {
 		$(viewNormal, rootel).hide();
 		$(viewSettings, rootel).show();
 		//	Get the blog settings
-		getBlogSettings(displayBlogSettings);
+		getBlogSettings(settingsMode);
 		
-		//	start the search interval
-		//	This will check if the user wants to filter the tags and filter them for him
-		oSearchInterval = setInterval(searchSettingsTags, iSearchInterval);
 	}
 	else {
 		$(viewSettings, rootel).hide();
@@ -1124,7 +1108,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 		}
 		
 		//	Get the blog settings, when received .. display the posts.
-		getBlogSettings(displayPosts);
+		getBlogSettings(viewMode);
 	}	
 	
 };

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata */
+/*global $, Config, sdata, window */
 
 var sakai = sakai || {};
 sakai.wookiechat = function(tuid, placement, showSettings) {
@@ -51,7 +51,6 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 	// Error messages
 	var error_unableChatPrefs = "#wookiechat_error_unableChatPrefs";
 	var error_unableContactWookie = "#wookiechat_error_unableContactWookie";
-	var error_wrongMeFormat = "#wookiechat_error_wrongMeFormat";
 	
 	
 	////////////////////////
@@ -75,7 +74,8 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 			$(idToAppend).removeClass(CSSerrorMessage);
 			$(idToAppend).addClass(CSSnormalMessage);
 		}
-		if (typeof timeout === "undefined" || timeout !== 0) {
+		timeout = timeout || 0;
+		if (timeout !== 0) {
 			$(idToAppend).fadeOut(generalMessageFadeOutTime);
 		}
 		else {

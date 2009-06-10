@@ -111,4 +111,7 @@
 .video_right_aligned_btn{
 	float:right;
 }
+#video_insertPlaceHolder, #video_txtURL, #video_txtTitle, #video_source_nosource, #video_source_guessURL{
+	margin-bottom: 10px;
+}
 

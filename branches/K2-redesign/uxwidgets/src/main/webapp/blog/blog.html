@@ -1,5 +1,5 @@
 <!-- CSS -->
-<link type="text/css" href="/devwidgets/blog/css/blog.css" rel="stylesheet"></link>
+<link type="text/css" href="/devwidgets/blog/css/blog.css" rel="stylesheet" />
 
 <!-- SETTINGS VIEW -->
 <div id="blog_settings" style="display:none;">
@@ -9,7 +9,7 @@
 	 <div id="blog_settingsTagsListContainer">
 	 	<span id="blog_tagLoader"><img src="/devwidgets/blog/images/ajax-loader.gif" alt="Loading, please hold on ..." title="Loading, please hold on ..." /> Loading, please hold on ...</span>
 		<div id="blog_settingsTagsList">
-			
+			<!-- This will be filled by the tags list -->
 		</div>
 	</div>
 	<div id="blog_settingsTagsListTemplate"><!--
@@ -20,10 +20,10 @@
 	 {/for}
 	 --></div>
 	
-	<span id="blog_settings_selectedTags"><span style="font-weight:bold;" id="blog_settings_nrOfSelectedTags">0</span> tags selected</span><br />
+	<span id="blog_settings_selectedTags"><span id="blog_settings_nrOfSelectedTags">0</span> tags selected</span><br />
 	
 	 
-	<div id="blog_settings_selectedTagsCloud"></div>
+	<div id="blog_settings_selectedTagsCloud"><!-- This will be filled by the tags cloud --></div>
 	<div id="blog_settings_selectedTagsCloudTemplate"><!--
 	 {for t in tags}
 	 	<span id="blog_settingsSelectedTag_${t}" class="blog_settingsSelectedTag" >${t} <img src="/dev/_images/close_icon_small.png" alt="X" title="Delete tag: ${t}" id="blog_delete_tag_${t}" /></span>
@@ -32,7 +32,7 @@
 	<span class="blog_note">Note: If no tags are selected then all available blog posts will be shown.</span><br />
 	<input type="checkbox" id="blog_settings_allowComments" /> Allow users to add comments<br />
 	
-	<hr />
+	<br />
 	
 	<a class="button-default cancel-button" href="javascript:;" id="blog_settingsCancel">Cancel</a>
 	<a class="button-default submit_button" href="javascript:;" id="blog_settingsSubmit">Save blog settings</a>	
@@ -44,7 +44,7 @@
 	<img src="/devwidgets/blog/images/newpost.png" alt="New post" class="blog_view_newpost" />
 	<div id="blog_view_showBlogTagsContainer">
 		This blog show posts for the following tags:<br />
-		<span id="blog_view_showBlogTags"></span>
+		<span id="blog_view_showBlogTags"><!-- This will be filled with the tags (output mode) --></span>
 	</div>
 	<div id="blog_view_noPosts" style="display:none;">There are no posts found for the following tags:</div>
 	<div id="blog_view_postTemplate" style="display:none;"><!--
@@ -65,9 +65,9 @@
 								{/if}
 								
 								{if c.blogpost}
-									 class="blog_picture"  />
+									 class="blog_picture"/>
 								{else}
-									 class="blog_picture_comment"  />
+									 class="blog_picture_comment"/>
 								{/if}
 								<a href="/dev/profile.html?user=${c.poster}" class="blog_poster">${c.name}</a>
 							</div>
@@ -100,7 +100,7 @@
 								</div>
 							</div>
 							{if c.comments.length > 0}
-								<div style="margin-left:25px;" id="blog_comments${c.id}">
+								<div class="blog_commentsShowComments" id="blog_comments${c.id}">
 									${showComment(c.comments)}
 								</div>
 							{/if}
@@ -111,15 +111,15 @@
 	${showComment(posts)}
 	
 	{if posts.length == 0}
-		<p style="text-align:center;">There are no posts yet matching the blog criteria.</p>
+		<p class="blog_noPostMatching">There are no posts yet matching the blog criteria.</p>
 	{/if}
 --></div>
 
 
 
-	<div id="blog_view_posts"></div>
+	<div id="blog_view_posts"><!-- This is the container where all the post will be shown --></div>
 
-	<!--	WRITE A NEW POST -->
+	<!-- WRITE A NEW POST -->
 	<img src="/devwidgets/blog/images/newpost.png" alt="New post" class="blog_view_newpost" /><br /><br />
 	
 	<!-- THE FORM TO WRITE/EDIT A NEW POST -->
@@ -142,7 +142,7 @@
 	</div>
 	
 	<!-- THE FORM TO WRITE/EDIT A COMMENT -->
-	<div id="blog_commentForm" class="blog_commentForm" style="display:none;clear: right;">
+	<div id="blog_commentForm" class="blog_commentForm" style="display:none;">
 		<label for="blog_txtCommentSubject">Subject</label>
 		<input type="text" id="blog_txtCommentSubject" /><br />
 		<label for="blog_txtCommentBody">Body</label>
@@ -157,7 +157,7 @@
 	</div>
 
 </div>
-<br style="clear:both;" />
+<br class="blog_clearer" />
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/blog/javascript/blog.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/blog/javascript/blog.js" />

@@ -132,7 +132,7 @@ sakai.tlrp.year = function(records, tuid) {
         // Sort the items in the year arrays.
         for (var i = 0; i < items.nrOfYears; i++) {
             sorter.setData(items[i].articles);
-            sorter.sort();
+            //sorter.sort();
             items[i].articles = sorter.getData();
         }        
         
@@ -238,7 +238,7 @@ sakai.tlrp.year = function(records, tuid) {
         }
         
         desc = checkDoSubstring(desc, 100, '...');
-        creator = checkDoSubstring(creator, 100, '...');
+        creator = checkDoSubstring(creator, 25, '...');
         
         // Set it's text.
         $(tlrpArticleDescriptionAuthor, balloon).text(creator);

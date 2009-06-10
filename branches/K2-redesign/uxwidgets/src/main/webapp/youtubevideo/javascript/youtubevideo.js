@@ -29,6 +29,8 @@ var sakai = sakai || {};
 sakai.youtubevideo = function(tuid, placement, showSettings){
 	
 	
+	var embedYouTube = '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/__ID__&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/__ID__&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed></object>';
+	
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
@@ -88,7 +90,7 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
 					} 
 					// show the video
 					else {
-						$(container, rootel).html('<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/' + id + '&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/' + id + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed></object>');
+						$(container, rootel).html(embedYouTube.replace(/__ID__/g, id));
 					}
 				}
 				
@@ -101,7 +103,6 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
 			$(container, rootel).text("No video found");
 		}
 	};
-
 
     ////////////////////////
     // Settings functions //

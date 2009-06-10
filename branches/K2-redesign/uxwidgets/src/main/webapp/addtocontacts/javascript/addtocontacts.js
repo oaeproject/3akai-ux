@@ -261,7 +261,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
         renderTemplates();
         
         // show the layover
-        $(addToContactsDialog).jqmShow();
+		$(addToContactsDialog).jqmShow();
         
         // Give the user some options to manipulate this widget.
         var o = {

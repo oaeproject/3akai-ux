@@ -1,6 +1,6 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/rss/css/rss.css"></link>
-<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/rss/css/rss.css" />
+<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css" />
 
 <!-- SETTINGS VIEW -->
 <div id="rss_settings" style="display:none">
@@ -21,13 +21,13 @@
 		
 	
 		<div id="rss_settings_rssFeedList">
-			
+			<!-- In this list all the feeds added to the rss-widget will be shown -->
 		</div>
 		<div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
 			{for i in feeds}
 			<div class="rss_settings_rssFeedListItem">
 				<span class="rss_bold rss_setting_listLeft">${i.title}</span>
-				<a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/dev/_images/close_icon_small.png"></img></a>
+				<a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/dev/_images/close_icon_small.png" alt="X"></img></a>
 				<div class="rss_clear"></div>
 				<span>
 					${i.items.length}
@@ -52,9 +52,11 @@
 		</div>
 	</form>
 </div>
+<!-- MAIN VIEW -->
 <div id="rss_output" style="display:none">
-	<!-- MAIN VIEW -->
-	<div id="rss_output_template" style="display:none"><!--
+<!-- in this container all the entries of the feeds will be shown-->
+</div>
+<div id="rss_output_template" style="display:none"><!--
 		<div class="rss_output_header">
 			<h1>${title}</h1>
 			<a class="button-default rss_output_order rss_right" id="rss_output_order_date" href="javascript:;">sort by date</a>
@@ -89,13 +91,11 @@
 		{/for}
 		<div class="jq_pager rss_jq_pager"></div>
 	--></div>
-</div>
-
 <!-- SEND MESSAGE CONTAINER -->
 <div id="rss_sendmessagecontainer" style="display:none;">
 	<div id="widget_sendmessage" class="widget_inline"></div>
 </div>	
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/rss/lib/jquery.pager.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/rss/javascript/rss.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/rss/lib/jquery.pager.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/rss/javascript/rss.js" />

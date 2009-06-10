@@ -1,5 +1,5 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/changepic/css/changepic.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/changepic/css/changepic.css" />
 
 <!-- HTML -->
 <div style="display:none" class="dialog dailog_changepic" id="changepic_container">
@@ -16,8 +16,8 @@
 		</ul>
 
 		<!-- SELECT AREA -->
-		<div id="changepic_selectpicture" style="padding-top:10px;padding-left:10px">
-				<h4>Select the area you want to use as your profile picture</h4><br/>
+		<div id="changepic_selectpicture">
+				<h4>Select the area you want to use as your profile picture</h4>
 				<img id="changepic_fullpicture" id="profilePic" alt="Create Thumbnail" />
 				<!-- 
 					CHANGE THE CSS WIDTH AND HEIGHT TO INCREASE THE THUMBNAIL SIZE
@@ -40,7 +40,6 @@
 
 			<form id="changepic_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai._changepic.startCallback, 'onComplete' : sakai._changepic.completeCallback})">
 				<h4>Upload new picture</h4>
-				<br/>
 				<input type="file" name="file"/>
 				<input type="hidden" name="realname" id="realname" value="" />
 				<br/><br/>
@@ -61,8 +60,8 @@
 THIS CONTAINER WILL HOLD THE NEWLY UPLOADED PICTURE.
 THIS WILL BE USED TO CHECK THE WIDTH AND HEIGHT OF THE UPLOADED IMAGE.
  -->
-<div id="picture_measurer" style="left:-100000px; top: -100000px; position:absolute"></div>
+<div id="picture_measurer"></div>
 
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/changepic/javascript/changepic.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/changepic/javascript/changepic.js" />

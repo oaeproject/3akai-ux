@@ -17,28 +17,24 @@
  */
 
 
+/*global $, sdata, Config, jQuery */
 
-/*
- * This widget will be running in the dashboard.
- * It allows the user to make a post to a blog he has on a website.
- * If there is no blog found on the website, one will be created.
- */
-
-/*global $, sdata, Config */
 
 var sakai = sakai || {};
 
 /**
  * Initialize the dashboard widget for a blog
+ * This widget will be running in the dashboard.
+ * It allows the user to make a post to a blog he has on a website.
+ * If there is no blog found on the website, one will be created.
  * @param {String} tuid Unique id of the widget
  * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not (this widget has none)
  */
 sakai.blogdashboard = function(tuid, placement, showSettings){
-
-	//////////////////////////
-	//	Config variables	//
-	//////////////////////////
+	//////////////////////
+	// Config variables //
+	//////////////////////
 	
 	var rootel = $("#" + tuid);
 	var me = sdata.me;
@@ -68,9 +64,9 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	var siteTemplate = blogdashboardName + '_siteTemplate';
 
 
-	//////////////////////
-	//	Aid functions	//
-	//////////////////////
+	////////////////////
+	// Util functions //
+	////////////////////
 	
 	/**
 	 * Will loop over an array and trim everything. Double values will be thrown out.
@@ -79,9 +75,9 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	 */
 	var trimArray = function(arr) {
 		var toreturn = [];
-		for (var i = 0;i < arr.length;i++) {
+		for (var i = 0, iMax = arr.length;i < iMax;i++) {
 			var s = jQuery.trim(arr[i]);
-			if (!toreturn.contains(s) && s !== '') {
+			if (toreturn.indexOf(s) === -1 && s !== '') {
 				toreturn.push(s);
 			}
 		}
@@ -97,35 +93,36 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	};
 
 	/**
+	 * Shows errors on the supplied fields 
+	 * @param {Object} fields: array of fields
+	 * @param {String} errorClass: name of the errorclass
+	 */
+	var showErrors = function(fields, errorClass){
+		var ok = true;
+		for(var i=0, iMax=fields.length; i<iMax;i++){
+			var sField = jQuery.trim($(fields[i], rootel).val());
+			if(sField === ''){
+				ok = false;
+				$(fields[i], rootel).addClass(errorClass);
+			}
+			else{
+				$(fields[i], rootel).removeClass(errorClass);
+			}
+		}
+		return ok;
+	};
+
+	/**
 	 * Checks if the fields are filled in correctly.
 	 * Returns true of false;
 	 */
 	var checkFields = function() {
 		//	Get the values.
-		var sTitle = jQuery.trim($(txtTitle, rootel).val());
-		var sMessage = jQuery.trim($(txtContent, rootel).val());
-		var sTags = jQuery.trim($(txtTags, rootel).val());
 		var site =   $(cboSite + ' option:selected', rootel).val();
-		
-		//	set everything to standard
-		var ok = true;
-		$(txtTitle, rootel).removeClass(errorClass);
-		$(txtContent, rootel).removeClass(errorClass);
-		$(txtTags, rootel).removeClass(errorClass);
+		var txts = [txtTitle, txtContent, txtTags];
+		var ok = showErrors(txts, errorClass);
 		$(cboSite, rootel).removeClass(errorClass);
 		
-		if (sTitle === '') {
-			ok = false;
-			$(txtTitle, rootel).addClass(errorClass);
-		}
-		if (sMessage === '') {
-			ok = false;
-			$(txtContent, rootel).addClass(errorClass);
-		}
-		if (sTags === '') {
-			ok = false;
-			$(txtTags, rootel).addClass(errorClass);
-		}
 		if (site === '') {
 			ok = false;
 			$(cboSite, rootel).addClass(errorClass);
@@ -141,8 +138,12 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	 * @param {Number} timeout the amount of milliseconds you want the message to be displayed, 0 = always (till the next message)
 	 */
 	var showGeneralMessage = function(msg, isError, timeout){
+		// gets the errormessage
+		// this is set in the html for i18n
 		$(generalMessage).html(msg);
+		// show the error container
 		$(generalMessage).show();
+		// show error or warning
 		if (isError) {
 			$(generalMessage).addClass(errorMessageClass);
 			$(generalMessage).removeClass(normalMessageClass);
@@ -151,28 +152,27 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 			$(generalMessage).addClass(normalMessageClass);
 			$(generalMessage).removeClass(errorMessageClass);
 		}
+		// use a fadeout for the message
 		if (typeof timeout !== "undefined" && timeout !== 0) {
 			$(generalMessage).fadeOut(timeout);
 		}
+		// or just show it
 		else {
 			$(generalMessage).show();
 		}
 	};
 	
 	
-	
-	//////////////////////////
-	//	Save post to JCR.	//
-	//////////////////////////
-	
-	
+	///////////////
+	// View mode //
+	///////////////
 	
 	/**
 	 * This will save data too the JCR.
-	 * @param {String} siteid
+	 * @param {String} siteid: the site where the post needs to be saved
 	 * @param {String} sPreviousPosts A json string containing the previous posts.
-	 * @param {Boolean} bExists
-	 * @param {Object} post
+	 * @param {Boolean} bExists: does the blog already exist
+	 * @param {Object} post: the post made
 	 * @param {Object} callback The function that has to be called when the data is saved.
 	 */
 	var savePostToJCR = function(siteid, sPreviousPosts, bExists, post, callback) {
@@ -212,8 +212,8 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 			//	Trim the array
 			var arrTags = trimArray(sTags.split(','));
 			sTags = arrTags.join(', ');
-			
-			var json = {'id' : 0, 'title' : sTitle, 'message' : sMessage, 'tags' : sTags, 'arrTags' : arrTags, 'postDate' : new Date(), 'poster' : me.preferences.uuid, 'comments' : [], 'blogpost' : true};
+			var date = $.L10N.transformDate(new Date()) + "T" + $.L10N.transformTime(new Date()) + "Z";
+			var json = {'id' : 0, 'title' : sTitle, 'message' : sMessage, 'tags' : sTags, 'arrTags' : arrTags, 'postDate' : date, 'poster' : me.preferences.uuid, 'comments' : [], 'blogpost' : true};
 			
 			//	We do a check to see if the node for this blog already exists
 			//	If it exists we will have onSucces, if it fails we end up with an onFail.
@@ -276,12 +276,12 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 
 
 	/**
-	 * Takes an array of sites objects and adds them too the select box.
+	 * Takes an array of sites objects and adds them to the select box.
 	 * @param {Object} newjson
 	 */
 	var doRender = function(newjson){
 		//	Loop the sites and add them in an array that can be used by trimpath
-		for (var i = 0; i < newjson.entry.length; i++){
+		for (var i = 0, iMax = newjson.entry.length; i < iMax; i++){
 			newjson.entry[i].location = newjson.entry[i].location.substring(1);
 		}
 		newjson.entry = newjson.entry.sort(doSort);
@@ -298,10 +298,10 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 		var newjson = {};
 		newjson.entry = [];
 		if (json.entry) {
-			for (var i = 0; i < json.entry.length; i++) {
+			for (var i = 0, iMax =json.entry.length ; i < iMax; i++) {
 				var site = json.entry[i];
 				//	if we are an owner of this site, add it
-				if (site.owners.contains(me.preferences.uuid)) {
+				if (site.owners.indexOf(me.preferences.uuid) > -1) {
 					if (site.id.substring(0, 1) !== "~") {
 						newjson.entry[newjson.entry.length] = site;
 					}
@@ -341,7 +341,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 	//////////////////
 	
 	
-	$(buttonReset).click(function(){
+	/*$(buttonReset).click(function(){
 		resetFields();
 	});
 	
@@ -356,7 +356,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 			site = site + "/_widgets";
 			createNewBlogPost(site, sTitle, sMessage, sTags, addedPost);
 		}
-	});
+	});*/
 	
 	
 	//	Start the widgets functionality.

@@ -89,7 +89,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	 */
 	var getContent = function(node){
 		// checks if the node isn't undefined
-		if(typeof node !== "undefined"){
+		if(node){
 			return node.textContent;
 		}
 		return "";
@@ -102,7 +102,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	 */
 	var formatDate = function(d){
 		var am_or_pm = "";
-		
+				
 		var current_hour = d.getHours();
 		if (current_hour < 12) {am_or_pm = "PM";} else{am_or_pm = "AM";}
 		if (current_hour === 0){current_hour = 12;}
@@ -110,7 +110,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		
 		var current_minutes = d.getMinutes() + "";
 		if (current_minutes.length === 1){current_minutes = "0" + current_minutes;}
-		
+		// make a string out of a date in the correct format
 		return(d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() + " " + current_hour + ":" + current_minutes +  " " + am_or_pm);
 	};
 	
@@ -125,6 +125,7 @@ sakai.rss = function(tuid, placement, showSettings){
 			var xmlobject = feed;
 			// retrieve data from the xmlobject and put it in the JSON-object
 			var channel = $(xmlobject).find("channel");
+			// put all the nodes in JSON-props
 			rss.title = getContent(channel.find("title")[0]);
 			rss.link = getContent(channel.find("link")[0]);
 			rss.id = feedUrl;
@@ -145,6 +146,8 @@ sakai.rss = function(tuid, placement, showSettings){
 		catch(ex){
 			alert("Incorrect rss-feed");
 		}
+		// return false if some kind of error occured
+		// this will be mostly rss format errors and will also work as a tester to see if the rss format is correct 
 		return false;
 	};
 
@@ -154,6 +157,8 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * @param {function} The function where the response will be send to;
 	 */
 	var getFeed = function(url, onResponse){
+		// put the url to a module variable
+		// later on this will also be added to the json-object
 		feedUrl = url;
 		var oPostData = {"method" : "GET", "url" : feedUrl};
  		$.ajax({
@@ -163,7 +168,7 @@ sakai.rss = function(tuid, placement, showSettings){
 					onResponse(printFeed(data));
 			},
 			error : function(status) {
-					alert("Unable to contact the rss feed.");
+					alert("Unable to connect to the rss feed.");
 			},
 			data : oPostData
  		});
@@ -178,7 +183,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	};
 
 	/**
-	 * sorts an array of feeds on the pubDate;
+	 * sorts an array of feeds on the pubDate, this can be used with the javascript sort function
 	 * @param {Object} a
 	 * @param {Object} b
 	 */
@@ -193,7 +198,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	};
 	
 	/**
-	 * sorts an array of feeds on the source;
+	 * sorts an array of feeds on the source, this can be used with the javascript sort function
 	 * @param {Object} a
 	 * @param {Object} b
 	 */
@@ -252,7 +257,9 @@ sakai.rss = function(tuid, placement, showSettings){
 	};
 	
 	/**
-	 * Is executed when a different page is clicked
+	 * Is executed when the user navigates to a different page in the rss widget
+	 * Will the entries of the page where the user is currently at,
+	 * and connects the pager again
 	 * @param {Object} pageClicked
 	 */
 	var pagerClickHandler = function(pageClicked){

@@ -381,6 +381,15 @@ sakai.tlrp = function(tuid, placement, showSettings) {
         $(tlrpPreloaderContainer, rootel).html($.Template.render(tlrpPreloaderTemplate, preloaded));
     };
     
+	var showOrHideRelatedTab = function(show){
+		if(show && toLoad.indexOf("dspace") > -1){
+			$("#" + tlrptabRelatedBtn, rootel).show();	
+		}
+		else{
+			$("#" + tlrptabRelatedBtn, rootel).hide();
+		}
+	};
+	
 	/**
 	 * Loads the correct seach based on the tab-id
 	 * @param {Object} id: id of the tab clicked
@@ -392,31 +401,29 @@ sakai.tlrp = function(tuid, placement, showSettings) {
 		// check if the search is already initialized
 		// set equal to searchObject
 		// hide or show the related tab
+		var showRelatedTab = false;
         if (id === tlrpCatBtn) {
             catSearch = catSearch || sakai.tlrp.category(records, json.skos.data, tuid);
             searchObject = catSearch;
 			// setTab is needed to set catSearch to the right tab
 			searchObject.setTab(currentTab);
-			$("#" + tlrptabRelatedBtn, rootel).show();
+			showRelatedTab = true;
         }
         else if (id === tlrpTagBtn) {
             tagSearch = tagSearch || sakai.tlrp.tags(records, tuid);
             searchObject = tagSearch;
-	        $("#" + tlrptabRelatedBtn, rootel).hide();
 
         }
         else if (id === tlrpAuthorBtn) {
             authorSearch = authorSearch || sakai.tlrp.author(records, tuid);
             searchObject = authorSearch;
-	        $("#" + tlrptabRelatedBtn, rootel).hide();
 
         }
         else if (id === tlrpYearBtn) {
             yearSearch = yearSearch || sakai.tlrp.year(records, tuid);
             searchObject = yearSearch;
-	        $("#" + tlrptabRelatedBtn, rootel).hide();
-
         }
+		showOrHideRelatedTab(showRelatedTab);
         // Set the breadcrumbar identifier
         $(tlrpBreadCrumBarMatches).attr('class', searchObject.getBreadCrumbBar());
 		$(tlrpBreadCrumBarRelated).attr('class', searchObject.getBreadCrumbBar());

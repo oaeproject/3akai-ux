@@ -79,7 +79,10 @@
             }
             //Sort object based on single sort attribute
             else {
-                var retObj = $(this).get().sort(function(a, b) {
+                var retObj = $(this)
+				.get()
+				.sort(
+				function(a, b) {
                     var attrLen = 0;
                     for (var v in sortAttr) {
                         var al = $(a).attr(v);
