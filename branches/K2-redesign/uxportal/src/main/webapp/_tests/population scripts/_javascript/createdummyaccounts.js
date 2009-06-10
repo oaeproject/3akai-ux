@@ -32,71 +32,66 @@ sakai.createdummyaccounts = function(){
 
 	$("#save_account").bind("click", function(ev){
 		var user1 = {"userType": "default", "firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "password": "test1", "eid": "user1"};
-		sdata.Ajax.request({
+		$.ajax({
     	    url : Config.URL.CREATE_USER_SERVICE,
-    	    httpMethod : "POST",
-    	    postData : user1,
-    	   	contentType : "application/x-www-form-urlencoded",
-    	    onSuccess : function(data) {
+    	    type : "POST",
+    	    data : user1,
+    	   	success : function(data) {
 				log("Created user 1");
 			},
-			onFail: function(data){
+			error: function(data){
 				log("Failed to create user 1");
 			}
 		});
 
 		var user2 = {"userType": "default", "firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "password": "test2", "eid": "user2"};
-		sdata.Ajax.request({
+		$.ajax({
     	    url : Config.URL.CREATE_USER_SERVICE,
-    	    httpMethod : "POST",
-    	    postData : user2,
-    	   	contentType : "application/x-www-form-urlencoded",
-    	    onSuccess : function(data) {
+    	    type : "POST",
+    	    data : user2,
+    	    success : function(data) {
 				log("Created user 2");
 			},
-			onFail: function(data){
+			error: function(data){
 				log("Failed to create user 2");
 			}
 		});
 
 		var user3 = {"userType": "default", "firstName": "Third", "lastName": "User", "email": "third.user@sakai.com", "password": "test3", "eid": "user3"};
-		sdata.Ajax.request({
+		$.ajax({
     	    url : Config.URL.CREATE_USER_SERVICE,
-    	    httpMethod : "POST",
-    	    postData : user3,
-    	   	contentType : "application/x-www-form-urlencoded",
-    	    onSuccess : function(data) {
+    	    type : "POST",
+    	    data : user3,
+    	    success : function(data) {
 				log("Created user 3");
 			},
-			onFail: function(data){
+			error: function(data){
 				log("Failed to create user 3");
 			}
 		});
 
 		var user4 = {"userType": "default", "firstName": "Fourth", "lastName": "User", "email": "fourth.user@sakai.com", "password": "test4", "eid": "user4"};
-		sdata.Ajax.request({
+		$.ajax({
     	    url : Config.URL.CREATE_USER_SERVICE,
-    	    httpMethod : "POST",
-    	    postData : user4,
-    	   	contentType : "application/x-www-form-urlencoded",
-    	    onSuccess : function(data) {
+    	    type : "POST",
+    	    data : user4,
+    	    success : function(data) {
 				log("Created user 4");
 			},
-			onFail: function(data){
+			error: function(data){
 				log("Failed to create user 4");
 			}
 		});
 
 		var user5 = {"userType": "default", "firstName": "Fifth", "lastName": "User", "email": "fifth.user@sakai.com", "password": "test5", "eid": "user5"};
-		sdata.Ajax.request({
+		$.ajax({
     	    url : Config.URL.CREATE_USER_SERVICE,
-    	    httpMethod : "POST",
-    	    postData : user5,
-    	   	contentType : "application/x-www-form-urlencoded",
-    	    onSuccess : function(data) {
+    	    type : "POST",
+    	    data : user5,
+    	    success : function(data) {
 				log("Created user 5");
 			},
-			onFail: function(data){
+			error: function(data){
 				log("Failed to create user 5");
 			}
 		});
@@ -105,4 +100,4 @@ sakai.createdummyaccounts = function(){
 	
 };
 
-sdata.registerForLoad("sakai.createdummyaccounts");
+sdata.container.registerForLoad("sakai.createdummyaccounts");
