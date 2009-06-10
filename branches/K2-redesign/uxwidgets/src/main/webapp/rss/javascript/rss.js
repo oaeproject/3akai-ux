@@ -34,7 +34,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	/////////////////////////////	
 
 	var rootel = "#" + tuid;
-	var json={};
+	var resultJSON={};
 	var feedUrl = "";
 	
 	// Main ids
@@ -216,16 +216,17 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * gets al the feeds and puts the in the settings list
 	 * @param {Object} urlFeeds
 	 */
-	var fillRssFeed = function(urlFeeds){
-		getFeed(json.urlFeeds[json.feeds.length], function(rssFeed){
-			json.feeds.push(rssFeed);
+	var fillRssFeed = function(){
+		getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed){
+			resultJSON.feeds.push(rssFeed);
 			// if not all the feeds are retrieve call this function again
-			if(json.feeds.length < json.urlFeeds.length){
-				fillRssFeed(json);
+			if(resultJSON.feeds.length < resultJSON.urlFeeds.length){
+				fillRssFeed();
 			}
 			// if all the feed are retrieved render the rss
 			else{
-				$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, json));
+				$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+				bindSendToFriend();
 			}		
 		});
 	};
@@ -243,7 +244,7 @@ sakai.rss = function(tuid, placement, showSettings){
 	var getShownEntries = function(page){
 		page = page-1;
 		// if you don't make a clone, the splice-method will also remove entries form the original JSON-object
-		var shownEntries = cloneObject(json);
+		var shownEntries = cloneObject(resultJSON);
 		// only 3 entries per page
 		shownEntries.entries = shownEntries.entries.splice(page*3, 3);
 		
@@ -256,13 +257,14 @@ sakai.rss = function(tuid, placement, showSettings){
 	 */
 	var pagerClickHandler = function(pageClicked){
 		// first get the entries that need to be shown on this page
-		json.shownEntries = getShownEntries(pageClicked);
+		resultJSON.shownEntries = getShownEntries(pageClicked);
 		// render these entries
-		$(rssOutput, rootel).html($.Template.render(rssOutputTemplate, json));
+		$(rssOutput, rootel).html($.Template.render(rssOutputTemplate, resultJSON));
+		bindSendToFriend();
 		// change the pageNumeber
 		$(rssPager,rootel).pager({
 			pagenumber: pageClicked,
-			pagecount: Math.ceil(json.entries.length / 3),
+			pagecount: Math.ceil(resultJSON.entries.length / 3),
 			buttonClickCallback: pagerClickHandler
 		});
 	};
@@ -271,9 +273,9 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * gets the entries from all subscribed feeds
 	 * @param {Object} json
 	 */
-	var fillRssOutput = function(json){
+	var fillRssOutput = function(){
 		// retrieve the rss-feeds
-		getFeed(json.urlFeeds[json.feeds.length], function(rssFeed){
+		getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed){
 			for (var i = 0; i < rssFeed.items.length; i++) {
 				// Some info needs to be shown in every entry
 				rssFeed.items[i].feed = {};
@@ -281,19 +283,19 @@ sakai.rss = function(tuid, placement, showSettings){
 				rssFeed.items[i].feed.link = rssFeed.link;
 				rssFeed.items[i].feed.id = rssFeed.id;
 				rssFeed.items[i].feed.description = rssFeed.description;
-				json.entries.push(rssFeed.items[i]);
+				resultJSON.entries.push(rssFeed.items[i]);
 			}
-			json.feeds.push(rssFeed);
+			resultJSON.feeds.push(rssFeed);
 			// not all the feeds have been retrieved so call this function again
-			if(json.feeds.length < json.urlFeeds.length){
-				fillRssOutput(json);
+			if(resultJSON.feeds.length < resultJSON.urlFeeds.length){
+				fillRssOutput();
 			}
 			// all the feeds have been retrieved
 			else{
 				// sort by date
-				json.entries.sort(sortByDatefunction);
+				resultJSON.entries.sort(sortByDatefunction);
 				// make sure the array only has the requesten number of entries (example : 20 latest entries)
-				json.entries.splice(json.numEntries,json.entries.length - json.numEntries);
+				resultJSON.entries.splice(resultJSON.numEntries,resultJSON.entries.length - resultJSON.numEntries);
 				// show the first page only
 				pagerClickHandler(1);
 			}
@@ -310,13 +312,13 @@ sakai.rss = function(tuid, placement, showSettings){
 		$(rssSettings,rootel).show();
 		
 		if(exists){
-			json.feeds = json.feeds || [];
-			$(rssTxtTitle,rootel).val(json.title);
-			$(rssNumEntries,rootel).val(json.numEntries);
-		 	$(rssDisplaySource, rootel).attr("checked", json.displaySource);
-		 	$(rssDisplayHeadlines, rootel).attr("checked", json.displayHeadlines);
-			json.feeds = [];
-			fillRssFeed(json.urlFeeds);	
+			resultJSON.feeds = resultJSON.feeds || [];
+			$(rssTxtTitle,rootel).val(resultJSON.title);
+			$(rssNumEntries,rootel).val(resultJSON.numEntries);
+		 	$(rssDisplaySource, rootel).attr("checked", resultJSON.displaySource);
+		 	$(rssDisplayHeadlines, rootel).attr("checked", resultJSON.displayHeadlines);
+			resultJSON.feeds = [];
+			fillRssFeed(resultJSON.urlFeeds);	
 		}
 		
 	};
@@ -327,9 +329,9 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * @param {Object} rssFeedUrl
 	 */
 	var checkIfRssAlreadyAdded = function(rssFeedUrl){
-		json.feeds = json.feeds || [];
-		for(var i = 0; i < json.feeds.length; i++){
-			if($.trim(json.feeds[i].id) === $.trim(rssFeedUrl)){
+		resultJSON.feeds = resultJSON.feeds || [];
+		for(var i = 0; i < resultJSON.feeds.length; i++){
+			if($.trim(resultJSON.feeds[i].id) === $.trim(rssFeedUrl)){
 				return true;
 			}
 		}
@@ -341,10 +343,10 @@ sakai.rss = function(tuid, placement, showSettings){
 	 */
 	var getFeedResponse = function(rssFeed){
 		if(rssFeed !== false){
-			json.feeds = json.feeds || [];
-			json.feeds.push(rssFeed);
-			$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, json));
-			
+			resultJSON.feeds = resultJSON.feeds || [];
+			resultJSON.feeds.push(rssFeed);
+			$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+			bindSendToFriend();
 		}
 	};
 	
@@ -365,29 +367,29 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * gets the settings object
 	 */
 	var getSettingsObject = function(){
-		json.feeds = json.feeds || [];
-		if(json.feeds.length === 0){
+		resultJSON.feeds = resultJSON.feeds || [];
+		if(resultJSON.feeds.length === 0){
 			alert("You haven't added any feeds");
 			return false;
 		}
-		json.title = $(rssTxtTitle,rootel).val();
-		json.numEntries = parseInt($(rssNumEntries,rootel).val(),10);
-		if((json.numEntries + "") === "NaN"){
+		resultJSON.title = $(rssTxtTitle,rootel).val();
+		resultJSON.numEntries = parseInt($(rssNumEntries,rootel).val(),10);
+		if((resultJSON.numEntries + "") === "NaN"){
 			alert("Number of entries should be a number");
 			return false;
 		}
-		else if(json.numEntries < 1){
+		else if(resultJSON.numEntries < 1){
 			alert("Pages should be bigger then 0");
 			return false;
 		}
-		json.displaySource =  $(rssDisplaySource, rootel).attr("checked");
-		json.displayHeadlines =  $(rssDisplayHeadlines, rootel).attr("checked");
-		json.urlFeeds = [];
-		for(var i= 0; i< json.feeds.length;i++){
-			json.urlFeeds.push(json.feeds[i].id);
+		resultJSON.displaySource =  $(rssDisplaySource, rootel).attr("checked");
+		resultJSON.displayHeadlines =  $(rssDisplayHeadlines, rootel).attr("checked");
+		resultJSON.urlFeeds = [];
+		for(var i= 0; i< resultJSON.feeds.length;i++){
+			resultJSON.urlFeeds.push(resultJSON.feeds[i].id);
 		}	
-		json.feeds = [];
-		return json;
+		resultJSON.feeds = [];
+		return resultJSON;
 	};
 	
 		
@@ -411,35 +413,39 @@ sakai.rss = function(tuid, placement, showSettings){
 		if(object !== false){
 			var tostring = $.toJSON(object);
 			var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-			sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, sdata.container.informFinish(tuid));
+			sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, function(){
+				sdata.container.informFinish(tuid);
+			});
 		}
 	});
 	$(rootel + " " + rssRemove).live("click", function(e,ui){
 		var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
-		json.feeds.splice(index,1);
-		$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, json));
+		resultJSON.feeds.splice(index,1);
+		$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
 	});
 	$(rootel + " " + rssOrderBySource).live("click", function(e,ui){
-		json.entries.sort(sortBySourcefunction);
+		resultJSON.entries.sort(sortBySourcefunction);
 		pagerClickHandler(1);
 	});
 	$(rootel + " " + rssOrderByDate).live("click", function(e,ui){
-		json.entries.sort(sortByDatefunction);
+		resultJSON.entries.sort(sortByDatefunction);
 		pagerClickHandler(1);
 	});
-	$(rootel + " " + rssSendToFriend).live("click", function(e,ui){
-		var index = parseInt(e.target.id.replace(rssSendToFriendNoDot,""),10);
-		// retrieve the title and body of the entry
-		var subject = json.entries[index].title;
-		var body = json.entries[index].description + "\n";
-		body += "read more: " + json.entries[index].link;
-		// Show the sendmessage widget
-		//$(rssSendMessage).show();
-		// initialize the sendmessage-widget
-		var o = sakai.sendmessage.initialise(null, true);
-		o.setSubject(subject);
-		o.setBody(body);
-	});
+	var bindSendToFriend = function(){
+		$(rootel + " " + rssSendToFriend).bind("click", function(e, ui){
+			var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
+			// retrieve the title and body of the entry
+			var subject = resultJSON.entries[index].title;
+			var body = resultJSON.entries[index].description + "\n";
+			body += "read more: " + resultJSON.entries[index].link;
+			// Show the sendmessage widget
+			//$(rssSendMessage).show();
+			// initialize the sendmessage-widget
+			var o = sakai.sendmessage.initialise(null, true);
+			o.setSubject(subject);
+			o.setBody(body);
+		});
+	};
 
 
 	/////////////////////////////
@@ -457,7 +463,7 @@ sakai.rss = function(tuid, placement, showSettings){
 				url: url,
 				cache: false,
 				success: function(data) {
-					json = $.evalJSON(data);
+					resultJSON = $.evalJSON(data);
 					loadSettings(true);
 				},
 				error: function(status) {
@@ -473,10 +479,10 @@ sakai.rss = function(tuid, placement, showSettings){
 				url: url,
 				cache: false,
 				success: function(data) {
-					json = $.evalJSON(data);
-					json.entries = [];
-					json.feeds = [];
-					fillRssOutput(json);
+					resultJSON = $.evalJSON(data);
+					resultJSON.entries = [];
+					resultJSON.feeds = [];
+					fillRssOutput();
 				},
 				error: function(status) {
 					alert("Failed to retrieve rss feeds");
