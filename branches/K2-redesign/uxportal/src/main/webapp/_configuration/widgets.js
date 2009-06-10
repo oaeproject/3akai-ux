@@ -380,17 +380,18 @@ var Widgets = {
 		},
 		rss :
 		{
-			description:"RSS Feed",
+			description:"RSS Feed Reader",
 			iframe:0,
 			url:"/devwidgets/rss/rss.html",
 			name:"RSS Feed",
 			id:"rss",
-			personalportal:0,
+			personalportal:1,
 			siteportal:0,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/devwidgets/rss/images/rss.png"
+			img:"/devwidgets/rss/images/rss.png",
+			hasSettings: 1
 		},
 		video :
 		{
