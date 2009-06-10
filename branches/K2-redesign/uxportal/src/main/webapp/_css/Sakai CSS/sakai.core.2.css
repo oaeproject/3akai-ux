@@ -810,8 +810,9 @@ a {
 	margin: 10px 10px 0px 0px;
 }
 .title-input {
-	border: none !important;
+	border: 0px solid #000000 !important;
 	width: 100% !important;
+	#width: 90% !important;
 	font-size: 1.5em;
 	font-weight: bold;
 	margin-bottom: 2px;

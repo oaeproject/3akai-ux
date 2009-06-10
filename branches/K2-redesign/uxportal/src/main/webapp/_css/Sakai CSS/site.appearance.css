@@ -61,7 +61,7 @@
 .basic_appearance #site_appearance_change_picture_thumbnail_container {border:1px solid #eee; float:left; position:relative; overflow:hidden; width: 200px; height: 100px;}
 .basic_appearance #site_appearance_change_select_content, .basic_appearance #site_appearance_change_upload_content {padding-left: 10px;}
 .basic_appearance .fl-tabs {border-bottom: 1px solid #ddd;}
-.basic_appearance .fl-tabs li a {bottom: 3px !important;}
+.basic_appearance .fl-tabs li a {bottom: 2px !important; #bottom: 1px !important;}
 .basic_appearance .fl-tabs .fl-activeTab a {background-color:#fff !important;border:1px solid #ddd;border-bottom-color: #eee; color:#000 !important;	font-weight:normal !important;}
 .basic_appearance .fl-tabs li a {background-color: #eee; border: 1px solid #eee; border-bottom-color: #ddd; bottom:1px; color: #000 !important;	margin-left: -1px;	padding: 6px 20px;	position: relative;}
 

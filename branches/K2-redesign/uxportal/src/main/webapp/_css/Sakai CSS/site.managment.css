@@ -16,4 +16,9 @@ width:70px;}
 .siteManage_person_roleView{
 	color: #ddd;
 }
+ul.fl-tabs li a{
+	position:relative;
+	bottom:-1px;
+	#bottom:1px;
+}
 .add-members .fl-col-fixed .fixed-container .selected-people-table{padding: 0; margin: 0 0 10px 10px; width: 100%;}

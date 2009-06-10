@@ -96,3 +96,8 @@ td {
 	position: fixed !important;
 	top: 50px !important;
 }
+.fl-tabs li a {
+	position:relative;
+	bottom:1px !important;
+	#bottom:0px !important; /* override for Microsoft Internet Explorer browsers*/
+}

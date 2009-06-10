@@ -768,20 +768,18 @@ sakai.inlineEdits = function(container, options){
 			var changedel = $(".options", tochangeTo);
 			
 			dropdown.bind("mouseenter", function(ev){
-				$(ev.currentTarget).addClass("inlineEdit-invitation");
+				$(ev.target).addClass("inlineEdit-invitation");
 			});
 			dropdown.bind("mouseleave", function(ev){
-				$(ev.currentTarget).removeClass("inlineEdit-invitation");
+				$(ev.target).removeClass("inlineEdit-invitation");
 			});
 			dropdown.bind("click", function(ev){
-				var parent = $(ev.currentTarget).parent();
+				var parent = $(ev.target).parent();
 				var dropdown = $(".dropdown",parent);
 				var tochangeTo = $(".editContainer", parent);
-				var changedel = $(".options", tochangeTo);
 				
 				var value = dropdown.text();
-				changedel.attr("value",value);
-				
+				$(".options" + " option[value=" + value + "]", tochangeTo).attr("selected", true);
 				if (dropdown.css("display") != "none"){
 					dropdown.hide();
 					tochangeTo.show();
@@ -790,7 +788,7 @@ sakai.inlineEdits = function(container, options){
 				}		
 			});
 			changedel.bind("blur", function(ev){
-				var parent = $(ev.currentTarget).parent().parent();
+				var parent = $(ev.target).parent().parent();
 				var dropdown = $(".dropdown",parent);
 				var tochangeTo = $(".editContainer", parent);
 				var changedel = $(".options", tochangeTo);
