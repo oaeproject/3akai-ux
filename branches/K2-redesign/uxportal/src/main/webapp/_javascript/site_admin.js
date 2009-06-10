@@ -979,7 +979,7 @@ sakai.site.site_admin = function(){
 				var length = split[0].length + 1 + split[1].length + 1 + split[2].length + 1; 
 				var placement = id.substring(length);
 
-				newwidget_id = type;
+				sakai._site.newwidget_id = type;
 				
 				$("#dialog_content").hide();
 				
@@ -1252,7 +1252,7 @@ sakai.site.site_admin = function(){
 	sakai._site.widgetFinish = function(tuid){
 		// Add widget to the editor
 		$("#insert_screen2_preview").html('');
-		tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[newwidget_id].img + '" id="' + newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+		tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + Widgets.widgets[sakai._site.newwidget_id].img + '" id="' + sakai._site.newwidget_uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
 
 		$('#insert_dialog').jqmHide(); 
 	};
