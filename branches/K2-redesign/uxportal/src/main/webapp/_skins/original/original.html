@@ -21,9 +21,9 @@
 		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
 		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.treeview.css" />
 		<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
-		
+			
     </head>
-    <body>
+    <body id="root" class="fl-centered fl-container">
 		
    		<!-- TrimPath Templates -->
 		<div id="editor_extra_buttons"><!--
@@ -102,7 +102,7 @@
 						<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
 						<li class="divider" style="display:none" id="li_edit_page_divider"></li>
 						<li><a href="javascript:;" id="print_page">Print page</a></li>
-						<li class="divider"></li>
+						<li class="divider"/>
 						<li><a href="javascript:;" id="more_link">More</a></li>
 					</ul>
 				</div>
@@ -119,7 +119,7 @@
 				<h1 id="pagetitle"></h1>
                 
 				<div class="content_page_header" style="display:none">
-                	<img src="_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
+                	<img src="_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" alt="Author"/>
 					<p><a href="#">John Doe</a></p>
 					<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
                 </div>
@@ -149,7 +149,7 @@
                     <div class="tab-nav-panel" id="tab-nav-panel">
                     	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
                         <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
-                        	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
+                        	<div class="mceToolbarExternal mceEditor defaultSkin"/>
                         </div>
 						<div class="fl-tab-content-border" id="title-input-container">
                             <input type="text" value="Untitled" class="title-input" id="title-input"/>
@@ -385,7 +385,7 @@
 		</div>
 		
 		<div class="context_menu" id="context_menu" style="display:none">
-			<img src="/dev/_images/edit_icon.png" width="20px"/>
+			<img src="/dev/_images/edit_icon.png" width="20px" alt="Edit Widget"/>
 			<br/>
 			<ul>
 				<li id="context_settings"><a href="javascript:;">Settings</a></li>
@@ -458,8 +458,6 @@
 			     </div>
 			</div>
 		</div>
-		
-		<script type="text/javascript" src="_javascript/site.js"></script>
 		
     </body>
 </html>
