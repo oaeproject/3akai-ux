@@ -174,8 +174,6 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     "body": openSocialMessage
                 })
             };
-			
-			alert("Here");
             
             // Do the invite.
             $.ajax({

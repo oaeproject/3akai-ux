@@ -95,7 +95,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 			bindSearchTo = putContentInId + " " + bindSearchTo;
 		}
 		
-		$(messageFieldMultipleTo, rootel).autocomplete(allFriends, {
+		$(messageFieldMultipleTo).autocomplete(allFriends, {
 		    minChars: 1,
 		    matchContains: true,
 		    multiple: true,
@@ -127,13 +127,13 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		var box = $.Template.render(messageMultipleToBox.replace(/#/,''), json);
         
         //	Add it too the DOM tree.
-        $(messageFieldMultipleTo, rootel).before(box);
+        $(messageFieldMultipleTo).before(box);
         
         //	Add some nice corners
-        $(messageMultipleToBoxResult, rootel).corners();
+        $(messageMultipleToBoxResult).corners();
         
         //	Clear the input box
-        $(messageFieldMultipleTo, rootel).val('');
+        $(messageFieldMultipleTo).val('');
                     
         //	add it too the selected list.
         selectedFriendsToPostTo.push(uid);
@@ -209,9 +209,9 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	 * Fade the message and close it.
 	 */
 	var fadeMessage = function() {
-		$(messageDone, rootel).fadeOut(fadeOutTime, function() {
+		$(messageDone).fadeOut(fadeOutTime, function() {
 			if (layover) {
-				$(messageDialogContainer, rootel).jqmHide();
+				$(messageDialogContainer).jqmHide();
 			}
 		});
 	};
@@ -225,31 +225,31 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		$(dialogFooterContainer).addClass(dialogFooterClass);
 
 		//	Clear all the input fields
-        $(messageFieldSubject + ", " + messageFieldBody + ", " + messageFieldMultipleTo, rootel).val('');
+        $(messageFieldSubject + ", " + messageFieldBody + ", " + messageFieldMultipleTo).val('');
 		
 		//	Remove classes
-		$(messageFieldSubject, rootel).removeClass(invalidClass);
-		$(messageFieldBody, rootel).removeClass(invalidClass);
+		$(messageFieldSubject).removeClass(invalidClass);
+		$(messageFieldBody).removeClass(invalidClass);
 		$(messageMultipleToInputContainer).removeClass(invalidClass);
 		$(messageFieldMultipleTo).removeClass(invalidClass);
 		
 		//	Remove al the inputted friends
-		$(messageMultipleToInputContainer + " span", rootel).remove();
+		$(messageMultipleToInputContainer + " span").remove();
 		selectedFriendsToPostTo = [];
 		
 		//	Remove all the results.
-        $(messageToResult, rootel).remove();
+        $(messageToResult).remove();
 		
 		//	Reset the array with the selected friends.
         selectedFriendsToPostTo = [];
 		
 		//	Hide the multiple container and show the single (since is the default view)
-		$(messageMultipleToContainer, rootel).hide();		
-		$(messageSingleToContainer, rootel).show();
+		$(messageMultipleToContainer).hide();		
+		$(messageSingleToContainer).show();
 		
 		//	Show the form and hide any previous messages.
-		$(messageDone, rootel).hide();
-		$(messageForm, rootel).show();
+		$(messageDone).hide();
+		$(messageForm).show();
 	};
 	
 	/**
@@ -258,7 +258,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	 */
 	var loadMessageDialog = function(hash) {		
 		//	Fill in the userdata
-		$(messageFieldFrom, rootel).text(me.profile.firstName + " " + me.profile.lastName);
+		$(messageFieldFrom).text(me.profile.firstName + " " + me.profile.lastName);
 		
 		//	Depending on the allowOthers variable we show the appropriate input
 		if (allowOthers) {
@@ -266,8 +266,8 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 			getAllFriends();
 			
 			//	We send this to multiple users.
-			$(messageSingleToContainer, rootel).hide();		
-			$(messageMultipleToContainer, rootel).show();
+			$(messageSingleToContainer).hide();		
+			$(messageMultipleToContainer).show();
 			
 			//	Check if the user exists
 			if (user !== null) {
@@ -278,13 +278,13 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		else {
 			//	We send this to a specific user.
 			//	Show the correct input box and fill in the name.
-			$(messageMultipleToContainer, rootel).hide();		
-			$(messageSingleToContainer, rootel).show();
+			$(messageMultipleToContainer).hide();		
+			$(messageSingleToContainer).show();
 			
 			//	check for null
 			if (user !== null) {
 				//	Fill in the username
-				$(messageFieldToSingle, rootel).text(user.firstName + " " + user.lastName);
+				$(messageFieldToSingle).text(user.firstName + " " + user.lastName);
 			}
 			
 			//	We add it to the selectedFriendsList
@@ -305,8 +305,8 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	 * @return true = no errors, false = error
 	 */
 	var checkFieldsForErrors = function() {
-		var subjectEl = $(messageFieldSubject, rootel);
-		var bodyEl = $(messageFieldBody, rootel);
+		var subjectEl = $(messageFieldSubject);
+		var bodyEl = $(messageFieldBody);
 		
 		var valid = true;
 		var subject = subjectEl.val();
@@ -345,26 +345,26 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	 */
 	var showMessageSent = function(succes) {
 		//	Clear the subject and body input fields
-		$(messageFieldSubject, rootel).val("");
-		$(messageFieldBody, rootel).val("");
+		$(messageFieldSubject).val("");
+		$(messageFieldBody).val("");
 		
 		//	show a message
 		//	We hide the formfield and show a message depending on the succes parameter.
-		$(messageForm, rootel).hide();
-		$(messageDone, rootel).show();
+		$(messageForm).hide();
+		$(messageDone).show();
 		
 		//	Remove any previous classes that their might be.
-		$(messageDone, rootel).removeClass(errorClass);
-		$(messageDone, rootel).removeClass(normalClass);
+		$(messageDone).removeClass(errorClass);
+		$(messageDone).removeClass(normalClass);
 		
 		//	Depending on success we add the correct class and show the appropriate message.
 		if (succes) {
-			$(messageDone, rootel).addClass(normalClass);
-			$(messageDone, rootel).text($(messageOK).text());
+			$(messageDone).addClass(normalClass);
+			$(messageDone).text($(messageOK).text());
 		}
 		else {
-			$(messageDone, rootel).addClass(errorClass);
-			$(messageDone, rootel).text($(messageError).text());
+			$(messageDone).addClass(errorClass);
+			$(messageDone).text($(messageError).text());
 		}
 		
 		//	If we have a valid callback function we call that
@@ -386,8 +386,8 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		//	Check the fields if there are any required fields that are not filled in.
 		if (checkFieldsForErrors()) {
 		
-			var body = $(messageFieldBody, rootel).val();
-			var subject = $(messageFieldSubject, rootel).val();
+			var body = $(messageFieldBody).val();
+			var subject = $(messageFieldSubject).val();
 		
 		
 			//	Construct the message.
@@ -462,8 +462,8 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		}
 		
 		//	Putting the subject and body which have been send in the textboxes
-		$(messageFieldBody, rootel).val(body);
-		$(messageFieldSubject, rootel).val(subject);
+		$(messageFieldBody).val(body);
+		$(messageFieldSubject).val(subject);
 		
 		//	Maybe we dont want to display a popup but instead want to add it in another div.
 		if (typeof insertInId !== "undefined") {
@@ -475,7 +475,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 				putContentInId = insertInId;
 				
 				//	Remove the dialog stuff.
-				$(dialogHeaderClass, rootel).remove();
+				$(dialogHeaderClass).remove();
 				$(messageDialogContainer).removeClass(dialogClass.replace(/\./,''));
 				$(dialogBoxContainer).removeClass(dialogBoxClass);
 				$(dialogFooterContainer).removeClass(dialogFooterClass);
@@ -515,7 +515,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	////////////////////
 	
 	//	When someone clicks the send button.
-	$(buttonSendMessage, rootel).bind("click", function(ev) {
+	$(buttonSendMessage).bind("click", function(ev) {
 		sendMessage();
 	});	
 	
@@ -526,14 +526,14 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	
 	
 	//	When the container gets clicked we focus the input box.
-	$(messageMultipleToInputContainer, rootel).click(function(){
-        $(messageFieldMultipleTo, rootel).focus();
+	$(messageMultipleToInputContainer).click(function(){
+        $(messageFieldMultipleTo).focus();
     });
 	
 	//	When the input box looses focus
-    $(messageFieldMultipleTo, rootel).blur(function(){
+    $(messageFieldMultipleTo).blur(function(){
 		//	Fadeout the "tooltip"
-        $(messageMultipleToWhat, rootel).fadeOut("normal");        
+        $(messageMultipleToWhat).fadeOut("normal");        
 		
 		//	Clear the input box
         $(this).val('');
@@ -542,23 +542,25 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	//	When someone focuses the to input field
 	//	we will show the tooltip.
     $(messageFieldMultipleTo).focus(function(){
-        $(messageMultipleToWhat, rootel).show();
+        $(messageMultipleToWhat).show();
     });
+	
 	
 	/*
 	//	Typing in the search box
     $(messageFieldMultipleTo).keydown(function(e){
-        if ($(messageFieldMultipleTo, rootel).val() !== '') {
+        if ($(messageFieldMultipleTo).val() !== '') {
 			//	If someone types in some text the tooltip can fade out.
-			$(messageMultipleToWhat, rootel).fadeOut("normal");
+			$(messageMultipleToWhat).fadeOut("normal");
         }
         else {
 			//	If the inputbox is empty we show the tooltip
-            $(messageMultipleToWhat, rootel).show();
+            $(messageMultipleToWhat).show();
         }
         return true;
     });
 	*/
+	
 	
 	//	If we delete a user
     $(messageMultipleToBoxDelete).live("click", function(){
@@ -575,7 +577,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	
 	//	When we get a result
 	$(messageFieldMultipleTo).result(function(event, data, formatted) {
-        if (!selectedFriendsToPostTo.contains(data.friendUuid)) {
+        if (!$.inArray(selectedFriendsToPostTo,data.friendUuid) > -1) {
             createToBox(data.profile.firstName + ' ' + data.profile.lastName, data.friendUuid);
         }
         $(this).val('');
