@@ -362,7 +362,7 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:0,
-			img:"/devwidgets/youtubevideo/images/icon.png"
+			img:"/devwidgets/youtubevideo/images/video.png"
 		},
 		tlrp :
 		{
