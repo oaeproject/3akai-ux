@@ -176,47 +176,51 @@
 		<img class="chat_button_image" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
 	</a>
 	<table>
-		<tr id="chat_available_me" class="chat_top_container">
-			{if me}
-			<td class="chat_available_image">
-				{if me.photo}
-					<img src="${me.photo}" width="40px" height="40px"/>
-				{else}
-					<img src="_images/person_icon.png" width="40px" height="40px"/>
+		<tbody>
+			<tr id="chat_available_me" class="chat_top_container">
+				{if me}
+				<td class="chat_available_image">
+					{if me.photo}
+						<img src="${me.photo}"/>
+					{else}
+						<img src="_images/person_icon.png" />
+					{/if}
+				</td>
+				<td>
+					<span class="chat_available_name chat_available_status_${me.chatstatus}">${me.name}</span><br />
+					<span class="chat_available_statusmessage">${me.statusmessage}</span>
+				</td>
 				{/if}
-			</td>
-			<td>
-				<span class="chat_available_name chat_available_status_${me.chatstatus}">${me.name}</span><br />
-				<span class="chat_available_statusmessage">${me.statusmessage}</span>
-			</td>
-			{/if}
-		</tr>
+			</tr>
+		</tbody>
 	</table>
 	<div id="chat_available_others" {if totalitems > 4} class="chat_available_others_overflow" {else} class="chat_available_others_nooverflow" {/if}>
 		<table>
-		{for i in items}
-			{if i.status == "online" && i.chatstatus != "offline"}
-				<tr class="chat_available_friend">
-					<td class="chat_available_image">
-						{if i.photo}
-							<img src="${i.photo}" width="32px" height="32px"/>
-						{else}
-							<img src="_images/person_icon.png" width="32px" height="32px"/>
-						{/if}
-					</td>
-					<td>
-						<span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.userid}">${i.name}</span><br />
-						<span class="chat_available_statusmessage">${i.statusmessage}</span>
+			<tbody>
+				{for i in items}
+					{if i.status == "online" && i.chatstatus != "offline"}
+						<tr class="chat_available_friend">
+							<td class="chat_available_image">
+								{if i.photo}
+									<img src="${i.photo}" />
+								{else}
+									<img src="_images/person_icon.png" />
+								{/if}
+							</td>
+							<td>
+								<span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.userid}">${i.name}</span><br />
+								<span class="chat_available_statusmessage">${i.statusmessage}</span>
+							</td>
+						</tr>
+					{/if}
+				{forelse}
+				<tr>
+					<td id="chat_no_online_connections">
+						No online connections found
 					</td>
 				</tr>
-			{/if}
-		{forelse}
-		<tr>
-			<td id="chat_no_online_connections">
-				No online connections found
-			</td>
-		</tr>
-		{/for}
+				{/for}
+			</tbody>
 		</table>
 	</div>
 --></div>
@@ -238,9 +242,9 @@
 				<tr class="chat_top_container">
 					<td class="chat_available_image">
 						{if i.photo}
-							<img src="${i.photo}" id="chat_window_photo_${i.userid}" width="40px" height="40px"/>
+							<img src="${i.photo}" id="chat_window_photo_${i.userid}" />
 						{else}
-							<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" width="40px" height="40px"/>
+							<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
 						{/if}
 					</td>
 					<td>

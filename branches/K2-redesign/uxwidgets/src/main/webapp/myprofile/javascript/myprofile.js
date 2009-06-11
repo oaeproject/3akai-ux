@@ -176,7 +176,9 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 	$(profileChatStatusDropDownLink).bind("click", function (ev) {
 		$(profileStatusContainer).toggle();
 	});
-	
+	$(profileChatStatusClass).bind("click", function (ev) {
+		$(profileStatusContainer).toggle();
+	});
 	
 	//	A user selects his status
 	$(profileChatStatusPicker).live("click", function (ev) {

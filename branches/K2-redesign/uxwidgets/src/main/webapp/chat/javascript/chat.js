@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie */
+/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie, window */
 
 var sakai = sakai || {};
 
@@ -161,9 +161,9 @@ sakai.chat = function(tuid, placement, showSettings){
 	
 	// Links and labels
 	var hiLabel = "#hispan";
+	var myprofileName = "#myprofile_name";
 	var onlineButton = "#online_button";
 	var pictureHolder = "#picture_holder";
-	var profileName = "#profile_name";
 	var showOnlineLink = "#show_online";
 	var userIdLabel = "#userid";
 	var widgetCreateSite = "#widget_createsite";
@@ -243,7 +243,6 @@ sakai.chat = function(tuid, placement, showSettings){
 	
 	var chatClass = ".chat";
 	var chatCloseClass = chatClass + "_close";
-	var chatMinClass = chatClass + "_min";
 	var chatMinimizeClass = chatClass + "_minimize";
 	var chatWithTxtClass = chatClass + "_with_txt";
 	
@@ -857,7 +856,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * @param {String} userid The user id of the user
 	 * @param {String} item Item that needs to be updated
 	 * @param {String} value Value in the element that needs to be updated
-	 */
+	 */	
 	var updateChatWindowElement = function(userid, item, value){
 		var el = $(chatWindow + "_" + item + "_" + userid);
 		switch(el.get(0).tagName.toLowerCase()){
@@ -1152,13 +1151,25 @@ sakai.chat = function(tuid, placement, showSettings){
 			json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
 			json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
 			json.me.chatstatus = currentChatStatus;
-			$(chatAvailable).html($.Template.render(chatAvailableTemplate, json));
+			
+			// We render the template, add it to a temporary div element and set the html for it.
+			var renderedTemplate = $.Template.render(chatAvailableTemplate, json).replace(/\r/g,'');
+			var renderedDiv = $(document.createElement("div"));
+			renderedDiv.html(renderedTemplate);
+			
+			// We only render the template when it's needed.
+			// The main reason we do this is to improve performance.
+			// It was not possible to compare the html from chatAvailable to the renderedTemplate (<br /> where replaced with <br>)
+			// so we made the temporary div, added the rendered template html for it and compared that to the html from chatAvailable 
+			if($(chatAvailable).html() !== renderedDiv.html()){
+				$(chatAvailable).html(renderedTemplate);
+			}
 		}
-		
+
 		addChatBinding();
-		
+
 		enableDisableOnline();
-		
+
 	};
 	
 	/**
@@ -1177,8 +1188,8 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var updateChatStatus = function(){
 		updateChatStatusElement($(userIdLabel), currentChatStatus);
-		if ($(profileName)) {
-			updateChatStatusElement($(profileName), currentChatStatus);
+		if ($(myprofileName)) {
+			updateChatStatusElement($(myprofileName), currentChatStatus);
 		}
 		showOnlineFriends();
 	};

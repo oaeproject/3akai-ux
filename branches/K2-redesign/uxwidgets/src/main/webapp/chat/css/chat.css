@@ -38,6 +38,14 @@
 .chat_top_container .chat_available_image{
 	width: 40px;
 }
+.chat_top_container .chat_available_image img{
+	height: 40px;
+	width: 40px;
+}
+.chat_available_friend img {
+	height: 32px;
+	width: 32px;
+}
 
 #chat_available_others .chat_available_image{
 	width: 32px;
