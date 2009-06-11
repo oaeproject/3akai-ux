@@ -5,6 +5,7 @@
 <div id="discussion_main_container" style="display:none">
 	<h3>Discussion</h3>
 	<div id="discussion_container">
+
 	</div>
 	<div id="discussion_container_template" style="display:none"><!--
 	{var close = false}
@@ -92,14 +93,14 @@
 			There are no posts available.
 		</div>
 	{/for}
-	{if close = true}
+	{if close}
 		</div>
 	{/if}
 --></div>	
 	<div id="discussion_edit_container" style="display:none;">
 		<form>
 			<input type="text" id="discussion_edit_subject" /><br />
-			<textarea id="discussion_edit_message"></textarea><br />
+			<textarea id="discussion_edit_message" rows="0" cols="0"></textarea><br />
 			<div class="buttonBar">
 				<a class="button-default save_button" href="javascript:;" id="discussion_edit_save">Save</a>
 				<a class="button cancel-button" href="javascript:;" id="discussion_edit_cancel">Cancel</a>

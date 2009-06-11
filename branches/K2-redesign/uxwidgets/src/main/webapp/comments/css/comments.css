@@ -24,6 +24,8 @@
 	height:20px;
 	border-color:#DEDEDE;
 	background-color:#F2F2F2;
+	padding-left:0px;
+	padding-right:0px
 }
 .comments_settingsPart{
 	border-bottom-style:solid;
@@ -34,15 +36,13 @@
 	
 }
 .comments_settingsPart ul li{
-	list-style-image:none;
-	list-style-type:none;
 	list-style:none;
 }
 #comments_txtPage{
 	width: 30px;
 }
-.comments_clear{
-	clear:both;
+.comments_buttonBar{
+	overflow:auto;
 }
 #comments_cancel{
 	float:left;

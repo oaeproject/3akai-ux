@@ -41,8 +41,7 @@
 	width: 100%;
 	border-style:solid;
 	border-width:1.5px;
-	padding-top:5px;
-	padding-bottom:5px;
+	padding: 5px 0px 5px 0px;
 	border-color:#DEDEDE;
 	background-color:#f4f4f4;
 	font-size:14px;
@@ -107,6 +106,9 @@
 	margin-left:20px;
 	margin-top:20px;
 	float:left;
+}
+.video_buttonBar{
+	overflow:auto;
 }
 .video_right_aligned_btn{
 	float:right;

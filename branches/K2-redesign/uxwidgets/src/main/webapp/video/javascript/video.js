@@ -29,6 +29,12 @@ var sakai = sakai || {};
  */
 sakai.video = function(tuid, placement, showSettings) {
 
+	var FlashPlayerParams = {
+        menu: "false",
+        allowScriptAccess: "always",
+        scale: "noscale",
+        allowFullScreen: "true"
+    };
 
 	var FlashPlayerParams = {
         menu: "false",
@@ -147,6 +153,7 @@ sakai.video = function(tuid, placement, showSettings) {
                 SWFID = videoTempShowMain.replace("#", "");
             }
         } catch(err) {
+			alert(err);
             $(videoTempShowMain, rootel).text("No valid video found.");
         }
     };
