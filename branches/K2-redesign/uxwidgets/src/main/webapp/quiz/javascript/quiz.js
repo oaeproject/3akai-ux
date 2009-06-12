@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, Querystring, DOMParser, RND */
+/*global $, Config, sdata, Querystring, DOMParser, RND, window */
 
 var sakai = sakai || {};
 
@@ -34,7 +34,6 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	/////////////////////////////
 	
     var json = false; 			// Variable used to recieve information by json
-    var me = sdata.me; 			// Contains information about the current user
     var rootel ="#" + tuid; 	// the main div id used by the widget
     var questions = [];
     var currentQuestion = {};
@@ -123,8 +122,6 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	
 	// Image lists
 	var quizImageListSiteName = quizId + "_imgSelectSite span";
-	var quizImgSiteList = quizId + "_ImgSiteList";
-	var quizImgSiteListTemplate = quizName + "_ListTemplate";	
 
 	// Buttons
 	var quizShowResults = quizId + "_showResults";
@@ -298,7 +295,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             for (var j = 0; j < json.results[i].questions.length; j++) {
                 json.titles[j] = json.questions[j].question;
 
-                if (typeof json.values[j] === "undefined") {
+                if (!json.values[j]) {
                     json.values[j] = 0;
                 }
                 if (json.results[i].questions[j].correct) {
@@ -348,6 +345,10 @@ sakai.quiz = function(tuid, placement, showSettings) {
         }
     };
 
+	/**
+	 * Adds the user result to the suplied json object and saves it to JCR
+	 * @param {Object} jsonTemp: the JSONobject to which the results should be updated
+	 */
 	var addUserResultToResults= function(jsonTemp){
 		// Then start making the JSON-object
 		// Add your score
@@ -388,7 +389,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	};
 
     /**
-	 * Adds the result of the quiz to results
+	 * retrieves the newest data and adds the result of the quiz to results
 	 */
     var addUserResult = function() {
 		// First update the results in case someone solved the quiz while you were taking it
@@ -1004,7 +1005,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 	 */
     var getQuestionObject = function() {
 		// check if an question type is checked
-		if (typeof $("input[name=" + quizAnswerTypeRbt + "]:checked").val() === "undefined") {
+		if (!$("input[name=" + quizAnswerTypeRbt + "]:checked").val()) {
 			return null;
 		}
 		// check witch type of anser is expected
@@ -1029,7 +1030,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         question.index = questions.length;
         question.img = "";
 		// add an image if this is added
-        if (typeof currentQuestion.img !== "undefined") {
+        if (currentQuestion.img) {
             question.img = currentQuestion.img;
         }
         return question;
@@ -1233,6 +1234,8 @@ sakai.quiz = function(tuid, placement, showSettings) {
             rect += "<a href='javascript:;' class='quiz_imgTagClose' id='quiz_imgTagClose" + index + "'>X</a><div class='quiz_back_imgTag' id='quiz_back_imgTag" + index + "'></div></div>";
             rect += "<div class='quiz_tagText'>" + tag;
             rect += "</div></div>";
+			
+		
 			// add the container to the image
             $(quizImgTagContainer, rootel).append(rect);
             $("." + quizImgTagCloseName, rootel).unbind("click", imgCloseClickHandler);
@@ -1259,10 +1262,8 @@ sakai.quiz = function(tuid, placement, showSettings) {
             $(quizTagImgInfo, rootel).show();
 			// show the preview
             preview(sel);
-            if (lastSelection !== null) {
-                if (typeof lastSelection.isAdded !== "undefined") {
-                    sel.isAdded = lastSelection.isAdded;
-                }
+            if (lastSelection !== null && lastSelection.isAdded) {
+                sel.isAdded = lastSelection.isAdded;
             }
             $(quizImgTagPreviewContainer, rootel).show();
             lastSelection = sel;
@@ -1270,14 +1271,13 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		// if the selection was just a click then appan the current selection (if saved)
         else {
             if (lastSelection !== null) {
-                if (typeof lastSelection.isAdded !== "undefined") {
+                if (lastSelection.isAdded) {
                     if (lastSelection.isAdded) {
                         appendRectangle(lastSelection, $(quizTxtTag, rootel).val());
                     }
                 }
             }
         }
-
     };
 	
 	/**
@@ -1327,7 +1327,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
     var saveImgTaggerHandler = function(e, ui) {
         e.data.answerType = quizAnswerTypeImageTagger;
         e.data.answer = getImgTaggerAnswerQuestionObject();
-        if (typeof e.data.index !== "undefined") {
+        if (e.data.index) {
             questions[e.data.index] = e.data;
         }
         else {
@@ -1378,7 +1378,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 		$(quizTabs, rootel).hide();
         $("." + quizMainTabContainer, rootel).hide();
         $(quizSettingsImgTagger, rootel).show();
-        if (typeof question.answer !== "undefined") {
+        if (question.answer) {
             setSettingsNextButtons(quizImgTagger2Name);
         }
         else {
@@ -1386,7 +1386,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         }
 		// initialialize the imgTagger
         imgTagger();
-        if (typeof question.answer !== "undefined") {
+        if (question.answer) {
             for (var i = 0; i < question.answer.answers.length; i++) {
                 appendRectangle(question.answer.answers[i], question.answer.answers[i].tag);
             }

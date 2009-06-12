@@ -34,7 +34,9 @@
 .quiz_noBorder{
 	border:none;
 }
-
+.quiz_widthSet{
+	width: 210px;
+}
 /*Settings*/
 .quiz_tabs{
 	margin-left:0px;
@@ -260,11 +262,15 @@
 	background: url(../images/quiz_editIcon.png) no-repeat left top;
 }
 .quiz_editAbtn{
-	height:30px;	
+	height:30px;
+	padding-left:25px	
 }
 .quiz_overviewlist input[type=text]{
 	background-color:#ffffff;
 	margin:0px;
+}
+#quiz_txtTag{
+	width:200px;
 }
 
 /*For list */
@@ -285,6 +291,19 @@
 	border-color:#7a7a7a;
 	overflow:auto;
 	overflow-x:hidden;
+	height:250px;
+}
+.quiz_removeQbtn{
+	margin-right:20px;
+}
+.quiz_leftImage{
+	width:100px;
+}
+.quiz_leftImage_container{
+	width:440px;
+}
+.quiz_leftNoImageContainer{
+	width:540px;
 }
 .quiz_normalList div{
 	width:100%;
@@ -323,6 +342,7 @@
 }
 .quiz_questionSpan{
 	font-weight:bold;
+	margin-bottom:10px;
 }
 .quiz_questionsBtnBar{
 	position: absolute; 
@@ -334,6 +354,13 @@
 	border-top-style:solid;
 	border-top-width:1px;
 	padding-top:10px;
+	margin-top:20px;
+}
+#quiz_txtQuestion{
+	margin-bottom:10px;
+}
+.quiz_questionSpan_correctAnswer{
+	margin-bottom:20px;
 }
 #quiz_answerPopup{
 	width:260px;
@@ -496,4 +523,31 @@
 }
 .quiz_editQbtn{
 	text-align:right;width:50px;
+}
+#quiz_NormalAnswertxtAnswer, #quiz_MultipleAnswersContainer{
+	width:450px;
+}
+#quiz_infoHoverContainer{
+	margin-top:5px;
+}
+#quiz_addMediaToQ{
+	padding-top:5px;
+}
+.quiz_addQuestion{
+	margin-top:20px;
+}
+.quiz_normalList{
+	height:200px;
+}
+.quiz_insertQuestion{
+	margin-left:150px;
+}
+#quiz_btnadvancedSettings{
+	margin-top:20px;
+}
+#quiz_advancedSettings{
+	margin-left:20px;
+}
+#quiz_txtNumRandomQ{
+	width:30px;
 }

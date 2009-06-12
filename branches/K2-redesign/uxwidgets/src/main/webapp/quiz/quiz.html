@@ -1,5 +1,5 @@
 <!-- STYLESHEETS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/quiz/css/quiz.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/quiz/css/quiz.css" />
 
 <!-- MAIN CONTAINER -->
 <div id="quiz_mainContainer" style="display:none;">
@@ -26,7 +26,7 @@
 				You have ${timeLimit} minutes to complete this quiz<br />
 			{/if}
 				
-				<br /><br />
+
 				<div class="quiz_questionsBtnBar">
 				<a class="button-default quiz_left" id="quiz_showResults" href="javascript:;">Show results</a>
 					<a class="button-default quiz_right" id="quiz_startQuizBtn" href="javascript:;">Start quiz</a>
@@ -56,7 +56,7 @@
 		<div id="quiz_answerPopup" style="display:none"></div>
 			<div class="quiz_questionPart">
 			<span class="quiz_questionSpan">${question}</span><br />
-			<br />
+
 			{if answerType == 'quiz_NormalAnswerRbt'}
 				<input type="text" id="quiz_answer" />
 			{elseif (answerType == 'quiz_MultipleAnswersRbt')}
@@ -75,7 +75,7 @@
 				</ul>
 			{elseif answerType == "quiz_imgTagger"}
 				<div class="quiz_relative">
-				<img class="quiz_img" src="${img}" />
+				<img class="quiz_img" src="${img}" alt="image" />
 				{for i in answer.answers}
 					<div class="quiz_dragTag" id="quiz_dragTag${answer.answers.indexOf(i)}" style="left:10px;top:${35*answer.answers.indexOf(i) + 10}px"><div>${i.tag}</div></div>
 				{/for}
@@ -83,7 +83,7 @@
 				<div class="quiz_clear" ></div>
 			{/if}
 			{if img != "" && answerType != "quiz_imgTagger"}
-				<img src="${img}" class="quiz_questionImg"/>
+				<img src="${img}" class="quiz_questionImg" alt="image"/>
 			{/if}
 			<div>
 			<div class="quiz_questionsBtnBar">
@@ -109,13 +109,13 @@
 		<tr class="quiz_noBorder">
 		<td class="quiz_noBorder">
 		{if i.correct}
-		<img src="/devwidgets/quiz/images/quiz_thumbsup.png" />
+		<img src="/devwidgets/quiz/images/quiz_thumbsup.png" alt="thumbs up"/>
 		{else}
-		<img src="/devwidgets/quiz/images/quiz_thumbsdown.png" />
+		<img src="/devwidgets/quiz/images/quiz_thumbsdown.png" alt="thumbs down"/>
 		{/if}
 		</td>
 			
-		<td class="quiz_noBorder" style="width:210px;">
+		<td class="quiz_noBorder quiz_widthSet">
 			<span>${i.question}</span><br />
 			{if i.answerType == 'quiz_NormalAnswerRbt'}
 				<span>${i.answered}</span>
@@ -183,7 +183,7 @@
                 	</li>
             	{/for}
 			</ul>
-			<img class="quiz_right" src="http://chart.apis.google.com/chart?chs=350x200&chd=t:${procValues.join(',')}&cht=${resultDisplay}${axis}${values}&chf=bg,s,f1f1f1&chco=${colorsJoined}" />
+			<img alt="problem while loading statistics" class="quiz_right" src="http://chart.apis.google.com/chart?chs=350x200&chd=t:${procValues.join(',')}&cht=${resultDisplay}${axis}${values}&chf=bg,s,f1f1f1&chco=${colorsJoined}" />
 		{else}
 			<ul class="quiz_resultGraphTemplateUL">
 				{for i in titles}
@@ -225,7 +225,7 @@
 		<div id="quiz_InsertQContainer" class="quiz_maintabContainer">
 			<label for="quiz_txtQuestion">Question:</label><br />
 			<input type="text" id="quiz_txtQuestion"/><br />
-			<br />
+
 			Answer types:<br />
 			<ul id="quiz_answertypes" >
 				<li>
@@ -241,10 +241,10 @@
 			</ul>
 			<div id="quiz_answerTypeContainers">
 				<div id="quiz_NormalAnswerContainer">
-					<input type="text" style="width:450px;" id="quiz_NormalAnswertxtAnswer"/><br />
+					<input type="text" id="quiz_NormalAnswertxtAnswer"/><br />
 					<br />
 				</div>
-				<div id="quiz_MultipleAnswersContainer" style="display:none;width:425px">
+				<div id="quiz_MultipleAnswersContainer" style="display:none;">
 					<div id="quiz_MultipleAnswersListContainer" >
 					</div>
 					<a href="javascript:;" class="button-default" id="quiz_addAnswerToMultipleAnswers" >Add answer</a><br />
@@ -260,42 +260,39 @@
 			--></div>
 				
 			</div>
-			<div style="margin-top:5px;">
+			<div id="quiz_infoHoverContainer">
 					<img src="/devwidgets/quiz/images/quiz_infoIcon.png" alt="info" id="quiz_showInfo" class="quiz_left"><img>
 					<div id="quiz_info" style="display:none;">
 						<div>
-							<img src="../../devwidgets/quiz/images/quiz_pictureicon.png" class="quiz_left" ><img>
+							<img src="/devwidgets/quiz/images/quiz_pictureicon.png" alt="picture" class="quiz_left" ><img>
 							<p class="quiz_left">
-								You can use the image to ask visual illustrated questions, for example: "What do you see on the picture below?"
+								You can use the image to ask visual illustrated questions&#44; for example: &#34;What do you see on the picture below?&#34;
 								or you can just add it as a decorative item.
 							</p>
 							<div class="quiz_clear"></div>
 						</div>
 						<div>
-							<img src="../../devwidgets/quiz/images/quiz_mathformulaicon.png" class="quiz_left" ><img>
+							<img src="/devwidgets/quiz/images/quiz_mathformulaicon.png" alt="math" class="quiz_left" ><img>
 							<p class="quiz_left">
-								You can use the image to ask mathematical questions, for example: "What is the solution on this formula?". 
+								You can use the image to ask mathematical questions&#44; for example: &#34;What is the solution on this formula?&#34;. 
 							</p>
 							<div class="quiz_clear"></div>
 						</div>
 						<div>
-							<img src="../../devwidgets/quiz/images/quiz_imagetaggingicon.png" class="quiz_left"><img>
+							<img src="/devwidgets/quiz/images/quiz_imagetaggingicon.png" alt="image tagging" class="quiz_left"><img>
 							<p class="quiz_left">
-								You can add tags to you image, that way you can ask to point at parts of an image, for example: "Drag the heart tag to the right place."
+								You can add tags to you image&#44; that way you can ask to point at parts of an image&#44; for example: &#34;Drag the heart tag to the right place.&#34;
 							</p>
 							<div class="quiz_clear"></div>
 						</div>
-						
-						
-						
 					</div>
-					<p class="quiz_left" style="padding-top:5px;">
+					<p class="quiz_left" id="quiz_addMediaToQ">
 						Add media to your question: 
 					</p>
 					<div class="quiz_clear"></div>
 					<ul class="quiz_tabs">
 						<li>
-							<a class="quiz_imgTab quiz_selectedtab" href="javascript:;" id="quiz_imgSelectSite">Select image from "<span></span>"</a>
+							<a class="quiz_imgTab quiz_selectedtab" href="javascript:;" id="quiz_imgSelectSite">Select image from &#34;<span></span>&#34;</a>
 						</li>
 						<li>
 							<a class="quiz_imgTab quiz_tab" href="javascript:;" id="quiz_imgSelectURL">Select image from URL</a>
@@ -313,9 +310,7 @@
 								</div>
 								<br />
 								<a class="button-default quiz_insertImg" id="quiz_insertSiteRescourseImg" href="javascript:;">Insert image</a><br />
-								
 							</div>
-							
 						</div>
 						<div id="quiz_imgSelectURLContainer"  class="quiz_tabContainer" style="display:none;">
 							<div class="quiz_tabContainer_left">
@@ -327,7 +322,6 @@
 								<a class="button-default quiz_imgTagQuestion" href="javascript:;">Insert image tagger</a>
 							</div>	
 							<div class="quiz_tabContainer_right" id="quiz_URLimgPreview">
-							
 							</div>							
 						</div>
 						<div id="quiz_ImgSelectHDContainer"  class="quiz_tabContainer"  style="display:none;">
@@ -346,14 +340,14 @@
 						<div class="quiz_clear"></div>
 					</div>	
 					<br />
-					<a class="button-default quiz_addQuestion" style="margin-top:20px;"  href="javascript:;">Add question to quiz</a>
+					<a class="button-default quiz_addQuestion" href="javascript:;">Add question to quiz</a>
 				</div>
 			</div>
 		<div id="quiz_selectQContainer" style="display:none;" class="quiz_maintabContainer">
 			<label>Select existing quiz:</label><br />
 			<div id="quiz_existingQuizList"></div><br />
 			<div id="quiz_ExistingQuizListTemplate"><!--
-				<div class="quiz_normalList" style="height:200px;">
+				<div class="quiz_normalList">
 					{for i in items}
 					<div>
 						<a href="javascript:;" class="quiz_existingQuizListItem" id="quiz_existingQuizListItem${items.indexOf(i)}">
@@ -373,9 +367,9 @@
 				
 			<div class="quiz_questionPart">
 			<span class="quiz_questionSpan">${question}</span><br />
-			<br />
+			
 			{if answerType == 'quiz_NormalAnswerRbt'}
-				${correctAnswer}<br /><br />
+				<div class="quiz_questionSpan_correctAnswer">${correctAnswer}</div>
 			{elseif answerType == 'quiz_MultipleAnswersRbt'}
 				<ul>
 				{for i in answer.answers}
@@ -388,13 +382,13 @@
 				</ul>
 			{/if}
 			{if img != ""}
-				<img src="${img}" class="quiz_questionImg"/>
+				<img src="${img}" alt="image" class="quiz_questionImg"/>
 			{/if}
 			<div>
 			<div>
-			<a class="button-default quiz_changeQuestion quiz_left" style="float:left;" id="quiz_changeQuestion${Previndex}" href="javascript:;">Previous question</a>
-			<a class="button-default quiz_insertQuestion quiz_left" style="float:left;margin-left:150px;"  href="javascript:;">Insert question</a>
-			<a class="button-default quiz_changeQuestion quiz_right" style="float:right;" id="quiz_changeQuestion${Nextindex}" href="javascript:;">Next question</a>
+			<a class="button-default quiz_changeQuestion quiz_left" id="quiz_changeQuestion${Previndex}" href="javascript:;">Previous question</a>
+			<a class="button-default quiz_insertQuestion quiz_left" href="javascript:;">Insert question</a>
+			<a class="button-default quiz_changeQuestion quiz_right" id="quiz_changeQuestion${Nextindex}" href="javascript:;">Next question</a>
 			<div class="quiz_clear"></div>
 			<div>
 			--></div>
@@ -406,9 +400,9 @@
 			</div>
 			
 			
-			<a class="button-default quiz_lastQuestion quiz_right" id="quiz_btnadvancedSettings" style="margin-top:20px;" href="javascript:;">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></a>
+			<a class="button-default quiz_lastQuestion quiz_right" id="quiz_btnadvancedSettings" href="javascript:;">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></a>
 			<div class="quiz_clear" ></div>
-			<div style="margin-left:20px;display:none;" id="quiz_advancedSettings">
+			<div style="display:none;" id="quiz_advancedSettings">
 				<label for="quiz_txtTitle" class="quiz_bigLabel">Quiztitle:</label><br />
 				<input type="text"  id="quiz_txtTitle"/>
 				<br />
@@ -416,7 +410,7 @@
 				<ul class="quiz_inlineList">
 					<li><input type="radio" checked="true" name="quiz_randomQuestionSetting" id="quiz_askAllQuestionsSettingID"><label for="quiz_askAllQuestionsSettingID" class="quiz_label">all</label></input></li>
 				<li><input type="radio" name="quiz_randomQuestionSetting" id="quiz_askNumQsettingID" value="quiz_askNumQsetting">
-					<label for="quiz_askNumQsettingID" class="quiz_label"><input type="text" id="quiz_txtNumRandomQ" style="width:30px"/></label>
+					<label for="quiz_askNumQsettingID" class="quiz_label"><input type="text" id="quiz_txtNumRandomQ" /></label>
 				</input></li>
 				</ul>
 				
@@ -424,7 +418,7 @@
 					<label class="quiz_bigLabel">Would you like to display the results?</label><br />
 				<ul>
 				<li><input type="radio" checked="true" id="quiz_everyoneShowResultsID" value="quiz_everyoneShowResults" name="quiz_displaySetting">
-				<label for="quiz_everyoneShowResultsID" class="quiz_label">Yes, everyone can see the results</label>
+				<label for="quiz_everyoneShowResultsID" class="quiz_label">Yes&#44; everyone can see the results</label>
 				</input></li>
 				<li><input type="radio" id="quiz_teacClassShowResultsID" value="quiz_teacClassShowResults" name="quiz_displaySetting">
 				<label for="quiz_teacClassShowResultsID" class="quiz_label">Show results to classmates and teachers</label>
@@ -469,7 +463,7 @@
 			</div>
 			
 			<div id="quiz_lstOverviewQTemplate"><!--
-				<div class="quiz_overviewlist" style="height:250px;">
+				<div class="quiz_overviewlist">
 					{for i in questions}
 					<div class="quiz_overviewListItem">
 						<div class="quiz_left">
@@ -480,7 +474,7 @@
 							{/if}
 						</div>
 						<div class="quiz_right">
-						<a href="javascript:;" class="quiz_removeQbtn" style="margin-right:20px;" id="quiz_removeQbtn${questions.indexOf(i)}">
+						<a href="javascript:;" class="quiz_removeQbtn" id="quiz_removeQbtn${questions.indexOf(i)}">
 							X Remove
 						</a>
 						</div>
@@ -495,10 +489,10 @@
 					{if questions.indexOf(i) == selectedIndex}
 					<div>
 					{if i.img != ""}
-						<img src="${i.img}" class="quiz_left" style="width:100px"></img>
-						<div class="quiz_left" style="width:440px;">
+						<img src="${i.img}" alt="image" class="quiz_left quiz_leftImage"></img>
+						<div class="quiz_left quiz_leftImage_container">
 					{else}
-						<div class="quiz_left" style="width:540px;">
+						<div class="quiz_left quiz_leftNoImageContainer">
 					{/if}
 					
 					{if i.answerType == "quiz_NormalAnswerRbt"}
@@ -510,7 +504,7 @@
 						{/if}
 						</div>
 						<div class="quiz_right">
-							<a href="javascript:;" class="quiz_editAbtn" style="padding-left:25px">
+							<a href="javascript:;" class="quiz_editAbtn">
 								Edit
 							</a>
 						</div>
@@ -530,7 +524,7 @@
 								</a>
 							</div>
 							<div class="quiz_right">
-								<a href="javascript:;" class="quiz_editAbtn" id="quiz_editAbtn${showAnswers.indexOf(j)}" style="padding-left:25px">
+								<a href="javascript:;" class="quiz_editAbtn" id="quiz_editAbtn${showAnswers.indexOf(j)}">
 									Edit
 								</a>
 							</div>
@@ -567,14 +561,14 @@
 			<h1>Image tagger</h1>
 			<label>${question}</label><br />
 			<div id="quiz_imgTagContainer">
-				<img id="quiz_tagImg" src="${image}" />
+				<img id="quiz_tagImg" alt="tag image" src="${image}" />
 			</div>
 			<div id="quiz_tagImgPreviewContainer">
-				<img id="quiz_tagImgPreview" src="${image}" />
+				<img id="quiz_tagImgPreview" alt="tag image preview"  src="${image}" />
 			</div>
 			<div id="quiz_tagImgInfo" style="display:none;">
 				<form class="quiz_form">
-					<input type="text" id="quiz_txtTag" style="width:200px;"></input>
+					<input type="text" id="quiz_txtTag"></input>
 					<a class="button-default" class="quiz_left" id="quiz_addTag" href="javascript:;">Add tag to image</a>
 				</form>
 			</div>
@@ -595,8 +589,8 @@
 	</form>
 </div>
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/rijndael.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/jquery.imgareaselect-0.7.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/idrag.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/iutil.js"></script>
-<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/javascript/quiz.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/rijndael.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/jquery.imgareaselect-0.7.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/idrag.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/iutil.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/javascript/quiz.js" />
