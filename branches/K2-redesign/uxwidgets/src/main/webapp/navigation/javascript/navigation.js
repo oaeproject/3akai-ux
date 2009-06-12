@@ -201,7 +201,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 			}
 		}
 		
-		// Render the output template		
+		// Render the output template
 		$(navigationOutput).html($.Template.render(navigationOutputTemplate,jsonNavigation));	
 	};
 	
@@ -219,7 +219,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 		$(navigationOutput).show();
 	}
 	
-	sakai._site.navigationLoaded();
+	sakai.site.onNavigationLoaded();
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("navigation");
