@@ -2,8 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/sites/css/sites.css" />
 
 <!-- ERRORS -->
-<span style="font-size:0.95em;display:none;" id="sites_error_nosites">You aren't a member of any sites yet</span>
-<span id="sites_error_nosettings" style="display:none;" >No settings available.</span>
+<span id="sites_error_nosites" class="sites_error" style="display:none;">You aren't a member of any sites yet.</span>
+<span id="sites_error_nosettings" class="sites_error" style="display:none;" >No settings available.</span>
 
 <!-- CONTENT -->
 <div class="my_course_sites_widget">
@@ -27,6 +27,8 @@
 
 <!-- CONTAINER FOR THE CREATESITE CONTAINER -->
 <div id="createsitecontainer" style="display:none;">
+	
+	<!-- We need this container to show the pop-up where you can add a site -->
 	<div id="widget_createsite" class="widget_inline"></div>
 </div>
 

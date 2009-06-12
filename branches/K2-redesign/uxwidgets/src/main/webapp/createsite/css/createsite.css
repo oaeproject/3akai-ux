@@ -17,71 +17,31 @@
  */
 
 /* Global */
-.createsite_information {
-	color: #999999;
-	font-size: 0.9em;
-}
-.createsite_strong {
-	color: #000000;
-	font-weight: bold;
-}
+.createsite_maxcharacters {color:#999;font-size:.9em;}
+.createsite_information {color:#999;float:left;font-size:.9em;margin-left:10px;}
+.createsite_strong {color:#000;font-weight:700;}
 
 /* Container */
-#createsite_container input[type="text"]{
-	float: left;
-	margin-top: 10px;
-}
-#createsite_container textarea{
-	clear: both;
-	width: 100%;
-}
+#createsite_container input[type="text"] {float:left;margin-top: 10px;}
+#createsite_container textarea {clear:both;width:100%;}
+
+/* Is Course */
+#createsite_iscoursesite {float:left;}
 
 /* Course */
-#createsite_course_container p {
-	margin-top: 12px;
-}
+#createsite_course_container p {clear:both;margin-top:40px;}
 
 /* Course and non course */
-#createsite_course_container, #createsite_noncourse_container {
-	margin-top: 5px;
-}
+#createsite_course_container, #createsite_noncourse_container {margin-top:5px;}
 
 /* Non course */
-#createsite_noncourse_container input[type="radio"]{
-	float: left;
-	margin-top: 10px;
-}
-#createsite_noncourse_container label {
-	clear: both;
-	color: #000000;
-	float: left;
-	font-weight: bold;
-	margin-top: 12px;
-	width: 80px;
-}
-#createsite_noncourse_description {
-	margin: 5px 0;
-}
-#createsite_noncourse_template_container {
-	float: left;
-	margin-top: 4px;
-}
-#createsite_noncourse_template_container label {
-	clear: none;
-	float: left;
-	font-weight: normal;
-	margin: 9px 0 0 5px;
-}
-#createsite_noncourse_name {
-	width: 280px;
-}
-#createsite_noncourse_url {
-	float: left;
-	margin: 12px 5px 0 0;
-}
+#createsite_noncourse_container input[type="radio"] {float:left;margin-top:10px;}
+#createsite_noncourse_container label {clear:both;color:#000000;float:left;font-weight:bold;margin-top:12px;width:80px;}
+#createsite_noncourse_description {margin:5px 0;}
+#createsite_noncourse_template_container {float:left;margin-top:4px;}
+#createsite_noncourse_template_container label {clear:none;float:left;font-weight:normal;margin:9px 0 0 5px;}
+#createsite_noncourse_name {width:280px;}
+#createsite_noncourse_url {float:left;margin:12px 5px 0 0;}
 
 /* Override elements */
-#createsite_container .dialog_footer{
-	margin-top: 15px;
-	padding-left: 0;
-}
+#createsite_container .dialog_footer {margin-top:15px;padding-left:0;}

@@ -16,15 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
- /* Page */
-#navigation_page_children {
-	padding: 2px 0px 0px 10px;
-}
-#navigation_page_selected {
-	font-weight: bold;
-}
-#navigation_page_top {
-	background: url(/dev/_images/level_up.png) no-repeat;
-	padding-left: 17px;
-}
-
+ /* Main */
+#navigation_page_children {padding:2px 0 0 10px;}
+#navigation_page_selected {font-weight:700;}
+#navigation_page_top {background:url(/dev/_images/level_up.png) no-repeat;padding-left:17px;}

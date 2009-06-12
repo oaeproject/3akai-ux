@@ -16,16 +16,16 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global Config, $, sdata */
+/*global Config, $, sdata, window */
 
 var sakai = sakai || {};
 sakai.tangler = function(tuid, placement, showSettings){
 
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
-	
-	var functiontodoaftersettings = false;
+
 	var rootel = $("#" + tuid);
 	var argumentsCalleeDone = false;
 	
@@ -74,6 +74,9 @@ sakai.tangler = function(tuid, placement, showSettings){
 			// We put everything inside a try block so when we encounter an error, we
 			// just show an error message.
 			try {
+				// All the code you find beneath is not from Sakai!
+				// It is a copy paste from http://www.tangler.com/widget/embedtopic.js with some modifications
+				
 				// Split the response in 2 major parts: the paragraph and the script part
 				var split = response.split("<script");
 				
@@ -105,7 +108,6 @@ sakai.tangler = function(tuid, placement, showSettings){
 				var embedElement = $("#" + eleId, rootel)[0];
 				
 				var contextUrl = false;
-				//var contextUrl = params['cUrl'];
 		
 				var width = "410px";
 				var height = "480px";
@@ -133,7 +135,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 				if( !isIE ) 
 				{
 					var a = document.createElement("a");
-					a.href = 'http://localhost:8080/forum/id-' + gid + '/topic/' + id;
+					a.href = Config.SakaiDomain + 'forum/id-' + gid + '/topic/' + id;
 					a.target = "_blank";
 					a.appendChild(document.createTextNode("Join this disucssion"));
 					iframe.appendChild(a);
@@ -154,9 +156,10 @@ sakai.tangler = function(tuid, placement, showSettings){
 	 */
 	var saveNewSettings = function(){
 		var val = $(tanglerCode, rootel).val();
+
 		// To check if the textarea contains anything, we use regular expressions.
 		// The reason we don't use the length method for the string is that a space " "
-		// is in fact also a character.
+		// is in fact also a character. More validation happens when the string is parsed
 		if (!val || val.replace(/ /g, "%20") === "") {
 			$.ajax({
 				url: "/sdata/f/" + placement + "/" + tuid + "/tangler",
@@ -184,6 +187,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 	 * Close the settings pop-up (lightbox) when you hit the cancel button
 	 */
 	$(tanglerCancel, rootel).bind("click",function(){
+
 		// This lets the sdata container know that the current settings view
 		// of the widget should be closed. We pass the tuid of the widget to
 		// let the container know which widget it should close.
@@ -207,6 +211,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 		$.ajax({
 			url :"/sdata/f/" + placement + "/" + tuid + "/tangler",
 			cache: false,
+
 			// The GET request will be succesful if you are editing a tangler forum
 			// that is already on the page
 			success : function(data) {
@@ -218,6 +223,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 					showForum(data,true);
 				}
 			},
+
 			// This will fail when it is not possible to connect to the server
 			// and when you are creating a completely new tangler forum
 			error : function(status) {

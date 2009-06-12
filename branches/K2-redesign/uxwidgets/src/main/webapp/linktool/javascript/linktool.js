@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, get_cookie, Querystring */
+/*global $, sdata, get_cookie, Querystring, Config */
 
 var sakai = sakai || {};
 
@@ -417,10 +417,10 @@ sakai.linktool = function(tuid, placement, showSettings){
 	 */
 	if (showSettings) {
 		$(linktoolMainContainer).hide();
-		$("#linktool_settings").show();
+		$(linktoolSettings).show();
 	}
 	else {
-		$("#linktool_settings").hide();
+		$(linktoolSettings).hide();
 		$(linktoolMainContainer).show();
 	}
 	
@@ -444,6 +444,8 @@ sakai.linktool = function(tuid, placement, showSettings){
 				}
 			},
 			error: function(status){
+				// When the request isn't successful, it means that  there was no existing linktool
+				// so we show the basic settings.
 				displaySettings(null, false);
 			}
 		});

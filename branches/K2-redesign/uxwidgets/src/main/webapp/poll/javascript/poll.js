@@ -47,6 +47,17 @@ sakai.poll = function(tuid, placement, showSettings){
 	var addNewOptionOnEnter = true; 		// Add a new option when pressing enter
 	var saveAllToDatabase = false; 			// Save the poll to the list of polls
 
+	// Temporary variables used for preview
+	previewOptions = [
+		{answer: "Option 1"},
+		{answer: "Option 2"},
+		{answer: "Option 3"},
+		{answer: "Option 4"},
+		{answer: "Option 5"}
+	];
+	previewQuestion = "How is the weather in England?";
+	previewVotes = [180,124,45,78,250];
+
 	// - ID
 	var poll = "#poll";
 	var pollAddNewOption = poll + "_add_new_option";
@@ -262,10 +273,10 @@ sakai.poll = function(tuid, placement, showSettings){
 			// If the poll is in preview mode, we add some dummy data
 			json.poll.temp={};
 			json.poll.temp.options = [];
-			json.poll.temp.options = [{answer: "Option 1"},{answer: "Option 2"},{answer: "Option 3"},{answer: "Option 4"},{answer: "Option 5"}];
+			json.poll.temp.options = previewOptions;
 			
 			json.poll.temp.votes = [];
-			json.poll.temp.votes = [180,124,45,78,250];
+			json.poll.temp.votes = previewVotes;
 			
 			totalvotes = json.poll.temp.votes.length;
 			totalvotescount = 0;
@@ -279,7 +290,7 @@ sakai.poll = function(tuid, placement, showSettings){
 				json.poll.temp.processedVotes[j] = {};
 				json.poll.temp.processedVotes[j].percentage = Math.round(json.poll.temp.votes[j] / totalvotescount * 100);
 			}
-			json.poll.temp.question = "How is the weather in England?";
+			json.poll.temp.question = previewQuestion;
 			
 		}else{
 			

@@ -1,9 +1,11 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/discussion/css/discussion.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/discussion/css/discussion.css" />
 
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
 	<h3>Discussion</h3>
+	
+	<!-- MAIN CONTAINER FOR DISCUSSIONS -->
 	<div id="discussion_container">
 
 	</div>
@@ -26,15 +28,11 @@
 						{else}
 							<img alt="avatar" class="discussion_avatar" src="/dev/_images/person_icon.png" />
 						{/if}
-						<span class="discussion_posted_container">
-							<a href="/dev/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
-							<span class="discussion_date">posted this on ${i.date}</span>
-						</span>
+						<a href="/dev/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
+						<span class="discussion_date">posted this on ${i.date}</span>
 						{if i.editedBy != ""}
-							<span class="discussion_posted_container">
-							    (<a href="/dev/profile.html?user=${i.editedBy}"><span class="discussion_username_edited">${i.editedByName}</span></a>
-								<span class="discussion_date">edited this on ${i.editedByDate}</span>)
-							</span>
+						    (<a href="/dev/profile.html?user=${i.editedBy}"><span class="discussion_username_edited">${i.editedByName}</span></a>
+							<span class="discussion_date">edited this on ${i.editedByDate}</span>)
 						{/if}
 					{else}
 						<span class="discussion_posted_container">
@@ -96,7 +94,9 @@
 	{if close}
 		</div>
 	{/if}
---></div>	
+--></div>
+	
+	<!-- EDIT CONTAINER -->
 	<div id="discussion_edit_container" style="display:none;">
 		<form>
 			<input type="text" id="discussion_edit_subject" /><br />
@@ -107,6 +107,8 @@
 			</div>
 		</form>
 	</div>
+
+	<!-- REPLY CONTAINER -->
 	<div id="discussion_reply_container">
 		<form>
 			<label for="discussion_reply_subject">Subject</label>

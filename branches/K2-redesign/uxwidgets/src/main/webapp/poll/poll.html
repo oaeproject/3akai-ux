@@ -1,14 +1,18 @@
 <!-- STYLESHEETS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/poll/css/poll.css"></link>
-<link rel="stylesheet" type="text/css" href="/devwidgets/poll/css/poll_datepicker.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/poll/css/poll.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/poll/css/poll_datepicker.css" />
 
 <!-- MAIN CONTAINER -->
 <div id="poll_main_container" style="display:none;">
 	<div id="poll_container">
+		
+		<!-- Container that will have all the different settings that are available -->
 		<div id="poll_settings">
 			
 		</div>
 		<div id="poll_preview">
+			
+			<!-- Part of the preview where the question will be shown -->
 			<div id="poll_preview_question">
 				
 			</div>
@@ -16,6 +20,8 @@
 				<span>Question view</span>
 			</div>
 			<hr />
+			
+			<!-- Part of the preview where the chart will be shown -->
 			<div id="poll_preview_chart">
 				
 			</div>
@@ -30,6 +36,8 @@
 			<br class="poll_cls"/>
 		</div>
 	</div>
+	
+	<!-- Main template for the settings view -->
 	<div id="poll_settings_template" style="display:none"><!--
 	<ul id="poll_tabs">
 		<li><a href="javascript:;" id="poll_create_new_tab" class="poll_selectedtab">Create New Poll</a></li>
@@ -143,6 +151,8 @@
 		</div>
 	</div>
 </div>
+
+<!-- Template used to render the template -->
 <div id="poll_show_question_template"><!--
 	{if poll.placeholder == 1}
 		<img src="/devwidgets/poll/images/poll_placeholder.jpg" alt="Poll placeholder" />
@@ -172,6 +182,7 @@
 		</form>
 	{/if}
 --></div>
+
 <div id="poll_preview_question_template"><!--
 	<p id="poll_question_view_header">
 		${poll.temp.question}
@@ -194,6 +205,7 @@
 		 <img src="/devwidgets/poll/images/poll_specimen.png" alt="Specimen" />
 	</div>	
 --></div>
+
 <div id="poll_show_chart_template"><!--
 	<p class="poll_chart_view_header"
 	{if poll.poll_type == 0} id="poll_chart_view_header_vertical"
@@ -241,6 +253,7 @@
 		{/if}
 	</form>
 --></div>
+
 <div id="poll_preview_chart_template"><!--
 	<p class="poll_chart_view_header"
 	{if poll.poll_type == 0} id="poll_chart_view_header_vertical"
@@ -287,5 +300,5 @@
 --></div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" src="/devwidgets/poll/javascript/poll.js"></script>
 <script type="text/javascript" src="/devwidgets/poll/javascript/jquery-ui-1.7.custom.min.js"></script>
+<script type="text/javascript" src="/devwidgets/poll/javascript/poll.js"></script>

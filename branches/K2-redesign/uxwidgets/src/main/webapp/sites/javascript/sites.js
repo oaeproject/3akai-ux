@@ -20,6 +20,11 @@
 
 sakai.sites = function(tuid,placement,showSettings){
 
+
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
+
 	var rootel = $("#" + tuid);
 
 	// IDs
@@ -32,9 +37,9 @@ sakai.sites = function(tuid,placement,showSettings){
 	var createSiteContainer = "#createsitecontainer";
 
 
-	//////////////////////
-	//	AID FUNCTIONS	//
-	//////////////////////
+	///////////////////////
+	// Utility functions //
+	///////////////////////
 
 	/**
 	 * Compare the names of 2 objects
@@ -93,22 +98,22 @@ sakai.sites = function(tuid,placement,showSettings){
 			var json = $.evalJSON(response);
 			var newjson = {};
 			newjson.entry = [];
-			//	if the response contained any entries.
+			// If the response contained any entries.
 			if (json.entry) {
 				for (var i = 0; i < json.entry.length; i++) {
 					var site = json.entry[i];
-					//	If this is a valid site
+					// If this is a valid site
 					if (site.id.substring(0, 1) !== "~") {
-						//	Add this site to the list of sites we wish to display.
+						// Add this site to the list of sites we wish to display.
 						newjson.entry.push(site);
 					}
 				}
 			}			
-			//	Render all the sites.
+			// Render all the sites.
 			doRender(newjson);		
 		}
 	};
-	
+
 	/**
 	 * Will initiate a request to the site service.
 	 */
@@ -126,10 +131,10 @@ sakai.sites = function(tuid,placement,showSettings){
 	};
 	
 	
-	/////////////////////
-	//	EVENT HANDLING //
-	/////////////////////
-	
+	////////////////////
+	// Event Handlers //
+	////////////////////
+
 	$(sitesCreateNewSite, rootel).bind("click", function(ev){
 		createNewSite();
 	});
@@ -139,7 +144,7 @@ sakai.sites = function(tuid,placement,showSettings){
 	}
 	else {
 		sdata.widgets.WidgetLoader.insertWidgets(tuid);
-		//	Start the request
+		// Start the request
 		doInit();
 	}
 };

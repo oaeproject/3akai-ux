@@ -12,14 +12,16 @@
 		<!-- COURSE -->
 		<div id="createsite_coursesite_container">
 	   		<p>Provide the following information and click the "Create Site" button</p>
-		
-			<span class="createsite_strong">Is this a course site?</span>
-			<input type="radio" name="createsite_options" id="createsite_option_noncourse" checked="checked" />
-			<label for="createsite_option_noncourse">No</label>
-			<input type="radio" name="createsite_options" id="createsite_option_course"/>
-			<label for="createsite_option_course">Yes</label>
 			
-			<span class="createsite_information"><span class="createsite_strong">*</span> = Required Information</span>
+			<div id="createsite_iscoursesite">
+				<span class="createsite_strong">Is this a course site?</span>
+				<input type="radio" name="createsite_options" id="createsite_option_noncourse" checked="checked" />
+				<label for="createsite_option_noncourse">No</label>
+				<input type="radio" name="createsite_options" id="createsite_option_course"/>
+				<label for="createsite_option_course">Yes</label>
+			</div>
+			
+			<div class="createsite_information"><span class="createsite_strong">*</span> = Required Information</div>
 		</div>
 		
 		<!-- NONCOURSE -->
@@ -45,7 +47,7 @@
 			<label for="createsite_noncourse_description">Description:</label>
 			<textarea id="createsite_noncourse_description" rows="3" cols="30"></textarea><br />
 			
-			<span class="createsite_information">(Max 80 characters)</span>
+			<span class="createsite_maxcharacters">(Max 80 characters)</span>
 
 			<div class="dialog_footer">
 				 <div class="buttonBar">

@@ -26,7 +26,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
-	
+
 	// - ID
 	var createSite = "#createsite";
 	
@@ -116,11 +116,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 	/**
 	 * Replace or remove malicious characters from the string
 	 * We use this function to modify the siteid
-	 * @param {Object} input
+	 * String to test against: test :?=&;\/?@+$<>#%'"''{}|\\^[]'
+	 * @param {Object} input The string where the characters need to be replaced
 	 */
 	var replaceCharacters = function(input){
 		input = input.toLowerCase().replace(/ /g,"-");
-		input = input.replace(/[:]|[?]|[=]|[&]/g,"_");
+		
+		var regexp = new RegExp("[^a-z0-9_-]", "gi");
+		input = input.replace(regexp,"_");
+		
 		return input;
 	};
 

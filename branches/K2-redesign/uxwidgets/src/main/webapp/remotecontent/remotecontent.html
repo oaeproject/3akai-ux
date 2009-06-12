@@ -1,58 +1,79 @@
-<link rel="stylesheet" type="text/css" href="/devwidgets/remotecontent/css/remotecontent.css"></link>
+<!-- STYLESHEET -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/remotecontent/css/remotecontent.css" />
 
+<!-- SETTINGS -->
 <div id="remotecontent_settings" style="display:none;">
-	<div class="remotecontent_set">
-		<p>
-			<input type="text" id="remotecontent_settingsUrl" /><br />
-			<div id="urlError" class="remotecontent_error"></div>
-		</p>
-		<p>
-			<label style="font-weight:bold;">Preview</label> (not actual size):<br class="remotecontent_clearer" />
-		</p>
-		<div id="remotecontent_preview">
-			<iframe id="remotecontent_previewFrame" style="border-style:solid;"></iframe>
+
+</div>
+
+<!-- The main  settings template -->
+<div id="remotecontent_settings_template"><!--
+	<form>
+		<div class="remotecontent_settings_subcontainer">
+			<p>
+				<input type="text" id="remotecontent_settings_url" value="${url}" /><br />
+			</p>
+			<p>
+				<label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="remotecontent_clear" />
+			</p>
+			<div id="remotecontent_settings_preview">
+				
+			</div>
+			<a class="button-default" href="javascript:;" id="remotecontent_settings_advanced_toggle_settings">Advanced Settings <span id="remotecontent_settings_advanced_down">&#8595;</span><span id="remotecontent_settings_advanced_up">&#8593;</span></a>
 		</div>
-		<a class="button-default" href="javascript:;" id="remotecontent_settingsBtnAdvanced">Advanced Settings &darr;</a>
-	</div>
-	<div id="remotecontent_settingsAdvanced" style="display:none;">
-		<div class="remotecontent_set">
-			<span style="font-weight:bold;">Size:</span><br />
-			<div class="remotecontent_block">
-				<label for="remotecontent_width">Width:</label>
-				<input type="text" id="remotecontent_width" /> px<br />
-				<label for="remotecontent_height">Height:</label>
-				<input type="text" id="remotecontent_height" /> px 
-				<a class="button-default" href="javascript:;" id="remotecontent_settingsSizeReset">Reset to original size</a>
-				<br class="remotecontent_clearer" />
-				<div id="sizeError" class="remotecontent_error"></div>
+		<div id="remotecontent_settings_advanced" style="display:none;">		
+			<div class="remotecontent_settings_subcontainer">
+				<label class="remotecontent_settings_label_head">Size:</label><br />
+				<div class="remotecontent_settings_block">
+					<label for="remotecontent_settings_width">Width:</label>
+					<input type="text" id="remotecontent_settings_width" value="${width}" />
+					<a href="javascript:;" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</a>
+					<span> or </span>
+					<a href="javascript:;" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</a>
+					<br />
+					<label for="remotecontent_settings_height">Height:</label>
+					<input type="text" id="remotecontent_settings_height" value="${height}" /><span> px</span> 
+					<a class="button-default" href="javascript:;" id="remotecontent_settings_reset_size">Reset to original size</a>
+					<br class="remotecontent_clear" />
+				</div>
+			</div>
+			
+			<div class="remotecontent_settings_subcontainer">
+				<label class="remotecontent_settings_label_head">Border:</label><br />
+				<div class="remotecontent_settings_block">
+					<label for="remotecontent_settings_borders">Width:</label>
+					<input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="remotecontent_clear" />
+					<div id="remotecontent_settings_color_container">
+					</div>
+				</div>
 			</div>
 		</div>
 		
-		<div class="remotecontent_set">
-			<span style="font-weight:bold;">Borders:</span><br />
-			<div class="remotecontent_block">
-				<label for="remotecontent_borders">Size:</label>
-				<input type="text" id="remotecontent_borders" /> px<br /><br />
-				
-				<label>Colour:</label>
-				<span class="remotecontent_colourBox" style="background-color:#000000"></span>
-				<span class="remotecontent_colourBox" style="background-color:#cccccc"></span>
-				<span class="remotecontent_colourBox" style="background-color:red"></span>
-				<span class="remotecontent_colourBox" style="background-color:green"></span>
-				<span class="remotecontent_colourBox" style="background-color:blue"></span>
-				<br class="remotecontent_clearer" />
-				<br class="remotecontent_clearer" />
-				<div id="borderError" class="remotecontent_error"></div>
-			</div>
-		</div>
-	</div>
-	
-	
-	<a class="button-default" href="javascript:;" id="remotecontent_view_cancel">Cancel</a>
-	<a class="button-default" href="javascript:;" id="remotecontent_view_insert">Save Remote Content Widget</a>
-	<br class="remotecontent_clearer" />
-</div>
-<div id="remotecontent_mainContainer" style="display:none;">
+		<a class="button-default" href="javascript:;" id="remotecontent_settings_cancel">Cancel</a>
+		<a class="button-default" href="javascript:;" id="remotecontent_settings_insert">Save</a>
+		<br class="remotecontent_clear" />
+	</form>
+--></div>
+
+<!-- Template to show the preview of the iframe -->
+<div id="remotecontent_settings_preview_template"><!--
+	<iframe id="remotecontent_settings_preview_frame" style="border: ${border_size}px #${border_color} solid" src="${url}" width="${width}${width_unit}" height="${height}px"></iframe>
+--></div>
+
+<!-- Template for choosing the color -->
+<div id="remotecontent_settings_color_container_template"><!--
+	<label>Color:</label>
+	<a id="remotecontent_settings_color_000000" class="remotecontent_settings_color {if border_color == "000000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+	<a id="remotecontent_settings_color_cccccc" class="remotecontent_settings_color {if border_color == "cccccc"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+	<a id="remotecontent_settings_color_ff0000" class="remotecontent_settings_color {if border_color == "ff0000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+	<a id="remotecontent_settings_color_008000" class="remotecontent_settings_color {if border_color == "008000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+	<a id="remotecontent_settings_color_0000ff" class="remotecontent_settings_color {if border_color == "0000ff"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+	<br class="remotecontent_clear" />
+--></div>
+
+<!-- MAIN CONTAINER -->
+<div id="remotecontent_main_container" style="display:none;">
 </div>
 
-<script type="text/javascript" language="JavaScript" src="/devwidgets/remotecontent/javascript/remotecontent.js"></script>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/remotecontent/javascript/remotecontent.js" />

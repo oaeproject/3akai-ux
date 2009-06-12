@@ -1,104 +1,57 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
 /* Global */
-.linktool_clear {
-	clear:both;
-}
+.linktool_clear {clear:both;}
 
 /* Settings */
-#linktool_settings {
-	padding-bottom:10px;	
-}
-#linktool_settings input[type="text"] {
-	background-color: #f1f1f1;
-	border: 1px solid #d6d6d6;
-	margin-top: 3px;
-	padding: 3px;
-	width: 99%;
-}
-.linktool_settings_error {
-	color:red;
-}
-.linktool_settings_label_head {
-	font-weight: bold;
-}
-#linktool_settings_querystring_preview {
-	margin-top:8px;
-	overflow:auto;
-}
-#linktool_settings_reset_size {
-	margin-left:15px;
-}
-.linktool_settings_subcontainer {
-	border-bottom:1px solid #dddddd;
-	margin-bottom:15px;
-	padding-bottom:10px;
-}
-.linktool_settings_width_unit_selected {
-	font-weight: bold;
-	text-decoration: underline;
-}
+#linktool_settings {padding-bottom:10px;}
+#linktool_settings input[type="text"] {background-color:#f1f1f1;border:1px solid #d6d6d6;margin-top:3px;padding:3px;width:99%;}
+.linktool_settings_error {color:red;}
+.linktool_settings_label_head {font-weight:bold;}
+#linktool_settings_querystring_preview {margin-top:8px;overflow:auto;}
+#linktool_settings_reset_size {margin-left:15px;}
+.linktool_settings_subcontainer {border-bottom:1px solid #dddddd;margin-bottom:15px;padding-bottom:10px;}
+.linktool_settings_width_unit_selected {font-weight:bold;text-decoration:underline;}
 
 /* Preview */
-#linktool_settings_preview {
-	text-align: center;
-}
-#linktool_settings_preview_frame {
-	border-style: solid;
-	margin-bottom: 50px;
-}
+#linktool_settings_preview {text-align:center;}
+#linktool_settings_preview_frame {border-style:solid;margin-bottom:50px;}
 
 /* Color */
-#linktool_settings_color_container {
-	margin-top: 9px;
-}
-.linktool_settings_color {
-	border: 1px solid #eeeeee;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 26px;
-	margin-right: 9px;
-	text-decoration: none;
-	width: 26px;
-}
-.linktool_settings_color:hover {
-	border:1px solid #cccccc;
-	text-decoration: none;
-}
-.linktool_settings_color_selected, .linktool_settings_color_selected:hover {
-	border:1px solid #000000;
-}
-#linktool_settings_color_000000 {background-color: #000000;}
-#linktool_settings_color_cccccc {background-color: #cccccc;}
-#linktool_settings_color_ff0000 {background-color: #ff0000;}
-#linktool_settings_color_008000 {background-color: #008000;}
-#linktool_settings_color_0000ff {background-color: #0000ff;}
+#linktool_settings_color_container {margin-top:9px;}
+.linktool_settings_color {border:1px solid #eeeeee;cursor:pointer;display:block;float:left;height:26px;margin-right:9px;text-decoration:none;width:26px;}
+.linktool_settings_color:hover {border:1px solid #cccccc;text-decoration:none;}
+.linktool_settings_color_selected, .linktool_settings_color_selected:hover {border:1px solid #000000;}
+#linktool_settings_color_000000 {background-color:#000000;}
+#linktool_settings_color_cccccc {background-color:#cccccc;}
+#linktool_settings_color_ff0000 {background-color:#ff0000;}
+#linktool_settings_color_008000 {background-color:#008000;}
+#linktool_settings_color_0000ff {background-color:#0000ff;}
 
 /* Advanced */
-#linktool_settings_advanced_toggle_settings {
-	margin-top:-30px;
-	float:right;
-}
-
-#linktool_settings_advanced input[type="text"] {
-	width:65px;
-}
+#linktool_settings_advanced_toggle_settings {margin-top:-30px;float:right;}
+#linktool_settings_advanced input[type="text"] {width:65px;}
 
 /* Block */
-.linktool_settings_block { 
-	margin-left:15px;
-}
-.linktool_settings_block label { 
-	float:left;
-	margin-right:5px;
-	margin-top:3px;	
-	padding-top:5px;
-	width:75px;
-}
+.linktool_settings_block {margin-left:15px;}
+.linktool_settings_block label {float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px;}
 
 /* Cancel & Insert */
-#linktool_settings_cancel {
-	float:left;
-}
-#linktool_settings_insert {
-	float:right;
-}
+#linktool_settings_cancel {float:left;}
+#linktool_settings_insert {float:right;}

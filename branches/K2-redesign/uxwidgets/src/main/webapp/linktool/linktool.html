@@ -1,10 +1,12 @@
 <!-- STYLESHEET -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/linktool/css/linktool.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/linktool/css/linktool.css" />
 
 <!-- SETTINGS -->
 <div id="linktool_settings" style="display:none;">
 
 </div>
+
+<!-- The main  settings template -->
 <div id="linktool_settings_template"><!--
 	<form>
 		<div class="linktool_settings_subcontainer">
@@ -82,10 +84,12 @@
 	</form>
 --></div>
 
+<!-- Template to show the preview of the iframe -->
 <div id="linktool_settings_preview_template"><!--
 	<iframe id="linktool_settings_preview_frame" style="border: ${border_size}px #${border_color} solid" src="${url}" width="${width}${width_unit}" height="${height}px"></iframe>
 --></div>
 
+<!-- Template for choosing the color -->
 <div id="linktool_settings_color_container_template"><!--
 	<label>Color:</label>
 	<a id="linktool_settings_color_000000" class="linktool_settings_color {if border_color == "000000"} linktool_settings_color_selected{/if}">&nbsp;</a>
@@ -96,6 +100,7 @@
 	<br class="linktool_clear" />
 --></div>
 
+<!-- Template for rendering the querystring -->
 <div id="linktool_settings_querystring_preview_template"><!--
 	{if url_complete_preview != ""}
 		<span>${url_complete_preview}<span>
@@ -110,4 +115,4 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/linktool/javascript/linktool.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/linktool/javascript/linktool.js" />

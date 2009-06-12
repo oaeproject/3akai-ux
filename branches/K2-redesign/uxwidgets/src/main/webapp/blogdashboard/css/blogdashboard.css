@@ -16,40 +16,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
-#blogdashboard_title, #blogdashboard_content, #blogdashboard_tags {
-	border:1px solid #dadada;
-	background-color:#f2f2f2;
-	margin-bottom:10px;
-	padding:2px;
-	width:98%;
-	display:block;
-}
-#blogdashboard_container label {
-	margin:5px 0px 5px 0px;
-	display:block;
-}
-
-#blogdashboard_content {
-	height:150px;
-}
-
-#blogdashboard_Publish {
-	float:right;
-	margin-top:15px;
-}
-
-#blogdashboard_Reset {
-	float:left;
-	margin:15px 0;
-}
-
-.blogdashboard_error_message {font-weight:bold;margin:10px;padding:10px;border:1px solid #ff0000; background-color:#f7d8d8;}
-.blogdashboard_normal_message {margin:10px;padding:10px;border:1px solid #00ff00;background-color:#d9f7d8;}
-
-.blogdashboard_error {
-	background-color:#f7d8d8;
-	margin-bottom:10px;
-	padding:2px;
-	width:98%;
-}
+#blogdashboard_title,#blogdashboard_content,#blogdashboard_tags {border:1px solid #dadada;background-color:#f2f2f2;margin-bottom:10px;width:98%;display:block;padding:2px;}
+#blogdashboard_container label {display:block;margin:5px 0;}
+#blogdashboard_content {height:150px;}
+#blogdashboard_Publish {float:right;margin-top:15px;}
+#blogdashboard_Reset {float:left;margin:15px 0;}
+.blogdashboard_error_message {font-weight:700;border:1px solid red;background-color:#f7d8d8;margin:10px;padding:10px;}
+.blogdashboard_normal_message {border:1px solid #0f0;background-color:#d9f7d8;margin:10px;padding:10px;}
+.blogdashboard_error {background-color:#f7d8d8;margin-bottom:10px;width:98%;padding:2px;}

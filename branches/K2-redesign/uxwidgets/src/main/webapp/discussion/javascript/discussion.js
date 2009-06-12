@@ -27,11 +27,17 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.discussion = function(tuid, placement, showSettings){
+
+
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
+
 	var me = sdata.me;				// Contains information about the current user
 	var rootel = $("#" + tuid);		// Get the main div used by the widget
 	var editing = false;			// Currently editing a post
 	var isCurrentPostNew = false;	// Is the post being send a new one or not
-	var currentEditId = false;		// ID of the element that is currently being edited
+	var currentEditId = "";		// ID of the element that is currently being edited
 	var currentReplyId = "0";		// ID of the post that is currently being replied to
 	var selectedExistingDiscussionID = false; // ID of the discussion-widget which is currently selected in the insert existing discussion form
 	var editContainer = "";
@@ -116,7 +122,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	var discussionToggle = discussion + "_toggle";
 	var discussionToggleHideAll = discussionToggle + "_hideall";
 	var discussionToggleShowAll = discussionToggle + "_showall";
-	
+
 
 	///////////////////////
 	// Utility functions //
@@ -378,7 +384,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 */
 	var getDiscussionIndex = function(id, discussions){
 		var currentDiscussionWithIndex = [];
-		if(typeof discussions !== "undefined"){
+		if(discussions){
 			for (var i = 0; i < discussions.length; i++) {	
 				if (discussions[i].tuid === id){
 					currentDiscussionWithIndex.push(discussions[i]);
@@ -759,13 +765,20 @@ sakai.discussion = function(tuid, placement, showSettings){
 	};
 	
 	/**
-	 * Render the posts and add binding to the elements
-	 * @param {Object} jsonPosts
+	 * Render the discussion posts
+	 * @param {Object} jsonPosts The posts that needs to be rendered
 	 */
 	var renderPostsAddBinding = function(jsonPosts){
+
 		// Render the posts with the template engine
 		$(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
-		
+	};
+
+	/**
+	 * Add binding to the elements of the posts
+	 */
+	var addBinding = function(){
+
 		// Add the action listeners
 		$(discussionToggleShowAllClass, rootel).hide();
 		$(discussionToggleShowHideAllClass, rootel).bind("click",function(e,ui){
@@ -794,8 +807,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 			showEditPost($(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1]);
 		});
 	};
-	
-	
+
 	/**
 	 * Get the information for a post.
 	 * @param {Object[]} arrPosts An array containing all the posts
@@ -805,6 +817,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 */
 	var getPostInfo = function(arrPosts, data) {
 		if(data){
+
 			// Parse the info of the users
 			var users = $.evalJSON(data).users;
 		}
@@ -814,7 +827,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 
 		// Hide the reply form
 		$(discussionReplyContainer, rootel).hide();
-		
+
 		// We create a new array that contains all the information about
 		// the posts. We do this to not have to modify the original array
 		var arrParsedPosts = [];
@@ -825,39 +838,44 @@ sakai.discussion = function(tuid, placement, showSettings){
 			post.body = post.body.replace(/\n/g,"<br />");
 			post.showEdit = false;
 			post.showDelete = false;
-			
+
 			// Split the id into different sections (array)
 			var postIdSplit = post.postId.split("-");
+
 			// The last section of the id
 			// e.g. the last section of the id "0-1-2" is 2
 			var postIdLastSection = postIdSplit[postIdSplit.length-1];
-			
+
 			// Check if it's the first reply of a section
 			post.firstReply = isFirstReply(postIdLastSection);
-			
+
 			// Check if the post is the last reply of a section
 			post.lastReply = isLastReply(arrPosts, post, postIdSplit, postIdLastSection, i);
-			
+
 			// Gets the total amount of replies on a post
 			post.replies = countReplies(arrPosts, postIdSplit, i);
-			
+
 			// Show or hide the edit or delete button
 			if(me.preferences.superUser || me.preferences.uuid === uid){
 				post.showEdit = true;
 				post.showDelete = true;
 			}
-			
+
 			if(data){
+
 				// Get the index for the user in the uids array
 				var uidIndex = getUidIndex(uid);
+
 				// Get the user's firstName, lastName and picture if it's in the database
 				post.name = parseName(uid, users[uidIndex].profile.firstName, users[uidIndex].profile.lastName);
 				post.picture = parsePicture(users[uidIndex].profile.picture, users[uidIndex].userStoragePrefix);
 				
 				// Check if someone edited the post
 				if(post.editedBy !== ""){
+
 					// Get the index for the user in the uids array
 					var uidIndexEditedBy = getUidIndex(post.editedBy);
+
 					// Get the profile info from the user that edited the post
 					post.editedByName = parseName(post.editedBy, users[uidIndexEditedBy].profile.firstName, users[uidIndexEditedBy].profile.lastName);
 					post.editedByDate = formatDate(parseDate(post.editedDate));
@@ -877,7 +895,8 @@ sakai.discussion = function(tuid, placement, showSettings){
 			jsonPosts.loggedIn = false;
 		}
 		
-		renderPostsAddBinding(jsonPosts);
+		renderPosts(jsonPosts);
+		addBinding();
 	};
 	
 	/**
@@ -891,6 +910,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 				getPostInfo(arrPosts, data);
 			},
 			error: function(status){
+
 				// This will result in a fail when the user is logged out
 				// but even then he should be able to see the posts
 				getPostInfo(arrPosts, false);
@@ -914,6 +934,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 				
 				// Add the uid for each user to uids
 				for(var i = 0; i < arrPosts.length; i++){
+
 					// The this object contains the post you are iterating
 					addToUids(arrPosts[i].uid);
 					addToUids(arrPosts[i].editedBy);
@@ -955,7 +976,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 			return id+"-"+counter;
 		}
 	};
-	
+
 	/**
 	 * Creates a new discussion in the _discussion file 
 	 * @param {Object} response JSON object containing all the posts
@@ -992,16 +1013,17 @@ sakai.discussion = function(tuid, placement, showSettings){
 			subject = $(discussionReplySubject,rootel).val();
 			body = $(discussionReplyBody,rootel).val();
 		}
-		
+
 		// Check if the subject input field is empty
 		if ((!subject || subject.replace(/ /g,"%20") === "") && ($(discussionSettingsNewContainer, rootel).is(':visible'))){
 			alert("Please enter a valid subject.");
 		}
-		else if (((typeof selectedExistingDiscussionID === "undefined") || (selectedExistingDiscussionID === "")) && ($(discussionSettingsExistingContainer, rootel).is(':visible'))){
+		else if ((selectedExistingDiscussionID || (selectedExistingDiscussionID === "")) && ($(discussionSettingsExistingContainer, rootel).is(':visible'))){
 			alert("Please select an existing discussion.");
 		}
 		else {
 			if (me){
+
 				// Fill in the JSON post object
 				var post = {
 					"uid": me.preferences.uuid,
@@ -1065,16 +1087,16 @@ sakai.discussion = function(tuid, placement, showSettings){
 						success: function(data){
 							// Parse all the posts
 							arrPosts = $.evalJSON(data);
-							
+
 							// Adjust the id for the posts
 							post.postId = adjustPostId(arrPosts, postId);
-							
+
 							// Add the current post to all the posts
 							arrPosts.push(post);
-							
+
 							// Save the posts to the database
 							savePostsToDatabase(arrPosts, finishNewSettings);
-							
+
 							// Clear the fields of the reply form
 							clearReplyFields();
 						},
@@ -1098,15 +1120,15 @@ sakai.discussion = function(tuid, placement, showSettings){
 			url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_discussion",
 			success: function(data){
 				var json = $.evalJSON(data);
-				if (typeof json.items !== undefined) {
+				if (json.items) {
 					$(discussionNoDiscussions, rootel).hide();
-			
+
 					// Render the list that contains the existing discussions
 					$(discussionSettingsExistingContainer, rootel).html($.Template.render(discussionSettingsExistingContainerTemplate,json));
-					
+
 					// Bind the discussion list items
 					$("." + discussionSettingsListItemClass, rootel).bind("click",function(e,ui){
-						if(typeof $(discussionSettingsListItem  + selectedExistingDiscussionID, rootel) !== "undefined"){
+						if($(discussionSettingsListItem  + selectedExistingDiscussionID, rootel).length > 0){
 							$(discussionSettingsListItem + selectedExistingDiscussionID, rootel).addClass(discussionSettingsListItemClass);
 							$(discussionSettingsListItem + selectedExistingDiscussionID, rootel).removeClass(discussionSettingsListItemSelectedClass);
 						}
@@ -1124,29 +1146,30 @@ sakai.discussion = function(tuid, placement, showSettings){
 			}
 		});
 	};
-	
+
 	////////////////////
 	// Event Handlers //
 	////////////////////
-	
+
 	/* 
 	 * Bind the submit button
 	 */
 	$(discussionReplySubmit, rootel).bind("click",function(e,ui){
 		addPost(false, currentReplyId);
 	});
-	
+
 	/* 
 	 * Bind the cancel button 
 	 */
 	$(discussionReplyCancel, rootel).bind("click",function(e,ui){
+
 		// Clear everything in the reply fields
 		clearReplyFields();
 		
 		// Hide the input form
 		$(discussionReplyContainer, rootel).hide();
 	});
-	
+
 	/*
 	 * Bind the settings cancel button
 	 */
@@ -1154,7 +1177,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 		$(discussionReplyContainer, rootel).hide();
 		sdata.container.informCancel(tuid);
 	});
-	
+
 	/*
 	 * Bind the new discussion tab
 	 */
@@ -1166,7 +1189,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 		$(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
 		$(discussionSettingsNewContainer, rootel).show();
 	});
-	
+
 	/*
 	 * Bind the existing discussion tab
 	 */
