@@ -320,8 +320,10 @@ sdata.widgets.WidgetLoader = {
 		};
 	
 		var insertWidgets = function(containerId, showSettings){
-	
-			var el = containerId ? $("#" + containerId) : $(document.body);
+			
+			// Use document.getElementById() to avoid jQuery selector escaping issues with '/'
+			var el = containerId ? document.getElementById(containerId) : $(document.body);
+
 			var divarray = $(widgetSelector, el);
 			settings = showSettings || false;
 			
@@ -651,30 +653,39 @@ sdata.widgets.WidgetPreference =  {
 	 */
 	$.Template.render = function(templateName, contextObject, output)  {
 
-		if ( ! templateCache[templateName] ) {
-			 var el = $("#" + templateName);
-			 if (el.get(0)) {
-			 	var templateNode = el.get(0);
-			 	var firstNode = templateNode.firstChild;
-			 	var template = null;
-				// Check whether the template is wrapped in <!-- -->
-			 	if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-			 		template = templateNode.firstChild.data.toString();		 		
-			 	} else {
-				 	template = templateNode.innerHTML.toString();
+		try {
+		
+			if (!templateCache[templateName]) {
+				var el = $("#" + templateName);
+				if (el.get(0)) {
+					var templateNode = el.get(0);
+					var firstNode = templateNode.firstChild;
+					var template = null;
+					// Check whether the template is wrapped in <!-- -->
+					if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
+						template = templateNode.firstChild.data.toString();
+					}
+					else {
+						template = templateNode.innerHTML.toString();
+					}
+					// Parse the template through TrimPath and add the parsed template to the template cache
+					templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
+					
 				}
-				// Parse the template through TrimPath and add the parsed template to the template cache
-				templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
-			} else {
-				throw "Template could not be found";
+				else {
+					throw "Template could not be found";
+				}
 			}
-		}
-
-		// Run the template and feed it the given JSON object
-		var render = templateCache[templateName].process(contextObject);
-
-		if (output) {
-			output.html(render);
+			
+			// Run the template and feed it the given JSON object
+			var render = templateCache[templateName].process(contextObject);
+			
+			if (output) {
+				output.html(render);
+			}
+			
+		} catch (err){
+			alert(err);
 		}
 				
 		return render;

@@ -1,65 +1,104 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
 /*global $, Config, History, Querystring, sdata, sakai, jQuery */
 
 var sakai = sakai || {};
 
-// Common ground: This object holds help and config variables accessible by both the view and admin part
-sakai._site = {
-
-	// Configuration Variables
-	minHeight: 400,
-	autosaveinterval: 17000,
-	createChildPageByDefault: false,
+sakai.site = function(){		
 	
-	// Help Variables
-	cur: 0,
-	curScroll: false,
-	minTop: false,
-	last: 0,
-	myCustomInitInstanced: false,
-	currentsite: false,
-	meObject: false,
-	pages: false,
-	pageconfiguration: false,
-	pagetypes: {},
-	pagecontents: {},
-	myportaljson: false,
-	myportaljsons: {},
-	isEditingNavigation: false,
-	currentEditView: false,
-	timeoutid: 0,
-	selectedpage: false,
+	/////////////////////////////
+	// CONFIG and HELP VARS
+	/////////////////////////////
 	
-	showingInsertMore: false,
-	inEditView: false,
-	autosavecontent: false,
-	isShowingDropdown: false,
-	isShowingContext: false,
-	newwidget_id: false,
-	newwidget_uid: false,
-	isEditingNewPage: false,
-	oldSelectedPage: false,
-	mytemplates: false,
+	// Config variables
+	sakai.site.minHeight = 400;
+	sakai.site.autosaveinterval = 17000;
+	sakai.site.createChildPageByDefault = false;
+	sakai.site.siteAdminJS = "_javascript/site_admin.js";
 	
-	siteAdminJS: "_javascript/site_admin.js",
-	siteAdminLoaded: false,
+	// Help variables - public as some of these needs to be shared with admin section
+	sakai.site.siteAdminLoaded = false;
+	sakai.site.cur = 0;
+	sakai.site.curScroll = false;
+	sakai.site.minTop = false;
+	sakai.site.last = 0;
+	sakai.site.currentsite = false;
+	sakai.site.meObject = false;
+	sakai.site.pages = false;
+	sakai.site.pageconfiguration = false;
+	sakai.site.pagetypes = {};
+	sakai.site.pagecontents = {};
+	sakai.site.myportaljson = false;
+	sakai.site.myportaljsons = {};
+	sakai.site.isEditingNavigation = false;
+	sakai.site.currentEditView = false;
+	sakai.site.timeoutid = 0;
+	sakai.site.selectedpage = false;
+	sakai.site.showingInsertMore = false;
+	sakai.site.inEditView = false;
 	
 	
+	// Cache all HTML elements which are ID lookups in jQuery
+	// This has several advantages:
+	//	-it allows remapping of html IDs easily
+	//	-ensures that only one DOM access is made for each element
+	//	-$ in the beginning reminds us that it is a jQuery wrapped set
 	
-	//---------------------------------------------------------------------------------
-	//	Help functions
-	//---------------------------------------------------------------------------------
+	var $site_management = $("#site_management");
+	var $site_management_members_link = $("#site_management_members_link");
+	var $site_management_basic_link = $("#site_management_basic_link");
+	var $site_management_appearance_link = $("#site_management_appearance_link");
+	var $site_settings_link = $("#site_settings_link");
+	var $li_edit_page_divider = $("#li_edit_page_divider");
+	var $li_edit_page = $("#li_edit_page");
+	var $add_a_new = $("#add_a_new");
+	var $initialcontent = $("#initialcontent");
+	var $page_nav_content = $("#page_nav_content");
+	var $sitetitle = $("#sitetitle");
+	var $widget_chat = $("#widget_chat");
+	var $loginLink = $("#loginLink");
+	var $insert_more_menu = $("#insert_more_menu");
+	var $more_menu = $("#more_menu");
+	var $pagetitle = $("#pagetitle");
+	var $webpage_edit = $("#webpage_edit");
+	var $dashboard_edit = $("#dashboard_edit");
+	var $tool_edit = $("#tool_edit");
+	var $sidebar_content_pages = $("#sidebar-content-pages");
+	var $main_content_div = $("#main-content-div");
+	
+	
+	
+	/////////////////////////////
+	// HELP FUNCTIONS
+	/////////////////////////////
 	
 	/**
 	 * Escape page ID
 	 * @param {String} pageid
 	 * @return {String} escaped page ID
 	 */
-	escapePageId: function(pageid){
+	sakai.site.escapePageId = function(pageid){
 		var escaped = pageid.replace(/ /g, "\\%20");
 		escaped = pageid.replace(/[.]/g, "\\\\\\.");
 		escaped = pageid.replace(/\//g, "\\\/");
 		return escaped;
-	},
+	};
 	
 	
 	/**
@@ -67,12 +106,11 @@ sakai._site = {
 	 * @param {Object} doc
 	 * @return {Int} height of supplied document
 	 */
-	getDocHeight: function(doc){
+	sakai.site.getDocHeight = function(doc){
 		var docHt = 0, sh, oh;
 		if (doc.height) {
 			docHt = doc.height;
-		}
-		else {
+		} else {
 			if (doc.body) {
 				if (doc.body.scrollHeight) {
 					docHt = sh = doc.body.scrollHeight;
@@ -85,8 +123,9 @@ sakai._site = {
 				}
 			}
 		}
+		
 		return docHt;
-	},
+	};
 	
 	
 	/**
@@ -94,14 +133,14 @@ sakai._site = {
 	 * @param {Object} obj
 	 * @return {Object} cloned object
 	 */
-	clone: function(obj){
+	sakai.site.clone =  function(obj){
 		if (obj === null || typeof(obj) != 'object') {
 			return obj;
 		}
 		else {
 			return jQuery.extend(true, {}, obj);
 		}
-	},
+	};
 	
 	
 	/**
@@ -113,358 +152,344 @@ sakai._site = {
 	 * @param {Object} minute
 	 * @return {String} formatted date string
 	 */
-	transformDate: function(day, month, year, hour, minute){
+	sakai.site.transformDate = function(day, month, year, hour, minute){
 		var string = "";
 		var months_lookup = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
 		string += months_lookup[month] + " " + day + ", " + (1900 + year) + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
 		return string;
-	}
-};
+	};
 
-
-sakai.site = function(){		
-	
-	//---------------------------------------------------------------------------------
-	//	Load page - functions in order of loading roughly
-	//---------------------------------------------------------------------------------
-	
-	/**
-	 * 1 - Load current site object
-	 * @return void
-	 */
-	var loadCurrentSiteObject = function(){
-		var qs = new Querystring();
-		sakai._site.currentsite = qs.get("siteid",false);
-		if (!sakai._site.currentsite) {
-			document.location = "/dev/";
-		} 
-		else {
-			$("#site_management_members_link").attr("href", $("#site_management_members_link").attr("href") + sakai._site.currentsite);
-			$("#site_management_basic_link").attr("href", $("#site_management_basic_link").attr("href") + sakai._site.currentsite);
-			$("#site_management_appearance_link").attr("href", $("#site_management_appearance_link").attr("href") + sakai._site.currentsite);
-			$("#site_settings_link").attr("href", $("#site_settings_link").attr("href") + "?site=" + sakai._site.currentsite);
-			
-			$.ajax({
-				url: "/_rest/site/get/" + sakai._site.currentsite,
-				cache: false,
-				success: function(response){
-					continueLoad(response, true);
-					saveToRecentSites(response);
-				},
-				error: function(httpstatus){
-					if (httpstatus === 401) {
-						document.location = Config.URL.GATEWAY_URL;
-					}
-					else {
-						continueLoad(httpstatus, false);
-					}
-				}
-			});
-		}
-	};
 	
 	
+	
+	
+	/////////////////////////////
+	// LOADING
+	/////////////////////////////
 	
 	/**
-	 * 2 - Continue site loading, load admin part if user is admin/mantainer
-	 * @param {Object} response
-	 * @param {Boolean} exists
+	 * Main load flow - loads up all the data needed for sites and sets the visibility of html elements
 	 * @return void
 	 */
-	var continueLoad = function(response, exists){
-		if (exists) {
-			sakai._site.currentsite = $.evalJSON(response);
-			var qs = new Querystring();
-			sakai._site.currentsite.id = qs.get("siteid",false);
-			$("#sitetitle").text(sakai._site.currentsite.name);
-					
-			sakai._site.meObject = sdata.me;
-			var isMaintainer = false;
-			
-			if (sakai._site.meObject.preferences.subjects) {
-				for (var i = 0, j = sakai._site.currentsite.owners.length; i<j; i++) {
-					var owner = sakai._site.currentsite.owners[i];
-					if (owner == sdata.me.preferences.uuid){							
-						isMaintainer = true;
-					}
-				}
-			}
-			
-			// If admin or mantainer
-			if (isMaintainer) {
-				$("#li_edit_page_divider").show();
-				$("#li_edit_page").show();
-				$("#add_a_new").show();
-				$("#site_management").show();
-				$(".page_nav h3").css("padding-top","10px");
-				
-				//if (typeof sakai.site.site_admin == "undefined") {
-				/*
-if (jQuery.isFunction(sakai.site.site_admin) === false) {
-					$.ajax({
-						url: sakai._site.siteAdminJS,
-						async: false,
-						dataType: "script",
-						complete: function(response){
-							sakai._site.siteAdminLoaded = true;
-							// Init site admin
-							sakai.site.site_admin();
-							console.log('site2.js: site admin loaded succesfuly');
-						},
-						error: function(err){
-							alert("site2.js: Site admin loading was unsuccesful: \n" + err);
-						}
-					});
-				}
-*/
-				
-				$.Load.requireJS(sakai._site.siteAdminJS);
-				
-				
-			}
-			
-			// Start site load
-			if (sakai._site.meObject.preferences.uuid){
-				$("#loginLink").hide();
-			} else {
-				$(".explore_nav").hide();
-				$("#widget_chat").hide();
-				sakai._isAnonymous = true;
-				$("#loginLink").show();
-			}
-			
-			// Continue loading
-			loadPagesInitial();
-		}
-	};
-	
-	
-	sakai.site.informAdminLoad = function(){
-		sakai._site.siteAdminLoaded = true;
-		// Init site admin
-		sakai.site.site_admin();
-		console.log('site2.js: site admin loaded succesfuly');
-	};
-	
-	/**
-	 * 3 - Load initial page data
-	 * @param {Object} dofalsereload
-	 * @return void
-	 */
-	var loadPagesInitial = function(dofalsereload){
-	
-		$("#initialcontent").show();
-		totaltotry = 0;
+	var loadControl = function() {
 		
+		// Get site object
+		var qs = new Querystring();
+		sakai.site.currentsite = qs.get("siteid",false);
 		$.ajax({
-			url: "/sdata/f/" + sakai._site.currentsite.id + "/.site/pageconfiguration",
+			url: "/_rest/site/get/" + sakai.site.currentsite,
 			cache: false,
+			async: false,
 			success: function(response){
-				sakai._site.pages = $.evalJSON(response);
-				pageconfiguration = sakai._site.pages;
-				loadNavigation(dofalsereload);
+				sakai.site.currentsite = $.evalJSON(response);
+				
+				// Seve current site to Recent Sites
+				recentSites_Save(response);
+				
+				//'site.js: Site object loaded');
 			},
 			error: function(httpstatus){
-				sakai._site.pages = {};
-				sakai._site.pages.items = {};
-				pageconfiguration = sakai._site.pages;
-				loadNavigation(dofalsereload);
+				if (httpstatus === 401) {
+					document.location = Config.URL.GATEWAY_URL;
+				}
+				else {
+					alert("site.js: Could not load site object. \n HTTP status code: " + httpstatus);
+				}
 			}
 		});
+		
+		
+		// Adjust links if not on dev
+		if (!sakai.site.currentsite) {
+			document.location = "/dev/";
+		} else {
+			$site_management_members_link.attr("href", $site_management_members_link.attr("href") + sakai.site.currentsite);
+			$site_management_basic_link.attr("href", $site_management_basic_link.attr("href") + sakai.site.currentsite);
+			$site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sakai.site.currentsite);
+			$site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sakai.site.currentsite);
+		}
+	
+		// Fill up ME object which contains user info
+		qs = new Querystring();
+		sakai.site.currentsite.id = qs.get("siteid",false);
+		sakai.site.meObject = sdata.me;
+		
+		// Determine whether the user is mantainer, if yes show and load admin elements
+		if (sakai.site.meObject.preferences.subjects) {
+			for (var i = 0, j = sakai.site.currentsite.owners.length; i<j; i++) {
+				if (sakai.site.currentsite.owners[i] == sdata.me.preferences.uuid){							
+						
+						// Show admin elements
+						$li_edit_page_divider.show();
+						$li_edit_page.show();
+						$add_a_new.show();
+						$site_management.show();
+						$(".page_nav h3").css("padding-top","10px");
+						
+						// Load admin part from a separate file
+						$.Load.requireJS(sakai.site.siteAdminJS);	
+						
+						break;
+				}
+			}
+		}
+		
+		// Check user's login status
+		if (sakai.site.meObject.preferences.uuid){
+			$("#loginLink").hide();
+			} else {
+				$(".explore_nav").hide();
+				$widget_chat.hide();
+				sakai._isAnonymous = true;
+				$loginLink.show();
+			}
+		
+		// Show initial content and display site title
+		$initialcontent.show();
+		$sitetitle.text(sakai.site.currentsite.name);
+		
+		// Load page configuration
+		$.ajax({
+			url: "/sdata/f/" + sakai.site.currentsite.id + "/.site/pageconfiguration",
+			cache: false,
+			async: false,
+			success: function(response){
+				sakai.site.pages = $.evalJSON(response);
+				sakai.site.pageconfiguration = sakai.site.pages;
+				//'site.js: Page configuration loaded: ');
+			},
+			error: function(httpstatus){
+				sakai.site.pages = {};
+				sakai.site.pages.items = {};
+				sakai.site.pageconfiguration = sakai.site.pages;
+				if (httpstatus === 401) {
+					document.location = Config.URL.GATEWAY_URL;
+				}
+				else {
+					alert("site.js: Could not load page configuration. \n HTTP status code: " + httpstatus);
+				}
+			}
+		});
+		
+		sakai.site.loadSiteNavigation();
+		
 	};
 	
-	
-	
-	
-	/**
-	 * 4 - Load navigation elements
-	 * @param {Object} dofalsereload
-	 * @return void
-	 */
-	var loadNavigation = function(dofalsereload){
+	sakai.site.loadSiteNavigation = function() {
+		// Load site navigation
 		$.ajax({
-			url: "/sdata/f/" + sakai._site.currentsite.id + "/_navigation/content",
+			url: "/sdata/f/" + sakai.site.currentsite.id + "/_navigation/content",
 			cache: false,
+			async: false,
 			success: function(response){
-				sakai._site.pagecontents._navigation = response;
-				$("#page_nav_content").html(response);
+				sakai.site.pagecontents._navigation = response;
+				$page_nav_content.html(response);
 				sdata.widgets.WidgetLoader.insertWidgets("page_nav_content");
 				History.history_change();
 			},
 			error: function(httpstatus){
 				History.history_change();
+				if (httpstatus === 401) {
+					document.location = Config.URL.GATEWAY_URL;
+				}
+				else {
+					alert("site.js: Could not load site navigation content. \n HTTP status code: " + httpstatus);
+				}
 			}
 		});
-	};
-
-
-
-
+	}
 	
-	//---------------------------------------------------------------------------------
-	//	Recent Sites
-	//---------------------------------------------------------------------------------	
 	
 	/**
-	 * Save to Recent Sites 
+	 * Callback function to be executed when navigation widget is loaded
+	 * @return void
+	 */
+	sakai.site.onNavigationLoaded = function(){
+		// Render navigation
+		try {
+			sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.pages);
+		} catch (error1){
+				alert("site.js: An error occured while trying to render the navigation widget: " + error1);
+			}
+		
+	};
+		
+	
+	/**
+	 * Callback function to inform when admin part is loaded
+	 * @return void
+	 */
+	sakai.site.onAdminLoaded = function(){
+		sakai.site.siteAdminLoaded = true;
+		//'site2.js: site admin finished loading succesfuly');
+		
+		// Init site admin
+		sakai.site.site_admin();
+		
+	};
+	
+	
+	
+	/////////////////////////////
+	// RECENT SITES
+	/////////////////////////////
+	
+	/**
+	 * Save to Recent Sites - This function also filter out the current site and writes the data out in JSON format
 	 * @param {Object} response
 	 * @return void
 	 */
-	var saveToRecentSites = function(response){
+	var recentSites_Save = function(response){
 		
 		$.ajax({
 		   	url :"/sdata/p/recentsites.json",
 			cache: false,
 			success : function(data) {
+				
 				var items = $.evalJSON(data);
-				transformRecentSitesList(items, response);
+				var site = $.evalJSON(response).location.substring(1);
+				
+				//Filter out this site
+				var index = -1;
+				for (var i = 0, j = items.items.length; i<j; i++){
+					if (items.items[i] == site){
+						index = i;
+					}
+				}
+				if (index > -1){
+					items.items.splice(index,1);
+				}
+				items.items.unshift(site);
+				items.items = items.items.splice(0,5);
+				
+				// Write
+				sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", $.toJSON(items), function(success){});
 			},
-			error : function(data){
-				transformRecentSitesList({"items":[]}, response);
+			error : function(httpstatus){
+				//transformRecentSitesList({"items":[]}, response);
+				//"site.js: Could not load Recent Sites data. HTTP Status: " + httpstatus);
 			}
 		});
 		
 	};
 	
 	
+	/////////////////////////////
+	// VERSION HISTORY
+	/////////////////////////////
+	
 	/**
-	 * Transforms Recent Sites list so that it does not include the current site 
-	 * @param {Object} items
-	 * @param {Object} response
+	 * Reset version history
 	 * @return void
 	 */
-	var transformRecentSitesList = function(items, response){
+	var resetVersionHistory = function(){
 		
-		var site = $.evalJSON(response).location.substring(1);
-		//Filter out this site
-		var index = -1;
-		for (var i = 0, j = items.items.length; i<j; i++){
-			if (items.items[i] == site){
-				index = i;
+		try {
+			if (sakai.site.selectedpage) {
+				$("#revision_history_container").hide();
+				$("#content_page_options").show();
+				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(sakai.site.pagecontents[sakai.site.selectedpage]);
+				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"));
 			}
+		} catch (err){
+			// Ignore	
 		}
-		if (index > -1){
-			items.items.splice(index,1);
-		}
-		items.items.unshift(site);
-		items.items = items.items.splice(0,5);
-		writeRecentSiteList(items);
 		
 	};
 	
+
+	
+	/////////////////////////////
+	// PAGE OPEN AND DISPLAY FUNCTIONS
+	/////////////////////////////
 	
 	/**
-	 * Writes Recent Sites list to JCR
-	 * @param {Object} items
-	 * @return void
-	 */
-	var writeRecentSiteList = function(items){
-		sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", $.toJSON(items), function(success){});
-	};
-	
-	
-	
-	
-	//---------------------------------------------------------------------------------
-	//	Open and display functions
-	//---------------------------------------------------------------------------------	
-	
-	/**
-	 * Open page H ????
+	 * Open page H
 	 * @param {String} pageid
 	 * @return void
 	 */
 	sakai.site.openPageH = function(pageid){
-	
-		resetVersionHistory();
-	
-		$("#insert_more_menu").hide();
-		$("#more_menu").hide();
-		showingInsertMore = false;	
-		inEditView = false;
-	
-		if (!pageid) {
-			for (var i = 0, j = sakai._site.pages.items.length; i<j; i++) {
-				if (sakai._site.pages.items[i].id.indexOf("/") == -1) {
-					pageid = sakai._site.pages.items[i].id;
-					break;
-				}
-			}
-		}
 		
-		for (i = 0, j = sakai._site.pages.items.length; i<j; i++){
-			if (sakai._site.pages.items[i].id == pageid){
-				$("#pagetitle").text(sakai._site.pages.items[i].title);
+		// Vars
+		var pageType = false;
+		
+		// Reset version history
+		resetVersionHistory();
+		
+		// Reset flags
+		sakai.site.showingInsertMore = false;
+		sakai.site.inEditView = false;
+		
+		// Set pageid if not supplied, set page title and get page type
+		for (var i = 0, j = sakai.site.pages.items.length; i<j; i++){
+			
+			if ((!pageid) && (sakai.site.pages.items[i].id.indexOf("/") == -1)) {
+					pageid = sakai.site.pages.items[i].id;
+				}
+			
+			if (sakai.site.pages.items[i].id == pageid){
+				$pagetitle.text(sakai.site.pages.items[i].title);
+				pageType = sakai.site.pages.items[i].type;
 				break;
 			}
 		}
 		
-		$("#loginLink").attr("href","/dev/index.html?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash));
+		// Set login link
+		$loginLink.attr("href","/dev/index.html?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash));
 		
+		// UI setup
+		$webpage_edit.hide();
+		$dashboard_edit.hide();
+		$tool_edit.hide();
+		$insert_more_menu.hide();
+		$more_menu.hide();
+		$sidebar_content_pages.show();
+		$main_content_div.children().css("display","none");
 		//sakai.dashboard.hidepopup();
-		$("#webpage_edit").hide();
-		$("#dashboard_edit").hide();
-		$("#tool_edit").hide();
-		sakai._site.selectedpage = pageid;
 		
-		sakai._site.pages.selected = pageid;
-		try {
-			sakai._navigation.renderNavigation(sakai._site.selectedpage, pages);
-		} catch (error1){}
-		//document.getElementById("sidebar-content-pages").innerHTML = sdata.html.Template.render("menu_template", pages);
+		//Store currently selected page
+		sakai.site.selectedpage = pageid;
+		sakai.site.pages.selected = pageid;
 		
-		$("#sidebar-content-pages").show();
-		if (sakai._site.currentsite.isMaintainer) {
-			//$(".tool-menu1-del").show();
-		}
-		
-		var el = document.getElementById("main-content-div");
-		var hasopened = false;
-		for (i = 0, j = el.childNodes.length; i<j; i++) {
-			try {
-				if (el.childNodes[i] && el.childNodes[i].style) {
-					el.childNodes[i].style.display = "none";
-					if (el.childNodes[i].id == pageid.replace(/ /g, "%20")) {
-						hasopened = true;
-					}
-				}
-			} 
-			catch (error2) {
-			}
-		}
-		
-		if (hasopened) {
-			sakai._site.myportaljson = sakai._site.myportaljsons[pageid];
-			if (sakai._site.pagetypes[pageid] == "webpage") {
-				$("#webpage_edit").show();
-			}
-			else 
-				if (sakai._site.pagetypes[pageid] == "dashboard") {
-					$("#dashboard_edit").show();
-				}
-			$("#" + sakai._site.escapePageId(pageid)).show();
-		}
-		else {
-			var type = false;
-			for (i = 0, j = sakai._site.pages.items.length; i<j; i++) {
-				if (sakai._site.pages.items[i].id == pageid) {
-					type = sakai._site.pages.items[i].type;
-				}
+		var page_id_to_test = pageid.replace(/ /g, "%20");
+		if ($("#main-content-div[id='" + page_id_to_test + "']").length > 0) {
+			
+			// If page has been opened
+			
+			// Get myportal data 
+			sakai.site.myportaljson = sakai.site.myportaljsons[pageid];
+			
+			// If there is an edit part associated with the page type, show it
+			if ($("#" + sakai.site.pagetypes[pageid] + "_edit").length > 0) {
+				$("#" + sakai.site.pagetypes[pageid] + "_edit").show();
 			}
 			
-			if (type) {
-				sakai._site.pagetypes[sakai._site.selectedpage] = type;
-				if (type == "dashboard") {
-					el = document.createElement("div");
-					el.id = sakai._site.selectedpage.replace(/ /g, "%20");
+			// Show page
+			$("#" + sakai.site.escapePageId(pageid)).show();
+		}
+		else {
+			// If page has not been opened
+			
+			// Show 404 error if page type can not be determined, else store page type
+			if (pageType === false) { 
+				$("#error_404").show();
+			} else { sakai.site.pagetypes[sakai.site.selectedpage] = pageType; }
+			
+			switch (pageType) {
+				
+				// and is a Dashboard
+				case "dashboard":
+					// Create container elements
+					var el = document.createElement("div");
+					el.id = sakai.site.selectedpage.replace(/ /g, "%20");
 					el.className = "container_child";
 					var cel = document.createElement("div");
 					cel.id = "widgetscontainer";
 					cel.style.padding = "0px 7px 0px 7px";
 					el.appendChild(cel);
-					document.getElementById("container").appendChild(el);
+					$("#container").appendChild(el);
 					$.ajax({
-						url: "/sdata/f/" + sakai._site.currentsite.id + "/pages/" + sakai._site.selectedpage + "/state",
+						url: "/sdata/f/" + sakai.site.currentsite.id + "/pages/" + sakai.site.selectedpage + "/state",
 						cache: false,
 						success: function(data){
 							decideDashboardExists(data, true, el);
@@ -473,25 +498,24 @@ if (jQuery.isFunction(sakai.site.site_admin) === false) {
 							decideDashboardExists(status, false, el);
 						}
 					});
-				}
-				else 
-					if (type == "webpage") {
-						var splittedurl = sakai._site.selectedpage.replace(/\//g, "/_pages/");
-						$.ajax({
-							url: "/sdata/f/" + sakai._site.currentsite.id + "/_pages/" + splittedurl + "/content",
-							cache: false,
-							success: function(response){
-								displayPage(response, true);
-							},
-							error: function(httpstatus){
-								displayPage(httpstatus, false);
-							}
-						});
-					}
+					break;
+				
+				// is a Webpage 
+				case "webpage":
+					var splittedurl = sakai.site.selectedpage.replace(/\//g, "/_pages/");
+					
+					$.ajax({
+						url: "/sdata/f/" + sakai.site.currentsite.id + "/_pages/" + splittedurl + "/content",
+						cache: false,
+						success: function(response){
+							displayPage(response, true);
+						},
+						error: function(httpstatus){
+							displayPage(httpstatus, false);
+						}
+					});
+					break;
 			}
-			else {
-				$("#error_404").show();
-			}	
 		}
 	};
 	
@@ -503,8 +527,9 @@ if (jQuery.isFunction(sakai.site.site_admin) === false) {
 	 * @return void
 	 */
 	sakai.site.openPage = function(pageid){
-		//History.addBEvent(pageid);
+		
 		document.location = "#" + pageid;
+		
 	};
 	
 	
@@ -515,79 +540,62 @@ if (jQuery.isFunction(sakai.site.site_admin) === false) {
 	 * @return void
 	 */
 	var displayPage = function(response, exists){
+		
 		if (exists) {
-			sakai._site.pagecontents[sakai._site.selectedpage] = response;
-			$("#webpage_edit").show();
-			var el = document.createElement("div");
-			el.id = sakai._site.escapePageId(sakai._site.selectedpage);
-			//el.className = "container_child";
-			el.className = "content";
-			el.innerHTML = response;
+			// Page exists
 			
-			sakai._site.pagecontents[sakai._site.selectedpage] = el.innerHTML;
+			// Store page content
+			sakai.site.pagecontents[sakai.site.selectedpage] = response;
 			
-			//var els = $("a", el);
-			//for (var i = 0, j = els.length; i<j; i++) {
-			//	var nel = els[i];
-				/*
-					if (nel.className == "contauthlink") {
-					nel.href = "#" + nel.href.split("/")[nel.href.split("/").length - 1];
+			// If page already exists in DOM just show it, else create it
+			if ($("#main-content-div > #"+sakai.site.escapePageId(sakai.site.selectedpage)).length > 0){
+				$("#main-content-div > #"+sakai.site.escapePageId(sakai.site.selectedpage)).show();
+			} else
+				{
+					// Create element
+					var el = document.createElement("div");
+					el.id = sakai.site.escapePageId(sakai.site.selectedpage);
+					el.className = "content";
+					el.innerHTML = response;
+					
+					// Add element to the DOM 
+					$main_content_div.append(el);
 				}
-				*/
-			//}
 			
-			document.getElementById("main-content-div").appendChild(el);
-			sdata.widgets.WidgetLoader.insertWidgets(sakai._site.escapePageId(sakai._site.selectedpage));
+			// Insert widgets
+			sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage);
 			
-			//jQuery("a", $("#container")).tabbable();
+			// Re-render Site Navigation to reflect changes if navigation widget is already loaded
+			try {
+				sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.pages);
+			} catch (error){
+				
+			}
+			
 			
 		}
 		else {
-			//$("#error_404").show();
-			sakai._site.pagecontents[sakai._site.selectedpage] = "";
+			// Page does not exist
+			
+			// Create error element
+			sakai.site.pagecontents[sakai.site.selectedpage] = "";
 			var errorel = document.createElement("div");
-			errorel.id = sakai._site.escapePageId(sakai._site.selectedpage);
+			errorel.id = sakai.site.escapePageId(sakai.site.selectedpage);
 			errorel.className = "content";
 			errorel.innerHTML = "";
 			
-			document.getElementById("main-content-div").appendChild(errorel);
+			// Add error element to the DOM
+			$main_content_div.appendChild(errorel);
 		}
 		
 	};
 	
 	
-	/**
-	 * Navigation loaded callback?
-	 * @return void
-	 */
-	sakai._site.navigationLoaded = function(){
-		sakai._navigation.renderNavigation(sakai._site.selectedpage, sakai._site.pages);
-	};
 	
 	
-	/**
-	 * Reset version history
-	 * @return void
-	 */
-	var resetVersionHistory = function(){
-		try {
-			if (sakai._site.selectedpage) {
-				$("#revision_history_container").hide();
-				$("#content_page_options").show();
-				$("#" + sakai._site.escapePageId(sakai._site.selectedpage)).html(sakai._site.pagecontents[sakai._site.selectedpage]);
-				sdata.widgets.WidgetLoader.insertWidgets(sakai._site.selectedpage.replace(/ /g, "%20"));
-			}
-		} catch (err){
-			// Ignore	
-		}
-	};
-	
-	
-	
-	
-	//---------------------------------------------------------------------------------
-	//	Print page 
-	//---------------------------------------------------------------------------------
+	/////////////////////////////
+	// PRINT PAGE
+	/////////////////////////////
 	
 	/**
 	 * Bring up a print page popup window for printing
@@ -595,60 +603,51 @@ if (jQuery.isFunction(sakai.site.site_admin) === false) {
 	 */
 	var printPage = function(){
 		
-		//save page to be printed into my personal space
-		
-		var escaped = sakai._site.escapePageId(sakai._site.selectedpage);
+		// Save page to be printed into my personal space
+		var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
 		var content = $("#" + escaped).html();
-		
 		sdata.widgets.WidgetPreference.save("/sdata/p/","_print",content,function(data){
-			var pagetitle = "";
-			for (var i = 0, j = sakai._site.pages.items.length; i<j; i++){
-				if (sakai._site.pages.items[i].id == sakai._site.selectedpage){
-					pagetitle = sakai._site.pages.items[i].title;
-					break;
-				}
-			}
-			popUp("print.html?pagetitle=" + pagetitle);
+		
+		// Open a popup window with printable content
+		var day = new Date();
+		var id = day.getTime();
+		window.open("print.html?pagetitle=" + sakai.site.currentsite.name, id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150");
 		});
 		
 	};
 	
-	/**
-	 * Create a pop-up window and open it
-	 * @param {String} URL
-	 */
-	var popUp = function(URL) {
-		var day = new Date();
-		var id = day.getTime();
-		//eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150');");
-		window.open(URL, id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150");
-	};
+	
+	
+	
+	/////////////////////////////
+	// GLOBAL EVENT LISTENERS
+	/////////////////////////////
 	
 	// Bind print page click
 	$("#print_page").bind("click", function(ev){
 		printPage();
 	});
 	
-	
-	
-	
-	
-	//---------------------------------------------------------------------------------
-	//	Global event listeners
-	//---------------------------------------------------------------------------------
-	
 	// Bind "Back to top" link click
 	$("#back_to_top").bind("click", function(){
 		window.scrollTo(0,0);
 	});
 	
-	
 
 	
-	//---------------------------------------------------------------------------------
-	//	Start loading page
-	//---------------------------------------------------------------------------------
 	
-	loadCurrentSiteObject();
+	/////////////////////////////
+	// INIT
+	/////////////////////////////
+	sakai.site.doInit = function() {
+		
+		// Start loading page
+		loadControl();
+		
+	};
 	
+	
+	// Start
+	sakai.site.doInit();
+
 };
