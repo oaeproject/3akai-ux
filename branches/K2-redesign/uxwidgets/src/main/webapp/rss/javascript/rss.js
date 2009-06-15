@@ -132,13 +132,17 @@ sakai.rss = function(tuid, placement, showSettings){
 			rss.description = getContent(channel.find("description")[0]);
 			$(xmlobject).find("item").each(function() {
 				var item = $(this);
+				var parsedDate = "";
+				if (item.find("pubDate")[0]){
+					parsedDate = formatDate(new Date(getContent(item.find("pubDate")[0])));
+				}
 			  	rss.items.push({
 					"title" : getContent(item.find("title")[0]),
 					"link" : getContent(item.find("link")[0]),
 					"description" : getContent(item.find("description")[0]),
 					"pubDate" : Date.parse(getContent(item.find("pubDate")[0])),
 					"guid" : getContent(item.find("guid")[0]),
-					"parsedDate" : formatDate(new Date(getContent(item.find("pubDate")[0])))
+					"parsedDate" : parsedDate
 				});
 		  });
 		  return rss;
@@ -413,7 +417,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		}
 	});
 	$(rssCancel, rootel).bind("click",function(e,ui){
-		sdata.container.informCancel(tuid);
+		sdata.container.informCancel(tuid, "rss");
 	});
 	$(rssSubmit, rootel).bind("click",function(e,ui){
 		var object = getSettingsObject();
@@ -421,7 +425,7 @@ sakai.rss = function(tuid, placement, showSettings){
 			var tostring = $.toJSON(object);
 			var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 			sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, function(){
-				sdata.container.informFinish(tuid);
+				sdata.container.informFinish(tuid, "rss");
 			});
 		}
 	});
@@ -492,7 +496,9 @@ sakai.rss = function(tuid, placement, showSettings){
 					fillRssOutput();
 				},
 				error: function(status) {
-					alert("Failed to retrieve rss feeds");
+					
+					$("#rss_no_feeds").show();
+					
 				}
 			});
 		}
