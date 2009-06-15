@@ -333,7 +333,6 @@ sakai.site.site_admin = function(){
 		$("#edit_view_container").show();
 		
 		var newpath = sakai.site.selectedpage.split("/").join("/_pages/");
-		fluid.log("edit:  /sdata/f/" + sakai.site.currentsite.id + "/_pages/" + newpath + "/_content");
 		$.ajax({
 			url: "/sdata/f/" + sakai.site.currentsite.id + "/_pages/" + newpath + "/_content",
 			cache: false,

@@ -203,10 +203,11 @@ sakai.site = function(){
 		if (!sakai.site.currentsite) {
 			document.location = "/dev/";
 		} else {
-			$site_management_members_link.attr("href", $site_management_members_link.attr("href") + sakai.site.currentsite);
-			$site_management_basic_link.attr("href", $site_management_basic_link.attr("href") + sakai.site.currentsite);
-			$site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sakai.site.currentsite);
-			$site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sakai.site.currentsite);
+			var sitepath = sakai.site.currentsite.location.substring(1);
+			$site_management_members_link.attr("href", $site_management_members_link.attr("href") + sitepath);
+			$site_management_basic_link.attr("href", $site_management_basic_link.attr("href") + sitepath);
+			$site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
+			$site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
 		}
 	
 		// Fill up ME object which contains user info
