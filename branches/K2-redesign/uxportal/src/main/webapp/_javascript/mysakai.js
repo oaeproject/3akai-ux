@@ -87,7 +87,7 @@ sakai.dashboard = function(){
 	};
 	
 	sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-		var generic = "widget_" + widgetname + "_" + tuid + "_~" + sdata.me.preferences.uuid;
+		var generic = "widget_" + widgetname + "_" + tuid + "__private" + sdata.me.userStoragePrefix + "p/_widgets";
 		var id = tuid;
 		var old = document.getElementById(id);
 		var newel = document.createElement("div");
@@ -417,7 +417,7 @@ sakai.dashboard = function(){
 						final2.columns[index].portlets[iindex].title = widget.name;
 						final2.columns[index].portlets[iindex].display = portaldef.visible;
 						final2.columns[index].portlets[iindex].uid = portaldef.uid;
-						final2.columns[index].portlets[iindex].placement = "~" + person.preferences.uuid;
+						final2.columns[index].portlets[iindex].placement = "_private" + sdata.me.userStoragePrefix + "p/_widgets";
 						final2.columns[index].portlets[iindex].height = widget.height;
 					}
 				}
@@ -513,7 +513,7 @@ sakai.dashboard = function(){
 			});
 			
 			$("#settings_settings").bind("mousedown", function(ev){
-				var generic = "widget_" + currentSettingsOpen + "_~" + sdata.me.preferences.uuid;
+				var generic = "widget_" + currentSettingsOpen + "__private" + sdata.me.userStoragePrefix + "p/_widgets";
 				var id = currentSettingsOpen.split("_")[1]; 
 				var old = document.getElementById(id);
 				var newel = document.createElement("div");
@@ -806,21 +806,21 @@ sakai.dashboard = function(){
 		}
 		jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-		myportaljson = eval('(' + jsonstring + ')');
+		myportaljson = $.evalJSON(jsonstring);
 
 		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, finishAddWidgets);
 
-	}
+	};
 
 	var finishAddWidgets = function (success){
 		if (success){
-			document.getElementById("widgetscontainer").innerHTML = "";
+			$("#widgetscontainer").html("");
 			showMyPortal();
 		} 
 		else {
-			window.alert("The connection with the server has been lost");
+			alert("The connection with the server has been lost");
 		}
-	}
+	};
 	
 	var currentselectedlayout = false;
 	
