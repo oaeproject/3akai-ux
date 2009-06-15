@@ -132,7 +132,7 @@
 						<tr class="inbox_message" id="inbox_table_message_${m.id}">
 	                        <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.pathToMessage}" id="inbox_check_delete_${m.id}" /></td>
 					
-							{if m.types.contains('sent')}							
+							{if $.inArray(m.types,'sent') > -1}							
 								{if m.userTo}
 									{if typeof m.userTo[0] === "undefined"}
 										<td><a href="/dev/profile.html?user=${m.to}">${m.userTo.profile.firstName} ${m.userTo.profile.lastName}</a></td>
@@ -206,8 +206,7 @@
 	                                                   
 	            <!-- MESSAGE -->            
 	            <div class="sender-body">
-	            	<div class="message-arrow">
-	            	</div>
+	            	<div class="message-arrow"/>
 	                <div class="sender-message">
 	                    <div class="message-body">
 	
@@ -220,8 +219,8 @@
 	                	</div> 
 	           		</div> 
 	           	</div>
-				<h4 id="inbox_message_previous_messages">Previous messages</h4>
-				<div id="inbox_message_replies"></div>
+				<h4 id="inbox_message_previous_messages" style="padding-left: 30px">Previous messages</h4>
+				<div id="inbox_message_replies" style="padding-left: 30px"></div>
 				<div id="inbox_message_replies_template"><!--
 					{macro showReply(r)}
 			           <div>
@@ -243,7 +242,7 @@
 			            	<div class="message-arrow">
 			            	</div>
 			                <div class="sender-message">
-			                    <div class="message-body">
+			                    <div class="message-body" style="padding-top:0px">
 			                        <div class="message-header" id="inbox_message_subject">${r.subject}</div>                
 			                        <div id="inbox_message_body">${r.bodyText}</div>
 			                        <div class="message-options">
@@ -283,29 +282,29 @@
 						</form>
 	            </div> 
 			</div>
+
+		</div>
+		
+		<!-- NEW MESSAGE -->
+		<div id="inbox_pane_compose" class="inbox_pane" style="display:none;">
+			<!-- HEADER -->                
+	           <div class="inbox-heading"> 
+	           	Compose a New Message            
+	           </div>
+	           <!-- COMPOSE MESSAGE --> 
+	           <div class="compose-message">          
+	               <form class="compose-form" method="post" action="" id="inbox_compose_new_container">
+					<div id="sendmessagecontainer" style="width:100%">
+						<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
+					</div>
+				</form>    
+	           </div> 
+		</div>
 			
-			
-			<!-- NEW MESSAGE -->
-			<div id="inbox_pane_compose" class="inbox_pane" style="display:none;">
-				<!-- HEADER -->                
-	            <div class="inbox-heading"> 
-	            	Compose a New Message            
-	            </div>
-	            <!-- COMPOSE MESSAGE --> 
-	            <div class="compose-message">          
-	                <form class="compose-form" method="post" action="" id="inbox_compose_new_container">
-						<div id="sendmessagecontainer" style="width:100%">
-							<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
-						</div>
-					</form>    
-	            </div> 
-			</div>
-			
-		</div>	
     </div>
     
     <!-- FOOTER -->    
-    <div class="page-footer"></div>
+    <div class="page-footer"/>
 	
 	<script type="text/javascript" language="JavaScript" src="_javascript/inbox.js"></script>
 </body>

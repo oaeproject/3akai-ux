@@ -15,6 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 /*global $, Config, sdata, opensocial */
 
 var sakai = sakai || {};
@@ -119,7 +120,7 @@ sakai.inbox = function() {
     //    Reply on a message
     var inboxSpecificMessageReplies = inboxSpecificMessage + "_replies";
     var inboxSpecificMessageRepliesTemplate = inbox + "_message_replies_template";
-    var inboxSpecificMessageRepliesTemplateChats = inboxSpecificMessageRepliesTemplate + "_chats";
+    var inboxSpecificMessageRepliesTemplateChats = "inbox_compose_replies_template_chats";
     
     var inboxSpecificMessageCompose = inboxSpecificMessage + "_compose";
     var inboxSpecificMessageComposeSubject = inboxSpecificMessageCompose + "_subject";
@@ -486,7 +487,7 @@ sakai.inbox = function() {
         removeAllMessagesOutDOM();
         
         //    Add them to the DOM
-        $(inboxTable).children('tbody').append($.Template.render(inboxTableMessagesTemplate, tplData));
+		$(inboxTable).children('tbody').append($.Template.render(inboxTableMessagesTemplate, tplData));
                                 
         //	do checkboxes
         tickMessages();
@@ -728,7 +729,7 @@ sakai.inbox = function() {
                 $(inboxTableSubject + id).removeClass(inboxTablesubjectUnreadClass);
                 
                 //	Set the unread messages in the header.
-                if (message.types.contains(Config.Messages.Types.inbox)) {
+                if ($.inArray(message.types,Config.Messages.Types.inbox) > -1) {
                     var unreadMessages = parseInt($(chatUnreadMessages).text(), 10);
                     $(chatUnreadMessages).text(unreadMessages - 1);
                 }
@@ -770,6 +771,9 @@ sakai.inbox = function() {
      * @param {String} id    The id of a message
      */
     var displayMessage = function(id) {
+		$(".message-options").show();
+		$("#inbox_message_previous_messages").show();
+		$("#inbox_message_replies").html("");
         showPane(inboxPaneMessage);
         var message = getMessageWithId(id);
         selectedMessage = message;
@@ -800,6 +804,8 @@ sakai.inbox = function() {
                     replies = {
                         "replies": message.parts
                     };
+					$(".message-options").hide();
+					$("#inbox_message_previous_messages").hide();
                     replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, replies);
                     
                 }
@@ -1008,7 +1014,7 @@ sakai.inbox = function() {
         $(inboxComposeNewPanel).toggle();
     });
     $(inboxComposeMessage).click(function() {
-        showPane(inboxPaneCompose);
+		showPane(inboxPaneCompose);
         
         //	initialise the sendmessage widget
         //	we tell it to show it in our id and NOT as a layover.
@@ -1124,7 +1130,7 @@ sakai.inbox = function() {
     
     $(inboxSpecificMessageOptionDelete).click(function() {
         var harddelete = false;
-        if (selectedMessage.types.contains("trash")) {
+        if ($.inArray(selectedMessage.types, "trash") > -1) {
             //	This is a trashed message, hard delete it.
             harddelete = true;
         }
