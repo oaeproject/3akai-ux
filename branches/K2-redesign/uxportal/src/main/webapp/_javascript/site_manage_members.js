@@ -25,6 +25,21 @@ sakai.site_manage_members = function() {
 	var pageSize = 10;
 	var selectedPeople = [];
    
+   /**
+     * Adds ?key=val to the url of ID of the DOM.
+     * @param {String} id The DOM id
+     * @param {String} key The key you wish to add
+     * @param {String} value The value for the key.
+     */
+    var appendKeyToURL = function(id, key, value) {
+        var url = $(id).attr('href');
+        // If there is no question mark in the url we add it.
+        url += (url.indexOf('?') === -1) ? "?" : "&";
+        url += key + "=" + value;
+        $(id).attr('href', url);
+    };
+   
+   
    	/**
    	 * gets the sitedid from the url
    	 */
@@ -33,7 +48,9 @@ sakai.site_manage_members = function() {
 		selectedSite = qs.get("siteid",false);
 		$("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
 		$(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
-		
+		$(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
+            appendKeyToURL(el, 'siteid', selectedSite);
+        });
 		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
 	};
 	getSiteId();
