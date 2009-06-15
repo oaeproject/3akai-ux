@@ -517,7 +517,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		var windowLocationPath = window.location.pathname.toLowerCase();
 		
 		if (windowLocationPath.indexOf(Config.URL.MY_DASHBOARD) !== -1){
-			$(navMySakaiLink).html(renderSelectedPage("My Sakai"));
+			$(navMySakaiLink).html(renderSelectedPage($.i18n.getValueForKey("MY_SAKAI")));
 		} else if (windowLocationPath.indexOf(Config.URL.SEARCH_GENERAL_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_PEOPLE_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_SITES_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_CONTENT_URL) !== -1){
 			$(navSearchLink).html(renderSelectedPage("Search"));
 		} else if (windowLocationPath.indexOf(Config.URL.PEOPLE_URL) !== -1){
