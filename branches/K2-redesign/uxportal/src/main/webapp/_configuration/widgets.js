@@ -187,7 +187,7 @@ var Widgets = {
 			siteportal:0,
 			ca:1,
 			showinmedia:0,
-			showinsakaigoodies:1,
+			showinsakaigoodies:0,
 			img:"/devwidgets/wookiechat/images/wookiechat.png"
 		},
 		wookieforum :
@@ -366,16 +366,16 @@ var Widgets = {
 		},
 		tlrp :
 		{
-			description:"TLRP Bera Widget",
+			description:"TLRP BERA Widget",
 			iframe:0,
 			url:"/devwidgets/tlrp/tlrp.html",
-			name:"TLRP-Bera",
+			name:"TLRP BERA",
 			id:"tlrp",
 			personalportal:0,
 			siteportal:0,
 			ca:1,
 			showinmedia:0,
-			showinsakaigoodies:0,
+			showinsakaigoodies:1,
 			img:"/devwidgets/tlrp/images/tlrp.png"
 		},
 		rss :

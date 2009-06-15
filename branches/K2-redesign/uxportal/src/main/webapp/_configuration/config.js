@@ -101,14 +101,6 @@ var Config = {
 				name : "Blue theme",
 				image : "_images/sakai_blue.png"
 			},
-			green : {
-				name: "Green theme",
-				image : "_images/sakai_green.png"
-			},
-			green2col : {
-				name : "Two column green theme",
-				image : "_images/sakai_green_2col.png"
-			},
 			camuniversity : {
 				name : "Cambridge University theme",
 				image : "/dev/_skins/camuniversity/images/camuniversity.png"
