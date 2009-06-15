@@ -356,7 +356,7 @@ sdata.widgets.WidgetLoader = {
 						var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1; 
 						
 						var placement = "";
-						if (split[3]){
+						if (split[3] !== undefined){
 							placement = id.substring(length);
 						}
 						
