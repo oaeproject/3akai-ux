@@ -652,40 +652,33 @@ sdata.widgets.WidgetPreference =  {
 	 * @return The rendered HTML string
 	 */
 	$.Template.render = function(templateName, contextObject, output)  {
-
-		try {
-		
-			if (!templateCache[templateName]) {
-				var el = $("#" + templateName);
-				if (el.get(0)) {
-					var templateNode = el.get(0);
-					var firstNode = templateNode.firstChild;
-					var template = null;
-					// Check whether the template is wrapped in <!-- -->
-					if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-						template = templateNode.firstChild.data.toString();
-					}
-					else {
-						template = templateNode.innerHTML.toString();
-					}
-					// Parse the template through TrimPath and add the parsed template to the template cache
-					templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
-					
+		if (!templateCache[templateName]) {
+			var el = $("#" + templateName);
+			if (el.get(0)) {
+				var templateNode = el.get(0);
+				var firstNode = templateNode.firstChild;
+				var template = null;
+				// Check whether the template is wrapped in <!-- -->
+				if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
+					template = templateNode.firstChild.data.toString();
 				}
 				else {
-					throw "Template could not be found";
+					template = templateNode.innerHTML.toString();
 				}
+				// Parse the template through TrimPath and add the parsed template to the template cache
+				templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
+				
 			}
-			
-			// Run the template and feed it the given JSON object
-			var render = templateCache[templateName].process(contextObject);
-			
-			if (output) {
-				output.html(render);
+			else {
+				throw "Template could not be found";
 			}
-			
-		} catch (err){
-			alert(err);
+		}
+		
+		// Run the template and feed it the given JSON object
+		var render = templateCache[templateName].process(contextObject);
+		
+		if (output) {
+			output.html(render);
 		}
 				
 		return render;

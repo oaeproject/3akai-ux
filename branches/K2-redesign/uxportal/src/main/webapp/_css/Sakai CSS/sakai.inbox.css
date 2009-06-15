@@ -50,7 +50,7 @@
 .inbox_main .compose-form .compose-to{width:490px; padding:0; margin:0;}
 .inbox_main .compose-form .compose-subject{width: 490px; padding:2px; margin:0px; }
 .inbox_main .compose-form .compose-body{height: 140px; width:490px; padding:2px; margin:0px;}
-.inbox_main .compose-form div{padding-bottom: 10px;}
+.inbox_main .compose-form div{}
 .inbox_main .compose-cancel{padding-left: 7px;}
 
 /* inbox_message_detail.html */
@@ -63,8 +63,8 @@
 .inbox_detail .sender-options a{color:#058ec4; font-size: 12px;}
 .inbox_detail .sender-body{background:#f4f4f4; position: relative; top:-20px;} !important /* IE6 FIX */
 .inbox_detail .sender-message{display:inline; height: auto; width: 100%;}
-.inbox_detail .message-arrow{background: url(../../_images/message_arrow.gif) no-repeat 0 0; height: 7px; width: 10px; position: relative; top: -7px; left: 15px;}
-.inbox_detail .message-body{padding: 0 15px 15px 15px; color:#333; font-size: 13px;}
+.inbox_detail .message-arrow{background: url(../../_images/message_arrow.gif) no-repeat 0 0; position: relative; top: -7px; left: 15px;}
+.inbox_detail .message-body{padding: 20px 15px 15px 15px; color:#333; font-size: 13px;}
 .inbox_detail .message-header{font-weight: bold; font-size: 15px; padding-bottom: 5px;}
 .inbox_detail .message-options{padding: 15px 15px 0 0;}
 .inbox_detail .message-options a{color:#058ec4; font-weight: bold;}

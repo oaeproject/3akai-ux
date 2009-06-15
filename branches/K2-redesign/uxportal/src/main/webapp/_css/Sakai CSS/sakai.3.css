@@ -180,7 +180,7 @@ body {
 .profile_preview .button.send_msg_btn{width: 123px; margin-top: 7px;}
 
 /* send_message_lightbox.html */
-.send_message .compose-form{font-weight: bold; padding: 15px 15px 15px 15px}
+.send_message .compose-form{font-weight: bold; padding: 0px 15px 15px 0px}
 .send_message .compose-form input, .send_message .compose-form textarea{font-weight: normal;}
 .send_message .compose-form span{font-weight: 100; padding-left: 4px;}
 .send_message .compose-form div{padding-bottom: 10px;}
