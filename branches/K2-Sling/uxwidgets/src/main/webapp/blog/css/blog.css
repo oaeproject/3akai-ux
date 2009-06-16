@@ -1,0 +1,73 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+#blog_form {width:500px;margin-left:115px;margin-top:15px;padding-top:15px;}
+#blog_settings_nrOfSelectedTags {font-weight:700;}
+.blog_commentsShowComments {margin-left:25px;}
+.blog_form {clear:right;}
+.blog_noPostMatching {text-align:center;}
+.blog_message .blog_form {margin-left:15px;}
+#blog_form label,#blog_settings label {font-weight:700;}
+#blog_form .blog_input {border:1px solid #dadada;background-color:#f2f2f2;margin-bottom:10px;padding:2px;}
+#blog_form .blog_error {background-color:#f7d8d8;}
+#blog_postTitle {width:100%;}
+#blog_postMessage {height:150px;width:100%;}
+#blog_postTags {width:100%;height:75px;}
+#blog_settings_selectedTags {float:right;}
+#blog_postMedia {float:right;}
+#blog_formCancel,#blog_settingsCancel {float:left;margin:3px 0 15px;}
+#blog_formSubmit,#blog_settingsSubmit {float:right;margin:3px 0 15px;}
+#blog_settings {width:100%;margin:0 auto;}
+#blog_settings hr {color:#dadada;}
+#blog_settingsTags {margin-bottom:0;border:1px solid #dadada;background-color:#f2f2f2;width:100%;padding:2px;}
+#blog_settingsTagsListContainer {overflow:auto;width:100%;max-height:150px;border:1px solid #dadada;padding-left:5px;margin-bottom:10px;}
+#blog_settingsTagsList label {width:100%;display:block;border-bottom:1px solid #dadada;padding-bottom:2px;padding-top:2px;font-weight:400;cursor:pointer;}
+.blog_settingsSelectedTag img {width:12px;height:12px;cursor:pointer;}
+#blog_settings_selectedTagsCloud {margin-top:10px;margin-bottom:10px;}
+#blog_settings_selectedTagsCloud span {margin:5px;}
+.blog_view_newpost,#blog_deleteData {float:right;cursor:pointer;margin:10px 0;}
+#blog_view_posts {clear:right;}
+.blog_post {width:100%;margin-top:15px;}
+.blog_nrComments {float:right;width:200px;text-align:right;}
+.blog_arrowToUser {float:right;width:14px;margin-top:20px;}
+.blog_tags {font-weight:700;float:left;}
+.blog_postUser {float:left;width:105px;}
+.blog_picture {float:left;margin-left:5px;width:80px;height:80px;}
+.blog_picture_comment {float:left;margin-left:20px;width:40px;height:40px;}
+.blog_poster {display:block;width:100%;text-align:center;}
+.blog_postUser a {color:#58b4d8;float:left;}
+.blog_message {margin-left:105px;background-color:#f1f1f1;padding:15px 15px 5px;}
+.blog_message h3 {margin:0 250px 15px 0;padding:0;}
+.blog_messagePost {border-bottom:1px solid #34a2cd;padding-bottom:10px;width:100%;}
+.blog_comments {margin-top:20px;margin-left:105px;}
+.blog_comments h5 {margin-bottom:10px;}
+.blog_comments .blog_picture {margin-left:35px;}
+.blog_postActions {height:auto;float:right;margin:10px 0 0;padding:0;}
+.blog_postActions .blog_noBorder {border-left:0;padding-left:0;}
+.blog_postActions li {border-left:1px solid #d2d2d2;margin-left:0;display:inline;list-style-type:none;padding:0 5px 0 7px;}
+.blog_postActions a {font-size:.95em;font-weight:700;}
+.blog_comment {margin:10px 0;}
+.blog_commentForm label {width:100%;font-weight:700;}
+.blog_message .blog_commentForm {margin:0;}
+.blog_commentForm {background-color:#f1f1f1;margin-left:130px;margin-top:10px;clear:right;padding:10px;}
+.blog_commentForm input[type=text] {width:99%;margin:5px 0;}
+.blog_commentForm textarea {width:100%;height:140px;margin:5px 0;}
+.dialog_footer {background-color:transparent!important;padding-left:0!important;margin-top:10px;height:20px;}
+.cancel-button {color:#666!important;}
+.blog_note {font-size:.7em;}
+.blog_clearer {clear:both;}

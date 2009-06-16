@@ -1,0 +1,93 @@
+/** Results and sorting bar */
+#tlrpTagResultsContainer {
+    background-color: #44acef;
+    height: 21px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top:5px;
+} 
+#tlrpTagSort {
+    background-color: #5ab4ea;
+}
+#tlrpTagSortContainer {
+    height: 19px;
+    padding-left: 30px;
+    padding-top:2px;
+    float:left;
+    width:380px;
+}
+
+#tlrpTagSortGroupContainer {
+    float:right;
+    width:150px;
+}
+#tlrpTagResultsDisplayed, #tlrpTagResultsTotal {
+    font-size: 13px;
+    font-weight: bold;
+} 
+#tlrpTagResults {
+    float: left;
+} 
+#tlrpTagResultsClearFilter {
+    float: right;
+    display: inline-block;
+    color:#ffffff;
+    font-weight:normal;
+    cursor:pointer;
+}
+
+
+/** Sorting */
+#tlrpTagSortContainer a {
+    color:#000000;
+    font-weight:normal;
+    text-decoration:underline;
+}
+
+#tlrpTagSortContainer .tlrpSortByAvailableOptions {
+    position:absolute;
+    background-color:#e8e8e8;
+    border:1px solid #c1c1c1;
+    width:100px;
+    z-index:10;
+    color:#000000;
+}
+
+
+#tlrpSortByItemOptions {
+    position:absolute;
+    background-color:#e8e8e8;
+    border:1px solid #c1c1c1;
+    width:100px;
+    z-index:10;
+    padding-top:5px;
+    color:#000000;
+    font-weight:normal;
+}
+#tlrpSortByItemOptions a, #tlrpTagSortContainer .tlrpSortByAvailableOptions a {
+    font-weight:normal;
+    display:block;
+    text-decoration:none;
+    padding-left:15px;
+    padding-top:2px;
+}
+#tlrpSortByItemOptions a:hover, #tlrpTagSortContainer .tlrpSortByAvailableOptions a:hover {
+    background-color:#5ab4ea;
+}
+#tlrpSortByItemOptions span {
+    display:block;
+    padding-left:15px;
+    padding-top:2px;
+}
+
+
+
+/** Main bar */
+#tlrpTagArticleContainer {
+    height:382px;
+    overflow:auto;
+}
+
+#tlrpTagArticleContainer .tlrpArticleDescription {
+    margin:50px 0px 0px 250px; !important
+}

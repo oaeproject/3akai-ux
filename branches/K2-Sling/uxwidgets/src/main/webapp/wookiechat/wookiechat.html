@@ -1,0 +1,28 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/wookiechat/css/wookiechat.css" />
+
+<!-- ERROR MESSAGES -->
+<span id="wookiechat_error_unableChatPrefs" style="display:none;">Unable to get the chat preferences.</span>
+<span id="wookiechat_error_unableContactWookie" style="display:none;">Unable to contact wookie chat server.</span>
+<span id="wookiechat_error_wrongMeFormat" style="display:none;">Unable to show the chatbox due to a incorrect formatted response from the server.</span>
+
+<!-- SETTINGS VIEW -->
+<div id="wookiechat_settings" style="display:none;">
+	<h1>Wookie Chat</h1>
+	<div id="wookiechat_settings_add">
+		<p>Add a chat box to your page.</p>
+		<a class="button-default wookiechat_settings_btnAddChat" title="Add chat room" href="javascript:;">Add chat room</a>
+	</div>
+	<div id="wookiechat_settings_createnew" style="display:none;">
+		<p>Replace the current chatbox with a new one.</p>
+		<a class="button-default wookiechat_settings_btnAddChat" title="Create new chat room" href="javascript:;">Create new chat room</a>
+	</div>
+	<div id="wookiechat_settings_txt"></div>
+</div>
+
+<!-- MAIN VIEW -->
+<div id="wookiechat_main_message"><!-- All error messages will be shown in this container --></div>
+<div id="wookiechat_mainContainer" style="display:none;"><!-- The wookiechat will be put in this container --></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/wookiechat/javascript/wookiechat.js" />

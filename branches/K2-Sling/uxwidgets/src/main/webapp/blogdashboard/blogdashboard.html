@@ -1,0 +1,40 @@
+<!-- CSS -->
+<link type="text/css" href="/devwidgets/blogdashboard/css/blogdashboard.css" rel="stylesheet" />
+
+<div id="blogdashboard_container">
+	<!-- THE DIV FOR THE MESSAGES -->
+	<div id="blogdashboard_general_message"></div>
+	
+	<!-- THE FORM -->
+	<label for="blogdashboard_title">Title:</label>
+	<input type="text" id="blogdashboard_title" class="blogdashboard_input" />
+	
+	<label for="blogdashboard_content">Content:</label>
+	<textarea id="blogdashboard_content" class="blogdashboard_input" rows="10" cols="50"></textarea>
+	
+	<label for="blogdashboard_tags">Tags:</label>
+	<textarea id="blogdashboard_tags" class="blogdashboard_input" rows="2" cols="50"></textarea>
+	
+	<label for="blogdashboard_site">Select the site where the post will be displayed.</label>
+	<select id="blogdashboard_site">
+		<!-- This will get filled with all the sites -->
+	</select><br />
+	<div id="blogdashboard_siteTemplate" style="display:none;"><!--
+	{if entry.length > 0}
+		{for s in entry}
+			<option value="${s.location}">${s.name}</option>
+		{/for}
+	{else}
+		You're not registered on a site yet.
+	{/if}
+	--></div>
+	
+	<div class="dialog_footer">
+		<div class="buttonBar">
+			<a class="button-default submit_button" href="javascript:;" id="blogdashboard_Publish">Publish</a>
+			<a class="button cancel-button" href="javascript:;" id="blogdashboard_Reset">Reset</a>
+		</div>
+	</div>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/blogdashboard/javascript/blogdashboard.js" />						
