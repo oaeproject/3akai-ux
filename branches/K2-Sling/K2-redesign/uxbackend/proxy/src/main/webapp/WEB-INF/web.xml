@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<web-app id="proxy" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <display-name>proxy</display-name>
+  <description>Sakai proxy</description>
+
+<!-- instance the filter -->
+  <filter>
+    <filter-name>sakai.request</filter-name>
+    <filter-class>org.sakaiproject.kernel.webapp.filter.SakaiRequestFilter</filter-class>
+  </filter>
+
+<!-- map the filter -->
+  <filter-mapping>
+    <filter-name>sakai.request</filter-name>
+    <servlet-name>ControllerServlet</servlet-name>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
+
+<!-- my servlets -->
+  <servlet>
+    <servlet-name>ProxyServlet</servlet-name>
+    <servlet-class>org.sakaiproject.proxy.ProxyServlet</servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProxyServlet</servlet-name>
+    <url-pattern>/proxy</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>

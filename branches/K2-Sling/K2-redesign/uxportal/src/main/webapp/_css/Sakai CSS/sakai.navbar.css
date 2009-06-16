@@ -1,0 +1,59 @@
+
+/* TOP NAV */
+.explore_nav {
+	background-color: #EEEEEE;
+	height: 22px;
+}
+
+.explore_nav .explore {
+	padding-left: 15px;
+}
+
+.explore_nav .explore li a {
+	color: #475358;
+	font-weight:bold;
+	text-align: center;
+}
+
+.explore_nav_selected {
+	color: #fff;
+	background-color: #666666;
+	padding: 2px 5px 2px 5px;
+	display: inline-block;
+	margin-top:-3px;
+	/* needed for rounded cornered anchor buttons */
+	outline: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: -moz-inline-box;
+    display: inline-block;
+    overflow: visible;
+}
+
+.explore_nav_selected span {
+	color: #fff;
+}
+
+.explore_nav_selected_arrow {
+	width: 9px;
+	height: 5px;
+	position: relative;
+	bottom: -11px;
+	
+}
+
+.explore_nav .personal {
+	padding: 0 8px 0 0;
+	font-size: .95em;
+}
+
+.explore_nav .personal li a {
+	color: #058ec4;
+}
+
+.explore_nav .personal li strong {
+	color: #058ec4;
+}

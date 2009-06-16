@@ -1,0 +1,25 @@
+<!-- The contents of this file will be loaded for each web application -->
+<Context>
+
+    <!-- - user the Sakai Shared Classloader to bind into the shared classloader we need -->
+  <Loader
+                className="org.apache.catalina.loader.WebappLoader"
+                delegate="false"
+                useSystemClassLoaderAsParent="false"
+                loaderClass="org.sakaiproject.kernel.loader.server.tomcat5.SakaiSharedClassLoader" 
+  />
+ 	
+<!--
+ 	<Loader 
+ 	 	   loaderClass="org.apache.catalina.loader.WebappClassLoader" 
+	/>
+
+ 	   loaderClass="org.apache.catalina.loader.WebappClassLoader" 
+	   className="org.apache.catalina.loader.WebappLoader" 
+	   />
+	   -->
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+
+</Context>

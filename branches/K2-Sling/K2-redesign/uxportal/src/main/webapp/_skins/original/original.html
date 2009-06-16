@@ -1,0 +1,463 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 RC 1</title>
+        
+		<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
+        <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_permissions.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
+		<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.treeview.css" />
+		<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+			
+    </head>
+    <body id="root" class="fl-centered fl-container">
+		
+   		<!-- TrimPath Templates -->
+		<div id="editor_extra_buttons"><!--
+			<td>
+				<span class='mceSeparator' style='width:5px'/>
+			</td>
+			<td>
+				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+					<tbody>
+						<tr>
+							<td class='mceFirst'>
+								<a onmousedown='return false;' onclick='return false;' class='mceText insert_more_dropdown_activator' href='javascript:;' id='insert_more_dropdown_main'>Insert More</a>
+							</td>
+							<td class='mceLast'>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen insert_more_dropdown_activator' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+			<td>
+				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
+					<tbody>
+						<tr>
+							<td class='mceFirst'>
+								<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Layout</a>
+							</td>
+							<td class='mceLast'>
+								<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>   
+		--></div>
+		
+		<!-- EXPLORE BAR -->
+	    <div id="widget_chat" class="widget_inline"></div>
+		
+		<!-- TITLE BAR + SEARCH -->
+        <div class="fl-container site_heading" style="padding:10px 0 10px 23px;">
+            <form class="search fl-force-right" action="" method="">
+                <input type="text" name="search" value="Search this site" class="fl-force-left search_field" />
+				<a class="button-default save_button search_btn" href="javascript:;">Search</a>
+                <!-- <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" /> -->
+            </form>
+            <h1 id="sitetitle"></h1>
+        </div>
+      
+	   <!-- WORK AREA -->
+        <div class="fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
+	       
+            <!-- Page Nav -->
+            <div class="fl-col-side page_nav">	
+				<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
+				<div id="page_nav_content" class="pages page_nav_content">
+					
+				</div>
+					
+				<div class="site_management" id="site_management" style="display:none">
+					<h3>Site Management</h3>
+	            	<ul>
+	                	<li><a id="site_management_basic_link" href="site_management_basic_settings.html?siteid=">Site Settings</a></li>
+	                	<li><a id="site_management_members_link" href="site_management_members_manage.html?siteid=">Members</a></li>
+	                	<li><a id="site_management_appearance_link" href="site_management_appearance.html?siteid=">Appearance</a></li>
+						<li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
+	            	</ul>
+				</div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="fl-col-main content_container">
+                
+				<div class="content_page_options" id="content_page_options">
+					<ul class="fl-force-right">
+						<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
+						<li class="divider" style="display:none" id="li_edit_page_divider"></li>
+						<li><a href="javascript:;" id="print_page">Print page</a></li>
+						<li class="divider"/>
+						<li><a href="javascript:;" id="more_link">More</a></li>
+					</ul>
+				</div>
+				
+				<div class="fl-container revision_history" id="revision_history_container"  style="display:none">
+					<span class="revision_history_viewing">Viewing:</span>
+					<select id="revision_history_list" style="font-size:0.95em; margin-left: 5px; margin-right:15px; padding:2px; border: 1px solid #cccccc">
+						
+					</select>
+					<a href="javascript:;" class="button-default" id="revision_history_revert" style="color:black; font-weight: bold">Use this Version</a>
+			        <a href="javascript:;" class="button-default" id="revision_history_cancel" style="color:black; font-weight: normal">Cancel</a>
+				</div>
+				
+				<h1 id="pagetitle"></h1>
+                
+				<div class="content_page_header" style="display:none">
+                	<img src="_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" alt="Author"/>
+					<p><a href="#">John Doe</a></p>
+					<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
+                </div>
+                
+				
+				<div id="main-content-div">
+				
+				</div>             
+            </div>
+        </div>
+	 
+        <!-- WORK AREA -->
+        <div class="fl-fix" id="edit_view_container" style="display:none">
+            <div class="main_container content_container">
+                <div class="content">
+                    <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+                    <div class="buttonBar" style="margin-bottom:-1.2em">
+                        <a href="javascript:;" class="button-default save_button">Save</a>
+                        <a href="javascript:;" class="button cancel-button">Cancel</a>
+                        <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
+                    </div>
+                    <ul class="fl-tabs fl-tabs-r tab-nav">
+						<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
+						<li id="tab_html"><a href="javascript:;">HTML</a></li>
+						<li id="tab_preview"><a href="javascript:;">Preview</a></li>
+					</ul>
+                    <div class="tab-nav-panel" id="tab-nav-panel">
+                    	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
+                        <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
+                        	<div class="mceToolbarExternal mceEditor defaultSkin"/>
+                        </div>
+						<div class="fl-tab-content-border" id="title-input-container">
+                            <input type="text" value="Untitled" class="title-input" id="title-input"/>
+                        </div>
+						<div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
+							<div id="placeholderforeditor" class="textarea">
+								<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+								<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+									&nbsp;
+								</textarea>
+							</div>
+                        </div>
+						<div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
+							<textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
+						</div>
+                    </div>
+                    <p class="new_page_path" id="new_page_path">
+                         Site title / Some page / <span>Untitled</span>
+                        <input class="custom_button" type="button" value="Move ..." name="somename"/>
+                    </p>
+					<div style="display:none" id="new_page_path_template"><!--
+						{var index = 0}
+						<span>Page location:</span>
+						{for i in pages}
+							${index++|eat}
+							{if index == total}
+								<span id="new_page_path_current">${i}</span>
+							{else}
+								${i}&nbsp;/&nbsp;
+							{/if}
+						{/for}
+						&nbsp;
+						<input class="custom_button" type="button" value="Move ..." name="somename" id="move_inside_edit"/>
+					--></div>
+					<div class="fl-tab-content-border content_container" id="page_preview_content" style="display:none; margin-bottom: 20px">
+						
+					</div>
+                    <div class="buttonBar">
+                        <a href="javascript:;" class="button-default save_button">Save</a>
+                        <a href="javascript:;" class="button cancel-button">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER copyright -->
+        <div class="fl-container footer_copyright">
+            <a href="javascript:;" id="back_to_top">Back To Top</a>
+            <p>
+                Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
+                <br/>
+                &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
+            </p>
+        </div>
+		
+		<div class="add_new_menu" id="add_new_menu" style="display:none">
+			<ul>
+				<li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
+				<li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
+				<li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
+			</ul>
+		</div>
+		
+		<div class="add_new_menu" id="more_menu" style="display:none">
+			<ul>
+				<li id="more_settings" class="more_option"><a href="javascript:;">Settings</a></li>
+				<li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
+				<li id="more_move" class="more_option move_dialog_trigger"><a href="javascript:;">Move</a></li>
+				<li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
+				<li id="more_delete" class="more_option"><a href="javascript:;">Delete</a></li>
+			</ul>
+		</div>
+		
+		<div id="insert_more_menu" class="insert_more_menu" style="display:none">
+			<div class="insert_more_menu_border">
+				<ul>
+					<li><a href="javascript:;" id="link_dialog_trigger">Link</a></li>
+					<li><a href="javascript:;" id="horizontal_line_insert">Horizontal Line</a></li>
+				</ul>
+			</div>
+			<div id="insert_more_media" class="insert_more_menu_border">
+				
+			</div>
+			<div id="insert_more_goodies">
+				
+			</div>
+		</div>
+		
+		<div id="insert_more_media_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Media:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{forelse}
+					<li class="insert_more_menu_inactive"><i>No available</i></li>
+				{/for}
+			</ul>
+		--></div>
+		
+		<div id="insert_more_goodies_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Sakai Goodies:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{/for}
+				<li class="insert_more_menu_inactive">(More coming soon)</li>
+			</ul>				
+		--></div>
+		
+		<div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
+			<div class="dialog_header">
+				<h1 id="dialog_title"></h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			<div id="dialog_content" class="dialog_content" style="padding:10px;"></div>
+		</div>
+		
+		<div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Appearance</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">Select wrapping for your widget</h3>
+				
+				<ul style="margin-left:1em">
+					<li style="list-style-type:none; padding-l"><a id="wrapping_no" href="javascript:;">No wrapping</a></li>
+					<li style="list-style-type:none"><a id="wrapping_left" href="javascript:;">Left wrapping</a></li>
+					<li style="list-style-type:none"><a id="wrapping_right" href="javascript:;">Right wrapping</a></li>
+				</ul>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <!--<a href="javascript:;" class="button-default">Save</a>-->
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Auto-save</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">An unsaved version of this page has been found.</h3>
+				
+				<p>Do you want to load this unsaved version?</p>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" id="autosave_revert" class="button-default">Yes</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Delete a page</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">Are you sure you want to delete this page?</h3>
+				
+				<p>Note: by deleting this page you will also delete all of its child pages</p>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" id="delete_confirm" class="button-default">Yes</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div id="link_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Insert a link</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">To insert a page link, select the right page and hit Insert</h3>
+			
+				<div id="treeview_link_container" class="treeview_container">
+					
+				</div>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" id="insert_link_confirm" class="button-default">Insert</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div id="move_dialog" class="dialog" style="width:400px; margin-left: -200px">
+			<div class="dialog_header">
+				<h1>Move Page</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+						
+			<div class="dialog_content">
+				
+				<h3 style="margin-top:0px">To shuffle things around, just drag 'n drop!</h3>
+			
+				<div id="treeview_move_container" class="treeview_container">
+					
+				</div>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" id="move_page_confirm" class="button-default">Save</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
+		<div class="context_menu" id="context_menu" style="display:none">
+			<img src="/dev/_images/edit_icon.png" width="20px" alt="Edit Widget"/>
+			<br/>
+			<ul>
+				<li id="context_settings"><a href="javascript:;">Settings</a></li>
+				<li id="context_remove"><a href="javascript:;">Remove</a></li>
+				<li id="context_appearance"><a href="javascript:;" id="context_appearance_trigger">Wrapping</a></li>
+			</ul>
+		</div>
+		
+		
+		<div class="dialog" id="save_as_template_container">
+			<div class="dialog_header">
+				<h1>Save as Template</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div class="dialog_content">
+				
+				<h1>Template name</h1>
+				<textarea id="template_name"></textarea>
+				
+				<h1>Description</h1>
+				<textarea id="template_description"></textarea>
+				
+				<p><small>Maximum 250 characters!</small></p>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" class="button-default" id="save_as_page_template_button">Save</a>
+			        <a href="javascript:;" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+
+		<div class="dialog" id="select_template_for_page">
+			<div class="dialog_header">
+				<h1>Add page from template</h1>
+				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div class="dialog_content" style="padding-bottom:20px">
+				
+				<div id="list_container" class="fl-container template_list_container">
+				</div>
+				<div id="list_container_template"><!--
+					{if size > 0}
+					<ul class="fl-listmenu template_list">
+						{for i in items}
+				        <li>
+							<a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>
+							<a href="javascript:;" id="page_template_selection_${i.id}" class="page_template_selection">
+								<span class="menu_title">${i.name}</span>
+								<span class="description">${i.description}</span>
+							</a>
+						</li>	
+						{/for}
+			        </ul>
+					{else}
+						<span>No templates available. In order to create one, go to the page you would like to use as a template, hit the
+						more menu and select Save As Page Template.</span>
+					{/if}
+				--></div>
+				
+			</div>
+			
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>
+		
+    </body>
+</html>

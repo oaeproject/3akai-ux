@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<assembly>
+  <id>kernel-core</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <outputDirectory></outputDirectory>
+      <directory>src/main/configuration
+      </directory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>webapps/</outputDirectory>
+      <outputFileNameMapping>${artifact.artifactId}.war
+      </outputFileNameMapping>
+      <includes>
+        <include>*:war:*</include>
+      </includes>
+      <excludes>
+        <exclude>uxportal:war:* </exclude>
+        <exclude>uxwidgets:war:* </exclude>
+      </excludes>
+      <unpack>false</unpack>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>webapps/</outputDirectory>
+      <outputFileNameMapping>dev.war</outputFileNameMapping>
+      <includes>
+        <include>uxportal:war:*</include>
+      </includes>
+      <unpack>false</unpack>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>webapps/</outputDirectory>
+      <outputFileNameMapping>devwidgets.war</outputFileNameMapping>
+      <includes>
+        <include>uxwidgets:war:*</include>
+      </includes>
+      <unpack>false</unpack>
+    </dependencySet>
+  </dependencySets>
+</assembly>

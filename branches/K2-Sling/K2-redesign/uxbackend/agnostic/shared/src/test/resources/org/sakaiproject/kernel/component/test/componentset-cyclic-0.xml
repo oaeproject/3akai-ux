@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://ns.sakaiproject.org/2008/components">
+  <groupId>org.sakaiproject.kernel2.agnostic
+  </groupId>
+  <artifactId>componentset-good-0</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <documentation>ComponentSet Good 0 has no dependencies
+  </documentation>
+  <activator>org.sakaiproject.simple</activator>
+</component>

@@ -1,0 +1,22 @@
+{
+   name : "Site 2",
+   id : "group2",
+   type : "course",
+   description  : "An Example site definition. This is just the required fields that we might see inside a object that defines a site ",      
+   roles : [{
+         "name" : "access",
+         "permissions" : [
+            "read",
+            "write",
+            "delete"
+         ]
+      },{
+         "name" : "maintain",
+         "permissions" : [
+            "read",
+            "write",
+            "delete"
+         ]
+      }]
+   }
+}

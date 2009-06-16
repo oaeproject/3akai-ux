@@ -1,0 +1,11 @@
+{
+  uuid : "ieb",
+  eid  : "ieb",
+  superUser: false,
+  subjects : [
+     "group1:maintain" ,
+     "group2:maintain" ,
+     "group2:access" ,
+     ".engineering:student" 
+  ]
+}

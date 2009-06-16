@@ -1,0 +1,596 @@
+<!-- STYLESHEETS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/quiz/css/quiz.css" />
+
+<!-- MAIN CONTAINER -->
+<div id="quiz_mainContainer" style="display:none;">
+	
+	<form class="quiz_form">
+		<div id="quiz_quizContainer"></div>
+		
+		
+		<div id="quiz_quizTemplate"><!--
+		<h1>${title}</h1>
+		<div id="quiz_question">
+
+			<div id="quiz_solveQuestion">
+			
+			</div>
+			<div id="quiz_showPoints">
+				<div id="quiz_overviewAnswersListContainer">
+					
+				</div>
+				
+			</div>
+			<div id="quiz_startQuiz">
+			{if isTimeLimit}
+				You have ${timeLimit} minutes to complete this quiz<br />
+			{/if}
+				
+
+				<div class="quiz_questionsBtnBar">
+				<a class="button-default quiz_left" id="quiz_showResults" href="javascript:;">Show results</a>
+					<a class="button-default quiz_right" id="quiz_startQuizBtn" href="javascript:;">Start quiz</a>
+				</div>
+			</div>
+		</div>
+		
+		--></div>
+		
+		<div id="quiz_popupTemplate"><!--
+		{if !isTimedOut}
+		{if IsCorrect}
+			<span class="quiz_popup_correct">Correct</span><br />
+		{else}
+			<span class="quiz_popup_wrong">Wrong answer</span><br />
+		{if ShowAnswer && answer != ""}
+			<span>The correct answer was "<span>${answer}</span>"</span>
+		{/if}
+		{/if}
+		{else}
+			<span class="quiz_popup_wrong">Time's up</span><br />
+		{/if}
+		--></div>
+		
+		<div id="quiz_solveQuestionTemplate"><!--
+		
+		<div id="quiz_answerPopup" style="display:none"></div>
+			<div class="quiz_questionPart">
+			<span class="quiz_questionSpan">${question}</span><br />
+
+			{if answerType == 'quiz_NormalAnswerRbt'}
+				<input type="text" id="quiz_answer" />
+			{elseif (answerType == 'quiz_MultipleAnswersRbt')}
+				<ul>
+				{for i in answer.answers}
+					<li>
+					{if answerCount > 1}
+						<input type="checkbox" name="quiz_chooseAnswer" value="quiz_answer${answer.answers.indexOf(i)}" id="quiz_answer${answer.answers.indexOf(i)}ID">
+					{else}
+						<input type="radio" name="quiz_chooseAnswer" value="quiz_answer${answer.answers.indexOf(i)}" id="quiz_answer${answer.answers.indexOf(i)}ID">
+					{/if}
+					<label for="quiz_answer${answer.answers.indexOf(i)}ID" class="quiz_rbtLabel">${i.value}</label>
+					</input>
+					</li>	
+				{/for}
+				</ul>
+			{elseif answerType == "quiz_imgTagger"}
+				<div class="quiz_relative">
+				<img class="quiz_img" src="${img}" alt="image" />
+				{for i in answer.answers}
+					<div class="quiz_dragTag" id="quiz_dragTag${answer.answers.indexOf(i)}" style="left:10px;top:${35*answer.answers.indexOf(i) + 10}px"><div>${i.tag}</div></div>
+				{/for}
+				</div>
+				<div class="quiz_clear" ></div>
+			{/if}
+			{if img != "" && answerType != "quiz_imgTagger"}
+				<img src="${img}" class="quiz_questionImg" alt="image"/>
+			{/if}
+			<div>
+			<div class="quiz_questionsBtnBar">
+			<a class="button-default quiz_left" id="quiz_showResults" href="javascript:;">Show results</a>
+			
+				{if !isLastQuestion}
+				<a class="button-default quiz_nextQuestion quiz_right" id="quiz_nextQuestion${index}" href="javascript:;">Next</a>
+				{else}
+				<a class="button-default quiz_nextQuestion  quiz_right" id="quiz_nextQuestion${index}" href="javascript:;">End quiz</a>
+				{/if}
+		
+				
+			
+			<div class="quiz_clear"></div>
+			<div>
+	--></div>	
+	<div id="quiz_overviewAnswersListTemplate"><!--
+	{if questions.length > 0}
+	<div class="quiz_showPoints">${points}</div>
+	<div id="quiz_overviewAnswersList">
+	<table border="0" class="quiz_noBorder">
+		{for i in questions}
+		<tr class="quiz_noBorder">
+		<td class="quiz_noBorder">
+		{if i.correct}
+		<img src="/devwidgets/quiz/images/quiz_thumbsup.png" alt="thumbs up"/>
+		{else}
+		<img src="/devwidgets/quiz/images/quiz_thumbsdown.png" alt="thumbs down"/>
+		{/if}
+		</td>
+			
+		<td class="quiz_noBorder quiz_widthSet">
+			<span>${i.question}</span><br />
+			{if i.answerType == 'quiz_NormalAnswerRbt'}
+				<span>${i.answered}</span>
+			{elseif i.answerType == 'quiz_MultipleAnswersRbt'}
+				{if i.answer.correctAnswer.length > 1}
+						<span>${i.answered} out of ${i.answer.answers.length} correct</span>
+				{else}
+						<span>${i.answered}</span>
+				{/if}
+			{else}
+				<span>${i.answered} out of ${i.answer.answers.length} correct</span>
+			{/if}
+			
+		</td>
+		<td class="quiz_noBorder">
+		{if !i.correct && showAnswers && i.answerType != "quiz_imgTagger"}
+		{if i.answerType == 'quiz_NormalAnswerRbt'}
+		<a class="button-default quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}" href="javascript:;">Check answer</a>
+		{else}
+			{if i.answerCount == 1}
+			<a class="button-default quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}" href="javascript:;">Check answer</a>
+			{else}
+			<a class="button-default quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}" href="javascript:;">Check answers</a>
+			{/if}
+		{/if}	
+		{/if}
+		</td>
+			
+		</tr>
+		{if selectedQuestion == questions.indexOf(i)}
+		{if i.answerType == 'quiz_NormalAnswerRbt'}
+			<tr class="quiz_noBorder">
+				<td class="quiz_noBorder" colspan="3">${selectedAnswers}</td>
+			</tr>
+		{else}
+		{for j in selectedAnswers}
+			<tr class="quiz_noBorder">
+				<td class="quiz_noBorder" colspan="3">${j}</td>
+			</tr>
+		{/for}
+		{/if}
+		
+		
+		{/if}	
+		{/for}
+	</table>
+	</div>
+	{/if}
+	<div id="quiz_resultGraph">
+	
+	</div>
+	<br />
+	<br />
+	<div class="quiz_questionsBtnBar">
+			<a class="button-default" id="quiz_backToQuiz" href="javascript:;">Back</a>
+			
+	<div>
+	--></div>
+	<div id="quiz_resultGraphTemplate"><!--
+		{if resultDisplay != "text"}
+			<ul class="quiz_left">
+				{for i in titles}
+                	<li><span class='quiz_legendItem' style='background-color:#${colors[titles.indexOf(i)]}'></span>
+                    ${i}
+                	</li>
+            	{/for}
+			</ul>
+			<img alt="problem while loading statistics" class="quiz_right" src="http://chart.apis.google.com/chart?chs=350x200&chd=t:${procValues.join(',')}&cht=${resultDisplay}${axis}${values}&chf=bg,s,f1f1f1&chco=${colorsJoined}" />
+		{else}
+			<ul class="quiz_resultGraphTemplateUL">
+				{for i in titles}
+					<li style='color:${colors[titles.indexof(i)]}'>
+						${i}
+					</li>
+				{/for}
+			</ul>
+			<ul class="quiz_resultGraphTemplateUL2" >
+				{for i in values}
+					<li style='color:${colors[values.indexof(i)]}'>
+						${i}
+					</li>
+				{/for}
+			</ul>
+		{/if}
+		<div class="quiz_clear"></div>
+	--></div>
+			
+	</form>
+</div>
+<!-- SETTINGS CONTAINER -->
+<div id="quiz_settings" style="display:none;">
+
+	
+	<form class="quiz_form">
+		<ul class="quiz_tabs">
+			<li>
+				<a class="quiz_selectedtab quiz_qtab" href="javascript:;" id="quiz_InsertQ">Insert questions</a>
+			</li>
+			<li>
+				<a class="quiz_tab quiz_qtab" href="javascript:;" id="quiz_selectQ">Select questions</a>
+			</li>
+			<li>
+				<a class="quiz_tab quiz_qtab" href="javascript:;" id="quiz_Qoverview">Overview</a>
+			</li>
+		</ul>
+		<div class="quiz_Settingscontainer" >
+		<div id="quiz_InsertQContainer" class="quiz_maintabContainer">
+			<label for="quiz_txtQuestion">Question:</label><br />
+			<input type="text" id="quiz_txtQuestion"/><br />
+
+			Answer types:<br />
+			<ul id="quiz_answertypes" >
+				<li>
+					<input type="radio" name="quiz_answerType" value="quiz_NormalAnswerRbt" id="quiz_rbtNormalAnswerID" checked="checked">
+						<label for="quiz_rbtNormalAnswerID" class="quiz_rbtLabel">1 answer</label>
+					</input>
+				</li>
+				<li>
+					<input type="radio" name="quiz_answerType" value="quiz_MultipleAnswersRbt" id="quiz_rbtMultipleAnswersID">
+						<label for="quiz_rbtMultipleAnswersID" class="quiz_rbtLabel">Multiple answers</label>
+					</input>
+				</li>
+			</ul>
+			<div id="quiz_answerTypeContainers">
+				<div id="quiz_NormalAnswerContainer">
+					<input type="text" id="quiz_NormalAnswertxtAnswer"/><br />
+					<br />
+				</div>
+				<div id="quiz_MultipleAnswersContainer" style="display:none;">
+					<div id="quiz_MultipleAnswersListContainer" >
+					</div>
+					<a href="javascript:;" class="button-default" id="quiz_addAnswerToMultipleAnswers" >Add answer</a><br />
+				</div>
+				<div id="quiz_MultipleAnswersListContainerTemplate"><!--
+				<div> 
+				<ul id="quiz_MultipleAnswersList">
+					{for i in answers}
+						<li class="quiz_MultipleChoiceAnswer" id="quiz_MultipleAnswersListItem${answers.indexOf(i)}"><input type="checkbox" name="quiz_CorrectAnswerRbt" value="quiz_CorrectAnswer${answers.indexOf(i)}" /><input type="text" value="${i.value}" /><a href="javascript:;" class="quiz_MultipleAnswersListItem">X</a></li>
+					{/for}
+				</ul>
+				</div>
+			--></div>
+				
+			</div>
+			<div id="quiz_infoHoverContainer">
+					<img src="/devwidgets/quiz/images/quiz_infoIcon.png" alt="info" id="quiz_showInfo" class="quiz_left"><img>
+					<div id="quiz_info" style="display:none;">
+						<div>
+							<img src="/devwidgets/quiz/images/quiz_pictureicon.png" alt="picture" class="quiz_left" ><img>
+							<p class="quiz_left">
+								You can use the image to ask visual illustrated questions&#44; for example: &#34;What do you see on the picture below?&#34;
+								or you can just add it as a decorative item.
+							</p>
+							<div class="quiz_clear"></div>
+						</div>
+						<div>
+							<img src="/devwidgets/quiz/images/quiz_mathformulaicon.png" alt="math" class="quiz_left" ><img>
+							<p class="quiz_left">
+								You can use the image to ask mathematical questions&#44; for example: &#34;What is the solution on this formula?&#34;. 
+							</p>
+							<div class="quiz_clear"></div>
+						</div>
+						<div>
+							<img src="/devwidgets/quiz/images/quiz_imagetaggingicon.png" alt="image tagging" class="quiz_left"><img>
+							<p class="quiz_left">
+								You can add tags to you image&#44; that way you can ask to point at parts of an image&#44; for example: &#34;Drag the heart tag to the right place.&#34;
+							</p>
+							<div class="quiz_clear"></div>
+						</div>
+					</div>
+					<p class="quiz_left" id="quiz_addMediaToQ">
+						Add media to your question: 
+					</p>
+					<div class="quiz_clear"></div>
+					<ul class="quiz_tabs">
+						<li>
+							<a class="quiz_imgTab quiz_selectedtab" href="javascript:;" id="quiz_imgSelectSite">Select image from &#34;<span></span>&#34;</a>
+						</li>
+						<li>
+							<a class="quiz_imgTab quiz_tab" href="javascript:;" id="quiz_imgSelectURL">Select image from URL</a>
+						</li>
+						<li>
+							<a class="quiz_imgTab quiz_tab" href="javascript:;" id="quiz_ImgSelectHD">Select image from hard drive</a>
+						</li>
+					</ul>
+					<div class="quiz_Settingscontainer">
+						<div id="quiz_imgSelectSiteContainer"  class="quiz_tabContainer">
+							<div class="quiz_tabContainer_left">
+								<label for="quiz_txtImgSelectSite">Select or search:</label><br />
+								<input type="text" id="quiz_txtImgSelectSite"/><br />
+								<div id="quiz_ImgSiteList">
+								</div>
+								<br />
+								<a class="button-default quiz_insertImg" id="quiz_insertSiteRescourseImg" href="javascript:;">Insert image</a><br />
+							</div>
+						</div>
+						<div id="quiz_imgSelectURLContainer"  class="quiz_tabContainer" style="display:none;">
+							<div class="quiz_tabContainer_left">
+								<label for="quiz_txtImgURL">URL:</label><br />
+								<input type="text" id="quiz_txtImgURL"/><br />
+								<br />
+								<a class="button-default quiz_insertImg" id="quiz_insertURLImg" href="javascript:;">Insert image</a>
+								<div class="quiz_clear"></div><br />
+								<a class="button-default quiz_imgTagQuestion" href="javascript:;">Insert image tagger</a>
+							</div>	
+							<div class="quiz_tabContainer_right" id="quiz_URLimgPreview">
+							</div>							
+						</div>
+						<div id="quiz_ImgSelectHDContainer"  class="quiz_tabContainer"  style="display:none;">
+							<div class="quiz_tabContainer_left">
+								<label for="quiz_txtImgPath">Path:</label><br />
+								<input type="file" size="30" id="quiz_fileUpload" name="file"/>
+								<input type="hidden" name="realname" id="realname" value="" /><br />
+								<br />
+								<a class="button-default quiz_insertImg" id="quiz_insertHDImg" href="javascript:;">Insert image</a>
+							</div>	
+							<div class="quiz_tabContainer_right" id="quiz_selectHDimgPreview">
+							
+							</div>							
+						</div>
+						
+						<div class="quiz_clear"></div>
+					</div>	
+					<br />
+					<a class="button-default quiz_addQuestion" href="javascript:;">Add question to quiz</a>
+				</div>
+			</div>
+		<div id="quiz_selectQContainer" style="display:none;" class="quiz_maintabContainer">
+			<label>Select existing quiz:</label><br />
+			<div id="quiz_existingQuizList"></div><br />
+			<div id="quiz_ExistingQuizListTemplate"><!--
+				<div class="quiz_normalList">
+					{for i in items}
+					<div>
+						<a href="javascript:;" class="quiz_existingQuizListItem" id="quiz_existingQuizListItem${items.indexOf(i)}">
+							${i.title}
+						</a>
+					</div>
+					{/for}
+					{if items.length == 0}
+						No existing quiz to display.
+					{/if}
+				</div>
+			--></div>
+			<div id="quiz_existingQuizQuestions">
+				
+			</div>
+			<div id="quiz_existingQuizQuestionsTemplate"><!--
+				
+			<div class="quiz_questionPart">
+			<span class="quiz_questionSpan">${question}</span><br />
+			
+			{if answerType == 'quiz_NormalAnswerRbt'}
+				<div class="quiz_questionSpan_correctAnswer">${correctAnswer}</div>
+			{elseif answerType == 'quiz_MultipleAnswersRbt'}
+				<ul>
+				{for i in answer.answers}
+					<li>
+					
+					<label for="quiz_answer${answer.answers.indexOf(i)}ID" class="quiz_rbtLabel">${i.value}</label>
+					
+					</li>	
+				{/for}
+				</ul>
+			{/if}
+			{if img != ""}
+				<img src="${img}" alt="image" class="quiz_questionImg"/>
+			{/if}
+			<div>
+			<div>
+			<a class="button-default quiz_changeQuestion quiz_left" id="quiz_changeQuestion${Previndex}" href="javascript:;">Previous question</a>
+			<a class="button-default quiz_insertQuestion quiz_left" href="javascript:;">Insert question</a>
+			<a class="button-default quiz_changeQuestion quiz_right" id="quiz_changeQuestion${Nextindex}" href="javascript:;">Next question</a>
+			<div class="quiz_clear"></div>
+			<div>
+			--></div>
+		</div>
+		<div id="quiz_QoverviewContainer" style="display:none;" class="quiz_maintabContainer">
+			<h1>Your questions:</h1>
+			<div id="quiz_lstOverviewQ">
+				
+			</div>
+			
+			
+			<a class="button-default quiz_lastQuestion quiz_right" id="quiz_btnadvancedSettings" href="javascript:;">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></a>
+			<div class="quiz_clear" ></div>
+			<div style="display:none;" id="quiz_advancedSettings">
+				<label for="quiz_txtTitle" class="quiz_bigLabel">Quiztitle:</label><br />
+				<input type="text"  id="quiz_txtTitle"/>
+				<br />
+				<label class="quiz_bigLabel">How many questions should be displayed?</label><br />
+				<ul class="quiz_inlineList">
+					<li><input type="radio" checked="true" name="quiz_randomQuestionSetting" id="quiz_askAllQuestionsSettingID"><label for="quiz_askAllQuestionsSettingID" class="quiz_label">all</label></input></li>
+				<li><input type="radio" name="quiz_randomQuestionSetting" id="quiz_askNumQsettingID" value="quiz_askNumQsetting">
+					<label for="quiz_askNumQsettingID" class="quiz_label"><input type="text" id="quiz_txtNumRandomQ" /></label>
+				</input></li>
+				</ul>
+				
+				<div class="quiz_left">
+					<label class="quiz_bigLabel">Would you like to display the results?</label><br />
+				<ul>
+				<li><input type="radio" checked="true" id="quiz_everyoneShowResultsID" value="quiz_everyoneShowResults" name="quiz_displaySetting">
+				<label for="quiz_everyoneShowResultsID" class="quiz_label">Yes&#44; everyone can see the results</label>
+				</input></li>
+				<li><input type="radio" id="quiz_teacClassShowResultsID" value="quiz_teacClassShowResults" name="quiz_displaySetting">
+				<label for="quiz_teacClassShowResultsID" class="quiz_label">Show results to classmates and teachers</label>
+				</input></li>
+				<li><input type="radio" id="quiz_teacShowResultsID" value="quiz_teacShowResults" name="quiz_displaySetting">
+				<label for="quiz_teacShowResultsID" class="quiz_label">Only show the results of the tests to teachers</label>
+				</input></li>
+				</ul>
+				</div>
+				
+				<div class="quiz_left">
+					<label>How should the results be displayed:</label>
+					<ul id="quiz_resulttype">
+						<li id="quiz_resulttype_bvs" class="quiz_resulttype_active">
+							<a href="javascript:;">
+								<span>vertical</span>
+							</a>
+						</li>
+						<li id="quiz_resulttype_bhs" class="">
+							<a href="javascript:;">
+								<span>horizontal</span>
+							</a>
+						</li>
+						<li id="quiz_resulttype_p" class="">
+							<a href="javascript:;">
+								<span>piechart</span>
+							</a>
+						</li>
+						<li id="quiz_resulttype_text" class="">
+							<a href="javascript:;">
+								<span>text only</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="quiz_clear"></div>
+				<ul>
+					<li><input type="checkbox" id="quiz_showAnswersSetting"><label for="quiz_showAnswersSetting" class="quiz_label">Show answers</label></input></li>
+					<li><input type="checkbox" id="quiz_timeLimitSetting"><label for="quiz_timeLimitSetting"class="quiz_label">Complete quiz in <input type="text" id="quiz_txtTime" /> minutes</label></input></li>
+				</ul>
+				
+			</div>
+			
+			<div id="quiz_lstOverviewQTemplate"><!--
+				<div class="quiz_overviewlist">
+					{for i in questions}
+					<div class="quiz_overviewListItem">
+						<div class="quiz_left">
+							{if questions.indexOf(i) == editQindex}
+								<input type="text" class="quiz_editQtxt" id="quiz_editQtxt${questions.indexOf(i)}" value="${i.question}"></input>
+							{else}
+								<a href="javascript:;" class="quiz_viewAnswers" id="quiz_viewAnswers${questions.indexOf(i)}">${i.question}</a>
+							{/if}
+						</div>
+						<div class="quiz_right">
+						<a href="javascript:;" class="quiz_removeQbtn" id="quiz_removeQbtn${questions.indexOf(i)}">
+							X Remove
+						</a>
+						</div>
+						<div class="quiz_right">
+						<a href="javascript:;" class="quiz_editQbtn" id="quiz_editQbtn${questions.indexOf(i)}">
+							Edit
+						</a>
+						
+						</div>
+						<div class="quiz_clear"></div>
+					
+					{if questions.indexOf(i) == selectedIndex}
+					<div>
+					{if i.img != ""}
+						<img src="${i.img}" alt="image" class="quiz_left quiz_leftImage"></img>
+						<div class="quiz_left quiz_leftImage_container">
+					{else}
+						<div class="quiz_left quiz_leftNoImageContainer">
+					{/if}
+					
+					{if i.answerType == "quiz_NormalAnswerRbt"}
+						<div class="quiz_left">
+						{if editAnswerIndex != -1}
+							<input type="text" class="quiz_editAtxt" value="${showAnswers}"></input>	
+						{else}
+							${showAnswers}
+						{/if}
+						</div>
+						<div class="quiz_right">
+							<a href="javascript:;" class="quiz_editAbtn">
+								Edit
+							</a>
+						</div>
+						<div class="quiz_clear"></div>	
+					{elseif i.answerType == "quiz_MultipleAnswersRbt"}
+						{for j in showAnswers}
+							<div class="quiz_left">
+							{if editAnswerIndex == showAnswers.indexOf(j)}
+								<input type="text" class="quiz_editAtxt" id="quiz_editAtxt${showAnswers.indexOf(j)}" value="${j.value}"></input>
+							{else}
+								${j.value}
+							{/if}
+							</div>
+							<div class="quiz_right">
+								<a href="javascript:;" class="quiz_removeAbtn" id="quiz_removeAbtn${showAnswers.indexOf(j)}">
+									X Remove
+								</a>
+							</div>
+							<div class="quiz_right">
+								<a href="javascript:;" class="quiz_editAbtn" id="quiz_editAbtn${showAnswers.indexOf(j)}">
+									Edit
+								</a>
+							</div>
+							<div class="quiz_clear"></div>	
+						{/for}
+						
+					{/if}	
+					</div>					
+					<div class="quiz_clear"></div>	
+					</div>
+					{/if}
+					</div>
+					{/for}
+				</div>
+				
+			--></div>
+		</div>
+			<div id="quiz_ListTemplate"><!--
+				<div class="quiz_normalList">
+					{for i in items}
+					<div>
+						<a href="javascript:;">
+							${i}
+						</a>
+					</div>
+					{/for}
+				</div>
+			--></div>
+			
+		<div id="quiz_settings_imgTagger" style="display:none">
+			
+		</div>
+		<div id="quiz_settings_imgTagger_template"><!--
+			<h1>Image tagger</h1>
+			<label>${question}</label><br />
+			<div id="quiz_imgTagContainer">
+				<img id="quiz_tagImg" alt="tag image" src="${image}" />
+			</div>
+			<div id="quiz_tagImgPreviewContainer">
+				<img id="quiz_tagImgPreview" alt="tag image preview"  src="${image}" />
+			</div>
+			<div id="quiz_tagImgInfo" style="display:none;">
+				<form class="quiz_form">
+					<input type="text" id="quiz_txtTag"></input>
+					<a class="button-default" class="quiz_left" id="quiz_addTag" href="javascript:;">Add tag to image</a>
+				</form>
+			</div>
+			<div class="quiz_clear"></div>
+		--></div>
+		</div>
+		
+		<div>
+			<a class="button-default" id="quiz_backPage" href="javascript:;">Back</a>
+			<a class="button-default" id="quiz_backToOverview" style="display:none;" href="javascript:;">Back</a>
+			<a class="button-default" id="quiz_nextPage" href="javascript:;">Next</a>
+			<a class="button-default" id="quiz_submitWidget" style="display:none;" href="javascript:;">Finish</a>
+			<a class="button-default" id="quiz_insertTagQuestion" style="display:none;" href="javascript:;">Insert question</a>
+			<a class="button-default" id="quiz_saveImgTagger" style="display:none;" href="javascript:;">Save</a>
+			<div class="quiz_clear"></div>
+		</div>
+		
+	</form>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/rijndael.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/jquery.imgareaselect-0.7.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/idrag.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/lib/iutil.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/quiz/javascript/quiz.js" />
