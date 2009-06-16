@@ -1523,6 +1523,10 @@ sakai.chat = function(tuid, placement, showSettings){
 			success: function(data){
 				var json = $.evalJSON(data);
 				
+				if (json.response === "ERROR"){
+					document.location = Config.URL.GATEWAY_URL;
+				}
+				
 				// Check if there are any messages inside the JSON object
 				if(json.messages){
 					
@@ -1669,6 +1673,9 @@ sakai.chat = function(tuid, placement, showSettings){
 			url: Config.URL.PRESENCE_FRIENDS_SERVICE,
 			cache: false,
 			success: function(data){
+				if (data === '{"response", "ERROR"}'){
+					document.location = Config.URL.GATEWAY_URL;
+				}
 				online = $.evalJSON(data);
 				showOnlineFriends();
 				setTimeout(checkOnline, 20000);
