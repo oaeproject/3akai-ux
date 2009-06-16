@@ -188,7 +188,7 @@ sakai.site_basic_settings = function() {
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
                     $(siteSettingsInfoSitePart).text(Config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
-                    $(siteSettingsInfoSitePartTextLocation).text(json.location);
+                    $(siteSettingsInfoSitePartTextLocation).text(json.location.substring(1));
                     getLanguages(json);
 					
                     // Status
