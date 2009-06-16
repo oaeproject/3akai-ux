@@ -104,7 +104,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		var am_or_pm = "";
 				
 		var current_hour = d.getHours();
-		if (current_hour < 12) {am_or_pm = "PM";} else{am_or_pm = "AM";}
+		if (current_hour < 12) {am_or_pm = "AM";} else{am_or_pm = "PM";}
 		if (current_hour === 0){current_hour = 12;}
 		if (current_hour > 12){current_hour = current_hour - 12;}
 		
@@ -186,17 +186,25 @@ sakai.rss = function(tuid, placement, showSettings){
 		return $.extend(true, {}, object);
 	};
 
+	var currentSort = "dateD";
+
 	/**
 	 * sorts an array of feeds on the pubDate, this can be used with the javascript sort function
 	 * @param {Object} a
 	 * @param {Object} b
 	 */
 	var sortByDatefunction = function(a, b){
+		
+		var ret = -1;
+		if (currentSort === "dateD") {
+			ret = 1;
+		}
+		
 		if(a.pubDate >  b.pubDate){
-			return -1;
+			return ret;
 		}
 		else if(b.pubDate >  a.pubDate){
-			return 1;
+			return -(ret);
 		}
 		return 0;
 	};
@@ -207,11 +215,17 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * @param {Object} b
 	 */
 	var sortBySourcefunction =  function(a, b){
+		
+		var ret = -1;
+		if (currentSort === "sourceD"){
+			ret = 1;
+		}
+		
 		if(a.feed.title >  b.feed.title){
-			return 1;
+			return -(ret);
 		}
 		else if(b.feed.title >  a.feed.title){
-			return -1;
+			return ret;
 		}
 		return 0;
 	};
@@ -358,6 +372,11 @@ sakai.rss = function(tuid, placement, showSettings){
 			resultJSON.feeds.push(rssFeed);
 			$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
 			bindSendToFriend();
+			$(rootel + " " + rssRemove).bind("click", function(e,ui){
+				var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
+				resultJSON.feeds.splice(index,1);
+				$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+			});
 		}
 	};
 	
@@ -429,19 +448,6 @@ sakai.rss = function(tuid, placement, showSettings){
 			});
 		}
 	});
-	$(rootel + " " + rssRemove).live("click", function(e,ui){
-		var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
-		resultJSON.feeds.splice(index,1);
-		$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
-	});
-	$(rootel + " " + rssOrderBySource).live("click", function(e,ui){
-		resultJSON.entries.sort(sortBySourcefunction);
-		pagerClickHandler(1);
-	});
-	$(rootel + " " + rssOrderByDate).live("click", function(e,ui){
-		resultJSON.entries.sort(sortByDatefunction);
-		pagerClickHandler(1);
-	});
 	var bindSendToFriend = function(){
 		$(rootel + " " + rssSendToFriend).bind("click", function(e, ui){
 			var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
@@ -456,6 +462,26 @@ sakai.rss = function(tuid, placement, showSettings){
 			o.setSubject(subject);
 			o.setBody(body);
 		});
+		
+		$(rootel + " " + rssOrderBySource).bind("click", function(e,ui){
+			if (currentSort === "sourceD"){
+				currentSort = "sourceA";
+			} else {
+				currentSort = "sourceD";
+			}
+			resultJSON.entries.sort(sortBySourcefunction);
+			pagerClickHandler(1);
+		});
+		$(rootel + " " + rssOrderByDate).bind("click", function(e,ui){
+			if (currentSort === "dateD"){
+				currentSort = "dateA";
+			} else {
+				currentSort = "dateD";
+			}
+			resultJSON.entries.sort(sortByDatefunction);
+			pagerClickHandler(1);
+		});
+		
 	};
 
 
