@@ -186,7 +186,7 @@ sakai.rss = function(tuid, placement, showSettings){
 		return $.extend(true, {}, object);
 	};
 
-	var currentSort = "dateD";
+	var currentSort = "dateA";
 
 	/**
 	 * sorts an array of feeds on the pubDate, this can be used with the javascript sort function
