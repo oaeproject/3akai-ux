@@ -183,7 +183,7 @@ sakai.site_basic_settings = function() {
                 // Otherwise we will redirect to the site page.
                 if (json.owners &&  $.inArray(sdata.me.preferences.uuid, json.owners) >= 0) {                
                     // Fill in the info.
-                    $(siteSettingsInfoSakaiDomain).text(Config.SakaiDomain);
+                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host);
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
