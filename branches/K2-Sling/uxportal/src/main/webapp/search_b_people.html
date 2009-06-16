@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Sakai 3 RC 1 - Search: People</title>        
+    
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css/FSSfluid.text.css" />
+            
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link type="text/css" rel="stylesheet" href="_css/Sakai CSS/sakai.people.css" />
+	<link type="text/css" rel="stylesheet" href="_css/Sakai CSS/sakai.3.css" />
+	<link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css" />
+	
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_permissions.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />
+		
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
+	
+	<script src="_lib/Fluid/Fluid-all.js" type="text/javascript"></script>
+	<script src="_lib/Sakai Util/trimpath.js" type="text/javascript"></script>
+	<script src="_lib/Sakai Util/SHA.js" type="text/javascript" language="JavaScript"></script>
+	
+	<script src="_javascript/_history/rsh.js" type="text/javascript" language="JavaScript" ></script>	
+	<script src="_javascript/_history/search_history.js" type="text/javascript" language="JavaScript"></script>
+	
+	<script src="_lib/Jquery/jqModal.js" type="text/javascript"></script>
+	<script src="_lib/Jquery/jquery.cookie.js" type="text/javascript"></script>
+	<script src="_lib/Jquery/jquery.corners.js" type="text/javascript"></script>
+	<script src="_lib/Jquery/jquery.pager.js" type="text/javascript"></script>
+	<script src="_lib/OpenSocial/message.js" type="text/javascript" language="JavaScript"></script>
+	<script src="_lib/AutoComplete/jquery.autocomplete.min.js" type="text/javascript" language="JavaScript" ></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
+</head>
+
+<body id="root" class="fl-centered fl-container i18nable">
+	
+	
+	
+<!-- EXPLORE BAR -->
+	<div id="widget_chat" class="widget_inline"></div>
+    
+    <!-- TITLE BAR  -->
+    <div class="fl-container site_heading">
+        <h1>Search</h1>
+    </div>
+	
+	<!-- CONTENT -->
+	<div class="fl-container fl-fix content content_search">
+		
+		<!-- TAB NAVIGATION -->
+		<ul class="fl-tabs fl-tabs-center search_tab_nav">
+			<li><a id="tab_search_all" href="search_b.html#">All</a></li>
+			<li><a href="search_b_content.html#" id="tab_search_content">Content &amp; Media</a></li>
+			<li class="fl-activeTab search_tab_selected"><a href="search_b_people.html#" id="tab_search_people">People</a></li>
+			<li><a href="search_b_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
+		</ul>
+		
+		<!-- TAB CONTENT -->
+		<div class="fl-centered fl-container fl-tab-content search_tab_content">
+					
+			<!-- SEARCH BAR -->
+			<div class="fl-left fl-container fl-fix search_bar">
+				<div class="fl-left fl-container" id="introduction_text">
+					<h4>Find people on Sakai 3</h4>
+					<p>
+						Sakai 3 makes it easy for you to find people.
+						<br/> 
+						You'll find people with who you can connect, send messages and initiate chat conversations.
+					</p>
+				</div>
+				<div id="search_form">
+					<select class="skinned_select" id="search_filter">
+						<option value="entire_community" id="search_filter_community">Entire Community</option>
+						<option value="my_contacts" id="search_filter_my_contacts">My contacts</option>
+					</select>
+					<input type="text" id="search_text" class="input" value="Enter a searchterm" />
+					
+        			<div class="fl-force-left">
+						<a href="javascript:;" class="button search_button" id="search_button">Search</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="fl-left fl-container search_result_title" id="search_results_header">
+				Found <strong id="search_numberFound">0</strong> 
+				results matching your search for 
+				<span class="keyword" id="search_mysearchterm"></span>
+			</div>
+			
+			<!-- SEARCH RESULTS -->
+			<div id="search_results_page1" class="fl-container fl-fix search_results_container">
+				
+				<!-- CONTENT -->
+				<div class="fl-container fl-fix search_results_part">
+					<!-- CONTAINER FOR THE RESULTS -->							
+					<div id="search_results_container"></div>					
+				</div>
+				<!-- TEMPLATE CONTAINING THE RESULTS -->
+				<div id="search_results_template"><!--
+					{for i in items}
+							<div class="fl-container fl-fix search_result_person">
+								{if ! i.picture}
+									<a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+								{else}
+									<a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
+								{/if}
+								<a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+								{if i.extra}
+									<a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+								{else}
+									<a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+								{/if}
+								{if ! i.isMe}
+									{if ! i.connected}
+									<a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+									<a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+									{/if}
+									<a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
+								{/if}
+							</div>
+						{forelse}
+							No people found.
+						{/for}
+				--></div>
+				
+			</div>
+		</div>
+		
+		<!-- CONTAINER FOR THE PAGER -->
+		<div class="jq_pager"></div>
+	
+		<div id="sendmessagecontainer" style="display:none; width:100%">
+			<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
+		</div>
+        
+        <div id="addtocontactscontainer" style="display:none; width:100%">
+			<div id="widget_addtocontacts" class="widget_inline" style="width:100%"></div>
+		</div>
+		
+	</div>
+	
+	<div style="margin-bottom: 50px"></div>
+	
+	<script type="text/javascript" language="JavaScript" src="_javascript/search_main.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_javascript/search_people.js"></script>
+</body>
+</html>
