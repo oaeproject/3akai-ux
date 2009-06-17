@@ -125,7 +125,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 			$(profileNameID, rootel).text(json.firstName + " " + json.lastName);
 		} 
 		else {
-			$(profileNameID, rootel).text(me.preferences.uuid);
+			$(profileNameID, rootel).text(me.user.userid);
 		}
 		
 		//	Do we have a picture

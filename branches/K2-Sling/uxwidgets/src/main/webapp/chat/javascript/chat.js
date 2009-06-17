@@ -1147,7 +1147,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		json.me = {};
 		if (json.me){
-			json.me.name = parseName(sdata.me.preferences.userInfo.user.uuid, sdata.me.profile.firstName, sdata.me.profile.lastName);
+			json.me.name = parseName(sdata.me.user.userid, sdata.me.profile.firstName, sdata.me.profile.lastName);
 			json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.userStoragePrefix);
 			json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
 			json.me.chatstatus = currentChatStatus;
@@ -1348,7 +1348,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	doWindowRender = function(clicked, special){
 	
-		if (sdata.me.preferences.uuid === undefined) {
+		if (sdata.me.user.userid === undefined) {
 			return;
 		}
 	
@@ -1460,7 +1460,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Write a cookie with the current active windows when you go to another page
 	 */
 	$(window).bind("unload", function(ev){
-		if (sdata.me.preferences.uuid === undefined) {
+		if (sdata.me.user.userid === undefined) {
 			return;
 		}
 		else {
@@ -1473,7 +1473,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	// Initial functions //
 	///////////////////////
 	
-	if (sdata.me.preferences.uuid === undefined) {
+	if (sdata.me.user.userid === undefined) {
 		return;
 	}
 	else {
@@ -1493,7 +1493,7 @@ sakai.chat = function(tuid, placement, showSettings){
 
 		// Check if the current user is anonymous.
 		// If this is the cause, exit this function
-		if (sdata.me.preferences.uuid === undefined) {
+		if (sdata.me.user.userid === undefined) {
 			return;
 		}
 
@@ -1546,7 +1546,7 @@ sakai.chat = function(tuid, placement, showSettings){
 								
 								for(var j = 0; j < json.messages[i].messages.length; j++){
 									// Check if the message is from the current user or from the friend you are talking to
-									if (sdata.me.preferences.userInfo.user.uuid === json.messages[i].messages[j].from) {
+									if (sdata.me.user.userid === json.messages[i].messages[j].from) {
 										isMessageFromOtherUser = false;
 									}
 									else {
@@ -1624,9 +1624,9 @@ sakai.chat = function(tuid, placement, showSettings){
 			
 			error: function(status){
 				
-				if (doreload) {
-					setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
-				}
+				//if (doreload) {
+				//	setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
+				//}
 			}
 		});
 	};
@@ -1659,7 +1659,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var checkOnline = function(){
 		
-		if (sdata.me.preferences.uuid === undefined && goBackToLogin === false) {
+		if (sdata.me.user.userid === undefined && goBackToLogin === false) {
 			return;
 		}
 		
@@ -1696,7 +1696,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		// Check if it is possible to receive the uid for the
 		// current user
-		if (!person.preferences.uuid) {
+		if (!person.user.userid) {
 			return;
 		}
 		else {
@@ -1727,7 +1727,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		getCountUnreadMessages();
 	};
 	
-	if (sdata.me.preferences.uuid === undefined) {
+	if (sdata.me.user.userid === undefined) {
 		return;
 	}
 	else {
