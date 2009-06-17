@@ -154,7 +154,8 @@ sakai.createsite = function(tuid,placement,showSettings){
 	 */
 	var setWidgetsPermissions = function(siteid){
 		
-		var data = {
+		/*
+var data = {
 			action : "replace",
 			// k:* - set of ACS
 			// s:AN - All users in all contexts
@@ -170,8 +171,13 @@ sakai.createsite = function(tuid,placement,showSettings){
 			type: "POST",
 			success: function(data){
 				
+*/
 				// Redirect the user to the site he/she just created
-				document.location = Config.URL.SITE_URL + "?siteid=" + siteid;
+	
+			//document.location = Config.URL.SITE_URL + "?siteid=" + siteid;
+			document.location = "/" + siteid + ".html";
+			
+	/*
 			},
 			error: function(status){
 				alert("Failed: " + status);
@@ -179,6 +185,27 @@ sakai.createsite = function(tuid,placement,showSettings){
 			data: data
 		});
 		
+*/
+	};
+	
+	var createNavigation = function(siteid){
+		var tosave = '<h3>Navigation Menu</h3><p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><h3>Recent Activity</h3><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
+		sdata.widgets.WidgetPreference.save("/" + siteid + "/_navigation","content",tosave, function(){
+			createPageConfiguration(siteid);
+		});
+	};
+	
+	var createPageConfiguration = function(siteid){
+		sdata.widgets.WidgetPreference.save("/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
+			createPage1(siteid);
+		});
+	};
+	
+	var createPage1 = function(siteid){
+		var tosave = '<p>Welcome to your new default site!</p>';
+		sdata.widgets.WidgetPreference.save("/" + siteid + "/_pages/welcome","content",tosave, function(){
+			setWidgetsPermissions(siteid);
+		});
 	};
 	
 	/**
@@ -203,16 +230,20 @@ sakai.createsite = function(tuid,placement,showSettings){
 		// Add the correct params send to the create site request
 		// Site type is course/project or default
 		var parameters = {
-			name : sitetitle,
-			description : sitedescription,
-			siteType: sitetemplate
+			"sling:resourceType" : "sakai/site",
+			"name" : sitetitle,
+			"description" : sitedescription,
+			"id" : siteid,
+			"sakai:site-template" : "/dev/_skins/original/original.html"
 		};
 
 		// Hide the buttons and show the process status
 		showProcess(true);
 
+
+		//url : Config.URL.SITE_GET_SERVICE + "/" + siteid,
 		$.ajax({
-			url : Config.URL.SITE_GET_SERVICE + "/" + siteid,
+			url: "/" + siteid + ".json",
 			success : function(data) {
 				showProcess(false);
 				alert("A site with this URL already exists");
@@ -226,10 +257,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 
 					case 404:
 						$.ajax({
-							url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
+							//url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
+							url: "/" + siteid,
 							type: "POST",
 							success: function(data){
-								setWidgetsPermissions(siteid);
+								createNavigation(siteid);
 							},
 							error: function(status){
 								showProcess(false);

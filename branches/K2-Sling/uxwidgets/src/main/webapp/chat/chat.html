@@ -21,20 +21,20 @@
 <div id="explore_nav_container" style="display:none">
 	<div class="fl-container explore_nav">
 		<ul class="explore fl-force-left">
-			<li id="nav_my_sakai_link"><a  href="my_sakai.html">__MSG__MY_SAKAI__</a></li>
-	        <li id="nav_profile_link"><a href="profile.html">Profile</a></li>
+			<li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
+	        <li id="nav_profile_link"><a href="/dev/profile.html">Profile</a></li>
 	        <li id="nav_people_link"><a href="javascript:;">People</a></li>
 			<li id="nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a></li>
-			<li id="nav_search_link"><a href="search_b.html">Search</a></li>
+			<li id="nav_search_link"><a href="/dev/search_b.html">Search</a></li>
 	    </ul>
 	    <ul class="personal fl-force-right">
 	    	
 			<!-- CHAT STATUS DROPDOWN -->
 			
 	    	<li id="user_link_container">
-	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="_images/arrow_down_sm2_blue.png" /></a>
+	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="/dev/_images/arrow_down_sm2_blue.png" /></a>
 			</li>
-			<li><a class="mail" href="inbox.html"><img src="_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
+			<li><a class="mail" href="inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
 			<li><a class="help" href="#">Help</a></li>
 	        <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
 	    </ul>
@@ -93,7 +93,7 @@
 </div>
 
 <div class="fl-force-right close" id="people_dropdown_close" style="display:none">
-	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
+	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="/dev/_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
 </div>
 
 	
@@ -150,7 +150,7 @@
 		</div>
 		
 		<div class="dropdown_create_sakai_site">
-			<a href="javascript:;" id="top_navigation_create_site"><img src="_images/add_icon.png" alt="Close Icon"/>Create a Sakai Site</a>
+			<a href="javascript:;" id="top_navigation_create_site"><img src="/dev/_images/add_icon.png" alt="Close Icon"/>Create a Sakai Site</a>
 			<img src="_images/add_icon_end.png" alt="Close Icon"/>
 		</div>
 		
@@ -159,7 +159,7 @@
 </div>
 
 <div class="fl-force-right close" style="display:none" id="mysites_dropdown_close">
-	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
+	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="/dev/_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
 </div>
 
 
@@ -183,7 +183,7 @@
 					{if me.photo}
 						<img src="${me.photo}"/>
 					{else}
-						<img src="_images/person_icon.png" />
+						<img src="/dev/_images/person_icon.png" />
 					{/if}
 				</td>
 				<td>
@@ -204,7 +204,7 @@
 								{if i.photo}
 									<img src="${i.photo}" />
 								{else}
-									<img src="_images/person_icon.png" />
+									<img src="/dev/_images/person_icon.png" />
 								{/if}
 							</td>
 							<td>
@@ -244,7 +244,7 @@
 						{if i.photo}
 							<img src="${i.photo}" id="chat_window_photo_${i.userid}" />
 						{else}
-							<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
+							<img src="/dev/_images/person_icon.png" id="chat_window_photo_${i.userid}" />
 						{/if}
 					</td>
 					<td>

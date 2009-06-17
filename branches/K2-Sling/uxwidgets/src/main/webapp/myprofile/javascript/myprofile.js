@@ -27,7 +27,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 
 	var rootel = $("#" + tuid);
 	var me = sdata.me;
-	var json = me.profile;
+	var json = me.user.properties;
 	
 	
 	//	IDs
@@ -95,14 +95,14 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 	 */
 	var changeStatus = function (status) {
 		$(profileStatusContainer).toggle();
-		sdata.me.profile.chatstatus = status;
+		sdata.me.user.properties.chatstatus = status;
 		
 		var a = ["u"];
 		var k = ["chatstatus"];
 		var v = [status];
 		
-		var tosend = {"k":k,"v":v,"a":a};
-		var url = Config.URL.PATCH_PROFILE_URL.replace(/__USERSTORAGEPREFIX__/, sdata.me.userStoragePrefix);
+		var tosend = {"chatstatus":status};
+		var url = Config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sdata.me.user.userid);
 		$.ajax({
 	      	url : url,
         	type : "POST",
@@ -139,7 +139,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		//	Any extra information we may have.
 		var extra = "";
 		if (json.basic) {
-			var basic = json.basic;
+			var basic = $.evalJSON(json.basic);
 			if (json.unirole) {
 				extra = json.unirole;
 			}
