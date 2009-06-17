@@ -179,8 +179,8 @@ sakai.dashboard = function(){
 			var index = 0;
 			for (var l in myportaljson.columns){
 				if (index < newlength){
-					for (var i = 0; i < myportaljson.columns[l].length; i++){
-						columns[index][i] = new Object();
+					for (i = 0; i < myportaljson.columns[l].length; i++){
+						columns[index][i] = {};
 						columns[index][i].name = myportaljson.columns[l][i].name;
 						columns[index][i].visible = myportaljson.columns[l][i].visible;
 						columns[index][i].uid = myportaljson.columns[l][i].uid;
@@ -192,9 +192,9 @@ sakai.dashboard = function(){
 			index = 0;
 			if (myportaljson.layout != selectedlayout){
 				if (newlength < initlength){
-					for (var l in myportaljson.columns){
+					for (l in myportaljson.columns){
 						if (index >= newlength){
-							for (var i = 0; i < myportaljson.columns[l].length; i++){
+							for (i = 0; i < myportaljson.columns[l].length; i++){
 								var lowestnumber = -1;
 								var lowestcolumn = -1;
 								for (var iii = 0; iii < columns.length; iii++){
@@ -205,7 +205,7 @@ sakai.dashboard = function(){
 									}
 								}
 								var _i = columns[lowestcolumn].length;
-								columns[lowestcolumn][_i] = new Object();
+								columns[lowestcolumn][_i] = {};
 								columns[lowestcolumn][_i].name = myportaljson.columns[l][i].name;
 								columns[lowestcolumn][_i].visible = myportaljson.columns[l][i].visible;
 								columns[lowestcolumn][_i].uid = myportaljson.columns[l][i].uid;
@@ -217,7 +217,7 @@ sakai.dashboard = function(){
 			}
 			
 			var jsonstring = '{"columns":{';
-			for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+			for (i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
 				jsonstring += '"column' + (i + 1) + '":[';
 				for (var ii = 0; ii < columns[i].length; ii++){
 					jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
@@ -232,7 +232,7 @@ sakai.dashboard = function(){
 			}
 			jsonstring += '},"layout":"' + selectedlayout + '"}';
 	
-			myportaljson = eval('(' + jsonstring + ')');
+			myportaljson = $.evalJSON(jsonstring);
 	
 			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, beforeFinishAddWidgets);
 			
@@ -242,12 +242,12 @@ sakai.dashboard = function(){
 	var beforeFinishAddWidgets = function(){
 		showMyPortal();
 		$("#change_layout_dialog").jqmHide();
-	}
+	};
 
 	var doInit = function (){
 
 		person = sdata.me;
-		inituser = person.preferences.uuid;
+		inituser = person.user.userid;
 		if (!inituser || inituser == "anon") {
 			document.location = "/dev/index.html";
 		}
@@ -272,7 +272,7 @@ sakai.dashboard = function(){
 			}
 		}
 	
-	}
+	};
 
 	var saveGroup = function (success){
 	
@@ -288,7 +288,7 @@ sakai.dashboard = function(){
 			alert("An error occured while saving your layout");
 		}
 	
-	}
+	};
 
 	var buildLayout = function (success){
 	
@@ -298,7 +298,7 @@ sakai.dashboard = function(){
 			alert("An error occured while saving your group");
 		}
 	
-	}
+	};
 
 	var showMyPortal = function(){
 	
@@ -310,7 +310,7 @@ sakai.dashboard = function(){
 			var layoutindex = 0;
 			
 			for (var l in Widgets.layouts) {
-				if (layoutindex == 0) {
+				if (layoutindex === 0) {
 					selectedlayout = l;
 					layoutindex++;
 				}
@@ -322,16 +322,16 @@ sakai.dashboard = function(){
 			}
 			
 			var initlength = 0;
-			for (var l in myportaljson.columns) {
+			for (l in myportaljson.columns) {
 				initlength++;
 			}
 			var newlength = Widgets.layouts[selectedlayout].widths.length;
 			
 			var index = 0;
-			for (var l in myportaljson.columns) {
+			for (l in myportaljson.columns) {
 				if (index < newlength) {
-					for (var i = 0; i < myportaljson.columns[l].length; i++) {
-						columns[index][i] = new Object();
+					for (i = 0; i < myportaljson.columns[l].length; i++) {
+						columns[index][i] = {};
 						columns[index][i].name = myportaljson.columns[l][i].name;
 						columns[index][i].visible = myportaljson.columns[l][i].visible;
 						columns[index][i].uid = myportaljson.columns[l][i].uid;

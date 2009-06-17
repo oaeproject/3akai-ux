@@ -49,7 +49,7 @@ sakai.index = function(){
 	 */
 	var decideLoggedIn = function(data){
 		var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
-		if (mejson.preferences.uuid) {
+		if (mejson.user.userid) {
 			document.location = redirectUrl;
 		} else {
 			$(loadingMessage).hide();
@@ -101,7 +101,8 @@ sakai.index = function(){
 		 * p : the password entered in the password textfield
 		 * l : set to 1 because we want to perform a login action
 		 */
-		var data = {"l" : 1, "u" : values[usernameField], "p" : values[passwordField], "a" : "FORM"};
+		// -Fsakaiauth:un=user -Fsakaiauth:pw=pass -Fsakaiauth:login=1 
+		var data = {"sakaiauth:login" : 1, "sakaiauth:un" : values[usernameField], "sakaiauth:pw" : values[passwordField]};
 		
 		$.ajax({
 			url : Config.URL.LOGIN_SERVICE,
