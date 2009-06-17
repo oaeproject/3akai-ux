@@ -51,8 +51,27 @@ sakai.site_add_members = function() {
 		$(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
+		fillBasicSiteSettings(selectedSite);
 		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
 	};
+	
+	/**
+     * This will fill in all the field settings for the site.
+     */
+    var fillBasicSiteSettings = function(siteid) {
+        $.ajax({
+            url: "/_rest/site/get/" + siteid,
+			cache: false,
+            success: function(response) {
+                var json = $.evalJSON(response);
+				$("#sitetitle").text(json.name);
+            },
+            error: function(status) {
+                alert("Failed to get the site info.");
+            }
+        });
+    };
+	
 	getSiteId();
 
 		/**
