@@ -41,8 +41,14 @@ var Config = {
 		SDATA_FUNCTION_PROPERTIES: "/sdata/f/__URL__?f=pr",
 		SDATA_FUNCTION_PERMISSIONS: "/sdata/f/__URL__?f=pe",
 		SITE_GROUPDEF_URL: "/f/__SITEID__/.site/groupdef.json",
+		SITE_CONFIGFOLDER: "/sdata/f/__SITEID__/.site",
+		SITE_PAGECONFIGURATION: "/sdata/f/__SITEID__/.site/pageconfiguration",
+		SITE_NAVIGATION: "/sdata/f/__SITEID__/_navigation",
+		SITE_NAVIGATION_CONTENT: "/sdata/f/__SITEID__/_navigation/content",
+		SITE_PRINT_URL: "print.html?pagetitle=__CURRENTSITENAME__",
 		SITE_URL: "/dev/site.html",
 		SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
+		TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fluid.reset.css,/dev/_css/FSS/fluid.theme.mist.css,/dev/_css/FSS/fluid.theme.hc.css,/dev/_css/FSS/fluid.theme.rust.css,/dev/_css/FSS/fluid.layout.css,/dev/_css/FSS/fluid.text.css,/dev/_css/Sakai%20CSS/sakai.core.2.css,/dev/_css/Sakai%20CSS/sakai.css,/dev/_css/Sakai%20CSS/sakai.editor.css",
 		WEBDAV_PRIVATE_URL: "/webdav/_private",
 		CHAT_GET_SERVICE: "/_rest/chat/get",
 		CHAT_SEND_SERVICE: "/_rest/chat/send",
@@ -71,7 +77,9 @@ var Config = {
 		SITES_SERVICE: "/rest/sites",
 		USER_EXISTENCE_SERVICE: "/rest/user/__USERID__/exists",
 		USER_CHANGEPASS_SERVICE: "/rest/user/changepassword/__USERID__",
-		USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__"
+		USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
+		TEMPLATES: "/sdata/p/_templates/pages/",
+		TEMPLATES_CONFIG: "/sdata/p/_templates/pages/configuration"
 	},
 	SakaiDomain : "http://localhost:8080/",
 	Profile : {
