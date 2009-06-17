@@ -549,7 +549,7 @@ sdata.widgets.WidgetPreference =  {
 	 * 
 	 */
 	get : function(prefname, callback, requireslogin){ 
-		var url= "/sdata/p/widgets/" + prefname;
+		var url= Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets/" + prefname;
 		var args = (requireslogin === false ? false : true);
 		$.ajax ( {
 			url : url,

@@ -135,7 +135,7 @@ sakai.dashboard = function(){
 		
 		myportaljson = jsonobj;
 	
-		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",$.toJSON(jsonobj), saveGroup);
+		sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","devstate",$.toJSON(jsonobj), saveGroup);
 		
 	};
 	
@@ -234,7 +234,7 @@ sakai.dashboard = function(){
 	
 			myportaljson = $.evalJSON(jsonstring);
 	
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, beforeFinishAddWidgets);
+			sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","devstate",jsonstring, beforeFinishAddWidgets);
 			
 		}
 	});
@@ -282,7 +282,7 @@ sakai.dashboard = function(){
 
 			var jsonstring = '{"items":{"group":"' + selected + '"}}';
 			
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","group",jsonstring, buildLayout);
+			sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","group",jsonstring, buildLayout);
 	
 		} else {
 			alert("An error occured while saving your layout");
@@ -342,9 +342,9 @@ sakai.dashboard = function(){
 			
 			index = 0;
 			if (newlength < initlength) {
-				for (var l in myportaljson.columns) {
+				for (l in myportaljson.columns) {
 					if (index >= newlength) {
-						for (var i = 0; i < myportaljson.columns[l].length; i++) {
+						for (i = 0; i < myportaljson.columns[l].length; i++) {
 							var lowestnumber = -1;
 							var lowestcolumn = -1;
 							for (var iii = 0; iii < columns.length; iii++) {
@@ -355,7 +355,7 @@ sakai.dashboard = function(){
 								}
 							}
 							var _i = columns[lowestcolumn].length;
-							columns[lowestcolumn][_i] = new Object();
+							columns[lowestcolumn][_i] = {};
 							columns[lowestcolumn][_i].name = myportaljson.columns[l][i].name;
 							columns[lowestcolumn][_i].visible = myportaljson.columns[l][i].visible;
 							columns[lowestcolumn][_i].uid = myportaljson.columns[l][i].uid;
@@ -366,7 +366,7 @@ sakai.dashboard = function(){
 			}
 			
 			var jsonstring = '{"columns":{';
-			for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+			for (i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
 				jsonstring += '"column' + (i + 1) + '":[';
 				for (var ii = 0; ii < columns[i].length; ii++) {
 					jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
@@ -382,10 +382,10 @@ sakai.dashboard = function(){
 			
 			jsonstring += '},"layout":"' + selectedlayout + '"}';
 			
-			myportaljson = eval('(' + jsonstring + ')');
+			myportaljson = $.evalJSON(jsonstring);
 			layout = myportaljson;
 			
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets", "devstate", jsonstring, null);
+			sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets", "devstate", jsonstring, null);
 			
 		}
 		
@@ -399,7 +399,7 @@ sakai.dashboard = function(){
 			for (var c in layout.columns) {
 			
 				currentindex++;
-				var index = final2.columns.length;
+				index = final2.columns.length;
 				final2.columns[index] = {};
 				final2.columns[index].portlets = [];
 				final2.columns[index].width = Widgets.layouts[layout.layout].widths[currentindex];
@@ -425,13 +425,13 @@ sakai.dashboard = function(){
 			
 		} 
 		catch (err) {
-			isvalid = false
-		};
+			isvalid = false;
+		}
 		
 		
 		if (isvalid) {
 		
-			document.getElementById('widgetscontainer').innerHTML = $.Template.render("widgetscontainer_template", final2);
+			$('#widgetscontainer').html($.Template.render("widgetscontainer_template", final2));
 			
 			$(".widget1").hover(
 				function(over){
@@ -564,7 +564,7 @@ sakai.dashboard = function(){
 			showInit();
 		}
 	
-	}		
+	};		
 	
 	var currentSettingsOpen = false;
 
@@ -575,7 +575,7 @@ sakai.dashboard = function(){
 	
 			var columns = $(".groupWrapper");
 	   	 	for (var i = 0; i < columns.length; i++){
-				if (i != 0){
+				if (i !== 0){
 					serString += ",";
 				}
 				serString += '"column' + (i + 1) + '":[';
@@ -605,7 +605,7 @@ sakai.dashboard = function(){
 							}
 							
 							iii++;
-							if (iii != 0) {
+							if (iii !== 0) {
 								serString += ",";
 							}
 							serString += '{"name":"' + node.id.split("_")[0] + '","visible":"' + widgetdisplay + '","uid":"' + uid + '"}';
@@ -623,32 +623,32 @@ sakai.dashboard = function(){
 
 			serString += '},"layout":"' + myportaljson.layout + '"}';
 	
-			myportaljson = eval('(' + serString + ')');
+			myportaljson = $.evalJSON(serString);
 			
 			var isempty = true;
-			for (var i in myportaljson.columns){
+			for (i in myportaljson.columns){
 				if (myportaljson.columns[i].length > 0){
 					isempty = false;
 				}
 			}
 
-			sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",serString, checksucceed);
+			sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","devstate",serString, checksucceed);
 	
 		}
 		
-	}
+	};
 
 	var checksucceed= function (success){
 		if (!success){
 			window.alert("Connection with the server was lost");
 		}
-	}
+	};
 
 	sakai.dashboard.showAddWidgets = function(){
 
 		addingPossible = [];
 		addingPossible.items = [];
-		document.getElementById("addwidgetlist").innerHTML = "";
+		$("#addwidgetlist").html("");
 	
 		for (var l in Widgets.widgets){
 			var alreadyIn = false;
@@ -668,7 +668,7 @@ sakai.dashboard = function(){
 			}
 		}
 
-		document.getElementById("addwidgetlist").innerHTML = $.Template.render("addwidgetlist_template", addingPossible);
+		$("#addwidgetlist").html($.Template.render("addwidgetlist_template", addingPossible));
 		currentlyopen = addingPossible.items[0].id;
 
 		$("#addWidgets_selected_title").text(addingPossible.items[0].title);
@@ -684,11 +684,11 @@ sakai.dashboard = function(){
 		
 		$("#addwidgetslightbox").show();	
 		$("#addwidgetslightbox2").show();
-	}
+	};
 
 	sakai.dashboard.finishAddWidgets = function(){
 		document.reload(true);
-	}
+	};
 
 	var currentlyopen = "";
 
@@ -718,14 +718,14 @@ sakai.dashboard = function(){
 				}
 			}
 		}	
-	}
+	};
 
 	sakai.dashboard.removeWidget = function(){
 		sakai.dashboard.closePortlet(currentlyopen);
 		document.getElementById('li_' + currentlyopen).className = "";
 		$("#btnRemoveWidget").hide();
 		$("#btnAddWidget").show();
-	}
+	};
 
 	sakai.dashboard.addWidget = function(id){
 		
@@ -742,7 +742,7 @@ sakai.dashboard = function(){
 		var index = 0;
 		for (var l in myportaljson.columns){
 			if (index < newlength){
-				for (var i = 0; i < myportaljson.columns[l].length; i++){
+				for (i = 0; i < myportaljson.columns[l].length; i++){
 					columns[index][i] = myportaljson.columns[l][i];
 				}
 				index++;
@@ -752,9 +752,9 @@ sakai.dashboard = function(){
 		index = 0;
 		if (myportaljson.layout != selectedlayout){
 			if (newlength < initlength){
-				for (var l in myportaljson.columns){
+				for (l in myportaljson.columns){
 					if (index >= newlength){
-						for (var i = 0; i < myportaljson.columns[l].length; i++){
+						for (i = 0; i < myportaljson.columns[l].length; i++){
 							var lowestnumber = -1;
 							var lowestcolumn = -1;
 							for (var iii = 0; iii < columns.length; iii++){
@@ -808,7 +808,7 @@ sakai.dashboard = function(){
 
 		myportaljson = $.evalJSON(jsonstring);
 
-		sdata.widgets.WidgetPreference.save("/sdata/p/widgets","devstate",jsonstring, finishAddWidgets);
+		sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","devstate",jsonstring, finishAddWidgets);
 
 	};
 
@@ -886,7 +886,7 @@ sakai.dashboard = function(){
 			saveState();
 		});
 		
-	}
+	};
 
 	var renderGoodies = function(hash){
 		
@@ -922,7 +922,7 @@ sakai.dashboard = function(){
 		// Show the modal dialog
 		hash.w.show();
 		
-	}
+	};
 	
 	/*
 	 * We bring up the modal dialog that contains the list of widgets I can add
@@ -957,7 +957,7 @@ sakai.dashboard = function(){
 			// in a format like this one: page.html#pageid|searchstring
 			document.location = Config.URL.SEARCH_GENERAL_URL + "#1|" + value;
 		}
-	}
+	};
 	
 	/*
 	 * If this is the first time the field gets focus, we'll make his text color black

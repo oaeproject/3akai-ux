@@ -39,7 +39,7 @@ sakai.logout = function(){
 		error: function(status){
 			window.location = Config.URL.GATEWAY_URL;
 		},
-		data: {"logout":"logout"}
+		data: {"sakaiauth:logout":"1"}
 	});
 	
 };
