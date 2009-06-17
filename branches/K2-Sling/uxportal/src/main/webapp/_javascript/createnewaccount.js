@@ -203,7 +203,7 @@ sakai.newaccount = function(){
 		
 		var values = getFormValues();
 		var data = {"firstName": values[firstName], "lastName": values[lastName], "email": values[email], 
-					"password": values[password], "eid": values[username], "userType" : "default"};
+					"pwd": values[password], "pwdConfirm": values[password], ":name": values[username]};
 		
 		$.ajax ({
         	url : Config.URL.CREATE_USER_SERVICE,
