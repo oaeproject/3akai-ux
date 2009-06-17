@@ -70,7 +70,7 @@ body {
 .create_account .bigheader{background: #666; width: 100%; margin-top: 75px;}
 .create_account .header-version{color: #999; font-size: 12px; float: right; padding: 15px 30px 0 0;}
 .create_account .header-title{padding: 50px 0 0 40px; color: #efefef; font-size: 68px;}
-.create_account .header-byline{color: #d8d8d8; font-size: 19px; padding: 25px 0 0 40px;}
+.create_account .header-byline{color: #d8d8d8; font-size: 19px; padding: 35px 0 0 40px;}
 .create_account .create-account-content{padding: 0 40px 0 40px;}
 .create_account .all-fields{float: right; color: #666; font-size: 14px; padding-top: 12px;}
 .create_account .site_secondary_heading{padding: 45px 0 35px 0; font-size: 24px; font-weight: bold; color: #333;}
@@ -227,7 +227,7 @@ body {
 /* LOG IN PAGE */
 .system_preview_image {padding: 20px 0px 0px 45px; width: 400px;}
 .system_preview_image img {height: 267px;}
-.login_container {padding: 20px; position: absolute; left: 510px; top: 255px;}
+.login_container {padding: 20px; position: absolute; left: 510px; top: 265px;}
 .login_container strong {color:#D8D8D8; font-size: 1em;}
 .login_container_textfield {height: 20px; padding: 4px 0px 0px 3px; width:200px !important;}
 .login_container_username {margin-bottom:15px;}
