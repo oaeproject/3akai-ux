@@ -72,7 +72,7 @@ sakai.profile = function(){
 		me = sdata.me;
 		
 		
-		if (!me.preferences.uuid && !me.preferences.eid) {
+		if (!me.user.userid && !me.user.userid) {
 			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile.html";
 			if (user){
 				redirect += $.URLEncode("?user=" + user);
@@ -83,16 +83,15 @@ sakai.profile = function(){
 		totalprofile = me;
 		fillInvitePopup();
 		
-		if (user && user != me.preferences.uuid) {
+		if (user && user != me.user.userid) {
 			myprofile = false;
-			fileUrl = "/rest/me/" + user;
+			fileUrl = "/system/userManager/user/" + user + ".json";
 			$.ajax({
 				url: fileUrl,
 				cache: false,	
 				success: function(data){
-					totalprofile = $.evalJSON(data);
-					totalprofile.profile = totalprofile.users[0].profile;
-					totalprofile.userStoragePrefix = totalprofile.users[0].userStoragePrefix;
+					var totalprofile = {};
+					totalprofile.profile = $.evalJSON(data);
 					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
 						totalprofile._status = totalprofile.profile.chatstatus;
 					} 
@@ -101,7 +100,7 @@ sakai.profile = function(){
 					}
 					json = totalprofile.profile;
 					
-					if (user && user != me.preferences.uuid) {
+					if (user && user != me.user.userid) {
 						doAddButton();
 					}
 					
@@ -113,8 +112,31 @@ sakai.profile = function(){
 		else if (!showEdit) {
 			//myprofile = false;
 			$("#link_edit_profile").show();
-			json = sdata.me.profile;
-			fillInFields();
+			//json = sdata.me.profile;
+			//fillInFields();
+			fileUrl = "/system/userManager/user/" + sdata.me.user.userid + ".json";
+			$.ajax({
+				url: fileUrl,
+				cache: false,	
+				success: function(data){
+					var totalprofile = {};
+					totalprofile.profile = $.evalJSON(data);
+					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
+						totalprofile._status = totalprofile.profile.chatstatus;
+					} 
+					else {
+						totalprofile._status = totalprofile.profile.status;
+					}
+					json = totalprofile.profile;
+					
+					if (user && user != me.user.userid) {
+						doAddButton();
+					}
+					
+					fillInFields();
+					
+				}
+			});
 		}
 		
 		if (myprofile) {
@@ -140,7 +162,7 @@ sakai.profile = function(){
 		
 		$("#profile_user_name").text(json.firstName + " " + json.lastName);
 		if (json.basic){
-			basic = json.basic;
+			basic = $.evalJSON(json.basic);
 			if (basic.status){
 				inbasic++;
 				$("#txt_status").html(basic.status);
@@ -178,7 +200,7 @@ sakai.profile = function(){
 			$("#lastname").hide();
 		}
 		
-		if (myprofile || (user === false || user == me.preferences.uuid)){
+		if (myprofile || (user === false || user == me.user.userid)){
 			$("#sitetitle").text("My Profile");
 		} else {
 			if (json.firstName || json.lastName){
@@ -192,7 +214,7 @@ sakai.profile = function(){
 		
 		if (json.basic){
 			
-			basic = json.basic;
+			basic = $.evalJSON(json.basic);
 			
 			if (basic.middlename){
 				inbasic++;
@@ -349,9 +371,9 @@ sakai.profile = function(){
 		
 		//Picture
 		
-		if (json.picture && json.picture.name){
-			var picture = json.picture;
-			$("#picture_holder img").attr("src",'/sdata/f/_private' + totalprofile.userStoragePrefix + picture.name);
+		if (json.picture && $.evalJSON(json.picture).name){
+			var picture = $.evalJSON(json.picture);
+			$("#picture_holder img").attr("src",'/_user/public/' + json["rep:userId"] + "/" + picture.name);
 		}
 		
 		fillInBasic();
@@ -433,7 +455,7 @@ sakai.profile = function(){
 		
 		if (json.contactinfo) {
 		
-			unicontactinfo = json.contactinfo;
+			unicontactinfo = $.evalJSON(json.contactinfo);
 			
 			if (unicontactinfo.uniphone) {
 				inunicontactinfo++;
@@ -485,7 +507,7 @@ sakai.profile = function(){
 		var inhomecontactinfo = 0;
 		if (json.contactinfo) {
 		
-			homecontactinfo = json.contactinfo;
+			homecontactinfo = $.evalJSON(json.contactinfo);
 			
 			if (homecontactinfo.homeemail) {
 				inhomecontactinfo++;
@@ -546,7 +568,7 @@ sakai.profile = function(){
 		var inadditional = 0;
 		if (json.basic) {
 		
-			additional = json.basic;
+			additional = $.evalJSON(json.basic);
 			
 			if (additional.awards){
 				inadditional++;
@@ -675,14 +697,14 @@ sakai.profile = function(){
 	var fillInvitePopup = function(){
 		if (me.profile) {
 			if (me.profile.firstName) {
-				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
+				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.properties.firstName);
 			}
 			else 
 				if (me.profile.lastName) {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.properties.lastName);
 				}
 				else {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.preferences.uuid);
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.userid);
 				}
 		}
 	};

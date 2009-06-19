@@ -62,15 +62,16 @@ sakai.profile = function(){
 	var doInit = function(){
 	
 		me = sdata.me;
+		me.profile = sdata.me.properties;
 		
-		if (!me.preferences.uuid && !me.preferences.eid) {
+		if (!me.user.userid) {
 			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
 			document.location = redirect;
 		}
 		
-		fileUrl = "/f/_private" + me.userStoragePrefix + "profile.json?sid=" + Math.random();
+		fileUrl = "/system/userManager/user/" + sdata.me.user.userid + ".update.html?sid=" + Math.random();
 				
-		json = sdata.me.profile;
+		json = sdata.me.user.properties;
 				
 		setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
 		setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
@@ -114,7 +115,7 @@ sakai.profile = function(){
 		
 		$("#profile_user_name").text(json.firstName + " " + json.lastName);
 		if (json.basic){
-			basic = json.basic;
+			basic = $.evalJSON(json.basic);
 			if (basic.status){
 				inbasic++;
 				$("#txt_status").html(basic.status);
@@ -137,7 +138,7 @@ sakai.profile = function(){
 		
 		if (json.basic){
 			
-			basic = json.basic;
+			basic = $.evalJSON(json.basic);
 			
 			if (basic.middlename){
 				inbasic++;
@@ -254,13 +255,11 @@ sakai.profile = function(){
 					data[savestring] = $.toJSON(obj.items);
 					json[savefield] = data[savestring];
 					
-					var a = ["u"];
-					var k = ["" + savefield];
-					var v = ["" + data[savestring]];
-					var tosend = {"v":v,"k":k,"a":a};
+					var tosend = {};
+					tosend[savefield] = data[savestring];
 						
 					$.ajax({
-				       	url :"/rest/patch" + fileUrl,
+				       	url : fileUrl,
 				       	type : "POST",
 				        data : tosend,
 						error : function(data){
@@ -372,13 +371,11 @@ sakai.profile = function(){
 				data[savestring] = $.toJSON(obj.items);
 				json[savefield] = data[savestring];
 				
-				var a = ["u"];
-				var k = ["" + savefield];
-				var v = ["" + data[savestring]];
-				var tosend = {"v":v,"k":k,"a":a};
+				var tosend = {};
+				tosend[savefield] = data[savestring];
 				
 				$.ajax({
-					url: "/rest/patch" + fileUrl,
+					url: fileUrl,
 					type: "POST",
 					data: tosend,
 					error: function(data){
@@ -429,14 +426,12 @@ sakai.profile = function(){
 				var data = {};
 				data[savestring] = $.toJSON(obj.items);
 				json[savefield] = data[savestring];
-				
-				var a = ["u"];
-				var k = ["" + savefield];
-				var v = ["" + data[savestring]];
-				var tosend = {"v":v,"k":k,"a":a};
+
+				var tosend = {};
+				tosend[savefield] = data[savestring];
 				
 				$.ajax({
-					url: "/rest/patch" + fileUrl,
+					url: fileUrl,
 					type: "POST",
 					data: tosend,
 					error: function(data){
@@ -477,9 +472,9 @@ sakai.profile = function(){
 		
 		//Picture
 		
-		if (json.picture && json.picture.name){
-			var picture = json.picture;
-			$("#picture_holder img").attr("src",'/sdata/f/_private' + me.userStoragePrefix + picture.name);
+		if (json.picture && $.evalJSON(json.picture).name){
+			var picture = $.evalJSON(json.picture);
+			$("#picture_holder img").attr("src",'/_user/public/' + sdata.me.user.userid + "/" + picture.name);
 		}
 		
 		fillInBasic();
@@ -490,7 +485,7 @@ sakai.profile = function(){
 		var inabout = 0;
 		if (json.aboutme) {
 		
-			about = json.aboutme;
+			about = $.evalJSON(json.aboutme);
 			
 			if (about.aboutme){
 				inabout++;
@@ -652,12 +647,12 @@ sakai.profile = function(){
 			
 			var basic = {};
 			if (json.basic) {
-				basic = json.basic;
+				basic = $.evalJSON(json.basic);
 			}
 			basic[basicfields[ui.id]] = value;
 			key = "basic";
 			val = $.toJSON(basic);
-			json.basic = basic;
+			json.basic = val;
 				
 			if (disappear){
 				$("#" + basicfields[ui.id]).hide();
@@ -667,12 +662,12 @@ sakai.profile = function(){
 			
 			var aboutme = {};
 			if (json.aboutme) {
-				aboutme = json.aboutme;
+				aboutme = $.evalJSON(json.aboutme);
 			}
 			aboutme[aboutmefields[ui.id]] = value;
 			key = "aboutme";
 			val = $.toJSON(aboutme);
-			json.aboutme = aboutme;
+			json.aboutme = val;
 				
 			if (disappear){
 				$("#" + aboutmefields[ui.id]).hide();
@@ -682,12 +677,12 @@ sakai.profile = function(){
 			
 			var unicontactinfoToSave = {};
 			if (json.contactinfo) {
-				unicontactinfoToSave = json.contactinfo;
+				unicontactinfoToSave = $.evalJSON(json.contactinfo);
 			}
 			unicontactinfoToSave[unicontactinfo[ui.id]] = value;
 			key = "contactinfo";
 			val = $.toJSON(unicontactinfoToSave);
-			json.contactinfo = unicontactinfoToSave;
+			json.contactinfo = val;
 				
 			if (disappear){
 				$("#" + unicontactinfo[ui.id]).hide();
@@ -697,12 +692,12 @@ sakai.profile = function(){
 			
 			var homecontactinfoToSave = {};
 			if (json.contactinfo) {
-				homecontactinfoToSave = json.contactinfo;
+				homecontactinfoToSave = $.evalJSON(json.contactinfo);
 			}
 			homecontactinfoToSave[homecontactinfo[ui.id]] = value;
 			key = "contactinfo";
 			val = $.toJSON(homecontactinfoToSave);
-			json.contactinfo = homecontactinfoToSave;
+			json.contactinfo = val;
 				
 			if (disappear){
 				$("#" + homecontactinfo[ui.id]).hide();
@@ -710,14 +705,11 @@ sakai.profile = function(){
 				
 		}
 		
-		var a = ["u"];
-		var k = [key];
-		var v = [val];
-		
-		var tosend = {"k":k,"a":a,"v":v};
+		var tosend = {};
+		tosend[key] = val;
 		
 		$.ajax({
-        	url : "/rest/patch" + fileUrl,
+        	url : fileUrl,
         	type : "POST",
             data : tosend,
 			error : function(data){
