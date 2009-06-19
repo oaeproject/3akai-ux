@@ -260,7 +260,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		// Post all of this to the server
 		$.ajax({
 			url: Config.URL.IMAGE_SERVICE,
-			type: "POST",
+			type: "GET",
 			data: tosave,
 			success: function(data){
 				
@@ -271,7 +271,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 				
 				var stringtosave = $.toJSON(tosave);
 				
-				sdata.me.profile.picture = stringtosave;
+				sdata.me.user.properties.picture = stringtosave;
 				
 				//	Do a patch request to the profile info so that it gets updated with the new information.
 				$.ajax({
