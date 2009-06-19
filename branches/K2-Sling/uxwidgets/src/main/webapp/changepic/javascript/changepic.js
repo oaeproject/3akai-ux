@@ -152,7 +152,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 	sakai._changepic.doInit = function(){	
 		// Check whether there is a base picture at all		
 		me = sdata.me;
-		var json = me.profile;
+		var json = me.user.properties;
 		
 		picture = false;
 
@@ -166,7 +166,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 		
 		if (json.picture) {
-			picture = json.picture;
+			picture = $.evalJSON(json.picture);
 		}
 		
 		if (picture && picture._name) {
@@ -177,7 +177,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 			
 		
 			//	Set the unvisible image to the full blown image. (make sure to filter the # out)
-			$(pictureMeasurer).html("<img src='" + Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + picture._name + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
+			$(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 			
 			// Check the current picture's size			
 			$(pictureMeasurerImage).bind("load", function(ev){
@@ -187,8 +187,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 				realh = $(pictureMeasurerImage).height();
 				
 				//	Set the images
-				$(fullPicture).attr("src", Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + picture._name);
-				$(thumbnail).attr("src", Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + picture._name);
+				$(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name);
+				$(thumbnail).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name);
 				
 				
 				// Width > 500 ; Height < 300 => Width = 500
@@ -246,13 +246,13 @@ sakai.changepic = function(tuid, placement, showSettings){
 		
 		//	The parameters for the cropit service.
 		var tosave = {};
-		tosave.urlImgtoCrop = "/_private" + me.userStoragePrefix + picture._name; 
-		tosave.urlSaveIn = "/_private" + me.userStoragePrefix;
+		tosave.urlToCrop = "/_user/public/" + me.user.userid + "/" + picture._name; 
+		tosave.urlSaveIn = "/_user/public/" + me.user.userid;
 		tosave.x = Math.floor(userSelection.x1 * ratio);
 		tosave.y = Math.floor(userSelection.y1 * ratio);
 		tosave.height = Math.floor(userSelection.height * ratio);
 		tosave.width = Math.floor(userSelection.width * ratio);
-		tosave.dimensions = [{"width":256,"height":256}];
+		tosave.dimensions = $.toJSON([{"width":256,"height":256}]);
 		var data = {
 			parameters : $.toJSON(tosave)
 		};
@@ -261,7 +261,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		$.ajax({
 			url: Config.URL.IMAGE_SERVICE,
 			type: "POST",
-			data: data,
+			data: tosave,
 			success: function(data){
 				
 				var tosave = {
@@ -271,24 +271,21 @@ sakai.changepic = function(tuid, placement, showSettings){
 				
 				var stringtosave = $.toJSON(tosave);
 				
-				sdata.me.profile.picture = tosave;
-				
-				var a = ["u"];
-				var k = ["picture"];
-				var v = [stringtosave];
-				
-				var tosend = {"k":k,"v":v,"a":a};
+				sdata.me.profile.picture = stringtosave;
 				
 				//	Do a patch request to the profile info so that it gets updated with the new information.
 				$.ajax({
-		        	url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
+		        	//url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
+					url: "/system/userManager/user/" + me.user.userid + ".update.html",
 		        	type : "POST",
-		            data : tosend,
+		            data : {
+						"picture" : $.toJSON(tosave)
+					},
 		            success : function(data) {
 						//	Change the picture in the page. (This is for my_sakai.html)
 						//	Math.random is for cache issues.						
 						for (var i = 0; i < imagesToChange.length;i++) {
-							$(imagesToChange[i]).attr("src", "/sdata/f/_private" + me.userStoragePrefix + tosave.name + "?sid=" + Math.random());	
+							$(imagesToChange[i]).attr("src", "/_user/public/" + me.user.userid + "/" + tosave.name + "?sid=" + Math.random());	
 						}
 						
 						//	Hide the layover.
@@ -366,20 +363,22 @@ sakai._changepic.completeCallback = function(response){
 	response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
 	
 	var tosave = {
-		"_name": $("#fullfile").val()
+		//"_name": $("#fullfile").val()
+		"_name": "profilepicture"
 	};
-	
-	//	We edit the me object in sdata.
-	//	This saves a request and will be checked in the doInit function later on.
-	sdata.me.profile.picture = tosave;
 	
 	//	We edit the profile.json file with the new profile picture.
 	var stringtosave = $.toJSON(tosave);
+	
+	//	We edit the me object in sdata.
+	//	This saves a request and will be checked in the doInit function later on.
+	sdata.me.user.properties.picture = stringtosave;
+	
 	//	the object we wish to insert into the profile.json file.
 	var data = {"picture":stringtosave};
 
 	$.ajax({
-		url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/,sdata.me.user.userid),
+		url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sdata.me.user.userid) + ".update.html",
     	//url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
     	type : "POST",
         data : data,
