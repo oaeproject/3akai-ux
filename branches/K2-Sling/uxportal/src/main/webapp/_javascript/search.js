@@ -226,6 +226,8 @@ sakai.search = function() {
 		finaljson.items = [];
 		
 		var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
+		// HACK - making up for lack of size value in result
+		results.size = 0;
 		currentTotal += results.size;
 		$(searchConfig.global.numberFound).text(currentTotal);
 		
@@ -290,7 +292,7 @@ sakai.search = function() {
 			// People Search
 			$.ajax({
 				cache: false,
-				url: Config.URL.SEARCH_SERVICE + "?p=0&path=/_private&n=" + peopleToSearch + "&q=" + urlsearchterm + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName",
+				url: Config.URL.SEARCH_SERVICE + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
 				cache: false,
 				success: function(data) {
 					renderPeople($.evalJSON(data));

@@ -108,7 +108,7 @@ sakai._search = function(config, callback) {
      * Makes a request to the server and loads the friends.
      */
     var fetchMyFriends = function() {
-        $.ajax({
+        /*$.ajax({
             url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=100&s=firstName&s=lastName&o=asc&o=asc",
 			cache: false,
             success: function(data) {
@@ -116,7 +116,8 @@ sakai._search = function(config, callback) {
                 //	Change the history
                 History.history_change();
             }
-        });
+        });*/
+		History.history_change();
     };
     
     /**
@@ -274,14 +275,15 @@ sakai._search = function(config, callback) {
             var item = results[i];
             if (item) {
                 var user = {};
-                user.userid = item.path.split("/")[4];
-                var path = item.path.substring(0, item.path.indexOf("profile.json"));
-                user.path = path;
+                user.userid = item["rep:userId"];
                 //	Parse the user his info.
-                var person = $.evalJSON(item.content);
+				user.path = "/_user/public/" + user.userid + "/";
+                var person = item;
                 if (person.picture) {
-                    var picture = person.picture;
-                    user.picture = Config.URL.SDATA_FETCH + path + picture.name;
+                    var picture = $.evalJSON(person.picture);
+					if (picture.name) {
+						user.picture = user.path + picture.name;
+					}
                 }
                 if (person.firstName && person.lastName) {
                     user.name = person.firstName + " " + person.lastName;
@@ -295,7 +297,7 @@ sakai._search = function(config, callback) {
                     user.name = user.userid;
                 }
                 if (person.basic) {
-                    var basic = person.basic;
+                    var basic = $evalJSON(person.basic);
                     if (basic.unirole) {
                         user.extra = basic.unirole;
                     }
@@ -308,7 +310,8 @@ sakai._search = function(config, callback) {
                 }
                 user.connected = false;
                 //	Check if this user is a friend of us already.
-                if (getMyFriends().status.friends) {
+                /*
+if (getMyFriends().status.friends) {
                     for (var ii = 0; ii < getMyFriends().status.friends.length; ii++) {
                         var friend = getMyFriends().status.friends[ii];
                         if (friend.friendUuid === user.userid) {
@@ -316,8 +319,9 @@ sakai._search = function(config, callback) {
                         }
                     }
                 }
+*/
                 
-                if (user.userid === sdata.me.preferences.uuid) {
+                if (user.userid === sdata.me.user.userid) {
                     user.isMe = true;
                 }
                 
@@ -375,7 +379,7 @@ sakai._search = function(config, callback) {
      * If he is this function will return true.
      */
     var isLoggedIn = function() {
-        var uuid = sdata.me.preferences.uuid;
+        var uuid = sdata.me.user.userid;
         if (!uuid || uuid === "anon") {
             document.location = "/dev/index.html";
         }
