@@ -1202,16 +1202,14 @@ sakai.chat = function(tuid, placement, showSettings){
 	var sendChatStatus = function(chatstatus){
 		currentChatStatus = chatstatus;
 	
-		var a = ["u"];
-		var k = ["chatstatus"];
-		var v = [chatstatus];
-		
-		var tosend = {"k":k,"v":v,"a":a};
-		
+		var data = {
+			"chatstatus" : chatstatus
+		};
+	
 		$.ajax({
-			url: Config.URL.PATCH_PROFILE_URL.replace(/__USERSTORAGEPREFIX__/g, sdata.me.userStoragePrefix),
+			url: "/system/userManager/user/" + sdata.me.user.userid + ".update.html",
 			type : "POST",
-			data : tosend,
+			data : data,
 			success : function(data) {
 				updateChatStatus();
 			},
@@ -1230,7 +1228,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			success: function(data){
 				var me = $.evalJSON(data);
 				if(me.profile){
-					currentChatStatus = parseChatStatus(me.profile.chatstatus);
+					currentChatStatus = parseChatStatus(me.user.properties.chatstatus);
 				}else{
 					currentChatStatus = "online";
 				}
@@ -1712,10 +1710,10 @@ sakai.chat = function(tuid, placement, showSettings){
 		
 		// Show the profile picture on the dashboard page
 		/** TODO : Remove the lines beneath if this functionality is inside changepic.js */
-		if (person.profile.picture) {
-			var picture = person.profile.picture;
+		if (person.user.properties.picture) {
+			var picture = $.evalJSON(person.user.properties.picture);
 			if (picture.name) {
-				$(pictureHolder).attr("src", parsePicture(picture.name, person.userStoragePrefix));
+				$(pictureHolder).attr("src", "/system/userManager/user/" + sdata.me.user.userid + "/" + picture.name);
 			}
 		}
 		
