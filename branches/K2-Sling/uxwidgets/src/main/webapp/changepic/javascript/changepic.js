@@ -156,7 +156,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 		
 		picture = false;
 
-		$(picForm).attr("action", Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix);
+		$(picForm).attr("action", Config.URL.SDATA_FETCH_PUBLIC_URL.replace(/__USERID__/,sdata.me.user.userid));
 		
 		//	Get the preferred size for the thumbnail.
 		var prefThumbWidth = parseInt($(thumbnailContainer).css('width').replace(/px/gi,''), 10);
@@ -364,10 +364,9 @@ sakai._changepic.completeCallback = function(response){
 	
 	//	Replace any <pre> tags the response might contain.
 	response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
-	var resp = $.evalJSON(response);
 	
 	var tosave = {
-		"_name": resp.uploads.file.name
+		"_name": $("#fullfile").val()
 	};
 	
 	//	We edit the me object in sdata.
@@ -378,16 +377,12 @@ sakai._changepic.completeCallback = function(response){
 	var stringtosave = $.toJSON(tosave);
 	//	the object we wish to insert into the profile.json file.
 	var data = {"picture":stringtosave};
-	
-	var a = ["u"];
-	var k = ["picture"];
-	var v = [stringtosave];
-	var tosend = {"k":k,"v":v,"a":a};
-	
+
 	$.ajax({
-    	url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
+		url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/,sdata.me.user.userid),
+    	//url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
     	type : "POST",
-        data : tosend,
+        data : data,
         success : function(data) {
 			//	we have saved the profile, now do the widgets other stuff.
 			sakai._changepic.doInit();	
