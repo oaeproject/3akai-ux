@@ -246,19 +246,35 @@ sakai.dashboard = function(){
 
 	var doInit = function (){
 
-		person = sdata.me;
-		inituser = person.user.userid;
+		// Initial Sling HACK - Populating admin users' profile
+		if (sdata.me.user.userid === "admin" && !sdata.me.user.properties.firstName){
+			sdata.me.user.properties.firstName = "Admin";
+			sdata.me.user.properties.lastName = "User";
+			sdata.me.user.properties.email = "admin@user.com";
+			$.ajax({
+				type: "POST",
+				url: "/system/userManager/user/" + sdata.me.user.userid + ".update.html",
+				data : {
+					"firstName" : "Admin",
+					"lastName" : "User",
+					"email" : "admin@user.com"
+				}
+			});
+		}
+
+		person = sdata.me.user;
+		inituser = person.userid;
 		if (!inituser || inituser == "anon") {
 			document.location = "/dev/index.html";
 		}
 		else {
 			
-			$("#hispan").text(person.profile.firstName);
+			$("#hispan").text(person.properties.firstName);
 			
-			if (person.profile.picture){
-				var picture = person.profile.picture;
+			if (person.properties.picture){
+				var picture = $.evalJSON(person.properties.picture);
 				if (picture.name) {
-					$("#picture_holder").html("<img src='/sdata/f/_private" + person.userStoragePrefix + picture.name + "'/>");
+					$("#picture_holder").html("<img src='/_user/public/" + person.userid + "/" + picture.name + "'/>");
 				}
 			}
 			
