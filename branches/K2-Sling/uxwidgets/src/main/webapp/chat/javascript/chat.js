@@ -1705,9 +1705,9 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 		
 		// Fill in the name of the user in the different fields
-		if (person.profile.firstName || person.profile.lastName) {
-			$(userIdLabel).text(person.profile.firstName + " " + person.profile.lastName);
-			$(hiLabel).text(person.profile.firstName);
+		if (person.user.properties.firstName || person.user.properties.lastName) {
+			$(userIdLabel).text(person.user.properties.firstName + " " + person.user.properties.lastName);
+			$(hiLabel).text(person.user.properties.firstName);
 		}
 		
 		// Show the profile picture on the dashboard page
