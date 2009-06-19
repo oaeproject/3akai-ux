@@ -56,7 +56,7 @@ var Config = {
 		CREATE_USER_SERVICE: "/system/userManager/user.create.html",
 		FRIEND_STATUS_SERVICE: "/rest/friend/status",
 		FRIEND_CONNECT_SERVICE: "/rest/friend/connect/request",
-		IMAGE_SERVICE: "/_rest/image/cropit",
+		IMAGE_SERVICE: "/system/image/cropit",
 		LOGIN_SERVICE: "/system/sling/formlogin",
 		LOGOUT_SERVICE : "/system/sling/formlogin",
 		ME_SERVICE: "/system/me",
