@@ -68,7 +68,7 @@ var Config = {
 		PATCH_SERVICE: "/rest/patch",
 		PRESENCE_FRIENDS_SERVICE: "/_rest/presencewow/friends",
 		PROXY_SERVICE: "/proxy/proxy",
-		SEARCH_SERVICE: "/rest/search",
+		SEARCH_SERVICE: "/var/search/users",
 		SITE_GET_SERVICE: "/_rest/site/get",
 		SITE_CREATE_SERVICE: "/_rest/site/create",
 		SITE_UPDATE_SERVICE: "/_rest/site/update/__SITEID__",
