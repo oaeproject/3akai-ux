@@ -97,12 +97,11 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		$(profileStatusContainer).toggle();
 		sdata.me.user.properties.chatstatus = status;
 		
-		var a = ["u"];
-		var k = ["chatstatus"];
-		var v = [status];
+		var tosend = {
+			"chatstatus" : status
+		};
 		
-		var tosend = {"chatstatus":status};
-		var url = Config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sdata.me.user.userid);
+		var url = "/system/userManager/user/" + sdata.me.user.userid + ".update.html";
 		$.ajax({
 	      	url : url,
         	type : "POST",
@@ -130,9 +129,9 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		
 		//	Do we have a picture
 		if (json.picture) {
-			var pict = json.picture;
+			var pict = $.evalJSON(json.picture);
 			if (pict.name) {
-				$(profilePictureID, rootel).attr('src', Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + pict.name );
+				$(profilePictureID, rootel).attr('src', "/_user/public/" + sdata.me.user.userid + "/" + pict.name );
 			}
 		}
 		
@@ -156,8 +155,8 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		
 		//	Get the user his chatstatus
 		var chatstatus = "online";
-		if (me.profile.chatstatus) {
-			chatstatus = me.profile.chatstatus;
+		if (me.user.properties.chatstatus) {
+			chatstatus = me.user.properties.chatstatus;
 		}
 		
 		//	Set the status in front of the user his name/
