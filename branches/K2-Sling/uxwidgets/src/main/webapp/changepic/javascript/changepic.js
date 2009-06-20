@@ -246,8 +246,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 		
 		//	The parameters for the cropit service.
 		var tosave = {};
-		tosave.urlToCrop = "/_user/public/" + me.user.userid + "/" + picture._name; 
-		tosave.urlSaveIn = "/_user/public/" + me.user.userid;
+		tosave.urlToCrop = "/_user/public/" + sdata.me.user.userStoragePrefix + picture._name; 
+		tosave.urlSaveIn = "/_user/public/" + sdata.me.user.userStoragePrefix;
 		tosave.x = Math.floor(userSelection.x1 * ratio);
 		tosave.y = Math.floor(userSelection.y1 * ratio);
 		tosave.height = Math.floor(userSelection.height * ratio);
