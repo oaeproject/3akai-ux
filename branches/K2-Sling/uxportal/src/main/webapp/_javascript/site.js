@@ -195,7 +195,7 @@ sakai.site = function(){
 		sakai.site.currentsite = siteid.split(".")[0];
 		$.ajax({
 			//url: sakai.site.urls.CURRENT_SITE_OBJECT(),
-			url: "/" + sakai.site.currentsite,
+			url: "/" + sakai.site.currentsite + ".json",
 			cache: false,
 			async: false,
 			success: function(response){
