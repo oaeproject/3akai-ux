@@ -175,7 +175,7 @@ var data = {
 				// Redirect the user to the site he/she just created
 	
 			//document.location = Config.URL.SITE_URL + "?siteid=" + siteid;
-			document.location = "/" + siteid + ".html";
+			document.location = "/" + siteid;
 			
 	/*
 			},
