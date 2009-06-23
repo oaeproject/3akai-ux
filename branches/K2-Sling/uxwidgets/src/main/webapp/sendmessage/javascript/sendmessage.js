@@ -258,7 +258,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	 */
 	var loadMessageDialog = function(hash) {		
 		//	Fill in the userdata
-		$(messageFieldFrom).text(me.profile.firstName + " " + me.profile.lastName);
+		$(messageFieldFrom).text(me.user.properties.firstName + " " + me.user.properties.lastName);
 		
 		//	Depending on the allowOthers variable we show the appropriate input
 		if (allowOthers) {
