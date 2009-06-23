@@ -91,12 +91,12 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	 * @param {Object} user The JSON object containing the user info. This follows the /rest/me format.
 	 */
 	var fillInUserInfo = function(user) {
-		if (user.profile) {
-			$(addToContactsInfoDisplayName).text(user.profile.firstName);
+		if (user) {
+			$(addToContactsInfoDisplayName).text(user.firstName);
 			
 			// Check for picture
-			if (user.profile.picture && user.profile.picture.name) {
-				$(addToContactsInfoProfilePicture).attr('src', Config.URL.SDATA_FETCH_PRIVATE_URL + user.userStoragePrefix + user.profile.picture.name);
+			if (user.picture && $.evalJSON(user.picture).name) {
+				$(addToContactsInfoProfilePicture).attr('src', "/_user/public/" + user.uuid + "/" + $.evalJSON(user.picture).name);
 			}
 			else {
 				$(addToContactsInfoProfilePicture).attr('src', Config.URL.PERSON_ICON_URL);
@@ -250,9 +250,9 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 		if (!user.preferences) {
 			// This is a uuid. Fetch the info from /rest/me
 			$.ajax({
-				url: Config.URL.ME_SERVICE_USERS.replace(/__USERS__/, user),
+				url: "/system/userManager/user/" + user + ".json",
 				success: function(data) {
-					friend = $.evalJSON(data).users[0];
+					friend = $.evalJSON(data);
 					friend.uuid = user;
 					// We have the data, render it.
 					fillInUserInfo(friend);
