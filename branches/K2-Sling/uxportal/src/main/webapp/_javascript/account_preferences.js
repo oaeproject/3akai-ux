@@ -143,10 +143,10 @@ sakai.accountPreferences =function(){
 			 * oldPassword : the original password
 			 * password : the new password
 			 */
-			var requestbody = {"oldPassword" : pass, "password" : newPass1};
+			var requestbody = {"oldPwd" : pass, "newPwd" : newPass1, "newPwdConfirm" : newPass1};
 	
 			$.ajax({
-				url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, me.preferences.uuid),
+				url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sdata.me.user.userid),
 				type : "POST",
 				success : function(data) {
 					// update the user of the successful password change
@@ -213,7 +213,7 @@ sakai.accountPreferences =function(){
 	 */
 	var putLangsinCmb = function(languages){
 		$(languagesContainer).html($.Template.render(languagesTemplate, languages));
-		selectLanguage(me.locale.country, me.locale.language);
+		selectLanguage(me.user.locale.country, me.user.locale.language);
 	};
 	
 	/**
@@ -237,9 +237,9 @@ sakai.accountPreferences =function(){
 	 */
 	var saveRegionalToMe = function(){
 		var language = $(languagesContainer + " option:selected").val();
-		var locale = {"language" : language, "timezone" : $(timezonesContainer + " option:selected").val()};
+		var locale = {"locale" : language, "timezone" : $(timezonesContainer + " option:selected").val()};
 		$.ajax({
-			url : Config.URL.USER_CHANGELOCALE_SERVICE.replace(/__USERID__/, me.preferences.uuid),
+			url : "/system/userManager/user/" + me.user.userid + ".update.html",
 			type : "POST",
 			success : function(data) {
 				// update the user of the successful password change
@@ -308,7 +308,7 @@ sakai.accountPreferences =function(){
 	
 	var doInit = function(){
 		getLanguages();
-		selectTimezone(me.locale.timezone);
+		selectTimezone(me.user.locale.timezone);
 	};
 	doInit();
 	

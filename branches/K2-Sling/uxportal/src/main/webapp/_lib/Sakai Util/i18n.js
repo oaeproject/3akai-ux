@@ -125,8 +125,8 @@ $(document).ready(function(){
 					if (siteJSON.language && siteJSON.language !== "default_default") {
 						loadLocalBundle(siteJSON.language);
 					}
-					else if (sdata.me.locale){
-						loadLocalBundle(sdata.me.locale.language + "_" + sdata.me.locale.country);
+					else if (sdata.me.user.locale){
+						loadLocalBundle(sdata.me.user.locale.language + "_" + sdata.me.user.locale.country);
 					}
 					else {
 						// There is no locale set for the current user. We'll switch to using the default bundle only
@@ -150,8 +150,8 @@ $(document).ready(function(){
 				sdata.i18n.defaultBundle = parsePropertiesFile(data);
 				var site = getSiteId();
 				if (!site) {
-					if(sdata.me.locale){
-						loadLocalBundle(sdata.me.locale.language + "_" + sdata.me.locale.country);
+					if(sdata.me.user.locale){
+						loadLocalBundle(sdata.me.user.locale.language + "_" + sdata.me.user.locale.country);
 					}
 					else {
 						// There is no locale set for the current user. We'll switch to using the default bundle only
