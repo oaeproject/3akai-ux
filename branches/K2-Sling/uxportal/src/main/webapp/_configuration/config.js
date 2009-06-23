@@ -77,7 +77,7 @@ var Config = {
 		SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
 		SITES_SERVICE: "/rest/sites",
 		USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
-		USER_CHANGEPASS_SERVICE: "/rest/user/changepassword/__USERID__",
+		USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
 		USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
 		TEMPLATES: "/sdata/p/_templates/pages/",
 		TEMPLATES_CONFIG: "/sdata/p/_templates/pages/configuration"
