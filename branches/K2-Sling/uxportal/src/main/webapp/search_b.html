@@ -188,9 +188,9 @@
 					<div id="sites_search_result_template"><!--
 					{for i in items}
 						<div class="fl-container fl-fix search_result_course_site">
-							<div class="search_result_course_site_title"><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></div>
+							<div class="search_result_course_site_title"><a href="${sakaiDomain}${i.id}">${i.name}</a></div>
 							<div class="search_result_course_site_url">${i.description}</div>
-							<div class="search_result_course_site_url"><a href="/dev/site.html?siteid=${i.location}">${sakaiDomain}dev/site.html?siteid=${i.location}</a></div>
+							<div class="search_result_course_site_url"><a href="${sakaiDomain}${i.id}">${sakaiDomain}${i.id}</a></div>
 						</div>
 					{forelse}
 						No Courses &amp; Sites found

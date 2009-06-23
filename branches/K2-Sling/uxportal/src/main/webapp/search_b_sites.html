@@ -75,17 +75,7 @@
 					<select class="skinned_select" id="search_filter">
 						<option value="entire_community" id="search_filter_community">Entire Community</option>
 						<option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
-						<optgroup id="search_filter_my_sites" label="Choose a specific site where you want to search in.">
-							<!-- DUMMY DATA TO KEEP W3C VALIDATOR HAPPY, THIS GETS OVERRIDEN BY JS -->
-							<option value=""></option>
-						</optgroup>
 					</select>
-					<!-- SITEs TEMPLATE -->
-					<div id="search_filter_my_sites_template" style="display:none"><!--
-					{for i in items}
-						<option value="${i.location}" id="search_filter_my_sites_${i.location.substring(1)}">${i.name}</option>
-					{/for}
-					--></div>
 					<input type="text" id="search_text" class="input" value="Enter a searchterm" />
 					
         			<div class="buttonBar fl-force-left">
@@ -112,9 +102,9 @@
 				<div id="search_results_template"><!--
 					{for i in items}
 						<div class="fl-container fl-fix search_result_course_site">
-							<div class="search_result_course_site_title"><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></div>
+							<div class="search_result_course_site_title"><a href="${sakaiDomain}${i.id}">${i.name}</a></div>
 							<div class="search_result_course_site_url">${i.description}</div>
-							<div class="search_result_course_site_url"><a href="/dev/site.html?siteid=${i.location}">${sakaiDomain}dev/site.html?siteid=${i.location}</a></div>
+							<div class="search_result_course_site_url"><a href="${sakaiDomain}${i.id}">${sakaiDomain}${i.id}</a></div>
 						</div>
 					{forelse}
 						No Courses &amp; Sites found

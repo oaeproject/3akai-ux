@@ -145,12 +145,12 @@ sakai.search = function() {
         finaljson.sakaiDomain = Config.SakaiDomain;
 		if (success) {
 			//	Adjust the number of sites we have found.
-			$(searchConfig.global.numberFound).text(results.size);
+			$(searchConfig.global.numberFound).text(results.total);
 			
 			//	Reset the pager.
 			$(searchConfig.global.pagerClass).pager({
 				pagenumber: currentpage,
-				pagecount: Math.ceil(results.size / resultsToDisplay),
+				pagecount: Math.ceil(results.total / resultsToDisplay),
 				buttonClickCallback: pager_click_handler
 			});
 			
@@ -227,7 +227,7 @@ sakai.search = function() {
 			}
 			
 			$.ajax({
-				url: "/dev/dummyjson/searchSites.json?p=" + (currentpage - 1) + "&path=/_private&n=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName",
+				url: "/var/search/sites?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
 				cache: false,
 				success: function(data) {
 					var json = $.evalJSON(data);

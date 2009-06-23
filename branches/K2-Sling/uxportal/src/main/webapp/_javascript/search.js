@@ -197,13 +197,13 @@ sakai.search = function() {
 		finaljson.items = [];
 		
 		var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
-		currentTotal += foundSites.size;
+		currentTotal += foundSites.total;
 		$(searchConfig.global.numberFound).text(currentTotal);
 		
-		if (foundSites.size > sitesToSearch) {
+		if (foundSites.total > sitesToSearch) {
 			$(searchConfig.sites.displayMore).show();
 			$(searchConfig.sites.displayMore).attr("href", "search_b_sites.html#1|" + searchterm);
-			$(searchConfig.sites.displayMoreNumber).text(foundSites.size);
+			$(searchConfig.sites.displayMoreNumber).text(foundSites.total);
 		}
 		
 		if (foundSites && foundSites.results) {
@@ -226,15 +226,13 @@ sakai.search = function() {
 		finaljson.items = [];
 		
 		var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
-		// HACK - making up for lack of size value in result
-		results.size = 0;
-		currentTotal += results.size;
+		currentTotal += results.total;
 		$(searchConfig.global.numberFound).text(currentTotal);
 		
-		if (results.size > peopleToSearch) {
+		if (results.total > peopleToSearch) {
 			$(searchConfig.people.displayMore).show();
 			$(searchConfig.people.displayMore).attr("href", "search_b_people.html#1|" + searchterm);
-			$(searchConfig.people.displayMoreNumber).text(results.size);
+			$(searchConfig.people.displayMoreNumber).text(results.total);
 		}
 		
 		if (results && results.results) {
@@ -305,7 +303,7 @@ sakai.search = function() {
 			//	Sites search
 			$.ajax({
 				cache: false,
-				url: "/dev/dummyjson/searchSites.json?p=0&path=/_sites&n=" + cmToSearch + "&q=" + urlsearchterm + "&mimetype=text/plain",
+				url: "/var/search/sites?page=0&items=5&q=" + urlsearchterm,
 				success: function(data) {
 					var foundSites = $.evalJSON(data);
 					renderSites(foundSites);
@@ -330,8 +328,9 @@ sakai.search = function() {
 	 */
 	var searchPerson = function(userid) {
 		var person = false;
+		alert($.toJSON(foundPeople));
 		for (var i = 0; i < foundPeople.length; i++) {
-			if (foundPeople[i].userid === userid) {
+			if (foundPeople[i].userid[0] === userid) {
 				person = foundPeople[i];
 				break;
 			}
@@ -350,10 +349,10 @@ sakai.search = function() {
 		var reg = new RegExp(searchConfig.global.messageID, "gi");
 		var contactclicked = $(this).attr("id").replace(reg,"");
 		var person = searchPerson(contactclicked);
-		if (person) {
+		if (contactclicked) {
 			$(searchConfig.global.sendmessageContainer).show();
 			if (!person.uuid) {
-				person.uuid = person.userid;
+				person.uuid = person.userid[0];
 			}
 			sakai.sendmessage.initialise(person, true);
 		}
@@ -361,9 +360,9 @@ sakai.search = function() {
 	
 	/** A user want to make a new friend */
 	$(searchConfig.global.addToContactsLink).live("click", function(ev) {
-		contactclicked = this.id.split("_")[4];        
-        var user = searchPerson(contactclicked);
-        sakai.addtocontacts.initialise(user.userid, mainSearch.removeAddContactLinks);
+		contactclicked = this.id.split("_")[4];     
+        //var user = searchPerson(contactclicked);
+        sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
 	});
 	    
     

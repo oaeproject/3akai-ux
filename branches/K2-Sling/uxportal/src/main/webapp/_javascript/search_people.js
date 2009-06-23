@@ -26,7 +26,7 @@ sakai.search = function() {
 	//	Config variables	//
 	//////////////////////////
 	
-	var resultsToDisplay = 5;
+	var resultsToDisplay = 12;
 	var searchterm = "";
 	var currentpage = 0;
 	var foundPeople = [];
@@ -129,7 +129,7 @@ sakai.search = function() {
 	var searchPerson = function(userid) {
 		var person = false;
 		for (var i = 0; i < foundPeople.length; i++) {
-			if (foundPeople[i].userid === userid) {
+			if (foundPeople[i].userid[0] === userid) {
 				person = foundPeople[i];
 				break;
 			}
@@ -186,12 +186,12 @@ sakai.search = function() {
 		finaljson.items = [];
 		if (success) {
 			//	Adjust the number of people we have found.
-			$(searchConfig.global.numberFound).text(results.size);
+			$(searchConfig.global.numberFound).text(results.total);
 			
 			//	Reset the pager.
 			$(searchConfig.global.pagerClass).pager({
 				pagenumber: currentpage,
-				pagecount: Math.ceil(results.size / resultsToDisplay),
+				pagecount: Math.ceil(results.total / resultsToDisplay),
 				buttonClickCallback: pager_click_handler
 			});
 			
@@ -266,7 +266,7 @@ sakai.search = function() {
 			
 			$.ajax({
 				cache: false,
-				url: Config.URL.SEARCH_SERVICE + "?p=" + (currentpage - 1) + "&path=/_private&n=" + resultsToDisplay + "&q=" + urlsearchterm + "&people=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName",
+				url: Config.URL.SEARCH_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&people=" + searchWhere + "&s=sakai:firstName&s=sakai:lastName",
 				success: function(data) {
 					var json = $.evalJSON(data);
 					renderResults(json, true);

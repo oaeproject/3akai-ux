@@ -75,7 +75,8 @@ sakai._search = function(config, callback) {
      * Gets the sites of the current user and will call the render method.
      */
     var getMySites = function() {
-        $.ajax({
+       /*
+ $.ajax({
             url: Config.URL.SITES_SERVICE,
 			cache: false,
             success: function(response) {
@@ -97,6 +98,9 @@ sakai._search = function(config, callback) {
                 });
             }
         });
+*/
+		History.history_change();
+		
     };
     
     //////////////////////
@@ -297,7 +301,7 @@ sakai._search = function(config, callback) {
                     user.name = user.userid;
                 }
                 if (person.basic) {
-                    var basic = $evalJSON(person.basic);
+                    var basic = $.evalJSON(person.basic);
                     if (basic.unirole) {
                         user.extra = basic.unirole;
                     }
@@ -320,8 +324,7 @@ if (getMyFriends().status.friends) {
                     }
                 }
 */
-                
-                if (user.userid === sdata.me.user.userid) {
+                if (user.userid[0] === sdata.me.user.userid) {
                     user.isMe = true;
                 }
                 
