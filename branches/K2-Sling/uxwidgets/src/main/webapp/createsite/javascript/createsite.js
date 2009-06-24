@@ -148,67 +148,6 @@ sakai.createsite = function(tuid,placement,showSettings){
 	///////////////////
 	
 	/**
-	 * Set the permissions of the widget folder in the site you are creating
-	 * In the future this should happen in the back-end of the site
-	 * @param {String} siteid
-	 */
-	var setWidgetsPermissions = function(siteid){
-		
-		/*
-var data = {
-			action : "replace",
-			// k:* - set of ACS
-			// s:AN - All users in all contexts
-			// g:1 - Granted
-			// p:1 - Propagating (to all child nodes)
-			acl : "k:*,s:AN,g:1,p:1",
-			// pe - Permissions
-			f : "pe"
-		};
-			
-		$.ajax({
-			url: Config.URL.SDATA_FETCH + "/" + siteid + "/_widgets?f=pe",
-			type: "POST",
-			success: function(data){
-				
-*/
-				// Redirect the user to the site he/she just created
-	
-			//document.location = Config.URL.SITE_URL + "?siteid=" + siteid;
-			document.location = "/" + siteid;
-			
-	/*
-			},
-			error: function(status){
-				alert("Failed: " + status);
-			},
-			data: data
-		});
-		
-*/
-	};
-	
-	var createNavigation = function(siteid){
-		var tosave = '<h3>Navigation Menu</h3><p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><h3>Recent Activity</h3><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
-		sdata.widgets.WidgetPreference.save("/" + siteid + "/_navigation","content",tosave, function(){
-			createPageConfiguration(siteid);
-		});
-	};
-	
-	var createPageConfiguration = function(siteid){
-		sdata.widgets.WidgetPreference.save("/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
-			createPage1(siteid);
-		});
-	};
-	
-	var createPage1 = function(siteid){
-		var tosave = '<p>Welcome to your new default site!</p>';
-		sdata.widgets.WidgetPreference.save("/" + siteid + "/_pages/welcome","content",tosave, function(){
-			setWidgetsPermissions(siteid);
-		});
-	};
-	
-	/**
 	 * Create the actual site.
 	 * Sends information to the server about the site you are making.
 	 */
@@ -218,7 +157,6 @@ var data = {
 		var sitetitle = $(createSiteNoncourseName).val() || "";
 		var sitedescription = $(createSiteNoncourseDescription).val() || "";
 		var siteid = replaceCharacters($(createSiteNoncourseId).val());
-		var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
 		
 		// Check if there is a site id or site title defined
 		if (!siteid || sitetitle === "")
@@ -284,7 +222,166 @@ var data = {
 			}
 		});
 	};
+	
+	var createNavigation = function(siteid){
+		var tosave = '<h3>Navigation Menu</h3><p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><h3>Recent Activity</h3><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
+		sdata.widgets.WidgetPreference.save("/" + siteid + "/_navigation","content",tosave, function(){
+			createPageConfiguration(siteid);
+		});
+	};
+	
+	var createPageConfiguration = function(siteid){
+		sdata.widgets.WidgetPreference.save("/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
+			createPage1(siteid);
+		});
+	};
+	
+	var createPage1 = function(siteid){
+		var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
+		var tosave = '<p>Welcome to your new ' + sitetemplate + ' site!</p>';
+		sdata.widgets.WidgetPreference.save("/" + siteid + "/_pages/welcome","content",tosave, function(){
+			setWidgetsPermissions(siteid);
+		});
+	};
+	
+	/**
+	 * Set the permissions of the widget folder in the site you are creating
+	 * In the future this should happen in the back-end of the site
+	 * @param {String} siteid
+	 */
+	var setWidgetsPermissions = function(siteid){
+		sdata.widgets.WidgetPreference.save("/" + siteid + "/widgets","created",'Widget settings + data', function(){
+			$.ajax({
+				url: "/" + siteid + "/widgets" + ".modifyAce.json",
+				type: "POST",
+				success: function(data){
+					createCollaboratorGroup(siteid);
+				},
+				error: function(status){
+					createCollaboratorGroup(siteid);
+				},
+				data: {
+					"principalId":"everyone",
+					"privilege@jcr:all":"granted"
+				}
+			});
+		});			
+	};
 
+	var createCollaboratorGroup = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group.create.html",
+			type: "POST",
+			success: function(data){
+				createViewersGroup(siteid);
+			},
+			error: function(status){
+				createViewersGroup(siteid);
+			},
+			data: {
+				":name": "g-" + siteid + "-collaborators"
+			}
+		});
+	};
+	
+	var createViewersGroup = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group.create.html",
+			type: "POST",
+			success: function(data){
+				addMeToCollaborators(siteid);
+			},
+			error: function(status){
+				addMeToCollaborators(siteid);
+			},
+			data: {
+				":name": "g-" + siteid + "-viewers"
+			}
+		});
+	};
+	
+	var addMeToCollaborators = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
+			type: "POST",
+			success: function(data){
+				addGroupsToSite(siteid);
+			},
+			error: function(status){
+				addGroupsToSite(siteid);
+			},
+			data: {
+				":member": "../../user/" + sdata.me.user.userid
+			}
+		});
+	};
+	
+	var addGroupsToSite = function(siteid){
+		$.ajax({
+			url: "/" + siteid,
+			type: "POST",
+			success: function(data){
+				addSiteToCollaborators(siteid);
+			},
+			error: function(status){
+				addSiteToCollaborators(siteid);
+			},
+			data: {
+				"sakai:authorizables": ["g-" + siteid + "-collaborators","g-" + siteid + "-viewers"]
+			}
+		});
+	};
+	
+	var addSiteToCollaborators = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
+			type: "POST",
+			success: function(data){
+				addSiteToViewers(siteid);
+			},
+			error: function(status){
+				addSiteToViewers(siteid);
+			},
+			data: {
+				"sakai:site": ["/" + siteid]
+			}
+		});
+	};
+	
+	var addSiteToViewers = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
+			type: "POST",
+			success: function(data){
+				setSiteACL(siteid);
+			},
+			error: function(status){
+				setSiteACL(siteid);
+			},
+			data: {
+				"sakai:site": ["/" + siteid]
+			}
+		});
+	};
+	
+	var setSiteACL = function(siteid){
+		$.ajax({
+			url: "/" + siteid + ".modifyAce.json",
+			type: "POST",
+			success: function(data){
+				document.location = "/" + siteid;
+			},
+			error: function(status){
+				document.location = "/" + siteid;
+			},
+			data: {
+				"principalId":"g-" + siteid + "-collaborators",
+				"privilege@jcr:all":"granted"
+			}
+		});
+	};
+	
+	//document.location = "/" + siteid;
 
 	////////////////////
 	// Event Handlers //
@@ -348,7 +445,7 @@ var data = {
 		
 		// Set the text of the span containing the url of the current site
 		// e.g. http://celestine.caret.local:8080/site/
-		$(createSiteNoncourseUrl).text(document.location.protocol + "//" + document.location.host + "/site/");
+		$(createSiteNoncourseUrl).text(document.location.protocol + "//" + document.location.host + "/");
 	};
 	
 	doInit();		
