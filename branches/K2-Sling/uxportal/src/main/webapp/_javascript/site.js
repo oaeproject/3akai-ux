@@ -30,7 +30,7 @@ sakai.site = function(){
 	sakai.site.minHeight = 400;
 	sakai.site.autosaveinterval = 17000;
 	sakai.site.createChildPageByDefault = false;
-	sakai.site.siteAdminJS = "_javascript/site_admin.js";
+	sakai.site.siteAdminJS = "/dev/_javascript/site_admin.js";
 	
 	// Help variables - public as some of these needs to be shared with admin section
 	sakai.site.siteAdminLoaded = false;
@@ -231,25 +231,24 @@ sakai.site = function(){
 		sakai.site.meObject = sdata.me;
 		
 		// Determine whether the user is mantainer, if yes show and load admin elements
-		if (sakai.site.meObject.preferences && sakai.site.meObject.preferences.subjects) {
-			for (var i = 0, j = sakai.site.currentsite.owners.length; i<j; i++) {
-				if (sakai.site.currentsite.owners[i] == sdata.me.preferences.uuid){							
-						
-						// Show admin elements
-						$li_edit_page_divider.show();
-						$li_edit_page.show();
-						$add_a_new.show();
-						$site_management.show();
-						$(".page_nav h3").css("padding-top","10px");
-						
-						// Load admin part from a separate file
-						$.Load.requireJS(sakai.site.siteAdminJS);	
-						
-						break;
-				}
+		var collaboratorgroup = "g-" + sakai.site.currentsite.id + "-collaborators";
+		for (var i = 0; i < sdata.me.user.subjects.length; i++) {
+			if (sdata.me.user.subjects[i] === collaboratorgroup) {
+			
+				// Show admin elements
+				$li_edit_page_divider.show();
+				$li_edit_page.show();
+				$add_a_new.show();
+				$site_management.show();
+				$(".page_nav h3").css("padding-top", "10px");
+				
+				// Load admin part from a separate file
+				$.Load.requireJS(sakai.site.siteAdminJS);
+				
+				break;
+			
 			}
 		}
-		
 		// Check user's login status
 		if (sakai.site.meObject.user.userid){
 			$("#loginLink").hide();

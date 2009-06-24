@@ -475,7 +475,7 @@ sakai.site.site_admin = function(){
 					// Save page content
 					var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
 					var newurl = sakai.site.selectedpage.split("/").join("/_pages/");
-					sdata.widgets.WidgetPreference.save("/sdata/f/" + sakai.site.currentsite.id + "/_pages/" + newurl, "content", content, function(){
+					sdata.widgets.WidgetPreference.save("/" + sakai.site.currentsite.id + "/_pages/" + newurl, "content", content, function(){
 							
 						// Remove old div + potential new one
 						$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
@@ -641,7 +641,7 @@ sakai.site.site_admin = function(){
 					
 						// Save page content
 						var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-						sdata.widgets.WidgetPreference.save("/sdata/f" + newfolderpath, "content", content, function(){
+						sdata.widgets.WidgetPreference.save("/" + newfolderpath, "content", content, function(){
 							
 							// Remove old div + potential new one
 							$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
@@ -680,7 +680,7 @@ sakai.site.site_admin = function(){
 				}
 		
 				// Adjust configuration file
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+				sdata.widgets.WidgetPreference.save("/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 					
 					// Render the new page under the new URL
 					
@@ -1766,7 +1766,7 @@ sakai.site.site_admin = function(){
 		$("#more_menu").hide();
 		
 		$.ajax({
-		   	url :"/sdata/f/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?f=vh",
+		   	url :"/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?f=vh",
 			cache: false,
 			success : function(data) {
 				var history = $.evalJSON(data);
@@ -1854,7 +1854,7 @@ sakai.site.site_admin = function(){
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
 		$.ajax({
-		   	url :"/sdata/f/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		   	url :"/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
 		    success : function(data) {
 				
 				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(data);
@@ -1863,11 +1863,11 @@ sakai.site.site_admin = function(){
 				// Save new version of this page
 				var newfolderpath = sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/");
 
-				sdata.widgets.WidgetPreference.save("/sdata/f/" + newfolderpath, "content", data, function(){
+				sdata.widgets.WidgetPreference.save("/" + newfolderpath, "content", data, function(){
 									
 					// Check in the page
 					$.ajax({
-						url: "/sdata/f/" + newfolderpath + "/content?f=ci",
+						url: "/" + newfolderpath + "/content?f=ci",
 						type: 'POST'
 					});
 							
