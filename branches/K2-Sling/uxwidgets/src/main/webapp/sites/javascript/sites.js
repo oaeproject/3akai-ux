@@ -48,9 +48,9 @@ sakai.sites = function(tuid,placement,showSettings){
 	 * @return 1, 0 or -1
 	 */
 	var doSort = function(a,b){
-		if (a.name > b.name) {
+		if (a.site.name > b.site.name) {
 			return 1;
-		} else if (a.name === b.name) {
+		} else if (a.site.name === b.site.name) {
 			return 0;
 		} else {
 			return -1;
@@ -72,9 +72,9 @@ sakai.sites = function(tuid,placement,showSettings){
 	 * @param {Object} newjson
 	 */
 	var doRender = function(newjson){
-		for (var i = 0; i < newjson.entry.length; i++){
-			newjson.entry[i].location = newjson.entry[i].location.substring(1);
-		}
+		//for (var i = 0; i < newjson.entry.length; i++){
+		//	newjson.entry[i].location = newjson.entry[i].location.substring(1);
+		//}
 		
 		// If the user is not registered for any sites, show the no sites error.
 		if (newjson.entry.length === 0){
@@ -98,16 +98,13 @@ sakai.sites = function(tuid,placement,showSettings){
 			var json = $.evalJSON(response);
 			var newjson = {};
 			newjson.entry = [];
-			// If the response contained any entries.
-			if (json.entry) {
-				for (var i = 0; i < json.entry.length; i++) {
-					var site = json.entry[i];
-					// If this is a valid site
-					if (site.id.substring(0, 1) !== "~") {
-						// Add this site to the list of sites we wish to display.
-						newjson.entry.push(site);
-					}
-				}
+			for (var i = 0; i < json.length; i++) {
+				var site = json[i];
+				// If this is a valid site
+				//if (site.id.substring(0, 1) !== "~") {
+					// Add this site to the list of sites we wish to display.
+					newjson.entry.push(site);
+				//}
 			}			
 			// Render all the sites.
 			doRender(newjson);		
