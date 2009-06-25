@@ -434,7 +434,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 					post.editedDate = "";
 					post.subject = subject;
 					post.body = message.replace(/\n/g, "<br />");
-					post.uid = me.preferences.uuid;
+					post.uid = me.user.userid;
 					post.date = getCurrentDateTime();
 					post.postId = "0";
 					
@@ -444,7 +444,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 					savePostsToDatabase(arrPosts, null);
 				}else {
 					post = postWithIndex[0];
-					post.editedBy = me.preferences.uuid;
+					post.editedBy = me.user.userid;
 					post.editedDate = getCurrentDateTime();
 					post.subject = subject;
 					post.body = message.replace(/\n/g, "<br />");
@@ -472,7 +472,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 					if(post2){
 						post2.subject = subject;
 						post2.body = message.replace(/\n/g, "<br />");
-						post2.editedBy = me.preferences.uuid;
+						post2.editedBy = me.user.userid;
 						post2.editedDate = getCurrentDateTime();
 						arrDiscussions.items[postWithIndex[1]] = post2;
 						
@@ -856,7 +856,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 			post.replies = countReplies(arrPosts, postIdSplit, i);
 
 			// Show or hide the edit or delete button
-			if(me.preferences.superUser || me.preferences.uuid === uid){
+			if(me.user.superUser || me.user.userid === uid){
 				post.showEdit = true;
 				post.showDelete = true;
 			}
@@ -905,7 +905,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 */
 	var getUserInfo = function(arrPosts) {					
 		$.ajax({
-			url: Config.URL.ME_SERVICE + "/" + uids.join(','),
+			url: "/system/batch?resources=/system/userManager/user/" + uids.join('&resources='),
 			success: function(data){
 				getPostInfo(arrPosts, data);
 			},
@@ -1026,7 +1026,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 
 				// Fill in the JSON post object
 				var post = {
-					"uid": me.preferences.uuid,
+					"uid": me.user.userid,
 					"body": body,
 					"subject": subject,
 					"date" : getCurrentDateTime(),
@@ -1043,7 +1043,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 						if(postId === "0"){
 							// Fill in the JSON post object
 							var post2 = {
-								"uid": me.preferences.uuid,
+								"uid": me.user.userid,
 								"tuid": tuid,
 								"body": body,
 								"subject": subject,
