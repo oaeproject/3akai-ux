@@ -446,7 +446,7 @@ var Widgets = {
 			siteportal:0,
 			ca:1,
 			showinmedia:0,
-			showinsakaigoodies:1,
+			showinsakaigoodies:0,
 			img:"/devwidgets/linktool/images/linktool.png"
 		},
 		tangler :
