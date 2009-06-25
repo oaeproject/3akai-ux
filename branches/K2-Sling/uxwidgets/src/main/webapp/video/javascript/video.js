@@ -166,11 +166,12 @@ sakai.video = function(tuid, placement, showSettings) {
     var ShowVideoYoutubePlayer = function(video, container) {
         try {
 			// Clone the video-object to make some changes for the template
-           	var videoTemp = cloneObject(video);
-            // a youtube url should look like this:
+			var videoTemp = cloneObject(video);
+			// a youtube url should look like this:
             // http://www.youtube.com/watch?v=AOWbGfPU5uQ&feature=fvst, you need to get the id (v=)
             // make an object of a the queryString
             var qs = new Querystring(video.URL.split("?")[1]);
+			
             // get the id (default false)
             var id = qs.get("v", false);
             // if the id is false, give a warning the the user
@@ -193,7 +194,7 @@ sakai.video = function(tuid, placement, showSettings) {
 	 * @param {Boolean} isSakaiPlayer: should the video be displayed in a sakai-player or not
 	 */
     var showVideo = function(video, container, isSakaiPlayer) {
-        if (isSakaiPlayer) {
+		if (isSakaiPlayer) {
             ShowVideoSakaiPlayer(video, container);
         }
         else {
@@ -247,7 +248,7 @@ sakai.video = function(tuid, placement, showSettings) {
         }
 
         var video = {
-            "uid": me.preferences.uuid,
+            "uid": me.user.userid,
             "title": title,
             "source": source,
             "URL": URL,
@@ -315,7 +316,7 @@ sakai.video = function(tuid, placement, showSettings) {
     function(e, ui) {
 		// When adding a placeholder we just add an empty video-object
         var video = {
-            "uid": me.preferences.uuid,
+            "uid": me.user.userid,
             "title": "",
             "source": "",
             "URL": "",
