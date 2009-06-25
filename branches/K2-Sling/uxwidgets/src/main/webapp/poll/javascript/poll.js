@@ -517,7 +517,7 @@ sakai.poll = function(tuid, placement, showSettings){
 		if(me){
 			
 			// A user can only vote once
-			if(!$.inArray(json.poll.users, me.preferences.uuid) > -1){
+			if(!$.inArray(me.user.userid, json.poll.users) > -1){
 				
 				// Double check (it is already checked in the bindUnbindVote function)
 				// if the user has checked an element. We do this double check to make it
@@ -529,7 +529,7 @@ sakai.poll = function(tuid, placement, showSettings){
 				}else if ($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 1){
 					json.poll.votes[parseInt($('input[name=' + pollQuestionViewOptionsClass + ']:checked').val(), 10)] +=1;
 					
-					json.poll.users.push(me.preferences.uuid);
+					json.poll.users.push(me.user.userid);
 					savePollToDatabase(finishVoting, false);
 				
 				// If the user selected multiple options
@@ -538,7 +538,7 @@ sakai.poll = function(tuid, placement, showSettings){
 						json.poll.votes[parseInt($("#" + $('input[name=' + pollQuestionViewOptionsClass + ']:checked')[i].id).val(), 10)] += 1;
 					}
 					
-					json.poll.users.push(me.preferences.uuid);
+					json.poll.users.push(me.user.userid);
 					savePollToDatabase(finishVoting, false);
 				}
 			}
@@ -633,8 +633,8 @@ sakai.poll = function(tuid, placement, showSettings){
 					
 					// Check if the date are correct
 					checkDates();
-					
-					if ($.inArray(json.poll.users,me.preferences.uuid) > -1) {
+				
+					if ($.inArray(me.user.userid,json.poll.users) > -1) {
 						json.poll.temp.userVoted = 1;
 						
 						// Check if the user is allowed to see the chart or not
