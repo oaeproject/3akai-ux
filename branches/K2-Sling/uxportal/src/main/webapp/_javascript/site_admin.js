@@ -491,10 +491,12 @@ sakai.site.site_admin = function(){
 						$("#show_view_container").show();
 						
 						// Check in the page
-						$.ajax({
+						/*
+$.ajax({
 							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content?f=ci",
 							type: 'POST'
 						});
+*/
 									
 					}, null, "x-sakai-page");					
 					
@@ -522,10 +524,12 @@ sakai.site.site_admin = function(){
 					sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", sakai.site.pagecontents[sakai.site.selectedpage], function(){
 					
 						// Check in the page
-						$.ajax({
+						/*
+$.ajax({
 							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content?f=ci",
 							type: 'POST'
 						});
+*/
 					
 					}, null, "x-sakai-page");
 					
@@ -616,8 +620,8 @@ sakai.site.site_admin = function(){
 		// Move page folder to this new id
 		var newfolderpath = "/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
 		var data = {
-			to: newfolderpath,
-			f: "mv"
+			":operation": "move",
+			":dest": newfolderpath
 		};
 		
 		$.ajax({
@@ -641,7 +645,7 @@ sakai.site.site_admin = function(){
 					
 						// Save page content
 						var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-						sdata.widgets.WidgetPreference.save("/" + newfolderpath, "content", content, function(){
+						sdata.widgets.WidgetPreference.save(newfolderpath, "content", content, function(){
 							
 							// Remove old div + potential new one
 							$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
@@ -659,10 +663,12 @@ sakai.site.site_admin = function(){
 							$("#show_view_container").show();
 							
 							// Check in the page
-							$.ajax({
+							/*
+$.ajax({
 								url: "/sdata/f" + newfolderpath + "/content?f=ci",
 								type: 'POST'
 							});
+*/
 					
 						}, null, "x-sakai-page");
 					
@@ -686,7 +692,7 @@ sakai.site.site_admin = function(){
 					
 						// Save page content
 						var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-						sdata.widgets.WidgetPreference.save("/sdata/f" + newfolderpath, "content", content, function(){
+						sdata.widgets.WidgetPreference.save(newfolderpath, "content", content, function(){
 							
 							// Remove old div + potential new one
 							$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
@@ -704,10 +710,12 @@ sakai.site.site_admin = function(){
 							$("#show_view_container").show();
 							
 							// Check in the page
-							$.ajax({
+							/*
+$.ajax({
 								url: "/sdata/f" + newfolderpath + "/content?f=ci",
 								type: 'POST'
 							});
+*/
 							
 						}, null, "x-sakai-page");
 					
@@ -1866,10 +1874,12 @@ sakai.site.site_admin = function(){
 				sdata.widgets.WidgetPreference.save("/" + newfolderpath, "content", data, function(){
 									
 					// Check in the page
-					$.ajax({
+					/*
+$.ajax({
 						url: "/" + newfolderpath + "/content?f=ci",
 						type: 'POST'
 					});
+*/
 							
 				}, null, "x-sakai-page");
 				
@@ -2036,78 +2046,94 @@ sakai.site.site_admin = function(){
 		if (!sakai.site.inEditView) {
 			var newfolderpath = "/" + sakai.site.escapePageId(sakai.site.currentsite.id) + "/_pages/" + newid.split("/").join("/_pages/");
 			
-			var data = {
-				to: newfolderpath,
-				f: "mv"
-			};
+			var createFolderPath = "";
+			for (var i = 0; i < newfolderpath.split("/").length - 1; i++){
+				createFolderPath += "/" + newfolderpath.split("/")[i];
+			}
+			createFolderPath = createFolderPath.substring(1);
 			
+			// Create parent
 			$.ajax({
-				url: sakai.site.urls.CURRENT_SITE_PAGES(),
+				url: createFolderPath,
 				type: 'POST',
-				data: data,
-				success: function(data){
-				
-					// Rewrite configuration file	
-					var parentEl = $(".root");
-					var els = $("li", parentEl);
-					
-					var newpageconfig = {};
-					newpageconfig.items = [];
-					
-					for (i = 0, j = els.length; i<j; i++) {
-						if (els[i] && els[i].id) {
-							for (ii = 0, jj = sakai.site.pages.items.length; ii<jj; ii++) {
-								if (sakai.site.pages.items[ii].id == els[i].id) {
-									var newindex = newpageconfig.items.length;
-									newpageconfig.items[newindex] = sakai.site.pages.items[ii];
-									if (sakai.site.pages.items[ii].id == sakai.site.selectedpage) {
-										newpageconfig.items[newindex].id = newid;
-									}
-								}
-							}
-						}
-					}
-					
-					sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(newpageconfig), function(success){
-						$(document.body).hide();
-						document.location = "#" + newid;
-						window.location.reload(true);
-						$('#move_dialog').jqmHide();
-					});
-					
-					
+				data: {
+					created : "created"
 				},
-				error: function(data){
-					// Rewrite configuration file
-					var parentEl = $(".root");
-					var els = $("li", parentEl);
-					
-					var newpageconfig = {};
-					newpageconfig.items = [];
-					
-					for (i = 0, j = els.length; i<j; i++) {
-						if (els[i] && els[i].id) {
-							for (ii = 0, jj = sakai.site.pages.items.length; ii<jj; ii++) {
-								if (sakai.site.pages.items[ii].id == els[i].id) {
-									var newindex = newpageconfig.items.length;
-									newpageconfig.items[newindex] = sakai.site.pages.items[ii];
-									if (sakai.site.pages.items[ii].id == sakai.site.selectedpage) {
-										newpageconfig.items[newindex].id = newid;
+				success: function(data){
+					$.ajax({
+						url: sakai.site.urls.CURRENT_SITE_PAGES(),
+						type: 'POST',
+						data: {
+							":operation":"move",
+							":dest":newfolderpath
+						},
+						success: function(data){
+						
+							// Rewrite configuration file	
+							var parentEl = $(".root");
+							var els = $("li", parentEl);
+							
+							var newpageconfig = {};
+							newpageconfig.items = [];
+							
+							for (i = 0, j = els.length; i < j; i++) {
+								if (els[i] && els[i].id) {
+									for (ii = 0, jj = sakai.site.pages.items.length; ii < jj; ii++) {
+										if (sakai.site.pages.items[ii].id == els[i].id) {
+											var newindex = newpageconfig.items.length;
+											newpageconfig.items[newindex] = sakai.site.pages.items[ii];
+											if (sakai.site.pages.items[ii].id == sakai.site.selectedpage) {
+												newpageconfig.items[newindex].id = newid;
+											}
+										}
 									}
 								}
 							}
+							
+							sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(newpageconfig), function(success){
+								$(document.body).hide();
+								document.location = "#" + newid;
+								window.location.reload(true);
+								$('#move_dialog').jqmHide();
+							});
+							
+							
+						},
+						error: function(data){
+							// Rewrite configuration file
+							var parentEl = $(".root");
+							var els = $("li", parentEl);
+							
+							var newpageconfig = {};
+							newpageconfig.items = [];
+							
+							for (i = 0, j = els.length; i < j; i++) {
+								if (els[i] && els[i].id) {
+									for (ii = 0, jj = sakai.site.pages.items.length; ii < jj; ii++) {
+										if (sakai.site.pages.items[ii].id == els[i].id) {
+											var newindex = newpageconfig.items.length;
+											newpageconfig.items[newindex] = sakai.site.pages.items[ii];
+											if (sakai.site.pages.items[ii].id == sakai.site.selectedpage) {
+												newpageconfig.items[newindex].id = newid;
+											}
+										}
+									}
+								}
+							}
+							
+							sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(newpageconfig), function(success){
+							
+								 /* 
+								 $(document.body).hide();
+								 document.location = "#" + newid;
+								 window.location.reload(true);
+								 $('#move_dialog').jqmHide();
+								 */
+								
+							});
+							
 						}
-					}
-					
-					sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(newpageconfig), function(success){
-					
-						$(document.body).hide();
-						document.location = "#" + newid;
-						window.location.reload(true);
-						$('#move_dialog').jqmHide();
-						
 					});
-					
 				}
 			});
 			
@@ -2220,7 +2246,7 @@ sakai.site.site_admin = function(){
 		templates[newid] = obj;
 		var tosave = $.toJSON(templates);
 		sdata.widgets.WidgetPreference.save(Config.URL.TEMPLATES, "configuration", tosave, function(success){
-			sdata.widgets.WidgetPreference.save(sakai.site.urls.TEMPLATE_PAGES() + newid, "content", sakai.site.pagecontents[sakai.site.selectedpage], function(success){
+			sdata.widgets.WidgetPreference.save(Config.URL.TEMPLATES + newid, "content", sakai.site.pagecontents[sakai.site.selectedpage], function(success){
 				$("#save_as_template_container").jqmHide();
 				$("#template_name").val("");
 				$("#template_description").val("");
@@ -2352,7 +2378,7 @@ sakai.site.site_admin = function(){
 		
 		// Delete autosave
 		$.ajax({
-			url: sakai.site.urls.DELETE_PAGE_URL(),
+			url: sakai.site.urls.CURRENT_SITE_PAGES(),
 			type: 'DELETE',
 			success: function(data){
 				
@@ -2366,7 +2392,7 @@ sakai.site.site_admin = function(){
 				
 				sakai.site.pages.items.splice(index, 1);
 				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					document.location = sakai.site.urls.SITE_URL();
+					document.location = "/" + sakai.site.currentsite.id;
 				});
 				
 			},
@@ -2382,7 +2408,7 @@ sakai.site.site_admin = function(){
 				
 				sakai.site.pages.items.splice(index, 1);
 				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					document.location = sakai.site.urls.SITE_URL();
+					document.location = "/" + sakai.site.currentsite.id;
 				});
 			}
 		});
