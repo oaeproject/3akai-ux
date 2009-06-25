@@ -250,9 +250,9 @@ sakai.createsite = function(tuid,placement,showSettings){
 	 * @param {String} siteid
 	 */
 	var setWidgetsPermissions = function(siteid){
-		sdata.widgets.WidgetPreference.save("/" + siteid + "/widgets","created",'Widget settings + data', function(){
+		sdata.widgets.WidgetPreference.save("/" + siteid + "/_widgets","created",'Widget settings + data', function(){
 			$.ajax({
-				url: "/" + siteid + "/widgets" + ".modifyAce.json",
+				url: "/" + siteid + "/_widgets" + ".modifyAce.json",
 				type: "POST",
 				success: function(data){
 					createCollaboratorGroup(siteid);
