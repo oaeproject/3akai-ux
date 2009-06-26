@@ -710,7 +710,8 @@ sakai.profile = function(){
 	};
 	
 	var doAddButton = function(){
-   		$.ajax({
+   		/*
+$.ajax({
 			url: "/rest/friend/status",
 			cache: false,
 			success: function(data){
@@ -756,6 +757,29 @@ sakai.profile = function(){
 				//alert("An error has occured");	
 			}
 		});
+*/
+
+		$("#add_to_contacts_button").show();	
+		
+		if (totalprofile.user.properties.firstName){
+			$("#add_friend_displayname").text(totalprofile.user.properties.firstName);
+			$("#add_friend_displayname2").text(totalprofile.user.properties.firstName);
+		} else if (totalprofile.user.profile.lastName) {
+			$("#add_friend_displayname").text(totalprofile.user.profile.lastName);
+			$("#add_friend_displayname2").text(totalprofile.user.profile.lastName);
+		} else {
+			$("#add_friend_displayname").text(totalprofile.user.userid);
+			$("#add_friend_displayname2").text(totalprofile.user.userid);
+		}
+					
+		if (totalprofile.user.properties.picture && $.evalJSON(totalprofile.user.properties.picture).name){
+			$("#add_friend_profilepicture").html("<img src='/_user/public/" + totalprofile.user.userid + "/" + $.evalJSON(totalprofile.user.properties.picture).name + "' width='40px' height='40px'/>");
+		} else {
+			$("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
+		}
+
+		$("#add_friend_types").html($.Template.render("add_friend_types_template",Widgets));
+
    };
    
    $("#add_friends_do_invite").bind("click", function(ev){
@@ -767,10 +791,10 @@ sakai.profile = function(){
 			
 			// send message to other person
 			var userstring = "";
-			if (me.profile.firstName && me.profile.lastName){
-				userstring = me.profile.firstName + " " + me.profile.lastName;
+			if (me.user.properties.firstName && me.user.properties.lastName){
+				userstring = me.user.properties.firstName + " " + me.user.properties.lastName;
 			} else {
-				userstring = me.preferences.uuid;
+				userstring = me.user.userid;
 			}
 			
 			var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
@@ -779,10 +803,10 @@ sakai.profile = function(){
 			// construct openSocial message
 			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
 					
-			var data = { "friendUuid" : user , "friendType" : type, "message" :  $.toJSON({"title":title,"body":openSocialMessage})};
+			var data = { "contact" : user , "type" : type};
 			
 			$.ajax({
-				url: "/rest/friend/connect/request",
+				url: "/_user/contact.request",
 				type: "POST",
 			    success: function(data){
 					
