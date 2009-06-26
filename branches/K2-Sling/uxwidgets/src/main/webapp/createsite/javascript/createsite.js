@@ -172,7 +172,9 @@ sakai.createsite = function(tuid,placement,showSettings){
 			"name" : sitetitle,
 			"description" : sitedescription,
 			"id" : siteid,
-			"sakai:site-template" : "/dev/_skins/original/original.html"
+			"sakai:site-template" : "/dev/_skins/original/original.html",
+			"status" : "online",
+			"access" : "everyone" 
 		};
 
 		// Hide the buttons and show the process status
@@ -306,12 +308,30 @@ sakai.createsite = function(tuid,placement,showSettings){
 			type: "POST",
 			success: function(data){
 				addGroupsToSite(siteid);
+				//addUserToCollaborators(siteid);
+			},
+			error: function(status){
+				addGroupsToSite(siteid);
+				//addUserToCollaborators(siteid);
+			},
+			data: {
+				":member": "../../user/" + sdata.me.user.userid
+			}
+		});
+	};
+	
+	var addUserToCollaborators = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
+			type: "POST",
+			success: function(data){
+				addGroupsToSite(siteid);
 			},
 			error: function(status){
 				addGroupsToSite(siteid);
 			},
 			data: {
-				":member": "../../user/" + sdata.me.user.userid
+				":member": "../../user/nicolaas"
 			}
 		});
 	};
@@ -353,10 +373,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
 			type: "POST",
 			success: function(data){
-				setSiteACL(siteid);
+				setSiteACL1(siteid);
 			},
 			error: function(status){
-				setSiteACL(siteid);
+				setSiteACL1(siteid);
 			},
 			data: {
 				"sakai:site": ["/" + siteid]
@@ -364,7 +384,58 @@ sakai.createsite = function(tuid,placement,showSettings){
 		});
 	};
 	
-	var setSiteACL = function(siteid){
+	var setSiteACL1 = function(siteid){
+		$.ajax({
+			url: "/" + siteid + ".modifyAce.json",
+			type: "POST",
+			success: function(data){
+				setSiteACL2(siteid);
+			},
+			error: function(status){
+				setSiteACL2(siteid);
+			},
+			data: {
+				"principalId":"g-" + siteid + "-collaborators",
+				"privilege@jcr:all":"granted"
+			}
+		});
+	};
+	
+	var setSiteACL2 = function(siteid){
+		$.ajax({
+			url: "/" + siteid + ".modifyAce.json",
+			type: "POST",
+			success: function(data){
+				setSiteACL3(siteid);
+			},
+			error: function(status){
+				setSiteACL3(siteid);
+			},
+			data: {
+				"principalId":"g-" + siteid + "-viewers",
+				"privilege@jcr:read":"granted"
+			}
+		});
+	};
+	
+	var setSiteACL3 = function(siteid){
+		$.ajax({
+			url: "/" + siteid + ".modifyAce.json",
+			type: "POST",
+			success: function(data){
+				setSiteACL4(siteid);
+			},
+			error: function(status){
+				setSiteACL4(siteid);
+			},
+			data: {
+				"principalId":"registered",
+				"privilege@jcr:read":"granted"
+			}
+		});
+	};
+	
+	var setSiteACL4 = function(siteid){
 		$.ajax({
 			url: "/" + siteid + ".modifyAce.json",
 			type: "POST",
@@ -375,8 +446,8 @@ sakai.createsite = function(tuid,placement,showSettings){
 				document.location = "/" + siteid;
 			},
 			data: {
-				"principalId":"g-" + siteid + "-collaborators",
-				"privilege@jcr:all":"granted"
+				"principalId":"everyone",
+				"privilege@jcr:read":"granted"
 			}
 		});
 	};
