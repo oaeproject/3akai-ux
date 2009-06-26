@@ -119,7 +119,7 @@ $(document).ready(function(){
 	
 	var loadSiteLanguage = function(site){
 			$.ajax({
-				url : "/_rest/site/get/" + site + "?sid=" + Math.random(),
+				url : "/" + site + ".json?sid=" + Math.random(),
 				success : function(data) {
 					var siteJSON = $.evalJSON(data);
 					if (siteJSON.language && siteJSON.language !== "default_default") {
