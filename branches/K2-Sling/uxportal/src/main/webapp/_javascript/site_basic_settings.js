@@ -127,20 +127,6 @@ sakai.site_basic_settings = function() {
 		return input;
 	};
     
-    /**
-     * Adds ?key=val to the url of ID of the DOM.
-     * @param {String} id The DOM id
-     * @param {String} key The key you wish to add
-     * @param {String} value The value for the key.
-     */
-    var appendKeyToURL = function(id, key, value) {
-        var url = $(id).attr('href');
-        // If there is no question mark in the url we add it.
-        url += (url.indexOf('?') === -1) ? "?" : "&";
-        url += key + "=" + value;
-        $(id).attr('href', url);
-    };
-	
 		/**
 	 * Puts the languages in a combobox
 	 * @param {Object} languages
@@ -173,7 +159,7 @@ sakai.site_basic_settings = function() {
      */
     var fillBasicSiteSettings = function(siteid) {
         $.ajax({
-            url: "/_rest/site/get/" + siteid,
+            url: "/" + siteid + ".json",
 			cache: false,
             success: function(response) {
                 var json = $.evalJSON(response);
@@ -181,14 +167,22 @@ sakai.site_basic_settings = function() {
                 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                if (json.owners &&  $.inArray(sdata.me.preferences.uuid, json.owners) >= 0) {                
+				var isMaintainer = false;
+				for (var i = 0; i < sdata.me.user.subjects.length; i++){
+					if (sdata.me.user.subjects[i] === "g-" + siteid + "-collaborators"){
+						isMaintainer = true;
+						break;
+					}
+				}
+				
+                if (isMaintainer) {                
                     // Fill in the info.
                     $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host);
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
                     $(siteSettingsInfoSitePart).text(Config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
-                    $(siteSettingsInfoSitePartTextLocation).text(json.location.substring(1));
+                    $(siteSettingsInfoSitePartTextLocation).text(json.id);
                     getLanguages(json);
 					
                     // Status
@@ -232,7 +226,7 @@ sakai.site_basic_settings = function() {
         var qs = new Querystring();
         siteid = qs.get("siteid", false);        
         $(siteSettingsAppendSiteIDtoURL).each(function(i, el) {
-            appendKeyToURL(el, 'siteid', siteid);
+            $(el).attr('href',$(el).attr('href') + siteid);
         });
         
         // fill in the title, description, etc for this site.
@@ -258,6 +252,7 @@ sakai.site_basic_settings = function() {
                 $(siteSettingsResponse).text($(siteSettingsErrorSaveFail).text());
             }
         }
+		
         // Show the result
         $(siteSettingsConfirm).hide();
         $(siteSettingsResponse).show();
@@ -304,47 +299,61 @@ sakai.site_basic_settings = function() {
      */
     var setStatusForSite = function(location, status, access) {
         // Get the correct ACL for this site
-        var acl = [];
-        var action = "replace";
+		var acl = "";
         if (status === "offline") {
             // Only the owner gets access.
-            acl = aclOffline;
+            acl = "offline";
         }
         else {
             if (access === 'public') {
-                action = "clear";
-                acl = aclOnlinePublic;
+                acl = "everyone";
             }
             else if (access.toLowerCase() === 'sakaiusers') {
-                acl = aclOnlineSakaiUsers;
+                acl = "sakaiusers";
             }
             else if (access === 'invite') {
-                acl = aclOnlineInvite;
+                acl = "invite";
             }
-        }
-        // Check for a slash in the beginning,
-        // If there is one, we remove it.
-        if (location.substr(0, 1) === '/') {
-            location = location.substr(1, location.length);
         }
         
-        // Send the query.
-        var tosend = {
-            "action": action,
-            "acl": acl
-        };
-        $.ajax({
-            url: Config.URL.SDATA_FUNCTION_PERMISSIONS.replace(/__URL__/gi, location),
-            type: "POST",
-            data: tosend,
-            success: function(data) {
-                saveSettingsDone(true, data);
-            },
-            error: function(data) {
-                saveSettingsDone(false, data);
-            }
-        });
+		var viewers = "g-" + siteid + "-viewers";
+		var registered = "registered";
+		var everyone = "everyone";
+		
+        if (acl == "offline"){
+			setACL(viewers, "denied");
+			//setACL(registered, "denied");
+			setACL(everyone, "denied");
+		} else if (acl === "everyone"){
+			setACL(viewers, "granted");
+			//setACL(registered, "granted");
+			setACL(everyone, "granted");
+		} else if (acl === "sakaiusers"){
+			setACL(viewers, "granted");
+			//setACL(registered, "granted");
+			setACL(everyone, "denied");
+		} else if (acl === "invite"){
+			setACL(viewers, "granted");
+			//setACL(registered, "denied");
+			setACL(everyone, "denied");
+		}
+
+		saveSettingsDone(true);
+
     };
+	
+	var setACL = function(group, toSet){
+		$.ajax({
+			url: "/" + siteid + ".modifyAce.json",
+			type: "POST",
+			success: function(data){},
+			error: function(status){},
+			data: {
+				"principalId":group,
+				"privilege@jcr:read":toSet
+			}
+		});
+	};
     
     /**
      * This will do a request to the site service to update this site its basic settings.
@@ -371,7 +380,7 @@ sakai.site_basic_settings = function() {
             }
             // Get the status and access options.
             var status = ($(siteSettingsStatusOn + "[type=radio]").is(":checked")) ? "online" : "offline";
-            var access = "public";
+            var access = "everyone";
             if ($(siteSettingsAccessSakaiUsers + "[type=radio]").is(":checked")) {
                 access = "sakaiUsers";
             }
@@ -390,7 +399,7 @@ sakai.site_basic_settings = function() {
                         
             //	Do a patch request to the profile info so that it gets updated with the new information.
             $.ajax({
-                url: Config.URL.SITE_UPDATE_SERVICE.replace(/__SITEID__/, siteinfo.location.replace(/\//,'')),
+                url: "/" + siteinfo.id,
                 type: "POST",
                 data: tosend,
                 success: function(data) {
@@ -416,71 +425,43 @@ sakai.site_basic_settings = function() {
      *  - Remove the site out of JCR.
      */
     var deleteThisSite = function() {
-        /*
-        // Get the members
-        sdata.Ajax.request({
-			httpMethod: "GET",
-			url: Config.URL.SITE_GET_MEMBERS_SERVICE.replace(/__SITE__/, siteid) + "?sid=" + Math.random(),
-			onSuccess: function(data) {
-				// parse the response
-				var json = json_parse(data);
-                var uuids = [];
-                var roles = [];
-                jQuery.each(json, function(i, item) {
-                    uuids.push(item.userid);
-                    roles.push(item.role);
-                });
-                
-                var tosend = {
-                    'sitePath' : siteinfo.location,
-                    'uuserid' : uuids,
-                    'membertoken' : roles
-                };
-                
-                //    Remove all these members
-                sdata.Ajax.request({
-        			httpMethod: "POST",
-                    postData: tosend,
-                    contentType: "application/x-www-form-urlencoded",
-        			url: Config.URL.SITE_REMOVE_MEMBERS_SERVICE.replace(/__SITE__/, siteid) + "?sid=" + Math.random(),
-        			onSuccess: function(data) {
-                        //    We removed all the members.
-                        //    Now remove the site.
-                        sdata.Ajax.request({
-                			httpMethod: "DELETE",
-                			url: "sdata/f/" + siteid,
-                			onSuccess: function(data) {
-                                alert("site deleted");
-                            },
-                            onFail: function(data) {
-                                alert("Failed to delete site.");                        
-                            }
-                        });
-                        
-                    },
-                    onFail: function(data) {
-                        alert("Failed to remove members.");                        
-                    }
-                });
+       	$.ajax({
+       		type: "DELETE",
+            url: "/" + siteid,
+            success: function(data) {
 				
-			},
-			onFail: function(status) {
-                alert("Failed to get members.");
-			}
-			
-		});
-		*/
-       
-       $.ajax({
-                			type: "DELETE",
-                			url: "sdata/f/" + siteid,
-                			success: function(data) {
-                                alert("site deleted");
-                            },
-                            error: function(data) {
-                                alert("Failed to delete site.");                        
-                            }
-                        });
+				// Delete viewer group
+				$.ajax({
+		       		type: "POST",
+		            url: "/system/userManager/group/g-" + siteid + "-viewers.delete.html",
+		            success: function(data) {
+						
+						// Delete collaborator group
+						$.ajax({
+				       		type: "POST",
+				            url: "/system/userManager/group/g-" + siteid + "-collaborators.delete.html",
+				            success: function(data) {
+								
+				                alert("Your site has been successfully deleted");
+								document.location = Config.URL.MY_DASHBOARD;
+								
+				            },
+				            error: function(data) {
+				            	alert("Failed to delete collaborators.");                        
+				            }
+				       	});
+						
+		            },
+		            error: function(data) {
+		            	alert("Failed to delete viewers.");                        
+		            }
+		       	});				
+							
+            },
+            error: function(data) {
+            	alert("Failed to delete site.");                        
+            }
+       	});
        
     };
     

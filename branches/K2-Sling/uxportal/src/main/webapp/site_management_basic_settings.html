@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/site.management.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.my_sakai.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
@@ -61,7 +62,7 @@
     
     	<!-- SECOND HEADING -->  
         <div class="site_secondary_heading">
-            Site Management <a href="site.html" class="siteSettings_appendSiteIDtoURL">&laquo; Back to Site</a>
+            Site Management <a href="/" class="siteSettings_appendSiteIDtoURL">&laquo; Back to Site</a>
         </div> 
         
         <!-- TAB NAVIGATION -->
@@ -88,7 +89,7 @@
 	            </div>
 	            <div class="summary-form-item">
                 	<label>Site URL:</label>
-	            	<span id="siteSettings_info_sakaiDomain"></span><span id="siteSettings_info_sitePart"></span><div style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span>
+	            	<span id="siteSettings_info_sakaiDomain"></span>/<div style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span>
                         <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_text_edit">Edit</a>
                     </div>
                     <div id="siteSettings_info_sitePart_edit" style="display:none;">
@@ -120,7 +121,7 @@
             	<div class="access-form-item">                	
                     <div class="site_access_label">Site status:</div>                                      	
                     <input type="radio" id="siteSettings_status_on" class="site_online" checked="checked" name="status" /><label class="site_status_on" for="site_status_on"> Online</label><br />
-                    <input type="radio" id="siteSettings_status_off" class="site_offline" name="status" /><label class="site_status_off" for="site_status_off"> Offine</label>                     
+                    <input type="radio" id="siteSettings_status_off" class="site_offline" name="status" /><label class="site_status_off" for="site_status_off"> Offline</label>                     
                 </div>
                 <div class="access-form-item" id="siteSettings_access">          
                     <div class="site_access_label">Site is available to:</div>                                        	
