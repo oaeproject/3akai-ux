@@ -356,13 +356,15 @@ sakai.site = function(){
 	 */
 	var saveToRecentSites = function(response){
 		
+		var items = {};
+		var site = $.evalJSON(response).id;
+		
 		$.ajax({
-		   	url : Config.URL.RECENT_SITES_URL,
+		   	url : "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
 			cache: false,
 			success : function(data) {
 				
-				var items = $.evalJSON(data);
-				var site = $.evalJSON(response).location.substring(1);
+				items = $.evalJSON(data);
 				
 				//Filter out this site
 				var index = -1;
@@ -378,10 +380,14 @@ sakai.site = function(){
 				items.items = items.items.splice(0,5);
 				
 				// Write
-				sdata.widgets.WidgetPreference.save("/sdata/p/", "recentsites.json", $.toJSON(items), function(success){});
+				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
 			},
 			error : function(httpstatus){
-				//console.log("site.js: Could not load Recent Sites data. HTTP Status: " + httpstatus);
+				items.items = [];
+				items.items.unshift(site);
+				
+				// Write
+				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
 			}
 		});
 		
