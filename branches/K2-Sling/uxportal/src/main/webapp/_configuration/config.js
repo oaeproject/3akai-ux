@@ -104,15 +104,18 @@ var Config = {
 		Styles : {
 			original : {
 				name : "Original sakai theme",
-				image : "_images/sakai_grey.png"
+				image : "_images/sakai_grey.png",
+				URL : "/dev/_skins/original/original.html"
 			},
 			blue : {
 				name : "Blue theme",
-				image : "_images/sakai_blue.png"
+				image : "_images/sakai_blue.png",
+				URL : "/dev/_skins/blue/blue.html"
 			},
 			camuniversity : {
 				name : "Cambridge University theme",
-				image : "/dev/_skins/camuniversity/images/camuniversity.png"
+				image : "/dev/_skins/camuniversity/images/camuniversity.png",
+				URL : "/dev/_skins/camuniversity/camuniversity.html"
 			}
 		}
 	},
