@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />		
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.my_sakai.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/site.appearance.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
 	<link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css" />
@@ -52,7 +53,7 @@
 
 	<!-- SECOND HEADING -->
 	<div class="site_secondary_heading">
-		Site Management <a href="site.html" class="site_appearance_append_id_to_url">&laquo; Back to Site</a>
+		Site Management <a href="/" class="site_appearance_append_id_to_url">&laquo; Back to Site</a>
 	</div>
 
 	<!-- TAB NAVIGATION -->
@@ -130,8 +131,7 @@
 			<div id="site_appearance_change_upload_content" style="display:none;">
 				<form id="site_appearance_change_upload_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai.site_appearance_change.startCallback, 'onComplete' : sakai.site_appearance_change.completeCallback});">
 					<h4>Upload new picture</h4>
-					<input type="file" name="file" id="site_appearance_change_upload_form_file" />
-					<input type="hidden" name="realname" id="realname" value="" />
+					<input type="file" name="siteicon" id="site_appearance_change_upload_form_file" />
 					<!-- BUTTONS -->
 					<div class="dialog_footer buttonBar">
 						<!-- We need a button here because we are doing a form upload -->

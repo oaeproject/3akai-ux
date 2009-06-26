@@ -113,14 +113,14 @@ sakai.site_appearance = function() {
 	 * @param {String} filename The name of the file (e.g.photo1.jpg)
 	 */
 	var createImagePath = function(filename){
-		return Config.URL.SDATA_FETCH + "/" + siteId + "/.site/" + filename;
+		return "/" + siteId + "/" + "siteicon";
 	};
 	
 	/**
 	 * Redirect the user to the main site page
 	 */
 	var redirectToSitePage = function(){
-		document.location = Config.URL.SITE_URL_SITEID.replace(/__SITEID__/gi, siteId);
+		document.location = "/" + siteId;
 	};
 	
 	/**
@@ -263,13 +263,14 @@ sakai.site_appearance = function() {
 	var updatePicture = function(){
 		
 		// Check if there is a picture available for the current site
-		if(siteInformation.picture && siteInformation.picture.name){
+		if(siteInformation.picture && $.evalJSON(siteInformation.picture).name){
 			
+			var json = $.evalJSON(siteInformation.picture);
 			// Set the fullpath to the variable
-			siteInformation.picture.fullName = createImagePath(siteInformation.picture.name);
+			json.fullName = "/" + siteId + "/200x100_siteicon";
 			
 			// Render the image template
-			$.Template.render(siteAppearanceLogoTemplate, siteInformation.picture, $(siteAppearanceLogo));
+			$.Template.render(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
 		}
 	};
 
@@ -278,7 +279,7 @@ sakai.site_appearance = function() {
 	 */
 	var fillData = function() {
 		$.ajax({
-			url: Config.URL.SITE_GET_SERVICE  + "/" + siteId,
+			url: "/" + siteId + ".json",
 			cache: false,
 			type: "GET",
 			success: function(response) {
@@ -288,7 +289,14 @@ sakai.site_appearance = function() {
 
 				// Check if we are an owner for this site.
 				// Otherwise we will redirect to the site page.
-				if (json && json.owners && sdata.me.preferences.uuid && $.inArray(sdata.me.preferences.uuid, json.owners) !== -1) {
+				var isMaintainer = false;
+				for (var i = 0; i < sdata.me.user.subjects.length; i++){
+					if (sdata.me.user.subjects[i] === "g-" + siteId + "-collaborators"){
+						isMaintainer = true;
+						break;
+					}
+				}
+				if (isMaintainer) {
 
 					// Fill in the info.
 					$(siteAppearanceTitle).text(json.name);
@@ -323,27 +331,24 @@ sakai.site_appearance = function() {
 	var updateGroupDef = function(){
 		
 		var tosave = {
-			"name": thumbnailWidth + "x" + thumbnailHeight + "_" + picture._name,
-			"_name": picture._name
+			"name": thumbnailWidth + "x" + thumbnailHeight + "_siteicon",
+			"_name": "siteicon"
 		};
-		
-		// We edit the picture object in siteInformation.
-		// This saves a request and will be checked in the doInit function later on.
-		siteInformation.picture = tosave;
 		
 		// We edit the profile.json file with the new profile picture.
 		var stringtosave = $.toJSON(tosave);
 		
-		var a = ["u"];
-		var k = ["picture"];
-		var v = [stringtosave];
-		var tosend = {"k":k,"v":v,"a":a};
+		// We edit the picture object in siteInformation.
+		// This saves a request and will be checked in the doInit function later on.
+		siteInformation.picture = stringtosave;
 		
 		// Update the groupdef file with the new information
 		$.ajax({
-			url: Config.URL.PATCH_SERVICE + Config.URL.SITE_GROUPDEF_URL.replace(/__SITEID__/gi, siteId),
+			url: "/" + siteId,
 	    	type : "POST",
-	        data : tosend,
+	        data : {
+				"picture": stringtosave
+			},
 	        success : function(data) {
 				
 				// Update picture on the page
@@ -362,31 +367,25 @@ sakai.site_appearance = function() {
 	// and saves it.
 	var savePicture = function(){
 		
-		// The parameters for the cropit service.
+		//	The parameters for the cropit service.
 		var tosave = {};
-		tosave.urlImgtoCrop = "/" + siteId + "/.site/" + picture._name; 
-		tosave.urlSaveIn = "/" + siteId + "/.site/";
+		tosave.urlToCrop = "/" + siteId + "/siteicon"; 
+		tosave.urlSaveIn = "/" + siteId + "/";
 		tosave.x = Math.floor(userSelection.x1 * ratio);
 		tosave.y = Math.floor(userSelection.y1 * ratio);
 		tosave.height = Math.floor(userSelection.height * ratio);
 		tosave.width = Math.floor(userSelection.width * ratio);
-		tosave.dimensions = [{
-			width: 200,
-			height: 100
-		}];
-		var data = {
-			parameters : $.toJSON(tosave)
-		};
+		tosave.dimensions = $.toJSON([{"width":200,"height":100}]);
 		
 		// Post all of this to the server
 		$.ajax({
 			url: Config.URL.IMAGE_SERVICE,
-			type: "POST",
-			data: data,
+			type: "GET",
+			data: tosave,
 			success: function(data){
-				if($.evalJSON(data).response === "OK"){
+				//if($.evalJSON(data).response === "OK"){
 					updateGroupDef();
-				}
+				//}
 			},
 			error : function(data){
 				alert("An error has occured");
@@ -551,7 +550,7 @@ sakai.site_appearance = function() {
 		picture = false;
 
 		// Change the action of the form to the path you want to upload your picture to
-		$(siteAppearanceChangeUploadForm).attr("action", Config.URL.SDATA_FETCH + "/" + siteId + "/.site");
+		$(siteAppearanceChangeUploadForm).attr("action", "/" + siteId);
 
 		// Get the preferred size for the thumbnail.
 		var prefThumbWidth = parseInt($(siteAppearanceChangePictureThumbnailContainer).css('width').replace(/px/gi,''), 10);
@@ -565,7 +564,7 @@ sakai.site_appearance = function() {
 			picture = siteInformation.picture;
 		}
 		
-		if (picture && picture._name) {
+		if (picture && $.evalJSON(picture)._name) {
 
 			// The user has already uploaded a picture.
 			// Show the edit tab.
@@ -641,15 +640,13 @@ sakai.site_appearance = function() {
 	 */
 	$(siteAppearanceSave).click(function(){
 		if(appearance.style.id){			
-			var a = ["u"];
-			var k = ["style"];
-			var v = [appearance.style.id];
-			var tosend = {"k":k,"v":v,"a":a};
-			
 			$.ajax({
-				url: Config.URL.PATCH_SERVICE + Config.URL.SITE_GROUPDEF_URL.replace(/__SITEID__/gi, siteId),
+				url: "/" + siteId,
 		    	type : "POST",
-		        data : tosend,
+		        data : {
+					"sakai:site-template":appearance.style.URL,
+					"style":appearance.style.id
+				},
 		        success : function(data) {
 					
 					// When the save is completed we redirect the user back to the main site page
@@ -703,7 +700,7 @@ sakai.site_appearance = function() {
 		
 		// Add the site id to all the element with a specific class
 		$(siteAppearanceAppendIdToUrlClass).each(function(i, el) {
-			appendKeyToURL(el, 'siteid', siteId);
+			$(el).attr("href",$(el).attr("href") +  siteId);
 		});
 	};
 	
@@ -729,28 +726,24 @@ sakai.site_appearance = function() {
 
 		// Replace any <pre> tags the response might contain.
 		response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
-		var resp = $.evalJSON(response);
 		
 		var tosave = {
-			"_name": resp.uploads.file.name
+			"_name": "siteicon"
 		};
-		
-		// We edit the picture object in siteInformation.
-		// This saves a request and will be checked in the doInit function later on.
-		siteInformation.picture = tosave;
 		
 		// We edit the groupdef.json file with the new site picture.
 		var stringtosave = $.toJSON(tosave);
 		
-		var a = ["u"];
-		var k = ["picture"];
-		var v = [stringtosave];
-		var tosend = {"k":k,"v":v,"a":a};
+		// We edit the picture object in siteInformation.
+		// This saves a request and will be checked in the doInit function later on.
+		siteInformation.picture = stringtosave;
 		
 		$.ajax({
-			url: Config.URL.PATCH_SERVICE + Config.URL.SITE_GROUPDEF_URL.replace(/__SITEID__/gi, siteId),
+			url: "/" + siteId,
 	    	type : "POST",
-	        data : tosend,
+	        data : {
+				"picture": stringtosave
+			},
 	        success : function(data) {
 				
 				// When the save is completed we initialize the site appearance pop-up again
