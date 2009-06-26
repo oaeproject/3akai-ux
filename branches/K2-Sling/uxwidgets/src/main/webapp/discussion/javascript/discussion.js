@@ -237,12 +237,12 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * @param {String} picture The picture path for a user
 	 * @param {String} userStoragePrefix The user's storage prefix
 	 */
-	var parsePicture = function(picture, userStoragePrefix){
+	var parsePicture = function(uuid, picture){
 		// Check if the picture is undefined or not
 		// The picture name will be undefined if the other user is in process of
 		// changing his/her picture
-		if (picture && picture.name) {
-			return Config.URL.WEBDAV_PRIVATE_URL + userStoragePrefix + picture.name;				
+		if (picture && $.evalJSON(picture).name) {
+			return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;				
 		}
 		return Config.URL.PERSON_ICON_URL;
 	};
@@ -768,7 +768,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * Render the discussion posts
 	 * @param {Object} jsonPosts The posts that needs to be rendered
 	 */
-	var renderPostsAddBinding = function(jsonPosts){
+	var renderPosts = function(jsonPosts){
 
 		// Render the posts with the template engine
 		$(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
@@ -819,7 +819,7 @@ sakai.discussion = function(tuid, placement, showSettings){
 		if(data){
 
 			// Parse the info of the users
-			var users = $.evalJSON(data).users;
+			var users = $.evalJSON(data);
 		}
 
 		// Clear the old posts
@@ -865,19 +865,20 @@ sakai.discussion = function(tuid, placement, showSettings){
 
 				// Get the index for the user in the uids array
 				var uidIndex = getUidIndex(uid);
-
 				// Get the user's firstName, lastName and picture if it's in the database
-				post.name = parseName(uid, users[uidIndex].profile.firstName, users[uidIndex].profile.lastName);
-				post.picture = parsePicture(users[uidIndex].profile.picture, users[uidIndex].userStoragePrefix);
+				var profile = $.evalJSON(users[uidIndex].data);
+				post.name = parseName(uid, profile.firstName, profile.lastName);
+				post.picture = parsePicture(uid, profile.picture);
 				
 				// Check if someone edited the post
 				if(post.editedBy !== ""){
 
 					// Get the index for the user in the uids array
 					var uidIndexEditedBy = getUidIndex(post.editedBy);
-
+					profile = $.evalJSON(users[uidIndex]);
+					
 					// Get the profile info from the user that edited the post
-					post.editedByName = parseName(post.editedBy, users[uidIndexEditedBy].profile.firstName, users[uidIndexEditedBy].profile.lastName);
+					post.editedByName = parseName(post.editedBy, profile.firstName, profile.lastName);
 					post.editedByDate = formatDate(parseDate(post.editedDate));
 				}
 			}
@@ -903,9 +904,15 @@ sakai.discussion = function(tuid, placement, showSettings){
 	 * Get the information for the users
 	 * @param {Object[]} arrPosts An array containing all the posts
 	 */
-	var getUserInfo = function(arrPosts) {					
+	var getUserInfo = function(arrPosts) {	
+		var requeststring = "?";
+		var n_uids = [];
+		for (var i = 0; i < uids.length; i++){
+			n_uids[i] = "resources=/system/userManager/user/" + uids[i] + ".json";
+		}				
+		requeststring += n_uids.join("&");
 		$.ajax({
-			url: "/system/batch?resources=/system/userManager/user/" + uids.join('&resources='),
+			url: "/system/batch" + requeststring,
 			success: function(data){
 				getPostInfo(arrPosts, data);
 			},
