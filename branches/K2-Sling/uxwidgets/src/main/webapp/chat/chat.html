@@ -109,7 +109,7 @@
 		<div id="top_navigation_my_sites_list_template"><!--
 			<ul class="my_site_list">
 				{for i in entry}
-					<li><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></li>
+					<li><a href="/${i.location}">${i.name}</a></li>
 				{forelse}
 					<span>You aren't a member of any sites yet</span>
 				{/for}
@@ -131,7 +131,7 @@
 		{else}
 			<ul class="my_site_list">
 				{for i in items}
-					<li><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></li>
+					<li><a href="/${i.location}">${i.name}</a></li>
 				{/for}
 			</ul>
 		{/if}
@@ -151,7 +151,7 @@
 		
 		<div class="dropdown_create_sakai_site">
 			<a href="javascript:;" id="top_navigation_create_site"><img src="/dev/_images/add_icon.png" alt="Close Icon"/>Create a Sakai Site</a>
-			<img src="_images/add_icon_end.png" alt="Close Icon"/>
+			<img src="/dev/_images/add_icon_end.png" alt="Close Icon"/>
 		</div>
 		
 	</div>

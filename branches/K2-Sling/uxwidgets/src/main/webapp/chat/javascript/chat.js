@@ -403,16 +403,17 @@ sakai.chat = function(tuid, placement, showSettings){
 			url: Config.URL.SITES_SERVICE,
 			cache: false,
 			success: function(data){
-				var newjson = $.evalJSON(data);
-				newjson.entry = newjson.entry || [];
-				for (var i = 0; i < newjson.entry.length; i++) {
-					newjson.entry[i].location = newjson.entry[i].location.substring(1);
+				var json = {};
+				json.entry = $.evalJSON(data) || [];
+				for (var i = 0; i < json.entry.length; i++) {
+					json.entry[i] = json.entry[i].site;
+					json.entry[i].location = json.entry[i].id;
 				}
-				newjson.entry = newjson.entry.sort(doSortSites);
-				if (newjson.entry.length > 5) {
-					newjson.entry = newjson.entry.splice(0, 5);
+				json.entry = json.entry.sort(doSortSites);
+				if (json.entry.length > 5) {
+					json.entry = json.entry.splice(0, 5);
 				}
-				$(topNavigationMySitesList).html($.Template.render(topNavigationMySitesListTemplate, newjson));
+				$(topNavigationMySitesList).html($.Template.render(topNavigationMySitesListTemplate, json));
 			},
 			error: function(status){
 				alert("An error has occured");
@@ -545,71 +546,60 @@ sakai.chat = function(tuid, placement, showSettings){
 	var loadRecentSites = function(){
 		var json = {};
 		json.count = 0;
-		
-		$.ajax({
-		   	url: Config.URL.RECENT_SITES_URL,
-			cache: false,
-			success: function(data) {
-				//	The response is a json object with an "items" array that contains the 
-				//	names for the recent sites.
-				var items = $.evalJSON(data);
-				
-				//	Do a request to the site service with all the names in it.
-				//	This will give us the proper location, owner, siteid,..
-				var url = Config.URL.SITE_GET_SERVICE + "/";
-				var count = 0;
-				
-				for (var i = 0; i < items.items.length; i++){
-					url += items.items[i] + ",";
-					count++;
-				}
-				
-				$.ajax({
-				   	url : url,
-					cache: false,
-					success : function(data) {
+	
+			$.ajax({
+				url: "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
+				cache: false,
+				success: function(data){
+					//	The response is a json object with an "items" array that contains the 
+					//	names for the recent sites.
+					var items = $.evalJSON(data);
 						
-						var response = $.evalJSON(data);
-						json = {};
-						json.items = [];
-						var newcount = 0;
-						var el = {};
-						
-						//	We do a check for the number of sites we have.
-						//	If we only have 1 site we will get a JSONObject
-						//	If we have multiple it will be an array of JSONObjects.
-						if(count === 1){
-							newcount++;
-							el = {};
-							el.location = response.location.substring(1);	//	Remove the first slash
-							el.name = response.name;
-							json.items[json.items.length] = el;
-						}else{
-							for (var i = 0; i < response.length; i++){
-								if (response[i] !== "404"){
-									newcount++;
-									el = {};
-									el.location = response[i].location.substring(1);
-									el.name = response[i].name;
-									json.items[json.items.length] = el;
-								}
-							}
-						}
-						
-						json.count = newcount;
-						renderRecentSites(json);
-					},
-					error : function(data){
-						renderRecentSites(json);
+					//	Do a request to the site service with all the names in it.
+					//	This will give us the proper location, owner, siteid,..
+					var url = "/system/batch?";
+					var count = 0;
+					var n_items = {};
+					n_items.items = [];
+					
+					for (var i = 0; i < items.items.length; i++) {
+						n_items.items[i] = "resources=/" + items.items[i] + ".json";
 					}
-				});
-
-			},
-			error : function(data){
-				renderRecentSites(json);
-			}
-		});
-		
+					url += n_items.items.join("&");
+					
+					
+					$.ajax({
+						url: url,
+						cache: false,
+						success: function(data){
+							var response = $.evalJSON(data);
+							json = {};
+							json.items = [];
+							json.count = 0;
+							
+							//	We do a check for the number of sites we have.
+							//	If we only have 1 site we will get a JSONObject
+							//	If we have multiple it will be an array of JSONObjects.
+							for (var i = 0; i < response.length; i++) {
+								var el = {};
+								var site = $.evalJSON(response[i].data);
+								el.location = site.id;
+								el.name = site.name;
+								json.items[json.items.length] = el;
+								json.count++;
+							}
+							renderRecentSites(json);
+						},
+						error: function(data){
+							renderRecentSites(json);
+						}
+					});
+					
+				},
+				error: function(data){
+					renderRecentSites(json);
+				}
+			});
 	};
 	
 	/**
