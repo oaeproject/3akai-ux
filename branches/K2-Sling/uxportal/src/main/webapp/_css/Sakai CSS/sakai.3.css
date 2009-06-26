@@ -151,8 +151,7 @@ body {
 .basic_management .site_access_form td{border:0; padding-top: 8px;}
 .basic_management .site_access_form td div{padding-top: 5px;}
 .basic_management .site_access_form td span{color: #a9a9a9;}
-.basic_management .settings_confirm_container{padding-left: 20px; height: 41px; background:#f9f9f9;}
-.basic_management .settings_confirm_container .button{margin-top: 8px;}
+.basic_management .settings_confirm_container{padding-left: 20px; padding-top:12px; height: 33px; background:#f9f9f9;}
 .basic_management .settings_confirm_container .cancel{width: 74px; margin-left: 8px;}
 .basic_management .settings_confirm_container .save{width: 70px;}
 .basic_management .site_heading {padding: 25px 25px 25px 25px;}
