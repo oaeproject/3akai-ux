@@ -302,21 +302,28 @@ sakai.comments = function(tuid, placement, showSettings) {
 	            }
 	
 				// retrieves al the users profile information
-	            $.ajax({
-	                url: Config.URL.ME_SERVICE + "/" + users.join(","),
+	            var requeststring = "?";
+				var n_uids = [];
+				for (var u = 0; u < users.length; u++){
+					n_uids[u] = "resources=/system/userManager/user/" + users[u] + ".json";
+				}				
+				requeststring += n_uids.join("&");
+				$.ajax({
+					url: "/system/batch" + requeststring,
 	                success: function(data) {
 	                    var jsonUsers = $.evalJSON(data);
 	                    users = [];
-	                    for (i = 0; i < jsonUsers.users.length; i++) {
+	                    for (i = 0; i < jsonUsers.length; i++) {
 							// Puts the userinformation in a better structure for trimpath
 	                        var user = {};
-	                        user.fullName = jsonUsers.users[i].profile.firstName + " " + jsonUsers.users[i].profile.lastName;
+							var profile = $.evalJSON(jsonUsers[i].data);
+	                        user.fullName = profile.firstName + " " + profile.lastName;
 	                        user.picture = Config.URL.PERSON_ICON_URL;
 	                        // Check if the user has a picture
-							if (jsonUsers.users[i].profile.picture) {
-	                            user.picture = Config.URL.WEBDAV_PRIVATE_URL + jsonUsers.users[i].userStoragePrefix + jsonUsers.users[i].profile.picture.name;
+							if (profile.picture && $.evalJSON(profile.picture).name) {
+	                            user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;
 	                        }
-	                        user.uid = jsonUsers.users[i].userStoragePrefix.split("/")[3];
+	                        user.uid = profile["rep:userId"];
 	                        user.profile = Config.URL.PROFILE_URL + "?user=" + user.uid;
 	                        users[user.uid] = user;
 	
@@ -349,7 +356,7 @@ sakai.comments = function(tuid, placement, showSettings) {
                     "message": $(commentsMessageTxt, $(rootel.selector + " " + container)).val().replace(/\n/g, "<br />"),
                     "mail": false,
                     "name": false,
-                    "uid": me.preferences.uuid
+                    "uid": me.user.userid
                 };
                 if (json.permissions.nameRequired) {
                     comment.name = $(commentsNamePosterTxt, $(rootel.selector + " " + container)).val();
@@ -493,7 +500,7 @@ sakai.comments = function(tuid, placement, showSettings) {
     function(e, ui) {
 		var jsonTemp = cloneObject(json);
 		// checks if the user is loggedIn
-		if( me.preferences.uuid){
+		if( me.user.userid){
 			jsonTemp.loggedIn = true;
 		}
 		else{
