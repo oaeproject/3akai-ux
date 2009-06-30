@@ -356,17 +356,15 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * @param {String} picture The picture path for a user
 	 * @param {String} userStoragePrefix The user's storage prefix
 	 */
-	var parsePicture = function(picture, userStoragePrefix){
-		if (picture) {
-			// Check if the picture is undefined or not
-			// The picture will be undefined if the other user is in process of
-			// changing his/her picture
-			if (picture.name) {
-				return Config.URL.WEBDAV_PRIVATE_URL + userStoragePrefix + picture.name;				
-			}
-			else {
-				return personIconUrl;
-			}
+	var parsePicture = function(picture, uuid){
+		// Check if the picture is undefined or not
+		// The picture will be undefined if the other user is in process of
+		// changing his/her picture
+		if (picture && $.evalJSON(picture).name) {
+			return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;				
+		}
+		else {
+			return personIconUrl;
 		}
 	};
 	
@@ -646,7 +644,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	var loadPeople = function(){
 		$.ajax({
-			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=4&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			url: "/_user/contacts/accepted.json" + "?page=0&items=4",
 			cache: false,
 			success: function(data){
 				var friends = $.evalJSON(data);
@@ -656,14 +654,14 @@ sakai.chat = function(tuid, placement, showSettings){
 				var total = 0;
 				pOnline.showMore = false;
 				
-				if (friends.status.friends) {
-					for (var i = 0; i < friends.status.friends.length; i++) {
+				if (friends.results) {
+					for (var i = 0; i < friends.results.length; i++) {
 						var isOnline = false;
 						if (!isOnline && total < 4) {
-							var item = friends.status.friends[i];							
-							item.id = item.friendUuid;
+							var item = friends.results[i];							
+							item.id = item.target;
 							item.name = parseName(item.id, item.profile.firstName, item.profile.lastName);
-							item.photo = parsePicture(item.profile.picture, item.properties.userStoragePrefix);
+							item.photo = parsePicture(item.profile.picture, item.id);
 							item.online = false;
 							pOnline.items[pOnline.items.length] = item;
 							total++;
@@ -1197,7 +1195,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		};
 	
 		$.ajax({
-			url: "/system/userManager/user/" + sdata.me.user.userid + ".update.html",
+			url: "/_user/public/" + sdata.me.user.userid + "/authprofile",
 			type : "POST",
 			data : data,
 			success : function(data) {
@@ -1218,7 +1216,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			success: function(data){
 				var me = $.evalJSON(data);
 				if(me.profile){
-					currentChatStatus = parseChatStatus(me.user.properties.chatstatus);
+					currentChatStatus = parseChatStatus(me.profile.chatstatus);
 				}else{
 					currentChatStatus = "online";
 				}
@@ -1693,17 +1691,17 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 		
 		// Fill in the name of the user in the different fields
-		if (person.user.properties.firstName || person.user.properties.lastName) {
-			$(userIdLabel).text(person.user.properties.firstName + " " + person.user.properties.lastName);
-			$(hiLabel).text(person.user.properties.firstName);
+		if (person.profile.firstName || person.profile.lastName) {
+			$(userIdLabel).text(person.profile.firstName + " " + person.profile.lastName);
+			$(hiLabel).text(person.profile.firstName);
 		}
 		
 		// Show the profile picture on the dashboard page
 		/** TODO : Remove the lines beneath if this functionality is inside changepic.js */
-		if (person.user.properties.picture) {
-			var picture = $.evalJSON(person.user.properties.picture);
+		if (person.profile.picture) {
+			var picture = $.evalJSON(person.profile.picture);
 			if (picture.name) {
-				$(pictureHolder).attr("src", "/system/userManager/user/" + sdata.me.user.userid + "/" + picture.name);
+				$(pictureHolder).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture.name);
 			}
 		}
 		

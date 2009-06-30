@@ -27,7 +27,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 
 	var rootel = $("#" + tuid);
 	var me = sdata.me;
-	var json = me.user.properties;
+	var json = me.profile;
 	
 	
 	//	IDs
@@ -95,7 +95,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 	 */
 	var changeStatus = function (status) {
 		$(profileStatusContainer).toggle();
-		sdata.me.user.properties.chatstatus = status;
+		sdata.me.profile.chatstatus = status;
 		
 		var tosend = {
 			"chatstatus" : status
@@ -155,8 +155,8 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		
 		//	Get the user his chatstatus
 		var chatstatus = "online";
-		if (me.user.properties.chatstatus) {
-			chatstatus = me.user.properties.chatstatus;
+		if (me.profile.chatstatus) {
+			chatstatus = me.profile.chatstatus;
 		}
 		
 		//	Set the status in front of the user his name/

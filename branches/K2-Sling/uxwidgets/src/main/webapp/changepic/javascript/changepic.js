@@ -152,7 +152,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 	sakai._changepic.doInit = function(){	
 		// Check whether there is a base picture at all		
 		me = sdata.me;
-		var json = me.user.properties;
+		var json = me.profile;
 		
 		picture = false;
 
@@ -271,12 +271,12 @@ sakai.changepic = function(tuid, placement, showSettings){
 				
 				var stringtosave = $.toJSON(tosave);
 				
-				sdata.me.user.properties.picture = stringtosave;
+				sdata.me.profile.picture = stringtosave;
 				
 				//	Do a patch request to the profile info so that it gets updated with the new information.
 				$.ajax({
 		        	//url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
-					url: "/system/userManager/user/" + me.user.userid + ".update.html",
+					url: "/_user/public/" + me.user.userid + "/authprofile",
 		        	type : "POST",
 		            data : {
 						"picture" : $.toJSON(tosave)
@@ -372,7 +372,7 @@ sakai._changepic.completeCallback = function(response){
 	
 	//	We edit the me object in sdata.
 	//	This saves a request and will be checked in the doInit function later on.
-	sdata.me.user.properties.picture = stringtosave;
+	sdata.me.profile.picture = stringtosave;
 	
 	//	the object we wish to insert into the profile.json file.
 	var data = {"picture":stringtosave};

@@ -305,7 +305,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 	            var requeststring = "?";
 				var n_uids = [];
 				for (var u = 0; u < users.length; u++){
-					n_uids[u] = "resources=/system/userManager/user/" + users[u] + ".json";
+					n_uids[u] = "resources=/_user/public/" + users[u] + "/authprofile.json";
 				}				
 				requeststring += n_uids.join("&");
 				$.ajax({
