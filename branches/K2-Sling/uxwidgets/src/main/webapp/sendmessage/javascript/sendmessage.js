@@ -577,7 +577,7 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	
 	//	When we get a result
 	$(messageFieldMultipleTo).result(function(event, data, formatted) {
-        if (!$.inArray(selectedFriendsToPostTo,data.friendUuid) > -1) {
+        if (!$.inArray(data.friendUuid,selectedFriendsToPostTo) > -1) {
             createToBox(data.profile.firstName + ' ' + data.profile.lastName, data.friendUuid);
         }
         $(this).val('');
