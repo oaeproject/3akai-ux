@@ -129,7 +129,7 @@ sakai.search = function() {
 	var searchPerson = function(userid) {
 		var person = false;
 		for (var i = 0; i < foundPeople.length; i++) {
-			if (foundPeople[i].userid[0] === userid) {
+			if (foundPeople[i].userid === userid) {
 				person = foundPeople[i];
 				break;
 			}
@@ -313,8 +313,7 @@ sakai.search = function() {
 	/** A user want to make a new friend. */
 	$(searchConfig.global.addToContactsLink).live("click", function(ev) {
 		contactclicked = this.id.split("_")[4];        
-        var user = searchPerson(contactclicked);
-        sakai.addtocontacts.initialise(user.userid, mainSearch.removeAddContactLinks);
+        sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
 	});
 	
 	

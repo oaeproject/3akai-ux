@@ -247,13 +247,13 @@ sakai.dashboard = function(){
 	var doInit = function (){
 
 		// Initial Sling HACK - Populating admin users' profile
-		if (sdata.me.user.userid === "admin" && !sdata.me.user.properties.firstName){
-			sdata.me.user.properties.firstName = "Admin";
-			sdata.me.user.properties.lastName = "User";
-			sdata.me.user.properties.email = "admin@user.com";
+		if (sdata.me.user.userid === "admin" && !sdata.me.profile.firstName){
+			sdata.me.profile.firstName = "Admin";
+			sdata.me.profile.lastName = "User";
+			sdata.me.profile.email = "admin@user.com";
 			$.ajax({
 				type: "POST",
-				url: "/system/userManager/user/" + sdata.me.user.userid + ".update.html",
+				url: "/_user/public/admin/authprofile",
 				data : {
 					"firstName" : "Admin",
 					"lastName" : "User",
@@ -262,19 +262,19 @@ sakai.dashboard = function(){
 			});
 		}
 
-		person = sdata.me.user;
-		inituser = person.userid;
+		person = sdata.me;
+		inituser = person.user.userid;
 		if (!inituser || inituser == "anon") {
 			document.location = "/dev/index.html";
 		}
 		else {
 			
-			$("#hispan").text(person.properties.firstName);
+			$("#hispan").text(person.profile.firstName);
 			
-			if (person.properties.picture){
-				var picture = $.evalJSON(person.properties.picture);
+			if (person.profile.picture){
+				var picture = $.evalJSON(person.profile.picture);
 				if (picture.name) {
-					$("#picture_holder").html("<img src='/_user/public/" + person.userid + "/" + picture.name + "'/>");
+					$("#picture_holder").html("<img src='/_user/public/" + person.user.userid + "/" + picture.name + "'/>");
 				}
 			}
 			

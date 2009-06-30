@@ -75,32 +75,7 @@ sakai._search = function(config, callback) {
      * Gets the sites of the current user and will call the render method.
      */
     var getMySites = function() {
-       /*
- $.ajax({
-            url: Config.URL.SITES_SERVICE,
-			cache: false,
-            success: function(response) {
-                var data = $.evalJSON(response);
-                var finaljson = {
-                    'items': []
-                };
-                if (data.entry) {
-                    finaljson.items = data.entry;
-                }
-                //	Render the sites.
-                renderMySites(finaljson);
-                //	Change the history
-                History.history_change();
-            },
-            error: function(response) {
-                renderMySites({
-                    'items': []
-                });
-            }
-        });
-*/
-		History.history_change();
-		
+    	History.history_change();
     };
     
     //////////////////////
@@ -112,16 +87,15 @@ sakai._search = function(config, callback) {
      * Makes a request to the server and loads the friends.
      */
     var fetchMyFriends = function() {
-        /*$.ajax({
-            url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=100&s=firstName&s=lastName&o=asc&o=asc",
+        $.ajax({
+            url: "/_user/contacts/all.json?page=0&n=100",
 			cache: false,
             success: function(data) {
                 myfriends = $.evalJSON(data);
                 //	Change the history
                 History.history_change();
             }
-        });*/
-		History.history_change();
+        });
     };
     
     /**
@@ -314,16 +288,15 @@ sakai._search = function(config, callback) {
                 }
                 user.connected = false;
                 //	Check if this user is a friend of us already.
-                /*
-if (getMyFriends().status.friends) {
-                    for (var ii = 0; ii < getMyFriends().status.friends.length; ii++) {
-                        var friend = getMyFriends().status.friends[ii];
-                        if (friend.friendUuid === user.userid) {
+                
+				if (getMyFriends().results) {
+                    for (var ii = 0; ii < getMyFriends().results.length; ii++) {
+                        var friend = getMyFriends().results[ii];
+                        if (friend.target === user.userid[0]) {
                             user.connected = true;
                         }
                     }
                 }
-*/
                 if (user.userid[0] === sdata.me.user.userid) {
                     user.isMe = true;
                 }

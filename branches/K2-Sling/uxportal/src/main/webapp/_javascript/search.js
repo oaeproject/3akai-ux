@@ -328,9 +328,8 @@ sakai.search = function() {
 	 */
 	var searchPerson = function(userid) {
 		var person = false;
-		alert($.toJSON(foundPeople));
 		for (var i = 0; i < foundPeople.length; i++) {
-			if (foundPeople[i].userid[0] === userid) {
+			if (foundPeople[i].userid === userid) {
 				person = foundPeople[i];
 				break;
 			}
