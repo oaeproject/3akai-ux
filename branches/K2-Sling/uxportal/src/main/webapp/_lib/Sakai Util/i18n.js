@@ -210,6 +210,17 @@ $(document).ready(function(){
 			cache: false,
 			success: function(data){
 				sdata.me = $.evalJSON(data);
+				// Doing a rewrite of the me object, because Sling wraps arrays around
+				// the different fields in the profile object
+				if (typeof sdata.me.profile.firstName === "object"){
+					sdata.me.profile.firstName = sdata.me.profile.firstName[0];
+				}
+				if (typeof sdata.me.profile.lastName === "object"){
+					sdata.me.profile.lastName = sdata.me.profile.lastName[0];
+				}
+				if (typeof sdata.me.profile.email === "object"){
+					sdata.me.profile.email = sdata.me.profile.email[0];
+				}
 				loadDefaultBundle();
 		  	},
 		  	error : function(data){
