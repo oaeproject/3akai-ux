@@ -85,13 +85,26 @@ sakai.profile = function(){
 		
 		if (user && user != me.user.userid) {
 			myprofile = false;
-			fileUrl = "/system/userManager/user/" + user + ".json";
+			fileUrl = "/_user/public/" + user + "/authprofile.json";
 			$.ajax({
 				url: fileUrl,
 				cache: false,	
 				success: function(data){
-					var totalprofile = {};
+					totalprofile = {};
 					totalprofile.profile = $.evalJSON(data);
+					
+					// Doing a rewrite of the me object, because Sling wraps arrays around
+					// the different fields in the profile object
+					if (typeof totalprofile.profile.firstName === "object"){
+						totalprofile.profile.firstName = totalprofile.profile.firstName[0];
+					}
+					if (typeof totalprofile.profile.lastName === "object"){
+						totalprofile.profile.lastName = totalprofile.profile.lastName[0];
+					}
+					if (typeof totalprofile.profile.email === "object"){
+						totalprofile.profile.email = totalprofile.profile.email[0];
+					}
+					
 					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
 						totalprofile._status = totalprofile.profile.chatstatus;
 					} 
@@ -114,7 +127,7 @@ sakai.profile = function(){
 			$("#link_edit_profile").show();
 			//json = sdata.me.profile;
 			//fillInFields();
-			fileUrl = "/system/userManager/user/" + sdata.me.user.userid + ".json";
+			fileUrl = "/_user/public/" + sdata.me.user.userid + "/authprofile.json";
 			$.ajax({
 				url: fileUrl,
 				cache: false,	
@@ -615,10 +628,6 @@ sakai.profile = function(){
 			$("#additional").hide();
 		}
 		
-		/*$(document.body).hide();
-		setTimeout((function(){
-			$(document.body).show();
-		}),10);*/
    };
    
    /*
@@ -662,11 +671,20 @@ sakai.profile = function(){
 			return false;
 		} else {
 			
-			var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
-			var toSend = {"to": user,"message":$.toJSON(openSocialMessage)};
+			//var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
+			var toSend = {
+				"sling:resourceType": "sakai/message",
+				"sakai:type": "internal",
+				"sakai:sendstate": "pending",
+				"sakai:messagebox": "outbox",
+				"sakai:to": user,
+				"sakai:from": sdata.me.user.userid,
+				"sakai:subject": subject,
+				"sakai:body":body
+			};
 			
 			$.ajax({
-				url: "/_rest/message/send",
+				url: "/_user/private/messages.create.html",
 				type: "POST",
 				error: function(status){
 					alert("An error has occured whilst sending the messages");
@@ -697,11 +715,11 @@ sakai.profile = function(){
 	var fillInvitePopup = function(){
 		if (me.profile) {
 			if (me.profile.firstName) {
-				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.properties.firstName);
+				$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
 			}
 			else 
 				if (me.profile.lastName) {
-					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.properties.lastName);
+					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
 				}
 				else {
 					$("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.userid);
@@ -710,26 +728,25 @@ sakai.profile = function(){
 	};
 	
 	var doAddButton = function(){
-   		/*
-$.ajax({
-			url: "/rest/friend/status",
+		$.ajax({
+			url: "/_user/contacts/all.json?page=0&items=100",
 			cache: false,
 			success: function(data){
 				var resp = $.evalJSON(data);
 				
 				var status = false;
-				if (resp.status.friends){
-					for (var i = 0; i < resp.status.friends.length; i++){
-						if (resp.status.friends[i].friendUuid == user){
-							status = resp.status.friends[i].status;
+				if (resp.results){
+					for (var i = 0; i < resp.results.length; i++){
+						if (resp.results[i].target === user){
+							status = resp.results[i].details["sakai:state"];
 						}
 					}
 				}
 				
 				if (! status){
 					
-					$("#add_to_contacts_button").show();
-					
+					$("#add_to_contacts_button").show();	
+		
 					if (totalprofile.profile.firstName){
 						$("#add_friend_displayname").text(totalprofile.profile.firstName);
 						$("#add_friend_displayname2").text(totalprofile.profile.firstName);
@@ -737,16 +754,16 @@ $.ajax({
 						$("#add_friend_displayname").text(totalprofile.profile.lastName);
 						$("#add_friend_displayname2").text(totalprofile.profile.lastName);
 					} else {
-						$("#add_friend_displayname").text(totalprofile.preferences.uuid);
-						$("#add_friend_displayname2").text(totalprofile.preferences.uuid);
+						$("#add_friend_displayname").text(totalprofile.user.userid);
+						$("#add_friend_displayname2").text(totalprofile.user.userid);
 					}
-					
+								
 					if (totalprofile.profile.picture && $.evalJSON(totalprofile.profile.picture).name){
-						$("#add_friend_profilepicture").html("<img src='/sdata/f/_private/" + totalprofile.userStoragePrefix + "/" + $.evalJSON(totalprofile.profile.picture) + "' width='40px' height='40px'/>");
+						$("#add_friend_profilepicture").html("<img src='/_user/public/" + totalprofile.user.userid + "/" + $.evalJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
 					} else {
-						$("#add_friend_profilepicture").html("<img src='images/person_icon.png' width='40px' height='40px'/>");
+						$("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
 					}
-					
+			
 					$("#add_friend_types").html($.Template.render("add_friend_types_template",Widgets));
 					
 				} else if (status == "INVITED"){
@@ -757,28 +774,6 @@ $.ajax({
 				//alert("An error has occured");	
 			}
 		});
-*/
-
-		$("#add_to_contacts_button").show();	
-		
-		if (totalprofile.user.properties.firstName){
-			$("#add_friend_displayname").text(totalprofile.user.properties.firstName);
-			$("#add_friend_displayname2").text(totalprofile.user.properties.firstName);
-		} else if (totalprofile.user.profile.lastName) {
-			$("#add_friend_displayname").text(totalprofile.user.profile.lastName);
-			$("#add_friend_displayname2").text(totalprofile.user.profile.lastName);
-		} else {
-			$("#add_friend_displayname").text(totalprofile.user.userid);
-			$("#add_friend_displayname2").text(totalprofile.user.userid);
-		}
-					
-		if (totalprofile.user.properties.picture && $.evalJSON(totalprofile.user.properties.picture).name){
-			$("#add_friend_profilepicture").html("<img src='/_user/public/" + totalprofile.user.userid + "/" + $.evalJSON(totalprofile.user.properties.picture).name + "' width='40px' height='40px'/>");
-		} else {
-			$("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
-		}
-
-		$("#add_friend_types").html($.Template.render("add_friend_types_template",Widgets));
 
    };
    
@@ -791,8 +786,8 @@ $.ajax({
 			
 			// send message to other person
 			var userstring = "";
-			if (me.user.properties.firstName && me.user.properties.lastName){
-				userstring = me.user.properties.firstName + " " + me.user.properties.lastName;
+			if (me.profile.firstName && me.profile.lastName){
+				userstring = me.profile.firstName + " " + me.profile.lastName;
 			} else {
 				userstring = me.user.userid;
 			}
@@ -803,10 +798,10 @@ $.ajax({
 			// construct openSocial message
 			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
 					
-			var data = { "contact" : user , "type" : type};
+			var data = { "type" : type};
 			
 			$.ajax({
-				url: "/_user/contact.request",
+				url: "/_user/contacts/" + user + ".invite.json",
 				type: "POST",
 			    success: function(data){
 					
@@ -826,18 +821,16 @@ $.ajax({
    $("#accept_invitation_button").bind("click", function(ev){
    	
 		var inviter = user;
-		var data = {"friendUuid" : inviter};
 		
 		$.ajax({
-			url: "/rest/friend/connect/accept",
+			url: "/_user/contacts/" + inviter + ".accept.html",
 			type: "POST",
 			success: function(data){
 				$("#accept_invitation_button").hide();
 			},
 			error : function(data){
 				alert("An error has occured");
-			},
-			data: data
+			}
 		});
 	
    });

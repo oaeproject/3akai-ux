@@ -20,7 +20,7 @@ sakai.search = function(){
 	var doInit = function(){
 		
 		meObj = sdata.me;
-		if (! meObj.preferences.uuid){
+		if (! meObj.user.userid){
 			document.location = "/dev/index.html?url=/dev/people.html";
 		}
 		
@@ -29,28 +29,6 @@ sakai.search = function(){
 		loadPending();
 		
 	};
-	
-	loadContacts = function(page){
-		
-		currentpage = parseInt(page, 10);
-		
-		// Set searching messages
-			
-		$("#contacts_search_result").html("<b>Loading ...</b>");
-			
-		$.ajax({
-			url: "/rest/friend/status?p=" + (page - 1) + "&n=" + peopleToSearch + "&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
-			success: function(data){
-				foundContacts = $.evalJSON(data);
-				renderContacts();
-			},
-			error: function(status){
-				$("#contacts_search_result").html("<b>An error has occurred.</b> Please try again later");
-			}
-		});
-	
-	};
-	
 	
 	/*
 		People search 
@@ -62,6 +40,27 @@ sakai.search = function(){
 		loadContacts(currentpage);
 	};
 	
+	loadContacts = function(page){
+		
+		currentpage = parseInt(page, 10);
+		
+		// Set searching messages
+			
+		$("#contacts_search_result").html("<b>Loading ...</b>");
+			
+		$.ajax({
+			url: "/_user/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
+			success: function(data){
+				foundContacts = $.evalJSON(data);
+				renderContacts();
+			},
+			error: function(status){
+				$("#contacts_search_result").html("<b>An error has occurred.</b> Please try again later");
+			}
+		});
+	
+	};
+	
 	var _currentTotal = 0;
 	
 	var renderContacts = function(){
@@ -69,28 +68,25 @@ sakai.search = function(){
 		var finaljson = {};
 		finaljson.items = [];
 		
-		_currentTotal = foundContacts.status.sizes.ACCEPTED;
+		_currentTotal = foundContacts.total;
 		
 		// Pager Init
 		
 		$(".jq_pager").pager({ pagenumber: currentpage, pagecount: Math.ceil(_currentTotal/peopleToSearch), buttonClickCallback: pager_click_handler });
 		
-		if (foundContacts.status && foundContacts.status.friends) {
-			for (var i = 0; i < foundContacts.status.friends.length; i++) {
-				var item = foundContacts.status.friends[i];
+		if (foundContacts.results) {
+			for (var i = 0; i < foundContacts.results.length; i++) {
+				var item = foundContacts.results[i];
 				var person = item.profile;
-				profiles[item.friendUuid] = item;
-				profiles[item.friendUuid].profile.uuid = item.friendUuid;
+				profiles[item.target] = item;
+				profiles[item.target].profile.uuid = item.target;
 				if (person) {
 					var index = finaljson.items.length;
 					finaljson.items[index] = {};
-					finaljson.items[index].userid = item.friendUuid;
-					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
-					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
-					if (person.picture) {
-						//var picture = eval('(' + person.picture + ')');
-						var picture = person.picture;
-						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
+					finaljson.items[index].userid = item.target;
+					if (person.picture && $.evalJSON(person.picture).name) {
+						var picture = $.evalJSON(person.picture);
+						finaljson.items[index].picture = "/_user/public/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {
 						var str = person.firstName;
@@ -101,7 +97,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					if (person.basic) {
-						var basic = person.basic;
+						var basic = $.evalJSON(person.basic);
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
 						}
@@ -113,7 +109,7 @@ sakai.search = function(){
 						}
 					}
 					finaljson.items[index].connected = true;
-					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
+					if (finaljson.items[index].userid == sdata.me.user.userid){
 						finaljson.items[index].isMe = true;
 					}
 				}
@@ -141,7 +137,7 @@ sakai.search = function(){
 		$("#invited_search_result").html("<b>Loading ...</b>");
 			
 		$.ajax({
-			url: "/rest/friend/status?p=0&n=100&friendStatus=INVITED&s=firstName&s=lastName&o=asc&o=asc",
+			url: "/_user/contacts/invited.json?page=0&items=100",
 			cache: false,
 			success: function(data){
 				foundInvitations = $.evalJSON(data);
@@ -159,22 +155,19 @@ sakai.search = function(){
 		var finaljson = {};
 		finaljson.items = [];
 		
-		if (foundInvitations.status && foundInvitations.status.friends) {
-			for (var i = 0; i < foundInvitations.status.friends.length; i++) {
-				var item = foundInvitations.status.friends[i];
+		if (foundInvitations.results) {
+			for (var i = 0; i < foundInvitations.results.length; i++) {
+				var item = foundInvitations.results[i];
 				var person = item.profile;
 				if (person) {
 					var index = finaljson.items.length;
-					profiles[item.friendUuid] = item;
-					profiles[item.friendUuid].profile.uuid = item.friendUuid;
+					profiles[item.target] = item;
+					profiles[item.target].profile.uuid = item.target;
 					finaljson.items[index] = {};
-					finaljson.items[index].userid = item.friendUuid;
-					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
-					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
-					if (person.picture) {
-						//var picture = eval('(' + person.picture + ')');
-						var picture = person.picture;
-						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
+					finaljson.items[index].userid = item.target;
+					if (person.picture && $.evalJSON(person.picture).name) {
+						var picture = $.evalJSON(person.picture);
+						finaljson.items[index].picture = "/_user/public/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {
 						var str = person.firstName;
@@ -185,7 +178,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					if (person.basic) {
-						var basic = person.basic;
+						var basic = $.evalJSON(person.basic);
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
 						}
@@ -196,7 +189,7 @@ sakai.search = function(){
 							finaljson.items[index].extra = basic.unidepartment;
 						}
 					}
-					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
+					if (finaljson.items[index].userid == sdata.me.user.userid){
 						finaljson.items[index].isMe = true;
 					}
 				}
@@ -208,11 +201,8 @@ sakai.search = function(){
 		$(".link_accept_contact").bind("click", function(ev){
 			var user = this.id.split("_")[this.id.split("_").length - 1];
 			
-			var inviter = user;
-			var data = {"friendUuid" : inviter};
-	
 			$.ajax({
-				url: "/rest/friend/connect/accept",
+				url: "/_user/contacts/" + user + ".accept.html",
 				type: "POST",
 				success: function(data){
 					setTimeout(loadContacts,500,[1]);
@@ -220,12 +210,12 @@ sakai.search = function(){
 					// remove from json file
 					
 					var index = -1;
-					for (var i = 0; i < foundInvitations.status.friends.length; i++){
-						if (foundInvitations.status.friends[i].friendUuid == user){
+					for (var i = 0; i < foundInvitations.results.length; i++){
+						if (foundInvitations.results[i].target == user){
 							index = i;
 						}
 					}
-					foundInvitations.status.friends.splice(index,1);
+					foundInvitations.results.splice(index,1);
 					
 					// rerender
 					
@@ -234,8 +224,7 @@ sakai.search = function(){
 				},
 				error : function(data){
 					alert("An error has occured");
-				},
-				data: data
+				}
 			});
 			
 		});
@@ -254,7 +243,7 @@ sakai.search = function(){
 		$("#invited_search_result").html("<b>Loading ...</b>");
 			
 		$.ajax({
-			url: "/rest/friend/status?p=0&n=100&friendStatus=PENDING&s=firstName&s=lastName&o=asc&o=asc",
+			url: "/_user/contacts/pending.json?page=0&items=100",
 			cache: false,
 			success: function(data){
 				foundPending = $.evalJSON(data);
@@ -272,22 +261,19 @@ sakai.search = function(){
 		var finaljson = {};
 		finaljson.items = [];
 		
-		if (foundPending.status && foundPending.status.friends) {
-			for (var i = 0; i < foundPending.status.friends.length; i++) {
-				var item = foundPending.status.friends[i];
+		if (foundPending.results) {
+			for (var i = 0; i < foundPending.results.length; i++) {
+				var item = foundPending.results[i];
 				var person = item.profile;
 				if (person) {
 					var index = finaljson.items.length;
-					profiles[item.friendUuid] = item;
-					profiles[item.friendUuid].profile.uuid = item.friendUuid;
+					profiles[item.target] = item;
+					profiles[item.target].profile.uuid = item.target;
 					finaljson.items[index] = {};
-					finaljson.items[index].userid = item.friendUuid;
-					var sha = sha1Hash(finaljson.items[index].userid).toUpperCase();
-					var path = sha.substring(0, 2) + "/" + sha.substring(2, 4);
-					if (person.picture) {
-						//var picture = eval('(' + person.picture + ')');
-						var picture = person.picture;
-						finaljson.items[index].picture = "/sdata/f/_private/" + path + "/" + finaljson.items[index].userid + "/" + picture.name;
+					finaljson.items[index].userid = item.target;
+					if (person.picture && $.evalJSON(person.picture).name) {
+						var picture = $.evalJSON(person.picture);
+						finaljson.items[index].picture = "/_user/public/" + finaljson.items[index].userid + "/" + picture.name;
 					}
 					if (person.firstName || person.lastName) {
 						var str = person.firstName;
@@ -298,7 +284,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					if (person.basic) {
-						var basic = person.basic;
+						var basic = $.evalJSON(person.basic);
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
 						}
@@ -309,7 +295,7 @@ sakai.search = function(){
 							finaljson.items[index].extra = basic.unidepartment;
 						}
 					}
-					if (finaljson.items[index].userid == sdata.me.preferences.uuid){
+					if (finaljson.items[index].userid == sdata.me.user.userid){
 						finaljson.items[index].isMe = true;
 					}
 				}

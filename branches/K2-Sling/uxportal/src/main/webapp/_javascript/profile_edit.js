@@ -62,16 +62,16 @@ sakai.profile = function(){
 	var doInit = function(){
 	
 		me = sdata.me;
-		me.profile = sdata.me.properties;
+		me.profile = sdata.me.profile;
 		
 		if (!me.user.userid) {
 			var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
 			document.location = redirect;
 		}
 		
-		fileUrl = "/system/userManager/user/" + sdata.me.user.userid + ".update.html?sid=" + Math.random();
+		fileUrl = "/_user/public/" + sdata.me.user.userid + "/authprofile.json?sid=" + Math.random();
 				
-		json = sdata.me.user.properties;
+		json = sdata.me.profile;
 				
 		setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
 		setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
