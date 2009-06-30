@@ -132,17 +132,16 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			url: Config.URL.MESSAGES_SEND_SERVICE,
 			type: "POST",
 			success: function(data) {
-				var json = $.evalJSON(data);
-				if (json.response === "OK") {
+				//var json = $.evalJSON(data);
+				//if (json.response === "OK") {
 					// Everything went OK
 					contactAdded();
-				}
-				else {
-					$(addToContactsResponse).text($(addToContactsErrorMessage).text());
-				}
+				//}
+				//else {
+				//	$(addToContactsResponse).text($(addToContactsErrorMessage).text());
+				//}
 			},
 			error: function(status) {
-				$(addToContactsResponse).text($(addToContactsErrorMessage).text());
 			},
 			data: toSend
 		});
@@ -173,17 +172,12 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			});
 			
 			var data = {
-				"friendUuid": userid,
-				"friendType": type,
-				"message": $.toJSON({
-					"title": title,
-					"body": openSocialMessage
-				})
+				"type": type
 			};
 			
 			// Do the invite.
 			$.ajax({
-				url: Config.URL.FRIEND_CONNECT_SERVICE,
+				url: "/_user/contacts/" + userid + ".invite.html",
 				type: "POST",
 				success: function(data) {
 					// We succesfully invited this user, now let's send him/her a message.
@@ -250,10 +244,21 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 		if (!user.preferences) {
 			// This is a uuid. Fetch the info from /rest/me
 			$.ajax({
-				url: "/system/userManager/user/" + user + ".json",
+				url: "/_user/public/" + user + "/authprofile.json",
 				success: function(data) {
 					friend = $.evalJSON(data);
 					friend.uuid = user;
+					// Doing a rewrite of the me object, because Sling wraps arrays around
+					// the different fields in the profile object
+					if (typeof friend.firstName === "object"){
+						friend.firstName = friend.firstName[0];
+					}
+					if (typeof sdata.me.profile.lastName === "object"){
+						friend.lastName = friend.lastName[0];
+					}
+					if (typeof sdata.me.profile.email === "object"){
+						friend.email = friend.email[0];
+					}
 					// We have the data, render it.
 					fillInUserInfo(friend);
 				}

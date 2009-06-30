@@ -72,12 +72,12 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	 * @param {String} picture The picture path for a user
 	 * @param {String} userStoragePrefix The user's storage prefix
 	 */
-	var parsePicture = function(picture, userStoragePrefix){
+	var parsePicture = function(picture, uuid){
 		// Check if the picture is undefined or not
 		// The picture will be undefined if the other user is in process of
 		// changing his/her picture
-		if (picture && picture.name) {
-			return Config.URL.WEBDAV_PRIVATE_URL + userStoragePrefix + picture.name;				
+		if (picture && $.evalJSON(picture).name) {
+			return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;				
 		}
 		return Config.URL.PERSON_ICON_URL;
 	};
@@ -97,21 +97,21 @@ sakai.myfriends = function(tuid,placement,showSettings){
 		// Array that will contain a specified number of friends of the current user
 		jsonFriends.items = [];
 		
-		if (friends.status.friends) {
+		if (friends.results) {
 			
 			// Run process each friend
-			for (var i = 0; i < friends.status.friends.length; i++) {
+			for (var i = 0; i < friends.results.length; i++) {
 				if (i <= numberFriends) {
-					var friend = friends.status.friends[i];
+					var friend = friends.results[i];
 					
 					// Set the id of the friend
-					friend.id = friend.friendUuid;
+					friend.id = friend.target;
 					
 					// Parse the name of the friend
-					friend.name = parseName(friend.friendUuid, friend.profile.firstName, friend.profile.lastName);
+					friend.name = parseName(friend.target, friend.profile.firstName, friend.profile.lastName);
 					
 					// Parse the picture of the friend
-					friend.photo = parsePicture(friend.profile.picture, friend.properties.userStoragePrefix);
+					friend.photo = parsePicture(friend.profile.picture, friend.target);
 					
 					// Add the friend to the array
 					jsonFriends.items.push(friend);
@@ -131,7 +131,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	 */
 	var getFriends = function(){
 		$.ajax({
-			url: Config.URL.FRIEND_STATUS_SERVICE + "?p=0&n=6&friendStatus=ACCEPTED&s=firstName&s=lastName&o=asc&o=asc",
+			url: "/_user/contacts/accepted.json" + "?page=0&items=6",
 			cache: false,
 			success: function(data){
 				
@@ -160,7 +160,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 	 */
 	var getContactRequests = function(){
 		$.ajax({
-			url: Config.URL.FRIEND_STATUS_SERVICE,
+			url: "/_user/contacts/invited.json",
 			cache: false,
 			success: function(data){
 				var contactrequests = $.evalJSON(data);
@@ -168,10 +168,10 @@ sakai.myfriends = function(tuid,placement,showSettings){
 				jsonTotal.total = 0;
 				
 				// Check if the array contains any friends
-				if (contactrequests.status.friends){
+				if (contactrequests.total){
 					
 					// Only count the contacts which status is Invited
-					jsonTotal.total += contactrequests.status.sizes.INVITED;
+					jsonTotal.total += contactrequests.total;
 				}
 				
 				// Render the requests on the page
