@@ -182,7 +182,7 @@ body {
 .send_message .compose-form{font-weight: bold; padding: 0px 15px 15px 0px}
 .send_message .compose-form input, .send_message .compose-form textarea{font-weight: normal;}
 .send_message .compose-form span{font-weight: 100; padding-left: 4px;}
-.send_message .compose-form div{padding-bottom: 10px;}
+.send_message .compose-form div{padding: 10px 0px 0px 10px;}
 .send_message .compose-form .compose-subject{width: 478px;}
 .send_message .compose-form .compose-body{height: 140px; width:478px;}
 .send_message .compose-form .compose-send{padding-top: 5px;}
