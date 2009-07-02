@@ -673,18 +673,19 @@ sakai.profile = function(){
 			
 			//var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
 			var toSend = {
-				"sling:resourceType": "sakai/message",
+				//"sling:resourceType": "sakai/message",
 				"sakai:type": "internal",
 				"sakai:sendstate": "pending",
 				"sakai:messagebox": "outbox",
 				"sakai:to": user,
 				"sakai:from": sdata.me.user.userid,
 				"sakai:subject": subject,
-				"sakai:body":body
+				"sakai:body":body,
+				"sakai:category":"message"
 			};
 			
 			$.ajax({
-				url: "/_user/private/messages.create.html",
+				url: "/_user/message.create.html",
 				type: "POST",
 				error: function(status){
 					alert("An error has occured whilst sending the messages");

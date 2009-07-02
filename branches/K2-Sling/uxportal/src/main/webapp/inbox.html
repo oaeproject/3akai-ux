@@ -148,9 +148,9 @@
 								{/if}
 							{else}
 								{if m.userFrom}
-									<td><a href="/dev/profile.html?user=${m.from}">${m.userFrom.profile.firstName} ${m.userFrom.profile.lastName}</a></td>
+									<td><a href="/dev/profile.html?user=${m['sakai:from']}">${m.userFrom.firstName} ${m.userFrom.lastName}</a></td>
 								{else}
-		                        	<td><a href="/dev/profile.html?user=${m.from}">${m.from}</a></td>
+		                        	<td><a href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
 								{/if}
 							{/if}
 							{if m.read}

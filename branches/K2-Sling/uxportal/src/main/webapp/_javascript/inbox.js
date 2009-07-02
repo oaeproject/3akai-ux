@@ -446,13 +446,23 @@ sakai.inbox = function() {
      */
     var formatMessage = function(message) {
     
-        var d = new Date(message.date);
+		//2009-06-30T21:58:37.731+01:00
+		var dateString = message["jcr:created"];
+        var d = new Date();
+		d.setFullYear(parseInt(dateString.substring(0,4),10));
+		d.setMonth(parseInt(dateString.substring(5,7),10));
+		d.setDate(parseInt(dateString.substring(8,10),10));
+		d.setHours(parseInt(dateString.substring(11,13),10));
+		d.setMinutes(parseInt(dateString.substring(14,16),10));
+		d.setSeconds(parseInt(dateString.substring(17,19),10));
         //Jan 22, 2009 10:25 PM
         message.date = formatDate(d, "M j, Y G:i A");
-        
-        if (!message.read) {
+       
+        if (message["sakai:read"] === "false") {
             message.read = false;
-        }
+        } else {
+			message.read = true;
+		}
         
         if (message.parts) {
             for (var i = 0; i < message.parts.length; i++) {
@@ -468,19 +478,20 @@ sakai.inbox = function() {
      * @param {Object} The JSON response from the server. Make sure it has a .message array in it.
      */
     var renderMessages = function(response) {
-         for (var i = 0; i < response.messages.length; i++) {
+         for (var i = 0; i < response.results.length; i++) {
             //	temporary internal id.
             //	Use the name for the id.
-            response.messages[i].id = response.messages[i].name;
-            response.messages[i].nr = i;
-            response.messages[i] = formatMessage(response.messages[i]);
+            response.results[i].nr = i;
+            response.results[i] = formatMessage(response.results[i]);
+			response.results[i].subject = response.results[i]["sakai:subject"];
+			response.results[i].body = response.results[i]["sakai:body"];
         }
                         
-        allMessages = response.messages;
+        allMessages = response.results;
                 
         //	Show messages
         var tplData = {
-            'messages': response.messages
+            'messages': response.results
         };
         
         //	remove previous messages
@@ -539,6 +550,10 @@ sakai.inbox = function() {
      */
     getAllMessages = function(callback) {
     
+		var box = "inbox";
+		if (selectedType === "sent"){
+			box = "outbox";
+		}
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
             types = "";
@@ -555,24 +570,19 @@ sakai.inbox = function() {
             cats = "&categories=" + selectedCategory.join(",");
         }
         $.ajax({
-            url: Config.URL.MESSAGES_MESSAGES_SERVICE + "?sort=" + sortBy + "&sortOrder=" + sortOrder + "&p=" + currentPage + "&n=" + messagesPerPage + types + cats,
+            //url: Config.URL.MESSAGES_MESSAGES_SERVICE + "?sort=" + sortBy + "&sortOrder=" + sortOrder + "&p=" + currentPage + "&n=" + messagesPerPage + types + cats,
+			url: "/var/messaging/internal/box?box=" + box + "&items=10&page=" + currentPage,
 			cache: false,
             success: function(data) {
                 var json = $.evalJSON(data);
-                if (json.response === "OK") {
-                    if (json.messages) {
-                        //    Render the messages
-                        renderMessages(json);
-                    }                    
-                    
-                    if (typeof callback !== "undefined") {
-                        callback();
-                    }
+                if (json.results) {
+            	    //    Render the messages
+                	renderMessages(json);
+                }                       
+                if (typeof callback !== "undefined") {
+                	callback();
                 }
-                else {
-                    showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
-                    $(inboxResults).html($(inboxGeneralMessagesErrorGeneral).text());
-                }
+                
             },
             error: function(status) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
@@ -634,6 +644,12 @@ sakai.inbox = function() {
      *         (Comma seperated for every value you have in selectedtype and selectedcategory)
      */
     getCount = function(read) {
+		
+		var box = "inbox";
+		if (selectedType === "sent"){
+			box = "outbox";
+		}
+		
         //    Construct the URL.
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
@@ -658,12 +674,13 @@ sakai.inbox = function() {
         showLoader();
         
         $.ajax({
-            url: Config.URL.MESSAGES_COUNT_SERVICE + "?read=" + read + types + cats,
-            success: function(data) {
+            //url: Config.URL.MESSAGES_COUNT_SERVICE + "?read=" + read + types + cats,
+            url: "/_user/message/box?box=" + box + "&items=10&page=" + currentPage,
+			success: function(data) {
                 var json = $.evalJSON(data);
-                if (json.response === "OK") {
-                    messagesForTypeCat = json.count[0];
-                    if (json.count[0] === 0) {       
+                //if (json.response === "OK") {
+                    messagesForTypeCat = json.total;
+                    if (json.total === 0) {       
                         
                         json.messages = [];                 
                         renderMessages(json);
@@ -675,7 +692,7 @@ sakai.inbox = function() {
                         currentPage = 0;
                         showPage(currentPage + 1);
                     }
-                }
+                //}
             },
             error: function(data) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
@@ -706,22 +723,14 @@ sakai.inbox = function() {
      * @param {String} id The id for this message.
      */
     var markMessageRead = function(message, id) {
-        var nodeNames = ["sakaijcr:messageRead"];
-        var values = [true];
-        var actions = ["r"];
-        var items = [message.pathToMessage];
-        
         var postParameters = {
-            'name': nodeNames,
-            "value": values,
-            "action": actions,
-            "item": items
+            "sakai:read":true
         };
         //    To mark a message as read we do a request to the sdata functions.
         //    We use the Properties function to change the messageRead variable.
         $.ajax({
             type: "POST",
-            url: Config.URL.SDATA_FUNCTION_PROPERTIES.replace(/__URL__/, message.pathToMessage),
+            url: "/_user/message" + message.path,
             success: function(userdata) {
                 allMessages[message.nr].read = true;
                 //	mark the message in the inbox table as read.
@@ -779,12 +788,12 @@ sakai.inbox = function() {
         selectedMessage = message;
         if (typeof message !== "undefined") {
             //    Fill in this message values.
-            $(inboxSpecificMessageSubject).text(message.subject);
-            $(inboxSpecificMessageBody).html(message.bodyText.replace(/\n/gi, "<br />"));
+            $(inboxSpecificMessageSubject).text(message["sakai:subject"]);
+            $(inboxSpecificMessageBody).html(message["sakai:body"].replace(/\n/gi, "<br />"));
             $(inboxSpecificMessageDate).text(message.date);
-            $(inboxSpecificMessageFrom).text(message.userFrom.profile.firstName + ' ' + message.userFrom.profile.lastName);
-            if (message.userFrom.profile.picture) {
-                $(inboxSpecificMessagePicture).attr('src', Config.URL.SDATA_FETCH_PRIVATE_URL + "/" + message.userFrom.userStoragePrefix + message.userFrom.profile.picture._name);
+            $(inboxSpecificMessageFrom).text(message.userFrom.firstName + ' ' + message.userFrom.lastName);
+            if (message.userFrom.picture && $.evalJSON(message.userFrom.picture).name) {
+                $(inboxSpecificMessagePicture).attr('src', "/_user/public/" + message.userFrom["rep:userId"] + "/" + $.evalJSON(message.userFrom.picture).name);
             }
             else {
                 $(inboxSpecificMessagePicture).attr('src', Config.URL.PERSON_ICON_URL);
@@ -824,7 +833,7 @@ sakai.inbox = function() {
                 $(inboxSpecificMessagePreviousMessages).hide();
             }
             
-            if (!message.read) {
+            if (message["sakai:read"] === "false") {
                 //    We haven't read this message yet. Mark it as read.
                 markMessageRead(message, id);
             }
