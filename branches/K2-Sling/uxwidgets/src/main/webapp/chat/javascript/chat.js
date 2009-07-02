@@ -767,8 +767,8 @@ sakai.chat = function(tuid, placement, showSettings){
 			url: Config.URL.MESSAGES_COUNT_SERVICE + "?types=inbox&categories=*&read=false",
 			success: function(data){
 				var json = $.evalJSON(data);
-				if (json.response === "OK" && json.count){
-					$(chatUnreadMessages).text(json.count[0]);
+				if (json.count){
+					$(chatUnreadMessages).text(json.count);
 				}
 			}
 		});
