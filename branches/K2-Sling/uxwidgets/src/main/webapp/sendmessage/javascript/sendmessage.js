@@ -118,7 +118,6 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		if (!layover) {
 			bindSearchTo = putContentInId + " " + bindSearchTo;
 		}
-		
 		$(messageFieldMultipleTo).autocomplete(allFriends, {
 		    minChars: 1,
 		    matchContains: true,
@@ -132,8 +131,8 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 		    //	The formatting of the results in the dropdown list.
 		    formatItem: function(row){
 		        var s = '<img src="_images/profile_icon.png" alt="profile icon" width="24" height="24" /> ';
-		        if (row.profile.picture) {
-		            s = '<img src="/sdata/f/_private' + row.properties.userStoragePrefix + row.profile.picture.name + '" alt="profile icon" width="24" height="24" /> ';
+		        if (row.profile.picture && $.evalJSON(row.profile.picture).name) {
+		            s = '<img src="/_user/public/' + row.target + "/" + row.profile.picture.name + '" alt="profile icon" width="24" height="24" /> ';
 		        }
 		        return s + row.profile.firstName + ' ' + row.profile.lastName;
 		    }
@@ -168,31 +167,22 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
      */
     var getAllFriends = function(){
         $.ajax({
-            url: Config.URL.FRIEND_STATUS_SERVICE,
+            url: "/_user/contacts/accepted.json?page=0&items=100",
             success: function(data){
                 var json = $.evalJSON(data);
-                if (json.response === "OK") {
-                    json = json.status;
                     allFriends = [];
-                    if (json.friends) {
+                    if (json.results) {
                         var searchArray = [];
-                        for (var i = 0; i < json.friends.length; i++) {
-                            //	We only want accepted friends.
-                            if (json.friends[i].status.toUpperCase() === "ACCEPTED") {
-                            
-                                //	add it too the array.
-                                allFriends.push(json.friends[i]);
-                            }
+                        for (var i = 0; i < json.results.length; i++) {
+                            //	add it too the array.
+                            allFriends.push(json.results[i]);
                         }
                         //	This will give a nice drop down list with our friends.
 						autoCompleteFriends(allFriends);
 						$(messageFieldSubject).focus();
 						$(messageFieldMultipleTo).focus();
-                    }
-                }
-                else {
-					showGeneralMessage(messageDone, $(messageErrorFriends).text(), true,0);
-                }
+                   }
+                
             },
             error: function(status){
 				showGeneralMessage(messageDone, $(messageErrorFriends).text(), true,0);
@@ -389,42 +379,40 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 			var body = $(messageFieldBody).val();
 			var subject = $(messageFieldSubject).val();
 		
-		
-			//	Construct the message.
-			//	We will send it in the opensocial format
-			//	All the keys HAVE to be in lowercase otherwise the service won't recgonize them.
-			var openSocialMessage = new opensocial.Message(body, {
-				"title": subject,
-				"type": Config.Messages.Categories.message
-			});
+			var tosend = selectedFriendsToPostTo.length;
+			var sent = 0;
 			
-			//	All the uuids we wish to post to.
-			var sTo = selectedFriendsToPostTo.join(",");
+			for (var i = 0; i < selectedFriendsToPostTo.length; i++){
+				var toSend = {
+					"sakai:type": "internal",
+					"sakai:sendstate": "pending",
+					"sakai:messagebox": "outbox",
+					"sakai:to": selectedFriendsToPostTo[i],
+					"sakai:from": sdata.me.user.userid,
+					"sakai:subject": subject,
+					"sakai:body":body,
+					"sakai:category":"message"
+				};
+					
+				$.ajax({
+					url: "/_user/message.create.html",
+					type: "POST",
+					success: function(data) {
+						sent++;
+						if (sent === tosend){
+							showMessageSent(true);
+						}
+					},
+					error: function(status) {
+						sent++;
+						if (sent === tosend){
+							showMessageSent(false);
+						}
+					},
+					data: toSend
+				});
+			}
 			
-			//	The POST data that we will be sending.
-			var toSend = {
-				"to": sTo,
-				"message": $.toJSON(openSocialMessage)
-			};
-			
-			//	The request to the messaging service.
-			$.ajax({
-				url: Config.URL.MESSAGES_SEND_SERVICE,
-				type: "POST",
-				success: function(data) {
-					var json = $.evalJSON(data);
-					if (json.response === "OK") {
-						showMessageSent(true);
-					}
-					else {
-						showMessageSent(false);
-					}
-				},
-				error: function(status) {
-					showMessageSent(false);
-				},
-				data: toSend
-			});
 		}
 	};
 	
@@ -577,8 +565,8 @@ sakai.sendmessage = function(tuid, placement, showSettings) {
 	
 	//	When we get a result
 	$(messageFieldMultipleTo).result(function(event, data, formatted) {
-        if (!$.inArray(data.friendUuid,selectedFriendsToPostTo) > -1) {
-            createToBox(data.profile.firstName + ' ' + data.profile.lastName, data.friendUuid);
+		if ($.inArray(data.target, selectedFriendsToPostTo) === -1) {
+            createToBox(data.profile.firstName + ' ' + data.profile.lastName, data.target);
         }
         $(this).val('');
     });

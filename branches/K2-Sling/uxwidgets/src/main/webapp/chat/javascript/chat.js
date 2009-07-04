@@ -764,7 +764,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	var getCountUnreadMessages = function() {
 		//	We only get the number of messages in our inbox folder that we havent read yet.
 		$.ajax({
-			url: Config.URL.MESSAGES_COUNT_SERVICE + "?types=inbox&categories=*&read=false",
+			url: Config.URL.MESSAGES_COUNT_SERVICE,
 			success: function(data){
 				var json = $.evalJSON(data);
 				if (json.count){
