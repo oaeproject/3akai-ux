@@ -87,10 +87,14 @@
             <div class="inbox-folders" id="inbox_folders">
             	<div class="tab"><div><a href="javascript:;" class="inbox_filter inbox_bold" id="inbox_filter_inbox">Inbox</a></div></div>
                 <ul>         
-                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">Messages</a></li>
-                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">Announcements</a></li>
-                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">Chats</a></li>
-                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">Invitations</a></li>
+                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">Messages</a>
+					<span id="inbox_unread_nr_messages" class="inbox_bold"></span></li>
+                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">Announcements</a>
+					<span id="inbox_unread_nr_announcements" class="inbox_bold"></span></li>
+                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">Chats</a>
+					<span id="inbox_unread_nr_chats" class="inbox_bold"></span></li>
+                    <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">Invitations</a>
+					<span id="inbox_unread_nr_invitations" class="inbox_bold"></span></li>
                 </ul> 
                 <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent">Sent</a></div></div>
                 <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_trash">Trash</a></div></div>
@@ -130,19 +134,11 @@
                    	<div id="inbox_inbox_messages_template"><!--
 					{for m in messages}
 						<tr class="inbox_message" id="inbox_table_message_${m.id}">
-	                        <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.pathToMessage}" id="inbox_check_delete_${m.id}" /></td>
+	                        <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" /></td>
 					
-							{if $.inArray(m.types,'sent') > -1}							
+							{if m.messagebox === "outbox"}							
 								{if m.userTo}
-									{if typeof m.userTo[0] === "undefined"}
-										<td><a href="/dev/profile.html?user=${m.to}">${m.userTo.profile.firstName} ${m.userTo.profile.lastName}</a></td>
-									{else}
-										<td>
-											{for pr in m.userTo}
-												<a href="/dev/profile.html?user=${pr.uuid}">${pr.profile.firstName} ${pr.profile.lastName}{if pr_index < (m.userTo.length - 1)}, {/if}</a>
-											{/for}
-										</td>
-									{/if}
+									<td><a href="/dev/profile.html?user=${m['sakai:to']}">${m.userTo.firstName} ${m.userTo.lastName}</a></td>
 								{else}
 		                        	<td><a href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
 								{/if}
@@ -213,6 +209,12 @@
 	                        <div class="message-header" id="inbox_message_subject"></div>                
 	                        <div id="inbox_message_body"></div>
 	                        <div class="message-options">
+	                        	<span id="inbox-invitation-accept" style="display:none">
+	                        		<a href="javascript:;" id="inbox_message_accept_invitation">Accept Invitation</a> |
+	                        	</span>
+								<span id="inbox-invitation-already" style="display:none; color: #666">
+	                        		You have accepted this person as a contact |
+	                        	</span>
 	                        	<a href="javascript:;" id="inbox_message_option_reply">Reply</a>                   
 	                        </div>
 	
@@ -226,14 +228,14 @@
 			           <div>
                             <span>
                                 <a href="javascript:;">
-                                {if r.userFrom.profile.picture}
-        							<img src="/sdata/f/_private/${r.userFrom.userStoragePrefix}${r.userFrom.profile.picture._name}" class="sender-picture" id="inbox_message_picture" />
+                                {if r.userFrom.picture}
+        							<img src="/sdata/f/_private/${r.userFrom.userStoragePrefix}${r.userFrom.picture._name}" class="sender-picture" id="inbox_message_picture" />
         						{else}
         							<img src="_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" />
         						{/if}
                                </span> 
             	            <div class="inbox_message_user">
-                	            <a href="/dev/profile.html?user=${r.from}" class="sender-name" id="inbox_message_from">${r.userFrom.profile.firstName} ${r.userFrom.profile.lastName}</a><br />
+                	            <a href="/dev/profile.html?user=${r.from}" class="sender-name" id="inbox_message_from">${r.userFrom.firstName} ${r.userFrom.lastName}</a><br />
                 	            <div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
                             </div>
                         </div>
@@ -244,8 +246,8 @@
 			                <div class="sender-message">
 			                    <div class="message-body" style="padding-top:0px">
 			                        <div class="message-header" id="inbox_message_subject">${r.subject}</div>                
-			                        <div id="inbox_message_body">${r.bodyText}</div>
-			                        <div class="message-options">
+			                        <div id="inbox_message_body">${r.body}</div>
+			                        <div class="message-options" style="display:none">
 			                        	<a href="javascript:;" id="inbox_message_option_reply_${r.id}">Reply</a>                   
 			                        </div>
 			                	</div> 

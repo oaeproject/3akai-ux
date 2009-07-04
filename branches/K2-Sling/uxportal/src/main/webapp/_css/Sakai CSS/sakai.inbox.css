@@ -61,7 +61,7 @@
 .inbox_detail .sender-timestamp{color: #999999; font-size: 11px;}
 .inbox_detail .sender-options{color:#058ec4; font-size: 12px; position: relative; top: -55px;}
 .inbox_detail .sender-options a{color:#058ec4; font-size: 12px;}
-.inbox_detail .sender-body{background:#f4f4f4; position: relative; top:-20px;} !important /* IE6 FIX */
+.inbox_detail .sender-body{background:#f4f4f4; position: relative; top:-20px; padding-right: 15px;} !important /* IE6 FIX */
 .inbox_detail .sender-message{display:inline; height: auto; width: 100%;}
 .inbox_detail .message-arrow{background: url(../../_images/message_arrow.gif) no-repeat 0 0; position: relative; top: -7px; left: 15px;}
 .inbox_detail .message-body{padding: 20px 15px 15px 15px; color:#333; font-size: 13px;}

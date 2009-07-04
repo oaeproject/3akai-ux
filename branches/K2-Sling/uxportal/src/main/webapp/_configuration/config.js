@@ -61,7 +61,7 @@ var Config = {
 		LOGOUT_SERVICE : "/system/sling/formlogin",
 		ME_SERVICE: "/system/me",
 		ME_SERVICE_USERS: "/rest/me/__USERS__",
-		MESSAGES_COUNT_SERVICE: "/_user/message.count.json",
+		MESSAGES_COUNT_SERVICE: "/_user/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false",
 		MESSAGES_SEND_SERVICE: "/_rest/messages/send",
 		MESSAGES_MESSAGES_SERVICE: "/_rest/messages/messages",
         MESSAGES_DELETE_SERVICE : "/_rest/messages/delete",
