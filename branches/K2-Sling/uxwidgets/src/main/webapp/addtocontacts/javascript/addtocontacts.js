@@ -127,9 +127,20 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	 * @param {string} userid The userid to send the message to.
 	 * @param {string} toSend The message that needs to be send to the friend.
 	 */
-	var sendMessage = function(userid, toSend) {
+	var sendMessage = function(userid, message, title) {
+		var toSend = {
+			"sakai:type": "internal",
+			"sakai:sendstate": "pending",
+			"sakai:messagebox": "outbox",
+			"sakai:to": userid,
+			"sakai:from": sdata.me.user.userid,
+			"sakai:subject": title,
+			"sakai:body":message,
+			"sakai:category":"invitation"
+		};
+			
 		$.ajax({
-			url: Config.URL.MESSAGES_SEND_SERVICE,
+			url: "/_user/message.create.html",
 			type: "POST",
 			success: function(data) {
 				//var json = $.evalJSON(data);
@@ -165,32 +176,16 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			var title = Config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
 			var message = Config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
 			
-			// construct openSocial message
-			var openSocialMessage = new opensocial.Message(message, {
-				"title": title,
-				"type": Config.Messages.Categories.invitation
-			});
-			
-			var data = {
-				"type": type
-			};
-			
 			// Do the invite.
 			$.ajax({
 				url: "/_user/contacts/" + userid + ".invite.html",
 				type: "POST",
 				success: function(data) {
-					// We succesfully invited this user, now let's send him/her a message.
-					var toSend = {
-						"to": userid,
-						"message": $.toJSON(openSocialMessage)
-					};
-					sendMessage(userid, toSend);
+					sendMessage(userid, message, title);
 				},
 				error: function(status) {
 					$(addToContactsResponse).text($(addToContactsErrorRequest).text());
-				},
-				data: data
+				}
 			});
 			
 		}
