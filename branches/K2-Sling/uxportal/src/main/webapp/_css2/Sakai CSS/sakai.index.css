@@ -1,0 +1,49 @@
+html { background: #093b52 url(../../_images2/page_bg_water.jpg) top left repeat-x; }
+body { margin-bottom: 50px !important; }
+
+/* create_new_account_flat.html */
+.create_account .header{background: #666; width: 100%; height: 150px;}
+.create_account .bigheader{width: 960px; height: 100%; height: auto; min-height: 100%;}
+.create_account .header-version{color: #999; font-size: 12px; float: right; padding: 15px 30px 0 0;}
+.create_account .header-title{ color: #08415E; font-size: 4.0em; float: left; margin: 0 35px 0 0; padding: 40px 0;}
+.create_account .header-byline{color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 60px 0 0 0;}
+.create_account .preview-box{float: left; width: 540px; margin: 0 80px 0 0;}
+.create_account .header-smallline {padding:0 0 40px 0; color:#000; font-size: 1em;}
+.create_account .create-account-content{padding: 0 40px 0 40px;}
+.create_account .all-fields{float: right; color: #666; font-size: 14px; padding-top: 12px;}
+.create_account .site_secondary_heading{padding: 45px 0 35px 0; font-size: 24px; font-weight: bold; color: #333;}
+.create_account .create-account-form{width: 100%; border-bottom: 1px solid #999; padding-bottom: 25px;}
+.create_account .create-account-form td{padding: 0 0 20px 0; margin: 0; vertical-align: top; border: 0; width: 315px;}
+.create_account .create-account-form th{padding: 0; margin: 0; vertical-align: bottom; text-align: left; border: 0;}
+.create_account .create-account-form span{color: #666;}
+.create_account .create-input-short{width: 300px; height: 21px; border: 1px solid #d9d9d9; padding: 4px 0px 0px 3px; margin: 0;}
+.create_account .create-input-long{width: 615px; height: 21px; border: 1px solid #d9d9d9; padding: 4px 0px 0px 3px; margin: 0;}
+.create_account .create-account-form td.bottom{vertical-align: bottom;}
+.create_account .check-username{margin-top: 20px; color: #666; cursor: pointer; cursor: hand;}
+.create_account label{color: #666; font-size: 14px; font-weight: bold;}
+.create_account .invalid{background: #ffcccc; border: 1px solid #a1a1a1;}
+.create_account .invalid_label{color: #ffcccc;}
+.create_account .valid_label{color: #2E8A28;}
+.create_account .create-account-notification{float: right; color: #ff4040; font-weight: bold; font-size: 12px; padding-right: 15px; display:none;}
+.create_account .captcha{border: 1px solid #ccc;}
+.create_account .buttons{margin: 13px 0 0 407px; padding-bottom: 50px;}
+.create_account .create-cancel{width: 72px; height: 27px; background: url(../../_images2/button_bg_2.png) repeat-x top left; cursor: hand; cursor: pointer;}
+#success_message {margin:13px 0 0 330px; padding-bottom:50px; display:none;}
+#success_message a {font-weight:bold;}
+
+/* LOG IN PAGE */
+.login-box {padding: 40px; background: url(../../_images2/login-box.png) no-repeat top left; clear: both; height: 324px;}.system_preview_image {padding: 0 0 90px 0;}
+.login_container {padding: 0; float: left;}
+.login_container strong {color:#888; font-size: 1em;}
+.login_container_textfield {padding: 3px 0 0 3px; width:200px !important; border: 1px solid #888; height: 18px;}
+.login_container_username {margin-bottom:15px;}
+.login_failed {display:none; margin-top:10px; color: #D8D8D8; width:260px;}
+.gray_button {background: url(../../_images2/gray_button_left.png) top left no-repeat; float: left;}
+#loginbutton {background: url(../../_images2/gray_button_right.png) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px;}
+#loginloader {display:none; color: #D8D8D8;}
+#register_here {color: #454a4e; font-size: 0.95em; clear: both;}
+#register_here a {color:#006d94; font-weight: bold;}
+.bottom_placeholder {height:75px; width: 100px;}
+.login_button_container {margin: 40px 0 60px 0; float: none; border: 1px solid #FFF;}
+#index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(../../_images2/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}
+#index_footer a { color: #c6e4fc; }

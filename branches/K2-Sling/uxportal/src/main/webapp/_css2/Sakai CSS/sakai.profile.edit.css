@@ -1,0 +1,103 @@
+.field {
+    padding: 2px;
+    height: 20px;
+    display: none;
+    height: 16px;
+} .fieldtitle {
+    color: #808080;
+    width: 125px;
+    vertical-align: top;
+    height: 20px;
+} .inlineEdit-invitation {
+    top: 0px;
+    width: 250px;
+} .inlineEditable {
+    cursor: default;
+    width: 250px;
+} .text {
+    width: 250px;
+    min-height: 16px;
+	border: 1px dotted #FFFFFF;
+} .dropdown {
+    width: 250px;
+    min-height: 16px;
+    padding: 0px !important;
+	height: auto !important;
+    background-color: #FFFFFF !important;
+	border: 1px dotted #FFFFFF !important;
+} .editContainer {
+    display: none;
+} .overlay-lightbox-fixed {
+    display: block;
+    height: 1000px;
+    left: 0%;
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    z-index: 2001;
+} .multifield_over {
+    background-color: #EEEEEE;
+    border: 1px dotted #AAAAAA;
+} .multifield_out {
+    background-color: #FFFFFF;
+    border: 1px dotted #FFFFFF;
+} .greydotted {
+    background: transparent url(/dev/img/greydotted.gif) repeat-x scroll 0pt;
+    height: 10px;
+}
+
+td {
+    vertical-align: top;
+} .centertd {
+    vertical-align: middle;
+} .refreshDiv {
+    color: #FF0000;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1100000;
+    height: 100%;
+    width: 100%;
+    opacity: 0.01;
+    -moz-opacity: 0.01;
+    display: none;
+    filter: alpha( opacity = 60);
+} .options {
+    padding: 0px;
+	text-align:left !important;
+} .inlineEdit-invitation {
+    background-color: #EEEEEE !important;
+    border: 1px dotted #CCCCCC !important;
+}
+
+.popup_field_trigger {
+	position: relative;
+	top: -15px;
+	cursor:pointer; 
+	cursor:hand; 
+	background:transparent url(/dev/_images2/add-icon-profile.png) no-repeat; 
+	background-position: 0px 2px; 
+	padding: 0px 0px 2px 15px; 
+	float: right;
+	font-weight: normal !important;
+	font-size: 12px !important;	
+}
+
+.dialog td {
+	border: none !important;
+	padding: 0px 0px 5px 10px !important;
+}
+
+.dialog_content select {
+	margin:0pt !important;
+}
+
+.dialog {
+	position: fixed !important;
+	top: 50px !important;
+}
+.fl-tabs li a {
+	position:relative;
+	bottom:1px !important;
+	#bottom:0px !important; /* override for Microsoft Internet Explorer browsers*/
+}
