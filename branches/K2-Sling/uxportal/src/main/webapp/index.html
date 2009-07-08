@@ -3,16 +3,16 @@
 	<head>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Sakai 3.0 R&amp;D - Sign In</title>        
+		<title>Sakai 3 R&amp;D - Sign In</title>        
 	    
-		<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
-	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
-	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
-	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
-	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
-	    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />   
-	    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	    
-	    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+		<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.reset.css" />
+	    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.mist.css" />
+	    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.hc.css" />
+	    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.rust.css" />
+	    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.layout.css" />
+	    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.text.css" />   
+	    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.core.2.css" />	    
+	    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.index.css" />
 			
 		<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
 		<script type="text/javascript" language="JavaScript" src="_lib/Jcap/jcap.js"></script>
@@ -26,46 +26,54 @@
 	
 	<body class="fl-centered create_account i18nable">
 		
-	    <div class="bigheader">
+	    <div class="bigheader fl-centered">
 	    	<!-- HEADER -->
-	    	<div class="header-version">
+	    	<!--<div class="header-version">
 	        	__MSG__VERSION__
-	        </div>
+	        </div>-->
 	        <div class="header-title">
-	        	__MSG__INSTANCE_NAME__
+	        	<img src="_images2/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
 	        </div>
 	        <div class="header-byline">
 	        	__MSG__HEADER_BYLINE__
 	        </div>
-			<div class="header-smallline">
-				__MSG__HEADER_SMALLLINE__
-			</div>
-			<!-- System preview image -->
-			<div class="system_preview_image">
-				<img src="_images/gateway.png" alt="__MSG__INSTANCE_NAME__"/>
-			</div>
-			<!-- Login functionality -->
-			<form class="login_container" id="login_container">
-				<strong>__MSG__USERNAME__:</strong><br/>
-				<input type="text" id="username" name="username" class="login_container_username login_container_textfield"/><br/>
-				<strong>__MSG__PASSWORD__:</strong><br/>
-				<input type="password" id="password" name="password" class="login_container_textfield"/>
+            <div class="login-box">
+            	<div class="preview-box">
+					<div class="header-smallline">
+						__MSG__HEADER_SMALLLINE__
+					</div>
+					<!-- System preview image -->
+					<div class="system_preview_image">
+						<img src="_images2/panel_thumb.jpg" alt="__MSG__INSTANCE_NAME__"/>
+					</div>
+                </div>
+				<!-- Login functionality -->
+				<form class="login_container" id="login_container">
+					<strong>__MSG__USERNAME__:</strong><br/>
+					<input type="text" id="username" name="username" class="login_container_username login_container_textfield"/><br/>
+					<strong>__MSG__PASSWORD__:</strong><br/>
+					<input type="password" id="password" name="password" class="login_container_textfield"/>
 				
-				<div id="failed" class="login_failed">__MSG__LOGIN_FAILED__!<br/></div>
+					<div id="failed" class="login_failed">__MSG__LOGIN_FAILED__!<br/></div>
 	
-				<div class="block login_button_container">
-					<input type="submit" class="button button-primary create-confirm" id="loginbutton" value="Sign In"/>
-					<span id="loginloader">__MSG__SIGNING_IN__</span>
-				</div>
+					<div class="block login_button_container">
+						<div class="gray_button">
+                        	<input type="submit" class="button button-primary create-confirm" id="loginbutton" value="Sign In"/>
+                        </div>
+						<span id="loginloader">__MSG__SIGNING_IN__</span>
+					</div>
 				
-				<div id="register_here">
-					&raquo; No account yet? <a href="create_new_account.html">Register here</a>
-				</div>
-			</form>
-	    </div>
-			
-		<div class="bottom_placeholder"></div>
-		
+					<div id="register_here">
+						No account yet? <a href="create_new_account.html">Register here</a>
+					</div>
+				</form>
+	    	</div>
+            <div id="index_footer">
+            	Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a><br />
+                &copy;2004 - 2009 <a href="#">The Sakai Foundation</a>
+            </div>
+		</div>
+        		
 		<script type="text/javascript" language="JavaScript" src="_javascript/index.js"></script>
 		
 	</body>
