@@ -101,6 +101,16 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		minifeed :
+		{
+			description:"Recent activity from my contacts",
+			iframe:0,
+			url:"/devwidgets/minifeed/minifeed.html",
+			name:"Minifeed",
+			id:"minifeed",
+			personalportal:1,
+			siteportal:0
+		},
 		myprofile :
 		{
 			description:"My Personal Profile\r\n",
@@ -323,6 +333,16 @@ var Widgets = {
 			url:"/devwidgets/chat/chat.html",
 			name:"chat",
 			id:"chat",
+			personalportal:0,
+			siteportal:0
+		},
+		chat2 :
+		{
+			description:"chat2",
+			iframe:0,
+			url:"/devwidgets/chat2/chat.html",
+			name:"chat2",
+			id:"chat2",
 			personalportal:0,
 			siteportal:0
 		},

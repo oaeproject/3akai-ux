@@ -280,10 +280,12 @@ sakai.site_basic_settings = function() {
             titleEL.addClass('invalid');
             ok = false;
         }
-        if (descEL.val() === '') {
-            descEL.addClass('invalid');
-            ok = false;
-        }
+        /*
+		if (descEL.val() === '') {
+		            descEL.addClass('invalid');
+		            ok = false;
+		        }
+		*/
         if (editloc && replaceCharacters(siteLocEL.val()) === '') {
             siteLocEL.addClass('invalid');
             ok = false;
