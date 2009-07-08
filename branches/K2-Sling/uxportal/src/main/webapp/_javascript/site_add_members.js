@@ -60,7 +60,7 @@ sakai.site_add_members = function() {
      */
     var fillBasicSiteSettings = function(siteid) {
         $.ajax({
-            url: "/_rest/site/get/" + siteid,
+            url: "/" + siteid + ".json",
 			cache: false,
             success: function(response) {
                 var json = $.evalJSON(response);
@@ -147,8 +147,8 @@ sakai.site_add_members = function() {
 	 * @param {Object} userid
 	 */
 	var checkIfUserIDExists =function(userid){
-		for (var i = 0; i < json.members.results.length; i++) {
-			if(json.members.results[i].userid === userid){
+		for (var i = 0; i < json.members.length; i++) {
+			if(json.members[i]["rep:userId"] == userid){
 				return true;
 			}
 		}
@@ -164,17 +164,15 @@ sakai.site_add_members = function() {
         }
         if (people.results.length > 0) {
             for (var i = 0; i < people.results.length; i++) {
-				if(typeof people.results[i].content === "string"){
-					people.results[i].content = $.evalJSON(people.results[i].content);
-					if(typeof people.results[i].content.picture !== "undefined"){
-						people.results[i].content.picture = people.results[i].content.picture;
-					}
-                people.results[i].userid = people.results[i].path.split("/")[4];
+				if (typeof people.results[i].picture !== "undefined" && typeof people.results[i].picture == "string") {
+					people.results[i].picture = $.evalJSON(people.results[i].picture);
+				} else {
+					people.results[i].picture = {};
 				}
-                
+                people.results[i].userid = people.results[i]["rep:userId"];
 				people.results[i].isMember = checkIfUserIDExists(people.results[i].userid);
             }
-            $("#siteManage_people").html($.Template.render("siteManage_people_template", people));
+			$("#siteManage_people").html($.Template.render("siteManage_people_template", people));
             updateSelectedPersons();
 
             $(".siteManage_person").bind("click",
@@ -216,13 +214,13 @@ sakai.site_add_members = function() {
 		var peoplesearchterm = arrSearchTerms.join(" OR ");
         $.ajax({
             cache: false,
-            url: "/rest/search?&path=/_private&q=" + peoplesearchterm + "&s=sakai:firstName&s=sakai:lastName&n=" + pageSize + "&p=" + (page - 1) + "&mimetype=text/plain",
+            url: "/var/search/users?username=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
             success: function(data) {
                 json.foundPeople = $.evalJSON(data);
                 renderPeople(json.foundPeople);
 				updateSelectedPersons();
 				selectCorrectPeople();
-				$(".jq_pager").pager({ pagenumber: page, pagecount: Math.ceil( json.foundPeople.size/pageSize), buttonClickCallback: function(pageclickednumber){
+				$(".jq_pager").pager({ pagenumber: page, pagecount: Math.ceil( json.foundPeople.total/pageSize), buttonClickCallback: function(pageclickednumber){
 					searchPeople(searchterm, parseInt(pageclickednumber, 10), splitChar);
 				} });
             },
@@ -292,7 +290,7 @@ sakai.site_add_members = function() {
  	var getSiteMembers = function() {
         $.ajax({
             cache: false,
-            url: "/_rest/site/members/list/" + selectedSite,
+            url: "/" + selectedSite + ".members.json",
             success: function(data) {
                 json.members = $.evalJSON(data);
 				 var arrPeople = [];
@@ -320,9 +318,9 @@ sakai.site_add_members = function() {
 	
 	var updateSiteMembers = function(addedMembers){
 		for(var i = 0 ; i < addedMembers.uuserid.length ; i++){
-			json.members.results.push({"userid" : addedMembers.uuserid[i]});
+			json.members.push({"rep:userId" : addedMembers.uuserid[i]});
 		}
-		$("#manage_members_count").html(getNumMembers(json.members.results));
+		$("#manage_members_count").html(getNumMembers(json.members));
 		renderPeople(json.foundPeople);
 	};
 	
@@ -333,18 +331,38 @@ sakai.site_add_members = function() {
 		if(typeof json.foundPeople !== "undefined"){
 			var dataTemp = getPostData(false);
         	if (dataTemp.uuserid.length > 0) {
-            $.ajax({
-                url: "/_rest/site/members/add/" + selectedSite,
-                type: "POST",
-                data: dataTemp,
-                success: function(data) {
-                    updateSiteMembers(dataTemp);
-                    selectNone();
-                },
-                error: function(data) {
-                    alert(data);
-                }
-            });
+				
+				var done = 0;
+				var toDo = dataTemp.uuserid.length;
+				var group = "collaborators";
+				if (dataTemp.membertoken == "Viewer" || dataTemp.membertoken[0] == "Viewer"){
+					group = "viewers";
+				}
+				
+				for (var i = 0; i < dataTemp.uuserid.length; i++){
+					var userid = "../../user/" + dataTemp.uuserid[i];
+					$.ajax({
+						url: "/system/userManager/group/g-" + selectedSite + "-" + group + ".update.html",
+						type: "POST",
+						success: function(data){
+							done++;
+							if (done === toDo) {
+								updateSiteMembers(dataTemp);
+								selectNone();
+							}
+						},
+						error: function(status){
+							done++;
+							if (done === toDo) {
+								alert(data);
+							}
+						},
+						data: {
+							":member": userid
+						}
+					});
+				}
+			
         	}
 		}
         

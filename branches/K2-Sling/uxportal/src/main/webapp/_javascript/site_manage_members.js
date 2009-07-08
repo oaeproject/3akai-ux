@@ -62,7 +62,7 @@ sakai.site_manage_members = function() {
      */
     var fillBasicSiteSettings = function(siteid) {
         $.ajax({
-            url: "/_rest/site/get/" + siteid,
+            url: "/" + siteid + ".json",
 			cache: false,
             success: function(response) {
                 var json = $.evalJSON(response);
@@ -83,7 +83,7 @@ sakai.site_manage_members = function() {
 	 */
    var getSelectedIndex = function(person){
 		for(var i = 0; i < selectedPeople.length ; i++){
-			if(selectedPeople[i].userid === person.userid){
+			if(selectedPeople[i]["rep:userId"] === person["rep:userId"]){
 				return i;
 			}
 		}
@@ -95,10 +95,11 @@ sakai.site_manage_members = function() {
 	 * @param {Object} person
 	 */
 	var unselectCorrectPerson = function(person){
-		for (var j = 0; j < json.members.users.length; j++) {
-			if( json.members.users[j].userid === person.userid){
-				json.members.users[j].selected = false;
-				$("#siteManage_person" + j).parent().attr("class", "unselected");
+		for (var j = 0; j < json.members.length; j++) {
+			if( json.members[j]["rep:userId"] === person["rep:userId"]){
+				json.members[j].selected = false;
+				$("#siteManage_person" + j).parent().removeClass("selected");
+				$("#siteManage_person" + j).parent().addClass("unselected");
 			}
 		}
 	};
@@ -107,9 +108,7 @@ sakai.site_manage_members = function() {
 	 */
     var updateSelectedPersons = function() {
         if (typeof json.members === "undefined") {
-            json.members = {
-                'users': []
-            };
+            json.members = [];
         }
         $("#selected-members-container").html($.Template.render("selected-people-template", {"selectedPeople" :selectedPeople}));
 
@@ -128,21 +127,21 @@ sakai.site_manage_members = function() {
 	 * @param {Object} isNewSelection
 	 */
     var selectPerson = function(personIndex, isNewSelection, selectAll) {
-      
-        if (typeof json.members === "undefined") {
-            json.members.users = [];
+	  	if (typeof json.members === "undefined") {
+            json.members = [];
         }
-        if (!json.members.users[personIndex].selected) {
+        if (!json.members[personIndex].selected) {
 			if(isNewSelection){
-				selectedPeople.push(json.members.users[personIndex]);
+				selectedPeople.push(json.members[personIndex]);
 			}
 			
-            json.members.users[personIndex].selected = true;
-            $("#siteManage_person" +  personIndex ).parent().attr("class", "selected");
+            json.members[personIndex].selected = true;
+			$("#siteManage_person" +  personIndex ).parent().removeClass("unselected");
+            $("#siteManage_person" +  personIndex ).parent().addClass("selected");
         }
 		else if(!selectAll){
- 			unselectCorrectPerson(json.members.users[personIndex]);
-			selectedPeople.splice(getSelectedIndex(json.members.users[personIndex]),1);
+ 			unselectCorrectPerson(json.members[personIndex]);
+			selectedPeople.splice(getSelectedIndex(json.members[personIndex]),1);
             updateSelectedPersons();
 		}
     };
@@ -168,18 +167,41 @@ sakai.site_manage_members = function() {
 	 * @param {Object} isNew : is this a new list or already updated by javascript code
 	 */
     var renderMembers = function(members, isNew) {
-		 	for (var i = 0; i < members.users.length; i++) {
-				members.users[i].userid = members.users[i].userStoragePrefix.split("/")[3];
-				if(typeof members.users[i].profile.picture !== "undefined"){
-						members.users[i].profile.picture = members.users[i].profile.picture;
+		 	for (var i = 0; i < members.length; i++) {
+				if(typeof members[i].picture !== "undefined" && $.evalJSON(members[i].picture).name){
+					members[i].picture = $.evalJSON(members[i].picture);
+				} else {
+					members[i].picture = undefined;
 				}
+				
+				var isViewer = false;
+				var isCollaborator = false;
+				
+				for (var g = 0; g < members[i]["member:groups"].length; g++){
+					if (members[i]["member:groups"][g] === "g-" + selectedSite + "-collaborators"){
+						members[i].role = "Collaborator";
+					} 
+					if (members[i]["member:groups"][g] === "g-" + selectedSite + "-viewers"){
+						members[i].role = "Viewer";
+					} 
+				}
+				
             }
-            $("#siteManage_members").html($.Template.render("siteManage_people_template", json.members));
-            $("#manage_members_count").html(getNumMembers(json.members.users));
+			var toRender = {};
+			toRender.users = members;
+			$("#siteManage_members").html($.Template.render("siteManage_people_template", toRender));
+            $("#manage_members_count").html(getNumMembers(toRender.users));
             $(".siteManage_person").bind("click",
             function(e, ui) {
                 var userindex = parseInt(e.target.parentNode.id.replace("siteManage_person", ""), 10);
-                selectPerson(userindex,true,false);
+				var isSelected = false;
+				for (var i = 0; i < selectedPeople.length; i++) {
+					if (selectedPeople[i]["rep:userId"] === json.members[userindex]["rep:userId"]){
+						isSelected = true;
+						break;
+					}
+				}
+				selectPerson(userindex,!isSelected,false);
                 updateSelectedPersons();
             });
 			
@@ -190,45 +212,20 @@ sakai.site_manage_members = function() {
 	 */
 	var selectCorrectPeople = function(){
 		for(var i =0; i< selectedPeople.length; i++){
-			for (var j = 0; j < json.members.users.length; j++) {
-				if( json.members.users[j].userid === selectedPeople[i].userid){
+			for (var j = 0; j < json.members.length; j++) {
+				if( json.members[j]["rep:userId"] === selectedPeople[i]["rep:userId"]){
 					selectPerson(j,false,false);
 				}
 			}
 		}
 	};
 	
-	var getSiteMembersData = function(searchTerm ,page,splitChar){
-		var sMembers = "";
-		var roles = [];
-		 $.each(json.members,
-	        function(i, val) {
-	            val.selected = false;
-	            sMembers += val.userid + ",";
-				roles.push(val.role);
-	       });
-		 $.ajax({
-            url: "/rest/me/" + sMembers.substring(0, sMembers.length -1),
-            success: function(data) {
-                json.members = $.evalJSON(data);
-				for(var i = 0 ; i < roles.length ; i++){
-					json.members.users[i].role = roles[i];
-				}
-               	renderMembers(json.members,true);
-				selectCorrectPeople();
-				$(".jq_pager").pager({ pagenumber: page, pagecount: Math.ceil( json.members.users.length/pageSize), buttonClickCallback: function(pageclickednumber){
-					getSiteMembers(searchTerm, parseInt(pageclickednumber, 10), splitChar);
-				} });
-				
-            },
-            error: function(status) {
-                json.members = {};
-                renderMembers(json.members,true);
-            }
-			
-        });
-		
-				
+	var doSort = function(a,b){
+		if (a["rep:userId"] > b["rep:userId"]){
+			return 1;
+		} else {
+			return -1;
+		}
 	};
 	
 	/**
@@ -255,11 +252,13 @@ sakai.site_manage_members = function() {
 		
         $.ajax({
             cache: false,
-            url: "/_rest/site/members/list/" + selectedSite + "?mimetype=text/plain"  + peoplesearchterm + "&n=" +  pageSize + "&p=" + (page - 1),
+			url: "/" + selectedSite + ".members.json",
             success: function(data) {
                 json.members = $.evalJSON(data);
 				
-                getSiteMembersData(searchTerm, page, splitChar);
+                //getSiteMembersData(searchTerm, page, splitChar);
+				 json.members.sort(doSort);
+				 renderMembers(json.members,true);
 				
             },
             error: function(status) {
@@ -281,7 +280,7 @@ sakai.site_manage_members = function() {
         var userids = [];
         var roles = [];
         for (var i = 0; i <  selectedPeople.length; i++) {
-                userids.push( selectedPeople[i].userid);
+                userids.push( selectedPeople[i]["rep:userId"]);
                 if (isRemove) {
                     roles.push(selectedPeople[i].role);
                 }
@@ -299,12 +298,12 @@ sakai.site_manage_members = function() {
 	 * @param {Object} arrItems
 	 */
     var removeItemsFromArray = function(arrItems) {
-		 if(json.members.users.length === arrItems.length){
-		 	json.members.users = [];
+		 if(json.members.length === arrItems.length){
+		 	json.members = [];
 		 }
 		 else{
 		 	for (var i = 0; i < arrItems.length; i++) {
-            	json.members.users.splice(json.members.users.indexOf(arrItems[i]), 1);
+            	json.members.splice(json.members.indexOf(arrItems[i]), 1);
         	}
 		 }
         updateSelectedPersons();
@@ -317,9 +316,9 @@ sakai.site_manage_members = function() {
 	 */
     var selectNone = function() {
       selectedPeople = [];
-        for (var i = 0; i < json.members.users.length; i++) {
-            if (json.members.users[i].selected) {
-                json.members.users[i].selected = false;
+        for (var i = 0; i < json.members.length; i++) {
+            if (json.members[i].selected) {
+                json.members[i].selected = false;
             }
         }
         $(".members-container li").attr("class", "unselected");
@@ -331,50 +330,144 @@ sakai.site_manage_members = function() {
 	 * removes all selected members
 	 */
     var deleteSelectedMembers = function() {
-        var data = getPostData(true);
-        if (data.uuserid.length > 0) {
-            $.ajax({
-                url: "/_rest/site/members/remove/" + selectedSite,
-                type: "POST",
-                data: data,
-                success: function(data) {
-                    var arrItemsToRemove = [];
-                    for (var i = 0; i < json.members.users.length; i++) {
-                        if (json.members.users[i].selected === true) {
-                            arrItemsToRemove.push(json.members.users[i]);
-                        }
-                    }
-                    removeItemsFromArray(arrItemsToRemove);
-					
-                },
-                error: function(data) {
-                    alert(data);
-                }
-            });
-        }
+        var dataTemp = getPostData(true);
+		if (dataTemp.uuserid.length > 0) {
+			
+			var done = 0;
+			var toDo = dataTemp.uuserid.length;
+				
+			for (var i = 0; i < dataTemp.uuserid.length; i++){
+				var userid = "../../user/" + dataTemp.uuserid[i];
+				var group = false;
+				for (var u = 0; u < json.members.length; u++){
+					if (json.members[u]["rep:userId"] == dataTemp.uuserid[i]){
+						if (json.members[u].role == "Viewer"){
+							group = "g-" + selectedSite + "-viewers";
+						} else if (json.members[u].role == "Collaborator"){
+							group = "g-" + selectedSite + "-collaborators";
+						}
+					}
+				}
+				$.ajax({
+					url: "/system/userManager/group/" + group + ".update.html",
+					type: "POST",
+					success: function(data){
+						done++;
+						if (done === toDo) {
+							var arrItemsToRemove = [];
+		                    for (var m = 0; m < json.members.length; m++) {
+		                        if (json.members[m].selected === true) {
+		                            arrItemsToRemove.push(json.members[m]);
+		                        }
+		                    }
+		                    removeItemsFromArray(arrItemsToRemove);	
+						}
+					},
+					error: function(status){
+						done++;
+						if (done === toDo) {
+							alert(data);
+						}
+					},
+					data: {
+						":member@Delete": userid
+					}
+				});
+			}
+			
+		}
 
     };
-
+	
+	var updateToDo = 0;
+	var updateDone = 0;
+	
 	/**
 	 * add/update all selected people to the site
 	 */
-    var addSelectedPeopleToSite = function() {
-        var data = getPostData(false);
-        if (data.uuserid.length > 0) {
-            $.ajax({
-                url: "/_rest/site/members/add/" + selectedSite,
-                type: "POST",
-                data: data,
-                success: function(data) {
-                    getSiteMembers(null, 1,"");
-                    selectNone();
-                },
-                error: function(data) {
-                    alert(data);
-                }
-            });
-        }
-    };
+	var addSelectedPeopleToSite = function(){
+		
+		updateToDo = 0;
+		updateDone = 0;
+		var dataTemp = getPostData(false);
+		var group = "collaborators";
+		var othergroup = "viewers";
+		if (dataTemp.membertoken == "Viewer" || dataTemp.membertoken[0] == "Viewer"){
+			group = "viewers";
+			othergroup = "collaborators";
+		}
+		var toProcess = [];
+		for (var i = 0; i < dataTemp.uuserid.length; i++){
+			for (var m = 0; m < json.members.length; m++){
+				if (dataTemp.uuserid[i] === json.members[m]["rep:userId"]){
+					if (json.members[m].role == "Viewer" && group == "collaborators"){
+						toProcess.push(dataTemp.uuserid[i]);
+					}
+					if (json.members[m].role == "Collaborator" && group == "viewers"){
+						toProcess.push(dataTemp.uuserid[i]);
+					}
+				}
+			}
+		}
+		
+		if (toProcess.length === 0){
+			
+			getSiteMembers(null, 1, "");
+			selectNone();
+			
+		} else {
+		
+			updateToDo = toProcess.length;
+			updateDone = 0;
+			
+			for (var i = 0; i < toProcess.length; i++) {
+				
+				var userid = "../../user/" + toProcess[i];
+				doIndividualUpdate(userid, group, othergroup);
+				
+			}
+			
+		}
+
+	};
+	
+	var doIndividualUpdate = function(userid, group, othergroup){
+		$.ajax({
+			url: "/system/userManager/group/g-" + selectedSite + "-" + othergroup + ".update.html",
+			type: "POST",
+			success: function(data){
+				$.ajax({
+					url: "/system/userManager/group/g-" + selectedSite + "-" + group + ".update.html",
+					type: "POST",
+					success: function(data){
+						updateDone++;
+						if (updateDone === updateToDo) {
+							getSiteMembers(null, 1, "");
+							selectNone();
+						}
+					},
+					error: function(status){
+						updateDone++;
+						if (updateDone === updateToDo) {
+							alert(data);
+						}
+					},
+					data: {
+						":member": userid
+					}
+				});
+			},
+			error: function(status){
+				updateDone++;
+				if (updateDone === updateToDo) {
+					alert(data);
+				}
+			},
+			data: {
+				":member@Delete": userid
+			}
+		});
+	};
 
     $("#txt_member_search").bind("focus",
     function(e, ui) {
@@ -398,7 +491,7 @@ sakai.site_manage_members = function() {
     });
     $("#btn_members_selectAll").bind("click",
     function(e, ui) {
-        for (var i = 0; i < json.members.users.length; i++) {
+        for (var i = 0; i < json.members.length; i++) {
             selectPerson(i,true,true);
         }
         updateSelectedPersons();

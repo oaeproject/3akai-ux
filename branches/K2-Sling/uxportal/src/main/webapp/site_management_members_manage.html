@@ -119,10 +119,10 @@
 					{for i in selectedPeople}
 					
 						<tr>
-							{if (typeof i.profile !== "undefined")}
-							<th>${i.profile.firstName} ${i.profile.lastName}</th>
+							{if (typeof i.lastName !== "undefined")}
+							<th>${i.firstName} ${i.lastName}</th>
 							{else}
-							<th>${i.userid}</th>
+							<th>${i['rep:userId']}</th>
 							{/if}
 							<td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}">X</a></td>
 						</tr>
@@ -157,17 +157,17 @@
 					{for i in users}
 						<li class="unselected">
 							<a href="javascript:;" class="siteManage_person" id="siteManage_person${users.indexOf(i)}">
-							{if typeof i.profile.picture == "undefined"}
+							{if typeof i.picture == "undefined"}
 							<img src="_images/member.png" />
 							{else}
-							<img src="../../webdav/_private${i.userStoragePrefix}${i.profile.picture.name}" />
+							<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" />
 							{/if}
 							</a>
 							
-							{if (typeof i.profile !== "undefined")}
-							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.profile.firstName} ${i.profile.lastName}</a><div class="member-title"></div>
+							{if (typeof i.firstName !== "undefined")}
+							<a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
 							{else}
-							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.userid}</a><div class="member-title"></div>
+							<a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label">${i['rep:userId']}</a><div class="member-title"></div>
 							{/if}
 							<span class="siteManage_person_roleView">${i.role}</span>
 						</li>

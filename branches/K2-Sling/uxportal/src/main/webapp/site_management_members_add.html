@@ -112,8 +112,8 @@
 					{for i in selectedPeople}
 					
 						<tr>
-							{if (typeof i.content !== "undefined")}
-							<th>${i.content.firstName} ${i.content.lastName}</th>
+							{if (typeof i.lastName !== "undefined")}
+							<th>${i.firstName} ${i.lastName}</th>
 							{else}
 							<th>${i.userid}</th>
 							{/if}
@@ -152,22 +152,22 @@
 					{for i in results}
 						<li class="unselected">
 							{if (i.isMember)}
-							{if typeof i.content.picture == "undefined"}
+							{if typeof i.picture.name == "undefined"}
 							<img src="_images/member.png" style="opacity:0.6;" />
 							{else}
-							<img src="../../webdav${i.path.replace("profile.json","")}${i.content.picture.name}" style="opacity:0.6;" />
+							<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" style="opacity:0.6;" />
 							{/if}
-							<a href="profile.html?user=${i.userid}" style="opacity:0.6" target="_blank" class="sitemember-label">${i.content.firstName} ${i.content.lastName}</a><div class="member-title"></div>
+							<a href="profile.html?user=${i.userid}" style="opacity:0.6" target="_blank" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
 							{else}
 							<a href="javascript:;" class="siteManage_person" id="siteManage_person${results.indexOf(i)}">
-							{if typeof i.content.picture == "undefined"}
+							{if typeof i.picture.name == "undefined"}
 							<img src="_images/member.png"  />
 							{else}
-							<img src="../../webdav${i.path.replace("profile.json","")}${i.content.picture.name}" />
+							<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" />
 							{/if}
 							</a>
 							
-							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.content.firstName} ${i.content.lastName}</a><div class="member-title"></div>
+							<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
 							{/if}
 						</li>
 					{/for}
