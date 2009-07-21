@@ -307,8 +307,8 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
 			type: "POST",
 			success: function(data){
-				addGroupsToSite(siteid);
-				//addUserToCollaborators(siteid);
+				//addGroupsToSite(siteid);
+				addUserToCollaborators(siteid);
 			},
 			error: function(status){
 				addGroupsToSite(siteid);
