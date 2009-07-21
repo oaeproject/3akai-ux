@@ -806,8 +806,33 @@ sakai.profile = function(){
 				type: "POST",
 			    success: function(data){
 					
-					$('#add_to_contacts_dialog').jqmHide();
-					$("#add_to_contacts_button").hide();
+					//var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
+						var toSend = {
+							//"sling:resourceType": "sakai/message",
+							"sakai:type": "internal",
+							"sakai:sendstate": "pending",
+							"sakai:messagebox": "outbox",
+							"sakai:to": user,
+							"sakai:from": sdata.me.user.userid,
+							"sakai:subject": title,
+							"sakai:body":message,
+							"sakai:category":"invitation"
+						};
+						
+						$.ajax({
+							url: "/_user/message.create.html",
+							type: "POST",
+							success: function(data){
+								$('#add_to_contacts_dialog').jqmHide();
+								$("#add_to_contacts_button").hide();
+							},
+							error: function(status){
+								alert("An error has occured whilst sending the messages");
+							},
+							data: toSend
+						});
+					
+					
 					
 				},
 				error: function(status){
