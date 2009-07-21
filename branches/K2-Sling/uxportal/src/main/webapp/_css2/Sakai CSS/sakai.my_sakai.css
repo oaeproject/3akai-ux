@@ -49,7 +49,7 @@ strong {color: #000;}
 .options a {font-size: .9em; color: #454A4F; font-weight: bold;}
 
 /* CONTENT */
-.widget-content .fixed-container {background-color: #fff;}
+.widget-content .fixed-container {background-color: #fff; padding-bottom: 20px;}
 
 /* GENERAL WIDGET CSS */
 .fl-widget {margin-bottom: 10px;}

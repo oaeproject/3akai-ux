@@ -146,6 +146,7 @@
 	background-color: #EEF2F5;
 	padding: 10px;
 	margin: 0;
+	display: none;
 }
 .search_result_title {
 	text-align: left;
@@ -228,6 +229,7 @@
 	font-weight: bold;
 	font-size: 1em;
 	margin-left: 70px;
+	margin-top: 10px;
 }
 
 .search_result_person_dept {
@@ -296,3 +298,5 @@
 	padding:0em !important;
 }
 .site_heading { border-bottom:none; }
+
+.search_no_results {padding:10px;}

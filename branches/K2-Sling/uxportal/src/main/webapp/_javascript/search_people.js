@@ -214,6 +214,7 @@ sakai.search = function() {
 		foundPeople = finaljson.items;
 		//	Render the results.
 		$(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+		$("#search_results_page1").show();
 	};
 	
 	
