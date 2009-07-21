@@ -1,0 +1,46 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/myprofile/css/myprofile.css" />
+
+<div class="my_profile_widget">                  
+	<div class="fl-widget-content">                    
+		<div class="profile" style="margin-left:10px;">
+			<img alt="Profile photo" src="/dev/_images2/person_icon.jpg" id="myprofile_pic" class="myprofile_picture" />
+			<a href="javascript:;" id="myprofile_name" class="myprofile_name"></a>
+			<a href="javascript:;" id="myprofile_dept" class="myprofile_dept"></a>
+
+			<div id="profile_chat_status" style="position:relative;">
+				<p class="profile_chat_status_dropdown_link">
+						<span>Chat Status: </span>
+						<!-- THESE ARE FOR THE STATUS A USER HAS RIGHT NOW -->
+						<a href="#" id="myprofile_chat_status_online" style="display:none" class="myprofile_chat_status">Available</a>
+						<a href="#" id="myprofile_chat_status_busy" style="display:none" class="myprofile_chat_status">Busy</a>
+						<a href="#" id="myprofile_chat_status_offline" style="display:none" class="myprofile_chat_status">Offline</a>
+				</p>
+				<a href="#" class="fl-icon myprofile_chat_status_dropdown myprofile_chat_status_dropdown_link"></a>
+				<div id="myprofile_status" style="display:none">
+					<!-- THIS IS THE DROP DOWN LIST -->
+					<ul>
+			            <li><a id="user_link_chat_status_online" class="myprofile_chat_status_picker" href="javascript:;">Available</a></li>
+			            <li><a id="user_link_chat_status_busy" class="myprofile_chat_status_picker" href="javascript:;">Busy</a></li>
+						<li><a id="user_link_chat_status_offline" class="myprofile_chat_status_picker" href="javascript:;">Offline</a></li>
+			        </ul>
+				</div>
+			</div>
+			
+			<!-- MAKE SURE THAT THERE FLOATS NO CONTENT BEHIND THIS -->
+			<br class="myprofile_clear" />
+		</div>
+	</div>
+	<div class="fl-widget-options fl-fix">
+		<div class="widget-options-inner">
+			<ul>
+				<li><a href="profile_edit.html">Edit Profile</a></li>
+				<li><span class="pipe_divider">|</span></li>
+				<li><a href="profile.html">Preview Profile</a></li>
+			</ul>
+		</div>
+	</div>  
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/myprofile/javascript/myprofile.js"></script>
