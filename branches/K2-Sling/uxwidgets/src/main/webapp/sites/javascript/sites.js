@@ -72,13 +72,10 @@ sakai.sites = function(tuid,placement,showSettings){
 	 * @param {Object} newjson
 	 */
 	var doRender = function(newjson){
-		//for (var i = 0; i < newjson.entry.length; i++){
-		//	newjson.entry[i].location = newjson.entry[i].location.substring(1);
-		//}
 		
 		// If the user is not registered for any sites, show the no sites error.
 		if (newjson.entry.length === 0){
-			$(sitesList, rootel).html($(sitesErrorNoSites).text());
+			$(sitesList, rootel).html($(sitesErrorNoSites).html());
 		} 
 		else {
 			// Sort the sites by their name
