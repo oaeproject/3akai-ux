@@ -1,56 +1,119 @@
+
+/** USER INFO HEADER **/
+
+
+/** ADD BUTTONS */
+.profile .popup_field_trigger
+{ cursor: pointer; background:transparent url(/dev/_images2/add-icon-profile.png) no-repeat; height: 14px; line-height: 14px; padding: 0px 0px 0px 20px;  float: right; font-weight: bold !important; font-size: 12px !important; color: #006e96; }
+
+/** BUTTONS **/
+.profile .lightgrey_button
+{ background:transparent url(../../_images2/lightgray_button_left.gif) no-repeat scroll left top; float: left; margin: 0 0 0 120px; position:relative; top: -62px; }
+
+.profile .lightgrey_button .button
+{ background:transparent url(../../_images2/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 3px 0; }
+
+
+
+
+/** INLINE EDIT **/
+
+/* Entry - default state */
+.profile .text
+{ width: 250px; min-height: 16px; border: 1px solid #d5dbdf; padding: 2px 2px 2px 5px; position: relative; bottom: 3px; }
+
+/* Entry - on mouse over */
+.profile .inlineEdit-invitation
+{ background-color: #dceffd !important; border: 1px solid #454a4f !important; cursor: pointer; }
+
+/* Entry - on click (in edit mode) */
+.profile .edit
+{ position: relative; bottom: 3px; border: 3px solid #333333; padding: 1px 1px 1px 2px; }
+
+/* Edit containers */
+.profile .inlineEditable
+{ cursor: default; width: 250px; }
+
+.profile .inlineEditableAlt
+{ cursor: default; width: 250px; }
+
+/* Dropdown entry - default state */
+.profile .dropdown
+{ width: 250px; min-height: 16px; padding: 2px 2px 2px 5px !important; height: auto !important; background-color: #fff !important; border: 1px solid #d5dbdf !important; position: relative; bottom: 3px; }
+
+/* Dropdown entry - in edit mode select element */
+.profile .editContainer
+{ display: none; }
+
+.profile .options
+{ padding: 0px; text-align:left !important; width: 250px; }
+
+/* Multiline fields */
+.profile .multifield_over {
+    background-color: #dceffd;
+    border: 1px solid #454a4f !important;
+    cursor: pointer;
+}
+
+.profile .multifield_out {
+    background-color: #FFFFFF;
+    border: 1px solid #fff !important;
+    cursor: default;
+}
+
+
+
+/** *CENTERED */
+.centertd
+{ vertical-align: middle; }
+
+
+/* DIALOG */
+
+.dialog td
+{ border: none !important; padding: 0px 0px 5px 10px !important; }
+
+.dialog_content select
+{ margin:0pt !important; }
+
+.dialog
+{ position: fixed !important; top: 50px !important; }
+
+.overlay-lightbox-fixed
+{ display: block; height: 1000px; left: 0%; position: fixed; top: 0%; width: 100%; z-index: 2001; }
+
+
+
+/**
+
+This is for IE:
+.fl-tabs li a {
+	position:relative;
+	bottom:1px !important;
+	#bottom:0px !important; 
+}
+
+Removed:
 .field {
     padding: 2px;
     height: 20px;
     display: none;
     height: 16px;
-} .fieldtitle {
+    width: 250px;
+}
+
+.fieldtitle {
     color: #808080;
     width: 125px;
     vertical-align: top;
     height: 20px;
-} .inlineEdit-invitation {
-    top: 0px;
-    width: 250px;
-} .inlineEditable {
-    cursor: default;
-    width: 250px;
-} .text {
-    width: 250px;
-    min-height: 16px;
-	border: 1px dotted #FFFFFF;
-} .dropdown {
-    width: 250px;
-    min-height: 16px;
-    padding: 0px !important;
-	height: auto !important;
-    background-color: #FFFFFF !important;
-	border: 1px dotted #FFFFFF !important;
-} .editContainer {
-    display: none;
-} .overlay-lightbox-fixed {
-    display: block;
-    height: 1000px;
-    left: 0%;
-    position: fixed;
-    top: 0%;
-    width: 100%;
-    z-index: 2001;
-} .multifield_over {
-    background-color: #EEEEEE;
-    border: 1px dotted #AAAAAA;
-} .multifield_out {
-    background-color: #FFFFFF;
-    border: 1px dotted #FFFFFF;
-} .greydotted {
-    background: transparent url(/dev/img/greydotted.gif) repeat-x scroll 0pt;
-    height: 10px;
 }
 
 td {
     vertical-align: top;
-} .centertd {
-    vertical-align: middle;
-} .refreshDiv {
+}
+
+.refreshDiv {
     color: #FF0000;
     position: absolute;
     left: 0px;
@@ -61,43 +124,7 @@ td {
     opacity: 0.01;
     -moz-opacity: 0.01;
     display: none;
-    filter: alpha( opacity = 60);
-} .options {
-    padding: 0px;
-	text-align:left !important;
-} .inlineEdit-invitation {
-    background-color: #EEEEEE !important;
-    border: 1px dotted #CCCCCC !important;
-}
+    filter: alpha(opacity = 60);
+    }
 
-.popup_field_trigger {
-	position: relative;
-	top: -15px;
-	cursor:pointer; 
-	cursor:hand; 
-	background:transparent url(/dev/_images2/add-icon-profile.png) no-repeat; 
-	background-position: 0px 2px; 
-	padding: 0px 0px 2px 15px; 
-	float: right;
-	font-weight: normal !important;
-	font-size: 12px !important;	
-}
-
-.dialog td {
-	border: none !important;
-	padding: 0px 0px 5px 10px !important;
-}
-
-.dialog_content select {
-	margin:0pt !important;
-}
-
-.dialog {
-	position: fixed !important;
-	top: 50px !important;
-}
-.fl-tabs li a {
-	position:relative;
-	bottom:1px !important;
-	#bottom:0px !important; /* override for Microsoft Internet Explorer browsers*/
-}
+**/

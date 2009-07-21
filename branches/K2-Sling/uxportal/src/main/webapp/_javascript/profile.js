@@ -123,10 +123,8 @@ sakai.profile = function(){
 			});
 		}
 		else if (!showEdit) {
-			//myprofile = false;
+			$("#profile_tabs").show();
 			$("#link_edit_profile").show();
-			//json = sdata.me.profile;
-			//fillInFields();
 			fileUrl = "/_user/public/" + sdata.me.user.userid + "/authprofile.json";
 			$.ajax({
 				url: fileUrl,
@@ -304,27 +302,6 @@ sakai.profile = function(){
 		
 		// ! Set dropdown for paper year		
 
-		if (myprofile && showEdit){
-			// filling the years into the dropdowns
-			var fields = [];
-			fields[0] = document.getElementById("new_degree_from");
-			fields[1] = document.getElementById("new_degree_until");
-			fields[2] = document.getElementById("edit_degree_from");
-			fields[3] = document.getElementById("edit_degree_until");
-			fields[4] = document.getElementById("new_job_from");
-			fields[5] = document.getElementById("new_job_until");
-			fields[6] = document.getElementById("edit_job_from");
-			fields[7] = document.getElementById("edit_job_until");
-			fields[8] = document.getElementById("new_paper_year");
-			fields[9] = document.getElementById("edit_paper_year");
-			
-			for (var i = 2015; i >= 1900; i--){
-				for (var ii = 0; ii < fields.length; ii++){
-					var option = new Option("" + i,"" + i);
-					fields[ii].options[fields[ii].options.length] = option;
-				}
-			}
-		}
    };
    
    //////////////////////////
@@ -627,6 +604,8 @@ sakai.profile = function(){
 		} else {
 			$("#additional").hide();
 		}
+		
+		alert("HERE");
 		
    };
    

@@ -16,7 +16,162 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/** CONTAINER **/ 
+.fixed-container
+{ background: #fff; }
+
+.basic_appearance .site_appereance_contents_main
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
+
+
+/** HEADING **/
+.basic_appearance .site_heading
+{ color: #454a4f; padding: 10px 0 10px 0; border: none; }
+
+.basic_appearance .site_secondary_heading
+{ color: #454a4f; padding: 10px 0 20px 0; border: none; }
+
+.basic_appearance .site_secondary_heading a
+{ background: #fff url('../../_images2/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
+
+
+/** TABS **/
+.basic_appearance .primary-tabs
+{ background: #fff url('../../_images2/site_appearance_tab_bg.gif') top left no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
+
+.basic_appearance .primary-tabs ul
+{ padding: 0; margin: 0; border-bottom: none;  }
+
+.basic_appearance .primary-tabs ul li
+{ margin: 0; padding: 0; background: transparent; border: none; display: block; float: left; }
+
+.basic_appearance .primary-tabs ul li a
+{ padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
+
+.basic_appearance .primary-tabs ul li.fl-activeTab
+{ background: #FFF url('../../_images2/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
+
+.basic_appearance .primary-tabs ul li.fl-activeTab a
+{ background: #FFF url('../../_images2/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
+
+
+/** TAB CONTENTS **/
+.basic_appearance .site_appearance_container
+{ padding: 0; margin: 0 0 20px 0; border: none; margin-top: 0; color: #454a4f; }
+
+.basic_appearance .site_appereance_contents_main
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
+
+
+.basic_appearance .content_top
+{ background: url('../../_images2/content_tr_leftalign.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+
+.basic_appearance .content_top_inner
+{ background: url('../../_images2/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+
+.basic_appearance .content_bottom
+{ background: url('../../_images2/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+.basic_appearance .content_bottom_inner
+{ background: url('../../_images2/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+
+
+/* PAGE CONTENTS */
+
+.basic_appearance .section_container
+{ padding: 0; }
+
+.basic_appearance .site_appereance_contents_main h4
+{ padding: 5px 0 10px 0; font-weight: normal; color: #5a6a7c; }
+
+
+/** Site logo **/
+.basic_appearance .site_logo
+{ padding: 0 0 20px 0; }
+
+.basic_appearance .logo-preview-container, .basic_appearance .site_appearance_logo_template
+{ display: block; height: 64px; width: 256px; border: 1px solid #d5dbdf; margin: 0 0 10px 0}
+
+.basic_appearance .change-logo
+{ margin: 10px 0 10px 0; }
+
+
+/** Site style **/
+.basic_appearance .region-container
+{ margin:0 0 10px 0; padding:0;}
+
+.basic_appearance .region-container li
+{ list-style-type: none; height: 145px; margin-right: 20px; float: left; width: 96px; }
+
+.basic_appearance .region-container .thumbnail
+{ width: 96px; height: 96px; border: 1px solid #d5dbdf; }
+
+.basic_appearance .region-container .selected .thumbnail-label span
+{ color: #454a4f; }
+
+.basic_appearance .region-container .selected .thumbnail
+{ border: 3px solid #454a4f; }
+
+.basic_appearance .region-container .thumbnail-label span
+{ color: #3399cc; font-weight: bold; font-size: 13px; display: block; margin-top: 3px; text-align: center; }
+
+
+
+/** SITE PREVIEW **/
+.basic_appearance .page_preview_iframe
+{ height: 300px; width: 500px; border: 3px solid #454a4f; }
+
+
+
+
+
+/** BUTTONS **/
+.basic_appearance .button-container
+{ padding: 20px 0 0 0; }
+
+.basic_appearance .grey_button
+{ background:transparent url(../../_images2/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
+
+.basic_appearance .grey_button .button
+{ background:transparent url(../../_images2/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; }
+
+.basic_appearance .lightgrey_button
+{ background:transparent url(../../_images2/lightgray_button_left.gif) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
+
+.basic_appearance .lightgrey_button .button
+{ background:transparent url(../../_images2/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; }
+
+
+
+
+/** FOOTER **/
+.basic_appearance .page_footer
+{ padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999; margin-top:35px; }
+
+.basic_appearance .page_footer a
+{ color: #3399cc; }
+
+.basic_appearance .sakai_logo
+{ float: left; }
+
+
+/* DIALOGS */
+.basic_appearance .dialog
+{ width:700px !important; margin-left: -350px !important;background-color: #fff !important; }
+
+.basic_appearance .dialog_footer
+{ clear: both; padding-left: 0; }
+
+.basic_appearance .dialog_footer .button-default
+{ margin-right: 10px; }
+
+
+
+
  /* site_management_appearance.html*/
+ 
+ /*
 .basic_appearance h4{margin: 10px 0 10px 0;}
 .basic_appearance h3{margin:0; padding:0 0 3px 0; font-size: 16px; border-bottom: 1px solid #ebebeb;}
 .basic_appearance .fl-col-mixed-400 .fl-col-fixed-400{width: 350px; margin: 0 0 0 50px; padding:0;}
@@ -68,3 +223,5 @@
 .basic_appearance iframe {width: 520px;}
 
 .imgareaselect-outer, .imgareaselect-border2, .imgareaselect-selection {z-index:10000 !important;}
+
+ */
