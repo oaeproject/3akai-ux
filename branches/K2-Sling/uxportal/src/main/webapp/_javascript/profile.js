@@ -244,7 +244,7 @@ sakai.profile = function(){
 				$("#birthday").hide();
 			}
 			
-			if (basic.unirole){
+			if (basic.unirole && basic.unirole.replace(/ /g,"")){
 				inbasic++;
 				$("#unirole").show();
 				str = basic.unirole;
@@ -604,8 +604,6 @@ sakai.profile = function(){
 		} else {
 			$("#additional").hide();
 		}
-		
-		alert("HERE");
 		
    };
    

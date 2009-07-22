@@ -187,7 +187,8 @@ sakai.site_appearance = function() {
 		$("iframe").attr("src", "/dev/_skins/" + appearance.style.id + "/" + appearance.style.id + "_preview.html");
 		
 		// Auto resize the iframe
-		resizeIframes();
+		//resizeIframes();
+		$(".page_preview_iframe").css("height","497px");
 	};
 	
 	/**

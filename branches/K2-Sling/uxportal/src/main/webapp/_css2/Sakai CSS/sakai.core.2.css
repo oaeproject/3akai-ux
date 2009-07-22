@@ -260,7 +260,11 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav_selected_arrow {width: 9px; height: 5px; position: relative; bottom: -11px;}*/
 .explore_nav_selected_arrow {
 		margin: 12px 0 0 5px;
-	}	
+		display: none;
+	}
+.explore_nav_selected {
+	background-color: #878A8C;
+}
 /* HEADER */
 .header { padding: 12px 0 0 0; }
 .header .fixed-container { background: #fff url('../../_images2/header_l.png') top left no-repeat; }
