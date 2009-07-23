@@ -754,6 +754,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .sakai-footer .fixed-container {
 	color: #fff;
 	background: url('../../_images2/footer.png') center bottom no-repeat;
+	margin-bottom: 45px;
 	width: 926px;
 	padding: 17px 23px 0 23px;
 	height: 48px;
