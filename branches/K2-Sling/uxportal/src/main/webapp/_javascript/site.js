@@ -56,11 +56,11 @@ sakai.site = function(){
 	
 	// URLs
 	sakai.site.urls = {
-		CURRENT_SITE_ROOT: function() { return Config.URL.SDATA_FETCH + "/" + sakai.site.currentsite.id + "/"; },
+		CURRENT_SITE_ROOT: function() { return Config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/"; },
 		CURRENT_SITE_PAGES: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")); },
 		WEBPAGE_CONTENT: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/content"; },
 		WEBPAGE_CONTENT_AUTOSAVE_FULL: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/_content"; },
-		CURRENT_SITE_OBJECT : function() { return Config.URL.SITE_GET_SERVICE + "/" + sakai.site.currentsite; },
+		CURRENT_SITE_OBJECT : function() { return Config.URL.SITE_GET_SERVICE + "/sites/" + sakai.site.currentsite; },
 		PAGE_CONFIGURATION: function() { return Config.URL.SITE_PAGECONFIGURATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
 		SITE_NAVIGATION: function() { return Config.URL.SITE_NAVIGATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
 		SITE_NAVIGATION_CONTENT : function() { return Config.URL.SITE_NAVIGATION_CONTENT.replace(/__SITEID__/, sakai.site.currentsite.id); },
@@ -68,7 +68,7 @@ sakai.site = function(){
 		PRINT_PAGE: function() { Config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
 		SITE_URL: function() { return Config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
 		PAGE_CONFIGURATION_PREFERENCE: function() { return Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); },
-		SELECTED_PAGE_STATE : function() { return Config.URL.SDATA_FETCH + "/" + sakai.site.currentsite.id + "/pages/" + sakai.site.selectedpage + "/state"; }
+		SELECTED_PAGE_STATE : function() { return Config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/pages/" + sakai.site.selectedpage + "/state"; }
 	};
 	
 	
@@ -195,7 +195,7 @@ sakai.site = function(){
 		sakai.site.currentsite = siteid.split(".")[0];
 		$.ajax({
 			//url: sakai.site.urls.CURRENT_SITE_OBJECT(),
-			url: "/" + sakai.site.currentsite + ".json",
+			url: "/sites/" + sakai.site.currentsite + ".json",
 			cache: false,
 			async: false,
 			success: function(response){

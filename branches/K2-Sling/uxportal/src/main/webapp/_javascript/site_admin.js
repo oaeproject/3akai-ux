@@ -376,9 +376,6 @@ sakai.site.site_admin = function(){
 			}
 			sakai.site.pages.items.splice(index,1);
 			
-			
-			console.log("to be saved: "+$.toJSON(sakai.site.pages));
-			
 			// Save configuration file
 			sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 	
@@ -475,7 +472,7 @@ sakai.site.site_admin = function(){
 					// Save page content
 					var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
 					var newurl = sakai.site.selectedpage.split("/").join("/_pages/");
-					sdata.widgets.WidgetPreference.save("/" + sakai.site.currentsite.id + "/_pages/" + newurl, "content", content, function(){
+					sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/_pages/" + newurl, "content", content, function(){
 							
 						// Remove old div + potential new one
 						$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
@@ -618,7 +615,7 @@ $.ajax({
 		}
 		
 		// Move page folder to this new id
-		var newfolderpath = "/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
+		var newfolderpath = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
 		var data = {
 			":operation": "move",
 			":dest": newfolderpath
@@ -686,7 +683,7 @@ $.ajax({
 				}
 		
 				// Adjust configuration file
-				sdata.widgets.WidgetPreference.save("/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+				sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 					
 					// Render the new page under the new URL
 					
@@ -1470,7 +1467,6 @@ $.ajax({
 			
 			sakai.site.newwidget_id = widgetid;
 			var id = "widget_" + widgetid + "_id" + Math.round(Math.random() * 1000000000) + "_" + sakai.site.currentsite.id + "/_widgets";
-			console.log("widget id: "+ id);
 			sakai.site.newwidget_uid = id;
 			$dialog_content.html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
 			$("#dialog_title").text(Widgets.widgets[widgetid].name);
@@ -1640,7 +1636,6 @@ $.ajax({
 		sakai.site.pages.items[index].type = "webpage";
 		
 		// Post the new configuration file
-		console.log("create new page" + sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE());
 		sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){});
 		
 		// Store page selected and old IDs
@@ -1774,7 +1769,7 @@ $.ajax({
 		$("#more_menu").hide();
 		
 		$.ajax({
-		   	url :"/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?f=vh",
+		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?f=vh",
 			cache: false,
 			success : function(data) {
 				var history = $.evalJSON(data);
@@ -1862,7 +1857,7 @@ $.ajax({
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
 		$.ajax({
-		   	url :"/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
 		    success : function(data) {
 				
 				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(data);
@@ -1871,12 +1866,12 @@ $.ajax({
 				// Save new version of this page
 				var newfolderpath = sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/");
 
-				sdata.widgets.WidgetPreference.save("/" + newfolderpath, "content", data, function(){
+				sdata.widgets.WidgetPreference.save("/sites/" + newfolderpath, "content", data, function(){
 									
 					// Check in the page
 					/*
 $.ajax({
-						url: "/" + newfolderpath + "/content?f=ci",
+						url: "/sites/" + newfolderpath + "/content?f=ci",
 						type: 'POST'
 					});
 */
@@ -2392,7 +2387,7 @@ $.ajax({
 				
 				sakai.site.pages.items.splice(index, 1);
 				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					document.location = "/" + sakai.site.currentsite.id;
+					document.location = "/sites/" + sakai.site.currentsite.id;
 				});
 				
 			},
@@ -2408,7 +2403,7 @@ $.ajax({
 				
 				sakai.site.pages.items.splice(index, 1);
 				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					document.location = "/" + sakai.site.currentsite.id;
+					document.location = "/sites/" + sakai.site.currentsite.id;
 				});
 			}
 		});
