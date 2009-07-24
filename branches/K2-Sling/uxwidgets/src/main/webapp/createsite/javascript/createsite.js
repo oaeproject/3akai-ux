@@ -168,10 +168,12 @@ sakai.createsite = function(tuid,placement,showSettings){
 		// Add the correct params send to the create site request
 		// Site type is course/project or default
 		var parameters = {
-			"sling:resourceType" : "sakai/site",
+			//"sling:resourceType" : "sakai/site",
 			"name" : sitetitle,
+			"sakai:title" : sitetitle,
 			"description" : sitedescription,
 			"id" : siteid,
+			":sitepath": "/" + siteid,
 			"sakai:site-template" : "/dev/_skins/original/original.html",
 			"status" : "online",
 			"access" : "everyone" 
@@ -183,7 +185,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 
 		//url : Config.URL.SITE_GET_SERVICE + "/" + siteid,
 		$.ajax({
-			url: "/" + siteid + ".json",
+			url: "/sites/" + siteid + ".json",
 			success : function(data) {
 				showProcess(false);
 				alert("A site with this URL already exists");
@@ -198,10 +200,33 @@ sakai.createsite = function(tuid,placement,showSettings){
 					case 404:
 						$.ajax({
 							//url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
-							url: "/" + siteid,
+							//url: "/sites/" + siteid,
+							url: "/sites.createsite.json",
 							type: "POST",
 							success: function(data){
-								createNavigation(siteid);
+								
+								$.ajax({
+									//url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
+									//url: "/sites/" + siteid,
+									url: "/sites/" + siteid,
+									type: "POST",
+									success: function(data){
+										createNavigation(siteid);
+									},
+									error: function(status){
+										alert("An error occured");
+									},
+									data: {
+										"name" : sitetitle,
+										"description" : sitedescription,
+										"id" : siteid,
+										"sakai:site-template" : "/dev/_skins/original/original.html",
+										"status" : "online",
+										"access" : "everyone"
+									}
+								});
+								
+								
 							},
 							error: function(status){
 								showProcess(false);
@@ -227,13 +252,13 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var createNavigation = function(siteid){
 		var tosave = '<h3>Navigation Menu</h3><p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><h3>Recent Activity</h3><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
-		sdata.widgets.WidgetPreference.save("/" + siteid + "/_navigation","content",tosave, function(){
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_navigation","content",tosave, function(){
 			createPageConfiguration(siteid);
 		});
 	};
 	
 	var createPageConfiguration = function(siteid){
-		sdata.widgets.WidgetPreference.save("/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
 			createPage1(siteid);
 		});
 	};
@@ -241,7 +266,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	var createPage1 = function(siteid){
 		var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
 		var tosave = '<p>Welcome to your new ' + sitetemplate + ' site!</p>';
-		sdata.widgets.WidgetPreference.save("/" + siteid + "/_pages/welcome","content",tosave, function(){
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_pages/welcome","content",tosave, function(){
 			setWidgetsPermissions(siteid);
 		});
 	};
@@ -252,9 +277,9 @@ sakai.createsite = function(tuid,placement,showSettings){
 	 * @param {String} siteid
 	 */
 	var setWidgetsPermissions = function(siteid){
-		sdata.widgets.WidgetPreference.save("/" + siteid + "/_widgets","created",'Widget settings + data', function(){
+		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_widgets","created",'Widget settings + data', function(){
 			$.ajax({
-				url: "/" + siteid + "/_widgets" + ".modifyAce.json",
+				url: "/sites/" + siteid + "/_widgets" + ".modifyAce.json",
 				type: "POST",
 				success: function(data){
 					createCollaboratorGroup(siteid);
@@ -278,6 +303,8 @@ sakai.createsite = function(tuid,placement,showSettings){
 				createViewersGroup(siteid);
 			},
 			error: function(status){
+				alert("Failed to create group!");
+				return;
 				createViewersGroup(siteid);
 			},
 			data: {
@@ -294,6 +321,8 @@ sakai.createsite = function(tuid,placement,showSettings){
 				addMeToCollaborators(siteid);
 			},
 			error: function(status){
+				alert("Failed to create group!");
+				return;
 				addMeToCollaborators(siteid);
 			},
 			data: {
@@ -322,7 +351,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var addUserToCollaborators = function(siteid){
 		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
+			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
 			type: "POST",
 			success: function(data){
 				addGroupsToSite(siteid);
@@ -338,7 +367,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var addGroupsToSite = function(siteid){
 		$.ajax({
-			url: "/" + siteid,
+			url: "/sites/" + siteid,
 			type: "POST",
 			success: function(data){
 				addSiteToCollaborators(siteid);
@@ -386,7 +415,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var setSiteACL1 = function(siteid){
 		$.ajax({
-			url: "/" + siteid + ".modifyAce.json",
+			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
 				setSiteACL2(siteid);
@@ -403,7 +432,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var setSiteACL2 = function(siteid){
 		$.ajax({
-			url: "/" + siteid + ".modifyAce.json",
+			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
 				setSiteACL3(siteid);
@@ -420,7 +449,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var setSiteACL3 = function(siteid){
 		$.ajax({
-			url: "/" + siteid + ".modifyAce.json",
+			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
 				setSiteACL4(siteid);
@@ -437,13 +466,13 @@ sakai.createsite = function(tuid,placement,showSettings){
 	
 	var setSiteACL4 = function(siteid){
 		$.ajax({
-			url: "/" + siteid + ".modifyAce.json",
+			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
-				document.location = "/" + siteid;
+				document.location = "/sites/" + siteid;
 			},
 			error: function(status){
-				document.location = "/" + siteid;
+				document.location = "/sites/" + siteid;
 			},
 			data: {
 				"principalId":"everyone",
@@ -516,7 +545,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		// Set the text of the span containing the url of the current site
 		// e.g. http://celestine.caret.local:8080/site/
-		$(createSiteNoncourseUrl).text(document.location.protocol + "//" + document.location.host + "/");
+		$(createSiteNoncourseUrl).text(document.location.protocol + "//" + document.location.host + "/sites/");
 	};
 	
 	doInit();		
