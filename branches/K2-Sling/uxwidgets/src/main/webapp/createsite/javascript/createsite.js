@@ -251,7 +251,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 	};
 	
 	var createNavigation = function(siteid){
-		var tosave = '<h3>Navigation Menu</h3><p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><h3>Recent Activity</h3><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
+		var tosave = '<p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
 		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_navigation","content",tosave, function(){
 			createPageConfiguration(siteid);
 		});

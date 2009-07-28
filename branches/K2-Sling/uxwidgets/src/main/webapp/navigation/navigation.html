@@ -7,29 +7,46 @@
 </div>
 
 <!-- OUTPUT -->
-<div id="navigation_output"></div>
+<div id="navigation_output">
+	
+	
+	
+</div>
 
 <div id="navigation_output_template" style="display:none"><!--
-	<ul>
-		{if toppage == false}
-			<li id="navigation_page_top"><a href="#${parent.id}">${parent.title}</a></li>
-		{/if}
-		{for i in pages}
-			{if i.selected}
-				<li><a id="navigation_page_selected" href="#${i.id}">${i.title}</a>
-				{if i.multiple}
-					<ul id="navigation_page_children">
-						{for l in i.pages}
-							<li><a href="#${l.id}">${l.title}</a></li>
-						{/for}
-					</ul>
+	<div class="navigation">
+		
+		<div class="nav_titlebar">
+			<img src="/dev/_images2/pages_icon.png" class="nav_titlebar_icon" alt="Navigation Title Icon" /><h3 class="nav_title">Pages</h3>
+		</div>
+		
+		<div class="nav_content">
+			<ul>
+				{if toppage == false}
+					<li id="navigation_page_top"><a href="#${parent.id}">${parent.title}</a></li>
 				{/if}
-				</li>
-			{else}
-				<li><a href="#${i.id}">${i.title}</a></li>
-			{/if}
-		{/for}
-	</ul>
+				{for i in pages}
+					{if i.selected}
+						<li><a id="navigation_page_selected" href="#${i.id}">${i.title}</a>
+						{if i.multiple}
+							<ul id="navigation_page_children">
+								{for l in i.pages}
+									<li><a class="subpage" href="#${l.id}">${l.title}</a></li>
+								{/for}
+							</ul>
+						{/if}
+						</li>
+					{else}
+						<li><a class="rootpage" href="#${i.id}">${i.title}</a></li>
+					{/if}
+				{/for}
+			</ul>
+		</div>
+		
+		<div class="nav_bottom">
+			<div class="nav_bottom_inner"></div>
+		</div>
+	</div>
 --></div>
 
 <!-- JAVASCRIPT -->

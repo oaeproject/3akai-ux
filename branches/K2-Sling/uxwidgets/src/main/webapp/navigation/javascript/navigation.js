@@ -146,6 +146,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 			jsonNavigation.parent.title = getTitle(pages, jsonNavigation.parent.id);
 		}
 		
+		
 		// Get all the pages on the current level and beneath the current page
 		// Run over all the pages
 		for(var i = 0; i < pages.items.length; i++){
