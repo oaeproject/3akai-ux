@@ -198,7 +198,7 @@
 		<table>
 			<tbody>
 				{for i in items}
-					{if i.status == "online" && i.chatstatus != "offline"}
+					{if i['sakai:status'] == "online" && i.chatstatus != "offline"}
 						<tr class="chat_available_friend">
 							<td class="chat_available_image">
 								{if i.photo}
@@ -208,7 +208,7 @@
 								{/if}
 							</td>
 							<td>
-								<span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.userid}">${i.name}</span><br />
+								<span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</span><br />
 								<span class="chat_available_statusmessage">${i.statusmessage}</span>
 							</td>
 						</tr>
