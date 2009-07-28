@@ -392,7 +392,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				addSiteToViewers(siteid);
 			},
 			data: {
-				"sakai:site": ["/" + siteid]
+				"sakai:site": ["/sites/" + siteid]
 			}
 		});
 	};
@@ -408,7 +408,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				setSiteACL1(siteid);
 			},
 			data: {
-				"sakai:site": ["/" + siteid]
+				"sakai:site": ["/sites/" + siteid]
 			}
 		});
 	};
