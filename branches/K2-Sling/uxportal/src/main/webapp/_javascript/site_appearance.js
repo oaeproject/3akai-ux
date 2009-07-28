@@ -113,14 +113,14 @@ sakai.site_appearance = function() {
 	 * @param {String} filename The name of the file (e.g.photo1.jpg)
 	 */
 	var createImagePath = function(filename){
-		return "/" + siteId + "/" + "siteicon";
+		return "/sites/" + siteId + "/" + "siteicon";
 	};
 	
 	/**
 	 * Redirect the user to the main site page
 	 */
 	var redirectToSitePage = function(){
-		document.location = "/" + siteId;
+		document.location = "/sites/" + siteId;
 	};
 	
 	/**
@@ -268,7 +268,7 @@ sakai.site_appearance = function() {
 			
 			var json = $.evalJSON(siteInformation.picture);
 			// Set the fullpath to the variable
-			json.fullName = "/" + siteId + "/200x100_siteicon";
+			json.fullName = "/sites/" + siteId + "/200x100_siteicon";
 			
 			// Render the image template
 			$.Template.render(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
@@ -280,7 +280,7 @@ sakai.site_appearance = function() {
 	 */
 	var fillData = function() {
 		$.ajax({
-			url: "/" + siteId + ".json",
+			url: "/sites/" + siteId + ".json",
 			cache: false,
 			type: "GET",
 			success: function(response) {
@@ -345,7 +345,7 @@ sakai.site_appearance = function() {
 		
 		// Update the groupdef file with the new information
 		$.ajax({
-			url: "/" + siteId,
+			url: "/sites/" + siteId,
 	    	type : "POST",
 	        data : {
 				"picture": stringtosave
@@ -370,8 +370,8 @@ sakai.site_appearance = function() {
 		
 		//	The parameters for the cropit service.
 		var tosave = {};
-		tosave.urlToCrop = "/" + siteId + "/siteicon"; 
-		tosave.urlSaveIn = "/" + siteId + "/";
+		tosave.urlToCrop = "/sites/" + siteId + "/siteicon"; 
+		tosave.urlSaveIn = "/sites/" + siteId + "/";
 		tosave.x = Math.floor(userSelection.x1 * ratio);
 		tosave.y = Math.floor(userSelection.y1 * ratio);
 		tosave.height = Math.floor(userSelection.height * ratio);
@@ -551,7 +551,7 @@ sakai.site_appearance = function() {
 		picture = false;
 
 		// Change the action of the form to the path you want to upload your picture to
-		$(siteAppearanceChangeUploadForm).attr("action", "/" + siteId);
+		$(siteAppearanceChangeUploadForm).attr("action", "/sites/" + siteId);
 
 		// Get the preferred size for the thumbnail.
 		var prefThumbWidth = parseInt($(siteAppearanceChangePictureThumbnailContainer).css('width').replace(/px/gi,''), 10);
@@ -642,7 +642,7 @@ sakai.site_appearance = function() {
 	$(siteAppearanceSave).click(function(){
 		if(appearance.style.id){			
 			$.ajax({
-				url: "/" + siteId,
+				url: "/sites/" + siteId,
 		    	type : "POST",
 		        data : {
 					"sakai:site-template":appearance.style.URL,
@@ -740,7 +740,7 @@ sakai.site_appearance = function() {
 		siteInformation.picture = stringtosave;
 		
 		$.ajax({
-			url: "/" + siteId,
+			url: "/sites/" + siteId,
 	    	type : "POST",
 	        data : {
 				"picture": stringtosave

@@ -20,7 +20,7 @@ var Config = {
 	URL : {
 		BUNDLE_ROOT : "/dev/_bundle/",
 		MY_DASHBOARD: "/dev/my_sakai.html",
-		SDATA_FETCH: "/sdata/f",
+		SDATA_FETCH: "/",
 		API_GOOGLE_CHARTS: "http://chart.apis.google.com/chart",
 		GATEWAY_URL : "/dev/index.html",
 		LOGOUT_URL : "/dev/logout.html",

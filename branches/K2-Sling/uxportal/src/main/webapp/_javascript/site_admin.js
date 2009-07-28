@@ -338,8 +338,14 @@ sakai.site.site_admin = function(){
 			url: sakai.site.urls.WEBPAGE_CONTENT_AUTOSAVE_FULL(),
 			cache: false,
 			success: function(data){
-				sakai.site.autosavecontent = data;
-				$('#autosave_dialog').jqmShow();
+				
+				if (sakai.site.pagecontents[pageid] != data){	
+					sakai.site.autosavecontent = data;
+					$('#autosave_dialog').jqmShow();
+				} else {
+					sakai.site.timeoutid = setInterval(sakai.site.doAutosave, sakai.site.autosaveinterval);
+				}
+				
 			},
 			error: function(data){	
 				sakai.site.timeoutid = setInterval(sakai.site.doAutosave, sakai.site.autosaveinterval);
@@ -443,7 +449,7 @@ sakai.site.site_admin = function(){
 		} else {
 		
 			// Other page
-		
+			
 			// Check whether there is a pagetitle
 			var newpagetitle = $("#title-input").val();
 			if (!newpagetitle.replace(/ /g,"%20")){
@@ -458,9 +464,9 @@ sakai.site.site_admin = function(){
 					oldpagetitle = sakai.site.pages.items[i].title;
 				}
 			}
-			
+		
 			// If there is a title change
-			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase()  || sakai.site.inEditView !== false){
+			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase()) { // || sakai.site.inEditView !== false) {
 				
 				// Take care of title change
 				saveEdit_RegisterTitleChange(newpagetitle);
@@ -488,12 +494,11 @@ sakai.site.site_admin = function(){
 						$("#show_view_container").show();
 						
 						// Check in the page
-						/*
-$.ajax({
-							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content?f=ci",
+						
+						$.ajax({
+							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content.save.html",
 							type: 'POST'
 						});
-*/
 									
 					}, null, "x-sakai-page");					
 					
@@ -521,12 +526,10 @@ $.ajax({
 					sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", sakai.site.pagecontents[sakai.site.selectedpage], function(){
 					
 						// Check in the page
-						/*
-$.ajax({
-							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content?f=ci",
+						$.ajax({
+							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content.save.html",
 							type: 'POST'
 						});
-*/
 					
 					}, null, "x-sakai-page");
 					
@@ -660,12 +663,10 @@ $.ajax({
 							$("#show_view_container").show();
 							
 							// Check in the page
-							/*
-$.ajax({
-								url: "/sdata/f" + newfolderpath + "/content?f=ci",
+							$.ajax({
+								url: newfolderpath + "/content.save.html",
 								type: 'POST'
 							});
-*/
 					
 						}, null, "x-sakai-page");
 					
@@ -707,12 +708,10 @@ $.ajax({
 							$("#show_view_container").show();
 							
 							// Check in the page
-							/*
-$.ajax({
-								url: "/sdata/f" + newfolderpath + "/content?f=ci",
+							$.ajax({
+								url: newfolderpath + "/content.save.html",
 								type: 'POST'
 							});
-*/
 							
 						}, null, "x-sakai-page");
 					
@@ -1869,12 +1868,10 @@ $.ajax({
 				sdata.widgets.WidgetPreference.save("/sites/" + newfolderpath, "content", data, function(){
 									
 					// Check in the page
-					/*
-$.ajax({
-						url: "/sites/" + newfolderpath + "/content?f=ci",
+					$.ajax({
+						url: newfolderpath + "/content.save.html",
 						type: 'POST'
 					});
-*/
 							
 				}, null, "x-sakai-page");
 				

@@ -159,7 +159,7 @@ sakai.site_basic_settings = function() {
      */
     var fillBasicSiteSettings = function(siteid) {
         $.ajax({
-            url: "/" + siteid + ".json",
+            url: "/sites/" + siteid + ".json",
 			cache: false,
             success: function(response) {
                 var json = $.evalJSON(response);
@@ -346,7 +346,7 @@ sakai.site_basic_settings = function() {
 	
 	var setACL = function(group, toSet){
 		$.ajax({
-			url: "/" + siteid + ".modifyAce.json",
+			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){},
 			error: function(status){},
@@ -401,7 +401,7 @@ sakai.site_basic_settings = function() {
                         
             //	Do a patch request to the profile info so that it gets updated with the new information.
             $.ajax({
-                url: "/" + siteinfo.id,
+                url: "/sites/" + siteinfo.id,
                 type: "POST",
                 data: tosend,
                 success: function(data) {
@@ -429,7 +429,7 @@ sakai.site_basic_settings = function() {
     var deleteThisSite = function() {
        	$.ajax({
        		type: "DELETE",
-            url: "/" + siteid,
+            url: "/sites/" + siteid,
             success: function(data) {
 				
 				// Delete viewer group

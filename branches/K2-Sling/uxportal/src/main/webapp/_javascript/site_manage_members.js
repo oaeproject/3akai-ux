@@ -62,7 +62,7 @@ sakai.site_manage_members = function() {
      */
     var fillBasicSiteSettings = function(siteid) {
         $.ajax({
-            url: "/" + siteid + ".json",
+            url: "/sites/" + siteid + ".json",
 			cache: false,
             success: function(response) {
                 var json = $.evalJSON(response);
@@ -252,7 +252,7 @@ sakai.site_manage_members = function() {
 		
         $.ajax({
             cache: false,
-			url: "/" + selectedSite + ".members.json",
+			url: "/sites/" + selectedSite + ".members.json",
             success: function(data) {
                 json.members = $.evalJSON(data);
 				
