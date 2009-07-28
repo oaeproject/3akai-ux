@@ -62,37 +62,8 @@ a {
 
 /********************************************/
 /* Add New Dropdown */
-.add_new_menu {
-	position:absolute; 
-	top: 124px; 
-	left: 18px; 
-	border: 1px solid #555; 
-	background-color:#eee; 
-	padding:0px;
-}
 
-.add_new_menu ul {
-	margin:0pt;
-	list-style-type:none;
-}
 
-.add_new_menu li {
-	list-style-type:none; 
-	padding: 2px 20px 2px 4px;
-}
-
-.add_new_menu li a {
-	color:#666;
-	font-size:0.95em;
-}
-
-.selected_option {
-	background-color:#555 !important;
-}
-
-.selected_option a {
-	color:#fff !important;
-}
 
 /********************************************/
 /* Context Menu */
@@ -225,7 +196,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	margin-top: .8em;
 	background: url('../../_images2/topBar_tr.png') top right no-repeat;
 	padding-right: 5px;
-	min-width: 305px;
+	min-width: 285px;
 }
 .explore_nav .personal {
 	padding: 5px 10px;
@@ -265,6 +236,19 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav_selected {
 	background-color: #878A8C;
 }
+
+#widget_chat2 {
+	position: relative;
+	width: 960px;
+	margin: 0 auto;
+}
+#widget_chat2 #user_link_menu {
+	position: absolute;
+	top: 43px;
+	right: 285;
+}
+
+
 /* HEADER */
 .header { padding: 12px 0 0 0; }
 .header .fixed-container { background: #fff url('../../_images2/header_l.png') top left no-repeat; }
@@ -398,20 +382,13 @@ body.search-container .explore_nav .explore #nav_search_link a {
 /********************************************/
 
 /* Page Specific Nav menu */
+
+
 .page_nav {
     /*border-right:1px solid #ccc;*/
 }
-.page_nav_content {
-	position: relative;
-	left: -10px;
-}
-.site_management {
-	position: relative;
-	left: -10px;
-}
-.page_nav .site_management {
-	border-top: 1px solid #ddd;
-}
+
+
 .page_nav h3 {
     margin: 0; 
     padding: 0px 0 5px 10px;
@@ -447,10 +424,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	color: #058EC4;
 }
 
-.add_a_new {
-	font-weight:bold !important;
-	margin-bottom: 15px;
-}
 
 /********************************************/
 /* Content  */
@@ -620,7 +593,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	margin:0 auto;
 }
 /* overrides for standard fl-col */
-.fl-col-mixed2 .fl-col-main { margin-left: 170px; }
+.fl-col-mixed2 .fl-col-main { margin-left: 230px; }
 .content_container .create_options .more_options .fl-col {margin:0; width:120px; overflow:hidden;}
 .content_container .create_options .more_options p {color:#999; margin-right:80px;}
 .content_container .create_options .more_options p a {color:#000;}

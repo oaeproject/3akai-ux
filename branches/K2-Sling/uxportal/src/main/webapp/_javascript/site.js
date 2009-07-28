@@ -240,7 +240,7 @@ sakai.site = function(){
 				$li_edit_page.show();
 				$add_a_new.show();
 				$site_management.show();
-				$(".page_nav h3").css("padding-top", "10px");
+				//$(".page_nav h3").css("padding-top", "10px");
 				
 				// Load admin part from a separate file
 				$.Load.requireJS(sakai.site.siteAdminJS);

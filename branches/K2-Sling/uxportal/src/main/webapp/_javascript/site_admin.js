@@ -1419,7 +1419,7 @@ $.ajax({
 		} else {
 			var x = $("#more_link").position().left;
 			var y = $("#more_link").position().top;
-			el.css({"top": y + 17 + "px", "left": x - el.width() + $("#more_link").width() + 5 + "px"}).show();
+			el.css({"top": y + 23 + "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
 		}		
 	});
 		
