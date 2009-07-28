@@ -57,7 +57,7 @@
 { padding: 0; }
 
 .profile_preview .profile_user_info .profile_user_pic
-{ padding: 0; }
+{ padding: 0; height: 110px; width: 110px; }
 
 .profile_preview .profile_user_info .profile_user_name
 { color: #454a4f; font-size: 2em; font-weight:bold; margin: 0 0 0 120px; position:relative; top: -75px; }
@@ -127,43 +127,3 @@
 
 .profile_preview .sakai_logo
 { float: left; }
-
-
-
-
-
-/*
-
-.profile_preview .site_heading { border: none; }
-.profile_preview .primary-tabs { margin-top: 36px; }
-.profile_preview .fl-tabs-right{padding-right: 26px;}
-.profile_preview .profile_container{padding: 30px 20px 20px 20px;}
-.profile_preview .profile_section{padding-bottom: 35px;}
-.profile_preview .profile_user_name{font-weight: bold; font-size: 19px; position: relative; margin-left: 88px; margin-right: 200px; top: -68px; color: #333;}
-.profile_preview .profile_user_headline{font-weight: 100; color: #999; font-size: 13px; position: relative;  margin-right: 200px; margin-left: 88px; top: -63px;}
-.profile_preview .profile_user_status{ width: 64px; height: 20px; position: relative; margin-left: 88px; top: -53px; padding: 2px 0 0 18px;}
-.profile_preview .profile_user_info{padding-left: 5px;}
-.profile_preview .profile_section_header{border-bottom: 1px solid #ebebeb; font-weight: bold; font-size: 16px; padding: 0 0 3px 5px; margin-top: -20px;}
-.profile_preview .profile_section_body{padding-top: 7px;}
-.profile_preview .profile_section th{text-align: left; font-weight: bold; font-size: 12px; width: 125px; border:0;}
-.profile_preview .profile_section td{text-align: left; font-weight: 100; font-size: 12px; border:0;}
-.profile_preview .profile_section td a{color: #2b9fcd;}
-.profile_preview .profile_user_buttons { padding-right: 10px;}
-.profile_preview .profile_user_buttons a.button { float: none;}
-.profile_preview .button.add_con_btn{width: 123px;}
-.profile_preview .button.send_msg_btn{width: 123px; margin-top: 7px;}
-
-.greydotted {border-top: 1px dotted #CCC; height:1px; position:relative; top: -7px;}
-#picture_holder img {width: 75px !important;}
-#message_dialog {width: 520px; margin-left: -260px;}
-.dialogue_box {background:#FFFFFF none repeat scroll 0 0; border:none; height:auto; left:auto; margin-left:0px; 
-			   margin-top:0px; position:relative; top:0%; width:520px; z-index:101;}
-.invalid {background-color: #FFCCCC;}
-
-.profile_available_status_online, .chat_available_status_busy, .chat_available_status_offline {
-	padding-left: 15px;
-}
-
-
-*/
-
