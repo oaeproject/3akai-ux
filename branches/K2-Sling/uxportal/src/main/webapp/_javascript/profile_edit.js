@@ -609,11 +609,6 @@ sakai.profile = function(){
 		
 		var disappear = false;
 		ui.style.height = "16px";
-		if (newvalue.replace(/ /g,"") === ""){
-			if (!inedit_basic) {
-				disappear = true;
-			}
-		}
 		
 		var value = newvalue;
 		if (ui.id == "txt_firstname"){
@@ -621,27 +616,18 @@ sakai.profile = function(){
 			key = "firstName";
 			val = value;
 			json.firstName = value;
-			if (disappear){
-				$("#firstname").hide();
-			}
 			
 		} else if (ui.id == "txt_lastname"){
 			
 			key = "lastName";
 			val = value;
 			json.lastName = value;
-			if (disappear){
-				$("#lastname").hide();
-			}
 			
 		} else if (ui.id == "txt_uniemail"){
 			
 			key = "email";
 			val = value;
 			json.email = value;
-			if (disappear){
-				$("#uniemail").hide();
-			}
 			
 		} else if (basicfields[ui.id]) {
 			
@@ -654,9 +640,6 @@ sakai.profile = function(){
 			val = $.toJSON(basic);
 			json.basic = val;
 				
-			if (disappear){
-				$("#" + basicfields[ui.id]).hide();
-			}
 				
 		} else if (aboutmefields[ui.id]) {
 			
@@ -669,10 +652,6 @@ sakai.profile = function(){
 			val = $.toJSON(aboutme);
 			json.aboutme = val;
 				
-			if (disappear){
-				$("#" + aboutmefields[ui.id]).hide();
-			}
-				
 		} else if (unicontactinfo[ui.id]) {
 			
 			var unicontactinfoToSave = {};
@@ -683,10 +662,6 @@ sakai.profile = function(){
 			key = "contactinfo";
 			val = $.toJSON(unicontactinfoToSave);
 			json.contactinfo = val;
-				
-			if (disappear){
-				$("#" + unicontactinfo[ui.id]).hide();
-			}
 				
 		} else if (homecontactinfo[ui.id]) {
 			
@@ -699,19 +674,15 @@ sakai.profile = function(){
 			val = $.toJSON(homecontactinfoToSave);
 			json.contactinfo = val;
 				
-			if (disappear){
-				$("#" + homecontactinfo[ui.id]).hide();
-			}
-				
 		}
 		
 		var tosend = {};
 		tosend[key] = val;
 		
 		$.ajax({
-        	url : fileUrl,
-        	type : "POST",
-            data : tosend,
+			url : fileUrl,
+			type : "POST",
+			data : tosend,
 			error : function(data){
 				alert("An error has occured");
 			}
