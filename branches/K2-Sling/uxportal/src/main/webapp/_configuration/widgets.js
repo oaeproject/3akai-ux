@@ -101,16 +101,6 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
-		minifeed :
-		{
-			description:"Recent activity from my contacts",
-			iframe:0,
-			url:"/devwidgets/minifeed/minifeed.html",
-			name:"Minifeed",
-			id:"minifeed",
-			personalportal:1,
-			siteportal:0
-		},
 		myprofile :
 		{
 			description:"My Personal Profile\r\n",
@@ -221,7 +211,7 @@ var Widgets = {
 			url:"/devwidgets/helloworld/helloworld.html",
 			name:"Hello World",
 			id:"helloworld",
-			personalportal:1,
+			personalportal:0,
 			siteportal:0,
 			hasSettings: 1,
 			img:"/dev/img/myprofile.png"
@@ -245,7 +235,7 @@ var Widgets = {
 			url:"/devwidgets/helloworldwow/war/Helloworldwow.html",
 			name:"Hello World GWT",
 			id:"helloworldwow",
-			personalportal:1,
+			personalportal:0,
 			siteportal:0,
 			hasSettings: 1,
 			img:"/dev/img/myprofile.png",
