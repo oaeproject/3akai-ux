@@ -221,8 +221,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 										"description" : sitedescription,
 										"id" : siteid,
 										"sakai:site-template" : "/dev/_skins/original/original.html",
-										"status" : "online",
-										"access" : "everyone"
+										"status" : "online"
 									}
 								});
 								
@@ -318,49 +317,15 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/system/userManager/group.create.html",
 			type: "POST",
 			success: function(data){
-				addMeToCollaborators(siteid);
+				addGroupsToSite(siteid);
 			},
 			error: function(status){
 				alert("Failed to create group!");
 				return;
-				addMeToCollaborators(siteid);
+				addGroupsToSite(siteid);
 			},
 			data: {
 				":name": "g-" + siteid + "-viewers"
-			}
-		});
-	};
-	
-	var addMeToCollaborators = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
-			type: "POST",
-			success: function(data){
-				//addGroupsToSite(siteid);
-				addUserToCollaborators(siteid);
-			},
-			error: function(status){
-				addGroupsToSite(siteid);
-				//addUserToCollaborators(siteid);
-			},
-			data: {
-				":member": "../../user/" + sdata.me.user.userid
-			}
-		});
-	};
-	
-	var addUserToCollaborators = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
-			type: "POST",
-			success: function(data){
-				addGroupsToSite(siteid);
-			},
-			error: function(status){
-				addGroupsToSite(siteid);
-			},
-			data: {
-				":member": "../../user/nicolaas"
 			}
 		});
 	};
@@ -402,13 +367,47 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
 			type: "POST",
 			success: function(data){
+				addMeToCollaborators(siteid);
+			},
+			error: function(status){
+				addMeToCollaborators(siteid);
+			},
+			data: {
+				"sakai:site": ["/sites/" + siteid]
+			}
+		});
+	};
+	
+	var addMeToCollaborators = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
+			type: "POST",
+			success: function(data){
+				//addGroupsToSite(siteid);
+				addUserToCollaborators(siteid);
+			},
+			error: function(status){
+				addUserToCollaborators(siteid);
+				//addUserToCollaborators(siteid);
+			},
+			data: {
+				":member": "../../user/" + sdata.me.user.userid
+			}
+		});
+	};
+	
+	var addUserToCollaborators = function(siteid){
+		$.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
+			type: "POST",
+			success: function(data){
 				setSiteACL1(siteid);
 			},
 			error: function(status){
 				setSiteACL1(siteid);
 			},
 			data: {
-				"sakai:site": ["/sites/" + siteid]
+				":member": "../../user/ian"
 			}
 		});
 	};
@@ -425,7 +424,14 @@ sakai.createsite = function(tuid,placement,showSettings){
 			},
 			data: {
 				"principalId":"g-" + siteid + "-collaborators",
-				"privilege@jcr:all":"granted"
+				//"privilege@jcr:all":"granted"
+				"privilege@jcr:read":"granted",
+				"privilege@jcr:removeChildNodes":"granted",
+				"privilege@jcr:removeNode":"granted",
+				"privilege@jcr:write":"granted",
+				"privilege@jcr:modifyProperties":"granted",
+				"privilege@jcr:addChildNodes":"granted",
+				"privilege@jcr:modifyAccessControl":"granted"
 			}
 		});
 	};
