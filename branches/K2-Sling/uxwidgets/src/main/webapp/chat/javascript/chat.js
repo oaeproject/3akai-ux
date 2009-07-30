@@ -476,24 +476,6 @@ sakai.chat = function(tuid, placement, showSettings){
 	////////////////////////////////////////////
 	
 	defaultNav = $(exploreClass).html();
-		
-	/**
-	 * Fix some rounded corner layout issues
-	 */
-	var setRoundedCorners = function(){
-		// Fix small arrow horizontal position
-		$(exploreClassNavSelectedArrow).css('right', $(exploreClassNavSelected).width() / 2 + 10);
-		
-		// Round corners for elements with '.rounded_corners' class
-		$(roundedCornersClass).corners("2px");
-		
-		// IE Fixes
-		if (($.browser.msie) && ($.browser.version < 8)) {
-		
-			// Small Arrow Fix
-			$(exploreClassNavSelectedArrow).css('bottom', '-10px');
-		}
-	};
 	
 	/**
 	 * Render the template to show on which page you are currently on.
@@ -524,9 +506,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		} else if (windowLocationPath.indexOf(Config.URL.PROFILE_URL) !== -1){
 			$(navProfileLink).html(renderSelectedPage("Profile"));
 		}
-		
-		//	Add some rounded corners to the dark "balloon tooltip"
-		setRoundedCorners();
+	
 	};
 	
 	/**
@@ -614,7 +594,6 @@ sakai.chat = function(tuid, placement, showSettings){
 			
 			$(exploreClass).html(defaultNav);
 			$(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites"));
-			setRoundedCorners();
 			if (!sitesShown) {
 				loadSites();
 				loadRecentSites();
@@ -734,7 +713,6 @@ sakai.chat = function(tuid, placement, showSettings){
 			$(peopleDropDownClose).show();
 			$(exploreClass).html(defaultNav);
 			$(navPeopleLink).html(renderSelectedPage("People"));
-			setRoundedCorners();
 			if (!peopleShown) {
 				loadPeople();
 				peopleShown = true;
