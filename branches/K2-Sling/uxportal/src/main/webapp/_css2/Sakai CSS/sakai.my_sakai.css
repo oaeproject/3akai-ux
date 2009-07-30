@@ -57,6 +57,8 @@ strong {color: #000;}
 .fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar {background: url(../../_images2/block_tr.png) top right no-repeat; padding: 0 10px 0 0;}
 .fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(../../_images2/block_tl.png) top left no-repeat; height: 50px; width: auto;}
+.fl-widget .fl-widget-bottom-right {background: url(../../_images2/block_tl_down_right.png) top right no-repeat; padding: 0 10px 0 0;}
+.fl-widget .fl-widget-bottom {background: url(../../_images2/block_tl_down.png) top left no-repeat; height: 20px; width: auto;}
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px;}
 .fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images2/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px;}
 
