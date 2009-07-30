@@ -18,7 +18,7 @@
 
 /* Twitter CSS */
 /* Main Container */
-#twitter_main_container {margin:1em;}
+#twitter_main_container {padding:10px;}
 #twitter_main_container label {padding:2px 0;margin-bottom:2px;}
 #twitter_main_container input[type=radio] {float:left;margin-top:5px;}
 .twitter_clear {clear:both;}

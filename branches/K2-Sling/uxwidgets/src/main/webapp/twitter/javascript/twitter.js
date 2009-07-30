@@ -32,20 +32,9 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 * Get the me object
 	 * @param {Boolean} refresh Refresh the me object or not
 	 */
-	var getMe = function(refresh){
-		if(refresh){
-			$.ajax({
-				url: "/rest/me",
-				cache: false,
-				success: function(data){
-				    me = $.evalJSON(data);
-					me_json = me.profile;
-				}
-			});	
-		}else{
-			me = sdata.me;
-			me_json = me.profile;	
-		}
+	var getMe = function(){
+		me = sdata.me;
+		me_json = me.profile;	
 	};
 
 	/**
@@ -103,17 +92,11 @@ sakai.twitter = function(tuid,placement,showSettings){
 			
 			data = {"basic":$.toJSON(basic)};
 			
-			a = ["u"];
-			k = ["basic"];
-			v = [$.toJSON(basic)];
-			
-			tosend = {"k":k,"v":v,"a":a};
-			
 			$.ajax({
-	        	url :"/rest/patch/f/_private" + me.userStoragePrefix + "profile.json",
-	        	type : "POST",
-	            data : tosend,
-	            success : function(data) {
+				url :"/_user/public/" + sdata.me.user.userid + "/authprofile",
+				type : "POST",
+				data : data,
+				success : function(data) {
 					setInfo("Your status has been succesfully updated.");
 					ev = {};
 					ev.value = json.status;
@@ -201,7 +184,7 @@ sakai.twitter = function(tuid,placement,showSettings){
 			var oPostData = {"method" : "GET", "url" : url_base + "statuses/user_timeline/" + json.screen_name + ".json?page=1"};
 			oPostData.url = encodeData(oPostData.url);
 	        $.ajax({
-	            url :"/proxy/proxy",
+	            url :"/system/proxy",
 	            type : "POST",
 	            success : function(data) {
 					parseTwitterStatus(data, true);
@@ -219,23 +202,25 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 */
 	var setStatusToTwitter = function(){
 		if(setScreenName(true) && setPassword()){
-			getMe(true);
 			currentBasic = me_json.basic;
-			if(me_json.basic.status && me_json.basic.status !== ""){
+			if (currentBasic){
+				currentBasic = $.evalJSON(currentBasic);
+			}
+			if(currentBasic.status){
 				dataToTwitter = "status=" + encodeURIComponent(currentBasic.status);
 				var oPostData = {"method" : "POST", "url" : url_base + "statuses/update.json", "user" : json.screen_name, "password" : json.password, "post" : dataToTwitter};
 				oPostData.url = encodeData(oPostData.url);
-		        $.ajax({
-		            url :"/proxy/proxy",
-		            type : "POST",
-		            success : function(data) {
+				$.ajax({
+					url :"/system/proxy",
+					type : "POST",
+					success : function(data) {
 						parseTwitterResponse(data, true);
-		            },
-		            error : function(status) {
-		            	parseTwitterResponse(status, false);
-		            },
-		            data : oPostData
-		        });
+					},
+					error : function(status) {
+						parseTwitterResponse(status, false);
+					},
+					data : oPostData
+				});
 			}else {
 				setError("Your sakai status is empty.");
 			}
@@ -315,7 +300,7 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 * Function that will be launched if the widget is loaded
 	 */
 	var init = function(){
-		getMe(false);
+		getMe();
 		resetValues();
 		renderTemplate("get_status");
 		addBinding("get_status");
