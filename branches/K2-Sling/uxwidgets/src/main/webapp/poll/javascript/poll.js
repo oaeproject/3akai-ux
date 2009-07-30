@@ -1194,7 +1194,8 @@ sakai.poll = function(tuid, placement, showSettings){
 		});
 		
 		// Bind the preview button
-		$(pollPreviewButton, rootel).bind("click",function(e,ui){
+		//$(pollPreviewButton, rootel).bind("click",function(e,ui){
+		$(pollPreviewInsert, rootel).bind("click",function(e,ui){
 			
 			// Check if the json object exists
 			if(json){
@@ -1207,23 +1208,23 @@ sakai.poll = function(tuid, placement, showSettings){
 				savePoll();
 				
 				// Hide the first screen (with the input fields) and show the preview mode
-				showHidePreview(true);
+				//showHidePreview(true);
 				
 				// Render the poll
-				renderPoll(true);
+				//renderPoll(true);
 				
 				// Render the preview
-				renderPreview();
+				//renderPreview();
 				
 				// Set the placeholder value to 0
 				json.poll.placeholder = 0;
 				
 				// Add binding to the insert button (on the preview screen)
-				$(pollPreviewInsert, rootel).bind("click",function(e,ui){
+				//$(pollPreviewInsert, rootel).bind("click",function(e,ui){
 					
 					// Save the posts to the database
 					savePollToDatabase(finishNewSettings, true);
-				});
+				//});
 				
 			}
 		});
