@@ -177,7 +177,7 @@ sakai.site_basic_settings = function() {
 				
                 if (isMaintainer) {                
                     // Fill in the info.
-                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host);
+                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
@@ -300,61 +300,80 @@ sakai.site_basic_settings = function() {
      * @param {String} access Who gets access to the site (public, sakaiUsers, invite)
      */
     var setStatusForSite = function(location, status, access) {
-        // Get the correct ACL for this site
+		// Get the correct ACL for this site
+		alert(access);
 		var acl = "";
-        if (status === "offline") {
-            // Only the owner gets access.
-            acl = "offline";
-        }
-        else {
-            if (access === 'public') {
-                acl = "everyone";
-            }
-            else if (access.toLowerCase() === 'sakaiusers') {
-                acl = "sakaiusers";
-            }
-            else if (access === 'invite') {
-                acl = "invite";
-            }
-        }
+		if (status === "offline") {
+			// Only the owner gets access.
+			acl = "offline";
+		} else {
+			if (access === 'everyone') {
+				acl = "everyone";
+			} else if (access.toLowerCase() === 'sakaiusers') {
+				acl = "sakaiusers";
+			} else if (access === 'invite') {
+				acl = "invite";
+			}
+		}
         
 		var viewers = "g-" + siteid + "-viewers";
 		var registered = "registered";
 		var everyone = "everyone";
 		
-        if (acl == "offline"){
-			setACL(viewers, "denied");
+		var actions = [];
+		
+	        if (acl == "offline"){
+			actions.push([viewers, "denied"]);
+			actions.push([everyone, "denied"]);
+			//setACL(viewers, "denied");
 			//setACL(registered, "denied");
-			setACL(everyone, "denied");
+			//setACL(everyone, "denied");
 		} else if (acl === "everyone"){
-			setACL(viewers, "granted");
+			actions.push([viewers, "granted"]);
+			actions.push([everyone, "granted"]);
+			//setACL(viewers, "granted");
 			//setACL(registered, "granted");
-			setACL(everyone, "granted");
+			//setACL(everyone, "granted");
 		} else if (acl === "sakaiusers"){
-			setACL(viewers, "granted");
+			actions.push([viewers, "granted"]);
+			actions.push([everyone, "denied"]);
+			//setACL(viewers, "granted");
 			//setACL(registered, "granted");
-			setACL(everyone, "denied");
+			//setACL(everyone, "denied");
 		} else if (acl === "invite"){
-			setACL(viewers, "granted");
+			actions.push([viewers, "granted"]);
+			actions.push([everyone, "denied"]);
+			//setACL(viewers, "granted");
 			//setACL(registered, "denied");
-			setACL(everyone, "denied");
+			//setACL(everyone, "denied");
 		}
 
+		setACL(actions);
 		saveSettingsDone(true);
 
-    };
+	};
 	
-	var setACL = function(group, toSet){
-		$.ajax({
-			url: "/sites/" + siteid + ".modifyAce.json",
-			type: "POST",
-			success: function(data){},
-			error: function(status){},
-			data: {
-				"principalId":group,
-				"privilege@jcr:read":toSet
-			}
-		});
+	var setACL = function(actions){
+		if (actions.length > 0){
+			var group = actions[0][0];
+			var toSet = actions[0][1];
+			$.ajax({
+				url: "/sites/" + siteid + ".modifyAce.json",
+				type: "POST",
+				success: function(data){
+					actions.splice(0,1);
+					setACL(actions);
+				},
+				error: function(status){
+					actions.splice(0,1);
+					setACL(actions);
+				},
+				data: {
+					"principalId":group,
+					"privilege@jcr:read":toSet
+				}
+			});
+		}
 	};
     
     /**
