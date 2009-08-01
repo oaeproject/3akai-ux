@@ -31,7 +31,7 @@ var Config = {
 		SEARCH_SITES_URL: "search_b_sites.html",
 		SEARCH_CONTENT_URL: "search_b_content.html",
 		SEARCH_PEOPLE_URL: "search_b_people.html",
-		PERSON_ICON_URL: "/dev/_images/person_icon.png",
+		PERSON_ICON_URL: "/dev/_images2/person_icon.jpg",
 		POLL_DROPDOWN_ICON_URL : "/devwidgets/poll/images/poll_drop_down.gif",
 		RECENT_SITES_URL: "/_user/private/recentsites.json",
 		SDATA_FETCH_BASIC_URL: "/sites/__PLACEMENT__/__TUID__",
