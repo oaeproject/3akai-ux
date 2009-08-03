@@ -711,7 +711,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 			$(peopleDropDownMain).show();
 			$(peopleDropDownClose).show();
 			$(exploreClass).html(defaultNav);
-			$(navPeopleLink).html(renderSelectedPage("People"));
+			$(navPeopleLink).html(SelectedPage("People"));
 			if (!peopleShown) {
 				loadPeople();
 				peopleShown = true;
@@ -1100,10 +1100,12 @@ sakai.chat2 = function(tuid, placement, showSettings){
 				/** Check if a friend is online or not */
 				if (json.contacts[i]["sakai:status"] === "online" && json.contacts[i].chatstatus !== "offline") {
 					total++;
-					json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
-					json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"][0]);
-					json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
 				}
+				
+				json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
+				json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"][0]);
+				json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
+			
 				saveToAllFriends(json.contacts[i]);
 			}
 		}
@@ -1347,6 +1349,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 			activewindows.special = false;
 			$(chatWindows).html($.Template.render(chatWindowsTemplate, activewindows));
 			$("#chat_windows_container").html($.Template.render("chat_windows_windows_template", activewindows));
+			
 		}
 		
 		enableDisableOnline();
@@ -1485,7 +1488,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 	 *  JSON object that contains information about the user window that
 	 *  needs to be loaded
 	 */
-	sakai.chat2.loadChatTextInitial = function(initial, specialjson){
+	sakai.chat2.loadChatTextInitial = function(initial, specialjson, hasNew){
 
 		// Check if the current user is anonymous.
 		// If this is the case, exit this function
@@ -1536,11 +1539,25 @@ sakai.chat2 = function(tuid, placement, showSettings){
 						} else {
 							user = message.userFrom["rep:userId"][0];
 						}
-						if (!njson[user]){
-							njson[user] = {};
-							njson[user].messages = [];
+						var isIncluded = true;
+						if (hasNew){
+							var isIn = false;
+							for (var l = 0; l < specialjson.items.length; l++){
+								if (specialjson.items[l].userid == user){
+									isIn = true;
+								}
+							}
+							if (!isIn){
+								isIncluded = false;
+							}
 						}
-						njson[user].messages[njson[user].messages.length] = message;
+						if (isIncluded){
+							if (!njson[user]){
+								njson[user] = {};
+								njson[user].messages = [];
+							}
+							njson[user].messages[njson[user].messages.length] = message;
+						}
 					}
 					
 					for (var i in njson) {
@@ -1658,9 +1675,19 @@ sakai.chat2 = function(tuid, placement, showSettings){
 										}
 									}
 									
+									// Extract existing windows
+									var newactivewindows = {};
+									newactivewindows.items = [];
+									for (var l = 0; l < activewindows.items.length; l++) {
+										if ($(chatWith + "_" + activewindows.items[l].userid).length == 0) {
+											newactivewindows.items[newactivewindows.items.length] = activewindows.items[l];
+										}
+									}
+									
+									
 									// Render the windows and load the initial chat text function again
-									doWindowRender(null, activewindows);
-									sakai.chat2.loadChatTextInitial(true, activewindows);
+									doWindowRender(null, newactivewindows);
+									sakai.chat2.loadChatTextInitial(true, newactivewindows, true);
 									
 								}
 								

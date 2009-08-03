@@ -475,10 +475,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
-				document.location = "/sites/" + siteid;
+				//document.location = "/sites/" + siteid;
 			},
 			error: function(status){
-				document.location = "/sites/" + siteid;
+				//document.location = "/sites/" + siteid;
 			},
 			data: {
 				"principalId":"everyone",
