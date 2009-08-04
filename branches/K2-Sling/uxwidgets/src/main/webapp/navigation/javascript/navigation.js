@@ -109,6 +109,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 	 * 	{id: "test-1/dddd", title: "dddd", type: "webpage"}
 	 * 	The page structure is defined by the id (seperated with slashes)
 	 */
+	
 	sakai._navigation.renderNavigation = function(selectedPageId, pages){
 		
 		// Check if the selected page is false or undefined
@@ -139,13 +140,9 @@ sakai.navigation = function(tuid, placement, showSettings){
 			
 			// If the level isn't 0, there is/are page(s) above the current page
 			jsonNavigation.toppage = false;
-			
-			// Get the page that is just above the current page
-			jsonNavigation.parent = {};
-			jsonNavigation.parent.id = selectedPageParentId;
-			jsonNavigation.parent.title = getTitle(pages, jsonNavigation.parent.id);
 		}
 		
+		var added_pages = {};
 		
 		// Get all the pages on the current level and beneath the current page
 		// Run over all the pages
@@ -159,52 +156,68 @@ sakai.navigation = function(tuid, placement, showSettings){
 			// Get the id for the parent page
 			var pageParentId = getParentId(pageId);
 			
-			// Check if the page level is the same as the current page and if the parent id's
-			if(pageLevel === selectedPageLevel && selectedPageParentId === pageParentId){
 				
-				// Check if the current page id is the same as the selected page id
-				if(pageId === selectedPageId){
-					
-					// If so, we set the property selected to true and get the children of that page
-					page.selected = true;
-					
-					page.multiple = false;
-					page.pages = [];
-					
-					// Get all child pages of the selected page
-					for (var k = 0; k < pages.items.length; k++) {
-						var pageChild = pages.items[k];
-						var pageChildId = pageChild.id;
+			// Check if the current page id is the same as the selected page id
+			if(pageId === selectedPageId){
+				
+				// If so, we set the property selected to true and get the children of that page
+				page.selected = true;
+				
+			} else{
+				
+				// The current page is not the selected page
+				page.selected = false;
+			}
+				
+			page.multiple = false;
+			page.pages = [];
+			
+			// Get all child pages of the selected page
+			for (var k = 0; k < pages.items.length; k++) {
+				var pageChild = pages.items[k];
+				var pageChildId = pageChild.id;
 
-						if(startsWith(pageChildId, selectedPageId + "/")){
+				if(startsWith(pageChildId, pageId + "/")){
+					
+					// We get the child level after the starts with check for
+					// performance reasons
+					var pageChildLevel = getLevel(pageChildId);
+					
+					if(pageChildLevel === pageLevel + 1){
+						
+						if (added_pages[pageChild.id] !== "x") {
+							page.pages.push(pageChild);
 							
-							// We get the child level after the starts with check for
-							// performance reasons
-							var pageChildLevel = getLevel(pageChildId);
-							
-							if(pageChildLevel === pageLevel + 1){
-								page.pages.push(pageChild);
-							
-								// Set the variable multiple to true: the selected page has child pages
-								page.multiple = true;
-							}
+							// Mark added page
+							added_pages[pageChild.id] = "x";
 						}
+						
+						// Set the variable multiple to true: the selected page has child pages
+						page.multiple = true;
 					}
 				}
-				else{
-					
-					// The current page is not the selected page
-					page.selected = false;
-				}
-				
-				// Add the current page to the global array
+			}
+			
+			
+			
+			// Add the current page to the global array
+			if (added_pages[pageId] !== "x") {
 				jsonNavigation.pages.push(page);
+				
+				// Mark added page
+				added_pages[pageId] = "x";
 			}
 		}
+		
 		
 		// Render the output template
 		$(navigationOutput).html($.Template.render(navigationOutputTemplate,jsonNavigation));	
 	};
+	
+	
+	
+	
+	
 
 
 	///////////////////////

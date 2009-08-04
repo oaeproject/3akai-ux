@@ -13,8 +13,7 @@
 	
 </div>
 
-<div id="navigation_output_template" style="display:none"><!--
-	<div class="navigation">
+<div id="navigation_output_template" style="display:none"><!-- <div class="navigation">
 		
 		<div class="nav_titlebar">
 			<img src="/dev/_images2/pages_icon.png" class="nav_titlebar_icon" alt="Navigation Title Icon" /><h3 class="nav_title">Pages</h3>
@@ -22,32 +21,71 @@
 		
 		<div class="nav_content">
 			<ul>
-				{if toppage == false}
-					<li id="navigation_page_top"><a href="#${parent.id}">${parent.title}</a></li>
-				{/if}
 				{for i in pages}
+					
 					{if i.selected}
-						<li><a id="navigation_page_selected" href="#${i.id}">${i.title}</a>
-						{if i.multiple}
-							<ul id="navigation_page_children">
-								{for l in i.pages}
-									<li><a class="subpage" href="#${l.id}">${l.title}</a></li>
-								{/for}
-							</ul>
-						{/if}
-						</li>
-					{else}
+						<li><a id="navigation_page_selected" href="#${i.id}">${i.title}</a></li>
+					{else}	
 						<li><a class="rootpage" href="#${i.id}">${i.title}</a></li>
 					{/if}
+						
+					{if i.multiple}
+						
+						<ul id="navigation_page_children">	
+							{for l in i.pages}
+								{if l.selected}
+									<li><a id="navigation_page_selected" href="#${l.id}">${l.title}</a></li>
+								{else}
+									<li><a class="subpage" href="#${l.id}">${l.title}</a></li>
+								{/if}
+								
+								{if l.multiple}
+									<ul id="navigation_page_children">
+									
+									{for m in l.pages}
+										{if m.selected}
+											<li><a id="navigation_page_selected" href="#${m.id}">${m.title}</a></li>
+										{else}
+											<li><a class="subpage" href="#${m.id}">${m.title}</a></li>
+										{/if}
+										
+										{if m.multiple}
+											<ul id="navigation_page_children">
+												
+												{for o in m.pages}
+											
+													{if m.selected}
+														<li><a id="navigation_page_selected" href="#${o.id}">${o.title}</a></li>
+													{else}
+														<li><a class="subpage" href="#${o.id}">${o.title}</a></li>
+													{/if}
+												
+												{/for}
+											</ul>
+										{/if}
+										
+									{/for}
+									
+									</ul>
+								{/if}
+							{/for}
+						</ul>
+						
+					{/if}
+				
+				
+					<li class="nav_divider"></li>
+					
 				{/for}
+				
+				
 			</ul>
 		</div>
 		
 		<div class="nav_bottom">
 			<div class="nav_bottom_inner"></div>
 		</div>
-	</div>
---></div>
+	</div> --></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" language="JavaScript" src="/devwidgets/navigation/javascript/navigation.js"></script>
