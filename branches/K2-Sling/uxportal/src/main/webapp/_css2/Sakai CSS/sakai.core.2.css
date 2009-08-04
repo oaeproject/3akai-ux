@@ -196,7 +196,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	margin-top: .8em;
 	background: url('../../_images2/topBar_tr.png') top right no-repeat;
 	padding-right: 5px;
-	min-width: 285px;
 }
 .explore_nav .personal {
 	padding: 5px 10px;
