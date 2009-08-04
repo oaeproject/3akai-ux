@@ -39,7 +39,7 @@ body { margin-bottom: 50px !important; }
 .login_container_username {margin-bottom:15px;}
 .login_failed {display:none; margin-top:10px; color: #D8D8D8; width:260px;}
 .gray_button {background: url(../../_images2/gray_button_left.png) top left no-repeat; float: left;}
-#loginbutton {background: url(../../_images2/gray_button_right.png) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px;}
+#loginbutton {background: url(../../_images2/gray_button_right.png) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px; margin-right: -10px;}
 #loginloader {display:none; color: #D8D8D8;}
 #register_here {color: #454a4e; font-size: 0.95em; clear: both;}
 #register_here a {color:#006d94; font-weight: bold;}
