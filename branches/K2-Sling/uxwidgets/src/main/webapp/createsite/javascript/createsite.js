@@ -424,7 +424,6 @@ sakai.createsite = function(tuid,placement,showSettings){
 			},
 			data: {
 				"principalId":"g-" + siteid + "-collaborators",
-				//"privilege@jcr:all":"granted"
 				"privilege@jcr:read":"granted",
 				"privilege@jcr:removeChildNodes":"granted",
 				"privilege@jcr:removeNode":"granted",
@@ -432,6 +431,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				"privilege@jcr:modifyProperties":"granted",
 				"privilege@jcr:addChildNodes":"granted",
 				"privilege@jcr:modifyAccessControl":"granted"
+				//"privilege@jcr:all":"granted"
 			}
 		});
 	};
@@ -475,10 +475,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
-				//document.location = "/sites/" + siteid;
+				document.location = "/sites/" + siteid;
 			},
 			error: function(status){
-				//document.location = "/sites/" + siteid;
+				document.location = "/sites/" + siteid;
 			},
 			data: {
 				"principalId":"everyone",
