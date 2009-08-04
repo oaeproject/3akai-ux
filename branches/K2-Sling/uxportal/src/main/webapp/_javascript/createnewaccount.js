@@ -69,14 +69,15 @@ sakai.newaccount = function(){
 	var passwordRepeatNoMatch = passwordRepeatField + "_nomatch";
 	var captchaEmpty = captchaField + "_empty";
 	var captchaNoMatch = captchaField + "_nomatch";
-	var errorFields = ".create-account-notification";
+	var errorFields = ".create_account_error_msg";
 	var usernameLabel = "#username_label";
+	var inputFields = ".create_account_input";
+	var usernameAvailable = "#username_available";
 	
 	//CSS Classes
 	var invalidFieldClass = "invalid";
-	var invalidLabelClass = "invalid_label";
-	var validLabelClass = "valid_label";
-	var formContainer = "#create-account-form";
+	var formContainer = "#create_account_form";
+	var inputFieldHoverClass = "input_field_hover";
 	
 	
 	///////////////////////
@@ -166,9 +167,8 @@ sakai.newaccount = function(){
 	
 	var resetErrorFields = function(){
 		$("input").removeClass(invalidFieldClass);
-		$(usernameLabel).removeClass(invalidLabelClass);
-		$(usernameLabel).removeClass(validLabelClass);
 		$(errorFields).hide();
+		$(usernameAvailable).hide();
 	};
 	
 	/**
@@ -344,7 +344,7 @@ sakai.newaccount = function(){
 			error : function(data){
 				if (checkingOnly){
 					resetErrorFields();
-					$(usernameLabel).addClass(validLabelClass);
+					$(usernameAvailable).show();
 				} else {
 					doCreateUser();
 				}	
@@ -364,7 +364,11 @@ sakai.newaccount = function(){
 	 * Once the user is trying to submit the form, we check whether all the fields have valid 
 	 * input and try to create the new account
 	 */
-	$(formContainer).submit(validateFields);
+	//$("#save_account").bind("click", function(ev) {
+	//		validateFields();
+	//	});
+	$("#create_account_form").submit(validateFields);
+	
 	
 	/*
 	 * If the Cancel button is clicked, we redirect them back to the login page
@@ -378,6 +382,23 @@ sakai.newaccount = function(){
 		checkUserName(true);
 	});
 	
+	
+	// Hide error fields at start
+	$(errorFields).hide();
+	
+	// Input field hover
+	// The jQuery hover strangely has a bug in FF 3.5 - fast mouse movement doesn't fire the out event...
+	//$(".create_account_input").hover(function(ev) { $(ev.target).addClass(inputFieldHoverClass); }, function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
+	// so we use this for now:
+	
+	$(inputFields).bind("mouseover", function(ev) { $(ev.target).addClass(inputFieldHoverClass); });
+	$(inputFields).bind("mouseout", function(ev) { $(ev.target).removeClass(inputFieldHoverClass); });
+	
+	// Hide success message
+	$(successMessage).hide();
+	
+	// Hide username available message
+	$(usernameAvailable).hide();
 };
 
 sdata.container.registerForLoad("sakai.newaccount");

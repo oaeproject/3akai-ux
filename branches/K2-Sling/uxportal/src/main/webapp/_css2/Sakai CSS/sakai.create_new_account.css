@@ -1,0 +1,116 @@
+html
+{ background: #093b52 url(../../_images2/page_bg_water.jpg) top left repeat-x; }
+
+body
+{ margin-bottom: 50px !important; }
+
+
+/** TOPNAV **/
+.create_account .topnav
+{ height:32px; margin:0 auto; overflow:hidden; background: #454a4f; }
+
+.create_account .topnav ul
+{ width: 960px; margin: 0 auto; overflow: hidden; }
+
+.create_account .topnav ul li
+{ list-style-image:none; list-style-position:outside; list-style-type:none; display: block; float: left; }
+
+.create_account .topnav ul li a
+{ display: block; padding:8px 20px; text-align:center; color: #FFFFFF; height: 32px; font-weight: bold; }
+
+.create_account .topnav_about
+{ border-left: 1px solid #878A8C; border-right: 1px solid #878A8C; }
+
+
+/** HEADER **/
+.create_account .header_container
+{ width: 960px; }
+
+.create_account .header-title
+{ color: #08415E; float: left; font-size: 4em; margin: 0 35px 0 0; padding: 40px 0 35px 0; }
+
+.create_account .header-byline
+{ color: #2C9CC4; font-size: 1.5em; font-weight: bold; padding: 60px 0 0 0; }
+
+
+/** CONTENT **/
+
+.create_account .content
+{ width: 960px; padding: 0; margin: 0 auto; }
+
+.create_account .content_inside
+{ background: #FFFFFF; padding: 10px 15px 20px 15px; }
+
+.create_account h3
+{ margin: 0; padding: 0 0 20px 0; color: #454A4F; font-size: 2em; }
+
+.create_account .content_top_corners
+{ background: url(../../_images2/content_top.png) top left no-repeat; padding: 0; width: 960px; height: 20px; }
+
+.create_account .content_top
+{ background: url(../../_images2/content_tr_leftalign.gif) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+.create_account .content_top_inner
+{ background: url(../../_images2/content_tl.gif) 0 0 no-repeat; margin: 0; height: 6px; }
+
+.create_account .content_main
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
+
+.create_account .content_bottom
+{ background: url(../../_images2/content_br.png) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+.create_account .content_bottom_inner
+{ background: url(../../_images2/content_bl.png) 0 0 no-repeat; margin: 0; height: 6px; }
+
+
+/** TABLE/FORM **/
+
+.create_account .create_account_form
+{ padding: 10px 0 0 47px; }
+
+.create_account .create_account_form .create_account_input
+{ border: 1px solid #999999; width: 400px; height: 26px; font-weight: bold; font-size: 20px; padding: 1px 5px 0 5px; }
+
+.create_account .create_account_form td
+{ border: none; margin: 0; padding: 5px 5px 5px 5px;  }
+
+.create_account .create_account_form .label_container
+{ color: #454A4F; text-align: right; font-weight: bold; font-size: 12px; }
+
+.create_account .create_account_form .input_field_hover
+{ border: 1px solid #454a4f; background: #dceffd; }
+
+.create_account .create_account_form .invalid
+{ border: 1px solid #9f3333; background: #ffdede; width: 400px; height: 26px; font-weight: bold; font-size: 20px; padding: 2px 5px 0 5px;  }
+
+.create_account .create_account_form .create_account_error_msg
+{ color: #9f3333; font-weight: bold; padding: 0 0 10px 15px; margin: -5px 0; }
+
+.create_account .create_account_form .username_available
+{ color: #7aa722; font-weight: bold; padding: 0 0 10px 15px; margin: -5px 0; }
+
+
+/** BUTTONS **/
+.create_account .lightgreybutton
+{ background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+
+.create_account .lightgreybutton input
+{ background: url(../../_images2/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
+
+
+.create_account .greybutton
+{ background: transparent url(../../_images2/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+
+.create_account .greybutton input
+{ background: url(../../_images2/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
+
+
+
+.create_account .success_message
+{ font-size: 1.5em; color: #454A4F; padding: 15px 0 0 0; }
+
+.create_account .success_message a
+{ font-weight: bold; color: #2b9cc5; }
+
+
+
