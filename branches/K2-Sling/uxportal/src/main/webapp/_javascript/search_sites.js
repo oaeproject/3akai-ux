@@ -27,7 +27,7 @@ sakai.search = function() {
 	//////////////////////////
 	
 	var resultsToDisplay = 10;
-    var nrOfCharactersAroundTerm = 600;
+	var nrOfCharactersAroundTerm = 600;
 	var hasHadFocus = false;
 	var searchterm = "";
 	var currentpage = 0;
@@ -142,8 +142,8 @@ sakai.search = function() {
 	var renderResults = function(results, success) {
 		var finaljson = {};
 		finaljson.items = [];
-        finaljson.sakaiDomain = Config.SakaiDomain;
-		if (success) {
+		finaljson.sakaiDomain = Config.SakaiDomain;
+			if (success) {
 			//	Adjust the number of sites we have found.
 			$(searchConfig.global.numberFound).text(results.total);
 			
@@ -173,6 +173,7 @@ sakai.search = function() {
 		}
 		//	Render the results.
 		$(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+		$(".search_results_container").show();
 	};
 	
 

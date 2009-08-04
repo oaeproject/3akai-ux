@@ -83,19 +83,17 @@
           <div class="fl-container fl-fix search_results_part">
             <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Content &amp; Media</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View all <span id="display_more_cm_number">0</span> Content &amp; Media items &raquo;</small></a> </div>
             <div id="cm_search_result"></div>
-            <div id="cm_search_result_template">
-              <!--
-						{for i in items}
-						<div class="fl-container fl-fix search_result">
-							<div class="search_result_header">${i.title}</div>
-							<div class="search_result_description">${i.description}</div>
-							<div class="search_result_footer"><a href="/dev/site.html?siteid=${i.location}">${i.type}</a> | ${i.siteName}</div>
-						</div>
-						{forelse}
-							No Content &amp; Media found
-						{/for}
-					-->
-            </div>
+            <div id="cm_search_result_template"><!--
+	      {for i in items}
+		<div class="fl-container fl-fix search_result">
+		  <div class="search_result_header">${i.title}</div>
+		  <div class="search_result_description">${i.description}</div>
+		  <div class="search_result_footer"><a href="/dev/site.html?siteid=${i.location}">${i.type}</a> | ${i.siteName}</div>
+		</div>
+	      {forelse}
+		  No Content &amp; Media found
+	      {/for}
+	    --></div>
             <div class="search_results_part_footer"></div>
           </div>
 		  <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
@@ -106,34 +104,32 @@
           <div class="fl-container fl-fix search_results_part">
             <div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">People</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View all <span id="display_more_people_number">0</span> People &raquo;</small></a> </div>
             <div id="people_search_result"> </div>
-            <div id="people_search_result_template">
-              <!--
-					    {for i in items}
-							<div class="fl-container fl-fix search_result_person">
-								{if ! i.picture}
-									<a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
-								{else}
-									<a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
-								{/if}
-								<a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-								{if i.extra}
-									<a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-								{else}
-									<a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-								{/if}
-								{if ! i.isMe}
-									{if ! i.connected}
-									<a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
-									<a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-									{/if}
-									<a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
-								{/if}
-							</div>
-						{forelse}
-							No people found.
-						{/for}
-					-->
-            </div>
+            <div id="people_search_result_template"><!--
+	      {for i in items}
+		<div class="fl-container fl-fix search_result_person">
+		  {if ! i.picture}
+		    <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+		  {else}
+		    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
+		  {/if}
+		  <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+		  {if i.extra}
+		    <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+		  {else}
+		    <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+		  {/if}
+		  {if ! i.isMe}
+		    {if ! i.connected}
+		      <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+		      <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+		    {/if}
+		    <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
+		  {/if}
+		</div>
+		{forelse}
+		  No people found.
+		{/for}
+	    --></div>
           </div>
 		  <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
         </div>
@@ -143,19 +139,17 @@
           <div class="fl-container fl-fix search_results_part">
             <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Courses &amp; Sites</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View all <span id="display_more_sites_number">0</span> Courses &amp; Sites &raquo;</small></a> </div>
             <div id="sites_search_result"> </div>
-            <div id="sites_search_result_template">
-              <!--
-					{for i in items}
-						<div class="fl-container fl-fix search_result_course_site">
-							<div class="search_result_course_site_title"><a href="${sakaiDomain}${i.id}">${i.name}</a></div>
-							<div class="search_result_course_site_url">${i.description}</div>
-							<div class="search_result_course_site_url"><a href="${sakaiDomain}${i.id}">${sakaiDomain}${i.id}</a></div>
-						</div>
-					{forelse}
-						No Courses &amp; Sites found
-					{/for}
-					-->
-            </div>
+            <div id="sites_search_result_template"><!--
+	      {for i in items}
+		<div class="fl-container fl-fix search_result_course_site">
+		  <div class="search_result_course_site_title"><a href="${sakaiDomain}${i.id}">${i.name}</a></div>
+		  <div class="search_result_course_site_url">${i.description}</div>
+		  <div class="search_result_course_site_url"><a href="${sakaiDomain}${i.id}">${sakaiDomain}${i.id}</a></div>
+		</div>
+	      {forelse}
+		No Courses &amp; Sites found
+	      {/for}
+	    --></div>
           </div>
 		  <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
         </div>

@@ -168,6 +168,7 @@ sakai.search = function() {
 		}
 		//	Render the results.
 		$(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+		$(".search_results_container").show();
 	};
 	
 	

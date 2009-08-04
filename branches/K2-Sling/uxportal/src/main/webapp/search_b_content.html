@@ -73,13 +73,11 @@
 						<input type="text" id="search_text" class="input" value="Enter a searchterm" />
 						<div class="buttonBar fl-force-left"> <a href="javascript:;" class="button search_button" id="search_button"><span>Search</span></a> </div>
 						<!-- SITEs TEMPLATE -->
-						<div id="search_filter_my_sites_template" style="display:none;">
-							<!--
-					{for i in items}
-						<option value="${i.location}" id="search_filter_my_sites_${i.location.substring(1)}">${i.name}</option>
-					{/for}
-					-->
-						</div>
+						<div id="search_filter_my_sites_template" style="display:none;"><!--
+							{for i in items}
+								<option value="${i.location}" id="search_filter_my_sites_${i.location.substring(1)}">${i.name}</option>
+							{/for}
+						--></div>
 					</div>
 				</div>
 				<div class="fl-left fl-container search_result_title" id="search_results_header">
@@ -95,19 +93,17 @@
 						<div id="search_results_container"></div>
 					</div>
 					<!-- TEMPLATE CONTAINING THE RESULTS -->
-					<div id="search_results_template">
-						<!--
-					{for i in items}
-						<div class="fl-container fl-fix search_result">
-							<div class="search_result_header">${i.title}</div>
-							<div class="search_result_description">${i.description}</div>
-							<div class="search_result_footer"><a href="/dev/redesign/page_edit.html?siteid=${i.location}">${i.type}</a> | ${i.siteName}</div>
-						</div>
-					{forelse}
-						No Content &amp; Media found
-					{/for}
-				-->
-					</div>
+					<div id="search_results_template"><!--
+						{for i in items}
+							<div class="fl-container fl-fix search_result">
+								<div class="search_result_header">${i.title}</div>
+								<div class="search_result_description">${i.description}</div>
+								<div class="search_result_footer"><a href="/dev/redesign/page_edit.html?siteid=${i.location}">${i.type}</a> | ${i.siteName}</div>
+							</div>
+						{forelse}
+							No Content &amp; Media found
+						{/for}
+					--></div>
 		  			<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
 				</div>
 			</div>
