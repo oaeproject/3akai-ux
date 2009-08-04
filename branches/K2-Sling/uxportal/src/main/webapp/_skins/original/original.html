@@ -79,7 +79,10 @@
 		   
 		<!-- Page Nav -->
 		<div class="fl-col-side page_nav">	
-		    <a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
+		    
+		    <div class="add_a_new_container">
+			<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
+		    </div>
 		    
 		    <div id="page_nav_content" class="pages page_nav_content">
 			    
@@ -127,17 +130,20 @@
 		    
 		    <div class="sakai_site_contents_main">
 			
-			<div class="fl-container revision_history" id="revision_history_container"  style="display:none">
-			    <span class="revision_history_viewing">Viewing:</span>
-			    <select id="revision_history_list">
-				
-			    </select>
+			<!-- REVISION HISTORY -->
+			<div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
 			    
-			    <a href="javascript:;" class="button-default" id="revision_history_revert" style="color:black; font-weight: bold">Use this Version</a>
+			    <div class="revision_history_viewing">Viewing:</div>
 			    
-			    <a href="javascript:;" class="button-default" id="revision_history_cancel" style="color:black; font-weight: normal">Cancel</a>
+			    <div><select id="revision_history_list"></select></div>
+			    
+			    <div class="greybutton"><a href="javascript:;" class="button-default" id="revision_history_revert" >Use this Version</a></div>
+			    
+			    <div class="lightgreybutton"><a href="javascript:;" class="button-default" id="revision_history_cancel" >Cancel</a></div>
+			    
 			</div>
 			
+			<!-- PAGE TITLE --> 
 			<h1 id="pagetitle"></h1>
 			
 			<div class="content_page_header" style="display:none">
@@ -146,7 +152,7 @@
 				<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
 			</div>
 			
-			
+			<!-- MAIN CONTENT -->
 			<div id="main-content-div">
 			
 			</div>
@@ -164,22 +170,24 @@
 	    
 	    
 	    <!-- WORK AREA -->
-	    <div class="fl-fix" id="edit_view_container" style="display:none">
+	    <div class="fl-fix edit_view" id="edit_view_container" style="display:none">
 		<div class="main_container content_container">
 		    <div class="content">
 			
 			<!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
-			<div class="buttonBar" style="margin-bottom:-1.2em">
-			    <a href="javascript:;" class="button-default save_button">Save</a>
-			    <a href="javascript:;" class="button cancel-button">Cancel</a>
+			<div class="buttonBar">
+			    <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
+			    <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
 			    <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
 			</div>
 			
+			<div>
 			<ul class="fl-tabs fl-tabs-r tab-nav">
 			    <li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
 			    <li id="tab_html"><a href="javascript:;">HTML</a></li>
 			    <li id="tab_preview"><a href="javascript:;">Preview</a></li>
 			</ul>
+			</div>
 			
 			<div class="tab-nav-panel" id="tab-nav-panel">
 			    <div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
@@ -275,32 +283,19 @@
 					</tbody>
 				</table>
 			</td>
-			<td>
-				<table cellspacing='0' cellpadding='0' class='mceListBox mceListBoxEnabled mce_formatselect' id='content_formatselect'>
-					<tbody>
-						<tr>
-							<td class='mceFirst'>
-								<a onmousedown='return false;' onclick='return false;' class='mceText' href='javascript:;' id='content_formatselect_text'>Layout</a>
-							</td>
-							<td class='mceLast'>
-								<a onmousedown='return false;' onclick='return false;' class='mceOpen' href='javascript:;' tabindex='-1' id='content_formatselect_open'><span/></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</td>   
+			 
 		--></div>
 	
 	
 	
-		
 		<div class="add_new_menu" id="add_new_menu" style="display:none">
-			<ul>
-				<li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
-				<li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
-				<li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
-			</ul>
-		</div>
+			    <ul>
+				    <li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
+				    <li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
+				    <li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
+			    </ul>
+		    </div>
+		
 		
 		<div class="add_more_menu" id="more_menu" style="display:none">
 			<ul>

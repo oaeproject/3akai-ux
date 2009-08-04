@@ -50,35 +50,6 @@
 .account_preferences .save-preferences{background: #f7f7f7; width: 100%; height: 43px; margin-top: 20px;}
 .account_preferences .button-preferences{width: 110px; height: 27px; margin: 8px 0 0 20px;}
 
-/* create_new_account_flat.html */
-.create_account .header{background: #666; width: 100%; height: 150px;}
-.create_account .bigheader{background: #666; width: 100%; margin-top: 75px;}
-.create_account .header-version{color: #999; font-size: 12px; float: right; padding: 15px 30px 0 0;}
-.create_account .header-title{padding: 50px 0 0 40px; color: #efefef; font-size: 68px;}
-.create_account .header-byline{color: #d8d8d8; font-size: 19px; padding: 35px 0 0 40px;}
-.create_account .create-account-content{padding: 0 40px 0 40px;}
-.create_account .all-fields{float: right; color: #666; font-size: 14px; padding-top: 12px;}
-.create_account .site_secondary_heading{padding: 45px 0 35px 0; font-size: 24px; font-weight: bold; color: #333;}
-.create_account .create-account-form{width: 100%; border-bottom: 1px solid #999; padding-bottom: 25px;}
-.create_account .create-account-form td{padding: 0 0 20px 0; margin: 0; vertical-align: top; border: 0; width: 315px;}
-.create_account .create-account-form th{padding: 0; margin: 0; vertical-align: bottom; text-align: left; border: 0;}
-.create_account .create-account-form span{color: #666;}
-.create_account .create-input-short{width: 300px; height: 21px; border: 1px solid #d9d9d9; padding: 4px 0px 0px 3px; margin: 0;}
-.create_account .create-input-long{width: 615px; height: 21px; border: 1px solid #d9d9d9; padding: 4px 0px 0px 3px; margin: 0;}
-.create_account .create-account-form td.bottom{vertical-align: bottom;}
-.create_account .check-username{margin-top: 20px; color: #666; cursor: pointer; cursor: hand;}
-.create_account label{color: #666; font-size: 14px; font-weight: bold;}
-.create_account .invalid{background: #ffcccc; border: 1px solid #a1a1a1;}
-.create_account .invalid_label{color: #ffcccc;}
-.create_account .valid_label{color: #2E8A28;}
-.create_account .create-account-notification{float: right; color: #ff4040; font-weight: bold; font-size: 12px; padding-right: 15px; display:none;}
-.create_account .captcha{border: 1px solid #ccc;}
-.create_account .buttons{margin: 13px 0 0 407px; padding-bottom: 50px;}
-.create_account .create-cancel{width: 72px; height: 27px; background: url(../../_images2/button_bg_2.png) repeat-x top left; cursor: hand; cursor: pointer;}
-.create_account .create-confirm{width: 121px; height: 27px; background: url(../../_images2/button_bg_2.png) repeat-x top left; margin-left: 15px; cursor: hand; cursor: pointer;}
-#success_message {margin:13px 0 0 330px; padding-bottom:50px; display:none;}
-#success_message a {font-weight:bold;}
-
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
 .add-members .current-members span{color: #999; font-weight: bold;}

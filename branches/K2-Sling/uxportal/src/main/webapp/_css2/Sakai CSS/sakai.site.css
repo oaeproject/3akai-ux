@@ -7,7 +7,7 @@
 
 /** HEADING **/
 .sakai_site .site_heading
-{ color: #454a4f; padding: 0 0 10px 0; border: none; }
+{ color: #454a4f; padding: 0; border: none; }
 
 
 /** SEARCH **/
@@ -26,10 +26,10 @@
 
 /** TOP RIGHT MENU **/
 .sakai_site .content_page_options
-{ background: #fff url('../../_images2/site_tab_bg.png') top right no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; margin: 0 10px 0 0; }
+{ background: #fff url('../../_images2/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; margin: 20px 10px 0 0; }
 
 .sakai_site .content_page_options ul
-{ padding: 5px 0 0 0; }
+{ padding: 7px 0 0 20px; background: #fff url('../../_images2/tab_bg_left.png') top left no-repeat; }
 
 .sakai_site .content_page_options ul li
 { display: block; float: left; height: 20px; padding: 0 15px 0 0; }
@@ -40,15 +40,21 @@
 .sakai_site .content_page_options #print_page
 { background: transparent url(../../_images2/printer_18.png) top left no-repeat; padding: 2px 15px 0 20px; border-right: 1px solid #888888; }
 
+
+
+
+/** ADD MORE MENU **/
 .sakai_site .content_page_options #more_link
 { background: transparent url(../../_images2/more_bg_18.png) top left no-repeat; padding: 1px 21px 2px 12px; }
 
-/** Add more menu **/
 .sakai_site .add_more_menu
-{ background-color:#D6DBDF; padding: 0; position: absolute; display: block; width: 100px; }
+{ background-color: #D3DBDE; padding: 0; position: absolute; left: 0; top: 0; display: block; width: 100px; margin: 0; }
 
 .sakai_site .add_more_menu ul
 { margin:0; }
+
+.sakai_site .nav_small_spacer
+{ height: 20px; }
 
 .sakai_site .add_more_menu ul li
 { padding: 5px 10px 5px 15px; list-style-type: none; }
@@ -58,11 +64,6 @@
 
 .sakai_site .selected_option a
 { color: #fff !important; }
-
-
-
-
-
 
 
 /** MAIN CONTENTS **/
@@ -97,12 +98,22 @@
 .sakai_site .page_nav
 { width: 230px; padding: 0; margin: 0; }
 
-.sakai_site .add_a_new
-{ color: #FFFFFF; background: url('../../_images2/create_dropdown_bg.png') no-repeat scroll left top; display: block; height: 24px; padding: 4px 0 0 19px; font-weight: bold; }
 
-/** Add New menu **/
+
+
+/** ADD NEW MENU **/
+
+.sakai_site .add_a_new_container
+{ min-height: 25px; margin: 15px 0 5px 15px; position: relative; }
+
+.sakai_site .add_a_new
+{ background: transparent url(../../_images2/create_dropdown_bg.png) no-repeat scroll left 0; color:#FFFFFF; display:block; font-weight:bold; height:22px; padding:3px 0 0 19px; }
+
 .sakai_site .add_new_menu
-{ background-color:#FFFFFF; padding: 0; position: absolute; display: block; position:absolute; top: 157px; left: 91px; width: 190px; border: 1px solid #454a4f; }
+{ background-color:#FFFFFF; border:1px solid #454A4F; margin: 0; padding:0; width: 128px; position: absolute; left: 0; top: 0; }
+
+.sakai_site .add_menu_spacer
+{ height: 35px; }
 
 .sakai_site .add_new_menu ul
 { margin:0; }
@@ -112,6 +123,30 @@
 
 
 
+/** BUTTONS **/
+.sakai_site .lightgreybutton
+{ background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+
+.sakai_site .lightgreybutton a
+{ background: url(../../_images2/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
+
+
+.sakai_site .greybutton
+{ background: transparent url(../../_images2/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+
+.sakai_site .greybutton a
+{ background: url(../../_images2/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
+
+
+/** REVISION HISTORY **/
+.sakai_site .revision_history
+{ background: #EEEEEE; padding: 20px 10px 20px 10px; }
+
+.sakai_site .revision_history div
+{ float: left; }
+
+.sakai_site .revision_history .clear
+{ clear: both; }
 
 
 
@@ -145,6 +180,12 @@
 
 .site_management .sm_bottom_inner
 { background:transparent url(/dev/_images2/content_br.png) no-repeat scroll right bottom; height: 5px; }
+
+
+
+/** SITE EDIT **/
+
+
 
 
 

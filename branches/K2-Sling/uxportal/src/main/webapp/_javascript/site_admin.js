@@ -170,8 +170,8 @@ sakai.site.site_admin = function(){
 			$insert_more_menu.css({"position": "absolute", "margin-top": "10px", "top":(sakai.site.minTop + 25) + "px"});
 		}
 		else {
-				$toolbarcontainer.css({"position":"fixed", "margin-top":"0px","top":"0px"});
-				$insert_more_menu.css({"position": "fixed", "margin-top": "0px", "top":"0px"});
+				$toolbarcontainer.css({"position":"fixed", "margin-top":"10px","top":"0px"});
+				$insert_more_menu.css({"position": "fixed", "margin-top": "10px", "top":"0px"});
 		}
 		
 		$insert_more_menu.css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 1 + "px");
@@ -1418,7 +1418,7 @@ sakai.site.site_admin = function(){
 		} else {
 			var x = $("#more_link").position().left;
 			var y = $("#more_link").position().top;
-			el.css({"top": y + 23 + "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
+			el.css({"top": y + 22+ "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
 		}		
 	});
 		
@@ -1734,6 +1734,9 @@ sakai.site.site_admin = function(){
 		} else {
 			$("#add_new_menu").show();
 			sakai.site.isShowingDropdown = true;
+			var dropdown_pos = $("#add_a_new").offset();
+			$("#add_new_menu").css({"left": (dropdown_pos.left + 7)+"px", "top": (dropdown_pos.top + 22) + "px"});
+			console.dir(dropdown_pos);
 		}
 	});
 	
