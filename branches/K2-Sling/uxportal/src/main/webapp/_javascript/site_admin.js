@@ -2039,7 +2039,7 @@ sakai.site.site_admin = function(){
 		
 		// Move current file (generate new page id)
 		if (!sakai.site.inEditView) {
-			var newfolderpath = "/" + sakai.site.escapePageId(sakai.site.currentsite.id) + "/_pages/" + newid.split("/").join("/_pages/");
+			var newfolderpath = "/sites/" + sakai.site.escapePageId(sakai.site.currentsite.id) + "/_pages/" + newid.split("/").join("/_pages/");
 			
 			var createFolderPath = "";
 			for (var i = 0; i < newfolderpath.split("/").length - 1; i++){
