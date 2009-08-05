@@ -482,9 +482,11 @@ sakai.chat2 = function(tuid, placement, showSettings){
 	 * @param {String} value The value of the page name
 	 * @return {String} The result of the render
 	 */
-	var renderSelectedPage = function(value){
+	var renderSelectedPage = function(value, isDropdown){
+		
 		var page = {};
 		page.value = value;
+		page.dropdown = isDropdown || false;
 		return $.Template.render(navSelectedPageTemplate, page);
 	};
 	
@@ -540,7 +542,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 					n_items.items = [];
 					
 					for (var i = 0; i < items.items.length; i++) {
-						n_items.items[i] = "resources=/" + items.items[i] + ".json";
+						n_items.items[i] = "resources=/sites/" + items.items[i] + ".json";
 					}
 					url += n_items.items.join("&");
 					
@@ -584,20 +586,23 @@ sakai.chat2 = function(tuid, placement, showSettings){
 	 */
 	var setSitesDropdown = function() {
 		$(navCoursesSitesLink).live("click", function(ev) {
-			//	Hide the people dropdown
+			
+			// Hide the people dropdown
 			$(peopleDropDownMain).hide();
 			$(peopleDropDownClose).hide();
-			//	Show the courses and sites.
+			
+			// Show the courses and sites.
 			$(mySitesDropDownMain).show();
 			$(mySitesDropDownClose).show();
 			
 			$(exploreClass).html(defaultNav);
-			$(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites"));
+			$(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites", true));
 			if (!sitesShown) {
 				loadSites();
 				loadRecentSites();
 				sitesShown = true;
 			}
+			
 		});
 	};
 	

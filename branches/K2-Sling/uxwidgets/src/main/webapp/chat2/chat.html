@@ -23,8 +23,8 @@
 		<ul class="explore fl-force-left">
 			<li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
 			<li id="nav_profile_link"><a href="/dev/profile.html">Profile</a></li>
-			<li id="nav_people_link"><a href="javascript:;">People</a></li>
-			<li id="nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a></li>
+			<li id="nav_people_link" class="chat_has_dropdown"><a href="javascript:;">People</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
+			<li id="nav_courses_sites_link" class="chat_has_dropdown"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
 			<li id="nav_search_link"><a href="/dev/search_b.html">Search</a></li>
 		</ul>
 	  <div class="personal-container fl-force-right">
@@ -46,7 +46,18 @@
 
 <!-- SELECTED PAGE -->
 <div id="nav_selected_page_template"><!--
-	<a href="javascript:;" class="explore_nav_selected"><span>${value}</span></a><img src="/dev/_images2/white_nav_arrow.png" class="explore_nav_selected_arrow" />
+	{if dropdown}
+		<div class="explore_nav_selected_dropdown">
+	{else}
+		<div class="explore_nav_selected">
+	{/if}
+		<a href="javascript:;">
+			<span>${value}</span>
+		</a>
+		{if dropdown}
+			<img src="/dev/_images2/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
+		{/if}
+	</div>
 --></div>
 
 <!-- DROPDOWN -->
@@ -104,7 +115,7 @@
             <div id="top_navigation_my_sites_list_template"><!--
                 <ul class="my_site_list">
                     {for i in entry}
-                        <li><a href="/dev/site.html?siteid=${i.location}">${i.name}</a></li>
+                        <li><a href="/sites/${i.location}">${i.name}</a></li>
                     {forelse}
                         <span>You aren't a member of any sites yet</span>
                     {/for}
@@ -141,17 +152,21 @@
             </div>
             </div>
             <div class="dropdown_create_sakai_site">
-                <a href="javascript:;" id="top_navigation_create_site"><img src="_images2/add_icon.png" alt="Close Icon"/>Create a Sakai Site</a>
-                <img src="_images2/add_icon_end.png" alt="Close Icon"/>
+                <a href="javascript:;" id="top_navigation_create_site">Create a Sakai Site</a>
+                <img src="/dev/_images2/create_new_site_button_rt.png" alt="Close Icon"/>
             </div>
         </div>
     </div>
+	<div style="width: 960px; margin: 0 auto; background: url(/dev/_images2/dropdown_bottom_left.png) no-repeat; height: 10px; ">
+		<div style="background: url(/dev/_images2/dropdown_bottom_right.png) no-repeat top right; height: 10px;"></div>
+	</div>
 </div>
 
+<!-- 
 <div class="fl-force-right close" style="display:none" id="mysites_dropdown_close">
 	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="_images2/close_icon.png" alt="Close Icon" class="close_icon"/></a>
 </div>
-
+-->
 
 <!-- CREATE A SITE WIDGET -->
 <div id="top_navigation_widgets"></div>

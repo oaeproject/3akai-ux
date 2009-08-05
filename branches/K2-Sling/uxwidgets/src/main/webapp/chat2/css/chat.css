@@ -96,26 +96,26 @@
 .show_online_visible a {color: #666;}
 
 /* MAIN */
-.dropdown {background-color:#878a8c;height:160px;padding:15px 0;}
-.dropdown_mysites .fixed-container, .dropdown .fixed-container { width: 960px; margin: 0 auto; border: 1px solid yellow; }
-.dropdown h2 {color:#333;font-size:1.1em;padding:10px 0;}
+.dropdown {background-color:#878a8c;padding:0px 0px 72px 0px; margin-bottom: -72px;}
+.dropdown_mysites .fixed-container, .dropdown .fixed-container { width: 920px; margin: 0 auto; background-color: white; overflow: auto;}
+.dropdown h2 {color:#878a8c;font-size:1em;padding:0px 0px 10px 0px; font-weight: normal;}
 .dropdown .dropdown_contacts {border-right:1px solid #DDD;float:left;height:100%;padding-left:25px;width:380px;}
 .dropdown .dropdown_contacts .dropdown_person {float:left;padding-bottom:10px;padding-right:10px;width:80px;}
 .dropdown .dropdown_contacts .dropdown_person_picture {background-image:url(/dev/_images2/person_icon.png);background-repeat:no-repeat;width:60px;height:60px;display:block;padding:0 0 5px;}
 .dropdown .dropdown_search_people {margin-left:450px;}
-.dropdown .dropdown_search_input {border:1px solid #DDD;color:#999;float:left;height:18px;margin-right:5px;padding:3px 0 0 3px;width:250px;}
+.dropdown .dropdown_search_input {border:1px solid #878a8c;color:#999;float:left;height:18px;margin-right:5px;padding:3px 0 0 3px;width:250px;}
 .dropdown .search_button {position:relative;top:4px;}
 .dropdown .close {position:relative;right:50px;}
 .dropdown .close a {color:#333;font-weight:700;}
 .dropdown .close img {position:relative;top:5px;padding-left:5px;}
-.dropdown .dropdown_sites {border-right:1px solid #ccc;height:160px;padding-left:23px;width:230px;}
-.dropdown .dropdown_recent_sites {width:230px;border-right:1px solid #ccc;margin-left:25px;height:160px;}
-.dropdown .dropdown_search_course_sites {margin-left:550px;}
+.dropdown .dropdown_sites {border-right:1px solid #878a8c; margin-top: 20px; width:230px;}
+.dropdown .dropdown_recent_sites {width:230px;border-right:1px solid #878a8c;margin-left:25px; margin-top: 20px; }
+.dropdown .dropdown_search_course_sites {margin-left:540px; margin-top: 20px;}
 .dropdown ul {margin:0;padding:0 0 10px;}
 .dropdown ul li {list-style-type:none;padding:2px 0;}
 .dropdown .dropdown_create_sakai_site {padding-top:20px;padding-bottom:20px;}
-.dropdown .dropdown_create_sakai_site a {background-image:url(/dev/_images2/add_icon_middle.png);background-position:center bottom;background-repeat:repeat-x;display:block;float:left;height:27px;text-indent:0;width:148px;padding:0 0 9px;}
-.dropdown .dropdown_create_sakai_site img {position:relative;top:9px;padding-right:5px;}
+.dropdown .dropdown_create_sakai_site a {background: url(/dev/_images2/create_new_site_button_left.png) ;background-repeat:no-repeat;display:block;float:left;height:10px;text-indent:0; padding:9px 10px 9px 40px; color: #006e96; font-weight: bold;}
+.dropdown .dropdown_create_sakai_site img {position:relative;top:4px;padding-right:5px;}
 .close {margin-bottom:-25px;position:relative;top:-30px;margin-right:25px;}
 .close_icon {padding-left:5px;position:relative;top:4px;}
 .dialogue_body .dialogue_add_goodies_description {color:#666;font-size:12px;font-weight:100;}
@@ -124,5 +124,6 @@
 .dialogue_body .dialogue_add_goodies_title {color:#333;font-size:13px;font-weight:700;}
 .dialogue_body .remove {background:#F8F8F8 none repeat scroll 0 0;}
 .initiate_chat_window,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
-.dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#39C;font-weight:700;}
+.dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}
+.chat_has_dropdown img {margin-left:-10px; margin-top: 11px; padding-right: 10px;}
