@@ -76,6 +76,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 	 * It initializes the createsite widget and shows the jqmodal (ligthbox)
 	 */
 	sakai.createsite.initialise = function(){
+		$("#createsite_course_requested_container").hide();
+		$("#createsite_course_container").hide();
+		$("#createsite_noncourse_container").show();
+		$("#createsite_coursesite_container").show();
 		$(createSiteContainer).jqmShow();
 	};
 	
