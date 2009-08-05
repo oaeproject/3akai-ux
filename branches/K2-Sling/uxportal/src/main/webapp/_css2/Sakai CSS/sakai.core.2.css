@@ -135,7 +135,7 @@ a {
 .pipe_divider {color: #999;}
 .explore_nav {
 	margin: 0 auto;
-	overflow: hidden;
+	/* overflow: hidden; */
 	vertical-align: bottom;
 	width: 960px;
 	height: 32px;
@@ -158,6 +158,7 @@ a {
 	}
 .explore_nav ul.explore li {
 		padding: 0;
+		padding-bottom: 6px;
   	border-left: 1px solid #878a8c;
   }
 .explore_nav .explore li#nav_my_sakai_link {
@@ -172,13 +173,14 @@ a {
 	float: left;
 	}
 
-body.my-sakai .explore_nav .explore #nav_my_sakai_link {
+/*body.my-sakai .explore_nav .explore #nav_my_sakai_link {
 	background-color: #878a8c;
 	padding: 0 20px;
 	}
 body.my-sakai .explore_nav .explore #nav_my_sakai_link a {
 	padding: 8px 0;
-}	
+}
+*/
 body.search-container .explore_nav .explore #nav_search_link {
 	background-color: #878a8c;
 	padding: 0 20px;
@@ -196,6 +198,8 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	margin-top: .8em;
 	background: url('../../_images2/topBar_tr.png') top right no-repeat;
 	padding-right: 5px;
+	overflow: hidden;
+	height: 25px;
 }
 .explore_nav .personal {
 	padding: 5px 10px;
@@ -228,13 +232,10 @@ body.search-container .explore_nav .explore #nav_search_link a {
     				   display: -moz-inline-box; display: inline-block; overflow: visible;}
 .explore_nav_selected span {color: #fff;}
 .explore_nav_selected_arrow {width: 9px; height: 5px; position: relative; bottom: -11px;}*/
-.explore_nav_selected_arrow {
-		margin: 12px 0 0 5px;
-		display: none;
-	}
-.explore_nav_selected {
-	background-color: #878A8C;
-}
+.explore_nav_selected_arrow {margin: 12px 0 0 5px;}
+.explore_nav_selected {background-color: #878A8C; height:32px;}
+.explore_nav_selected_dropdown {height: 38px; background-color: #fff !important;}
+.explore_nav_selected_dropdown span {color: #595e62 !important;}
 
 #widget_chat2 {
 	position: relative;
