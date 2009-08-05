@@ -171,6 +171,8 @@ sakai.remotecontent = function(tuid, placement, showSettings){
 			var str = $.toJSON(json); // Convert the posts to a JSON string
 			var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 			sdata.widgets.WidgetPreference.save(saveUrl, "remotecontent", str, savedDataToJCR);
+		} else {
+			alert("Please specify a URL");
 		}
 	};
 	
