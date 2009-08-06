@@ -23,8 +23,8 @@
 		<ul class="explore fl-force-left">
 			<li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
 			<li id="nav_profile_link"><a href="/dev/profile.html">Profile</a></li>
-			<li id="nav_people_link" class="chat_has_dropdown"><a href="javascript:;">People</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
-			<li id="nav_courses_sites_link" class="chat_has_dropdown"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
+			<li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
+			<li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
 			<li id="nav_search_link"><a href="/dev/search_b.html">Search</a></li>
 		</ul>
 	  <div class="personal-container fl-force-right">
@@ -47,7 +47,7 @@
 <!-- SELECTED PAGE -->
 <div id="nav_selected_page_template"><!--
 	{if dropdown}
-		<div class="explore_nav_selected_dropdown">
+		<div class="explore_nav_selected_dropdown" id="mysites_dropdown_close_link">
 	{else}
 		<div class="explore_nav_selected">
 	{/if}
@@ -92,16 +92,16 @@
             <div class="fl-fix dropdown_search_container">
                 <div>
                     <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"/>
-                    <div class="buttonBar fl-force-left">
-                        <a href="javascript:;" id="dropdown_people_search_button" class="button search_button">Search</a>
-                    </div>
+		    <div class="dropdown_search_button_left fl-force-left">
+			<input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="Search"/>
+		    </div>
                 </div>
             </div>
         </div>
 	</div>
-</div>
-<div class="fl-force-right close" id="people_dropdown_close" style="display:none">
-	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="_images2/close_icon.png" alt="Close Icon" class="close_icon"/></a>
+	<div class="dropdown_bottom_part_left">
+		<div class="dropdown_bottom_part_right"></div>
+	</div>
 </div>
 
 	
@@ -146,8 +146,8 @@
             <div class="fl-fix dropdown_search_container">
             <div>
                 <input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"/>
-                <div class="buttonBar fl-force-left">
-                    <a href="javascript:;" id="courses_sites_search_button" class="button search_button">Search</a>
+                <div class="dropdown_search_button_left fl-force-left">
+                    <input type="button" id="courses_sites_search_button" class="dropdown_search_button_right" value="Search"/>
                 </div>
             </div>
             </div>
@@ -157,16 +157,10 @@
             </div>
         </div>
     </div>
-	<div style="width: 960px; margin: 0 auto; background: url(/dev/_images2/dropdown_bottom_left.png) no-repeat; height: 10px; ">
-		<div style="background: url(/dev/_images2/dropdown_bottom_right.png) no-repeat top right; height: 10px;"></div>
+	<div class="dropdown_bottom_part_left">
+		<div class="dropdown_bottom_part_right"></div>
 	</div>
 </div>
-
-<!-- 
-<div class="fl-force-right close" style="display:none" id="mysites_dropdown_close">
-	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="_images2/close_icon.png" alt="Close Icon" class="close_icon"/></a>
-</div>
--->
 
 <!-- CREATE A SITE WIDGET -->
 <div id="top_navigation_widgets"></div>

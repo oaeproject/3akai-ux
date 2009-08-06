@@ -584,37 +584,37 @@ sakai.chat2 = function(tuid, placement, showSettings){
 	/**
 	 * Drop down the sites container under the top navigation bar
 	 */
-	var setSitesDropdown = function() {
-		$(navCoursesSitesLink).live("click", function(ev) {
-			
+	$(".nav_courses_sites_link").live("click", function(ev) {
+		if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length == 0){
 			// Hide the people dropdown
 			$(peopleDropDownMain).hide();
 			$(peopleDropDownClose).hide();
-			
+				
 			// Show the courses and sites.
 			$(mySitesDropDownMain).show();
 			$(mySitesDropDownClose).show();
-			
+				
 			$(exploreClass).html(defaultNav);
 			$(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites", true));
+			$("#nav_courses_sites_link").removeClass("nav_courses_sites_link");
 			if (!sitesShown) {
 				loadSites();
 				loadRecentSites();
 				sitesShown = true;
 			}
-			
-		});
-	};
+		}
+	});
 	
 	/*
 	 * Bind the close button for the sites container
 	 */
 	$(mySitesDropDownCloseLink).live("click", function(ev){
 		$(mySitesDropDownMain).hide();
-		$(mySitesDropDownClose).hide();
+		$(peopleDropDownMain).hide();
 		$(exploreClass).html(defaultNav);
 		selectPage();
-		setSitesDropdown();
+		$("#nav_people_link").addClass("nav_people_link");
+		$("#nav_courses_sites_link").addClass("nav_courses_sites_link");
 	});
 	
 	
@@ -653,11 +653,6 @@ sakai.chat2 = function(tuid, placement, showSettings){
 				}
 				
 				$(peopleDropDownMyContactsList).html($.Template.render(peopleDropDownMyContactsListTemplate, pOnline));
-				
-				if (pOnline.items.length === 0) {
-					$(peopleDropDownMain).css("height", "80px");
-					$(peopleDropDownMyContactsListTemplate).css("margin-bottom", "10px");
-				}
 				
 			},
 			error: function(status){
@@ -709,30 +704,16 @@ sakai.chat2 = function(tuid, placement, showSettings){
 	/*
 	 * Drop down the people container beneath the top navigation bar
 	 */
-	var setPeopleDropdown = function() {
-		$(navPeopleLink).live("click", function(ev) {
-			$(mySitesDropDownMain).hide();
-			$(mySitesDropDownClose).hide();
-			$(peopleDropDownMain).show();
-			$(peopleDropDownClose).show();
-			$(exploreClass).html(defaultNav);
-			$(navPeopleLink).html(SelectedPage("People"));
-			if (!peopleShown) {
-				loadPeople();
-				peopleShown = true;
-			}
-		});
-	};
-	
-	/*
-	 * Bind the close button for the people container
-	 */
-	$(peopleDropDownCloseLink).live("click", function(ev){
-		$(peopleDropDownMain).hide();
-		$(peopleDropDownClose).hide();
+	$(".nav_people_link").live("click", function(ev) {
+		$(mySitesDropDownMain).hide();
+		$(peopleDropDownMain).show();
 		$(exploreClass).html(defaultNav);
-		selectPage();
-		setPeopleDropdown();
+		$(navPeopleLink).html(renderSelectedPage("People", true));
+		$("#nav_people_link").removeClass("nav_people_link");
+		if (!peopleShown) {
+			loadPeople();
+			peopleShown = true;
+		}
 	});
 	
 	
@@ -1802,9 +1783,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 		}
 		
 	   	selectPage();
-		setPeopleDropdown();
 		getChatStatus();
-		setSitesDropdown();
 		addBinding();
 		getCountUnreadMessages();
 		setPresence(true);
