@@ -44,10 +44,37 @@
 			</div>
 			
 			
-			<label for="createsite_noncourse_description">Description:</label>
-			<textarea id="createsite_noncourse_description" rows="3" cols="30"></textarea><br />
+			<label for="createsite_noncourse_description" class="description_fields">Description:</label>
+			<textarea id="createsite_noncourse_description" rows="3" cols="30" class="description_fields"></textarea><br />
 			
-			<span class="createsite_maxcharacters">(Max 80 characters)</span>
+			<span class="createsite_maxcharacters description_fields">(Max 80 characters)</span>
+			
+			<label for="createsite_noncourse_description" class="member_fields" style=" padding-bottom:10px; ">* Members:</label>
+			<div class="member_fields" style="clear:both; overflow: auto; max-height: 150px;" id="members_to_add"></div>
+			
+			<div id="members_to_add_template"><!--
+				<table>
+					{var index = 0}
+					{for i in items}
+						<tr>
+							<td style="border:none">
+								{if index == 0}
+									<input type="checkbox" value="${i.userid}" disabled="disabled" CHECKED/>
+								{else}
+									<input type="checkbox" value="${i.userid}" CHECKED/>
+								{/if}
+							</td>
+							<td style="border:none">
+								<img src="${i.picture}" width="16px"/>
+							</td>
+							<td style="border:none">
+								${i.name}
+							</td>
+						</tr>
+						${index++|eat}
+					{/for}
+				</table>
+			--></div>
 
 			<div class="dialog_footer">
 				 <div class="buttonBar">

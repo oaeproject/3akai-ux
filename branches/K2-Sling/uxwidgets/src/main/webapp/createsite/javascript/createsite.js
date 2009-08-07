@@ -70,12 +70,48 @@ sakai.createsite = function(tuid,placement,showSettings){
 	// Utility functions //
 	///////////////////////
 	
+	var withMembers  = false;
+	
 	/**
 	 * Public function that can be called from elsewhere
 	 * (e.g. chat and sites widget)
 	 * It initializes the createsite widget and shows the jqmodal (ligthbox)
 	 */
-	sakai.createsite.initialise = function(){
+	sakai.createsite.initialise = function(members){
+		if (members){
+			
+			// Filter out myself
+			var todelete = -1;
+			for (var i = 0; i < members.items.length; i++){
+				if (members.items[i].userid == sdata.me.user.userid){
+					todelete = i;
+				}
+			}
+			if (todelete != -1) {
+				members.items.splice(todelete, 1);
+			}
+			
+			// Put me in as first element
+			var item = {};
+			item.name = sdata.me.profile.firstName + " " + sdata.me.profile.lastName;
+			item.userid = sdata.me.user.userid;
+			item.picture = Config.URL.PERSON_ICON_URL;
+			if (sdata.me.profile.picture && $.evalJSON(sdata.me.profile.picture).name){
+				item.picture = "/_user/public/" + sdata.me.user.userid + "/" + $.evalJSON(sdata.me.profile.picture).name;
+			}
+			members.items.unshift(item);
+			
+			withMembers = members;
+			
+			$(".description_fields").hide();
+			$(".member_fields").show();
+			$("#members_to_add").html($.Template.render("members_to_add_template", members));
+			
+		} else {
+			$(".description_fields").show();
+			$(".member_fields").hide();
+			withMembers = false;
+		}
 		$("#createsite_course_requested_container").hide();
 		$("#createsite_course_container").hide();
 		$("#createsite_noncourse_container").show();
@@ -387,12 +423,18 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
 			type: "POST",
 			success: function(data){
-				//addGroupsToSite(siteid);
-				addUserToCollaborators(siteid);
+				if (withMembers) {
+					addUserToCollaborators(siteid);
+				} else {
+					addGroupsToSite(siteid);
+				}
 			},
 			error: function(status){
-				addUserToCollaborators(siteid);
-				//addUserToCollaborators(siteid);
+				if (withMembers) {
+					addUserToCollaborators(siteid);
+				} else {
+					addGroupsToSite(siteid);
+				}
 			},
 			data: {
 				":member": "../../user/" + sdata.me.user.userid
@@ -401,6 +443,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 	};
 	
 	var addUserToCollaborators = function(siteid){
+		var boxes = $("#members_to_add input[@type=checkbox]:checked");
+		var toadd = [];
+		for (var i = 0; i < boxes.length; i++){
+			toadd[toadd.length] = "../../user/" + boxes[i].value;
+		}
 		$.ajax({
 			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
 			type: "POST",
@@ -411,7 +458,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				setSiteACL1(siteid);
 			},
 			data: {
-				":member": "../../user/ian"
+				":member": toadd
 			}
 		});
 	};
