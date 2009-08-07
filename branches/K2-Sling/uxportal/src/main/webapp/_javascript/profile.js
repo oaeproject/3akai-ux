@@ -132,6 +132,19 @@ sakai.profile = function(){
 				success: function(data){
 					var totalprofile = {};
 					totalprofile.profile = $.evalJSON(data);
+					
+					// Doing a rewrite of the me object, because Sling wraps arrays around
+					// the different fields in the profile object
+					if (typeof totalprofile.profile.firstName === "object"){
+						totalprofile.profile.firstName = totalprofile.profile.firstName[0];
+					}
+					if (typeof totalprofile.profile.lastName === "object"){
+						totalprofile.profile.lastName = totalprofile.profile.lastName[0];
+					}
+					if (typeof totalprofile.profile.email === "object"){
+						totalprofile.profile.email = totalprofile.profile.email[0];
+					}
+					
 					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
 						totalprofile._status = totalprofile.profile.chatstatus;
 					} 
@@ -387,7 +400,11 @@ sakai.profile = function(){
 			if (about.personalinterests) {
 				inabout++;
 				$("#personalinterests").show();
-				$("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
+				if (typeof about.personalinterests === "object") {
+					$("#txt_personalinterests").html("" + about.personalinterests.join("<br/>"));
+				} else {
+					$("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
+				}
 			} else if (!inedit_basic) {
 				$("#personalinterests").hide();
 			}
@@ -395,7 +412,11 @@ sakai.profile = function(){
 			if (about.academicinterests) {
 				inabout++;
 				$("#academicinterests").show();
-				$("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
+				if (typeof about.academicinterests === "object"){
+					$("#txt_academicinterests").html("" + about.academicinterests.join("<br/>"));
+				} else {
+					$("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
+				}
 			} else if (!inedit_basic) {
 				$("#academicinterests").hide();
 			}

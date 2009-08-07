@@ -32,6 +32,7 @@ sakai.search = function() {
 	var foundPeople = [];
 	var contactclicked = false;
 	var mainSearch = false;
+	var results = false;
 	
 	
 	//	CSS IDs
@@ -201,12 +202,19 @@ sakai.search = function() {
 						
 			//	If we don't have any results or they are less then the number we should display 
 			//	we hide the pager
-			if (results.size < resultsToDisplay) {
+			if (results.total < resultsToDisplay) {
 				$(searchConfig.global.pagerClass).hide();
 			}
 			else {
 				$(searchConfig.global.pagerClass).show();
 			}
+	
+			if (results.total == 0){
+				$("#create_site_these_people").hide();
+			} else {
+				$("#create_site_these_people").show();
+			}
+			
 		}
 		else {
 			$(searchConfig.global.pagerClass).hide();
@@ -270,10 +278,12 @@ sakai.search = function() {
 				url: Config.URL.SEARCH_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&people=" + searchWhere + "&s=sakai:firstName&s=sakai:lastName",
 				success: function(data) {
 					var json = $.evalJSON(data);
+					results = json;
 					renderResults(json, true);
 				},
 				error: function(status) {
 					var json = {};
+					results = json;
 					renderResults(json, false);
 				}
 			});
@@ -291,6 +301,32 @@ sakai.search = function() {
 		$(searchConfig.results.header).hide();
 	};
 
+
+	///////////////////////////////////
+	// Create site with found people //
+	///////////////////////////////////
+	
+	$("#create_site_these_people_link").bind("click", function(ev){
+		var searchterm = $(searchConfig.global.text).val().toLowerCase();
+		var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
+		var url = Config.URL.SEARCH_SERVICE + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
+		$.ajax({
+			cache: false,
+			url: url,
+			success: function(data) {
+				var json = $.evalJSON(data);
+				var finaljson = {};
+				finaljson.items = [];
+				finaljson = mainSearch.preparePeopleForRender(json.results, finaljson);
+				sakai.createsite.initialise(finaljson);
+			},
+			error: function(status) {
+				alert("An error has occured");
+			}
+		});
+	});
+	
+	
 	
 	//////////////////////
 	//	Event binding	//

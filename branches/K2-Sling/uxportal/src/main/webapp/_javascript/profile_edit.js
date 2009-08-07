@@ -99,9 +99,15 @@ sakai.profile = function(){
 			defaultViewText: " "
 		});
 		
+		sakai.inlineEditsArea(".profile_preview", {
+			useTooltip: true,
+			finishedEditing: doHomeContact,
+			defaultViewText: " "
+		});
+		
 		$(".inlineEditable").css("height","16px");
 		$(".text").css("height","16px");
-		$(".dropdown").css("height","16px");
+		$(".dropdownbox").css("height","16px");
 		
 	};
 			
@@ -494,12 +500,20 @@ sakai.profile = function(){
 			
 			if (about.personalinterests) {
 				inabout++;
-				$("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
+				if (typeof about.personalinterests === "object") {
+					$("#txt_personalinterests").html("" + about.personalinterests.join("<br/>"));
+				} else {
+					$("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
+				}
 			} 
 			
 			if (about.academicinterests) {
 				inabout++;
-				$("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
+				if (typeof about.academicinterests === "object"){
+					$("#txt_academicinterests").html("" + about.academicinterests.join("<br/>"));
+				} else {
+					$("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
+				}
 			} 
 			
 			if (about.hobbies) {
@@ -608,7 +622,7 @@ sakai.profile = function(){
 		var val = false;
 		
 		var disappear = false;
-		ui.style.height = "16px";
+		ui.style.minHeight = "16px";
 		
 		var value = newvalue;
 		if (ui.id == "txt_firstname"){
@@ -628,6 +642,30 @@ sakai.profile = function(){
 			key = "email";
 			val = value;
 			json.email = value;
+			
+		} else if (ui.id == "txt_academicinterests"){
+			
+			var aboutme = {};
+			if (json.aboutme) {
+				aboutme = $.evalJSON(json.aboutme);
+			}
+			value = value.split("\n");
+			aboutme[aboutmefields[ui.id]] = value;
+			key = "aboutme";
+			val = $.toJSON(aboutme);
+			json.aboutme = val;
+			
+		} else if (ui.id == "txt_personalinterests"){
+			
+			var aboutme = {};
+			if (json.aboutme) {
+				aboutme = $.evalJSON(json.aboutme);
+			}
+			value = value.split("\n");
+			aboutme[aboutmefields[ui.id]] = value;
+			key = "aboutme";
+			val = $.toJSON(aboutme);
+			json.aboutme = val;
 			
 		} else if (basicfields[ui.id]) {
 			
@@ -710,6 +748,13 @@ sakai.profile = function(){
    
 };
 
+
+///////////////////////////
+// Dropdown inline edits //
+///////////////////////////
+
+// TODO: Replace this by Fluid component
+
 sakai._inlineedits = [];
 sakai.inlineEdits = function(container, options){
 	var defaultViewText = "Click here to edit";
@@ -720,7 +765,7 @@ sakai.inlineEdits = function(container, options){
 	var els = $(".inlineEditableAlt", rootel);
 	for (var i = 0; i < els.length; i++){
 		var el = $(els[i]);
-		var dropdown = $(".dropdown", el);
+		var dropdown = $(".dropdownbox", el);
 		if (dropdown.length > 0){
 			
 			if (dropdown.html() === ""){
@@ -729,16 +774,10 @@ sakai.inlineEdits = function(container, options){
 			
 			var tochangeTo = $(".editContainer",el);
 			var changedel = $(".options", tochangeTo);
-			
-			dropdown.bind("mouseenter", function(ev){
-				$(ev.target).addClass("inlineEdit-invitation");
-			});
-			dropdown.bind("mouseleave", function(ev){
-				$(ev.target).removeClass("inlineEdit-invitation");
-			});
+
 			dropdown.bind("click", function(ev){
 				var parent = $(ev.target).parent();
-				var dropdown = $(".dropdown",parent);
+				var dropdown = $(".dropdownbox",parent);
 				var tochangeTo = $(".editContainer", parent);
 				
 				var value = dropdown.text();
@@ -752,7 +791,7 @@ sakai.inlineEdits = function(container, options){
 			});
 			changedel.bind("blur", function(ev){
 				var parent = $(ev.target).parent().parent();
-				var dropdown = $(".dropdown",parent);
+				var dropdown = $(".dropdownbox",parent);
 				var tochangeTo = $(".editContainer", parent);
 				var changedel = $(".options", tochangeTo);
 				
@@ -782,5 +821,98 @@ sakai.inlineEdits = function(container, options){
 	}
 	
 };
+
+$(".dropdownbox").live("mouseover", function(){
+	$(this).addClass("inlineEdit-invitation");
+});
+$(".dropdownbox").live("mouseout", function(){
+	$(this).removeClass("inlineEdit-invitation");
+});
+
+
+///////////////////////////
+// Textarea inline edits //
+///////////////////////////
+
+// TODO: Replace this by Fluid component
+
+sakai._inlineeditsArea = [];
+sakai.inlineEditsArea = function(container, options){
+	var defaultViewText = "Click here to edit";
+	if (options.defaultViewText){
+		defaultViewText = options.defaultViewText;
+	}
+	var rootel = $(container);
+	var els = $(".inlineEditableAlt", rootel);
+	for (var i = 0; i < els.length; i++){
+		var el = $(els[i]);
+		var dropdown = $(".textarea", el);
+		if (dropdown.length > 0){
+			
+			if (dropdown.html() === ""){
+				dropdown.html(defaultViewText);
+			}
+			
+			var tochangeTo = $(".editContainer",el);
+			var changedel = $(".options", tochangeTo);
+			
+			dropdown.bind("click", function(ev){
+				var parent = $(ev.target).parent();
+				var dropdown = $(".textarea",parent);
+				var tochangeTo = $(".editContainer", parent);
+				
+				var value = dropdown.html();
+				value = value.replace(/<br\/>/ig,"\n");
+				value = value.replace(/<br>/ig,"\n")
+				$(".options", tochangeTo).val(value.replace(/<br\/>/ig,"\n"));
+				if (dropdown.css("display") != "none"){
+					dropdown.hide();
+					tochangeTo.show();
+					changedel.focus();
+					changedel.click();
+				}		
+			});
+			changedel.bind("blur", function(ev){
+				var parent = $(ev.target).parent().parent();
+				var dropdown = $(".textarea",parent);
+				var tochangeTo = $(".editContainer", parent);
+				var changedel = $(".options", tochangeTo);
+				
+				var newvalue = changedel.val();
+				var orig = newvalue;
+				if (newvalue === ""){
+					newvalue = defaultViewText;
+				}
+				dropdown.html(newvalue.replace(/\n/g,"<br/>"));
+				
+				if (dropdown.css("display") == "none"){
+					tochangeTo.hide();
+					dropdown.show();
+				}
+				
+				var obj = {};
+				obj.value = orig;
+				
+				if (options.finishedEditing){
+					options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
+				}
+				
+				dropdown.removeClass("inlineEdit-invitation");
+				
+			});
+			
+		}
+	}
+	
+};
+
+$(".textarea").live("mouseover", function(){
+	$(this).addClass("inlineEdit-invitation");
+});
+$(".textarea").live("mouseout", function(){
+	$(this).removeClass("inlineEdit-invitation");
+});
+
+
 
 sdata.container.registerForLoad("sakai.profile");

@@ -261,8 +261,12 @@ sakai._search = function(config, callback) {
                     var picture = $.evalJSON(person.picture);
 					if (picture.name) {
 						user.picture = user.path + picture.name;
+					} else {
+						user.picture = Config.URL.PERSON_ICON_URL;
 					}
-                }
+                } else {
+					user.picture = Config.URL.PERSON_ICON_URL;
+				}
                 if (person.firstName && person.lastName) {
                     user.name = person.firstName + " " + person.lastName;
                     if (user.name.length > usernameLengthStrip) {
@@ -462,7 +466,7 @@ sakai._search = function(config, callback) {
         if (splitted.length > 1) {
             //urlterm += splitted[0] + "~"
             for (var i = 0; i < splitted.length; i++) {
-                urlterm += splitted[i] + "*";
+                urlterm += splitted[i] + "* ";
             }
         }
         else {
