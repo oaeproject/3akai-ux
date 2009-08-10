@@ -39,7 +39,7 @@
 #createsite_noncourse_container label {clear:both;color:#000000;float:left;font-weight:bold;margin-top:12px;width:80px;}
 #createsite_noncourse_description {margin:5px 0;}
 #createsite_noncourse_template_container {float:left;margin-top:4px;}
-#createsite_noncourse_template_container label {clear:none;float:left;font-weight:normal;margin:9px 0 0 5px;}
+#createsite_noncourse_template_container label {clear:none;float:left;font-weight:normal;margin:9px 0 0 5px; width: 280px;}
 #createsite_noncourse_name {width:280px;}
 #createsite_noncourse_url {float:left;margin:12px 5px 0 0;}
 

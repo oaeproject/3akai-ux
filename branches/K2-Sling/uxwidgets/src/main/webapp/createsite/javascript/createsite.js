@@ -207,6 +207,9 @@ sakai.createsite = function(tuid,placement,showSettings){
 		
 		// Add the correct params send to the create site request
 		// Site type is course/project or default
+		
+		var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
+		
 		var parameters = {
 			//"sling:resourceType" : "sakai/site",
 			"name" : sitetitle,
@@ -214,9 +217,10 @@ sakai.createsite = function(tuid,placement,showSettings){
 			"description" : sitedescription,
 			"id" : siteid,
 			":sitepath": "/" + siteid,
-			"sakai:site-template" : "/dev/_skins/original/original.html",
+			"sakai:skin" : "/dev/_skins/original/original.html",
 			"status" : "online",
-			"access" : "everyone" 
+			"access" : "everyone",
+			"sakai:site-template" : "/templates/" + sitetemplate
 		};
 
 		// Hide the buttons and show the process status
@@ -260,8 +264,9 @@ sakai.createsite = function(tuid,placement,showSettings){
 										"name" : sitetitle,
 										"description" : sitedescription,
 										"id" : siteid,
-										"sakai:site-template" : "/dev/_skins/original/original.html",
-										"status" : "online"
+										"sakai:skin" : "/dev/_skins/original/original.html",
+										"status" : "online",
+										"sakai:site-template" : "/templates/template"
 									}
 								});
 								
@@ -292,23 +297,27 @@ sakai.createsite = function(tuid,placement,showSettings){
 	var createNavigation = function(siteid){
 		var tosave = '<p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
 		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_navigation","content",tosave, function(){
-			createPageConfiguration(siteid);
+			setWidgetsPermissions(siteid);
 		});
 	};
 	
+	/*
 	var createPageConfiguration = function(siteid){
 		sdata.widgets.WidgetPreference.save("/sites/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
 			createPage1(siteid);
 		});
 	};
+	*/
 	
+	/*
 	var createPage1 = function(siteid){
-		var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
-		var tosave = '<p>Welcome to your new ' + sitetemplate + ' site!</p>';
-		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_pages/welcome","content",tosave, function(){
-			setWidgetsPermissions(siteid);
-		});
-	};
+			var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
+			var tosave = '<p>Welcome to your new ' + sitetemplate + ' site!</p>';
+			sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_pages/welcome","content",tosave, function(){
+				setWidgetsPermissions(siteid);
+			});
+		};
+	*/
 	
 	/**
 	 * Set the permissions of the widget folder in the site you are creating
