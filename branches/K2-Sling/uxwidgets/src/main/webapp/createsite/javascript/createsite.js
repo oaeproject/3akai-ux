@@ -426,14 +426,14 @@ sakai.createsite = function(tuid,placement,showSettings){
 				if (withMembers) {
 					addUserToCollaborators(siteid);
 				} else {
-					addGroupsToSite(siteid);
+					setSiteACL1(siteid);
 				}
 			},
 			error: function(status){
 				if (withMembers) {
 					addUserToCollaborators(siteid);
 				} else {
-					addGroupsToSite(siteid);
+					setSiteACL1(siteid);
 				}
 			},
 			data: {
