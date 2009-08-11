@@ -301,24 +301,6 @@ sakai.createsite = function(tuid,placement,showSettings){
 		});
 	};
 	
-	/*
-	var createPageConfiguration = function(siteid){
-		sdata.widgets.WidgetPreference.save("/sites/" + siteid,"pageconfiguration",'{"items":[{"type":"webpage","title":"Welcome","id":"welcome"}]}', function(){
-			createPage1(siteid);
-		});
-	};
-	*/
-	
-	/*
-	var createPage1 = function(siteid){
-			var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
-			var tosave = '<p>Welcome to your new ' + sitetemplate + ' site!</p>';
-			sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_pages/welcome","content",tosave, function(){
-				setWidgetsPermissions(siteid);
-			});
-		};
-	*/
-	
 	/**
 	 * Set the permissions of the widget folder in the site you are creating
 	 * In the future this should happen in the back-end of the site
@@ -435,18 +417,18 @@ sakai.createsite = function(tuid,placement,showSettings){
 				if (withMembers) {
 					addUserToCollaborators(siteid);
 				} else {
-					setSiteACL1(siteid);
+					setGroupMaintenance1(siteid);
 				}
 			},
 			error: function(status){
 				if (withMembers) {
 					addUserToCollaborators(siteid);
 				} else {
-					setSiteACL1(siteid);
+					setGroupMaintenance1(siteid);
 				}
 			},
 			data: {
-				":member": "../../user/" + sdata.me.user.userid
+				":member": "../../user/" + sdata.me.user.userid,
 			}
 		});
 	};
@@ -461,17 +443,51 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
 			type: "POST",
 			success: function(data){
-				setSiteACL1(siteid);
+				setGroupMaintenance1(siteid);
 			},
 			error: function(status){
-				setSiteACL1(siteid);
+				setGroupMaintenance1(siteid);
 			},
 			data: {
 				":member": toadd
 			}
 		});
 	};
+
+	var setGroupMaintenance1 = function(siteid){
+		/* $.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
+			type: "POST",
+			success: function(data){
+				setGroupMaintenance2(siteid);
+			},
+			error: function(status){
+				setGroupMaintenance2(siteid);
+			},
+			data: {
+				"sakai:delegatedGroupAdmin": "g-" + siteid + "-collaborators",
+			}
+		}); */
+		setGroupMaintenance2();
+	};
 	
+	var setGroupMaintenance2 = function(siteid){
+		/* $.ajax({
+			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
+			type: "POST",
+			success: function(data){
+				setSiteACL1(siteid);
+			},
+			error: function(status){					
+				setSiteACL1(siteid);
+			},
+			data: {
+				"sakai:delegatedGroupAdmin": "g-" + siteid + "-collaborators",
+			}
+		}); */
+		setSiteACL1();
+	};
+
 	var setSiteACL1 = function(siteid){
 		$.ajax({
 			url: "/sites/" + siteid + ".modifyAce.json",
