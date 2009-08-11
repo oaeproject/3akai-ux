@@ -6,8 +6,11 @@
 
 
 /** HEADING **/
+.sakai_site .header
+{  }
+
 .sakai_site .site_heading
-{ color: #454a4f; padding: 0; border: none; }
+{ color: #454a4f; padding: 0 0 10px 0; border: none; margin-top: -30px; }
 
 
 /** SEARCH **/
@@ -124,6 +127,9 @@
 
 
 /** BUTTONS **/
+.sakai_site .buttonBar
+{ height: 23px; }
+
 .sakai_site .lightgreybutton
 { background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
@@ -183,11 +189,93 @@
 
 
 
-/** SITE EDIT **/
+/** SITE EDIT 
+    --------------------------------------------------------------------------------------------------- **/
+
+/** TABS **/
+.edit_view .primary-tabs
+{ background: #fff url('../../_images2/site_edit_tab_bg.png') top right no-repeat; height: 25px; border: none;  margin: -15px 0 0 0; padding: 3px 10px 0 0; display: block; }
+
+.edit_view .primary-tabs ul
+{ padding: 0; margin: 0; border-bottom: none; float: right; }
+
+.edit_view .primary-tabs ul li
+{ margin: 0; padding: 0; background: transparent; border: none; display: block; float: left; }
+
+.edit_view .primary-tabs ul li a
+{ padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
+
+
+.edit_view .primary-tabs ul li.fl-activeTab
+{ background: #FFF url('../../_images2/tab_corner_tl.png') top left no-repeat; height: 28px; padding-left: 5px; position: relative; bottom: 0px !important;  }
+
+.edit_view .primary-tabs ul li.fl-activeTab a
+{ background: #FFF url('../../_images2/tab_corner_tr.png') top right no-repeat; height: 28px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
+
+
+/** Autosave message **/
+.edit_view .messageInformation
+{ height: 23px; line-height: 23px; }
+
+/** Toolbar **/
+.edit_view .toolbar-placeholder
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; padding: 0 0 0 0; margin: 0; background: transparent; height: 40px; border:none; }
+
+.edit_view .toolbar
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 5px 0 10px 7px; background: transparent; height: 35px; vertical-align: middle; background: #FFFFFF url(../../_images2/edit_toolbar_bg.png) top left repeat-x; }
+
+
+/** Title **/
+.edit_view .title_input_container
+{ padding: 5px 0 10px 0; z-index: 1234; }
+
+.edit_view .title-input
+{ width: 882px !important; font-size: 1.5em; font-weight: bold; border: 1px solid #999999; padding: 5px; z-index: 1234; }
+
+/** Content editors **/
+.edit_view .fl-tab-content-editor
+{ width: 882px !important; border: 1px solid #999999; padding: 5px; margin: 0; }
+
+.edit_view textarea
+{ width: 882px !important; }
+
+.edit_view #html-editor-content
+{ width: 882px !important; border: 1px solid #999999; padding: 5px; margin: 0; }
+
+.edit_view #page_preview_content
+{ width: 882px !important; border: 1px solid #999999; padding: 5px; margin: 0 0 20px 0; }
+
+/** Move **/
+.edit_view .new_page_path
+{ height: 23px; line-height:23px; margin: 10px 0 20px 0; }
+
+.edit_view .new_page_path div
+{ float:left; margin: 0 10px 0 0; }
+
+
+/** TAB CONTENTS **/
+.edit_view .edit_container
+{ padding: 0; margin: 0 0 20px 0; color: #454a4f; }
+
+.edit_view .edit_contents_main
+{ border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 0 10px 10px 10px; }
+
+.edit_view .content_top
+{ background: url('../../_images2/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+.edit_view .content_top_inner
+{ background: url('../../_images2/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+
+.edit_view.content_bottom
+{ background: url('../../_images2/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+
+.edit_view .content_bottom_inner
+{ background: url('../../_images2/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 
 
 
+/** --------------------------------------------------------------------------------------------------- **/
 
 
 /** FOOTER **/

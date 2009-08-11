@@ -164,17 +164,17 @@ sakai.site.site_admin = function(){
 			}
 		}
 		var barTop = sakai.site.curScroll;
-		$toolbarcontainer.css("width", ($("#toolbarplaceholder").width() - 2) + "px");
+		$toolbarcontainer.css("width", ($("#toolbarplaceholder").width()) + "px");
 		if (barTop <= sakai.site.minTop) {
-			$toolbarcontainer.css({"position":"absolute", "margin-top":"10px", "top": sakai.site.minTop + "px"});
-			$insert_more_menu.css({"position": "absolute", "margin-top": "10px", "top":(sakai.site.minTop + 25) + "px"});
+			$toolbarcontainer.css({"position":"absolute", "top": sakai.site.minTop + "px"});
+			$insert_more_menu.css({"position": "absolute", "top":(sakai.site.minTop + 25) + "px"});
 		}
 		else {
-				$toolbarcontainer.css({"position":"fixed", "margin-top":"10px","top":"0px"});
-				$insert_more_menu.css({"position": "fixed", "margin-top": "10px", "top":"0px"});
+				$toolbarcontainer.css({"position":"fixed", "top":"0px"});
+				$insert_more_menu.css({"position": "fixed", "top":"0px"});
 		}
 		
-		$insert_more_menu.css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 1 + "px");
+		$insert_more_menu.css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 10 + "px");
 		
 		sakai.site.last = new Date().getTime();
 	};
@@ -1117,6 +1117,7 @@ sakai.site.site_admin = function(){
 		$fl_tab_content_editor.show();
 		$toolbarplaceholder.show();
 		$toolbarcontainer.show();
+		$("#title-input").show();
 		if (sakai.site.currentEditView == "preview"){
 			$("#page_preview_content").hide().html("");
 			$("#tab-nav-panel").show();
@@ -1158,6 +1159,7 @@ sakai.site.site_admin = function(){
 		var value = tinyMCE.get("elm1").getContent();
 		$("#html-editor-content").val(value);
 		$("#html-editor").show();
+		$("#title-input").show();
 		sakai.site.currentEditView = "html";
 	});
 	
@@ -1173,6 +1175,7 @@ sakai.site.site_admin = function(){
 		$("#tab-nav-panel").hide();
 		$("#new_page_path").hide();
 		$("#html-editor").hide();
+		$("#title-input").hide();
 		$("#page_preview_content").html("").show();
 		if (!sakai.site.currentEditView) {
 			switchtab("text_editor","Text Editor","preview","Preview");
@@ -1201,8 +1204,8 @@ sakai.site.site_admin = function(){
 	 * @return void
 	 */
 	var switchtab = function(inactiveid, inactivetext, activeid, activetext){
-		$("#tab_" + inactiveid).removeClass("fl-activeTab").removeClass("tab-nav-selected").html('<a href="javascript:;">' + inactivetext + '</a>');
-		$("#tab_" + activeid).addClass("fl-activeTab").addClass("tab-nav-selected").html('<span>' + activetext + '</span>');
+		$("#tab_" + inactiveid).removeClass("fl-activeTab").html('<a href="javascript:;">' + inactivetext + '</a>');
+		$("#tab_" + activeid).addClass("fl-activeTab").html('<a href="javascript:;">' + activetext + '</a>');
 	};
 	
 	
@@ -1796,7 +1799,7 @@ sakai.site.site_admin = function(){
 				var searchstring = tofind.join(",");
 				
 				$.ajax({
-				   	url :"/rest/me/" + searchstring,
+				   	url :"/system/me/" + searchstring,
 				    success : function(data) {
 						
 						var result = $.evalJSON(data);
@@ -2484,7 +2487,7 @@ sakai.site.site_admin = function(){
 	$("#edit_sidebar").bind("click", function(ev){
 		// Init tinyMCE if needed
 		if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
-     		sakai.site.isEditingNavigation = true;
+			sakai.site.isEditingNavigation = true;
 			init_tinyMCE();
   		} else {
 			editPage("_navigation");

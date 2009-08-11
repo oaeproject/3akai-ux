@@ -72,6 +72,7 @@
 	    
 	</div>
       
+	<!-- CONTENT -->
 	<div class="fl-fix fl-centered fixed-container">
 	    
 	    <!-- MAIN PAGE -->
@@ -172,79 +173,103 @@
 	    <!-- WORK AREA -->
 	    <div class="fl-fix edit_view" id="edit_view_container" style="display:none">
 		<div class="main_container content_container">
-		    <div class="content">
+		    
 			
 			<!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
 			<div class="buttonBar">
 			    <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
 			    <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
-			    <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
+			    <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
 			</div>
 			
-			<div>
-			<ul class="fl-tabs fl-tabs-r tab-nav">
-			    <li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
-			    <li id="tab_html"><a href="javascript:;">HTML</a></li>
-			    <li id="tab_preview"><a href="javascript:;">Preview</a></li>
-			</ul>
+			
+			
+			<!-- TAB NAVIGATION --> 
+			<div class="primary-tabs">
+			    <ul class="fl-tabs fl-tabs-right">
+			        <li class="fl-activeTab" id="tab_text_editor"><a>Text Editor</a></li>
+			        <li id="tab_html"><a href="javascript:;">HTML</a></li>
+			        <li id="tab_preview"><a href="javascript:;">Preview</a></li>
+			    </ul>
 			</div>
 			
-			<div class="tab-nav-panel" id="tab-nav-panel">
+			
+			<!-- TAB CONTENT -->
+			<div class="fl-centered fl-container fl-tab-content edit_container">
+			    
+			    <!-- TOP BORDER -->
+			    <div class="content_top"><div class="content_top_inner"></div></div>
+			    
+			    <!-- TOOLBAR -->    
 			    <div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
-			    
-			    <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
-				<div class="mceToolbarExternal mceEditor defaultSkin"></div>
+				    
+				    <div class="toolbar" id="toolbarcontainer">
+					<div class="mceToolbarExternal mceEditor defaultSkin"></div>
 			    </div>
 			    
-			    <div class="fl-tab-content-border" id="title-input-container">
-				<input type="text" value="Untitled" class="title-input" id="title-input"/>
-			    </div>
 			    
-			    <div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
-				<div id="placeholderforeditor" class="textarea">
-					
-					<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-					<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
-						&nbsp;
-					</textarea>
-				</div>
-			    </div>
-			    
-			    <div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
-				    <textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
-			    </div>
-			</div>
-			
-			<p class="new_page_path" id="new_page_path">
-			     Site title / Some page / <span>Untitled</span>
-			    <input class="custom_button" type="button" value="Move ..." name="somename"/>
-			</p>
-			
-			<div style="display:none" id="new_page_path_template"><!--
-				{var index = 0}
-				<span>Page location:</span>
-				{for i in pages}
-					${index++|eat}
-					{if index == total}
-						<span id="new_page_path_current">${i}</span>
-					{else}
-						${i}&nbsp;/&nbsp;
-					{/if}
-				{/for}
-				&nbsp;
-				<input class="custom_button" type="button" value="Move ..." name="somename" id="move_inside_edit"/>
-			--></div>
-			
-			<div class="fl-tab-content-border content_container" id="page_preview_content" style="display:none; margin-bottom: 20px">
+			    <!-- EDIT CONTENTS -->
+			    <div class="edit_contents_main">
+				    
+				    <div class="title_input_container" id="title-input-container">
+					<input type="text" value="Untitled" class="title-input" id="title-input"/>
+				    </div>
+				    
+				    <div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
+					<div id="placeholderforeditor" class="textarea">
+						
+						<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+						<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+							&nbsp;
+						</textarea>
+					</div>
+				    </div>
+				    
+				    <div id="html-editor" style="display:none;">
+					    <textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
+				    </div>
 				
+				
+				<div class="new_page_path" id="new_page_path">
+				    
+				</div>
+				
+				
+				
+				<div style="display:none" id="new_page_path_template"><!--
+					{var index = 0}
+					<div>
+					<span>Page location:</span>
+					{for i in pages}
+						${index++|eat}
+						{if index == total}
+							<span id="new_page_path_current">${i}</span>
+						{else}
+							${i}&nbsp;/&nbsp;
+						{/if}
+					{/for}
+					</div>
+					&nbsp;
+					<div class="buttonBar">
+					    <div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div>
+					</div>
+				--></div>
+				
+				<div class="content_container" id="page_preview_content" style="display:none;">
+					
+				</div>
+				
+				
+				<div class="buttonBar">
+				    <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
+				    <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
+				</div>
+			    
+			    </div>
+			    
+			    <div class="content_bottom"><div class="content_bottom_inner"></div></div>
+			    
 			</div>
-			
-			<div class="buttonBar">
-			    <a href="javascript:;" class="button-default save_button">Save</a>
-			    <a href="javascript:;" class="button cancel-button">Cancel</a>
-			</div>
-			
-		    </div>
 		</div>
 	    </div>
 	</div>
@@ -414,10 +439,10 @@
 			</div>
 			
 			<div class="dialog_footer">
-				 <div class="buttonBar">
+			    <div class="buttonBar">
 			        <a href="javascript:;" id="delete_confirm" class="button-default">Yes</a>
 			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
-			     </div>
+			    </div>
 			</div>
 		</div>
 		
