@@ -190,7 +190,7 @@ sakai.site_manage_members = function() {
 			var toRender = {};
 			toRender.users = members;
 			$("#siteManage_members").html($.Template.render("siteManage_people_template", toRender));
-            $("#manage_members_count").html(getNumMembers(toRender.users));
+		 	$("#manage_members_count").html(getNumMembers(toRender.users));
             $(".siteManage_person").bind("click",
             function(e, ui) {
                 var userindex = parseInt(e.target.parentNode.id.replace("siteManage_person", ""), 10);
