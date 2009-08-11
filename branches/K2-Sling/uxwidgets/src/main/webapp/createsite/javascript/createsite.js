@@ -468,7 +468,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				"sakai:delegatedGroupAdmin": "g-" + siteid + "-collaborators",
 			}
 		}); */
-		setGroupMaintenance2();
+		setGroupMaintenance2(siteid);
 	};
 	
 	var setGroupMaintenance2 = function(siteid){
@@ -485,7 +485,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				"sakai:delegatedGroupAdmin": "g-" + siteid + "-collaborators",
 			}
 		}); */
-		setSiteACL1();
+		setSiteACL1(siteid);
 	};
 
 	var setSiteACL1 = function(siteid){
