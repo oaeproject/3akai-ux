@@ -31,6 +31,21 @@
 #sendmessage_dialog_footer {padding-left:15px; height:40px;}
 #sendmessage_buttonBar {position:relative; top:5px; padding-bottom:15px}
 
+/** BUTTONS **/
+.send_message .lightgreybutton
+{ background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+
+.send_message .lightgreybutton a
+{ background: url(../../_images2/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
+
+.send_message .greybutton
+{ background: transparent url(../../_images2/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+
+.send_message .greybutton a
+{ background: url(../../_images2/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
+
+
+
 /* send_message_lightbox.html */
 .send_message .compose-form {font-weight:bold; padding:15px 15px 15px 15px}
 .send_message .compose-form input, .send_message .compose-form textarea {font-weight:normal;}
@@ -44,7 +59,7 @@
 .send_message .send {width:107px; font-size:12px;}
 .send_message .cancel {margin-left:9px; width:74px;  font-size:12px;}
 #send_message {font-weight:bold}
-#send_message_cancel {float:none;display:inline;}
+
 
 
 /*	AUTOCOMPLETE CSS */
