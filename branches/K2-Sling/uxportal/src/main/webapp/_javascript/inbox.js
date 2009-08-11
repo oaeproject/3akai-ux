@@ -25,7 +25,7 @@ sakai.inbox = function() {
     // Configuration variables 	//
     //////////////////////////////	
     
-    var messagesPerPage = 5; //	The number of messages per page.
+    var messagesPerPage = 8; //	The number of messages per page.
     var allMessages = []; //	Array that will hold all the messages.
     var me = sdata.me;
     var generalMessageFadeOutTime = 3000; //	The amount of time it takes till the general message box fades out
@@ -815,7 +815,7 @@ sakai.inbox = function() {
      */
     var displayMessage = function(id) {
 		$(".message-options").show();
-		$("#inbox_message_previous_messages").show();
+		$("#inbox_message_previous_messages").hide();
 		$("#inbox_message_replies").html("");
 		
 		// Hide invitation links
@@ -873,13 +873,13 @@ sakai.inbox = function() {
                     replies = {
                         "replies": message.parts
                     };
-					$(".message-options").hide();
-					$("#inbox_message_previous_messages").hide();
-                    replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, replies);
+		$(".message-options").hide();
+		$("#inbox_message_previous_messages").hide();
+                replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, replies);
                     
-                }
+            }
                 else {
-					var parts = message["sakai:previous"];
+		    var parts = message["sakai:previous"];
                     for (var i = 0; i < parts.length; i++) {
                         replies = {
                             "reply": parts[i]
