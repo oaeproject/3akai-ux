@@ -336,6 +336,26 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0
 		},
+		chat3 :
+		{
+			description:"chat3",
+			iframe:0,
+			url:"/devwidgets/chat3/chat.html",
+			name:"chat3",
+			id:"chat3",
+			personalportal:0,
+			siteportal:0
+		},
+		filemanager :
+		{
+			description:"filemanager",
+			iframe:0,
+			url:"/devwidgets/filemanager/filemanager.html",
+			name:"filemanager",
+			id:"filemanager",
+			personalportal:0,
+			siteportal:0
+		},
 		siterecentactivity :
 		{
 			description:"Site Recent Activity",
