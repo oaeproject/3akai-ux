@@ -1,0 +1,154 @@
+<link type="text/css" href="/devwidgets/filemanager/css/filemanager.css"></link>
+
+<div style="display:none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-color: #000; opacity: 0.2; z-index: 30000" id="overlay"></div>
+
+<div id="filemanager_popup_content" style="display:none;  z-index: 30001; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;">
+	
+	<div style="margin: 50px auto 0px; width: 1150px;">
+		<div style="background: url(/devwidgets/filemanager/images/titlebar_left.png) top left no-repeat; height: 40px; line-height:40px; color: #fff; float:left; width: 1140px; ">
+			<div style="background: url(/devwidgets/filemanager/images/titlebar_right.png) top right no-repeat; margin-left: 20px; margin-right: -10px;">
+				Find, browse and manage files
+				<div style="float:right; padding: 25px; margin-top: -50px"><img src="/devwidgets/filemanager/images/titlebar_close.png" style="cursor: pointer; cursor: hand;" id="filemanager_close"/></div>
+			</div>
+		</div>
+	</div>
+	
+	<div style="background-color: #FFF; width: 1144px; height: 510px; margin: 0px auto 50px; border: 3px solid #454a4f; clear:both;">
+    <!-- Accordion -->
+    <div id="accordion" style="background-color:#fff; width: 250px; float: left; height: 100%; border-right: 1px solid #454a4f">
+        <table style="height:100%; width: 100%;" cellpadding="0" cellspacing="0">
+            <tr style="height:30px; background-color: #EEE;">
+                <td style="border-bottom: 1px solid #aaa">
+                    Search
+                </td>
+            </tr>
+            <tr style="height:auto; display:none">
+                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc">
+                    <input type="text"/>
+                </td>
+            </tr>
+            <tr style="height:30px; background-color: #EEE">
+                <td style="border-bottom: 1px solid #aaa">
+                    Browse by tag
+                </td>
+            </tr>
+			<tr style="height:auto; display:none">
+                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc">
+                    <div style="text-align:center">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</div>
+					<br/><br/>
+					Animals (1)<br/>
+					Architecture (12)<br/>
+					Barcelona (23)<br/>
+					Car (7)<br/>
+					Flower (11)<br/>
+					India (1)<br/>
+					Live (9)<br/>
+					Music (32)<br/>
+					People (2)<br/>
+					Spring (1)<br/>
+					Sunset (4)<br/>
+					Travel (92)<br/>
+					Zoo (1)<br/>
+                </td>
+            </tr>
+            <tr style="height:30px; background-color: #EEE">
+                <td style="border-bottom: 1px solid #aaa">
+                    Browse by site
+                </td>
+            </tr>
+			<tr style="height:auto;">
+                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc; text-decoration:underline;">
+                    All Files<br/>
+					All My Files<br/>
+					All My Sites<br/>
+					<br/><br/>
+					Biology 101<br/>
+					CARET<br/>
+					JISC Academic Networking<br/>
+					CamTools Best Practices<br/>
+					3A1 FM1 Eng: IIA 06_07<br/>
+					CARET Social<br/>
+					Demo site<br/>
+					March 09 seminar<br/>
+					MBA NotForProfit SIG<br/>
+					Robs Test Site<br/>
+					UCS CARET Liaison<br/>
+					Using a VLE<br/>
+                </td>
+            </tr>
+            <tr style="height:30px; background-color: #EEE">
+                <td style="border-bottom: 1px solid #aaa">
+                    Upload files
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-left: 270px; background-color: #FFF;">
+        <div style="float:right; margin-right: 20px;">
+            <span style="background: url(/devwidgets/filemanager/images/button_edit.png) center left no-repeat; padding-left: 20px;">Edit Files</span>
+            &nbsp;| &nbsp;
+			<span style="background: url(/devwidgets/filemanager/images/button_remove.png) center left no-repeat; padding-left: 20px;">Remove Files</span>
+            &nbsp;| &nbsp;
+			<span>
+                <select>
+                    <option>More actions</option>
+                    <option>------------</option>
+                    <option>Make available in:</option>
+                    <option>... Biology 101</option>
+                    <option>... CARET</option>
+                    <option>... Computer Science</option>
+                </select>
+            </span>
+        </div>
+		
+		<!-- Filters -->
+		<div id="filemanager_list_title"></div>
+		<div id="filemanager_list_title_template"><!--
+	        <div style="color:#454A4F; font-size:1.6em; font-weight:bold; margin:15px 0 5px; padding:0;">
+	        	My Files <a href="#"><img border="0" src="/devwidgets/filemanager/images/remove_filter.png"/></a>
+	        </div>
+			{if tag}
+	        <div style="line-height:16px;">
+	            With tag
+				{var index = 0}
+				{for t in tag}
+				{if index > 0}
+				and
+				{/if}
+				"${t}"
+				${index++|eat}
+				{/for}
+				<a href="#"><img border="0" src="/devwidgets/filemanager/images/remove_filter.png"/></a>
+			</div>
+			{/if}
+	        {if search}
+	        <div style="line-height: 16px;">
+	        	Using "${search}" search query <a href="#"><img border="0" src="/devwidgets/filemanager/images/remove_filter.png"/></a>
+	        </div>
+			{/if}
+		--></div>
+		<!-- Filters -->
+		
+		<div id="filemanager_files_container" style="margin: 20px; margin-left: 0px;"></div>
+		<div id="filemanager_paging" class="jq_pager" style="clear:both; position: relative; top: -35px; height: 0px; text-align: center;"></div>
+		<div id="filemanager_files_container_template"><!--
+			{for i in results}
+		        <div class="filemanager_file">
+					{if i.mimeType === "application/doc"}
+						<img src="http://www.schoonzie.com/files/Word2007Icon.jpg" width="50px"/>
+					{elseif i.mimeType === "application/x-pdf"}
+						<img src="http://kimba.mat.ucm.es/tarot09/index_files/pdf+icon.jpg" width="50px"/>
+					{else}
+						<img src="http://autoscopia.com/macformom/images/document_blank.jpg" width="50px"/>
+					{/if}
+		            <div style="text-align:center; padding-top: 5px;">
+		                ${i.title}
+		            </div>
+		        </div>
+			{/for}
+		--></div>
+    </div>
+    </div>
+</div>
+
+<script type="text/javascript" language="JavaScript" src="/devwidgets/filemanager/javascript/filemanager.js"></script>

@@ -1,0 +1,536 @@
+{
+	"results": [
+		{
+			"title" : "Camtools_2009_plan-2.pdf",
+			"filename" : "Camtools_2009_plan-2.pdf",
+			"mimeType" : "application/x-pdf",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255195826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : "This is a CamTools 2009 plan",
+			"tags" : [
+				"CamTools",
+				"2009",
+				"plan"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				},
+				{
+					"title": "CamTools Framework",
+					"id": "/sites/camtoolsframework"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Camtools_2009_plan-2.pdf"
+		},
+		{
+			"title" : "Swift Accounts + Ostrakon Migration",
+			"filename" : "Swift Accounts + Ostrakon Migration _OpenOffice_.ods",
+			"mimeType" : "application/doc",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "OpensourceVLE.pdf",
+			"filename" : "OpensourceVLE.pdf",
+			"mimeType" : "application/x-pdf",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "Business-of-UX-Metrics.pdf",
+			"filename" : "Business-of-UX-Metrics.pdf",
+			"mimeType" : "application/x-pdf",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "camcomm migration doc in excel ",
+			"filename" : "camcomm migration doc in excel ",
+			"mimeType" : "application/xls",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "CamTools for beginners",
+			"filename" : "CamTools for beginners",
+			"mimeType" : "application/doc",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "Camtools help requests",
+			"filename" : "Camtools help requests",
+			"mimeType" : "application/xls",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "CARET infrastructure strategy ",
+			"filename" : "CARET infrastructure strategy ",
+			"mimeType" : "application/doc",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "WASP.zip",
+			"filename" : "WASP.zip",
+			"mimeType" : "application/zip",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "Conference brainstorm.doc",
+			"filename" : "Conference brainstorm.doc",
+			"mimeType" : "application/doc",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "Camtools_2009_plan-2.pdf",
+			"filename" : "Camtools_2009_plan-2.pdf",
+			"mimeType" : "application/x-pdf",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255195826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : "This is a CamTools 2009 plan",
+			"tags" : [
+				"CamTools",
+				"2009",
+				"plan"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				},
+				{
+					"title": "CamTools Framework",
+					"id": "/sites/camtoolsframework"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Camtools_2009_plan-2.pdf"
+		},
+		{
+			"title" : "Swift Accounts + Ostrakon Migration",
+			"filename" : "Swift Accounts + Ostrakon Migration _OpenOffice_.ods",
+			"mimeType" : "application/doc",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "OpensourceVLE.pdf",
+			"filename" : "OpensourceVLE.pdf",
+			"mimeType" : "application/x-pdf",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "Camtools help requests",
+			"filename" : "Camtools help requests",
+			"mimeType" : "application/xls",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		},
+		{
+			"title" : "CARET infrastructure strategy ",
+			"filename" : "CARET infrastructure strategy ",
+			"mimeType" : "application/doc",
+			"owner" : {
+				"rep:userId" : "nicolaas",
+				"firstName" : "Nicolaas",
+				"lastName" : "Matthijs"
+			},
+			"lastModified": {
+				"month":0,
+				"day":4,
+				"year":109,
+				"time":1233255395826,
+				"seconds":15,
+				"timezoneOffset":0,
+				"date":29,
+				"hours":18,
+				"minutes":53
+			},
+			"description" : null,
+			"tags" : [
+				"Open Office",
+				"Swift",
+				"Ostrakon",
+				"CamTools"
+			],
+			"usedIn" : [
+				{
+					"title": "CARET",
+					"id": "/sites/caret"
+				}
+			],
+			"URL" : "/_user/public/nicolaas/Swift%20Accounts%20+%20Ostrakon%20Migration%20_OpenOffice_.ods"
+		}
+	],
+	"total": 53
+}

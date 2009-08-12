@@ -1,0 +1,19 @@
+#filemanager_popup_content td {
+	border: none;
+	padding-left: 20px;
+}
+
+.filemanager_file {
+	float:left; 
+	width: 125px; 
+	overflow: hidden; 
+	text-align:center; 
+	padding: 15px; 
+	margin-right: 10px;
+	border: 2px solid #fff;
+	height: 100px;
+}
+
+.filemanager_file_selected {
+	border: 2px solid #000 !important;
+}
