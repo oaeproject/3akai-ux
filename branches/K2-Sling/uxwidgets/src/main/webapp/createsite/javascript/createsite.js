@@ -428,7 +428,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				}
 			},
 			data: {
-				":member": "../../user/" + sdata.me.user.userid,
+				":member": "../../user/" + sdata.me.user.userid
 			}
 		});
 	};
