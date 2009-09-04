@@ -423,6 +423,21 @@ var Widgets = {
 			img:"/devwidgets/rss/images/rss.png",
 			hasSettings: 1
 		},
+		sitemembers :
+		{
+			description:"List of site members",
+			iframe:0,
+			url:"/devwidgets/sitemembers/sitemembers.html",
+			name:"Site members",
+			id:"sitemembers",
+			personalportal:1,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/sitemembers/images/sitemembers.png",
+			hasSettings: 1
+		},
 		video :
 		{
 			description:"Video",

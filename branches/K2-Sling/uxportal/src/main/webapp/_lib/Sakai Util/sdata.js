@@ -71,39 +71,49 @@ if(!Array.indexOf){
 	$.handleError = function (s, xhr, status, e) {
 		
 		var requestStatus = xhr.status;
-		// if the sendToLoginOnFail hasn't been set, we assume that we want to redirect when
-		// a 403 comes back
-		s.sendToLoginOnFail = s.sendToLoginOnFail || true;
-		if (requestStatus === 403 && s.sendToLoginOnFail){
-			
-			var decideLoggedIn = function(response, exists){
-				var originalURL = document.location;
-				originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
-				var redirecturl = Config.URL.GATEWAY_URL + "?url=" + originalURL;
-				if (exists) {
-					var me = $.evalJSON(response);
-					if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
-						document.location = redirecturl;
-					}
-				}	
-			};
-			
-			$.ajax({
-				url : Config.URL.ME_SERVICE,
-				cache : false,
-				success : function(data) {
-					decideLoggedIn(data,true);
-				}
-			});
-			
+		// Sometimes jQuery comes back with a parse-error, although the request
+		// was completely successful. In order to prevent the error method to be called
+		// in this case, we need this if clause.
+		if (requestStatus === 200) {
+			if (s.success) {
+				s.success(xhr.responseText);
+			}
 		}
-					
-	    if (s.error) {
-	        s.error(requestStatus, status, e);
-	    }
-	    if (s.global) {
-	        jQuery.event.trigger("ajaxError", [xhr, s, e]);
-	    }
+		else {
+			// if the sendToLoginOnFail hasn't been set, we assume that we want to redirect when
+			// a 403 comes back
+			s.sendToLoginOnFail = s.sendToLoginOnFail || true;
+			if (requestStatus === 403 && s.sendToLoginOnFail) {
+			
+				var decideLoggedIn = function(response, exists){
+					var originalURL = document.location;
+					originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
+					var redirecturl = Config.URL.GATEWAY_URL + "?url=" + originalURL;
+					if (exists) {
+						var me = $.evalJSON(response);
+						if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
+							document.location = redirecturl;
+						}
+					}
+				};
+				
+				$.ajax({
+					url: Config.URL.ME_SERVICE,
+					cache: false,
+					success: function(data){
+						decideLoggedIn(data, true);
+					}
+				});
+				
+			}
+			
+			if (s.error) {
+				s.error(requestStatus, status, e);
+			}
+			if (s.global) {
+				jQuery.event.trigger("ajaxError", [xhr, s, e]);
+			}
+		}
 		
 	};
 	
@@ -286,12 +296,12 @@ sdata.widgets.WidgetLoader = {
 	 *  true  : render the settings mode of the widget
 	 *  false : render the view mode of the widget
 	 */
-	insertWidgets : function(id, showSettings){
-		var obj = sdata.widgets.WidgetLoader.loadWidgets(id, showSettings);
+	insertWidgets : function(id, showSettings, context){
+		var obj = sdata.widgets.WidgetLoader.loadWidgets(id, showSettings, context);
 		sdata.widgets.WidgetLoader.loaded[sdata.widgets.WidgetLoader.loaded.length] = obj;
 	},
 	
-	loadWidgets : function(id, showSettings){
+	loadWidgets : function(id, showSettings, context){
 		
 		// Configuration variables
 		var widgetNameSpace = "sakai";
@@ -319,7 +329,7 @@ sdata.widgets.WidgetLoader = {
 			}
 		};
 	
-		var insertWidgets = function(containerId, showSettings){
+		var insertWidgets = function(containerId, showSettings, context){
 			
 			// Use document.getElementById() to avoid jQuery selector escaping issues with '/'
 			var el = containerId ? document.getElementById(containerId) : $(document.body);
@@ -358,6 +368,8 @@ sdata.widgets.WidgetLoader = {
 						var placement = "";
 						if (split[3] !== undefined){
 							placement = id.substring(length);
+						} else if (context){
+							placement = context;
 						}
 						
 						if (! widgets[widgetname]){
@@ -483,7 +495,7 @@ sdata.widgets.WidgetLoader = {
 				
 		};
 		
-		insertWidgets(id, showSettings);
+		insertWidgets(id, showSettings, context);
 		
 		return {
 			"informOnLoad" : informOnLoad

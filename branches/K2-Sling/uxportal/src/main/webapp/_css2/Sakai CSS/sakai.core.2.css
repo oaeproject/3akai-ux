@@ -907,3 +907,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .site_body .main_container .content_container {
 	border: 1px solid orange;
 }
+#main-content-div {
+	padding-top: 10px;	
+}
