@@ -522,7 +522,6 @@ sakai.rss = function(tuid, placement, showSettings){
 					fillRssOutput();
 				},
 				error: function(status) {
-					
 					$("#rss_no_feeds").show();
 					
 				}

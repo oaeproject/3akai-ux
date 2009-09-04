@@ -30,5 +30,5 @@
 .addtocontacts_bold,#addtocontacts_form_invite {font-weight:700;}
 
 /* Button bar */
-.buttonBar {position:relative;top:5px;padding-bottom:15px;}
-.buttonBar .button {display:inline;float:none;}
+.dialog_footer .buttonBar {position:relative;top:5px;padding-bottom:15px;}
+.dialog_footer .buttonBar .button {display:inline;float:none;}
