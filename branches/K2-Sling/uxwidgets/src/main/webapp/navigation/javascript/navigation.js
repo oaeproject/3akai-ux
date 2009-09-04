@@ -43,54 +43,13 @@ sakai.navigation = function(tuid, placement, showSettings){
 	///////////////////////
 	
 	/**
-	 * Check if an id starts with a certain string
-	 * @param {String} nodeId The id of the node
-	 * @param {String} input The string to check
-	 * @return
-	 * 	true: The node id starts with the input string
-	 * 	false: The node id doesn't start with the input string
-	 */
-	var startsWith = function(nodeId, input){
-		return (input === nodeId.substring(0, input.length));
-	};
-	
-	/**
 	 * Get the level of a page id
 	 * e.g. when the level of the page is main/test/hey, it will return 3
 	 * @param {String} pageId The id of the page
 	 * @return {Integer} The level of the page (0,1,...)
 	 */
 	var getLevel = function(pageId) {
-		return pageId.split(/\//g).length-1;
-	};
-	
-	/**
-	 * Get the parent id of a specific page id
-	 * @param {String} pageId The id of the page
-	 * @return {String} The id of the parent page
-	 * 	This will be an empty string if there is no parent
-	 */
-	var getParentId = function(pageId) {
-		return pageId.substring(0, pageId.lastIndexOf("/"));
-	};
-	
-	/**
-	 * Get the title for a page.
-	 * This function is used to get the title of the parent id when rendering
-	 * the navigation.
-	 * @param {Object[]} pages Array containing all the pages
-	 * @param {String} pageId The id of the page you want the title of
-	 */
-	var getTitle = function(pages, pageId){
-		
-		// Run over all the pages and check if the page you are
-		// running over is the same as the parameter.
-		for (var i = 0; i < pages.items.length; i++) {
-			if (pages.items[i].id === pageId){
-				return pages.items[i].title;
-			}
-		}
-		return null;
+		return pageId.split(/\//g).length - 1;
 	};
 
 
@@ -98,23 +57,29 @@ sakai.navigation = function(tuid, placement, showSettings){
 	// Render navigation //
 	///////////////////////
 
+	var doSort = function(a,b){
+		if (a.position > b.position){
+			return 1;
+		} else if (a.position < b.position){
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+
 	/**
 	 * Function that is available to other functions and called by site.js
 	 * It fires the event to render the naviagation
-	 * @param {Boolean|String} selectedPageId
+	 * @param {Boolean|String} selected_page_id
 	 * 	false: if there is no page selected
 	 * 	pageid: when you select a page
-	 * @param {Object[]} pages Contains an array with all the pages, each page is an object.
-	 * 	An page object has the following structure:
-	 * 	{id: "test-1/dddd", title: "dddd", type: "webpage"}
-	 * 	The page structure is defined by the id (seperated with slashes)
+	 * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
 	 */
 	
-	sakai._navigation.renderNavigation = function(selectedPageId, pages){
+	sakai._navigation.renderNavigation = function(selected_page_id, site_info_object){
 		
 		// Check if the selected page is false or undefined
-		if (!selectedPageId){
-			
+		if (!selected_page_id){
 			// Quit the function if the selected page is false or undefined
 			return;
 		}
@@ -123,91 +88,36 @@ sakai.navigation = function(tuid, placement, showSettings){
 		var jsonNavigation = {};
 		jsonNavigation.pages = [];
 		
-		// The parent of the selected page
-		// This will be an empty string if there is no parent
-		var selectedPageParentId = getParentId(selectedPageId);
-		
-		// Get the current level by counting the number of forward
-		// slashes in the selected page id.
-		var selectedPageLevel = getLevel(selectedPageId);
-		
-		// Check if the level is 0
-		if (selectedPageLevel === 0){
+		for (var site_id in site_info_object) {
 			
-			// If the level is 0, it means that there are no pages above it
-			jsonNavigation.toppage = true;
-		} else {
+			// Get values which are important for the renderer
+			var current_page = {};
+			current_page.id = site_id;
+			current_page.title = site_info_object[site_id].title;
+			current_page.position = parseInt(site_info_object[site_id].position);
 			
-			// If the level isn't 0, there is/are page(s) above the current page
-			jsonNavigation.toppage = false;
-		}
-		
-		var added_pages = {};
-		
-		// Get all the pages on the current level and beneath the current page
-		// Run over all the pages
-		for(var i = 0; i < pages.items.length; i++){
-			var page = pages.items[i];
-			var pageId = page.id;
-			
-			// Get the level for the page you are running through
-			var pageLevel = getLevel(pageId);
-			
-			// Get the id for the parent page
-			var pageParentId = getParentId(pageId);
-			
-				
-			// Check if the current page id is the same as the selected page id
-			if(pageId === selectedPageId){
-				
-				// If so, we set the property selected to true and get the children of that page
-				page.selected = true;
-				
-			} else{
-				
-				// The current page is not the selected page
-				page.selected = false;
-			}
-				
-			page.multiple = false;
-			page.pages = [];
-			
-			// Get all child pages of the selected page
-			for (var k = 0; k < pages.items.length; k++) {
-				var pageChild = pages.items[k];
-				var pageChildId = pageChild.id;
-
-				if(startsWith(pageChildId, pageId + "/")){
-					
-					// We get the child level after the starts with check for
-					// performance reasons
-					var pageChildLevel = getLevel(pageChildId);
-					
-					if(pageChildLevel === pageLevel + 1){
-						
-						if (added_pages[pageChild.id] !== "x") {
-							page.pages.push(pageChild);
-							
-							// Mark added page
-							added_pages[pageChild.id] = "x";
-						}
-						
-						// Set the variable multiple to true: the selected page has child pages
-						page.multiple = true;
-					}
-				}
+			// Mark selected page (for different icon)
+			if (site_id === selected_page_id) {
+				current_page.selected = true;
+			} else {
+				current_page.selected = false;
 			}
 			
+			// The level of the page is multiplied by 10 pixels, the amount of identation on the left
+			current_page.level = (getLevel(site_id) * 10);
 			
-			
-			// Add the current page to the global array
-			if (added_pages[pageId] !== "x") {
-				jsonNavigation.pages.push(page);
-				
-				// Mark added page
-				added_pages[pageId] = "x";
+			// Decide wether it is a root or a subpage (for icon purposes in nav)
+			if (current_page.level === 0) {
+				current_page.rootpage = true;
+			} else {
+				current_page.rootpage = false;
 			}
-		}
+			
+			// Add current page data to the list of pages which will be displayed
+			jsonNavigation.pages.push(current_page);
+		};
+		
+		jsonNavigation.pages.sort(doSort);
 		
 		
 		// Render the output template
@@ -215,10 +125,6 @@ sakai.navigation = function(tuid, placement, showSettings){
 	};
 	
 	
-	
-	
-	
-
 
 	///////////////////////
 	// Initial functions //
