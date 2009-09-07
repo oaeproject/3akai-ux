@@ -3,24 +3,24 @@
 <head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Sakai 3  R&amp;D - Account Preferences</title>        
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
-	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/> 	   
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.text.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.people.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/> 	   
     
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />   
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.account_preferences.css" /> 
+    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.core.2.css" />   
+    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.account_preferences.css" /> 
 	
 	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
@@ -35,7 +35,7 @@
 	
 </head>
 
-<body class="fl-centered account_preferences" style="display:block">
+<body class="fl-centered account_preferences">
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 	
@@ -50,18 +50,33 @@
 	
 	
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
-    
-    <!-- TITLE BAR  -->
-    <div class="site_heading">
-        <h1>Set your account details</h1>
+    <div id="widget_chat2" class="widget_inline"></div>
+	
+	<!-- HEADER -->
+	<div class="fl-container-flex header">
+		<div class="fl-fix fl-centered fixed-container">
+			<div class="decor"></div>
+			
+    			<!-- TITLE BAR  -->
+    				<div class="site_heading">
+						<h1>Set your account details</h1>
+    				</div>
+			
+		</div>
+	</div>
+	
+	<!-- Account Preferences -->
+	<div class="fl-container-flex">
+	<div class="fl-fix fl-centered fixed-container main-container">
+	<div class="outline-top"><div class="outline-top-inner"></div></div>
+	<div class="outline">
 		
-    </div>
+
     
     <!-- CONTENT -->
     <div class="preferences-container password" id="accountPref_changePassContainer">
         <h4 class="section_header">
-        	Password
+        	Password:
         </h4>
         <form class="preferences-form" method="" action="">        
             <div class="form-item">                
@@ -77,14 +92,14 @@
                     <input type="password" id="retype_pass" class="password-preferences-input" />
             </div>            
             <div class="save-preferences">
-            	<input type="button" id="accountPref_saveNewPass" class="button submit button-disabled button-preferences" value="Save Changes" />
+            	<input type="image" id="accountPref_saveNewPass" src="_images2/save_changes.png" class="button submit button-disabled button-preferences" value="Save Changes" />
 				<div class="accountPref_general_message" id="accountPref_general_message_pass"></div>
             </div>
         </form>
     </div>
     <div class="preferences-container regional">
         <h4 class="section_header">
-        	Regional Settings
+        	Regional Settings:
         </h4>
         <form class="preferences-form" method="get" action="" >        
             <div class="form-item">                
@@ -690,7 +705,7 @@
                     </select>                                             
             </div>
             <div class="save-preferences">
-            	<input type="button" id="accountPref_submitRegional" class="button submit button-primary button-preferences" value="Save Changes" />
+            	<input type="image" id="accountPref_submitRegional" src="_images2/save_changes.png" class="button submit button-primary button-preferences" value="Save Changes" />
 				<div class="accountPref_general_message" id="accountPref_general_message_regional"></div>
             </div>
         </form>
@@ -701,7 +716,25 @@
 	{/for}	
     --></div>
 	
+	<div class="clearboth"></div>
+	</div>
+	<div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
+	</div>
+	</div>
+	
     <!-- FOOTER -->    
+	<div class="fl-container-flex sakai-footer">
+			<div class="fl-fix fl-centered  fixed-container">
+				<img src="_images2/sakai_logo.png" alt="Sakai" />
+				<a href="#top" class="back-top">Top</a>
+                <p>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></p>
+				<p>© 2004&mdash;2009 <a href="http://www.sakaiproject.org">The Sakai Foundation</a></p>
+				
+			</div>
+		</div>		
+
+		<div style="margin-bottom: 50px"></div>
+		
     <div class="page-footer"/>
 	
 	<script type="text/javascript" language="JavaScript" src="_javascript/account_preferences.js"></script>

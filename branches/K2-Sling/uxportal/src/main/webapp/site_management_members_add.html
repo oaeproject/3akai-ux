@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
 <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.jq_pager.css" />
 <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.3.css" />
-<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/site.managment.css" />
+<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.site_management_members_add.css" />
 <link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/>
 <script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
 <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
@@ -53,11 +53,13 @@
 		<div class="site_secondary_heading"> Site Management <a id="back_to_site_link" href="/sites/">&laquo; Back to Site</a> </div>
 		<!-- TAB NAVIGATION -->
 		<div class="management_tab_nav">
-			<ul class="fl-tabs fl-tabs-left">
-				<li><a href="site_management_basic_settings.html" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
-				<li class="fl-activeTab"><a href="javscript:;">Members</a></li>
-				<li><a href="site_management_appearance.html" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
-			</ul>
+			<div class="management_tab_nav_inner">
+				<ul class="fl-tabs fl-tabs-left">
+					<li><a href="site_management_basic_settings.html" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
+					<li class="fl-activeTab"><a href="javscript:;">Members</a></li>
+					<li><a href="site_management_appearance.html" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="management_content_wrapper">
 			<div class="management_tab_content_top">
@@ -74,9 +76,9 @@
 						<div class="leftCol_content_top">
 							<div class="leftCol_content_top_inner"></div>
 						</div>
-						<div class="leftCol-inner"">
+						<div class="leftCol-inner">
 							<form class="member-options" method="" action="">
-								<strong class="manage_members_role">Add selected people as:</strong>
+								<span class="manage_members_role section">Add selected people as:</span>
 								<table id="manage_members_role_rbts" class="add-people-table">
 								</table>
 								<div style="display:none;" id="manage_members_role_rbts_template"><!--
@@ -89,7 +91,7 @@
 								--></div>
 								<!-- <strong>Tag selected people as:</strong>
 						<input type="text" class="tag-people" value="Add your tags here" /> -->
-								<input type="button" class="button button-primary add-people selected_people_addToSite" value="Add selected people"/>
+								<input type="image" src="_images2/add_selected_people.png" class="button button-primary add-people selected_people_addToSite" value="Add selected people"/>
 							</form>
 							<div id="selected-people-container" class="selected_personsContainer"></div>
 							<div style="display:none" id="selected-people-template"><!--
@@ -103,7 +105,7 @@
 										{else}
 										<th>${i.userid}</th>
 										{/if}
-										<td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}">X</a></td>
+										<td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}"><span>X</span></a></td>
 									</tr>
 							
 								{/for}	
@@ -139,7 +141,7 @@
 									<li class="unselected">
 										{if (i.isMember)}
 										{if typeof i.picture.name == "undefined"}
-										<img src="_images/member.png" style="opacity:0.6;" />
+										<img src="_images2/member_thumb_unselected.png" style="opacity:0.6;" />
 										{else}
 										<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" style="opacity:0.6;" />
 										{/if}
@@ -147,7 +149,7 @@
 										{else}
 										<a href="javascript:;" class="siteManage_person" id="siteManage_person${results.indexOf(i)}">
 										{if typeof i.picture.name == "undefined"}
-										<img src="_images/member.png"  />
+										<img src="_images2/member_thumb_unselected.png"  />
 										{else}
 										<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" />
 										{/if}
@@ -157,6 +159,7 @@
 										{/if}
 									</li>
 								{/for}
+									<div class="clearboth"></div>
 								</ul>
 								</div>
 							--></div>
@@ -181,7 +184,14 @@
 	</div>
 </div>
 <!-- FOOTER -->
+<div class="fl-container-flex sakai-footer">
+  <div class="fl-fix fl-centered  fixed-container"> <img src="_images2/sakai_logo.png" alt="Sakai" /> <a href="#top" class="back-top">Top</a>
+    <p>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></p>
+    <p>© 2004&mdash;2009 <a href="http://www.sakaiproject.org">The Sakai Foundation</a></p>
+  </div>
+</div>
 <div class="page-footer"></div>
+<div style="margin-bottom: 50px"></div>
 <script src="_javascript/site_add_members.js" type="text/javascript"></script>
 </body>
 </html>

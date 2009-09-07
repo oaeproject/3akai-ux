@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
 <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.jq_pager.css" />
 <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.3.css" />
-<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/site.managment.css" />
+<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.site_management_members_manage.css" />
 <link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/>
 <script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
 <script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
@@ -54,11 +54,13 @@
 		<div class="secondary_title"> Site Management <a id="back_to_site_link" href="/sites/">&laquo; Back to Site</a> </div>
 		<!-- TAB NAVIGATION -->
 		<div class="management_tab_nav">
-			<ul class="fl-tabs fl-tabs-left">
-				<li><a href="site_management_basic_settings.html?siteid=" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
-				<li class="fl-activeTab"><a href="javscript:;">Members</a></li>
-				<li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
-			</ul>
+			<div class="management_tab_nav_inner">
+				<ul class="fl-tabs fl-tabs-left">
+					<li><a href="site_management_basic_settings.html?siteid=" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
+					<li class="fl-activeTab"><a href="javscript:;">Members</a></li>
+					<li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="management_content_wrapper">
 			<div class="management_tab_content_top">
@@ -101,8 +103,8 @@
 											Suspended </li>
 									</ul>
 								</div>
-								<input type="button" class="button button-primary update-people selected_people_addToSite" value="Update selected people"/>
-								<input type="button" class="button button-secondary remove-people" id="selected_members_delete" value="Remove selected people" />
+								<input type="image" src="_images2/update_selected_people.png" class="button button-primary update-people selected_people_addToSite" value="Update selected people"/>
+								<input type="image" src="_images2/remove_selected_people.png" class="button button-secondary remove-people" id="selected_members_delete" value="Remove selected people" />
 							</form>
 							<div id="selected-members-container"  class="selected_personsContainer"></div>
 							<div style="display:none" id="selected-people-template"><!--
@@ -116,7 +118,7 @@
 							{else}
 							<th>${i['rep:userId']}</th>
 							{/if}
-							<td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}">X</a></td>
+							<td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}"><span>X</span></a></td>
 						</tr>
 						
 					{/for}	
@@ -133,7 +135,7 @@
 						<div class="flex-container">
 							<div class="member-search">
 								<input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, or comma separated lists" />
-								<input type="submit" value="Search" id="btn_members_search" class="submit-button" />
+								<input type="image" class="submit-button" id="btn_members_search" value="Search" src="_images2/search_for_people.png" />
 							</div>
 							<div class="explore_nav">
 								<ul class="user-personal fl-force-left">
@@ -152,7 +154,7 @@
 						<li class="unselected">
 							<a href="javascript:;" class="siteManage_person" id="siteManage_person${users.indexOf(i)}">
 							{if typeof i.picture == "undefined"}
-							<img src="_images/member.png" />
+							<img src="_images2/member_thumb_unselected.png" />
 							{else}
 							<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" />
 							{/if}
@@ -167,6 +169,7 @@
 						</li>
 					{/for}
 					</ul>
+						<div class="clearboth"></div>
 					</div>
 					--></div>
 						</div>
@@ -190,7 +193,14 @@
 	</div>
 </div>
 <!-- FOOTER -->
+<div class="fl-container-flex sakai-footer">
+  <div class="fl-fix fl-centered  fixed-container"> <img src="_images2/sakai_logo.png" alt="Sakai" /> <a href="#top" class="back-top">Top</a>
+    <p>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></p>
+    <p>© 2004&mdash;2009 <a href="http://www.sakaiproject.org">The Sakai Foundation</a></p>
+  </div>
+</div>
 <div class="page-footer"></div>
+<div style="margin-bottom: 50px"></div>
 <script type="text/javascript" language="JavaScript" src="_javascript/site_manage_members.js"></script>
 </body>
 </html>
