@@ -1,3 +1,92 @@
 .accountPref_error_message {color:#FF0000; margin-left:20px; padding-top:12px; }
 .accountPref_normal_message {margin-left:20px; padding-top:12px; }
 .page-footer {margin-bottom: 50px;}
+
+
+/** HEADER **/
+.account_preferences .find_more_people a {
+	float: right;
+}
+.account_preferences .find_more_people a {
+	background: url(../../_images2/arrow_left_sm2_blue.gif) no-repeat scroll left center;
+	padding:0 0 0 10px;
+	color:#0C91C5;
+	font-size:14px;
+	padding-left:10px;
+	line-height: 2.0em;
+}
+.account_preferences .site_heading {
+	padding: 15px 0;
+	border: none;
+}
+.account_preferences .site_heading h1 {
+	font-size: 2.0em;
+	color: #454A4F;
+	display: inline;
+}
+
+/** MAIN CONTENT **/
+.account_preferences .header .fixed-container {
+	background: #FFFFFF url(../../_images2/header_l.png) no-repeat scroll left top;
+}
+.account_preferences .main-container {
+	background: #FFF;
+}
+.account_preferences .outline-top {
+	background: url('../../_images2/content_tr_flip.png') top right no-repeat;
+	padding: 0 5px 0 0;
+	margin: 0;
+}
+.account_preferences .outline-top-inner {
+	background: url('../../_images2/content_tl.gif') 0 0 no-repeat;
+	margin: 0;	
+	height: 6px;
+}
+.account_preferences .outline {
+	border-left: 3px solid #D5DBDF;
+	border-right: 3px solid #D5DBDF;
+	padding: 14px 20px;
+}
+.account_preferences .outline-bottom {
+	background: url('../../_images2/content_br.png') top right no-repeat;
+	padding: 0 5px 0 0;
+	margin: 0 0 20px 0;	
+}
+.account_preferences .outline-bottom-inner {
+	background: url('../../_images2/content_bl.png') 0 0 no-repeat;
+	margin: 0;	
+	height: 6px;
+}
+.account_preferences .section_header {
+	color: #5A697B;
+	font-size: 1.1em;
+}
+.account_preferences .password {
+	margin-top: 10px;
+	border: none;
+}
+.account_preferences .preferences-container {
+	padding: 0;
+	width: 100%;
+	clear: both;
+}
+.account_preferences .save-preferences {
+	background:none;
+	height: auto;
+	margin-top:5px;
+}
+.account_preferences .save-preferences .button {
+	margin-left: 365px;
+}
+.account_preferences .button-preferences {
+	height:  24px;
+	width: 118px;
+	background: none;
+	border: none;
+}
+.account_preferences .regional .preferences-form select {
+	width: 300px;
+}
+.clearboth {
+	clear: both;
+}

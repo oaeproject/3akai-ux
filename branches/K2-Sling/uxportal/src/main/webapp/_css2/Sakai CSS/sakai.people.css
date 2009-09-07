@@ -1,7 +1,3 @@
-.people_header {
-	border-bottom: 1px solid #cccccc;
-}
-
 .options {
 	padding:25px 25px 0pt 0pt;
 	text-align:right;
@@ -19,4 +15,97 @@
 
 .search_results_part {
 	padding-bottom:20px !important;
+}
+
+/** HEADER **/
+.people .find_more_people a {
+	float: right;
+}
+.people .find_more_people a {
+	background: url(../../_images2/arrow_right_sm2_blue.png) no-repeat scroll right center;
+	padding:0 10px 0 0;
+	color:#0C91C5;
+	font-size:14px;
+	padding-left:10px;
+	line-height: 2.0em;
+}
+.people .site_heading {
+	padding: 15px 0;
+	border: none;
+	margin: 0;
+}
+.people .site_heading h1 {
+	font-size: 2.0em;
+	color: #454A4F;
+	display: inline;
+}
+
+/** CONTENT **/
+.people .content_search {
+	padding: 0;
+}
+.people .main-container {
+	background: #FFF;
+}
+.people .outline-top {
+	background: url('../../_images2/content_tr_flip.png') top right no-repeat;
+	padding: 0 5px 0 0;
+	margin: 0;
+}
+.people .outline-top-inner {
+	background: url('../../_images2/content_tl.gif') 0 0 no-repeat;
+	margin: 0;	
+	height: 6px;
+}
+.people .outline {
+	border-left: 3px solid #D5DBDF;
+	border-right: 3px solid #D5DBDF;
+	padding: 8px 10px;
+}
+.people .outline-bottom {
+	background: url('../../_images2/content_br.png') top right no-repeat;
+	padding: 0 5px 0 0;
+	margin: 0 0 20px 0;	
+}
+.people .outline-bottom-inner {
+	background: url('../../_images2/content_bl.png') 0 0 no-repeat;
+	margin: 0;	
+	height: 6px;
+}
+.people .search_tab_content {
+	background-image: none;
+}
+.people .fl-tab-content {
+	margin: 0;
+	padding: 0;
+}
+.people .search_results_container {
+	margin: 0 0 10px 0;
+	padding: 0;
+	background: #EFF2F4;
+}
+.people .search_results_part {
+	padding: 0 10px;
+}
+.people .search_results_part_header {
+	margin-top: 0;
+}
+.search_result_person_link {
+	font-size: 1em;
+	font-weight: bold;
+	margin: 0 0 0 10px;
+}
+.people .search_top_rounded {
+	background:transparent url(../../_images2/search_results_tl.png) no-repeat scroll left top;
+}
+.people .search_top_rounded_inner {
+	background:transparent url(../../_images2/search_results_tr.png) no-repeat scroll right top;
+	height:10px;
+}
+.people .search_bottom_rounded {
+	background:transparent url(../../_images2/search_results_bl.png) no-repeat scroll left bottom;
+}
+.people .search_bottom_rounded_inner {
+	background:transparent url(../../_images2/search_results_br.png) no-repeat scroll right bottom;
+	height:10px;
 }
