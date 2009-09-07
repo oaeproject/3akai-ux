@@ -6,23 +6,23 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Sakai 3 R&amp;D - My Contacts</title>        
     
-	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" /> 
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_permissions.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />	
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
-	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.reset.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.mist.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.hc.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.rust.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.layout.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.text.css" /> 
+    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.people.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_permissions.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.jq_pager.css" />	
+	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/>
 	
 	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
@@ -39,31 +39,42 @@
 	
 </head>
 
-<body id="root" class="fl-centered fl-container">
+<body id="root" class="fl-centered fl-container people">
 	
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 	
     <!-- EXPLORE BAR -->
-	<div id="widget_chat" class="widget_inline"></div>
+	<div id="widget_chat2" class="widget_inline"></div>
     
     <!-- TITLE BAR  -->
-    <div class="fl-container site_heading people_header" style="padding: 10px 0pt 10px 23px;">
-        <h1>People</h1>
-    </div>
+	<div class="fl-container-flex header people_header">
+		<div class="fl-fix fl-centered fixed-container">
+			<div class="decor"></div>
+			
+    			<!-- TITLE BAR  -->
+    				<div class="site_heading">
+						<div class="fl-container options find_more_people">
+							<a id="edit-layout" href="search_b_people.html">Find more people</a>
+						</div>
+						<h1>My People</h1>
+    				</div>
+			
+		</div>
+	</div>
 	
 	<!-- CONTENT -->
-	<div class="fl-container fl-fix content content_search" style="margin-bottom:20px">
+	<div class="fl-container fl-fix content content_search">
+	<div class="fl-fix fl-centered fixed-container main-container">
+	<div class="outline-top"><div class="outline-top-inner"></div></div>
+	<div class="outline">
 		
 		<!-- TAB CONTENT -->
 		<div class="fl-centered fl-container fl-tab-content search_tab_content">
 			
-			<div class="fl-container options">
-				<a id="edit-layout" href="search_b_people.html">Find more people &raquo;</a>
-			</div>
-			
 			<!-- SEARCH RESULTS -->
 			<div class="fl-container fl-fix search_results_container" id="content_media_header">
+				<div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
 				
 				<!-- COURSE / SITES PART -->
 				<div class="fl-container fl-fix search_results_part">
@@ -108,12 +119,13 @@
 				</div>
 				
 				<div class="jq_pager"></div>
-				
+
+				<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
 			</div>
 			
 			<!-- PEOPLE PART -->
 			<div class="fl-container fl-fix search_results_container" id="people_header">
-				
+				<div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
 				<div class="fl-container fl-fix search_results_part">
 					
 					<div class="fl-container fl-fix search_results_part_header">
@@ -152,10 +164,11 @@
 					<div class="search_results_part_footer" style="display:none"></div>
 					
 				</div>
+				<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
 			</div>
 			
 			<div class="fl-container fl-fix search_results_container" id="courses_sites_header">
-				
+				<div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
 				<div class="fl-container fl-fix search_results_part">
 					
 					<div class="fl-container fl-fix search_results_part_header">
@@ -192,57 +205,28 @@
 					<div class="search_results_part_footer" style="display:none"></div>
 					
 				</div>
+				<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
 			</div>
 			
 		</div>
-	
+		
+	</div>
+	<div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
+	</div>
 	</div>
 	
-	<div class="dialog" id="add_to_contacts_dialog">
-			<div class="dialog_header">
-				<h1>Add to Contacts</h1>
-				<img src="images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
-			</div>
-			
-			<div class="dialog_content" style="padding-bottom:20px">
-				
-				<form id="add_friends_form">
-			        <h4>Invite <span id="add_friend_displayname" style="font-weight:bold"></span> to connect through Sakai</h3>
-				 	<br/></br>
-					<table style="width:100%; border:0px">
-						<tr>
-					   		<td style="vertical-align:top; width: 75px">
-					   			<span id="add_friend_displayname2" style="font-weight:bold"></span>
-								<div id="add_friend_profilepicture" style="padding-top:5px"></div>
-					   		</td>
-							<td id="add_friend_types">
-							</td>
-					   	</tr>
-					</table>
-					<br/>
-					<h4>Add a personal note to the invitation:</h4>
-					<br/>
-					<textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note"></textarea>
-				</form>
+	<!-- FOOTER -->    
+	<div class="fl-container-flex sakai-footer">
+			<div class="fl-fix fl-centered  fixed-container">
+				<img src="_images2/sakai_logo.png" alt="Sakai" />
+				<a href="#top" class="back-top">Top</a>
+                <p>Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgements screen</a></p>
+				<p>© 2004&mdash;2009 <a href="http://www.sakaiproject.org">The Sakai Foundation</a></p>
 				
 			</div>
-			
-			<div class="dialog_footer">
-				 <div class="buttonBar">
-				 	<a href="javascript:;" class="button-default" id="add_friends_do_invite">Invite</a>
-			        <a href="javascript:;" class="button jqmClose">Cancel</a>
-			     </div>
-			</div>
-		</div> 
-		
-		<div id="add_friend_types_template" style="display:none"><!--
-			{var index = 0}
-			{for i in connections}
-				<input type="checkbox" name="add_friends_list_type" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
-				<br/>
-				${index++|eat}
-			{/for}
-		--></div>
+		</div>		
+
+		<div style="margin-bottom: 50px"></div>
 		
 		<div id="sendmessagecontainer" style="display:none; width:100%">
 			<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
