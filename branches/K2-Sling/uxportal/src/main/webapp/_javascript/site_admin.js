@@ -306,12 +306,21 @@ sakai.site.site_admin = function(){
 		
 		
 		// Get title 
-		for (i = 0; i < sakai.site.pages.items.length; i++){
+		/*for (i = 0; i < sakai.site.pages.items.length; i++){
 			if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
 				pagetitle = sakai.site.pages.items[i].title;
 				break;
 			}
-		}
+		}*/
+		
+		// Refresh site_info object
+		sakai.site.refreshSiteInfo();
+		
+		console.log("edit selectedpage: "+sakai.site.selectedpage);
+		
+		// Get title
+		pagetitle = sakai.site.site_info._pages[sakai.site.selectedpage].title;
+		
 		
 		// Prefill page title
 		$(".title-input").val(pagetitle);
@@ -374,19 +383,30 @@ sakai.site.site_admin = function(){
 		if (sakai.site.isEditingNewPage) {
 		
 			// Delete page from configuration file
-			var index = -1;
+			/*var index = -1;
 			for (var i = 0; i < sakai.site.pages.items.length; i++){
 				if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
 					index = i;
 				}
 			}
-			sakai.site.pages.items.splice(index,1);
+			sakai.site.pages.items.splice(index,1);*/
+			
+			// Delete page from site_info if exists
+			if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
+				delete sakai.site.site_info._pages[sakai.site.selectedpage];
+			}
 			
 			// Save configuration file
-			sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+			//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 	
 				// Display previous page content
 				document.getElementById(sakai.site.escapePageId(sakai.site.oldSelectedPage)).style.display = "block";
+				
+				// Delete the folder that has been created for the new page	
+				$.ajax({
+					url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage,
+					type: 'DELETE'
+				});
 				
 				// Adjust selected page back to the old page
 				sakai.site.selectedpage = sakai.site.oldSelectedPage;
@@ -395,25 +415,24 @@ sakai.site.site_admin = function(){
 				$("#edit_view_container").hide();
 				$("#show_view_container").show();
 			
-				// Delete the folder that has been created for the new page	
-				$.ajax({
-					url: sakai.site.urls.CURRENT_SITE_ROOT() + "_pages/untitled",
-					type: 'DELETE'
-				});
-			});
+			//});
 		
 		} else {
-		
+			
+			// Switch to text editor
 			switchToTextEditor();
 			
+			// Put back original content
 			var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
 			document.getElementById(escaped).innerHTML = sakai.site.pagecontents[sakai.site.selectedpage];
+			
 			if (sakai.site.pagetypes[sakai.site.selectedpage] == "webpage") {
 				$("#webpage_edit").show();
 			}
 			document.getElementById(escaped).style.display = "block";
-			sdata.widgets.WidgetLoader.insertWidgets(escaped);
+			sdata.widgets.WidgetLoader.insertWidgets(escaped,null,sakai.site.currentsite.id + "/_widgets");
 			
+			// Switch back to view mode
 			$("#edit_view_container").hide();
 			$("#show_view_container").show();
 			
@@ -426,6 +445,16 @@ sakai.site.site_admin = function(){
 	/////////////////////////////
 	// EDIT PAGE: SAVE
 	/////////////////////////////
+	
+	var determineHighestPosition = function(){
+		var highest = 0;
+		for (var i in sakai.site.site_info["_pages"]){
+			if (sakai.site.site_info["_pages"][i].position && parseInt(sakai.site.site_info["_pages"][i].position) > highest){
+				highest = parseInt(sakai.site.site_info["_pages"][i].position);
+			}
+		}
+		return highest;
+	}
 	
 	var saveEdit = function() {
 		
@@ -458,13 +487,13 @@ sakai.site.site_admin = function(){
 			}
 			
 			// Check whether the pagetitle has changed
-			var oldpagetitle = "";
-			for (i = 0; i < sakai.site.pages.items.length; i++){
+			var oldpagetitle = sakai.site.site_info._pages[sakai.site.selectedpage].title;
+			/*for (i = 0; i < sakai.site.pages.items.length; i++){
 				if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
 					oldpagetitle = sakai.site.pages.items[i].title;
 				}
-			}
-		
+			}*/
+			
 			// If there is a title change
 			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase()) { // || sakai.site.inEditView !== false) {
 				
@@ -482,22 +511,39 @@ sakai.site.site_admin = function(){
 							
 						// Remove old div + potential new one
 						$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
-								
+						
 						// Remove old + new from sakai.site.pagecontents array 
 						sakai.site.pagecontents[sakai.site.selectedpage] = null;
-									
-						// Open page
-						sakai.site.openPage(sakai.site.selectedpage);
 						
 						// Switch back to view mode
 						$("#edit_view_container").hide();
 						$("#show_view_container").show();
 						
-						// Check in the page
-						
+						// POST page
+						// Define page properties on node
+						// TODO: add appropriate type to differientate between webpage and dashboardpage
 						$.ajax({
-							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content.save.html",
-							type: 'POST'
+							url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + newurl,
+							type: "POST",
+							data: {	
+								"sling:resourceType": "sakai/page",
+								"id": sakai.site.selectedpage,
+								"title": newpagetitle,
+								"type": "webpage",
+								"position": "" + (determineHighestPosition() + 100000),
+								"acl": "parent"
+							},
+							success: function(){
+								// Check in the page
+								$.ajax({
+									url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content.save.html",
+									type: 'POST',
+									success: function(){
+										// Open page
+										sakai.site.openPage(sakai.site.selectedpage);
+									}
+								});
+							}
 						});
 									
 					}, null, "x-sakai-page");					
@@ -522,9 +568,23 @@ sakai.site.site_admin = function(){
 					$("#show_view_container").show();
 					
 					document.getElementById(escaped).style.display = "block";
-					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.escapePageId(sakai.site.selectedpage));
+					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.escapePageId(sakai.site.selectedpage),null,sakai.site.currentsite.id + "/_widgets");
 					sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", sakai.site.pagecontents[sakai.site.selectedpage], function(){
 					
+						// Define page properties on node
+						// TODO: add appropriate type to differientate between webpage and dashboardpage
+						var position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
+						$.ajax({
+							url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage,
+							type: "POST",
+							data: {	"sling:resourceType": "sakai/page",
+								"id": sakai.site.selectedpage,
+								"title": newpagetitle,
+								"type": "webpage",
+								"position": position
+							}
+						});
+						
 						// Check in the page
 						$.ajax({
 							url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content.save.html",
@@ -537,10 +597,14 @@ sakai.site.site_admin = function(){
 			
 			}
 			
+			
+			
 		}
 		
+		
+
 		// Re-render Site Navigation to reflect changes
-		sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.pages);
+		sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
 		
 		sakai.site.inEditView = false;
 	};
@@ -558,18 +622,18 @@ sakai.site.site_admin = function(){
 		$("#edit_view_container").hide();
 		$("#show_view_container").show();
 		
-		sdata.widgets.WidgetLoader.insertWidgets("page_nav_content");
+		sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
 		sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
 		
 		document.getElementById(escaped).style.display = "block";
-		sdata.widgets.WidgetLoader.insertWidgets(escaped);
+		sdata.widgets.WidgetLoader.insertWidgets(escaped,null,sakai.site.currentsite.id + "/_widgets");
 		
 	};
 	
 	
 	var saveEdit_RegisterTitleChange = function(newpagetitle) {
 		
-	// Generate new page id
+		// Generate new page id
 		var newid = "";
 		var counter = 0;
 		var baseid = newpagetitle.toLowerCase();
@@ -599,23 +663,26 @@ sakai.site.site_admin = function(){
 			}
 			counter++;
 			var exists = false;
-			for (i = 0; i < sakai.site.pages.items.length; i++){
+			/*for (i = 0; i < sakai.site.pages.items.length; i++){
 				if (sakai.site.pages.items[i].id == testid){
 					exists = true;
 				}
+			}*/
+			if (sakai.site.site_info._pages[testid]) {
+				exists = true;
 			}
 			if (!exists){
 				newid = testid;
 			}
 		}
 		
-		for (i = 0; i < sakai.site.pages.items.length; i++){
+		/*for (i = 0; i < sakai.site.pages.items.length; i++){
 			if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
 				sakai.site.pages.items[i].id = newid;
 				sakai.site.pages.items[i].title = newpagetitle;
 				break;
 			}
-		}
+		}*/
 		
 		// Move page folder to this new id
 		var newfolderpath = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
@@ -631,15 +698,15 @@ sakai.site.site_admin = function(){
 			success: function(data){
 				
 				// Move all of the subpages of the current page to stay a subpage of the current page
-				var idtostartwith = sakai.site.selectedpage + "/";
+				/*var idtostartwith = sakai.site.selectedpage + "/";
 				for (var i = 0; i < sakai.site.pages.items.length; i++){
 					if (sakai.site.pages.items[i].id.substring(0,idtostartwith.length) == idtostartwith){
 						sakai.site.pages.items[i].id = newid + "/" + sakai.site.pages.items[i].id.substring(idtostartwith.length);
 					}
-				}
+				}*/
 		
 				// Adjust configuration file
-				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+				//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 					
 					// Render the new page under the new URL
 					
@@ -655,36 +722,56 @@ sakai.site.site_admin = function(){
 							sakai.site.pagecontents[sakai.site.selectedpage] = null;
 							sakai.site.pagecontents[newid] = null;
 							
-							// Open page
-							sakai.site.openPage(newid);
-							
-							// Switch to view mode
-							$("#edit_view_container").hide();
-							$("#show_view_container").show();
-							
-							// Check in the page
+							// Define page properties on node
+							// TODO: add appropriate type to differientate between webpage and dashboardpage
+							var position = "0";
+							if (sakai.site.isEditingNewPage){
+								position = "" + (determineHighestPosition() + 100000)
+							} else {
+								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
+							}
 							$.ajax({
-								url: newfolderpath + "/content.save.html",
-								type: 'POST'
+								url: newfolderpath,
+								type: "POST",
+								data: {	"sling:resourceType":"sakai/page",
+									"id":newid,
+									"title": newpagetitle,
+									"type": "webpage",
+									"position": position
+								},
+								success: function(){
+									// Check in the page
+									$.ajax({
+										url: newfolderpath + "/content.save.html",
+										type: 'POST',
+										success: function(){
+											// Refresh site info
+											sakai.site.refreshSiteInfo(newid);
+											// Switch to view mode
+											$("#edit_view_container").hide();
+											$("#show_view_container").show();
+										}
+									});
+								}
 							});
 					
 						}, null, "x-sakai-page");
 					
-				});		
+				//});		
 				
 			},
 			error: function(status){
 				
 				// Move all of the subpages of the current page to stay a subpage of the current page
-				var idtostartwith = sakai.site.selectedpage + "/";
+				/*var idtostartwith = sakai.site.selectedpage + "/";
 				for (var i = 0, j = sakai.site.pages.items.length; i<j; i++){
 					if (sakai.site.pages.items[i].id.substring(0,idtostartwith.length) == idtostartwith){
 						sakai.site.pages.items[i].id = newid + "/" + sakai.site.pages.items[i].id.substring(idtostartwith.length);
 					}
-				}
+				}*/
 		
 				// Adjust configuration file
-				sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+				//sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 					
 					// Render the new page under the new URL
 					
@@ -707,15 +794,37 @@ sakai.site.site_admin = function(){
 							$("#edit_view_container").hide();
 							$("#show_view_container").show();
 							
+							// Define page properties on node
+							// TODO: add appropriate type to differientate between webpage and dashboardpage
+							var position = "0";
+							if (sakai.site.isEditingNewPage){
+								position = "" + (determineHighestPosition() + 100000)
+							} else {
+								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
+							}
+							$.ajax({
+								url: "/sites/" + sakai.site.currentsite.id + ".site",
+								type: "POST",
+								data: {	"sling:resourceType":"sakai/page",
+									"id":newid,
+									"title": newpagetitle,
+									"type": "webpage",
+									"position": position
+								}
+							});
+							
 							// Check in the page
 							$.ajax({
 								url: newfolderpath + "/content.save.html",
 								type: 'POST'
 							});
 							
+							// Refresh site info
+							sakai.site.refreshSiteInfo();
+							
 						}, null, "x-sakai-page");
 					
-				});		
+				//});		
 				
 			}
 		});
@@ -783,9 +892,10 @@ sakai.site.site_admin = function(){
 	 * @return void
 	 */
 	var showPageLocation = function(){
-		var finaljson = {};
+		/*var finaljson = {};
 		finaljson.pages = [];
 		finaljson.pages[0] = sakai.site.currentsite.name;
+		
 		var splitted = sakai.site.selectedpage.split('/');
 		var current = "";
 		for (var i = 0, j = splitted.length; i<j; i++){
@@ -803,7 +913,11 @@ sakai.site.site_admin = function(){
 			}
 		}
 		finaljson.total = finaljson.pages.length;
-		$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));
+		$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));*/
+		
+		$("#new_page_path").html('<div><span>Page location:</span>' + sakai.site.selectedpage + '</div>');//&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
+		
+		
 		
 		// Bind Move... button's click event to its functionality
 		$("#move_inside_edit").bind("click", function(ev){
@@ -942,11 +1056,14 @@ sakai.site.site_admin = function(){
 			
 			if (Widgets.widgets[type]) {
 				$('#insert_dialog').jqmShow(); 
-				var nuid = "widget_" + type + "_" + uid + "_" + placement;
+				var nuid = "widget_" + type + "_" + uid;
+				if (placement){
+					nuid += "_" + placement;
+				} 
 				sakai.site.newwidget_uid = nuid;
 				$("#dialog_content").html('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>');
 				$("#dialog_title").text(Widgets.widgets[type].name);
-				sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true);
+				sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true,sakai.site.currentsite.id + "/_widgets");
 				$("#dialog_content").show();
 				$insert_more_menu.hide();
 				sakai.site.showingInsertMore = false;	
@@ -1185,7 +1302,7 @@ sakai.site.site_admin = function(){
 			switchtab("html","HTML","preview","Preview");
 		}
 		$("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
-		sdata.widgets.WidgetLoader.insertWidgets("page_preview_content");
+		sdata.widgets.WidgetLoader.insertWidgets("page_preview_content",null,sakai.site.currentsite.id + "/_widgets");
 		sakai.site.currentEditView = "preview";
 	});
 	
@@ -1247,16 +1364,19 @@ sakai.site.site_admin = function(){
 			editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '"  class="contauthlink">' + selection + '</a>');
 		}
 		else {
-			var pagetitle = chosen;
+			/*var pagetitle = chosen;
 			for (var i = 0, j = sakai.site.pages.items.length; i<j; i++) {
 				if (sakai.site.pages.items[i].id == chosen) {
 					pagetitle = sakai.site.pages.items[i].title;
 				}
-			}
+			}*/
+			var pagetitle = sakai.site.site_info._pages[chosen].title;
 			editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '" class="contauthlink">' + pagetitle + '</a>');
 		}
 		
 		$('#link_dialog').jqmHide();
+		
+		return true;
 	};
 	
 	// Bind Insert link confirmation click event
@@ -1291,17 +1411,79 @@ sakai.site.site_admin = function(){
 	 * @param {Object} active
 	 * @return {String} html string
 	 */
-	var createHTMLHierarchy = function(object,key,active){
+	var createHTMLHierarchy = function(object,active, html, prefix){
 		//var html = "<li>";
-		var html = "";
+		var level = false;
+		var isLowerLevel = false;
+		var isHigherLevel = true;
+		if (object[globalProgressTracker]){
+			var path = object[globalProgressTracker].path;
+			path = path.replace(/_pages\//g,"").split("/");
+			path.splice(0,3);
+			level = path.length;
+		}
+		do {
+			if (object[globalProgressTracker]){
+				var obj = object[globalProgressTracker];
+				if (active){
+					if (prefix + obj.id == active){
+						html += "<li id='" + prefix + obj.id + "' class='open'><span>" + obj.title + "</span>";
+					} else {
+						html += "<li id='" + prefix + obj.id + "'  class='open' rel='locked'><span>" + obj.title + "</span>";
+					}
+				} else {
+					html += "<li id='" + prefix + obj.id + "' class='open'><span>" + obj.title + "</span>";
+				}
+				
+				// Check whether there are subpages
+				var nextlevel = false;
+				isHigherLevel = false;
+				if (object[globalProgressTracker + 1]){
+					var npath = object[globalProgressTracker + 1].path;
+					npath = npath.replace(/_pages\//g,"").split("/");
+					npath.splice(0,3);
+					var nlevel = npath.length;
+					if (nlevel < level){
+						isLowerLevel = true;
+					}
+					if (nlevel > level){
+						isHigherLevel = true;
+						globalProgressTracker++;
+						html += "<ul>";
+						var prefixtosend = obj.id + "/";
+						if (prefix){
+							prefixtosend = prefix + prefixtosend;
+						}
+						html = createHTMLHierarchy(object, active, html, prefixtosend);
+						html += "</ul>";
+						if (object[globalProgressTracker]){
+							var npath = object[globalProgressTracker].path;
+							npath = npath.replace(/_pages\//g,"").split("/");
+							npath.splice(0,3);
+							if (npath.length < level){
+								isLowerLevel = true;
+							}
+						}
+					}
+				}
+				
+				html += "</li>";
+				
+			}
+			if (!isHigherLevel) {
+				globalProgressTracker++;
+			}
+		} while (object[globalProgressTracker] && level !== false && isLowerLevel == false);
+		alert(html);
+		/*var html = "";
 		if (active){
-			if (object._content.id == active){
-				html += "<li id='" + object._content.id + "' class='open'><span>" + object._content.title + "</span>";
+			if (object.id == active){
+				html += "<li id='" + object.id + "' class='open'><span>" + object.title + "</span>";
 			} else {
-				html += "<li id='" + object._content.id + "'  class='open' rel='locked'><span>" + object._content.title + "</span>";
+				html += "<li id='" + object.id + "'  class='open' rel='locked'><span>" + object.title + "</span>";
 			}
 		} else {
-			html += "<li id='" + object._content.id + "' class='open'><span>" + object._content.title + "</span>";
+			html += "<li id='" + object.id + "' class='open'><span>" + object.title + "</span>";
 		}
 		var size = 0;
 		for (var i in object){
@@ -1320,7 +1502,8 @@ sakai.site.site_admin = function(){
 		if (size > 1){
 			html += "</ul>";
 		}	
-		html += "</li>";
+		html += "</li>";*/
+		
 		return html;
 	};
 	
@@ -1337,6 +1520,7 @@ sakai.site.site_admin = function(){
 	};
 	
 	
+	var globalProgressTracker = 0;
 	
 	/**
 	 * Do page hierarchy
@@ -1346,23 +1530,53 @@ sakai.site.site_admin = function(){
 	var doPageHierarchy = function(active){
 		// Generate the structure
 		var object = {};
-		for (var i = 0, j = sakai.site.pages.items.length; i<j; i++){
-			var page = sakai.site.pages.items[i];
-			object = createHierarchy("", object, page);
+		for (var id in sakai.site.site_info._pages) {
+			object = createHierarchy("", object, sakai.site.site_info._pages[id]);
 		}
+		
+		var newobj = applyCorrectOrder([], object);
+		newobj.sort(doCorrectOrderSort);
 		
 		// Generate the HTML
 		var currentId = 2;
 		var html = '<ul class="simpleTree"><li class="root" id="1"><span style="display:none">Tree Root 1</span><ul>';
-			for (i in object){
-				if (i) {
-					html += createHTMLHierarchy(object[i], i, active);
-				}
-			}
+		globalProgressTracker = 0;
+		html = createHTMLHierarchy(newobj, active, html, "");
 		html += '</ul></li></ul>';
-		
 		return html;
 	};
+	
+	
+	/**
+	 * TODO
+	 * @param {Object} newobj
+	 * @param {Object} object
+	 */
+	var applyCorrectOrder = function(newobj, object){
+		for (var i in object){
+			newobj[newobj.length] = object[i]._content;
+			for (var ii in object[i]){
+				if (ii !== "_content"){
+					newobj = applyCorrectOrder(newobj, object[i][ii]);
+				}
+			}
+		}
+		return newobj;
+	};
+	
+	
+	/**
+	 * TODO
+	 * @param {Object} a
+	 * @param {Object} b
+	 */
+	var doCorrectOrderSort = function(a, b){
+		a = parseInt(a.position);
+		b = parseInt(b.position);
+		var retValue = -1;
+		a > b ? retValue = 1 : (a < b ? retValue = -1 : retValue = 0);
+		return retValue;
+	}
 	
 	
 	/**
@@ -1468,11 +1682,11 @@ sakai.site.site_admin = function(){
 			hash.w.show();
 			
 			sakai.site.newwidget_id = widgetid;
-			var id = "widget_" + widgetid + "_id" + Math.round(Math.random() * 1000000000) + "_" + sakai.site.currentsite.id + "/_widgets";
+			var id = "widget_" + widgetid + "_id" + Math.round(Math.random() * 1000000000);
 			sakai.site.newwidget_uid = id;
 			$dialog_content.html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
 			$("#dialog_title").text(Widgets.widgets[widgetid].name);
-			sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true);
+			sdata.widgets.WidgetLoader.insertWidgets("dialog_content",true,sakai.site.currentsite.id + "/_widgets");
 			$dialog_content.show();
 			window.scrollTo(0,0);
 		} else if (!widgetid){
@@ -1588,6 +1802,7 @@ sakai.site.site_admin = function(){
 	 */
 	var createNewPage = function(content){
 		
+		// UI Setup
 		$("#add_new_menu").hide();
 		sakai.site.isShowingDropdown = false;
 		
@@ -1600,10 +1815,10 @@ sakai.site.site_admin = function(){
 			if (sakai.site.createChildPageByDefault){
 				path = sakai.site.selectedpage + "/";
 			} else {
-				var splitted = sakai.site.selectedpage.split("/");
-				for (var i = 0, j = splitted.length - 2; i<j; i++){
-					path += splitted[i] + "/";
-				}
+				//var splitted = sakai.site.selectedpage.split("/");
+				//for (var i = 0, j = splitted.length - 2; i<j; i++){
+				//	path += splitted[i] + "/";
+				//}
 			}
 		} 
 		
@@ -1617,11 +1832,10 @@ sakai.site.site_admin = function(){
 			}
 			counter++;
 			var exists = false;
-			for (i = 0, j = sakai.site.pages.items.length; i<j; i++){
-				if (sakai.site.pages.items[i].id == totest){
-					exists = true;
-				}
+			if (sakai.site.site_info._pages[totest]) {
+				exists = true;
 			}
+			
 			if (!exists){
 				newid = totest;
 			}
@@ -1630,23 +1844,29 @@ sakai.site.site_admin = function(){
 		// Assign the empty content to the sakai.site.pagecontents array
 		sakai.site.pagecontents[newid] = content;
 		
-		// Change the configuration file
-		var index = sakai.site.pages.items.length;
-		sakai.site.pages.items[index] = {};
-		sakai.site.pages.items[index].id = newid;
-		sakai.site.pages.items[index].title = "Untitled";
-		sakai.site.pages.items[index].type = "webpage";
-		
-		// Post the new configuration file
-		sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){});
+		// Define page properties on node
+		// TODO: add appropriate type to differientate between webpage and dashboardpage
+		$.ajax({
+			url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid,
+			type: "POST",
+			data: {	"sling:resourceType":"sakai/page",
+				"id": newid,
+				"title": "Untitled",
+				"type": "webpage",
+				"position": "" + (determineHighestPosition() + 100000),
+				"acl": "parent"
+			}
+		});
 		
 		// Store page selected and old IDs
 		sakai.site.oldSelectedPage = sakai.site.selectedpage;
 		sakai.site.selectedpage = newid;
 		
+		console.log("create selectedpage: "+sakai.site.selectedpage);
+		
 		// Init tinyMCE if needed
 		if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
-     		init_tinyMCE();
+			init_tinyMCE();
   		} else {
 			editPage(newid);
 		}
@@ -1739,7 +1959,6 @@ sakai.site.site_admin = function(){
 			sakai.site.isShowingDropdown = true;
 			var dropdown_pos = $("#add_a_new").offset();
 			$("#add_new_menu").css({"left": (dropdown_pos.left + 7)+"px", "top": (dropdown_pos.top + 22) + "px"});
-			console.dir(dropdown_pos);
 		}
 	});
 	
@@ -1866,7 +2085,7 @@ sakai.site.site_admin = function(){
 		    success : function(data) {
 				
 				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(data);
-				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
 				
 				// Save new version of this page
 				var newfolderpath = sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/");
@@ -1905,7 +2124,7 @@ sakai.site.site_admin = function(){
 		   	url : sakai.site.urls.CURRENT_SITE_PAGES() + "/content?v=" + version,
 		    success : function(data) {
 				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(data);
-				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"));
+				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
 			},
 			error : function(data){
 				alert("An error has occured while trying to cahnge version preview");
@@ -1986,7 +2205,7 @@ sakai.site.site_admin = function(){
 	// Bind Move Page click event
 	$("#move_page_confirm").bind("click", function(ev){
 		
-		var i = 0;
+		/*var i = 0;
 		var j = 0;
 		var ii = 0;
 		var jj = 0;
@@ -1999,6 +2218,10 @@ sakai.site.site_admin = function(){
 				break;
 			}
 		}
+		if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
+			pageid = sakai.site.selectedpage;
+		}
+		
 		pageid = pageid.split("/")[pageid.split("/").length - 1];
 		
 		var item = $("#" + sakai.site.escapePageId(sakai.site.selectedpage));
@@ -2038,6 +2261,43 @@ sakai.site.site_admin = function(){
 				newid = totest;
 			}
 			index++;
+		}*/
+		
+		// Generate new ID
+		var index = 0;
+		var newid = false;
+		var pageid = "";
+		if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
+			pageid = sakai.site.selectedpage;
+		}
+		pageid = pageid.split("/")[pageid.split("/").length - 1];
+		
+		var b_site_info = sakai.site.clone(sakai.site.site_info);
+		delete b_site_info._pages[sakai.site.selectedpage];
+		
+		var item = $("#" + sakai.site.escapePageId(sakai.site.selectedpage));
+		var parent = item.parent().parent().attr("id");
+		if (parent == "1"){
+			parent = "";
+		}
+		
+		while (!newid){
+			var totest = "";
+			if (parent){
+				totest += parent + "/";
+			}
+			totest += pageid;
+			if (index !== 0){
+				totest += "-" + index;
+			}
+			var exists = false;
+			if (b_site_info._pages[sakai.site.selectedpage]) {
+				exists = true;
+			}
+			if (!exists){
+				newid = totest;
+			}
+			index++;
 		}
 		
 		// Move current file (generate new page id)
@@ -2051,7 +2311,7 @@ sakai.site.site_admin = function(){
 			createFolderPath = createFolderPath.substring(1);
 			
 			// Create parent
-			$.ajax({
+		 	$.ajax({
 				url: createFolderPath,
 				type: 'POST',
 				data: {
@@ -2066,80 +2326,102 @@ sakai.site.site_admin = function(){
 							":dest":newfolderpath
 						},
 						success: function(data){
-						
+		
 							// Rewrite configuration file	
 							var parentEl = $(".root");
 							var els = $("li", parentEl);
 							
-							var newpageconfig = {};
-							newpageconfig.items = [];
+							var previousLocation = 0;
+							var nextLocation = determineHighestPosition() + 200000;
 							
+							var newels = [];
 							for (i = 0, j = els.length; i < j; i++) {
 								if (els[i] && els[i].id) {
-									for (ii = 0, jj = sakai.site.pages.items.length; ii < jj; ii++) {
-										if (sakai.site.pages.items[ii].id == els[i].id) {
-											var newindex = newpageconfig.items.length;
-											newpageconfig.items[newindex] = sakai.site.pages.items[ii];
-											if (sakai.site.pages.items[ii].id == sakai.site.selectedpage) {
-												newpageconfig.items[newindex].id = newid;
-											}
-										}
+									newels[newels.length] = els[i];
+								}
+							}
+							
+							for (i = 0, j = newels.length; i < j; i++) {
+								if (newels[i] && newels[i].id && newels[i].id == sakai.site.selectedpage) {
+									if (newels[i - 1] && newels[i - 1].id){
+										previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position);
+									} 
+									if (newels[i + 1] && newels[i + 1].id){
+										nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position);
 									}
 								}
 							}
 							
-							sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(newpageconfig), function(success){
-								$(document.body).hide();
-								document.location = "#" + newid;
-								window.location.reload(true);
-								$('#move_dialog').jqmHide();
-							});
+							var newposition = Math.round((nextLocation + previousLocation) / 2);
 							
+							$.ajax({
+								url: newfolderpath,
+								type: 'POST',
+								data: {
+									"position": "" + newposition
+								},
+								success: function(data){
+									$(document.body).hide();
+									document.location = "#" + newid;
+									window.location.reload(true);
+									$('#move_dialog').jqmHide();
+								}
+							});
 							
 						},
 						error: function(data){
-							// Rewrite configuration file
+							
+							// Rewrite configuration file	
 							var parentEl = $(".root");
 							var els = $("li", parentEl);
 							
-							var newpageconfig = {};
-							newpageconfig.items = [];
+							var previousLocation = 0;
+							var nextLocation = determineHighestPosition() + 200000;
 							
+							var newels = [];
 							for (i = 0, j = els.length; i < j; i++) {
 								if (els[i] && els[i].id) {
-									for (ii = 0, jj = sakai.site.pages.items.length; ii < jj; ii++) {
-										if (sakai.site.pages.items[ii].id == els[i].id) {
-											var newindex = newpageconfig.items.length;
-											newpageconfig.items[newindex] = sakai.site.pages.items[ii];
-											if (sakai.site.pages.items[ii].id == sakai.site.selectedpage) {
-												newpageconfig.items[newindex].id = newid;
-											}
-										}
+									newels[newels.length] = els[i];
+								}
+							}
+							
+							for (i = 0, j = newels.length; i < j; i++) {
+								if (newels[i] && newels[i].id && newels[i].id == sakai.site.selectedpage) {
+									if (newels[i - 1] && newels[i - 1].id){
+										previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position);
+									} 
+									if (newels[i + 1] && newels[i + 1].id){
+										nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position);
 									}
 								}
 							}
 							
-							sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(newpageconfig), function(success){
+							var newposition = Math.round((nextLocation + previousLocation) / 2);
 							
-								 /* 
-								 $(document.body).hide();
-								 document.location = "#" + newid;
-								 window.location.reload(true);
-								 $('#move_dialog').jqmHide();
-								 */
-								
+							$.ajax({
+								url: newfolderpath,
+								type: 'POST',
+								data: {
+									"position": "" + newposition
+								},
+								success: function(data){
+									$(document.body).hide();
+									document.location = "#" + newid;
+									window.location.reload(true);
+									$('#move_dialog').jqmHide();
+								}
 							});
 							
 						}
 					});
 				}
-			});
+			}); 
 			
 		} else {
 			sakai.site.inEditView = newid;
 			$("#move_dialog").jqmHide();
 			
-			// Update the path shown
+			/*// Update the path shown
 			var finaljson = {};
 			finaljson.pages = [];
 			finaljson.pages[0] = sakai.site.currentsite.name;
@@ -2160,8 +2442,11 @@ sakai.site.site_admin = function(){
 			}
 			finaljson.pages[finaljson.pages.length] = $("#title-input").val();
 			finaljson.total = finaljson.pages.length;
-			$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));
+			$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));*/
 			
+			sakai.site.refreshSiteInfo();
+			
+			$("#new_page_path").html('<div><span>Page location: </span>' + sakai.site.selectedpage + '</div>&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
 			
 			
 			$("#move_inside_edit").bind("click", function(ev){
@@ -2369,7 +2654,7 @@ sakai.site.site_admin = function(){
 	/////////////////////////////
 	
 	/**
-	 * Deletes a page
+	 * //s a page
 	 * @return void
 	 */
 	var deletePage = function() {
@@ -2381,33 +2666,40 @@ sakai.site.site_admin = function(){
 			success: function(data){
 				
 				// Save the new page configuration
-				var index = -1;
+				/*var index = -1;
 				for (var i = 0; i < sakai.site.pages.items.length; i++){
 					if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
 						index = i;
 					}
 				}
 				
-				sakai.site.pages.items.splice(index, 1);
-				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+				
+				sakai.site.pages.items.splice(index, 1);*/
+				//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+					
+					delete sakai.site.site_info._pages[sakai.site.selectedpage];
+					
 					document.location = "/sites/" + sakai.site.currentsite.id;
-				});
+					
+				//});
 				
 			},
 			error: function(data){	
 				
 				// Save the new page configuration
-				var index = -1;
+				/*var index = -1;
 				for (var i = 0; i < sakai.site.pages.items.length; i++){
 					if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
 						index = i;
 					}
-				}
+				}*/
 				
-				sakai.site.pages.items.splice(index, 1);
-				sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+				//sakai.site.pages.items.splice(index, 1);
+				//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
+					
+					delete sakai.site.site_info._pages[sakai.site.selectedpage];
 					document.location = "/sites/" + sakai.site.currentsite.id;
-				});
+				//});
 			}
 		});
 	};
@@ -2447,7 +2739,11 @@ sakai.site.site_admin = function(){
 	);
 	
 
-	
+	//--------------------------------------------------------------------------------------------------------------
+	//
+	// PAGE PERMISSIONS
+	//
+	//--------------------------------------------------------------------------------------------------------------
 
 	
 	
