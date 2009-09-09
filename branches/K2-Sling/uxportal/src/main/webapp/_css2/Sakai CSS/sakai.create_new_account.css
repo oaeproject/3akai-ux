@@ -107,7 +107,7 @@ body
 
 
 .create_account .success_message
-{ font-size: 1.5em; color: #454A4F; padding: 15px 0 0 0; }
+{ font-size: 1.1em; color: #454A4F; padding: 15px 0 0 0; }
 
 .create_account .success_message a
 { font-weight: bold; color: #2b9cc5; }

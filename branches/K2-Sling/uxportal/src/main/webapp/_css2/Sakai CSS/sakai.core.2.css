@@ -726,19 +726,19 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .sakai-footer {}
 .sakai-footer .fixed-container {
 	color: #fff;
-	background: url('../../_images2/footer.png') center bottom no-repeat;
+	background: url('../../_images2/footer.png') center bottom no-repeat !important;
 	margin-bottom: 45px;
 	width: 926px;
 	padding: 17px 23px 0 23px;
 	height: 48px;
 	/*give IE6 a GIF rather than transparent PNG*/
-	_background: url('../../_images2/footer.gif') center bottom no-repeat;
+	_background: url('../../_images2/footer.gif') center bottom no-repeat !important;
 	_width: 920px;
 	_padding: 17px 20px 0 20px;
 	_height: 43px;
 	}
 .sakai-footer .fixed-container img { float: left; margin-right: 15px; }
-.sakai-footer .fixed-container p { font-size: 11px; margin-bottom: 0; padding-bottom: 0; line-height: 1.3em; }
+.sakai-footer .fixed-container p { font-size: 11px; margin-bottom: 0; padding-bottom: 0; line-height: 1.3em; color: #fff; }
 .sakai-footer .fixed-container a { color: #c4e4fb; }
 .sakai-footer .fixed-container a.back-top { background: url('../../_images2/white_bottom_arrow.png') center right no-repeat; color: #fff; display: block; float: right; font-size: 13px; font-weight: bold; padding-right: 20px; }
 

@@ -950,6 +950,20 @@ jQuery.fn.stripTags = function() {
 })(jQuery);
 
 
+//////////////////////////////
+// Footer support functions //
+//////////////////////////////
+
+/*
+ * This event handler will make sure that the Top link
+ * that's available in every page footer will scroll back
+ * to the top of the page
+ */
+$(".back-top").live("click", function(ev){
+	window.scrollTo(0,0);
+});
+
+
 ////////////////////////
 // Necessairy imports //
 ////////////////////////
