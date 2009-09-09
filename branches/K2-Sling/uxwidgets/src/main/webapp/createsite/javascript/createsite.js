@@ -255,7 +255,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 									url: "/sites/" + siteid,
 									type: "POST",
 									success: function(data){
-										createNavigation(siteid);
+										setWidgetsPermissions(siteid);
 									},
 									error: function(status){
 										alert("An error occured");
@@ -291,13 +291,6 @@ sakai.createsite = function(tuid,placement,showSettings){
 						alert("And error occured whilst creating the site.");
 				}
 			}
-		});
-	};
-	
-	var createNavigation = function(siteid){
-		var tosave = '<p><img id="widget_navigation_id759008084__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/navigation/images/icon.png" border="1" alt="" /></p><p><img id="widget_siterecentactivity_id669827676__sites/' + siteid + '/_pages/home" class="widget_inline" style="display:block; padding: 10px; margin: 4px" src="/devwidgets/siterecentactivity/images/icon.png" border="1" alt="" /></p>';
-		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_navigation","content",tosave, function(){
-			setWidgetsPermissions(siteid);
 		});
 	};
 	
