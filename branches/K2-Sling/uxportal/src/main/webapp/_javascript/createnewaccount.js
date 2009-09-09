@@ -35,7 +35,7 @@ sakai.newaccount = function(){
 	
 	// Links and labels
 	var checkUserNameLink = "#checkUserName ";
-	var buttonsContainer = "#buttons";
+	var buttonsContainer = ".create_account_button_bar";
 	var successMessage = "#success_message";
 	
 	// Input fields
