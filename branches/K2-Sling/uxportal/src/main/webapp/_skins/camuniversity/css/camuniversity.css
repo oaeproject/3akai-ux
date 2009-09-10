@@ -29,6 +29,10 @@
  	border: none;
  }
  
+.content {
+	padding-right: 10px;
+}
+ 
 a:link, a:focus, a:active {
 	color: #003c79;
 	text-decoration: underline;
@@ -59,6 +63,10 @@ body{
 
 #container {
 	padding:0 20px;
+}
+
+.content h3 {
+	margin-bottom: 1em;
 }
 
 /* Header */
@@ -127,11 +135,12 @@ body{
 }
 /* Navigation */
 .page_nav {
-	background:#fff url(/dev/_skins/camuniversity/images/bg-content-secondary-blue.jpg) no-repeat scroll 0 0;
+	background:#fff url(/dev/_skins/camuniversity/images/bg-content-secondary-blue.jpg) no-repeat scroll -20px 0;
 	float:right;
 	height:100%;
 	margin-bottom: 10px;
-	width:36%;
+	width:35%;
+	border-left: 1px solid #eee;
 }
 
 .page_nav ul {
@@ -191,4 +200,46 @@ body{
 #content_page_options ul li {
 	list-style-type: none;
 	display: inline;
+}
+
+/** Widget overrides **/
+
+.si_titlebar_icon {
+	display: none;
+}
+.nav_titlebar_icon {
+	display:none;
+}
+
+#navigation_output, #siterecentactivity_output {
+	margin-bottom: 20px;
+}
+
+#site_management {
+	margin-bottom: 20px;
+}
+
+/** Edit Page **/
+
+.mceIframeContainer {
+	border: 1px solid #ccc !important;
+	padding: 10px !important;
+}
+.mceToolbarExternal {
+	border: 1px solid #ccc;
+	background-color: #eee;
+}
+
+.buttonBar {
+	margin-bottom: 10px;
+}
+
+.tab-nav {
+	float: right;
+}
+
+.tab-nav li {
+	display: inline;
+	list-style-type: none;
+	margin-right: 5px;
 }

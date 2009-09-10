@@ -134,13 +134,13 @@
 { background:transparent url(../../_images2/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
 
 .basic_appearance .grey_button .button
-{ background:transparent url(../../_images2/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; }
+{ background:transparent url(../../_images2/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px;}
 
 .basic_appearance .lightgrey_button
 { background:transparent url(../../_images2/lightgray_button_left.gif) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
 
 .basic_appearance .lightgrey_button .button
-{ background:transparent url(../../_images2/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; }
+{ background:transparent url(../../_images2/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px; }
 
 
 

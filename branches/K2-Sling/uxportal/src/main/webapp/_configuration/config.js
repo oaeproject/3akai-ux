@@ -109,11 +109,6 @@ var Config = {
 				image : "_images/sakai_grey.png",
 				URL : "/dev/_skins/original/original.html"
 			},
-			blue : {
-				name : "Blue theme",
-				image : "_images/sakai_blue.png",
-				URL : "/dev/_skins/blue/blue.html"
-			},
 			camuniversity : {
 				name : "Cambridge University theme",
 				image : "/dev/_skins/camuniversity/images/camuniversity.png",
