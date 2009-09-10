@@ -85,13 +85,14 @@ sakai.profile = function(){
 		
 		if (user && user != me.user.userid) {
 			myprofile = false;
-			fileUrl = "/_user/public/" + user + "/authprofile.json";
+			fileUrl = "/_user/presence.user.json?userid=" + user;
 			$.ajax({
 				url: fileUrl,
 				cache: false,	
 				success: function(data){
 					totalprofile = {};
-					totalprofile.profile = $.evalJSON(data);
+					totalprofile.profile = $.evalJSON(data).profile;
+					totalprofile.profile["sakai:status"] = $.evalJSON(data)["sakai:status"];
 					
 					// Doing a rewrite of the me object, because Sling wraps arrays around
 					// the different fields in the profile object
@@ -105,11 +106,11 @@ sakai.profile = function(){
 						totalprofile.profile.email = totalprofile.profile.email[0];
 					}
 					
-					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
-						totalprofile._status = totalprofile.profile.chatstatus;
+					if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
+						totalprofile.profile._status = totalprofile.profile.chatstatus;
 					} 
 					else {
-						totalprofile._status = totalprofile.profile.status;
+						totalprofile.profile._status = totalprofile.profile["sakai:status"];
 					}
 					json = totalprofile.profile;
 					
@@ -125,13 +126,14 @@ sakai.profile = function(){
 		else if (!showEdit) {
 			$("#profile_tabs").show();
 			$("#link_edit_profile").show();
-			fileUrl = "/_user/public/" + sdata.me.user.userid + "/authprofile.json";
+			fileUrl = "/_user/presence.user.json?userid=" + sdata.me.user.userid;
 			$.ajax({
 				url: fileUrl,
 				cache: false,	
 				success: function(data){
 					var totalprofile = {};
-					totalprofile.profile = $.evalJSON(data);
+					totalprofile.profile = $.evalJSON(data).profile;
+					totalprofile.profile["sakai:status"] = $.evalJSON(data)["sakai:status"];
 					
 					// Doing a rewrite of the me object, because Sling wraps arrays around
 					// the different fields in the profile object
@@ -145,11 +147,11 @@ sakai.profile = function(){
 						totalprofile.profile.email = totalprofile.profile.email[0];
 					}
 					
-					if (totalprofile.profile.status === "online" && totalprofile.profile.chatstatus) {
-						totalprofile._status = totalprofile.profile.chatstatus;
+					if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
+						totalprofile.profile._status = totalprofile.profile.chatstatus;
 					} 
 					else {
-						totalprofile._status = totalprofile.profile.status;
+						totalprofile.profile._status = totalprofile.profile["sakai:status"];
 					}
 					json = totalprofile.profile;
 					
@@ -198,11 +200,7 @@ sakai.profile = function(){
 			$("#status").hide();
 		}
 		
-		var chatstatus = "offline";
-		if (json.chatstatus){
-			chatstatus = json.chatstatus;
-		}
-		$("#profile_user_status_" + chatstatus).show();
+		$("#profile_user_status_" + json._status).show();
 		
 		// Basic Information
 		
@@ -397,7 +395,7 @@ sakai.profile = function(){
 				$("#aboutme").hide();
 			}
 			
-			if (about.personalinterests) {
+			if (about.personalinterests && !(typeof about.personalinterests === "object" && about.personalinterests.length === 0)) {
 				inabout++;
 				$("#personalinterests").show();
 				if (typeof about.personalinterests === "object") {
@@ -409,7 +407,7 @@ sakai.profile = function(){
 				$("#personalinterests").hide();
 			}
 			
-			if (about.academicinterests) {
+			if (about.academicinterests && !(typeof about.academicinterests === "object" && about.academicinterests.length === 0)) {
 				inabout++;
 				$("#academicinterests").show();
 				if (typeof about.academicinterests === "object"){
