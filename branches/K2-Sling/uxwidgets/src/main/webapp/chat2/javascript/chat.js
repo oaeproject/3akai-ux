@@ -1145,6 +1145,8 @@ sakai.chat2 = function(tuid, placement, showSettings){
 		if($(userLinkMenu).is(":visible")){
 			$(userLinkMenu).hide();
 		}else{
+			$(userLinkMenu).css("left", Math.round($(userLink).offset().left) + 5 + "px");
+			$(userLinkMenu).css("width", $(userLink).width() + "px");
 			$(userLinkMenu).show();
 		}
 	};

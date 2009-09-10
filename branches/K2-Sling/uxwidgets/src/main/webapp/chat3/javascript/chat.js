@@ -1152,6 +1152,8 @@ sakai.chat3 = function(tuid, placement, showSettings){
 		if($(userLinkMenu).is(":visible")){
 			$(userLinkMenu).hide();
 		}else{
+			$(userLinkMenu).css("left", Math.round($(userLink).offset().left) + 5 + "px");
+			$(userLinkMenu).css("width", $(userLink).width() + "px");
 			$(userLinkMenu).show();
 		}
 	};
@@ -1418,9 +1420,9 @@ sakai.chat3 = function(tuid, placement, showSettings){
 						"sakai:messagebox": "outbox",
 						"sakai:to": currentuser,
 						"sakai:from": sdata.me.user.userid,
-						"sakai:subject": "",
-						"sakai:body":text,
-						"sakai:category":"chat"
+						//"sakai:subject": "",
+						"sakai:body":text
+						//"sakai:category":"chat"
 					};
 						
 					$.ajax({
