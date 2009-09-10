@@ -301,7 +301,6 @@ sakai.site_basic_settings = function() {
      */
     var setStatusForSite = function(location, status, access) {
 		// Get the correct ACL for this site
-		alert(access);
 		var acl = "";
 		if (status === "offline") {
 			// Only the owner gets access.
