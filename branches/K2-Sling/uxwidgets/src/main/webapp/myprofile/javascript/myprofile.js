@@ -87,6 +87,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		//	update the userid in the chat
 		updateChatStatusElement($(headerChatUserId), status);
 		updateChatStatusElement($(profileNameID), status);
+		updateChatStatusElement($(".chat_available_name"), status);
 	};
 	
 	/**
@@ -176,6 +177,8 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		$(profileStatusContainer).toggle();
 	});
 	$(profileChatStatusClass).bind("click", function (ev) {
+		$("#myprofile_status").css("left", $(".profile_chat_status_dropdown_link").offset().left + 65 + "px");
+		$("#myprofile_status").css("top", $(".profile_chat_status_dropdown_link").offset().top + 30 + "px");
 		$(profileStatusContainer).toggle();
 	});
 	
