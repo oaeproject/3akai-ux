@@ -506,20 +506,6 @@ sakai.site = function(){
 		sakai.site.showingInsertMore = false;
 		sakai.site.inEditView = false;
 		
-		/*// Set pageid if not supplied, set page title and get page type
-		for (var i = 0, j = sakai.site.pages.items.length; i<j; i++){
-			
-			if ((!pageid) && (sakai.site.pages.items[i].id.indexOf("/") == -1)) {
-					pageid = sakai.site.pages.items[i].id;
-				}
-			
-			if (sakai.site.pages.items[i].id == pageid){
-				$pagetitle.text(sakai.site.pages.items[i].title);
-				pageType = sakai.site.pages.items[i].type;
-				break;
-			}
-		}*/
-		
 				
 		// If no pageid is supplied, default to the first available page
 		if (!pageid) {
@@ -555,13 +541,6 @@ sakai.site = function(){
 		$sidebar_content_pages.show();
 		$main_content_div.children().css("display","none");
 		//sakai.dashboard.hidepopup();
-		
-		
-		/*if (pageid) {
-			var page_id_to_test = pageid.replace(/ /g, "%20");
-		} else {
-			pageid = "";
-		}*/
 		
 		if ($("#main-content-div #" + sakai.site.escapePageId(sakai.site.selectedpage)).length > 0) {
 			
@@ -660,14 +639,14 @@ sakai.site = function(){
 			sakai.site.pagecontents[sakai.site.selectedpage] = response;
 			
 			// If page already exists in DOM just show it, else create it
-			var element_to_test = document.getElementById(sakai.site.escapePageId(sakai.site.selectedpage));
-			if (element_to_test){
-				element_to_test.style.display = "block";
+			var element_to_test = $("#" + sakai.site.escapePageId(sakai.site.selectedpage));
+			if (element_to_test.length > 0){
+				element_to_test.show();
 			} else
 				{
 					// Create element
 					var el = document.createElement("div");
-					el.id = sakai.site.escapePageId(sakai.site.selectedpage);
+					el.id = sakai.site.selectedpage// sakai.site.escapePageId(sakai.site.selectedpage);
 					el.className = "content";
 					el.innerHTML = response;
 					

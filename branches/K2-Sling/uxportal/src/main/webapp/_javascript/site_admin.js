@@ -561,14 +561,14 @@ sakai.site.site_admin = function(){
 					sakai.site.pagecontents[sakai.site.selectedpage] = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
 					
 					// Put page contents into html
-					document.getElementById(escaped).innerHTML = sakai.site.pagecontents[sakai.site.selectedpage];
+					$("#" + escaped).html(sakai.site.pagecontents[sakai.site.selectedpage]);
 					
 					// Switch back to view mode
 					$("#edit_view_container").hide();
 					$("#show_view_container").show();
 					
-					document.getElementById(escaped).style.display = "block";
-					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.escapePageId(sakai.site.selectedpage),null,sakai.site.currentsite.id + "/_widgets");
+					$("#" + escaped).show();
+					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 					sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", sakai.site.pagecontents[sakai.site.selectedpage], function(){
 					
 						// Define page properties on node
@@ -663,11 +663,6 @@ sakai.site.site_admin = function(){
 			}
 			counter++;
 			var exists = false;
-			/*for (i = 0; i < sakai.site.pages.items.length; i++){
-				if (sakai.site.pages.items[i].id == testid){
-					exists = true;
-				}
-			}*/
 			if (sakai.site.site_info._pages[testid]) {
 				exists = true;
 			}
@@ -675,14 +670,6 @@ sakai.site.site_admin = function(){
 				newid = testid;
 			}
 		}
-		
-		/*for (i = 0; i < sakai.site.pages.items.length; i++){
-			if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
-				sakai.site.pages.items[i].id = newid;
-				sakai.site.pages.items[i].title = newpagetitle;
-				break;
-			}
-		}*/
 		
 		// Move page folder to this new id
 		var newfolderpath = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
@@ -697,24 +684,16 @@ sakai.site.site_admin = function(){
 			data: data,
 			success: function(data){
 				
-				// Move all of the subpages of the current page to stay a subpage of the current page
-				/*var idtostartwith = sakai.site.selectedpage + "/";
-				for (var i = 0; i < sakai.site.pages.items.length; i++){
-					if (sakai.site.pages.items[i].id.substring(0,idtostartwith.length) == idtostartwith){
-						sakai.site.pages.items[i].id = newid + "/" + sakai.site.pages.items[i].id.substring(idtostartwith.length);
-					}
-				}*/
-		
-				// Adjust configuration file
-				//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					
-					// Render the new page under the new URL
+						// Render the new page under the new URL
 					
 						// Save page content
 						var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
 						sdata.widgets.WidgetPreference.save(newfolderpath, "content", content, function(){
 							
 							// Remove old div + potential new one
+							//alert(sakai.site.selectedpage);
+							//alert(sakai.site.escapePageId(sakai.site.selectedpage));
+							//alert($("#" + sakai.site.escapePageId(sakai.site.escapePageId(sakai.site.selectedpage))).length);
 							$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
 							$("#" + sakai.site.escapePageId(newid)).remove();
 						
@@ -730,11 +709,12 @@ sakai.site.site_admin = function(){
 							} else {
 								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
 							}
+							var pageid = newid.split("/")[newid.split("/").length - 1];
 							$.ajax({
 								url: newfolderpath,
 								type: "POST",
 								data: {	"sling:resourceType":"sakai/page",
-									"id":newid,
+									"id":pageid,
 									"title": newpagetitle,
 									"type": "webpage",
 									"position": position
@@ -755,24 +735,11 @@ sakai.site.site_admin = function(){
 								}
 							});
 					
-						}, null, "x-sakai-page");
-					
-				//});		
+						}, null, "x-sakai-page");	
 				
 			},
 			error: function(status){
 				
-				// Move all of the subpages of the current page to stay a subpage of the current page
-				/*var idtostartwith = sakai.site.selectedpage + "/";
-				for (var i = 0, j = sakai.site.pages.items.length; i<j; i++){
-					if (sakai.site.pages.items[i].id.substring(0,idtostartwith.length) == idtostartwith){
-						sakai.site.pages.items[i].id = newid + "/" + sakai.site.pages.items[i].id.substring(idtostartwith.length);
-					}
-				}*/
-		
-				// Adjust configuration file
-				//sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/.site", "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					
 					// Render the new page under the new URL
 					
 						// Save page content
@@ -802,11 +769,12 @@ sakai.site.site_admin = function(){
 							} else {
 								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
 							}
+							var pageid = newid.split("/")[newid.split("/").length - 1];
 							$.ajax({
 								url: "/sites/" + sakai.site.currentsite.id + ".site",
 								type: "POST",
 								data: {	"sling:resourceType":"sakai/page",
-									"id":newid,
+									"id":pageid,
 									"title": newpagetitle,
 									"type": "webpage",
 									"position": position
@@ -822,9 +790,7 @@ sakai.site.site_admin = function(){
 							// Refresh site info
 							sakai.site.refreshSiteInfo();
 							
-						}, null, "x-sakai-page");
-					
-				//});		
+						}, null, "x-sakai-page");	
 				
 			}
 		});
@@ -1293,7 +1259,10 @@ sakai.site.site_admin = function(){
 		$("#new_page_path").hide();
 		$("#html-editor").hide();
 		$("#title-input").hide();
+		$("#toolbarcontainer").hide();
+		$("#fl-tab-content-editor").hide();
 		$("#page_preview_content").html("").show();
+		$("#toolbarplaceholder").hide();
 		if (!sakai.site.currentEditView) {
 			switchtab("text_editor","Text Editor","preview","Preview");
 		} else if (sakai.site.currentEditView == "html"){
@@ -1426,7 +1395,10 @@ sakai.site.site_admin = function(){
 			if (object[globalProgressTracker]){
 				var obj = object[globalProgressTracker];
 				if (active){
+					//alert(obj.id);
+					//alert(prefix + obj.id + " --- " + active + " === " + (prefix + obj.id == active));
 					if (prefix + obj.id == active){
+						//alert("Open");
 						html += "<li id='" + prefix + obj.id + "' class='open'><span>" + obj.title + "</span>";
 					} else {
 						html += "<li id='" + prefix + obj.id + "'  class='open' rel='locked'><span>" + obj.title + "</span>";
@@ -1474,7 +1446,7 @@ sakai.site.site_admin = function(){
 				globalProgressTracker++;
 			}
 		} while (object[globalProgressTracker] && level !== false && isLowerLevel == false);
-		alert(html);
+		//alert(html);
 		/*var html = "";
 		if (active){
 			if (object.id == active){
