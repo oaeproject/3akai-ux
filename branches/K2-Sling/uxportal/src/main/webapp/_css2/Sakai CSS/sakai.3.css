@@ -91,8 +91,8 @@
 /* site_management_basic_settings.html */
 .basic_management .delete_site{float: right; background: url(../../_images2/delete_site.png) no-repeat top right; width: 119px; height: 27px; display: block; margin: 12px 10px 0 0; text-align: center; color: #888; vertical-align: middle; line-height: 26px; font-size: 12px;}
 .basic_management .delete_site span{margin-left: 22px;}
-.basic_management .delete_site_warning{color: #999; float: right; margin: 48px -125px 0 0;}
-.basic_management .delete_site_warning strong{color:#999;}
+.basic_management .delete_site_warning{color: #D32F2F;}
+.basic_management .delete_site_warning strong{color:#D32F2F;}
 .basic_management .site_summary_form{padding: 20px 0 0 45px;}
 .basic_management .site_summary_form span{font-weight: 100;}
 .basic_management .site_summary_form td{border: 0;}

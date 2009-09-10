@@ -91,8 +91,8 @@
 	margin-top: 0;
 }
 .search_result_person_link {
-	font-size: 1em;
-	font-weight: bold;
+	font-size: 0.9em;
+	/* font-weight: bold; */
 	margin: 0 0 0 10px;
 }
 .people .search_top_rounded {

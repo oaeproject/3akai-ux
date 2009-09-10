@@ -271,7 +271,8 @@ a.search_results_part_title {
 
 .search_result_person_divider {
 	color: #ddd;
-	padding: 10px;
+	/*padding: 10px;*/
+	margin:0 0 0 10px !important;
 }
 
 .search_result_course_site {
