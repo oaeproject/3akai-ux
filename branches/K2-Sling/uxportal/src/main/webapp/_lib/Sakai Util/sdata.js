@@ -311,8 +311,8 @@ sdata.widgets.WidgetLoader = {
 		var widgets = {};
 		var settings = false;
 		
-		
 		var informOnLoad = function(widgetname){
+			console.debug(widgetname);
 			var doDelete = false;
 			if (widgets[widgetname] && widgets[widgetname].length > 0){
 				for (var i = 0; i < widgets[widgetname].length; i++){
@@ -333,7 +333,7 @@ sdata.widgets.WidgetLoader = {
 			
 			// Use document.getElementById() to avoid jQuery selector escaping issues with '/'
 			var el = containerId ? document.getElementById(containerId) : $(document.body);
-
+			
 			var divarray = $(widgetSelector, el);
 			settings = showSettings || false;
 			
@@ -362,6 +362,8 @@ sdata.widgets.WidgetLoader = {
 						if (split[2]){
 							widgetid = split[2];
 						}
+						
+						//console.debug(widgetname);
 										
 						var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1; 
 						
@@ -462,20 +464,22 @@ sdata.widgets.WidgetLoader = {
 			var regexp_match_result = regexp.exec(content);			
 			while (regexp_match_result !== null) {
 				returnObject.URL[returnObject.URL.length] = regexp_match_result[1]; // value of URLIdentifier attrib
-				returnObject.content = content.replace(regexp_match_result[0],""); // whole tag
+				returnObject.content = returnObject.content.replace(regexp_match_result[0],""); // whole tag
 				regexp_match_result = regexp.exec(content);
 			}
 			return returnObject;
 		};
 	
 		var sethtmlover = function (div,content,widgets,widgetname){
-	   
-	   		var CSSTags = locateTagAndRemove(content, "link", "href");
+	   		
+			var CSSTags = locateTagAndRemove(content, "link", "href");
 			content = CSSTags.content;
 			
-			for (var i = 0; i < CSSTags.URL.length; i++){
+			var initfunction = eval(widgetNameSpace + "." + widgetname);
+			
+			for (var i = 0; i < CSSTags.URL.length; i++) {
 				$.Load.requireCSS(CSSTags.URL[i]);
-			}	
+			}
 			
 			var JSTags = locateTagAndRemove(content, "script", "src");
 			content = JSTags.content;
@@ -494,7 +498,7 @@ sdata.widgets.WidgetLoader = {
 			}	
 				
 		};
-		
+	   
 		insertWidgets(id, showSettings, context);
 		
 		return {
