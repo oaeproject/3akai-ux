@@ -240,11 +240,11 @@ ul.fl-tabs li a{
 	width: 212px;
 }
 .add-members .fl-col-flex {
-	margin:0 0 0 227px;
+	margin:0 227px 0 0;
 	padding:0;
 }
 .add-members .fl-col-mixed-200 .fl-col-flex {
-	margin-left:232px;
+	margin-right:232px;
 }
 .leftCol {
 
@@ -343,8 +343,8 @@ ul.fl-tabs li a{
 	text-align: right;
 }
 .add-members .member-search #txt_member_search {
-	width: 460px;
-	margin: 0 5px 0 0;
+	width: 200px;
+	margin: 0 10px 0 0;
 	line-height: 100%;
 }
 .add-members .member-search .submit-button {
@@ -363,7 +363,7 @@ ul.fl-tabs li a{
 	border: none;
 }
 .management_content_main .explore_nav ul {
-	float: right;
+	margin-left: -10px;
 	border: none;
 }
 .management_content_main .fl-col-flex .flex-container .explore_nav .user-personal li {
@@ -423,4 +423,11 @@ ul.fl-tabs li a{
 	background: url('../../_images2/member_thumb_unselected.png') 0 0 no-repeat;
 	margin: 0 20px 20px 0;
 	border: none;
+}
+
+.member-search-field {
+	padding: 2px !important;
+}
+.manage_members_role_rbts {
+	margin-bottom: 10px;
 }

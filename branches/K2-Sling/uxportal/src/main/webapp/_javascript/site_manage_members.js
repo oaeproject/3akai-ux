@@ -98,8 +98,8 @@ sakai.site_manage_members = function() {
 		for (var j = 0; j < json.members.length; j++) {
 			if( json.members[j]["rep:userId"] === person["rep:userId"]){
 				json.members[j].selected = false;
-				$("#siteManage_person" + j).parent().removeClass("selected");
-				$("#siteManage_person" + j).parent().addClass("unselected");
+				$("#siteManage_person" + j).removeClass("selected");
+				$("#siteManage_person" + j).addClass("unselected");
 			}
 		}
 	};
@@ -127,22 +127,25 @@ sakai.site_manage_members = function() {
 	 * @param {Object} isNewSelection
 	 */
     var selectPerson = function(personIndex, isNewSelection, selectAll) {
-	  	if (typeof json.members === "undefined") {
-            json.members = [];
-        }
-        if (!json.members[personIndex].selected) {
-			if(isNewSelection){
-				selectedPeople.push(json.members[personIndex]);
+	  	if (json.members[personIndex]) {
+			if (typeof json.members === "undefined") {
+				json.members = [];
 			}
-			
-            json.members[personIndex].selected = true;
-			$("#siteManage_person" +  personIndex ).parent().removeClass("unselected");
-            $("#siteManage_person" +  personIndex ).parent().addClass("selected");
-        }
-		else if(!selectAll){
- 			unselectCorrectPerson(json.members[personIndex]);
-			selectedPeople.splice(getSelectedIndex(json.members[personIndex]),1);
-            updateSelectedPersons();
+			if (!json.members[personIndex].selected) {
+				if (isNewSelection) {
+					selectedPeople.push(json.members[personIndex]);
+				}
+				
+				json.members[personIndex].selected = true;
+				$("#siteManage_person" + personIndex).removeClass("unselected");
+				$("#siteManage_person" + personIndex).addClass("selected");
+			}
+			else 
+				if (!selectAll) {
+					unselectCorrectPerson(json.members[personIndex]);
+					selectedPeople.splice(getSelectedIndex(json.members[personIndex]), 1);
+					updateSelectedPersons();
+				}
 		}
     };
 
@@ -193,7 +196,7 @@ sakai.site_manage_members = function() {
 		 	$("#manage_members_count").html(getNumMembers(toRender.users));
             $(".siteManage_person").bind("click",
             function(e, ui) {
-                var userindex = parseInt(e.target.parentNode.id.replace("siteManage_person", ""), 10);
+                var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
 				var isSelected = false;
 				for (var i = 0; i < selectedPeople.length; i++) {
 					if (selectedPeople[i]["rep:userId"] === json.members[userindex]["rep:userId"]){
@@ -269,6 +272,37 @@ sakai.site_manage_members = function() {
         });
     };
     getSiteMembers(null, 1,",");
+	
+	
+	var filterMembers = function(search){
+		if (search) {
+			for (var i = 0; i < json.members.length; i++) {
+				var toShow = false;
+				if (typeof json.members[i].firstName === "object"){
+					json.members[i].firstName = json.members[i].firstName[0];
+				}
+				if (typeof json.members[i].lastName === "object"){
+					json.members[i].email = json.members[i].lastName[0];
+				}
+				if (typeof json.members[i].email === "object"){
+					json.members[i].email = json.members[i].email[0];
+				}
+				if ((json.members[i].firstName + " " + json.members[i].lastName).toLowerCase().indexOf(search.toLowerCase()) !== -1){
+					toShow = true;
+				}
+				if (json.members[i].email && json.members[i].email.toLowerCase().indexOf(search.toLowerCase()) !== -1){
+					toShow = true;
+				}
+				if (toShow){
+					$("#siteManage_person" + i).show();
+				} else {
+					$("#siteManage_person" + i).hide();
+				}
+			}
+		} else {
+			$(".siteManage_person").show();
+		}
+	}
 	
 	/**
 	 * returns a json-object containing userids and membertokens
@@ -478,14 +512,14 @@ sakai.site_manage_members = function() {
             });
         }
     });
-    $("#btn_members_search").bind("click",
+    $("#btn_members_filter").bind("click",
     function(e, ui) {
-		 getSiteMembers($("#txt_member_search").val(), 1,",");
+		  filterMembers($("#txt_member_search").val());
     });
     $("#txt_member_search").bind("keydown",
     function(e, ui) {
         if (e.keyCode === 13) {
-           getSiteMembers($("#txt_member_search").val(), 1,",");
+           filterMembers($("#txt_member_search").val());
         }
 
     });

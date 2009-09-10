@@ -73,12 +73,12 @@
 				<!-- MIXED COLUMN -->
 				<div class="fl-col-mixed-200">
 					<!-- FIXED COLUMN -->
-					<div class="fl-col-fixed fl-force-left leftCol">
+					<div class="fl-col-fixed fl-force-right leftCol">
 						<div class="leftCol_content_top">
 							<div class="leftCol_content_top_inner"></div>
 						</div>
 						<div class="leftCol-inner">
-							<form class="member-options" method="" action="">
+							<form class="member-options" method="" action="" onsubmit="return false;">
 								<span class="manage_members_role section">Make selected people:</span>
 								<table id="manage_members_role_rbts" class="add-people-table">
 								</table>
@@ -92,7 +92,7 @@
 							--></div>
 								<!-- <strong>Tag selected people as:</strong>
 						<input type="text" class="tag-people" value="Add your tags here" /> -->
-								<div id="membership-status-settings">
+								<div id="membership-status-settings" style="display:none">
 									<div class="status"><span class="section">Membership status:</span></div>
 									<ul>
 										<li>
@@ -133,26 +133,30 @@
 					<!-- FLEX COLUMN -->
 					<div class="fl-col-flex">
 						<div class="flex-container">
-							<div class="member-search">
-								<input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, or comma separated lists" />
-								<input type="image" class="submit-button" id="btn_members_search" value="Search" src="_images2/search_for_people.png" />
-							</div>
 							<div class="explore_nav">
 								<ul class="user-personal fl-force-left">
-									<li class="first"><a href="#">Current members</a></li>
-									<li><a href="javascript:;" id="btn_members_selectAll">Select all</a></li>
-									<li><a href="javascript:;" id="btn_members_selectNone">Select none</a></li>
-									<li class="last"><a href="#" >Select from CSV file</a></li>
+									<!-- <li class="first"><a href="#">Current members</a></li> -->
+									<li class="first"><a href="javascript:;" id="btn_members_selectAll">Select all</a></li>
+									<li class="last"><a href="javascript:;" id="btn_members_selectNone">Select none</a></li>
+									<!-- <li class="last"><a href="#" >Select from CSV file</a></li> -->
 								</ul>
+								<div class="fl-force-right" style="margin-top:2px;">
+									<a href="javascript:;" id="btn_members_filter" style="font-weight: bold">Filter</a>
+									<!-- <input type="image" class="submit-button" id="btn_members_search" value="Search" src="_images2/search_for_people.png" /> -->
+								</div>
+								<div class="member-search fl-force-right">
+									<input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, ..." />
+								</div>
 							</div>
+							
 							<div class="jq_pager"></div>
 							<div id="siteManage_members" class="siteManagepeopleContainers"> </div>
 							<div id="siteManage_people_template" style="display:none"><!--
 					<div class="members-container">
 					<ul width="100%">
 					{for i in users}
-						<li class="unselected">
-							<a href="javascript:;" class="siteManage_person" id="siteManage_person${users.indexOf(i)}">
+						<li class="unselected siteManage_person" id="siteManage_person${users.indexOf(i)}">
+							<a href="javascript:;">
 							{if typeof i.picture == "undefined"}
 							<img src="_images2/member_thumb_unselected.png" />
 							{else}
@@ -161,11 +165,13 @@
 							</a>
 							
 							{if (typeof i.firstName !== "undefined")}
-							<a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+							<a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
 							{else}
-							<a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label">${i['rep:userId']}</a><div class="member-title"></div>
+							<a href="javascript:;" class="member-label">${i['rep:userId']}</a><div class="member-title"></div>
 							{/if}
 							<span class="siteManage_person_roleView">${i.role}</span>
+							<a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">View Profile</a>
+							
 						</li>
 					{/for}
 					</ul>

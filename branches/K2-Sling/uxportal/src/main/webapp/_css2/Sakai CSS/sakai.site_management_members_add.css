@@ -240,11 +240,11 @@ ul.fl-tabs li a{
 	width: 212px;
 }
 .add-members .fl-col-flex {
-	margin:0 0 0 227px;
+	margin:0 227px 0 0;
 	padding:0;
 }
 .add-members .fl-col-mixed-200 .fl-col-flex {
-	margin-left:232px;
+	margin-right:232px;
 }
 .leftCol {
 

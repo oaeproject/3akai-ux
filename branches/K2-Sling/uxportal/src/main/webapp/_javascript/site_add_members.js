@@ -94,7 +94,7 @@ sakai.site_add_members = function() {
 		for (var j = 0; j < json.foundPeople.results.length; j++) {
 			if( json.foundPeople.results[j].userid === person.userid){
 				json.foundPeople.results[j].selected = false;
-				$("#siteManage_person" + j).parent().attr("class", "unselected");
+				$("#siteManage_person" + j).attr("class", "unselected");
 			}
 		}
 	};
@@ -133,7 +133,7 @@ sakai.site_add_members = function() {
 			}
 			
             json.foundPeople.results[personIndex].selected = true;
-            $("#siteManage_person" +  personIndex , "#siteManage_people").parent().attr("class", "selected");
+            $("#siteManage_person" +  personIndex , "#siteManage_people").attr("class", "selected");
         }
 		else if(!selectAll){
  			unselectCorrectPerson(json.foundPeople.results[personIndex]);
@@ -148,12 +148,33 @@ sakai.site_add_members = function() {
 	 */
 	var checkIfUserIDExists =function(userid){
 		for (var i = 0; i < json.members.length; i++) {
+			if (typeof json.members[i]["rep:userId"] === "object"){
+				json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
+			}
 			if(json.members[i]["rep:userId"] == userid){
 				return true;
 			}
 		}
 		return false;
 	};
+	
+	var checkRole = function(userid){
+		for (var i = 0; i < json.members.length; i++) {
+			if (typeof json.members[i]["rep:userId"] === "object") {
+				json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
+			}
+			if (json.members[i]["rep:userId"] == userid) {
+				if (json.members[i]["member:groups"][0].split("-")[json.members[i]["member:groups"][0].split("-").length - 1] === "collaborators"){
+					return "Collaborator";
+				} 
+				if (json.members[i]["member:groups"][0].split("-")[json.members[i]["member:groups"][0].split("-").length - 1] === "viewers"){
+					return "Viewer";
+				} 
+			}
+		}
+		return "";
+	}
+	
 	/**
 	 * renders a list of members
 	 * @param {Object} people
@@ -162,7 +183,7 @@ sakai.site_add_members = function() {
         if (typeof(people.results) === "undefined") {
             people.results = [];
         }
-        if (people.results.length > 0) {
+       
             for (var i = 0; i < people.results.length; i++) {
 				if (typeof people.results[i].picture !== "undefined" && typeof people.results[i].picture == "string") {
 					people.results[i].picture = $.evalJSON(people.results[i].picture);
@@ -171,17 +192,25 @@ sakai.site_add_members = function() {
 				}
                 people.results[i].userid = people.results[i]["rep:userId"];
 				people.results[i].isMember = checkIfUserIDExists(people.results[i].userid);
+				if (people.results[i].isMember){
+					people.results[i].role = checkRole(people.results[i].userid);
+				}
             }
 			$("#siteManage_people").html($.Template.render("siteManage_people_template", people));
             updateSelectedPersons();
 
             $(".siteManage_person").bind("click",
             function(e, ui) {
-                var userindex = parseInt(e.target.parentNode.id.replace("siteManage_person", ""), 10);
+                var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
                 selectPerson(userindex, true,false);
                 updateSelectedPersons();
             });
-        }
+        
+		if (people.results.length > 0) {
+			$(".jq_pager").show();
+		} else {
+			$(".jq_pager").hide();
+		}
 
     };
 	/**
@@ -317,11 +346,14 @@ sakai.site_add_members = function() {
 	getSiteMembers();
 	
 	var updateSiteMembers = function(addedMembers){
-		for(var i = 0 ; i < addedMembers.uuserid.length ; i++){
+		/*
+for(var i = 0 ; i < addedMembers.uuserid.length ; i++){
 			json.members.push({"rep:userId" : addedMembers.uuserid[i]});
 		}
 		$("#manage_members_count").html(getNumMembers(json.members));
 		renderPeople(json.foundPeople);
+*/
+		getSiteMembers();
 	};
 	
 		/**

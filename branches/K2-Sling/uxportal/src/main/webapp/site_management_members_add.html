@@ -72,12 +72,12 @@
 				<!-- MIXED COLUMN -->
 				<div class="fl-col-mixed-200">
 					<!-- FIXED COLUMN -->
-					<div class="fl-col-fixed fl-force-left leftCol">
+					<div class="fl-col-fixed fl-force-right leftCol">
 						<div class="leftCol_content_top">
 							<div class="leftCol_content_top_inner"></div>
 						</div>
 						<div class="leftCol-inner">
-							<form class="member-options" method="" action="">
+							<form class="member-options" method="" action="" onsubmit="return false;">
 								<span class="manage_members_role section">Add selected people as:</span>
 								<table id="manage_members_role_rbts" class="add-people-table">
 								</table>
@@ -124,30 +124,37 @@
 								<input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, or comma separated lists" />
 								<input type="submit" value="Search" id="btn_members_search" class="submit-button" />
 							</div>
-							<div class="explore_nav">
+							<div class="explore_nav" style="margin-top: -45px;">
 								<ul class="user-personal fl-force-left">
-									<li class="first"><a href="javascript:;" id="site_manage_btnSearchCsv">Search from CSV file</a></li>
-									<li><a href="site_management_members_manage.html" class="manage-members">Return to site members</a></li>
-									<li><a href="javascript:;" id="btn_members_selectAll">Select all</a></li>
-									<li><a href="javascript:;" id="btn_members_selectNone">Select none</a></li>
+									<!-- <li class="first"><a href="javascript:;" id="site_manage_btnSearchCsv">Search from CSV file</a></li> -->
+									<!-- <li><a href="site_management_members_manage.html" class="manage-members">Return to site members</a></li> -->
+									<li class="first"><a href="javascript:;" id="btn_members_selectAll">Select all</a></li>
+									<li class="last"><a href="javascript:;" id="btn_members_selectNone">Select none</a></li>
 								</ul>
 							</div>
+							<div id="siteManage_people" class="siteManagepeopleContainers" ><div style="padding: 10px;">Please specify a search query ...</div></div>
 							<div class="jq_pager"></div>
-							<div id="siteManage_people" class="siteManagepeopleContainers" > </div>
 							<div id="siteManage_people_template" style="display:none"><!--
 								<div class="members-container">
 								<ul width="100%">
 								{for i in results}
-									<li class="unselected">
+									{if (i.isMember)}
+									<li class="unselected" style="opacity:0.6;">
+									{else}
+									<li class="unselected siteManage_person" id="siteManage_person${results.indexOf(i)}">
+									{/if}
 										{if (i.isMember)}
 										{if typeof i.picture.name == "undefined"}
-										<img src="_images2/member_thumb_unselected.png" style="opacity:0.6;" />
+										<img src="_images2/member_thumb_unselected.png"/>
 										{else}
-										<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" style="opacity:0.6;" />
+										<img src="/_user/public/${i['rep:userId']}/${i.picture.name}"/>
 										{/if}
-										<a href="profile.html?user=${i.userid}" style="opacity:0.6" target="_blank" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+										<a href="javascript:;" style="margin-top: 0px;" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+										<span>${i.role}</span><div class="member-title"></div>
+										<a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">View Profile</a>
+										
 										{else}
-										<a href="javascript:;" class="siteManage_person" id="siteManage_person${results.indexOf(i)}">
+										<a href="javascript:;">
 										{if typeof i.picture.name == "undefined"}
 										<img src="_images2/member_thumb_unselected.png"  />
 										{else}
@@ -155,9 +162,12 @@
 										{/if}
 										</a>
 							
-										<a href="profile.html?user=${i.userid}" target="_blank" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+										<a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+										<a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">View Profile</a>
 										{/if}
 									</li>
+								{forelse}
+									<div>No people have been found</div>
 								{/for}
 									<div class="clearboth"></div>
 								</ul>
