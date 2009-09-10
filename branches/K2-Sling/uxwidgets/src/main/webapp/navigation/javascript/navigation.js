@@ -28,6 +28,8 @@ sakai.navigation = function(tuid, placement, showSettings){
 	// Configuration variables //
 	/////////////////////////////
 	
+	var rootel = $("#" + tuid);
+	
 	// - ID
 	var navigation = "#navigation";
 	var navigationName = "navigation";
@@ -121,7 +123,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 		
 		
 		// Render the output template
-		$(navigationOutput).html($.Template.render(navigationOutputTemplate,jsonNavigation));	
+		$(navigationOutput,rootel).html($.Template.render(navigationOutputTemplate,jsonNavigation));	
 	};
 	
 	
@@ -129,14 +131,21 @@ sakai.navigation = function(tuid, placement, showSettings){
 	///////////////////////
 	// Initial functions //
 	///////////////////////
+	
+	$("#navigation_settings_submit",rootel).click(function(){
+		sdata.container.informFinish(tuid);
+	});
+	$("#navigation_settings_cancel",rootel).click(function(){
+		sdata.container.informCancel(tuid);
+	});
 
 	// Hide or show the settings
 	if (showSettings){
-		$(navigationOutput).hide();
-		$(navigationSettings).show();
+		$(navigationOutput,rootel).hide();
+		$(navigationSettings,rootel).show();
 	} else {
-		$(navigationSettings).hide();
-		$(navigationOutput).show();
+		$(navigationSettings,rootel).hide();
+		$(navigationOutput,rootel).show();
 	}
 
 	sakai.site.onNavigationLoaded();
