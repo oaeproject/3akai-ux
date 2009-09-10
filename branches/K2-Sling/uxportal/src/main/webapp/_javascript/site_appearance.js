@@ -645,7 +645,7 @@ sakai.site_appearance = function() {
 				url: "/sites/" + siteId,
 		    	type : "POST",
 		        data : {
-					"sakai:site-template":appearance.style.URL,
+					"sakai:skin":appearance.style.URL,
 					"style":appearance.style.id
 				},
 		        success : function(data) {
