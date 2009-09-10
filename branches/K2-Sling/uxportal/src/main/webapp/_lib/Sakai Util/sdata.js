@@ -312,7 +312,6 @@ sdata.widgets.WidgetLoader = {
 		var settings = false;
 		
 		var informOnLoad = function(widgetname){
-			console.debug(widgetname);
 			var doDelete = false;
 			if (widgets[widgetname] && widgets[widgetname].length > 0){
 				for (var i = 0; i < widgets[widgetname].length; i++){
