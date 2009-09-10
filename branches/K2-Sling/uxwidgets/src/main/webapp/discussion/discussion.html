@@ -24,10 +24,11 @@
 				<div class="discussion_left">
 					{if loggedIn}
 						{if i.picture != ""}
-							<img alt="avatar" class="discussion_avatar" src="${i.picture}" />
+							<img alt="avatar" class="discussion_avatar" src="${i.picture}" style="float:left" />
 						{else}
-							<img alt="avatar" class="discussion_avatar" src="/dev/_images/person_icon.png" />
+							<img alt="avatar" class="discussion_avatar" src="/dev/_images/person_icon.png" style="float:left" />
 						{/if}
+						<p class="discussion_content_subject" id="discussion_content_subject_${i.postId}" style="margin-bottom: 0px; font-size: 1.2em">${i.subject}</p>
 						<a href="/dev/profile.html?user=${i.uid}"><span class="discussion_username">${i.name}</span></a>
 						<span class="discussion_date">posted this on ${i.date}</span>
 						{if i.editedBy != ""}
@@ -59,8 +60,8 @@
 			</div>
 			<div class="discussion_content">
 				<div id="discussion_content_container_${i.postId}">
-					<p class="discussion_content_subject" id="discussion_content_subject_${i.postId}">${i.subject}</p>
-					<div id="discussion_content_message_${i.postId}">${i.body}</div>
+					
+					<div id="discussion_content_message_${i.postId}" class="discussion_content_message">${i.body}</div>
 				</div>
 				{if loggedIn}
 					<div id="discussion_content_actions_${i.postId}" class="discussion_content_actions link">
@@ -102,8 +103,8 @@
 			<input type="text" id="discussion_edit_subject" /><br />
 			<textarea id="discussion_edit_message" rows="0" cols="0"></textarea><br />
 			<div class="buttonBar">
-				<a class="button-default save_button" href="javascript:;" id="discussion_edit_save">Save</a>
-				<a class="button cancel-button" href="javascript:;" id="discussion_edit_cancel">Cancel</a>
+				<a class="button-default save_button" href="javascript:;" id="discussion_edit_save" style="float:left;">Save</a>
+				<a class="button cancel-button" href="javascript:;" id="discussion_edit_cancel" style="margin-left:10px;">Cancel</a>
 			</div>
 		</form>
 	</div>
@@ -118,8 +119,8 @@
 			
 			<div class="dialog_footer">
 				<div class="buttonBar">
-					<a class="button-default submit_button" href="javascript:;" id="discussion_reply_submit">Reply</a>
-					<a class="button cancel-button" href="javascript:;" id="discussion_reply_cancel">Cancel</a>
+					<a class="button-default submit_button" href="javascript:;" id="discussion_reply_submit" style="float:left;">Reply</a>
+					<a class="button cancel-button" href="javascript:;" id="discussion_reply_cancel" style="margin-left:10px;">Cancel</a>
 				</div>
 			</div>
 		</form>
@@ -168,8 +169,8 @@
 		--></div>
 		<div class="dialog_footer">
 			<div class="buttonBar">
-				<a class="button-default submit_button" href="javascript:;" id="discussion_settings_submit">Submit</a>
-				<a class="button cancel-button" href="javascript:;" id="discussion_settings_cancel">Cancel</a>
+				<a class="button-default submit_button" href="javascript:;" id="discussion_settings_submit" style="float:left;">Submit</a>
+				<a class="button cancel-button" href="javascript:;" id="discussion_settings_cancel" style="margin-left: 10px;">Cancel</a>
 			</div>
 		</div>
 	</form>

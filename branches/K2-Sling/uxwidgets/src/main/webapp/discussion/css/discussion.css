@@ -35,22 +35,23 @@
 
 /* Header */
 .discussion_header { background:#ffffff url('../images/discussion_header_bottom.gif') no-repeat bottom left; padding-bottom:8px; overflow:auto;}
-.discussion_avatar {width:20px;height:20px;border:1px solid #AAAAAA;float:left;margin-right:5px;}
+.discussion_avatar {width:40px;height:40px;border:1px solid #AAAAAA;float:left;margin-right:5px;}
 .discussion_username {font-size:1.05em;font-weight:bold;}
 .discussion_username_edited {color:#6a6a6a;}
 .discussion_right, .discussion_left {line-height:22px;}
-.discussion_left {color:#bbb;float:left;font-size:0.9em;}
+.discussion_left {color:#bbb;float:left;font-size:0.9em; width: 450px;}
 .discussion_right {font-size:0.95em;color:#6a6a6a;float:right;}
 
 /* Content */
 .discussion_content {padding:12px 16px 30px 16px;background-color:#f4f4f4;}
 #discussion_reply_container {padding:12px 16px 16px 16px;background-color:#f4f4f4;}
-.discussion_content_subject {font-size:1.1em !important;font-weight:bold !important;padding-top:0px !important;padding-bottom:2px !important;}
+.discussion_content_subject {font-size:1.4em !important;font-weight:bold !important;padding-top:0px !important;padding-bottom:2px !important;}
 .discussion_content_actions {margin-top:5px;width:100%;height:auto;float:left;}
 .discussion_content_actions ul {padding:0;margin:0;}
 .discussion_content_actions .discussion_content_no_border {border-left:0;padding-left:0px;}
 .discussion_content_actions ul li {border-left:1px solid #d2d2d2;margin-left:0;padding:0 5px 0 7px;display:inline;list-style-type:none;}
 .discussion_content_actions a {font-size:0.95em;font-weight:bold;}
+.discussion_content_message {margin-bottom: 10px;}
 
 /* Override elements */
 .dialog_footer {background-color:transparent !important;padding-left:0px !important;margin-top:10px;height:20px;}
