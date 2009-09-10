@@ -113,6 +113,7 @@ strong {color: #000;}
 .my_contacts_widget .fl-widget-content .contact {float:left; padding: 0 20px 5px 0; width: 60px; margin-right: 10px; overflow: hidden;}
 .my_contacts_widget .fl-widget-content .contact .contact_picture {background-image: url(../../_images2/person_icon_50.png); background-repeat: no-repeat; background-position:center top; width: 50px; height: 50px; margin: 0; padding: 0 0 10px 0;}
 .my_contacts_widget .fl-widget-content .contact .contact_name {color: #3399CC; font-size: .95em; font-weight: bold;}
+.myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images2/myprofile_icon.png) no-repeat scroll 17px 18px;}
 
 /* FOOTER */
 .page_footer {padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999;}
