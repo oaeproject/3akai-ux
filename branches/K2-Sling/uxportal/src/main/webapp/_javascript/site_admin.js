@@ -304,15 +304,6 @@ sakai.site.site_admin = function(){
 			sakai.site.isEditingNavigation = false;
 		}
 		
-		
-		// Get title 
-		/*for (i = 0; i < sakai.site.pages.items.length; i++){
-			if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
-				pagetitle = sakai.site.pages.items[i].title;
-				break;
-			}
-		}*/
-		
 		// Refresh site_info object
 		sakai.site.refreshSiteInfo();
 		
@@ -342,6 +333,16 @@ sakai.site.site_admin = function(){
 		$("#show_view_container").hide();
 		$("#edit_view_container").show();
 		
+		if (sakai.site.isEditingNavigation){
+			$("#insert_more_media").hide();
+			$("#insert_more_goodies").hide();
+			$("#insert_more_sidebar").show();
+		} else if (! sakai.site.isEditingNavigation){
+			$("#insert_more_media").show();
+			$("#insert_more_goodies").show();
+			$("#insert_more_sidebar").hide();
+		}
+		
 		// Show the autosave dialog if a previous autosave version is available
 		$.ajax({
 			url: sakai.site.urls.WEBPAGE_CONTENT_AUTOSAVE_FULL(),
@@ -354,6 +355,7 @@ sakai.site.site_admin = function(){
 				} else {
 					sakai.site.timeoutid = setInterval(sakai.site.doAutosave, sakai.site.autosaveinterval);
 				}
+				setTimeout('sakai.site.setIframeHeight("elm1_ifr")',0);
 				
 			},
 			error: function(data){	
@@ -858,28 +860,6 @@ sakai.site.site_admin = function(){
 	 * @return void
 	 */
 	var showPageLocation = function(){
-		/*var finaljson = {};
-		finaljson.pages = [];
-		finaljson.pages[0] = sakai.site.currentsite.name;
-		
-		var splitted = sakai.site.selectedpage.split('/');
-		var current = "";
-		for (var i = 0, j = splitted.length; i<j; i++){
-			var id = splitted[i];
-			if (i !== 0){
-				current += "/";
-			}
-			current += id;
-			var idtofind = current;
-			
-			for (var ii = 0; ii < sakai.site.pages.items.length; ii++){
-				if (sakai.site.pages.items[ii].id == idtofind){
-					finaljson.pages[finaljson.pages.length] = sakai.site.pages.items[ii].title;
-				}
-			}
-		}
-		finaljson.total = finaljson.pages.length;
-		$("#new_page_path").html($.Template.render("new_page_path_template",finaljson));*/
 		
 		$("#new_page_path").html('<div><span>Page location:</span>' + sakai.site.selectedpage + '</div>');//&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
 		
@@ -1717,6 +1697,8 @@ sakai.site.site_admin = function(){
 		media.items = [];
 		var goodies = {};
 		goodies.items = [];
+		var sidebar = {};
+		sidebar.items = [];
 		
 		// Fill in media and goodies
 		for (var i in Widgets.widgets){
@@ -1728,6 +1710,9 @@ sakai.site.site_admin = function(){
 				if (widget.ca && widget.showinsakaigoodies) {
 					goodies.items[goodies.items.length] = widget;
 				}
+				if (widget.ca && widget.showinsidebar){
+					sidebar.items[sidebar.items.length] = widget
+				}
 			}
 		}
 		
@@ -1736,6 +1721,9 @@ sakai.site.site_admin = function(){
 		
 		// Render insertmore goodies template
 		$("#insert_more_goodies").html($.Template.render("insert_more_goodies_template",goodies));
+		
+		// Render insertmore sidebar template
+		$("#insert_more_sidebar").html($.Template.render("insert_more_sidebar_template",sidebar));
 		
 		// Event handler
 		$('#insert_dialog').jqm({

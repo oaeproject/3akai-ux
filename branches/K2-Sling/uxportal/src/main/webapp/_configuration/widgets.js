@@ -366,6 +366,8 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0,
 			ca:1,
+			showinsidebar: 1,
+			hasSettings: false,
 			img:"/devwidgets/siterecentactivity/images/icon.png"
 		},
 		navigation :
@@ -378,6 +380,8 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0,
 			ca:1,
+			showinsidebar: 1,
+			hasSettings: false,
 			img:"/devwidgets/navigation/images/icon.png"
 		},
 		youtubevideo :

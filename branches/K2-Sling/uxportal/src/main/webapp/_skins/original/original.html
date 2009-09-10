@@ -325,6 +325,9 @@
 			<div id="insert_more_goodies">
 				
 			</div>
+			<div id="insert_more_sidebar">
+				
+			</div>
 		</div>
 		
 		<div id="insert_more_media_template" style="display:none"><!--
@@ -345,6 +348,15 @@
 					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
 				{/for}
 				<li class="insert_more_menu_inactive">(More coming soon)</li>
+			</ul>				
+		--></div>
+		
+		<div id="insert_more_sidebar_template" style="display:none"><!--
+			<ul>
+				<li class="insert_more_menu_inactive">Sidebar Goodies:</li>
+				{for i in items}
+					<li><a href="javascript:;" id="insert_more_widget_${i.id}" class="insert_more_widget">${i.name}</a></li>
+				{/for}
 			</ul>				
 		--></div>
 		
@@ -398,8 +410,8 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <a href="javascript:;" id="autosave_revert" class="button-default">Yes</a>
-			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+			        <a href="javascript:;" id="autosave_revert" class="button-default" style="float:left;">Yes</a>
+			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose" style="margin-left:10px;">No</a>
 			     </div>
 			</div>
 		</div>
