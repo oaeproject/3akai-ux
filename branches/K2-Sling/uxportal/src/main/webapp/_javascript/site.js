@@ -700,12 +700,29 @@ sakai.site = function(){
 		// Save page to be printed into my personal space
 		var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
 		var content = $("#" + escaped).html();
-		sdata.widgets.WidgetPreference.save("/sdata/p/","_print",content,function(data){
+		content = "<div class='content'>" + content + "</div>";
 		
-			// Open a popup window with printable content
-			var day = new Date();
-			var id = day.getTime();
-			window.open(sakai.site.urls.PRINT_PAGE(), id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150");
+		var arrLinks = [];
+		var links = $("link");
+		for (var i = 0; i < links.length; i++){
+			if (links[i].type === "text/css"){
+				arrLinks.push(links[i].href);
+			}
+		}
+		
+		$.ajax({
+			url: "/_user/private/print",
+			type: "POST",
+			data: {
+				"css": arrLinks,
+				"content": content
+			},
+			success: function(data){
+				// Open a popup window with printable content
+				var day = new Date();
+				var id = day.getTime();
+				window.open("/dev/print.html", id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150");
+			}
 		});
 		
 	};

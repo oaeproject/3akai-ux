@@ -47,7 +47,7 @@ var Config = {
 		SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
 		SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
 		SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content",
-		SITE_PRINT_URL: "print.html?pagetitle=__CURRENTSITENAME__",
+		SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
 		SITE_URL: "/dev/site.html",
 		SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
 		TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fluid.reset.css,/dev/_css/FSS/fluid.theme.mist.css,/dev/_css/FSS/fluid.theme.hc.css,/dev/_css/FSS/fluid.theme.rust.css,/dev/_css/FSS/fluid.layout.css,/dev/_css/FSS/fluid.text.css,/dev/_css/Sakai%20CSS/sakai.core.2.css,/dev/_css/Sakai%20CSS/sakai.css,/dev/_css/Sakai%20CSS/sakai.editor.css",
