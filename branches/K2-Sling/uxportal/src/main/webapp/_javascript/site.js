@@ -175,7 +175,7 @@ sakai.site = function(){
 	sakai.site.transformDate = function(day, month, year, hour, minute){
 		var string = "";
 		var months_lookup = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
-		string += months_lookup[month] + " " + day + ", " + (1900 + year) + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
+		string += months_lookup[month] + " " + day + ", " + year + " " + ("00" + hour).slice(-2) + ":" + ("00" + minute).slice(-2);
 		return string;
 	};
 
@@ -744,7 +744,36 @@ sakai.site = function(){
 		window.scrollTo(0,0);
 	});
 	
-
+	
+	
+	
+	//////////////////
+	// SEARCH FIELD //
+	//////////////////
+	
+	var selected = false;
+	$("#search_filed").bind("focus", function(ev){
+		if (!selected){
+			$("#search_filed").val("");
+			$("#search_filed").css("color","#000");
+			selected = true;
+		}
+	});
+	
+	$("#search_filed_button").bind("click", function(ev){
+		doSearch();
+	});
+	
+	$("#search_filed").bind("keypress", function(ev){
+		if (ev.keyCode == 13){
+			doSearch();
+		}
+	});
+	
+	var doSearch = function(){
+		var search = $("#search_filed").val();
+		document.location = "/dev/search_b_content.html##1|" + search + "|/sites/" + sakai.site.currentsite.id;
+	}
 	
 	
 	/////////////////////////////

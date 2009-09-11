@@ -26,6 +26,7 @@ sakai.print = function(){
 
 	$.ajax({
 		url: "/_user/private/print.json",
+		cache: false,
 		success: function(data){
 			json = $.evalJSON(data);
 			$(".content_container").html(json.content);
