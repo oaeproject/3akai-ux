@@ -177,7 +177,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 			
 		
 			//	Set the unvisible image to the full blown image. (make sure to filter the # out)
-			$(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
+			$(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 			
 			// Check the current picture's size			
 			$(pictureMeasurerImage).bind("load", function(ev){
@@ -187,8 +187,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 				realh = $(pictureMeasurerImage).height();
 				
 				//	Set the images
-				$(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name);
-				$(thumbnail).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name);
+				$(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
+				$(thumbnail).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
 				
 				
 				// Width > 500 ; Height < 300 => Width = 500
