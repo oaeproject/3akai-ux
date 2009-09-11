@@ -2625,41 +2625,15 @@ sakai.site.site_admin = function(){
 			type: 'DELETE',
 			success: function(data){
 				
-				// Save the new page configuration
-				/*var index = -1;
-				for (var i = 0; i < sakai.site.pages.items.length; i++){
-					if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
-						index = i;
-					}
-				}
-				
-				
-				sakai.site.pages.items.splice(index, 1);*/
-				//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					
-					delete sakai.site.site_info._pages[sakai.site.selectedpage];
-					
-					document.location = "/sites/" + sakai.site.currentsite.id;
-					
-				//});
+				delete sakai.site.site_info._pages[sakai.site.selectedpage];
+				document.location = "/sites/" + sakai.site.currentsite.id;
 				
 			},
 			error: function(data){	
 				
-				// Save the new page configuration
-				/*var index = -1;
-				for (var i = 0; i < sakai.site.pages.items.length; i++){
-					if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
-						index = i;
-					}
-				}*/
+				delete sakai.site.site_info._pages[sakai.site.selectedpage];
+				document.location = "/sites/" + sakai.site.currentsite.id;
 				
-				//sakai.site.pages.items.splice(index, 1);
-				//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
-					
-					delete sakai.site.site_info._pages[sakai.site.selectedpage];
-					document.location = "/sites/" + sakai.site.currentsite.id;
-				//});
 			}
 		});
 	};
