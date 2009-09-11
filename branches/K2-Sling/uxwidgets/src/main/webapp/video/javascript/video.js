@@ -122,14 +122,14 @@ sakai.video = function(tuid, placement, showSettings) {
         try {
 			// Checks if the video is a youtube-video 
 			// This is needed as a parameter for the sakai-player
-            var isTouTube = (video.URL.search(youtubeUrl) !== -1);
+            //var isTouTube = (video.URL.search(youtubeUrl) !== -1);
 			// Renders the video-template (title, source and conatiner to place flash-player in)
-            $(container, rootel).html($.Template.render(videoTemplate, video));
+			//$(container, rootel).html($.Template.render(videoTemplate, video));
             // some more parameters needed for the sakai-videoplayer
-			var flashvars = {
-                videoURL: video.URL,
-                isYoutubeUrl: isTouTube
-            };
+			//var flashvars = {
+            //    videoURL: video.URL,
+            //    isYoutubeUrl: isTouTube
+            //};
             
 			// videoPlayer: url to the swf file
 			// id: id of the container where the videoplayer should be placed
@@ -143,46 +143,28 @@ sakai.video = function(tuid, placement, showSettings) {
        	 		 // allowScriptAccess: does the player allow sript access
         		 // scale: should the player be scaled down
         		 // allowFullScreen: can the player go full screen
-            swfobject.embedSWF(videoPlayer, videoTempShowMain.replace("#", ""), 320, 305, "9.0.0", expressInstall, flashvars, FlashPlayerParams);
+            //swfobject.embedSWF(videoPlayer, videoTempShowMain.replace("#", ""), 320, 305, "9.0.0", expressInstall, flashvars, FlashPlayerParams);
 
             //init the youTubeLoader javascript methods
-            if (isTouTube) {
+            //if (isTouTube) {
 				// By putting this variable to the container of the videoPlayer, the streamingprocess for the youtube-video is started
 				// This uses the youtubeloader.js file and is the main problem for showing multiple youtubevideos in the sakaiplayer on 1 page
 				// this will give a global violation in jsLint, however this is how the youtubeloader works so this can be ignored
-                SWFID = videoTempShowMain.replace("#", "");
-            }
+            //    SWFID = videoTempShowMain.replace("#", "");
+            //}
+				
+			  video.videoContainer = tuid + "_video_container";
+			  $(container, rootel).html($.Template.render(videoTemplate, video));	
+						
+			  var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply','470','320','9','#ffffff');
+			  so.addParam('allowfullscreen','true');
+			  so.addParam('allowscriptaccess','always');
+			  so.addParam('wmode','opaque');
+			  so.addVariable('file',video.URL);
+			  so.write(video.videoContainer);
+			
         } catch(err) {
 			alert(err);
-            $(videoTempShowMain, rootel).text("No valid video found.");
-        }
-    };
-	
-	/**
-	 * Shows the video (YouTube) in the YouTubePlayer
-	 * @param {String} video: the url to the video
-	 * @param {String} container: the container where the video should be placed (settings or output)
-	 */
-    var ShowVideoYoutubePlayer = function(video, container) {
-        try {
-			// Clone the video-object to make some changes for the template
-			var videoTemp = cloneObject(video);
-			// a youtube url should look like this:
-            // http://www.youtube.com/watch?v=AOWbGfPU5uQ&feature=fvst, you need to get the id (v=)
-            // make an object of a the queryString
-            var qs = new Querystring(video.URL.split("?")[1]);
-			
-            // get the id (default false)
-            var id = qs.get("v", false);
-            // if the id is false, give a warning the the user
-            if (!id) {
-                videoTemp.html = ("No valid video found");
-            } else {
-                videoTemp.html = ('<object width="320" height="305"><param name="movie" value="http://' + youtubeUrl + '/v/' + id + '&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://' + youtubeUrl + '/v/' + id + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="320" height="305"></embed></object>');
-            }
-			// render the video
-		 	$(container, rootel).html($.Template.render(videoTemplate, videoTemp));
-        } catch(err) {
             $(videoTempShowMain, rootel).text("No valid video found.");
         }
     };
@@ -194,12 +176,12 @@ sakai.video = function(tuid, placement, showSettings) {
 	 * @param {Boolean} isSakaiPlayer: should the video be displayed in a sakai-player or not
 	 */
     var showVideo = function(video, container, isSakaiPlayer) {
-		if (isSakaiPlayer) {
+		//if (isSakaiPlayer) {
             ShowVideoSakaiPlayer(video, container);
-        }
-        else {
-            ShowVideoYoutubePlayer(video, container);
-        }
+        //}
+        //else {
+        //  ShowVideoYoutubePlayer(video, container);
+        //}
     };
 
 
@@ -239,7 +221,7 @@ sakai.video = function(tuid, placement, showSettings) {
 
 		// If the source is checked on guess, then we need to show a proper source
         if (selectedValue === videoSourceRbtGuess) {
-            source = URL.replace("http://www.", "");
+			source = URL.substring(URL.indexOf("://") + 3);
             source = source.substring(0, source.indexOf("/"));
         }
 		// If the source is put to txt, then the user filled in a source himself

@@ -8,15 +8,11 @@
 	</div>
 	<div id="video_MainTemplate" ><!--
 		<div class="video_containerInTemplate">
-			<h2>${title}</h2>
-				<div id="video_tempYoutubeVideoMain">
-					{if defined('html')}
-						${html}
-					{/if}
-				</div>
+			<div id="video_tempYoutubeVideoMain">
+				<div id="${videoContainer}"/>
+			</div>
 			{if source != ""}
 				<a href="${URL}" >${source}</a>
-				<div class="video_clear"></div>
 			{/if}
 		</div>
 		--></div>	
@@ -25,12 +21,9 @@
 <!-- SETTINGS VIEW -->
 <div id="video_settings" style="display:none">
 	<div id="video_fillInfo" class="video_settingsStep">
-		<a class="button-default video_right_aligned_btn" id="video_insertPlaceHolder" href="javascript:;">Insert a quick placeholder</a>
 		<div class="video_clear"></div>
 		<label for="video_txtURL">URL:</label><br />
 		<input type="text" id="video_txtURL" class="video_longtxt"></input>
-		<label for="video_txtTitle">Title (optional):</label><br />
-		<input type="text" id="video_txtTitle"  class="video_longtxt"></input><br />
 		<label>Source:</label><br />
 		<br />
 		<div>
@@ -43,28 +36,17 @@
 			</input><br />
 			
 		</div>
-		<br />
-		<input type="checkbox" id="video_chktrackViews"><label for="video_chktrackViews" class="video_source_rbtLabel">Track how many times users view this video</label></input>
-	</div>
-	<div id="video_ShowPreview" class="video_settingsStep" style="display:none;">
-		<div id="video_previewContainer">
-			<!-- Shows a preview of the video -->
-		</div>
-		<div id="video_choosePlayerContainer">
-			<input type="radio" name="video_choosePlayer" value="video_YoutubePlayer" id="video_YoutubePlayerID"><label for="video_YoutubePlayerID" class="video_source_rbtLabel">Use Youtube player</label></input>
-			<input type="radio" name="video_choosePlayer" value="video_SakaiPlayer" id="video_SakaiPlayerID" checked="checked"><label for="video_SakaiPlayerID" class="video_source_rbtLabel">Use Sakai player</label></input>
-		</div>
-		
 	</div>
 	<div class="video_buttonBar">
+		<a class="button-default video_right_aligned_btn" id="video_insertPlaceHolder" href="javascript:;" style="float:left; margin-top:20px;">Insert a quick placeholder</a>
 		<a class="button-default video_leftButton" style="display:none;" id="video_btnBack" href="javascript:;" >Back</a>
-		<a class="button-default video_rightButton" id="video_btnPreview" href="javascript:;">Preview</a>
-		<a class="button-default video_rightButton" style="display:none;" id="video_btnInsertWidget" href="javascript:;">Insert the widget</a>
+		<a class="button-default video_rightButton" style="display:none;" id="video_btnPreview" href="javascript:;">Preview</a>
+		<a class="button-default video_rightButton"  id="video_btnInsertWidget" href="javascript:;">Insert the widget</a>
 	</div>
 
 	<div class="video_clear"></div>
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/video/lib/youTubeLoader.js" />
+<script type="text/javascript" language="JavaScript" src="/devwidgets/video/jwplayer/swfobject.js" />
 <script type="text/javascript" language="JavaScript" src="/devwidgets/video/javascript/video.js" />
