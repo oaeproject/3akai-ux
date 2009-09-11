@@ -62,14 +62,20 @@
 				<!-- SEARCH BAR -->
 				<div class="fl-left fl-container fl-fix search_bar">
 					<div id="search_form" >
-						<select class="skinned_select" id="search_filter">
-							<option value="entire_community" id="search_filter_community">Entire Community</option>
-							<option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
-							<optgroup id="search_filter_my_sites" label="Choose a specific site where you want to search in.">
-							<!-- DUMMY DATA TO KEEP W3C VALIDATOR HAPPY, THIS GETS OVERRIDEN BY JS -->
-							<option value=""></option>
-							</optgroup>
-						</select>
+						<div id="search_site_select"></div>
+						<div id="search_site_select_template"><!--
+							<select class="skinned_select" id="search_filter">
+								<option value="entire_community" id="search_filter_community">Entire Community</option>
+								<option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
+								{if sites.length > 0}
+									<optgroup id="search_filter_my_sites" label="Choose a specific site where you want to search in.">
+										{for i in sites}
+											<option value="${i.siteref}" id="search_filter_my_sites_${i.siteref}">${i.site.name}</option>
+										{/for}
+									</optgroup>
+								{/if}
+							</select>
+						--></div>
 						<input type="text" id="search_text" class="input" value="Enter a searchterm" />
 						<div class="buttonBar fl-force-left"> <a href="javascript:;" class="button search_button" id="search_button"><span>Search</span></a> </div>
 						<!-- SITEs TEMPLATE -->

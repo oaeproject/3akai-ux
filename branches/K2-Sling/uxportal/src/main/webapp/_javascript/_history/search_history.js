@@ -32,7 +32,7 @@ var History = {
 		if (ourarg != History.history_cur){
 			History.history_cur = ourarg;
 			if (ourarg){
-				sakai._search.doSearch(parseInt(ourarg.split("|")[0]),ourarg.split("|")[1]);
+				sakai._search.doSearch(parseInt(ourarg.split("|")[0]),ourarg.split("|")[1],ourarg.split("|")[2]);
 			} else {
 				sakai._search.reset();
 			}

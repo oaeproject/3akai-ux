@@ -200,6 +200,12 @@ sakai.search = function() {
 		//	Set all the input fields and paging correct.	
 		mainSearch.fillInElements(page, searchquery, searchwhere);
 		
+		var dd = $("#search_filter").get(0);
+		for (var i = 0; i < dd.options.length; i++){
+			if (dd.options[i].value == searchwhere){
+				dd.selectedIndex = i;
+			}
+		}
 		
 		//	Get the search term out of the input box.
 		//	If we were redirected to this page it will be added previously already.
@@ -261,10 +267,22 @@ sakai.search = function() {
 	var doInit = function() {
 		//	Make sure that we are still logged in.
 		if (mainSearch.isLoggedIn()) {
-			//	Get my sites
-			mainSearch.getMySites();
-			//	add the bindings
-			mainSearch.addEventListeners();
+			
+			$.ajax({
+				url: "/system/sling/membership",
+				cache: false,
+				success: function(data){
+					var sites = {};
+					sites.sites = $.evalJSON(data);
+					$("#search_site_select").html($.Template.render("search_site_select_template", sites));
+					
+					//	Get my sites
+					mainSearch.getMySites();
+					//	add the bindings
+					mainSearch.addEventListeners();
+				}
+			});
+			
 		}
 	};
 	
