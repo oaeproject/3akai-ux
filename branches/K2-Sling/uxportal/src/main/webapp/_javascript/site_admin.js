@@ -1953,75 +1953,44 @@ sakai.site.site_admin = function(){
 		$("#more_menu").hide();
 		
 		$.ajax({
-		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?f=vh",
+		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content.versions.json",
 			cache: false,
 			success : function(data) {
 				var history = $.evalJSON(data);
-				
-				// Get list of user profiles of updaters
-				var tofind = [];
-				for (var i = history.versions.length - 1; i >= 0; i--){
-					if (history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"]){
-						 var username = history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"];
-						 var exists = false;
-						 for (i in tofind){
-						 	if (i == username){
-								exists = true;
-							}
-						 }
-						 if (!exists){
-						 	tofind[tofind.length] = username;
-						 }
-					}
-				}
-				
-				var searchstring = tofind.join(",");
-				
-				$.ajax({
-				   	url :"/system/me/" + searchstring,
-				    success : function(data) {
 						
-						var result = $.evalJSON(data);
-						var userDatabase = [];
-						if (result.users) {
-							for (var i = 0, j = result.users.length; i<j; i++) {
-								var userid = (result.users[i].userStoragePrefix.split("/")[result.users[i].userStoragePrefix.split("/").length - 2]);
-								userDatabase[userid] = result.users[i].profile.firstName + " " + result.users[i].profile.lastName;
-							}
+				// Populate the select box
+				var select = $("#revision_history_list").get(0);
+				$(select).unbind("change",changeVersionPreview);
+						
+				select.options.length = 0;
+				for (i in history.versions){
+					
+					if (i != "jcr:rootVersion") {
+					
+						var name = "Version " + (i);
+						
+						// Transform date
+						var date = history.versions[i]["jcr:created"];
+						var datestring = sakai.site.transformDate(parseInt(date.substring(8,10),10), parseInt(date.substring(5,7),10), parseInt(date.substring(0,4),10), parseInt(date.substring(11,13),10), parseInt(date.substring(14,16),10));
+						
+						name += " - " + datestring;
+						
+						if (history.versions[i]["sakai:savedBy"]) {
+							name += " - " + history.versions[i]["sakai:savedBy"].firstName + " " + history.versions[i]["sakai:savedBy"].lastName;
 						}
+						var id = i;
+						var option = new Option(name, id);
+						select.options[select.options.length] = option;
 						
-						// Populate the select box
-						var select = $("#revision_history_list").get(0);
-						$(select).unbind("change",changeVersionPreview);
+						$(select).bind("change", changeVersionPreview);
 						
-						select.options.length = 0;
-						for (i = history.versions.length - 1; i >= 1; i--){
-							var name = "Version " + (i);
-							
-							// Transform date
-							var date = history.versions[i].properties["jcr:created"];
-							var datestring = sakai.site.transformDate(date.date,date.month,date.year,date.hours,date.minutes);
-							
-							name += " - " + datestring;
-						
-							if (history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"]){
-								 name += " - " + userDatabase[history.versions[i].items["jcr:frozenNode"].properties["jcr:modifiedBy"]];
-							}
-							var id = history.versions[i].name;
-							var option = new Option(name,id);
-							select.options[select.options.length] = option;
-							
-							$(select).bind("change",changeVersionPreview);
-							
-							// Signal that a page reload will be needed when we go back 
-							sakai.site.versionHistoryNeedsReset = true;
-						}
-					},
-					error : function(data) {
-						alert("Revision History: An error has occured");
+						// Signal that a page reload will be needed when we go back 
 						sakai.site.versionHistoryNeedsReset = true;
+						
 					}
-				});
+					
+				}
+					
 			},
 			error : function(data){
 				alert("Revision History: An error has occured");
@@ -2041,16 +2010,17 @@ sakai.site.site_admin = function(){
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
 		$.ajax({
-		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content?v=" + version,
+		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content.version.," + version + ",.json",
 		    success : function(data) {
 				
-				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(data);
+				var json = $.evalJSON(data);
+				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
 				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
 				
 				// Save new version of this page
 				var newfolderpath = sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/");
 
-				sdata.widgets.WidgetPreference.save("/sites/" + newfolderpath, "content", data, function(){
+				sdata.widgets.WidgetPreference.save("/sites/" + newfolderpath, "content", json.data, function(){
 									
 					// Check in the page
 					$.ajax({
@@ -2060,7 +2030,7 @@ sakai.site.site_admin = function(){
 							
 				}, null, "x-sakai-page");
 				
-				sakai.site.pagecontents[sakai.site.selectedpage] = data;
+				sakai.site.pagecontents[sakai.site.selectedpage] = json.data;
 				
 				sakai.site.resetVersionHistory();
 				
@@ -2081,9 +2051,10 @@ sakai.site.site_admin = function(){
 		var select = $("#revision_history_list").get(0);
 		var version = select.options[select.selectedIndex].value;
 		$.ajax({
-		   	url : sakai.site.urls.CURRENT_SITE_PAGES() + "/content?v=" + version,
+		   	url : sakai.site.urls.CURRENT_SITE_PAGES() + "/content.version.," + version + ",.json",
 		    success : function(data) {
-				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(data);
+				var json = $.evalJSON(data);
+				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
 				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
 			},
 			error : function(data){
