@@ -196,16 +196,18 @@ sakai.site_manage_members = function() {
 		 	$("#manage_members_count").html(getNumMembers(toRender.users));
             $(".siteManage_person").bind("click",
             function(e, ui) {
-                var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
-				var isSelected = false;
-				for (var i = 0; i < selectedPeople.length; i++) {
-					if (selectedPeople[i]["rep:userId"] === json.members[userindex]["rep:userId"]){
-						isSelected = true;
-						break;
+				if (!$(e.target).hasClass("view-profile-label")) {
+					var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
+					var isSelected = false;
+					for (var i = 0; i < selectedPeople.length; i++) {
+						if (selectedPeople[i]["rep:userId"] === json.members[userindex]["rep:userId"]) {
+							isSelected = true;
+							break;
+						}
 					}
+					selectPerson(userindex, !isSelected, false);
+					updateSelectedPersons();
 				}
-				selectPerson(userindex,!isSelected,false);
-                updateSelectedPersons();
             });
 			
         

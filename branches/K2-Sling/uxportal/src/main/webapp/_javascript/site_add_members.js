@@ -201,9 +201,11 @@ sakai.site_add_members = function() {
 
             $(".siteManage_person").bind("click",
             function(e, ui) {
-                var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
-                selectPerson(userindex, true,false);
-                updateSelectedPersons();
+				if (!$(e.target).hasClass("view-profile-label")) {
+					var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
+					selectPerson(userindex, true, false);
+					updateSelectedPersons();
+				}
             });
         
 		if (people.results.length > 0) {
