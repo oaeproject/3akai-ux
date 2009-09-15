@@ -373,7 +373,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 	 */
 	var parseStatusMessage = function(basic){
 		if (basic) {
-			var base = basic;
+			var base = $.evalJSON(basic);
 			if(base.status){
 				return shortenString(base.status, 20);
 			}
@@ -1091,7 +1091,7 @@ sakai.chat2 = function(tuid, placement, showSettings){
 				json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
 				json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"][0]);
 				json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
-			
+				
 				saveToAllFriends(json.contacts[i]);
 			}
 		}

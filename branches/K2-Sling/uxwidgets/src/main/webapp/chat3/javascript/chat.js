@@ -380,7 +380,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 	 */
 	var parseStatusMessage = function(basic){
 		if (basic) {
-			var base = basic;
+			var base = $.evalJSON(basic);
 			if(base.status){
 				return shortenString(base.status, 20);
 			}
