@@ -592,7 +592,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 	 * Drop down the sites container under the top navigation bar
 	 */
 	$(".nav_courses_sites_link").live("click", function(ev) {
-		if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length == 0){
+		if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length === 0){
 			// Hide the people dropdown
 			$(peopleDropDownMain).hide();
 			$(peopleDropDownClose).hide();
@@ -1026,7 +1026,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 		var isOnline = false;
 		if (onlinefriends) {
 			for (var i = 0; i < onlinefriends.length; i++) {
-				if (onlinefriends[i].userid === userid) {
+				if (onlinefriends[i].user === userid) {
 					isOnline = true;
 				}
 			}
@@ -1040,38 +1040,19 @@ sakai.chat3 = function(tuid, placement, showSettings){
 	var enableDisableOnline = function(){		
 		if (activewindows.items) {
 			for (var i = 0; i < activewindows.items.length; i++) {
-				var user = activewindows.items[i].userid;
-				var displayUser = activewindows.items[i].name;
-				var isOnline = false;
-				if (activewindows.items[i].onlineNow === null) {
-					isOnline = checkOnlineFriend(online.items, user);
-					if (isOnline) {
-						activewindows.items[i].onlineNow = true;
-						$(chatWith + "_" + user + "_txt").removeAttr("disabled");
-					}
-					else {
-						activewindows.items[i].onlineNow = false;
-						$(chatWith + "_" + user + "_txt").attr("disabled", true);
-						$(chatWith + "_" + user + "_txt").val(displayUser + " is offline");
-					}
+				
+				var friendId = activewindows.items[i].userid;
+				var friendName = activewindows.items[i].name;
+				var isOnline = checkOnlineFriend(online.items, friendId);
+				
+				if(isOnline){
+					$(chatWith + "_" + friendId + "_txt").removeAttr("disabled");
+					$(chatWith + "_" + friendId + "_txt").val("");
+				}else{
+					$(chatWith + "_" + friendId + "_txt").attr("disabled", true);
+					$(chatWith + "_" + friendId + "_txt").val(friendName + " is offline");
 				}
-				if (activewindows.items[i].onlineNow === true) {
-					isOnline = checkOnlineFriend(online.items, user);
-					if (!isOnline) {
-						activewindows.items[i].onlineNow = false;
-						$(chatWith + "_" + user + "_txt").attr("disabled", true);
-						$(chatWith + "_" + user + "_txt").val(displayUser + " is offline");
-					}
-				}
-				else 
-					if (activewindows.items[i].onlineNow === false) {
-						isOnline = checkOnlineFriend(online.items, user);
-						if (isOnline) {
-							activewindows.items[i].onlineNow = true;
-							$(chatWith + "_" + user + "_txt").val("");
-							$(chatWith + "_" + user + "_txt").removeAttr("disabled");
-						}
-					}
+				
 			}
 		}
 	};
@@ -1311,7 +1292,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 		//2009-07-27T13:48:47.999+01:00
 		var messageDate = false;
 		if (typeof inputdate === "string"){
-			messageDate = new Date(parseInt(inputdate.substring(0,4)), parseInt(inputdate.substring(5,7)) - 1, parseInt(inputdate.substring(8,10)), parseInt(inputdate.substring(11,13)), parseInt(inputdate.substring(14,16)), parseInt(inputdate.substring(17,19)));
+			messageDate = new Date(parseInt(inputdate.substring(0,4), 10), parseInt(inputdate.substring(5,7), 10) - 1, parseInt(inputdate.substring(8,10), 10), parseInt(inputdate.substring(11,13), 10), parseInt(inputdate.substring(14,16), 10), parseInt(inputdate.substring(17,19), 10));
 		} else {
 			messageDate = new Date(inputdate);
 		}
@@ -1396,7 +1377,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 			
 			for (var j = 0; j < activewindows.items.length; j++) {
 				$(chatWith + "_" + activewindows.items[j].userid).css("left", "" + (j * 150) + "px");
-				if (j == 0){
+				if (j === 0){
 					$("#online_button_" + activewindows.items[j].userid).parent().addClass("user_chat_first");
 				}
 			}
@@ -1516,7 +1497,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 		}
 		$.ajax({
 			//url: Config.URL.CHAT_GET_SERVICE + "?users=" + tosend + "&initial=" + initial,
-			url: '/_user/message/chat/' + para + '.json?items=1000',
+			url: '/_user/message/chat/' + para + '.json?_from=' + tosend + '&items=1000',
 			cache: false,
 			sendToLoginOnFail: true,
 			success: function(data){
@@ -1674,7 +1655,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 									var newactivewindows = {};
 									newactivewindows.items = [];
 									for (var l = 0; l < activewindows.items.length; l++) {
-										if ($(chatWith + "_" + activewindows.items[l].userid).length == 0) {
+										if ($(chatWith + "_" + activewindows.items[l].userid).length === 0) {
 											newactivewindows.items[newactivewindows.items.length] = activewindows.items[l];
 										}
 									}
@@ -1819,7 +1800,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 			},
 			data : data
 		});
-	}
+	};
 	
 	if (sdata.me.user.userid === undefined) {
 		return;
