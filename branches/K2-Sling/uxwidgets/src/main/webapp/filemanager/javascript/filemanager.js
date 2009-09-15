@@ -46,12 +46,15 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	
 	var filemanagerClose = filemanagerId + "_close";
 	var filemanagerFilesContainer = filemanagerId + "_files_container";
+	var filemanagerOverlay = filemanagerId + "_overlay";
 	var filemanagerUploaderBasicSuccessful = "#filemanager_uploader_basic_successful";
 	
 	// Class
 	var filemanagerAccordionListClass = "filemanager_accordion_list";
 	var filemanagerDisabledClass = "filemanager_disabled";
-	var filemanagerDropClass = "filmanager_drop_hover";
+	var filemanagerDropActiveClass = "filmanager_drop_active";
+	var filemanagerDropHoverClass = "filmanager_drop_hover";
+	var filemanagerFileClass = "filemanager_file";
 	var filemanagerFileSelectedClass = "filemanager_file_selected";
 	var filemanagerSelectedItemClass = "filemanager_selecteditem";
 	
@@ -68,6 +71,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	var filemanagerAccordion = filemanagerId + "_accordion";
 	var filemanagerAccordionList = filemanagerAccordion + "_list";
 	var filemanagerAccordionListSite = filemanagerAccordionList  + "_site";
+	var filemanagerAccordionListSiteBookmarks = filemanagerAccordionListSite + "_bookmarks";
 	var filemanagerAccordionListTag =  filemanagerAccordionList  + "_tag";
 	
 	// Actions
@@ -88,6 +92,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	var filemanagerDialogPermissions = filemanagerDialog + "_permissions";
 	var filemanagerDialogPermissionsTrigger = filemanagerDialogPermissions + "_trigger";
 	var filemanagerDialogRemove = filemanagerDialog + "_remove";
+	var filemanagerDialogRemoveConfirm = filemanagerDialogRemove + "_confirm";
+	var filemanagerDialogRemoveDecline = filemanagerDialogRemove + "_decline";
 	var filemanagerDialogRemoveList = filemanagerDialogRemove + "_list";
 	
 	// Drag Drop
@@ -99,7 +105,41 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	var filemanagerListTitle = filemanagerId + "_list_title";
 	
 	// Pop up
-	var filemanagerPopupContentMiddle = filemanagerId + "_popup_content_middle";
+	var filemanagerPopupContent = filemanagerId + "_popup_content";
+	var filemanagerPopupContentMiddle = filemanagerPopupContent + "_middle";
+	
+	// Search
+	var filemanagerSearch = filemanagerId + "_search";
+	
+	// Uploader
+	var filemanagerUploader = filemanagerId + "_uploader";
+	var filemanagerUploaderBasic = filemanagerUploader + "_basic";
+	var filemanagerUploaderBasicName = filemanagerUploaderBasic + "_name";
+
+	/**
+	 * Method to sort a select element with different option elements
+	 * @param {Object} element The select element that needs to be sorted
+	 */
+	var sortOptions = function(element){
+		
+		var sortedVals = $.makeArray($(element + ' option')).sort(function(a,b){ 
+			return $(a).text() > $(b).text() ? 1: -1; 
+		}); 
+		$(element).empty().html(sortedVals);
+
+	};
+		
+	/**
+	 * Make an array containing the URLs of the selected files
+	 * @return {Array} Array with the URLs of the selected files
+	 */
+	var doSelectedFilesURLToArray = function(){
+		var filesToDeleteArray = [];
+		$.each(selectedFiles.items, function(i){
+			filesToDeleteArray.push(selectedFiles.items[i].URL);
+		});
+		return filesToDeleteArray;
+	};
 
 	/**
 	 * Reset the selected files variable
@@ -153,9 +193,171 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	};*/
 	
 	/**
-	 * Set up the jQuery UI draggable and droppable plug-in
+	 * Show a message when you drop files/folders on a tag/site
+	 * @param {Object} movedFiles JSON object with information about the files and where it is dropped
+	 * @param {String} Id of the div where you want to show the message in
 	 */
-	var initialiseDragging = function(){
+	var showDroppedMessage = function(movedFiles, showDroppedMessageIn){
+		// Render the message and add animation to show the message
+		$(filemanagerDropMessage).hide();
+		$.Template.render(filemanagerDropMessageTemplate, movedFiles, $(filemanagerDropMessage));
+		$(showDroppedMessageIn).append($(filemanagerDropMessage));
+		$(filemanagerDropMessage).show();
+		$(filemanagerDropMessage).fadeOut(2000);
+	};
+	
+	/**
+	 * Send a POST to the files where you need to add a tag/site
+	 * 
+	 *	movedFiles = {
+	 *		count: 1,
+	 *		kind: "tag" or "site",
+	 *		dropped: on what the file is dropped
+	 *	}
+	 *  
+	 * @param {Object} movedFiles Object containing information about where to send to files and how many there are
+	 * @param {String} showDroppedMessageIn The id of the element where you want to show the message in
+	 */
+	var sendTagSitePost = function(movedFiles, showDroppedMessageIn){
+		
+		var confirmation = false;
+		
+		if(movedFiles.kind === "site"){
+			confirmation = confirm("Should the members of the sites you want to add be a maintainer?");
+		}
+		
+		for (var i = 0; i < selectedFiles.items.length; i++) {
+
+			// Count how many ajax requests where successful
+			var countAjax = selectedFiles.items.length;
+
+			// Variable that will contain the POST data
+			var postData = {};
+
+			// We need to set the mixinTypes because some of the files are nt:file
+			// otherwise they don't accept custom properties
+			postData = {
+				"jcr:mixinTypes": "sakai:propertiesmix"
+			};
+
+			// Check if it is a tag, site or something else to set the 
+			// appropriate properties
+			if(movedFiles.kind === "tag"){
+				selectedFiles.items[i].tags.push(movedFiles.dropped);
+
+				postData.tags = selectedFiles.items[i].tags;
+				postData["tags@TypeHint"] = "string[]";
+
+			}else{
+				var tempArray = [];
+				
+				for(var k = 0; k < selectedFiles.items[i].usedIn.length; k++){
+					tempArray.push(selectedFiles.items[i].usedIn[k].id);
+				}
+				
+				tempArray = tempArray.concat(movedFiles.dropped);
+
+				postData.sites = tempArray;
+				postData["sites@TypeHint"] = "string[]";
+
+			}
+
+			$.ajax({
+				type: "POST",
+				data: postData,
+				url: selectedFiles.items[i].URL,
+				cache: false,
+				success: function(data){
+					countAjax--;
+					
+					// Show a message if the counter is 0 and if the showDroppedMessageIn is not null
+					if (countAjax === 0 && showDroppedMessageIn) {
+						showDroppedMessage(movedFiles, showDroppedMessageIn);
+					}
+				},
+				error: function(status){
+					alert("An error has occured");
+				}
+			});
+		}
+	};
+	
+	/**
+	 * Initialise the jQuery droppable plugin
+	 */
+	var initialiseDroppable = function(){
+		var droppableElements = "";
+
+		if(selectedFiles.maintainer){
+			droppableElements = "."  + filemanagerAccordionListClass  + " a";
+		}else{
+			$("."  + filemanagerAccordionListClass  + " a").droppable('destroy');
+			droppableElements = filemanagerAccordionListSiteBookmarks;
+		}
+		
+		$(droppableElements).droppable({
+			drop: function(event, ui) {			
+
+				// Where the message needs to be shown in
+				var showDroppedMessageIn = null;
+				
+				// JSON object the contains how many files, which kind and where the files are dropped
+				var movedFiles = {
+					count: selectedFiles.items.length
+				};
+
+				// Check if it is dropped on a tag or a site
+				if ($(filemanagerAccordionListTag).is(":visible")) {
+				
+					// The file/folder is dropped on a tag
+					movedFiles.kind = "tag";
+					movedFiles.dropped = [];
+					movedFiles.dropped.push($("span", this).text());
+					
+					showDroppedMessageIn = filemanagerAccordionListTag;
+					
+					/** TODO Remove 
+					$.ajax({
+						data: {
+							"tags": movedFiles.dropped,
+							":applyTo" : doSelectedFilesURLToArray()
+						},
+						type: "POST",
+						url: "/",
+						cache: false,
+						success: function(data){
+			
+							// If the post was successful, we redo the search
+							doFileSearch(options);
+						},
+						error: function(status){
+							alert("An error has occured");
+						}
+					});*/
+				}
+				else {
+
+					// The file/folder is dropped on a site
+					movedFiles.kind = "site";
+					movedFiles.dropped = [];
+					movedFiles.dropped.push($(this).text());
+					
+					showDroppedMessageIn = filemanagerAccordionListSite;
+					
+				}
+				
+				sendTagSitePost(movedFiles, showDroppedMessageIn);
+			},
+			activeClass: filemanagerDropActiveClass,
+			hoverClass: filemanagerDropHoverClass,
+			tolerance: 'pointer'
+		});
+	};
+	
+	/**
+	 * Set up the jQuery UI draggable plug-in
+	 */
+	var initialiseDraggable = function(){
 		$("." + filemanagerFileSelectedClass).draggable({
 			containment: filemanagerPopupContentMiddle,
 			cursor: 'move',
@@ -167,52 +369,14 @@ sakai.filemanager = function(tuid, placement, showSettings){
 				//return $(filemanagerDragTooltip);
 			}
 		});
-		
-		$("."  + filemanagerAccordionListClass  + " a").droppable({
-			drop: function(event, ui) {
-				// JSON object the contains how many files, which kind and where the files are dropped
-				/*
-				 * movedFiles = {
-				 * 	count: 1,
-				 *  kind: "tag" or "site",
-				 *  dropped: on what the file is dropped
-				 *  }
-				 */
-				var movedFiles = {
-					count: selectedFiles.items.length
-				};
-				
-				// Where the message needs to be shown in
-				var showDroppedMessageIn = null;
-				
-				// Check if it is dropped on a tag or a site
-				if($(filemanagerAccordionListTag).is(":visible")){
-
-					// The file/folder is dropped on a tag
-					movedFiles.kind = "tag";
-					movedFiles.dropped = $("span", this).text();
-					
-					showDroppedMessageIn = filemanagerAccordionListTag;
-					
-				}else{
-					
-					// The file/folder is dropped on a site
-					movedFiles.kind = "site";
-					movedFiles.dropped = $(this).text();
-					
-					showDroppedMessageIn = filemanagerAccordionListSite;				
-				}
-
-				// Render the message and add animation to show the message
-				$(filemanagerDropMessage).hide();
-				$.Template.render(filemanagerDropMessageTemplate, movedFiles, $(filemanagerDropMessage));
-				$(showDroppedMessageIn).append($(filemanagerDropMessage));
-				$(filemanagerDropMessage).show();
-				$(filemanagerDropMessage).fadeOut(2000);
-			},
-			hoverClass: filemanagerDropClass
-		});
-
+	};
+	
+	/** 
+	 * Initialise both the jQuery plug-ins: drag and drop
+	 */
+	var initialiseDragDrop = function(){
+		initialiseDraggable();
+		initialiseDroppable();
 	};
 	
 	/**
@@ -235,8 +399,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 			buttonClickCallback: doPaging
 		});
 		
-		// Initialise the dragging of files
-		initialiseDragging();
+		// Initialise the dragging and dropping of files
+		initialiseDragDrop();
 		
 		// Reset the selected files variable
 		resetSelectedFiles();
@@ -293,7 +457,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	 */
 	var doPaging = function(clickedPage){
 		currentpage = clickedPage - 1;
-		doFileSearch(currentpage);
+		doFileSearch(options);
 	};
 
 	/**
@@ -396,6 +560,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 		}
 		
 		enableDisableEditDelete();
+		
+		initialiseDragDrop();
 	};
 	
 	/**
@@ -483,14 +649,14 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	 * Top right hand close button
 	 */
 	$(filemanagerClose, rootel).live("click", function(ev){
-		$("#filemanager_overlay", rootel).hide();
-		$("#filemanager_popup_content", rootel).hide();
+		$(filemanagerOverlay, rootel).hide();
+		$(filemanagerPopupContent, rootel).hide();
 	});
 
 	/**
 	 * This will select / deselect files when clicked
 	 */
-	$(".filemanager_file", rootel).live("click", function(ev){
+	$("." + filemanagerFileClass, rootel).live("click", function(ev){
 
 		// Get the index of the file
 		var splitId = this.id.split("_");
@@ -507,8 +673,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 			// Add file to selected files
 			addToSelectedFiles(index);
 			
-			// Initialise the dragging of files
-			initialiseDragging();
+			// Initialise the dragging and dropping of files
+			initialiseDragDrop();
 		}
 	});
 
@@ -516,7 +682,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	 * Open a file in a new window/tab when you doubleclicked on it
 	 * @param {Object} ev
 	 */
-	$(".filemanager_file", rootel).live("dblclick", function(ev){
+	$("." + filemanagerFileClass, rootel).live("dblclick", function(ev){
 		var newWindow = window.open($(".filemanager_hidden", this).text().trim(), '_blank');
 		newWindow.focus();
 		return false;
@@ -636,7 +802,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	/**
 	 * Show the pop up when the user goes over a file
 	 */
-	$(".filemanager_file", rootel).live("mouseover", function(){
+	$("." + filemanagerFileClass, rootel).live("mouseover", function(){
 
 		// Get the id of the pop up that you want to see
 		var popupId = this.id.replace("filemanager_filename_", "filemanager_fileinfo_");
@@ -656,7 +822,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	/**
 	 * Hide the pop up when the user goes out of a file
 	 */
-	$(".filemanager_file", rootel).live("mouseout", function(){
+	$("." + filemanagerFileClass, rootel).live("mouseout", function(){
 
 		// Get the id of the pop up that you want to hide
 		var popupId = this.id.replace("filemanager_filename_", "filemanager_fileinfo_");
@@ -669,7 +835,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	 * When the search input gets focus from the cursor, add the
 	 * selected class and empty the input box
 	 */
-	$("#filemanager_search input", rootel).focus(function(){
+	$(filemanagerSearch + " input", rootel).focus(function(){
 		if (!$(this).hasClass("selected")){
 			$(this).addClass("selected");
 			
@@ -713,10 +879,25 @@ sakai.filemanager = function(tuid, placement, showSettings){
 	 * when you click it
 	 */
 	$(filemanagerDialogAssociationsMoveSelected).live("click", function(){
+		
+		var sitesArray = [];
+		
 		$(filemanagerDialogAssociationsSelectAll + " :selected").each(function(i, selected){
 			$(filemanagerDialogAssociationsSelectSelected).append(selected);
+			sitesArray.push(selected.value);
 		});
+
 		enableDisableMoveButtons();
+
+		sortOptions(filemanagerDialogAssociationsSelectSelected);
+		
+		var movedFiles = {};
+		movedFiles.kind = "site";
+		// Deep clone the array
+		movedFiles.dropped = sitesArray;
+		
+		sendTagSitePost(movedFiles, null);
+	
 	});
 	
 	/**
@@ -727,20 +908,68 @@ sakai.filemanager = function(tuid, placement, showSettings){
 			$(filemanagerDialogAssociationsSelectAll).append(selected);
 		});
 		enableDisableMoveButtons();
+
+		sortOptions(filemanagerDialogAssociationsSelectAll);
 	});
-	
-	
-	
+
+	/**
+	 * When the user confirms to delete the selected files
+	 */
+	$(filemanagerDialogRemoveConfirm).live("click", function(){
+		
+		// We send a POST request with a delete operation and in the applyTo we
+		// supply an array with the URLs of the files that need to be deleted
+		$.ajax({
+			data: {
+				":operation" : "delete",
+				":applyTo" : doSelectedFilesURLToArray()
+			},
+			type: "POST",
+			url: "/.json",
+			cache: false,
+			success: function(data){
+
+				// If the post was successful, we redo the search
+				doFileSearch(options);
+			},
+			error: function(status){
+				alert("An error has while deleting the files occured");
+			}
+		});
+		
+		/** TODO remove
+		 * 
+		 for(var i = 0; i < selectedFiles.items.length; i++){
+			$.ajax({
+				type: "DELETE",
+				url: selectedFiles.items[i].URL,
+				//url: "/sites/tests/_files/add.png",
+				cache: false,
+				success: function(data){
+					alert(data);
+				},
+				error: function(status){
+					alert("An error has occured");
+				}
+			});
+		}*/
+
+	});
+
+
 	///////////////////////
 	// Initial functions //
 	/////////////////////// 
 
+	/**
+	 * Initialise the search box
+	 */
 	var initialiseSearch = function(){
 		// Catch the search for files
-		$("#filemanager_search form", rootel).submit(function(){
+		$(filemanagerSearch + " form", rootel).submit(function(){
 			
 			// Get the value from the input box
-			var searchvalue = $("#filemanager_search form input", rootel).val();
+			var searchvalue = $(filemanagerSearch + " form input", rootel).val();
 			
 			// Check if there is anything in the search box
 			if(searchvalue.replace(/ /g,'').length > 0){
@@ -794,9 +1023,9 @@ sakai.filemanager = function(tuid, placement, showSettings){
 		
 		// Set the settings for when the users uses the single file uploader (without flash)
 		$(".fl-progEnhance-basic", rootel).submit(function() {
-			if($("#filemanager_uploader_basic_name", rootel).val().length > 3){
-				basicUploadFilename = $("#filemanager_uploader_basic_name", rootel).val();
-				$("#filemanager_uploader_basic_name", rootel).attr("name", basicUploadFilename);
+			if($(filemanagerUploaderBasicName, rootel).val().length > 3){
+				basicUploadFilename = $(filemanagerUploaderBasicName, rootel).val();
+				$(filemanagerUploaderBasicName, rootel).attr("name", basicUploadFilename);
 			}
 			
 			return AIM.submit(this, {'onStart' : startUpload, 'onComplete' : completeUpload});
@@ -832,7 +1061,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 			onShow: renderRemove
 		}); 
 		
-		$(filemanagerDialogRemove, rootel).jqmAddClose('.jqmClose'); 
+		$(filemanagerDialogRemove, rootel).jqmAddClose('.jqmClose');
+		$(filemanagerDialogRemove, rootel).jqmAddClose(filemanagerDialogRemoveDecline);
 	};
 
 	/**
@@ -857,8 +1087,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 		updateMaintainerSelectedFiles();
 
 		// Show the lightbox
-		$("#filemanager_overlay", rootel).show();
-		$("#filemanager_popup_content", rootel).show();
+		$(filemanagerOverlay, rootel).show();
+		$(filemanagerPopupContent, rootel).show();
 
 		// Fetch the initial list of files
 		doFileSearch(options);

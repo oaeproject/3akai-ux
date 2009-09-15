@@ -69,11 +69,11 @@
 
 			<a href="javascript:;" title="Browse by site">Browse by site</a>
 			<div id="filemanager_accordion_list_site">
-				<div class="filemanager_accordion_list_top">
-					<a href="javascript:;" id="filemanager_accordion_list_site_all">All Files</a>
-					<a href="javascript:;">All My Files</a>
-					<a href="javascript:;">All My Sites</a>
-					<a href="javascript:;">My Bookmarked Files</a>
+				<div class="filemanager_accordion_list filemanager_accordion_list_top">
+					<a href="javascript:;" id="filemanager_accordion_list_site_all">All Files<span class="filemanager_hidden">/</span></a>
+					<a href="javascript:;">All My Files<span class="filemanager_hidden">/_user/public/</span></a>
+					<a href="javascript:;">All My Sites<span class="filemanager_hidden">/</span></a>
+					<a href="javascript:;" id="filemanager_accordion_list_site_bookmarks">My Bookmarked Files<span class="filemanager_hidden">/</span></a>
 				</div>
 				<div class="filemanager_accordion_list">
 					<a href="javascript:;">Biology 101</a>
@@ -190,15 +190,7 @@
 		<div id="filemanager_main_right">
 			<div id="filemanager_bar_right">
 				<a id="filemanager_actions_edit" href="javascript:;">Edit Files</a>|
-				<a id="filemanager_actions_remove" href="javascript:;">Remove Files</a>|
-				<select>
-					<option>More actions</option>
-					<option>------------</option>
-					<option>Make available in:</option>
-					<option>... Biology 101</option>
-					<option>... CARET</option>
-					<option>... Computer Science</option>
-				</select>
+				<a id="filemanager_actions_remove" href="javascript:;">Remove Files</a>
 			</div>
 			
 			<!-- Filters -->
@@ -317,12 +309,12 @@
 						<option value="/_sites/site12">site12</option>
 					</select>
 				</div>
-				
+
 				<div id="filemanager_dialog_associations_move_container">
 					<a href="javascript:;" id="filemanager_dialog_associations_move_selected" class="filemanager_dialog_associations_move">&gt;</a>
 					<a href="javascript:;" id="filemanager_dialog_associations_move_all" class="filemanager_dialog_associations_move">&lt;</a>
 				</div>
-				
+
 				<div class="filemanager_dialog_associations_select_container">
 					<div>Selected Sites</div>
 					<select id="filemanager_dialog_associations_select_selected" size="10" multiple="multiple">
@@ -340,8 +332,8 @@
 		<div class="filemanager_dialog_body">
 			<span>Are you sure you want to remove the following file(s)?</span><br />
 			<div id="filemanager_dialog_remove_list"></div>
-			<input type="button" value="yes" />
-			<input type="button" value="no" />
+			<input type="button" value="yes" id="filemanager_dialog_remove_confirm" />
+			<input type="button" value="no" id="filemanager_dialog_remove_decline" />
 			<div id="filemanager_dialog_remove_list_template"><!--
 				{for file in items}
 					<div class="filemanager_dialog_remove_file">${file.title}</div>

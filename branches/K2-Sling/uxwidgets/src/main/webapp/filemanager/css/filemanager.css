@@ -24,7 +24,7 @@
 	color: #eee;
 }
 
-/* Drag */
+/* Drag / Drop */
 .filemanager_drag_tooltip {
 	background: #fff;
 	border: 1px solid #ccc;	
@@ -32,6 +32,9 @@
 }
 .filmanager_drop_hover {
 	background: #fff68f !important;
+}
+.filmanager_drop_active {
+	color: #ccc;
 }
 
 /* Bar */
@@ -58,10 +61,6 @@
 #filemanager_bar_right {
 	float: right;
 	margin-right: 20px;
-}
-
-#filemanager_bar_right select {
-	margin-left: 10px;
 }
 
 #filemanager_main_right {
