@@ -625,6 +625,20 @@ sakai.profile = function(){
 		ui.style.minHeight = "16px";
 		
 		var value = newvalue;
+		
+		// Update the status message in the chat bar
+		if (ui.id == "txt_status"){
+			if (newvalue){
+				var toset = newvalue;
+				if(toset.length > 20){
+					toset = toset.substr(0, 20) + "...";
+				}
+				$(".chat_available_statusmessage").text(toset);
+			} else {
+				$(".chat_available_statusmessage").text("No status message");
+			}
+		}
+		
 		if (ui.id == "txt_firstname"){
 			
 			key = "firstName";
