@@ -262,13 +262,13 @@
 						<div id="inbox_message_replies"></div>
 						<div id="inbox_message_replies_template"><!--
 						{macro showReply(r)}	
-						<div>
-							<span>
+						<div style="padding: 10px 0px;">
+							<span style="float:left;">
 								<a href="javascript:;">
 								{if r.userFrom.picture}
 												<img src="/sdata/f/_private/${r.userFrom.userStoragePrefix}${r.userFrom.picture._name}" class="sender-picture" id="inbox_message_picture" />
 											{else}
-												<img src="_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" />
+												<img src="/dev/_images2/person_icon.jpg" class="sender-picture" id="inbox_message_picture" />
 											{/if}
 							</span> 
 							<div class="inbox_message_user">
