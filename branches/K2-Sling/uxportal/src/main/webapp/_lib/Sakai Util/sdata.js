@@ -965,13 +965,3 @@ jQuery.fn.stripTags = function() {
 $(".back-top").live("click", function(ev){
 	window.scrollTo(0,0);
 });
-
-
-////////////////////////
-// Necessairy imports //
-////////////////////////
-
-// Load the widget configuration file	
-$.Load.requireJS('/dev/_configuration/widgets.js');
-// Load the general config file that contains all of the service URLs
-$.Load.requireJS('/dev/_configuration/config.js');
