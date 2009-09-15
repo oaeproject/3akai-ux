@@ -1,171 +1,360 @@
 <link type="text/css" href="/devwidgets/filemanager/css/filemanager.css"></link>
+<link type="text/css" href="/devwidgets/filemanager/css/uploader.css"></link>
 
-<div style="display:none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-color: #000; opacity: 0.2; z-index: 30000" id="overlay"></div>
+<div style="display:none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-color: #000; opacity: 0.2; z-index: 1000" id="filemanager_overlay"></div>
 
-<div id="filemanager_popup_content" style="display:none;  z-index: 30001; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;">
-	
-	<div style="margin: 50px auto 0px; width: 1150px;">
-		<div style="background: url(/devwidgets/filemanager/images/titlebar_left.png) top left no-repeat; height: 40px; line-height:40px; color: #fff; float:left; width: 1140px; ">
-			<div style="background: url(/devwidgets/filemanager/images/titlebar_right.png) top right no-repeat; margin-left: 20px; margin-right: -10px;">
+<div id="filemanager_popup_content" style="display:none;">
+
+	<div id="filemanager_bar_top">
+		<div id="filemanager_bar_top_left">
+			<div id="filemanager_bar_top_right">
 				Find, browse and manage files
-				<div style="float:right; padding: 25px; margin-top: -50px"><img src="/devwidgets/filemanager/images/titlebar_close.png" style="cursor: pointer; cursor: hand;" id="filemanager_close"/></div>
+				<div id="filemanager_close"><img src="/devwidgets/filemanager/images/titlebar_close.png" id="filemanager_close" alt="Close the pop-up"/></div>
 			</div>
 		</div>
 	</div>
-	
-	<div style="background-color: #FFF; width: 1144px; height: 510px; margin: 0px auto 50px; border: 3px solid #454a4f; clear:both;">
-    <!-- Accordion -->
-    <div id="accordion" style="background-color:#fff; width: 250px; float: left; height: 100%; border-right: 1px solid #454a4f">
-        <table style="height:100%; width: 100%;" cellpadding="0" cellspacing="0">
-            <tr style="height:30px; background-color: #EEE;">
-                <td style="border-bottom: 1px solid #aaa">
-                    Search
-                </td>
-            </tr>
-            <tr style="height:auto; display:none">
-                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc">
-                    <input type="text"/>
-                </td>
-            </tr>
-            <tr style="height:30px; background-color: #EEE">
-                <td style="border-bottom: 1px solid #aaa">
-                    Browse by tag
-                </td>
-            </tr>
-			<tr style="height:auto; display:none">
-                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc">
-                    <div style="text-align:center">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</div>
-					<br/><br/>
-					Animals (1)<br/>
-					Architecture (12)<br/>
-					Barcelona (23)<br/>
-					Car (7)<br/>
-					Flower (11)<br/>
-					India (1)<br/>
-					Live (9)<br/>
-					Music (32)<br/>
-					People (2)<br/>
-					Spring (1)<br/>
-					Sunset (4)<br/>
-					Travel (92)<br/>
-					Zoo (1)<br/>
-                </td>
-            </tr>
-            <tr style="height:30px; background-color: #EEE">
-                <td style="border-bottom: 1px solid #aaa">
-                    Browse by site
-                </td>
-            </tr>
-			<tr style="height:auto; display: none;">
-                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc; text-decoration:underline;">
-                    All Files<br/>
-					All My Files<br/>
-					All My Sites<br/>
-					<br/><br/>
-					Biology 101<br/>
-					CARET<br/>
-					JISC Academic Networking<br/>
-					CamTools Best Practices<br/>
-					3A1 FM1 Eng: IIA 06_07<br/>
-					CARET Social<br/>
-					Demo site<br/>
-					March 09 seminar<br/>
-					MBA NotForProfit SIG<br/>
-					Robs Test Site<br/>
-					UCS CARET Liaison<br/>
-					Using a VLE<br/>
-                </td>
-            </tr>
-            <tr style="height:30px; background-color: #EEE">
-                <td style="border-bottom: 1px solid #aaa">
-                    Upload files
-                </td>
-            </tr>
-			<tr style="height:auto;">
-                <td style="vertical-align: top; padding-top: 20px; border-bottom: 1px solid #ccc;">
-                    <input type="button" value="Browse"/>
-					<div style="padding-top: 15px; padding-bottom: 15px">
-						<div style="background-color: #eee; padding: 5px;">
-							Selected File 1.png
+
+	<div id="filemanager_popup_content_middle">
+		<div id="filemanager_drop_message"></div>
+		<div id="filemanager_drop_message_template"><!-- 
+			${count} 
+			{if count == 1}
+			file has
+			{else}
+			files have
+			{/if}
+			 been added to 
+			{if kind == "tag"}
+			the "${dropped}" tag.
+			{else}
+			"${dropped}"
+			{/if}
+		--></div>
+		<!-- Accordion -->
+		<div id="filemanager_accordion">
+			<a href="javascript:;" title="Search for files">Search</a>
+			<div id="filemanager_search">
+				<form>
+					<input type="text" value="Search for files ..." class="input" id="search_text"/>
+				</form>
+			</div>
+			
+			<a href="javascript:;" title="Browse by tag">Browse by tag</a>
+			<div id="filemanager_accordion_list_tag">
+				<div class="filemanager_accordion_list_tag_top">
+					<a href="javascript:;">A</a> <a href="javascript:;">B</a> <a href="javascript:;">C</a> <a href="javascript:;">D</a> 
+					<a href="javascript:;">E</a> <a href="javascript:;">F</a> <a href="javascript:;">G</a> <a href="javascript:;">H</a> <a href="javascript:;">I</a> 
+					<a href="javascript:;">J</a> <a href="javascript:;">K</a> <a href="javascript:;">L</a> <a href="javascript:;">M</a> <a href="javascript:;">N</a> 
+					<a href="javascript:;">O</a> <a href="javascript:;">P</a> <a href="javascript:;">Q</a> <a href="javascript:;">R</a> <a href="javascript:;">S</a> 
+					<a href="javascript:;">T</a> <a href="javascript:;">U</a> <a href="javascript:;">V</a> <a href="javascript:;">W</a> <a href="javascript:;">X</a> 
+					<a href="javascript:;">Y</a> <a href="javascript:;">Z</a>
+				</div>
+				
+				<div class="filemanager_accordion_list">
+					<a href="javascript:;"><span>Animals</span> (1)</a>
+					<a href="javascript:;"><span>Architecture</span> (12)</a>
+					<a href="javascript:;"><span>Barcelona</span> (23)</a>
+					<a href="javascript:;"><span>Car</span> (7)</a>
+					<a href="javascript:;"><span>Flower</span> (11)</a>
+					<a href="javascript:;"><span>India</span> (1)</a>
+					<a href="javascript:;"><span>Live</span> (9)</a>
+					<a href="javascript:;"><span>Music</span> (32)</a>
+					<a href="javascript:;"><span>People</span> (2)</a>
+					<a href="javascript:;"><span>Spring</span> (1)</a>
+					<a href="javascript:;"><span>Sunset</span> (4)</a>
+					<a href="javascript:;"><span>Travel</span> (92)</a>
+					<a href="javascript:;"><span>Zoo</span> (1)</a>
+				</div>
+			</div>
+
+			<a href="javascript:;" title="Browse by site">Browse by site</a>
+			<div id="filemanager_accordion_list_site">
+				<div class="filemanager_accordion_list_top">
+					<a href="javascript:;" id="filemanager_accordion_list_site_all">All Files</a>
+					<a href="javascript:;">All My Files</a>
+					<a href="javascript:;">All My Sites</a>
+					<a href="javascript:;">My Bookmarked Files</a>
+				</div>
+				<div class="filemanager_accordion_list">
+					<a href="javascript:;">Biology 101</a>
+					<a href="javascript:;">CARET</a>
+					<a href="javascript:;">JISC Academic Networking</a>
+					<a href="javascript:;">CamTools Best Practices</a>
+					<a href="javascript:;">3A1 FM1 Eng: IIA 06_07</a>
+					<a href="javascript:;">CARET Social</a>
+					<a href="javascript:;">Demo site</a>
+					<a href="javascript:;">March 09 seminar</a>
+					<a href="javascript:;">MBA NotForProfit SIG</a>
+					<a href="javascript:;">Robs Test Site</a>
+					<a href="javascript:;">UCS CARET Liaison</a>
+					<a href="javascript:;">Using a VLE</a>
+				</div>
+			</div>
+
+			<a href="javascript:;" title="Upload new files">Upload new files</a>			
+			<div id="uploader-contents">
+
+				<!-- This form will be progressively enhanced by the Fluid Uploader component. -->
+				<form method="post" action="/sites/tests/_files" enctype="multipart/form-data" class="fl-uploader fl-progEnhance-basic">
+					<p>Browse to upload a file.</p>
+					<input name="filename" id="filemanager_uploader_basic_name" type="file" />
+					<div><input type="submit" value="Upload"/></div>
+					<span id="filemanager_uploader_basic_successful"></span>
+				</form>
+				<span id="filemanager_uploader_basic_successful_template"><!--
+					The file: "${filename}" was uploaded succesfully.
+				--></span>
+				<!-- This is the markup for the Fluid Uploader component itself. -->
+				<form class="flc-uploader fl-uploader fl-progEnhance-enhanced" 
+	  				method="get" 
+	  				enctype="multipart/form-data">
+	  					
+					<!-- The file queue -->
+					<div class="fl-uploader-queue-wrapper">
+						
+						<!-- Top of the queue -->
+						<div class="fl-uploader-queue-header">
+							<table cellspacing="0" cellpadding="0" summary="Headers for the file queue.">
+								<caption>File Upload Queue:</caption>
+									<tr>
+										<th scope="col" class="fl-uploader-file-name">File Name</th>
+										<th scope="col" class="fl-uploader-file-size">Size&nbsp;&nbsp;</th>
+										<th scope="col" class="fl-uploader-file-actions">&nbsp;</th>
+									</tr>
+							</table>
 						</div>
-						<div style="background-color: #eee; padding: 5px;">
-							Selected File 2.png
+						
+						<!-- Scrollable view -->
+						<div class="flc-scroller fl-scroller">
+							<div class="fl-scroller-inner">
+								<table cellspacing="0" class="flc-uploader-queue fl-uploader-queue" summary="Queue of files to upload.">
+									<tbody>
+										<!-- Rows will be rendered in here. -->
+										
+										<!-- Template markup for the file queue rows -->
+										<tr class="flc-uploader-file-tmplt flc-uploader-file fl-uploader-hidden-templates">
+											<th class="flc-uploader-file-name fl-uploader-file-name" scope="row">File Name Placeholder</th>
+											<td class="flc-uploader-file-size fl-uploader-file-size">0 KB</td>
+											<td class="fl-uploader-file-actions">
+												<button type="button" class="flc-uploader-file-action fl-uploader-file-action" title="Remove File" tabindex="-1">
+													<span class="fl-uploader-button-text fl-uploader-hidden">Remove file from queue</span>
+												</button>
+											</td>
+										</tr>
+										
+										<!-- Template for the file error info rows -->
+										<tr class="flc-uploader-file-error-tmplt fl-uploader-file-error fl-uploader-hidden-templates">
+											<td colspan="3" class="flc-uploader-file-error"></td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="flc-uploader-file-progressor-tmplt fl-uploader-file-progress"><span class="fl-uploader-file-progress-text fl-uploader-hidden">76%</span></div>
+							</div>
+						</div>
+						
+						<div class="flc-uploader-browse-instructions fl-uploader-browse-instructions">
+							Choose <em>Browse files</em> to add files to the queue 
+						</div>
+			
+						<!-- Foot of the queue -->
+						<div class="flc-uploader-queue-footer fl-uploader-queue-footer">
+							<table cellspacing="0" cellpadding="0" summary="Status of file queue.">
+	
+									<tr>
+										<td class="flc-uploader-total-progress-text">
+											Total: <span class="fl-uploader-totalFiles">0</span> files 
+											(<span class="fl-uploader-totalBytes">0 KB</span>)
+										</td>
+										<td class=".fl-uploader-footer-buttons" align="right" >
+											<a href="javascript:;" class="flc-uploader-button-browse fl-uploader-browse">Browse files</a>
+										</td>
+									</tr>
+	
+							</table>
+							<div class="flc-uploader-total-progress fl-uploader-total-progress-okay">&nbsp;</div>
 						</div>
 					</div>
-					<input type="checkbox"/>
-					Public
-					<br/><br/>
-					<input type="button" value="Upload!"/>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div style="margin-left: 270px; background-color: #FFF;">
-        <div style="float:right; margin-right: 20px;">
-            <span style="background: url(/devwidgets/filemanager/images/button_edit.png) center left no-repeat; padding-left: 20px;">Edit Files</span>
-            &nbsp;| &nbsp;
-			<span style="background: url(/devwidgets/filemanager/images/button_remove.png) center left no-repeat; padding-left: 20px;">Remove Files</span>
-            &nbsp;| &nbsp;
-			<span>
-                <select>
-                    <option>More actions</option>
-                    <option>------------</option>
-                    <option>Make available in:</option>
-                    <option>... Biology 101</option>
-                    <option>... CARET</option>
-                    <option>... Computer Science</option>
-                </select>
-            </span>
-        </div>
-		
-		<!-- Filters -->
-		<div id="filemanager_list_title"></div>
-		<div id="filemanager_list_title_template"><!--
-	        <div style="color:#454A4F; font-size:1.6em; font-weight:bold; margin:15px 0 5px; padding:0;">
-	        	My Files <a href="#"><img border="0" src="/devwidgets/filemanager/images/remove_filter.png"/></a>
-	        </div>
-			{if tag}
-	        <div style="line-height:16px;">
-	            With tag
-				{var index = 0}
-				{for t in tag}
-				{if index > 0}
-				and
-				{/if}
-				"${t}"
-				${index++|eat}
-				{/for}
-				<a href="#"><img border="0" src="/devwidgets/filemanager/images/remove_filter.png"/></a>
+
+					<!-- Action buttons -->
+					<div class="fl-uploader-btns">
+						<button type="button" class="flc-uploader-button-pause fl-uploader-pause fl-uploader-hidden">Stop Upload</button><button type="button" class="flc-uploader-button-upload fl-uploader-upload fl-uploader-button-default fl-uploader-dim" disabled="disabled">Upload</button>
+					</div>
+
+					<!-- Make the files public or not -->
+					<input type="checkbox" name="filemanager_option_public" id="filemanager_option_public" />
+					<label for="filemanager_option_public">Public</label>
+				</form>
+			
 			</div>
-			{/if}
-	        {if search}
-	        <div style="line-height: 16px;">
-	        	Using "${search}" search query <a href="#"><img border="0" src="/devwidgets/filemanager/images/remove_filter.png"/></a>
-	        </div>
-			{/if}
-		--></div>
-		<!-- Filters -->
-		
-		<div id="filemanager_files_container" style="margin: 20px; margin-left: 0px;"></div>
-		<div id="filemanager_paging" class="jq_pager" style="clear:both; position: relative; top: -35px; height: 0px; text-align: center;"></div>
-		<div id="filemanager_files_container_template"><!--
-			{for i in results}
-		        <div class="filemanager_file">
-					{if i.mimeType === "application/doc"}
-						<img src="http://www.schoonzie.com/files/Word2007Icon.jpg" width="50px"/>
-					{elseif i.mimeType === "application/x-pdf"}
-						<img src="http://kimba.mat.ucm.es/tarot09/index_files/pdf+icon.jpg" width="50px"/>
-					{else}
-						<img src="http://autoscopia.com/macformom/images/document_blank.jpg" width="50px"/>
+		</div>
+		<div id="filemanager_main_right">
+			<div id="filemanager_bar_right">
+				<a id="filemanager_actions_edit" href="javascript:;">Edit Files</a>|
+				<a id="filemanager_actions_remove" href="javascript:;">Remove Files</a>|
+				<select>
+					<option>More actions</option>
+					<option>------------</option>
+					<option>Make available in:</option>
+					<option>... Biology 101</option>
+					<option>... CARET</option>
+					<option>... Computer Science</option>
+				</select>
+			</div>
+			
+			<!-- Filters -->
+			<div id="filemanager_list_title"></div>
+			<div id="filemanager_list_title_template"><!--
+				<div class="filemanager_list_heading_main filemanager_list_heading">
+					${context} 
+					{if context != "All Files"}
+					<a href="javascript:;" id="filemanager_remove_filter_context"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="remove the context filter"/></a>
 					{/if}
-		            <div style="text-align:center; padding-top: 5px;">
-		                ${i.title}
-		            </div>
-		        </div>
-			{/for}
-		--></div>
-    </div>
-    </div>
+				</div>
+				{if tag}
+				<div class="filemanager_list_heading">
+					With tag
+					{for t in tag}
+						{if t_index == tag.length-1 && t_index > 0}
+							and
+						{elseif t_index > 0}
+							,
+						{/if}
+						"${t}"
+					{/for}
+					<a href="javascript:;" id="filemanager_remove_filter_tag" title="remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="remove the tag filter(s)"/></a>
+				</div>
+				{/if}
+				{if search}
+				<div class="filemanager_list_heading">
+					Using "${search}" search query <a href="javascript:;" id="filemanager_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="remove the search filter"/></a>
+				</div>
+				{/if}
+			--></div>
+			<!-- Filters -->
+
+			<div id="filemanager_files_container"></div>
+			<div id="filemanager_paging" class="jq_pager"></div>
+			<div id="filemanager_files_container_template"><!--
+				{for i in results}
+					<div class="filemanager_file" id="filemanager_filename_${i_index}">
+						{if i.mimeType === "application/doc"}
+							<img src="http://www.schoonzie.com/files/Word2007Icon.jpg"/>
+						{elseif i.mimeType === "application/x-pdf"}
+							<img src="http://kimba.mat.ucm.es/tarot09/index_files/pdf+icon.jpg"/>
+						{else}
+							<img src="http://autoscopia.com/macformom/images/document_blank.jpg"/>
+						{/if}
+						<div class="filemanager_file_name">
+							${i.title}
+						</div>
+						<div class="filemanager_hidden">
+							${i.URL}
+						</div>
+					</div>
+					<div class="filemanager_fileinfo" id="filemanager_fileinfo_${i_index}">
+						<p>
+							<strong>Name:</strong>
+							${i.filename}
+						</p>
+						<p>
+							<strong>Description:</strong>
+							${i.description}
+						</p>
+						<p>
+							<strong>Owner:</strong>
+							${i.owner.firstName} ${i.owner.lastName}
+						</p>
+						<p>
+							<strong>Tags</strong>
+							{for t in i.tags}{if t_index > 0},{/if} ${t}{/for}
+						</p>
+						<p>
+							<strong>Used In:</strong>
+							{for t in i.usedIn}{if t_index > 0},{/if} ${i.title}{/for}
+						</p>
+					</div>
+				{/for}
+			--></div>
+		</div>
+	</div>
+	
+	<div id="filemanager_dialog_edit" class="dialog">
+		<div class="dialog_header">
+			<h1>Edit files</h1>
+			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		<div class="filemanager_dialog_body">
+			<a href="javascript:;" id="filemanager_dialog_permissions_trigger">Permissions</a> | 
+			<a href="javascript:;" id="filemanager_dialog_associations_trigger">Site Associations</a>
+			
+			<div id="filemanager_dialog_permissions">
+				<form method="get" action="#">
+					<input type="radio" value="public" id="filemanager_dialog_permissions_public" name="filemanager_dialog_permissions_options" checked="checked" />
+					<label for="filemanager_dialog_permissions_public">Public</label><br />
+					
+					<input type="radio" value="sharepeople" id="filemanager_dialog_permissions_sharepeople" name="filemanager_dialog_permissions_options" />
+					<label for="filemanager_dialog_permissions_sharepeople">Visible to people I share with</label><br />
+					
+					<input type="button" value="Set permissions" />
+				</form>
+			</div>
+
+			<div id="filemanager_dialog_associations" style="display:none;">
+				<div class="filemanager_dialog_associations_select_container">
+					<div>All Sites</div>
+					<select id="filemanager_dialog_associations_select_all" size="10" multiple="multiple">
+						<option value="/_sites/site1">site1</option>
+						<option value="/_sites/site2">site2</option>
+						<option value="/_sites/site3">site3</option>
+						<option value="/_sites/site4">site4</option>
+						<option value="/_sites/site5">site5</option>
+						<option value="/_sites/site6">site6</option>
+						<option value="/_sites/site7">site7</option>
+						<option value="/_sites/site8">site8</option>
+						<option value="/_sites/site9">site9</option>
+						<option value="/_sites/site10">site10</option>
+						<option value="/_sites/site11">site11</option>
+						<option value="/_sites/site12">site12</option>
+					</select>
+				</div>
+				
+				<div id="filemanager_dialog_associations_move_container">
+					<a href="javascript:;" id="filemanager_dialog_associations_move_selected" class="filemanager_dialog_associations_move">&gt;</a>
+					<a href="javascript:;" id="filemanager_dialog_associations_move_all" class="filemanager_dialog_associations_move">&lt;</a>
+				</div>
+				
+				<div class="filemanager_dialog_associations_select_container">
+					<div>Selected Sites</div>
+					<select id="filemanager_dialog_associations_select_selected" size="10" multiple="multiple">
+						<option value="/_sites/site99">site99</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="filemanager_dialog_remove" class="dialog">
+		<div class="dialog_header">
+			<h1>Remove files</h1>
+			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		<div class="filemanager_dialog_body">
+			<span>Are you sure you want to remove the following file(s)?</span><br />
+			<div id="filemanager_dialog_remove_list"></div>
+			<input type="button" value="yes" />
+			<input type="button" value="no" />
+			<div id="filemanager_dialog_remove_list_template"><!--
+				{for file in items}
+					<div class="filemanager_dialog_remove_file">${file.title}</div>
+				{/for}
+			--></div>
+		</div>
+	</div>
+	<!--
+	<div id="filemanager_drag_tooltip"></div>
+	<div id="filemanager_drag_tooltip_template">
+		Move ${items.length} files
+	--><!--</div>-->
 </div>
 
 <script type="text/javascript" language="JavaScript" src="/devwidgets/filemanager/javascript/filemanager.js"></script>
+<script type="text/javascript" language="JavaScript" src="/devwidgets/filemanager/lib/jquery.accordion.js"></script>
