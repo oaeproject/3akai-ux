@@ -4,7 +4,7 @@
 
 /** ADD BUTTONS */
 .profile .popup_field_trigger
-{ cursor: pointer; background:transparent url(/dev/_images2/add-icon-profile.png) no-repeat; height: 14px; line-height: 14px; padding: 0px 0px 0px 20px;  float: right; font-weight: bold !important; font-size: 12px !important; color: #006e96; position: relative; top: -11px; }
+{ cursor: pointer; background:transparent url(/dev/_images2/add-icon-profile.png) no-repeat; height: 14px; line-height: 14px; padding: 0px 0px 0px 20px;  float: right; font-weight: bold !important; font-size: 12px !important; color: #006e96;}
 
 /** BUTTONS **/
 .profile .lightgrey_button
