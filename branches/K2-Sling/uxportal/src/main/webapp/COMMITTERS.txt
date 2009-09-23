@@ -1,0 +1,5 @@
+COMMITTERS
+----------
+
+Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
+Oszkar Nagy - oszkar@caret.cam.ac.uk
