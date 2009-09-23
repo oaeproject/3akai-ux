@@ -1045,9 +1045,12 @@ sakai.chat3 = function(tuid, placement, showSettings){
 				var friendName = activewindows.items[i].name;
 				var isOnline = checkOnlineFriend(online.items, friendId);
 				
+				// We check if the text is "userid is offline" because we don't want to delete it everytime
 				if(isOnline){
-					$(chatWith + "_" + friendId + "_txt").removeAttr("disabled");
-					$(chatWith + "_" + friendId + "_txt").val("");
+					if($(chatWith + "_" + friendId + "_txt").val() === friendName + " is offline"){
+						$(chatWith + "_" + friendId + "_txt").removeAttr("disabled");
+						$(chatWith + "_" + friendId + "_txt").val("");
+					}
 				}else{
 					$(chatWith + "_" + friendId + "_txt").attr("disabled", true);
 					$(chatWith + "_" + friendId + "_txt").val(friendName + " is offline");
@@ -1401,9 +1404,9 @@ sakai.chat3 = function(tuid, placement, showSettings){
 						"sakai:messagebox": "outbox",
 						"sakai:to": currentuser,
 						"sakai:from": sdata.me.user.userid,
-						//"sakai:subject": "",
-						"sakai:body":text
-						//"sakai:category":"chat"
+						"sakai:subject": "",
+						"sakai:body":text,
+						"sakai:category":"chat"
 					};
 						
 					$.ajax({
