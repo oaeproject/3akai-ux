@@ -15,10 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+/*global Config, $, sdata, pagerClickHandler */
 
-/*global Config, $, sdata */
-
-var sakai = sakai || {};
+var sakai = sakai ||
+{};
 
 /**
  * Initialize the comments widget
@@ -32,101 +32,111 @@ sakai.comments = function(tuid, placement, showSettings) {
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-	
+    
     var json = false; // Variable used to recieve information by json
+    var widgetSettings = {}; // Will hold the widget settings.
     var me = sdata.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
     var jsonDisplay = {};
-
+    var start = 0; // Start fetching from the first comment.
+    var clickedPage = 1;
+    var defaultPostsPerPage = 10;
+    var currentSite = placement.split("/")[0];
+	var store = "/sites/" + currentSite + "/store/";
+	
     // Main Ids
     var comments = "#comments";
     var commentsName = "comments";
     var commentsClass = ".comments";
-
+    
     // Output containers
     var commentsOutputContainer = comments + "_mainContainer";
     var commentsFillInComment = comments + "_fillInComment";
     var commentsPostCommentStart = comments + "_postComment";
     var commentsShowComments = comments + "_showComments";
     var commentsNumComments = comments + "_numComments";
+    var commentsNumCommentsDisplayed = commentsNumComments + "Displayed";
     var commentsCommentComments = comments + "_commentscomment";
-
+    var commentsCancelComment = comments + "_cancelComment";
+    
+    // Edit parts
+    var commentsEdit = commentsClass + "_edit";
+    var commentsMessage = comments + "_message_";
+    var commentsMessageEditContainer = commentsMessage + "editContainer_";
+    var commentsEditText = comments + "_editComment_txt_";
+    var commentsEditSave = commentsClass + "_editComment_save";
+    var commentsEditCancel = commentsClass + "_editComment_cancel";
+    
+    // Delete
+    var commentsDelete = commentsClass + "_delete";
+    var commentsUnDelete = commentsClass + "_undelete";
+    
     // Output textboxes
     var commentsMessageTxt = comments + "_txtMessage";
     var commentsNamePosterTxt = comments + "_txtNamePoster";
     var commentsMailPosterTxt = comments + "_txtMailPoster";
-
+    // Their containers
+    var commentsNamePosterTxtContainer = commentsNamePosterTxt + "_container";
+    var commentsMailPosterTxtContainer = commentsMailPosterTxt + "_container";
+    
     // Output classes
     var commentsCommentBtn = commentsClass + "_comment";
     var commentsPager = commentsClass + "_jqpager";
-
-    // Output names
-    var commentsCommentBtnNoDot = commentsName + "_comment";
-
+    
+    
     // Output templates
-    var commentsFillInCommentTemplate = commentsName + "_fillInCommentTemplate";
     var commentsShowCommentsTemplate = commentsName + "_showCommentsTemplate";
-
+    
     // Settings
     var commentsSettingsContainer = comments + "_settings";
-
+    
     // Settings checkboxes and radiobuttons
     var commentsEmailReqChk = comments + "_Emailrequired";
     var commentsNameReqChk = comments + "_Namerequired";
     var commentsSendMailChk = comments + "_SendMail";
     var commentsPageTxt = comments + "_txtPage";
-
+    
     // Settings buttons
     var commentsSubmit = comments + "_submit";
     var commentsCancel = comments + "_cancel";
-
+    
     // Settings names
     var commentsDisplayRbt = commentsName + "_ChooseDisplayComments";
     var commentsDirectionRbt = commentsName + "_ChooseDirectionComments";
     var commentsPermissionsRbt = commentsName + "_ChoosePermissionComments";
-
-
+    
+    
     ////////////////////////
     // Utility  functions //
     ////////////////////////
-	
+    
     /**
-	 * This function will clone any JSON-object
-	 * @param {Object} the cloned JSON-object
-	 */
-    var cloneObject = function(object) {
-        var clonedObject = {};
-        $.extend(true,clonedObject, object);
-        return clonedObject;
-    };
-
-    /**
-	 * Parse a json string to a valid date
-	 * @param {String} dateInput String of a date that needs to be parsed
-	 * @returns {Date}
-	 */
+     * Parse a json string to a valid date
+     * @param {String} dateInput String of a date that needs to be parsed
+     * @returns {Date}
+     */
     var parseDate = function(dateInput) {
         /** Get the date with the use of regular expressions */
         if (dateInput !== null) {
             /** Get the date with the use of regular expressions */
-			var match = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})T([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 03/03/2009T17:53:48Z 
-			var d = new Date();
-			d.setDate(match[1]);
-			d.setMonth(match[2]-1);
-			d.setYear(match[3]);
-			d.setHours(match[4]);
-			d.setMinutes(match[5]);
-			d.setSeconds(match[6]);
-			return d;
+            var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50 
+            var d = new Date();
+            d.setYear(match[1]);
+            d.setMonth(match[2] - 1);
+            d.setDate(match[3]);
+            d.setHours(match[4]);
+            d.setMinutes(match[5]);
+            d.setSeconds(match[6]);
+            return d;
         }
         return null;
-
+        
     };
-
+    
     /**
-	 * returns how many years, months, days or hours since the dateinput
-	 * @param {Date} date
-	 */
+     * returns how many years, months, days or hours since the dateinput
+     * @param {Date} date
+     */
     var getTimeAgo = function(date) {
         if (date !== null) {
             var currentDate = new Date();
@@ -168,406 +178,623 @@ sakai.comments = function(tuid, placement, showSettings) {
                 return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " years";
             }
         }
-
+        
         return null;
-
+        
     };
-
+    
     /**
-	 * Format an input date (used by TrimPath)
-	 * @param {Date} d Date that needs to be formatted
-	 * @return {String} returns the date in the followinig format
-	 */
+     * Format an input date (used by TrimPath)
+     * @param {Date} d Date that needs to be formatted
+     * @return {String} returns the date in the followinig format
+     */
     var formatDate = function(d) {
         if (d === null) {
             return null;
         }
-
+        
         var names_of_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var current_hour = d.getHours();
         var current_minutes = d.getMinutes() + "";
         if (current_minutes.length === 1) {
             current_minutes = "0" + current_minutes;
         }
-
+        
         return (names_of_months[d.getMonth()].substring(0, 3) + " " + d.getDate() + ", " + d.getFullYear() + " - " + current_hour + ":" + current_minutes);
     };
-	
-	/**
-	 * Can be used to sort an array of comments-JSON-objects on date (sorts from newest to oldest)
-	 * @param {Object} a
-	 * @param {Object} b
-	 */
-    var sortByDatefunction = function(a, b) {
-        if (a.date < b.date) {
-            return 1;
-        }
-        else if (b.date < a.date) {
-            return - 1;
-        }
-        return 0;
-    };
-
-
-    ////////////////////
-    // Main functions //
-    ////////////////////
-	
+    
     /**
-	 * Pager click handler
-	 * @param {Number} pageclickednumber
-	 */
-    var pagerClickHandler = function(pageclickednumber) {
+     * Converts all HTML to flat text and converts \n to <br />
+     * @param {String} str
+     */
+    var tidyInput = function(str) {
+        str = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        str = str.replace(/\n/g, '<br />');
+        return str;
+    };
+    
+    ///////////////////
+    // show comments //
+    ///////////////////
+    
+    /**
+     * Show the comments in a paged state or not
+     */
+    var displayCommentsPagedOrNot = function() {
+        jsonDisplay = {
+            "comments": [],
+            "settings": widgetSettings
+        };
+        // Loops through all the comments and does the necessary changes to render the JSON-object
+        for (var i = 0; i < json.results.length; i++) {
+            jsonDisplay.comments[i] = {};
+            var comment = json.results[i].post;
+            // Checks if the date is already parsed to a date object
+			// TODO: Get jcr:created
+            var tempDate = comment["sakai:created"];
+            try {
+                // if the date is not a string this should generate en exception
+                comment.date = parseDate(tempDate);
+            } 
+            catch (ex) {
+                comment.date = tempDate;
+            }
+            comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
+            comment.formatDate = formatDate(comment.date);
+            comment.messageTxt = comment["sakai:body"];
+            comment.message = tidyInput(comment["sakai:body"]);
+            // weird json bug.
+            comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
+            
+            
+            var user = {};
+            // User
+            // Puts the userinformation in a better structure for trimpath
+            if (comment.profile["sling:resourceType"] === "sakai/user-profile") {
+                var profile = comment.profile;
+                var fullName = "";
+                if (profile.firstName) {
+                    fullName = profile.firstName;
+                }
+                if (profile.lastName) {
+                    fullName += " " + profile.lastName;
+                }
+                user.fullName = fullName;
+                user.picture = Config.URL.PERSON_ICON_URL;
+                // Check if the user has a picture
+                if (profile.picture && $.evalJSON(profile.picture).name) {
+                    user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;
+                }
+                user.uid = profile["rep:userId"][0];
+                user.profile = Config.URL.PROFILE_URL + "?user=" + user.uid;
+            }
+            else {
+                // This is an anonymous user.
+                comment.profile = {};
+                comment.profile.fullName = "Anonymous";
+                comment.profile.email = "noreply@sakaiproject.org";
+                if (widgetSettings["sakai:forcename"] === true) {
+                    comment.profile.fullName = comment['sakai:name'];
+                }
+                if (widgetSettings["sakai:forcemail"] === true) {
+                    comment.profile.email = comment['sakai:email'];
+                }
+            }
+            
+            comment.user = user;
+            
+            jsonDisplay.comments[i] = comment;
+        }
+        $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonDisplay));
+    };
+    
+    /**
+     * Show all the posted comments
+     * This function first retrieves all the users who have posted in this widget and then call the displayCommentsPagedOrNot function
+     */
+    var showComments = function() {
+        // Show the nr of comments we are showing.
+        var showingComments = json.total;
+        if (widgetSettings.perPage < json.total) {
+            showingComments = widgetSettings.perPage;
+        }
+        $(commentsNumCommentsDisplayed, rootel).html(showingComments);
+        // Puts the number of comments on the page
+        $(commentsNumComments, rootel).html(json.total);
+        // Change to "comment" or "comments"
+        if (json.total === 1) {
+            $(commentsCommentComments, rootel).text("comment");
+        }
+        
+        
         // Change the page-number on the display
-		$(commentsPager, rootel).pager({
-            pagenumber: pageclickednumber,
-            pagecount: Math.ceil(json.comments.length / json.perPage),
+        $(commentsPager, rootel).pager({
+            pagenumber: clickedPage,
+            pagecount: Math.ceil(json.total / widgetSettings.perPage),
             buttonClickCallback: pagerClickHandler
         });
-		// Clones the JSON-object so there's no changes to the original object
-        var jsonTemp = cloneObject(jsonDisplay);
-		// Splices the temporary comments-array (starting from the start of the page to the end)
-        jsonTemp.comments = jsonTemp.comments.splice((pageclickednumber - 1) * json.perPage, json.perPage);
-		// Let's the JSON-object render
-        $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonTemp));
+        
+        if (json.total > widgetSettings.perPage) {
+            $(commentsPager, rootel).show();
+        }
+        // Checks if the comments undefined or if it's length is 0
+        displayCommentsPagedOrNot();
     };
-	/**
-	 * Show the comments in a paged state or not
-	 * @param {Object} users
-	 */
-    var displayCommentsPagedOrNot = function(users) {
-        jsonDisplay = {
-            "comments": []
-        };
-		// Loops through all the comments and does the necessary changes to render the JSON-object
-        for (var i = 0; i < json.comments.length; i++) {
-            jsonDisplay.comments[i] = {};
-			// Checks if the date is already parsed to a date object
-			var tempDate = json.comments[i].date;
-			try{
-				// if the date is not a string this should generate en exception
-				json.comments[i].date = parseDate(json.comments[i].date);
-			}
-			catch(ex){
-				json.comments[i].date= tempDate;
-			}
-            jsonDisplay.comments[i].timeAgo = "about " + getTimeAgo(json.comments[i].date) + " ago";
-            jsonDisplay.comments[i].formatDate = formatDate(json.comments[i].date);
-			jsonDisplay.comments[i].date = json.comments[i].date;
-            jsonDisplay.comments[i].user = users[json.comments[i].uid];
-            jsonDisplay.comments[i].message = json.comments[i].message;
-            // The original index is needed to know on which comment an event was called
-			jsonDisplay.comments[i].originalIndex = i;
-
+    
+    /**
+     * Gets the comments from the service.
+     */
+    var getComments = function() {
+        var sortOn = "sakai:created";
+		var sortOrder = "descending";
+        var items = 10;
+        if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
+            sortOrder = "ascending";
         }
-		// If the First comment should be on top of the page the order needs to be changed
-        if (json.direction === "comments_FirstUp") {
-            jsonDisplay.comments = jsonDisplay.comments.sort(sortByDatefunction);
+        if (widgetSettings.perPage) {
+            items = widgetSettings.perPage;
         }
-		// Checks if paging was requested and sets to page 1 default
-        if (json.display === "comments_PerPage") {
-            $(commentsPager, rootel).pager({
-                pagenumber: 1,
-                pagecount: Math.ceil(json.comments.length / json.perPage),
-                buttonClickCallback: pagerClickHandler
-            });
-            pagerClickHandler(1);
-        }
-		// Show all the comments on 1 page
-        else {
-            $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonDisplay));
-        }
-    };
-	
-	/**
-	 * Show all the posted comments
-	 * This function first retrieves all the users who have posted in this widget and then call the displayCommentsPagedOrNot function
-	 */
-	var showComments = function() {
-		// Puts the number of comments on the page
-        $(commentsNumComments, rootel).html(json.comments.length);
-		// Change to "comment" or "comments"
-        if (json.comments.length === 1) {
-            $(commentsCommentComments, rootel).html = "comment";
-        }
-		// Checks if the comments undefined or if it's length is 0
-        if (json.comments && json.comments.length !== 0) {
-				var users = [];
-				
-				// puts all the userids who added comments to this widget in an array
-	            for (var i = 0; i < json.comments.length; i++) {
-	                if (!$.inArray(users,json.comments[i].uid) > -1) {
-	                    users.push(json.comments[i].uid);
-	                }
-	            }
-	
-				// retrieves al the users profile information
-	            var requeststring = "?";
-				var n_uids = [];
-				for (var u = 0; u < users.length; u++){
-					n_uids[u] = "resources=/_user/public/" + users[u] + "/authprofile.json";
-				}				
-				requeststring += n_uids.join("&");
-				$.ajax({
-					url: "/system/batch" + requeststring,
-	                success: function(data) {
-	                    var jsonUsers = $.evalJSON(data);
-	                    users = [];
-	                    for (i = 0; i < jsonUsers.length; i++) {
-							// Puts the userinformation in a better structure for trimpath
-	                        var user = {};
-							var profile = $.evalJSON(jsonUsers[i].data);
-	                        user.fullName = profile.firstName + " " + profile.lastName;
-	                        user.picture = Config.URL.PERSON_ICON_URL;
-	                        // Check if the user has a picture
-							if (profile.picture && $.evalJSON(profile.picture).name) {
-	                            user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;
-	                        }
-	                        user.uid = profile["rep:userId"];
-	                        user.profile = Config.URL.PROFILE_URL + "?user=" + user.uid;
-	                        users[user.uid] = user;
-	
-	                    }
-	                    displayCommentsPagedOrNot(users);
-	                },
-	                error: function(status) {
-	                    alert("comments-widget: Problem while connecting to the service. (" + status + ")");
-	                }
-	            });	
-        }
-    };
-	
-	    /**
-	 * Post a new comment
-	 * @param {string} top or bottom container
-	 */
-    var postComment = function(container) {
-        // Before you post the current posts should be retrieved, in this way no posts get overwritten
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "comments");
+        
+		var url = "/var/search/comments/flat.json?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items +"&marker=" + tuid + "&path=" + store.substring(0, store.length - 1);
         $.ajax({
             url: url,
             cache: false,
             success: function(data) {
                 json = $.evalJSON(data);
-                $(container, rootel).toggle();
-                var comment = {
-                    // Replaces the \n (enters) with <br />
-                    // I'm using $(rootel.selector + " " + container) instead of rootel because there are 2 commentsInput container
-                    "message": $(commentsMessageTxt, $(rootel.selector + " " + container)).val().replace(/\n/g, "<br />"),
-                    "mail": false,
-                    "name": false,
-                    "uid": me.user.userid
-                };
-                if (json.permissions.nameRequired) {
-                    comment.name = $(commentsNamePosterTxt, $(rootel.selector + " " + container)).val();
-                }
-                if (json.permissions.mailRequired) {
-                    comment.mail = $(commentsMailPosterTxt, $(rootel.selector + " " + container)).val();
-                }
-                comment.date = $.L10N.transformDate(new Date()) + "T" + $.L10N.transformTime(new Date()) + "Z";
-                json.comments.push(comment);
-                // Converting JSON-object to a string
-                var tostring = $.toJSON(json);
-                var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-                // Sending Stringified JSON-object to JCR
-                sdata.widgets.WidgetPreference.save(saveUrl,"comments", tostring, showComments());
+                showComments();
             },
             error: function(status) {
-                alert("comments widget: An error occured while adding the comment (" + status + ")");
+                alert("comments: An error occured while receiving the comments (" + status + ")");
             }
         });
-
     };
-
-
+    
+    /**
+     * Pager click handler
+     * @param {Number} pageclickednumber
+     */
+    var pagerClickHandler = function(pageclickednumber) {
+        clickedPage = pageclickednumber;
+        
+        // Change the page-number on the display
+        $(commentsPager, rootel).pager({
+            pagenumber: pageclickednumber,
+            pagecount: Math.ceil(json.total / widgetSettings.perPage),
+            buttonClickCallback: pagerClickHandler
+        });
+        getComments();
+    };
+    
+    /**
+     * Returns a unique reference to this comment placement.
+     * For now this is just placement + "#" +  tuid
+     */
+    var getReferenceID = function() {
+        return placement + "/" + tuid;
+    };
+    
+    
+    /**
+     * Post a new comment
+     */
+    var postComment = function() {
+        var comment = {
+            // Replaces the \n (enters) with <br />
+            "message": $(commentsMessageTxt, rootel).val()
+        };
+        comment["sakai:type"] = "comment";
+        
+        var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
+        var allowPost = true;
+        // If the user is not loggedin but we allow anon comments, we check some extra fields.
+        if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === true) {
+            if (!isLoggedIn && widgetSettings['sakai:forcename']) {
+                comment["sakai:name"] = $(commentsNamePosterTxt, rootel).val();
+                if (comment["sakai:name"].replace(/\s/g, "") === "") {
+                    allowPost = false;
+                }
+            }
+            if (!isLoggedIn && widgetSettings['sakai:forcemail']) {
+                comment["sakai:email"] = $(commentsMailPosterTxt, rootel).val();
+                if (comment["sakai:email"].replace(/\s/g, "") === "") {
+                    allowPost = false;
+                }
+            }
+        }
+        if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
+            // This should not even happen.. Somebody is tinkering with the HTML.
+            allowPost = false;
+            alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
+        }
+		
+		var subject = 'Comment on sites/' + placement;
+		var to = "internal:s-" + currentSite;
+		
+        if (allowPost) {
+            var body = $(commentsMessageTxt, rootel).val();
+            var message = {
+                'sakai:type': 'comment',
+                'sakai:to': to,
+				'sakai:marker': tuid,
+				'sakai:subject': subject,
+                'sakai:body': body,
+                'sakai:messagebox': 'outbox',
+				'sakai:sendstate' : 'pending'
+            };
+            
+            
+            var url = "/_user/message.create.html";
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                success: function(data) {
+                    // Hide the form.
+                    $(commentsFillInComment, rootel).hide();
+                    // Clear the textboxes.
+                    $(commentsMessageTxt, rootel).val("");
+                    $(commentsNamePosterTxt, rootel).val("");
+                    $(commentsMailPosterTxt, rootel).val("");
+                    // Get the comments.
+                    getComments();
+                },
+                error: function(status) {
+                    if (status === 401) {
+                        alert("You are not allowed to add comments.");
+                    }
+                    else {
+                        alert("Failed to save.");
+                    }
+                },
+                data: message
+            });
+        }
+        else {
+            alert("Please fill in all the fields.");
+        }
+    };
+    
     ////////////////////////
     // Settings functions //
     ////////////////////////
-	
+        
     /**
-	 * show the settingsscreen
-	 * @param {Boolean} exists
-	 * @param {Object} response
-	 */
-    var ShowSettingScreen = function(exists, response) {
+     * show the settingsscreen
+     * @param {Boolean} exists
+     * @param {Object} response
+     */
+    var showSettingScreen = function(exists, response) {
         $(commentsOutputContainer, rootel).hide();
         $(commentsSettingsContainer, rootel).show();
-
-		// If you're changing an comment-widget, then the saved values need to be filled in
+        
+        // If you're changing an comment-widget, then the saved values need to be filled in
         if (exists) {
-            var comments = $.evalJSON(response);
-            $("input[name=" + commentsDisplayRbt + "][value=" + comments.display + "]", rootel).attr("checked", true);
-            $("input[name=" + commentsDirectionRbt + "][value=" + comments.direction + "]", rootel).attr("checked", true);
-            $("input[name=" + commentsPermissionsRbt + "][value=" + comments.permissions.postWhenLoggedOut + "]", rootel).attr("checked", true);
-            $(commentsEmailReqChk, rootel).attr("checked", comments.permissions.mailRequired);
-            $(commentsNameReqChk, rootel).attr("checked", comments.permissions.nameRequired);
-            $(commentsSendMailChk, rootel).attr("checked", comments.sendMailWhenComment);
-            $(commentsPageTxt, rootel).val(comments.perPage);
+            $("input[name=" + commentsDirectionRbt + "][value=" + widgetSettings.direction + "]", rootel).attr("checked", true);
+            if (widgetSettings['sakai:allowanonymous'] && widgetSettings['sakai:allowanonymous'] === true) {
+                $("#comments_DontRequireLogInID", rootel).attr("checked", true);
+                $(commentsNameReqChk, rootel).attr("disabled", false);
+                $(commentsEmailReqChk, rootel).attr("disabled", false);
+            }
+            else {
+                $("#comments_RequireLogInID", rootel).attr("checked", true);
+                $(commentsNameReqChk, rootel).attr("disabled", true);
+                $(commentsEmailReqChk, rootel).attr("disabled", true);
+            }
+            $(commentsEmailReqChk, rootel).attr("checked", widgetSettings['sakai:forcemail']);
+            $(commentsNameReqChk, rootel).attr("checked", widgetSettings['sakai:forcename']);
+            
+            
+            $(commentsSendMailChk, rootel).attr("checked", widgetSettings['sakai:notification']);
+            $(commentsPageTxt, rootel).val(widgetSettings.perPage);
         }
-
     };
-
+    
     /**
-	 * When the settings are saved to JCR, this function will be called.
-	 * It will notify the container that it can be closed.
-	 */
+     * When the settings are saved to JCR, this function will be called.
+     * It will notify the container that it can be closed.
+     */
     var finishNewSettings = function() {
         sdata.container.informFinish(tuid);
     };
-
+    
     /**
-	 * fills up the settings JSON-object
-	 * @return {Object} the settings JSON-object, returns {Boolean} false if input is invalid
-	 */
+     * fills up the settings JSON-object
+     * @return {Object} the settings JSON-object, returns {Boolean} false if input is invalid
+     */
     var getCommentsSettings = function() {
         var comments = {};
         comments.comments = [];
-
+        
         // Checks if there's already some comments placed on the widget
-		comments.comments = json.comments || [];
-
-        comments.display = $("input[name=" + commentsDisplayRbt + "]:checked", rootel).val();
+        comments.comments = json.comments || [];
+        
         comments.perPage = parseInt($(commentsPageTxt, rootel).val(), 10);
-
-		if(comments.display === "comments_PerPage"){
-			 // There shouldn't be pages with 0 items on
-	        if (comments.perPage < 1) {
-	            alert("Please fill in a number bigger then 0.");
-	            return false;
-	        }
-	        // Check if a valid number is inserted
-	        else if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
-	            alert("Please fill in a valid number.");
-	            return false;
-	        }
-		}
-       
+        if (isNaN(comments.perPage)) {
+            comments.perPage = defaultPostsPerPage;
+        }
+        
+        if (comments.perPage < 1) {
+            alert("Please fill in a number bigger then 0.");
+            return false;
+        }
+        // Check if a valid number is inserted
+        else if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
+            alert("Please fill in a valid number.");
+            return false;
+        }
+        
+        
         comments.direction = $("input[name=" + commentsDirectionRbt + " ]:checked", rootel).val();
-
+        
         // These properties are noy yet used in the comments-widget, but are saved in JCR
-        comments.permissions = {
-            'postWhenLoggedOut': $("input[name=" + commentsPermissionsRbt + "]:checked", rootel).val(),
-            'nameRequired': $(commentsNameReqChk, rootel).attr("checked"),
-            'mailRequired': $(commentsEmailReqChk, rootel).attr("checked")
-        };
-        comments.sendMailWhenComment = $(commentsSendMailChk, rootel).attr("checked");
-
+        comments['sakai:allowanonymous'] = true;
+        if ($("#comments_RequireLogInID", rootel).is(":checked")) {
+            comments['sakai:allowanonymous'] = false;
+        }
+        comments['sakai:forcename'] = $(commentsNameReqChk, rootel).attr("checked");
+        comments['sakai:forcemail'] = $(commentsEmailReqChk, rootel).attr("checked");
+        comments['sakai:notification'] = $(commentsSendMailChk, rootel).attr("checked");
+        comments['sakai:notificationaddress'] = me.user.userid;
+		comments['sling:resourceType'] = 'sakai/settings';
+		comments['sakai:marker'] = tuid;
+		comments['sakai:type'] = "comment";
+        
         return comments;
     };
-
-
-
-
+    
+    /**
+     * Makes sure that values that are supposed to be booleans, really are booleans.
+     * @param {String[]} arr Array of strings which holds keys for the widgetSettings variable that needs to be checked.
+     */
+    var cleanBooleanSettings = function(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var name = arr[i];
+            widgetSettings[name] = (widgetSettings[name] && (widgetSettings[name] === true || widgetSettings[name] === "true" || widgetSettings[name] === 1)) ? true : false;
+        }
+    };
+    
+    /**
+     * Gets the widget settings and shows the appropriate view.
+     */
+    var getWidgetSettings = function() {
+        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function(data) {
+                widgetSettings = $.evalJSON(data);
+                // Clean up some values so that true is really true and not "true" or 1 ...
+                var keysToClean = ['sakai:forcename', 'sakai:forcemail', 'notification', 'sakai:allowanonymous'];
+                cleanBooleanSettings(keysToClean);
+                
+                var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
+                if (widgetSettings["sakai:allowanonymous"] === false && !isLoggedIn) {
+                    $(commentsCommentBtn, rootel).hide();
+                }
+                
+                if (showSettings) {
+                    showSettingScreen(true, data);
+                }
+                else {
+                    pagerClickHandler(1);
+                }
+            },
+            error: function(status) {
+                if (showSettings) {
+                    showSettingScreen(false, status);
+                }
+                else {
+                    pagerClickHandler(1);
+                }
+            }
+        });
+    };
+    
     ////////////////////
     // Event Handlers //
     ////////////////////
-	
+    
     /** Bind the choose display radiobuttons button */
-    $("input[name=" + commentsDisplayRbt + "]", rootel).bind("click",
-    function(e, ui) {
+    $("input[name=" + commentsDisplayRbt + "]", rootel).bind("click", function(e, ui) {
         var selectedValue = $("input[name=" + commentsDisplayRbt + "]:checked", rootel).val();
         // When the perPage-rbt is selected the focus should be set to the Page-textbox
         if (selectedValue === "comments_PerPage") {
             $(commentsPageTxt, rootel).focus();
         }
     });
-
+    
     /** Bind the choose permissions radiobuttons button */
-    $("input[name=" + commentsPermissionsRbt + "]", rootel).bind("change",
-    function(e, ui) {
+    $("input[name=" + commentsPermissionsRbt + "]", rootel).bind("change", function(e, ui) {
         var selectedValue = $("input[name=" + commentsPermissionsRbt + "]:checked", rootel).val();
         // If a login is required the user shouldn't have the posibility to check Name-required or Email-required
         $(commentsNameReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
         $(commentsEmailReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
-
+        
     });
-
+    
     /** Bind the settings submit button*/
-    $(commentsSubmit, rootel).bind("click",
-    function(e, ui) {
+    $(commentsSubmit, rootel).bind("click", function(e, ui) {
         // If the settings-input is valid an object will be returned else false will be returned
-        if (getCommentsSettings()) {
-            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
+        var settings = getCommentsSettings();
+        if (settings) {
+            var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
             // gets the JSON-settings-object and converts it to a string
-            var tostring = $.toJSON(getCommentsSettings());
-            sdata.widgets.WidgetPreference.save(saveUrl, "comments", tostring, finishNewSettings);
+            
+            $.ajax({
+                url: saveUrl,
+                type: "POST",
+                cache: false,
+                success: function(data) {
+                    finishNewSettings();
+                },
+                error: function(status) {
+                    alert("Failed to save.");
+                },
+                data: settings
+            });
+            
         }
-
+        
     });
-
-    /** Bind the top/bottom insert comment button*/
-    $(commentsCommentBtn, rootel).bind("click",
-    function(e, ui) {
-		var jsonTemp = cloneObject(json);
-		// checks if the user is loggedIn
-		if( me.user.userid){
-			jsonTemp.loggedIn = true;
-		}
-		else{
-			jsonTemp.loggedIn = false;
-		}
-		// gets the place where the add comments buttons is clicked (Top or Bottom) 
-        jsonTemp.place = e.target.id.replace(commentsCommentBtnNoDot + "_", "");
-		// Renders the put commentTextbox, can be dynamic because of the require-login, require-name and require-mail properties
-        $(commentsFillInComment + jsonTemp.place, rootel).html($.Template.render(commentsFillInCommentTemplate, jsonTemp));
-        $(commentsFillInComment + jsonTemp.place, rootel).toggle();
-        $(commentsMessageTxt, $(rootel.selector + " " + commentsFillInComment + jsonTemp.place)).focus();
-        /** Bind submit comment button */
-        $(commentsPostCommentStart + jsonTemp.place, rootel).bind("click",
-        function(e, ui) {
-            postComment(commentsFillInComment + jsonTemp.place);
-        });
-
+    
+    /** Bind the insert comment button*/
+    $(commentsCommentBtn, rootel).bind("click", function(e, ui) {
+        // checks if the user is loggedIn
+        var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
+        var txtToFocus = commentsMessageTxt;
+        // If the user is not loggedin but we allow anon comments, we show some extra fields.
+        if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === true) {
+            if (widgetSettings['sakai:forcename'] !== false) {
+                txtToFocus = commentsNamePosterTxt;
+                $(commentsNamePosterTxtContainer, rootel).show();
+            }
+            if (widgetSettings['sakai:forcemail'] !== false) {
+                // If name is not nescecary we focus the email address.
+                if (txtToFocus === commentsMessageTxt) {
+                    txtToFocus = commentsMailPosterTxt;
+                }
+                $(commentsMailPosterTxtContainer, rootel).show();
+            }
+        }
+        if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
+            // This should not even happen.. Somebody is tinkering with the HTML.
+            alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
+        }
+        // Show the form.
+        $(commentsFillInComment, rootel).show();
+        $(txtToFocus, rootel).focus();
     });
-
+    
+    /**
+     * Hide the form, but keep the input.
+     */
+    $(commentsCancelComment, rootel).bind('click', function() {
+        $(commentsFillInComment, rootel).hide();
+    });
+    
+    /** Bind submit comment button */
+    $(commentsPostCommentStart, rootel).bind("click", function(e, ui) {
+        postComment();
+    });
+    
     /** Bind the settings cancel button */
-    $(commentsCancel, rootel).bind("click",
-    function(e, ui) {
+    $(commentsCancel, rootel).bind("click", function(e, ui) {
         sdata.container.informCancel(tuid);
     });
-
-
+    
+    
+    /////////////////
+    // DELETE LINK //
+    /////////////////
+    /**
+     * Deletes or undeleted a post with a certain id.
+     * @param {String} id The id of the post.
+     * @param {Boolean} deleteValue true = delete it, false = undelete it.
+     */
+    var doDelete = function(id, deleteValue) {
+        var url = store + id;
+        var data = {
+            "sakai:deleted": deleteValue
+        };
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function() {
+                getComments();
+            },
+            error: function() {
+                alert("Failed to (un)delete the post.");
+            },
+            data: data
+        });
+    };
+    
+    $(commentsDelete, rootel).live("click", function(e, ui) {
+        var id = e.target.id.replace(commentsDelete.replace(/\./g, ""), "");
+        doDelete(id, true);
+    });
+    
+    $(commentsUnDelete, rootel).live("click", function(e, ui) {
+        var id = e.target.id.replace(commentsUnDelete.replace(/\./g, ""), "");
+        doDelete(id, false);
+    });
+    
+    
+    ////////////////
+    // EDIT PARTS //
+    ////////////////
+    
+    /**
+     * Edit link
+     */
+    $(commentsEdit, rootel).live('click', function(e, ui) {
+        var id = e.target.id.replace("comments_edit_", "");
+        // Show the textarea
+        $(commentsMessage + id, rootel).hide();
+        $(commentsMessageEditContainer + id, rootel).show();
+    });
+    
+    /**
+     * Save the edited comment.
+     */
+    $(commentsEditSave, rootel).live('click', function(e, ui) {
+        var id = e.target.id.replace(commentsEditSave.replace(/\./g, ""), "");
+        var message = $(commentsEditText + id, rootel).val();
+        if (message !== "") {
+            var data = {
+                "sakai:body": message,
+				"sakai:editedby" : me.user.userid + "|" + new Date().toUTCString()
+            };
+            // Do a post to the comment to edit the message.
+            var commentUrl = store + id;
+            $.ajax({
+                url: commentUrl,
+                cache: false,
+                type: 'POST',
+                success: function(data) {
+                    // Set the new message
+                    $(commentsMessage + id, rootel).html(tidyInput(message));
+                    // Hide the form
+                    $(commentsMessageEditContainer + id, rootel).hide();
+                    $(commentsMessage + id, rootel).show();
+                },
+                error: function(status) {
+                    alert("Failed to edit comment.");
+                },
+                data: data
+            });
+        }
+        else {
+            alert("Please enter a message.");
+        }
+    });
+    
+    /**
+     * Cancel the edit comment.
+     */
+    $(commentsEditCancel, rootel).live('click', function(e, ui) {
+        var id = e.target.id.replace(commentsEditCancel.replace(".", ""), "");
+        // Show the textarea
+        $(commentsMessageEditContainer + id, rootel).hide();
+        $(commentsMessage + id, rootel).show();
+    });
+    
     /////////////////////////////
     // Initialisation function //
     /////////////////////////////
     /**
-	 * Switch between main and settings page
-	 * @param {Boolean} showSettings Show the settings of the widget or not
-	 */
+     * Switch between main and settings page
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
     var doInit = function() {
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "comments");
-        if (showSettings) {
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    json = $.evalJSON(data);
-                    ShowSettingScreen(true, data);
-                },
-                error: function(status) {
-                    ShowSettingScreen(false, status);
-                }
-            });
-
-        } else {
+        if (!showSettings) {
+            // Show the main view.
             $(commentsSettingsContainer, rootel).hide();
             $(commentsOutputContainer, rootel).show();
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    json = $.evalJSON(data);
-                    showComments();
-                },
-                error: function(status) {
-                    alert("comments: An error occured while receiving the comments (" + status + ")");
-                }
-            });
         }
+        getWidgetSettings();
     };
-
     doInit();
-
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("comments");
