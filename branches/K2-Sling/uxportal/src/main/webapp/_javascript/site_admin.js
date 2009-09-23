@@ -290,6 +290,9 @@ sakai.site.site_admin = function(){
 		var pagetitle = "";
 		sakai.site.inEditView = true;
 		
+		// Edit page title
+		document.title = document.title.replace("Site View", "Page Edit");
+		
 		// UI init
 		$more_menu.hide();
 		$("#" + escapedPageID).html("");
@@ -306,8 +309,6 @@ sakai.site.site_admin = function(){
 		
 		// Refresh site_info object
 		sakai.site.refreshSiteInfo();
-		
-		console.log("edit selectedpage: "+sakai.site.selectedpage);
 		
 		// Get title
 		pagetitle = sakai.site.site_info._pages[sakai.site.selectedpage].title;
@@ -378,6 +379,9 @@ sakai.site.site_admin = function(){
 		$context_menu.hide();
 		sakai.site.showingInsertMore = false;	
 		sakai.site.inEditView = false;
+		
+		// Edit page title
+		document.title = document.title.replace("Page Edit", "Site View");
 		
 		// Remove autosvae file
 		removeAutoSaveFile();
@@ -466,6 +470,9 @@ sakai.site.site_admin = function(){
 		
 		// Remove autosave
 		removeAutoSaveFile();
+		
+		// Edit page title
+		document.title = document.title.replace("Page Edit", "Site View");
 		
 		$insert_more_menu.hide();
 		sakai.site.showingInsertMore = false;	
@@ -1821,9 +1828,7 @@ sakai.site.site_admin = function(){
 		// Store page selected and old IDs
 		sakai.site.oldSelectedPage = sakai.site.selectedpage;
 		sakai.site.selectedpage = newid;
-		
-		console.log("create selectedpage: "+sakai.site.selectedpage);
-		
+				
 		// Init tinyMCE if needed
 		if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
 			init_tinyMCE();

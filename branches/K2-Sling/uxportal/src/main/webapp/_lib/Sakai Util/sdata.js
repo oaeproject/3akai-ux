@@ -965,3 +965,25 @@ jQuery.fn.stripTags = function() {
 $(".back-top").live("click", function(ev){
 	window.scrollTo(0,0);
 });
+
+
+//////////////////////////////
+// DEBUG stuff - TEMP       //
+//////////////////////////////
+
+/*
+ * This will display a debug info in the page title for easier QA
+ */
+
+sakai.getDocName = function() {
+  var url = document.URL;
+  var slash = "/";
+  if (url.match(/\\/)) {
+    slash = "\\";
+  }
+  return url.substring(url.lastIndexOf(slash) + 1);
+}
+
+document.title = document.title + " | DEBUG INFO: UX SVN revision: 66743, file last mod date: " + document.lastModified + ", file/site: " + sakai.getDocName();
+
+
