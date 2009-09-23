@@ -36,6 +36,8 @@ sakai.inbox = function() {
     var sortBy = "date";
     var currentPage = 0;
     var messagesForTypeCat; //		The number of messages for this type/cat.
+    var box = "";
+	var cats = "";
     
     
     //////////////////////////////
@@ -478,6 +480,8 @@ sakai.inbox = function() {
 			message.category = "Announcement";
 		} else if (message["sakai:category"] === "invitation"){
 			message.category = "Invitation";
+		} else if (message["sakai:category"] === "chat" || message["sakai:category"] === undefined){
+			message.category = "Chat";
 		}
         
         if (message["sakai:previous"]) {
@@ -489,7 +493,12 @@ sakai.inbox = function() {
 		 	for (var i = 0; i < message["sakai:previous"].length; i++) {
                 message["sakai:previous"][i] = formatMessage(message["sakai:previous"][i]);
             }
-        }        
+        }
+		
+		// A chat message doesn't really have subject, only a body.
+		if(message["sakai:type"] === "chat"){
+			message.subject = "Chat message";
+		}      
         
         return message;
     };
@@ -499,14 +508,20 @@ sakai.inbox = function() {
      * @param {Object} The JSON response from the server. Make sure it has a .message array in it.
      */
     var renderMessages = function(response) {
-         for (var i = 0; i < response.results.length; i++) {
-            //	temporary internal id.
+		for (var i = 0; i < response.results.length; i++) {
+			if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
+				response.results.splice(i, 1);
+			}
+		}
+		
+        for (var i = 0; i < response.results.length; i++) {
+			//	temporary internal id.
             //	Use the name for the id.
             response.results[i].nr = i;
-            response.results[i] = formatMessage(response.results[i]);
 			response.results[i].subject = response.results[i]["sakai:subject"];
 			response.results[i].body = response.results[i]["sakai:body"];
 			response.results[i].messagebox = response.results[i]["sakai:messagebox"];
+            response.results[i] = formatMessage(response.results[i]);
         }
                         
         allMessages = response.results;
@@ -569,7 +584,7 @@ sakai.inbox = function() {
      */
     getAllMessages = function(callback) {
     
-		var box = "inbox";
+		box = "inbox";
 		if (selectedType === "sent"){
 			box = "outbox";
 		} else if (selectedType === "trash"){
@@ -586,7 +601,7 @@ sakai.inbox = function() {
             types = "&types=" + selectedType.join(",");
         }
         
-		var cats = selectedCategory;
+		cats = selectedCategory;
 		if (selectedCategory){
 			if (selectedCategory === "Message"){
 				cats = "message";
@@ -594,8 +609,10 @@ sakai.inbox = function() {
 				cats = "announcement";
 			} else if (selectedCategory === "Invitation"){
 				cats = "invitation";
+			} else if (selectedCategory === "Chat"){
+				cats = "chat";
 			}
-			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=5&page=" + currentPage
+			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=5&page=" + currentPage;
 		}
 		
         $.ajax({
@@ -643,7 +660,7 @@ sakai.inbox = function() {
 					} else if (json.count[i].group === "chat"){
 						$(inboxFilterChats).append(tpl.replace(/__NR__/gi, json.count[i].count));
 					}
-					totalcount += json.count[i].count
+					totalcount += json.count[i].count;
 				}
 				
 				updateUnreadNumbers();
@@ -713,6 +730,8 @@ sakai.inbox = function() {
 				cats = "announcement";
 			} else if (selectedCategory === "Invitation"){
 				cats = "invitation";
+			} else if (selectedCategory === "Chat"){
+				cats = "chat";
 			}
 			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=10&page=" + currentPage;
 		}
