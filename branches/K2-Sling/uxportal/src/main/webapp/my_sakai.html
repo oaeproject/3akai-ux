@@ -170,6 +170,7 @@
 
 		<!-- CONTENT -->
 		<div id="widgetscontainer_template"><!--
+			<div class="fl-col-flex${size}">
 			{var index = 0}
 			<div class="content">
 			{for c in columns}
@@ -196,12 +197,13 @@
 			</div>
 			{/for}
 			</div>
+			</div>
 		--></div>
 		
 
 		<div class="fl-container-flex widget-content">
-			<div class="fl-fix fl-centered fixed-container">
-				<div class="fl-col-flex2" id="widgetscontainer"></div>			
+			<div class="fl-fix fl-centered fixed-container" id="widgetscontainer">
+							
 			</div>
 
 		</div>

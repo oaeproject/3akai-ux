@@ -98,12 +98,13 @@ Layout Helpers
 /* Flex width columns (containers with margins and padding) */
 .fl-col-justified {float:left; display:inline; overflow:auto; text-align:justify;} /* redundant: text alignment now in fluid.text.css */
 
-.fl-col-flex2, .fl-col-flex3, .fl-col-flex4, .fl-col-flex5 {overflow:auto; zoom:1;}
+.fl-col-flex1, .fl-col-flex2, .fl-col-flex3, .fl-col-flex4, .fl-col-flex5 {overflow:auto; zoom:1;}
 .fl-col {float:left; display:inline;}
 .fl-col-flex5 .fl-col {width:18.95%; margin-left:0.25%;margin-right:0.25%; padding-left:0.25%; padding-right:0.25%}
 .fl-col-flex4 .fl-col {width:24%; margin-left:0.25%;margin-right:0.25%; padding-left:0.25%; padding-right:0.25%}
 .fl-col-flex3 .fl-col {width:32.33%; margin-left:0.25%;margin-right:0.25%; padding-left:0.25%; padding-right:0.25%}
 .fl-col-flex2 .fl-col {width:48.85%; margin-left:0.25%;margin-right:0.25%; padding-left:0.25%; padding-right:0.25%}
+.fl-col-flex1 .fl-col {width:99%; margin-left:0.25%;margin-right:0.25%; padding-left:0.25%; padding-right:0.25%}
 
 /* CHANGE TO LAYOUT not COL since this will become a layout helper */
 .fl-col-mixed,
