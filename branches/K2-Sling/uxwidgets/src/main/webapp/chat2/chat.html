@@ -23,8 +23,8 @@
 		<ul class="explore fl-force-left">
 			<li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
 			<li id="nav_profile_link"><a href="/dev/profile.html">Profile</a></li>
-			<li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
-			<li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images2/white_subnav_arrow.png"/></li>
+			<li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
+			<li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
 			<li id="nav_search_link"><a href="/dev/search_b.html">Search</a></li>
 		</ul>
 	  <div class="personal-container fl-force-right">
@@ -33,9 +33,9 @@
 			<!-- CHAT STATUS DROPDOWN -->
 			
 	    	<li id="user_link_container">
-	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="/dev/_images2/white_subnav_arrow.png" /></a>
+	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="/dev/_images/white_subnav_arrow.png" /></a>
 			</li>
-			<li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images2/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
+			<li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
 			<li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">Help</a></li>
 	        <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
 	    </ul>
@@ -55,7 +55,7 @@
 			<span>${value}</span>
 		</a>
 		{if dropdown}
-			<img src="/dev/_images2/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
+			<img src="/dev/_images/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
 		{/if}
 	</div>
 --></div>
@@ -153,7 +153,7 @@
             </div>
             <div class="dropdown_create_sakai_site">
                 <a href="javascript:;" id="top_navigation_create_site">Create a Sakai Site</a>
-                <img src="/dev/_images2/create_new_site_button_rt.png" alt="Close Icon"/>
+                <img src="/dev/_images/create_new_site_button_rt.png" alt="Close Icon"/>
             </div>
         </div>
     </div>
@@ -177,7 +177,7 @@
 					{if me.photo}
 						<img src="${me.photo}"/>
 					{else}
-						<img src="/dev/_images2/person_icon.jpg" />
+						<img src="/dev/_images/person_icon.jpg" />
 					{/if}
 				</td>
 				<td>
@@ -198,7 +198,7 @@
 								{if i.photo}
 									<img src="${i.photo}" />
 								{else}
-									<img src="/dev/_images2/person_icon.jpg" />
+									<img src="/dev/_images/person_icon.jpg" />
 								{/if}
 							</td>
 							<td>
@@ -264,7 +264,7 @@
 							{if i.photo}
 								<img src="${i.photo}" id="chat_window_photo_${i.userid}" />
 							{else}
-								<img src="_images2/person_icon.png" id="chat_window_photo_${i.userid}" />
+								<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
 							{/if}
 						</td>
 						<td>

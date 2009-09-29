@@ -36,7 +36,7 @@
 
 /* show online */
 #show_online {background-color:#d5dbdf;border:1px solid #666666; border-bottom: none;bottom:25px;text-align:left;width:215px;z-index:-1; right:146px; line-height: normal; position: relative;}
-.show_online_visible {background: url(/dev/_images2/chat_online_active.png); color: #666; border-right: 1px solid #666;}
+.show_online_visible {background: url(/dev/_images/chat_online_active.png); color: #666; border-right: 1px solid #666;}
 
 /* chat_no_online_connections */
 #chat_no_online_connections {color:#999;}
@@ -101,7 +101,7 @@
 .dropdown h2 {color:#878a8c;font-size:1em;padding:0px 0px 10px 0px; font-weight: normal;}
 .dropdown .dropdown_contacts {border-right:1px solid #878A8C;float:left;margin-top: 20px; margin-bottom: 15px; width:380px;}
 .dropdown .dropdown_contacts .dropdown_person {float:left;padding-bottom:10px;padding-right:10px;width:80px;}
-.dropdown .dropdown_contacts .dropdown_person_picture {background-image:url(/dev/_images2/person_icon.png);background-repeat:no-repeat;width:60px;height:60px;display:block;padding:0 0 5px;}
+.dropdown .dropdown_contacts .dropdown_person_picture {background-image:url(/dev/_images/person_icon.png);background-repeat:no-repeat;width:60px;height:60px;display:block;padding:0 0 5px;}
 .dropdown .dropdown_search_people {margin-left:450px; margin-top: 20px;}
 .dropdown .dropdown_search_input {border:1px solid #878a8c;color:#999;float:left;height:18px;margin-right:5px;padding:3px 0 0 3px;width:250px;}
 .dropdown .search_button {position:relative;top:4px;}
@@ -114,7 +114,7 @@
 .dropdown ul {margin:0;padding:0 0 10px;}
 .dropdown ul li {list-style-type:none;padding:2px 0;}
 .dropdown .dropdown_create_sakai_site {padding-top:20px;padding-bottom:20px;}
-.dropdown .dropdown_create_sakai_site a {background: url(/dev/_images2/create_new_site_button_left.png) ;background-repeat:no-repeat;display:block;float:left;height:10px;text-indent:0; padding:9px 10px 9px 40px; color: #006e96; font-weight: bold;}
+.dropdown .dropdown_create_sakai_site a {background: url(/dev/_images/create_new_site_button_left.png) ;background-repeat:no-repeat;display:block;float:left;height:10px;text-indent:0; padding:9px 10px 9px 40px; color: #006e96; font-weight: bold;}
 .dropdown .dropdown_create_sakai_site img {position:relative;top:4px;padding-right:5px;}
 .close {margin-bottom:-25px;position:relative;top:-30px;margin-right:25px;}
 .close_icon {padding-left:5px;position:relative;top:4px;}
@@ -127,8 +127,8 @@
 .dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}
 .chat_has_dropdown img {margin-left:-10px; margin-top: 11px; padding-right: 10px;}
-.dropdown .dropdown_search_button_right {background: url(/dev/_images2/gray_button_left.png); background-repeat: no-repeat; left; height: 23px; padding-left: 10px; color: #fff; border: none;}
-.dropdown .dropdown_search_button_left {background: url(/dev/_images2/gray_button_right.png) no-repeat top right; height: 23px; padding-right: 10px; margin-right: 10px;}
+.dropdown .dropdown_search_button_right {background: url(/dev/_images/gray_button_left.png); background-repeat: no-repeat; left; height: 23px; padding-left: 10px; color: #fff; border: none;}
+.dropdown .dropdown_search_button_left {background: url(/dev/_images/gray_button_right.png) no-repeat top right; height: 23px; padding-right: 10px; margin-right: 10px;}
 #people_dropdown_my_contacts_list {padding-bottom: 10px;}
-.dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/_images2/dropdown_bottom_left.png) no-repeat; height: 10px;}
-.dropdown_bottom_part_right {background: url(/dev/_images2/dropdown_bottom_right.png) no-repeat top right; height: 10px;}
+.dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/_images/dropdown_bottom_left.png) no-repeat; height: 10px;}
+.dropdown_bottom_part_right {background: url(/dev/_images/dropdown_bottom_right.png) no-repeat top right; height: 10px;}

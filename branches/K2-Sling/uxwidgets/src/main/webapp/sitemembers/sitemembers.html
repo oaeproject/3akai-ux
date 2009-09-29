@@ -40,13 +40,13 @@
 <!-- NORMAL VIEW -->
 <div id="sitemembers_normal" class="sitemembers_compact">
 	<div id="sitemembers_header">
-	    <h1><img src="/dev/_images2/contacts_icon.png" alt="Site members" /> Site members</h1>
+	    <h1><img src="/dev/_images/contacts_icon.png" alt="Site members" /> Site members</h1>
 		<span id="sitemembers_normal_number">This site has <span class="sitemembers_normal_count">0</span> members.</span>
 	</div>
 	<div id="sitemembers_normal_container">
 		<!-- RESULTS COME HERE -->
 	</div>
-	<img src="/dev/_images2/ajax-loader-gray.gif" alt="Loading .." class="sitemembers_normal_loader" />
+	<img src="/dev/_images/ajax-loader-gray.gif" alt="Loading .." class="sitemembers_normal_loader" />
 		
 	<div id="sitemembers_normal_fetchBar">
 		<span id="sitemembers_normal_fetching">Fetched <span class="sitemembers_normal_nrFetched">0</span> out of <span class="sitemembers_normal_count">1</span> members.</span>
@@ -72,7 +72,7 @@
 				{if m.picture && m.picture._name}
 					<img src="${m.picture}" alt="Profile picture" />
 				{else}
-					<img src="/dev/_images2/person_icon.jpg" alt="Profile picture" />
+					<img src="/dev/_images/person_icon.jpg" alt="Profile picture" />
 				{/if}
 				
 				<a href="/dev/profile.html?user=${m.userid}">${m.firstName} ${m.lastName}</a><br />

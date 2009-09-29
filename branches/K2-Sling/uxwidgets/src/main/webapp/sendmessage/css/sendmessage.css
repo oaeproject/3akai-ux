@@ -33,16 +33,16 @@
 
 /** BUTTONS **/
 .send_message .lightgreybutton
-{ background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .send_message .lightgreybutton a
-{ background: url(../../_images2/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
+{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
 
 .send_message .greybutton
-{ background: transparent url(../../_images2/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .send_message .greybutton a
-{ background: url(../../_images2/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
+{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
 
 
 
