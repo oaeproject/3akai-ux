@@ -1,4 +1,4 @@
-html { background: #093b52 url(../../_images2/page_bg_water.jpg) top left repeat-x; }
+html { background: #093b52 url(../../_images/page_bg_water.jpg) top left repeat-x; }
 body { margin-bottom: 50px !important; }
 
 /* create_new_account_flat.html */
@@ -27,23 +27,23 @@ body { margin-bottom: 50px !important; }
 .create_account .create-account-notification{float: right; color: #ff4040; font-weight: bold; font-size: 12px; padding-right: 15px; display:none;}
 .create_account .captcha{border: 1px solid #ccc;}
 .create_account .buttons{margin: 13px 0 0 407px; padding-bottom: 50px;}
-.create_account .create-cancel{width: 72px; height: 27px; background: url(../../_images2/button_bg_2.png) repeat-x top left; cursor: hand; cursor: pointer;}
+.create_account .create-cancel{width: 72px; height: 27px; background: url(../../_images/button_bg_2.png) repeat-x top left; cursor: hand; cursor: pointer;}
 #success_message {margin:13px 0 0 330px; padding-bottom:50px; display:none;}
 #success_message a {font-weight:bold;}
 
 /* LOG IN PAGE */
-.login-box {padding: 40px; background: url(../../_images2/login-box.png) no-repeat top left; clear: both; height: 324px;}.system_preview_image {padding: 0 0 90px 0;}
+.login-box {padding: 40px; background: url(../../_images/login-box.png) no-repeat top left; clear: both; height: 324px;}.system_preview_image {padding: 0 0 90px 0;}
 .login_container {padding: 0; float: left;}
 .login_container strong {color:#888; font-size: 1em;}
 .login_container_textfield {padding: 3px 0 0 3px; width:200px !important; border: 1px solid #888; height: 18px;}
 .login_container_username {margin-bottom:15px;}
 .login_failed {display:none; margin-top:10px; color: #D8D8D8; width:260px;}
-.gray_button {background: url(../../_images2/gray_button_left.png) top left no-repeat; float: left;}
-#loginbutton {background: url(../../_images2/gray_button_right.png) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px; margin-right: -10px;}
+.gray_button {background: url(../../_images/gray_button_left.png) top left no-repeat; float: left;}
+#loginbutton {background: url(../../_images/gray_button_right.png) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px; margin-right: -10px;}
 #loginloader {display:none; color: #D8D8D8;}
 #register_here {color: #454a4e; font-size: 0.95em; clear: both;}
 #register_here a {color:#006d94; font-weight: bold;}
 .bottom_placeholder {height:75px; width: 100px;}
 .login_button_container {margin: 40px 0 60px 0; float: none; border: 1px solid #FFF;}
-#index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(../../_images2/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}
+#index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(../../_images/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}
 #index_footer a { color: #c6e4fc; }

@@ -32,12 +32,12 @@
 { color: #454a4f; padding: 10px 0 20px 0; border: none; }
 
 .basic_appearance .site_secondary_heading a
-{ background: #fff url('../../_images2/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
+{ background: #fff url('../../_images/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
 
 
 /** TABS **/
 .basic_appearance .primary-tabs
-{ background: #fff url('../../_images2/site_appearance_tab_bg.gif') top left no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
+{ background: #fff url('../../_images/site_appearance_tab_bg.gif') top left no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
 
 .basic_appearance .primary-tabs ul
 { padding: 0; margin: 0; border-bottom: none;  }
@@ -49,10 +49,10 @@
 { padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
 
 .basic_appearance .primary-tabs ul li.fl-activeTab
-{ background: #FFF url('../../_images2/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
+{ background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
 
 .basic_appearance .primary-tabs ul li.fl-activeTab a
-{ background: #FFF url('../../_images2/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
+{ background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
 
 
 /** TAB CONTENTS **/
@@ -64,17 +64,17 @@
 
 
 .basic_appearance .content_top
-{ background: url('../../_images2/content_tr_leftalign.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('../../_images/content_tr_leftalign.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 
 .basic_appearance .content_top_inner
-{ background: url('../../_images2/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url('../../_images/content_tl_leftalign.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
 .basic_appearance .content_bottom
-{ background: url('../../_images2/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .basic_appearance .content_bottom_inner
-{ background: url('../../_images2/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 
 /* PAGE CONTENTS */
@@ -131,16 +131,16 @@
 { padding: 20px 0 0 0; }
 
 .basic_appearance .grey_button
-{ background:transparent url(../../_images2/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
+{ background:transparent url(../../_images/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
 
 .basic_appearance .grey_button .button
-{ background:transparent url(../../_images2/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px;}
+{ background:transparent url(../../_images/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px;}
 
 .basic_appearance .lightgrey_button
-{ background:transparent url(../../_images2/lightgray_button_left.gif) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
+{ background:transparent url(../../_images/lightgray_button_left.gif) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
 
 .basic_appearance .lightgrey_button .button
-{ background:transparent url(../../_images2/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px; }
+{ background:transparent url(../../_images/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px; }
 
 
 

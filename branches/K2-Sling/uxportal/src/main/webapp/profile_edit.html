@@ -5,23 +5,23 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Sakai 3 R&amp;D - Edit Profile</title>        
     
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.reset.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.mist.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.hc.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.rust.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.layout.css" />	
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.text.css" />        	
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.core.2.css" />	
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search_b.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.jq_pager.css" />		    
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.3.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.profile.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.profile.edit.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />	
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />        	
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />	
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.people.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />		    
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.profile.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.profile.edit.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/>
 	
 	<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
@@ -79,7 +79,7 @@
 				<div class="profile_contents_main">
 					
 					<div class="fl-fix profile_user_info">
-						<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" alt="User Picture" src="_images2/default_profile_picture_shadow_110.png" /></a>
+						<a href="javascript:;" id='picture_holder'><img class="profile_user_pic" alt="User Picture" src="_images/default_profile_picture_shadow_110.png" /></a>
 						
 						<div id="profile_user_name" class="profile_user_name"></div>
 						
@@ -270,7 +270,7 @@
 													</div>
 												</td>
 												<td style="width:15px" class="centertd">
-													<img src="_images2/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+													<img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 												</td>
 											</tr>
 										</table>
@@ -334,12 +334,12 @@
 													(<span class="overalltitle">${i.ovtitle}</span>
 													<span class="number">${i.number}</span>)
 													{if i.url}
-														<a href="${i.url}" target="_blank"><img src="_images2/link_icon.gif" border="0"></a>
+														<a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
 													{/if}
 												</div>
 											</td>
 											<td style="width:15px" class="centertd">
-												<img src="_images2/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+												<img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 											</td>
 										</tr>
 									</table>
@@ -383,7 +383,7 @@
 												<div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
 													<b>${i.title}</b>
 													{if i.url}
-														<a href="${i.url}" target="_blank"><img src="_images2/link_icon.gif" border="0"></a>
+														<a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
 													{/if}
 													<br/>
 													{if i.coauth}
@@ -395,7 +395,7 @@
 												</div>
 											</td>
 											<td style="width:15px" class="centertd">
-												<img src="_images2/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+												<img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 											</td>
 										</tr>
 									</table>
@@ -449,7 +449,7 @@
 												</div>
 											</td>
 											<td style="width:15px" class="centertd">
-												<img src="_images2/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+												<img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 											</td>
 										</tr>
 									</table>
@@ -533,7 +533,7 @@
 												</div>
 											</td>
 											<td style="width:15px; padding-bottom:0px" class="centertd">
-												<img src="_images2/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+												<img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
 											</td>
 										</tr>
 									</table>
@@ -655,7 +655,7 @@
 	<!-- FOOTER -->    
 	<div class="fl-container-flex sakai-footer">
 		<div class="fl-fix fl-centered  fixed-container">
-			<img src="_images2/sakai_logo.png" alt="Sakai" />
+			<img src="_images/sakai_logo.png" alt="Sakai" />
 			<a href="javascript:;" class="back-top">Top</a>
 			<p>Portions of Sakai are copyrighted by other parties as described in the <a href="http://www.sakaiproject.org/portal/site/sakai-home/page/49575118-a888-48ba-bdca-ba3a904895b0" target="_blank">acknowledgements section</a></p>
 			<p>&copy; 2004&mdash;2009 <a href="http://www.sakaiproject.org" target="_blank">The Sakai Foundation</a></p>
@@ -680,7 +680,7 @@
 
 		<div class="dialog_header">
 			<h1>Degrees</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -742,7 +742,7 @@
 
         <div class="dialog_header">
 			<h1>Degrees</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
        <div class="dialog_content" style="padding-bottom:20px">
@@ -818,7 +818,7 @@
 
         <div class="dialog_header">
 			<h1>Publications</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
 
         <!-- /lightbox-header -->
@@ -901,7 +901,7 @@
 
         <div class="dialog_header">
 			<h1>Publications</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -997,7 +997,7 @@
 
         <div class="dialog_header">
 			<h1>Talks</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -1044,7 +1044,7 @@
 
         <div class="dialog_header">
 			<h1>Talks</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -1105,7 +1105,7 @@
 
         <div class="dialog_header">
 			<h1>Professional Experience</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -1161,7 +1161,7 @@
 
         <div class="dialog_header">
 			<h1>Professional Experience</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -1230,7 +1230,7 @@
 
         <div class="dialog_header">
 			<h1>Website</h1>
-			<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 		</div>
         <!-- /lightbox-header -->
         <div class="dialog_content" style="padding-bottom:20px">
@@ -1265,7 +1265,7 @@
 
         <div class="dialog_header">
 		<h1>Website</h1>
-		<img src="_images2/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 	</div>
         
 	<!-- /lightbox-header -->

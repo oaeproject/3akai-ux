@@ -4,22 +4,22 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Sakai 3 R&amp;D - Add Members</title>
 	
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.reset.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.mist.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.hc.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.theme.rust.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.layout.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/FSS/fluid.text.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.core.2.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.search_b.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.components.jq_pager.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.3.css" />
-	<link rel="stylesheet" type="text/css" href="_css2/Sakai CSS/sakai.site_management_members_add.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.people.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.site_management_members_add.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/>
 	
 	<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
@@ -96,7 +96,7 @@
 								--></div>
 								<!-- <strong>Tag selected people as:</strong>
 						<input type="text" class="tag-people" value="Add your tags here" /> -->
-								<input type="image" src="_images2/add_selected_people.png" class="button button-primary add-people selected_people_addToSite" value="Add selected people"/>
+								<input type="image" src="_images/add_selected_people.png" class="button button-primary add-people selected_people_addToSite" value="Add selected people"/>
 							</form>
 							<div id="selected-people-container" class="selected_personsContainer"></div>
 							<div style="display:none" id="selected-people-template"><!--
@@ -150,7 +150,7 @@
 									{/if}
 										{if (i.isMember)}
 										{if typeof i.picture.name == "undefined"}
-										<img src="_images2/member_thumb_unselected.png"/>
+										<img src="_images/member_thumb_unselected.png"/>
 										{else}
 										<img src="/_user/public/${i['rep:userId']}/${i.picture.name}"/>
 										{/if}
@@ -161,7 +161,7 @@
 										{else}
 										<a href="javascript:;">
 										{if typeof i.picture.name == "undefined"}
-										<img src="_images2/member_thumb_unselected.png"  />
+										<img src="_images/member_thumb_unselected.png"  />
 										{else}
 										<img src="/_user/public/${i['rep:userId']}/${i.picture.name}" />
 										{/if}
@@ -200,7 +200,7 @@
 </div>
 <!-- FOOTER -->
 <div class="fl-container-flex sakai-footer">
-  <div class="fl-fix fl-centered  fixed-container"> <img src="_images2/sakai_logo.png" alt="Sakai" /> <a href="javascript:;" class="back-top">Top</a>
+  <div class="fl-fix fl-centered  fixed-container"> <img src="_images/sakai_logo.png" alt="Sakai" /> <a href="javascript:;" class="back-top">Top</a>
     <p>Portions of Sakai are copyrighted by other parties as described in the <a href="http://www.sakaiproject.org/portal/site/sakai-home/page/49575118-a888-48ba-bdca-ba3a904895b0" target="_blank">acknowledgements section</a></p>
     <p>© 2004&mdash;2009 <a href="http://www.sakaiproject.org" target="_blank">The Sakai Foundation</a></p>
   </div>

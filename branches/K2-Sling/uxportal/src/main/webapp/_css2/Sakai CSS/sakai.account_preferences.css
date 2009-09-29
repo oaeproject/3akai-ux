@@ -8,7 +8,7 @@
 	float: right;
 }
 .account_preferences .find_more_people a {
-	background: url(../../_images2/arrow_left_sm2_blue.gif) no-repeat scroll left center;
+	background: url(../../_images/arrow_left_sm2_blue.gif) no-repeat scroll left center;
 	padding:0 0 0 10px;
 	color:#0C91C5;
 	font-size:14px;
@@ -27,18 +27,18 @@
 
 /** MAIN CONTENT **/
 .account_preferences .header .fixed-container {
-	background: #FFFFFF url(../../_images2/header_l.png) no-repeat scroll left top;
+	background: #FFFFFF url(../../_images/header_l.png) no-repeat scroll left top;
 }
 .account_preferences .main-container {
 	background: #FFF;
 }
 .account_preferences .outline-top {
-	background: url('../../_images2/content_tr_flip.png') top right no-repeat;
+	background: url('../../_images/content_tr_flip.png') top right no-repeat;
 	padding: 0 5px 0 0;
 	margin: 0;
 }
 .account_preferences .outline-top-inner {
-	background: url('../../_images2/content_tl.gif') 0 0 no-repeat;
+	background: url('../../_images/content_tl.gif') 0 0 no-repeat;
 	margin: 0;	
 	height: 6px;
 }
@@ -48,12 +48,12 @@
 	padding: 14px 20px;
 }
 .account_preferences .outline-bottom {
-	background: url('../../_images2/content_br.png') top right no-repeat;
+	background: url('../../_images/content_br.png') top right no-repeat;
 	padding: 0 5px 0 0;
 	margin: 0 0 20px 0;	
 }
 .account_preferences .outline-bottom-inner {
-	background: url('../../_images2/content_bl.png') 0 0 no-repeat;
+	background: url('../../_images/content_bl.png') 0 0 no-repeat;
 	margin: 0;	
 	height: 6px;
 }

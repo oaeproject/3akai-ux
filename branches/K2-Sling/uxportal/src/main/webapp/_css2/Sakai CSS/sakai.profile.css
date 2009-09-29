@@ -12,7 +12,7 @@
 
 /** TABS **/
 .profile_preview .primary-tabs
-{ background: #fff url('../../_images2/profile_tab_bg.png') top right no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
+{ background: #fff url('../../_images/profile_tab_bg.png') top right no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
 
 .profile_preview .primary-tabs ul
 { padding: 0; margin: 0; border-bottom: none; float: right; }
@@ -25,10 +25,10 @@
 
 
 .profile_preview .primary-tabs ul li.fl-activeTab
-{ background: #FFF url('../../_images2/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important;  }
+{ background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important;  }
 
 .profile_preview .primary-tabs ul li.fl-activeTab a
-{ background: #FFF url('../../_images2/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
+{ background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
 
 
 /** TAB CONTENTS **/
@@ -40,16 +40,16 @@
 
 
 .profile_preview .content_top
-{ background: url('../../_images2/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('../../_images/content_tr.gif') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .profile_preview .content_top_inner
-{ background: url('../../_images2/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url('../../_images/content_tl.gif') 0 0 no-repeat; margin: 0; height: 6px; }
 
 .profile_preview .content_bottom
-{ background: url('../../_images2/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .profile_preview .content_bottom_inner
-{ background: url('../../_images2/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
 
 /** USER INFO **/
@@ -110,10 +110,10 @@
 
 /** BUTTONS **/
 .profile_preview .grey_button
-{ background:transparent url(../../_images2/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
+{ background:transparent url(../../_images/gray_button_left.png) no-repeat scroll left top; float: left; margin: 0 5px 0 0; }
 
 .profile_preview .grey_button .button
-{ background:transparent url(../../_images2/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0 -10px 0 0; }
+{ background:transparent url(../../_images/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0 -10px 0 0; }
 
 
 

@@ -1,5 +1,5 @@
 html
-{ background: #093b52 url(../../_images2/page_bg_water.jpg) top left repeat-x; }
+{ background: #093b52 url(../../_images/page_bg_water.jpg) top left repeat-x; }
 
 body
 { margin-bottom: 50px !important; }
@@ -45,22 +45,22 @@ body
 { margin: 0; padding: 0 0 20px 0; color: #454A4F; font-size: 2em; }
 
 .create_account .content_top_corners
-{ background: url(../../_images2/content_top.png) top left no-repeat; padding: 0; width: 960px; height: 20px; }
+{ background: url(../../_images/content_top.png) top left no-repeat; padding: 0; width: 960px; height: 20px; }
 
 .create_account .content_top
-{ background: url(../../_images2/content_tr_leftalign.gif) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url(../../_images/content_tr_leftalign.gif) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .create_account .content_top_inner
-{ background: url(../../_images2/content_tl.gif) 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url(../../_images/content_tl.gif) 0 0 no-repeat; margin: 0; height: 6px; }
 
 .create_account .content_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
 
 .create_account .content_bottom
-{ background: url(../../_images2/content_br.png) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+{ background: url(../../_images/content_br.png) top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 
 .create_account .content_bottom_inner
-{ background: url(../../_images2/content_bl.png) 0 0 no-repeat; margin: 0; height: 6px; }
+{ background: url(../../_images/content_bl.png) 0 0 no-repeat; margin: 0; height: 6px; }
 
 
 /** TABLE/FORM **/
@@ -92,17 +92,17 @@ body
 
 /** BUTTONS **/
 .create_account .lightgreybutton
-{ background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .create_account .lightgreybutton input
-{ background: url(../../_images2/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
+{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
 
 
 .create_account .greybutton
-{ background: transparent url(../../_images2/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .create_account .greybutton input
-{ background: url(../../_images2/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
+{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
 
 
 

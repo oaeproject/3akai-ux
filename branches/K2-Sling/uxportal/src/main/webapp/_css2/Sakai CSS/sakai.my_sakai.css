@@ -39,7 +39,7 @@ strong {color: #000;}
 .header .search {text-align: right; }
 .header .search .search_form {padding: 19px 0 5px 0; text-align: right; float: right; }
 .header .search .search_form .search_input_field {border: 1px solid #DDDDDD; color:#999999; height:19px; width: 187px; padding-top:3px; padding-left:3px; display: block; float: left; font-size: 11px; margin-right: 11px; font-family: Arial, Helvetica, sans-serif;}
-.header .search .search_form .search_button {background: #454a4f url('../../_images2/search_button.png') top left no-repeat;border: none;color: #fff;display: block;height: 23px;padding: 0;width: 88px; float: left; }
+.header .search .search_form .search_button {background: #454a4f url('../../_images/search_button.png') top left no-repeat;border: none;color: #fff;display: block;height: 23px;padding: 0;width: 88px; float: left; }
 .header .search .search_form .search_button span {position:absolute;top:-9999px;left:-9999px;}
 .focussedInput {color: #000000 !important;}
 
@@ -55,16 +55,16 @@ strong {color: #000;}
 .fl-widget {margin-bottom: 10px;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px;}
 .fl-widget {padding: 0;}
-.fl-widget .fl-widget-titlebar {background: url(../../_images2/block_tr.png) top right no-repeat; padding: 0 8px 0 0; width: auto; cursor: move;}
-.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(../../_images2/block_tl.png) top left no-repeat; height: 50px;}
+.fl-widget .fl-widget-titlebar {background: url(../../_images/block_tr.png) top right no-repeat; padding: 0 8px 0 0; width: auto; cursor: move;}
+.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(../../_images/block_tl.png) top left no-repeat; height: 50px;}
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px;}
-.fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images2/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px;}
+.fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px;}
 
-.myfriends.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images2/contacts_icon.png') 17px 18px no-repeat;}
-.sites.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images2/courses_icon.png') 17px 18px no-repeat;}
+.myfriends.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/contacts_icon.png') 17px 18px no-repeat;}
+.sites.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
 
-.fl-widget .fl-widget-options {margin: 0;background: url(../../_images2/block_br.png) top right no-repeat; padding: 0 8px 0 0;}
-.fl-widget .fl-widget-options .widget-options-inner {background: url(../../_images2/block_bl.png) top left no-repeat; height: 40px; width: auto; padding: 0 0 0 14px;}
+.fl-widget .fl-widget-options {margin: 0;background: url(../../_images/block_br.png) top right no-repeat; padding: 0 8px 0 0;}
+.fl-widget .fl-widget-options .widget-options-inner {background: url(../../_images/block_bl.png) top left no-repeat; height: 40px; width: auto; padding: 0 0 0 14px;}
 .fl-widget .fl-widget-options ul {margin: 0; padding: 0;}
 .fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 16px 6px 0 6px;}
 .fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold;}
@@ -106,14 +106,14 @@ strong {color: #000;}
 }
 
 /* SPECIFIC WIDGETS */
-.my_course_sites_widget .fl-widget-content ul li {list-style: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; background: url('../../_images2/folder_icon.png') 11px 5px no-repeat;}
+.my_course_sites_widget .fl-widget-content ul li {list-style: none; padding: 5px 5px 5px 40px; margin: 0; border-bottom: 1px solid #CCC; background: url('../../_images/folder_icon.png') 11px 5px no-repeat;}
 .my_course_sites_widget .fl-widget-content ul li a {color: #006E96; font-size: 1em; font-weight: bold; display: block;}
 .my_contacts_widget .fl-widget-options ul {float:left;}
 .my_contacts_widget .fl-widget-options .contact_requests {display:block; font-size: .85em; color: #3399CC;}
 .my_contacts_widget .fl-widget-content .contact {float:left; padding: 0 20px 5px 0; width: 60px; margin-right: 10px; overflow: hidden;}
-.my_contacts_widget .fl-widget-content .contact .contact_picture {background-image: url(../../_images2/person_icon_50.png); background-repeat: no-repeat; background-position:center top; width: 50px; height: 50px; margin: 0; padding: 0 0 10px 0;}
+.my_contacts_widget .fl-widget-content .contact .contact_picture {background-image: url(../../_images/person_icon_50.png); background-repeat: no-repeat; background-position:center top; width: 50px; height: 50px; margin: 0; padding: 0 0 10px 0;}
 .my_contacts_widget .fl-widget-content .contact .contact_name {color: #3399CC; font-size: .95em; font-weight: bold;}
-.myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images2/myprofile_icon.png) no-repeat scroll 17px 18px;}
+.myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images/myprofile_icon.png) no-repeat scroll 17px 18px;}
 
 /* FOOTER */
 .page_footer {padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999;}
@@ -135,7 +135,7 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 
 
 /* Add Sakai Goodies */
-.add-button {background:transparent url(../../_images2/button_bg.png) repeat-x scroll left bottom; border:1px solid #CCCCCC; color:#333333; display:block; float:left; padding:3px 5px; text-align:center;}
+.add-button {background:transparent url(../../_images/button_bg.png) repeat-x scroll left bottom; border:1px solid #CCCCCC; color:#333333; display:block; float:left; padding:3px 5px; text-align:center;}
 .add_goodies .add {font-weight:bold;}
 .add_goodies .add-button {margin-left:9px; width:63px;}
 .dialogue_body td {border-style:none none solid; border-color: #E5E5E5;}

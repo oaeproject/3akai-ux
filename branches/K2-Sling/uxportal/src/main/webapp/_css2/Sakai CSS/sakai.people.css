@@ -22,7 +22,7 @@
 	float: right;
 }
 .people .find_more_people a {
-	background: url(../../_images2/arrow_right_sm2_blue.png) no-repeat scroll right center;
+	background: url(../../_images/arrow_right_sm2_blue.png) no-repeat scroll right center;
 	padding:0 10px 0 0;
 	color:#0C91C5;
 	font-size:14px;
@@ -48,12 +48,12 @@
 	background: #FFF;
 }
 .people .outline-top {
-	background: url('../../_images2/content_tr_flip.png') top right no-repeat;
+	background: url('../../_images/content_tr_flip.png') top right no-repeat;
 	padding: 0 5px 0 0;
 	margin: 0;
 }
 .people .outline-top-inner {
-	background: url('../../_images2/content_tl.gif') 0 0 no-repeat;
+	background: url('../../_images/content_tl.gif') 0 0 no-repeat;
 	margin: 0;	
 	height: 6px;
 }
@@ -63,12 +63,12 @@
 	padding: 8px 10px;
 }
 .people .outline-bottom {
-	background: url('../../_images2/content_br.png') top right no-repeat;
+	background: url('../../_images/content_br.png') top right no-repeat;
 	padding: 0 5px 0 0;
 	margin: 0 0 20px 0;	
 }
 .people .outline-bottom-inner {
-	background: url('../../_images2/content_bl.png') 0 0 no-repeat;
+	background: url('../../_images/content_bl.png') 0 0 no-repeat;
 	margin: 0;	
 	height: 6px;
 }
@@ -96,16 +96,16 @@
 	margin: 0 0 0 10px;
 }
 .people .search_top_rounded {
-	background:transparent url(../../_images2/search_results_tl.png) no-repeat scroll left top;
+	background:transparent url(../../_images/search_results_tl.png) no-repeat scroll left top;
 }
 .people .search_top_rounded_inner {
-	background:transparent url(../../_images2/search_results_tr.png) no-repeat scroll right top;
+	background:transparent url(../../_images/search_results_tr.png) no-repeat scroll right top;
 	height:10px;
 }
 .people .search_bottom_rounded {
-	background:transparent url(../../_images2/search_results_bl.png) no-repeat scroll left bottom;
+	background:transparent url(../../_images/search_results_bl.png) no-repeat scroll left bottom;
 }
 .people .search_bottom_rounded_inner {
-	background:transparent url(../../_images2/search_results_br.png) no-repeat scroll right bottom;
+	background:transparent url(../../_images/search_results_br.png) no-repeat scroll right bottom;
 	height:10px;
 }

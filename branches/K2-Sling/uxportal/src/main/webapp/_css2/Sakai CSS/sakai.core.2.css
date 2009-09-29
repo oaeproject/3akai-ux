@@ -1,5 +1,5 @@
 html {
-	background: #75ADD7 url('../../_images2/body_bg.jpg') top left repeat-x;
+	background: #75ADD7 url('../../_images/body_bg.jpg') top left repeat-x;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: lighter;
 	line-height: 120%;
@@ -196,7 +196,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 /*** Top Right Navbar ***/
 .explore_nav .personal-container {
 	margin-top: .8em;
-	background: url('../../_images2/topBar_tr.png') top right no-repeat;
+	background: url('../../_images/topBar_tr.png') top right no-repeat;
 	padding-right: 5px;
 	overflow: hidden;
 	height: 25px;
@@ -204,7 +204,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav .personal {
 	padding: 5px 10px;
 	margin: 0;
-	background: url('../../_images2/topBar_tl.png') top left no-repeat;
+	background: url('../../_images/topBar_tl.png') top left no-repeat;
 	min-height: 1em;
 	}
 .explore_nav .personal li a {
@@ -251,8 +251,8 @@ body.search-container .explore_nav .explore #nav_search_link a {
 
 /* HEADER */
 .header { padding: 12px 0 0 0; }
-.header .fixed-container { background: #fff url('../../_images2/header_l.png') top left no-repeat; }
-.header .fixed-container .decor { background: url('../../_images2/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
+.header .fixed-container { background: #fff url('../../_images/header_l.png') top left no-repeat; }
+.header .fixed-container .decor { background: url('../../_images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
 
 /********************************************/
 /* Site title + search */
@@ -277,7 +277,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .site_heading .search .search_button {
     background-color:#333; 
     border:none; 
-    background-image:url(../../_images2/search_icon.png); 
+    background-image:url(../../_images/search_icon.png); 
     height:25px; 
     width:25px;
 	margin-right:21px;
@@ -364,7 +364,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 
 .column_splitter_sites {
 	/* simple hack free approach to a column divider that needs to match either columns height */
-    /* background:#fff url(../../_images2/single_grey_pixel.png) repeat-y 170px top; */
+    /* background:#fff url(../../_images/single_grey_pixel.png) repeat-y 170px top; */
 }
 
 .main_container a {
@@ -468,7 +468,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
     list-style-type:none;
 }
 .content_page_options .divider {
-	background-image: url(../../_images2/single_grey_pixel.png);
+	background-image: url(../../_images/single_grey_pixel.png);
 	background-repeat: repeat;
 	width: 1px;
 	height: 100%;
@@ -510,7 +510,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 }
 
 .content .edit_icon {
-	background-image: url(../../_images2/edit_icon.png);
+	background-image: url(../../_images/edit_icon.png);
 	width: 24px;
 	height: 24px;
 	position: relative;
@@ -562,7 +562,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 }
 .content_container .custom_button {
 	border:1px solid #ccc;
-	background:#fff url(../../_images2/custom_button_gradient.png) repeat-x bottom center;
+	background:#fff url(../../_images/custom_button_gradient.png) repeat-x bottom center;
 	padding:0px 8px;
 	cursor: pointer;
 }
@@ -641,12 +641,12 @@ body.search-container .explore_nav .explore #nav_search_link a {
     border:none;
 }
 .gateway_heading .search .fl-tabs li.fl-activeTab a {
-    background:#999 url(../../_images2/gateway_search_indicator.png) no-repeat scroll center bottom;
+    background:#999 url(../../_images/gateway_search_indicator.png) no-repeat scroll center bottom;
     color:#fff;
 }
 
 .gateway_block {    
-    background:#fff url(../../_images2/gateway_block_bg.png) repeat-x left top;
+    background:#fff url(../../_images/gateway_block_bg.png) repeat-x left top;
     padding:15px;
 }
 
@@ -701,13 +701,13 @@ body.search-container .explore_nav .explore #nav_search_link a {
     padding:0 0 20px 35px ;
 }
 .whats_new .heirarchy {
-    background:transparent url(../../_images2/gateway_icon_proxy.png) no-repeat top left;
+    background:transparent url(../../_images/gateway_icon_proxy.png) no-repeat top left;
 }
 .whats_new .discussion {
-    background:transparent url(../../_images2/gateway_icon_proxy.png) no-repeat top left;
+    background:transparent url(../../_images/gateway_icon_proxy.png) no-repeat top left;
 }
 .whats_new .media {
-    background:transparent url(../../_images2/gateway_icon_proxy.png) no-repeat top left;
+    background:transparent url(../../_images/gateway_icon_proxy.png) no-repeat top left;
 }
 
 .whos_on {color:#999}
@@ -726,13 +726,13 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .sakai-footer {}
 .sakai-footer .fixed-container {
 	color: #fff;
-	background: url('../../_images2/footer.png') center bottom no-repeat !important;
+	background: url('../../_images/footer.png') center bottom no-repeat !important;
 	margin-bottom: 45px;
 	width: 926px;
 	padding: 17px 23px 0 23px;
 	height: 48px;
 	/*give IE6 a GIF rather than transparent PNG*/
-	_background: url('../../_images2/footer.gif') center bottom no-repeat !important;
+	_background: url('../../_images/footer.gif') center bottom no-repeat !important;
 	_width: 920px;
 	_padding: 17px 20px 0 20px;
 	_height: 43px;
@@ -740,7 +740,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .sakai-footer .fixed-container img { float: left; margin-right: 15px; }
 .sakai-footer .fixed-container p { font-size: 11px; margin-bottom: 0; padding-bottom: 0; line-height: 1.3em; color: #fff; }
 .sakai-footer .fixed-container a { color: #c4e4fb; }
-.sakai-footer .fixed-container a.back-top { background: url('../../_images2/white_bottom_arrow.png') center right no-repeat; color: #fff; display: block; float: right; font-size: 13px; font-weight: bold; padding-right: 20px; }
+.sakai-footer .fixed-container a.back-top { background: url('../../_images/white_bottom_arrow.png') center right no-repeat; color: #fff; display: block; float: right; font-size: 13px; font-weight: bold; padding-right: 20px; }
 
 .footer_menu {
     border-bottom:1px solid #ccc;
@@ -816,7 +816,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 }
 
 .tab-nav li a, .tab-nav li a:visited {
-    background: #fff url(../../_images2/tab-back.png) bottom left repeat-x;
+    background: #fff url(../../_images/tab-back.png) bottom left repeat-x;
 	color:#777;
 	text-decoration:none;
 	position: relative; 
@@ -847,7 +847,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 
 }
 .buttonBar .button, .buttonBar .button-default, .button-default {
-	background:#FFFFFF url(../../_images2/custom_button_gradient.png) repeat-x scroll center bottom;
+	background:#FFFFFF url(../../_images/custom_button_gradient.png) repeat-x scroll center bottom;
 	border:1px solid #CCCCCC;
 	font-weight: normal;
 	cursor:pointer;

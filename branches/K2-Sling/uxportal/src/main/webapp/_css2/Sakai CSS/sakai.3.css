@@ -3,10 +3,10 @@
 .user-personal strong{color: #058ec4;}
 .user-personal li{border-left: 1px solid #999; padding: 0 0 0 5px;}
 .user-personal .first{border-left: none;}
-.user-name{color: #058ec4; background: url(../../_images2/user_online.gif) no-repeat 5px 2px;}
+.user-name{color: #058ec4; background: url(../../_images/user_online.gif) no-repeat 5px 2px;}
 .user-name strong{padding-left: 14px;}
 .user-arrow-down{position: relative; top: -1px; padding-left: 3px;}
-.user-mail{background: url(../../_images2/user_mail_icon.gif) no-repeat 6px 3px;}
+.user-mail{background: url(../../_images/user_mail_icon.gif) no-repeat 6px 3px;}
 .user-mail a{color: #666; padding-left: 16px;}
 .site_heading {padding: 25px 0px 10px 25px; border-bottom: 1px solid #ebebeb;}
 .site_heading h1 {margin: 0; 	padding: 0;	font-weight: bold;}
@@ -14,8 +14,8 @@
 .site_secondary_heading a{color: #0c91c5; font-size: 14px; padding-left: 10px;}
 .section_container{padding: 25px 25px 0 25px;}
 .section_header{font-weight: bold; border-bottom: 1px solid #ebebeb; font-size: 17px; padding-bottom: 3px;}
-.button{display: block; float: left; padding: 3px 5px; text-align: center; border: 1px solid #ccc; background: url(../../_images2/button_bg.png) repeat-x bottom left; color: #333;}
-.submit-button{padding: 2px 5px; background: url(../../_images2/button_bg.png) repeat-x bottom left; border: 1px solid #ccc; color: #333; text-align: center; font-size: 13px; margin:0;}
+.button{display: block; float: left; padding: 3px 5px; text-align: center; border: 1px solid #ccc; background: url(../../_images/button_bg.png) repeat-x bottom left; color: #333;}
+.submit-button{padding: 2px 5px; background: url(../../_images/button_bg.png) repeat-x bottom left; border: 1px solid #ccc; color: #333; text-align: center; font-size: 13px; margin:0;}
 .text-field{ padding: 4px 4px; width: 230px; color: #222; border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2;}
 .button-secondary{font-weight: normal;}
 .button-primary{font-weight: bold;}
@@ -27,7 +27,7 @@
 .dialogue_header_bg{background: #707070; height: 35px; width: 100%;}
 .dialogue_header{color: #fff; padding: 10px;  font-weight: bold; font-size: 16px;}
 .dialogue_controls {float: right;}
-.dialogue_close{display: block; width: 18px; height: 18px; background: url(../../_images2/dialogue_close.gif) no-repeat center center;}
+.dialogue_close{display: block; width: 18px; height: 18px; background: url(../../_images/dialogue_close.gif) no-repeat center center;}
 .dialogue_body{width: 488px; height: 307px; position: relative; top: 15px; left: 15px; border:1px solid #e5e5e5; overflow: auto;}
 
 /* account_preferences.html */
@@ -53,7 +53,7 @@
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
 .add-members .current-members span{color: #999; font-weight: bold;}
-.add-members .current-members .manage-members{background: url(../../_images2/button_current_members.png) repeat-x top left; width: 190px; height: 21px; float: right; vertical-align: middle; line-height: 21px; margin-top: 18px;}
+.add-members .current-members .manage-members{background: url(../../_images/button_current_members.png) repeat-x top left; width: 190px; height: 21px; float: right; vertical-align: middle; line-height: 21px; margin-top: 18px;}
 .add-members .third_heading{color: #666;}
 .add-members .fl-col-mixed-200{margin-left: 23px;}
 .add-members .fl-col-fixed{background-color: #eee; margin: 0; padding: 0;}
@@ -67,7 +67,7 @@
 .add-members .fl-col-fixed .fixed-container li{list-style-type: none; margin-top: 5px;}
 .add-members .fl-col-fixed .fixed-container .update-people{height: 25px; width: 165px; margin-top: 18px;}
 .add-members .fl-col-fixed .fixed-container .remove-people{height: 25px; width: 165px; margin: 6px 0 22px 0;}
-.add-members .fl-col-fixed .fixed-container .add-people{background: url(../../_images2/button_current_members.png) repeat-x top left; width: 165px; height: 25px; margin-top: 25px; float: none;}
+.add-members .fl-col-fixed .fixed-container .add-people{background: url(../../_images/button_current_members.png) repeat-x top left; width: 165px; height: 25px; margin-top: 25px; float: none;}
 .add-members .fl-col-fixed .fixed-container .selected-people{font-weight: bold; color: #666; border-bottom: 1px solid #ccc; width: 100%; display: block; padding-bottom: 5px; margin-top: 48px;}
 .add-members .fl-col-fixed .fixed-container .selected-people-table{padding: 0; margin: 0 0 160px 10px; width: 100%;}
 .add-members .fl-col-fixed .fixed-container .selected-people-table th{color: #999; padding:7px 0 0 0; margin:0;text-align: left; border: 0;}
@@ -77,7 +77,7 @@
 .add-members .fl-col-flex .flex-container{padding: 0 25px 0 0; margin:0;}
 .add-members .fl-col-flex .flex-container .member-search{padding-bottom: 23px; border-bottom: 1px solid #ccc;}
 .add-members .fl-col-flex .flex-container .member-search .member-search-field{color: #ccc; border: 1px solid #ccc; width: 375px; padding: 4px 4px 4px 4px; margin-left: 12px;}
-.add-members .fl-col-flex .flex-container .member-search a{float: left;  display: block; padding: 4px 4px 4px 4px; border: 1px solid #ccc; width: 162px; color: #666; background: url(../../_images2/arrow_down_sm2.png) no-repeat 95% 60%;}
+.add-members .fl-col-flex .flex-container .member-search a{float: left;  display: block; padding: 4px 4px 4px 4px; border: 1px solid #ccc; width: 162px; color: #666; background: url(../../_images/arrow_down_sm2.png) no-repeat 95% 60%;}
 .add-members .fl-col-flex .flex-container .explore_nav{background: #fff; padding: 0; margin: 0;} 
 .add-members .fl-col-flex .flex-container .explore_nav .user-personal li{padding: 0 7px 0 10px;}
 .add-members .fl-col-flex .flex-container .explore_nav .user-personal .first{padding-left: 0px;}
@@ -89,7 +89,7 @@
 .add-members .fl-col-flex .flex-container .members-container .member-title{color: #999;}
 
 /* site_management_basic_settings.html */
-.basic_management .delete_site{float: right; background: url(../../_images2/delete_site.png) no-repeat top right; width: 119px; height: 27px; display: block; margin: 12px 10px 0 0; text-align: center; color: #888; vertical-align: middle; line-height: 26px; font-size: 12px;}
+.basic_management .delete_site{float: right; background: url(../../_images/delete_site.png) no-repeat top right; width: 119px; height: 27px; display: block; margin: 12px 10px 0 0; text-align: center; color: #888; vertical-align: middle; line-height: 26px; font-size: 12px;}
 .basic_management .delete_site span{margin-left: 22px;}
 .basic_management .delete_site_warning{color: #D32F2F;}
 .basic_management .delete_site_warning strong{color:#D32F2F;}

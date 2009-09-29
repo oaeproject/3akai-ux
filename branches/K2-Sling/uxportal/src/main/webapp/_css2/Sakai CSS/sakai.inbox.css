@@ -30,7 +30,7 @@
 { padding: 0 0 5px 15px; position: relative; z-index: 20000; }
 
 .inbox_main .drop-menu .compose_new_link
-{ background: transparent url(../../_images2/create_dropdown_bg.png) no-repeat scroll left 0; color:#FFFFFF; display:block; font-weight:bold; height:20px; padding:3px 0 0 19px; }
+{ background: transparent url(../../_images/create_dropdown_bg.png) no-repeat scroll left 0; color:#FFFFFF; display:block; font-weight:bold; height:20px; padding:3px 0 0 19px; }
 
 .inbox_main .drop-box
 { background-color:#FFFFFF; border:1px solid #454A4F; margin: 0; padding:0; position: absolute; left: 22px; top: 22px; width: 128px; }
@@ -49,13 +49,13 @@
 { width: 230px; margin:0; padding: 0; }
 
 .inbox_main .inbox-folders .if_titlebar
-{ background:transparent url(/dev/_images2/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
+{ background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .inbox_main .inbox-folders .if_titlebar_icon
 { float: left; padding: 17px 0 0 17px; }
 
 .inbox_main .inbox-folders .if_title
-{ background:transparent url(/dev/_images2/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 43px; height:50px; color:#878A8C; font-size:1em; }
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 43px; height:50px; color:#878A8C; font-size:1em; }
 
 .inbox_main .inbox-folders .if_title_text
 { font-weight: bold; }
@@ -82,31 +82,31 @@
 { font-weight: bold; color: #058EC4; font-size: 1.2em; padding: 0 0 10px 0; }
 
 .inbox_main .inbox-folders #inbox_filter_inbox
-{ background: transparent url(/dev/_images2/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders #inbox_filter_messages
-{ background: transparent url(/dev/_images2/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders #inbox_filter_announcements
-{ background: transparent url(/dev/_images2/inbox_folders_announcements.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_announcements.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders #inbox_filter_chats
-{ background: transparent url(/dev/_images2/inbox_folders_chat.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_chat.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders #inbox_filter_invitations
-{ background: transparent url(/dev/_images2/inbox_folders_invitations.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_invitations.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders #inbox_filter_sent
-{ background: transparent url(/dev/_images2/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_messages.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders #inbox_filter_trash
-{ background: transparent url(/dev/_images2/inbox_folders_trash.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
+{ background: transparent url(/dev/_images/inbox_folders_trash.gif) no-repeat scroll left center; height: 20px; padding: 0 0 0 28px; }
 
 .inbox_main .inbox-folders .if_bottom
-{ background:transparent url(/dev/_images2/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
+{ background:transparent url(/dev/_images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
 
 .inbox_main .inbox-folders .if_bottom_inner
-{ background:transparent url(/dev/_images2/content_br.png) no-repeat scroll right bottom; height: 5px; }
+{ background:transparent url(/dev/_images/content_br.png) no-repeat scroll right bottom; height: 5px; }
 
 
 
@@ -126,7 +126,7 @@
 { width: 670px; margin: 0; }
 
 .inbox_main .top_decor
-{ background: transparent url(/dev/_images2/inbox_table_top.png) no-repeat top left; height: 32px; width: 673px; border: none; padding: 9px 0 0 7px; }
+{ background: transparent url(/dev/_images/inbox_table_top.png) no-repeat top left; height: 32px; width: 673px; border: none; padding: 9px 0 0 7px; }
 
 /** Buttons **/
 .inbox_main .top_button_bar
@@ -177,7 +177,7 @@
 
 
 .inbox_main .bottom_decor
-{ background: transparent url(/dev/_images2/inbox_table_bottom.png) no-repeat top left; height: 41px; width: 676px; border: none; }
+{ background: transparent url(/dev/_images/inbox_table_bottom.png) no-repeat top left; height: 41px; width: 676px; border: none; }
 
 
 
@@ -254,7 +254,7 @@
 { display:inline; height: auto; width: 100%; }
 
 .inbox_detail .message-arrow
-{ background: url(../../_images2/message_arrow.gif) no-repeat 0 0; position: relative; top: -7px; left: 15px; }
+{ background: url(../../_images/message_arrow.gif) no-repeat 0 0; position: relative; top: -7px; left: 15px; }
 
 .inbox_detail .message-body
 { padding: 20px 37px 30px; color:#333; font-size: 13px; }
@@ -308,16 +308,16 @@
 { height: 20px; }
 
 .inbox_main .lightgreybutton
-{ background: transparent url(../../_images2/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .inbox_main .lightgreybutton a
-{ background: url(../../_images2/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
+{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
 
 .inbox_main .greybutton
-{ background: transparent url(../../_images2/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
+{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .inbox_main .greybutton a
-{ background: url(../../_images2/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
+{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
 
 
 
@@ -375,7 +375,7 @@
 .inbox_main .user-personal .first{border-left: none;}
 
 
-.inbox_main .user-name{color: #058ec4; background: url(../../_images2/user_online.gif) no-repeat 7px 2px;}
+.inbox_main .user-name{color: #058ec4; background: url(../../_images/user_online.gif) no-repeat 7px 2px;}
 
 
 .inbox_main .user-name strong{padding-left: 14px;}
@@ -384,7 +384,7 @@
 .inbox_main .user-arrow-down{position: relative; top: -1px; padding-left: 3px;}
 
 
-.inbox_main .user-mail{background: url(../../_images2/user_mail_icon.gif) no-repeat 6px 3px;}
+.inbox_main .user-mail{background: url(../../_images/user_mail_icon.gif) no-repeat 6px 3px;}
 
 
 .inbox_main .user-mail a{color: #666; padding-left: 16px;}
