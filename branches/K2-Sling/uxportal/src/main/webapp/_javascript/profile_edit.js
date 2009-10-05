@@ -269,7 +269,7 @@ sakai.profile = function(){
 				       	type : "POST",
 				        data : tosend,
 						error : function(data){
-							alert("An error has occured");
+							alert("An error has occured while trying to post to " + fileUrl);
 						}
 					});
 					
@@ -385,7 +385,7 @@ sakai.profile = function(){
 					type: "POST",
 					data: tosend,
 					error: function(data){
-						alert("An error has occured");
+						alert("An error has occured while posting to " + fileUrl);
 					}
 				});
 				
@@ -441,7 +441,7 @@ sakai.profile = function(){
 					type: "POST",
 					data: tosend,
 					error: function(data){
-						alert("An error has occured");
+						alert("An error has occured while posting to " + fileUrl);
 					}
 				});
 				
@@ -736,7 +736,7 @@ sakai.profile = function(){
 			type : "POST",
 			data : tosend,
 			error : function(data){
-				alert("An error has occured");
+				alert("An error has occured while posting to " + fileUrl);
 			}
 		});
 		
