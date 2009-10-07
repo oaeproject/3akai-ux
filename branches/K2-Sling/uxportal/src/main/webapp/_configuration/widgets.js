@@ -498,6 +498,16 @@ var Widgets = {
 			showinsakaigoodies:0,
 			img:"/devwidgets/linktool/images/linktool.png"
 		},
+		footer :
+		{
+			description:"Dynamic Footer with Debug Info",
+			iframe:0,
+			url:"/devwidgets/footer/footer.html",
+			name:"Dynamic Footer",
+			id:"footer",
+			personalportal:0,
+			siteportal:0,
+		},
 		tangler :
 		{
 			description:"Tangler Forum",

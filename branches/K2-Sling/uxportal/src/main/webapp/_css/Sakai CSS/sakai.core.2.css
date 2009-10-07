@@ -237,12 +237,12 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav_selected_dropdown {height: 38px; background-color: #fff !important;}
 .explore_nav_selected_dropdown span {color: #595e62 !important;}
 
-#widget_chat2 {
+#widget_chat3 {
 	position: relative;
 	width: 960px;
 	margin: 0 auto;
 }
-#widget_chat2 #user_link_menu {
+#widget_chat3 #user_link_menu {
 	position: absolute;
 	top: 43px;
 	right: 285;
@@ -721,72 +721,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .whos_on .occupation a {color:#000; font-weight:normal;}
 .whos_on .description {font-style:italic; display:block;}
 
-/********************************************/
-/* Footers  */
-.sakai-footer {}
-.sakai-footer .fixed-container {
-	color: #fff;
-	background: url('../../_images/footer.png') center bottom no-repeat !important;
-	margin-bottom: 45px;
-	width: 926px;
-	padding: 17px 23px 0 23px;
-	height: 48px;
-	/*give IE6 a GIF rather than transparent PNG*/
-	_background: url('../../_images/footer.gif') center bottom no-repeat !important;
-	_width: 920px;
-	_padding: 17px 20px 0 20px;
-	_height: 43px;
-	}
-.sakai-footer .fixed-container img { float: left; margin-right: 15px; }
-.sakai-footer .fixed-container p { font-size: 11px; margin-bottom: 0; padding-bottom: 0; line-height: 1.3em; color: #fff; }
-.sakai-footer .fixed-container a { color: #c4e4fb; }
-.sakai-footer .fixed-container a.back-top { background: url('../../_images/white_bottom_arrow.png') center right no-repeat; color: #fff; display: block; float: right; font-size: 13px; font-weight: bold; padding-right: 20px; }
-
-.footer_menu {
-    border-bottom:1px solid #ccc;
-    padding:20px;
-}
-.footer_menu h4 {
-    clear:both;
-    margin:10px 0;
-}
-.footer_menu ul {
-    margin:-2.0em 0 0 70px; 
-    padding:0;
-}
-
-.footer_menu li {
-    display:inline;
-    list-style-type:none;    
-    
-}
-.footer_menu li.cap a{
-    border:none;
-}
-.footer_menu li a {
-    color:#000;
-    font-weight:normal;
-    font-size:0.85em;
-    border-left:1px solid #efefef;
-    padding:0 5px;    
-}
-
-.footer_copyright {
-    padding:10px 10px 0px 10px;
-    color:#999;
-    font-size:.85em;
-	line-height:1.5em;
-    text-align:left;
-	margin-bottom:20px;
-}
-
-.footer_copyright a{
-    float:right;
-}
-
-.footer_copyright p a{
-    float:none;	
-}
 
 /*  */
 .tab-nav {

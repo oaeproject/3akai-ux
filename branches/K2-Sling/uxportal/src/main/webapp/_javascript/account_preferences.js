@@ -87,7 +87,6 @@ sakai.accountPreferences =function(){
         if (isError) {
             $(generalMessage).addClass(errorMessage);
             $(generalMessage).removeClass(normalMessage);
-			
         }
         else {
             $(generalMessage).removeClass(errorMessage);
@@ -227,7 +226,7 @@ sakai.accountPreferences =function(){
 				putLangsinCmb(languages);
 			},
 			error: function(status){
-				alert("Failed to retrieve timezones.");
+				alert("Failed to retrieve the language list.");
 			}
 		});
 	};
@@ -238,11 +237,13 @@ sakai.accountPreferences =function(){
 	var saveRegionalToMe = function(){
 		var language = $(languagesContainer + " option:selected").val();
 		var locale = {"locale" : language, "timezone" : $(timezonesContainer + " option:selected").val()};
+		
 		$.ajax({
 			url : "/system/userManager/user/" + me.user.userid + ".update.html",
 			type : "POST",
+			
 			success : function(data) {
-				// update the user of the successful password change
+				// update the user of the successful reginal settings change
 				showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
 			},
 			error : function(status) {
@@ -252,7 +253,8 @@ sakai.accountPreferences =function(){
 				}
 				// some other error
 				else{
-					showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
+					
+					//showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
 				}
 			},
 			data : locale

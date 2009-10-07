@@ -3,23 +3,22 @@
 <head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Sakai 3  R&amp;D - Account Preferences</title>        
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.people.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
-	<link rel="stylesheet" type="text/css" href="/devwidgets/chat2/css/chat.css"/> 	   
-    
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />   
-    <link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css"/> 	   
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />   
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.3.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.account_preferences.css" /> 
 	
 	<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
@@ -42,7 +41,7 @@
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 	
 	 <!-- ERRORS AND MESSAGES -->
-    <span id="accountPref_error_passNotEqual" style="display:none;">New passwords aren't equal.</span>
+	<span id="accountPref_error_passNotEqual" style="display:none;">New passwords aren't equal.</span>
 	<span id="accountPref_error_incorrectPass" style="display:none;">You filled in an incorrect password.</span>
 	<span id="accountPref_error_failChangePass" style="display:none;">Changing password failed.</span>
 	<span id="accountPref_message_passChanged" style="display:none;">Password changed.</span>
@@ -52,7 +51,7 @@
 	
 	
     <!-- EXPLORE BAR -->
-    <div id="widget_chat2" class="widget_inline"></div>
+    <div id="widget_chat3" class="widget_inline"></div>
 	
 	<!-- HEADER -->
 	<div class="fl-container-flex header">
@@ -724,20 +723,10 @@
 	</div>
 	</div>
 	
-    <!-- FOOTER -->    
-	<div class="fl-container-flex sakai-footer">
-			<div class="fl-fix fl-centered  fixed-container">
-				<img src="_images/sakai_logo.png" alt="Sakai" />
-				<a href="javascript:;" class="back-top">Top</a>
-                <p>Portions of Sakai are copyrighted by other parties as described in the <a href="http://www.sakaiproject.org/portal/site/sakai-home/page/49575118-a888-48ba-bdca-ba3a904895b0" target="_blank">acknowledgements section</a></p>
-				<p>© 2004&mdash;2009 <a href="http://www.sakaiproject.org" target="_blank">The Sakai Foundation</a></p>
-				
-			</div>
-		</div>		
-
-		<div style="margin-bottom: 50px"></div>
-		
-    <div class="page-footer"/>
+	<!-- FOOTER WIDGET -->
+	<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+	
+    
 	
 	<script type="text/javascript" language="JavaScript" src="_javascript/account_preferences.js"></script>
 </body>

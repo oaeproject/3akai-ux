@@ -1,5 +1,6 @@
 {
-    "languages": [{
+    "languages":[
+    {
         "country": "CH",
         "language": "zh",
         "displayName": "Chinese (China)"
@@ -28,6 +29,5 @@
         "country": "KR",
         "language": "ko",
         "displayName": "Korean (South Korea)"
-    }
-    ]
+    }]
 }

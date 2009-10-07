@@ -362,7 +362,7 @@ sdata.widgets.WidgetLoader = {
 							widgetid = split[2];
 						}
 						
-						//console.debug(widgetname);
+						//console.debug(widgetname+": "+widgetid+" "+divarray[i].id);
 										
 						var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1; 
 						
@@ -953,37 +953,6 @@ jQuery.fn.stripTags = function() {
 })(jQuery);
 
 
-//////////////////////////////
-// Footer support functions //
-//////////////////////////////
 
-/*
- * This event handler will make sure that the Top link
- * that's available in every page footer will scroll back
- * to the top of the page
- */
-$(".back-top").live("click", function(ev){
-	window.scrollTo(0,0);
-});
-
-
-//////////////////////////////
-// DEBUG stuff - TEMP       //
-//////////////////////////////
-
-/*
- * This will display a debug info in the page title for easier QA
- */
-
-sakai.getDocName = function() {
-  var url = document.URL;
-  var slash = "/";
-  if (url.match(/\\/)) {
-    slash = "\\";
-  }
-  return url.substring(url.lastIndexOf(slash) + 1);
-}
-
-document.title = document.title + " | DEBUG INFO: UX SVN revision: 66743, file last mod date: " + document.lastModified + ", file/site: " + sakai.getDocName();
 
 

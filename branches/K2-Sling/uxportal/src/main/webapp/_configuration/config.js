@@ -17,6 +17,7 @@
  */
 
 var Config = {
+	
 	URL : {
 		BUNDLE_ROOT : "/dev/_bundle/",
 		MY_DASHBOARD: "/dev/my_sakai.html",
@@ -84,11 +85,13 @@ var Config = {
 		TEMPLATES: "/_user/private/_templates/pages/",
 		TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration"
 	},
+	
 	SakaiDomain : "http://localhost:8080/",
 	Profile : {
 		// Fields that cannot be edited and so controlled by LDAP, ...
    		uneditable : ["txt_firstname","txt_lastname"]
 	},
+	
 	Connections : {
 		/*
 		 * Email message that will be sent when inviting someone to become a connection. 
@@ -100,6 +103,7 @@ var Config = {
 			body : "Hi, \n\n ${user} has invited you to become a connection. \nHe/She has also left the following message: \n\n ${comment} \n\nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team"
 		}
 	},	
+	
 	Site : {
 		// Default roles that will be available within a site, next to Owner
 		Roles : ["Collaborator", "Viewer"],
@@ -116,6 +120,7 @@ var Config = {
 			}
 		}
 	},
+	
 	Messages : {
 		Types : {
 			inbox : "inbox",
@@ -134,11 +139,14 @@ var Config = {
 		To : "to",
 		read : "read"
 	},
+	
 	L10N: {
 		DateFormat: "dd/MM/yyyy",
 		TimeFormat: "HH:mm:ss",
 		DateTimeFormat: "EEEEE, d MMMMM yy",
 		DecimalPoint: ",",
 		NumberSeparator: "."
-	}
+	},
+	
+	displayDebugInfo: true
 };
