@@ -1,0 +1,119 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*global $, Config, sdata */
+
+var sakai = sakai || {};
+
+/**
+ * Initialize the helloworld widget
+ * @param {String} tuid Unique id of the widget
+ * @param {String} placement The place of the widget - usualy the location of the site
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
+sakai.footer = function(tuid,placement,showSettings){
+
+	//////////////////////
+	// Helper functions //
+	//////////////////////
+
+	/*
+	 * This helper function will 
+	 */
+	var getDocName = function() {
+		var url = document.URL;
+		var slash = "/";
+		if (url.match(/\\/)) {
+			slash = "\\";
+		}
+		return url.substring(url.lastIndexOf(slash) + 1);
+	}
+	
+	
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
+	
+	var footer_root = $("#footer_main");
+	var debug_info = $("#debug_info");
+	var back_to_top_link = $("#footer_main .back-top");
+	var doc_name = getDocName();
+	
+	
+	////////////////////
+	// Main functions //
+	////////////////////
+	var showDebugInfo = function(container) {
+		
+		// Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
+		var debug_text = "DEBUG:";
+		debug_text += " UX svn: <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67189' target='_blank'>67189</a>, <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=66936'>66936</a>";
+		debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/70291c979dcc75f9633db07735c0a70b03e2a5f5' target='_blank'>70291c979dcc75f9633db07735c0a70b03e2a5f5</a>";
+		debug_text += " | DOC mod date: " + document.lastModified;
+		debug_text += " | PLACE: " + doc_name;
+		
+		// Put text into holding tag
+		container.html(debug_text);
+		
+		// Show debug item
+		container.show();	
+	};
+
+	
+	
+
+
+	/*
+	 * This event handler will make sure that the Top link
+	 * that's available in every page footer will scroll back
+	 * to the top of the page
+	 */
+	$(".back-top").live("click", function(ev){
+		window.scrollTo(0,0);
+	});
+	
+	
+	/////////////////////////////
+	// Initialisation function //
+	/////////////////////////////
+	
+	
+	var doInit = function(){
+		
+		// Display debug info if set in config
+		if (Config.displayDebugInfo === true) {
+			// Make space for debug info
+			footer_root.height("65px");
+			
+			// Show the debug info
+			showDebugInfo(debug_info);
+		} else {
+			footer_root.height("45px");
+		}
+		
+		// index.html mods
+		if (doc_name == "index.html") {
+			back_to_top_link.hide();
+			footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
+		}
+	};
+	doInit();
+
+};
+
+sdata.widgets.WidgetLoader.informOnLoad("footer");

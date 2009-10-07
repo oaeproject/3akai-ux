@@ -1,0 +1,36 @@
+
+
+.sakai-footer {
+	color: #fff;
+	background: url('../images/footer.png') center bottom no-repeat;
+	margin-bottom: 45px;
+	width: 960px;
+	padding: 10px;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	
+	/*give IE6 a GIF rather than transparent PNG*/
+	_background: url('../images/footer.gif') center bottom no-repeat;
+	_width: 960px;
+	_padding: 0;
+	_height: 60px;
+}
+
+.sakai-footer .fixed-container {
+	padding-left: 25px;
+	padding-right: 25px;
+	width: 910px;
+	background: #454A4F;
+}
+	
+.sakai-footer .debug_info {
+	margin-left:76px;
+	margin-top:5px;
+}
+	
+.sakai-footer .fixed-container img { float: left; margin-right: 15px; }
+.sakai-footer .fixed-container p { font-size: 11px; margin-bottom: 0; padding-bottom: 0; line-height: 1.3em; color: #fff; }
+.sakai-footer .fixed-container a { color: #c4e4fb; }
+.sakai-footer .fixed-container a.back-top { background: url('../images/white_bottom_arrow.png') center right no-repeat; color: #fff; display: block; float: right; font-size: 13px; font-weight: bold; padding-right: 20px; }
+
