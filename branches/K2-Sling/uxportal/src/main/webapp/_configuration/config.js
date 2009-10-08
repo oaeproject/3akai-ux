@@ -83,7 +83,11 @@ var Config = {
 		USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
 		USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
 		TEMPLATES: "/_user/private/_templates/pages/",
-		TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration"
+		TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration",
+		
+		TWITTER_GET_URL: "/var/proxy/twitter/status.json",
+		TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"
+		
 	},
 	
 	SakaiDomain : "http://localhost:8080/",
