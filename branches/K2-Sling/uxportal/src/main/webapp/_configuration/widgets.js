@@ -1,50 +1,13 @@
 var Widgets = {
-	connections : [
-		{
-			id : 1,
-			dir1 : "is my classmate",
-			dir2 : "is my classmate"
-		},
-		{
-			id: 2,
-			dir1 : "is my supervisor",
-			dir2 : "is being supervised by me"
-		},
-		{
-			id: 3,
-			dir1 : "is being supervised by me",
-			dir2 : "is my supervisor"
-		},
-		{
-			id: 4,
-			dir1 : "is my lecturer",
-			dir2 : "is my student"
-		},
-		{
-			id: 5,
-			dir1 : "is my student",
-			dir2 : "is my lecturer"
-		},
-		{
-			id: 6,
-			dir1 : "is my colleague",
-			dir2 : "is my colleague"
-		},
-		{
-			id: 7,
-			dir1 : "is my college mate",
-			dir2 : "is my college mate"
-		},
-		{
-			id: 8,
-			dir1 : "shares an interest with me",
-			dir2 : "shares an interest with me"
-		},
-		{
-			id: 9,
-			dir1 : "is something else",
-			dir2 : "is something else"
-		}
+	relationships : [
+		{name : "Classmate", definition : "is my classmate"},
+		{name : "Supervisor", inverse : "Supervised", definition : "is my supervisor"},
+		{name : "Supervised", inverse : "Supervisor", definition : "is being supervised by me"},
+		{name : "Lecturer", inverse : "Student", definition : "is my lecturer"},
+		{name : "Student", inverse : "Lecturer", definition : "is my student"},
+		{name : "Colleague", definition : "is my colleague"},
+		{name : "College Mate", definition : "is my college mate"},
+		{name : "Shares Interests", definition : "shares an interest with me"}
 	],
 	groups:[
 		"Administrators",

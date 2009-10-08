@@ -254,10 +254,11 @@ sakai.site_manage_members = function() {
 			peoplesearchterm = "&q=" + peoplesearchterm;
 		}
 		
-		
+		// Until paging and server-side filtering are sorted out,
+		// retrieve enough site members to approximate "all".
         $.ajax({
             cache: false,
-			url: "/sites/" + selectedSite + ".members.json",
+			url: "/sites/" + selectedSite + ".members.json?items=10000",
             success: function(data) {
                 json.members = $.evalJSON(data);
 				

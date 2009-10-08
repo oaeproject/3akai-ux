@@ -78,6 +78,7 @@ sakai.search = function(){
 			for (var i = 0; i < foundContacts.results.length; i++) {
 				var item = foundContacts.results[i];
 				var person = item.profile;
+				var connection = item.details;
 				profiles[item.target] = item;
 				profiles[item.target].profile.uuid = item.target;
 				if (person) {
@@ -96,7 +97,11 @@ sakai.search = function(){
 					else {
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
-					if (person.basic) {
+					
+					var relationships = connection["relationships"];
+					if (relationships) {
+						finaljson.items[index].extra = relationships;
+					} else if (person.basic) {
 						var basic = $.evalJSON(person.basic);
 						if (basic.unirole) {
 							finaljson.items[index].extra = basic.unirole;
