@@ -163,12 +163,14 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	 * @param {String} userid
 	 */
 	var doInvite = function(userid) {
-		var toSend = $.FormBinder.serialize($(addToContactsForm));
+		var formValues = $.FormBinder.serialize($(addToContactsForm));
+		var types = formValues[addToContactsFormType.replace(/#/gi, '')];
 		$(addToContactsResponse).text("");
-		if (toSend[addToContactsFormType.replace(/#/gi, '')]) {
-		
-			var type = toSend[addToContactsFormType.replace(/#/gi, '')];
-			var personalnote = toSend[addToContactsFormPersonalNote.replace(/#/gi, '')];
+		if (types.length) {
+			var toSend = {
+				"relationships" : types
+			}
+			var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 			
 			// send message to other person
 			var userstring = me.profile.firstName + " " + me.profile.lastName;
@@ -185,7 +187,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 				},
 				error: function(status) {
 					$(addToContactsResponse).text($(addToContactsErrorRequest).text());
-				}
+				},
+				data: toSend
 			});
 			
 		}
@@ -264,6 +267,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			friend.uuid = user.preferences.uuid;
 			fillInUserInfo(friend);
 		}
+		
+		console.debug(friend);
 		// Render the templates
 		renderTemplates();
 		

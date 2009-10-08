@@ -62,7 +62,7 @@ sakai.footer = function(tuid,placement,showSettings){
 		
 		// Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
 		var debug_text = "DEBUG:";
-		debug_text += " UX svn: <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67189' target='_blank'>67189</a>, <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=66936'>66936</a>";
+		debug_text += " UX svn: <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67318' target='_blank'>67318</a>, <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67317'>67317</a>";
 		debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/70291c979dcc75f9633db07735c0a70b03e2a5f5' target='_blank'>70291c979dcc75f9633db07735c0a70b03e2a5f5</a>";
 		debug_text += " | DOC mod date: " + document.lastModified;
 		debug_text += " | PLACE: " + doc_name;

@@ -60,8 +60,8 @@ I would like to invite you to become a member of my network on Sakai.
 
 <!-- WHAT TYPE OF CONNECTION TEMPLATE -->
 <div id="addtocontacts_form_type_template" style="display:none"><!--
-	{for i in connections}
-		<input type="checkbox" name="addtocontacts_form_type" value="${i.id}" id="addtocontacts_checkbox_${i.id}" {if i_index == 0}CHECKED{/if}/> <label for="addtocontacts_checkbox_${i.id}">${i.dir1}</label><br/>
+	{for type in relationships}
+		<input type="checkbox" name="addtocontacts_form_type" value="${type.name}" id="addtocontacts_checkbox_${type_index}" {if type_index == 0}CHECKED{/if}/> <label for="addtocontacts_checkbox_${type_index}">${type.definition}</label><br/>
 	{/for}
 --></div>
 
