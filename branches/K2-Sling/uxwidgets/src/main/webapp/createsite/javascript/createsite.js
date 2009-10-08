@@ -161,6 +161,8 @@ sakai.createsite = function(tuid,placement,showSettings){
 	 */
 	var replaceCharacters = function(input){
 		input = input.toLowerCase().replace(/ /g,"-");
+		input = input.toLowerCase().replace(/'/g,"");
+		input = input.toLowerCase().replace(/"/g,"");
 		
 		var regexp = new RegExp("[^a-z0-9_-]", "gi");
 		input = input.replace(regexp,"_");
@@ -326,7 +328,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				createViewersGroup(siteid);
 			},
 			error: function(status){
-				alert("Failed to create group!");
+				alert("Failed to create collaborator group!");
 				return;
 				createViewersGroup(siteid);
 			},
@@ -344,7 +346,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 				addGroupsToSite(siteid);
 			},
 			error: function(status){
-				alert("Failed to create group!");
+				alert("Failed to create viewer group!");
 				return;
 				addGroupsToSite(siteid);
 			},
