@@ -18,24 +18,28 @@
 	
 </div>
 <div class="fl-widget-bottom-right">
-	<div class="fl-widget-bottom "></div>
+	<div class="fl-widget-bottom "><!-- --></div>
 </div>
 
 <div id="twitter_template_get_status"><!--
-	<label class="twitter_input_label" for="twitter_input_screen_name">Screen name:</label>
-	<input class="twitter_input_text" id="twitter_input_screen_name" type="text" value="${screen_name}"/>
-	<div class="buttonBar twitter_buttonBar">
-		<a class="button twitter_button" href="javascript:;" id="twitter_link_get_status">OK</a>
-	</div>
+	<form id="twitter_get_status" method="GET" action="#">
+		<label class="twitter_input_label" for="twitter_input_screen_name">Screen name:</label>
+		<input class="twitter_input_text" id="twitter_input_screen_name" type="text" value="${screen_name}"/>
+		<div class="buttonBar twitter_buttonBar">
+			<a class="button twitter_button" href="javascript:;" id="twitter_link_get_status">OK</a>
+		</div>
+	</form>
 --></div>
 <div id="twitter_template_set_status"><!--
-	<label class="twitter_input_label" for="twitter_input_screen_name">Screen name:</label>
-	<input class="twitter_input_text" id="twitter_input_screen_name" type="text" value="${screen_name}"/><br />
-	<label class="twitter_input_label" for="twitter_input_password">Password:</label>
-	<input class="twitter_input_text" id="twitter_input_password" type="password" value="${password}"/>
-	<div class="buttonBar twitter_buttonBar">
-		<a class="button twitter_button" href="javascript:;" id="twitter_link_set_status">OK</a>
-	</div>
+	<form id="twitter_set_status" method="GET" action="#">
+		<label class="twitter_input_label" for="twitter_input_screen_name">Screen name:</label>
+		<input class="twitter_input_text" id="twitter_input_screen_name" type="text" value="${screen_name}"/><br />
+		<label class="twitter_input_label" for="twitter_input_password">Password:</label>
+		<input class="twitter_input_text" id="twitter_input_password" type="password" value="${password}"/>
+		<div class="buttonBar twitter_buttonBar">
+			<a class="button twitter_button" href="javascript:;" id="twitter_link_set_status">OK</a>
+		</div>
+	</form>
 --></div>
 <div id="twitter_template_message"><!--
 	{if error != ""}
@@ -45,4 +49,9 @@
 		<p class="twitter_info">${info}</p>
 	{/if}
 --></div>
+
+	<!-- FOOTER LINKS -->
+	<div class="fl-widget-options fl-fix">
+		<div class="widget-options-inner"><!-- --></div>
+	</div>	
 <script type="text/javascript" language="JavaScript" src="/devwidgets/twitter/javascript/twitter.js"></script>

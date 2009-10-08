@@ -1,3 +1,23 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*global $, sdata, Config, addBinding */
+
 var sakai = sakai || {};
 
 sakai.twitter = function(tuid,placement,showSettings){
@@ -6,16 +26,6 @@ sakai.twitter = function(tuid,placement,showSettings){
 	var me; // me object
 	var me_json; // json me object
 	var rootel = $("#" + tuid);
-	var url_base="http://twitter.com/"; // base url that is used for communication with the services
-	
-	/**
-	 * Encode to correct data
-	 * @param {String} input The data that needs to be encoded
-	 */
-	var encodeData = function(input){
-		input= input.replace(/ /g,"%20");
-		return input;
-	};
 	
 	/**
 	 * Reset the values of the json object
@@ -35,6 +45,27 @@ sakai.twitter = function(tuid,placement,showSettings){
 	var getMe = function(){
 		me = sdata.me;
 		me_json = me.profile;	
+	};
+	
+		
+	/**
+	 * Render the template of a container
+	 * @param {String} container Container that will be rendered
+	 */
+	var renderTemplate = function(container){
+		switch(container){
+			case "get_status":
+				currentSubContainer = "get";
+				$("#twitter_sub_container", rootel).html($.Template.render('twitter_template_get_status',json));
+				break;
+			case "set_status":
+				currentSubContainer = "set";
+				$("#twitter_sub_container", rootel).html($.Template.render('twitter_template_set_status',json));
+				break;
+			case "message":
+				$("#twitter_message_container", rootel).html($.Template.render('twitter_template_message',json));
+				break;
+		}
 	};
 
 	/**
@@ -87,10 +118,10 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 */
 	var changeLocalStatus = function(){
 		if(json.status){
-			basic = {};
+			var basic = {};
 			basic.status = json.status;
 			
-			data = {"basic":$.toJSON(basic)};
+			var data = {"basic":$.toJSON(basic)};
 			
 			$.ajax({
 				url :"/_user/public/" + sdata.me.user.userid + "/authprofile",
@@ -98,7 +129,7 @@ sakai.twitter = function(tuid,placement,showSettings){
 				data : data,
 				success : function(data) {
 					setInfo("Your status has been succesfully updated.");
-					ev = {};
+					var ev = {};
 					ev.value = json.status;
 				},
 				error : function(data){
@@ -117,7 +148,7 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 */
 	var parseTwitterStatus = function(response, exists){
 		if(exists){
-			data = $.evalJSON(response);
+			var data = $.evalJSON(response);
 			json.status = "";
 			json.status = data[0].text;
 			changeLocalStatus();
@@ -133,7 +164,8 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 */
 	var parseTwitterResponse = function(response, exists){
 		if(exists){
-			data = $.evalJSON(response);
+			//TODO check for a valid response in the json object
+			//var data = $.evalJSON(response);
 			setInfo("Your twitter status has been succesfully updated.");
 		}else{
 			setError("Could not update the twitter status.");
@@ -181,16 +213,16 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 */
 	var getStatusFromTwitter = function(){
 		if(setScreenName(true)){
-			var oPostData = {"method" : "GET", "url" : url_base + "statuses/user_timeline/" + json.screen_name + ".json?page=1"};
-			oPostData.url = encodeData(oPostData.url);
+			var oPostData = {
+				user: json.screen_name
+			};
 	        $.ajax({
-	            url :"/system/proxy",
-	            type : "POST",
+	            url : Config.URL.TWITTER_GET_URL,
 	            success : function(data) {
 					parseTwitterStatus(data, true);
 	            },
 	            error : function(status) {
-	            	parseTwitterStatus(status, false);
+					parseTwitterStatus(status, false);
 	            },
 	            data : oPostData
 	        });
@@ -202,16 +234,20 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 */
 	var setStatusToTwitter = function(){
 		if(setScreenName(true) && setPassword()){
-			currentBasic = me_json.basic;
+			var currentBasic = me_json.basic;
 			if (currentBasic){
 				currentBasic = $.evalJSON(currentBasic);
 			}
 			if(currentBasic.status){
-				dataToTwitter = "status=" + encodeURIComponent(currentBasic.status);
-				var oPostData = {"method" : "POST", "url" : url_base + "statuses/update.json", "user" : json.screen_name, "password" : json.password, "post" : dataToTwitter};
-				oPostData.url = encodeData(oPostData.url);
+				
+				var oPostData = {
+					":basic-user" : json.screen_name,
+					":basic-password" : json.password,
+					status : currentBasic.status
+				};
+				
 				$.ajax({
-					url :"/system/proxy",
+					url : Config.URL.TWITTER_POST_URL,
 					type : "POST",
 					success : function(data) {
 						parseTwitterResponse(data, true);
@@ -259,41 +295,56 @@ sakai.twitter = function(tuid,placement,showSettings){
 	var addBinding = function(container){
 		switch(container){
 			case "get_status":
-				$("#twitter_link_get_status", rootel).bind("click",function(e,ui){
+			
+				/**
+				 * TODO change the submit event to live("submit") as soon as jQuery supports it
+				 */
+				$("#twitter_get_status").submit(function(){
 					clearErrorAndInfo();
 					getStatusFromTwitter();
+					return false;
 				});
+				$("#twitter_link_get_status", rootel).bind("click",function(e,ui){
+
+					// Execute the submit event on the parent form
+					$(this).parents().filter("form").trigger("submit");
+				});
+				
+				renderTemplate("message");
+				
 				break;
 			case "set_status":
-				$("#twitter_link_set_status", rootel).bind("click",function(e,ui){
+			
+				/**
+				 * TODO change the submit event to live("submit") as soon as jQuery supports it
+				 */
+				$("#twitter_set_status").submit(function(){
 					clearErrorAndInfo();
 					setStatusToTwitter();
+					return false;
+				});
+				$("#twitter_input_password").bind("keypress", function(e){
+					var code = (e.keyCode ? e.keyCode : e.which);
+					if(code === 13) { // Enter keycode
+
+						// Execute the submit event on the parent form
+						$(this).parents().filter("form").trigger("submit");
+					}
+				});
+				$("#twitter_link_set_status", rootel).bind("click",function(e,ui){
+
+					// Execute the submit event on the parent form
+					$(this).parents().filter("form").trigger("submit");
 				});
 				break;
 		}
+
+		/**
+		 * Bind the radiobuttons to switch between 2 views
+		 */
 		$("input[name=twitter_input_get_set]").bind("click",function(e,ui){
 			showSubContainer(e.target.id.replace("twitter_input_", ""));
 		});
-	};
-	
-	/**
-	 * Render the template of a container
-	 * @param {String} container Container that will be rendered
-	 */
-	var renderTemplate = function(container){
-		switch(container){
-			case "get_status":
-				currentSubContainer = "get";
-				$("#twitter_sub_container", rootel).html($.Template.render('twitter_template_get_status',json));
-				break;
-			case "set_status":
-				currentSubContainer = "set";
-				$("#twitter_sub_container", rootel).html($.Template.render('twitter_template_set_status',json));
-				break;
-			case "message":
-				$("#twitter_message_container", rootel).html($.Template.render('twitter_template_message',json));
-				break;
-		}
 	};
 	
 	/**
