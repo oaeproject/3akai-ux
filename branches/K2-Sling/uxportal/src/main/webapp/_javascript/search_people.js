@@ -121,6 +121,32 @@ sakai.search = function() {
 		$(searchConfig.results.header).show();
 	};
 	
+	/**
+	 * This method will cretae a flat space separeted
+	 * string from a numbered object. For example: obj = {0:"Foo",1:"Bar"} will return "Foo Bar"
+	 * @param {Object} input_object
+	 * @return {String} The concatenated String
+	 */
+	var concatObjectValues = function(input_object) {
+		
+		var return_string = "";
+		
+		// Error handling
+		if ((input_object.length === 0) || (!input_object)) {
+			return return_string;
+		}
+		
+		// Concatenate
+		for (var i = 0, j = input_object.length; i<j; i++) {
+			return_string += input_object[i]+" ";
+		}
+		
+		// Remove extra space at the end
+		return_string = return_string.substring(0,return_string.length-2);
+		
+		return return_string;
+	};
+	
 	
 	/**
 	 * Will search for a user in the list of results we got from the server.
@@ -128,10 +154,16 @@ sakai.search = function() {
 	 * @return Will return the user object if something is found, false if nothing is found.
 	 */
 	var searchPerson = function(userid) {
-		var person = false;
-		for (var i = 0; i < foundPeople.length; i++) {
-			if (foundPeople[i].userid === userid) {
-				person = foundPeople[i];
+		var person = {};
+		for (var i = 0, j = foundPeople.length; i < j; i++) {
+			var t_userid = concatObjectValues(foundPeople[i].userid);
+			var t_firstname = concatObjectValues(foundPeople[i].firstName);
+			var t_lastname = concatObjectValues(foundPeople[i].lastName);
+			
+			if (t_userid === userid) {
+				person.uuid = t_userid;
+				person.firstName = t_firstname;
+				person.lastName = t_lastname;
 				break;
 			}
 		}
@@ -335,14 +367,14 @@ sakai.search = function() {
     
 	/** When a user wants to message another  user */
 	$(searchConfig.global.messageClass).live("click", function() {
+		
 		var reg = new RegExp(searchConfig.global.messageID, "gi");
 		var contactclicked = $(this).attr("id").replace(reg,"");
 		var person = searchPerson(contactclicked);
 		if (person) {
 			$(searchConfig.global.sendmessageContainer).show();
-			if (!person.uuid) {
-				person.uuid = person.userid;
-			}
+			
+			
 			sakai.sendmessage.initialise(person, true);
 		}
 	});
