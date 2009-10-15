@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Sakai 3 R&amp;D - Content &amp; Media</title>
+	
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
+	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.text.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.contentmedia.css" />
+	<!--<link type="text/css" rel="stylesheet" href="_css/Sakai CSS/sakai.3.css" />-->
+	<link type="text/css" rel="stylesheet" href="/devwidgets/chat2/css/chat.css"/>
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_permissions.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />
+	<link rel="stylesheet" type="text/css" href="_lib/JsTree/tree_component.css" />
+	
+	<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
+	<script src="_lib/Sakai Util/trimpath.js" type="text/javascript"></script>
+	<script src="_lib/Sakai Util/SHA.js" type="text/javascript" language="JavaScript"></script>
+	<script src="_lib/Jquery/jqModal.js" type="text/javascript"></script>
+	<script src="_lib/Jquery/jquery.cookie.js" type="text/javascript"></script>
+	<script src="_lib/Jquery/jquery.pager.js" type="text/javascript"></script>
+
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/ui.droppable.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/JsTree/tree_component.min.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/JsTree/css.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/querystring.js"></script>
+	
+</head>
+<body id="root" class="fl-centered fl-container i18nable contentmedia-container">
+    <!-- EXPLORE BAR -->
+    <div id="widget_chat3" class="widget_inline">
+    </div>
+    <!-- CONTENT -->
+    <div class="fl-container fl-fix fl-container-flex content contentmedia_content" style="display:none">
+        <div class="fl-fix fl-centered fixed-container">
+            <div class="decor"><!-- -->
+            </div>
+            <!-- TITLE --><h1 class="title">Find, browse and manage files</h1>
+            <!-- CONTENT -->
+            <div class="fl-centered fl-container fl-tab-content contentmedia_content_wrapper">
+                <div class="contentmedia_tab_content_top">
+                    <div class="contentmedia_tab_content_top_inner">
+                    	<!-- -->
+                    </div>
+                </div>
+                <div class="contentmedia_content_main">
+                    <div id="contentmedia_drop_message"></div>
+					<div id="contentmedia_drop_message_template"><!-- 
+						${count} 
+						{if count == 1}
+						file has
+						{else}
+						files have
+						{/if}
+						 been added to 
+						{if kind == "tag"}
+						the "${dropped}" tag.
+						{else}
+						"${dropped}"
+						{/if}
+					--></div>
+					<!-- Left container -->
+					<div id="contentmedia_main_left">
+						<!-- Context Filters -->
+						<div id="contentmedia_context_filters">
+							<a href="javascript:;" id="contentmedia_accordion_list_site_all">All Files (debug)<span class="contentmedia_hidden">allfiles</span></a>
+							<a href="javascript:;" id="contentmedia_context_filters_myfiles">My Files<span class="contentmedia_hidden">myfiles</span></a>
+							<a href="javascript:;">My Contacts' Files<span class="contentmedia_hidden">mycontacts</span></a>
+							<a href="javascript:;">Files On My Sites<span class="contentmedia_hidden">mysites</span></a>
+							<a href="javascript:;" id="contentmedia_accordion_list_site_bookmarks">My Bookmarked Files<span class="contentmedia_hidden">mybookmarks</span></a>
+						</div>
+						<!-- Accordion -->
+						<div id="contentmedia_accordion">
+							<a href="javascript:;" title="Search for files">Search</a>
+							<div id="contentmedia_search">
+								<form>
+									<input type="text" value="Search for files ..." class="input" id="search_text"/>
+									<a id="contentmedia_search_button" class="search_button" href="javascript:;">
+										<span>Search</span>
+									</a>
+								</form>
+							</div>
+					
+							<a href="javascript:;" title="Browse by folders" id="contentmedia_folders_trigger">Browse by folders</a>
+							<div id="contentmedia_folders">
+								
+							</div>
+							
+							<a href="javascript:;" title="Filter by tag">Filter by tag</a>
+							<div id="contentmedia_accordion_list_tag">
+								<div class="contentmedia_accordion_list_tag_top">
+									<a href="javascript:;">A</a> <a href="javascript:;">B</a> <a href="javascript:;">C</a> <a href="javascript:;">D</a> 
+									<a href="javascript:;">E</a> <a href="javascript:;">F</a> <a href="javascript:;">G</a> <a href="javascript:;">H</a> <a href="javascript:;">I</a> 
+									<a href="javascript:;">J</a> <a href="javascript:;">K</a> <a href="javascript:;">L</a> <a href="javascript:;">M</a> <a href="javascript:;">N</a> 
+									<a href="javascript:;">O</a> <a href="javascript:;">P</a> <a href="javascript:;">Q</a> <a href="javascript:;">R</a> <a href="javascript:;">S</a> 
+									<a href="javascript:;">T</a> <a href="javascript:;">U</a> <a href="javascript:;">V</a> <a href="javascript:;">W</a> <a href="javascript:;">X</a> 
+									<a href="javascript:;">Y</a> <a href="javascript:;">Z</a>
+								</div>
+								
+								<div class="contentmedia_accordion_list">
+									<a href="javascript:;"><span>Animals</span> (1)</a>
+									<a href="javascript:;"><span>Barcelona</span> (23)</a>
+									<a href="javascript:;"><span>Car</span> (7)</a>
+									<a href="javascript:;"><span>Flower</span> (11)</a>
+									<a href="javascript:;"><span>India</span> (1)</a>
+									<a href="javascript:;"><span>Live</span> (9)</a>
+									<a href="javascript:;"><span>Spring</span> (1)</a>
+									<a href="javascript:;"><span>Sunset</span> (4)</a>
+									<a href="javascript:;"><span>Zoo</span> (1)</a>
+								</div>
+							</div>
+				
+							<a href="javascript:;" title="Filter by site">Filter by site</a>
+							<div id="contentmedia_accordion_list_site">
+								
+							</div>
+							<a href="javascript:;" title="Upload new files" id="contentmedia_uploader_trigger">Upload new files</a>
+							<div id="uploader-contents">
+		
+						        <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
+						        <form method="post" enctype="multipart/form-data" class="fl-uploader fl-progEnhance-basic">
+						            <p>Browse to upload a file.</p>
+						            <input name="fileData" type="file" />
+						            <div><input type="submit" value="Save"/></div>
+						        </form>
+						        
+						        <!-- This is the markup for the Fluid Uploader component itself. -->
+						        <form class="flc-uploader fl-uploader fl-progEnhance-enhanced" 
+						              method="get" 
+						              enctype="multipart/form-data">
+						                  
+						            <!-- The file queue -->
+						            <div class="fl-uploader-queue-wrapper">
+						                
+						                <!-- Top of the queue -->
+						                <div class="fl-uploader-queue-header">
+						                    <table cellspacing="0" cellpadding="0" summary="Headers for the file queue.">
+						                        <caption>File Upload Queue:</caption>
+						
+						                            <tr>
+						                                <th scope="col" class="fl-uploader-file-name">File Name</th>
+						                                <th scope="col" class="fl-uploader-file-size">Size&nbsp;&nbsp;</th>
+						                                <th scope="col" class="fl-uploader-file-actions">&nbsp;</th>
+						                            </tr>
+						
+						                    </table>
+						                </div>
+						                
+						                <!-- Scrollable view -->
+						                <div class="flc-scroller fl-scroller">
+						                    <div class="fl-scroller-inner">
+						                        <table cellspacing="0" class="flc-uploader-queue fl-uploader-queue" summary="Queue of files to upload.">
+						                            <tbody>
+						                                <!-- Rows will be rendered in here. -->
+						                                
+						                                <!-- Template markup for the file queue rows -->
+						                                <tr class="flc-uploader-file-tmplt flc-uploader-file fl-uploader-hidden-templates">
+						                                    <th class="flc-uploader-file-name fl-uploader-file-name" scope="row">File Name Placeholder</th>
+						                                    <td class="flc-uploader-file-size fl-uploader-file-size">0 KB</td>
+						                                    <td class="fl-uploader-file-actions">
+						                                        <button type="button" class="flc-uploader-file-action fl-uploader-file-action" title="Remove File" tabindex="-1">
+						                                            <span class="fl-uploader-button-text fl-uploader-hidden">Remove file from queue</span>
+						                                        </button>
+						                                    </td>
+						                                </tr>
+						                                
+						                                <!-- Template for the file error info rows -->
+						                                <tr class="flc-uploader-file-error-tmplt fl-uploader-file-error fl-uploader-hidden-templates">
+						                                    <td colspan="3" class="flc-uploader-file-error"></td>
+						                                </tr>
+						                            </tbody>
+						                        </table>
+						                        <div class="flc-uploader-file-progressor-tmplt fl-uploader-file-progress"><span class="fl-uploader-file-progress-text fl-uploader-hidden">76%</span></div>
+						                    </div>
+						                </div>
+						                
+						                <div class="flc-uploader-browse-instructions fl-uploader-browse-instructions">
+						                    Choose <em>Browse files</em> to add files to the queue 
+						                </div>
+						    
+						                <!-- Foot of the queue -->
+						                <div class="flc-uploader-queue-footer fl-uploader-queue-footer">
+						                    <table cellspacing="0" cellpadding="0" summary="Status of file queue.">
+						
+						                            <tr>
+						                                <td class="flc-uploader-total-progress-text">
+						                                    Total: <span class="fl-uploader-totalFiles">0</span> files 
+						                                    (<span class="fl-uploader-totalBytes">0 KB</span>)
+						                                </td>
+						                                <td class=".fl-uploader-footer-buttons" align="right" >
+						                                    <a href="#" class="flc-uploader-button-browse fl-uploader-browse">Browse files</a>
+						                                </td>
+						                            </tr>
+						
+						                    </table>
+						                    <div class="flc-uploader-total-progress fl-uploader-total-progress-okay">&nbsp;</div>
+						                </div>
+						            </div>
+						            
+						            <!-- Action buttons -->
+						            <div class="fl-uploader-btns">
+						                <button type="button" class="flc-uploader-button-pause fl-uploader-pause fl-uploader-hidden">Stop Upload</button><button type="button" class="flc-uploader-button-upload fl-uploader-upload fl-uploader-button-default fl-uploader-dim" disabled="disabled">Upload</button>
+						            </div>
+						        </form>
+						    </div>
+						</div>
+						
+					</div>
+					
+					<div id="contentmedia_main_right">
+							<div id="contentmedia_bar_right">
+								<a id="contentmedia_actions_view_list" href="javascript:;" title="List view">List view</a>|
+								<a id="contentmedia_actions_view_thumbnail" href="javascript:;" title="Thumbnail view"><span>Thumbnail view</span></a>|
+								<a id="contentmedia_actions_edit" href="javascript:;">Edit Files</a>|
+								<a id="contentmedia_actions_remove" href="javascript:;">Remove Files</a>
+							</div>
+							
+							<!-- Filters -->
+							<div id="contentmedia_list_title"></div>
+							<div id="contentmedia_list_title_template"><!--
+								<div class="contentmedia_list_heading_main contentmedia_list_heading">
+									{if site.length > 0}
+										${site[0].name}
+									{else}
+										{if context === "allfiles"}
+											All Files
+										{elseif context === "myfiles"}
+											My Files
+										{elseif context === "mycontacts"}
+											My Contacts' Files
+										{elseif context === "mysites"}
+											Files On My Sites
+										{elseif context === "mybookmarks"}
+											My Bookmarked Files
+										{else}
+											${context}
+										{/if}
+									{/if}
+									
+									{if site.length > 0 || context != "myfiles"}
+									<a href="javascript:;" id="contentmedia_remove_filter_context"><img src="/devwidgets/filemanager/images/remove_filter.png" alt=""/></a>
+									{/if}
+								</div>
+								{if tag && tag.length > 0}
+								<div class="contentmedia_list_heading">
+									With tag
+									{for t in tag}
+										{if t_index == tag.length-1 && t_index > 0}
+											and
+										{elseif t_index > 0}
+											,
+										{/if}
+										"${t}"
+									{/for}
+									<a href="javascript:;" id="contentmedia_remove_filter_tag" title="remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt=""/></a>
+								</div>
+								{/if}
+								{if search && search !== "*"}
+								<div class="contentmedia_list_heading">
+									Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt=""/></a>
+								</div>
+								{/if}
+							--></div>
+							<!-- Filters -->
+				
+							<div id="contentmedia_files_container"></div>
+							<div id="contentmedia_paging" class="jq_pager"></div>
+							<div id="contentmedia_files_container_template"><!--
+								{for i in results}
+									<div class="contentmedia_file" id="contentmedia_filename_${i_index}">
+										{if i['sakai:mimeType']}
+											{var mimeType = i['sakai:mimeType']}
+										{elseif i.file && i.file['sakai:mimeType']}
+											{var mimeType = i.file['sakai:mimeType']}
+										{elseif i['jcr:primaryType'] === "sling:Folder"}
+											{var mimeType = 'folder'}
+										{/if}
+										{if Config.MimeTypes[mimeType]}
+											<img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
+										{else}
+											<img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
+										{/if}
+										<div class="contentmedia_file_name">
+											{if i.name}
+												${i.name}
+											{else}
+												${i["sakai:filename"]}
+											{/if}
+										</div>
+										{if i.formattedFilesize}
+										<div class="contentmedia_file_size">
+											${i.formattedFilesize}
+										</div>
+										{/if}
+										{if i.formattedDateModified}
+										<div class="contentmedia_file_datemodified">
+											${i.formattedDateModified}
+										</div>
+										{/if}
+										<a class="contentmedia_file_bookmark href="javascript:;">Bookmark this file</a>
+										<div class="contentmedia_hidden">
+											{if i.path}
+												${i.path}
+											{/if}
+										</div>
+									</div>
+									
+									<div class="contentmedia_fileinfo" id="contentmedia_fileinfo_${i_index}">
+										<p><strong>Description:</strong></p>
+										<p>
+											{if i.description}
+												${i.description}
+											{else}
+												(no description available)
+											{/if}
+										</p>
+										<p><strong>Tags:</strong></p>
+										<p>
+											{for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{forelse}
+												(no tags available)
+											{/for}
+										</p>
+										<p><strong>Used In:</strong></p>
+										<p>
+											{if i.usedIn && i.usedIn.sites && i.usedIn.total > 0}
+												{for u in i.usedIn.sites}
+													{if u_index > 0},{/if} ${u.name}
+												{/for}
+											{else}
+												(not used anywhere)
+											{/if}
+										</p>
+									</div>
+									
+								{/for}
+							--></div>
+						</div>
+                </div>
+                <div class="contentmedia_tab_content_bottom">
+                    <div class="contentmedia_tab_content_bottom_inner">
+                    	<!-- -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<div id="contentmedia_accordion_list_site_template"><!--
+		{if items.length > 0}
+		<div class="contentmedia_accordion_list">
+		{/if}
+		{for item in items}
+			<a href="javascript:;">
+			{if item && item.site && item.site.name}
+				${item.site.name}
+			{/if}
+			<span class="contentmedia_hidden">${item.siteref}</span></a>
+		{forelse}
+			No sites found
+		{/for}
+		
+		{if items.length > 0}
+		</div>
+		{/if}
+	--></div>
+	
+    <!-- FOOTER WIDGET -->
+	<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+	
+	<div id="contentmedia_dialog_edit" class="dialog">
+		<div class="dialog_header">
+			<h1>Edit files</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		<div class="contentmedia_dialog_body">
+			<a href="javascript:;" id="contentmedia_dialog_permissions_trigger">Permissions</a> | 
+			<a href="javascript:;" id="contentmedia_dialog_associations_trigger">Site Associations</a>
+			
+			<div id="contentmedia_dialog_permissions">
+				<form method="get" action="#">
+					<input type="radio" value="public" id="contentmedia_dialog_permissions_public" name="contentmedia_dialog_permissions_options" checked="checked" />
+					<label for="contentmedia_dialog_permissions_public">Public</label><br />
+					
+					<input type="radio" value="sharepeople" id="contentmedia_dialog_permissions_sharepeople" name="contentmedia_dialog_permissions_options" />
+					<label for="contentmedia_dialog_permissions_sharepeople">Visible to people I share with</label><br />
+					
+					<input type="button" value="Set permissions" />
+				</form>
+			</div>
+
+			<div id="contentmedia_dialog_associations" style="display:none;">
+				<div class="contentmedia_dialog_associations_select_container">
+					<div>All Sites</div>
+					<select id="contentmedia_dialog_associations_select_all" size="10" multiple="multiple">
+						<option value="/_sites/site1">site1</option>
+						<option value="/_sites/site2">site2</option>
+						<option value="/_sites/site3">site3</option>
+						<option value="/_sites/site4">site4</option>
+						<option value="/_sites/site5">site5</option>
+						<option value="/_sites/site6">site6</option>
+						<option value="/_sites/site7">site7</option>
+						<option value="/_sites/site8">site8</option>
+						<option value="/_sites/site9">site9</option>
+						<option value="/_sites/site10">site10</option>
+						<option value="/_sites/site11">site11</option>
+						<option value="/_sites/site12">site12</option>
+					</select>
+				</div>
+
+				<div id="contentmedia_dialog_associations_move_container">
+					<a href="javascript:;" id="contentmedia_dialog_associations_move_selected" class="contentmedia_dialog_associations_move">&gt;</a>
+					<a href="javascript:;" id="contentmedia_dialog_associations_move_all" class="contentmedia_dialog_associations_move">&lt;</a>
+				</div>
+
+				<div class="contentmedia_dialog_associations_select_container">
+					<div>Selected Sites</div>
+					<select id="contentmedia_dialog_associations_select_selected" size="10" multiple="multiple">
+						<option value="/_sites/site99">site99</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="contentmedia_dialog_remove" class="dialog">
+		<div class="dialog_header">
+			<h1>Remove files</h1>
+			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		</div>
+		<div class="contentmedia_dialog_body">
+			<span>Are you sure you want to remove the following file(s)?</span><br />
+			<div id="contentmedia_dialog_remove_list"></div>
+			<input type="button" value="yes" id="contentmedia_dialog_remove_confirm" />
+			<input type="button" value="no" id="contentmedia_dialog_remove_decline" />
+			<div id="contentmedia_dialog_remove_list_template"><!--
+				{for file in items}
+					<div class="contentmedia_dialog_remove_file">
+						{if file.name}
+							${file.name}
+						{elseif file["sakai:filename"]}
+							${file["sakai:filename"]}
+						{/if}
+					</div>
+				{/for}
+			--></div>
+		</div>
+	</div>
+	<script type="text/javascript" language="JavaScript" src="_javascript/contentmedia.js"></script>
+</body>
+</html>

@@ -952,7 +952,45 @@ jQuery.fn.stripTags = function() {
 	
 })(jQuery);
 
+/*
+ * Parse a JCR date to a JavaScript date object
+ */
+(function($){
+		
+	/**
+	 * Parse a JCR date (2009-10-12T10:25:19) to a JavaScript date object
+	 * @param {String} The JCR date that needs to be converted to a JavaScript date object
+	 * @return {Date} JavaScript date
+	 */
+	$.ParseJCRDate = function(date) {
 
+		// Check with a regular expression if it is a valid JCR date
+		var regex = new RegExp('^(19|20)[0-9][0-9][-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T](20|21|22|23|[0-1]?[0-9]):[0-5]?[0-9]:[0-5]?[0-9]$', 'gi');
+		var isValid = regex.test(date);
+		if(isValid){
+			var respondDate = new Date();
 
+			// Split the date and time into 2 different pieces
+			var splitDateTime = date.split("T");
+			var splitDate = splitDateTime[0].split("-");
+			var splitTime = splitDateTime[1].split(":");
+			
+			// Set the day/month and year
+			respondDate.setFullYear(parseInt(splitDate[0], 10));
+			respondDate.setMonth(parseInt(splitDate[1], 10) - 1);
+			respondDate.setDate(parseInt(splitDate[2], 10));
+			
+			// Set the hours/minutes/seconds and milliseconds
+			// Since the milliseconds aren't supplied, we always set it to 0
+			respondDate.setHours(parseInt(splitTime[0], 10), parseInt(splitTime[1], 10), parseInt(splitTime[2], 10), 0);
 
-
+			return respondDate;
+		}else{
+			
+			// Log a message if there is a bad date format
+			fluid.log("Bad date format: " + date);
+			return null;
+		}
+	};
+	
+})(jQuery);

@@ -19,22 +19,29 @@
 var Config = {
 	
 	URL : {
-		BUNDLE_ROOT : "/dev/_bundle/",
-		MY_DASHBOARD: "/dev/my_sakai.html",
-		SDATA_FETCH: "/",
 		API_GOOGLE_CHARTS: "http://chart.apis.google.com/chart",
+		BUNDLE_ROOT : "/dev/_bundle/",
+		CONTENT_MEDIA_URL : "/dev/content_media.html",
+		GENERAL_SEARCH_SERVICE: "/var/search/page.json",
 		GATEWAY_URL : "/dev/index.html",
 		LOGOUT_URL : "/dev/logout.html",
+		MY_DASHBOARD: "/dev/my_sakai.html",
 		PATCH_PROFILE_URL: "/_user/public/__USERID__/authprofile",
 		PEOPLE_URL: "/dev/people.html",
 		PROFILE_URL: "/dev/profile.html",
-		SEARCH_GENERAL_URL: "search_b.html",
-		SEARCH_SITES_URL: "search_b_sites.html",
+		SEARCH_ALL_FILES: "/var/search/files/allfiles.json",
 		SEARCH_CONTENT_URL: "search_b_content.html",
+		SEARCH_GENERAL_URL: "search_b.html",
+		SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
+		SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
+		SEARCH_MY_FILES: "/var/search/files/myfiles.json",
+		SEARCH_MY_SITES: "/var/search/files/mysites.json",
 		SEARCH_PEOPLE_URL: "search_b_people.html",
+		SEARCH_SITES_URL: "search_b_sites.html",
 		PERSON_ICON_URL: "/dev/_images/person_icon.jpg",
 		POLL_DROPDOWN_ICON_URL : "/devwidgets/poll/images/poll_drop_down.gif",
 		RECENT_SITES_URL: "/_user/private/recentsites.json",
+		SDATA_FETCH: "/",
 		SDATA_FETCH_BASIC_URL: "/sites/__PLACEMENT__/__TUID__",
 		SDATA_FETCH_PLACEMENT_URL: "/sites/__PLACEMENT__",
 		SDATA_FETCH_PRIVATE_URL: "/_user/private",
@@ -42,9 +49,9 @@ var Config = {
 		SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
 		SDATA_FUNCTION_PROPERTIES: "/sdata/f/__URL__?f=pr",
 		SDATA_FUNCTION_PERMISSIONS: "/sdata/f/__URL__?f=pe",
-		GENERAL_SEARCH_SERVICE: "/var/search/page.json",
 		SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
 		SITE_CONFIGFOLDER: "/sites/__SITEID__",
+		SITE_FILES_URL: "/sites/__SITEID__/_files",
 		SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
 		SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
 		SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content",
@@ -52,7 +59,9 @@ var Config = {
 		SITE_URL: "/dev/site.html",
 		SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
 		TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fluid.reset.css,/dev/_css/FSS/fluid.theme.mist.css,/dev/_css/FSS/fluid.theme.hc.css,/dev/_css/FSS/fluid.theme.rust.css,/dev/_css/FSS/fluid.layout.css,/dev/_css/FSS/fluid.text.css,/dev/_css/Sakai%20CSS/sakai.core.2.css,/dev/_css/Sakai%20CSS/sakai.css,/dev/_css/Sakai%20CSS/sakai.editor.css",
+		UPLOAD_URL: "/_user/files.upload.json",
 		WEBDAV_PRIVATE_URL: "/webdav/_private",
+		
 		CHAT_GET_SERVICE: "/_rest/chat/get",
 		CHAT_SEND_SERVICE: "/_rest/chat/send",
 		CREATE_USER_SERVICE: "/system/userManager/user.create.html",
@@ -84,10 +93,8 @@ var Config = {
 		USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
 		TEMPLATES: "/_user/private/_templates/pages/",
 		TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration",
-		
 		TWITTER_GET_URL: "/var/proxy/twitter/status.json",
 		TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"
-		
 	},
 	
 	SakaiDomain : "http://localhost:8080/",
@@ -150,6 +157,41 @@ var Config = {
 		DateTimeFormat: "EEEEE, d MMMMM yy",
 		DecimalPoint: ",",
 		NumberSeparator: "."
+	},
+	
+	MimeTypes : {
+		"application/doc" : {
+			URL : "/dev/_images/mimetypes/doc.png",
+			description : "Word document"
+		},
+		"application/pdf" : {
+			URL : "/dev/_images/mimetypes/pdf.png",
+			description : "PDF document"
+		},
+		"text/plain" : {
+			URL : "/dev/_images/mimetypes/txt.png",
+			description : "Text document"
+		},
+		"image/png" : {
+			URL : "/dev/_images/mimetypes/images.png",
+			description : "Png image"
+		},
+		"image/gif" : {
+			URL : "/dev/_images/mimetypes/images.png",
+			description : "Gif image"
+		},
+		"image/jpeg" : {
+			URL : "/dev/_images/mimetypes/images.png",
+			description : "Jpg image"
+		},
+		folder : {
+			URL : "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
+			description : "Folder"
+		},
+		other : {
+			URL : "/dev/_images/mimetypes/unknown.png",
+			description : "Other document"
+		}
 	},
 	
 	displayDebugInfo: true

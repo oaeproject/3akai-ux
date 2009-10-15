@@ -84,6 +84,7 @@ sakai.site = function(){
 	var $site_management_members_link = $("#site_management_members_link");
 	var $site_management_basic_link = $("#site_management_basic_link");
 	var $site_management_appearance_link = $("#site_management_appearance_link");
+	var $site_management_files_link = $("#site_management_files_link");
 	var $site_settings_link = $("#site_settings_link");
 	var $li_edit_page_divider = $("#li_edit_page_divider");
 	var $li_edit_page = $("#li_edit_page");
@@ -227,6 +228,7 @@ sakai.site = function(){
 			$site_management_basic_link.attr("href", $site_management_basic_link.attr("href") + sitepath);
 			$site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
 			$site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
+			$site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
 		}
 	
 		// Fill up ME object which contains user info
