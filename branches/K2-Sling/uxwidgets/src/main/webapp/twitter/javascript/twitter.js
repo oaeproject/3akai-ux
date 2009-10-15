@@ -147,8 +147,8 @@ sakai.twitter = function(tuid,placement,showSettings){
 	 * @param {Boolean} exists Check if the discussion exists
 	 */
 	var parseTwitterStatus = function(response, exists){
-		if(exists){
-			var data = $.evalJSON(response);
+		var data = $.evalJSON(response);
+		if(exists && data.length > 0){
 			json.status = "";
 			json.status = data[0].text;
 			changeLocalStatus();

@@ -137,7 +137,6 @@ sakai.flashChat = {
 
 sakai.chat3 = function(tuid, placement, showSettings){
 
-
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
@@ -196,6 +195,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 	
 	// Navigation
 	var nav = "#nav";
+	var navContentMediaLink = nav + "_content_media_link";
 	var navCoursesSitesLink = nav + "_courses_sites_link";
 	var navPeopleLink = nav + "_people_link";
 	var navMySakaiLink = nav + "_my_sakai_link";
@@ -513,6 +513,8 @@ sakai.chat3 = function(tuid, placement, showSettings){
 			$(navPeopleLink).html(renderSelectedPage("People"));
 		} else if (windowLocationPath.indexOf(Config.URL.PROFILE_URL) !== -1){
 			$(navProfileLink).html(renderSelectedPage("Profile"));
+		} else if (windowLocationPath.indexOf(Config.URL.CONTENT_MEDIA_URL) !== -1){
+			$(navContentMediaLink).html(renderSelectedPage("Content &amp; Media"));
 		}
 	
 	};
