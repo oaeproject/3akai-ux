@@ -21,19 +21,19 @@ var sakai = sakai || {};
 
 sakai.myprofile = function (tuid, placement, showSettings) {
 
-	//////////////////
-	//	CONFIG VARS	//
-	//////////////////
+
+	/////////////////////////////
+	// Configuration variables //
+	/////////////////////////////
 
 	var rootel = $("#" + tuid);
 	var me = sdata.me;
 	var json = me.profile;
-	
+
 	
 	//	IDs
 	var myprofileId = "#myprofile";
 	var myprofileClass = ".myprofile";
-	
 	
 	var profileNameID = myprofileId + "_name";
 	var profilePictureID = myprofileId + "_pic";
@@ -45,23 +45,20 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 	var profileChatStatusClass = myprofileClass + "_chat_status";
 	var profileChatStatusDropDownLink = myprofileClass + "_chat_status_dropdown_link";
 	var profileChatStatusPicker = myprofileClass + "_chat_status_picker";
+	var profileWidget = myprofileClass + "_widget";
 	
 	var availableStatus = "chat_available_status_";
 	var availableStatus_online = availableStatus + "online";
 	var availableStatus_busy = availableStatus + "busy";
 	var availableStatus_offline = availableStatus + "offline";
-	
-	
+
 	var headerChatUserId = "#userid";		//	The username in the chat bar.
-	
-	
-	
-	//////////////////
-	//	CHAT STATUS	//
-	//////////////////
-	
-	
-	
+
+
+	/////////////////
+	// Chat status //
+	/////////////////
+
 	/**
 	 * Add the right status css class on an element.
 	 * @param {Object} element the jquery element you wish to add the class to
@@ -84,7 +81,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		$(profileChatStatusClass).hide();
 		$(profileChatStatusID + status).show();
 		
-		//	update the userid in the chat
+		// Update the userid in the chat
 		updateChatStatusElement($(headerChatUserId), status);
 		updateChatStatusElement($(profileNameID), status);
 		updateChatStatusElement($(".chat_available_name"), status);
@@ -114,13 +111,13 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 	};
 	
 	
-	//////////////
-	//	INIT	//
-	//////////////
-	
-	
+	//////////////////////////////
+	// Initialisation Functions	//
+	//////////////////////////////
+
 	var doInit = function () {
-		//	See if we have a first and last name..
+
+		// Check if we have a first and last name
 		if (json.firstName && json.lastName) {
 			$(profileNameID, rootel).text(json.firstName + " " + json.lastName);
 		} 
@@ -128,7 +125,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 			$(profileNameID, rootel).text(me.user.userid);
 		}
 		
-		//	Do we have a picture
+		// Do we have a picture
 		if (json.picture) {
 			var pict = $.evalJSON(json.picture);
 			if (pict.name) {
@@ -136,7 +133,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 			}
 		}
 		
-		//	Any extra information we may have.
+		// Any extra information we may have.
 		var extra = "";
 		if (json.basic) {
 			var basic = $.evalJSON(json.basic);
@@ -151,45 +148,87 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 			}
 			$(profileDepartementID, rootel).html(extra);
 		}
-		
-		
-		
-		//	Get the user his chatstatus
+
+		// Get the user his chatstatus
 		var chatstatus = "online";
 		if (me.profile.chatstatus) {
 			chatstatus = me.profile.chatstatus;
 		}
 		
-		//	Set the status in front of the user his name/
+		// Set the status in front of the user his name/
 		$(profileNameID).addClass(profileChatStatus + chatstatus);
 		$(profileChatStatusID + chatstatus).show();
+		
+		// Show the widget after everything is loaded
+		$(profileWidget).show();
 	};
 	
+	/**
+	 * Update the position of the status box which is position:absolute
+	 */
+	var updateStatusContainerPosition = function(){
+		$(profileStatusContainer).css("left", $(".profile_chat_status_dropdown_link").offset().left + 65 + "px");
+		$(profileStatusContainer).css("top", $(".profile_chat_status_dropdown_link").offset().top + 30 + "px");
+	};
 	
+	/**
+	 * Hide the status pop-up
+	 */
+	var hideStatusContainer = function(){
+		$(profileStatusContainer).hide();
+	};
 	
-	//////////////
-	//	EVENTS	//
-	//////////////
-
-	
-	//	the toggle
-	$(profileChatStatusDropDownLink).bind("click", function (ev) {
+	/**
+	 * Toggle the status pop-up
+	 */
+	var toggleStatusContainer = function(){
+		updateStatusContainerPosition();
 		$(profileStatusContainer).toggle();
+	};
+
+
+	////////////////////
+	// Event Handlers //
+	////////////////////
+
+	// Toggle
+	$(profileChatStatusDropDownLink).bind("click", function (ev) {
+		toggleStatusContainer();
 	});
 	$(profileChatStatusClass).bind("click", function (ev) {
-		$("#myprofile_status").css("left", $(".profile_chat_status_dropdown_link").offset().left + 65 + "px");
-		$("#myprofile_status").css("top", $(".profile_chat_status_dropdown_link").offset().top + 30 + "px");
-		$(profileStatusContainer).toggle();
+		toggleStatusContainer();
 	});
 	
-	//	A user selects his status
+	/**
+	 * Bind the document on click event and check if it if you didn't click on the profile chatstatus link
+	 */
+	$(document).click(function(e){
+		var $clicked = $(e.target);
+		
+		// Check if one of the parents is the chatstatuscontainer
+		if(!$clicked.parents().is("#profile_chat_status")){
+			hideStatusContainer();
+		}
+		
+	});
+	
+	/**
+	 * Bind the resize event
+	 */
+	$(window).resize(function(){
+  		
+		// If the box is visible, update the position of it
+		if($(profileStatusContainer).is(":visible")){
+			updateStatusContainerPosition();
+		}
+	});
+	
+	// A user selects his status
 	$(profileChatStatusPicker).live("click", function (ev) {
 		var statusChosen = this.id.split("_")[this.id.split("_").length - 1];
 		changeStatus(statusChosen);
 	});
-	
-	
-	//	GO
+
 	doInit();
 };
 
