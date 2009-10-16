@@ -1,0 +1,106 @@
+.picker_container ul li {
+    list-style-type: none;
+}
+
+.picker_container ul.picker_items li {
+    padding: 1px;
+    width: 190px;
+    display: inline-block;
+}
+
+.picker_container ul li img {
+    margin: -3px 5px;
+}
+
+.picker_container .picker_tree ul li.selected {
+    font-weight: bold;
+}
+
+.picker_container .picker_breadcrumb a.picker_breadcrumb {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.picker_container .picker_settings label {
+    display: inline-block;
+    width: 100px;
+}
+
+.picker_container .buttonBar {
+    margin-top: 15px;
+}
+
+.picker_container .save_button {
+    float: left;
+}
+
+.picker_container .cancel-button {
+    margin-left: 10px;
+}
+/* Creates a border around the selected files */
+div.picker_selectedfile {
+	border:1px solid #d3d3d3;
+	padding:3px 5px 3px 5px;
+	display:inline-block;
+	background-color:#eee;
+	margin-left:3px;
+	font-size:0.9em;
+}
+div.picker_selectedfile img {
+	cursor:pointer;
+}
+
+p.picker_selectedFile img {
+	float:left;
+	margin-right:4px;
+}
+
+
+/* Pager stuf */
+.picker_pager .pages {text-align:center;}
+.picker_pager .pages li { display:inline-block; font-size:0.95em;}
+.picker_pager .pages li.hidden { display:none;}
+.picker_pager .pages li#jq_pager_three_dots_end {
+	margin-left:4px;
+	margin-right:9px;
+}
+.picker_pager .pages li#jq_pager_three_dots_begin {
+	margin-left:9px;
+	margin-right:4px;
+}
+.picker_pager .pgNext, .picker_pager .pgPrev {
+	border:1px solid #d3d3d3;
+	padding:2px 5px 2px 5px;
+	margin:0px 10px 0px 10px;
+}
+.picker_pager .pgNext span, .picker_pager .pgPrev span {
+	text-decoration:underline;
+}
+
+.picker_pager .page-number {
+	border:1px solid #217893;
+	margin-left:3px;
+	margin-right:3px;
+	padding:1px 5px;
+	text-decoration:underline;
+	color:#217893;
+}
+.picker_pager .pgCurrent {
+	border:0;
+	text-decoration:none;
+	font-weight:bold;
+	color:#4b4b4b;
+}
+
+.picker_pager .pgEmpty { 
+	display:none !important; 
+}
+
+.picker_main p {
+	display:inline-block;
+	width:300px;
+	float:left;
+	overflow:hidden;
+}
+
+.picker_breadcrumb_hidden { display:none;}
