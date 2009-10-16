@@ -517,7 +517,7 @@ sakai.site_basic_settings = function() {
         var offset = $(siteSettingsInfoSitePartEditInput).offset();
         $(siteSettingsInfoSitePartEditInputTooltip).css('position', 'absolute');
         $(siteSettingsInfoSitePartEditInputTooltip).css('left', offset.left);
-        $(siteSettingsInfoSitePartEditInputTooltip).css('top', offset.top + 30);
+        $(siteSettingsInfoSitePartEditInputTooltip).css('top', offset.top + 28);
         
         $(siteSettingsInfoSitePartEditInputTooltip).fadeIn("normal");
     });
