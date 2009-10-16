@@ -79,7 +79,7 @@ var Config = {
 		MESSAGES_DELETE_SERVICE : "/_rest/messages/delete",
 		PATCH_SERVICE: "/rest/patch",
 		PRESENCE_FRIENDS_SERVICE: "/_rest/presencewow/friends",
-		PROXY_SERVICE: "/system/proxy",
+		PROXY_SERVICE: "/var/proxy/rss.json?rss=",
 		SEARCH_SERVICE: "/var/search/users",
 		SITE_GET_SERVICE: "/_rest/site/get",
 		SITE_CREATE_SERVICE: "/_rest/site/create",

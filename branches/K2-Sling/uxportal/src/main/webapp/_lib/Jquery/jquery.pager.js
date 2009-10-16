@@ -27,25 +27,34 @@
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
 * 
 * modified by Oszkar Nagy (oszkar@caret.cam.ac.uk) for Sakai
+* modified by Simon Gaeremynck (sg555@caret.cam.ac.uk) for Sakai
 */
 (function($) {
 
-    $.fn.pager = function(options) {
-
+    $.fn.pager = function(options){
+    
         var opts = $.extend({}, $.fn.pager.defaults, options);
-
-        return this.each(function() {
-
-        // empty out the destination element and then render out the pager with the supplied options
-            $(this).empty().append(renderpager(parseInt(options.pagenumber), parseInt(options.pagecount), options.buttonClickCallback));
+        
+        return this.each(function(){
+        
+            // empty out the destination element and then render out the pager with the supplied options
+			var htmlparts = {};
+			if (typeof options.htmlparts === "undefined") {
+				htmlparts = $.fn.pager.defaults.htmlparts;
+			}
+            $(this).empty().append(renderpager(parseInt(options.pagenumber), parseInt(options.pagecount), options.buttonClickCallback, htmlparts));
             
             // specify correct cursor activity
-            $('.pages li').mouseover(function() { document.body.style.cursor = "pointer"; }).mouseout(function() { document.body.style.cursor = "auto"; });
+            $('.pages li').mouseover(function(){
+                document.body.style.cursor = "pointer";
+            }).mouseout(function(){
+                document.body.style.cursor = "auto";
+            });
         });
     };
 
     // render and return the pager with the supplied options
-    function renderpager(pagenumber, pagecount, buttonClickCallback) {
+    function renderpager(pagenumber, pagecount, buttonClickCallback, htmlparts) {
 
         // setup $pager to hold render
         var $pager = $('<ul class="pages"></ul>');
@@ -54,7 +63,7 @@
         //$pager.append(renderButton('First', pagenumber, pagecount, buttonClickCallback)).append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback));
 		
 		// Without 'First' button
-		$pager.append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback))
+		$pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts))
 		
         // pager currently only handles 10 viewable pages ( could be easily parameterized, maybe in next version ) so handle edge cases
         var startPoint = 1;
@@ -95,7 +104,7 @@
 		$pager.append($divider_end);
 		
 		// without 'Last' button:
-		$pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback));
+		$pager.append(renderButton('next', pagenumber, pagecount, buttonClickCallback, htmlparts));
 		
 		if (startPoint > 1)
 			{
@@ -111,21 +120,23 @@
     }
 
     // renders and returns a 'specialized' button, ie 'next', 'previous' etc. rather than a page number button
-    function renderButton(buttonLabel, pagenumber, pagecount, buttonClickCallback) {
+    function renderButton(part, pagenumber, pagecount, buttonClickCallback, htmlparts) {
+
+		var buttonLabel = htmlparts[part];
 
         var $Button = $('<li class="pgNext">' + buttonLabel + '</li>');
 
         var destPage = 1;
 
         // work out destination page for required button type
-        switch (buttonLabel) {
+        switch (part) {
             case "first":
                 destPage = 1;
                 break;
-            case "&laquo; Prev":
+            case "prev":
                 destPage = pagenumber - 1;
                 break;
-            case "Next &raquo;":
+            case "next":
                 destPage = pagenumber + 1;
                 break;
             case "last":
@@ -134,7 +145,7 @@
         }
 
         // disable and 'grey' out buttons if not needed.
-        if (buttonLabel == "First" || buttonLabel == "&laquo; Prev") {
+        if (part === "first" || part === "prev") {
             pagenumber <= 1 ? $Button.addClass('pgEmpty') : $Button.click(function() { buttonClickCallback(destPage); });
         }
         else {
@@ -147,7 +158,13 @@
     // pager defaults. hardly worth bothering with in this case but used as placeholder for expansion in the next version
     $.fn.pager.defaults = {
         pagenumber: 1,
-        pagecount: 1
+        pagecount: 1,
+		htmlparts : {
+			'first' : 'first',
+			'last' : 'last',
+			'prev' : '<img src="/dev/_images2/scroll_arrow_left.png" alt="" /> <span>Prev</span>',
+			'next' : '<span>Next</span> <img src="/dev/_images2/scroll_arrow_right.png" alt="" />' 
+		}
     };
 
 })(jQuery);

@@ -26,6 +26,10 @@ sakai.site = function(){
 	// CONFIG and HELP VARS
 	/////////////////////////////
 	
+	var currentSettingsOpen = false;
+	var startSaving = true;
+
+	
 	// Config variables
 	sakai.site.minHeight = 400;
 	sakai.site.autosaveinterval = 17000;
@@ -46,8 +50,8 @@ sakai.site = function(){
 	sakai.site.pageconfiguration = false;*/
 	sakai.site.pagetypes = {};
 	sakai.site.pagecontents = {};
-	sakai.site.myportaljson = false;
-	sakai.site.myportaljsons = {};
+	sakai.site.portaljson = false;
+	sakai.site.portaljsons = {};
 	sakai.site.isEditingNavigation = false;
 	sakai.site.currentEditView = false;
 	sakai.site.timeoutid = 0;
@@ -55,6 +59,16 @@ sakai.site = function(){
 	sakai.site.showingInsertMore = false;
 	sakai.site.inEditView = false;
 	sakai.site.versionHistoryNeedsReset = false;
+	
+	// Add Goodies related fields
+	var addGoodiesDialog = "#add_goodies_dialog";
+	var addGoodiesTrigger = '#add-goodies';
+	var addGoodiesListContainer = "#add_goodies_body";
+	var addGoodiesListTemplate = "add_goodies_body_template";
+	var goodiesAddButton = ".goodies_add_button";
+	var goodiesRemoveButton = ".goodies_remove_button";
+	var addRow = "#row_add_";
+	var removeRow = "#row_remove_";
 	
 	// URLs
 	sakai.site.urls = {
@@ -70,7 +84,7 @@ sakai.site = function(){
 		PRINT_PAGE: function() { Config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
 		SITE_URL: function() { return Config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
 		PAGE_CONFIGURATION_PREFERENCE: function() { return Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); },
-		SELECTED_PAGE_STATE : function() { return Config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/pages/" + sakai.site.selectedpage + "/state"; }
+		DASHBOARD_STATE: function(){ return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/state";}
 	};
 	
 	
@@ -102,6 +116,7 @@ sakai.site = function(){
 	var $tool_edit = $("#tool_edit");
 	var $sidebar_content_pages = $("#sidebar-content-pages");
 	var $main_content_div = $("#main-content-div");
+	var $dashboard_options = $(".dashboard_options");
 	
 	
 	
@@ -542,6 +557,7 @@ sakai.site = function(){
 		$more_menu.hide();
 		$sidebar_content_pages.show();
 		$main_content_div.children().css("display","none");
+		$(".dashboard_options").hide();
 		//sakai.dashboard.hidepopup();
 		
 		if ($("#main-content-div #" + sakai.site.escapePageId(sakai.site.selectedpage)).length > 0) {
@@ -573,23 +589,17 @@ sakai.site = function(){
 				
 				// is a Dashboard
 				case "dashboard":
-					// Create container elements
-					var el = document.createElement("div");
-					el.id = sakai.site.selectedpage.replace(/ /g, "%20");
-					el.className = "container_child";
-					var cel = document.createElement("div");
-					cel.id = "widgetscontainer";
-					cel.style.padding = "0px 7px 0px 7px";
-					el.appendChild(cel);
-					$("#container").appendChild(el);
+					if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
+						$dashboard_options.show();
+					}
 					$.ajax({
-						url: sakai.site.urls.SELECTED_PAGE_STATE(),
+						url: sakai.site.urls.DASHBOARD_STATE(),
 						cache: false,
 						success: function(data){
-							decideDashboardExists(data, true, el);
+						    displayDashboard(data, true);
 						},
 						error: function(status){
-							decideDashboardExists(status, false, el);
+						    displayDashboard(status, false);
 						}
 					});
 					break;
@@ -610,6 +620,28 @@ sakai.site = function(){
 					break;
 			}
 		}
+	
+	if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
+		if (pageType === "dashboard") {
+			$dashboard_options.show();
+			$li_edit_page_divider.hide();
+			$li_edit_page.hide();
+		}
+		else {
+			$li_edit_page_divider.show();
+			$li_edit_page.show();
+		}
+        }
+        
+	// Re-render Site Navigation to reflect changes if navigation widget is already loaded
+        try {
+		sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+        } 
+        catch (error) {
+        
+        }
+	
+	
 	};
 	
 	
@@ -624,6 +656,599 @@ sakai.site = function(){
 		document.location = "#" + pageid;
 		
 	};
+	
+	
+	/////////////////////////////
+	// DASHBOARD FUNCTIONALITY //
+	/////////////////////////////
+	    
+	    
+	    ///////////////////////
+	    // Add Sakai Goodies //
+	    ///////////////////////
+	    
+	    sakai.site.dashboard = {};
+	    sakai.site.dashboard.addWidget = function(id){
+		var w = {
+		    'name': id,
+		    'visible': 'block',
+		    'uid': "id" + Math.random() * 99999999999999999
+		}
+		$("#" + sakai.site.selectedpage).remove();
+		sakai.site.portaljsons[sakai.site.selectedpage].columns["column1"].push(w);
+		showportal(sakai.site.portaljsons[sakai.site.selectedpage]);
+		saveState();
+	    }
+	    
+	    var renderGoodiesEventHandlers = function(){
+	    
+		/*
+		 * When you click the Add button, next to a widget in the Add Goodies screen,
+		 * this function will figure out what widget we chose and will hide the Add row
+		 * and show the Remove row for that widget
+		 */
+		$(goodiesAddButton).bind("click", function(ev){
+		    // The expected is goodies_add_button_WIDGETNAME
+		    var id = this.id.split("_")[this.id.split("_").length - 1];
+		    $(addRow + id).hide();
+		    $(removeRow + id).show();
+		    sakai.site.dashboard.addWidget(id);
+		});
+		
+		/*
+		 * When you click the Remove button, next to a widget in the Add Goodies screen,
+		 * this function will figure out what widget we chose and will hide the Remove row
+		 * and show the Add row for that widget
+		 */
+		$(goodiesRemoveButton).bind("click", function(ev){
+		    // The expected id is goodies_add_button_WIDGETNAME
+		    var id = this.id.split("_")[this.id.split("_").length - 1];
+		    $(removeRow + id).hide();
+		    $(addRow + id).show();
+		    // We find the widget container itself, and then find its parent,
+		    // which is the column the widget is in, and then remove the widget
+		    // from the column
+		    var el = $("[id^=" + id + "]").get(0);
+		    var parent = el.parentNode;
+		    parent.removeChild(el);
+		    saveState();
+		});
+		
+	    };
+	    
+	    var renderGoodies = function(hash){
+	    
+		var addingPossible = {};
+		addingPossible.items = [];
+		
+		$(addGoodiesListContainer).html("");
+		
+		for (var l in Widgets.widgets) {
+		    var alreadyIn = false;
+		    // Run through the list of widgets that are already on my dashboard and decide
+		    // whether the current widget is already on the dashboard (so show the Remove row),
+		    // or whether the current widget is not on the dashboard (and thus show the Add row)
+		    var json = sakai.site.portaljsons[sakai.site.selectedpage];
+		    for (var c in json.columns) {
+			for (var ii = 0; ii < json.columns[c].length; ii++) {
+			    if (json.columns[c][ii].name === l) {
+				alreadyIn = true;
+			    }
+			}
+		    }
+		    if (Widgets.widgets[l].siteportal) {
+			var index = addingPossible.items.length;
+			addingPossible.items[index] = Widgets.widgets[l];
+			addingPossible.items[index].alreadyIn = alreadyIn;
+		    }
+		}
+		
+		// Render the list of widgets. The template will render a remove and add row for each widget, but will
+		// only show one based on whether that widget is already on my dashboard
+		$(addGoodiesListContainer).html($.Template.render(addGoodiesListTemplate, addingPossible));
+		renderGoodiesEventHandlers();
+		
+		// Show the modal dialog
+		hash.w.show();
+		
+	    };
+	    
+	    /*
+	     * We bring up the modal dialog that contains the list of widgets I can add
+	     * to my dashboard. Before it shows on the screen, we'll render the list of
+	     * widgets through a TrimPath template
+	     */
+	    $(addGoodiesDialog).jqm({
+		modal: true,
+		trigger: $(addGoodiesTrigger),
+		overlay: 20,
+		toTop: true,
+		onShow: renderGoodies
+	    });
+	    
+	    
+	    
+	    
+	    
+	    /**
+	     * Saves the state of the current dashboard.
+	     */
+	    var saveState = function(){
+	    
+		var o = {
+		    'columns': {},
+		    "layout": sakai.site.portaljsons[sakai.site.selectedpage].layout
+		};
+		if (startSaving === true) {
+		
+		    var columns = $("#" + sakai.site.selectedpage + " .groupWrapper");
+		    for (var i = 0; i < columns.length; i++) {
+			var col = [];
+			var column = columns[i];
+			for (var ii = 0; ii < column.childNodes.length; ii++) {
+			
+			    try {
+				var node = column.childNodes[ii];
+				
+				if (node && node.style && $(node).hasClass("fl-widget") && $(node).is(":visible")) {
+				
+				    widgetdisplay = "block";
+				    var nowAt = 0;
+				    var id = node.style.display;
+				    var uid = node.id.split("_")[1];
+				    for (var y = 0; y < node.childNodes.length; y++) {
+					if (node.childNodes[y].style) {
+					    if (nowAt == 1) {
+						if (node.childNodes[y].style.display.toLowerCase() === "none") {
+						    widgetdisplay = "none";
+						}
+						uid = node.childNodes[y].id.split("_")[0];
+					    }
+					    nowAt++;
+					}
+				    }
+				    
+				    var c = {
+					'name': node.id.split("_")[0],
+					'visible': widgetdisplay,
+					'uid': uid
+				    };
+				    col.push(c);
+				}
+			    } 
+			    catch (err) {
+				alert(err);
+			    }
+			}
+			o.columns["column" + (i + 1)] = col;
+		    }
+		    
+		    var isempty = true;
+		    for (i in o.columns) {
+			if (o.columns[i].length > 0) {
+			    isempty = false;
+			}
+		    }
+		    sakai.site.portaljsons[sakai.site.selectedpage] = o;
+		    
+		    //Save the prefs.
+		    sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "state", $.toJSON(o), checkSaveStateSuccess);
+		    
+		}
+		
+	    };
+	    
+	    /**
+	     * Checks if we succesfully saved the state.
+	     * @param {Object} success
+	     */
+	    var checkSaveStateSuccess = function(success){
+		if (!success) {
+		    window.alert("Connection with the server was lost");
+		}
+	    };
+	    
+	    /**
+	     * Displays a dashboard page.
+	     * @param {Object} response Content retrieved from server.
+	     * @param {Object} exists Wether the request was succesful or not.
+	     */
+	    var displayDashboard = function(response, exists){
+		if (exists) {
+		    var json = $.evalJSON(response);
+		    try {
+			sakai.site.portaljsons[sakai.site.selectedpage] = json;
+			var cleanContinue = true;
+			for (var c in json.columns) {
+			    for (var pi in json.columns[c]) {
+				if (pi != "contains") {
+				    if (!json.columns[c][pi].uid) {
+					cleanContinue = false;
+				    }
+				}
+			    }
+			}
+			if (cleanContinue) {
+			    doportal = true;
+			}
+			showportal(json);
+		    } 
+		    catch (err) {
+			showportal(json);
+		    }
+		}
+		else {
+		    // The dashboard has no content yet, create some dummy content.
+		    showInit();
+		}
+	    };
+	    
+	    /**
+	     * Functionality to show the actual columns and widgets.
+	     * @param {Object} json
+	     */
+	    var showportal = function(json){
+	    
+		var layout = json;
+		
+		if (!Widgets.layouts[json.layout]) {
+		
+		    var selectedlayout = "";
+		    var layoutindex = 0;
+		    
+		    for (var l in Widgets.layouts) {
+			if (layoutindex === 0) {
+			    selectedlayout = l;
+			    layoutindex++;
+			}
+		    }
+		    
+		    var columns = [];
+		    for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+			columns[i] = [];
+		    }
+		    
+		    var initlength = 0;
+		    for (l in json.columns) {
+			initlength++;
+		    }
+		    var newlength = Widgets.layouts[selectedlayout].widths.length;
+		    
+		    var index = 0;
+		    for (l in json.columns) {
+			if (index < newlength) {
+			    for (i = 0; i < json.columns[l].length; i++) {
+				columns[index][i] = {};
+				columns[index][i].name = json.columns[l][i].name;
+				columns[index][i].visible = json.columns[l][i].visible;
+				columns[index][i].uid = json.columns[l][i].uid;
+			    }
+			    index++;
+			}
+		    }
+		    
+		    index = 0;
+		    if (newlength < initlength) {
+			for (l in json.columns) {
+			    if (index >= newlength) {
+				for (i = 0; i < json.columns[l].length; i++) {
+				    var lowestnumber = -1;
+				    var lowestcolumn = -1;
+				    for (var iii = 0; iii < columns.length; iii++) {
+					var number = columns[iii].length;
+					if (number < lowestnumber || lowestnumber == -1) {
+					    lowestnumber = number;
+					    lowestcolumn = iii;
+					}
+				    }
+				    var _i = columns[lowestcolumn].length;
+				    columns[lowestcolumn][_i] = {};
+				    columns[lowestcolumn][_i].name = json.columns[l][i].name;
+				    columns[lowestcolumn][_i].visible = json.columns[l][i].visible;
+				    columns[lowestcolumn][_i].uid = json.columns[l][i].uid;
+				}
+			    }
+			    index++;
+			}
+		    }
+		};
+		
+		var final2 = {};
+		final2.columns = [];
+		final2.size = Widgets.layouts[layout.layout].widths.length;
+		var currentindex = -1;
+		var isvalid = true;
+		
+		try {
+		    for (var c in layout.columns) {
+		    
+			currentindex++;
+			index = final2.columns.length;
+			final2.columns[index] = {};
+			final2.columns[index].portlets = [];
+			final2.columns[index].width = Widgets.layouts[layout.layout].widths[currentindex];
+			
+			var columndef = layout.columns[c];
+			for (var pi in columndef) {
+			    var portaldef = columndef[pi];
+			    if (portaldef.name && Widgets.widgets[portaldef.name]) {
+				var widget = Widgets.widgets[portaldef.name];
+				var iindex = final2.columns[index].portlets.length;
+				final2.columns[index].portlets[iindex] = [];
+				final2.columns[index].portlets[iindex].id = widget.id;
+				final2.columns[index].portlets[iindex].iframe = widget.iframe;
+				final2.columns[index].portlets[iindex].url = widget.url;
+				final2.columns[index].portlets[iindex].title = widget.name;
+				final2.columns[index].portlets[iindex].display = portaldef.visible;
+				final2.columns[index].portlets[iindex].uid = portaldef.uid;
+				final2.columns[index].portlets[iindex].placement = sakai.site.currentsite.id + "/_widgets";
+				final2.columns[index].portlets[iindex].height = widget.height;
+			    }
+			}
+		    }
+		    
+		} 
+		catch (err) {
+		    isvalid = false;
+		}
+		
+		
+		if (isvalid) {
+		
+		    final2.me = sdata.me;
+		    
+		    var el = document.createElement("div");
+		    el.id = sakai.site.selectedpage// sakai.site.escapePageId(sakai.site.selectedpage);
+		    el.className = "content";
+		    el.innerHTML = $.Template.render("dashboard_container_template", final2);
+		    
+		    $main_content_div.append(el);
+		    
+		    
+		    if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
+		    
+			var dashPageID = "#" + el.id;
+			
+			$(dashPageID + " .widget1").hover(function(over){
+			    var id = this.id + "_settings";
+			    $("#" + id).show();
+			}, function(out){
+			    if ($("#widget_settings_menu").css("display") === "none" || this.id != currentSettingsOpen) {
+				var id = this.id + "_settings";
+				$("#" + id).hide();
+			    }
+			});
+			
+			$(dashPageID + " .settings").live("click", function(ev){
+			
+			    $("#settings_settings").hide();
+			    
+			    var splitted = this.id.split("_");
+			    if (splitted[0] + "_" + splitted[1] == currentSettingsOpen) {
+				$("#widget_" + currentSettingsOpen + "_settings").hide();
+			    }
+			    currentSettingsOpen = splitted[0] + "_" + splitted[1];
+			    var widgetId = splitted[0];
+			    
+			    if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings) {
+				$("#settings_settings").show();
+			    }
+			    
+			    var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
+			    if (el.css('display') == "none") {
+				$("#settings_hide_link").text("Show");
+			    }
+			    else {
+				$("#settings_hide_link").text("Hide");
+			    }
+			    
+			    var x = $(this).position().left;
+			    var y = $(this).position().top;
+			    $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 23 + "px");
+			    $("#widget_settings_menu").css("top", y + 18 + "px");
+			    $("#widget_settings_menu").show();
+			});
+			
+			$(".more_option").hover(function(over){
+			    $(this).addClass("selected_option");
+			}, function(out){
+			    $(this).removeClass("selected_option");
+			});
+			
+			$("#settings_remove").bind("mousedown", function(ev){
+			    var id = currentSettingsOpen;
+			    var el = document.getElementById(id);
+			    var parent = el.parentNode;
+			    parent.removeChild(el);
+			    saveState();
+			    $("#widget_settings_menu").hide();
+			    $(" #" + currentSettingsOpen + "_settings").hide();
+			    currentSettingsOpen = false;
+			    return false;
+			});
+			
+			$("#settings_hide").bind("mousedown", function(ev){
+			
+			    var el = $(dashPageID + " #" + currentSettingsOpen.split("_")[1] + "_container");
+			    if (el.css('display') == "none") {
+				el.show();
+			    }
+			    else {
+				el.hide();
+			    }
+			    saveState();
+			    
+			    $("#widget_settings_menu").hide();
+			    $("#" + currentSettingsOpen + "_settings").hide();
+			    currentSettingsOpen = false;
+			    return false;
+			});
+			
+			$("#settings_settings").bind("mousedown", function(ev){
+			    var generic = "widget_" + currentSettingsOpen + "_" + sakai.site.currentsite.id + "/_widgets";
+			    var id = currentSettingsOpen.split("_")[1];
+			    var old = document.getElementById(id);
+			    var newel = document.createElement("div");
+			    newel.id = generic;
+			    newel.className = "widget_inline";
+			    old.parentNode.replaceChild(newel, old);
+			    $("#widget_settings_menu").hide();
+			    currentSettingsOpen = false;
+			    sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id, true);
+			    return false;
+			});
+			
+			$(document.body).bind("mousedown", function(ev){
+			    $("#widget_settings_menu").hide();
+			    $("#" + currentSettingsOpen + "_settings").hide();
+			    currentSettingsOpen = false;
+			});
+			
+			var grabHandleFinder, createAvatar, options;
+			
+			grabHandleFinder = function(item){
+			    // the handle is the toolbar. The toolbar id is the same as the portlet id, with the
+			    // "portlet_" prefix replaced by "toolbar_".
+			    return jQuery("[id=draghandle_" + item.id + "]");
+			};
+			
+			options = {
+			    styles: {
+				mouseDrag: "orderable-mouse-drag",
+				dropMarker: "orderable-drop-marker-box",
+				avatar: "orderable-avatar-clone"
+			    },
+			    selectors: {
+				columns: ".groupWrapper",
+				modules: ".widget1",
+				grabHandle: grabHandleFinder
+			    },
+			    listeners: {
+				afterMove: saveState
+			    }
+			};
+			fluid.reorderLayout("#" + el.id, options);
+		    }
+		    
+		    
+		    sdata.widgets.WidgetLoader.insertWidgets(el.id);
+		    
+		}
+		else {
+		    showInit();
+		}
+		
+	    };
+	    
+	    
+	    /**
+	     * Start building the layout.
+	     * @param {boolean} success
+	     */
+	    var buildLayout = function(success){
+		if (success) {
+		    showportal(sakai.site.portaljsons[sakai.site.selectedpage]);
+		}
+		else {
+		    alert("An error occured while saving your dashboard.");
+		}
+		
+	    };
+	    
+	    
+	    /**
+	     * If there is no prefered state for this site then we show a default one.
+	     */
+	    var showInit = function(){
+	    
+		var toAdd = [];
+		var added = [];
+		var grouptype = "General";
+		
+		var columns = [];
+		var layout = "dev";
+		var olayout = null;
+		
+		// The default widgets.
+		columns[0] = [];
+		columns[1] = [];
+		columns[0][0] = "filepicker";
+		columns[1][0] = "sitemembers";
+		columns[0][1] = "folderpicker";
+		
+		var jsonobj = {};
+		jsonobj.columns = {};
+		
+		for (var i = 0; i < columns.length; i++) {
+		    jsonobj.columns["column" + (i + 1)] = [];
+		    for (var ii = 0; ii < columns[i].length; ii++) {
+			var index = jsonobj.columns["column" + (i + 1)].length;
+			jsonobj.columns["column" + (i + 1)][index] = {};
+			jsonobj.columns["column" + (i + 1)][index].name = columns[i][ii];
+			jsonobj.columns["column" + (i + 1)][index].visible = "block";
+			jsonobj.columns["column" + (i + 1)][index].uid = 'id' + Math.round(Math.random() * 10000000000000);
+		    }
+		}
+		
+		// Save the state.
+		jsonobj.layout = layout;
+		portaljson = jsonobj;
+		sakai.site.portaljsons[sakai.site.selectedpage] = jsonobj;
+		sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "state", $.toJSON(jsonobj), buildLayout);
+	    };
+	    
+	    /////////////////////////////
+	    // Change dashboard layout //
+	    /////////////////////////////
+	    
+	    var tobindtolayoutpicker = function(){
+		$(".layout-picker").bind("click", function(ev){
+		    var selected = this.id.split("-")[this.id.split("-").length - 1];
+		    var newjson = {};
+		    newjson.layouts = Widgets.layouts;
+		    newjson.selected = selected;
+		    currentselectedlayout = selected;
+		    $("#layouts_list").html($.Template.render("layouts_template", newjson));
+		    tobindtolayoutpicker();
+		});
+	    };
+	    
+	    $("#select-layout-finished").live("click", function(ev){
+		if (currentselectedlayout == sakai.site.portaljsons[sakai.site.selectedpage].layout) {
+		    $("#overlay-lightbox-layout").hide();
+		    $("#overlay-content-layout").hide();
+		}
+		else {
+		    sakai.site.portaljsons[sakai.site.selectedpage].layout = currentselectedlayout;
+		    saveState();
+				$main_content_div.children().remove();
+		    showportal(sakai.site.portaljsons[sakai.site.selectedpage]);
+		    $("#change_layout_dialog").jqmHide();
+		}
+	    });
+	    
+	    
+	    var renderLayouts = function(hash){
+		var newjson = {};
+		var layout = sakai.site.portaljsons[sakai.site.selectedpage].layout;
+		newjson.layouts = Widgets.layouts;
+		newjson.selected = layout;
+		currentselectedlayout = layout;
+		$("#layouts_list").html($.Template.render("layouts_template", newjson));
+			tobindtolayoutpicker();
+		hash.w.show();
+	    };
+	    
+	    $("#change_layout_dialog").jqm({
+		modal: true,
+		trigger: $('#edit-layout'),
+		overlay: 20,
+		toTop: true,
+		onShow: renderLayouts
+	    });
+		
+	
+	
 	
 	
 	/**

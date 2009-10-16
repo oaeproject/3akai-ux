@@ -577,7 +577,7 @@ sakai.dashboard = function(){
 			sdata.widgets.WidgetLoader.insertWidgets("widgetscontainer");
 			
 		} else {
-			showInit();
+            showInit();
 		}
 	
 	};		

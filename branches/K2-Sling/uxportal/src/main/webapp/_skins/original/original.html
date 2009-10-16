@@ -22,6 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.treeview.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css"/>
 	<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.site.css"/>
+	<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.dashboard.css"/>
 	<link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.3.css" />
 	
 	<script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
@@ -67,7 +68,7 @@
 			</div>
 			
 			<!-- TITLE BAR  -->
-			<div class="site_heading" fl-force-left">
+			<div class="site_heading fl-force-left">
 				<h1 id="sitetitle"></h1>
 			</div>
 	    </div>
@@ -79,98 +80,279 @@
 	    
 	    <!-- MAIN PAGE -->
 	    <div class="fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
-		   
-		<!-- Page Nav -->
-		<div class="fl-col-side page_nav">	
-		    
-		    <div class="add_a_new_container">
-			<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
-		    </div>
-		    
-		    <div id="page_nav_content" class="pages page_nav_content">
+			   
+			<!-- Page Nav -->
+			<div class="fl-col-side page_nav">	
 			    
-		    </div>
-			    
-		    <div class="site_management" id="site_management" style="display:none">
-			    <div class="sm_titlebar">
-				<img class="sm_titlebar_icon" src="/dev/_images/site_management_icon.png" /><h3 class="sm_title">Site Management</h3>
+			    <div class="add_a_new_container">
+					<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
 			    </div>
 			    
-			    <div class="sm_content">
-				<ul>
-					<li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
-					<li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">Site Files</a></li>
-					<li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
-					<li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
-					<li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
-				</ul>
+			    <div id="page_nav_content" class="pages page_nav_content">
+				    
 			    </div>
-			    
-			    <div class="sm_bottom">
-				<div class="sm_bottom_inner"></div>
+				    
+			    <div class="site_management" id="site_management" style="display:none">
+				    <div class="sm_titlebar">
+						<img class="sm_titlebar_icon" src="/dev/_images/site_management_icon.png" /><h3 class="sm_title">Site Management</h3>
+					</div>
+				    
+				    <div class="sm_content">
+						<ul>
+							<li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
+							<li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
+							<li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
+							<li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
+						</ul>
+				    </div>
+					    
+					<div class="sm_bottom">
+						<div class="sm_bottom_inner"></div>
+					</div>
 			    </div>
-		    </div>
-		    
-		    
-		    
-		    
-		    
-		</div>
-		
-		<!-- TOP RIGHT MENU -->
-		<div class="content_page_options" id="content_page_options">
-			<ul class="fl-force-right">
-				<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
-    				<li><a href="javascript:;" id="print_page">Print page</a></li>
-				<li><a href="javascript:;" id="more_link">More</a></li>
-			</ul>
-		</div>
-		
-		<!-- MAIN CONTENT -->
-		<div class="fl-col-main content_container">
-		    
-		    <!-- TOP BORDER -->
-		    <div class="content_top"><div class="content_top_inner"></div></div>
-		    
-		    <div class="sakai_site_contents_main">
-			
-			<!-- REVISION HISTORY -->
-			<div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
-			    
-			    <div class="revision_history_viewing">Viewing:</div>
-			    
-			    <div><select id="revision_history_list"></select></div>
-			    
-			    <div class="greybutton"><a href="javascript:;" class="button-default" id="revision_history_revert" >Use this Version</a></div>
-			    
-			    <div class="lightgreybutton"><a href="javascript:;" class="button-default" id="revision_history_cancel" >Cancel</a></div>
-			    
+				
 			</div>
 			
-			<!-- PAGE TITLE --> 
-			<h1 id="pagetitle"></h1>
-			
-			<div class="content_page_header" style="display:none">
-			    <img src="/dev/_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" alt="Author"/>
-				<p><a href="#">John Doe</a></p>
-				<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
+			<!-- TOP RIGHT MENU -->
+			<div class="content_page_options" id="content_page_options">
+				<ul class="fl-force-right">
+					<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
+	    			<li><a href="javascript:;" id="print_page">Print page</a></li>
+					<li><a href="javascript:;" id="more_link">More</a></li>
+				</ul>
 			</div>
 			
 			<!-- MAIN CONTENT -->
-			<div id="main-content-div">
+			<div class="fl-col-main content_container">
+			    
+			    <!-- TOP BORDER -->
+			    <div class="content_top"><div class="content_top_inner"></div></div>
+			    
+			    <div class="sakai_site_contents_main">
+				
+				<!-- REVISION HISTORY -->
+				<div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
+				    
+				    <div class="revision_history_viewing">Viewing:</div>
+				    
+				    <div><select id="revision_history_list"></select></div>
+				    
+				    <div class="greybutton"><a href="javascript:;" class="button-default" id="revision_history_revert" >Use this Version</a></div>
+				    
+				    <div class="lightgreybutton"><a href="javascript:;" class="button-default" id="revision_history_cancel" >Cancel</a></div>
+				    
+				</div>
+				
+				<!-- PAGE TITLE --> 
+				<h1 id="pagetitle"></h1>
+				
+				<!-- OPTIONS FOR THE DASHBOARD -->
+				<div class="fl-container-flex dashboard_options" style="display:none;">
+					<a href="javascript:;" id="add-goodies">__MSG__ADD_SAKAI_GOODIES__</a>
+					<span class="pipe_divider">|</span>
+					<a href="javascript:;" id="edit-layout">Change layout</a>					
+				</div>	
+				
+				<div class="content_page_header" style="display:none">
+				    <img src="/dev/_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" alt="Author"/>
+					<p><a href="#">John Doe</a></p>
+					<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
+				</div>
+				
+				<!-- MAIN CONTENT -->
+				<div id="main-content-div">
+				
+				</div>
+				
+						
 			
-			</div>
+				<!-- DASHBOARD PAGES  -->
+				
+				<!-- CONTENT -->
+				<div id="dashboard_container_template"><!--
+					<div class="fl-col-flex${size} sakai_dashboard_page">
+				        {var index = 0}
+				        <div class="content">
+				            {for c in columns}
+				            ${index++|eat}
+				            <div class="fl-col groupWrapper" id="column_uid_${index}">
+				                <div class="widget_spacer">
+				                </div>
+				                {for p in c.portlets}
+				                <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
+				                    <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
+				                        <div class="widget-titlebar-inner">
+				                            <h2 class="widget_title">${p.title}</h2>
+				                            <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">Settings</a>
+				                        </div>
+				                    </div>
+				                    {if p.display == "none"}
+				                    <div id="${p.uid}_container" style="display:none">
+				                        {else}
+				                        <div id="${p.uid}_container">
+				                            {/if}
+				                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline">
+				                            </div>
+				                        </div>
+				                    </div>
+				                    {/for}
+				                </div>
+				                {/for}
+				            </div>
+				        </div>
+				--></div>
+				
+				<!-- Dropdown menu shown when clicking on a widget's pencil -->
+				<div class="add_new_menu" id="widget_settings_menu" style="display:none">
+					<ul>
+						<li id="settings_remove" class="more_option"><a href="javascript:;">Remove</a></li>
+						<li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">Hide</a></li>
+						<li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">Settings</a></li>
+					</ul>
+				</div>
+				
+				<!-- Change the layout for a dashboard page. -->
+				<div id="change_layout_dialog" class="dialog">
+					<div class="dialog_header">
+						<h1>Change layout</h1>
+						<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+					</div>
+					<div class="dialog_content">
+						<div class="add-tools-right">
+							<h4>Select a layout for your dashboard page:</h4>
+							<div class="elf-right-up">
+								<div id="layouts_list"></div>
+							</div>
+						</div>
+					</div>
+					<div class="dialog_footer">
+						<div class="buttonBar">
+							<a href="javascript:;" id="select-layout-finished" class="button-default">Save</a>
+							<a href="javascript:;" id="select-layout-cancel" class="button jqmClose">Cancel</a>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Change layout template -->
+				<div id="layouts_template" style="display:none;"><!--
+					{for i in layouts}
+						{if i.siteportal}
+					        {if i_index == selected}
+						        <div class="layout_container">
+							            <table cellpadding="0" cellspacing="0" class="layout_picker_item">
+							                <tr>
+							                    {for w in i.widths}
+							                    <td style="width:${w}%;" class="layout_picker_item_column layout-picker" id="layout-picker-${w}-${i_index}">
+							                        &nbsp;
+							                    </td>
+							                    {/for}
+							                </tr>
+							            </table>
+						            <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio" checked="true"/>
+						        </div>
+							{else}
+						        <div class="layout_container_unselected">
+							        <table cellpadding="0" cellspacing="0" class="layout_picker_item_unselected">
+							            <tr>
+							                {for w in i.widths}
+							                <td style="width:${w}%;" class="layout_picker_item_column_unselected layout-picker" id="layout-picker-${w}-${i_index}">
+							                    &nbsp;
+							                </td>
+							                {/for}
+							            </tr>
+							        </table>
+							        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio_unselected"/>
+							    </div>
+							{/if}
+						{/if}
+				    {/for}
+				--></div>
+		
+				<!-- Add goodies -->
+				<div id="add_goodies_dialog" class="dialog add_goodies">
+					<div class="dialog_header">
+						<h1>Add Goodies</h1>
+						<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+					</div>
+					<div id="add_goodies_body" class="dialogue_body">
+					</div>
+		
+					<div id="add_goodies_body_template"><!--
+						<table>
+						{for i in items}
+						{if i.alreadyIn}
+						<tr class="add" id="row_add_${i.id}" style="display:none">
+						{else}
+						<tr id="row_add_${i.id}" class="add">
+						{/if}
+						<td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">Add</a></td>
+						<td>
+						<div class="dialogue_add_goodies_title">${i.title}</div>
+						<div class="dialogue_add_goodies_description">
+						${i.description}
+						</div>
+						</td>
+						</tr>
+						{if i.alreadyIn}
+						<tr id="row_remove_${i.id}" class="remove">
+						{else}
+						<tr id="row_remove_${i.id}" class="remove" style="display:none">
+						{/if}
+						<td width="80px"><a href="javascript:;" id="btn_remove_${i.id}" class="add-button remove goodies_remove_button">Remove</a></td>
+						<td>
+						<div class="dialogue_remove_goodies_title">${i.title}</div>
+						<div class="dialogue_remove_goodies_description">
+						${i.description}
+						</div>
+						</td>
+						</tr>
+						{/for}
+						</table>
+					--></div>
+					
+					<div id="dashboard-container-template"><!--
+							<div class="fl-col-flex${size}">
+						        {var index = 0}
+						        <div class="content">
+						            {for c in columns}
+						            ${index++|eat}
+						            <div class="fl-col groupWrapper" id="column_uid_${index}">
+						                <div class="widget_spacer">
+						                </div>
+						                {for p in c.portlets}
+						                <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
+						                    <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
+						                        <div class="widget-titlebar-inner">
+						                            <h2 class="widget_title">${p.title}</h2>
+						                            <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="settings fl-force-right fl-icon" style="display:none">Settings</a>
+						                        </div>
+						                    </div>
+						                    {if p.display == "none"}
+						                    <div id="${p.uid}_container" style="display:none">
+						                        {else}
+						                        <div id="${p.uid}_container">
+						                            {/if}
+						                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline">
+						                            </div>
+						                        </div>
+						                    </div>
+						                    {/for}
+						                </div>
+						                {/for}
+						            </div>
+						        </div>
+						</div>
+					--></div>
+				    
+				</div>
+				</div>
+			    <!-- BOTTOM BORDER -->
+			    <div class="content_bottom"><div class="content_bottom_inner"></div></div>
+			    
 			
 		    </div>
 		    
-		    <!-- BOTTOM BORDER -->
-		    <div class="content_bottom"><div class="content_bottom_inner"></div></div>
-		    
-		</div>
-		
 	    </div>
-	    
-	    
 	    
 	    
 	    <!-- WORK AREA -->
@@ -554,7 +736,27 @@
 			        <a href="javascript:;" class="button jqmClose">Cancel</a>
 			     </div>
 			</div>
-		</div>
+		</div>		
+		
+		
+		<!-- ADD DASHBOARD -->
+		<div class="dialog" id="dashboard_addpage_dialog">
+			<div class="dialog_header">
+				<h1>Add a dashboard page.</h1>
+				<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			</div>
+			
+			<div class="dialog_content" style="padding-bottom:20px">
+				<label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
+				<input type="text" id="dashboard_addpage_title" />
+			</div>
+			<div class="dialog_footer">
+				 <div class="buttonBar">
+			        <a href="javascript:;" class="button-default" id="dashboard_addpage_add">Add</a>
+			        <a href="javascript:;" class="button jqmClose">Cancel</a>
+			     </div>
+			</div>
+		</div>		
 		
 		<script type="text/javascript" src="/dev/_javascript/site.js"></script>
 		

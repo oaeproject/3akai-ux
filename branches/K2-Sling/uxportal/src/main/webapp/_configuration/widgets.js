@@ -18,27 +18,32 @@ var Widgets = {
 		onecolumn :
 		{
 			name:"One column",
-			widths:[100]
+			widths:[100],
+			siteportal: true
 		},
 		dev : 
 		{
 			name:"Dev Layout",
-			widths:[50,50]
+			widths:[50,50],
+			siteportal: true
 		},
 		threecolumn :
 		{
 			name:"Three equal columns",
-			widths:[33,33,33]
+			widths:[33,33,33],
+			siteportal: false
 		},
 		fourcolumn :
 		{
 			name:"Four equal columns",
-			widths:[25,25,25,25]
+			widths:[25,25,25,25],
+			siteportal: false
 		},
 		fivecolumn :
 		{
 			name:"Five equal columns",
-			widths:[20,20,20,20,20]
+			widths:[20,20,20,20,20],
+			siteportal: false
 		}
 	},
 	widgets: {
@@ -105,7 +110,51 @@ var Widgets = {
 			name:"Discussion",
 			id:"discussion",
 			personalportal:0,
-			siteportal:0,
+			siteportal:1,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/discussion/images/discussion.png"
+		},
+		filepicker :
+		{
+			description:"Pick a file.\r\n",
+			iframe:0,
+			url:"/devwidgets/pickers/filepicker.html",
+			name:"File",
+			id:"filepicker",
+			personalportal:0,
+			siteportal:1,
+			hasSettings: true,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/discussion/images/discussion.png"
+		},
+		folderpicker :
+		{
+			description:"Pick a folder.\r\n",
+			iframe:0,
+			url:"/devwidgets/pickers/folderpicker.html",
+			name:"Folder",
+			id:"folderpicker",
+			personalportal:0,
+			siteportal:1,
+			hasSettings:1,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/discussion/images/discussion.png"
+		},
+		tagpicker :
+		{
+			description:"Pick a tag.\r\n",
+			iframe:0,
+			url:"/devwidgets/pickers/tagpicker.html",
+			name:"Tag",
+			id:"tagpicker",
+			personalportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
@@ -119,7 +168,7 @@ var Widgets = {
 			name:"Poll",
 			id:"poll",
 			personalportal:0,
-			siteportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
@@ -147,7 +196,7 @@ var Widgets = {
 			name:"Chat",
 			id:"wookiechat",
 			personalportal:0,
-			siteportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:0,
@@ -161,7 +210,7 @@ var Widgets = {
 			name:"Wookie Forum",
 			id:"wookieforum",
 			personalportal:0,
-			siteportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:0,
@@ -384,7 +433,7 @@ var Widgets = {
 			name:"RSS Feed",
 			id:"rss",
 			personalportal:1,
-			siteportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
@@ -399,7 +448,7 @@ var Widgets = {
 			name:"Site members",
 			id:"sitemembers",
 			personalportal:1,
-			siteportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
@@ -414,7 +463,8 @@ var Widgets = {
 			name:"Video",
 			id:"video",
 			personalportal:0,
-			siteportal:0,
+			hasSettings:1,
+			siteportal:1,
 			ca:1,
 			showinmedia:1,
 			showinsakaigoodies:0,
@@ -428,7 +478,7 @@ var Widgets = {
 			name:"Comments",
 			id:"comments",
 			personalportal:0,
-			siteportal:0,
+			siteportal:1,
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,

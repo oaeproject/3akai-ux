@@ -867,9 +867,194 @@ sdata.container = {
 	
 };
 
+
+////////////////////////////////
+// Files management functions //
+////////////////////////////////
+
+sdata.files = {
+	
+	
+	
+	/**
+	 * Gets all the files and folders under a certain path.
+	 * @param {String} path The absolute path where we should look for sakai/file, sakai/link and sakai/folder.
+	 * @param {Object} callback The callback function that should be excecuted when the data is retrieved.
+	 * 		When succesfull data will hold the response of the server.
+	 * 		When the request failed it will hold the status.
+	 * 				function myCallbackFunction(data, success){
+	 *					if (success) {
+	 *						//files retrieved successfull
+	 *						//Do something with data.
+	 *					} else {
+	 *						//Error retrieving files.
+	 *						//Do something with the status.
+	 *					}
+	 *				}
+	 */
+	getFiles : function(path, callback) {
+		 $.ajax({
+            url: path + ".files.json",
+            cache: false,
+            success: function(data){
+                var json = $.evalJSON(data);
+				// Sort the files and folders.
+				// Folders come first then files.
+				// These are both sorted in a natural way. 
+				// so z1 > z2 > z30 > z100 > z200 and not
+				// z1 > z100 > z2 > z200 > z3 
+                json.sort(function alphanumCase(a, b){
+                    var aType = a["sling:resourceType"];
+                    var bType = b["sling:resourceType"];
+                    if (aType === "sakai/folder" && bType !== "sakai/folder") {
+                        return -1;
+                    }
+                    else {
+                        if (aType !== "sakai/folder" && bType === "sakai/folder") {
+                            return 1
+                        }
+                        else {
+                            sakai.sorting.human(a.name, b.name);
+                        }
+                    }
+                });
+				callback(json, true);
+            },
+            error: function(status){
+				callback(status, false);
+            }
+        });
+	},
+	
+	/**
+	 * Gets info about a certain file.
+	 * @param {String} path The absolute path for the file. Note this only works for nodes of type sakai/file.
+	 * @param {Object} callback The callback function that should be excecuted when the data is retrieved.
+	 * 		When succesfull data will hold the response of the server.
+	 * 		When the request failed it will hold the status.
+	 * 				function myCallbackFunction(data, success){
+	 *					if (success) {
+	 *						//Info retrieved successfull
+	 *						//Do something with data.
+	 *					} else {
+	 *						//Error retrieving info
+	 *						//Do something with the status.
+	 *					}
+	 *				}
+	 */
+	getFileInfo : function(path, callback) {
+		$.ajax({
+            url: path + ".info.json",
+            cache: false,
+            success: function(data){
+                var json = $.evalJSON(data);
+				callback(json, true);
+            },
+            error: function(status){
+				callback(status, false);
+            }
+        });
+	},
+	/**
+	 * Determines the type of a file by looking at the filename
+	 * @param {Object} item
+	 */
+	getFileType : function(filename) {
+		try {
+			var array = filename.split(".");
+			var extention = array[array.length - 1].toLowerCase();
+			if (extention == "php" || extention == "html" || extention == "xml" || extention == "css" || extention == "js"){
+				return "Web document";
+			} else if (extention == "doc" || extention == "docx" || extention == "rtf"){
+				return "Word file";
+			} else if (extention == "exe"){
+				return "Program";
+			} else if (extention == "mov" || extention == "avi" || extention == "mp4"){
+				return "Movie";
+			} else if (extention == "fla" || extention == "as" || extention == "flv"){
+				return "Flash";
+			} else if (extention == "mp3" || extention == "wav" || extention == "midi" || extention == "asf"){
+				return "Audio";
+			} else if (extention == "pdf"){
+				return "PDF file";
+			} else if (extention == "png" || extention == "gif" || extention == "jpeg" || extention == "jpg" || extention == "tiff" || extention == "bmp"){
+				return "Picture";
+			} else if (extention == "ppt" || extention == "pptx" || extention == "pps" || extention == "ppsx"){
+				return "Powerpoint";
+			} else if (extention == "txt"){
+				return "Text file";
+			} else if (extention == "xls" || extention == "xlsx"){
+				return "Excel";
+			} else if (extention == "zip" || extention == "rar"){
+				return "Archive";
+			} else {
+				return "Other";
+			}
+		} catch (err){
+			return "Other";
+		}
+
+	}
+};
+
 ///////////////////////
 // Utility functions //
 ///////////////////////
+
+/* alphanum.js (C) Brian Huisman
+ * Based on the Alphanum Algorithm by David Koelle
+ * The Alphanum Algorithm is discussed at http://www.DaveKoelle.com
+ *
+ * Distributed under same license as original
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+sakai.sorting = {};
+sakai.sorting.human = function(a, b){
+    function chunkify(t){
+        var tz = new Array();
+        var x = 0, y = -1, n = 0, i, j;
+        
+        while (i = (j = t.charAt(x++)).charCodeAt(0)) {
+            var m = (i == 46 || (i >= 48 && i <= 57));
+            if (m !== n) {
+                tz[++y] = "";
+                n = m;
+            }
+            tz[y] += j;
+        }
+        return tz;
+    }
+    
+    var aa = chunkify(a.toLowerCase());
+    var bb = chunkify(b.toLowerCase());
+    
+    for (x = 0; aa[x] && bb[x]; x++) {
+        if (aa[x] !== bb[x]) {
+            var c = Number(aa[x]), d = Number(bb[x]);
+            if (c == aa[x] && d == bb[x]) {
+                return c - d;
+            }
+            else 
+                return (aa[x] > bb[x]) ? 1 : -1;
+        }
+    }
+    return aa.length - bb.length;
+};
+
 
 /*
  * There is no specific logging function within Sakai, but using console.debug will

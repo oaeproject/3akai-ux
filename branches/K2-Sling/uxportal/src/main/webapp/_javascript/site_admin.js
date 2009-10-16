@@ -1812,7 +1812,6 @@ sakai.site.site_admin = function(){
 		sakai.site.pagecontents[newid] = content;
 		
 		// Define page properties on node
-		// TODO: add appropriate type to differientate between webpage and dashboardpage
 		$.ajax({
 			url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid,
 			type: "POST",
@@ -1864,24 +1863,74 @@ sakai.site.site_admin = function(){
 	// ADD NEW: DASHBOARD
 	/////////////////////////////
 	
-	var addDashboard = function() {
-		// To be done
+	/**
+	* Adds a dashboard page to the site.
+	* @param {Object} title
+	*/
+	var addDashboardPage = function(title){
+		var pageid = "";
+		pageid = title.toLowerCase().replace(/ /g,"-");
+		pageid = pageid.toLowerCase().replace(/'/g,"");
+		pageid = pageid.toLowerCase().replace(/"/g,"");
 		
+		var regexp = new RegExp("[^a-z0-9_-]", "gi");
+		pageid = pageid.replace(regexp,"_");
+		    
+	    $.ajax({
+		url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + pageid,
+		cache: false,
+		success: function(data){
+				    // We created a dashboard page...
+				    // Close this popup and show the new page.
+				    sakai.site.selectedpage = pageid;
+				    $("#dashboard_addpage_dialog").jqmHide();
+				    $("#dashboard_addpage_title").val('');
+		    // Open page
+							    
+				    // Refresh site_info object
+				    sakai.site.refreshSiteInfo(pageid);
+		},
+		error: function(status){
+		    alert("Could not create this dashboard page.");
+		},
+			    data : {
+				    "sling:resourceType": "sakai/page",
+				    "type": "dashboard",
+				    "id": pageid,
+				    "title": title,
+				    "position": determineHighestPosition() + 200000
+			    },
+			    type: 'POST'
+	    });
 	};
 	
-	$("#option_page_dashboard").bind("click", function(ev){
-		addDashboard();
+	$("#dashboard_addpage_add").bind('click', function(){
+	    var title = $("#dashboard_addpage_title").val();
+	    if (title !== "") {
+		addDashboardPage(title);
+	    }
+	});
+	
+	var renderAddDashboardPage = function(hash){
+	    $("#add_new_menu").hide();
+	    $("#dashboard_addpage_title").val("Untitled");
+	    hash.w.show();
+	}
+	
+	$("#dashboard_addpage_dialog").jqm({
+	    modal: true,
+	    trigger: $("#option_page_dashboard"),
+	    overlay: 20,
+	    toTop: true,
+	    onShow: renderAddDashboardPage
 	});
 	
 	// Bind Add a new page dashboard hover event
-	$("#option_page_dashboard").hover(
-		function(over){
-			$("#option_page_dashboard").addClass("selected_option");
-		}, 
-		function(out){
-			$("#option_page_dashboard").removeClass("selected_option");
-		}
-	);
+	$("#option_page_dashboard").hover(function(over){
+	    $("#option_page_dashboard").addClass("selected_option");
+	}, function(out){
+	    $("#option_page_dashboard").removeClass("selected_option");
+	});
 	
 	
 	
