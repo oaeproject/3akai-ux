@@ -25,6 +25,7 @@
 
 #sitemembers_normal #sitemembers_normal_container .sitemembers_normal_result {
 	width:100%;
+	margin-bottom:4px;
 	float:left;
 	background-color:#E6E6E6;
 	overflow:hidden;
@@ -66,7 +67,7 @@
 #sitemembers_normal .sitemembers_normal_reachedend { border-bottom:1px solid #E6E6E6; display:inline-block;}
 #sitemembers_normal .sitemembers_normal_loader {margin:0 auto;width:16px;display:block;}
 
-#sitemembers_normal #sitemembers_normal_footer { height:45px; padding-top:5px;}
+#sitemembers_normal #sitemembers_normal_footer { padding-top:5px;}
 #sitemembers_normal #sitemembers_normal_footer #sitemembers_normal_footer_onlycontacts, #sitemembers_normal #sitemembers_normal_footer #sitemembers_normal_footer_all { float:left; color:#058EC4;}
 #sitemembers_normal #sitemembers_normal_footer #sitemembers_normal_footer_text {
 	float:right;
@@ -75,6 +76,8 @@
 	height:18px;
 	margin-right:5px;
 } #sitemembers_normal #sitemembers_normal_footer #sitemembers_normal_footer_filter { float:right; color:#058EC4;} 
+
+#sitemembers_normal .sitemembers_normal_no_results { text-align:center;padding:4px 0px 4px 0px;}
 
 /* SETTINGS VIEW */
 #sitemembers_settings h1 {

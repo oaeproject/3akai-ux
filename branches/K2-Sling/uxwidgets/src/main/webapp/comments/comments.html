@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css" />
 
 <!-- MAIN VIEW -->
-<div id="comments_mainContainer"  style="display:none;">
+<div id="comments_mainContainer" class="fl-widget-content" style="display:none;">
 	<div id="comments_titlebar">
 		<span class="comments_titleLeft">Comments:</span><span class="comments_titleRight">Displaying <span id="comments_numCommentsDisplayed"></span> out of <span id="comments_numComments" >0</span id="comments_commentscomment"> comments</span>
 	</div>
@@ -115,7 +115,7 @@
 
 
 <!-- SETTINGS VIEW -->
-<div id="comments_settings" style="display:none;">
+<div id="comments_settings" class="fl-widget-content" style="display:none;">
 	<form class="comments_form">
 		<div class="comments_settingsPart">
 			<h3>Display:</h3>
@@ -178,6 +178,8 @@
 		
 	</form>
 </div>
+<!-- The footer for in the dashboard -->
+<div class="fl-widget-options fl-fix dashboard_footer" style="display:none"><div class="widget-options-inner"></div></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" language="JavaScript" src="/devwidgets/comments/lib/jquery.pager.js" />

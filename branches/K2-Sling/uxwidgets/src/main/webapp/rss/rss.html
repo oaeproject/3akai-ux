@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/dev/_css/Sakai CSS/sakai.components.jq_pager.css" />
 
 <!-- SETTINGS VIEW -->
-<div id="rss_settings" style="display:none">
+<div id="rss_settings" class="fl-widget-content" style="display:none">
 	<p>
 		Fill in the form below to add news from other sources to your page, the only thing you need to know is the URL to the rss feed, 
 		the url looks simular to "<span class="rss_quote">http://www.website.com/rss.xml</span>"
@@ -53,12 +53,17 @@
 	</form>
 </div>
 <!-- MAIN VIEW -->
-<div id="rss_output" style="display:none">
+<div id="rss_output" class="fl-widget-content" style="display:none">
 <!-- in this container all the entries of the feeds will be shown-->
 	<div id="rss_no_feeds" style="display:none">
 		No feeds set
 	</div>
 </div>
+
+
+<!-- The footer for in the dashboard -->
+<div class="fl-widget-options fl-fix dashboard_footer" style="display:none"><div class="widget-options-inner"></div></div>
+
 <div id="rss_output_template" style="display:none"><!--
 		<div class="rss_output_header">
 			<h1>${title}</h1>

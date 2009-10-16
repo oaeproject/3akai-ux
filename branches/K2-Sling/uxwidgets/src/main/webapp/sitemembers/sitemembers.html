@@ -5,40 +5,40 @@
 <span id="sitemembers_error_couldnotconnect" style="display:none;">Could not retrieve site members</span>
 
 <!-- SETTINGS VIEW -->
-<div style="display: none;" id="sitemembers_settings">
-<h1>Site members > Settings</h1>
-<h2>Data to display about members:</h2>
-
-<div id="sitemembers_settings_data_container">
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_aboutme" value="aboutme" /><label for="chk_sitemembers_aboutme">About me</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_degrees" value="degrees" /><label for="chk_sitemembers_degrees">Degrees</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_academicinterests" value="academicinterests" /><label for="chk_sitemembers_academicinterests">Academic interests</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_talks" value="talks" /><label for="chk_sitemembers_talks">Talks</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_personalinterests" value="personalinterests" /><label for="chk_sitemembers_personalinterests">Personal interests</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_publications" value="publications" /><label for="chk_sitemembers_publications">Publications</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_hobbies" value="hobbies" /><label for="chk_sitemembers_hobbies">Hobbies</label></div>
-	<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_profexperience" value="profexperience" /><label for="chk_sitemembers_profexperience">Professional experience</label></div>
-</div>
-<br class="sitemembers_clearer" />
-<h2>Display mode:</h2>
-
-<input type="radio" id="sitemembers_settings_display_compact" name="sitemembers_settings_display" checked="checked" /> <label for="sitemembers_settings_display_compact">Compact (single column of members)</label><br />
-<input type="radio" id="sitemembers_settings_display_wide" name="sitemembers_settings_display" /> <label for="sitemembers_settings_display_wide">Wide (full page width)</label>
-<!-- BACKEND ONLY ALLOWS SORTING ON FIRSTNAME AND LASTNAME.
-<h2>Sort by:</h2>
-<input type="radio" name="sitemembers_settings_sort" id="sitemembers_settings_sort_name" checked="checked" /><label for="sitemembers_settings_sort_name">Name</label><br />
-<input type="radio" name="sitemembers_settings_sort" id="sitemembers_settings_sort_position" /><label for="sitemembers_settings_sort_position">Position</label>
--->
-<div class="buttonBar">
-	<div class="greybutton"><a href="javascript:;" id="sitemembers_settings_save">Save</a></div>
-	<div class="lightgreybutton"><a href="javascript:;" id="sitemembers_settings_cancel">Cancel</a></div>
-</div>
-<br class="sitemembers_clearer" />
+<div style="display: none;" id="sitemembers_settings" class="fl-widget-content">
+	<h1>Site members > Settings</h1>
+	<h2>Data to display about members:</h2>
+	
+	<div id="sitemembers_settings_data_container">
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_aboutme" value="aboutme" /><label for="chk_sitemembers_aboutme">About me</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_degrees" value="degrees" /><label for="chk_sitemembers_degrees">Degrees</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_academicinterests" value="academicinterests" /><label for="chk_sitemembers_academicinterests">Academic interests</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_talks" value="talks" /><label for="chk_sitemembers_talks">Talks</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_personalinterests" value="personalinterests" /><label for="chk_sitemembers_personalinterests">Personal interests</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_publications" value="publications" /><label for="chk_sitemembers_publications">Publications</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_hobbies" value="hobbies" /><label for="chk_sitemembers_hobbies">Hobbies</label></div>
+		<div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_profexperience" value="profexperience" /><label for="chk_sitemembers_profexperience">Professional experience</label></div>
+	</div>
+	<br class="sitemembers_clearer" />
+	<h2>Display mode:</h2>
+	
+	<input type="radio" id="sitemembers_settings_display_compact" name="sitemembers_settings_display" checked="checked" /> <label for="sitemembers_settings_display_compact">Compact (single column of members)</label><br />
+	<input type="radio" id="sitemembers_settings_display_wide" name="sitemembers_settings_display" /> <label for="sitemembers_settings_display_wide">Wide (full page width)</label>
+	<!-- BACKEND ONLY ALLOWS SORTING ON FIRSTNAME AND LASTNAME.
+	<h2>Sort by:</h2>
+	<input type="radio" name="sitemembers_settings_sort" id="sitemembers_settings_sort_name" checked="checked" /><label for="sitemembers_settings_sort_name">Name</label><br />
+	<input type="radio" name="sitemembers_settings_sort" id="sitemembers_settings_sort_position" /><label for="sitemembers_settings_sort_position">Position</label>
+	-->
+	<div class="buttonBar">
+		<div class="greybutton"><a href="javascript:;" id="sitemembers_settings_save">Save</a></div>
+		<div class="lightgreybutton"><a href="javascript:;" id="sitemembers_settings_cancel">Cancel</a></div>
+	</div>
+	<br class="sitemembers_clearer" />
 
 </div>
 
 <!-- NORMAL VIEW -->
-<div id="sitemembers_normal" class="sitemembers_compact">
+<div id="sitemembers_normal" class="sitemembers_compact fl-widget-content">
 	<div id="sitemembers_header">
 	    <h1><img src="/dev/_images/contacts_icon.png" alt="Site members" /> Site members</h1>
 		<span id="sitemembers_normal_number">This site has <span class="sitemembers_normal_count">0</span> members.</span>
@@ -55,12 +55,15 @@
 	</div>
 	
 	<div id="sitemembers_normal_footer">
-		<a href="javascript:;" id="sitemembers_normal_footer_onlycontacts">Show only my contacts</a>
+		<a href="javascript:;" id="sitemembers_normal_footer_onlycontacts">Only my contacts</a>
 		<a href="javascript:;" id="sitemembers_normal_footer_all" style="display:none;">Show all</a>
 		<a href="javascript:;" id="sitemembers_normal_footer_filter">Filter</a>
 		<input type="text" id="sitemembers_normal_footer_text" />
 	</div>
 </div>
+
+<!-- The footer for in the dashboard -->
+<div class="fl-widget-options fl-fix dashboard_footer" style="display:none"><div class="widget-options-inner"></div></div>
 
 
 <!-- MEMBERS TEMPLATE -->

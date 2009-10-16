@@ -164,17 +164,16 @@ sakai.rss = function(tuid, placement, showSettings){
 		// put the url to a module variable
 		// later on this will also be added to the json-object
 		feedUrl = url;
-		var oPostData = {"method" : "GET", "url" : feedUrl};
+		var oPostData = {"method" : "GET", "rss" : feedUrl};
  		$.ajax({
-			url :Config.URL.PROXY_SERVICE,
-			type : "POST",
+			url :Config.URL.PROXY_SERVICE + url,
+			type : "GET",
 			success : function(data) {
 					onResponse(printFeed(data));
 			},
 			error : function(status) {
 					alert("Unable to connect to the rss feed.");
-			},
-			data : oPostData
+			}
  		});
 	};
 	
@@ -384,8 +383,9 @@ sakai.rss = function(tuid, placement, showSettings){
 	 * adds a feed to the widget
 	 */
 	var addRssFeed = function(){
-		if(!checkIfRssAlreadyAdded($(rssTxtUrl,rootel).val())){
-			getFeed($(rssTxtUrl,rootel).val(), getFeedResponse);
+		var rssURL = $(rssTxtUrl,rootel).val().replace('http://','');
+		if(!checkIfRssAlreadyAdded(rssURL)){
+			getFeed(rssURL, getFeedResponse);
 		}
 		else{
 			alert("This rss-feed is already added to the widget");
@@ -444,7 +444,13 @@ sakai.rss = function(tuid, placement, showSettings){
 			var tostring = $.toJSON(object);
 			var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
 			sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, function(){
-				sdata.container.informFinish(tuid, "rss");
+				if ($(".sakai_dashboard_page").is(":visible")) {
+					showSettings = false;
+					showHideSettings(showSettings);
+				}
+				else {
+					sdata.container.informFinish(tuid);
+				}
 			});
 		}
 	});

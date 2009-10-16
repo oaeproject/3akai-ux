@@ -410,14 +410,14 @@ sakai.createsite = function(tuid,placement,showSettings){
 			type: "POST",
 			success: function(data){
 				if (withMembers) {
-					addUserToCollaborators(siteid);
+					setGroupMaintenance1(siteid);
 				} else {
 					setGroupMaintenance1(siteid);
 				}
 			},
 			error: function(status){
 				if (withMembers) {
-					addUserToCollaborators(siteid);
+					setGroupMaintenance1(siteid);
 				} else {
 					setGroupMaintenance1(siteid);
 				}
