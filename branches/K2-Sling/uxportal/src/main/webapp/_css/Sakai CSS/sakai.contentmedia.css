@@ -284,6 +284,7 @@
 .contentmedia_view_thumbnail .contentmedia_file {
 	float: left;
 	width: 100px;
+	height: 80px;
 	overflow: hidden;
 	text-align: center;
 	padding: 15px;

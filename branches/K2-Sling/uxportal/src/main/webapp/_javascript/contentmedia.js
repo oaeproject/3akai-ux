@@ -495,7 +495,12 @@ sakai.contentmedia = function(){
 		if(options.site[0]){
 			usedIn = options.site[0].path;
 		}
-
+		
+		// Until search service is fixed we attach a star to the options
+		if (options.search !== "*") {
+			options.search = options.search + "*";
+		}
+		
 		// Request the file data 
 		$.ajax({
 			url: url,

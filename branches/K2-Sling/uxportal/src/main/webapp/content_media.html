@@ -224,7 +224,7 @@
 							<div id="contentmedia_bar_right">
 								<a id="contentmedia_actions_view_list" href="javascript:;" title="List view">List view</a>|
 								<a id="contentmedia_actions_view_thumbnail" href="javascript:;" title="Thumbnail view"><span>Thumbnail view</span></a>|
-								<a id="contentmedia_actions_edit" href="javascript:;">Edit Files</a>|
+								<a id="contentmedia_actions_edit" href="javascript:;">File Settings</a>|
 								<a id="contentmedia_actions_remove" href="javascript:;">Remove Files</a>
 							</div>
 							
@@ -293,22 +293,12 @@
 										{else}
 											<img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
 										{/if}
-										<div class="contentmedia_file_name">
-											{if i.name}
-												${i.name}
-											{else}
-												${i["sakai:filename"]}
-											{/if}
-										</div>
+										<div class="contentmedia_file_name">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</div>
 										{if i.formattedFilesize}
-										<div class="contentmedia_file_size">
-											${i.formattedFilesize}
-										</div>
+											<div class="contentmedia_file_size">${i.formattedFilesize}</div>
 										{/if}
 										{if i.formattedDateModified}
-										<div class="contentmedia_file_datemodified">
-											${i.formattedDateModified}
-										</div>
+											<div class="contentmedia_file_datemodified">${i.formattedDateModified}</div>
 										{/if}
 										<a class="contentmedia_file_bookmark href="javascript:;">Bookmark this file</a>
 										<div class="contentmedia_hidden">
