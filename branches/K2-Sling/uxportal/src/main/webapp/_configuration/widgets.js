@@ -276,7 +276,8 @@ var Widgets = {
 			name:"Site Members",
 			id:"sitemembers",
 			personalportal:0,
-			siteportal:1,
+			siteportal:0,
+			showinsakaigoodies:1,
 			img:"/devwidgets/sitemembers/images/icon.png"
 		},
 		chat :
