@@ -504,7 +504,7 @@ sakai.site.site_admin = function(){
 			}*/
 			
 			// If there is a title change
-			if (oldpagetitle.toLowerCase() != newpagetitle.toLowerCase()) { // || sakai.site.inEditView !== false) {
+			if (oldpagetitle!== newpagetitle) { // || sakai.site.inEditView !== false) {
 				
 				// Take care of title change
 				saveEdit_RegisterTitleChange(newpagetitle);
