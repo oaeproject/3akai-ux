@@ -68,6 +68,7 @@ sakai.contentmedia = function(){
 	var contentmediaSelectedItemClass = "contentmedia_selecteditem";
 	var contentmediaViewClass = "contentmedia_view";
 	var contentmediaViewThumbnailClass = contentmediaViewClass + "_thumbnail";
+	var contentmediaHoverClass = "contentmedia_hover";
 
 	// Template
 	var contentmediaAccordionListSiteTemplate = "contentmedia_accordion_list_site_template";
@@ -436,6 +437,7 @@ sakai.contentmedia = function(){
 				globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i].filesize);
 				globaldata.results[i].formattedDateModified = dateFormat($.ParseJCRDate(globaldata.results[i]["jcr:lastModified"]));
 			}
+			globaldata.results[i].absolute_path = Config.SakaiDomain.substring(0,Config.SakaiDomain.length - 1) + globaldata.results[i].path;
 		}
 
 		// Render files
@@ -974,20 +976,12 @@ sakai.contentmedia = function(){
 		var popupId = this.id.replace("contentmedia_filename_", "contentmedia_fileinfo_");
 		var containerId = this.id.replace("contentmedia_fileinfo_", "contentmedia_filename_");
 		
-		// Change the position of the pop up
-		//if(this.offsetTop - 80 < 0){
-		//	$("#" + popupId).css("bottom", 0);
-		//}else{
-		//	$("#" + popupId).css("bottom", this.offsetTop);
-		//}
+		//Calculate position
 		$("#" + popupId).css("left", this.offsetLeft);
-		$("#" + popupId).css("top", this.offsetTop + 102);
-		$("#" + popupId).css("border-left", "1px solid #ddd");
-		$("#" + popupId).css("border-right", "1px solid #ddd");
-		$("#" + popupId).css("border-bottom", "1px solid #ddd");
-		$("#" + containerId).css("border-left", "1px solid #ddd");
-		$("#" + containerId).css("border-right", "1px solid #ddd");
-		$("#" + containerId).css("border-top", "1px solid #ddd");
+		$("#" + popupId).css("top", this.offsetTop + 111);
+		
+		// Add hover style to file icon
+		$("#" + containerId).addClass(contentmediaHoverClass);
 		
 		// Show the pop up
 		$("#" + popupId).css("display","block");
@@ -1002,13 +996,8 @@ sakai.contentmedia = function(){
 		var popupId = this.id.replace("contentmedia_filename_", "contentmedia_fileinfo_");
 		var containerId = this.id.replace("contentmedia_fileinfo_", "contentmedia_filename_");
 		
-		$("#" + popupId).css("border-left", "1px solid #fff");
-		$("#" + popupId).css("border-right", "1px solid #fff");
-		$("#" + popupId).css("border-bottom", "1px solid #fff");
-		$("#" + containerId).css("border-left", "1px solid #fff");
-		$("#" + containerId).css("border-right", "1px solid #fff");
-		$("#" + containerId).css("border-top", "1px solid #fff");
-
+		// Remove hover style to file icon
+		$("#" + containerId).removeClass(contentmediaHoverClass);
 		
 		// Hide the pop up
 		$("#" + popupId).css("display","none");

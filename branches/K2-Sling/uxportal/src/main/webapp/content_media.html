@@ -288,7 +288,9 @@
 										{elseif i['jcr:primaryType'] === "sling:Folder"}
 											{var mimeType = 'folder'}
 										{/if}
-										{if Config.MimeTypes[mimeType]}
+										{if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
+											<img src="${i.absolute_path}" alt="${Config.MimeTypes[mimeType].description}" />
+										{elseif Config.MimeTypes[mimeType]}
 											<img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
 										{else}
 											<img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
