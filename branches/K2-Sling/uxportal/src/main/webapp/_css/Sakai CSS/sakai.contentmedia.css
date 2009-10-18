@@ -271,7 +271,7 @@
 
 /* Files Container */
 #contentmedia_files_container {
-	margin: 20px 20px 20px 0;
+	margin: 20px 0px 20px 0;
 }
 
 
@@ -283,8 +283,8 @@
 /* File / Fileinfo */
 .contentmedia_view_thumbnail .contentmedia_file {
 	float: left;
-	width: 100px;
-	height: 80px;
+	width: 110px;
+	height: 90px;
 	overflow: hidden;
 	text-align: center;
 	padding: 15px;
@@ -351,6 +351,7 @@
 .contentmedia_view_thumbnail .contentmedia_file .contentmedia_file_name {
 	text-align: center;
 	padding-top: 5px;
+	font-size: 0.9em;
 }
 
 .contentmedia_view_list .contentmedia_file .contentmedia_file_name {
@@ -391,7 +392,7 @@
 	font-size: 0.5em;
 	position: absolute;
 	z-index: 1000;
-	width: 126px;
+	width: 136px;
 	text-align: center;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;

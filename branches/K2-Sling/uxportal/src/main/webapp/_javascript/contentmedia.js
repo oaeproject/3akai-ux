@@ -34,7 +34,7 @@ sakai.contentmedia = function(){
 
 	// Paging
 	var pageCurrent = 0;			// The page you are currently on
-	var pageSize = 14;			// How many items you want to see on 1 page
+	var pageSize = 16;			// How many items you want to see on 1 page
 	
 	// Search URL mapping
 	var searchURLmap = {
@@ -1388,21 +1388,25 @@ sakai.contentmedia = function(){
 		// Check if the querystring contains the site id of a site
 		if(querystring.contains("siteid")){
 			var siteid = querystring.get("siteid");
+			setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), siteid);
+			doFileSearch(options);
 			
-			$.ajax({
-				url: Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
-				cache: false,
-				success: function(data){
-					var parsedData = $.evalJSON(data);
-					setSiteFilter(Config.URL.SITE_FILES_URL.replace("__SITEID__", siteid), parsedData.name);
-					
-					// Fetch the initial list of files
-					doFileSearch(options);
-				},
-				error: function(status){
-					//alert("An error has occured");
-				}
-			});
+			// Why do we need this?
+			//
+			//$.ajax({
+			//	url: Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
+			//	cache: false,
+			//	success: function(data){
+			//		var parsedData = $.evalJSON(data);
+			//		setSiteFilter(Config.URL.SITE_FILES_URL.replace("__SITEID__", siteid), parsedData.name);
+			//		
+			//		// Fetch the initial list of files
+			//		doFileSearch(options);
+			//	},
+			//	error: function(status){
+			//		//alert("An error has occured");
+			//	}
+			//});
 		}else{
 			// Fetch the initial list of files
 			doFileSearch(options);
