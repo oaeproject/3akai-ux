@@ -268,7 +268,6 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			fillInUserInfo(friend);
 		}
 		
-		console.debug(friend);
 		// Render the templates
 		renderTemplates();
 		

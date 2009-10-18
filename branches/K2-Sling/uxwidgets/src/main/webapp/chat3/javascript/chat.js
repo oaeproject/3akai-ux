@@ -218,6 +218,7 @@ sakai.chat3 = function(tuid, placement, showSettings){
 	// User Link
 	var userLink = "#user_link";
 	var userLinkMenu = userLink + "_menu";
+	var userLinkMenuLink = userLink + "_menu" + " a";
 	
 	// CSS Classes
 	var focussedFieldClass = "focussedInput";
@@ -1139,10 +1140,23 @@ sakai.chat3 = function(tuid, placement, showSettings){
 			$(userLinkMenu).hide();
 		}else{
 			$(userLinkMenu).css("left", Math.round($(userLink).offset().left) + 5 + "px");
-			$(userLinkMenu).css("width", $(userLink).width() + "px");
+			$(userLinkMenu).css("width", ($(userLink).width() + 10) + "px");
 			$(userLinkMenu).show();
 		}
 	};
+	
+	/**
+	 * Link menu hover
+	 */
+	$(userLinkMenuLink).hover(
+		function() {
+			$(this).css("color","#ddd");
+		},
+		function() {
+			$(this).css("color","#fff");
+		}
+	);
+	
 	
 	/**
 	 * Update the status on the page
