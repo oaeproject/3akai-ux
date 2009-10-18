@@ -317,18 +317,6 @@ var Widgets = {
 			personalportal:0,
 			siteportal:0
 		},
-		sitemembers :
-		{
-			description:"Shows a list of all of the members of this site",
-			iframe:0,
-			url:"/devwidgets/sitemembers/sitemembers.html",
-			name:"Site Members",
-			id:"sitemembers",
-			personalportal:0,
-			siteportal:0,
-			showinsakaigoodies:1,
-			img:"/devwidgets/sitemembers/images/icon.png"
-		},
 		chat :
 		{
 			description:"chat",
@@ -447,7 +435,7 @@ var Widgets = {
 			url:"/devwidgets/sitemembers/sitemembers.html",
 			name:"Site members",
 			id:"sitemembers",
-			personalportal:1,
+			personalportal:0,
 			siteportal:1,
 			ca:1,
 			showinmedia:0,
@@ -520,7 +508,7 @@ var Widgets = {
 			name:"Dynamic Footer",
 			id:"footer",
 			personalportal:0,
-			siteportal:0,
+			siteportal:0
 		},
 		tangler :
 		{

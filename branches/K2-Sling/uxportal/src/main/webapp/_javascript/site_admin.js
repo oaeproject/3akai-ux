@@ -380,6 +380,8 @@ sakai.site.site_admin = function(){
 		sakai.site.showingInsertMore = false;	
 		sakai.site.inEditView = false;
 		
+		var escaped_page_id = sakai.site.escapePageId(sakai.site.selectedpage);
+		
 		// Edit page title
 		document.title = document.title.replace("Page Edit", "Site View");
 		
@@ -387,15 +389,6 @@ sakai.site.site_admin = function(){
 		removeAutoSaveFile();
 		
 		if (sakai.site.isEditingNewPage) {
-		
-			// Delete page from configuration file
-			/*var index = -1;
-			for (var i = 0; i < sakai.site.pages.items.length; i++){
-				if (sakai.site.pages.items[i].id == sakai.site.selectedpage){
-					index = i;
-				}
-			}
-			sakai.site.pages.items.splice(index,1);*/
 			
 			// Delete page from site_info if exists
 			if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
@@ -406,7 +399,7 @@ sakai.site.site_admin = function(){
 			//sdata.widgets.WidgetPreference.save(sakai.site.urls.PAGE_CONFIGURATION_PREFERENCE(), "pageconfiguration", $.toJSON(sakai.site.pages), function(success){
 	
 				// Display previous page content
-				document.getElementById(sakai.site.escapePageId(sakai.site.oldSelectedPage)).style.display = "block";
+				$("#" + escaped_page_id).show();
 				
 				// Delete the folder that has been created for the new page	
 				$.ajax({
@@ -429,14 +422,15 @@ sakai.site.site_admin = function(){
 			switchToTextEditor();
 			
 			// Put back original content
-			var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
-			document.getElementById(escaped).innerHTML = sakai.site.pagecontents[sakai.site.selectedpage];
+			$("#" + escaped_page_id).html(sakai.site.pagecontents[sakai.site.selectedpage]);
+			//document.getElementById(escaped).innerHTML = sakai.site.pagecontents[sakai.site.selectedpage];
 			
 			if (sakai.site.pagetypes[sakai.site.selectedpage] == "webpage") {
 				$("#webpage_edit").show();
 			}
-			document.getElementById(escaped).style.display = "block";
-			sdata.widgets.WidgetLoader.insertWidgets(escaped,null,sakai.site.currentsite.id + "/_widgets");
+			
+			$("#" + escaped_page_id).show();
+			sdata.widgets.WidgetLoader.insertWidgets(escaped_page_id,null,sakai.site.currentsite.id + "/_widgets");
 			
 			// Switch back to view mode
 			$("#edit_view_container").hide();

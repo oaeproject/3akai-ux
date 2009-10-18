@@ -1172,9 +1172,7 @@ sakai.site = function(){
 		// The default widgets.
 		columns[0] = [];
 		columns[1] = [];
-		columns[0][0] = "filepicker";
-		columns[1][0] = "sitemembers";
-		columns[0][1] = "folderpicker";
+		columns[0][0] = "sitemembers";
 		
 		var jsonobj = {};
 		jsonobj.columns = {};
