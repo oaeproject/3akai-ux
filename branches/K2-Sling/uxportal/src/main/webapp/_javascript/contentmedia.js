@@ -437,7 +437,6 @@ sakai.contentmedia = function(){
 				globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i].filesize);
 				globaldata.results[i].formattedDateModified = dateFormat($.ParseJCRDate(globaldata.results[i]["jcr:lastModified"]));
 			}
-			globaldata.results[i].absolute_path = Config.SakaiDomain.substring(0,Config.SakaiDomain.length - 1) + globaldata.results[i].path;
 		}
 
 		// Render files

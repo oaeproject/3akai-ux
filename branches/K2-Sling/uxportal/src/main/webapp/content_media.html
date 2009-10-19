@@ -289,7 +289,7 @@
 											{var mimeType = 'folder'}
 										{/if}
 										{if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-											<img src="${i.absolute_path}" alt="${Config.MimeTypes[mimeType].description}" />
+											<img src="${i.path}" alt="${Config.MimeTypes[mimeType].description}" />
 										{elseif Config.MimeTypes[mimeType]}
 											<img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
 										{else}
