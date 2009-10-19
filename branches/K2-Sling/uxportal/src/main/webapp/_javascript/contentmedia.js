@@ -978,7 +978,7 @@ sakai.contentmedia = function(){
 		
 		//Calculate position
 		$("#" + popupId).css("left", this.offsetLeft);
-		$("#" + popupId).css("top", this.offsetTop + 111);
+		$("#" + popupId).css("top", this.offsetTop + 121);
 		
 		// Add hover style to file icon
 		$("#" + containerId).addClass(contentmediaHoverClass);
@@ -1394,7 +1394,7 @@ sakai.contentmedia = function(){
 				cache: false,
 				success: function(data){
 					var parsedData = $.evalJSON(data);
-					setSiteFilter(Config.URL.SITE_FILES_URL.replace("__SITEID__", siteid), parsedData.name);
+					setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 					
 					// Fetch the initial list of files
 					doFileSearch(options);
