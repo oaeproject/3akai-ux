@@ -42,7 +42,7 @@ sakai.footer = function(tuid,placement,showSettings){
 			slash = "\\";
 		}
 		return url.substring(url.lastIndexOf(slash) + 1);
-	}
+	};
 	
 	
 	/////////////////////////////
@@ -107,7 +107,7 @@ sakai.footer = function(tuid,placement,showSettings){
 		}
 		
 		// index.html mods
-		if ((doc_name == "index.html") || (doc_name == "")) {
+		if ((doc_name === "index.html") || (doc_name === "")) {
 			back_to_top_link.hide();
 			footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
 		}

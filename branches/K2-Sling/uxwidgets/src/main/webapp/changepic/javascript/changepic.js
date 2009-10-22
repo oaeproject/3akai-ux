@@ -245,23 +245,21 @@ sakai.changepic = function(tuid, placement, showSettings){
 	$(saveNewSelection).bind("click", function(ev){
 		
 		//	The parameters for the cropit service.
-		var tosave = {};
-		tosave.urlToCrop = "/_user/public/" + sdata.me.user.userStoragePrefix + picture._name; 
-		tosave.urlSaveIn = "/_user/public/" + sdata.me.user.userStoragePrefix;
-		tosave.x = Math.floor(userSelection.x1 * ratio);
-		tosave.y = Math.floor(userSelection.y1 * ratio);
-		tosave.height = Math.floor(userSelection.height * ratio);
-		tosave.width = Math.floor(userSelection.width * ratio);
-		tosave.dimensions = $.toJSON([{"width":256,"height":256}]);
 		var data = {
-			parameters : $.toJSON(tosave)
+			img: "/_user/public/" + sdata.me.user.userStoragePrefix + picture._name,
+			save: "/_user/public/" + sdata.me.user.userStoragePrefix,
+			x: Math.floor(userSelection.x1 * ratio),
+			y: Math.floor(userSelection.y1 * ratio),
+			width: Math.floor(userSelection.width * ratio),
+			height:Math.floor(userSelection.height * ratio),
+			dimensions: "256x256"
 		};
 		
 		// Post all of this to the server
 		$.ajax({
 			url: Config.URL.IMAGE_SERVICE,
-			type: "GET",
-			data: tosave,
+			type: "POST",
+			data: data,
 			success: function(data){
 				
 				var tosave = {
