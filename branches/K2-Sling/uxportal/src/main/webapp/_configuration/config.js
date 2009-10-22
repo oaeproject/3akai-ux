@@ -68,7 +68,7 @@ var Config = {
 		FRIEND_STATUS_SERVICE: "/rest/friend/status",
 		FRIEND_CONNECT_SERVICE: "/rest/friend/connect/request",
 		FRIEND_ACCEPTED_SERVICE: "/_user/contacts/accepted.json",
-		IMAGE_SERVICE: "/system/image/cropit",
+		IMAGE_SERVICE: "/var/image/cropit",
 		LOGIN_SERVICE: "/system/sling/formlogin",
 		LOGOUT_SERVICE : "/system/sling/formlogin",
 		ME_SERVICE: "/system/me",

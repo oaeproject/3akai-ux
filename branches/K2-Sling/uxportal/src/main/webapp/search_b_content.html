@@ -5,36 +5,23 @@
 	<title>Sakai 3 R&amp;D - Search: Content &amp; Media</title>
 	
 	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.reset.css" />
-	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.mist.css" />
-	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.hc.css" />
-	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.theme.rust.css" />
 	<link rel="stylesheet" type="text/css" href="_css/FSS/fluid.layout.css" />
 	<link rel="stylesheet" type="text/css" href="_css/FSSfluid.text.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.core.2.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search.css" />
-	<!--<link type="text/css" rel="stylesheet" href="_css/Sakai CSS/sakai.people.css" />-->
-	<!--<link type="text/css" rel="stylesheet" href="_css/Sakai CSS/sakai.3.css" />-->
-	<link type="text/css" rel="stylesheet" href="/devwidgets/chat3/css/chat.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_permissions.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.modal_dialog.page_from_template.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.components.jq_pager.css" />
 	<link rel="stylesheet" type="text/css" href="_css/Sakai CSS/sakai.search_b.css" />
 	
 	<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
-	<script src="_lib/Fluid/Fluid-all.js" type="text/javascript"></script>
-	<script src="_lib/Sakai Util/trimpath.js" type="text/javascript"></script>
-	<script src="_lib/Sakai Util/SHA.js" type="text/javascript" language="JavaScript"></script>
-	<script src="_javascript/_history/rsh.js" type="text/javascript" language="JavaScript" ></script>
-	<script src="_javascript/_history/search_history.js" type="text/javascript" language="JavaScript"></script>
-	<script src="_lib/Jquery/jqModal.js" type="text/javascript"></script>
-	<script src="_lib/Jquery/jquery.cookie.js" type="text/javascript"></script>
-	<script src="_lib/Jquery/jquery.corners.js" type="text/javascript"></script>
-	<script src="_lib/Jquery/jquery.pager.js" type="text/javascript"></script>
-	<script src="_lib/OpenSocial/message.js" type="text/javascript" language="JavaScript"></script>
-	<script src="_lib/AutoComplete/jquery.autocomplete.min.js" type="text/javascript" language="JavaScript" ></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/Fluid-all.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/trimpath.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_javascript/_history/rsh.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_javascript/_history/search_history.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/sdata.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/Sakai Util/i18n.js"></script>
 
@@ -46,7 +33,7 @@
 <!-- CONTENT -->
 <div class="fl-container-flex content content_search">
 	<div class="fl-fix fl-centered fixed-container">
-		<div class="decor"></div>
+		<div class="decor"><!-- --></div>
 		<!-- TITLE -->
 		<h1 class="title">Search content &amp; media</h1>
 		<!-- TAB NAVIGATION -->
@@ -61,7 +48,7 @@
 		<!-- TAB CONTENT -->
 		<div class="fl-centered fl-container fl-tab-content search_content_wrapper">
 			<div class="search_tab_content_top">
-				<div class="search_tab_content_top_inner"></div>
+				<div class="search_tab_content_top_inner"><!-- --></div>
 			</div>
 			<div class="search_content_main">
 				<!-- SEARCH BAR -->
@@ -97,7 +84,7 @@
 					<span class="keyword" id="search_mysearchterm"></span> </div>
 				<!-- SEARCH RESULTS -->
 				<div id="search_results_page1" class="fl-container fl-fix search_results_container">
-		  			<div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+					<div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
 					<!-- CONTENT -->
 					<div class="fl-container fl-fix search_results_part">
 						<!-- CONTAINER FOR THE RESULTS -->
@@ -107,23 +94,47 @@
 					<div id="search_results_template"><!--
 						{for i in items}
 							<div class="fl-container fl-fix search_result">
-								<div class="search_result_header">${i.title}</div>
-								<div class="search_result_description">${i.description}</div>
-								<div class="search_result_footer"><a href="/dev/redesign/page_edit.html?siteid=${i.location}">${i.type}</a> | ${i.siteName}</div>
+								{if i['sakai:mimeType']}
+									{var mimeType = i['sakai:mimeType']}
+								{elseif i.file && i.file['sakai:mimeType']}
+									{var mimeType = i.file['sakai:mimeType']}
+								{elseif i['jcr:primaryType'] === "sling:Folder"}
+									{var mimeType = 'folder'}
+								{/if}
+								{if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
+									{var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+									<img src="${i.path}" alt="${mimeTypeDescription}" />
+								{elseif Config.MimeTypes[mimeType]}
+									{var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+									<img src="${Config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+								{else}
+									{var mimeTypeDescription = Config.MimeTypes["other"].description}
+									<img src="${Config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+								{/if}
+								<div class="search_result_right">
+									<div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
+									{if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+									{if i["sakai:tags"] && i["sakai:tags"].length > 0}
+										<div class="search_result_tags">Tags: 
+											{for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
+										</div>
+									{/if}
+									{if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+								</div>
 							</div>
 						{forelse}
 							No Content &amp; Media found
 						{/for}
 					--></div>
-		  			<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+					<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
 				</div>
 			</div>
 			<div class="search_tab_content_bottom">
-				<div class="search_tab_content_bottom_inner"></div>
+				<div class="search_tab_content_bottom_inner"><!-- --></div>
 			</div>
 		</div>
 		<!-- CONTAINER FOR THE PAGER -->
-		<div class="jq_pager"></div>
+		<div class="jq_pager"><!-- --></div>
 	</div>
 </div>
 

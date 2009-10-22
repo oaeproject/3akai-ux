@@ -47,139 +47,163 @@
 
 <!-- CONTENT -->
 <div class="fl-container fl-fix fl-container-flex content content_search">
-  <div class="fl-fix fl-centered fixed-container">
-    <div class="decor"></div>
-    <!-- TITLE -->
-    <h1 class="title">Search all</h1>
-    <!-- TAB NAVIGATION -->
-    <div class="search_tab_nav">
-      <ul class="fl-tabs fl-tabs-right">
-        <li class="fl-activeTab search_tab_selected"><a id="tab_search_all" href="search_b.html#">All</a></li>
-        <li><a href="search_b_content.html#" id="tab_search_content">Content &amp; Media</a></li>
-        <li><a href="search_b_people.html#" id="tab_search_people">People</a></li>
-        <li><a href="search_b_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
-      </ul>
-    </div>
-    <!-- TAB CONTENT -->
-    <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
-      <div class="search_tab_content_top">
-        <div class="search_tab_content_top_inner"></div>
-      </div>
-      <div class="search_content_main">
-        <!-- SEARCH BAR -->
-        <div class="fl-left fl-container fl-fix search_bar">
-          <div class="fl-left fl-container" id="introduction_text">
-            <h4>Find content, media, sites and people on Sakai 3</h4>
-            <p> Sakai 3 makes it easy for you to find content, media, sites and people. <br/>
-              You'll find pages and sites of your interest, and people with who you can connect. </p>
-          </div>
-          <div id="search_form" >
-            <!-- <select class="skinned_select">
+	<div class="fl-fix fl-centered fixed-container">
+		<div class="decor"><!-- --></div>
+		<!-- TITLE -->
+		<h1 class="title">Search all</h1>
+		<!-- TAB NAVIGATION -->
+		<div class="search_tab_nav">
+			<ul class="fl-tabs fl-tabs-right">
+				<li class="fl-activeTab search_tab_selected"><a id="tab_search_all" href="search_b.html#">All</a></li>
+				<li><a href="search_b_content.html#" id="tab_search_content">Content &amp; Media</a></li>
+				<li><a href="search_b_people.html#" id="tab_search_people">People</a></li>
+				<li><a href="search_b_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
+			</ul>
+		</div>
+		<!-- TAB CONTENT -->
+		<div class="fl-centered fl-container fl-tab-content search_content_wrapper">
+			<div class="search_tab_content_top">
+				<div class="search_tab_content_top_inner"><!-- --></div>
+			</div>
+			<div class="search_content_main">
+				<!-- SEARCH BAR -->
+				<div class="fl-left fl-container fl-fix search_bar">
+					<div class="fl-left fl-container" id="introduction_text">
+						<h4>Find content, media, sites and people on Sakai 3</h4>
+						<p> Sakai 3 makes it easy for you to find content, media, sites and people. <br/>
+							You'll find pages and sites of your interest, and people with who you can connect. </p>
+					</div>
+					<div id="search_form" >
+						<!-- <select class="skinned_select">
 						<option value="entire_community">Entire Sakai Network</option>
 						<option value="friends">Friends</option>
 					</select> -->
-            <input type="text" id="search_text" class="input" value="Insert name or keyword ..." />
-            <div class="fl-force-left"> <a href="javascript:;" id="search_button" class="button search_button"><span>Search</span></a> </div>
-          </div>
-        </div>
-        <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">Found <strong id="search_numberFound">0</strong> results matching your search for <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
-        <!-- TEMPORARY SEARCH TEXtT -->
-        <span id="search_result_temp" style="display:none;"><b>Searching ...</b></span>
-        <!-- SEARCH RESULTS -->
-        <!-- CONTENT / MEDIA PART -->
-        <div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
-		  <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-          <div class="fl-container fl-fix search_results_part">
-            <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Content &amp; Media</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View all <span id="display_more_cm_number">0</span> Content &amp; Media items &raquo;</small></a> </div>
-            <div id="cm_search_result"></div>
-            <div id="cm_search_result_template"><!--
-	      {for i in items}
-		<div class="fl-container fl-fix search_result">
-		  <div class="search_result_header">${i.title}</div>
-		  <div class="search_result_description">${i.description}</div>
-		  <div class="search_result_footer"><a href="/dev/site.html?siteid=${i.location}">${i.type}</a> | ${i.siteName}</div>
+						<input type="text" id="search_text" class="input" value="Insert name or keyword ..." />
+						<div class="fl-force-left"> <a href="javascript:;" id="search_button" class="button search_button"><span>Search</span></a> </div>
+					</div>
+				</div>
+				<div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">Found <strong id="search_numberFound">0</strong> results matching your search for <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
+				<!-- TEMPORARY SEARCH TEXtT -->
+				<span id="search_result_temp" style="display:none;"><b>Searching ...</b></span>
+				<!-- SEARCH RESULTS -->
+				<!-- CONTENT / MEDIA PART -->
+				<div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
+				<div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+				<div class="fl-container fl-fix search_results_part">
+					<div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Content &amp; Media</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View all <span id="display_more_cm_number">0</span> Content &amp; Media items &raquo;</small></a> </div>
+					<div id="cm_search_result"></div>
+					<div id="cm_search_result_template"><!--
+					{for i in items}
+						<div class="fl-container fl-fix search_result">
+							{if i['sakai:mimeType']}
+								{var mimeType = i['sakai:mimeType']}
+							{elseif i.file && i.file['sakai:mimeType']}
+								{var mimeType = i.file['sakai:mimeType']}
+							{elseif i['jcr:primaryType'] === "sling:Folder"}
+								{var mimeType = 'folder'}
+							{/if}
+							{if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
+								{var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+								<img src="${i.path}" alt="${mimeTypeDescription}" />
+							{elseif Config.MimeTypes[mimeType]}
+								{var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+								<img src="${Config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+							{else}
+								{var mimeTypeDescription = Config.MimeTypes["other"].description}
+								<img src="${Config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+							{/if}
+							<div class="search_result_right">
+								<div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
+								{if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+								{if i["sakai:tags"] && i["sakai:tags"].length > 0}
+									<div class="search_result_tags">Tags: 
+										{for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
+									</div>
+								{/if}
+								{if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+							</div>
+						</div>
+					{forelse}
+						No Content &amp; Media found
+					{/for}
+					--></div>
+					<div class="search_results_part_footer"><!-- --></div>
+				</div>
+			<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+				</div>
+				<!-- PEOPLE PART -->
+				<div class="fl-container fl-fix search_results_container" style="display:none" id="people_header">
+			<div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+					<div class="fl-container fl-fix search_results_part">
+						<div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">People</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View all <span id="display_more_people_number">0</span> People &raquo;</small></a> </div>
+						<div id="people_search_result"> </div>
+						<div id="people_search_result_template"><!--
+						{for i in items}
+							<div class="fl-container fl-fix search_result_person">
+								{if ! i.picture}
+									<a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+								{else}
+									<a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
+								{/if}
+								<a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+								{if i.extra}
+									<a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+								{else}
+									<a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+								{/if}
+								{if ! i.isMe}
+									{if ! i.connected}
+										<a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+										<a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+									{/if}
+									<a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
+								{/if}
+							</div>
+						{forelse}
+							No people found.
+						{/for}
+						--></div>
+					</div>
+			<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+				</div>
+				<!-- COURSES / SITES -->
+				<div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
+			<div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+					<div class="fl-container fl-fix search_results_part">
+						<div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Courses &amp; Sites</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View all <span id="display_more_sites_number">0</span> Courses &amp; Sites &raquo;</small></a> </div>
+						<div id="sites_search_result"> </div>
+						<div id="sites_search_result_template"><!--
+							{for i in items}
+								<div class="fl-container fl-fix search_result_course_site">
+									<div class="search_result_course_site_title"><a href="${sakaiDomain}${i.id}">${i.name}</a></div>
+									<div class="search_result_course_site_url">${i.description}</div>
+									<div class="search_result_course_site_url"><a href="${sakaiDomain}${i.id}">${sakaiDomain}${i.id}</a></div>
+								</div>
+							{forelse}
+								No Courses &amp; Sites found
+							{/for}
+						--></div>
+					</div>
+			<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+				</div>
+			</div>
+			<div class="search_tab_content_bottom">
+				<div class="search_tab_content_bottom_inner"><!-- --></div>
+			</div>
 		</div>
-	      {forelse}
-		  No Content &amp; Media found
-	      {/for}
-	    --></div>
-            <div class="search_results_part_footer"></div>
-          </div>
-		  <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-        </div>
-        <!-- PEOPLE PART -->
-        <div class="fl-container fl-fix search_results_container" style="display:none" id="people_header">
-		  <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-          <div class="fl-container fl-fix search_results_part">
-            <div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">People</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View all <span id="display_more_people_number">0</span> People &raquo;</small></a> </div>
-            <div id="people_search_result"> </div>
-            <div id="people_search_result_template"><!--
-	      {for i in items}
-		<div class="fl-container fl-fix search_result_person">
-		  {if ! i.picture}
-		    <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
-		  {else}
-		    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
-		  {/if}
-		  <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-		  {if i.extra}
-		    <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-		  {else}
-		    <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-		  {/if}
-		  {if ! i.isMe}
-		    {if ! i.connected}
-		      <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
-		      <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-		    {/if}
-		    <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
-		  {/if}
-		</div>
-		{forelse}
-		  No people found.
-		{/for}
-	    --></div>
-          </div>
-		  <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-        </div>
-        <!-- COURSES / SITES -->
-        <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
-		  <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-          <div class="fl-container fl-fix search_results_part">
-            <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Courses &amp; Sites</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View all <span id="display_more_sites_number">0</span> Courses &amp; Sites &raquo;</small></a> </div>
-            <div id="sites_search_result"> </div>
-            <div id="sites_search_result_template"><!--
-	      {for i in items}
-		<div class="fl-container fl-fix search_result_course_site">
-		  <div class="search_result_course_site_title"><a href="${sakaiDomain}${i.id}">${i.name}</a></div>
-		  <div class="search_result_course_site_url">${i.description}</div>
-		  <div class="search_result_course_site_url"><a href="${sakaiDomain}${i.id}">${sakaiDomain}${i.id}</a></div>
-		</div>
-	      {forelse}
-		No Courses &amp; Sites found
-	      {/for}
-	    --></div>
-          </div>
-		  <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-        </div>
-      </div>
-      <div class="search_tab_content_bottom">
-        <div class="search_tab_content_bottom_inner"></div>
-      </div>
-    </div>
-  </div>
+	</div>
 </div>
 
 <!-- FOOTER WIDGET -->
 <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>	
 
 <div id="sendmessagecontainer" style="display:none; width:100%">
-  <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
+	<div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
 </div>
 <div id="addtocontactscontainer" style="width:100%">
-  <div id="widget_addtocontacts" class="widget_inline" style="width:100%"></div>
+	<div id="widget_addtocontacts" class="widget_inline" style="width:100%"></div>
 </div>
-<div style="margin-bottom: 50px"></div>
+<div style="margin-bottom: 50px"><!-- --></div>
 <script type="text/javascript" language="JavaScript" src="_javascript/search_main.js"></script>
 <script type="text/javascript" language="JavaScript" src="_javascript/search.js"></script>
 </body>

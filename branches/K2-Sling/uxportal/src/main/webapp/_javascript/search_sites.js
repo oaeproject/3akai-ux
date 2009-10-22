@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, History, mainSearch */
+/*global $, Config, sdata, History, mainSearch, sakai */
 
 
 sakai.search = function() {
@@ -27,15 +27,11 @@ sakai.search = function() {
 	//////////////////////////
 	
 	var resultsToDisplay = 10;
-	var nrOfCharactersAroundTerm = 600;
-	var hasHadFocus = false;
 	var searchterm = "";
 	var currentpage = 0;
 	
 	
-	//	CSS IDs
-	
-	
+	// CSS IDs
 	var search = "#search";
 	
 	var searchConfig = {
@@ -75,15 +71,12 @@ sakai.search = function() {
 			header : search + '_results_header',
 			template : 'search_results_template'
 		}
-	};
-	
-		
-	
-	
-	//////////////////
-	//	functions	//
-	//////////////////
-	
+	};	
+
+
+	///////////////
+	// Functions //
+	///////////////
 	
 	/**
 	 * This method will show all the appropriate elements for when a search is executed.
@@ -95,10 +88,9 @@ sakai.search = function() {
 	};
 		
 	
-	//////////////////////////////
-	//	Search functionality	//
-	//////////////////////////////
-	
+	//////////////////////////
+	// Search Functionality	//
+	//////////////////////////
 	
 	/**
 	 * Used to do a search. This will add the page and the searchterm to the url and add 
@@ -120,7 +112,7 @@ sakai.search = function() {
 		}
 		
 		currentpage = page;
-		//	This will invoke the sakai._search.doSearch function and change the url.
+		// This will invoke the sakai._search.doSearch function and change the url.
 		History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
 	};	
 	
@@ -130,7 +122,8 @@ sakai.search = function() {
 	 */
 	var pager_click_handler = function(pageclickednumber) {
 		currentpage = pageclickednumber;
-		//	Redo the search
+
+		// Redo the search
 		doHSearch(currentpage, searchterm);
 	};
 
@@ -144,23 +137,24 @@ sakai.search = function() {
 		finaljson.items = [];
 		finaljson.sakaiDomain = Config.SakaiDomain;
 			if (success) {
-			//	Adjust the number of sites we have found.
+
+			// Adjust the number of sites we have found.
 			$(searchConfig.global.numberFound).text(results.total);
 			
-			//	Reset the pager.
+			// Reset the pager.
 			$(searchConfig.global.pagerClass).pager({
 				pagenumber: currentpage,
 				pagecount: Math.ceil(results.total / resultsToDisplay),
 				buttonClickCallback: pager_click_handler
 			});
 			
-			//	If we have results we add them to the object.
+			// If we have results we add them to the object.
 			if (results && results.results) {
 				finaljson.items = results.results;
 			}
 						
-			//	If we don't have any results or they are less then the number we should display 
-			//	we hide the pager
+			// If we don't have any results or they are less then the number we should display 
+			// we hide the pager
 			if (results.size < resultsToDisplay) {
 				$(searchConfig.global.pagerClass).hide();
 			}
@@ -171,16 +165,16 @@ sakai.search = function() {
 		else {
 			$(searchConfig.global.pagerClass).hide();
 		}
-		//	Render the results.
+
+		// Render the results.
 		$(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
 		$(".search_results_container").show();
 	};
-	
 
 	
-	//////////////////////////
-	//	_search functions	//
-	//////////////////////////
+	///////////////////////
+	// _search Functions //
+	///////////////////////
 	
 	/*
 	 * These are functions that are defined in search_history.js .
@@ -202,17 +196,18 @@ sakai.search = function() {
 		
 		currentpage = parseInt(page,  10);
 		
-		//	Set all the input fields and paging correct.	
+		// Set all the input fields and paging correct.	
 		mainSearch.fillInElements(page, searchquery, searchwhere);
 		
-		//	Get the search term out of the input box.
-		//	If we were redirected to this page it will be added previously already.
+		// Get the search term out of the input box.
+		// If we were redirected to this page it will be added previously already.
 		searchterm = $(searchConfig.global.text).val().toLowerCase();
 		
-		//	Rebind everything
+		// Rebind everything
 		mainSearch.addEventListeners(searchterm, searchwhere);
 		
 		if (searchterm) {
+
 			// Show and hide the correct elements.
 			showSearchContent();
 			
@@ -254,19 +249,19 @@ sakai.search = function() {
 	};
 	
 	
-	//////////////////////
-	//	init function	//
-	//////////////////////
+	///////////////////
+	// Init Function //
+	///////////////////
 	
 	/**
 	 * Will fetch the sites and add a new item to the history list.
 	 */
 	var doInit = function() {
-		//	Make sure that we are still logged in.
+		// Make sure that we are still logged in.
 		if (mainSearch.isLoggedIn()) {
-			//	Get my sites
+			// Get my sites
 			mainSearch.getMySites();
-			//	add the bindings
+			// Add the bindings
 			mainSearch.addEventListeners();
 		}
 	};

@@ -211,7 +211,18 @@ strong {
 }
 
 .search_result {
-	padding: 5px 0 5px 0;
+	color: #333;
+	padding: 5px 0 10px;
+}
+
+.search_result img {
+	float: left;
+	padding: 0 10px 10px 0;
+	width: 50px;
+}
+
+.search_result_right {
+	margin-left: 60px;
 }
 
 .search_result_star {
@@ -230,8 +241,8 @@ strong {
 	font-size: 1.1em;
 }
 
-.search_result_description {
-	margin: 0 0 5px 25px;
+.search_result_tags, .search_result_description {
+	margin: 0 0 5px;
 	color: #333;
 	font-size: .95em;
 }
@@ -240,6 +251,10 @@ strong {
 	margin: 0 0 5px 25px;
 	color: #999;
 	font-size: .85em;
+}
+
+.search_result_type a{
+	color: #5fb3d2 !important;
 }
 
 .search_results_part_footer {

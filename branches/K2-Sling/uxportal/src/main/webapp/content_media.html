@@ -313,8 +313,8 @@
 									<div class="contentmedia_fileinfo" id="contentmedia_fileinfo_${i_index}">
 										<p><strong>Description:</strong></p>
 										<p>
-											{if i.description}
-												${i.description}
+											{if i["sakai:description"]}
+												${i["sakai:description"]}
 											{else}
 												(no description available)
 											{/if}

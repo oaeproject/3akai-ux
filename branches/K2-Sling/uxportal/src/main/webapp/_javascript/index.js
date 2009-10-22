@@ -32,11 +32,11 @@ sakai.index = function(){
 	var redirectUrl = Config.URL.MY_DASHBOARD;
 	var usernameField = "username";
 	var passwordField = "password";
-	var failMessage = "#failed";
-	var loadingMessage = "#loginloader";
+	var failMessage = "#login-failed";
+	var loadingMessage = "#login-loader";
 	var registerLink = "#register_here";
 	var loginButton = "#loginbutton";
-	var loginForm = "#login_container";
+	var loginForm = "#login-container";
 	
 	
 	/////////////////////
@@ -48,6 +48,7 @@ sakai.index = function(){
 	 * redirect to the URL requested or the personal dashboard if nothing has been provided. 
 	 */
 	var decideLoggedIn = function(data){
+
 		var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
 		if (mejson.user.userid) {
 			document.location = redirectUrl;
@@ -58,7 +59,8 @@ sakai.index = function(){
 			if (data) {
 				$(failMessage).show();
 			}
-		} 
+		}
+
 	};
 	
 	/**
@@ -69,6 +71,7 @@ sakai.index = function(){
 	 * in.
 	 */
 	var checkLogInSuccess = function(){
+
 		$.ajax({
 			url : Config.URL.ME_SERVICE,
 			cache : false,
@@ -77,6 +80,7 @@ sakai.index = function(){
 				throw "Me service has failed";
 			}
 		});
+
 	};
 	
 	/**
@@ -139,6 +143,7 @@ sakai.index = function(){
 	 * we initiate the login function
 	 */
 	$(loginForm).submit(performLogIn);
+
 
 	/////////////////////////////
 	// Initialisation function //

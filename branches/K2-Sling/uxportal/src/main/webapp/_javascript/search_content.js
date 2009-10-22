@@ -22,19 +22,28 @@ var sakai = sakai || {};
 sakai.search = function() {
 
 
-	//////////////////////////
-	//	Config variables	//
-	//////////////////////////
+	//////////////////////
+	// Config variables //
+	//////////////////////
 	
 	var resultsToDisplay = 10;
 	var searchterm = "";
 	var currentpage = 0;
 	
+	// Search URL mapping
+	var searchURLmap = {
+		allfiles : Config.URL.SEARCH_ALL_FILES,
+		mybookmarks : Config.URL.SEARCH_MY_BOOKMARKS,
+		mycontacts : Config.URL.SEARCH_MY_CONTACTS,
+		myfiles : Config.URL.SEARCH_MY_FILES,
+		mysites : Config.URL.SEARCH_MY_SITES
+	};
 	
-	//	CSS IDs
-	
-	
+	// CSS IDs
 	var search = "#search";
+	
+	var searchSiteSelect = $(search + "_site_select");
+	var searchSiteSelectTemplate = "search_site_select_template";
 	
 	var searchConfig = {
 		search : "#search",
@@ -74,15 +83,12 @@ sakai.search = function() {
 			template : 'search_results_template'
 		}
 	};
-	
-		
-	
-	
-	//////////////////
-	//	functions	//
-	//////////////////
-	
-	
+
+
+	///////////////
+	// Functions //
+	///////////////
+
 	/**
 	 * This method will show all the appropriate elements for when a search is executed.
 	 */
@@ -91,12 +97,11 @@ sakai.search = function() {
 		$(searchConfig.global.numberFound).text("0");
 		$(searchConfig.results.header).show();
 	};
-		
-	
-	//////////////////////////////
-	//	Search functionality	//
-	//////////////////////////////
-	
+
+
+	//////////////////////////
+	// Search Functionality //
+	//////////////////////////
 	
 	/**
 	 * Used to do a search. This will add the page and the searchterm to the url and add 
@@ -110,13 +115,14 @@ sakai.search = function() {
 			page = 1;
 		}
 		if (!searchquery) {
-			searchquery = $(searchConfig.global.text).val().toLowerCase();
+			searchquery = $(searchConfig.global.text).val();
 		}
 		if (!searchwhere) {
 			searchwhere = mainSearch.getSearchWhereSites();
 		}
 		currentpage = page;
-		//	This will invoke the sakai._search.doSearch function and change the url.
+
+		// This will invoke the sakai._search.doSearch function and change the url.
 		History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
 	};	
 	
@@ -126,7 +132,8 @@ sakai.search = function() {
 	 */
 	var pager_click_handler = function(pageclickednumber) {
 		currentpage = pageclickednumber;
-		//	Redo the search
+
+		// Redo the search
 		doHSearch(currentpage, searchterm);
 	};
 
@@ -139,24 +146,25 @@ sakai.search = function() {
 		var finaljson = {};
 		finaljson.items = [];
 		if (success) {
-			//	Adjust the number of sites we have found.
-			$(searchConfig.global.numberFound).text(results.size);
+
+			// Adjust the number of sites we have found.
+			$(searchConfig.global.numberFound).text(results.total);
 			
-			//	Reset the pager.
+			// Reset the pager.
 			$(searchConfig.global.pagerClass).pager({
 				pagenumber: currentpage,
-				pagecount: Math.ceil(results.size / resultsToDisplay),
+				pagecount: Math.ceil(results.total / resultsToDisplay),
 				buttonClickCallback: pager_click_handler
 			});
 			
-			//	If we have results we add them to the object.
+			// If we have results we add them to the object.
 			if (results && results.results) {
 				finaljson = mainSearch.prepareCMforRendering(results.results, finaljson, searchterm);
 			}
 						
-			//	If we don't have any results or they are less then the number we should display 
-			//	we hide the pager
-			if (results.size < resultsToDisplay) {
+			// We hide the pager if we don't have any results or 
+			// they are less then the number we should display
+			if (results.total < resultsToDisplay) {
 				$(searchConfig.global.pagerClass).hide();
 			}
 			else {
@@ -166,22 +174,22 @@ sakai.search = function() {
 		else {
 			$(searchConfig.global.pagerClass).hide();
 		}
-		//	Render the results.
+
+		// Render the results.
 		$(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
 		$(".search_results_container").show();
 	};
 	
 	
 	
-	//////////////////////////
-	//	_search functions	//
-	//////////////////////////
+	///////////////////////
+	// _search Functions //
+	///////////////////////
 	
 	/*
 	 * These are functions that are defined in search_history.js .
 	 * We override these with our owm implementation.
 	 */
-	
 	
 	/**
 	 * This function gets called everytime the page loads and a new searchterm is entered.
@@ -195,9 +203,20 @@ sakai.search = function() {
 	 */
 	sakai._search.doSearch = function(page, searchquery, searchwhere) {
 		
+		// Check if the searchquery is empty
+		if(searchquery === ""){
+			
+			// If there is nothing in the search query, remove the html and hide some divs
+			$(searchConfig.results.container).html();
+			$(".search_results_container").hide();
+			$(searchConfig.results.header).hide();
+			$(searchConfig.global.pagerClass).hide();
+			return;
+		}
+		
 		currentpage = parseInt(page,  10);
 		
-		//	Set all the input fields and paging correct.	
+		// Set all the input fields and paging correct.	
 		mainSearch.fillInElements(page, searchquery, searchwhere);
 		
 		var dd = $("#search_filter").get(0);
@@ -207,11 +226,11 @@ sakai.search = function() {
 			}
 		}
 		
-		//	Get the search term out of the input box.
-		//	If we were redirected to this page it will be added previously already.
-		searchterm = $(searchConfig.global.text).val().toLowerCase();
+		// Get the search term out of the input box.
+		// If we were redirected to this page it will be added previously already.
+		searchterm = $(searchConfig.global.text).val();
 		
-		//	Rebind everything
+		// Rebind everything
 		mainSearch.addEventListeners(searchterm, searchwhere);
 		
 		if (searchterm) {
@@ -220,19 +239,34 @@ sakai.search = function() {
 			
 			// Set off the AJAX request
 			
-			// sites Search
+			// Sites Search
 			var searchWhere = mainSearch.getSearchWhereSites();
 			
-			//	What are we looking for?
-			var urlsearchterm = "";
-			var splitted = searchterm.split(" ");
-			for (var i = 0; i < splitted.length; i++) {
-				urlsearchterm += splitted[i] + "~" + " " + splitted[i] + "*" + " ";
+			// What are we looking for?
+			var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
+			
+			var url = "";
+			var usedIn = [];
+
+			// Check if there is a site defined, if so we need to change the url to all files
+			if(searchWhere === "mysites"){
+				url = searchURLmap[searchWhere];
+			}
+			else if(searchWhere === "*"){
+				url = searchURLmap.allfiles;
+			}else {
+				url = searchURLmap.allfiles;
+				usedIn = searchWhere;
 			}
 			
 			$.ajax({
-				httpMethod: "GET",
-				url: "/dev/dummyjson/searchContent.json?p=" + (currentpage - 1) + "&path=/_private&n=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere + "&mimetype=text/plain&s=sakai:firstName&s=sakai:lastName",
+				url: url,
+				data: {
+					"search" : urlsearchterm,
+					"page" : (currentpage - 1),
+					"items" : resultsToDisplay,
+					"usedin" : usedIn
+				},
 				success: function(data) {
 					var json = $.evalJSON(data);
 					renderResults(json, true);
@@ -258,35 +292,34 @@ sakai.search = function() {
 	
 	
 	//////////////////////
-	//	init function	//
+	// init function	//
 	//////////////////////
 	
 	/**
 	 * Will fetch the sites and add a new item to the history list.
 	 */
 	var doInit = function() {
-		//	Make sure that we are still logged in.
+		// Make sure that we are still logged in.
 		if (mainSearch.isLoggedIn()) {
 			
 			$.ajax({
-				url: "/system/sling/membership",
+				url: Config.URL.SITES_SERVICE,
 				cache: false,
 				success: function(data){
 					var sites = {};
 					sites.sites = $.evalJSON(data);
-					$("#search_site_select").html($.Template.render("search_site_select_template", sites));
-					
-					//	Get my sites
+					searchSiteSelect.html($.Template.render(searchSiteSelectTemplate, sites));
+
+					// Get my sites
 					mainSearch.getMySites();
-					//	add the bindings
+
+					// Add the bindings
 					mainSearch.addEventListeners();
 				}
 			});
-			
 		}
 	};
-	
-	
+
 	var thisFunctionality = {
 		"doHSearch" : doHSearch
 	};
@@ -294,7 +327,6 @@ sakai.search = function() {
 	var mainSearch = sakai._search(searchConfig, thisFunctionality);
 	
 	doInit();
-	
 };
 
 sdata.container.registerForLoad("sakai.search");

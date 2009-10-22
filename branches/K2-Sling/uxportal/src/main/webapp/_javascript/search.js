@@ -20,35 +20,36 @@
 
 var sakai = sakai || {};
 sakai.search = function() {
-    
-    ///////////////////////
-    //    CONFIG VARS    //
-    ///////////////////////
 
-    var mainSearch = false;
+
+	/////////////////
+	// CONFIG VARS //
+	/////////////////
+
+	var mainSearch = false;
 	var contactclicked = false;
-    
+	
 	var peopleToSearch = 5;
 	var cmToSearch = 5;
-    var nrOfCharactersAroundTerm = 300;
+	var nrOfCharactersAroundTerm = 300;
 	var sitesToSearch = 5;
 	
 	var foundPeople = false;
 	var searchterm = "";
 
 
-    ///////////////////
-    //    CSS IDs    //
-    ///////////////////
-    
-    var search = "#search";
+	/////////////
+	// CSS IDs //
+	/////////////
+	
+	var search = "#search";
 	var searchConfig = {
 		search : "#search",
 		global : {
-            resultTemp : search + "_result_temp",
-            introductionText: "#introduction_text",
+			resultTemp : search + "_result_temp",
+			introductionText: "#introduction_text",
 			button : search + "_button",
-			text : search + '_text',
+			text : ".search_content_main " + search + '_text',
 			numberFound : search + '_numberFound',
 			searchTerm : search + "_mysearchterm",
 			searchBarSelectedClass : "search_bar_selected",
@@ -58,29 +59,29 @@ sakai.search = function() {
 			addToContactsLink : ".link_add_to_contacts",
 			addToContactsDialog : '#add_to_contacts_dialog',
 			sendmessageContainer : "#sendmessagecontainer",
-            resultTitle : "#search_result_title"
+			resultTitle : "#search_result_title"
 		},
-        people : {
-            displayMore : "#display_more_people",
-            displayMoreNumber : "#display_more_people_number",
-            searchResult : "#people_search_result",
-            searchResultTemplate : "people_search_result_template",
-            header : "#people_header"
-        },
-        sites : {
-            displayMore : "#display_more_sites",
-            displayMoreNumber : "#display_more_sites_number",
-            searchResult : "#sites_search_result",
-            searchResultTemplate : "sites_search_result_template",
-            header : "#sites_header"
-        },
-        cm : {
-            displayMore : "#display_more_cm",
-            displayMoreNumber : "#display_more_cm_number",
-            searchResult : "#cm_search_result",
-            searchResultTemplate : "cm_search_result_template",
-            header : "#cm_header"
-        },
+		people : {
+			displayMore : "#display_more_people",
+			displayMoreNumber : "#display_more_people_number",
+			searchResult : "#people_search_result",
+			searchResultTemplate : "people_search_result_template",
+			header : "#people_header"
+		},
+		sites : {
+			displayMore : "#display_more_sites",
+			displayMoreNumber : "#display_more_sites_number",
+			searchResult : "#sites_search_result",
+			searchResultTemplate : "sites_search_result_template",
+			header : "#sites_header"
+		},
+		cm : {
+			displayMore : "#display_more_cm",
+			displayMoreNumber : "#display_more_cm_number",
+			searchResult : "#cm_search_result",
+			searchResultTemplate : "cm_search_result_template",
+			header : "#cm_header"
+		},
 		addFriend : {
 			types : '#add_friend_types',
 			typesList : 'add_friends_list_type',
@@ -110,12 +111,12 @@ sakai.search = function() {
 	};
 
 
-    /////////////////////
-    //    Functions    //
-    /////////////////////
+	///////////////
+	// Functions //
+	///////////////
 
 	sakai._search.reset = function() {
-        //    Hide the blocks
+		// Hide the blocks
 		$(searchConfig.cm.header).hide();
 		$(searchConfig.people.header).hide();
 		$(searchConfig.sites.header).hide();
@@ -124,7 +125,7 @@ sakai.search = function() {
 	};
 	
 	
-    var showSearchContent = function() {
+	var showSearchContent = function() {
 		// Set searching messages		
 		$(searchConfig.global.searchTerm).text(searchterm);
 		$(searchConfig.global.numberFound).text("0");
@@ -132,7 +133,7 @@ sakai.search = function() {
 		$(searchConfig.cm.displayMoreNumber).text("0");
 		$(searchConfig.people.displayMoreNumber).text("0");
 		$(searchConfig.sites.displayMoreNumber).text("0");
-        
+		
 		$(searchConfig.cm.searchResult).html($(searchConfig.global.resultTemp).html());
 		$(searchConfig.people.searchResult).html($(searchConfig.global.resultTemp).html());
 		$(searchConfig.sites.searchResult).html($(searchConfig.global.resultTemp).html());
@@ -141,23 +142,23 @@ sakai.search = function() {
 		$(searchConfig.cm.header).show();
 		$(searchConfig.people.header).show();
 		$(searchConfig.sites.header).show();
-        
+		
 		$(searchConfig.global.introductionText).hide();
 		$(searchConfig.cm.displayMore).hide();
 		$(searchConfig.sites.displayMore).hide();
 		$(searchConfig.people.displayMore).hide();
-        
+		
 		$(searchConfig.global.resultTitle).show();
-    };
-    
+	};
 	
-    /**
-     * Adds a "historical event". This way the searchterm will be added in the url bar and the user can use his back and forward button.
-     * @param {Object} page Page you are on (for search_b this is always 1)
-     * @param {Object} searchquery The searchterm
-     */
+	
+	/**
+	 * Adds a "historical event". This way the searchterm will be added in the url bar and the user can use his back and forward button.
+	 * @param {Object} page Page you are on (for search_b this is always 1)
+	 * @param {Object} searchquery The searchterm
+	 */
 	var doHSearch = function(page, searchquery) {
-		History.addBEvent("1|" + $(searchConfig.global.text).val());
+		History.addBEvent("1|" + encodeURIComponent($(searchConfig.global.text).val()));
 	};
 	
 	
@@ -171,13 +172,13 @@ sakai.search = function() {
 		finaljson.items = [];
 		
 		var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
-		currentTotal += foundCM.size;
+		currentTotal += foundCM.total;
 		$(searchConfig.global.numberFound).text(currentTotal);
 		
-		if (foundCM.size > cmToSearch) {
+		if (foundCM.total > cmToSearch) {
 			$(searchConfig.cm.displayMore).show();
 			$(searchConfig.cm.displayMore).attr("href", "search_b_content.html#1|" + searchterm);
-			$(searchConfig.cm.displayMoreNumber).text(foundCM.size);
+			$(searchConfig.cm.displayMoreNumber).text(foundCM.total);
 		}
 		
 		if (foundCM && foundCM.results) {
@@ -208,7 +209,7 @@ sakai.search = function() {
 		
 		if (foundSites && foundSites.results) {
 			finaljson.items = foundSites.results;
-            finaljson.sakaiDomain = Config.SakaiDomain;
+			finaljson.sakaiDomain = Config.SakaiDomain;
 		}
 		
 		$(searchConfig.sites.searchResult).html($.Template.render(searchConfig.sites.searchResultTemplate, finaljson));
@@ -236,18 +237,18 @@ sakai.search = function() {
 		}
 		
 		if (results && results.results) {
-			//    Prepare the finaljson object for rendering
-            finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
+			// Prepare the finaljson object for rendering
+			finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
 		}
-        
-        foundPeople = finaljson.items;
+		
+		foundPeople = finaljson.items;
 		
 		$(searchConfig.people.searchResult).html($.Template.render(searchConfig.people.searchResultTemplate, finaljson));
 	};
-    
-    
-    
-     /**
+	
+	
+	
+	 /**
 	 * This function gets called everytime the page loads and a new searchterm is entered.
 	 * It gets called by search_history.js
 	 * @param {Integer} page The page you are on.
@@ -255,30 +256,43 @@ sakai.search = function() {
 	 */
 	sakai._search.doSearch = function(page, searchquery) {
 	
-        
+		// Check if the searchquery is empty
+		if(searchquery === ""){
+			
+			// If there is nothing in the search query, remove the html and hide some divs
+			$(".search_results_container").hide();
+			$(searchConfig.global.resultTitle).hide();
+			$(searchConfig.global.pagerClass).hide();
+			return;
+		}
+		
 		mainSearch.fillInElements(page, searchquery);
-    
-		//	Get the search term out of the input box.
-		//	If we were redirected to this page it will be added previously already.
+	
+		// Get the search term out of the input box.
+		// If we were redirected to this page it will be added previously already.
 		searchterm = $(searchConfig.global.text).val().toLowerCase();
-        
-		//	Rebind everything
+		
+		// Rebind everything
 		mainSearch.addEventListeners(searchterm);
 		
 		if (searchterm) {
 			// Show and hide the correct elements.
 			showSearchContent();
 
-			//    Convert spaces etc.
-            
+			// Convert spaces etc.
+			
 			var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-            
+			
 			// Set off the 3 AJAX requests
 			
-			// Content & Media Search			
+			// Content & Media Search
 			$.ajax({
+				url: Config.URL.SEARCH_ALL_FILES,
+				data: {
+					"search" : urlsearchterm,
+					"items" : cmToSearch
+				},
 				cache: false,
-				url: "/dev/dummyjson/searchContent.json?p=0&path=/_sites&n=" + cmToSearch + "&q=" + urlsearchterm + "&mimetype=text/plain",
 				success: function(data) {
 					renderCM($.evalJSON(data));
 				},
@@ -300,7 +314,7 @@ sakai.search = function() {
 				}
 			});
 			
-			//	Sites search
+			// Sites search
 			$.ajax({
 				cache: false,
 				url: "/var/search/sites?page=0&items=5&q=" + urlsearchterm,
@@ -314,12 +328,12 @@ sakai.search = function() {
 			});
 		}
 		else {
-            //    There was no search term provided.
-            //    Reset the whole thing
+			// There was no search term provided.
+			// Reset the whole thing
 			sakai._search.reset();			
 		}
 	};
-    
+	
 	
 	/**
 	 * Will search for a user in the list of results we got from the server.
@@ -337,12 +351,11 @@ sakai.search = function() {
 		return person;
 	};
 	
-    
-    //////////////////
-    //    EVENTS    //
-    //////////////////
 	
-    
+	////////////
+	// EVENTS //
+	////////////
+
 	/** When a user wants to message another  user */
 	$(searchConfig.global.messageClass).live("click", function() {
 		var reg = new RegExp(searchConfig.global.messageID, "gi");
@@ -359,28 +372,26 @@ sakai.search = function() {
 	
 	/** A user want to make a new friend */
 	$(searchConfig.global.addToContactsLink).live("click", function(ev) {
-		contactclicked = this.id.split("_")[4];     
-        //var user = searchPerson(contactclicked);
-        sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
+		contactclicked = this.id.split("_")[4];
+		sakai.addtocontacts.initialise(contactclicked, mainSearch.removeAddContactLinks);
 	});
-	    
-    
-    ///////////////////////////////
-    //    initialise function    //
-    ///////////////////////////////
-    
-    
+
+
+	/////////////////////////
+	// Initialise Function //
+	/////////////////////////
+
 	var thisFunctionality = {
 		"doHSearch" : doHSearch
 	};
 	
-	var doInit = function() {     
-	    mainSearch = sakai._search(searchConfig, thisFunctionality);
-		//	Make sure that we are still logged in.
+	var doInit = function() {	 
+		mainSearch = sakai._search(searchConfig, thisFunctionality);
+		// Make sure that we are still logged in.
 		if (mainSearch.isLoggedIn()) {
-			//	Get my friends
+			// Get my friends
 			mainSearch.fetchMyFriends();
-			//	add the bindings
+			// add the bindings
 			mainSearch.addEventListeners();
 		}		
 	};

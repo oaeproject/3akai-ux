@@ -1,8 +1,5 @@
-html
-{ background: #093b52 url(../../_images/page_bg_water.jpg) top left repeat-x; }
-
-body
-{ margin-bottom: 50px !important; }
+html { background: #093b52 url(../../_images/page_bg_water.jpg) top left repeat-x; }
+body { margin-bottom: 50px !important; }
 
 
 /** TOPNAV **/
@@ -23,8 +20,7 @@ body
 
 
 /** HEADER **/
-.create_account .header_container
-{ width: 960px; }
+.create_account .header_container { width: 960px; }
 
 .create_account .header-title
 { color: #08415E; float: left; font-size: 4em; margin: 0 35px 0 0; padding: 40px 0 35px 0; }
@@ -89,28 +85,8 @@ body
 .create_account .create_account_form .username_available
 { color: #7aa722; font-weight: bold; padding: 0 0 10px 15px; margin: -5px 0; }
 
-
-/** BUTTONS **/
-.create_account .lightgreybutton
-{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.create_account .lightgreybutton input
-{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
-
-
-.create_account .greybutton
-{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.create_account .greybutton input
-{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 0 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; }
-
-
-
 .create_account .success_message
 { font-size: 1.1em; color: #454A4F; padding: 15px 0 0 0; }
 
 .create_account .success_message a
 { font-weight: bold; color: #2b9cc5; }
-
-
-
