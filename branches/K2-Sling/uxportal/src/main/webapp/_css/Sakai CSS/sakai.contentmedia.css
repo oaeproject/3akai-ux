@@ -391,7 +391,7 @@
 	padding: 0.5em 0.2em;
 	font-size: 0.9em;
 	position: absolute;
-	z-index: 1000;
+	z-index: 1;
 	width: 136px;
 	text-align: center;
 	border-left: 1px solid #ddd;
