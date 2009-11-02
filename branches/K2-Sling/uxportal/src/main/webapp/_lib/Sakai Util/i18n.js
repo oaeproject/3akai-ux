@@ -80,17 +80,18 @@ $(document).ready(function(){
 	/**
 	 * Gets the site id if the user is currently on a site
 	 * if the user is on any other page then false is returned
+	 * 
+	 * Proposed addin: Check to see if there is a siteid querystring parameter.
+	 * This will then i18n pages like site settings as well.
 	 */
 	var getSiteId = function(){
 		var site = false;
-		if(("" + document.location).indexOf(Config.URL.SITE_URL > -1)){
-			var queryString = ("" + document.location).substring(("" + document.location).indexOf("?") + 1);
-			var items = queryString.split("&");
-			for(var i = 0 ; i < items.length ; i++){
-				if(items[0].indexOf("siteid") === 0 && items[0].indexOf("=") > -1){
-					site = items[0].split("=")[1];
-				}
-			}
+		var loc = ("" + document.location);
+		var siteid = loc.indexOf(Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
+		if(siteid !== -1) {
+			var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
+			var uri = loc.substring(0, mark);
+			site = uri.substring(siteid, loc.length).replace(Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
 		}
 		return site;
 	};
@@ -119,7 +120,7 @@ $(document).ready(function(){
 	
 	var loadSiteLanguage = function(site){
 			$.ajax({
-				url : "/" + site + ".json?sid=" + Math.random(),
+				url : Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json?sid=" + Math.random(),
 				success : function(data) {
 					var siteJSON = $.evalJSON(data);
 					if (siteJSON.language && siteJSON.language !== "default_default") {
