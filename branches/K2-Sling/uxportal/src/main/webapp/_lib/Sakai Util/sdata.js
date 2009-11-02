@@ -353,7 +353,13 @@ sdata.widgets.WidgetLoader = {
 			    	   				'width="100%" ' +
 			    	   				'scrolling="no"' +
 			    	   				'></iframe></div>';
-						$("#" + divarray[i].id).html(html);
+						var iframewidgetid = "id0";
+						if (split[2]){
+							iframewidgetid = split[2];
+						}
+						$("#" + iframewidgetid + "_container").html(html);
+						$("#" + iframewidgetid + "_container").addClass("fl-widget-content");
+						$("#" + iframewidgetid + "_container").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
 						
 					} else if (Widgets.widgets[widgetname]){
 						
