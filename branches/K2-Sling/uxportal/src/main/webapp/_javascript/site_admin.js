@@ -19,7 +19,8 @@
 /*global $, Config, History, Querystring, sdata, sakai, tinyMCE, tinymce  */
 
 sakai.site.site_admin = function(){
-	
+
+
 	/////////////////////////////
 	// CONFIG and HELP VARS
 	/////////////////////////////
@@ -34,8 +35,6 @@ sakai.site.site_admin = function(){
 	sakai.site.oldSelectedPage = false;
 	sakai.site.mytemplates = false;
 	sakai.site.showingInsertMore = false;
-	
-	
 	
 	// Cache all the jQuery selectors we can
 	var $main_content_div = $("#main-content-div");
@@ -56,9 +55,6 @@ sakai.site.site_admin = function(){
 	var $fl_tab_content_editor = $("#fl-tab-content-editor");
 	
 
-	
-	
-	
 	/////////////////////////////
 	// tinyMCE FUNCTIONS
 	/////////////////////////////
@@ -72,36 +68,35 @@ sakai.site.site_admin = function(){
 		// Init tinyMCE
 		tinyMCE.init({
 		
-		// General options
-		mode : "exact",
-		elements : "elm1",
-		theme: "advanced",
-		plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,spellchecker",
-		
-		//Context Menu
-		theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,spellchecker,|,image,link",
-		theme_advanced_toolbar_location: "external",
-		theme_advanced_toolbar_align: "left",
-		theme_advanced_statusbar_location: "none",
-		theme_advanced_resizing: false,
-		handle_event_callback: "sakai.site.myHandleEvent",
-		onchange_callback: "sakai.site.myHandleEvent",
-		handle_node_change_callback: "sakai.site.mySelectionEvent",
-		init_instance_callback: "sakai.site.startEditPage",
-		
-		// Example content CSS (should be your site CSS)
-		content_css: Config.URL.TINY_MCE_CONTENT_CSS,
-		
-		// Drop lists for link/image/media/template dialogs
-		template_external_list_url: "lists/template_list.js",
-		external_link_list_url: "lists/link_list.js",
-		external_image_list_url: "lists/image_list.js",
-		media_external_list_url: "lists/media_list.js"
+			// General options
+			mode : "exact",
+			elements : "elm1",
+			theme: "advanced",
+			plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,spellchecker",
+			
+			//Context Menu
+			theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,spellchecker,|,image,link",
+			theme_advanced_toolbar_location: "external",
+			theme_advanced_toolbar_align: "left",
+			theme_advanced_statusbar_location: "none",
+			theme_advanced_resizing: false,
+			handle_event_callback: "sakai.site.myHandleEvent",
+			onchange_callback: "sakai.site.myHandleEvent",
+			handle_node_change_callback: "sakai.site.mySelectionEvent",
+			init_instance_callback: "sakai.site.startEditPage",
+			
+			// Example content CSS (should be your site CSS)
+			content_css: Config.URL.TINY_MCE_CONTENT_CSS,
+			
+			// Drop lists for link/image/media/template dialogs
+			template_external_list_url: "lists/template_list.js",
+			external_link_list_url: "lists/link_list.js",
+			external_image_list_url: "lists/image_list.js",
+			media_external_list_url: "lists/media_list.js"
 		});
 	}
-	
-	
-	
+
+
 	/**
 	 * Sets up the tinyMCE toolbar
 	 * @return void
@@ -165,22 +160,27 @@ sakai.site.site_admin = function(){
 		}
 		var barTop = sakai.site.curScroll;
 		$toolbarcontainer.css("width", ($("#toolbarplaceholder").width()) + "px");
+		
+		// Check if the current scroll position is smaller then the top position of the toolbar
 		if (barTop <= sakai.site.minTop) {
+			
+			// Set the position of the toolbar
 			$toolbarcontainer.css({"position":"absolute", "top": sakai.site.minTop + "px"});
-			$insert_more_menu.css({"position": "absolute", "top":(sakai.site.minTop + 25) + "px"});
+			
+			// Set the position of the Insert more menu
+			$insert_more_menu.css({"position": "absolute", "top":(sakai.site.minTop + 28) + "px"});
 		}
 		else {
-				$toolbarcontainer.css({"position":"fixed", "top":"0px"});
-				$insert_more_menu.css({"position": "fixed", "top":"0px"});
+			$toolbarcontainer.css({"position":"fixed", "top":"0px"});
+			$insert_more_menu.css({"position": "fixed", "top":"28px"});
 		}
 		
 		$insert_more_menu.css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 10 + "px");
 		
 		sakai.site.last = new Date().getTime();
 	};
-	
-	
-	
+
+
 	/**
 	 * Set the correct iFrame height
 	 * @param {String} ifrm
@@ -365,7 +365,6 @@ sakai.site.site_admin = function(){
 		});	
 	}
 	
-	
 		
 	/////////////////////////////
 	// EDIT PAGE: CANCEL
@@ -448,13 +447,13 @@ sakai.site.site_admin = function(){
 	
 	var determineHighestPosition = function(){
 		var highest = 0;
-		for (var i in sakai.site.site_info["_pages"]){
-			if (sakai.site.site_info["_pages"][i].position && parseInt(sakai.site.site_info["_pages"][i].position) > highest){
-				highest = parseInt(sakai.site.site_info["_pages"][i].position);
+		for (var i in sakai.site.site_info._pages){
+			if (sakai.site.site_info._pages[i].position && parseInt(sakai.site.site_info._pages[i].position, 10) > highest){
+				highest = parseInt(sakai.site.site_info._pages[i].position, 10);
 			}
 		}
 		return highest;
-	}
+	};
 	
 	var saveEdit = function() {
 		
@@ -576,7 +575,7 @@ sakai.site.site_admin = function(){
 					
 						// Define page properties on node
 						// TODO: add appropriate type to differientate between webpage and dashboardpage
-						var position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
+						var position = sakai.site.site_info._pages[sakai.site.selectedpage].position;
 						$.ajax({
 							url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage,
 							type: "POST",
@@ -708,7 +707,7 @@ sakai.site.site_admin = function(){
 							// TODO: add appropriate type to differientate between webpage and dashboardpage
 							var position = "0";
 							if (sakai.site.isEditingNewPage){
-								position = "" + (determineHighestPosition() + 100000)
+								position = "" + (determineHighestPosition() + 100000);
 							} else {
 								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
 							}
@@ -768,7 +767,7 @@ sakai.site.site_admin = function(){
 							// TODO: add appropriate type to differientate between webpage and dashboardpage
 							var position = "0";
 							if (sakai.site.isEditingNewPage){
-								position = "" + (determineHighestPosition() + 100000)
+								position = "" + (determineHighestPosition() + 100000);
 							} else {
 								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
 							}
@@ -799,11 +798,12 @@ sakai.site.site_admin = function(){
 		});
 		
 	};
-	
+
+
 	/////////////////////////////
 	// EDIT PAGE: GENERAL
 	/////////////////////////////
-	
+
 	// Bind Edit page link click event
 	$("#edit_page").bind("click", function(ev){
 		sakai.site.isEditingNewPage = false;
@@ -811,7 +811,7 @@ sakai.site.site_admin = function(){
 		
 		//Check if tinyMCE has been loaded before - probably a more robust check will be needed
 		if (tinyMCE.activeEditor === null) {
-     		init_tinyMCE();
+	 		init_tinyMCE();
   		} else {
 			editPage(sakai.site.selectedpage);
 		}
@@ -1426,7 +1426,7 @@ sakai.site.site_admin = function(){
 			if (!isHigherLevel) {
 				globalProgressTracker++;
 			}
-		} while (object[globalProgressTracker] && level !== false && isLowerLevel == false);
+		} while (object[globalProgressTracker] && level !== false && isLowerLevel === false);
 		//alert(html);
 		/*var html = "";
 		if (active){
@@ -1524,12 +1524,12 @@ sakai.site.site_admin = function(){
 	 * @param {Object} b
 	 */
 	var doCorrectOrderSort = function(a, b){
-		a = parseInt(a.position);
-		b = parseInt(b.position);
+		a = parseInt(a.position, 10);
+		b = parseInt(b.position, 10);
 		var retValue = -1;
 		a > b ? retValue = 1 : (a < b ? retValue = -1 : retValue = 0);
 		return retValue;
-	}
+	};
 	
 	
 	/**
@@ -1712,7 +1712,7 @@ sakai.site.site_admin = function(){
 					goodies.items[goodies.items.length] = widget;
 				}
 				if (widget.ca && widget.showinsidebar){
-					sidebar.items[sidebar.items.length] = widget
+					sidebar.items[sidebar.items.length] = widget;
 				}
 			}
 		}
@@ -1869,61 +1869,69 @@ sakai.site.site_admin = function(){
 		
 		var regexp = new RegExp("[^a-z0-9_-]", "gi");
 		pageid = pageid.replace(regexp,"_");
-		    
-	    $.ajax({
-		url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + pageid,
-		cache: false,
-		success: function(data){
-				    // We created a dashboard page...
-				    // Close this popup and show the new page.
-				    sakai.site.selectedpage = pageid;
-				    $("#dashboard_addpage_dialog").jqmHide();
-				    $("#dashboard_addpage_title").val('');
-		    // Open page
-							    
-				    // Refresh site_info object
-				    sakai.site.refreshSiteInfo(pageid);
-		},
-		error: function(status){
-		    alert("Could not create this dashboard page.");
-		},
-			    data : {
-				    "sling:resourceType": "sakai/page",
-				    "type": "dashboard",
-				    "id": pageid,
-				    "title": title,
-				    "position": determineHighestPosition() + 200000
-			    },
-			    type: 'POST'
-	    });
+
+		$.ajax({
+			url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + pageid,
+			data : {
+				"sling:resourceType": "sakai/page",
+				"type": "dashboard",
+				"id": pageid,
+				"title": title,
+				"position": determineHighestPosition() + 200000
+			},
+			cache: false,
+			type: 'POST',
+			success: function(data){
+				// We created a dashboard page...
+				// Close this popup and show the new page.
+				sakai.site.selectedpage = pageid;
+				$("#dashboard_addpage_dialog").jqmHide();
+				$("#dashboard_addpage_title").val('');
+
+				// Open page
+				// Refresh site_info object
+				sakai.site.refreshSiteInfo(pageid);
+			},
+			error: function(status){
+				alert("Could not create this dashboard page.");
+			}
+		});
 	};
 	
-	$("#dashboard_addpage_add").bind('click', function(){
-	    var title = $("#dashboard_addpage_title").val();
-	    if (title !== "") {
-		addDashboardPage(title);
-	    }
+	
+	/**
+	 * We add the submit event on the form, so the function is also
+	 */
+	$("#dashboard_addpage_dialog form").bind('submit', function(){
+		var title = $("#dashboard_addpage_title").val();
+		if (title !== "") {
+			addDashboardPage(title);
+		} else{
+			alert("Please enter a valid title for your dashboard page.");
+		}
+		
+		// Do not reload the page (don't send an HTTP POST request)
+		return false;
 	});
 	
 	var renderAddDashboardPage = function(hash){
-	    $("#add_new_menu").hide();
-	    $("#dashboard_addpage_title").val("Untitled");
-	    hash.w.show();
-	}
+		$("#add_new_menu").hide();
+		hash.w.show();
+	};
 	
 	$("#dashboard_addpage_dialog").jqm({
-	    modal: true,
-	    trigger: $("#option_page_dashboard"),
-	    overlay: 20,
-	    toTop: true,
-	    onShow: renderAddDashboardPage
+		modal: true,
+		trigger: $("#option_page_dashboard"),
+		overlay: 20,
+		toTop: true,
+		onShow: renderAddDashboardPage
 	});
 	
 	// Bind Add a new page dashboard hover event
 	$("#option_page_dashboard").hover(function(over){
-	    $("#option_page_dashboard").addClass("selected_option");
+		$("#option_page_dashboard").addClass("selected_option");
 	}, function(out){
-	    $("#option_page_dashboard").removeClass("selected_option");
+		$("#option_page_dashboard").removeClass("selected_option");
 	});
 	
 	
@@ -2059,7 +2067,7 @@ sakai.site.site_admin = function(){
 		var version = select.options[select.selectedIndex].value;
 		$.ajax({
 		   	url :"/sites/" + sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/") + "/content.version.," + version + ",.json",
-		    success : function(data) {
+			success : function(data) {
 				
 				var json = $.evalJSON(data);
 				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
@@ -2100,7 +2108,7 @@ sakai.site.site_admin = function(){
 		var version = select.options[select.selectedIndex].value;
 		$.ajax({
 		   	url : sakai.site.urls.CURRENT_SITE_PAGES() + "/content.version.," + version + ",.json",
-		    success : function(data) {
+			success : function(data) {
 				var json = $.evalJSON(data);
 				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
 				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
@@ -2323,10 +2331,10 @@ sakai.site.site_admin = function(){
 							for (i = 0, j = newels.length; i < j; i++) {
 								if (newels[i] && newels[i].id && newels[i].id == sakai.site.selectedpage) {
 									if (newels[i - 1] && newels[i - 1].id){
-										previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position);
+										previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position, 10);
 									} 
 									if (newels[i + 1] && newels[i + 1].id){
-										nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position);
+										nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position, 10);
 									}
 								}
 							}
@@ -2367,10 +2375,10 @@ sakai.site.site_admin = function(){
 							for (i = 0, j = newels.length; i < j; i++) {
 								if (newels[i] && newels[i].id && newels[i].id == sakai.site.selectedpage) {
 									if (newels[i - 1] && newels[i - 1].id){
-										previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position);
+										previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position, 10);
 									} 
 									if (newels[i + 1] && newels[i + 1].id){
-										nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position);
+										nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position, 10);
 									}
 								}
 							}
@@ -2483,7 +2491,7 @@ sakai.site.site_admin = function(){
 				
 			// Get templates configuration file
 			$.ajax({
-		      	url : Config.URL.TEMPLATES_CONFIG,
+			  	url : Config.URL.TEMPLATES_CONFIG,
 				cache: false,
 				success : function(data) {
 					var templates = $.evalJSON(data);
@@ -2534,7 +2542,7 @@ sakai.site.site_admin = function(){
 				
 		// Get templates configuration file
 		$.ajax({
-	     	url: Config.URL.TEMPLATES_CONFIG,
+		 	url: Config.URL.TEMPLATES_CONFIG,
 			cache: false,
 			success : function(data) {
 				var templates = $.evalJSON(data);
@@ -2595,8 +2603,8 @@ sakai.site.site_admin = function(){
 			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", $.toJSON(newobj), function(success){});
 			
 			$.ajax({
-		     	url : Config.URL.TEMPLATES + todelete,
-		     	type : "DELETE"
+			 	url : Config.URL.TEMPLATES + todelete,
+			 	type : "DELETE"
 			});
 			
 			renderTemplates(newobj);
@@ -2605,7 +2613,7 @@ sakai.site.site_admin = function(){
 		$(".page_template_selection").bind("click", function(ev){
 			var toload = this.id.split("_")[3];
 			$.ajax({
-		     	url: Config.URL.TEMPLATES + toload + "/content",
+			 	url: Config.URL.TEMPLATES + toload + "/content",
 				cache: false,
 				success : function(data) {
 					$("#select_template_for_page").jqmHide();

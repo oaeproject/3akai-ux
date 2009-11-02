@@ -746,17 +746,18 @@
 				<h1>Add a dashboard page.</h1>
 				<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
 			</div>
-			
-			<div class="dialog_content" style="padding-bottom:20px">
-				<label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
-				<input type="text" id="dashboard_addpage_title" />
-			</div>
-			<div class="dialog_footer">
-				 <div class="buttonBar">
-			        <a href="javascript:;" class="button-default" id="dashboard_addpage_add">Add</a>
-			        <a href="javascript:;" class="button jqmClose">Cancel</a>
-			     </div>
-			</div>
+			<form>
+				<div class="dialog_content" style="padding-bottom:20px">
+					<label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
+					<input type="text" id="dashboard_addpage_title" />
+				</div>
+				<div class="dialog_footer">
+					 <div class="buttonBar">
+					 	<input type="submit" value="Add" class="button button-default" />
+						<input type="button" value="Cancel" class="button jqmClose" />
+				     </div>
+				</div>
+			</form>
 		</div>		
 		
 		<script type="text/javascript" src="/dev/_javascript/site.js"></script>
