@@ -54,8 +54,8 @@
 .discussion_content_message {margin-bottom: 10px;}
 
 /* Override elements */
-.dialog_footer {background-color:transparent !important;padding-left:0px !important;margin-top:10px;height:20px;}
-.cancel-button {color:#666666 !important;}
+#discussion_reply_container .dialog_footer, #discussion_settings .dialog_footer {background-color:transparent !important;padding-left:0px !important;margin-top:10px;height:20px;}
+#discussion_main_container .cancel-button {color:#666666 !important;}
 
 /* Settings List */
 .discussion_settings_list {background-color:#fbfbfb;border:1px solid #dfdfdf;width:100%;height:140px;overflow:scroll;overflow-x:hidden;overflow:auto;}

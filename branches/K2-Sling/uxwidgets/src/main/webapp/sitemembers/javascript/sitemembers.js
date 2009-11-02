@@ -21,9 +21,11 @@ var sakai = sakai ||
 {};
 sakai.sitemembers = function(tuid, placement, showSettings){
 
+
     ///////////////
     // VARIABLES //
     ///////////////
+
     // This array will hold all the objects with the userinfo that are a member of this site.
     var allMembers = [];
     // this array will hold all the objects that are currently being displayed.
@@ -605,7 +607,8 @@ sakai.sitemembers = function(tuid, placement, showSettings){
      */
     var closeSettings = function(){
 		// If this is in a dashboard then we just show the main view.
-		if ($(".sakai_dashboard_page").is(":visible")) {
+		// We check this by seeing if the dashboard element (or its parents) are visible or not
+		if ($(".sakai_dashboard_page").is(":visible") && $('.sakai_dashboard_page').parents(':hidden').length === 0) {
             $(sitemembers_settings, rootel).hide();
             $(sitemembers_normal, rootel).show();
 			showSettings = false;
@@ -693,7 +696,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         var id = e.target.id.split('_');
         id = id[id.length - 1];
         sakai.addtocontacts.initialise(id, function(){
-            renderAndAppendSiteMembers(allMembers)
+            renderAndAppendSiteMembers(allMembers);
         });
     });
     
