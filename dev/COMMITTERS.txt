@@ -1,8 +1,15 @@
-The following people have commit access to the Sakai 3 front-end sources.
-Note that this is not a full list of Sakai 3 front-end's authors, however --
-for that, you'd need to look over the log messages to see all the
-patch contributors.
+The following people are active contributors on Sakai 3 front end development:
+(alphabetic order)
+
+Simon Gaeremynck - sg555@cam.ac.uk
+Oszkar Nagy - oszkar@caret.cam.ac.uk
+Christian Vuerings - cv268@cam.ac.uk
 
 
-Nicolaas Matthijs		nicolaas.matthijs@caret.cam.ac.uk
-Oszkar Nagy				oszkar@caret.cam.ac.uk
+The following people are inactive / committed in the past:
+(alphabetic order)
+
+Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
+Anthony White - arwhyte@umich.edu
+
+
