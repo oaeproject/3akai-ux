@@ -54,6 +54,12 @@ sakai.site.site_admin = function(){
 	var $title_input_container = $("#title-input-container");
 	var $fl_tab_content_editor = $("#fl-tab-content-editor");
 	
+	// TinyMCE selectors, please note that it is not possible to cache these
+	// since they get created at runtime
+	var elm1_menu_formatselect = "#menu_elm1_elm1_formatselect_menu";
+	var elm1_menu_fontselect = "#menu_elm1_elm1_fontselect_menu";
+	var elm1_menu_fontsizeselect = "#menu_elm1_elm1_fontsizeselect_menu";
+	
 
 	/////////////////////////////
 	// tinyMCE FUNCTIONS
@@ -161,6 +167,9 @@ sakai.site.site_admin = function(){
 		var barTop = sakai.site.curScroll;
 		$toolbarcontainer.css("width", ($("#toolbarplaceholder").width()) + "px");
 		
+		// Variable that contains the css for the tinyMCE menus
+		var tinyMCEmenuCSS = {};
+		
 		// Check if the current scroll position is smaller then the top position of the toolbar
 		if (barTop <= sakai.site.minTop) {
 			
@@ -169,14 +178,27 @@ sakai.site.site_admin = function(){
 			
 			// Set the position of the Insert more menu
 			$insert_more_menu.css({"position": "absolute", "top":(sakai.site.minTop + 28) + "px"});
+			
+			// Set the positions of the native tinyMCE menus
+			tinyMCEmenuCSS = {"position":"absolute", "top":(sakai.site.minTop + 30) + "px"};
+			$(elm1_menu_formatselect).css(tinyMCEmenuCSS);
+			$(elm1_menu_fontselect).css(tinyMCEmenuCSS);
+			$(elm1_menu_fontsizeselect).css(tinyMCEmenuCSS);
 		}
 		else {
+			
+			// Set the position: fixed when you scroll down a site page
+			tinyMCEmenuCSS = {"position":"fixed", "top":"30px"};
+			$(elm1_menu_formatselect).css(tinyMCEmenuCSS);
+			$(elm1_menu_fontselect).css(tinyMCEmenuCSS);
+			$(elm1_menu_fontsizeselect).css(tinyMCEmenuCSS);
+
 			$toolbarcontainer.css({"position":"fixed", "top":"0px"});
 			$insert_more_menu.css({"position": "fixed", "top":"28px"});
 		}
 		
 		$insert_more_menu.css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 10 + "px");
-		
+
 		sakai.site.last = new Date().getTime();
 	};
 

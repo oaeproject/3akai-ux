@@ -92,6 +92,7 @@ $(document).ready(function(){
 			var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
 			var uri = loc.substring(0, mark);
 			site = uri.substring(siteid, loc.length).replace(Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
+			site = site.substring(0, site.indexOf("#"));
 		}
 		return site;
 	};
@@ -120,7 +121,8 @@ $(document).ready(function(){
 	
 	var loadSiteLanguage = function(site){
 			$.ajax({
-				url : Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json?sid=" + Math.random(),
+				url : Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
+				cache: false,
 				success : function(data) {
 					var siteJSON = $.evalJSON(data);
 					if (siteJSON.language && siteJSON.language !== "default_default") {
