@@ -177,7 +177,7 @@ sakai.search = function() {
 		
 		if (foundCM.total > cmToSearch) {
 			$(searchConfig.cm.displayMore).show();
-			$(searchConfig.cm.displayMore).attr("href", "search_b_content.html#1|" + searchterm);
+			$(searchConfig.cm.displayMore).attr("href", "search_content.html#1|" + searchterm);
 			$(searchConfig.cm.displayMoreNumber).text(foundCM.total);
 		}
 		
@@ -203,7 +203,7 @@ sakai.search = function() {
 		
 		if (foundSites.total > sitesToSearch) {
 			$(searchConfig.sites.displayMore).show();
-			$(searchConfig.sites.displayMore).attr("href", "search_b_sites.html#1|" + searchterm);
+			$(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
 			$(searchConfig.sites.displayMoreNumber).text(foundSites.total);
 		}
 		
@@ -232,7 +232,7 @@ sakai.search = function() {
 		
 		if (results.total > peopleToSearch) {
 			$(searchConfig.people.displayMore).show();
-			$(searchConfig.people.displayMore).attr("href", "search_b_people.html#1|" + searchterm);
+			$(searchConfig.people.displayMore).attr("href", "search_people.html#1|" + searchterm);
 			$(searchConfig.people.displayMoreNumber).text(results.total);
 		}
 		
