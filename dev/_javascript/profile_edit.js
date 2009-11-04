@@ -89,7 +89,7 @@ sakai.profile = function(){
 			},
 			defaultViewText: " ",
 			paddings: {
-			    minimumView: 0
+				minimumView: 0
 			}
 		});
 		
@@ -204,7 +204,7 @@ sakai.profile = function(){
    // General Popup Fields //
    //////////////////////////
    
-    var fillGeneralPopupField = function(field, savefield, savestring, fields){
+	var fillGeneralPopupField = function(field, savefield, savestring, fields){
    
    		$("#" + field + "s").show();
 		$("#" + field + "sadd").show();
@@ -260,9 +260,9 @@ sakai.profile = function(){
 					tosend[savefield] = data[savestring];
 						
 					$.ajax({
-				       	url : fileUrl,
-				       	type : "POST",
-				        data : tosend,
+				   		url : fileUrl,
+				   		type : "POST",
+						data : tosend,
 						error : function(data){
 							alert("An error has occured while trying to post to " + fileUrl);
 						}
@@ -305,7 +305,7 @@ sakai.profile = function(){
 			}
 		);
    	
-    };
+	};
 	
 	var setFunctions = function(field, savefield, savestring, fields, required){
 		
@@ -459,13 +459,13 @@ sakai.profile = function(){
 		element.removeClass("profile_available_status_offline");
 		element.addClass("profile_available_status_"+status);
 	};
-   
-   //////////////////////////
-   // General Popup Fields //
-   //////////////////////////
-   
-   var fillInFields = function(){
-   		
+	
+	//////////////////////////
+	// General Popup Fields //
+	//////////////////////////
+	
+	var fillInFields = function(){
+			
 		//	status
 		$("#profile_user_status").text(me._status);
 		//	status picture
@@ -835,6 +835,83 @@ $(".dropdownbox").live("mouseover", function(){
 	$(this).addClass("fl-inlineEdit-invitation");
 });
 $(".dropdownbox").live("mouseout", function(){
+	$(this).removeClass("fl-inlineEdit-invitation");
+});
+
+sakai._inlineeditsArea = [];
+sakai.inlineEditsArea = function(container, options){
+	var defaultViewText = "Click here to edit";
+	if (options.defaultViewText){
+		defaultViewText = options.defaultViewText;
+	}
+	var rootel = $(container);
+	var els = $(".inlineEditableAlt", rootel);
+	for (var i = 0; i < els.length; i++){
+		var el = $(els[i]);
+		var dropdown = $(".textarea", el);
+		if (dropdown.length > 0){
+			
+			if (dropdown.html() === ""){
+				dropdown.html(defaultViewText);
+			}
+			
+			var tochangeTo = $(".editContainer",el);
+			var changedel = $(".options", tochangeTo);
+			
+			dropdown.bind("click", function(ev){
+				var parent = $(ev.target).parent();
+				var dropdown = $(".textarea",parent);
+				var tochangeTo = $(".editContainer", parent);
+				
+				var value = dropdown.html();
+				value = value.replace(/<br\/>/ig,"\n");
+				value = value.replace(/<br>/ig,"\n")
+				$(".options", tochangeTo).val(value.replace(/<br\/>/ig,"\n"));
+				if (dropdown.css("display") != "none"){
+					dropdown.hide();
+					tochangeTo.show();
+					changedel.focus();
+					changedel.click();
+				}		
+			});
+			changedel.bind("blur", function(ev){
+				var parent = $(ev.target).parent().parent();
+				var dropdown = $(".textarea",parent);
+				var tochangeTo = $(".editContainer", parent);
+				var changedel = $(".options", tochangeTo);
+				
+				var newvalue = changedel.val();
+				var orig = newvalue;
+				if (newvalue === ""){
+					newvalue = defaultViewText;
+				}
+				dropdown.html(newvalue.replace(/\n/g,"<br/>"));
+				
+				if (dropdown.css("display") == "none"){
+					tochangeTo.hide();
+					dropdown.show();
+				}
+				
+				var obj = {};
+				obj.value = orig;
+				
+				if (options.finishedEditing){
+					options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
+				}
+				
+				dropdown.removeClass("fl-inlineEdit-invitation");
+				
+			});
+			
+		}
+	}
+	
+};
+
+$(".textarea").live("mouseover", function(){
+	$(this).addClass("fl-inlineEdit-invitation");
+});
+$(".textarea").live("mouseout", function(){
 	$(this).removeClass("fl-inlineEdit-invitation");
 });
 
