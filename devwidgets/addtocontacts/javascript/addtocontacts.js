@@ -158,8 +158,13 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 		});
 	};
 	
+	
+	/**
+	 * This function looks up and retrieves relationship information from a set of pre-defined relationships
+	 * @param {String} relationshipName
+	 */
 	var getDefinedRelationship = function(relationshipName) {
-		for (var i = 0; i < Widgets.relationships.length; i++) {
+		for (var i = 0, j = Widgets.relationships.length; i<j; i++) {
 			var definedRelationship = Widgets.relationships[i];
 			if (definedRelationship.name === relationshipName) {
 				return definedRelationship;
