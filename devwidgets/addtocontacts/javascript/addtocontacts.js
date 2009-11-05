@@ -158,6 +158,21 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 		});
 	};
 	
+	
+	/**
+	 * This function looks up and retrieves relationship information from a set of pre-defined relationships
+	 * @param {String} relationshipName
+	 */
+	var getDefinedRelationship = function(relationshipName) {
+		for (var i = 0, j = Widgets.relationships.length; i<j; i++) {
+			var definedRelationship = Widgets.relationships[i];
+			if (definedRelationship.name === relationshipName) {
+				return definedRelationship;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Does the invitation stuff. Will send a request for an invitation and a message to the user.
 	 * @param {String} userid
@@ -167,8 +182,21 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 		var types = formValues[addToContactsFormType.replace(/#/gi, '')];
 		$(addToContactsResponse).text("");
 		if (types.length) {
+			var fromRelationships = [];
+			var toRelationships = [];
+			for (var i = 0; i < types.length; i++) {
+				var type = types[i];
+				fromRelationships.push(type);
+				var definedRelationship = getDefinedRelationship(type);
+				if (definedRelationship && definedRelationship.inverse) {
+					toRelationships.push(definedRelationship.inverse);
+				} else {
+					toRelationships.push(type);
+				}
+			}
 			var toSend = {
-				"relationships" : types
+				"fromRelationships" : fromRelationships,
+				"toRelationships" : toRelationships
 			}
 			var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 			

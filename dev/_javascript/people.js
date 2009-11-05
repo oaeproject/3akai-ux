@@ -98,7 +98,7 @@ sakai.search = function(){
 						finaljson.items[index].name = finaljson.items[index].userid;
 					}
 					
-					var relationships = connection["relationships"];
+					var relationships = connection["sakai:types"];
 					if (relationships) {
 						finaljson.items[index].extra = relationships;
 					} else if (person.basic) {
