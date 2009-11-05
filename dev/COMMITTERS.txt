@@ -1,4 +1,4 @@
-The following people are active contributors on Sakai 3 front end development:
+The following people are active contributors on Sakai 3 front-end development:
 (alphabetic order)
 
 Simon Gaeremynck - sg555@cam.ac.uk
@@ -6,9 +6,10 @@ Oszkar Nagy - oszkar@caret.cam.ac.uk
 Christian Vuerings - cv268@cam.ac.uk
 
 
-The following people are inactive / committed in the past:
+The following people are inactive / committed in the past or are occasional commiters:
 (alphabetic order)
 
+Ray Davis - r...@media.berkeley.edu
 Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
 Anthony White - arwhyte@umich.edu
 
