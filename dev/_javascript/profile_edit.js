@@ -89,10 +89,10 @@ sakai.profile = function(){
 			},
 			defaultViewText: " ",
 			paddings: {
-			    minimumView: 0
+				minimumView: 0
 			}
 		});
-
+		
 		sakai.inlineEdits(".profile_preview", {
 			useTooltip: true,
 			finishedEditing: doHomeContact,
@@ -104,11 +104,6 @@ sakai.profile = function(){
 			finishedEditing: doHomeContact,
 			defaultViewText: " "
 		});
-		
-		$(".inlineEditable").css("height","16px");
-		$(".text").css("height","16px");
-		$(".dropdownbox").css("height","16px");
-		
 	};
 			
    var inedit_basic = true;
@@ -209,7 +204,7 @@ sakai.profile = function(){
    // General Popup Fields //
    //////////////////////////
    
-    var fillGeneralPopupField = function(field, savefield, savestring, fields){
+	var fillGeneralPopupField = function(field, savefield, savestring, fields){
    
    		$("#" + field + "s").show();
 		$("#" + field + "sadd").show();
@@ -265,9 +260,9 @@ sakai.profile = function(){
 					tosend[savefield] = data[savestring];
 						
 					$.ajax({
-				       	url : fileUrl,
-				       	type : "POST",
-				        data : tosend,
+				   		url : fileUrl,
+				   		type : "POST",
+						data : tosend,
 						error : function(data){
 							alert("An error has occured while trying to post to " + fileUrl);
 						}
@@ -310,7 +305,7 @@ sakai.profile = function(){
 			}
 		);
    	
-    };
+	};
 	
 	var setFunctions = function(field, savefield, savestring, fields, required){
 		
@@ -464,13 +459,13 @@ sakai.profile = function(){
 		element.removeClass("profile_available_status_offline");
 		element.addClass("profile_available_status_"+status);
 	};
-   
-   //////////////////////////
-   // General Popup Fields //
-   //////////////////////////
-   
-   var fillInFields = function(){
-   		
+	
+	//////////////////////////
+	// General Popup Fields //
+	//////////////////////////
+	
+	var fillInFields = function(){
+			
 		//	status
 		$("#profile_user_status").text(me._status);
 		//	status picture
@@ -837,18 +832,11 @@ sakai.inlineEdits = function(container, options){
 };
 
 $(".dropdownbox").live("mouseover", function(){
-	$(this).addClass("inlineEdit-invitation");
+	$(this).addClass("fl-inlineEdit-invitation");
 });
 $(".dropdownbox").live("mouseout", function(){
-	$(this).removeClass("inlineEdit-invitation");
+	$(this).removeClass("fl-inlineEdit-invitation");
 });
-
-
-///////////////////////////
-// Textarea inline edits //
-///////////////////////////
-
-// TODO: Replace this by Fluid component
 
 sakai._inlineeditsArea = [];
 sakai.inlineEditsArea = function(container, options){
@@ -911,7 +899,7 @@ sakai.inlineEditsArea = function(container, options){
 					options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
 				}
 				
-				dropdown.removeClass("inlineEdit-invitation");
+				dropdown.removeClass("fl-inlineEdit-invitation");
 				
 			});
 			
@@ -921,12 +909,10 @@ sakai.inlineEditsArea = function(container, options){
 };
 
 $(".textarea").live("mouseover", function(){
-	$(this).addClass("inlineEdit-invitation");
+	$(this).addClass("fl-inlineEdit-invitation");
 });
 $(".textarea").live("mouseout", function(){
-	$(this).removeClass("inlineEdit-invitation");
+	$(this).removeClass("fl-inlineEdit-invitation");
 });
-
-
 
 sdata.container.registerForLoad("sakai.profile");

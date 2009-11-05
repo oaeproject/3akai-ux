@@ -1397,7 +1397,7 @@ sakai.site = function(){
 	
 	var doSearch = function(){
 		var search = $("#search_filed").val();
-		document.location = "/dev/search_b_content.html##1|" + search + "|/sites/" + sakai.site.currentsite.id;
+		document.location = "/dev/search_content.html##1|" + search + "|/sites/" + sakai.site.currentsite.id;
 	}
 	
 	

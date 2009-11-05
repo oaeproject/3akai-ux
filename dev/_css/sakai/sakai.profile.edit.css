@@ -19,19 +19,19 @@
 /** INLINE EDIT **/
 
 /* Entry - default state */
-.profile .text
+.profile .flc-inlineEdit-text
 { width: 250px; min-height: 16px; border: 1px solid #d5dbdf; padding: 2px 2px 2px 5px; position: relative; bottom: 3px; }
 
 /* Entry - on mouse over */
-.profile .inlineEdit-invitation
+.profile .fl-inlineEdit-invitation
 { background-color: #dceffd !important; border: 1px solid #454a4f !important; cursor: pointer; }
 
 /* Entry - on click (in edit mode) */
-.profile .edit
+.profile .flc-inlineEdit-edit
 { position: relative; bottom: 3px; border: 3px solid #333333; padding: 1px 1px 1px 2px; }
 
 /* Edit containers */
-.profile .inlineEditable
+.profile .flc-inlineEditable
 { cursor: default; width: 250px; }
 
 .profile .inlineEditableAlt
@@ -50,7 +50,9 @@
 { display: none; }
 
 .profile .options
-{ padding: 0px; text-align:left !important; width: 250px; }
+{ padding: 0px; text-align:left !important; width: 250px; 
+padding:1px 1px 1px 2px;
+position:relative;}
 
 /* Multiline fields */
 .profile .multifield_over {
