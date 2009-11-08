@@ -14,11 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.page_from_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.site_management_members_add.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css"/>
 	
@@ -191,11 +189,25 @@
 </div>
 <div id="site_add_members_search_csv" class="dialog" style="width:520px; background-color: #fff; margin-left: -260px; ">
 	<div class="dialog_header">
-		<h1>CSV file</h1>
-		<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" /> </div>
-	<textarea></textarea>
+		<div class="dialog_header_inner">
+			<h1>CSV file</h1>
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+		</div>
+	</div>
+	<div class="dialog_content">
+		<textarea></textarea>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" id="site_manage_searchViaCsv" class="button-default">Search</a>
+			<a href="javascript:;" class="button jqmClose">Cancel</a>
+		</div>
+	</div>
+	
+	
+	<!-- DIALOG FOOTER -->
 	<div class="dialog_footer">
-		<div class="buttonBar"> <a href="javascript:;" id="site_manage_searchViaCsv" class="button-default" style="float:right">Search</a> <a href="javascript:;" class="button jqmClose" style="float:left">Cancel</a> </div>
+		<div class="dialog_footer_inner"><!-- --></div>
 	</div>
 </div>
 

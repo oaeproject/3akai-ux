@@ -15,11 +15,9 @@
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.page_from_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />		    
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.edit.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css"/>
@@ -669,11 +667,13 @@
 <div class="dialog" id="add_degrees_lightbox">
 
 		<div class="dialog_header">
-			<h1>Degrees</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<div class="dialog_header_inner">
+				<h1>Degrees</h1>
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			</div>
 		</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Add a degree to your degree list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -715,27 +715,32 @@
 				</tr>
 			</table>
 		    
-		   </form>
-        </div>
+			</form>
 		
-		<div class="dialog_footer">
-			 <div class="buttonBar">
+			<!-- DIALOG BUTTONS -->
+			<div class="dialog_buttons">
 			 	<a href="javascript:;" class="button-default" id="new_degree_button" style="font-weight:bold">Save</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
-		</div>
-        <!-- /lightbox-container -->
+				<a href="javascript:;" class="button jqmClose">Cancel</a>
+			</div>
+        </div>
+
+	<!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 
 </div>
 
 <div class="dialog" id="edit_degrees_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Degrees</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-       <div class="dialog_content" style="padding-bottom:20px">
+       <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Edit a degree from your list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -780,15 +785,18 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
 		
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">Update</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">Update</a>
+		        <a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+
+	<!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <!--
@@ -807,13 +815,14 @@
 <div class="dialog" id="add_papers_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Publications</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
 
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Add a publication to your publication list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -877,25 +886,31 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">Save</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">Save</a>
+		        <a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+	
+	<!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <div class="dialog" id="edit_papers_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Publications</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Edit a publication from your list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -960,14 +975,17 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">Update</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">Update</a>
+			<a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+        <!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <!--
@@ -986,12 +1004,13 @@
 <div class="dialog" id="add_talks_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Talks</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Add a talk to your talk list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -1020,25 +1039,30 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">Save</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">Save</a>
+		        <a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+        <!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <div class="dialog" id="edit_talks_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Talks</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Edit a talk from your list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -1068,14 +1092,18 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">Update</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">Update</a>
+			<a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+        <!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <!--
@@ -1094,12 +1122,13 @@
 <div class="dialog" id="add_jobs_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Professional Experience</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Add a position to your job list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -1136,26 +1165,32 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">Save</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">Save</a>
+		        <a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+		
+        <!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
     
 </div>
 
 <div class="dialog" id="edit_jobs_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Professional Experience</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Edit a position from your list</h4>
 		    <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -1193,14 +1228,18 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">Update</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">Update</a>
+		        <a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+        
+	<!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
     
 </div>
 
@@ -1219,12 +1258,13 @@
 <div class="dialog" id="add_websites_lightbox">
 
         <div class="dialog_header">
+		<div class="dialog_header_inner">
 			<h1>Website</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 		</div>
+	</div>
         <!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 			<h4 style="color:#333333; float: left">Add a website to your site list</h4>
 			<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		    <br/><br/>
@@ -1240,27 +1280,31 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">Save</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">Save</a>
+			<a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+	<!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
     
 </div>
 
 <div class="dialog" id="edit_websites_lightbox">
 
         <div class="dialog_header">
-		<h1>Website</h1>
-		<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		<div class="dialog_header_inner">
+			<h1>Website</h1>
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+		</div>
 	</div>
         
 	<!-- /lightbox-header -->
-        <div class="dialog_content" style="padding-bottom:20px">
-        	<br/>
+        <div class="dialog_content">
 		<h4 style="color:#333333; float: left">Edit a website from your list</h4>
 		<span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
 		<br/><br/>
@@ -1280,14 +1324,18 @@
 				</tr>
 			</table>
 		   </form>
-        </div>
-		<div class="dialog_footer">
-			 <div class="buttonBar">
-			 	<a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">Update</a>
-		        <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-		     </div>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+			<a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">Update</a>
+		        <a href="javascript:;" class="button jqmClose">Cancel</a>
 		</div>
-        <!-- /lightbox-container -->
+        </div>
+		
+        <!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <!--

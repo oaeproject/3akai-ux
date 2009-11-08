@@ -776,10 +776,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
     margin: 0;
 }
 
-
-.buttonBar{
-
-}
 .buttonBar .button, .buttonBar .button-default, .button-default {
 	background:#FFFFFF url(../../_images/custom_button_gradient.png) repeat-x scroll center bottom;
 	border:1px solid #CCCCCC;

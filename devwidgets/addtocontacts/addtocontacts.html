@@ -1,5 +1,5 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.modal_dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css"/>
 <link rel="stylesheet" type="text/css" href="/devwidgets/addtocontacts/css/addtocontacts.css"/>
 
 <!-- ERROR MESSAGES -->
@@ -10,10 +10,12 @@
 <!-- DIALOG -->
 <div class="dialog" id="addtocontacts_dialog">
     <!-- HEADER -->
-	<div class="dialog_header">
-		<h1>Add to Contacts</h1>
-		<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+    <div class="dialog_header">
+	<div class="dialog_header_inner">
+	    <h1>Add to Contacts</h1>
+	    <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 	</div>
+    </div>
     
     <div id="addtocontacts_add" style="display:none;">
 	<!-- CONTENT -->
@@ -36,19 +38,27 @@
     		</form>
     		
     		<div id="addtocontacts_response"></div>
-    	</div>
-    	
-    	<div class="dialog_footer">
-    		 <div class="buttonBar">
-    		 	<a href="javascript:;" class="button-default addtocontacts_bold" id="addtocontacts_form_invite">Invite</a>
-    	        <a href="javascript:;" class="button jqmClose">Cancel</a>
-    	     </div>
+		
+		<!-- DIALOG BUTTONS -->
+		<div class="dialog_buttons">
+		    <a href="javascript:;" class="button-default addtocontacts_bold" id="addtocontacts_form_invite">Invite</a>
+		    <a href="javascript:;" class="button jqmClose">Cancel</a>
+		</div>
+	    </div>
+
+	    <!-- DIALOG FOOTER -->
+	    <div class="dialog_footer">
+		    <div class="dialog_footer_inner"><!-- --></div>
+	    </div>	
+	
     	</div>
     </div>
-    
+
     <div id="addtocontacts_done" style="display:none;">
         <span class="addtocontacts_displayname" /> has been added to your contact list.
     </div>
+    
+   
 </div>
 
 <!-- PERSONAL NOTE TEMPLATE -->

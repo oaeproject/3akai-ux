@@ -173,7 +173,3 @@
 #poll_text_view_options {margin:50px 50px 50px 40px;}
 .poll_text_view_content {float:left;margin-bottom:5px;}
 .poll_text_view_percentage {float:left;font-weight:bold;margin:0 10px 5px 0;text-align:right;width:36px;}
-
-/* Override elements */
-.dialog_footer {background-color:transparent !important;padding-left:0px !important;margin-top:10px;height:20px;}
-.cancel-button {color:#666666 !important;}

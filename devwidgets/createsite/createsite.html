@@ -4,8 +4,10 @@
 <!-- CONTAINER -->
 <div style="display:none" id="createsite_container" class="dialog">
 	<div class="dialog_header">
-		<h1>Create a new site</h1>
-		<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		<div class="dialog_header_inner">
+			<h1>Create a new site</h1>
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+		</div>
 	</div>
 	
 	<div class="dialog_content">
@@ -74,12 +76,10 @@
 				</table>
 			--></div>
 
-			<div class="dialog_footer">
-				 <div class="buttonBar">
-				 	<span id="createsite_noncourse_process" style="display:none">Processing ...</span>
-					<a href="javascript:;" id="createsite_noncourse_save" class="button-default" style="float:left;">Create Site</a>
-					<a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose" style="margin-left:10px; float:left;">Cancel</a>
-				 </div>
+			<div class="dialog_buttons">
+				<span id="createsite_noncourse_process" style="display:none">Processing ...</span>
+				<a href="javascript:;" id="createsite_noncourse_save" class="button-default">Create Site</a>
+				<a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose cancel-button">Cancel</a>
 			</div>
 		</div>
 		
@@ -89,10 +89,8 @@
 			
 			<textarea id="createsite_course_details" rows="3" cols="30"></textarea>
 				
-			<div class="dialog_footer">
-				 <div class="buttonBar">
-					<a href="javascript:;" id="createsite_course_request" class="button-default">Request Site</a>
-				 </div>
+			<div class="dialog_buttons">
+				<a href="javascript:;" id="createsite_course_request" class="button-default">Request Site</a>
 			</div>			
 		</div>
 		
@@ -100,13 +98,16 @@
 			<p>Request successful</p>
 			<p>Your site has been successfully requested. We'll get in touch with you as soon as possible.</p>
 			
-			<div class="dialog_footer">
-				 <div class="buttonBar">
-					<a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose">Close</a>
-				 </div>
+			<div class="dialog_buttons">
+				<a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose">Close</a>
 			</div>
 		</div>
-   </div>
+	</div>
+	
+	<!-- DIALOG FOOTER -->
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 </div>
 
 <!-- JAVASCRIPT -->

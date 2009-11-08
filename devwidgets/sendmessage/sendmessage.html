@@ -1,5 +1,4 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.modal_dialog.css"></link>
 <link rel="stylesheet" type="text/css" href="/devwidgets/sendmessage/css/sendmessage.css"></link>
 
 
@@ -12,8 +11,10 @@
 
 <div class="dialog" id="message_dialog">
 	<div class="dialog_header">
-		<h1>Send Message</h1>
-		<img src="/dev/_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+		<div class="dialog_header_inner">
+			<h1>Send Message</h1>
+			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+		</div>
 	</div>
 	
 	<!-- CONTAINER FOR MESSAGES -->
