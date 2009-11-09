@@ -42,6 +42,3 @@
 #createsite_noncourse_template_container label {clear:none;float:left;font-weight:normal;margin:9px 0 0 5px; width: 280px;}
 #createsite_noncourse_name {width:280px;}
 #createsite_noncourse_url {float:left;margin:12px 5px 0 0;}
-
-/* Override elements */
-#createsite_container .dialog_footer {margin-top:15px;padding-left:0;}

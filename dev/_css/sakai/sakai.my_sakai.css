@@ -1,6 +1,6 @@
 /* GENERAL */
 strong {color: #000;}
-.buttonBar .button {color: #666;}
+.dialog_buttons .button {color: #666;}
 
 /* TOP NAV 
 .pipe_divider {color: #999;}
@@ -138,21 +138,25 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 
 
 /* Add Sakai Goodies */
+#add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
 .add-button {background:transparent url(../../_images/button_bg.png) repeat-x scroll left bottom; border:1px solid #CCCCCC; color:#333333; display:block; float:left; padding:3px 5px; text-align:center;}
 .add_goodies .add {font-weight:bold;}
 .add_goodies .add-button {margin-left:9px; width:63px;}
-.dialogue_body td {border-style:none none solid; border-color: #E5E5E5;}
 .add_goodies .add {font-weight:bold;}
-.add_goodies .dialogue_body {border:1px solid #E5E5E5;}
-.dialogue_body {border:1px solid #E5E5E5; height:307px; left:15px; overflow:auto; position:relative; top:15px; width:488px;}
-#add_goodies_dialog {width:520px; height: 374px; background-color: #fff; margin-left: -260px;}
-.elf-right-up {padding-top:40px; padding-bottom: 85px;}
-.add-tools-right {width:100%; margin-bottom: 40px;}
-#add_goodies_body table {width: 471px;}
-.remove_add_column {width:80px;}
-
+.add_goodies .dialog_body {border:1px solid #E5E5E5; height:307px; overflow:auto; position:relative; width:471px;}
+.add_goodies .dialog_body table {width: 454px;}
+.add_goodies .dialog_body td {border-style:none none solid; border-color: #E5E5E5;}
+.add_goodies .dialog_body .dialog_add_goodies_description {color:#666;font-size:12px;font-weight:100;}
+.add_goodies .dialog_body .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:700;}
+.add_goodies .dialog_body .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
+.add_goodies .dialog_body .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:700;}
+.add_goodies .dialog_body .remove {background:#F8F8F8 none repeat scroll 0 0;}
+.add_goodies .remove_add_column {width:80px;}
 
 /* Change layout */
+#change_layout_dialog {width:400px; margin-left: -200px;}
+#change_layout_dialog .elf-right-up {padding-top:40px; padding-bottom: 85px;}
+#change_layout_dialog .add-tools-right {width:100%; margin-bottom: 40px;}
 .layout_container {float:left;  padding-left:25px;  padding-right:13px;	}
 .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 .layout_picker_item_column {border-right: 1px solid #3399CC;}
@@ -161,5 +165,4 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .layout_picker_item_unselected {width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8;}
 .layout_picker_item_column_unselected {border-right: 1px solid #dddfe1;}
 .layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
-#change_layout_dialog {width:400px; margin-left: -200px;}
 #layouts_list {display:block;}

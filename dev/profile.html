@@ -14,11 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.save_as_template.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.page_from_template.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
 	<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css"/>
 
@@ -533,8 +531,10 @@
 	
 	<div class="dialog" id="message_dialog">
 		<div class="dialog_header">
-		    <h1>Send Message</h1>
-		    <img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<div class="dialog_header_inner">
+				<h1>Send Message</h1>
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			</div>
 		</div>
 		
 		<!-- DIALOGUE BOX -->
@@ -557,13 +557,18 @@
 					<textarea class="text-field compose-body" id="comp-body"></textarea>
 				</div>   
 			</div>
-		</div>
-
-		<div class="dialog_footer" style="padding-left: 15px; height: 40px;">
-			<div class="buttonBar" style="position: relative; top: 5px; padding-bottom: 15px">
+			
+			<div class="dialog_buttons">
 				<a href="javascript:;" class="button-default" id="save_as_page_template_button" style="font-weight:bold">Send Message</a>
 				<a href="javascript:;" class="button jqmClose" style="float:none;display:inline;">Cancel</a>
 			</div>
+		</div>
+
+		<div class="dialog_footer">
+			<div class="dialog_footer_inner"><!-- --></div>
+		</div>
+		<div class="dialog_footer" style="padding-left: 15px; height: 40px;">
+			
 		</div>
 	    
 	</div>
@@ -573,11 +578,13 @@
 	<div class="dialog" id="add_to_contacts_dialog">
 	    
 		<div class="dialog_header">
-			<h1>Add to Contacts</h1>
-			<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+			<div class="dialog_header_inner">
+				<h1>Add to Contacts</h1>
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			</div>
 		</div>
 		
-		<div class="dialog_content" style="padding-bottom:20px">
+		<div class="dialog_content">
 		    
 			<form id="add_friends_form">
 			
@@ -599,14 +606,16 @@
 				    <textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note" style="padding:4px"></textarea>
 				
 			</form>
+			
+			 <div class="dialog_buttons">
+				<a href="javascript:;" class="button-default" id="add_friends_do_invite" style="font-weight:bold">Invite</a>
+				<a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
+			</div>
 		    
 		</div>
 		
 		<div class="dialog_footer">
-			    <div class="buttonBar">
-				    <a href="javascript:;" class="button-default" id="add_friends_do_invite" style="font-weight:bold">Invite</a>
-				    <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
-			    </div>
+			<div class="dialog_footer_inner"><!-- --></div>
 		</div>
 	</div> 
 

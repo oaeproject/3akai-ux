@@ -54,7 +54,6 @@
 .discussion_content_message {margin-bottom: 10px;}
 
 /* Override elements */
-#discussion_reply_container .dialog_footer, #discussion_settings .dialog_footer {background-color:transparent !important;padding-left:0px !important;margin-top:10px;height:20px;}
 #discussion_main_container .cancel-button {color:#666666 !important;}
 
 /* Settings List */
