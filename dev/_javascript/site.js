@@ -116,7 +116,6 @@ sakai.site = function(){
 	var $dashboard_options = $(".dashboard_options");
 	
 	
-	
 	/////////////////////////////
 	// HELP FUNCTIONS
 	/////////////////////////////
@@ -134,7 +133,6 @@ sakai.site = function(){
 		//escaped = pageid.replace(/\//g, "\\\/");
 		return escaped;
 	};
-	
 	
 	/**
 	 * Get document height
@@ -177,7 +175,6 @@ sakai.site = function(){
 		}
 	};
 	
-	
 	/**
 	 * Transform a date into more readable date string
 	 * @param {Object} day
@@ -194,13 +191,10 @@ sakai.site = function(){
 		return string;
 	};
 
-	
-	
-	
-	
-	/////////////////////////////
-	// LOADING
-	/////////////////////////////
+
+	/////////////
+	// LOADING //
+	/////////////
 	
 	/**
 	 * Main load flow - loads up all the data needed for sites and sets the visibility of html elements
@@ -420,14 +414,12 @@ sakai.site = function(){
 			return 0;
 		}
 	};
-	
-	
-	
-	
-	/////////////////////////////
-	// RECENT SITES
-	/////////////////////////////
-	
+
+
+	//////////////////
+	// RECENT SITES //
+	//////////////////
+
 	/**
 	 * Save to Recent Sites - This function also filter out the current site and writes the data out in JSON format
 	 * @param {Object} response
@@ -469,20 +461,67 @@ sakai.site = function(){
 				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
 			}
 		});
-		
 	};
+
+
+	/////////////////////
+	// RECENT ACTIVITY //
+	/////////////////////
 	
+	sakai.site.getRecentActivity = function(callback){
+		$.ajax({
+			url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
+			success: function(data){
+				sakai.site.recentactivity = $.evalJSON(data);
+			},
+			error: function(){
+				sakai.site.recentactivity = {
+					items: []
+				};
+			},
+			complete: callback
+		});
+	};
+
+	/**
+	 * Save a item to the recent activities file
+	 * @param {Object} activityitem A JSON object in the following format:
+	 * {
+	 * 	"userid" : "admin",
+	 * 	"date" : "2009-10-12T10:25:19",
+	 * 	"type" : "page_create"
+	 * }
+	 */
+	sakai.site.addRecentActivity = function(activityitem){
+
+		// Set the date of the activityitme
+		activityitem.date = $.ToJCRDate(new Date());
+		
+		// Update the recentactivity file
+		$.ajax({
+			url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
+			type: "POST",
+			success: function(){
+				
+			},
+			error: function(){
+				
+			}
+		});
+	};
+
 	
-	/////////////////////////////
-	// VERSION HISTORY
-	/////////////////////////////
-	
+
+	/////////////////////
+	// VERSION HISTORY //
+	/////////////////////
+
 	/**
 	 * Reset version history
 	 * @return void
 	 */
 	sakai.site.resetVersionHistory = function(){
-		
+
 		try {
 			if (sakai.site.selectedpage) {
 				$("#revision_history_container").hide();
@@ -497,9 +536,9 @@ sakai.site = function(){
 	};
 
 	
-	/////////////////////////////
-	// PAGE OPEN AND DISPLAY FUNCTIONS
-	/////////////////////////////
+	/////////////////////////////////////
+	// PAGE OPEN AND DISPLAY FUNCTIONS //
+	/////////////////////////////////////
 	
 	/**
 	 * Open page H
@@ -951,7 +990,7 @@ sakai.site = function(){
 			    index++;
 			}
 		    }
-		};
+		}
 		
 		var final2 = {};
 		final2.columns = [];
@@ -1257,7 +1296,7 @@ sakai.site = function(){
 				{
 					// Create element
 					var el = document.createElement("div");
-					el.id = sakai.site.selectedpage// sakai.site.escapePageId(sakai.site.selectedpage);
+					el.id = sakai.site.selectedpage; // sakai.site.escapePageId(sakai.site.selectedpage);
 					el.className = "content";
 					el.innerHTML = response;
 					

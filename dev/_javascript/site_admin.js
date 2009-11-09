@@ -558,6 +558,7 @@ sakai.site.site_admin = function(){
 								"acl": "parent"
 							},
 							success: function(){
+								
 								// Check in the page
 								$.ajax({
 									url: sakai.site.urls.CURRENT_SITE_PAGES() + "/content.save.html",
@@ -594,6 +595,13 @@ sakai.site.site_admin = function(){
 					$("#" + escaped).show();
 					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 					sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", sakai.site.pagecontents[sakai.site.selectedpage], function(){
+					
+						var activityItem = {
+							"userid": sdata.me.user.userid,
+							"type": "page_created",
+							"page": "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage
+						};
+						sakai.site.addRecentActivity(activityItem);
 					
 						// Define page properties on node
 						// TODO: add appropriate type to differientate between webpage and dashboardpage
