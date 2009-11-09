@@ -141,7 +141,7 @@ a { color:#333; text-decoration:none;}
 
 
 
-/* send_message_lightbox.html */
+/* send_message_lightbox.html 
 .send_message .compose-form{font-weight: bold; padding: 0px 15px 15px 0px}
 .send_message .compose-form input, .send_message .compose-form textarea{font-weight: normal;}
 .send_message .compose-form span{font-weight: 100; padding-left: 4px;}
@@ -153,8 +153,9 @@ a { color:#333; text-decoration:none;}
 .send_message .button{margin-top: 5px; color: #333;}
 .send_message .send{width: 107px; font-size: 12px;}
 .send_message .cancel{margin-left: 9px; width: 74px;  font-size: 12px;}
+*/
 
-/* my_sakai_add_goodies.html */
+/* my_sakai_add_goodies.html 
 .add_goodies .dialogue_body{border: 1px solid #e5e5e5;}
 .add_goodies .button{height: 21px; width: 63px; margin-left: 9px;}
 .add_goodies .add{font-weight: bold;}
@@ -166,6 +167,7 @@ a { color:#333; text-decoration:none;}
 .dialogue_body .dialogue_remove_goodies_description{color: #999; font-weight: 100; font-size: 12px;}
 .dialogue_body .add_goodies{padding-left: 10px;}
 .dialogue_body .remove_goodies{padding-left: 10px;}
+*/
 
 /* TOP TABS */
 .primary-tabs {border-bottom: 1px solid #EBEBEB;padding: 0 0 2px 20px;}

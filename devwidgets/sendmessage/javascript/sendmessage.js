@@ -41,7 +41,7 @@ if (!sakai.sendmessage){
 		var generalMessageFadeOutTime = 5000;	
 		
 		
-		//	CSS IDs	
+		// CSS IDs	
 		var dialogBoxContainer = "#sendmessage_dialog_box";
 		var dialogFooterContainer = "#sendmessage_dialog_footer";
 		

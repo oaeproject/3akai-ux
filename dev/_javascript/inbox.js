@@ -37,7 +37,7 @@ sakai.inbox = function() {
     var currentPage = 0;
     var messagesForTypeCat; //		The number of messages for this type/cat.
     var box = "";
-	var cats = "";
+    var cats = "";
     
     
     //////////////////////////////

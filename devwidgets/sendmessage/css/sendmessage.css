@@ -17,7 +17,7 @@
  */ 
  
  #message_dialog {width: 520px;}
-.dialogue_box {background:#FFFFFF none repeat scroll 0 0;border:none;height:auto;left:auto;margin-left:0px;margin-top:0px;position:relative;top:0%;width:520px;z-index:101;} 
+.dialogue_box {background:#FFFFFF none repeat scroll 0 0;border:none;height:auto;left:auto;margin-left:0px;margin-top:0px;position:relative;top:0%;width:100%;z-index:101;} 
 .sendmessage_error_message {font-weight:bold;margin:10px;padding:10px;border:1px solid #ff0000;background-color:#f7d8d8;} 
 .sendmessage_normal_message {margin:10px;padding:10px;border:1px solid #00ff00;background-color:#d9f7d8;} 
 .sendmessage_invalid {background-color:#FFCCCC !important;}
@@ -28,7 +28,6 @@
 #sendmessage_multiple_to_input_container span {display:inline-block;background-color:#f4f4f4;margin:2px;padding:1px 3px 2px 5px;font-size:0.9em;border:1px solid #ccc;}
 #sendmessage_multiple_to_what {width:482px;font-size:0.9em;background-color:#e3e3e2;padding:4px;z-index:100;position:absolute;border-top:1px solid #ccc;border-left:1px solid #ccc;border-bottom:1px solid #e6e6e6;border-right:1px solid #e6e6e6;} 
 .sendmessage_multipleBox_delete {margin-right:3px;position:relative;top:2px;left:3px;cursor:pointer;}
-#sendmessage_dialog_footer {padding-left:15px; height:40px;}
 #sendmessage_buttonBar {position:relative; top:5px; padding-bottom:15px}
 
 /** BUTTONS **/
@@ -47,12 +46,11 @@
 
 
 /* send_message_lightbox.html */
-.send_message .compose-form {font-weight:bold; padding:15px 15px 10px 15px}
 .send_message .compose-form input, .send_message .compose-form textarea {font-weight:normal;}
 .send_message .compose-form span {font-weight:100; padding-left:4px;}
 .send_message .compose-form div {padding-bottom:10px;}
-.send_message .compose-form .compose-subject {width:478px;}
-.send_message .compose-form .compose-body {height:140px; width:478px;}
+.send_message .compose-form .compose-subject {width:90%;}
+.send_message .compose-form .compose-body {height:140px; width:90%;}
 .send_message .compose-form .compose-send {padding-top:5px;}
 .send_message .compose-form .compose-cancel {padding:5px 0 0 8px;}
 .send_message .button {margin-top:5px; color:#333;}

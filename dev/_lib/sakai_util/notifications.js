@@ -76,7 +76,7 @@ sakai.notifications = {
 		
 		// Create the close icon.
 		var closeEL = document.createElement("img");
-        closeEL.setAttribute("src", "/dev/_images/close_icon_small.png");
+		closeEL.setAttribute("src", "/dev/_images/close_icon_small.png");
 		closeEL.setAttribute("class", "notification_close");
 		closeEL.style.display = "none";
 		contEL.appendChild(closeEL);
