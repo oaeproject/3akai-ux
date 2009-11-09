@@ -18,8 +18,6 @@
 
 /*global $, Config, History, Querystring, sdata, sakai, jQuery */
 
-var sakai = sakai || {};
-
 sakai.site = function(){		
 	
 	/////////////////////////////
@@ -83,8 +81,7 @@ sakai.site = function(){
 		LOGIN : function() { return Config.URL.GATEWAY_URL + "?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash); },
 		PRINT_PAGE: function() { Config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
 		SITE_URL: function() { return Config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
-		PAGE_CONFIGURATION_PREFERENCE: function() { return Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); },
-		DASHBOARD_STATE: function(){ return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/state";}
+		PAGE_CONFIGURATION_PREFERENCE: function() { return Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); }
 	};
 	
 	
@@ -130,9 +127,11 @@ sakai.site = function(){
 	 * @return {String} escaped page ID
 	 */
 	sakai.site.escapePageId = function(pageid){
-		var escaped = pageid.replace(/ /g, "\\%20");
-		escaped = pageid.replace(/[.]/g, "\\\\\\.");
-		escaped = pageid.replace(/\//g, "\\\/");
+		var regexp = new RegExp("[^a-z0-9_-]", "gi");
+		var escaped = pageid.replace(regexp,"_-_-_-_-_");
+		//var escaped = pageid.replace(/ /g, "\\%20");
+		//escaped = pageid.replace(/[.]/g, "\\\\\\.");
+		//escaped = pageid.replace(/\//g, "\\\/");
 		return escaped;
 	};
 	
@@ -370,7 +369,7 @@ sakai.site = function(){
 				// Sort site objects by their path
 				var compareURL = function(a,b) {
 					return a.path>b.path ? 1 : a.path<b.path ? -1 : 0;
-				}
+				};
 				temp.sort(compareURL);
 								
 				// Create site_info object, the unique key being the partial path of the page from the root of the site 
@@ -390,7 +389,7 @@ sakai.site = function(){
 						counter++;
 					}
 					return counter;
-				}
+				};
 				
 				if (pageToOpen){
 					// Open page
@@ -413,14 +412,14 @@ sakai.site = function(){
 	};
 	
 	var doCorrectSort = function(a,b){
-		if (parseInt(a.position) > parseInt(b.position)){
+		if (parseInt(a.position, 10) > parseInt(b.position, 10)){
 			return 1;
-		} else if (parseInt(a.position) < parseInt(b.position)){
+		} else if (parseInt(a.position, 10) < parseInt(b.position, 10)){
 			return -1; 
 		} else {
 			return 0;
 		}
-	}
+	};
 	
 	
 	
@@ -528,9 +527,9 @@ sakai.site = function(){
 		if (!pageid) {
 			var lowest = false;
 			for (var i in sakai.site.site_info._pages) {
-				if (lowest === false || parseInt(sakai.site.site_info._pages[i].position) < lowest){
+				if (lowest === false || parseInt(sakai.site.site_info._pages[i].position, 10) < lowest){
 					pageid = i;
-					lowest = parseInt(sakai.site.site_info._pages[i].position);
+					lowest = parseInt(sakai.site.site_info._pages[i].position, 10);
 				}
 			}
 		}
@@ -593,7 +592,7 @@ sakai.site = function(){
 						$dashboard_options.show();
 					}
 					$.ajax({
-						url: sakai.site.urls.DASHBOARD_STATE(),
+						url: sakai.site.urls.WEBPAGE_CONTENT(),
 						cache: false,
 						success: function(data){
 						    displayDashboard(data, true);
@@ -673,12 +672,12 @@ sakai.site = function(){
 		    'name': id,
 		    'visible': 'block',
 		    'uid': "id" + Math.random() * 99999999999999999
-		}
+		};
 		$("#" + sakai.site.selectedpage).remove();
-		sakai.site.portaljsons[sakai.site.selectedpage].columns["column1"].push(w);
+		sakai.site.portaljsons[sakai.site.selectedpage].columns.column1.push(w);
 		showportal(sakai.site.portaljsons[sakai.site.selectedpage]);
 		saveState();
-	    }
+	    };
 	    
 	    var renderGoodiesEventHandlers = function(){
 	    
@@ -730,11 +729,11 @@ sakai.site = function(){
 		    // or whether the current widget is not on the dashboard (and thus show the Add row)
 		    var json = sakai.site.portaljsons[sakai.site.selectedpage];
 		    for (var c in json.columns) {
-			for (var ii = 0; ii < json.columns[c].length; ii++) {
-			    if (json.columns[c][ii].name === l) {
-				alreadyIn = true;
-			    }
-			}
+				for (var ii = 0; ii < json.columns[c].length; ii++) {
+				    if (json.columns[c][ii].name === l) {
+					alreadyIn = true;
+				    }
+				}
 		    }
 		    if (Widgets.widgets[l].siteportal) {
 			var index = addingPossible.items.length;
@@ -792,20 +791,20 @@ sakai.site = function(){
 				
 				if (node && node.style && $(node).hasClass("fl-widget") && $(node).is(":visible")) {
 				
-				    widgetdisplay = "block";
+				    var widgetdisplay = "block";
 				    var nowAt = 0;
 				    var id = node.style.display;
 				    var uid = node.id.split("_")[1];
 				    for (var y = 0; y < node.childNodes.length; y++) {
-					if (node.childNodes[y].style) {
-					    if (nowAt == 1) {
-						if (node.childNodes[y].style.display.toLowerCase() === "none") {
-						    widgetdisplay = "none";
+						if (node.childNodes[y].style) {
+						    if (nowAt === 1) {
+								if (node.childNodes[y].style.display.toLowerCase() === "none") {
+								    widgetdisplay = "none";
+								}
+								uid = node.childNodes[y].id.split("_")[0];
+						    }
+						    nowAt++;
 						}
-						uid = node.childNodes[y].id.split("_")[0];
-					    }
-					    nowAt++;
-					}
 				    }
 				    
 				    var c = {
@@ -832,7 +831,7 @@ sakai.site = function(){
 		    sakai.site.portaljsons[sakai.site.selectedpage] = o;
 		    
 		    //Save the prefs.
-		    sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "state", $.toJSON(o), checkSaveStateSuccess);
+		    sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", $.toJSON(o), checkSaveStateSuccess);
 		    
 		}
 		
@@ -846,42 +845,43 @@ sakai.site = function(){
 		if (!success) {
 		    window.alert("Connection with the server was lost");
 		}
+		else {
+			$.ajax({
+					url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage + "/content.save.html",
+					type: 'POST',
+					error: function(){
+						alert("Connection with the server was lost.");
+					}
+				});
+			}
 	    };
 	    
+		
 	    /**
 	     * Displays a dashboard page.
 	     * @param {Object} response Content retrieved from server.
 	     * @param {Object} exists Wether the request was succesful or not.
 	     */
 	    var displayDashboard = function(response, exists){
-		if (exists) {
-		    var json = $.evalJSON(response);
-		    try {
-			sakai.site.portaljsons[sakai.site.selectedpage] = json;
-			var cleanContinue = true;
-			for (var c in json.columns) {
-			    for (var pi in json.columns[c]) {
-				if (pi != "contains") {
-				    if (!json.columns[c][pi].uid) {
-					cleanContinue = false;
-				    }
-				}
+			if (exists) {
+			    var json = $.evalJSON(response);
+			    try {
+					sakai.site.portaljsons[sakai.site.selectedpage] = json;
+					showportal(json);
+			    } 
+			    catch (err) {
+					showportal(json);
 			    }
 			}
-			if (cleanContinue) {
-			    doportal = true;
+			else {
+			    // The dashboard has no content yet, create some dummy content.
+			    showInit();
 			}
-			showportal(json);
-		    } 
-		    catch (err) {
-			showportal(json);
-		    }
-		}
-		else {
-		    // The dashboard has no content yet, create some dummy content.
-		    showInit();
-		}
 	    };
+		
+		sakai.site._displayDashboard = function(response, exists) {
+			displayDashboard(response, exists);
+		};
 	    
 	    /**
 	     * Functionality to show the actual columns and widgets.
@@ -936,7 +936,7 @@ sakai.site = function(){
 				    var lowestcolumn = -1;
 				    for (var iii = 0; iii < columns.length; iii++) {
 					var number = columns[iii].length;
-					if (number < lowestnumber || lowestnumber == -1) {
+					if (number < lowestnumber || lowestnumber === -1) {
 					    lowestnumber = number;
 					    lowestcolumn = iii;
 					}
@@ -998,7 +998,7 @@ sakai.site = function(){
 		    final2.me = sdata.me;
 		    
 		    var el = document.createElement("div");
-		    el.id = sakai.site.selectedpage// sakai.site.escapePageId(sakai.site.selectedpage);
+		    el.id = sakai.site.escapePageId(sakai.site.selectedpage);
 		    el.className = "content";
 		    el.innerHTML = $.Template.render("dashboard_container_template", final2);
 		    
@@ -1140,22 +1140,6 @@ sakai.site = function(){
 		
 	    };
 	    
-	    
-	    /**
-	     * Start building the layout.
-	     * @param {boolean} success
-	     */
-	    var buildLayout = function(success){
-		if (success) {
-		    showportal(sakai.site.portaljsons[sakai.site.selectedpage]);
-		}
-		else {
-		    alert("An error occured while saving your dashboard.");
-		}
-		
-	    };
-	    
-	    
 	    /**
 	     * If there is no prefered state for this site then we show a default one.
 	     */
@@ -1192,9 +1176,11 @@ sakai.site = function(){
 		jsonobj.layout = layout;
 		portaljson = jsonobj;
 		sakai.site.portaljsons[sakai.site.selectedpage] = jsonobj;
-		sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "state", $.toJSON(jsonobj), buildLayout);
+		showportal(sakai.site.portaljsons[sakai.site.selectedpage]);
+		saveState();
 	    };
 	    
+		
 	    /////////////////////////////
 	    // Change dashboard layout //
 	    /////////////////////////////
@@ -1398,7 +1384,7 @@ sakai.site = function(){
 	var doSearch = function(){
 		var search = $("#search_filed").val();
 		document.location = "/dev/search_content.html##1|" + search + "|/sites/" + sakai.site.currentsite.id;
-	}
+	};
 	
 	
 	/////////////////////////////

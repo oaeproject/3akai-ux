@@ -2092,27 +2092,30 @@ sakai.site.site_admin = function(){
 			success : function(data) {
 				
 				var json = $.evalJSON(data);
-				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
-				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
+				
+				var type = sakai.site.site_info._pages[sakai.site.selectedpage].type;
+				if (type === "webpage") {
+					$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
+					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"), null, sakai.site.currentsite.id + "/_widgets");
+					sakai.site.pagecontents[sakai.site.selectedpage] = json.data;
+				}
+				else if (type === "dashboard") {
+					// Remove previous dashboard
+					$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
+					// Render new one
+					sakai.site._displayDashboard (json.data, true);
+				}
 				
 				// Save new version of this page
-				var newfolderpath = sakai.site.currentsite.id + "/_pages/"+ sakai.site.selectedpage.split("/").join("/_pages/");
-
+				var newfolderpath = sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/");
 				sdata.widgets.WidgetPreference.save("/sites/" + newfolderpath, "content", json.data, function(){
-									
 					// Check in the page
 					$.ajax({
-						url: newfolderpath + "/content.save.html",
-						type: 'POST'
+							url: newfolderpath + "/content.save.html",
+							type: 'POST'
 					});
-							
 				}, null, "x-sakai-page");
-				
-				sakai.site.pagecontents[sakai.site.selectedpage] = json.data;
-				
 				sakai.site.resetVersionHistory();
-				
-				
 			},
 			error : function(data){
 				alert("Revision History: An error has occured");
@@ -2132,8 +2135,15 @@ sakai.site.site_admin = function(){
 		   	url : sakai.site.urls.CURRENT_SITE_PAGES() + "/content.version.," + version + ",.json",
 			success : function(data) {
 				var json = $.evalJSON(data);
-				$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
-				sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
+				var type = sakai.site.site_info._pages[sakai.site.selectedpage].type;
+				if (type === "webpage") {
+					$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(json.data);
+					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"), null, sakai.site.currentsite.id + "/_widgets");
+				}
+				else if (type === "dashboard") {
+					$("#" + sakai.site.escapePageId(sakai.site.selectedpage)).remove();
+					sakai.site._displayDashboard (json.data, true);
+				}
 			},
 			error : function(data){
 				alert("An error has occured while trying to cahnge version preview");

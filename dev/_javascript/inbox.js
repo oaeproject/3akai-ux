@@ -147,6 +147,8 @@ sakai.inbox = function() {
     var inboxGeneralMessagesErrorReadFail = inboxGeneralMessagesError + "_read_fail";
     var inboxGeneralMessagesNrNewMessages = inboxGeneralMessages + "_nr_new_messages";
     var inboxGeneralMessagesDeleted = inboxGeneralMessages + "_deleted";
+    var inboxGeneralMessagesDeleted_1 = inboxGeneralMessagesDeleted + "_1";
+    var inboxGeneralMessagesDeleted_x = inboxGeneralMessagesDeleted + "_x";
     var inboxGeneralMessagesSent = inboxGeneralMessages + "_sent";
     var inboxGeneralMessagesDeletedFailed = inboxGeneralMessagesDeleted + "_failed";
     var inboxGeneralMessagesSendFailed = inboxGeneralMessages + "_send_fail";
@@ -200,6 +202,14 @@ sakai.inbox = function() {
      * @param {Number} timeoutthe amout of milliseconds you want the message to be displayed, 0 = always (till the next message)
      */
     var showGeneralMessage = function(msg, isError, timeout) {
+		var type = "normal";
+		var stay = false;
+		if (isError) {
+			type = "error";
+			stay = true;
+		}
+		sakai.notifications.showNotification("Messaging update", msg, type, stay, "/dev/_images/inbox_folders_messages.gif");
+		/*
         $(inboxGeneralMessage).html(msg);
         if (isError) {
             $(inboxGeneralMessage).addClass(inboxMessageError);
@@ -214,6 +224,7 @@ sakai.inbox = function() {
         if (typeof timeout === "undefined" || timeout !== 0) {
             $(inboxGeneralMessage).fadeOut(generalMessageFadeOutTime);
         }
+        */
     };
     
     /**
@@ -484,15 +495,8 @@ sakai.inbox = function() {
 			message.category = "Chat";
 		}
         
-        if (message["sakai:previous"]) {
-			if (typeof(message["sakai:previous"]) === "string") {
-				message["sakai:previous"] = $.evalJSON(message["sakai:previous"]);
-			} else {
-				message["sakai:previous"] = message["sakai:previous"];
-			}
-		 	for (var i = 0; i < message["sakai:previous"].length; i++) {
-                message["sakai:previous"][i] = formatMessage(message["sakai:previous"][i]);
-            }
+        if (message["sakai:previousmessage"]) {
+            message["sakai:previousmessage"] = formatMessage(message["sakai:previousmessage"]);
         }
 		
 		// A chat message doesn't really have subject, only a body.
@@ -500,6 +504,14 @@ sakai.inbox = function() {
 			message.subject = "Chat message";
 		}      
         
+		// pictures
+		if (message.userFrom.picture && $.evalJSON(message.userFrom.picture).name) {
+			message.userFrom.photo = $.evalJSON(message.userFrom.picture).name;
+		}
+		if (message.userTo.picture && $.evalJSON(message.userTo.picture).name) {
+			message.userTo.photo = $.evalJSON(message.userTo.picture).name;
+		}
+		
         return message;
     };
     
@@ -514,14 +526,14 @@ sakai.inbox = function() {
 			}
 		}
 		
-        for (var i = 0; i < response.results.length; i++) {
+        for (var j = 0; j < response.results.length; j++) {
 			//	temporary internal id.
             //	Use the name for the id.
-            response.results[i].nr = i;
-			response.results[i].subject = response.results[i]["sakai:subject"];
-			response.results[i].body = response.results[i]["sakai:body"];
-			response.results[i].messagebox = response.results[i]["sakai:messagebox"];
-            response.results[i] = formatMessage(response.results[i]);
+            response.results[j].nr = j;
+			response.results[j].subject = response.results[j]["sakai:subject"];
+			response.results[j].body = response.results[j]["sakai:body"];
+			response.results[j].messagebox = response.results[j]["sakai:messagebox"];
+            response.results[j] = formatMessage(response.results[j]);
         }
                         
         allMessages = response.results;
@@ -792,7 +804,8 @@ sakai.inbox = function() {
      */
     var markMessageRead = function(message, id) {
         var postParameters = {
-            "sakai:read":true
+            "sakai:read":true,
+			"sling:resourceType": "sakai/message"
         };
         //    To mark a message as read we do a request to the sdata functions.
         //    We use the Properties function to change the messageRead variable.
@@ -883,28 +896,19 @@ sakai.inbox = function() {
 			}
             
             //    This message has some replies attached to it.           
-            if (message["sakai:previous"]) {
+            if (message["sakai:previousmessage"]) {
                 $(inboxSpecificMessagePreviousMessages).show();
                 var replieshtml = "";
                 var replies = {};
                 //    We render the chat replies slightly differently.
                 if (message["sakai:category"] === Config.Messages.Categories.chat) {
-                    replies = {
-                        "replies": message.parts
-                    };
-		$(".message-options").hide();
-		$("#inbox_message_previous_messages").hide();
-                replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, replies);
-                    
-            }
+					$(".message-options").hide();
+					$("#inbox_message_previous_messages").hide();
+	                replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, message);   
+	            }
                 else {
-		    var parts = message["sakai:previous"];
-                    for (var i = 0; i < parts.length; i++) {
-                        replies = {
-                            "reply": parts[i]
-                        };
-                        replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplate, replies);
-                    }
+		    		var json = {'message' : message};
+                    replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplate, json);
                 }
                 $(inboxSpecificMessageReplies).html(replieshtml);
             }
@@ -962,19 +966,10 @@ sakai.inbox = function() {
      * @param {Array} to	Array with the uuids of the users to post a message to.
      * @param {String} subject    The subject for this message.
      * @param {String} body    The text that this message will contain.
+     * @param {String} category The category for this message.
+     * @param {String} reply The id of the message you are replying on.
      */
     var sendMessage = function(to, subject, body, category, reply) {
-		var parts = [];
-		if (selectedMessage["sakai:previous"]) {
-			parts = selectedMessage["sakai:previous"];
-		}
-		for (var i = 0; i < parts.length; i++){
-			if (typeof parts[i] !== "string"){
-				parts[i] = $.toJSON(parts[i]);
-			}
-		}
-		parts.unshift($.toJSON(selectedMessage));
-		
 		var toSend = {
 			"sakai:type": "internal",
 			"sakai:sendstate": "pending",
@@ -983,9 +978,12 @@ sakai.inbox = function() {
 			"sakai:from": sdata.me.user.userid,
 			"sakai:subject": subject,
 			"sakai:body":body,
-			"sakai:category":"message",
-			"sakai:previous": $.toJSON(parts)
+			"sakai:category":"message"
 		};
+		
+		if (reply) {
+			toSend["sakai:previousmessage"] = reply;
+		}
 					
 		$.ajax({
 			url: "/_user/message.create.html",
@@ -1024,7 +1022,15 @@ sakai.inbox = function() {
 			currentPage = currentPage + 1;
             showPage(currentPage);
             
-            showGeneralMessage($(inboxGeneralMessagesDeleted).text(), false, 5000);
+			var txt = "";
+			if (pathToMessages.length === 1) {
+				txt = $(inboxGeneralMessagesDeleted_1).text();
+			}
+			else {
+				txt = pathToMessages.length + $(inboxGeneralMessagesDeleted_x).text();
+			}
+			
+            showGeneralMessage(txt, false, 5000);
         }
         else {
             showGeneralMessage($(inboxGeneralMessagesDeletedFailed).text(), true);
@@ -1037,33 +1043,22 @@ sakai.inbox = function() {
      * @param {int} index The index of the array that needs to be deleted.
      */
     var hardDeleteMessage = function(pathToMessages) {
-		var toDelete = pathToMessages.length;
-		var deleted = 0;
-		for (var i = 0; i < pathToMessages.length; i++){
-			$.ajax({
-	            url: "/_user/message/" + pathToMessages[i],
-	            type: "POST",
-	            success: function(data) {
-					deleted++;
-	                if (deleted === toDelete) {
-	                    //    This was the last delete.
-	                    //    Although it is not sure this will be the last request that we handle, we assume it is.
-	                    deleteMessagesFinished(pathToMessages, true);
-	                }
-	            },
-	            error: function(status) {
-	                deleted++;
-	                if (deleted === toDelete) {
-	                    //    This was the last delete.
-	                    //    Although it is not sure this will be the last request that we handle, we assume it is.
-	                    deleteMessagesFinished(pathToMessages, false);
-	                }
-	            },
-				data : {
-					":operation": "delete"
-				}
-	        });	
+		for (var i = 0,j=pathToMessages.length;i<j;i++) {
+			pathToMessages[i] = "/_user/message/" + pathToMessages[i];
 		}
+		$.ajax({
+            url: "/system/batch/delete",
+            type: "POST",
+            success: function(data) {
+				deleteMessagesFinished(pathToMessages, true);
+            },
+            error: function(status) {
+               deleteMessagesFinished(pathToMessages, false);
+            },
+			data : {
+				"resources": pathToMessages
+			}
+        });	
     };
     
     /**
@@ -1087,7 +1082,7 @@ sakai.inbox = function() {
 			var deletedUnreadAnnouncements = 0;
 			var deletedUnreadInvitations = 0;
 			
-			for (i = 0; i < allMessages.length; i++){
+			for (var i = 0; i < allMessages.length; i++){
 				for (var m = 0; m < pathToMessages.length; m++){
 					if (allMessages[i].id === pathToMessages[m]){
 						if (allMessages[i]["sakai:read"] === "false" && allMessages[i]["sakai:category"]){
@@ -1283,7 +1278,7 @@ sakai.inbox = function() {
         //	we want to send a message.
         var subject = $(inboxSpecificMessageComposeSubject).val();
         var body = $(inboxSpecificMessageComposeBody).val();
-        sendMessage([selectedMessage.from], subject, body, Config.Messages.Categories.message, selectedMessage.pathToMessage);
+        sendMessage([selectedMessage.from], subject, body, Config.Messages.Categories.message, selectedMessage["sakai:id"]);
         
         //	Clear all the input fields
         clearInputFields();
@@ -1312,5 +1307,4 @@ sakai.inbox = function() {
     
     doInit();   
 };
-
 sdata.container.registerForLoad("sakai.inbox");

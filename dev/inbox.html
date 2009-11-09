@@ -15,6 +15,11 @@
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.notifications.css" />
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.css" />
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.save_as_template.css" />
+	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.page_from_template.css" />	
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.inbox.css" />
@@ -38,6 +43,7 @@
 	<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
 	<script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
+	<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/notifications.js"></script>
 	
 </head>
 
@@ -54,9 +60,6 @@
 			<!-- TITLE BAR  -->
 			<div class="site_heading">
 				<h1 id="sitetitle">My Messages</h1>
-				
-				<!-- General messages -->
-				<div id="inbox_general_message"></div>
 			</div>
 		</div>
 	</div>
@@ -123,6 +126,11 @@
 						
 						<!-- Buttons -->
 						<div class="top_button_bar">
+							<!-- General msg -->
+							<span class="light-button">
+								<a href="javascript:;" id="inbox_general_message" style="display:none;">The conversation has been marked as read.</a>
+							</span>
+							
 							<!-- Delete-->
 							<a class="inbox_inbox_delete" href="javascript:;" id="inbox_inbox_delete">Delete</a>
 						</div>
@@ -264,13 +272,13 @@
 							<span style="float:left;">
 								<a href="javascript:;">
 								{if r.userFrom.picture}
-												<img src="/sdata/f/_private/${r.userFrom.userStoragePrefix}${r.userFrom.picture._name}" class="sender-picture" id="inbox_message_picture" />
+												<img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" class="sender-picture" id="inbox_message_picture" />
 											{else}
 												<img src="/dev/_images/person_icon.jpg" class="sender-picture" id="inbox_message_picture" />
 											{/if}
 							</span> 
 							<div class="inbox_message_user">
-								<a href="/dev/profile.html?user=${r.from}" class="sender-name" id="inbox_message_from">${r.userFrom.firstName} ${r.userFrom.lastName}</a><br />
+								<a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${r.userFrom.firstName} ${r.userFrom.lastName}</a><br />
 								<div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
 							</div>
 						</div>
@@ -280,22 +288,22 @@
 							</div>
 							<div class="sender-message">
 								<div class="message-body" style="padding-top:0px">
-									<div class="message-header" id="inbox_message_subject">${r.subject}</div>                
-									<div id="inbox_message_body">${r.body}</div>
+									<div class="message-header" id="inbox_message_subject">${r["sakai:subject"]}</div>                
+									<div id="inbox_message_body">${r["sakai:body"]}</div>
 									<div class="message-options" style="display:none">
-										<a href="javascript:;" id="inbox_message_option_reply_${r.id}">Reply</a>                   
+										<a href="javascript:;" id="inbox_message_option_reply_${r["sakai:id"]}">Reply</a>                   
 									</div>
 								</div> 
 							</div> 
 						</div>
 							
-						{if r.parts}					
-							${showReply(r.parts[0])}
+						{if r["sakai:previousmessage"]}					
+							${showReply(r["sakai:previousmessage"])}
 						{/if}
 						
 						{/macro}
 						
-						${showReply(reply)}
+						${showReply(message["sakai:previousmessage"])}
 						--></div>
 					
 						<div id="inbox_compose_replies_template_chats"><!--
@@ -367,7 +375,8 @@
 	<div id="inbox_generalmessages_error_general" style="display:none;"><b>An error has occurred.</b> Please try again later.</div>
 	<span id="inbox_generalmessages_error_read_fail" style="display:none;">Failed to mark this message as read.</span>
 	<span id="inbox_generalmessages_error_send_fail" style="display:none;">Unable to send your message.</span>
-	<span id="inbox_generalmessages_deleted" style="display:none;">The message(s) has/have been deleted.</span>
+	<span id="inbox_generalmessages_deleted_1" style="display:none;">The message has been deleted.</span>
+	<span id="inbox_generalmessages_deleted_x" style="display:none;"> messages have been deleted.</span>
 	<span id="inbox_generalmessages_deleted_failed" style="display:none;">Unable to delete message(s).</span>
 	<div id="inbox_generalmessages_nr_new_messages" style="display:none;"> <span class="inbox_bold inbox_filter_nrMessages">(__NR__)</span></div>
 	<span id="inbox_generalmessages_sent" style="display:none;">Your message has been sent.</span>				
