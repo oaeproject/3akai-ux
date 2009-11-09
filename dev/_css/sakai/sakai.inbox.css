@@ -2,7 +2,7 @@
 
 /** CONTAINER **/ 
 .fixed-container
-{ background: #fff; }
+{ background: #fff;}
 
 /** HEADING **/
 .inbox_main .site_heading
@@ -16,7 +16,7 @@
 { padding: 0; }
 
 .inbox_main .fl-col-main
-{ margin-top: 8px; }
+{ margin-top: 8px;}
 
 
 
@@ -144,16 +144,16 @@
 { width: 3%; }
 
 .inbox_main .inbox-table #inbox_table_header_from
-{ width:27%; border-left: 1px solid #D4DADE; color: #666666; }
+{ width:20%; border-left: 1px solid #D4DADE; color: #666666; }
 
 .inbox_main .inbox-table #inbox_table_header_subject
-{ width:40%; border-left: 1px solid #D4DADE; color: #666666; }
+{ width:37%; border-left: 1px solid #D4DADE; color: #666666; }
 
 .inbox_main .inbox-table #inbox_table_header_type
 { width:15%; border-left: 1px solid #D4DADE; color: #666666; }
 
 .inbox_main .inbox-table #inbox_table_header_date
-{ width:15%; border-left: 1px solid #D4DADE; color: #666666; }
+{ width:25%; border-left: 1px solid #D4DADE; color: #666666; }
 
 /** List **/
 .inbox_main .inbox-table th
@@ -162,15 +162,19 @@
 .inbox_main .inbox-table tr
 { color: #666; border-bottom: 1px solid #d5dbdf; }
 
+.inbox_main .inbox-table tr.inbox_message:hover {
+	background-color:#d9eaf5;cursor:pointer;
+}
 .inbox_main .inbox-table td
 { border: none;  color: #666; text-align: left; font-size: 1em; }
 
-.inbox_main .inbox-table .inbox-subject-read a
-{ color: #058ec4; }
+.inbox_main .inbox-table tr.inbox-subject-read *
+{ font-weight:normal;}
 
-.inbox_main .inbox-table .inbox-subject-unread a
-{ color: #058ec4; font-weight: bold; }
+.inbox_main .inbox-table tr.inbox-subject-unread *
+{ font-weight: bold; }
 
+.inbox_main .inbox-table td a.inbox_inbox_message {color:#058EC4}
 
 .inbox_main .inbox-table .inbox_message_none
 { text-align: center; border: none; height: 370px; }
@@ -327,40 +331,6 @@
 
 .inbox_normal_message
 { padding:10px; border:3px solid #00ff00; background-color:#d9f7d8; width:80%;float:left; }
-
-
-
-/** PAGER **/
-.ac_results
-{ padding: 0px; border: 1px solid black; background-color: white; overflow: hidden; z-index: 99999; }
-
-.ac_results ul
-{ width: 100%; list-style-position: outside; list-style: none; padding: 0; margin: 0; }
-
-/* for .ac_results li:
-	if width will be 100% horizontal scrollbar will apear 
-	when scroll mode will be used
-
-	it is very important, if line-height not setted or setted 
-	in relative units scroll will be broken in firefox
-*/
-
-.ac_results li
-{ margin: 0px; padding: 2px 5px; cursor: default; display: block; font: menu; font-size: 12px; line-height: 16px; overflow: hidden; }
-
-.ac_loading
-{ background-color: #eee; }
-
-.ac_odd
-{ background-color: #eee; }
-
-.ac_over
-{ background-color: #058ec4; }
-
-
-/** ------------------- **/
-
-
 
 
 .inbox_main .user-personal a

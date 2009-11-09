@@ -25,7 +25,7 @@ sakai.inbox = function() {
     // Configuration variables 	//
     //////////////////////////////	
     
-    var messagesPerPage = 8; //	The number of messages per page.
+    var messagesPerPage = 13; //	The number of messages per page.
     var allMessages = []; //	Array that will hold all the messages.
     var me = sdata.me;
     var generalMessageFadeOutTime = 3000; //	The amount of time it takes till the general message box fades out
@@ -273,7 +273,8 @@ sakai.inbox = function() {
         selectedCategory = category;
         
         //	Display first page.
-        getCount(read);
+        //getCount(read);
+		getAllMessages();
         
         //	show the inbox pane
         showPane(inboxPaneInbox);
@@ -479,19 +480,19 @@ sakai.inbox = function() {
         //Jan 22, 2009 10:25 PM
         message.date = formatDate(d, "M j, Y G:i A");
        
-        if (message["sakai:read"] === "false") {
-            message.read = false;
+        if (message["sakai:read"] === "true" || message["sakai:read"] === true) {
+            message.read = true;
         } else {
-			message.read = true;
+			message.read = false;
 		}
 		
-		if (message["sakai:category"] === "message"){
+		if (message["sakai:category"] === "message" || message["sakai:category"] === undefined){
 			message.category = "Message";
 		} else if (message["sakai:category"] === "announcement"){
 			message.category = "Announcement";
 		} else if (message["sakai:category"] === "invitation"){
 			message.category = "Invitation";
-		} else if (message["sakai:category"] === "chat" || message["sakai:category"] === undefined){
+		} else if (message["sakai:category"] === "chat"){
 			message.category = "Chat";
 		}
         
@@ -603,7 +604,7 @@ sakai.inbox = function() {
 			box = "trash";
 		}
 		
-		var url = "/_user/message/box.json?box=" + box + "&items=5&page=" + currentPage;
+		var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
 		
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
@@ -624,7 +625,7 @@ sakai.inbox = function() {
 			} else if (selectedCategory === "Chat"){
 				cats = "chat";
 			}
-			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=5&page=" + currentPage;
+			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
 		}
 		
         $.ajax({
@@ -716,7 +717,7 @@ sakai.inbox = function() {
      *         (Comma seperated for every value you have in selectedtype and selectedcategory)
      */
     getCount = function(read) {
-		
+		console.log("Getting count.");
 		var box = "inbox";
 		if (selectedType === "sent"){
 			box = "outbox";
@@ -724,7 +725,7 @@ sakai.inbox = function() {
 			box = "trash";
 		}
 		
-		var url = "/_user/message/box.json?box=" + box + "&items=5&page=" + currentPage;
+		var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
 		
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
@@ -745,7 +746,7 @@ sakai.inbox = function() {
 			} else if (selectedCategory === "Chat"){
 				cats = "chat";
 			}
-			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=10&page=" + currentPage;
+			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "0&page=" + currentPage;
 		}
 		
         //	remove previous messages
@@ -820,8 +821,8 @@ sakai.inbox = function() {
 					}
 				}
                 //	mark the message in the inbox table as read.
-                $(inboxTableSubject + id).addClass(inboxTablesubjectReadClass);
-                $(inboxTableSubject + id).removeClass(inboxTablesubjectUnreadClass);
+                $(inboxTableMessageID + id).addClass(inboxTablesubjectReadClass);
+                $(inboxTableMessageID + id).removeClass(inboxTablesubjectUnreadClass);
                 
                 if (message["sakai:category"] === "message"){
 					unreadMessages -= 1;

@@ -10,9 +10,9 @@
 
 	</div>
 	<div id="discussion_container_template" style="display:none"><!--
-	{macro displayPost(o, first)}
+	{macro displayPost(o, first, current)}
 			
-				<div class="discussion_post" id="discussion_post${o.post["sakai:postid"]}">
+				<div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
 					<div class="discussion_header">
 						<div class="discussion_left">
 							{if loggedIn}
@@ -45,8 +45,8 @@
 							{if o.post.nrOfReplies != "0"}
 								<span class="discussion_showAllContainer"> 
 								(<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
-									<span id="discussion_toggle_hideall_${o.post["sakai:id"]}">Hide all</span>
-									<span class="discussion_toggle_showall" id="discussion_toggle_showall_${o.post["sakai:id"]}">Show all</span>
+									<span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">Hide all</span>
+									<span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">Show all</span>
 								</a>)
 								</span>
 							{/if}
@@ -55,7 +55,12 @@
 					<div class="discussion_content">
 						<div id="discussion_content_container_${o.post["sakai:id"]}">
 							{if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
-								<p class="discussion_content_infoDeleted">This post has been deleted. Only site collaborators can see this post.
+								<p class="discussion_content_infoDeleted">
+								{if o.post["sakai:from"] === current.user.userid}
+									You have deleted your post.
+								{else}
+									This post has been deleted. Only site collaborators can see this post.
+								{/if}
 								{if o.post.canDelete && o.post.canDelete === true}
 									<br />You can return it by clicking the undelete link.
 								{/if}
@@ -83,17 +88,17 @@
 					</div>
 				</div>
 			
-			<div class="discussion_posts">	
+			<div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">	
 				{for reply in o.replies}
-					${displayPost(reply, false)}
+					${displayPost(reply, false, current)}
 				{/for}	
  			</div>
 	{/macro}
 	
 	{if posts.length == 0}
 		No posts yet.
-	{else}	
-		${displayPost(posts[0], true)}
+	{else}
+		${displayPost(posts[0], true, curr)}
  	{/if}
 --></div>
 	
