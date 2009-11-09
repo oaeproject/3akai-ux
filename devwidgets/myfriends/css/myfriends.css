@@ -21,7 +21,7 @@
 
 /* Friends list */
 .myfriends_list_contact {float:left;margin-right:10px;overflow:hidden;padding:0 20px 5px 0;width:70px;}
-.myfriends_list_contact .myfriends_list_contact_picture {margin:0;padding:0 0 10px;}
+.myfriends_list_contact .myfriends_list_contact_picture {margin:0;padding:0;display: block;}
 .myfriends_list_contact .myfriends_list_contact_picture img {height:50px;width:50px;}
 .myfriends_list_contact .myfriends_list_contact_name {color:#39C;font-size:0.95em;font-weight:bold;}
 
