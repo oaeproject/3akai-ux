@@ -1,0 +1,43 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* Sakai Base */
+
+/* Dialog */
+.dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
+.jqmOverlay{background-color:#000;}
+
+/* Dialog header */
+.dialog_header{background:url(/dev/_images/dialog_tr.png) top right no-repeat;padding:0 8px 0 0;}
+.dialog_header_inner{background:url(/dev/_images/dialog_tl.png) top left no-repeat;}
+.dialog_header h1{color:#fff;display:block;font-size:1.1em;margin:0;padding:15px 20px;}
+.dialog_header .dialog_close_image{background:url(/dev/_images/close_dialog.png) no-repeat top right;cursor:pointer;display:block;height:15px;overflow:hidden;position:absolute;right:20px;top:17px;text-indent:-5000px;width:14px;}
+
+/* Dialog content */
+.dialog_content{background-color:#fff;border-left:3px #454a4f solid;border-right:3px #454a4f solid;padding:20px;}
+.dialog_content h1{font-size:1.1em;font-weight:bold;color:#333;margin:0;padding:5px 0;}
+.dialog_content textarea {height:80px;width:98%;}
+
+/* Dialog buttons */
+.dialog_buttons{clear:both;margin-top:20px;}
+.dialog_buttons .button,.dialog_buttons .button-default{background:#FFF url(/dev/_images/custom_button_gradient.png) repeat-x scroll center bottom;border:1px solid #CCC;display:inline;float:none;font-weight:normal;cursor:pointer;padding:3px 8px;width:auto}
+.dialog_buttons .button-default{color:#222;}
+
+/* Dialog footer */
+.dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
+.dialog_footer_inner{background:url(/dev/_images/dialog_bl.png) top left no-repeat;height:6px;}

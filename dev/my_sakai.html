@@ -11,9 +11,9 @@
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.css" />
 		<link rel="stylesheet" type="text/css" href="/devwidgets/chat3/css/chat.css" />
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 
 		<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
 		<script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
@@ -34,8 +34,10 @@
 
 		<div id="change_layout_dialog" class="dialog">
 			<div class="dialog_header">
-				<h1>Change layout</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<div class="dialog_header_inner">
+					<h1>Change layout</h1>
+					<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+				</div>
 			</div>
 			<div class="dialog_content">
 				<div class="add-tools-right">
@@ -44,12 +46,14 @@
 						<div id="layouts_list"></div>
 					</div>
 				</div>
-			</div><!-- /lightbox-container -->
-			<div class="dialog_footer">
-				<div class="buttonBar">
+				<div class="dialog_buttons">
 					<a href="javascript:;" id="select-layout-finished" class="button-default">Save</a>
 					<a href="javascript:;" id="select-layout_cancel" class="button jqmClose">Cancel</a>
 				</div>
+			</div>
+
+			<div class="dialog_footer">
+				<div class="dialog_footer_inner"><!-- --></div>
 			</div>
 		</div>
 		<!-- Change layout -->
@@ -85,13 +89,26 @@
 		    {/for}
 		--></div>
 
-		<!-- Add goodies -->
+		<!-- ADD GOODIES DIALOG -->
 		<div id="add_goodies_dialog" class="dialog add_goodies">
+			
+			<!-- DIALOG HEADER -->
 			<div class="dialog_header">
-				<h1>Add Goodies</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<div class="dialog_header_inner">
+					<h1>Add Goodies</h1>
+					<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+				</div>
 			</div>
-			<div id="add_goodies_body" class="dialogue_body">
+			
+			<!-- DIALOG CONTENT -->
+			<div class="dialog_content">
+				<div id="add_goodies_body" class="dialog_body">
+				</div>
+			</div>
+			
+			<!-- DIALOG FOOTER -->
+			<div class="dialog_footer">
+				<div class="dialog_footer_inner"><!-- --></div>
 			</div>
 
 			<div id="add_goodies_body_template"><!--
@@ -104,8 +121,8 @@
 				{/if}
 				<td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">Add</a></td>
 				<td>
-				<div class="dialogue_add_goodies_title">${i.title}</div>
-				<div class="dialogue_add_goodies_description">
+				<div class="dialog_add_goodies_title">${i.title}</div>
+				<div class="dialog_add_goodies_description">
 				${i.description}
 				</div>
 				</td>
@@ -117,8 +134,8 @@
 				{/if}
 				<td width="80px"><a href="javascript:;" id="btn_remove_${i.id}" class="add-button remove goodies_remove_button">Remove</a></td>
 				<td>
-				<div class="dialogue_remove_goodies_title">${i.title}</div>
-				<div class="dialogue_remove_goodies_description">
+				<div class="dialog_remove_goodies_title">${i.title}</div>
+				<div class="dialog_remove_goodies_description">
 				${i.description}
 				</div>
 				</td>

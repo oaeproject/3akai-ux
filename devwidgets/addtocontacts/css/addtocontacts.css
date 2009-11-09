@@ -21,14 +21,8 @@
 #addtocontacts_dialog h4 {margin-bottom: 10px;}
 #addtocontacts_dialog label {font-weight: bold;}
 #addtocontacts_dialog #addtocontacts_types label {font-weight:normal;}
-#addtocontacts_dialog .dialog_content {padding-bottom:20px;}
-#addtocontacts_dialog .dialog_footer {padding-left:15px;height:40px;}
 #addtocontacts_dialog .addcontact {width:100%;border:0;margin-top:5px;}
 #addtocontacts_profilepicture {margin:10px 5px 0;}
 #addtocontacts_dialog .addtocontacts_piccol {vertical-align:top;width:75px;}
 #addtocontacts_done {background-color:#D9F7D8;border:1px solid #0F0;text-align:center;width:75%;margin:10px auto;padding:10px 0 10px 10px;}
 #addtocontacts_dialog .addtocontacts_bold,#addtocontacts_form_invite {font-weight:700;}
-
-/* Button bar */
-#addtocontacts_dialog .dialog_footer .buttonBar {position:relative;top:5px;padding-bottom:15px;}
-#addtocontacts_dialog .dialog_footer .buttonBar .button {display:inline;float:none;}

@@ -118,11 +118,6 @@
 .dropdown .dropdown_create_sakai_site img {position:relative;top:4px;padding-right:5px;}
 .close {margin-bottom:-25px;position:relative;top:-30px;margin-right:25px;}
 .close_icon {padding-left:5px;position:relative;top:4px;}
-.dialogue_body .dialogue_add_goodies_description {color:#666;font-size:12px;font-weight:100;}
-.dialogue_body .dialogue_remove_goodies_title {color:#999;font-size:14px;font-weight:700;}
-.dialogue_body .dialogue_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
-.dialogue_body .dialogue_add_goodies_title {color:#333;font-size:13px;font-weight:700;}
-.dialogue_body .remove {background:#F8F8F8 none repeat scroll 0 0;}
 .initiate_chat_window,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
 .dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}

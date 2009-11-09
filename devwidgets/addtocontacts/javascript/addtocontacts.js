@@ -40,7 +40,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	var me = sdata.me;
 	var friend = false;
 	var callbackWhenDone = false;
-	var fadeOutTime = 1000;		// The amount of time it takes to fade out the message and hide the layover.
+	var fadeOutTime = 1000; // The amount of time it takes to fade out the message and hide the layover.
 
 	// CSS selectors
 	var addToContacts = "#addtocontacts";
@@ -49,6 +49,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	var addToContactsAdd = addToContacts + "_add";
 	var addToContactsDialog = addToContacts + "_dialog";
 	var addToContactsDone = addToContacts + "_done";
+	var addToContactsDoneContainer = addToContacts + "_done_container";
 	
 	// Form elements
 	var addToContactsForm = addToContacts + "_form";
@@ -110,7 +111,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	 */
 	var contactAdded = function() {
 		$(addToContactsAdd).hide();
-		$(addToContactsDone).show();
+		$(addToContactsDoneContainer).show();
 		$(addToContactsDone).fadeOut(fadeOutTime, function() {
 			// We hide the layover first.
 			// If the callback contains a function the layover won't be in the way and the user will be able to navigate to another page..
@@ -236,7 +237,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 	 */
 	var loadDialog = function(hash) {
 		// Show the form
-		$(addToContactsDone).hide();
+		$(addToContactsDoneContainer).hide();
 		$(addToContactsAdd).show();
 		
 		hash.w.show();

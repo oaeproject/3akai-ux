@@ -13,10 +13,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fluid.text.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
 		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.modal_dialog.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.modal_dialog.page_permissions.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.modal_dialog.save_as_template.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.modal_dialog.page_from_template.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css" />
 		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
 		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search_b.css" />
 		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
@@ -277,16 +274,20 @@
 		
 		<div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1 id="dialog_title"></h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 			<div id="dialog_content" class="dialog_content" style="padding:10px;"></div>
 		</div>
 		
 		<div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Appearance</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 						
 			<div class="dialog_content">
@@ -311,8 +312,10 @@
 		
 		<div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Auto-save</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 						
 			<div class="dialog_content">
@@ -333,8 +336,10 @@
 		
 		<div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Delete a page</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 						
 			<div class="dialog_content">
@@ -355,8 +360,10 @@
 		
 		<div id="link_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Insert a link</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 						
 			<div class="dialog_content">
@@ -379,8 +386,10 @@
 		
 		<div id="move_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Move Page</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 						
 			<div class="dialog_content">
@@ -414,8 +423,10 @@
 		
 		<div class="dialog" id="save_as_template_container">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Save as Template</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 			
 			<div class="dialog_content">
@@ -440,11 +451,13 @@
 
 		<div class="dialog" id="select_template_for_page">
 			<div class="dialog_header">
+			    <div class="dialog_header_inner">
 				<h1>Add page from template</h1>
-				<img src="_images/close_icon.png" class="fl-icon jqmClose" alt="Close Dialog" />
+				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+			    </div>
 			</div>
 			
-			<div class="dialog_content" style="padding-bottom:20px">
+			<div class="dialog_content">
 				
 				<div id="list_container" class="fl-container template_list_container">
 				</div>
@@ -466,13 +479,16 @@
 						more menu and select Save As Page Template.</span>
 					{/if}
 				--></div>
-				
+
+				<!-- DIALOG BUTTONS -->
+				<div class="dialog_buttons">
+				    <a href="javascript:;" class="button jqmClose">Cancel</a>
+				</div>
 			</div>
 			
+			<!-- DIALOG FOOTER -->
 			<div class="dialog_footer">
-				 <div class="buttonBar">
-			        <a href="javascript:;" class="button jqmClose">Cancel</a>
-			     </div>
+				<div class="dialog_footer_inner"><!-- --></div>
 			</div>
 		</div>
 		

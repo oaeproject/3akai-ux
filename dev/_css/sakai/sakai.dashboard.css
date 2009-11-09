@@ -34,7 +34,7 @@
 
 #dashboard_addpage_dialog .buttonBar #dashboard_addpage_add { float: left;}
 #dashboard_addpage_dialog .buttonBar .jqmClose { margin-left: 10px;}
-#dashboard_addpage_dialog #dashboard_addpage_title { width:90%; margin-top:10px;}
+#dashboard_addpage_dialog #dashboard_addpage_title { width:98%; margin-top:10px;}
 
 /* OPTIONS */
 .dashboard_options {clear: none;text-align: right;}

@@ -115,9 +115,6 @@
 .profile_preview .grey_button .button
 { background:transparent url(../../_images/gray_button_right.png) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0 -10px 0 0; }
 
-
-
-
 /** FOOTER **/
 .profile_preview .page_footer
 { padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999; margin-top:35px; }
