@@ -95,10 +95,10 @@
 						<div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox">Inbox</a></div></div>
 				
 						<ul>         
-							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">Messages</a><span id="inbox_unread_nr_messages"></span></li>
-							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">Announcements</a><span id="inbox_unread_nr_announcements"></span></li>
-							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">Chats</a><span id="inbox_unread_nr_chats"></span></li>
-							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">Invitations</a><span id="inbox_unread_nr_invitations"></span></li>
+							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">Messages</a> <span id="inbox_unread_nr_messages"></span></li>
+							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">Announcements</a> <span id="inbox_unread_nr_announcements"></span></li>
+							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">Chats</a> <span id="inbox_unread_nr_chats"></span></li>
+							<li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">Invitations</a> <span id="inbox_unread_nr_invitations"></span></li>
 						</ul> 
 						
 						<div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent">Sent</a></div></div>
@@ -160,27 +160,26 @@
 			    
 						<div id="inbox_inbox_messages_template"><!--
 						{for m in messages}
-							<tr class="inbox_message" id="inbox_table_message_${m.id}">
+							{var readClass="inbox-subject-unread"}
+							{if m.read}
+								{var readClass="inbox-subject-read"}
+							{/if}
+							<tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
 							<td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" /></td>
-							
 								{if m.messagebox === "outbox"}							
 									{if m.userTo}
-										<td><a href="/dev/profile.html?user=${m['sakai:to']}">${m.userTo.firstName} ${m.userTo.lastName}</a></td>
+										<td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${m.userTo.firstName} ${m.userTo.lastName}</a></td>
 									{else}
-										<td><a href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
+										<td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
 									{/if}
 								{else}
 									{if m.userFrom}
-										<td><a href="/dev/profile.html?user=${m['sakai:from']}">${m.userFrom.firstName} ${m.userFrom.lastName}</a></td>
+										<td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.userFrom.firstName} ${m.userFrom.lastName}</a></td>
 									{else}
-										<td><a href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
+										<td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
 									{/if}
 								{/if}
-								{if m.read}
-									<td class="inbox-subject-read" id="inbox_table_subject_${m.id}">
-								{else}
-									<td class="inbox-subject-unread" id="inbox_table_subject_${m.id}">
-								{/if}
+									<td id="inbox_table_subject_${m.id}">
 							<a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
 							<td>${m.category}</td>
 							<td>${m.date}</td>
