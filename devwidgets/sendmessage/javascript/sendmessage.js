@@ -133,9 +133,9 @@ if (!sakai.sendmessage){
 			    formatItem: function(row){
 			        var s = '<img src="_images/profile_icon.png" alt="profile icon" width="24" height="24" /> ';
 			        if (row.profile.picture && $.evalJSON(row.profile.picture).name) {
-			            s = '<img src="/_user/public/' + row.target + "/" + row.profile.picture.name + '" alt="profile icon" width="24" height="24" /> ';
+			            s = '<img src="/_user/public/' + row.target + "/" + $.evalJSON(row.profile.picture).name + '" alt="profile icon" width="24" height="24" /> ';
 			        }
-			        return s + row.profile.firstName + ' ' + row.profile.lastName;
+			        return s + "<span>" + row.profile.firstName + ' ' + row.profile.lastName + "</span>";
 			    }
 			});
 		};
