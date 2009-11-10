@@ -7,8 +7,8 @@
 }
 
 #notification_container div {
-	border:3px solid #999;
-	background-color:#454a4f;
+	border:3px solid #454545;
+	background-color:#fefefe;
 	opacity:70;
 	float:left;
 	margin-top:5px;
@@ -24,16 +24,18 @@
 	float:left;
 }
 #notification_container div span.notification_title {
-	color:#ffffff;
+	color:#666;
 	margin-top:10px;
 	display:inline-block;
 	font-weight:bold;
 }
 #notification_container div span.notification_message {
-	color:#ffffff;
+	color:#222;
 	float:left;
 	margin-top:3px;
-	display:inline-block;	
+	display:inline-block;
+	font-size: 1.1em;
+	padding: 5px 10px 5px 45px;
 }
 #notification_container div img.notification_close {
 	float:right;

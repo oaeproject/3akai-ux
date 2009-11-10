@@ -203,12 +203,12 @@ sakai.inbox = function() {
      */
     var showGeneralMessage = function(msg, isError, timeout) {
 		var type = "normal";
-		var stay = false;
+		var stay = true;
 		if (isError) {
 			type = "error";
-			stay = true;
+			stay = false;
 		}
-		sakai.notifications.showNotification("Messaging update", msg, type, stay, "/dev/_images/inbox_folders_messages.gif");
+		sakai.lib.notifications.showNotification("My Messages", msg, type, stay, "/dev/_images/inbox_folders_messages.gif");
 		/*
         $(inboxGeneralMessage).html(msg);
         if (isError) {

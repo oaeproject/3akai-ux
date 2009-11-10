@@ -31,9 +31,25 @@
 
 
 
-var sakai = sakai ||
-{};
-sakai.notifications = {
+var sakai = sakai || {};
+sakai.lib = sakai.lib || {};
+
+sakai.lib.notifications = {
+    
+    /**
+     * Config
+     */
+    
+    default_warning_icon_url: "/dev/_images/inbox_folders_announcements.gif",
+    default_normal_icon_url: "/dev/_images/inbox_folders_announcements.gif",
+    default_error_icon_url: "/dev/_images/inbox_folders_announcements.gif",
+    default_close_icon: "/dev/_images/close_icon_small.png",
+    default_display_time: 5000,
+    default_fade_in_time: 500,
+    default_fade_out_time: 500,
+    default_stayontop: false,
+    
+
     /**
      * Displays a Growl-like notification.
      * @param {String} title The title you wish to display.
@@ -46,26 +62,24 @@ sakai.notifications = {
      * @param {Number} fadeOutTime The amount of milliseconds it takes for the message to fade out. (default = 500)
      */
     showNotification: function(title, message, type, stayontop, icon, fadeInTime, displayTime, fadeOutTime){
-        var contEL = document.createElement("div");
+        
         var d = new Date();
-        var id = "notification_" + d.getTime();
-        contEL.setAttribute("id", id);
-		
-		
+        var notification_id = "notification_" + d.getTime();
+	var $containerEL = $("<div></div>").attr({id:notification_id});
 		
         var iconUrl = "";
         switch (type) {
             case "error":
-                contEL.setAttribute("class", "notification_error");
-                iconUrl = "/dev/_images/inbox_folders_announcements.gif";
+                $containerEL.addClass("notification_error");
+                iconUrl = this.default_error_icon_url;
                 break;
             case "normal":
-                contEL.setAttribute("class", "notification_normal");
-                iconUrl = "/dev/_images/inbox_folders_announcements.gif";
+                $containerEL.addClass("notification_normal");
+                iconUrl = this.default_normal_icon_url;
                 break;
             case "warning":
-                contEL.setAttribute("class", "notification_warning");
-                iconUrl = "/dev/_images/inbox_folders_announcements.gif";
+                $containerEL.addClass("class", "notification_warning");
+                iconUrl = this.default_warning_icon_url;
                 break;
         }
         
@@ -76,73 +90,81 @@ sakai.notifications = {
 		
 		// Create the close icon.
 		var closeEL = document.createElement("img");
-		closeEL.setAttribute("src", "/dev/_images/close_icon_small.png");
+		closeEL.setAttribute("src", this.default_close_icon);
 		closeEL.setAttribute("class", "notification_close");
 		closeEL.style.display = "none";
-		contEL.appendChild(closeEL);
+		$containerEL.append(closeEL);
 		
+		// Close icon click event
 		$(closeEL).bind('click', function(e, ui) {
-			$(this).parent().stop(true).remove();
+		    $(this).parent().stop(true).remove();
 		});
 		
         // Create the image icon.
         var imgEL = document.createElement("img");
         imgEL.setAttribute("src", iconUrl);
-        contEL.appendChild(imgEL);
+        $containerEL.append(imgEL);
         
         // Create the title.
         var titleEL = document.createElement("span");
         titleEL.setAttribute("class", "notification_title");
         titleEL.innerHTML = title;
-        contEL.appendChild(titleEL);
+        $containerEL.append(titleEL);
         
         // Create the message
         var messageEL = document.createElement("span");
         messageEL.setAttribute("class", "notification_message");
         messageEL.innerHTML = message;
-        contEL.appendChild(messageEL);
+        $containerEL.append(messageEL);
         
-        
+        // Add the message to the container
         var $notification_container = $("#notification_container");
         if ($notification_container.length === 0) {
-            // Create the notification container and append it too the body.
-            var container = document.createElement("div");
-            container.setAttribute("id", "notification_container");
-            container.appendChild(contEL);
-            //$("body").append(container);
-            document.body.appendChild(container);
+            
+	    // Create the notification container if it doesn't exist yet
+	    $notification_container = $("<div></div>").attr({id:"notification_container"}).append($containerEL);
+            $("body").append($notification_container);
         }
         else {
-            document.getElementById("notification_container").appendChild(contEL);
+	    // Add to an existing container
+            $notification_container.append($containerEL);
         }
         
-        
-        
+        // Position notification
+	if (window.pageYOffset > 0) {
+	    $notification_container.css("top", window.pageYOffset + 10);
+	}
+	
+        // Default timings
         if (typeof displayTime === "undefined") {
-            displayTime = 5000;
+            displayTime = this.default_display_time;
         }
         if (typeof fadeInTime === "undefined") {
-            fadeInTime = 500;
+            fadeInTime = this.default_fade_in_time;
         }
         if (typeof fadeOutTime === "undefined") {
-            fadeOutTime = 500;
+            fadeOutTime = this.default_fade_out_time;
         }
         if (typeof stayontop === "undefined") {
-            stayontop = false;
+            stayontop = this.default_stayontop;
         }
         
-        // fade out notification
-        $("#" + id).corners().bind("mouseenter", function() {
-			// hovering over the notifcation shows the close icon.
-			$(".notification_close", this).show();
-		}).bind("mouseleave", function() {
-			$(".notification_close", this).hide();
+        // Fade out notification and clear
+        $("#" + notification_id).corners().bind("mouseenter", function() {
+	    
+	    // hovering over the notifcation shows the close icon.
+	     $(".notification_close", this).show();
+	    }).bind("mouseleave", function() {
+		$(".notification_close", this).hide();
 		}).fadeIn(fadeInTime, function(){
-            if (!stayontop) {
-				// It's not required to stay on top so it can fade out.
-                setTimeout("$('#" + id + "').fadeOut(" + fadeOutTime + ");", displayTime);
-            }
-        });
+		    if (!stayontop) {
+			// It's not required to stay on top so it can fade out and cleaned up
+			setTimeout("$('#" + notification_id + "').fadeOut(" + fadeOutTime + ",function() { $(this).remove(); });", displayTime);
+		    }
+		});
         
     }
+
+
+
 };
