@@ -55,7 +55,7 @@ strong {color: #000;}
 .fl-widget {margin-bottom: 10px;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px;}
 .fl-widget {padding: 0;}
-.fl-widget .fl-widget-titlebar {background: url(../../_images/block_tr.png) top right no-repeat; padding: 0 8px 0 0; width: auto; cursor: move;}
+.fl-widget .fl-widget-titlebar {background: url(../../_images/block_tr.png) top right no-repeat; padding: 0 4px 0 0; width: auto; cursor: move;}
 .fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(../../_images/block_tl.png) top left no-repeat; height: 50px;}
 .fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px;}
 .fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px;}
@@ -73,7 +73,9 @@ strong {color: #000;}
 .fl-widget .fl-widget-no-options { background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
 .fl-widget .fl-widget-no-options .widget-no-options-inner { background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
-.fl-widget .fl-widget-content {background-color: #fff; padding: 5px 2px 15px 2px; margin: 0; border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE;}
+.fl-widget .fl-widget-content
+{background-color: #fff; padding: 10px 0 15px 0; margin: 0; border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; }
+
 .fl-widget .fl-widget-content ul {margin: 0; padding: 0;}
 
 .widget1 {background-color:#FFFFFF;}

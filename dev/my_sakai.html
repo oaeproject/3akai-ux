@@ -168,7 +168,7 @@
 					<form class="search_form buttonBar" id="search_form" action="" method="post">
 						<input type="text" id="search_field" class="search_input_field" value="Search for media, people and sites"/>
 						<a href="javascript:;" id="search_button" class="button search_button"><span>Search</span></a>
-                        <br class="clear" />
+					<br class="clear" />
 					</form>
 					
 					<!-- OPTIONS -->
@@ -196,7 +196,7 @@
 			<div class="widget_spacer"></div>
 			{for p in c.portlets}
 			<div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-			<div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
+			<div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
 			<div class="widget-titlebar-inner">
 			<h2 class="widget_title">${p.title}</h2>
 			<a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">Settings</a>
@@ -220,7 +220,7 @@
 
 		<div class="fl-container-flex widget-content">
 			<div class="fl-fix fl-centered fixed-container" id="widgetscontainer">
-							
+				
 			</div>
 
 		</div>

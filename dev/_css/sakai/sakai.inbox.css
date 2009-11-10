@@ -16,7 +16,8 @@
 { padding: 0; }
 
 .inbox_main .fl-col-main
-{ margin-top: 8px;}
+{ margin-top: 8px; margin-left: 240px; padding: 0}
+
 
 
 
@@ -25,6 +26,9 @@
 /** SIDE NAV **/
 
 /** Compose a new ... **/
+
+.inbox_main .side_panel
+{ width: 230px; margin:0; padding: 0; }
 
 .inbox_main .drop-menu
 { padding: 0 0 5px 15px; position: relative; z-index: 20000; }
@@ -51,14 +55,12 @@
 .inbox_main .inbox-folders .if_titlebar
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
-.inbox_main .inbox-folders .if_titlebar_icon
-{ float: left; padding: 17px 0 0 17px; }
+.inbox_main .inbox-folders .if_titlebar_inner
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
 
 .inbox_main .inbox-folders .if_title
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 43px; height:50px; color:#878A8C; font-size:1em; }
+{ background:transparent url(/dev/_images/recent_activity_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
 
-.inbox_main .inbox-folders .if_title_text
-{ font-weight: bold; }
 
 .inbox_main .inbox-folders .if_content
 { border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 1px 5px 1px 12px; margin: 0; }
@@ -137,8 +139,10 @@
 
 /** Header **/
 .inbox_main .inbox-table .different
-{ border-bottom: 3px solid #d5dbdf; background: #eaedef; }
+{ background: #eaedef; }
 
+.inbox_main .inbox-table .different th
+{ border-bottom: 3px solid #d5dbdf; }
 
 .inbox_main .inbox-table #inbox_table_header_chk
 { width: 3%; }
@@ -160,13 +164,13 @@
 { color: #333;  text-align: left; height: 26px; border: none; }
 
 .inbox_main .inbox-table tr
-{ color: #666; border-bottom: 1px solid #d5dbdf; }
+{ color: #666; }
 
 .inbox_main .inbox-table tr.inbox_message:hover {
 	background-color:#d9eaf5;cursor:pointer;
 }
 .inbox_main .inbox-table td
-{ border: none;  color: #666; text-align: left; font-size: 1em; }
+{ border: none;  color: #666; text-align: left; font-size: 1em; border-bottom: 1px solid #d5dbdf; }
 
 .inbox_main .inbox-table tr.inbox-subject-read *
 { font-weight:normal;}
@@ -192,10 +196,10 @@
 { padding: 19px 0 0 0; }
 
 .inbox_main .compose-message
-{ background: #fff; width: 100%; height: auto; text-align: left; }
+{ background: #fff; width: 613px; height: auto; text-align: left; padding: 20px 20px 20px 37px; border-top: 3px solid #D5DBDF; }
 
 .inbox_main .compose-reply
-{ background: #fff; width: 100%; height: auto; position: relative; top:-15px;}
+{ background: #fff; width: 500px; height: auto; position: relative; top:-15px;}
 
 .inbox_main .compose-form
 { padding: 0; color: #333; font-size: 13px; }
@@ -207,13 +211,13 @@
 { border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6; }
 
 .inbox_main .compose-form .compose-to
-{ width:600px; height: 50px; padding:3px; margin:0; }
+{ width:575px; height: 50px; padding:3px; margin:0; }
 
 .inbox_main .compose-form .compose-subject
-{ width: 600px; padding: 2px; margin: 5px 3px 10px 3px; }
+{ width: 575px; padding: 2px; margin: 5px 3px 10px 3px; }
 
 .inbox_main .compose-form .compose-body
-{height: 140px; width:490px; padding:2px; margin: 5px 3px 10px 3px; }
+{height: 140px; width:575px; padding:2px; margin: 5px 3px 10px 3px; }
 
 .inbox_main .compose-cancel
 {padding-left: 7px;}
@@ -294,10 +298,10 @@
 { margin: 0 0 0 38px; }
 
 .inbox_detail #inbox_message_replies
-{ margin: 0 0 0 38px; background: #f4f4f4f; }
+{ margin: 0 0 0 38px; background: #f4f4f4; }
 
 .inbox_detail #inbox_compose_replies_template_chats
-{ margin: 0 0 0 38px; background: #f4f4f4f; }
+{ margin: 0 0 0 38px; background: #f4f4f4; }
 
 
 
