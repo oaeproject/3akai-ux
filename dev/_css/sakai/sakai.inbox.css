@@ -192,13 +192,13 @@
 { padding: 19px 0 0 0; }
 
 .inbox_main .compose-message
-{ background: #f4f4f4; width: 100%; height: auto; text-align: left; }
+{ background: #fff; width: 100%; height: auto; text-align: left; }
 
 .inbox_main .compose-reply
-{ background: #f4f4f4; width: 100%; height: auto; position: relative; top:-15px;}
+{ background: #fff; width: 100%; height: auto; position: relative; top:-15px;}
 
 .inbox_main .compose-form
-{ padding: 10px 10px 20px 38px; color: #333; font-size: 13px; }
+{ padding: 0; color: #333; font-size: 13px; }
 
 .inbox_main .compose-form span
 { font-weight: 100; padding-left: 5px; }
@@ -217,6 +217,12 @@
 
 .inbox_main .compose-cancel
 {padding-left: 7px;}
+
+.inbox_main .dialog_content
+{ border: none; }
+
+#sendmessage_dialog_footer
+{ display: none; }
 
 
 /** INBOX MESSAGE VIEW PANE **/
