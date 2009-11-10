@@ -1,58 +1,14 @@
 /* Pager CSS */
-
-.jq_pager {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.jq_pager ul.pages {
-display:block;
-border:none;
-text-align:center;
-font-size:10px;
-margin:10px 0 50px;
-padding:0;
-height: 25px;
-}
-
-.jq_pager ul.pages li {
-list-style:none;
-display:inline;
-border:1px solid #ddd;
-text-decoration:none;
-margin:0 5px 0 0;
-padding:5px;
-font-size: 1.2em;
-color: #3399CC;
-}
-
-.jq_pager ul.pages li:hover {
-border:1px solid #666;
-}
-
-.jq_pager ul.pages li.pgEmpty {
-border: none;
-color:#ddd;
-}
-
-.jq_pager ul.pages li.pgCurrent {
-border: none;
-color: #000;
-font-weight: bold;
-/* background-color:#fff; */
-}
-
-
-.jq_pager .hidden {
-	display: none !important;
-}
-
-#jq_pager_three_dots_begin {
-	border: none;
-	color: #666;
-}
-
-#jq_pager_three_dots_end {
-	border: none;
-	color: #666;
-}
+.sakai_pager {text-align:center;}
+.sakai_pager li.hidden { display:none;}
+.sakai_pager li {display:inline-block; list-style:none;font-size:0.95em;height:18px;background: transparent url(../../_images/pager-left.png) top left no-repeat; margin:0px 5px;zoom: 1;*display: inline;}
+.sakai_pager li > span {display:inline-block;background: url(../../_images/pager-right.png) top right no-repeat; margin:0;  border: none; font-weight: bold; cursor: pointer; height: 18px; margin-right: -5px;padding:1px 10px 0px 10px;color:#006e96;zoom: 1;*display: inline;}
+.sakai_pager li.pgCurrent, .sakai_pager li.pgCurrent > span, .sakai_pager li.dots {background:none;color:#454a4f;}
+.sakai_pager li.dots {margin-left:10px;clear:after; }
+.sakai_pager li.pgNext, .sakai_pager li.pgPrev {margin:0px 10px;}
+.sakai_pager li.pgPrev img {float:left;margin-right:9px;margin-top:1px;}
+.sakai_pager li.pgNext img {float:right;margin-left:9px;margin-top:1px;*float:none;} /* IE7 breaks completely if you float it to the right. */
+.sakai_pager li.pgNext span.t, .sakai_pager li.pgPrev span.t { text-decoration:underline;color:#454a4f;}
+.sakai_pager li.page-number {margin:0px 5px;}
+.sakai_pager li.pgCurrent {text-decoration:none;font-weight:bold;color:#4b4b4b;}
+.sakai_pager li.pgEmpty { display:none !important; }

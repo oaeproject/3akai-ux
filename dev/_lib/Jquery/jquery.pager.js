@@ -42,14 +42,8 @@
 			if (typeof options.htmlparts === "undefined") {
 				htmlparts = $.fn.pager.defaults.htmlparts;
 			}
-            $(this).empty().append(renderpager(parseInt(options.pagenumber), parseInt(options.pagecount), options.buttonClickCallback, htmlparts));
+            $(this).empty().append(renderpager(parseInt(options.pagenumber, 10), parseInt(options.pagecount, 10), options.buttonClickCallback, htmlparts));
             
-            // specify correct cursor activity
-            $('.pages li').mouseover(function(){
-                document.body.style.cursor = "pointer";
-            }).mouseout(function(){
-                document.body.style.cursor = "auto";
-            });
         });
     };
 
@@ -57,25 +51,25 @@
     function renderpager(pagenumber, pagecount, buttonClickCallback, htmlparts) {
 
         // setup $pager to hold render
-        var $pager = $('<ul class="pages"></ul>');
+        var $pager = $('<ul class="sakai_pager"></ul>');
 
         // add in the previous and next buttons
         //$pager.append(renderButton('First', pagenumber, pagecount, buttonClickCallback)).append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback));
 		
 		// Without 'First' button
-		$pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts))
+		$pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts));
 		
         // pager currently only handles 10 viewable pages ( could be easily parameterized, maybe in next version ) so handle edge cases
         var startPoint = 1;
-        var endPoint = 9;
+        var endPoint = 5;
 
-        if (pagenumber > 4) {
-            startPoint = pagenumber - 4;
-            endPoint = pagenumber + 4;
+        if (pagenumber > 3) {
+            startPoint = pagenumber - 2;
+            endPoint = pagenumber + 2;
         }
 
         if (endPoint > pagecount) {
-            startPoint = pagecount - 8;
+            startPoint = pagecount - 3;
             endPoint = pagecount;
         }
 
@@ -84,15 +78,15 @@
         }
 		
 		// Add 3 dots divider
-		var $divider_begin = $('<li id="jq_pager_three_dots_begin" class="hidden">...</li>');
+		var $divider_begin = $('<li id="jq_pager_three_dots_begin" class="dots hidden">...</li>');
 		$pager.append($divider_begin);
 		
         // loop thru visible pages and render buttons
         for (var page = startPoint; page <= endPoint; page++) {
 
-            var currentButton = $('<li class="page-number">' + (page) + '</li>');
+            var currentButton = $('<li class="page-number"><span>' + (page) + '</span></li>');
 
-            page == pagenumber ? currentButton.addClass('pgCurrent') : currentButton.click(function() { buttonClickCallback(this.firstChild.data); });
+            page == pagenumber ? currentButton.addClass('pgCurrent') : currentButton.click(function() { buttonClickCallback(this.firstChild.firstChild.data); });
             currentButton.appendTo($pager);
         }
 
@@ -100,7 +94,7 @@
         //$pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback)).append(renderButton('Last', pagenumber, pagecount, buttonClickCallback));
 		
 		// Add 3 dots divider
-		var $divider_end = $('<li id="jq_pager_three_dots_end" class="hidden">...</li>');
+		var $divider_end = $('<li id="jq_pager_three_dots_end" class="dots hidden">...</li>');
 		$pager.append($divider_end);
 		
 		// without 'Last' button:
@@ -115,7 +109,23 @@
 			{
 				$divider_end.removeClass('hidden');
 			}
-		
+			
+			/*
+			 *
+			 
+<LI class="pgPrev pgEmpty"><SPAN><IMG alt="" src="http://10.0.0.59:8080/dev/_images/scroll_arrow_left.png"> <SPAN>Prev</SPAN></SPAN></LI>
+<LI id=jq_pager_three_dots_begin class="dots hidden">...</LI>
+<LI class="page-number pgCurrent"><SPAN>1</SPAN></LI>
+<LI class=page-number><SPAN>2</SPAN></LI>
+<LI class=page-number><SPAN>3</SPAN></LI>
+<LI class=page-number><SPAN>4</SPAN></LI>
+<LI class=page-number><SPAN>5</SPAN></LI>
+<LI id=jq_pager_three_dots_end class=dots>...</LI>
+<LI class=pgNext><SPAN><SPAN>Next</SPAN> <IMG alt="" src="http://10.0.0.59:8080/dev/_images/scroll_arrow_right.png"></SPAN></LI>
+			 * 
+			 */
+
+		//prompt('', $pager.html());
         return $pager;
     }
 
@@ -135,6 +145,7 @@
                 break;
             case "prev":
                 destPage = pagenumber - 1;
+				$Button = $('<li class="pgPrev">' + buttonLabel + '</li>');
                 break;
             case "next":
                 destPage = pagenumber + 1;
@@ -162,8 +173,8 @@
 		htmlparts : {
 			'first' : 'first',
 			'last' : 'last',
-			'prev' : '<img src="/dev/_images2/scroll_arrow_left.png" alt="" /> <span>Prev</span>',
-			'next' : '<span>Next</span> <img src="/dev/_images2/scroll_arrow_right.png" alt="" />' 
+			'prev' : '<span><img src="/dev/_images/scroll_arrow_left.png" alt="" /> <span class="t">Prev</span></span>',
+			'next' : '<span><span class="t">Next</span> <img src="/dev/_images/scroll_arrow_right.png" alt="" /></span>' 
 		}
     };
 
