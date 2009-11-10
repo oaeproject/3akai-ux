@@ -598,7 +598,7 @@ sakai.site.site_admin = function(){
 					
 						var activityItem = {
 							"userid": sdata.me.user.userid,
-							"type": "page_created",
+							"type": "page_edited",
 							"page": "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage
 						};
 						sakai.site.addRecentActivity(activityItem);

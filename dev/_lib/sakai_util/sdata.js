@@ -1218,11 +1218,13 @@ jQuery.fn.stripTags = function() {
 	$.ToJCRDate = function(date){
 		
 		// Check if the date that was passed to this function is actually a JavaScript date
-		if(date.constructor === "Date"){
+		try{
 			
+			// Reutn the JCR date as a string
 			return "" + date.getFullYear() + "-" + $.leadingZero((date.getMonth()+1), 2) + "-" + $.leadingZero(date.getDate(), 2) + "T" 
 			+  $.leadingZero(date.getHours(), 2) + ":" +  $.leadingZero(date.getMinutes(), 2) + ":" +  $.leadingZero(date.getSeconds(), 2);
-		}else {
+		
+		} catch(ex) {
 			
 			// Log a message if there is a bad JavaScript date format
 			fluid.log("Bad JavaScript date format: " + date);

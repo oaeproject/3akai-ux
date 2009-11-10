@@ -468,6 +468,10 @@ sakai.site = function(){
 	// RECENT ACTIVITY //
 	/////////////////////
 	
+	/**
+	 * Get the recent activity from a file
+	 * @param {Object} callback Callback function that will be executed
+	 */
 	sakai.site.getRecentActivity = function(callback){
 		$.ajax({
 			url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
@@ -494,23 +498,23 @@ sakai.site = function(){
 	 */
 	sakai.site.addRecentActivity = function(activityitem){
 
-		// Set the date of the activityitme
+		// Set the date of the activity
 		activityitem.date = $.ToJCRDate(new Date());
 		
-		// Update the recentactivity file
-		$.ajax({
-			url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
-			type: "POST",
-			success: function(){
-				
-			},
-			error: function(){
-				
-			}
-		});
+		// Construct the callback function
+		var callback = function(){
+			
+			// Add the current activity item to the array of activity items
+			sakai.site.recentactivity.items.push(activityitem);
+			
+			// Save the recentactivity json file
+			sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id, "recentactivity.json", $.toJSON(sakai.site.recentactivity));
+		};
+
+		// Get the recent activity
+		sakai.site.getRecentActivity(callback);
 	};
 
-	
 
 	/////////////////////
 	// VERSION HISTORY //
