@@ -29,10 +29,12 @@
 .siterecentactivity .si_content ul li p
 { color: #999999; }
 
+.siterecentactivity .siterecentactivity_empty
+{ color: #666}
+
 /* BOTTOM */
 .siterecentactivity .si_bottom
 { background:transparent url(/dev/_images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
 
 .siterecentactivity .si_bottom_inner
 { background:transparent url(/dev/_images/content_br.png) no-repeat scroll right bottom; height: 5px; }
-

@@ -116,7 +116,6 @@ sakai.site = function(){
 	var $dashboard_options = $(".dashboard_options");
 	
 	
-	
 	/////////////////////////////
 	// HELP FUNCTIONS
 	/////////////////////////////
@@ -134,7 +133,6 @@ sakai.site = function(){
 		//escaped = pageid.replace(/\//g, "\\\/");
 		return escaped;
 	};
-	
 	
 	/**
 	 * Get document height
@@ -177,7 +175,6 @@ sakai.site = function(){
 		}
 	};
 	
-	
 	/**
 	 * Transform a date into more readable date string
 	 * @param {Object} day
@@ -194,13 +191,10 @@ sakai.site = function(){
 		return string;
 	};
 
-	
-	
-	
-	
-	/////////////////////////////
-	// LOADING
-	/////////////////////////////
+
+	/////////////
+	// LOADING //
+	/////////////
 	
 	/**
 	 * Main load flow - loads up all the data needed for sites and sets the visibility of html elements
@@ -220,7 +214,6 @@ sakai.site = function(){
 				
 				// Save current site to Recent Sites
 				saveToRecentSites(response);
-				
 			},
 			error: function(httpstatus){
 				if (httpstatus === 401) {
@@ -313,8 +306,7 @@ sakai.site = function(){
 			}
 		});
 	};
-	
-	
+
 	/**
 	 * Callback function to be executed when navigation widget is loaded
 	 * @return void
@@ -324,9 +316,8 @@ sakai.site = function(){
 		try {
 			sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
 		} catch (error1){
-				alert("site.js: An error occured while trying to render the navigation widget: " + error1);
-			}
-		
+			 alert("site.js: An error occured while trying to render the navigation widget: " + error1);
+		}
 	};
 		
 	
@@ -420,14 +411,12 @@ sakai.site = function(){
 			return 0;
 		}
 	};
-	
-	
-	
-	
-	/////////////////////////////
-	// RECENT SITES
-	/////////////////////////////
-	
+
+
+	//////////////////
+	// RECENT SITES //
+	//////////////////
+
 	/**
 	 * Save to Recent Sites - This function also filter out the current site and writes the data out in JSON format
 	 * @param {Object} response
@@ -469,20 +458,18 @@ sakai.site = function(){
 				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
 			}
 		});
-		
 	};
-	
-	
-	/////////////////////////////
-	// VERSION HISTORY
-	/////////////////////////////
-	
+
+	/////////////////////
+	// VERSION HISTORY //
+	/////////////////////
+
 	/**
 	 * Reset version history
 	 * @return void
 	 */
 	sakai.site.resetVersionHistory = function(){
-		
+
 		try {
 			if (sakai.site.selectedpage) {
 				$("#revision_history_container").hide();
@@ -497,9 +484,9 @@ sakai.site = function(){
 	};
 
 	
-	/////////////////////////////
-	// PAGE OPEN AND DISPLAY FUNCTIONS
-	/////////////////////////////
+	/////////////////////////////////////
+	// PAGE OPEN AND DISPLAY FUNCTIONS //
+	/////////////////////////////////////
 	
 	/**
 	 * Open page H
@@ -632,9 +619,10 @@ sakai.site = function(){
 		}
         }
         
-	// Re-render Site Navigation to reflect changes if navigation widget is already loaded
+		// Re-render Site Navigation to reflect changes if navigation widget is already loaded
         try {
 		sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+
         } 
         catch (error) {
         
@@ -951,7 +939,7 @@ sakai.site = function(){
 			    index++;
 			}
 		    }
-		};
+		}
 		
 		var final2 = {};
 		final2.columns = [];
@@ -1257,7 +1245,7 @@ sakai.site = function(){
 				{
 					// Create element
 					var el = document.createElement("div");
-					el.id = sakai.site.selectedpage// sakai.site.escapePageId(sakai.site.selectedpage);
+					el.id = sakai.site.selectedpage; // sakai.site.escapePageId(sakai.site.selectedpage);
 					el.className = "content";
 					el.innerHTML = response;
 					

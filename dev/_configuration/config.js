@@ -64,6 +64,7 @@ var Config = {
 		
 		CHAT_GET_SERVICE: "/_rest/chat/get",
 		CHAT_SEND_SERVICE: "/_rest/chat/send",
+		CHAT_UPDATE_SERVICE:  "/_user/message.chatupdate.json",
 		CREATE_USER_SERVICE: "/system/userManager/user.create.html",
 		FRIEND_STATUS_SERVICE: "/rest/friend/status",
 		FRIEND_CONNECT_SERVICE: "/rest/friend/connect/request",

@@ -1158,6 +1158,21 @@ jQuery.fn.stripTags = function() {
  * Parse a JCR date to a JavaScript date object
  */
 (function($){
+
+	/**
+	 * Add leading zeros to a number
+	 * If you pass 10 as the number and 4 as the count, you get 0010
+	 * @param {Integer} num The number where you want to add zeros to
+	 * @param {Integer} count The total length of the string after it is zero padded
+	 * @return {String} A string with the leading zeros
+	 */
+	$.leadingZero = function(num, count) {
+		var numZeropad = num + '';
+		while (numZeropad.length < count) {
+			numZeropad = "0" + numZeropad;
+		}
+		return numZeropad;
+	}
 		
 	/**
 	 * Parse a JCR date (2009-10-12T10:25:19) to a JavaScript date object
@@ -1190,7 +1205,29 @@ jQuery.fn.stripTags = function() {
 		}else{
 			
 			// Log a message if there is a bad date format
-			fluid.log("Bad date format: " + date);
+			fluid.log("Bad JCR date format: " + date);
+			return null;
+		}
+	};
+	
+	/**
+	 * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
+	 * @param {Object} date JavaScript date object
+	 * @return {String} a JCR date string 
+	 */
+	$.ToJCRDate = function(date){
+		
+		// Check if the date that was passed to this function is actually a JavaScript date
+		try{
+			
+			// Reutn the JCR date as a string
+			return "" + date.getFullYear() + "-" + $.leadingZero((date.getMonth()+1), 2) + "-" + $.leadingZero(date.getDate(), 2) + "T" 
+			+  $.leadingZero(date.getHours(), 2) + ":" +  $.leadingZero(date.getMinutes(), 2) + ":" +  $.leadingZero(date.getSeconds(), 2);
+		
+		} catch(ex) {
+			
+			// Log a message if there is a bad JavaScript date format
+			fluid.log("Bad JavaScript date format: " + date);
 			return null;
 		}
 	};
