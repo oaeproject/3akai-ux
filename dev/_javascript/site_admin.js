@@ -543,6 +543,15 @@ sakai.site.site_admin = function(){
 						$("#edit_view_container").hide();
 						$("#show_view_container").show();
 						
+						// Save the recent activity
+						var activityItem = {
+							"user_id": sdata.me.user.userid,
+							"type": "page_create",
+							"page_id": sakai.site.selectedpage,
+							"site_id": sakai.site.currentsite.id
+						};
+						sakai.siterecentactivity.addRecentActivity(activityItem);
+						
 						// POST page
 						// Define page properties on node
 						// TODO: add appropriate type to differientate between webpage and dashboardpage
@@ -596,12 +605,14 @@ sakai.site.site_admin = function(){
 					sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 					sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", sakai.site.pagecontents[sakai.site.selectedpage], function(){
 					
+						// Save the recent activity
 						var activityItem = {
-							"userid": sdata.me.user.userid,
-							"type": "page_edited",
-							"page": "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage
+							"user_id": sdata.me.user.userid,
+							"type": "page_edit",
+							"page_id": sakai.site.selectedpage,
+							"site_id": sakai.site.currentsite.id
 						};
-						sakai.site.addRecentActivity(activityItem);
+						sakai.siterecentactivity.addRecentActivity(activityItem);
 					
 						// Define page properties on node
 						// TODO: add appropriate type to differientate between webpage and dashboardpage
@@ -626,14 +637,8 @@ sakai.site.site_admin = function(){
 					}, null, "x-sakai-page");
 					
 				}
-			
 			}
-			
-			
-			
 		}
-		
-		
 
 		// Re-render Site Navigation to reflect changes
 		sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);

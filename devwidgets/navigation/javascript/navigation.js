@@ -67,7 +67,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 		} else {
 			return 0;
 		}
-	}
+	};
 
 	/**
 	 * Function that is available to other functions and called by site.js
@@ -96,7 +96,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 			var current_page = {};
 			current_page.id = site_id;
 			current_page.title = site_info_object[site_id].title;
-			current_page.position = parseInt(site_info_object[site_id].position);
+			current_page.position = parseInt(site_info_object[site_id].position, 10);
 			
 			// Mark selected page (for different icon)
 			if (site_id === selected_page_id) {
@@ -117,7 +117,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 			
 			// Add current page data to the list of pages which will be displayed
 			jsonNavigation.pages.push(current_page);
-		};
+		}
 		
 		jsonNavigation.pages.sort(doSort);
 		

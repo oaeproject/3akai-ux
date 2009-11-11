@@ -1,10 +1,10 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/siterecentactivity/css/siterecentactivity.css"/>
+
 <div id="siterecentactivity_settings" style="display:none">
 	<p>No settings available</p>
-	<div class="dialog_footer">
-		<div class="buttonBar">
-			<a class="button-default submit_button" href="javascript:;" id="siterecentactivity_settings_submit" style="float:left;">Finish</a>
-			<a class="button cancel-button" href="javascript:;" id="siterecentactivity_settings_cancel" style="margin-left: 10px;">Cancel</a>
-		</div>
+	<div class="dialog_buttons">
+		<a class="button-default submit_button" href="javascript:;" id="siterecentactivity_settings_submit">Finish</a>
+		<a class="button cancel-button" href="javascript:;" id="siterecentactivity_settings_cancel">Cancel</a>
 	</div>
 </div>
 <div id="siterecentactivity_output">
@@ -14,25 +14,29 @@
 			<img src="/dev/_images/recent_activity_icon.png" class="si_titlebar_icon" alt="Site Recent Activity Icon" /><h3 class="si_title">Recent activity</h3>
 		</div>
 		
-		<div class="si_content">
+		<div id="siterecentactivity_container" class="si_content"><!-- --></div>
+		
+		<div id="siterecentactivity_container_template"><!--
 			<ul>
+			{for i in items}
 				<li>
-					<a href="#">Another Page</a>
-					<p>Changed 4 minutes ago</p>
+					<a href="${i.page_url}">${i.page_id}</a>
+					<p>
+					{if i.type === "page_edit"}
+						Page updated ${i.date_parsed}
+					{elseif i.type === "page_create"}
+						Page created ${i.date_parsed}
+					{/if}
+					</p>
 				</li>
-				<li>
-					<a href="#">Untitled 1</a>
-					<p>Changed 6 minutes ago</p>
-				</li>
-				<li>
-					<a href="#">Untitled 2</a>
-					<p>Changed 20 Dec, 2008</p>
-				</li>
+			{forelse}
+				<li class="siterecentactivity_empty">No recent activity available</li>
+			{/for}
 			</ul>
-		</div>
+		--></div>
 		
 		<div class="si_bottom">
-			<div class="si_bottom_inner"></div>
+			<div class="si_bottom_inner"><!-- --></div>
 		</div>
 		
 	</div>

@@ -214,7 +214,6 @@ sakai.site = function(){
 				
 				// Save current site to Recent Sites
 				saveToRecentSites(response);
-				
 			},
 			error: function(httpstatus){
 				if (httpstatus === 401) {
@@ -307,8 +306,7 @@ sakai.site = function(){
 			}
 		});
 	};
-	
-	
+
 	/**
 	 * Callback function to be executed when navigation widget is loaded
 	 * @return void
@@ -318,9 +316,8 @@ sakai.site = function(){
 		try {
 			sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
 		} catch (error1){
-				alert("site.js: An error occured while trying to render the navigation widget: " + error1);
-			}
-		
+			 alert("site.js: An error occured while trying to render the navigation widget: " + error1);
+		}
 	};
 		
 	
@@ -462,59 +459,6 @@ sakai.site = function(){
 			}
 		});
 	};
-
-
-	/////////////////////
-	// RECENT ACTIVITY //
-	/////////////////////
-	
-	/**
-	 * Get the recent activity from a file
-	 * @param {Object} callback Callback function that will be executed
-	 */
-	sakai.site.getRecentActivity = function(callback){
-		$.ajax({
-			url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
-			success: function(data){
-				sakai.site.recentactivity = $.evalJSON(data);
-			},
-			error: function(){
-				sakai.site.recentactivity = {
-					items: []
-				};
-			},
-			complete: callback
-		});
-	};
-
-	/**
-	 * Save a item to the recent activities file
-	 * @param {Object} activityitem A JSON object in the following format:
-	 * {
-	 * 	"userid" : "admin",
-	 * 	"date" : "2009-10-12T10:25:19",
-	 * 	"type" : "page_create"
-	 * }
-	 */
-	sakai.site.addRecentActivity = function(activityitem){
-
-		// Set the date of the activity
-		activityitem.date = $.ToJCRDate(new Date());
-		
-		// Construct the callback function
-		var callback = function(){
-			
-			// Add the current activity item to the array of activity items
-			sakai.site.recentactivity.items.push(activityitem);
-			
-			// Save the recentactivity json file
-			sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id, "recentactivity.json", $.toJSON(sakai.site.recentactivity));
-		};
-
-		// Get the recent activity
-		sakai.site.getRecentActivity(callback);
-	};
-
 
 	/////////////////////
 	// VERSION HISTORY //
@@ -675,9 +619,10 @@ sakai.site = function(){
 		}
         }
         
-	// Re-render Site Navigation to reflect changes if navigation widget is already loaded
+		// Re-render Site Navigation to reflect changes if navigation widget is already loaded
         try {
 		sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+
         } 
         catch (error) {
         
