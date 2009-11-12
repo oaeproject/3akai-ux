@@ -98,7 +98,10 @@ sakai.site.site_admin = function(){
 			template_external_list_url: "lists/template_list.js",
 			external_link_list_url: "lists/link_list.js",
 			external_image_list_url: "lists/image_list.js",
-			media_external_list_url: "lists/media_list.js"
+			media_external_list_url: "lists/media_list.js",
+
+			// Use the native selects
+			use_native_selects : true
 		});
 	}
 
@@ -531,31 +534,26 @@ sakai.site.site_admin = function(){
 				}
 			}*/
 			
-			
+			// Get the content from tinyMCE
 			var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+			
+			// Check if the content is empty or not
+			if(!checkContent(content)){
+				return;
+			}
 			
 			// If there is a title change
 			if (oldpagetitle!== newpagetitle) { // || sakai.site.inEditView !== false) {
-				
-				if(!checkContent(content)){
-					return;
-				}
 				
 				// Take care of title change
 				saveEdit_RegisterTitleChange(newpagetitle);
 				
 			} else {
 				
-				if(!checkContent(content)){
-					return;
-				}
-				
 				// See if we are editing a completely new page
 				if (sakai.site.isEditingNewPage) {
 					
 					// Save page content
-					
-					
 					var newurl = sakai.site.selectedpage.split("/").join("/_pages/");
 					sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/_pages/" + newurl, "content", content, function(){
 							

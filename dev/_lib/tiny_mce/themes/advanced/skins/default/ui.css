@@ -57,7 +57,7 @@
 .defaultSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
 .defaultSkin .mceOldBoxModel .mceListBox .mceText {height:22px}
 .defaultSkin .mceOldBoxModel .mceListBox .mceOpen {width:11px; height:22px;}
-.defaultSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; background:#F0F0EE; border:1px solid gray; margin-right:2px;}
+.defaultSkin select.mceNativeListBox {font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; background:#fff; border:1px solid #ccc; margin-right:2px;}
 
 /* SplitButton */
 .defaultSkin .mceSplitButton {width:32px; height:20px; direction:ltr}
