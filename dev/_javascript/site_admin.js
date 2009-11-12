@@ -477,6 +477,19 @@ sakai.site.site_admin = function(){
 		return highest;
 	};
 	
+	/**
+	 * Check if the content is empty or not
+	 * @param {String} content The content of the WYSIWYG editor
+	 */
+	var checkContent = function(content){
+		if(!content.replace(/ /g,"%20")) {
+			alert("Please enter some content");
+			return false;
+		}else{
+			return true;
+		}
+	};
+
 	var saveEdit = function() {
 		
 		// Clear timeout
@@ -500,7 +513,7 @@ sakai.site.site_admin = function(){
 			saveEdit_Navigation();
 		
 		} else {
-		
+
 			// Other page
 			
 			// Check whether there is a pagetitle
@@ -518,18 +531,31 @@ sakai.site.site_admin = function(){
 				}
 			}*/
 			
+			
+			var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+			
 			// If there is a title change
 			if (oldpagetitle!== newpagetitle) { // || sakai.site.inEditView !== false) {
+				
+				if(!checkContent(content)){
+					return;
+				}
 				
 				// Take care of title change
 				saveEdit_RegisterTitleChange(newpagetitle);
 				
 			} else {
 				
+				if(!checkContent(content)){
+					return;
+				}
+				
 				// See if we are editing a completely new page
 				if (sakai.site.isEditingNewPage) {
+					
 					// Save page content
-					var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+					
+					
 					var newurl = sakai.site.selectedpage.split("/").join("/_pages/");
 					sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id + "/_pages/" + newurl, "content", content, function(){
 							
@@ -2487,13 +2513,11 @@ sakai.site.site_admin = function(){
 			});	
 		}
 	});
-	
-	
-	
-	
-	////////////////////////////////////////
-	// MORE: SAVE PAGE AS TEMPLATE
-	////////////////////////////////////////
+
+
+	/////////////////////////////////
+	// MORE: SAVE PAGE AS TEMPLATE //
+	/////////////////////////////////
 	
 	/**
 	 * Start Save As Template
@@ -2506,7 +2530,7 @@ sakai.site.site_admin = function(){
 		sakai.site.isShowingDropdown = false;
 		hash.w.show();
 	};
-	
+
 	// Init Save as Template modal
 	$("#save_as_template_container").jqm({
 		modal: true,
@@ -2515,8 +2539,7 @@ sakai.site.site_admin = function(){
 		toTop: true,
 		onShow: startSaveAsTemplate
 	});
-	
-	
+
 	// Bind Save as Template click event
 	$("#save_as_page_template_button").bind("click", function(ev){
 		var name = $("#template_name").val();
@@ -2569,7 +2592,6 @@ sakai.site.site_admin = function(){
 		});
 	};
 	
-	
 	/**
 	 * Load Templates
 	 * @param {Object} hash
@@ -2601,7 +2623,6 @@ sakai.site.site_admin = function(){
 		
 		hash.w.show();
 	};
-	
 	
 	/**
 	 * Render Templates
@@ -2669,7 +2690,6 @@ sakai.site.site_admin = function(){
 		
 	};
 	
-	
 	// Init Template selection modal
 	$("#select_template_for_page").jqm({
 		modal: true,
@@ -2678,12 +2698,11 @@ sakai.site.site_admin = function(){
 		toTop: true,
 		onShow: loadTemplates
 	});
-	
-	
-			
-	/////////////////////////////
-	// MORE: DELETE PAGE
-	/////////////////////////////
+
+
+	///////////////////////
+	// MORE: DELETE PAGE //
+	///////////////////////
 	
 	/**
 	 * //s a page
@@ -2727,12 +2746,11 @@ sakai.site.site_admin = function(){
 	$("#delete_confirm").bind("click", function(){
 		deletePage();
 	});
-	
-	
-	
-	/////////////////////////////
-	// MORE: GENERAL
-	/////////////////////////////
+
+
+	///////////////////
+	// MORE: GENERAL //
+	///////////////////
 
 	// Bind Insert more hover event
 	$(".more_option").hover(
@@ -2779,11 +2797,11 @@ sakai.site.site_admin = function(){
 			// Ignore
 		}
 	});
-	
-	
-	/////////////////////////////
-	// EDIT SIDEBAR
-	/////////////////////////////
+
+
+	//////////////////
+	// EDIT SIDEBAR //
+	//////////////////
 	
 	// Bind edit sidebar click
 	$("#edit_sidebar").bind("click", function(ev){
@@ -2797,9 +2815,9 @@ sakai.site.site_admin = function(){
 		
 		return false;
 	});
-	
-	
-	
+
+
+
 	//--------------------------------------------------------------------------------------------------------------
 	//
 	// INIT
