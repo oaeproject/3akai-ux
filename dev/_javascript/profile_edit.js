@@ -1,3 +1,24 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+
+/*global Querystring, Config, $, sdata, set_cookie */
+
 var sakai = sakai || {};
 
 sakai.profile = function(){
@@ -50,7 +71,7 @@ sakai.profile = function(){
 	$(".url_field").bind("change", function(ev){
 		var value = $(this).val();
 		if (value) {
-			if (value.indexOf("//") == -1) {
+			if (value.indexOf("//") === -1) {
 				value = "http://" + value;
 				$(this).val(value);
 			}
@@ -81,6 +102,7 @@ sakai.profile = function(){
 				
 		fillInFields();		
 		
+		// Normal fields
 		fluid.inlineEdits(".profile_preview", {
 			useTooltip: true,
 			tooltipDelay : 500,
@@ -93,12 +115,14 @@ sakai.profile = function(){
 			}
 		});
 		
+		//Dropdowns
 		sakai.inlineEdits(".profile_preview", {
 			useTooltip: true,
 			finishedEditing: doHomeContact,
 			defaultViewText: " "
 		});
 		
+		// Textareas
 		sakai.inlineEditsArea(".profile_preview", {
 			useTooltip: true,
 			finishedEditing: doHomeContact,
@@ -205,11 +229,11 @@ sakai.profile = function(){
    //////////////////////////
    
 	var fillGeneralPopupField = function(field, savefield, savestring, fields){
-   
-   		$("#" + field + "s").show();
+
+		$("#" + field + "s").show();
 		$("#" + field + "sadd").show();
    
-	   	var obj = {};
+		var obj = {};
 		obj.items = [];
 		if (json[savefield]){
 			obj.items = $.evalJSON(json[savefield]);
@@ -243,12 +267,12 @@ sakai.profile = function(){
 			
 				index = 0;
 				for (var i = 0; i < obj.items.length; i++){
-					if (obj.items[i].id == id){
+					if (obj.items[i].id === id){
 						index = i;
 					}
 				}
 				
-				if (index != -1){
+				if (index !== -1){
 					
 					obj.items.splice(index, 1);
 					
@@ -260,8 +284,8 @@ sakai.profile = function(){
 					tosend[savefield] = data[savestring];
 						
 					$.ajax({
-				   		url : fileUrl,
-				   		type : "POST",
+						url : fileUrl,
+						type : "POST",
 						data : tosend,
 						error : function(data){
 							alert("An error has occured while trying to post to " + fileUrl);
@@ -287,12 +311,12 @@ sakai.profile = function(){
 			
 				index = 0;
 				for (var i = 0; i < obj.items.length; i++){
-					if (obj.items[i].id == id){
+					if (obj.items[i].id === id){
 						index = i;
 					}
 				}
 				
-				if (index != -1) {
+				if (index !== -1) {
 				
 					$("#edit_" + field + "_id").val(obj.items[index].id);
 					for (var index2 = 0; index2 < fields.length; index2++){
@@ -304,7 +328,7 @@ sakai.profile = function(){
 				}
 			}
 		);
-   	
+
 	};
 	
 	var setFunctions = function(field, savefield, savestring, fields, required){
@@ -361,7 +385,7 @@ sakai.profile = function(){
 				
 				index = 0;
 				for (var i = 0; i < obj.items.length; i++) {
-					if (obj.items[i].id == id) {
+					if (obj.items[i].id === id) {
 						for (index = 0; index < fields.length; index++){
 							obj.items[i][fields[index]] = arrayToSave[fields[index]];
 						}
@@ -616,13 +640,15 @@ sakai.profile = function(){
 		var key = false;
 		var val = false;
 		
+		var aboutme = {};
+		
 		var disappear = false;
 		ui.style.minHeight = "16px";
 		
 		var value = newvalue;
 		
 		// Update the status message in the chat bar
-		if (ui.id == "txt_status"){
+		if (ui.id === "txt_status"){
 			if (newvalue){
 				var toset = newvalue;
 				if(toset.length > 20){
@@ -634,27 +660,26 @@ sakai.profile = function(){
 			}
 		}
 		
-		if (ui.id == "txt_firstname"){
+		if (ui.id === "txt_firstname"){
 			
 			key = "firstName";
 			val = value;
 			json.firstName = value;
 			
-		} else if (ui.id == "txt_lastname"){
+		} else if (ui.id === "txt_lastname"){
 			
 			key = "lastName";
 			val = value;
 			json.lastName = value;
 			
-		} else if (ui.id == "txt_uniemail"){
+		} else if (ui.id === "txt_uniemail"){
 			
 			key = "email";
 			val = value;
 			json.email = value;
 			
-		} else if (ui.id == "txt_academicinterests"){
+		} else if (ui.id === "txt_academicinterests"){
 			
-			var aboutme = {};
 			if (json.aboutme) {
 				aboutme = $.evalJSON(json.aboutme);
 			}
@@ -664,9 +689,8 @@ sakai.profile = function(){
 			val = $.toJSON(aboutme);
 			json.aboutme = val;
 			
-		} else if (ui.id == "txt_personalinterests"){
-			
-			var aboutme = {};
+		} else if (ui.id === "txt_personalinterests"){
+
 			if (json.aboutme) {
 				aboutme = $.evalJSON(json.aboutme);
 			}
@@ -689,8 +713,7 @@ sakai.profile = function(){
 				
 				
 		} else if (aboutmefields[ui.id]) {
-			
-			var aboutme = {};
+
 			if (json.aboutme) {
 				aboutme = $.evalJSON(json.aboutme);
 			}
@@ -791,7 +814,7 @@ sakai.inlineEdits = function(container, options){
 				
 				var value = dropdown.text();
 				$(".options" + " option[value=" + value + "]", tochangeTo).attr("selected", true);
-				if (dropdown.css("display") != "none"){
+				if (dropdown.css("display") !== "none"){
 					dropdown.hide();
 					tochangeTo.show();
 					changedel.focus();
@@ -812,7 +835,7 @@ sakai.inlineEdits = function(container, options){
 				}
 				dropdown.html(newvalue);
 				
-				if (dropdown.css("display") == "none"){
+				if (dropdown.css("display") === "none"){
 					tochangeTo.hide();
 					dropdown.show();
 				}
@@ -865,9 +888,9 @@ sakai.inlineEditsArea = function(container, options){
 				
 				var value = dropdown.html();
 				value = value.replace(/<br\/>/ig,"\n");
-				value = value.replace(/<br>/ig,"\n")
+				value = value.replace(/<br>/ig,"\n");
 				$(".options", tochangeTo).val(value.replace(/<br\/>/ig,"\n"));
-				if (dropdown.css("display") != "none"){
+				if (dropdown.css("display") !== "none"){
 					dropdown.hide();
 					tochangeTo.show();
 					changedel.focus();
@@ -887,7 +910,7 @@ sakai.inlineEditsArea = function(container, options){
 				}
 				dropdown.html(newvalue.replace(/\n/g,"<br/>"));
 				
-				if (dropdown.css("display") == "none"){
+				if (dropdown.css("display") === "none"){
 					tochangeTo.hide();
 					dropdown.show();
 				}
