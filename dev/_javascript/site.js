@@ -167,7 +167,7 @@ sakai.site = function(){
 	 * @return {Object} cloned object
 	 */
 	sakai.site.clone =  function(obj){
-		if (obj === null || typeof(obj) != 'object') {
+		if (obj === null || typeof(obj) !== 'object') {
 			return obj;
 		}
 		else {
@@ -242,7 +242,7 @@ sakai.site = function(){
 
 		// Determine whether the user is mantainer, if yes show and load admin elements
 		var collaboratorgroup = "g-" + sakai.site.currentsite.id + "-collaborators";
-		for (var i = 0; i < sdata.me.user.subjects.length; i++) {
+		for (var i = 0, j = sdata.me.user.subjects.length; i<j; i++) {
 			if (sdata.me.user.subjects[i] === collaboratorgroup) {
 			
 				// Show admin elements
@@ -750,10 +750,10 @@ sakai.site = function(){
 			if (startSaving === true) {
 	
 				var columns = $("#" + sakai.site.selectedpage + " .groupWrapper");
-				for (var i = 0; i < columns.length; i++) {
+				for (var i = 0, j = columns.length; i < j; i++) {
 					var col = [];
 					var column = columns[i];
-					for (var ii = 0; ii < column.childNodes.length; ii++) {
+					for (var ii = 0, jj = column.childNodes.length; ii < jj; ii++) {
 	
 						try {
 							var node = column.childNodes[ii];
@@ -764,7 +764,7 @@ sakai.site = function(){
 								var nowAt = 0;
 								var id = node.style.display;
 								var uid = node.id.split("_")[1];
-								for (var y = 0; y < node.childNodes.length; y++) {
+								for (var y = 0, z = node.childNodes.length; y < z; y++) {
 									if (node.childNodes[y].style) {
 										if (nowAt === 1) {
 											if (node.childNodes[y].style.display.toLowerCase() === "none") {
@@ -871,7 +871,7 @@ sakai.site = function(){
 				}
 				
 				var columns = [];
-				for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+				for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++) {
 					columns[i] = [];
 				}
 				
@@ -1126,9 +1126,9 @@ sakai.site = function(){
 			var jsonobj = {};
 			jsonobj.columns = {};
 			
-			for (var i = 0; i < columns.length; i++) {
+			for (var i = 0, j = columns.length; i < j; i++) {
 				jsonobj.columns["column" + (i + 1)] = [];
-				for (var ii = 0; ii < columns[i].length; ii++) {
+				for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
 					var index = jsonobj.columns["column" + (i + 1)].length;
 					jsonobj.columns["column" + (i + 1)][index] = {};
 					jsonobj.columns["column" + (i + 1)][index].name = columns[i][ii];
@@ -1163,7 +1163,7 @@ sakai.site = function(){
 		};
 		
 		$("#select-layout-finished").live("click", function(ev){
-			if (currentselectedlayout == sakai.site.portaljsons[sakai.site.selectedpage].layout) {
+			if (currentselectedlayout === sakai.site.portaljsons[sakai.site.selectedpage].layout) {
 				$("#overlay-lightbox-layout").hide();
 				$("#overlay-content-layout").hide();
 			}
@@ -1274,7 +1274,7 @@ sakai.site = function(){
 		
 		var arrLinks = [];
 		var links = $("link");
-		for (var i = 0; i < links.length; i++){
+		for (var i = 0, j = links.length; i < j; i++){
 			if (links[i].type === "text/css"){
 				arrLinks.push(links[i].href);
 			}

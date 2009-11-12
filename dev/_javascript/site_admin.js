@@ -1143,7 +1143,7 @@ sakai.site.site_admin = function(){
 			var style = selected.getAttribute("style").replace(/ /g, "");
 			var splitted = style.split(';');
 			var newstyle = '';
-			for (var i = 0; i < splitted.length; i++) {
+			for (var i = 0, j = splitted.length; i < j; i++) {
 				var newsplit = splitted[i].split(":");
 				if (newsplit[0] && newsplit[0] != "display" && newsplit[0] != "float") {
 					newstyle += splitted[i] + ";";
@@ -2363,7 +2363,7 @@ sakai.site.site_admin = function(){
 			var newfolderpath = "/sites/" + sakai.site.escapePageId(sakai.site.currentsite.id) + "/_pages/" + newid.split("/").join("/_pages/");
 			
 			var createFolderPath = "";
-			for (var i = 0; i < newfolderpath.split("/").length - 1; i++){
+			for (var i = 0, j = newfolderpath.split("/").length - 1; i < j; i++){
 				createFolderPath += "/" + newfolderpath.split("/")[i];
 			}
 			createFolderPath = createFolderPath.substring(1);
