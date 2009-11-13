@@ -492,6 +492,13 @@ sakai.site.site_admin = function(){
 			return true;
 		}
 	};
+	
+	/**
+	 * Get the content inside the TinyMCE editor
+	 */
+	var getContent = function(){
+		return tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+	};
 
 	var saveEdit = function() {
 		
@@ -535,7 +542,7 @@ sakai.site.site_admin = function(){
 			}*/
 			
 			// Get the content from tinyMCE
-			var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+			var content = getContent();
 			
 			// Check if the content is empty or not
 			if(!checkContent(content)){
@@ -616,7 +623,7 @@ sakai.site.site_admin = function(){
 					
 					// Store page contents
 					escaped = sakai.site.escapePageId(sakai.site.selectedpage);
-					sakai.site.pagecontents[sakai.site.selectedpage] = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+					sakai.site.pagecontents[sakai.site.selectedpage] = getContent();
 					
 					// Put page contents into html
 					$("#" + escaped).html(sakai.site.pagecontents[sakai.site.selectedpage]);
@@ -674,7 +681,7 @@ sakai.site.site_admin = function(){
 	var saveEdit_Navigation = function() {
 		
 		// Navigation
-		sakai.site.pagecontents._navigation = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+		sakai.site.pagecontents._navigation = getContent();
 		$("#page_nav_content").html(sakai.site.pagecontents._navigation);
 		
 		var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
@@ -748,7 +755,7 @@ sakai.site.site_admin = function(){
 						// Render the new page under the new URL
 					
 						// Save page content
-						var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+						var content = getContent();
 						sdata.widgets.WidgetPreference.save(newfolderpath, "content", content, function(){
 							
 							// Remove old div + potential new one
@@ -767,6 +774,16 @@ sakai.site.site_admin = function(){
 							var position = "0";
 							if (sakai.site.isEditingNewPage){
 								position = "" + (determineHighestPosition() + 100000);
+								
+								// Save the recent activity
+								var activityItem = {
+									"user_id": sdata.me.user.userid,
+									"type": "page_create",
+									"page_id": newid,
+									"site_id": sakai.site.currentsite.id
+								};
+								sakai.siterecentactivity.addRecentActivity(activityItem);
+
 							} else {
 								position = sakai.site.site_info["_pages"][sakai.site.selectedpage].position;
 							}
@@ -804,7 +821,7 @@ sakai.site.site_admin = function(){
 					// Render the new page under the new URL
 					
 						// Save page content
-						var content = tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+						var content = getContent();
 						sdata.widgets.WidgetPreference.save(newfolderpath, "content", content, function(){
 							
 							// Remove old div + potential new one
@@ -1310,7 +1327,7 @@ sakai.site.site_admin = function(){
 			tinyMCE.get("elm1").setContent(value);
 			switchtab("html","HTML","preview","Preview");
 		}
-		$("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + tinyMCE.get("elm1").getContent().replace(/src="..\/devwidgets\//g, 'src="/devwidgets/'));
+		$("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + getContent());
 		sdata.widgets.WidgetLoader.insertWidgets("page_preview_content",null,sakai.site.currentsite.id + "/_widgets");
 		sakai.site.currentEditView = "preview";
 	});
@@ -1874,20 +1891,20 @@ sakai.site.site_admin = function(){
 				"type": "webpage",
 				"position": "" + (determineHighestPosition() + 100000),
 				"acl": "parent"
+			},
+			complete: function(){
+				// Init tinyMCE if needed
+				if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
+					init_tinyMCE();
+		  		} else {
+					editPage(newid);
+				}
 			}
 		});
 		
 		// Store page selected and old IDs
 		sakai.site.oldSelectedPage = sakai.site.selectedpage;
 		sakai.site.selectedpage = newid;
-				
-		// Init tinyMCE if needed
-		if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
-			init_tinyMCE();
-  		} else {
-			editPage(newid);
-		}
-		
 	};
 	
 	

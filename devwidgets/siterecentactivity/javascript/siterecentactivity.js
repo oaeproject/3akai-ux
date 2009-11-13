@@ -8,6 +8,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
 	var siterecentactivityContainer = "#siterecentactivity_container";
 	var siterecentactivityContainerTemplate = "siterecentactivity_container_template";
 
+
 	/////////////////////
 	// RECENT ACTIVITY //
 	/////////////////////
@@ -23,7 +24,13 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
 				sakai.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai.siterecentactivity.recentactivity.items[i].date+ "Z");
 			}
 			
-			$(siterecentactivityContainer).html($.Template.render(siterecentactivityContainerTemplate, sakai.siterecentactivity.recentactivity));
+			// We reverse the array to see the most recent item on top of the list
+			var reversedItems = {
+				"items" : sakai.siterecentactivity.recentactivity.items.reverse()
+			};
+
+			// Render the recent sites
+			$(siterecentactivityContainer).html($.Template.render(siterecentactivityContainerTemplate, reversedItems));
 		}else{
 			sakai.siterecentactivity.getRecentActivity(sakai.siterecentactivity.render);
 		}
