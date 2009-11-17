@@ -125,6 +125,9 @@ sakai.discussion = function(tuid, placement, showSettings) {
     // Template
     var discussionContainerTemplate = "discussion_container_template";
     var discussionSettingsExistingContainerTemplate = "discussion_settings_existing_container_template";
+
+	var discussionCompactContainerTemplate = "discussion_compact_container_template";
+	var discussionPostTemplate = "discussion_post_template";
     
     
     ///////////////////////
@@ -347,6 +350,22 @@ sakai.discussion = function(tuid, placement, showSettings) {
     //////////////////////
     // DISPLAYING POSTS //
     //////////////////////
+
+	var bindShowCurrentPostHandlers = function(post,loggedIn) {
+
+		$('#post_' + post.post["sakai:id"]).bind('click', post,function(e, ui) {
+
+			e.data["loggedIn"] = loggedIn;
+			e.data["first"] = false;
+			$('#' + tuid + ' #discussion_current_post').html($.Template.render(discussionPostTemplate, e.data));
+			$('#' + tuid + ' .messageCursor').hide();
+			$('#post_' + post.post["sakai:id"] + '_cursor').show();
+		});
+
+		for(var i=0;i<post.replies.length;i++) {
+           bindShowCurrentPostHandlers(post.replies[i],loggedIn);
+		}
+	};
     
     /**
      * Render the discussion posts
@@ -356,6 +375,26 @@ sakai.discussion = function(tuid, placement, showSettings) {
 		jsonPosts.curr = me;		
         // Render the posts with the template engine
         $(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
+
+		// Add binding to the compact link
+		$('#' + tuid + ' #discussion_compact_link').bind('click', function(e, ui) {
+			$(discussionContainer, rootel).html($.Template.render(discussionCompactContainerTemplate, jsonPosts));
+			// Add binding to the full link
+			$('#' + tuid + ' #discussion_full_link').bind('click', function(e, ui) {
+				renderPosts(jsonPosts);
+			});
+
+			// Render the first post into the current post area
+			jsonPosts.posts[0]["loggedIn"] = jsonPosts.loggedIn;
+			jsonPosts.posts[0]["first"] = true;
+			$('#' + tuid + ' #discussion_current_post').html($.Template.render(discussionPostTemplate, jsonPosts.posts[0]));
+			$('#' + tuid + ' .messageCursor').hide();
+			$('#post_' + jsonPosts.posts[0].post["sakai:id"] + '_cursor').show();
+
+			for(var i=0;i<jsonPosts.posts.length;i++) {
+				bindShowCurrentPostHandlers(jsonPosts.posts[i],jsonPosts.loggedIn);
+			}
+		});
     };
     
     /**
