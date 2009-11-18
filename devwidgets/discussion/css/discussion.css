@@ -23,6 +23,7 @@
 #discussion_main_container h3 {display:inline;}
 
 #discussion_full_compact_link {float: right;}
+#discussion_full_compact_link a {color:#058EC4;}
 #discussion_full_link {display: none;}
 
 /* Container */
