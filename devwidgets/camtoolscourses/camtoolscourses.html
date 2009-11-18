@@ -1,0 +1,43 @@
+<!-- CSS -->
+<link type="text/css" href="/devwidgets/camtoolscourses/css/camtoolscourses.css" />
+
+<div id="camtoolscourses_container" class="fl-widget-content"><!-- --></div>
+
+<div id="camtoolscourses_container_template"><!--
+	<h3>My Favourites</h3>
+	{if favourites && favourites.length > 0}
+		<div id="camtoolscourses_list_favourites">
+			<ul>
+			{for i in favourites}
+				<li><a href="${i.url}" target="_blank">${i.title}</a></li>
+			{/for}
+			</ul>
+		</div>
+	{else}
+		<p class="camtoolscourses_content">
+			You have no favourite courses/projects.
+		</p>
+	{/if}
+	<h3>My Other Courses and Projects</h3>
+	{if normal && normal.length > 0}
+		<div id="camtoolscourses_list_normal">
+			<ul>
+			{for i in normal}
+				<li><a href="${i.url}" target="_blank">${i.title}</a></li>
+			{/for}
+			</ul>
+		</div>
+	{else}
+		<p class="camtoolscourses_content">
+			You have no other courses/projects.
+		</p>
+	{/if}
+--></div>
+
+<!-- FOOTER LINKS -->
+<div class="fl-widget-no-options fl-fix">
+	<div class="widget-no-options-inner"><!-- --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/camtoolscourses/javascript/camtoolscourses.js"></script>

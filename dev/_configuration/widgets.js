@@ -91,6 +91,17 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		camtoolscourses :
+		{
+			description:"Your courses &amp; sites for Camtools 2008\r\n",
+			iframe:0,
+			url:"/devwidgets/camtoolscourses/camtoolscourses.html",
+			name:"Camtools 2008 Courses &amp; Projects",
+			id:"camtoolscourses",
+			personalportal:1,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
 		sendmessage :
 		{
 			description:"Send a message\r\n",

@@ -250,7 +250,6 @@ sakai.site = function(){
 				$li_edit_page.show();
 				$add_a_new.show();
 				$site_management.show();
-				//$(".page_nav h3").css("padding-top", "10px");
 				
 				// Load admin part from a separate file
 				$.Load.requireJS(sakai.site.siteAdminJS);
@@ -593,16 +592,16 @@ sakai.site = function(){
 			}
 		}
 	
-	if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
-		if (pageType === "dashboard") {
-			$dashboard_options.show();
-			$li_edit_page_divider.hide();
-			$li_edit_page.hide();
-		} else {
-			$li_edit_page_divider.show();
-			$li_edit_page.show();
+		if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
+			if (pageType === "dashboard") {
+				$dashboard_options.show();
+				$li_edit_page_divider.hide();
+				$li_edit_page.hide();
+			} else {
+				$li_edit_page_divider.show();
+				$li_edit_page.show();
+			}
 		}
-	}
 		
 		// Re-render Site Navigation to reflect changes if navigation widget is already loaded
 		try {
@@ -624,9 +623,8 @@ sakai.site = function(){
 	 * @return void
 	 */
 	sakai.site.openPage = function(pageid){
-		
+
 		document.location = "#" + pageid;
-		
 	};
 	
 	
