@@ -4,7 +4,11 @@
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
 	<h3>Discussion</h3>
-	
+
+	<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Change to compact view</a>
+	<a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">Change to full view</a>
+
+	<hr/>
 
 	<div id="discussion_post_template" style="display:none"><!--
 	<div class="discussion_post" id="discussion_post${post["sakai:postid"]}">
@@ -64,9 +68,6 @@
 --></div>
 
 	<div id="discussion_compact_container_template" style="display:none"><!--
-		<a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">Full</a>
-		<br />
-		<br />
 		<div id="discussion_current_post"></div>
 
 		<br />
@@ -96,9 +97,6 @@
 
 	</div>
 	<div id="discussion_container_template" style="display:none"><!--
-	<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Compact</a>
-	<br />
-	<br />
 	{macro displayPost(o, first, current)}
 			
 				<div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
