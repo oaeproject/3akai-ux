@@ -1,29 +1,21 @@
 <!-- CSS -->
+<link type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
 <link type="text/css" href="/devwidgets/camtoolscourses/css/camtoolscourses.css" />
 
-<div id="camtoolscourses_container" class="fl-widget-content"><!-- --></div>
+<div id="camtoolscourses_container" class="fl-widget-content" style="display:none;">
+	<h3>My Courses and Projects</h3>
+	<div id="camtoolscourses_subcontainer">
+		<!-- -->
+	</div>
+	<div id="contentmedia_paging" class="jq_pager"></div>
+</div>
 
 <div id="camtoolscourses_container_template"><!--
-	<h3>My Favourites</h3>
-	{if favourites && favourites.length > 0}
-		<div id="camtoolscourses_list_favourites">
+	{if all && all.length > 0}
+		<div id="camtoolscourses_list_all">
 			<ul>
-			{for i in favourites}
-				<li><a href="${i.url}" target="_blank">${i.title}</a></li>
-			{/for}
-			</ul>
-		</div>
-	{else}
-		<p class="camtoolscourses_content">
-			You have no favourite courses/projects.
-		</p>
-	{/if}
-	<h3>My Other Courses and Projects</h3>
-	{if normal && normal.length > 0}
-		<div id="camtoolscourses_list_normal">
-			<ul>
-			{for i in normal}
-				<li><a href="${i.url}" target="_blank">${i.title}</a></li>
+			{for i in all}
+				<li{if i.favourite} class="camtoolscourses_favourite" {/if}><a href="${i.url}" target="_blank">${i.title}</a></li>
 			{/for}
 			</ul>
 		</div>
