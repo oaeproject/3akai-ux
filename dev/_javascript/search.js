@@ -209,7 +209,6 @@ sakai.search = function() {
 		
 		if (foundSites && foundSites.results) {
 			finaljson.items = foundSites.results;
-			finaljson.sakaiDomain = Config.SakaiDomain;
 		}
 		
 		$(searchConfig.sites.searchResult).html($.Template.render(searchConfig.sites.searchResultTemplate, finaljson));

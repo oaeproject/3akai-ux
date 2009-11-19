@@ -135,7 +135,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 				if( !isIE ) 
 				{
 					var a = document.createElement("a");
-					a.href = Config.SakaiDomain + 'forum/id-' + gid + '/topic/' + id;
+					a.href = Config.SakaiDomain + '/forum/id-' + gid + '/topic/' + id;
 					a.target = "_blank";
 					a.appendChild(document.createTextNode("Join this disucssion"));
 					iframe.appendChild(a);
