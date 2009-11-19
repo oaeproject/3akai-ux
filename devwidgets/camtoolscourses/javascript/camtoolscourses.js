@@ -82,7 +82,7 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 	 */
 	var splitGlobalFeed = function(){
 		if(favouritefeed && favouritefeed.items && favouritefeed.items.length > 0){
-			for(var i = 0; i < globalfeed.items.length; i++){
+			for(var i = 0, j = globalfeed.items.length; i < j; i++) {
 				if($.inArray(globalfeed.items[i].id, favouritefeed.items) !== -1){
 					globalfeed.items[i].favourite = true;
 					parsefavourites.push(globalfeed.items[i]);
@@ -93,9 +93,9 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 			}
 		}else{
 			if(globalfeed){
-				for (var j = 0; j < globalfeed.items.length; j++) {
-					globalfeed.items[i].favourite = true;
-					parsenormal.push(globalfeed.items[j]);
+				for(var k = 0, l = globalfeed.items.length; k < l; k++) {
+					globalfeed.items[k].favourite = false;
+					parsenormal.push(globalfeed.items[k]);
 				}
 			}
 		}
