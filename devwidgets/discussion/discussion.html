@@ -3,12 +3,14 @@
 
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
-	<div style="overflow: hidden;">
-		<div style="float: left;clear: right;"><h3>Discussion</h3></div>
+	<div id="discussion_widget_header_wrapper">
+		<div id="discussion_widget_title_wrapper"><img src="/dev/_images/comments.png" width="16" height="16"/><h3 id="discussion_widget_title"></h3></div>
 
-		<div id="discussion_full_compact_link">
+		<div id="discussion_view_options_wrapper">
 			<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Change to compact view</a>
 			<a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">Change to full view</a>
+			<a id="discussion_expand_link" title="Click to expand this discussion" href="javascript:;"><img src="/dev/_images/arrow_down_sm2_blue.png" width="9" height="6"/></a>
+			<a id="discussion_collapse_link" title="Click to collapse this discussion" href="javascript:;"><img src="/dev/_images/arrow_up_sm2_blue.png" width="9" height="6"/></a>
 		</div>
 	</div>
 
@@ -231,6 +233,9 @@
 			<li>
 				<a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_existing_tab">Insert Existing</a>
 			</li>
+			<li>
+				<a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_display_options_tab">Display Options</a>
+			</li>
 		</ul>
 		
 		<div id="discussion_settings_new_container" class="discussion_settings_container">
@@ -261,6 +266,10 @@
 			</div>
 			{/if}
 		--></div>
+		<div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
+			<p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" checked/>Link</p>
+			<p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option"/>Inline Display</p>
+		</div>
 		<div class="dialog_buttons">
 			<a class="button-default submit_button" href="javascript:;" id="discussion_settings_submit">Submit</a>
 			<a class="button cancel-button" href="javascript:;" id="discussion_settings_cancel">Cancel</a>
