@@ -119,6 +119,10 @@ sakai.discussion = function(tuid, placement, showSettings) {
     var discussionSettingsNewContainer = discussionSettingsNew + "_container";
     var discussionSettingsNewSubject = discussionSettingsNew + "_subject";
     var discussionSettingsNewTab = discussionSettingsNew + "_tab";
+
+    var discussionSettingsDisplayOptions = discussionSettings + "_display_options";
+    var discussionSettingsDisplayOptionsContainer = discussionSettingsDisplayOptions + "_container";
+    var discussionSettingsDisplayOptionsTab = discussionSettingsDisplayOptions + "_tab";
     
     var discussionSettingsSubmit = discussionSettings + "_submit";
     
@@ -380,22 +384,25 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	};
 
 	/**
+	 * Wrapper to allow renderPosts to be called from a click handler
+	 * @param {Object} event An object whose data attribute contains the jsonPosts
+	 */
+	var renderFullPostsView = function(event) {
+		renderPosts(event.data);
+	}
+
+	/**
 	 * Renders the compact view of the current posts.
 	 */
 	var renderCompactPostsView = function(event)
 	{
 		$('#' + tuid + ' #discussion_compact_link').hide();
+		$('#' + tuid + ' #discussion_expand_link').hide();
+		$('#' + tuid + ' #discussion_collapse_link').show();
 		$('#' + tuid + ' #discussion_full_link').show();
 
 		// Render the compact view template
 		$(discussionContainer, rootel).html($.Template.render(discussionCompactContainerTemplate, event.data));
-
-		// Add binding to the full link
-		$('#' + tuid + ' #discussion_full_link').bind('click', event.data, function(e) {
-			$('#' + tuid + ' #discussion_compact_link').show();
-			$('#' + tuid + ' #discussion_full_link').hide();
-			renderPosts(e.data);
-		});
 
 		// Render the first post into the current post area
 		event.data.posts[0]["loggedIn"] = event.data.loggedIn;
@@ -417,10 +424,13 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	var renderPosts = function(jsonPosts) {
 		jsonPosts.curr = me;		
 
+		$('#' + tuid + ' #discussion_compact_link').show();
+		$('#' + tuid + ' #discussion_full_link').hide();
+		$('#' + tuid + ' #discussion_expand_link').hide();
+		$('#' + tuid + ' #discussion_collapse_link').show();
+
         // Render the posts with the template engine
         $(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
-
-		$('#' + tuid + ' #discussion_compact_link').bind('click', jsonPosts, renderCompactPostsView);
     };
     
     /**
@@ -512,9 +522,29 @@ sakai.discussion = function(tuid, placement, showSettings) {
         else {
             jsonPosts.loggedIn = true;
         }
+
+		var firstPostSubject = jsonPosts.posts[0].post['sakai:subject'];
+		$('#' + tuid + ' #discussion_widget_title').html(firstPostSubject);
+
+		$('#' + tuid + ' #discussion_compact_link').bind('click', jsonPosts, renderCompactPostsView);
+		$('#' + tuid + ' #discussion_expand_link').bind('click', jsonPosts, renderFullPostsView);
+		$('#' + tuid + ' #discussion_full_link').bind('click', jsonPosts, renderFullPostsView);
+		$('#' + tuid + ' #discussion_collapse_link').bind('click', jsonPosts, function (e,ui)
+			{
+				$('#' + tuid + ' #discussion_container').html('');
+				$('#' + tuid + ' #discussion_collapse_link').hide();
+				$('#' + tuid + ' #discussion_expand_link').show();
+				$('#' + tuid + ' #discussion_compact_link').hide();
+				$('#' + tuid + ' #discussion_full_link').hide();
+			});
         
-        renderPosts(jsonPosts);
-        $(discussionToggleShowAllClass, rootel).hide();
+		if(widgetSettings.displayMode == 'inline') {
+			renderPosts(jsonPosts);
+			$(discussionToggleShowAllClass, rootel).hide();
+		}
+		else if(widgetSettings.displayMode == 'link') {
+			$('#' + tuid + ' #discussion_expand_link').show();
+		}
     };
     
     /**
@@ -757,7 +787,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
             var callback = finishSettingsContainer;
             saveWidgetSettings(callback);
         }
-        else {
+        else if ($(discussionSettingsNewContainer, rootel).is(":visible")) {
             // The user wants to write his own post.
             widgetSettings.marker = tuid;
             post = {};
@@ -786,6 +816,18 @@ sakai.discussion = function(tuid, placement, showSettings) {
                 }
             }
         }
+        else if ($(discussionSettingsDisplayOptionsContainer, rootel).is(":visible")) {
+
+			if($('#' + tuid + ' #discussion_settings_link_display_button').is(":checked")) {
+				widgetSettings.displayMode = 'link';
+			}
+			else if($('#' + tuid + ' #discussion_settings_inline_display_button').is(":checked")) {
+				widgetSettings.displayMode = 'inline';
+			}
+
+            var callback = finishSettingsContainer;
+            saveWidgetSettings(callback);
+		}
     };
     
     
@@ -844,14 +886,39 @@ sakai.discussion = function(tuid, placement, showSettings) {
             $(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabSelectedClass);
             $(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
             $(discussionSettingsNewContainer, rootel).show();
+            $(discussionSettingsDisplayOptionsContainer, rootel).hide();
+            $(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsNewContainer, rootel).show();
         }
         else if (tab === "existing") {
             $(discussionSettingsNewContainer, rootel).hide();
             $(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabSelectedClass);
             $(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsDisplayOptionsContainer, rootel).hide();
+            $(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabClass);
             $(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabClass);
             $(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabSelectedClass);
             $(discussionSettingsExistingContainer, rootel).show();
+        }
+        else if (tab === "display_options") {
+            $(discussionSettingsNewContainer, rootel).hide();
+            $(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsExistingContainer, rootel).hide();
+            $(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsDisplayOptionsContainer, rootel).show();
+
+			if(widgetSettings.displayMode === 'inline') {
+				$('#' + tuid + ' #discussion_settings_inline_display_button').attr('checked',true);
+			}
+			else if(widgetSettings.displayMode === 'link') {
+				$('#' + tuid + ' #discussion_settings_link_display_button').attr('checked',true);
+			}
         }
     };
     
@@ -875,6 +942,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
      */
     var getWidgetSettings = function() {
         var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+
         $.ajax({
             url: url,
             cache: false,
@@ -975,6 +1043,13 @@ sakai.discussion = function(tuid, placement, showSettings) {
      */
     $(discussionSettingsExistingTab, rootel).bind("click", function(e, ui) {
         showTab("existing");
+    });
+
+    /*
+     * Bind the display_options discussion tab
+     */
+    $(discussionSettingsDisplayOptionsTab, rootel).bind("click", function(e, ui) {
+        showTab("display_options");
     });
     
     
