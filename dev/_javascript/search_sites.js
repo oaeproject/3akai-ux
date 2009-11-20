@@ -135,7 +135,6 @@ sakai.search = function() {
 	var renderResults = function(results, success) {
 		var finaljson = {};
 		finaljson.items = [];
-		finaljson.sakaiDomain = Config.SakaiDomain;
 			if (success) {
 
 			// Adjust the number of sites we have found.

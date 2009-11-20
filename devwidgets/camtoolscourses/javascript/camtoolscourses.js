@@ -32,6 +32,10 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 	
 	var rootel = $("#" + tuid);
 	
+	// Paging
+	var pageCurrent = 0;		// The page you are currently on
+	var pageSize = 10;			// How many items you want to see on 1 page
+	
 	var globalfeed = false;
 	var favouritefeed = false;
 	
@@ -42,6 +46,8 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 	// CSS selectors
 	var camtoolscoursesId = "#camtoolscourses";
 	var $camtoolscoursesContainer = $(camtoolscoursesId + "_container");
+	var $camtoolscoursesSubcontainer = $(camtoolscoursesId + "_subcontainer");
+	var jqPagerClass = ".jq_pager";
 	
 	// Templates
 	var camtoolscoursesContainerTemplate = "camtoolscourses_container_template";
@@ -55,15 +61,20 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 	 * Parse the templates with JST
 	 */
 	var parseTemplates = function(){
-		
-		// Set the parse global object
-		parseglobal = {
-			normal: parsenormal,
-			favourites: parsefavourites
+
+		// Make an array that contains only the elements that will appear on one page
+		var pagingArray = {
+			all: parseglobal.all.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
 		};
 
 		// Render the template and pass through the parseglobal object
-		$.Template.render(camtoolscoursesContainerTemplate, parseglobal, $camtoolscoursesContainer);
+		$.Template.render(camtoolscoursesContainerTemplate, pagingArray, $camtoolscoursesSubcontainer);
+
+		//
+		if(parseglobal.all.length >= pageSize){
+			// Render paging
+			renderPaging();
+		}
 	};
 
 	/**
@@ -71,23 +82,62 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 	 */
 	var splitGlobalFeed = function(){
 		if(favouritefeed && favouritefeed.items && favouritefeed.items.length > 0){
-			for(var i = 0; i < globalfeed.items.length; i++){
+			for(var i = 0, j = globalfeed.items.length; i < j; i++) {
 				if($.inArray(globalfeed.items[i].id, favouritefeed.items) !== -1){
+					globalfeed.items[i].favourite = true;
 					parsefavourites.push(globalfeed.items[i]);
 				}else{
+					globalfeed.items[i].favourite = false;
 					parsenormal.push(globalfeed.items[i]);
 				}
 			}
 		}else{
 			if(globalfeed){
-				for (var j = 0; j < globalfeed.items.length; j++) {
-					parsenormal.push(globalfeed.items[j]);
+				for(var k = 0, l = globalfeed.items.length; k < l; k++) {
+					globalfeed.items[k].favourite = false;
+					parsenormal.push(globalfeed.items[k]);
 				}
 			}
 		}
 		
+		// Set the parse global object
+		parseglobal = {
+			all: $.merge(parsefavourites, parsenormal)
+		};
+		
 		// Parse the template with the new modified feeds
 		parseTemplates();
+		
+		// Show the container for the courses and projects
+		$camtoolscoursesContainer.show();
+	};
+
+
+	////////////
+	// Paging //
+	////////////
+	
+	/**
+	 * Will be called when the pager is being clicked.
+	 * This will initiate a new search query and rerender
+	 * the current files
+	 * @param {Object} clickedPage
+	 */
+	var doPaging = function(clickedPage){
+		pageCurrent = clickedPage - 1;
+		parseTemplates();
+	};
+	
+	/**
+	 * Render the paging of the courses and projects widget
+	 */
+	var renderPaging = function(){
+		// Render paging
+		$(jqPagerClass).pager({
+			pagenumber: pageCurrent + 1,
+			pagecount: Math.ceil(parseglobal.all.length / pageSize),
+			buttonClickCallback: doPaging
+		});
 	};
 
 

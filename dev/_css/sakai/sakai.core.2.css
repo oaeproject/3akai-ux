@@ -840,3 +840,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
 #main-content-div {
 	padding-top: 10px;	
 }
+
+/* Hide elements that are still in development */
+.hidedev {display:none !important;}
