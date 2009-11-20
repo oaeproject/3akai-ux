@@ -42,6 +42,7 @@ sakai.site = function(){
 	sakai.site.last = 0;
 	sakai.site.currentsite = false;
 	sakai.site.meObject = false;
+	sakai.site.isCollaborator = false;
 	sakai.site.site_info = {};
 	sakai.site.site_info._pages = {};
 	/*sakai.site.pages = false;
@@ -254,6 +255,9 @@ sakai.site = function(){
 				// Load admin part from a separate file
 				$.Load.requireJS(sakai.site.siteAdminJS);
 				
+				// Remember we are a collaborator.
+				sakai.site.isCollaborator = true;
+
 				break;
 			}
 		}
@@ -280,6 +284,36 @@ sakai.site = function(){
 		
 	};
 	
+	/**
+	 * Checks the content html string for any widget's who still have an id0 in their id.
+	 * If they do, then they get a new proper ID and the original data in the repository is adjusted.
+	 * @param {String} content The HTML to check.
+	 * @param {String} url The url into JCR where the content originates from.
+	 */
+	sakai.site.ensureProperWidgetIDs = function(content, url) {
+		// If we are not a collaborator we can't change files (duh)
+		if (!sakai.site.isCollaborator) {
+			return content;
+		}
+		else {
+			var adjusted = false;
+			// Wrap the content in a dummy div so we don't lose anything.
+			var $el = $("<div>" + content + "</div>");
+			$(".widget_inline", $el).each(function(){
+				var splittedId = this.id.split("_");
+				if (splittedId.length > 1 && splittedId[2] === "id0") {
+					this.id = splittedId[0] + "_" + splittedId[1] + "_id" + Math.floor((Math.random() * 10000000));
+					adjusted = true;
+				}
+			});
+			if (adjusted) {
+				// We had to do some manipulation, save the content.
+				sdata.widgets.WidgetPreference.save(url.replace("/content", ""), "content", $el.html(), null);
+			}
+			return $el.html();
+		}
+	};
+
 	// Load Navigation
 	sakai.site.loadSiteNavigation = function() {
 
@@ -289,6 +323,7 @@ sakai.site = function(){
 			cache: false,
 			async: false,
 			success: function(response){
+				response = sakai.site.ensureProperWidgetIDs(response, sakai.site.urls.SITE_NAVIGATION_CONTENT());
 				sakai.site.pagecontents._navigation = response;
 				$page_nav_content.html(response);
 				sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
@@ -582,6 +617,7 @@ sakai.site = function(){
 						url: sakai.site.urls.WEBPAGE_CONTENT(),
 						cache: false,
 						success: function(response){
+							response = sakai.site.ensureProperWidgetIDs(response, sakai.site.urls.WEBPAGE_CONTENT());
 							displayPage(response, true);
 						},
 						error: function(httpstatus){
