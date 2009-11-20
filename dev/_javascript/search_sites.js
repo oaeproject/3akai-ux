@@ -107,6 +107,7 @@ sakai.search = function() {
 		if (!searchquery) {
 			searchquery = $(searchConfig.global.text).val().toLowerCase();
 		}
+		if (searchquery === "") searchquery = "*";
 		if (!searchwhere) {
 			searchwhere = mainSearch.getSearchWhereSites();
 		}
