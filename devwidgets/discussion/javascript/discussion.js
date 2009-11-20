@@ -49,6 +49,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     var allDiscussions = [];
     var initialPost = false;
     var countReplies = 0;
+	var currentDisplayMode = '';
     
     
     Config.URL.DISCUSSION_INITIALPOSTS_SERVICE = "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__";
@@ -368,13 +369,13 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	 */
 	var bindShowCurrentPostHandlers = function(post,loggedIn) {
 
-		$('#post_' + post.post["sakai:id"]).bind('click', post,function(e, ui) {
+		$('#post_' + post.post["sakai:id"],rootel).bind('click', post,function(e, ui) {
 
 			e.data["loggedIn"] = loggedIn;
 			e.data["first"] = false;
-			$('#' + tuid + ' #discussion_current_post').html($.Template.render(discussionPostTemplate, e.data));
-			$('#' + tuid + ' .messageCursor').hide();
-			$('#post_' + e.data.post["sakai:id"] + '_cursor').show();
+			$('#discussion_current_post',rootel).html($.Template.render(discussionPostTemplate, e.data));
+			$('.messageCursor',rootel).hide();
+			$('#post_' + e.data.post["sakai:id"] + '_cursor',rootel).show();
 		});
 
 		// Now recurse down through the post's replies.
@@ -388,33 +389,51 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	 * @param {Object} event An object whose data attribute contains the jsonPosts
 	 */
 	var renderFullPostsView = function(event) {
-		renderPosts(event.data);
-	}
+
+		// If we are currently in compact mode, re-render
+		if(currentDisplayMode === 'compact') {
+			renderPosts(event.data);
+		}
+
+		$('#discussion_container',rootel).show();
+		$('#discussion_compact_link',rootel).show();
+		$('#discussion_full_link',rootel).hide();
+		$('#discussion_expand_link',rootel).hide();
+		$('#discussion_collapse_link',rootel).show();
+	};
 
 	/**
 	 * Renders the compact view of the current posts.
 	 */
-	var renderCompactPostsView = function(event)
-	{
-		$('#' + tuid + ' #discussion_compact_link').hide();
-		$('#' + tuid + ' #discussion_expand_link').hide();
-		$('#' + tuid + ' #discussion_collapse_link').show();
-		$('#' + tuid + ' #discussion_full_link').show();
+	var renderCompactPostsView = function(event) {
 
-		// Render the compact view template
-		$(discussionContainer, rootel).html($.Template.render(discussionCompactContainerTemplate, event.data));
+		// If we are currently in full mode, re-render
+		if(currentDisplayMode === 'full') {
 
-		// Render the first post into the current post area
-		event.data.posts[0]["loggedIn"] = event.data.loggedIn;
-		event.data.posts[0]["first"] = true;
-		$('#' + tuid + ' #discussion_current_post').html($.Template.render(discussionPostTemplate, event.data.posts[0]));
-		// Hide all the current cursors and show the relevant one
-		$('#' + tuid + ' .messageCursor').hide();
-		$('#post_' + event.data.posts[0].post["sakai:id"] + '_cursor').show();
+			// Render the compact view template
+			$(discussionContainer, rootel).html($.Template.render(discussionCompactContainerTemplate, event.data));
 
-		for(var i=0,j=event.data.posts.length;i<j;i++) {
-			bindShowCurrentPostHandlers(event.data.posts[i],event.data.loggedIn);
+			// Render the first post into the current post area
+			event.data.posts[0]["loggedIn"] = event.data.loggedIn;
+			event.data.posts[0]["first"] = true;
+			$('#discussion_current_post',rootel).html($.Template.render(discussionPostTemplate, event.data.posts[0]));
+			// Hide all the current cursors and show the relevant one
+			$('.messageCursor',rootel).hide();
+			$('#post_' + event.data.posts[0].post["sakai:id"] + '_cursor',rootel).show();
+
+			for(var i=0,j=event.data.posts.length;i<j;i++) {
+				bindShowCurrentPostHandlers(event.data.posts[i],event.data.loggedIn);
+			}
 		}
+
+		$('#discussion_compact_link',rootel).hide();
+		$('#discussion_expand_link',rootel).hide();
+		$('#discussion_collapse_link',rootel).show();
+		$('#discussion_full_link',rootel).show();
+
+		$('#discussion_container',rootel).show();
+
+		currentDisplayMode = 'compact';
 	};
     
     /**
@@ -424,13 +443,10 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	var renderPosts = function(jsonPosts) {
 		jsonPosts.curr = me;		
 
-		$('#' + tuid + ' #discussion_compact_link').show();
-		$('#' + tuid + ' #discussion_full_link').hide();
-		$('#' + tuid + ' #discussion_expand_link').hide();
-		$('#' + tuid + ' #discussion_collapse_link').show();
-
         // Render the posts with the template engine
         $(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
+
+		currentDisplayMode = 'full';
     };
     
     /**
@@ -524,26 +540,51 @@ sakai.discussion = function(tuid, placement, showSettings) {
         }
 
 		var firstPostSubject = jsonPosts.posts[0].post['sakai:subject'];
-		$('#' + tuid + ' #discussion_widget_title').html(firstPostSubject);
+		$('#discussion_widget_title',rootel).html(firstPostSubject);
 
-		$('#' + tuid + ' #discussion_compact_link').bind('click', jsonPosts, renderCompactPostsView);
-		$('#' + tuid + ' #discussion_expand_link').bind('click', jsonPosts, renderFullPostsView);
-		$('#' + tuid + ' #discussion_full_link').bind('click', jsonPosts, renderFullPostsView);
-		$('#' + tuid + ' #discussion_collapse_link').bind('click', jsonPosts, function (e,ui)
+		$('#discussion_compact_link',rootel).bind('click', jsonPosts, renderCompactPostsView);
+
+		$('#discussion_full_link',rootel).bind('click', jsonPosts, renderFullPostsView);
+
+		$('#discussion_expand_link',rootel).bind('click', function (e,ui)
 			{
-				$('#' + tuid + ' #discussion_container').html('');
-				$('#' + tuid + ' #discussion_collapse_link').hide();
-				$('#' + tuid + ' #discussion_expand_link').show();
-				$('#' + tuid + ' #discussion_compact_link').hide();
-				$('#' + tuid + ' #discussion_full_link').hide();
+				$('#discussion_container',rootel).show();
+
+				if(currentDisplayMode === 'full') {
+					$('#discussion_compact_link',rootel).show();
+					$('#discussion_full_link',rootel).hide();
+				}
+				else {
+					$('#discussion_compact_link',rootel).hide();
+					$('#discussion_full_link',rootel).show();
+				}
+
+				$('#discussion_expand_link',rootel).hide();
+				$('#discussion_collapse_link',rootel).show();
 			});
+
+
+		$('#discussion_collapse_link',rootel).bind('click', function (e,ui)
+			{
+				$('#discussion_container',rootel).hide();
+				$('#discussion_collapse_link',rootel).hide();
+				$('#discussion_expand_link',rootel).show();
+				$('#discussion_compact_link',rootel).hide();
+				$('#discussion_full_link',rootel).hide();
+			});
+
+		renderPosts(jsonPosts);
+
+		$(discussionToggleShowAllClass, rootel).hide();
         
 		if(widgetSettings.displayMode == 'inline') {
-			renderPosts(jsonPosts);
-			$(discussionToggleShowAllClass, rootel).hide();
+			$('#discussion_collapse_link',rootel).show();
+			$('#discussion_compact_link',rootel).show();
+			$('#discussion_container',rootel).show();
 		}
 		else if(widgetSettings.displayMode == 'link') {
-			$('#' + tuid + ' #discussion_expand_link').show();
+			$('#discussion_expand_link',rootel).show();
+			$('#discussion_container',rootel).hide();
 		}
     };
     
