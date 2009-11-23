@@ -546,6 +546,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 			url: "/sites/" + siteid + ".modifyAce.json",
 			type: "POST",
 			success: function(data){
+				/*
+				 * TODO
+				 * We need to have a mechanism to rewrite all the id's in the template pages!
+				 * This should probably go in the backend.
+				 */
 				document.location = "/sites/" + siteid;
 			},
 			error: function(status){

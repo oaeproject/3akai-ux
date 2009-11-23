@@ -291,27 +291,56 @@ sakai.site = function(){
 	 * @param {String} url The url into JCR where the content originates from.
 	 */
 	sakai.site.ensureProperWidgetIDs = function(content, url) {
+		var adjusted = false;
+		var moveWidgets = [];
+		// Wrap the content in a dummy div so we don't lose anything.
+		var $el = $("<div>" + content + "</div>");
+		$(".widget_inline", $el).each(function(){
+			var splittedId = this.id.split("_");
+			if (splittedId.length > 1 && splittedId[2] === "id0") {
+				this.id = splittedId[0] + "_" + splittedId[1] + "_id" + Math.floor((Math.random() * 10000000));
+				adjusted = true;
+			}
+			if (splittedId.length > 2 && splittedId[3] === "hasData") {
+				// There is some existing data for this widget.
+				var widgetID = "id" + Math.floor((Math.random() * 10000000));
+				this.id = splittedId[0] + "_" + splittedId[1] + "_" + widgetID;
+				adjusted = true;
+				moveWidgets.push({
+					'from': splittedId[2],
+					'to': widgetID
+				});
+			}
+		});
 		// If we are not a collaborator we can't change files (duh)
-		if (!sakai.site.isCollaborator) {
-			return content;
-		}
-		else {
-			var adjusted = false;
-			// Wrap the content in a dummy div so we don't lose anything.
-			var $el = $("<div>" + content + "</div>");
-			$(".widget_inline", $el).each(function(){
-				var splittedId = this.id.split("_");
-				if (splittedId.length > 1 && splittedId[2] === "id0") {
-					this.id = splittedId[0] + "_" + splittedId[1] + "_id" + Math.floor((Math.random() * 10000000));
-					adjusted = true;
-				}
-			});
+		if (sakai.site.isCollaborator) {
 			if (adjusted) {
 				// We had to do some manipulation, save the content.
 				sdata.widgets.WidgetPreference.save(url.replace("/content", ""), "content", $el.html(), null);
+				for (var i = 0; i < moveWidgets.length;i++) {
+					// Move all the widgets.
+					var url = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].from;
+					var dest = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].to;
+					console.log("From: " + url + " - TO: " + dest);
+					$.ajax({
+						url: url,
+						data: {
+							':operation' : 'move',
+							':dest' : dest
+						},
+						cache: false,
+						type: "POST",
+						success: function(response) {
+							console.log(response);
+						},
+						error: function(status) {
+							console.log("Failed to move a widget: " + status);
+						}
+					});
+				}
 			}
-			return $el.html();
 		}
+		return $el.html();
 	};
 
 	// Load Navigation
