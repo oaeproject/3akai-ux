@@ -33,6 +33,8 @@ sakai.rss = function(tuid, placement, showSettings){
 	// Configuration variables //
 	/////////////////////////////	
 
+	Config.URL.PROXY_RSS = "/var/proxy/rss.xml?rss=";
+
 	var rootel = "#" + tuid;
 	var resultJSON={};
 	var feedUrl = "";
@@ -164,9 +166,8 @@ sakai.rss = function(tuid, placement, showSettings){
 		// put the url to a module variable
 		// later on this will also be added to the json-object
 		feedUrl = url;
-		var oPostData = {"method" : "GET", "rss" : feedUrl};
  		$.ajax({
-			url :Config.URL.PROXY_SERVICE + url,
+			url : Config.URL.PROXY_RSS + "http://" +  url,
 			type : "GET",
 			success : function(data) {
 					onResponse(printFeed(data));
@@ -248,7 +249,6 @@ sakai.rss = function(tuid, placement, showSettings){
 			// if all the feed are retrieved render the rss
 			else{
 				$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
-				bindSendToFriend();
 			}		
 		});
 	};
@@ -284,7 +284,6 @@ sakai.rss = function(tuid, placement, showSettings){
 		resultJSON.shownEntries = getShownEntries(pageClicked);
 		// render these entries
 		$(rssOutput, rootel).html($.Template.render(rssOutputTemplate, resultJSON));
-		bindSendToFriend();
 		// change the pageNumeber
 		$(rssPager,rootel).pager({
 			pagenumber: pageClicked,
@@ -370,7 +369,6 @@ sakai.rss = function(tuid, placement, showSettings){
 			resultJSON.feeds = resultJSON.feeds || [];
 			resultJSON.feeds.push(rssFeed);
 			$(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
-			bindSendToFriend();
 			$(rootel + " " + rssRemove).bind("click", function(e,ui){
 				var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
 				resultJSON.feeds.splice(index,1);
@@ -454,41 +452,39 @@ sakai.rss = function(tuid, placement, showSettings){
 			});
 		}
 	});
-	var bindSendToFriend = function(){
-		$(rootel + " " + rssSendToFriend).bind("click", function(e, ui){
-			var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
-			// retrieve the title and body of the entry
-			var subject = resultJSON.entries[index].title;
-			var body = resultJSON.entries[index].description + "\n";
-			body += "read more: " + resultJSON.entries[index].link;
-			// Show the sendmessage widget
-			//$(rssSendMessage).show();
-			// initialize the sendmessage-widget
-			var o = sakai.sendmessage.initialise(null, true);
-			o.setSubject(subject);
-			o.setBody(body);
-		});
-		
-		$(rootel + " " + rssOrderBySource).bind("click", function(e,ui){
-			if (currentSort === "sourceD"){
-				currentSort = "sourceA";
-			} else {
-				currentSort = "sourceD";
-			}
-			resultJSON.entries.sort(sortBySourcefunction);
-			pagerClickHandler(1);
-		});
-		$(rootel + " " + rssOrderByDate).bind("click", function(e,ui){
-			if (currentSort === "dateD"){
-				currentSort = "dateA";
-			} else {
-				currentSort = "dateD";
-			}
-			resultJSON.entries.sort(sortByDatefunction);
-			pagerClickHandler(1);
-		});
-		
-	};
+	
+	$(rssSendToFriend, rootel).live("click", function(e, ui){
+		var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
+		// retrieve the title and body of the entry
+		var subject = resultJSON.entries[index].title;
+		var body = resultJSON.entries[index].description + "\n";
+		body += "read more: " + resultJSON.entries[index].link;
+		// Show the sendmessage widget
+		//$(rssSendMessage).show();
+		// initialize the sendmessage-widget
+		var o = sakai.sendmessage.initialise(null, true, false);
+		o.setSubject(subject);
+		o.setBody(body);
+	});
+	
+	$(rootel + " " + rssOrderBySource).bind("click", function(e,ui){
+		if (currentSort === "sourceD"){
+			currentSort = "sourceA";
+		} else {
+			currentSort = "sourceD";
+		}
+		resultJSON.entries.sort(sortBySourcefunction);
+		pagerClickHandler(1);
+	});
+	$(rootel + " " + rssOrderByDate).bind("click", function(e,ui){
+		if (currentSort === "dateD"){
+			currentSort = "dateA";
+		} else {
+			currentSort = "dateD";
+		}
+		resultJSON.entries.sort(sortByDatefunction);
+		pagerClickHandler(1);
+	});
 
 
 	/////////////////////////////
