@@ -573,10 +573,12 @@ sakai.discussion = function(tuid, placement, showSettings) {
 			$('#discussion_collapse_link',rootel).show();
 			$('#discussion_compact_link',rootel).show();
 			$('#discussion_container',rootel).show();
+			$('#li_divider',rootel).show();
 		}
 		else if(widgetSettings.displayMode == 'link') {
 			$('#discussion_expand_link',rootel).show();
 			$('#discussion_container',rootel).hide();
+			$('#li_divider',rootel).hide();
 		}
     };
     
@@ -806,6 +808,20 @@ sakai.discussion = function(tuid, placement, showSettings) {
         }
         return false;
     };
+
+	var createPostObject = function() {
+		var post = {};
+        post["sakai:type"] = "discussion";
+        post["sakai:to"] = "discussion:s-" + currentSite;
+        post['sakai:subject'] = $(discussionSettingsNewSubject, rootel).val();
+        post['sakai:body'] = $(discussionSettingsNewBody, rootel).val();
+        post['sakai:initialpost'] = true;
+        post['sakai:writeto'] = store;
+        post['sakai:marker'] = tuid;
+        post['sakai:messagebox'] = "outbox";
+        post['sakai:sendstate'] = "pending";
+		return post;
+	};
     
     /**
      * Should be called when the submit button gets clicked.
@@ -823,16 +839,8 @@ sakai.discussion = function(tuid, placement, showSettings) {
         else if ($(discussionSettingsNewContainer, rootel).is(":visible")) {
             // The user wants to write his own post.
             widgetSettings.marker = tuid;
-            post = {};
-            post["sakai:type"] = "discussion";
-            post["sakai:to"] = "discussion:s-" + currentSite;
-            post['sakai:subject'] = $(discussionSettingsNewSubject, rootel).val();
-            post['sakai:body'] = $(discussionSettingsNewBody, rootel).val();
-            post['sakai:initialpost'] = true;
-            post['sakai:writeto'] = store;
-            post['sakai:marker'] = tuid;
-            post['sakai:messagebox'] = "outbox";
-            post['sakai:sendstate'] = "pending";
+			
+            post = createPostObject();
             
             if (post['sakai:subject'].replace(/ /g, "") === "" || post['sakai:body'].replace(/ /g, "") === "") {
                 alert("Please fill in all the fields.");
@@ -850,6 +858,24 @@ sakai.discussion = function(tuid, placement, showSettings) {
             }
         }
         else if ($(discussionSettingsDisplayOptionsContainer, rootel).is(":visible")) {
+
+			if(initialPost === false) {
+				var subject = $(discussionSettingsNewSubject, rootel).val();
+				var body = $(discussionSettingsNewBody, rootel).val();
+				if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
+					post = createPostObject();
+                    createInitialPost(post);
+				}
+				else {
+					post = getSelectedDiscussion(selectedExistingDiscussionID);
+
+					if(post === false) {
+						alert("You need to either post a new discussion or select an existing discussion");
+						return;
+					}
+					widgetSettings.marker = post["sakai:marker"];
+				}
+			}
 
 			if($('#' + tuid + ' #discussion_settings_link_display_button').is(":checked")) {
 				widgetSettings.displayMode = 'link';
