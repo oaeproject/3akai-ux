@@ -17,16 +17,19 @@
  */
 
 /* Main Container */
+#discussion_main_container {margin-top: 10px;}
 #discussion_main_container label, #discussion_settings label {width:100%;font-weight:bold;}
 #discussion_main_container input[type=text], #discussion_settings input[type=text] {margin:5px 0;width:100%;border:#D9D9D9 solid 1px;padding-left:0px;padding-right:0px;height:18px;padding-top:2px;}
 #discussion_main_container textarea, #discussion_settings textarea {margin:5px 0;width:100%;height:140px;border:#D9D9D9 solid 1px;}
-#discussion_main_container h3 {display:inline;}
-#discussion_widget_title_wrapper {float:left;clear:right;width:50%;}
-#discussion_widget_title_wrapper img{margin-right:10px;}
-#discussion_widget_header_wrapper {overflow: hidden;}
 
-#discussion_view_options_wrapper {float: right;}
-#discussion_view_options_wrapper a {color:#058EC4; display:none;}
+/* Header */
+#discussion_widget_header_wrapper {overflow: hidden; margin-bottom: 5px;padding-bottom: 5px;border-bottom: 2px solid #d9d9d9;}
+#discussion_widget_title_wrapper {float:left;clear:right;width:33%;}
+#discussion_widget_title_wrapper img{margin-right:10px;}
+#discussion_widget_title_wrapper h3 {display:inline;}
+.discussion_view_options {float: right;}
+.discussion_view_options a {color:#058EC4;padding-left: 5px;display:none;}
+.discussion_view_options .divider {background-image: url(../../_images/single_grey_pixel.png);background-repeat: repeat;width: 1px;height: 100%;}
 
 /* Container */
 #discussion_container a {color:#058Ec4;}
@@ -39,6 +42,8 @@
 /* Posts */
 .discussion_posts {margin-left:15px;}
 .discussion_post {margin-bottom:13px;}
+.discussion_compact_post {margin-bottom:5px;display: none;}
+.discussion_compact_post_link {margin-bottom:3px;}
 
 /* Header */
 .discussion_header { background:#ffffff url('../images/discussion_header_bottom.gif') no-repeat bottom left; padding-bottom:8px; overflow:auto;}
@@ -53,6 +58,7 @@
 .discussion_content {padding:12px 16px 30px 16px;background-color:#f4f4f4;}
 #discussion_reply_container {padding:12px 16px 16px 16px;background-color:#f4f4f4;}
 .discussion_content_subject {font-size:1.4em !important;font-weight:bold !important;padding-top:0px !important;padding-bottom:2px !important;}
+.discussion_content_compact_subject {font-weight:bold;}
 .discussion_content_actions {margin-top:5px;width:100%;height:auto;float:left;}
 .discussion_content_actions ul {padding:0;margin:0;}
 .discussion_content_actions .discussion_content_no_border {border-left:0;padding-left:0px;}
