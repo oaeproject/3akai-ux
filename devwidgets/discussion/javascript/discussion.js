@@ -127,12 +127,10 @@ sakai.discussion = function(tuid, placement, showSettings) {
     
     var discussionSettingsSubmit = discussionSettings + "_submit";
     
-    // Template
+    // Templates
     var discussionContainerTemplate = "discussion_container_template";
     var discussionSettingsExistingContainerTemplate = "discussion_settings_existing_container_template";
-
 	var discussionCompactContainerTemplate = "discussion_compact_container_template";
-	var discussionPostTemplate = "discussion_post_template";
     
     
     ///////////////////////
@@ -367,20 +365,18 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	 * @param loggedIn A boolean indicating whether the current user is logged in or not. The
 	 *			current post template requires this when rendering profile pictures.
 	 */
-	var bindShowCurrentPostHandlers = function(post,loggedIn) {
+	var bindShowCurrentPostHandlers = function(post) {
 
 		$('#post_' + post.post["sakai:id"],rootel).bind('click', post,function(e, ui) {
 
-			e.data["loggedIn"] = loggedIn;
-			e.data["first"] = false;
-			$('#discussion_current_post',rootel).html($.Template.render(discussionPostTemplate, e.data));
-			$('.messageCursor',rootel).hide();
-			$('#post_' + e.data.post["sakai:id"] + '_cursor',rootel).show();
+			$('.discussion_compact_post').hide();
+			$('#discussion_post' + e.data.post["sakai:id"]).show();
+			$('#discussion_post_link' + e.data.post["sakai:id"]).hide();
 		});
 
 		// Now recurse down through the post's replies.
 		for(var i=0,j=post.replies.length;i<j;i++) {
-           bindShowCurrentPostHandlers(post.replies[i],loggedIn);
+           bindShowCurrentPostHandlers(post.replies[i]);
 		}
 	};
 
@@ -412,14 +408,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
 
 			// Render the compact view template
 			$(discussionContainer, rootel).html($.Template.render(discussionCompactContainerTemplate, event.data));
-
-			// Render the first post into the current post area
-			event.data.posts[0]["loggedIn"] = event.data.loggedIn;
-			event.data.posts[0]["first"] = true;
-			$('#discussion_current_post',rootel).html($.Template.render(discussionPostTemplate, event.data.posts[0]));
-			// Hide all the current cursors and show the relevant one
-			$('.messageCursor',rootel).hide();
-			$('#post_' + event.data.posts[0].post["sakai:id"] + '_cursor',rootel).show();
+			$('#discussion_post' + event.data.posts[0].post["sakai:id"]).show();
 
 			for(var i=0,j=event.data.posts.length;i<j;i++) {
 				bindShowCurrentPostHandlers(event.data.posts[i],event.data.loggedIn);
@@ -559,6 +548,8 @@ sakai.discussion = function(tuid, placement, showSettings) {
 					$('#discussion_full_link',rootel).show();
 				}
 
+				$('#li_divider',rootel).show();
+
 				$('#discussion_expand_link',rootel).hide();
 				$('#discussion_collapse_link',rootel).show();
 			});
@@ -571,6 +562,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
 				$('#discussion_expand_link',rootel).show();
 				$('#discussion_compact_link',rootel).hide();
 				$('#discussion_full_link',rootel).hide();
+				$('#li_divider',rootel).hide();
 			});
 
 		renderPosts(jsonPosts);
