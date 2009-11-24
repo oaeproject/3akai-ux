@@ -3,102 +3,106 @@
 
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
-	<h3>Discussion</h3>
-	
 
-	<div id="discussion_post_template" style="display:none"><!--
-	<div class="discussion_post" id="discussion_post${post["sakai:postid"]}">
-		<div class="discussion_header">
-			<div class="discussion_left">
-				{if loggedIn}
-					{if post.profile.picture !== ""}
-						<img alt="avatar" class="discussion_avatar" src="${post.profile.picture}" />
-					{else}
-						<img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg	" />
-					{/if}
-					<p class="discussion_content_subject" id="discussion_content_subject_${post["sakai:id"]}" style="margin-bottom: 0px; font-size: 1.2em">${post["sakai:subject"]}</p>
-					<a href="/dev/profile.html?user=${post["sakai:from"]}"><span class="discussion_username">${post.profile.fullName}</span></a>
-					<span class="discussion_date">posted this on ${post.date}</span>
-				{else}
-					<span class="discussion_posted_container">
-						<span class="discussion_date">Posted on ${post.date}</span>
-					</span>
-				{/if}
-				{if post.editters !== undefined}
-					<br />
-					<a href="/dev/profile.html?user=${post.editedByUserid}"><span class="discussion_username_edited">${post.editedByName}</span></a>
-					<span class="discussion_date">edited this on ${post.editedByDate}</span>
-				{/if}
-			</div>
-		</div>
-		<div class="discussion_content">
-			<div id="discussion_content_container_${post["sakai:id"]}">
-				{if post["sakai:deleted"] && post["sakai:deleted"] === true}
-					<p class="discussion_content_infoDeleted">This post has been deleted. Only site collaborators can see this post.
-					{if post.canDelete && post.canDelete === true}
-						<br />You can return it by clicking the undelete link.
-					{/if}
-					</p>
-				{/if}
-			<div id="discussion_content_message_${post["sakai:id"]}">${post["sakai:body"]}</div>
-		</div>
-		{if loggedIn}
-		<div id="discussion_content_actions_${post["sakai:id"]}" class="discussion_content_actions link">
-			<ul> 
-				<li class="discussion_content_no_border"><a id="discussion_content_reply_${post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
-				{if post.canEdit}
-					<li><a id="discussion_content_edit_${post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
-				{/if}
-				{if post.canDelete && first !== true && post["sakai:initialpost"] !== true}
-					{if post["sakai:deleted"]}
-						<li><a id="discussion_content_undelete_${post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
-					{else}
-						<li><a id="discussion_content_delete_${post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
-					{/if}
-				{/if}
-			</ul>
-		</div>
-		{/if}
+	<div id="discussion_widget_header_wrapper">
+		<div id="discussion_widget_title_wrapper"><img src="/dev/_images/comments.png" width="16" height="16"/><h3>Discussion - </h3><h3 id="discussion_widget_title"></h3></div>
+
+		<div class="discussion_view_options">
+			<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Change to compact view</a>
+			<a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">Change to full view</a>
+			<span class="divider" style="display:none" id="li_divider"></span>
+			<a id="discussion_expand_link" title="Click to expand this discussion" href="javascript:;">Show all</a>
+			<a id="discussion_collapse_link" title="Click to collapse this discussion" href="javascript:;">Hide all</a>
 		</div>
 	</div>
---></div>
-
-	<div id="discussion_compact_container_template" style="display:none"><!--
-		<a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">Full</a>
-		<br />
-		<br />
-		<div id="discussion_current_post"></div>
-
-		<br />
-
-		{macro displayPost(o,first)}
-			<div>
-				<a href="#" id="post_${o.post["sakai:id"]}"><span style="font-weight: bold">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> on <span>${o.post.date}</span>
-				<img style="display:none" class="messageCursor" id="post_${o.post["sakai:id"]}_cursor" src="/dev/_images/arrow_left_sm2_blue.gif" width="5" height="9"/>
-			</div>
-
-			<div class="discussion_posts">	
-			{for reply in o.replies}
-				${displayPost(reply,false)}
-			{/for}
-			</div>
-		{/macro}
- 	
-		{if posts.length == 0}
-			No posts yet.
-		{else}	
-			${displayPost(posts[0], true)}
-		{/if}
-	--></div>
 
 	<!-- MAIN CONTAINER FOR DISCUSSIONS -->
 	<div id="discussion_container">
 
 	</div>
+
+	<!-- COMPACT DISCUSSION TEMPLATE -->
+	<div id="discussion_compact_container_template" style="display:none"><!--
+	{macro displayPost(o, first, current)}
+			<div class="discussion_compact_post_link">
+				<a href="#" id="post_${o.post["sakai:id"]}" title="Click to expand this post"><span class="discussion_content_compact_subject">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> on <span>${o.post.date}</span>
+			</div>
+			
+			<div class="discussion_post discussion_compact_post" id="discussion_post${o.post["sakai:id"]}">
+				<div class="discussion_header">
+					<div class="discussion_left">
+						{if loggedIn}
+							{if o.post.profile.picture !== ""}
+								<img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
+							{else}
+								<img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg	" />
+							{/if}
+							<p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}" style="margin-bottom: 0px; font-size: 1.2em">${o.post["sakai:subject"]}</p>
+							<a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+							<span class="discussion_date">posted this on ${o.post.date}</span>
+						{else}
+							<span class="discussion_posted_container">
+								<span class="discussion_date">Posted on ${o.post.date}</span>
+							</span>
+ 						{/if}
+						{if o.post.editters !== undefined}
+							<br />
+						    <a href="/dev/profile.html?user=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
+							<span class="discussion_date">edited this on ${o.post.editedByDate}</span>
+ 						{/if}
+					</div>
+ 				</div>
+				<div class="discussion_content">
+					<div id="discussion_content_container_${o.post["sakai:id"]}">
+						{if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
+							<p class="discussion_content_infoDeleted">
+							{if o.post["sakai:from"] === current.user.userid}
+								You have deleted your post.
+							{else}
+								This post has been deleted. Only site collaborators can see this post.
+							{/if}
+							{if o.post.canDelete && o.post.canDelete === true}
+								<br />You can return it by clicking the undelete link.
+							{/if}
+							</p>
+						{/if}
+						<div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
+					</div>
+					{if loggedIn}
+						<div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
+							<ul> 
+								<li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
+								{if o.post.canEdit}
+									<li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
+								{/if}
+								{if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
+									{if o.post["sakai:deleted"]}
+										<li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
+									{else}
+			 							<li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
+									{/if}
+								{/if}
+							</ul>
+						</div>
+					{/if}
+				</div>
+			</div>
+			
+			<div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">	
+				{for reply in o.replies}
+					${displayPost(reply, false, current)}
+				{/for}	
+ 			</div>
+	{/macro}
+	
+	{if posts.length == 0}
+		No posts yet.
+	{else}
+		${displayPost(posts[0], true, curr)}
+ 	{/if}
+--></div>
+
 	<div id="discussion_container_template" style="display:none"><!--
-	<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Compact</a>
-	<br />
-	<br />
 	{macro displayPost(o, first, current)}
 			
 				<div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
@@ -229,6 +233,9 @@
 			<li>
 				<a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_existing_tab">Insert Existing</a>
 			</li>
+			<li>
+				<a class="discussion_settings_tab" href="javascript:;" id="discussion_settings_display_options_tab">Display Options</a>
+			</li>
 		</ul>
 		
 		<div id="discussion_settings_new_container" class="discussion_settings_container">
@@ -259,6 +266,10 @@
 			</div>
 			{/if}
 		--></div>
+		<div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
+			<p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" checked/>Link</p>
+			<p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option"/>Inline Display</p>
+		</div>
 		<div class="dialog_buttons">
 			<a class="button-default submit_button" href="javascript:;" id="discussion_settings_submit">Submit</a>
 			<a class="button cancel-button" href="javascript:;" id="discussion_settings_cancel">Cancel</a>
