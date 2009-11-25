@@ -5,7 +5,7 @@
 <div id="discussion_main_container" style="display:none">
 
 	<div id="discussion_widget_header_wrapper">
-		<div id="discussion_widget_title_wrapper"><img src="/dev/_images/comments.png" width="16" height="16"/><h3>Discussion - </h3><h3 id="discussion_widget_title"></h3></div>
+		<div id="discussion_widget_title_wrapper"><h3 id="discussion_widget_header">Discussion - </h3><h3 id="discussion_widget_title"></h3></div>
 
 		<div class="discussion_view_options">
 			<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Change to compact view</a>
@@ -267,8 +267,8 @@
 			{/if}
 		--></div>
 		<div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
-			<p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" />Minimal view - saving space on the page by collapsing Discussions by default</p>
-			<p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked/>Full view - displaying all replies by default</p>
+			<p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">Minimal view - saving space on the page by collapsing Discussions by default</label></p>
+			<p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">Full view - displaying all replies by default</label></p>
 		</div>
 		<div class="dialog_buttons">
 			<a class="button-default submit_button" href="javascript:;" id="discussion_settings_submit">Submit</a>

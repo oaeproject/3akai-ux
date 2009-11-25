@@ -25,8 +25,8 @@
 /* Header */
 #discussion_widget_header_wrapper {overflow: hidden; margin-bottom: 5px;padding-bottom: 5px;border-bottom: 2px solid #d9d9d9;}
 #discussion_widget_title_wrapper {float:left;clear:right;width:33%;}
-#discussion_widget_title_wrapper img{margin-right:10px;}
 #discussion_widget_title_wrapper h3 {display:inline;}
+#discussion_widget_header {background: url(/dev/_images/comments.png) no-repeat 0 1px; padding-left: 25px;}
 .discussion_view_options {float: right;}
 .discussion_view_options a {color:#058EC4;padding-left: 5px;display:none;}
 .discussion_view_options .divider {background-image: url(../../_images/single_grey_pixel.png);background-repeat: repeat;width: 1px;height: 100%;}
@@ -38,6 +38,7 @@
 #discussion_settings {font-size:0.95em;}
 #discussion_settings h2 {margin-bottom:10px;}
 #discussion_settings_display_options_container input {margin-right:10px;}
+#discussion_settings_display_options_container label {font-weight: normal;}
 
 /* Posts */
 .discussion_posts {border-left:1px dashed #ddd; margin-left:15px; padding: 0 0 0 5px;}
