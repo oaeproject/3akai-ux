@@ -40,7 +40,7 @@
 #discussion_settings_display_options_container input {margin-right:10px;}
 
 /* Posts */
-.discussion_posts {margin-left:15px;}
+.discussion_posts {border-left:1px dashed #ddd; margin-left:15px; padding: 0 0 0 5px;}
 .discussion_post {margin-bottom:13px;}
 .discussion_compact_post {margin-bottom:5px;display: none;}
 .discussion_compact_post_link {margin-bottom:3px;}
