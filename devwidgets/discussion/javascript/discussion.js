@@ -830,33 +830,33 @@ sakai.discussion = function(tuid, placement, showSettings) {
         }
         else if ($(discussionSettingsDisplayOptionsContainer, rootel).is(":visible")) {
 
-		if(initialPost === false) {
-		    var subject = $(discussionSettingsNewSubject, rootel).val();
-		    var body = $(discussionSettingsNewBody, rootel).val();
-		    if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
-			post = createPostObject();
-			createInitialPost(post);
-		    }
-		    else {
-			post = getSelectedDiscussion(selectedExistingDiscussionID);
+			if(initialPost === false) {
+				var subject = $(discussionSettingsNewSubject, rootel).val();
+				var body = $(discussionSettingsNewBody, rootel).val();
+				if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
+					post = createPostObject();
+					createInitialPost(post);
+				}
+				else {
+					post = getSelectedDiscussion(selectedExistingDiscussionID);
     
-			if(post === false) {
-				alert("You need to either post a new discussion or select an existing discussion");
-				return;
+					if(post === false) {
+						alert("You need to either post a new discussion or select an existing discussion");
+						return;
+					}
+					widgetSettings.marker = post["sakai:marker"];
+				}
 			}
-			widgetSettings.marker = post["sakai:marker"];
-		    }
-		}
     
-		if($('#' + tuid + ' #discussion_settings_link_display_button').is(":checked")) {
-		    widgetSettings.displayMode = 'link';
-		}
-		else if($('#' + tuid + ' #discussion_settings_inline_display_button').is(":checked")) {
-		    widgetSettings.displayMode = 'inline';
-		}
+			if($('#' + tuid + ' #discussion_settings_link_display_button').is(":checked")) {
+				widgetSettings.displayMode = 'link';
+			}
+			else if($('#' + tuid + ' #discussion_settings_inline_display_button').is(":checked")) {
+				widgetSettings.displayMode = 'inline';
+			}
     
-		var callback = finishSettingsContainer;
-		saveWidgetSettings(callback);
+			var callback = finishSettingsContainer;
+			saveWidgetSettings(callback);
 	    }
     };
     
