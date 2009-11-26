@@ -158,9 +158,7 @@ sakai.search = function() {
 	 * @param {Object} searchquery The searchterm
 	 */
 	var doHSearch = function(page, searchquery) {
-		searchquery = $(searchConfig.global.text).val().toLowerCase();
-		if (searchquery === "") searchquery = "*";
-		History.addBEvent("1|" + encodeURIComponent(searchquery));
+		History.addBEvent("1|" + encodeURIComponent($(searchConfig.global.text).val()));
 	};
 	
 	
