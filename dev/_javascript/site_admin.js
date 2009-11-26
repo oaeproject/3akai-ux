@@ -78,7 +78,8 @@ sakai.site.site_admin = function(){
 			mode : "exact",
 			elements : "elm1",
 			theme: "advanced",
-			plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,spellchecker",
+			// For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
+			plugins: "safari,advhr,advimage,advlink,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
 			
 			//Context Menu
 			theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,spellchecker,|,image,link",
@@ -101,7 +102,12 @@ sakai.site.site_admin = function(){
 			media_external_list_url: "lists/media_list.js",
 
 			// Use the native selects
-			use_native_selects : true
+			use_native_selects : true,
+			
+			// Replace tabs by spaces.
+			nonbreaking_force_tab : true
+
+
 		});
 	}
 

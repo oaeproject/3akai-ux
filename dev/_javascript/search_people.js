@@ -142,7 +142,7 @@ sakai.search = function() {
 		}
 		
 		// Remove extra space at the end
-		return_string = return_string.substring(0,return_string.length-2);
+		return_string = return_string.substring(0,return_string.length-1);
 		
 		return return_string;
 	};
@@ -157,10 +157,19 @@ sakai.search = function() {
 		var person = {};
 		for (var i = 0, j = foundPeople.length; i < j; i++) {
 			var t_userid = concatObjectValues(foundPeople[i].userid);
-			var t_firstname = concatObjectValues(foundPeople[i].firstName);
-			var t_lastname = concatObjectValues(foundPeople[i].lastName);
 			
 			if (t_userid === userid) {
+				var t_firstname = "";
+				var t_lastname = "";
+				// Not every user has a first/last name.
+				if (foundPeople[i].hasOwnProperty('firstName')) {
+					t_firstname = concatObjectValues(foundPeople[i].firstName);
+				} else {
+					t_firstname = concatObjectValues(foundPeople[i].userid);
+				}
+				if (foundPeople[i].hasOwnProperty('lastName')) {
+					t_lastname = concatObjectValues(foundPeople[i].lastName);
+				}
 				person.uuid = t_userid;
 				person.firstName = t_firstname;
 				person.lastName = t_lastname;
