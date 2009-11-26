@@ -27,7 +27,7 @@
 #rss_settings_numEntries {width:30px;}
 
 .rss_settings_form input[type=text] {width:100%;border-style:solid;border-width:1.5px;padding-top:5px;padding-bottom:5px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px;}
-.rss_settings_form input[type=checkbox] {margin-top:10px;}
+.rss_settings_form input[type=checkbox] {margin:10px 10px 0px 0px;}
 .rss_settings_buttonbar {padding:20px;padding-top:10px;margin-top:20px;border-top-color:#7a7a7a;border-top-style:solid;border-top-width:1px;}
 
 #rss_settings_rssFeedList .rss_settings_rssFeedListItem {width:100%;border-color:#f4f4f4;border-style:solid;border-width:1px;overflow:auto;background-color:#ffffff;}

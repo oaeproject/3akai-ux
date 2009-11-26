@@ -110,22 +110,6 @@
 				$divider_end.removeClass('hidden');
 			}
 			
-			/*
-			 *
-			 
-<LI class="pgPrev pgEmpty"><SPAN><IMG alt="" src="http://10.0.0.59:8080/dev/_images/scroll_arrow_left.png"> <SPAN>Prev</SPAN></SPAN></LI>
-<LI id=jq_pager_three_dots_begin class="dots hidden">...</LI>
-<LI class="page-number pgCurrent"><SPAN>1</SPAN></LI>
-<LI class=page-number><SPAN>2</SPAN></LI>
-<LI class=page-number><SPAN>3</SPAN></LI>
-<LI class=page-number><SPAN>4</SPAN></LI>
-<LI class=page-number><SPAN>5</SPAN></LI>
-<LI id=jq_pager_three_dots_end class=dots>...</LI>
-<LI class=pgNext><SPAN><SPAN>Next</SPAN> <IMG alt="" src="http://10.0.0.59:8080/dev/_images/scroll_arrow_right.png"></SPAN></LI>
-			 * 
-			 */
-
-		//prompt('', $pager.html());
         return $pager;
     }
 
