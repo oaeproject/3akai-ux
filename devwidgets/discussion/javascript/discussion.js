@@ -50,7 +50,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     var initialPost = false;
     var countReplies = 0;
     var currentDisplayMode = '';
-    
+
     
     Config.URL.DISCUSSION_INITIALPOSTS_SERVICE = "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__";
     Config.URL.DISCUSSION_GETPOSTS_THREADED = "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__";
@@ -540,13 +540,13 @@ sakai.discussion = function(tuid, placement, showSettings) {
 
 		$(discussionToggleShowAllClass, rootel).hide();
         
-		if(widgetSettings.displayMode == 'inline') {
+		if(!widgetSettings.displayMode || widgetSettings.displayMode === 'inline') {
 			$('#discussion_collapse_link',rootel).show();
 			$('#discussion_compact_link',rootel).show();
 			$('#discussion_container',rootel).show();
 			$('#li_divider',rootel).show();
 		}
-		else if(widgetSettings.displayMode == 'link') {
+		else if(widgetSettings.displayMode === 'link') {
 			$('#discussion_expand_link',rootel).show();
 			$('#discussion_container',rootel).hide();
 			$('#li_divider',rootel).hide();
@@ -943,12 +943,12 @@ sakai.discussion = function(tuid, placement, showSettings) {
             $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabSelectedClass);
             $(discussionSettingsDisplayOptionsContainer, rootel).show();
 
-	    if(widgetSettings.displayMode === 'inline') {
-		    $('#' + tuid + ' #discussion_settings_inline_display_button').attr('checked',true);
-	    }
-	    else if(widgetSettings.displayMode === 'link') {
-		    $('#' + tuid + ' #discussion_settings_link_display_button').attr('checked',true);
-	    }
+			if(widgetSettings.displayMode === 'inline') {
+				$('#' + tuid + ' #discussion_settings_inline_display_button').attr('checked',true);
+			}
+			else if(widgetSettings.displayMode === 'link') {
+				$('#' + tuid + ' #discussion_settings_link_display_button').attr('checked',true);
+			}
         }
     };
     
