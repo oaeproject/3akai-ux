@@ -4,10 +4,7 @@ html {
 	font-weight: lighter;
 	line-height: 120%;
 }
-body {
-	/*border: 1px solid blue;*/
-}
-:focus {outline:none;}
+:focus {outline:1px dotted #000;}
 
 .groupWrapper .widget1:focus {
 	outline: 1px dotted #CCCCCC;
@@ -226,12 +223,6 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav .personal .user_link {border: none;}
 .explore_nav .personal .user_link img {position: relative; top: -1px; padding: 0 3px 0 3px;}
 .explore_nav .personal .mail img {position: relative; top: -1px;}
-/*.explore_nav_selected {color: #fff; background-color: #666666; padding: 2px 5px 2px 5px; display: inline-block; margin-top:-3px; 
-					   needed for rounded cornered anchor buttons
-					   outline: none; border: none; text-decoration: none; cursor: pointer; white-space: nowrap; vertical-align: middle;
-    				   display: -moz-inline-box; display: inline-block; overflow: visible;}
-.explore_nav_selected span {color: #fff;}
-.explore_nav_selected_arrow {width: 9px; height: 5px; position: relative; bottom: -11px;}*/
 .explore_nav_selected_arrow {margin: 12px 0 0 5px;}
 .explore_nav_selected {background-color: #878A8C; height:32px;}
 .explore_nav_selected_dropdown {height: 38px; background-color: #fff !important;}
@@ -245,7 +236,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 #widget_chat3 #user_link_menu {
 	position: absolute;
 	top: 43px;
-	right: 285;
+	right: 285px;
 }
 
 
