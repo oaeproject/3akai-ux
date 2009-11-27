@@ -228,12 +228,12 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav_selected_dropdown {height: 38px; background-color: #fff !important;}
 .explore_nav_selected_dropdown span {color: #595e62 !important;}
 
-#widget_chat3 {
+#widget_chat {
 	position: relative;
 	width: 960px;
 	margin: 0 auto;
 }
-#widget_chat3 #user_link_menu {
+#widget_chat #user_link_menu {
 	position: absolute;
 	top: 43px;
 	right: 285px;
