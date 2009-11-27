@@ -1628,7 +1628,7 @@ sakai.chat = function(tuid, placement, showSettings){
 										// We use the Properties function to change the messageRead variable.
 										$.ajax({
 											type: "POST",
-											url: Config.URL.replace(/MESSAGES_GET_SERVICE/, njson[i].messages[j].id),
+											url: Config.URL.MESSAGES_GET_SERVICE.replace(/__ID__/, njson[i].messages[j].id),
 											success: function(userdata) {},
 											error: function(status) {
 												alert("An error has occured");
