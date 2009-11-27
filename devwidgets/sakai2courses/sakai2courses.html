@@ -11,10 +11,10 @@
 </div>
 
 <div id="sakai2courses_container_template"><!--
-	{if all && all.length > 0}
+	{if all.sites && all.sites.length > 0}
 		<div id="sakai2courses_list_all">
 			<ul>
-			{for i in all}
+			{for i in all.sites}
 				<li><a href="${i.url}" target="_blank">${i.title}</a></li>
 			{/for}
 			</ul>

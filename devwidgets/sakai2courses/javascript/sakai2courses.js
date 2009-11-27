@@ -61,7 +61,7 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 
 		// Make an array that contains only the elements that will appear on one page
 		var pagingArray = {
-			all: parseglobal.all.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
+			all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize) 
 		};
 
 		// Render the template and pass through the parseglobal object
