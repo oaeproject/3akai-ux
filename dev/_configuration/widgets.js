@@ -102,6 +102,17 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		sakai2courses :
+		{
+			description:"Your courses &amp; sites for Sakai2\r\n",
+			iframe:0,
+			url:"/devwidgets/sakai2courses/sakai2courses.html",
+			name:"Sakai 2 Courses &amp; Projects",
+			id:"sakai2courses",
+			personalportal:1,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
 		sendmessage :
 		{
 			description:"Send a message\r\n",
