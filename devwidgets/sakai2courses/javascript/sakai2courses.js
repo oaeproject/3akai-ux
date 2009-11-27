@@ -125,36 +125,13 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 	////////////////////////
 
 	/**
-	 * Get the favourite courses and projects for the current user
-	 */
-	var getFavouriteCoursesAndProjects = function(){
-		$.ajax({
-			url: Config.URL.CAMTOOLS_MCPFAVOURITE_URL,
-			success: function(data){
-				
-				/** TODO replace with $.evalJSON. The problem is that this doesn'work 
-				 * with the latest Firefox build-in parser. The line beneath is against
-				 * everything I stand for, but it was to only way to make it work. The
-				 * output of Camtools 2008 code is simply not valid JSON.
-				 */
-				favouritefeed =  eval('(' + data + ')');
-				
-			},
-			error: function(status){
-				splitGlobalFeed();
-			},
-			cache: false
-		});
-	};
-
-	/**
 	 * Get the courses and projects for the user that is logged in.
 	 * This function sends a request to the proxy server that will then send a request to camtools.
 	 * Since there is single signon functionality, the user is automatically logged into camtools.
 	 */
 	var getCoursesAndProjects = function(){
 		$.ajax({
-			url: Config.URL.CAMTOOLS_MCP_URL,
+			url: Config.URL.SAKAI2_MCP_URL,
 			success: function(data){
 				globalfeed = $.evalJSON(data);
 			},
