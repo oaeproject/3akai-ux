@@ -20,7 +20,9 @@
 			
 			if (qs.contains("url")) {
 				var v1 = qs.get("url");
-				$("#container").load(v1);
+				$("#container").load(v1, null, function(response_text){
+					alert(response_text);
+				});
 			}
 		</script>
 	</body>
