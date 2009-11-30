@@ -1837,7 +1837,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		var status = "online";
 		var data = {};
 		if (sdata.me.profile.chatstatus){
-			status = sdata.me.profile.chatstatus[0];
+			status = sdata.me.profile.chatstatus;
 		}
 		var url = "/_user/presence.json";
 		if (!initial){
