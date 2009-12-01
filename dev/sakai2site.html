@@ -58,7 +58,7 @@
 				
 				$("#sakai2site_iframe_container").html('<iframe id="sakai2site_iframe" frameborder="0" src="' + v1 + '"></iframe>');
 
-				$("#sakai2site_iframe").load(function(){
+				$("#sakai2site_iframe").bind("load", function(){
 					console.log($(this).height());
 				});
 			}
