@@ -36,7 +36,7 @@
             	<div class="decor"></div>
 				<!-- GREETING -->
 				<div class="fl-col fl-container-500 greeting">
-					<span class="greeting_text">Sakai2 site</span>
+					<span id="sakai2site_title" class="greeting_text">Sakai2 site</span>
 				</div>
 				<a class="sakai2site_back" href="/dev/my_sakai.html">&laquo; Back to My Sakai</a>
 			</div>
@@ -59,6 +59,11 @@
 				
 				$("#sakai2site_iframe_container").html('<iframe id="sakai2site_iframe" frameborder="0"></iframe>');
 				$("#sakai2site_iframe").attr("src", v1);
+				
+				if (qs.contains("title")) {
+					var v2 = qs.get("title");
+					$("#sakai2site_title").text(v2);
+				}
 
 				$("#sakai2site_iframe").load(function(){
 					console.log("test");
