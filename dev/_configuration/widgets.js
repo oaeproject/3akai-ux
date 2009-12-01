@@ -119,7 +119,7 @@ var Widgets = {
 			iframe:0,
 			url:"/devwidgets/sakai2tools/sakai2tools.html",
 			name:"Tools from Sakai 2",
-			id:"siteToolsHybrid",
+			id:"sakai2tools",
 			personalportal:1,
 			siteportal:0,
 			img:"/dev/img/sites.png"
