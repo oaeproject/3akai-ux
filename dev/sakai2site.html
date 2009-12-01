@@ -40,10 +40,12 @@
 			</div>
 		</div>
 		
-		<div class="fl-container-flex">
-			<iframe id="sakai2site">
-			
-			</iframe>
+		<div class="fl-container-flex" id="sakai2site_container">
+			<div class="fl-fix fl-centered fixed-container">
+				<iframe id="sakai2site_iframe" frameborder="0">
+
+				</iframe>
+			</div>
 		</div>
 		
 		<!-- FOOTER WIDGET -->
@@ -55,7 +57,7 @@
 			if (qs.contains("url")) {
 				var v1 = qs.get("url");
 				
-				$("#sakai2site").href=v1;
+				$("#sakai2site_iframe")[0].src=v1;
 			}
 		</script>
 	</body>
