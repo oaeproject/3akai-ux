@@ -1,0 +1,31 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/sakai2tools/css/sakai2tools.css" />
+
+<!-- ERRORS -->
+<div id="sakai2tools_error_nosites" class="sakai2tools_error" style="display:none;">
+	<div style="padding: 5px 0px 0px 15px;">
+		You have no tools in this site yet
+	</div>
+</div>
+<span id="sakai2tools_error_nosettings" class="sakai2tools_error" style="display:none;">No settings available.</span>
+
+<!-- CONTENT -->
+<div class="my_course_sakai2tools_widget">
+	<div class="fl-widget-content" id="sakai2tools_list"><!-- --></div>
+	<div id="sakai2tools_list_template">
+		<!--
+		<h2>${title}</h2>
+		<ul>
+			{for site in pages}
+				<li><a href="/portal/tool/${site.tools[0].url}">${site.name}</a></li>
+			{/for}
+		</ul>
+		-->
+	</div>
+	<div class="fl-widget-options fl-fix" id="sites_top">
+		<div class="widget-options-inner"><!-- --></div>
+	</div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/sakai2tools/javascript/sakai2tools.js"></script>

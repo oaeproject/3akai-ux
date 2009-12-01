@@ -113,6 +113,17 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		sakai2tools :
+		{
+			description:"Listing of the tools from sakai 2\r\n",
+			iframe:0,
+			url:"/devwidgets/sakai2tools/sakai2tools.html",
+			name:"Tools from Sakai 2",
+			id:"siteToolsHybrid",
+			personalportal:1,
+			siteportal:0,
+			img:"/dev/img/sites.png"
+		},
 		sendmessage :
 		{
 			description:"Send a message\r\n",
