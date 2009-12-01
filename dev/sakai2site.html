@@ -43,9 +43,7 @@
 		
 		<div class="fl-container-flex" id="sakai2site_container">
 			<div class="fl-fix fl-centered fixed-container">
-				<iframe id="sakai2site_iframe" frameborder="0">
-
-				</iframe>
+				<div id="sakai2site_iframe_container"></div>
 			</div>
 		</div>
 		
@@ -58,7 +56,8 @@
 			if (qs.contains("url")) {
 				var v1 = qs.get("url");
 				
-				$("#sakai2site_iframe")[0].src=v1;
+				$("#sakai2site_iframe_container").html('<iframe id="sakai2site_iframe" frameborder="0" src="' + v1 + '"></iframe>');
+
 				$("#sakai2site_iframe").load(function(){
 					console.log($(this).height());
 				});

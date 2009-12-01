@@ -1,2 +1,4 @@
 #sakai2site_container .fixed-container
 { background-color:#fff; padding-bottom:20px;}
+#sakai2site_iframe
+{width: 100%;}
