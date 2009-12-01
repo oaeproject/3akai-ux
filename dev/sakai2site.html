@@ -21,7 +21,7 @@
 			if (qs.contains("url")) {
 				var v1 = qs.get("url");
 				$("#container").load(v1, null, function(response_text){
-					response_text.replace(/a href="/, 'a href="/dev/sakai2site.html?url=');
+					$("#container a").attr("href", "/dev/sakai2site.html?url=" + $("#container a").attr("href"));
 					//alert(response_text);
 				});
 			}
