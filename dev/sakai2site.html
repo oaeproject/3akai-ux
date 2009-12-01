@@ -22,7 +22,7 @@
 				var v1 = qs.get("url");
 				$("#container").load(v1, null, function(response_text){
 					$("#container a").each(function(){
-						this.attr("href", "/dev/sakai2site.html?url=" + this.attr("href"));
+						$(this).attr("href", "/dev/sakai2site.html?url=" + $(this).attr("href"));
 					});
 					//alert(response_text);
 				});
