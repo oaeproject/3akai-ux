@@ -16,4 +16,9 @@
 * specific language governing permissions and limitations under the License.
 */
  
-.sakai2tools_error {font-size:0.95em;}
+.sakai2tools_container
+{ padding: 5px 0px 0px 15px; }
+.sakai2tools_container ul li a
+{ color: #006E96; }
+.sakai2tools_error
+{ font-size:0.95em; }
