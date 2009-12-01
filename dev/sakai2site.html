@@ -60,6 +60,12 @@
 				var v1 = qs.get("url");
 				
 				$("#sakai2site_iframe_container").html('<iframe id="sakai2site_iframe" frameborder="0"></iframe>');
+				
+				/*$("#sakai2site_iframe").load(v1, null, function(){
+					$("#sakai2site_iframe #headerMax").hide();
+					$("#sakai2site_iframe").show();
+				});*/
+				
 				$("#sakai2site_iframe").attr("src", v1);
 				
 				if (qs.contains("title")) {
