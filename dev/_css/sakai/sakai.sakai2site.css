@@ -6,5 +6,7 @@
 { height:1200px; width: 100%;}
 .sakai2site_back
 { color:#006E96; float:right; margin-top:30px; }
-#sakai2site_divider
-{ background: #fefefe; float:right; width: 100%;}
+.header .greeting .greeting_text 
+{ float: left; margin-right:10px;}
+#sakai2site_title_info
+{ margin-top:15px; color: #868a8d; font-size: 1.1em}
