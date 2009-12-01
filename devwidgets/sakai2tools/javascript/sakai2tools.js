@@ -28,9 +28,14 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	var rootel = $("#" + tuid);
 
 	// IDs
-	var sakai2toolsListTemplate = "#sakai2tools_list_template";
-	var sakai2tools_notools = "#sakai2tools_error_nosites";
-	var sakai2toolsList = "#sakai2tools_list";
+	var sakai2tools = "#sakai2tools";
+	var sakai2toolsError = sakai2tools + "_error";
+	var sakai2toolsErrorNotools = $(sakai2toolsError + "_notools");
+	var sakai2toolsErrorBadrequest = $(sakai2toolsError + "_badrequest");
+	var sakai2toolsContainer = $(sakai2tools + "_container");
+
+	// Templates
+	var sakai2toolsContainerTemplate = "sakai2tools_container_template";
 
 
 	///////////////////////
@@ -42,11 +47,14 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	 * @param {Object} newjson
 	 */
 	var doRender = function(newjson){
-		if (!newjson || !newjson.site.pages || newjson.site.pages.length === 0){
-			$(sakai2toolsList, rootel).html($(sakai2tools_notools).html());
-		} 
+		if(!newjson){
+			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotools).html());
+		}
+		else if (!newjson.site || !newjson.site.pages || newjson.site.pages.length === 0){
+			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotools).html());
+		}
 		else {
-			$(sakai2toolsList, rootel).html($.Template.render(sakai2toolsListTemplate.replace(/#/,''), newjson.site));
+			$(sakai2toolsContainer, rootel).html($.Template.render(sakai2toolsContainerTemplate, newjson.site));
 		}
 	};
 
@@ -64,7 +72,7 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 			error: function(status){
 				doRender(false);
 			}
-		});			
+		});
 	};
 	
 	/**

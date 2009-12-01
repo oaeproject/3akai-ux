@@ -16,8 +16,4 @@
 * specific language governing permissions and limitations under the License.
 */
  
-.sites_error {font-size:0.95em;}
- 
-#sakai2tools_list_template>div {width:100%;}
- 
-#sakai2tools_list_template>h1 {font-size: 2em; font-weight: bold;} 
+.sakai2tools_error {font-size:0.95em;}
