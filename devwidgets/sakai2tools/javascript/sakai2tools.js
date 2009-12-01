@@ -28,9 +28,9 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	var rootel = $("#" + tuid);
 
 	// IDs
-	var siteToolsContainer = "#sakai2tools_list_template";
+	var sakai2toolsListTemplate = "#sakai2tools_list_template";
 	var sakai2tools_notools = "#sakai2tools_error_nosites";
-	var siteToolsList = "#sakai2tools_list";
+	var sakai2toolsList = "#sakai2tools_list";
 
 
 	///////////////////////
@@ -42,12 +42,11 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	 * @param {Object} newjson
 	 */
 	var doRender = function(newjson){
-		// If the user is not registered for any sites, show the no sites error.
-		if (newjson.site.pages.length === 0){
-			$(siteToolsList, rootel).html($(sakai2tools_notools).html());
+		if (!newjson || !newjson.site.pages || newjson.site.pages.length === 0){
+			$(sakai2toolsList, rootel).html($(sakai2tools_notools).html());
 		} 
 		else {
-			$(siteToolsList, rootel).html($.Template.render(siteToolsContainer.replace(/#/,''), newjson.site));
+			$(sakai2toolsList, rootel).html($.Template.render(sakai2toolsListTemplate.replace(/#/,''), newjson.site));
 		}
 	};
 
@@ -63,7 +62,7 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 				doRender($.evalJSON(data));
 			},
 			error: function(status){
-				doRender("");
+				doRender(false);
 			}
 		});			
 	};
