@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
+		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.sakai2site.css" />
 		<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css" />
 		<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 
@@ -58,6 +59,9 @@
 				var v1 = qs.get("url");
 				
 				$("#sakai2site_iframe")[0].src=v1;
+				$("#sakai2site_iframe").load(function(){
+					console.log($(this).height());
+				});
 			}
 		</script>
 	</body>
