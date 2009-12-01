@@ -75,7 +75,7 @@
 				
 				var loadiframe = function(){
 					if($("#sakai2site_iframe").contents().find("#headerMax").length>0){
-						$("#sakai2site_iframe").contents().find("#headerMax")[0].hide();
+						$("#sakai2site_iframe").contents().find("#headerMax").hide();
 					}else{
 						setTimeout(loadiframe, 1000);
 					}
