@@ -73,9 +73,14 @@
 					$("#sakai2site_title").text(v2);
 				}
 
-				$("#sakai2site_iframe").load(function(){
-					console.log("test");
-				});
+				var iframeloaded = true;
+				while(iframeloaded){
+					if($("#sakai2site_iframe").contents.find("#headerMax").length>0){
+						$("#sakai2site_iframe").contents.find("#headerMax").hide();
+						iframeloaded = false;
+					}
+				}
+				
 			}
 		</script>
 	</body>
