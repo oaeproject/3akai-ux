@@ -1,4 +1,6 @@
+.header .fixed-container
+{ height: 60px; }
 #sakai2site_container .fixed-container
 { background-color:#fff; padding-bottom:20px;}
 #sakai2site_iframe
-{width: 100%;}
+{ height:1200px; width: 100%;}
