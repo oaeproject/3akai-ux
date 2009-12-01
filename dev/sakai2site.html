@@ -76,7 +76,7 @@
 				var iframeloaded = true;
 				while(iframeloaded){
 					if($("#sakai2site_iframe").contents().find("#headerMax").length>0){
-						$("#sakai2site_iframe").contents().find("#headerMax").hide();
+						$("#sakai2site_iframe").contents().find("#headerMax")[0].hide();
 						iframeloaded = false;
 					}
 				}
