@@ -18,6 +18,10 @@
  
 #sakai2tools_container
 { padding: 5px 0px 0px 15px; }
+#sakai2tools_container ul
+{ margin-top: 10px; }
+#sakai2tools_container ul li 
+{ list-style-type: none; }
 #sakai2tools_container ul li a
 { color: #006E96; }
 .sakai2tools_error
