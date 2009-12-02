@@ -30,6 +30,7 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	// IDs
 	var sakai2tools = "#sakai2tools";
 	var sakai2toolsError = sakai2tools + "_error";
+	var sakai2toolsErrorNotLoggedIn = $(sakai2toolsError + "_notloggedin");
 	var sakai2toolsErrorNotools = $(sakai2toolsError + "_notools");
 	var sakai2toolsErrorBadrequest = $(sakai2toolsError + "_badrequest");
 	var sakai2toolsContainer = $(sakai2tools + "_container");
@@ -47,7 +48,10 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	 * @param {Object} newjson
 	 */
 	var doRender = function(newjson){
-		if(!newjson){
+		if (newjson === 403) {
+			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotLoggedIn).html());
+		}
+		else if(!newjson || newjson === 404){
 			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotools).html());
 		}
 		else if (!newjson.site || !newjson.site.pages || newjson.site.pages.length === 0){
@@ -70,7 +74,7 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 				doRender($.evalJSON(data));
 			},
 			error: function(status){
-				doRender(false);
+				doRender(status);
 			}
 		});
 	};
