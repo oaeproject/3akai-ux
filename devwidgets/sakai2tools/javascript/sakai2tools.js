@@ -98,7 +98,8 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	var doInit = function() {
 		getSakai2Tools("62d2dada-9022-45bc-9438-b0548e08b1ec");
 		
-		$("#sakai2tools_login").live("click", function(){
+		$("#sakai2tools_login").live("click", function(e){
+			e.preventDefault();
 			loginSakai2();
 		});
 	};
