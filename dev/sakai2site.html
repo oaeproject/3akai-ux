@@ -61,11 +61,6 @@
 				
 				$("#sakai2site_iframe_container").html('<iframe id="sakai2site_iframe" frameborder="0"></iframe>');
 				
-				/*$("#sakai2site_iframe").load(v1, null, function(){
-					$("#sakai2site_iframe #headerMax").hide();
-					$("#sakai2site_iframe").show();
-				});*/
-				
 				$("#sakai2site_iframe").attr("src", v1);
 				
 				if (qs.contains("title")) {
@@ -77,7 +72,7 @@
 					if($("#sakai2site_iframe").contents().find("#headerMax").length>0){
 						$("#sakai2site_iframe").contents().find("#headerMax").hide();
 					}else{
-						setTimeout(loadiframe, 1000);
+						setTimeout(loadiframe, 10);
 					}
 				};
 				loadiframe();
