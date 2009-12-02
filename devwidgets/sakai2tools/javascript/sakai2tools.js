@@ -80,11 +80,11 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	};
 	
 	/**
-	 * Log into Sakai2
+	 * Log in or out of Sakai2
 	 */
-	var loginSakai2 = function(){
+	var logSakai2 = function(inout){
 		$.ajax({
-			url: "/portal/xlogin",
+			url: "/portal/"+inout,
 			cache: false,
 			success: function(data){
 				location.reload(true);
@@ -100,7 +100,12 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 		
 		$("#sakai2tools_login").live("click", function(e){
 			e.preventDefault();
-			loginSakai2();
+			logSakai2("login");
+		});
+		
+		$("#sakai2tools_logout").live("click", function(e){
+			e.preventDefault();
+			logSakai2("logout");
 		});
 	};
 	
