@@ -80,10 +80,27 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	};
 	
 	/**
+	 * Log into Sakai2
+	 */
+	var loginSakai2 = function(){
+		$.ajax({
+			url: "/portal/xlogin",
+			cache: false,
+			success: function(data){
+				location.reload(true);
+			}
+		});
+	};
+	
+	/**
 	 * Initialization
 	 */
 	var doInit = function() {
 		getSakai2Tools("62d2dada-9022-45bc-9438-b0548e08b1ec");
+		
+		$("#sakai2tools_login").live("click", function(){
+			loginSakai2();
+		});
 	};
 	
 	doInit();
