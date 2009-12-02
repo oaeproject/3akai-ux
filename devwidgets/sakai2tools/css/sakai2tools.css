@@ -22,7 +22,9 @@
 { margin-top: 10px; }
 #sakai2tools_container ul li 
 { list-style-type: none; }
-#sakai2tools_container ul li a
+#sakai2tools_container a
 { color: #006E96; }
+#sakai2tools_container a:hover
+{ text-decoration: underline; }
 .sakai2tools_error
 { font-size:0.95em; }
