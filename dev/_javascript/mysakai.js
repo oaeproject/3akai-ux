@@ -41,6 +41,7 @@ sakai.dashboard = function(){
 	var addGoodiesTrigger = '#add-goodies';
 	var addGoodiesListContainer = "#add_goodies_body";
 	var addGoodiesListTemplate = "add_goodies_body_template";
+	var btnAdd = "btn_add";
 	var goodiesAddButton = ".goodies_add_button";
 	var goodiesRemoveButton = ".goodies_remove_button";
 	var addRow = "#row_add_";
@@ -876,8 +877,8 @@ sakai.dashboard = function(){
 		 * and show the Remove row for that widget
 		 */
 		$(goodiesAddButton).bind("click", function(ev){
-			// The expected is goodies_add_button_WIDGETNAME
-			var id = this.id.split("_")[this.id.split("_").length - 1];
+			// The expected is btn_add_WIDGETNAME
+			var id = this.id.replace(btnAdd, "");
 			$(addRow + id).hide();
 			$(removeRow + id).show();
 			sakai.dashboard.addWidget(id);
