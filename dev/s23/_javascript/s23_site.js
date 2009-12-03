@@ -29,12 +29,18 @@ sakai.s23_site = function(){
 
 	// Get the current query string
 	var qs = new Querystring();
+	
+	var s23Site = "#s23_site";
+	var s23SiteTitle = $(s23Site + "_title");
+	var s23SiteMenuContainer = $(s23Site + "_menu_container");
+
+	// Templates
+	var s23SiteMenuContainerTemplate = "s23_site_menu_container_template";
 
 
 	///////////////////////
 	// General functions //
 	///////////////////////
-
 
 	/**
 	 * Parse the site info that is in a JSON format 
@@ -47,10 +53,10 @@ sakai.s23_site = function(){
 		if(json && json.site && json.site.title && json.site.pages){
 			
 			// Set the title of the page
-			$("#s23_site_title").text(json.site.title);
+			s23SiteTitle.text(json.site.title);
 			
 			// Render the tools of the site
-			$()
+			s23SiteMenuContainer.html($.Template.render(s23SiteMenuContainerTemplate, json));
 		}else{
 			fluid.log("s23_site: An error occured when parsing the Sakai 2 site information");
 		}
@@ -86,7 +92,7 @@ sakai.s23_site = function(){
 	/**
 	 * Function that get executed when the DOM is completely loaded
 	 */
-	var init = function(){
+	(function(){
 		
 		// Check if the query string contains the parameter id
 		if (qs.contains("id")) {
@@ -106,6 +112,6 @@ sakai.s23_site = function(){
 			// Log an error message for the user
 			fluid.log("s23site: This site needs to have an id parameter for a sakai2 site");
 		}
-	};
+	})();
 };
 sakai.s23_site();
