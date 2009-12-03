@@ -41,7 +41,8 @@ sakai.dashboard = function(){
 	var addGoodiesTrigger = '#add-goodies';
 	var addGoodiesListContainer = "#add_goodies_body";
 	var addGoodiesListTemplate = "add_goodies_body_template";
-	var btnAdd = "btn_add";
+	var btnAdd = "btn_add_";
+	var btnRemove = "btn_remove_";
 	var goodiesAddButton = ".goodies_add_button";
 	var goodiesRemoveButton = ".goodies_remove_button";
 	var addRow = "#row_add_";
@@ -890,8 +891,8 @@ sakai.dashboard = function(){
 		 * and show the Add row for that widget
 		 */
 		$(goodiesRemoveButton).bind("click", function(ev){
-			// The expected id is goodies_add_button_WIDGETNAME
-			var id = this.id.split("_")[this.id.split("_").length - 1];
+			// The expected id is btn_remove_WIDGETNAME
+			var id = this.id.replace(btnRemove, "");
 			$(removeRow + id).hide();
 			$(addRow + id).show();
 			// We find the widget container itself, and then find its parent,
