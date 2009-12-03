@@ -92,7 +92,7 @@ sakai.s23_site = function(){
 	/**
 	 * Function that get executed when the DOM is completely loaded
 	 */
-	(function(){
+	var init = function(){
 		
 		// Check if the query string contains the parameter id
 		if (qs.contains("id")) {
@@ -112,6 +112,7 @@ sakai.s23_site = function(){
 			// Log an error message for the user
 			fluid.log("s23site: This site needs to have an id parameter for a sakai2 site");
 		}
-	})();
+	};
+	init();
 };
 sakai.s23_site();
