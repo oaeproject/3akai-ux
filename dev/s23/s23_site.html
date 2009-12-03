@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Sakai 3 R&amp;D - Sakai 2 site</title>
+
+		<link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fluid.reset.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fluid.layout.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fluid.text.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.my_sakai.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/s23/_css/s23_site.css" />
+		<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css" />
+		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css" />
+
+		<script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_configuration/config.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/InfusionAll.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/trimpath.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
+		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/querystring.js"></script>
+	</head>
+	<body id="root" class="body-container fl-centered fl-container i18nable my-sakai">
+
+		<!-- NAVIGATION + CHAT -->
+		<div id="widget_chat" class="widget_inline"></div>
+		
+
+		<!-- HEADER -->
+		<div class="fl-container-flex header">
+			<div class="fl-fix fl-centered fixed-container">
+            	<div class="decor"></div>
+				<!-- GREETING -->
+				<div class="fl-col fl-container-500 greeting">
+					<span id="s23_site_title" class="greeting_text">Title</span>
+					<div id="s23_site_title_info">Sakai 2 site</div>
+				</div>
+				<a class="s23_site_back" href="/dev/my_sakai.html">&laquo; Back to My Sakai</a>
+			</div>
+		</div>
+
+		<div class="fl-container-flex" id="s23_site_container">
+			<div class="fl-fix fl-centered fixed-container">
+				<hr />
+				<div id="s23_site_iframe_container"></div>
+			</div>
+		</div>
+		
+		<!-- FOOTER WIDGET -->
+		<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+		
+		<script type="text/javascript">
+			var qs = new Querystring();
+
+			if (qs.contains("url")) {
+				var v1 = qs.get("url");
+				
+				$("#s23_site_iframe_container").html('<iframe id="s23_site_iframe" frameborder="0"></iframe>');
+				
+				$("#s23_site_iframe").attr("src", v1);
+				
+				if (qs.contains("title")) {
+					var v2 = qs.get("title");
+					$("#s23_site_title").text(v2);
+				}
+				/*
+				var loadiframe = function(){
+					if($("#s23_site_iframe").contents().find("#headerMax").length>0){
+						$("#s23_site_iframe").contents().find("#headerMax").hide();
+					}else{
+						setTimeout(loadiframe, 500);
+					}
+				};
+				loadiframe();*/
+				
+			}
+		</script>
+	</body>
+</html>
