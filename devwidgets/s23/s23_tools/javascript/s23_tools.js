@@ -18,7 +18,7 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
-sakai.sakai2tools = function(tuid,placement,showSettings){
+sakai.s23_tools = function(tuid,placement,showSettings){
 
 
 	/////////////////////////////
@@ -28,15 +28,15 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	var rootel = $("#" + tuid);
 
 	// IDs
-	var sakai2tools = "#sakai2tools";
-	var sakai2toolsError = sakai2tools + "_error";
-	var sakai2toolsErrorNotLoggedIn = $(sakai2toolsError + "_notloggedin");
-	var sakai2toolsErrorNotools = $(sakai2toolsError + "_notools");
-	var sakai2toolsErrorBadrequest = $(sakai2toolsError + "_badrequest");
-	var sakai2toolsContainer = $(sakai2tools + "_container");
+	var s23_tools = "#s23_tools";
+	var s23_toolsError = s23_tools + "_error";
+	var s23_toolsErrorNotLoggedIn = $(s23_toolsError + "_notloggedin");
+	var s23_toolsErrorNotools = $(s23_toolsError + "_notools");
+	var s23_toolsErrorBadrequest = $(s23_toolsError + "_badrequest");
+	var s23_toolsContainer = $(s23_tools + "_container");
 
 	// Templates
-	var sakai2toolsContainerTemplate = "sakai2tools_container_template";
+	var s23_toolsContainerTemplate = "s23_tools_container_template";
 
 
 	///////////////////////
@@ -49,16 +49,16 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	 */
 	var doRender = function(newjson){
 		if (newjson === 403) {
-			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotLoggedIn).html());
+			$(s23_toolsContainer, rootel).html($(s23_toolsErrorNotLoggedIn).html());
 		}
 		else if(!newjson || newjson === 404){
-			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotools).html());
+			$(s23_toolsContainer, rootel).html($(s23_toolsErrorNotools).html());
 		}
 		else if (!newjson.site || !newjson.site.pages || newjson.site.pages.length === 0){
-			$(sakai2toolsContainer, rootel).html($(sakai2toolsErrorNotools).html());
+			$(s23_toolsContainer, rootel).html($(s23_toolsErrorNotools).html());
 		}
 		else {
-			$(sakai2toolsContainer, rootel).html($.Template.render(sakai2toolsContainerTemplate, newjson.site));
+			$(s23_toolsContainer, rootel).html($.Template.render(s23_toolsContainerTemplate, newjson.site));
 		}
 	};
 
@@ -66,7 +66,7 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	 * Get the tools for a sakai2 site
 	 * @param {String} siteId The id of the site you want to get content from
 	 */
-	var getSakai2Tools = function(siteId) {
+	var gets23_tools = function(siteId) {
 		$.ajax({
 			url: Config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteId),
 			cache: false,
@@ -96,14 +96,14 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	 * Initialization
 	 */
 	var doInit = function() {
-		getSakai2Tools("62d2dada-9022-45bc-9438-b0548e08b1ec");
+		gets23_tools("62d2dada-9022-45bc-9438-b0548e08b1ec");
 		
-		$("#sakai2tools_login").live("click", function(e){
+		$("#s23_tools_login").live("click", function(e){
 			e.preventDefault();
 			logSakai2("login");
 		});
 		
-		$("#sakai2tools_logout").live("click", function(e){
+		$("#s23_tools_logout").live("click", function(e){
 			e.preventDefault();
 			logSakai2("logout");
 		});
@@ -111,4 +111,4 @@ sakai.sakai2tools = function(tuid,placement,showSettings){
 	
 	doInit();
 };
-sdata.widgets.WidgetLoader.informOnLoad("sakai2tools");
+sdata.widgets.WidgetLoader.informOnLoad("s23_tools");

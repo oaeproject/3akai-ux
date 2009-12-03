@@ -1,0 +1,32 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/s23_tools/css/s23_tools.css" />
+
+<!-- ERRORS -->
+<span id="s23_tools_error_notloggedin" class="s23_tools_error" style="display:none;">You are currently not logged into Sakai2. Please <a id="s23_tools_login" href="/portal/login">Log in</a>.</span>
+<span id="s23_tools_error_notools" class="s23_tools_error" style="display:none;">You have no tools in this site yet</span>
+<span id="s23_tools_error_badrequest" class="s23_tools_error" style="display:none;">The request to the server failed</span>
+<span id="s23_tools_error_nosettings" class="s23_tools_error" style="display:none;">No settings available.</span>
+
+<!-- CONTENT -->
+<div class="s23_tools_widget">
+	<div class="fl-widget-content" id="s23_tools_container"><!-- --></div>
+	<div id="s23_tools_container_template"><!--
+		<h2>${title}</h2>
+		<ul>
+			{for site in pages}
+				{if site.tools && site.tools[0]}
+					<li><a href="/portal/tool/${site.tools[0].url}">${site.name}</a></li>
+				{else}
+					<li>${site.name}</li>
+				{/if}
+			{/for}
+		</ul>
+		<a id="s23_tools_logout" href="/portal/logout">Log out</a> (Sakai2)
+		--></div>
+	<div class="fl-widget-options fl-fix" id="sites_top">
+		<div class="widget-options-inner"><!-- --></div>
+	</div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/s23_tools/javascript/s23_tools.js"></script>

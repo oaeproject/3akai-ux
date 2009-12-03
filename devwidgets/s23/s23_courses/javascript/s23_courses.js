@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.sakai2courses = function(tuid, placement, showSettings){
+sakai.s23_courses = function(tuid, placement, showSettings){
 	
 	Config.URL.SAKAI2_MCP_URL = "/sakai-hybrid/sites";
 
@@ -41,13 +41,13 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 	var parsenormal = [];
 
 	// CSS selectors
-	var sakai2coursesId = "#sakai2courses";
-	var $sakai2coursesContainer = $(sakai2coursesId + "_container");
-	var $sakai2coursesSubcontainer = $(sakai2coursesId + "_subcontainer");
+	var s23_coursesId = "#s23_courses";
+	var $s23_coursesContainer = $(s23_coursesId + "_container");
+	var $s23_coursesSubcontainer = $(s23_coursesId + "_subcontainer");
 	var jqPagerClass = ".jq_pager";
 	
 	// Templates
-	var sakai2coursesContainerTemplate = "sakai2courses_container_template";
+	var s23_coursesContainerTemplate = "s23_courses_container_template";
 
 
 	///////////////////////////
@@ -65,7 +65,7 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 		};
 
 		// Render the template and pass through the parseglobal object
-		$.Template.render(sakai2coursesContainerTemplate, pagingArray, $sakai2coursesSubcontainer);
+		$.Template.render(s23_coursesContainerTemplate, pagingArray, $s23_coursesSubcontainer);
 
 		//
 		if(parseglobal.all.length >= pageSize){
@@ -88,7 +88,7 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 		parseTemplates();
 
 		// Show the container for the courses and projects
-		$sakai2coursesContainer.show();
+		$s23_coursesContainer.show();
 	};
 
 
@@ -136,7 +136,7 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 				globalfeed = $.evalJSON(data);
 			},
 			error: function(status){
-				fluid.log("sakai2courses: Could not receive the courses and projects from the server.");
+				fluid.log("s23_courses: Could not receive the courses and projects from the server.");
 			},
 			complete: function(){
 				splitGlobalFeed();
@@ -157,4 +157,4 @@ sakai.sakai2courses = function(tuid, placement, showSettings){
 	doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("sakai2courses");
+sdata.widgets.WidgetLoader.informOnLoad("s23_courses");

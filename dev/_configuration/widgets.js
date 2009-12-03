@@ -102,24 +102,24 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
-		sakai2courses :
+		s23_courses :
 		{
 			description:"Your courses &amp; sites for Sakai2\r\n",
 			iframe:0,
-			url:"/devwidgets/sakai2courses/sakai2courses.html",
+			url:"/devwidgets/s23_courses/s23_courses.html",
 			name:"Sakai 2 Courses &amp; Projects",
-			id:"sakai2courses",
+			id:"s23_courses",
 			personalportal:1,
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
-		sakai2tools :
+		s23_tools :
 		{
 			description:"Listing of the tools from sakai 2\r\n",
 			iframe:0,
-			url:"/devwidgets/sakai2tools/sakai2tools.html",
+			url:"/devwidgets/s23_tools/s23_tools.html",
 			name:"Tools from Sakai 2",
-			id:"sakai2tools",
+			id:"s23_tools",
 			personalportal:1,
 			siteportal:0,
 			img:"/dev/img/sites.png"

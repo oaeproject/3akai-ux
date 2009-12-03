@@ -17,12 +17,12 @@
  */
 
 /* Paragraphs */
-#sakai2courses_container p {
+#s23_courses_container p {
 	margin: 13px 13px 0;
 }
 
 /* Headers */
-#sakai2courses_container h3 {
+#s23_courses_container h3 {
 	clear: both;
 	color: #666;
 	font-size: 1.1em;
@@ -31,13 +31,13 @@
 }
 
 /* List */
-#sakai2courses_subcontainer ul {
+#s23_courses_subcontainer ul {
 	float: left;
 	margin-bottom: .7em;
 	width: 100%;
 }
 
-#sakai2courses_subcontainer ul li {
+#s23_courses_subcontainer ul li {
 	background: url('/dev/_images/folder_icon.png') 11px 5px no-repeat;
 	border-bottom: 1px solid #ccc;
 	list-style: none;
@@ -45,11 +45,11 @@
 	padding: 5px 5px 5px 40px;
 }
 
-#sakai2courses_subcontainer ul li.sakai2courses_favourite {
+#s23_courses_subcontainer ul li.s23_courses_favourite {
 	background: url('/dev/_images/contentmedia_bookmark.png') 12px 5px no-repeat;
 }
 
-#sakai2courses_subcontainer ul li a {
+#s23_courses_subcontainer ul li a {
 	color: #006E96;
 	display: block;
 	font-size: 1em;
