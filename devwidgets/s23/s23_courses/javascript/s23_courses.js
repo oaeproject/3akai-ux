@@ -157,4 +157,4 @@ sakai.s23_courses = function(tuid, placement, showSettings){
 	doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("s23_courses");
+sdata.widgets.WidgetLoader.informOnLoad("s23/s23_courses");
