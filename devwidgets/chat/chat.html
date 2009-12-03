@@ -22,154 +22,148 @@
 	<div class="fl-container explore_nav">
 		<ul class="explore fl-force-left">
 			<li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
-	        <li id="nav_profile_link"><a href="/dev/profile.html">Profile</a></li>
-	        <li id="nav_people_link"><a href="javascript:;">People</a></li>
-			<li id="nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a></li>
+			<li id="nav_content_media_link"><a href="/dev/content_media.html">Content &amp; Media</a></li>
+			<li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
+			<li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
 			<li id="nav_search_link"><a href="/dev/search.html">Search</a></li>
-	    </ul>
-	    <ul class="personal fl-force-right">
-	    	
+		</ul>
+	  <div class="personal-container fl-force-right">
+	    <div class="personal">
+	    	<ul>
 			<!-- CHAT STATUS DROPDOWN -->
 			
 	    	<li id="user_link_container">
-	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="/dev/_images/arrow_down_sm2_blue.png" /></a>
+	    		<a id="user_link" class="user_link" href="#"><strong id="userid"></strong><img alt="More" src="/dev/_images/white_subnav_arrow.png" /></a>
 			</li>
 			<li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
 			<li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">Help</a></li>
 	        <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
 	    </ul>
+	  	</div>
+	  </div>
 	</div>
 </div>
 
 <!-- SELECTED PAGE -->
 <div id="nav_selected_page_template"><!--
-	<a href="javascript:;" class="explore_nav_selected rounded_corners"><span>${value}</span></a><img src="/dev/_images/arrow_down_sm2.png" class="explore_nav_selected_arrow" />
+	{if dropdown}
+		<div class="explore_nav_selected_dropdown" id="mysites_dropdown_close_link">
+	{else}
+		<div class="explore_nav_selected">
+	{/if}
+		<a href="javascript:;">
+			<span>${value}</span>
+		</a>
+		{if dropdown}
+			<img src="/dev/_images/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
+		{/if}
+	</div>
 --></div>
 
 <!-- DROPDOWN -->
 <div class="fl-container-flex fl-col-flex2 fl-fix dropdown" id="people_dropdown_main" style="display:none">
-		
-	<!-- MY CONTACTS -->
-	<div class="fl-col dropdown_contacts">
-			
-		<h2>My Contacts</h2>
-		
-		<div class="fl-container" id="people_dropdown_my_contacts_list">
-		</div>
-		<div id="people_dropdown_my_contacts_list_template"><!--
-			{for i in items}
-				<div class="dropdown_person">
-					{if i.photo}
-						<a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
-					{else}
-						<a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
-					{/if}
-					<a href="/dev/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
-				</div>	
-			{forelse}
-				<span style="font-size:0.95em">You currently have no contacts</span>
-			{/for}	
-		--></div>
-		
-		<div style="clear:both; padding-top: 10px;">
-			<a href="/dev/people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
-		</div>
-
+	<div class="fixed-container">
+        <!-- MY CONTACTS -->
+        <div class="fl-col dropdown_contacts">
+            <h2>My Contacts</h2>
+            <div class="fl-container" id="people_dropdown_my_contacts_list">
+            </div>
+            <div id="people_dropdown_my_contacts_list_template"><!--
+                {for i in items}
+                    <div class="dropdown_person">
+                        {if i.photo}
+                            <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
+                        {else}
+                            <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
+                        {/if}
+                        <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
+                    </div>	
+                {forelse}
+                    <span style="font-size:0.95em">You currently have no contacts</span>
+                {/for}	
+            --></div>
+            <div style="clear:both">
+                <a href="/dev/people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
+            </div>
+        </div>
+        <!-- SEARCH -->
+        <div class="dropdown_search_people">
+            <h2>Search for People</h2>
+            <div class="fl-fix dropdown_search_container">
+                <div>
+                    <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"/>
+		    <div class="dropdown_search_button_left fl-force-left">
+			<input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="Search"/>
+		    </div>
+                </div>
+            </div>
+        </div>
 	</div>
-	
-		<!-- SEARCH -->
-	<div class="dropdown_search_people">
-		<h2>Search for People</h2>
-		<div class="fl-fix dropdown_search_container">
-			<div>
-				<input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"/>
-				<div class="buttonBar fl-force-left">
-					<a href="javascript:;" id="dropdown_people_search_button" class="button search_button">Search</a>
-				</div>
-			</div>
-		</div>
+	<div class="dropdown_bottom_part_left">
+		<div class="dropdown_bottom_part_right"></div>
 	</div>
-	
-</div>
-
-<div class="fl-force-right close" id="people_dropdown_close" style="display:none">
-	<a href="javascript:;" id="people_dropdown_close_link">Close<img src="/dev/_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
 </div>
 
 	
 <!-- DROPDOWN -->
 <div class="fl-container-flex fl-col-flex3 fl-fix dropdown dropdown_mysites" id="mysites_dropdown_main" style="display:none">
-		
-	<!-- MY SITES -->
-	<div class="fl-col dropdown_sites">
-			
-		<h2>My Sites</h2>
-		
-		<div id="top_navigation_my_sites_list"></div>	
-		<div id="top_navigation_my_sites_list_template"><!--
-			<ul class="my_site_list">
-				{for i in entry}
-					<li><a href="/${i.location}">${i.name}</a></li>
-				{forelse}
-					<span>You aren't a member of any sites yet</span>
-				{/for}
-			</ul>
-		--></div>
-			
-		<a href="/dev/sites_edit.html" class="view_all_link">View &amp; Edit All &raquo;</a>
-			
+	<div class="fixed-container">
+        <!-- MY SITES -->
+        <div class="fl-col dropdown_sites">
+            <h2>My Sites</h2>
+            <div id="top_navigation_my_sites_list"></div>	
+            <div id="top_navigation_my_sites_list_template"><!--
+                <ul class="my_site_list">
+                    {for i in entry}
+                        <li><a href="/sites/${i.location}">${i.name}</a></li>
+                    {forelse}
+                        <span>You aren't a member of any sites yet</span>
+                    {/for}
+                </ul>
+            --></div>
+            <a href="/dev/sites_edit.html" class="view_all_link hidedev">View &amp; Edit All &raquo;</a>
+        </div>
+            
+        <!-- RECENTLY VISITED -->
+        <div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
+            <h2>Recent Sites</h2>
+        </div>
+        <div id='chat_dropdown_recent_sites_template'><!--
+            {if count == 0}
+                <span>No recent sites found<span>
+            {else}
+                <ul class="my_site_list">
+                    {for i in items}
+                        <li><a href="/sites/${i.location}">${i.name}</a></li>
+                    {/for}
+                </ul>
+            {/if}
+        --></div>
+        
+        <!-- SEARCH -->
+        <div class="dropdown_search_course_sites">
+            <h2>Search for Courses &amp; Sites</h2>
+            <div class="fl-fix dropdown_search_container">
+            <div>
+                <input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"/>
+                <div class="dropdown_search_button_left fl-force-left">
+                    <input type="button" id="courses_sites_search_button" class="dropdown_search_button_right" value="Search"/>
+                </div>
+            </div>
+            </div>
+            <div class="dropdown_create_sakai_site">
+                <a href="javascript:;" id="top_navigation_create_site">Create a Sakai Site</a>
+                <img src="/dev/_images/create_new_site_button_rt.png" alt="Close Icon"/>
+            </div>
+        </div>
+    </div>
+	<div class="dropdown_bottom_part_left">
+		<div class="dropdown_bottom_part_right"></div>
 	</div>
-		
-	<!-- RECENTLY VISITED -->
-	<div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
-		<h2>Recent Sites</h2>
-	</div>
-	
-	<div id='chat_dropdown_recent_sites_template'><!--
-		{if count == 0}
-			<span>No recent sites found<span>
-		{else}
-			<ul class="my_site_list">
-				{for i in items}
-					<li><a href="/${i.location}">${i.name}</a></li>
-				{/for}
-			</ul>
-		{/if}
-	--></div>
-	
-	<!-- SEARCH -->
-	<div class="dropdown_search_course_sites">
-		<h2>Search for Courses &amp; Sites</h2>
-		<div class="fl-fix dropdown_search_container">
-		<div>
-			<input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"/>
-			<div class="buttonBar fl-force-left">
-				<a href="javascript:;" id="courses_sites_search_button" class="button search_button">Search</a>
-			</div>
-		</div>
-		</div>
-		
-		<div class="dropdown_create_sakai_site">
-			<a href="javascript:;" id="top_navigation_create_site"><img src="/dev/_images/add_icon.png" alt="Close Icon"/>Create a Sakai Site</a>
-			<img src="/dev/_images/add_icon_end.png" alt="Close Icon"/>
-		</div>
-		
-	</div>
-	
 </div>
-
-<div class="fl-force-right close" style="display:none" id="mysites_dropdown_close">
-	<a href="javascript:;" id="mysites_dropdown_close_link">Close<img src="/dev/_images/close_icon.png" alt="Close Icon" class="close_icon"/></a>
-</div>
-
 
 <!-- CREATE A SITE WIDGET -->
 <div id="top_navigation_widgets"></div>
-
-<!-- SHOW ONLINE FRIENDS -->
-<div id="show_online" class="doFixed" style="display:none">
-	<div id="chat_available"></div>
-</div>
 
 <div id="chat_available_template" style="display:none"><!--
 	<a href="javascript:;" id="chat_available_minimize">
@@ -183,7 +177,7 @@
 					{if me.photo}
 						<img src="${me.photo}"/>
 					{else}
-						<img src="/dev/_images/person_icon.png" />
+						<img src="/dev/_images/person_icon.jpg" />
 					{/if}
 				</td>
 				<td>
@@ -204,7 +198,7 @@
 								{if i.photo}
 									<img src="${i.photo}" />
 								{else}
-									<img src="/dev/_images/person_icon.png" />
+									<img src="/dev/_images/person_icon.jpg" />
 								{/if}
 							</td>
 							<td>
@@ -229,40 +223,66 @@
 <div style="display:none" id="chat_windows_template"><!--
 	{var index = 0}
 	{for i in items}
-		<span id="online_button_${i.userid}" class="user_chat">
-			<a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+		{if special != false}
+			{if special == 0}
+			<span class="user_chat_first">
+			{else}
+			<span>
+			{/if}
+			<span id="online_button_${i.userid}" class="user_chat">
+				
+		{else}
+			{if index == 0}
+			<span class="user_chat_first">
+			{else}
+			<span>
+			{/if}
+			<span id="online_button_${i.userid}" class="user_chat">	
+		{/if}
+		<a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+		</span>
 		</span>
 		
+		${index++|eat}
+	{/for}	
+--></div>
+
+<!-- CHAT WINDOW -->
+<div style="display:none" id="chat_windows_windows_template"><!--
+	{var index = 0}
+	{for i in items}
+		
 		{if special != false}
-			<div id="chat_with_${i.userid}" class="doFixed chat_with_user_1" style="left: ${20 + (special*145)}px; display:none">
+			<div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(special*150)}px; display:none">
 		{else}
-			<div id="chat_with_${i.userid}" class="doFixed chat_with_user_2" style="left: ${20 + (index*145)}px; display:none">
+			<div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(index*150)}px; display:none">
 		{/if}
-			<table class="chat_top_table">
-				<tr class="chat_top_container">
-					<td class="chat_available_image">
-						{if i.photo}
-							<img src="${i.photo}" id="chat_window_photo_${i.userid}" />
-						{else}
-							<img src="/dev/_images/person_icon.png" id="chat_window_photo_${i.userid}" />
-						{/if}
-					</td>
-					<td>
-						<a href="javascript:;">
-							<img id="chat_close_${i.userid}" class="chat_user_button_image chat_close" src="/devwidgets/chat/images/chat_close.png" alt="" />
-						</a>
-						<a href="javascript:;">
-							<img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
-						</a>
-						<span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
-						<span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
-					</td>
-				</tr>
-			</table>
-			<div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow">
+				
+				<table class="chat_top_table">
+					<tr class="chat_top_container">
+						<td class="chat_available_image">
+							{if i.photo}
+								<img src="${i.photo}" id="chat_window_photo_${i.userid}" />
+							{else}
+								<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
+							{/if}
+						</td>
+						<td>
+							<a href="javascript:;">
+								<img id="chat_close_${i.userid}" class="chat_user_button_image chat_close" src="/devwidgets/chat/images/chat_close.png" alt="" />
+							</a>
+							<a href="javascript:;">
+								<img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
+							</a>
+							<span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
+							<span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
+						</td>
+					</tr>
+				</table>
+				<div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow"></div>
+				<input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text"/>
 			</div>
-			<input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text"/>
-		</div>
+		
 		${index++|eat}
 	{/for}	
 --></div>
@@ -285,10 +305,17 @@
 					<span id="online_button">
 						<img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
 						<a class="chat_straight_link" id="chat_online"></a>
+						
+						<!-- SHOW ONLINE FRIENDS -->
+						<div id="show_online" style="display:none">
+							<div id="chat_available"></div>
+						</div>
+						
 					</span>
 				</td>
 			</tr>
 		</table>
+		<div id="chat_windows_container" style="position:relative"></div>
 	</div>
 </div>
 

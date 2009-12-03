@@ -1,5 +1,5 @@
 .i18nable { display:none;}
-:focus {outline:none;}
+:focus {outline:1px dotted #000;}
 a { color:#333; text-decoration:none;}
 
 /* Global Classes */

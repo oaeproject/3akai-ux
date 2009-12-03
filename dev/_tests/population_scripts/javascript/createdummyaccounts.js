@@ -54,7 +54,7 @@ sakai.createdummyaccounts = function(){
 			var username = userlist[count].firstName + " " + userlist[count].lastName;
 			
 			$.ajax({
-				url: "http://localhost:8080/system/userManager/user.create.json",
+				url: "/system/userManager/user.create.json",
 				type: "POST",
 				data: userlist[count],
 				success: function(data){
