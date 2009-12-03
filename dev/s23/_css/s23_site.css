@@ -26,7 +26,7 @@
 .s23_site #s23_site_menu_container ul li
 { list-style-type: none; text-align: right; }
 .s23_site #s23_site_menu_container ul li a
-{ background: no-repeat right center; color:#006E96; display:block; padding: 2px 23px 2px 0; text-decoration:underline;}
+{ background-repeat: no-repeat; background-position: right center; color:#006E96; display:block; padding: 2px 23px 2px 0; text-decoration:underline;}
 .s23_site #s23_site_menu_container ul li a:hover
 { text-decoration: none; }
 
