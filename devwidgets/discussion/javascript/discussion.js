@@ -50,9 +50,6 @@ sakai.discussion = function(tuid, placement, showSettings) {
     var countReplies = 0;
     var currentDisplayMode = '';
 
-    Config.URL.DISCUSSION_INITIALPOSTS_SERVICE = "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__";
-    Config.URL.DISCUSSION_GETPOSTS_THREADED = "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__";
-
     // - Main Id
     var discussion = "#discussion";
     var discussionPosts = discussion + "_posts";
@@ -482,7 +479,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
         // Hide the reply form
         $(discussionReplyContainer, rootel).hide();
         
-        for (var i = 0; i < arrPosts.length; i++) {
+        for (var i = 0, j = arrPosts.length; i<j; i++) {
             arrPosts[i] = doMarkUpOnPost(arrPosts[i]);
         }
         
@@ -537,7 +534,8 @@ sakai.discussion = function(tuid, placement, showSettings) {
 
 		$(discussionToggleShowAllClass, rootel).hide();
         
-		if(widgetSettings.displayMode === 'inline') {
+
+		if(!widgetSettings.displayMode || widgetSettings.displayMode === 'inline') {
 			$('#discussion_collapse_link',rootel).show();
 			$('#discussion_compact_link',rootel).show();
 			$('#discussion_container',rootel).show();
@@ -792,75 +790,72 @@ sakai.discussion = function(tuid, placement, showSettings) {
 		post['sakai:sendstate'] = "pending";
 		return post;
 	};
-	
-	/**
-	 * Should be called when the submit button gets clicked.
-	 */
-	var submitSettings= function(){
-		// Determine which view we are on.
-		var post = {};
-		if ($(discussionSettingsExistingContainer, rootel).is(":visible")) {
-			// The user wants to add an existing item, we get the selected post and get the marker from it.
-			post = getSelectedDiscussion(selectedExistingDiscussionID);
-			widgetSettings.marker = post["sakai:marker"];
-			var callback = finishSettingsContainer;
-			saveWidgetSettings(callback);
-		}
-		else 
-			if ($(discussionSettingsNewContainer, rootel).is(":visible")) {
-				// The user wants to write his own post.
-				widgetSettings.marker = tuid;
-				
-				post = createPostObject();
-				
-				if (post['sakai:subject'].replace(/ /g, "") === "" || post['sakai:body'].replace(/ /g, "") === "") {
-					alert("Please fill in all the fields.");
+    
+    /**
+     * Should be called when the submit button gets clicked.
+     */
+    var submitSettings = function() {
+        // Determine which view we are on.
+        var post = {};
+        if ($(discussionSettingsExistingContainer, rootel).is(":visible")) {
+            // The user wants to add an existing item, we get the selected post and get the marker from it.
+            post = getSelectedDiscussion(selectedExistingDiscussionID);
+            widgetSettings.marker = post["sakai:marker"];
+            var callback = finishSettingsContainer;
+            saveWidgetSettings(callback);
+        }
+        else if ($(discussionSettingsNewContainer, rootel).is(":visible")) {
+            // The user wants to write his own post.
+            widgetSettings.marker = tuid;
+			
+            post = createPostObject();
+            
+            if (post['sakai:subject'].replace(/ /g, "") === "" || post['sakai:body'].replace(/ /g, "") === "") {
+                alert("Please fill in all the fields.");
+            }
+            else {
+                if (initialPost !== false) {
+                    // We already have an initalpost.
+                    // edit this one.
+                    editPost(initialPost["sakai:id"], post['sakai:subject'], post['sakai:body']);
+                }
+                else {
+                    // create a new post.
+                    createInitialPost(post);
+                }
+            }
+        }
+        else if ($(discussionSettingsDisplayOptionsContainer, rootel).is(":visible")) {
+
+			if(initialPost === false) {
+				var subject = $(discussionSettingsNewSubject, rootel).val();
+				var body = $(discussionSettingsNewBody, rootel).val();
+				if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
+					post = createPostObject();
+					createInitialPost(post);
 				}
 				else {
-					if (initialPost !== false) {
-						// We already have an initalpost.
-						// edit this one.
-						editPost(initialPost["sakai:id"], post['sakai:subject'], post['sakai:body']);
+					post = getSelectedDiscussion(selectedExistingDiscussionID);
+    
+					if(post === false) {
+						alert("You need to either post a new discussion or select an existing discussion");
+						return;
 					}
-					else {
-						// create a new post.
-						createInitialPost(post);
-					}
+					widgetSettings.marker = post["sakai:marker"];
 				}
 			}
-			else 
-				if ($(discussionSettingsDisplayOptionsContainer, rootel).is(":visible")) {
-				
-					if (initialPost === false) {
-						var subject = $(discussionSettingsNewSubject, rootel).val();
-						var body = $(discussionSettingsNewBody, rootel).val();
-						if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
-							post = createPostObject();
-							createInitialPost(post);
-						}
-						else {
-							post = getSelectedDiscussion(selectedExistingDiscussionID);
-							
-							if (post === false) {
-								alert("You need to either post a new discussion or select an existing discussion");
-								return;
-							}
-							widgetSettings.marker = post["sakai:marker"];
-						}
-					}
-					
-					if ($('#' + tuid + ' #discussion_settings_link_display_button').is(":checked")) {
-						widgetSettings.displayMode = 'link';
-					}
-					else 
-						if ($('#' + tuid + ' #discussion_settings_inline_display_button').is(":checked")) {
-							widgetSettings.displayMode = 'inline';
-						}
-					
-					var callback = finishSettingsContainer;
-					saveWidgetSettings(callback);
-				}
-	};
+    
+			if($('#' + tuid + ' #discussion_settings_link_display_button').is(":checked")) {
+				widgetSettings.displayMode = 'link';
+			}
+			else if($('#' + tuid + ' #discussion_settings_inline_display_button').is(":checked")) {
+				widgetSettings.displayMode = 'inline';
+			}
+    
+			var callback = finishSettingsContainer;
+			saveWidgetSettings(callback);
+	    }
+    };
     
     
 	/**
@@ -910,53 +905,98 @@ sakai.discussion = function(tuid, placement, showSettings) {
      * Shows a setting tab.
      * @param {String} tab Available options: new, existing
      */
-	var showTab = function(tab){
-		if (tab === "new") {
-			$(discussionSettingsExistingContainer, rootel).hide();
-			$(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabClass);
-			$(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabSelectedClass);
-			$(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabSelectedClass);
-			$(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
-			$(discussionSettingsNewContainer, rootel).show();
-			$(discussionSettingsDisplayOptionsContainer, rootel).hide();
-			$(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabSelectedClass);
-			$(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabClass);
-			$(discussionSettingsNewContainer, rootel).show();
-		}
-		else 
-			if (tab === "existing") {
-				$(discussionSettingsNewContainer, rootel).hide();
-				$(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabSelectedClass);
-				$(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabClass);
-				$(discussionSettingsDisplayOptionsContainer, rootel).hide();
-				$(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabSelectedClass);
-				$(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabClass);
-				$(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabClass);
-				$(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabSelectedClass);
-				$(discussionSettingsExistingContainer, rootel).show();
+
+    var showTab = function(tab) {
+        if (tab === "new") {
+            $(discussionSettingsExistingContainer, rootel).hide();
+            $(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabClass);
+            $(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsNewContainer, rootel).show();
+            $(discussionSettingsDisplayOptionsContainer, rootel).hide();
+            $(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsNewContainer, rootel).show();
+        }
+        else if (tab === "existing") {
+            $(discussionSettingsNewContainer, rootel).hide();
+            $(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsDisplayOptionsContainer, rootel).hide();
+            $(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabClass);
+            $(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsExistingContainer, rootel).show();
+        }
+        else if (tab === "display_options") {
+            $(discussionSettingsNewContainer, rootel).hide();
+            $(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsExistingContainer, rootel).hide();
+            $(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabClass);
+            $(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabSelectedClass);
+            $(discussionSettingsDisplayOptionsContainer, rootel).show();
+
+			if(widgetSettings.displayMode === 'inline') {
+				$('#' + tuid + ' #discussion_settings_inline_display_button').attr('checked',true);
 			}
-			else 
-				if (tab === "display_options") {
-					$(discussionSettingsNewContainer, rootel).hide();
-					$(discussionSettingsNewTab, rootel).removeClass(discussionSettingsTabSelectedClass);
-					$(discussionSettingsNewTab, rootel).addClass(discussionSettingsTabClass);
-					$(discussionSettingsExistingContainer, rootel).hide();
-					$(discussionSettingsExistingTab, rootel).removeClass(discussionSettingsTabSelectedClass);
-					$(discussionSettingsExistingTab, rootel).addClass(discussionSettingsTabClass);
-					$(discussionSettingsDisplayOptionsTab, rootel).removeClass(discussionSettingsTabClass);
-					$(discussionSettingsDisplayOptionsTab, rootel).addClass(discussionSettingsTabSelectedClass);
-					$(discussionSettingsDisplayOptionsContainer, rootel).show();
-					
-					if (widgetSettings.displayMode === 'inline') {
-						$('#' + tuid + ' #discussion_settings_inline_display_button').attr('checked', true);
-					}
-					else 
-						if (widgetSettings.displayMode === 'link') {
-							$('#' + tuid + ' #discussion_settings_link_display_button').attr('checked', true);
-						}
-				}
-	};
-	
+			else if(widgetSettings.displayMode === 'link') {
+				$('#' + tuid + ' #discussion_settings_link_display_button').attr('checked',true);
+			}
+        }
+    };
+    
+    /**
+     * Displays the settings, and depending on the settings the main or exisiting view of it.
+     */
+    var displaySettings = function() {
+        $(discussionMainContainer, rootel).hide();
+        $(discussionSettings, rootel).show();
+        // Fetch all the initial posts.
+        getExistingDiscussions();
+        
+        // If we are posting to another store we show the existing view.
+        if (widgetSettings.marker !== undefined && widgetSettings.marker !== tuid) {
+            showTab("existing");
+        }
+    };
+    
+    /**
+     * Fetches the widget settings and places it in the widgetSettings var.
+     */
+    var getWidgetSettings = function() {
+        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function(data) {
+                widgetSettings = $.evalJSON(data);
+                if (widgetSettings.marker !== undefined) {
+                    marker = widgetSettings.marker;
+                }
+                
+                if (showSettings) {
+                    displaySettings();
+                }
+                else {
+                    getPostsFromJCR();
+                }
+            },
+            error: function(status) {
+                // We don't have settings for this widget yet.
+                if (showSettings) {
+                    displaySettings();
+                }
+            }
+        });
+    };
+    
+
 	/**
 	 * Displays the settings, and depending on the settings the main or exisiting view of it.
 	 */
@@ -1004,27 +1044,27 @@ sakai.discussion = function(tuid, placement, showSettings) {
 	};
 	
 	
-	////////////////////
-	// Event Handlers //
-	////////////////////
-	
-	$('.discussion_compact_post_link a', rootel).live('click', function(e, ui){
-		var id = this.id.split("_")[this.id.split("_").length - 1];
-		
-		$('.discussion_compact_post', rootel).hide();
-		$('#discussion_post' + id, rootel).show();
-		$('#discussion_post_link' + id, rootel).hide(300);
-		
-		// Stop that annoying jump to top of the screen
-		return false;
-		
-	});
-	
-	$(discussionToggleShowHideAllClass, rootel).live("click", function(e, ui){
-		var id = this.id.split("_")[this.id.split("_").length - 1];
-		$(discussionPosts + id, rootel).toggle();
-		$(discussionToggleShowHideAllTextClass + id, rootel).toggle();
-	});
+    ////////////////////
+    // Event Handlers //
+    ////////////////////
+    
+    $('.discussion_compact_post_link a', rootel).live('click', function(e, ui){
+	    var id = this.id.split("_")[this.id.split("_").length - 1];
+	    
+	    $('.discussion_compact_post', rootel).hide();
+	    $('#discussion_post' + id, rootel).show();
+	    $('#discussion_post_link' + id, rootel).hide(300);
+	    
+	    // Stop that annoying jump to top of the screen
+	    return false;
+	    
+    });
+    
+    $(discussionToggleShowHideAllClass, rootel).live("click", function(e, ui){
+	    var id = this.id.split("_")[this.id.split("_").length - 1];
+	    $(discussionPosts + id, rootel).toggle();
+	    $(discussionToggleShowHideAllTextClass + id, rootel).toggle();
+    });
     
     // Bind the reply button
     $(discussionContentReplyClass, rootel).live("click", function(e, ui) {

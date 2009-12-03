@@ -71,6 +71,7 @@ if(!Array.indexOf){
 	$.handleError = function (s, xhr, status, e) {
 		
 		var requestStatus = xhr.status;
+		
 		// Sometimes jQuery comes back with a parse-error, although the request
 		// was completely successful. In order to prevent the error method to be called
 		// in this case, we need this if clause.
@@ -106,14 +107,28 @@ if(!Array.indexOf){
 				});
 				
 			}
-			
-			if (s.error) {
-				s.error(requestStatus, status, e);
-			}
-			if (s.global) {
-				jQuery.event.trigger("ajaxError", [xhr, s, e]);
-			}
+		  
+		// Handle HTTP conflicts thrown back by K2 (409) (for example when somebody tries to write to the same node at the very same time)
+		// We do this by re-sending the original request with the data transparently, behind the curtains, until it succeeds.
+		// This still does not eliminate a possibility of another conflict, but greatly reduces
+		// the chance and works in the background until the request is successful (ie jQuery will try to re-send the initial request until the response is not 409
+		// WARNING: This does not solve the locking/overwriting problem entirely, it merely takes care of high volume request related issues. Users
+		// should be notified in advance by the UI when somebody else is editing a piece of content, and should actively try reduce the possibility of
+		// overwriting.
+		if (requestStatus === 409) {		    
+		    // Retry initial post
+		    $.ajax(s);
 		}
+		
+		// Call original error handler, but not in the case of 409 as we want that to be transparent for users
+		if ((s.error) && (requestStatus !== 409)) {
+		  s.error(requestStatus, status, e);
+		}
+
+		if (s.global) {
+		  jQuery.event.trigger("ajaxError", [xhr, s, e]);
+		}
+	      }
 		
 	};
 	
