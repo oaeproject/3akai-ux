@@ -18,6 +18,7 @@
 
 /*global sakai, Config, $, QueryString */
 
+sakai = sakai || {};
 sakai.s23_site = sakai.s23_site || {};
 
 $(document).ready(function(){
