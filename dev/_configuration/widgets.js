@@ -106,7 +106,7 @@ var Widgets = {
 		{
 			description:"Your courses &amp; sites for Sakai2\r\n",
 			iframe:0,
-			url:"/devwidgets/s23/s23_courses/s23_courses.html",
+			url:"/devwidgets/s23_courses/s23_courses.html",
 			name:"Sakai 2 Courses &amp; Projects",
 			id:"s23_courses",
 			personalportal:1,
@@ -117,7 +117,7 @@ var Widgets = {
 		{
 			description:"Listing of the tools from Sakai 2\r\n",
 			iframe:0,
-			url:"/devwidgets/s23/s23_tools/s23_tools.html",
+			url:"/devwidgets/s23_tools/s23_tools.html",
 			name:"Sakai 2 - Tools",
 			id:"s23_tools",
 			personalportal:1,

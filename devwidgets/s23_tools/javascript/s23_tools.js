@@ -111,4 +111,4 @@ sakai.s23_tools = function(tuid,placement,showSettings){
 	
 	doInit();
 };
-sdata.widgets.WidgetLoader.informOnLoad("s23/s23_tools");
+sdata.widgets.WidgetLoader.informOnLoad("s23_tools");
