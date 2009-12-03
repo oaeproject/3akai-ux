@@ -28,7 +28,6 @@
 
 		<!-- NAVIGATION + CHAT -->
 		<div id="widget_chat" class="widget_inline"></div>
-		
 
 		<!-- HEADER -->
 		<div class="fl-container-flex header">
@@ -49,34 +48,24 @@
 				<div id="s23_site_iframe_container"></div>
 			</div>
 		</div>
-		
+
 		<!-- FOOTER WIDGET -->
 		<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
-		
+
 		<script type="text/javascript">
 			var qs = new Querystring();
 
-			if (qs.contains("url")) {
-				var v1 = qs.get("url");
-				
+			if (qs.contains("id")) {
+				var v1 = qs.get("id");
+
 				$("#s23_site_iframe_container").html('<iframe id="s23_site_iframe" frameborder="0"></iframe>');
-				
+
 				$("#s23_site_iframe").attr("src", v1);
-				
+
 				if (qs.contains("title")) {
 					var v2 = qs.get("title");
 					$("#s23_site_title").text(v2);
 				}
-				/*
-				var loadiframe = function(){
-					if($("#s23_site_iframe").contents().find("#headerMax").length>0){
-						$("#s23_site_iframe").contents().find("#headerMax").hide();
-					}else{
-						setTimeout(loadiframe, 500);
-					}
-				};
-				loadiframe();*/
-				
 			}
 		</script>
 	</body>
