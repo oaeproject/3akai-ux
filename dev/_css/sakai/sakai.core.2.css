@@ -428,10 +428,11 @@ body.search-container .explore_nav .explore #nav_search_link a {
 /********************************************/
 /* Content  */
 /********************************************/
+
 .content_container {
 }
 .content_page_header{
-    color:#999;
+	color:#999;
 	padding: 14px 0 14px 0;
 }
 .content_container .content_page_header p {

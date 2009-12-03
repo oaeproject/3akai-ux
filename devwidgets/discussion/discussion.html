@@ -5,14 +5,18 @@
 <div id="discussion_main_container" style="display:none">
 
 	<div id="discussion_widget_header_wrapper">
-		<div id="discussion_widget_title_wrapper"><h3 id="discussion_widget_header">Discussion - </h3><h3 id="discussion_widget_title"></h3></div>
+		<div id="discussion_widget_title_wrapper"><h3 id="discussion_widget_header">Discussion</h3>
 
-		<div class="discussion_view_options">
+		<div class="discussion_view_options fl-force-right">
 			<a id="discussion_compact_link" title="Click to view a compact version of this discussion" href="javascript:;">Change to compact view</a>
 			<a id="discussion_full_link" title="Click to view the expanded version of this discussion" href="javascript:;">Change to full view</a>
 			<span class="divider" style="display:none" id="li_divider"></span>
 			<a id="discussion_expand_link" title="Click to expand this discussion" href="javascript:;">Show all</a>
 			<a id="discussion_collapse_link" title="Click to collapse this discussion" href="javascript:;">Hide all</a>
+		</div>
+		
+		<h3 id="discussion_widget_title"></h3>
+		
 		</div>
 	</div>
 
@@ -37,7 +41,7 @@
 							{else}
 								<img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg	" />
 							{/if}
-							<p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}" style="margin-bottom: 0px; font-size: 1.2em">${o.post["sakai:subject"]}</p>
+							<p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
 							<a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
 							<span class="discussion_date">posted this on ${o.post.date}</span>
 						{else}
@@ -114,7 +118,7 @@
 								{else}
 									<img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg	" />
 								{/if}
-								<p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}" style="margin-bottom: 0px; font-size: 1.2em">${o.post["sakai:subject"]}</p>
+								<p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
 								<a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
 								<span class="discussion_date">posted this on ${o.post.date}</span>
 							{else}
@@ -200,9 +204,9 @@
 		<form>
 			<input type="text" id="discussion_edit_subject" /><br />
 			<textarea id="discussion_edit_message" rows="0" cols="0"></textarea><br />
-			<div class="buttonBar">
-				<a class="button-default save_button" href="javascript:;" id="discussion_edit_save" style="float:left;">Save</a>
-				<a class="button cancel-button" href="javascript:;" id="discussion_edit_cancel" style="margin-left:10px;">Cancel</a>
+			<div class="dialog_buttons">
+				<a class="button-default save_button" href="javascript:;" id="discussion_edit_save">Save</a>
+				<a class="button cancel-button" href="javascript:;" id="discussion_edit_cancel">Cancel</a>
 			</div>
 		</form>
 	</div>
@@ -215,9 +219,9 @@
 			<label for="discussion_reply_body">Body</label>
 			<textarea id="discussion_reply_body"></textarea><br />
 			
-			<div class="buttonBar">
-				<a class="button-default submit_button" href="javascript:;" id="discussion_reply_submit" style="float:left;">Reply</a>
-				<a class="button cancel-button" href="javascript:;" id="discussion_reply_cancel" style="margin-left:10px;">Cancel</a>
+			<div class="dialog_buttons">
+				<a class="button-default submit_button" href="javascript:;" id="discussion_reply_submit">Reply</a>
+				<a class="button cancel-button" href="javascript:;" id="discussion_reply_cancel">Cancel</a>
 			</div>
 		</form>
 	</div>

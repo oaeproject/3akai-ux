@@ -66,6 +66,8 @@ var Config = {
 		CHAT_SEND_SERVICE: "/_rest/chat/send",
 		CHAT_UPDATE_SERVICE:  "/_user/message.chatupdate.json",
 		CREATE_USER_SERVICE: "/system/userManager/user.create.html",
+		DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
+		DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
 		FRIEND_STATUS_SERVICE: "/rest/friend/status",
 		FRIEND_CONNECT_SERVICE: "/rest/friend/connect/request",
 		FRIEND_ACCEPTED_SERVICE: "/_user/contacts/accepted.json",
