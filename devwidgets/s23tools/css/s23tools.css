@@ -16,15 +16,15 @@
 * specific language governing permissions and limitations under the License.
 */
 
-#s23_tools_container
+#s23tools_container
 { padding:10px 20px; }
-#s23_tools_container ul
+#s23tools_container ul
 { margin-top: 10px; }
-#s23_tools_container ul li 
+#s23tools_container ul li 
 { list-style-type: none; }
-#s23_tools_container a
+#s23tools_container a
 { color: #006E96; }
-#s23_tools_container a:hover
+#s23tools_container a:hover
 { text-decoration: underline; }
-.s23_tools_error
+.s23tools_error
 { font-size:0.95em; }

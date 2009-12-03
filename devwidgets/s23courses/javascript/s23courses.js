@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.s23_courses = function(tuid, placement, showSettings){
+sakai.s23courses = function(tuid, placement, showSettings){
 	
 	Config.URL.SAKAI2_MCP_URL = "/sakai-hybrid/sites";
 
@@ -41,13 +41,13 @@ sakai.s23_courses = function(tuid, placement, showSettings){
 	var parsenormal = [];
 
 	// CSS selectors
-	var s23_coursesId = "#s23_courses";
-	var $s23_coursesContainer = $(s23_coursesId + "_container");
-	var $s23_coursesSubcontainer = $(s23_coursesId + "_subcontainer");
+	var s23coursesId = "#s23courses";
+	var $s23coursesContainer = $(s23coursesId + "_container");
+	var $s23coursesSubcontainer = $(s23coursesId + "_subcontainer");
 	var jqPagerClass = ".jq_pager";
 	
 	// Templates
-	var s23_coursesContainerTemplate = "s23_courses_container_template";
+	var s23coursesContainerTemplate = "s23courses_container_template";
 
 
 	///////////////////////////
@@ -65,7 +65,7 @@ sakai.s23_courses = function(tuid, placement, showSettings){
 		};
 
 		// Render the template and pass through the parseglobal object
-		$.Template.render(s23_coursesContainerTemplate, pagingArray, $s23_coursesSubcontainer);
+		$.Template.render(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
 
 		//
 		if(parseglobal.all.length >= pageSize){
@@ -88,7 +88,7 @@ sakai.s23_courses = function(tuid, placement, showSettings){
 		parseTemplates();
 
 		// Show the container for the courses and projects
-		$s23_coursesContainer.show();
+		$s23coursesContainer.show();
 	};
 
 
@@ -136,7 +136,7 @@ sakai.s23_courses = function(tuid, placement, showSettings){
 				globalfeed = $.evalJSON(data);
 			},
 			error: function(status){
-				fluid.log("s23_courses: Could not receive the courses and projects from the server.");
+				fluid.log("s23courses: Could not receive the courses and projects from the server.");
 			},
 			complete: function(){
 				splitGlobalFeed();
@@ -157,4 +157,4 @@ sakai.s23_courses = function(tuid, placement, showSettings){
 	doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("s23_courses");
+sdata.widgets.WidgetLoader.informOnLoad("s23courses");
