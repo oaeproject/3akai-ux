@@ -45,28 +45,29 @@
 		<div class="fl-container-flex" id="s23_site_container">
 			<div class="fl-fix fl-centered fixed-container">
 				<hr />
+				<div id="s23_site_menu_container"><!-- --></div>
 				<div id="s23_site_iframe_container"></div>
 			</div>
 		</div>
+		
+		<!-- TEMPLATES -->
+		<div id="s23_site_menu_container_template"><!--
+			{if site.pages.length > 0}
+				<ul>
+				{for tool in site.pages}
+					<li>${tool.name}</li>	
+				{/for}
+				</ul>
+			{else}
+				<span id="s23_site_notools">There are no tools available</span>
+			{/if}
+		--></div>
+
 
 		<!-- FOOTER WIDGET -->
 		<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
 
-		<script type="text/javascript">
-			var qs = new Querystring();
-
-			if (qs.contains("id")) {
-				var v1 = qs.get("id");
-
-				$("#s23_site_iframe_container").html('<iframe id="s23_site_iframe" frameborder="0"></iframe>');
-
-				$("#s23_site_iframe").attr("src", v1);
-
-				if (qs.contains("title")) {
-					var v2 = qs.get("title");
-					$("#s23_site_title").text(v2);
-				}
-			}
-		</script>
+		<!-- JAVASCRIPT -->
+		<script type="text/javascript" src="/dev/s23/_javascript/s23_site.js"></script>
 	</body>
 </html>
