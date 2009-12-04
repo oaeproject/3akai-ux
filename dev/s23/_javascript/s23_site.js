@@ -121,7 +121,7 @@ sakai.s23_site = function(){
 			createxids();
 			
 			// Check if there are any tools in the first page, if so parse them
-			if(completeJSON.site.pages[0].tools && completeJSON.site.pages.tools[0].length > 0){
+			if(completeJSON.site.pages[0].tools && completeJSON.site.pages[0].tools.length > 0){
 				
 				// Load the tools for a specific page
 				loadPageTools(completeJSON.site.pages[0].id);
