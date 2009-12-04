@@ -86,16 +86,16 @@ sakai.s23_site = function(){
 	/**
 	 * Create an xid for every tool that exists
 	 * We need this because the iframe looks at the parent frame with the xid
-	 * An id could be 	0175d73d-741f-4fb3-94dc-9f8c1d4925a9
+	 * An url could be 	0175d73d-741f-4fb3-94dc-9f8c1d4925a9
 	 * An xid is		0175d73dx741fx4fb3x94dcx9f8c1d4925a9
 	 */
 	var createxids = function(){
 		
-		// Run over all the pages and then all the tools inside a page to modify the id
+		// Run over all the pages and then all the tools inside a page to modify the xid
 		for (var i=0, len=completeJSON.site.pages.length; i<len; i++) {
 			if (completeJSON.site.pages[i].tools && completeJSON.site.pages[i].tools.length>0) {
 				for (var j = 0, toolslen = completeJSON.site.pages[i].tools.length; j < toolslen; j++) {
-					completeJSON.site.pages[i].tools[j].xid = completeJSON.site.pages[i].tools[j].id.replace(/-/, "x");
+					completeJSON.site.pages[i].tools[j].xid = completeJSON.site.pages[i].tools[j].url.replace(/-/, "x");
 				}
 			}
 		}
