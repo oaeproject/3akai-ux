@@ -43,11 +43,12 @@
 			</div>
 		</div>
 
+		<!-- MAIN CONTAINER -->
 		<div class="fl-container-flex" id="s23_site_container">
 			<div class="fl-fix fl-centered fixed-container">
 				<hr />
 				<div id="s23_site_menu_container"><!-- --></div>
-				<div id="s23_site_iframe_container"></div>
+				<div id="s23_site_iframe_container"><!-- --></div>
 			</div>
 		</div>
 		
@@ -56,14 +57,20 @@
 			{if site.pages.length > 0}
 				<ul>
 				{for tool in site.pages}
-					<li class="s23_site_menu_item"><a href="/portal/site/${site.id}/page/${tool.id}" class="${tool.iconclass}">${tool.name}</a></li>	
+					<li class="s23_site_menu_item"><a href="/portal/site/${site.id}/page/${tool.id}" class="${tool.iconclass}" id="s23_site_menu_item_">${tool.name}</a></li>	
 				{/for}
 				</ul>
 			{else}
 				<span id="s23_site_notools">There are no tools available</span>
 			{/if}
 		--></div>
-
+		
+		<div id="s23_site_iframe_container_template"><!--
+			{for tool in tools}
+				<div class="s23_site_iframe_title">${tool.title}</div>
+				<iframe id="Main${tool.xid}" id="Main${tool.xid}" scr="/portal/tool/${tool.id}?panel=Main" title="${tool.title}"></iframe>
+			{/for}
+		--></div>
 
 		<!-- FOOTER WIDGET -->
 		<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>

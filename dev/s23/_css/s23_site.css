@@ -23,6 +23,10 @@
 { float: left; margin-right:10px;}
 
 /* Menu */
+.s23_site #s23_site_menu_container
+{ border-right:2px solid #fff; float: left; padding:0 0.5em 0 0; width: 11em; }
+.s23_site #s23_site_menu_container:hover
+{ border-right:2px solid #aaa }
 .s23_site #s23_site_menu_container ul li
 { list-style-type: none; text-align: right; }
 .s23_site #s23_site_menu_container ul li a
@@ -88,6 +92,10 @@
 .s23_site_menu_item .icon-sakai-messages,.s23_site_menu_item .icon-sakai-synoptic-messagecenter{background-image:url(/library/image/silk/comment.png);}
 .s23_site_menu_item .icon-sakai-poll,.s23_site_menu_item .icon-sakai-sitestats{background-image:url(/library/image/silk/chart_bar.png);}
 .s23_site_menu_item .icon-sakai-siteinfo,.s23_site_menu_item .icon-sakai-sitesetup{background-image:url(/library/image/silk/application_lightning.png);}
+
+/* Iframe container */
+.s23_site #s23_site_iframe_container
+{ margin: 0.5em 0 0 12.3em; }
 
 /* Container */
 .s23_site #s23_site_container .fixed-container
