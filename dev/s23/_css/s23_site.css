@@ -97,9 +97,13 @@
 
 /* Iframe container */
 .s23_site #s23_site_iframe_container
-{ margin: 0.5em 0 0 12.3em }
+{ margin: 1.6em 0 0 12.3em }
 .s23_site #s23_site_iframe_container .s23_site_iframe
 { height:1200px; width: 100% }
+.s23_site #s23_site_iframe_container .s23_site_iframe_title
+{ border-bottom:2px solid #0099CC; overflow: hidden; width: 100%; }
+.s23_site #s23_site_iframe_container .s23_site_iframe_title h2
+{ color:#555; display:inline; font-size:1.2em; margin:0 0 0 0.2em; padding:2px 4px 6px 0;  }
 
 /* Container */
 .s23_site #s23_site_container .fixed-container

@@ -99,7 +99,6 @@ sakai.s23_site = function(){
 				}
 			}
 		}
-		
 	};
 	
 	/**
