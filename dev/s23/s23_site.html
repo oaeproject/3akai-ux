@@ -57,7 +57,7 @@
 			{if site.pages.length > 0}
 				<ul>
 				{for tool in site.pages}
-					<li class="s23_site_menu_item"><a href="/portal/site/${site.id}/page/${tool.id}" class="${tool.iconclass}" id="s23_site_menu_item_">${tool.name}</a></li>	
+					<li class="s23_site_menu_item"><a href="/portal/site/${site.id}/page/${tool.id}" class="${tool.iconclass}" id="s23_site_menu_item_${tool.id}">${tool.name}</a></li>	
 				{/for}
 				</ul>
 			{else}
