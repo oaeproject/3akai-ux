@@ -130,7 +130,7 @@ sakai.s23_site = function(){
 				ev.preventDefault();
 				
 				// Get the id of the tool you clicked on
-				var id = $(this).id.replace(s23SiteMenuItemTag, "");
+				var id = this.id.replace(s23SiteMenuItemTag, "");
 				
 				// Load the tools for a specific page
 				loadPageTools(id);
