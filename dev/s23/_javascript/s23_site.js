@@ -95,7 +95,7 @@ sakai.s23_site = function(){
 		for (var i=0, len=completeJSON.site.pages.length; i<len; i++) {
 			if (completeJSON.site.pages[i].tools && completeJSON.site.pages[i].tools.length>0) {
 				for (var j = 0, toolslen = completeJSON.site.pages[i].tools.length; j < toolslen; j++) {
-					completeJSON.site.pages[i].tools[j].xid = completeJSON.site.pages[i].tools[j].url.replace(/-/, "x");
+					completeJSON.site.pages[i].tools[j].xid = completeJSON.site.pages[i].tools[j].url.replace(/-/g, "x");
 				}
 			}
 		}

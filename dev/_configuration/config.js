@@ -101,7 +101,7 @@ var Config = {
 		TWITTER_GET_URL: "/var/proxy/twitter/status.json",
 		TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"
 	},
-	
+
 	SakaiDomain : window.location.protocol + "//" + window.location.host,
 	Profile : {
 		// Fields that cannot be edited and so controlled by LDAP, ...
