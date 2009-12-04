@@ -36,7 +36,7 @@ sakai.s23_site = function(){
 	var s23SiteIframeContainer = $(s23Site + "_iframe_container");
 	var s23SiteMenuContainer = $(s23Site + "_menu_container");
 	var s23SiteMenuItemTag = "s23_site_menu_item_";
-	var s23SiteMenuItems = s23Site + "#_menu_container ul li a";
+	var s23SiteMenuItems = s23Site + "_menu_container ul li a";
 	
 	// Templates
 	var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
@@ -121,22 +121,24 @@ sakai.s23_site = function(){
 			// Create xid's
 			createxids();
 			
-			// 
+			/*
+			 * Bind a click handler to every site menu item
+			 */
 			$(s23SiteMenuItems).click(function(ev){
 				
 				// Prevent going to the actual page
 				ev.preventDefault();
 				
-				$(this).id.replace()
-			});
-			
-			// Check if there are any tools in the first page, if so parse them
-			if(completeJSON.site.pages[0].tools && completeJSON.site.pages[0].tools.length > 0){
+				// Get the id of the tool you clicked on
+				var id = $(this).id.replace(s23SiteMenuItemTag, "");
 				
 				// Load the tools for a specific page
-				loadPageTools(completeJSON.site.pages[0].id);
-				
-			}
+				loadPageTools(id);
+			});
+			
+			// Pretend like you clicked on the first page
+			$(s23SiteMenuItems + ":first").trigger("click");
+			
 		}
 		else {
 			fluid.log("s23_site: An error occured when parsing the Sakai 2 site information");
