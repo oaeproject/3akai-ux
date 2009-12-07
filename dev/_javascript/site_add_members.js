@@ -209,9 +209,9 @@ sakai.site_add_members = function() {
             });
         
 		if (people.results.length > 0) {
-			$(".jq_pager").show();
+			$(".sakai_pager").show();
 		} else {
-			$(".jq_pager").hide();
+			$(".sakai_pager").hide();
 		}
 
     };
@@ -366,38 +366,31 @@ for(var i = 0 ; i < addedMembers.uuserid.length ; i++){
 			var dataTemp = getPostData(false);
         	if (dataTemp.uuserid.length > 0) {
 				
-				var done = 0;
-				var toDo = dataTemp.uuserid.length;
 				var group = "collaborators";
 				if (dataTemp.membertoken == "Viewer" || dataTemp.membertoken[0] == "Viewer"){
 					group = "viewers";
 				}
 				
-				for (var i = 0; i < dataTemp.uuserid.length; i++){
+				var newMembers = [];
+				for (var i = 0; i < dataTemp.uuserid.length; i++) {
 					var userid = "../../user/" + dataTemp.uuserid[i];
-					$.ajax({
-						url: "/system/userManager/group/g-" + selectedSite + "-" + group + ".update.html",
-						type: "POST",
-						success: function(data){
-							done++;
-							if (done === toDo) {
-								updateSiteMembers(dataTemp);
-								selectNone();
-							}
-						},
-						error: function(status){
-							done++;
-							if (done === toDo) {
-								alert(data);
-							}
-						},
-						data: {
-							":member": userid
-						}
-					});
+					newMembers.push(userid);
 				}
-			
-        	}
+				$.ajax({
+					url: "/system/userManager/group/g-" + selectedSite + "-" + group + ".update.html",
+					type: "POST",
+					success: function(data){
+							updateSiteMembers(dataTemp);
+							selectNone();
+					},
+					error: function(status){
+						alert("Failed to add these members.");
+					},
+					data: {
+						":member": newMembers
+					}
+				});
+			}
 		}
         
     };

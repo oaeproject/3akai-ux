@@ -23,6 +23,7 @@ sakai.site_manage_members = function() {
     var json = {};
     var selectedSite = "";
 	var pageSize = 10;
+	var currentPage = 1;
 	var selectedPeople = [];
    
    /**
@@ -151,15 +152,15 @@ sakai.site_manage_members = function() {
 
 	/**
 	 * returns a string stating the number of members
-	 * @param {Object} arrPeople
+	 * @param {integer} nrMembers
 	 */
-    var getNumMembers = function(arrPeople) {
+    var getNumMembers = function(nrMembers) {
         var numMembers = "";
-        if (arrPeople.length === 1) {
-            numMembers = arrPeople.length + " member";
+        if (nrMembers === 1) {
+            numMembers = nrMembers + " member";
         }
         else {
-            numMembers = arrPeople.length + " members";
+            numMembers = nrMembers + " members";
         }
         return numMembers;
     };
@@ -170,37 +171,38 @@ sakai.site_manage_members = function() {
 	 * @param {Object} isNew : is this a new list or already updated by javascript code
 	 */
     var renderMembers = function(members, isNew) {
-		 	for (var i = 0; i < members.length; i++) {
-				if(typeof members[i].picture !== "undefined" && $.evalJSON(members[i].picture).name){
-					members[i].picture = $.evalJSON(members[i].picture);
+		var results = members.results;
+		 	for (var i = 0; i < results.length; i++) {
+				if(typeof results[i].picture !== "undefined" && $.evalJSON(results[i].picture).name){
+					results[i].picture = $.evalJSON(results[i].picture);
 				} else {
-					members[i].picture = undefined;
+					results[i].picture = undefined;
 				}
 				
 				var isViewer = false;
 				var isCollaborator = false;
 				
-				for (var g = 0; g < members[i]["member:groups"].length; g++){
-					if (members[i]["member:groups"][g] === "g-" + selectedSite + "-collaborators"){
-						members[i].role = "Collaborator";
+				for (var g = 0; g < results[i]["member:groups"].length; g++){
+					if (results[i]["member:groups"][g] === "g-" + selectedSite + "-collaborators"){
+						results[i].role = "Collaborator";
 					} 
-					if (members[i]["member:groups"][g] === "g-" + selectedSite + "-viewers"){
-						members[i].role = "Viewer";
+					if (results[i]["member:groups"][g] === "g-" + selectedSite + "-viewers"){
+						results[i].role = "Viewer";
 					} 
 				}
 				
             }
 			var toRender = {};
-			toRender.users = members;
+			toRender.users = results;
 			$("#siteManage_members").html($.Template.render("siteManage_people_template", toRender));
-		 	$("#manage_members_count").html(getNumMembers(toRender.users));
+		 	$("#manage_members_count").html(getNumMembers(json.members.total));
             $(".siteManage_person").bind("click",
             function(e, ui) {
 				if (!$(e.target).hasClass("view-profile-label")) {
 					var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
 					var isSelected = false;
 					for (var i = 0; i < selectedPeople.length; i++) {
-						if (selectedPeople[i]["rep:userId"] === json.members[userindex]["rep:userId"]) {
+						if (selectedPeople[i]["rep:userId"] === json.members.results[userindex]["rep:userId"]) {
 							isSelected = true;
 							break;
 						}
@@ -209,6 +211,14 @@ sakai.site_manage_members = function() {
 					updateSelectedPersons();
 				}
             });
+		$(".sakai_pager").pager({
+			pagenumber: currentPage,
+			pagecount: Math.ceil( json.members.total/pageSize),
+			buttonClickCallback: function(pageclickednumber){
+				currentPage = pageclickednumber;
+				getSiteMembers($("#txt_member_search").val(), pageclickednumber,"\n");
+			}
+		});
 			
         
     };
@@ -254,16 +264,14 @@ sakai.site_manage_members = function() {
 			peoplesearchterm = "&q=" + peoplesearchterm;
 		}
 		
-		// Until paging and server-side filtering are sorted out,
-		// retrieve enough site members to approximate "all".
+		var start = pageSize * (page  - 1);
         $.ajax({
             cache: false,
-			url: "/sites/" + selectedSite + ".members.json?items=10000",
+			url: "/sites/" + selectedSite + ".members.json?sort=firstName,asc&start=" + start + "&items=" + pageSize,
             success: function(data) {
-                json.members = $.evalJSON(data).results;
+                json.members = $.evalJSON(data);
 				
                 //getSiteMembersData(searchTerm, page, splitChar);
-				 json.members.sort(doSort);
 				 renderMembers(json.members,true);
 				
             },
