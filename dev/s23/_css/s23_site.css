@@ -101,7 +101,7 @@
 .s23_site #s23_site_iframe_container
 { margin: 1.6em 0 0 12.3em }
 .s23_site #s23_site_iframe_container .s23_site_iframe
-{ height:1200px; width: 100% }
+{ width: 100% }
 .s23_site #s23_site_iframe_container .s23_site_iframe_title
 { border-bottom:2px solid #0099CC; overflow: hidden; width: 100%; }
 .s23_site #s23_site_iframe_container .s23_site_iframe_title h2

@@ -67,12 +67,14 @@
 		--></div>
 		
 		<div id="s23_site_iframe_container_template"><!--
-			{for tool in tools}
-				<div class="s23_site_iframe_title">
-					<h2>${tool.title}</h2>
-				</div>
-				<iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${Config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
-			{/for}
+			<div id="s23_site_iframe_container_${id}">
+				{for tool in tools}
+					<div class="s23_site_iframe_title">
+						<h2>${tool.title}</h2>
+					</div>
+					<iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${Config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
+				{/for}
+			</div>
 		--></div>
 
 		<!-- FOOTER WIDGET -->
