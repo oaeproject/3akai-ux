@@ -81,11 +81,11 @@ sakai.s23_site = function(){
 		if(page){
 			
 			// Render the tools of the site
-			s23SiteIframeContainer.html($.Template.render(s23SiteIframeContainerTemplate, page));
+			s23SiteIframeContainer.append($.Template.render(s23SiteIframeContainerTemplate, page));
 		}
 		
 	};
-	
+
 	/**
 	 * Transform an id to an xid
 	 * @param {String} id The id you want to transform to an xid
