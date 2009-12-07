@@ -87,8 +87,20 @@ sakai.s23_site = function(){
 	};
 	
 	/**
-	 * Create an xid for every tool that exists
-	 * We need this because the iframe looks at the parent frame with the xid
+	 * Transform an id to an xid
+	 * @param {String} id The id you want to transform to an xid
+	 */
+	var toxid = function(id){
+		
+		// Filter out all the ! and - characters and replace them by x
+		return id.replace(/-|\!/g, "x");
+		
+	};
+	
+	/**
+	 * Create an xid for every page & tool that exists
+	 * We need this because the iframe looks at the parent frame with the xid (tool)
+	 * and because we put every page in a specific div (page)
 	 * An url could be 	0175d73d-741f-4fb3-94dc-9f8c1d4925a9
 	 * An xid is		0175d73dx741fx4fb3x94dcx9f8c1d4925a9
 	 */
@@ -96,9 +108,10 @@ sakai.s23_site = function(){
 		
 		// Run over all the pages and then all the tools inside a page to modify the xid
 		for (var i=0, len=completeJSON.site.pages.length; i<len; i++) {
+			completeJSON.site.pages[i].xid = toxid(completeJSON.site.pages[i].id);
 			if (completeJSON.site.pages[i].tools && completeJSON.site.pages[i].tools.length>0) {
 				for (var j = 0, toolslen = completeJSON.site.pages[i].tools.length; j < toolslen; j++) {
-					completeJSON.site.pages[i].tools[j].xid = completeJSON.site.pages[i].tools[j].url.replace(/-|\!/g, "x");
+					completeJSON.site.pages[i].tools[j].xid = toxid(completeJSON.site.pages[i].tools[j].url);
 				}
 			}
 		}
