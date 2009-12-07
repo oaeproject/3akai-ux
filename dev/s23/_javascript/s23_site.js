@@ -81,6 +81,9 @@ sakai.s23_site = function(){
 		// Check if the page actually exists
 		if(page){
 
+			// Hide the content & tools from the other pages
+			$(s23SitePageContainerClass, s23SiteIframeContainer).hide();
+
 			// Get the complete id for a page container
 			var completexid = s23SitePageContainerTag + page.xid;
 			
@@ -90,9 +93,6 @@ sakai.s23_site = function(){
 				// Show the page container
 				$("#"+completexid).show();
 			}else{
-				
-				// Hide the content & tools from the other pages
-				$(s23SitePageContainerClass, s23SiteIframeContainer).hide();
 				
 				// Render the tools of the site and add them to the page container
 				s23SiteIframeContainer.append($.Template.render(s23SiteIframeContainerTemplate, page));
