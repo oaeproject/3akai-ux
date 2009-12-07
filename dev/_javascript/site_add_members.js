@@ -323,7 +323,7 @@ sakai.site_add_members = function() {
             cache: false,
             url: "/sites/" + selectedSite + ".members.json",
             success: function(data) {
-                json.members = $.evalJSON(data);
+                json.members = $.evalJSON(data).results;
 				 var arrPeople = [];
 		         $.each(json.members,
 		         function(i, val) {
