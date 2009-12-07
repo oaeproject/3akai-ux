@@ -617,7 +617,7 @@ sakai.site.site_admin = function(){
 							}
 						});
 									
-					}, null, "x-sakai-page");					
+					}, null, "text/plain");					
 					
 				}
 				else {
@@ -671,7 +671,7 @@ sakai.site.site_admin = function(){
 							type: 'POST'
 						});
 					
-					}, null, "x-sakai-page");
+					}, null, "text/plain");
 					
 				}
 			}
@@ -819,7 +819,7 @@ sakai.site.site_admin = function(){
 								}
 							});
 					
-						}, null, "x-sakai-page");	
+						}, null, "text/plain");	
 				
 			},
 			error: function(status){
@@ -874,7 +874,7 @@ sakai.site.site_admin = function(){
 							// Refresh site info
 							sakai.site.refreshSiteInfo();
 							
-						}, null, "x-sakai-page");	
+						}, null, "text/plain");	
 				
 			}
 		});
@@ -988,7 +988,7 @@ sakai.site.site_admin = function(){
 		}
 		
 		// Save the data
-		sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "_content", tosave, function(){}, null, "x-sakai-page");
+		sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "_content", tosave, function(){}, null, "text/plain");
 
 		// Update autosave indicator
 		var now = new Date();
@@ -2174,7 +2174,7 @@ sakai.site.site_admin = function(){
 							url: newfolderpath + "/content.save.html",
 							type: 'POST'
 					});
-				}, null, "x-sakai-page");
+				}, null, "text/plain");
 				sakai.site.resetVersionHistory();
 			},
 			error : function(data){
