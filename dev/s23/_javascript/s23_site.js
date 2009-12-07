@@ -35,6 +35,7 @@ sakai.s23_site = function(){
 	var s23SiteTitle = $(s23Site + "_title");
 	var s23SiteIframeContainer = $(s23Site + "_iframe_container");
 	var s23SiteMenuContainer = $(s23Site + "_menu_container");
+	var s23SiteMenuActive = "s23_site_menu_item_active";
 	var s23SiteMenuItemTag = "s23_site_menu_item_";
 	var s23SiteMenuItems = s23Site + "_menu_container ul li a";
 	
@@ -104,6 +105,33 @@ sakai.s23_site = function(){
 	};
 	
 	/**
+	 * Add binding to several items
+	 */
+	var addBinding = function(){
+
+		/*
+		 * Bind a click handler to every site menu item
+		 */
+		$(s23SiteMenuItems).click(function(ev){
+			
+			// Prevent going to the actual page
+			ev.preventDefault();
+			
+			// Get the id of the tool you clicked on
+			var id = this.id.replace(s23SiteMenuItemTag, "");
+			
+			// Remove the active class from the previous selected item
+			$(s23SiteMenuItems).removeClass(s23SiteMenuActive);
+			
+			// Set the active class to the item you just clicked on
+			$(this).addClass(s23SiteMenuActive);
+			
+			// Load the tools for a specific page
+			loadPageTools(id);
+		});
+	};
+	
+	/**
 	 * Parse the site info that is in a JSON format
 	 * to show it on the page
 	 */
@@ -121,20 +149,8 @@ sakai.s23_site = function(){
 			// Create xid's
 			createxids();
 			
-			/*
-			 * Bind a click handler to every site menu item
-			 */
-			$(s23SiteMenuItems).click(function(ev){
-				
-				// Prevent going to the actual page
-				ev.preventDefault();
-				
-				// Get the id of the tool you clicked on
-				var id = this.id.replace(s23SiteMenuItemTag, "");
-				
-				// Load the tools for a specific page
-				loadPageTools(id);
-			});
+			// Add binding to the tools links
+			addBinding();
 			
 			// Pretend like you clicked on the first page
 			$(s23SiteMenuItems + ":first").trigger("click");
