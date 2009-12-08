@@ -142,12 +142,7 @@ function setMap(jsonTarget) {
 	var latLng = new google.maps.LatLng(json.maps[0].mapcenter.lat, json.maps[0].mapcenter.lng);
 	map.setCenter(latLng);
 	map.setZoom(json.maps[0].mapzoom);
-	marker = new google.maps.Marker({
-		position: latLng,
-		title: 'Point A',
-		map: map,
-		draggable: false
-	});
+	marker.setPosition(latLng);
 	
 	// Init the infoWindow object and decide to open it or not
 	if (json.maps[0].maphtml) {
@@ -159,6 +154,7 @@ function setMap(jsonTarget) {
  * Init the listeners of marker
  */
 function init() {
+	//alert(new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude))
 	google.maps.event.addListener(marker, "click", function() {
 		geocodePosition(marker.getPosition());
 	});

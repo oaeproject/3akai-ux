@@ -58,6 +58,20 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		googlemaps :
+		{
+			description:"Google maps \r\n",
+			iframe:0,
+			url:"/devwidgets/googlemaps/googlemaps.html",
+			name:"Googlemaps",
+			id:"googlemaps",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/googlemaps/images/googlemaps.png"
+		},
 		sites :
 		{
 			description:"Listing of the sites I'm a member of\r\n",
