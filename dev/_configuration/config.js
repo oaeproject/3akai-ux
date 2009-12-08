@@ -41,6 +41,7 @@ var Config = {
 		PERSON_ICON_URL: "/dev/_images/person_icon.jpg",
 		POLL_DROPDOWN_ICON_URL : "/devwidgets/poll/images/poll_drop_down.gif",
 		RECENT_SITES_URL: "/_user/private/__USERSTORAGEPREFIX__recentsites.json",
+		SAKAI2_TOOLS_SERVICE: "/sakai-hybrid/site?siteId=__SITEID__",
 		SDATA_FETCH: "/",
 		SDATA_FETCH_BASIC_URL: "/sites/__PLACEMENT__/__TUID__",
 		SDATA_FETCH_PLACEMENT_URL: "/sites/__PLACEMENT__",
@@ -100,7 +101,7 @@ var Config = {
 		TWITTER_GET_URL: "/var/proxy/twitter/status.json",
 		TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"
 	},
-	
+
 	SakaiDomain : window.location.protocol + "//" + window.location.host,
 	Profile : {
 		// Fields that cannot be edited and so controlled by LDAP, ...
