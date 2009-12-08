@@ -58,6 +58,20 @@ var Widgets = {
 			siteportal:0,
 			img:"/dev/img/sites.png"
 		},
+		googlemaps :
+		{
+			description:"Google maps \r\n",
+			iframe:0,
+			url:"/devwidgets/googlemaps/googlemaps.html",
+			name:"Googlemaps",
+			id:"googlemaps",
+			personalportal:0,
+			siteportal:0,
+			ca:1,
+			showinmedia:0,
+			showinsakaigoodies:1,
+			img:"/devwidgets/googlemaps/images/googlemaps.png"
+		},
 		sites :
 		{
 			description:"Listing of the sites I'm a member of\r\n",
@@ -261,6 +275,18 @@ var Widgets = {
 			hasSettings: 1,
 			img:"/dev/img/myprofile.png"
 		},
+		camlib : 
+		{
+			description:"Cambridge Library Service\r\n",
+			iframe:0, 
+			url:"/devwidgets/camlib/camlib.html", 
+			name:"Cambridge Library Service", 
+			id:"camlib", 
+			personalportal:1, 
+			siteportal:0, 
+			hasSettings: 1, 
+			img:"/dev/img/myprofile.png" 
+		}, 
 		twitter :
 		{
 			description:"Twitter Widget\r\n",

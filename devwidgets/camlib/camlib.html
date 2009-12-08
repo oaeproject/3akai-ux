@@ -1,0 +1,52 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/camlib/css/camlib.css"/>
+
+<!-- MAIN VIEW -->
+<div id="camlib_container" class="fl-widget-content">
+	<h2>Search the Library Catalogue</h2>
+	<form id="camlib_form_search">
+		
+		<!-- Text input view -->
+		<div class="camlib_input_container">
+			<label for="camlib_search_input">Search for:</label>
+			<input type="text" id="camlib_search_input" class="camlib_input" />
+		</div>
+
+		<!-- Using select view -->
+		<div class="camlib_input_container">
+			<label for="camlib_select_using">Using:</label>
+			<select id="camlib_select_using" class="camlib_input">
+				<option id="camlib_keyword">Keyword</option>
+				<option id="camlib_author">Author</option>
+				<option id="camlib_title">Title</option>
+				<option id="camlib_journaltitle">Journal title</option>
+				<option id="camlib_classmark">Classmark</option>
+			</select>
+		</div>
+
+		<!-- In select view -->
+		<div class="camlib_input_container">
+			<label for="camlib_select_in">In:</label>
+			<select id="camlib_select_in" class="camlib_input">
+				<option id="camlib_ul">UL &amp; dependents</option>
+				<option id="cam_man">Manuscripts and Theses</option>
+				<option id="cam_deptae">Depts and Faculties A-E</option>
+				<option id="cam_deptfm">Depts and Faculties F-M</option>
+				<option id="cam_deptoz">Depts and Faculties O-Z</option>
+				<option id="cam_collan">Colleges A-N</option>
+				<option id="cam_collpw">Colleges P-W</option>
+				<option id="cam_aff">Affiliated Institutions</option>
+				<option id="cam_uni">Universal catalogue</option>
+			</select>
+		</div>
+		<div class="dialog_buttons">
+			<input type="submit" id="camlib_button_search" class="button-default submit_button" value="Search"/>
+		</div>
+	</form>
+</div>
+<div class="fl-widget-no-options fl-fix"><!--
+	--><div class="widget-no-options-inner"><!-- --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/camlib/javascript/camlib.js"></script>
