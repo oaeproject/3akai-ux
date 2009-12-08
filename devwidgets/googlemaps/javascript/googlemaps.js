@@ -34,13 +34,6 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 	var json = false;
 	
 	/**
-	 * To set the inframe content object which is the content window object of the iframe
-	 */
-	var setIframeContent = function(){
-		iframeContentWindow = $("#googlemaps_iframe_map", rootel)[0].contentWindow;
-	};
-	
-	/**
 	 * To finish the widget
 	 */
 	var finish = function() {
@@ -183,7 +176,9 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 	 */
     var init = function() {
 		$("#googlemaps_iframe_map", rootel).load(function() {
-			setIframeContent();  // To set the map iframe's content as the iframeContentWindow (var)
+			// To set the map iframe's content as the iframeContentWindow (var)
+			iframeContentWindow = $("#googlemaps_iframe_map", rootel)[0].contentWindow;
+			
 			getFromJCR();  // To get the map zoom and center property data from backend server
 		});
     };
