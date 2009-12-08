@@ -19,7 +19,7 @@
 /* Googlemaps CSS */
 #googlemaps_form_search { margin: 5px 15px 5px 15px; }
 
-#googlemaps_iframe_map { width: 100%; height: 370px; border: none; margin: 5px 0 5px 0; }
+#googlemaps_iframe_map { width: 100%; height: 370px; border: none; margin: 10px; }
 #googlemaps_input_text_location { width: 99%; }
 
 #googlemaps_radio_large { margin: 0 5px 5px 5px; }

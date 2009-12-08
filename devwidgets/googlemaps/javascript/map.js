@@ -126,10 +126,20 @@ var getJSON = function() {
 /**
  * Search the corresponded city between the target location
  * @param {string} keyword the target location
+ * @param {string} The region where Google will perform the search
  */
-function search(keyword) {
-	geocodeAddress(keyword);
-	json.maps[0].mapinput = keyword;
+function search(keyword, region) {	
+	
+	
+	// If region is provided, attach it ot the search query
+	// TO DO: This later will need to be moved to the Google API
+	if (region !== "") {
+		geocodeAddress(keyword+", "+region);
+		json.maps[0].mapinput = keyword+", "+region;
+	} else {
+		geocodeAddress(keyword);
+		json.maps[0].mapinput = keyword;
+	}
 }
 
 /**
@@ -154,6 +164,7 @@ function setMap(jsonTarget) {
  * Init the listeners of marker
  */
 function init() {
+	
 	//alert(new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude))
 	google.maps.event.addListener(marker, "click", function() {
 		geocodePosition(marker.getPosition());

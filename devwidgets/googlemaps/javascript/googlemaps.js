@@ -67,7 +67,8 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 			if (json) {
 				// Set the size of map according to the data stored on the backend server
 				if (json.maps[0].mapsize == "SMALL") {
-					$("#googlemaps_iframe_map", rootel).width("300px");
+					$("#googlemaps_iframe_map", rootel).width("50%");
+					$("#googlemaps_iframe_map", rootel).css({float: 'right'});
 				}
 				else {
 					$("#googlemaps_iframe_map", rootel).width("95%");
@@ -86,7 +87,12 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 			$("#googlemaps_form_search", rootel).submit(function() {
 				var input = $("#googlemaps_input_text_location", rootel).val();
 				if (input) {
-					iframeContentWindow.search(input);
+					// Quick hack so that searches are more local - this will need to be done via the Google API
+					if (input.indexOf(",") === -1) {
+						iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+					} else {
+						iframeContentWindow.search(input, "");
+					}
 				}
 				return false;
 			});
@@ -178,6 +184,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 		$("#googlemaps_iframe_map", rootel).load(function() {
 			// To set the map iframe's content as the iframeContentWindow (var)
 			iframeContentWindow = $("#googlemaps_iframe_map", rootel)[0].contentWindow;
+			
 			
 			getFromJCR();  // To get the map zoom and center property data from backend server
 		});
