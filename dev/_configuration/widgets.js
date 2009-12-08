@@ -275,18 +275,6 @@ var Widgets = {
 			hasSettings: 1,
 			img:"/dev/img/myprofile.png"
 		},
-		camlib : 
-		{
-			description:"Cambridge Library Service\r\n",
-			iframe:0, 
-			url:"/devwidgets/camlib/camlib.html", 
-			name:"Cambridge Library Service", 
-			id:"camlib", 
-			personalportal:1, 
-			siteportal:0, 
-			hasSettings: 1, 
-			img:"/dev/img/myprofile.png" 
-		}, 
 		twitter :
 		{
 			description:"Twitter Widget\r\n",
