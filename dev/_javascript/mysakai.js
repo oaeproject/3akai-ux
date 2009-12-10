@@ -69,11 +69,16 @@ sakai.dashboard = function(){
 			try {
 				myportaljson = $.evalJSON(response);
 				var cleanContinue = true;
+
 				for (var c in myportaljson.columns){
-					for (var pi in myportaljson.columns[c]){
-						if (pi != "contains") {
-							if (!myportaljson.columns[c][pi].uid) {
-								cleanContinue = false;
+					if (myportaljson.columns.hasOwnProperty(c)) {
+						for (var pi in myportaljson.columns[c]) {
+							if (myportaljson.columns[c].hasOwnProperty(pi)) {
+								if (pi != "contains") {
+									if (!myportaljson.columns[c][pi].uid) {
+										cleanContinue = false;
+									}
+								}
 							}
 						}
 					}
