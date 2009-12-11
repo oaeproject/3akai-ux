@@ -35,7 +35,6 @@
 #comments_titlebar .comments_titleRight {float:right;}
 #comments_numCommentsDisplayed, #comments_numComments {color:#333;}
 .comments_posterDataName,.comments_posterData a {color:#058EC4;font-size:1.1em;text-decoration:none;font-weight:400;margin:0;}
-#comments_mainContainer {width:auto;}
 .comments_posterData {float:left;padding-left:15px;height:35px;}
 .comments_posterData a:hover {text-decoration:underline;}
 .comments_commentMessage {width:auto;background-color:#eee;color:#333;padding:0 10px 10px;}

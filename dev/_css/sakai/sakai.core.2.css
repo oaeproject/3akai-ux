@@ -833,5 +833,64 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	padding-top: 10px;	
 }
 
+/* CONTENT */
+.widget-content .fixed-container {background-color: #fff; padding-bottom: 20px;}
+
+/* GENERAL WIDGET CSS */
+.fl-widget {margin-bottom: 10px;}
+.fl-widget .fl-widget-titlebar h2 {padding-left:3px;}
+.fl-widget {padding: 0;}
+.fl-widget .fl-widget-titlebar {background: url(../../_images/block_tr.png) top right no-repeat; padding: 0 4px 0 0; width: auto; cursor: move;}
+.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url(../../_images/block_tl.png) top left no-repeat; height: 50px;}
+.fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; float: left; padding-left: 43px; line-height: 50px;}
+.fl-widget .fl-widget-titlebar .settings {background-image: url(../../_images/edit_icon_widget.png); position: relative; height: 18px; background-repeat: no-repeat; margin-top: 15px;}
+
+.fl-widget .fl-widget-options {margin: 0;background: url(../../_images/block_br.png) top right no-repeat; padding: 0 8px 0 0;}
+.fl-widget .fl-widget-options .widget-options-inner {background: url(../../_images/block_bl.png) top left no-repeat; height: 40px; width: auto; padding: 0 0 0 14px;}
+.fl-widget .fl-widget-options ul {margin: 0; padding: 0;}
+.fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 16px 6px 0 6px;}
+.fl-widget .fl-widget-options ul li a {color: #666; font-size: .85em; font-weight: bold;}
+.fl-widget .fl-widget-options .pipe_divider {font-size: .85em;}
+
+.fl-widget .fl-widget-no-options { background: url('../../_images/content_br.png') top right no-repeat; padding: 0 5px 0 0; margin: 0; }
+.fl-widget .fl-widget-no-options .widget-no-options-inner { background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
+
+.fl-widget .fl-widget-content {background-color: #fff; padding: 10px 0 15px 0; margin: 0; border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; }
+.fl-widget .fl-widget-content ul {margin: 0; padding: 0;}
+
+.widget1 {background-color:#FFFFFF;}
+.widget_spacer {height:1px;}
+
+#widget_settings_menu {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 1px solid #D4DADE;
+	background: #fff;
+	font-size: 90%;
+	margin-top: 20px;
+}
+#widget_settings_menu ul {
+	padding: 0;
+	margin: 0;
+}
+#widget_settings_menu ul li {
+	padding: 3px 5px;
+	margin: 0;
+	list-style-type: none;
+}
+
+/* D&D Classes */
+.orderable-hover {cursor:move;}
+.orderable-dragging {opacity:0.2; width:auto;}
+.orderable-selected {}
+.orderable-avatar {background-color:#666666; border:1px solid #666666; height:25px; width:50px; z-index:65535;}
+div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
+.orderable-avatar-clone {height:200px; opacity:0.6; width:400px;}
+.drop-warning {background-color:#FFD7D7; border:2px solid red; display:none; left:10px; margin:5px; padding:10px; position:absolute; top:50px; z-index:65535;}
+.orderable-drop-marker-box {background-color:#FFFFFF; border:2px dashed #AAAAAA; height:200px !important; margin-bottom:1em; width:100%;}
+.orderable-mouse-drag {display:none;}
+#change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
+
 /* Hide elements that are still in development */
 .hidedev {display:none !important;}
