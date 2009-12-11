@@ -20,8 +20,7 @@
 /* Main Container */
 #twitter_main_container {padding:10px;}
 #twitter_main_container label {padding:2px 0;margin-bottom:2px;}
-#twitter_main_container input[type=radio] {float:left;margin-top:5px;}
-.twitter_clear {clear:both;}
+#twitter_main_container input[type=radio] {clear:left;float:left;margin-top:5px;}
 .twitter_radiocheck_label {float:left;margin:4px 0 0 5px;padding:1px !important;}
 
 /* Sub Container */

@@ -1,26 +1,23 @@
+<!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/twitter/css/twitter.css"/>
 
+<!-- MAIN CONTAINER -->
 <div id="twitter_main_container" style="display:none;" class="fl-widget-content">
-	<div class="twitter_clear">
 	<input type="radio" id="twitter_input_get" name="twitter_input_get_set" checked="true" />
-	<label class="twitter_radiocheck_label" for="twitter_input_get">Get status from twitter</label>
-	</div>
-	<div class="twitter_clear">
+	<label class="twitter_radiocheck_label" for="twitter_input_get">
+		Get status from twitter
+	</label>
 	<input type="radio" id="twitter_input_set" name="twitter_input_get_set" />
-	<label class="twitter_radiocheck_label" for="twitter_input_set">Set status to twitter</label>
-	</div>
+	<label class="twitter_radiocheck_label" for="twitter_input_set">
+		Set status to twitter
+	</label>
 	<div id="twitter_sub_container">
-		
 	</div>
 	<div id="twitter_message_container">
-		
 	</div>
-	
-</div>
-<div class="fl-widget-bottom-right">
-	<div class="fl-widget-bottom "><!-- --></div>
 </div>
 
+<!-- TEMPLATES -->
 <div id="twitter_template_get_status"><!--
 	<form id="twitter_get_status" method="GET" action="#">
 		<label class="twitter_input_label" for="twitter_input_screen_name">Screen name:</label>
@@ -50,8 +47,10 @@
 	{/if}
 --></div>
 
-	<!-- FOOTER LINKS -->
-	<div class="fl-widget-no-options fl-fix">
-		<div class="widget-no-options-inner"><!-- --></div>
-	</div>	
+<!-- FOOTER LINKS -->
+<div class="fl-widget-no-options fl-fix">
+	<div class="widget-no-options-inner"><!-- --></div>
+</div>
+
+<!-- JAVASCRIPT -->
 <script type="text/javascript" language="JavaScript" src="/devwidgets/twitter/javascript/twitter.js"></script>
