@@ -892,5 +892,21 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .orderable-mouse-drag {display:none;}
 #change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
 
+/* Add Sakai Goodies */
+#add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
+.add-button {background:transparent url(../../_images/button_bg.png) repeat-x scroll left bottom; border:1px solid #CCCCCC; color:#333333; display:block; float:left; padding:3px 5px; text-align:center;}
+.add_goodies .add {font-weight:bold;}
+.add_goodies .add-button {margin-left:9px; width:63px;}
+.add_goodies .add {font-weight:bold;}
+.add_goodies .dialog_body {border:1px solid #E5E5E5; height:307px; overflow:auto; position:relative; width:471px;}
+.add_goodies .dialog_body table {width: 454px;}
+.add_goodies .dialog_body td {border-style:none none solid; border-color: #E5E5E5;}
+.add_goodies .dialog_body .dialog_add_goodies_description {color:#666;font-size:12px;font-weight:100;}
+.add_goodies .dialog_body .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:700;}
+.add_goodies .dialog_body .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
+.add_goodies .dialog_body .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:700;}
+.add_goodies .dialog_body .remove {background:#F8F8F8 none repeat scroll 0 0;}
+.add_goodies .remove_add_column {width:80px;}
+
 /* Hide elements that are still in development */
 .hidedev {display:none !important;}
