@@ -48,7 +48,7 @@ sdata.i18n.localBundle = false;
 $(document).ready(function(){
 
 
-	/*global doI18N , finishI18N , parsePropertiesFile */
+	/*global doI18N , finishI18N */
 	
 	/////////////////////////////
 	// CONFIGURATION VARIABLES //
@@ -106,9 +106,9 @@ $(document).ready(function(){
 	 */
 	var loadLocalBundle = function(langCode){
 			$.ajax({
-				url: Config.URL.BUNDLE_ROOT + langCode + ".properties",
+				url: Config.URL.BUNDLE_ROOT + langCode + ".json",
 				success: function(data){ 
-					sdata.i18n.localBundle = parsePropertiesFile(data);
+					sdata.i18n.localBundle = $.evalJSON(data);
 					doI18N(sdata.i18n.localBundle, sdata.i18n.defaultBundle);
 				},
 				error: function(status){
@@ -148,9 +148,9 @@ $(document).ready(function(){
 	 */
 	var loadDefaultBundle = function(){
 		$.ajax({
-			url : Config.URL.BUNDLE_ROOT + "default.properties",
+			url : Config.URL.BUNDLE_ROOT + "default.json",
 			success : function(data) {
-				sdata.i18n.defaultBundle = parsePropertiesFile(data);
+				sdata.i18n.defaultBundle = $.evalJSON(data);
 				var site = getSiteId();
 				if (!site) {
 					if(sdata.me.user.locale){
@@ -275,39 +275,6 @@ $(document).ready(function(){
 		// will already be loaded
 		document.body.innerHTML= newstring;
 		finishI18N();
-	};
-	
-	
-	///////////////////////
-	// UTILITY FUNCTIONS //
-	///////////////////////
-	
-	/**
-	 * This function will convert a properties file into a JavaScript object where the keys in
-	 * the object are the keys from the properties file, and where the values in the object are
-	 * the values from the properties file.
-	 * @param {Object} data
-	 *  The content of a .properties files in the form of:
-	 *   KEY_1 = "value 1"
-	 *   KEY_2 = "value 2"
-	 */
-	var parsePropertiesFile = function(data){
-		var obj = {};
-		// Split on line break characters
-   		var dataArray =  data.split("\n");	
-		for (var loop = 0; loop < dataArray.length ; loop++){
-			// Make sure the line we are currently at isn't commented out
-			if(dataArray[loop].charAt(0) !== "#" && dataArray[loop].charAt(0) !== "\r"){
-				var optData = dataArray[loop].replace(/\r/g,"");
-				// Find the = in this line			
-				var indexEqual = optData.indexOf("=");
-				if (indexEqual !== -1) {
-					// The value before the = sign becomes the key in the object, the value after the = sign becomes the value in the object
-					obj[$.trim(optData.substring(0, indexEqual).replace(/[\r"]/g,""))] = $.trim(optData.substring(indexEqual+1).replace(/[\r"]/g,""));
-				}
-			}
-		}
-	 	return obj;
 	};
 	
 	

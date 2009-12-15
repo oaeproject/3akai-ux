@@ -18,6 +18,22 @@
 
 /* Sakai Base */
 
+
+/* ----------------------------------------------------------------------------
+ *    GLOBAL RULES 
+ * ----------------------------------------------------------------------------
+ */
+
+/* Hide i18nable elements by default until the messages are replaced by the translated
+strings, and i18n will show the element. Typically this class is applied at body level */
+.i18nable { display:none; }
+
+
+/* ----------------------------------------------------------------------------
+ *    DIALOGS 
+ * ----------------------------------------------------------------------------
+ */
+
 /* Dialog */
 .dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
 .jqmOverlay{background-color:#000;}

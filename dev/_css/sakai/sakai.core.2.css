@@ -9,9 +9,6 @@ html {
 .groupWrapper .widget1:focus {
 	outline: 1px dotted #CCCCCC;
 }
-.i18nable {
-	display:none;
-}
 
 .mceContentBody {
 	display: block !important;

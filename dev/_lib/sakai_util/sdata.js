@@ -351,7 +351,7 @@ sdata.widgets.WidgetLoader = {
 			var divarray = $(widgetSelector, el);
 			settings = showSettings || false;
 			
-			for (var i = 0; i < divarray.length; i++){
+			for (var i = 0, j = divarray.length; i < j; i++){
 				try {
 					var id = divarray[i].id;
 					var split = id.split("_");
@@ -429,7 +429,7 @@ sdata.widgets.WidgetLoader = {
 	
 			for (i in widgets){
 				if (widgets[i]) {
-					for (var ii = 0; ii < widgets[i].length; ii++) {
+					for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
 						var originalEl = document.getElementById(widgets[i][ii].id);
 						var newel = document.createElement("div");
 						newel.id = widgets[i][ii].uid;
@@ -451,7 +451,7 @@ sdata.widgets.WidgetLoader = {
 		var loadWidgetFiles = function(widgets,widgetname){
 			var url = Widgets.widgets[widgetname].url;
 			if (Widgets.widgets[widgetname].gwt == 1) {
-				for (var i = 0; i < widgets[widgetname].length; i++) {
+				for (var i = 0, j = widgets[widgetname].length; i < j; i++) {
 					var iframescr = url + "?placement=" + widgets[widgetname][i].placement + "&tuid=" + widgets[widgetname][i].uid + "&showSettings=" + settings + "&sid=" + Math.random();
 					var oiFrame = document.createElement('iframe');
 					oiFrame.setAttribute("width", "100%");
@@ -497,14 +497,14 @@ sdata.widgets.WidgetLoader = {
 			
 			var initfunction = eval(widgetNameSpace + "." + widgetname);
 			
-			for (var i = 0; i < CSSTags.URL.length; i++) {
+			for (var i = 0, j = CSSTags.URL.length; i<j; i++) {
 				$.Load.requireCSS(CSSTags.URL[i]);
 			}
 			
 			var JSTags = locateTagAndRemove(content, "script", "src");
 			content = JSTags.content;
 			
-			for (var widget = 0; widget < widgets[widgetname].length; widget++){
+			for (var widget = 0, k = widgets[widgetname].length; widget < k; widget++){
 				var container = $("<div>");
 				container.html(content);
 				$("#" + widgets[widgetname][widget].uid).append(container);
@@ -513,7 +513,7 @@ sdata.widgets.WidgetLoader = {
 				widgets[widgetname][widget].done = 0;		
 			}
 		
-			for (var JSURL = 0; JSURL < JSTags.URL.length; JSURL++){
+			for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
 				$.Load.requireJS(JSTags.URL[JSURL]);
 			}	
 				
@@ -528,7 +528,7 @@ sdata.widgets.WidgetLoader = {
 	},
 	
 	informOnLoad : function(widgetname){
-		for (var i = 0; i < sdata.widgets.WidgetLoader.loaded.length; i++){
+		for (var i = 0, j = sdata.widgets.WidgetLoader.loaded.length; i<j; i++){
 			sdata.widgets.WidgetLoader.loaded[i].informOnLoad(widgetname);
 		}
 	}
