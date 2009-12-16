@@ -469,8 +469,11 @@ sdata.widgets.WidgetLoader = {
 					url: url,
 					success: function(response){
 						var thisobj2 = {};
-						var newstring = $.i18n(response, sdata.i18n.localBundle, sdata.i18n.defaultBundle);
-						sethtmlover(null, newstring, widgets, widgetname);
+						
+						// Do i18n on widget content
+						var translated_content = $.i18n_widget(widgetname, response);
+						
+						sethtmlover(null, translated_content, widgets, widgetname);
 					}
 				});
 			}
@@ -777,6 +780,118 @@ sdata.widgets.WidgetPreference =  {
 	};
 	
 })(jQuery);
+
+
+/////////////////////////////////////
+// jQuery i18n plugin for widgets  // 
+/////////////////////////////////////
+
+(function($){
+	
+	/*
+	* Loads up language bundle for the widget, and exchanges messages found in content.
+	* If no language bundle found, it attempts to load the default language bundle for the widget, and use that for i18n
+	* @param widget_id {String} The ID of the widget
+	* @param content {String} The content html of the widget which contains the messages
+	* @returns {String} The translated content html
+	*/
+	
+	$.i18n_widget = function(widgetname, widget_html_content) {
+	  
+	  var translated_content = "";
+	  var current_locale_string = sdata.me.user.locale.language+"_"+sdata.me.user.locale.country;
+	  
+	  // If there is no i18n defined in Widgets, run standard i18n on content
+	  if (typeof Widgets.widgets[widgetname].i18n !== "object") {
+	    translated_content = $.i18n(widget_html_content, sdata.i18n.localBundle, sdata.i18n.defaultBundle)
+	    return translated_content;
+	  }
+
+	  // Load default language bundle for the widget if exists
+	  if (Widgets.widgets[widgetname]["i18n"]["default"]) {
+	    
+	    $.ajax({
+	      url: Widgets.widgets[widgetname]["i18n"]["default"],
+	      async: false,
+	      success: function(messages_raw) {
+		
+		sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
+		sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
+		
+	      },
+	      error: function() {
+		alert("Could not load default language bundle for widget: " + widgetname);
+	      }
+	    });
+	    
+	  }
+	  
+	  // Load current language bundle for the widget if exists
+	  if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
+	    
+	    $.ajax({
+	      url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
+	      async: false,
+	      success: function(messages_raw) {
+		
+		sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
+		sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
+		
+	      },
+	      error: function() {
+		alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
+	      }
+	    });
+	  }
+	
+	  // Translate widget name and description
+	  if (sdata.i18n.widgets[widgetname][current_locale_string]["name"]) {
+	    Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
+	  }
+	  if (sdata.i18n.widgets[widgetname][current_locale_string]["description"]) {
+	    Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
+	  }
+	  
+	  
+	  // Change messages
+	  var expression = new RegExp("__MSG__(.*?)__", "gm");
+	  var lastend = 0;
+	  while(expression.test(widget_html_content)) {
+	    var replace = RegExp.lastMatch;
+	    var lastParen = RegExp.lastParen;
+	    var toreplace = $.i18n.widgets_getValueForKey(widgetname, current_locale_string, lastParen);
+	    translated_content += widget_html_content.substring(lastend,expression.lastIndex-replace.length) + toreplace;
+	    lastend = expression.lastIndex;
+	  }
+	  translated_content += widget_html_content.substring(lastend);	  
+	  
+	  return translated_content;
+	};
+	  
+	// Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
+	$.i18n.widgets_getValueForKey = function(widgetname, locale, key){
+	  	  
+	  if (sdata.i18n.widgets[widgetname][locale][key]){
+	      
+	      return sdata.i18n.widgets[widgetname][locale][key];
+	    
+	    } else if (sdata.i18n.widgets[widgetname]["default"][key]) {
+	      
+	      return sdata.i18n.widgets[widgetname]["default"][key];
+	    
+	    } else if (sdata.i18n.localBundle[key]) {
+	      
+	      return sdata.i18n.localBundle[key]
+	    
+	    } else if (sdata.i18n.defaultBundle[key]) {
+	      
+	      return sdata.i18n.defaultBundle[key];
+	    
+	    }
+	};
+	
+})(jQuery);
+
 
 
 /////////////////////////////////

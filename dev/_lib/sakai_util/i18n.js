@@ -20,7 +20,7 @@
 /*global sdata, Config, $ */
 
 sdata.i18n = sdata.i18n || {};
-
+sdata.i18n.widgets = sdata.i18n.widgets || {};
 
 //////////////////////////////
 // Global utility functions //
@@ -171,6 +171,7 @@ $(document).ready(function(){
 			}
 		});
 	};
+	
 	
 	
 	////////////////////

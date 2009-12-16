@@ -161,7 +161,11 @@ var Widgets = {
 			ca:1,
 			showinmedia:0,
 			showinsakaigoodies:1,
-			img:"/devwidgets/discussion/images/discussion.png"
+			img:"/devwidgets/discussion/images/discussion.png",
+			i18n: {
+				"default": "/devwidgets/discussion/bundles/default.json",
+				"en_US": "/devwidgets/discussion/bundles/en_US.json"
+			}
 		},
 		filepicker :
 		{
