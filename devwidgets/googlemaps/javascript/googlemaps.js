@@ -68,7 +68,6 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
 				// Set the size of map according to the data stored on the backend server
 				$("#googlemaps_iframe_map", rootel).width("50%");
-				$("#googlemaps_iframe_map", rootel).css('float', 'right');
 
 			}
 			else {
