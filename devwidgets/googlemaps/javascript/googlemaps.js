@@ -68,7 +68,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
 				// Set the size of map according to the data stored on the backend server
 				$("#googlemaps_iframe_map", rootel).width("50%");
-
+				$("#googlemaps_iframe_map", rootel).css({float: "right"});
 			}
 			else {
 				$("#googlemaps_iframe_map", rootel).width("95%");
@@ -84,7 +84,13 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 			$("#googlemaps_form_search", rootel).submit(function() {
 				var input = $("#googlemaps_input_text_location", rootel).val();
 				if (input) {
-					iframeContentWindow.search(input);
+					
+					// Quick hack so that searches are more local - this will need to be done via the Google API
+					if (input.indexOf(",") === -1) {
+						iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+					} else {
+						iframeContentWindow.search(input, "");
+					}
 				}
 				return false;
 			});
@@ -156,7 +162,14 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 				$("#googlemaps_form_search", rootel).submit(function() {
 					var input = $("#googlemaps_input_text_location", rootel).val();
 					if (input) {
-						iframeContentWindow.search(input);
+						
+						// Quick hack so that searches are more local - this will need to be done via the Google API
+						if (input.indexOf(",") === -1) {
+							$("#googlemaps_input_text_location", rootel).val(input + ", " + sdata.me.user.locale.displayCountry);
+							iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+						} else {
+							iframeContentWindow.search(input, "");
+						}
 					}
 					return false;
 				});

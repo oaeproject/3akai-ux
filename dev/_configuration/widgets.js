@@ -60,7 +60,7 @@ var Widgets = {
 		},
 		googlemaps :
 		{
-			description:"Google maps \r\n",
+			description:"Google maps\r\n",
 			iframe:0,
 			url:"/devwidgets/googlemaps/googlemaps.html",
 			name:"Googlemaps",
