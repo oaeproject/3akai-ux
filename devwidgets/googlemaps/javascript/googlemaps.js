@@ -21,31 +21,31 @@
 var sakai = sakai || {};
 
 sakai.googlemaps = function(tuid, placement, showSettings){
-	
-	
+
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
-	
+
 	var rootel = $("#" + tuid);
 	var currentSite = placement.split("/")[0];
 	var saveUrl = "/sites/" + currentSite + "/" + tuid;
 	var iframeContentWindow = {};
 	var json = false;
-	
+
 	/**
 	 * To finish the widget
 	 */
 	var finish = function() {
 		sdata.container.informFinish(tuid);
 	};
-	
+
 	/**
 	 * This will saved the map data to backend server
 	 */
 	var saveToJCR = function() {
 		json = $("#googlemaps_iframe_map", rootel)[0].contentWindow.getJSON();
-		
+
 		// Set the value of mapsize according to the radio button selection status
 		if ($("#googlemaps_radio_large", rootel).is(":checked")) {
 			json.maps[0].mapsize = "LARGE";
@@ -53,46 +53,38 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 		else {
 			json.maps[0].mapsize = "SMALL";
 		}
-		
+
 		// Store the corresponded map data into backend server
 		var str = $.toJSON(json);
 		sdata.widgets.WidgetPreference.save(saveUrl, "googlemaps", str, finish);
 	};
-	
+
 	/**
 	 * To set the map initial size in the show panel
 	 */
 	var setMapSize = function(callback) {
 		if(!showSettings) {
-			if (json) {
+			if (json && json.maps[0].mapsize == "SMALL") {
+
 				// Set the size of map according to the data stored on the backend server
-				if (json.maps[0].mapsize == "SMALL") {
-					$("#googlemaps_iframe_map", rootel).width("50%");
-					$("#googlemaps_iframe_map", rootel).css({float: 'right'});
-				}
-				else {
-					$("#googlemaps_iframe_map", rootel).width("95%");
-				}
+				$("#googlemaps_iframe_map", rootel).width("50%");
+
 			}
 			else {
 				$("#googlemaps_iframe_map", rootel).width("95%");
 			}
 		}
 		else {
+
 			// Show the search input textfield and save, search, cancel buttons
 			$("#googlemaps_form_search", rootel).show();
 			$("#googlemaps_save_cancel_container", rootel).show();
-			
+
 			// Add a submit listener so that the search function can be executed
 			$("#googlemaps_form_search", rootel).submit(function() {
 				var input = $("#googlemaps_input_text_location", rootel).val();
 				if (input) {
-					// Quick hack so that searches are more local - this will need to be done via the Google API
-					if (input.indexOf(",") === -1) {
-						iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
-					} else {
-						iframeContentWindow.search(input, "");
-					}
+					iframeContentWindow.search(input);
 				}
 				return false;
 			});
@@ -109,10 +101,12 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 			
 			if (json) {
 				if (json.maps[0].mapsize == "SMALL") {
+
 					// If the reserved mapsize is "SMALL", the "small" radio button should be checked
 					$("#googlemaps_radio_small", rootel).attr("checked", "checked");
 				}
 				else if (json.maps[0].mapsize == "LARGE") {
+
 					// If the reserved mapsize is "LARGE", the "large" radio button should be checked
 					$("#googlemaps_radio_large", rootel).attr("checked", "checked");
 				}
@@ -139,15 +133,18 @@ sakai.googlemaps = function(tuid, placement, showSettings){
             url: saveUrl + "/googlemaps", 
             cache: false, 
             success: function(data){
-				json = $.evalJSON(data);  // Get data from the backend server
-				
+
+				// Get data from the backend server
+				json = $.evalJSON(data);
+
 				// Set the size of the map's iframe
 				setMapSize(setMap);
-				
+
 				// Set the initial value of search keyword input textbox
 				$("#googlemaps_input_text_location", rootel).val(json.maps[0].mapinput);
-            }, 
+            },
             error: function(status){
+
 				// Show the search input textfield and save, search, cancel buttons
 				$("#googlemaps_form_search", rootel).show();
 				$("#googlemaps_save_cancel_container", rootel).show();
@@ -163,17 +160,17 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 					}
 					return false;
 				});
-				
+
 				// Add listener to save button
 				$("#googlemaps_save", rootel).bind("click", function(e, ui) {
 					saveToJCR();
 				});
-				
+
 				// Add listerner to cancel button
 				$("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
 					sdata.container.informCancel(tuid);
 				});
-            } 
+            }
         });
 	};
 	
@@ -182,16 +179,17 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 	 */
     var init = function() {
 		$("#googlemaps_iframe_map", rootel).load(function() {
+
 			// To set the map iframe's content as the iframeContentWindow (var)
 			iframeContentWindow = $("#googlemaps_iframe_map", rootel)[0].contentWindow;
-			
-			
-			getFromJCR();  // To get the map zoom and center property data from backend server
+
+			// Get the map zoom and center property data from backend server
+			getFromJCR();
 		});
     };
-	
+
     init();
-	
+
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("googlemaps");

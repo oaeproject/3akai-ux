@@ -27,22 +27,6 @@
 	margin-left: 20px;
 }
 
-
-/* Add Sakai Goodies */
-.add-button {background:transparent url(../../_images/button_bg.png) repeat-x scroll left bottom; border:1px solid #CCCCCC; color:#333333; display:block; float:left; padding:3px 5px; text-align:center;}
-.add_goodies .add {font-weight:bold;}
-.add_goodies .add-button {margin-left:9px; width:63px;}
-.dialogue_body td {border-style:none none solid; border-color: #E5E5E5;}
-.add_goodies .add {font-weight:bold;}
-.add_goodies .dialogue_body {border:1px solid #E5E5E5;}
-.dialogue_body {border:1px solid #E5E5E5; height:307px; left:15px; overflow:auto; position:relative; top:15px; width:488px;}
-#add_goodies_dialog {width:520px; height: 374px; background-color: #fff; margin-left: -260px;}
-.elf-right-up {padding-top:40px; padding-bottom: 85px;}
-.add-tools-right {width:100%; margin-bottom: 40px;}
-#add_goodies_body table {width: 471px;}
-.remove_add_column {width:80px;}
-
-
 /* Change layout */
 .layout_container {float:left;  padding-left:25px;  padding-right:13px;	}
 .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
