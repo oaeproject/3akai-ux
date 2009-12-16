@@ -84,13 +84,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 			$("#googlemaps_form_search", rootel).submit(function() {
 				var input = $("#googlemaps_input_text_location", rootel).val();
 				if (input) {
-
-					// Quick hack so that searches are more local - this will need to be done via the Google API
-					if (input.indexOf(",") === -1) {
-						iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
-					} else {
-						iframeContentWindow.search(input, "");
-					}
+					iframeContentWindow.search(input);
 				}
 				return false;
 			});
