@@ -162,6 +162,7 @@ sakai.site_basic_settings = function(){
                 
                 if (isMaintainer) {
                     // Fill in the info.
+                    $("#sitetitle").text(json.name);
                     $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
