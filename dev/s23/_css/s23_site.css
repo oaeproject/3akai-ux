@@ -105,7 +105,13 @@
 .s23_site #s23_site_iframe_container .s23_site_iframe_title
 { border-bottom:2px solid #0099CC; overflow: hidden; width: 100%; }
 .s23_site #s23_site_iframe_container .s23_site_iframe_title h2
-{ color:#555; font-size:1.2em; margin:0 0 0 0.2em; padding:2px 4px 6px 0;  }
+{ color:#555; display:inline; font-size:1.2em; margin:0 0 0 0.2em; padding:2px 4px 6px 0;  }
+.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset
+{ background:url("_images/s23_reload.png") no-repeat 0 0; height: 16px; width: 16px }
+.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset:hover
+{ background-position: 0 16px }
+.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset span
+{ display: none }
 
 /* Container */
 .s23_site #s23_site_container .fixed-container
