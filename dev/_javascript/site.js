@@ -17,7 +17,7 @@
  */
 
 /*global $, Config, History, Querystring, sdata, sakai, jQuery */
-
+var sakai = sakai || {};
 sakai.site = function(){		
 
 
@@ -35,7 +35,6 @@ sakai.site = function(){
 	sakai.site.siteAdminJS = "/dev/_javascript/site_admin.js";
 	
 	// Help variables - public as some of these needs to be shared with admin section
-	sakai.site.siteAdminLoaded = false;
 	sakai.site.cur = 0;
 	sakai.site.curScroll = false;
 	sakai.site.minTop = false;
@@ -238,32 +237,21 @@ sakai.site = function(){
 			$site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
 		}
 
-		// Fill up ME object which contains user info
-		sakai.site.meObject = sdata.me;
+		// Determine whether the user is maintainer, if yes show and load admin elements
+		sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite.id, sdata.me.user.subjects);
+		if (sakai.site.isCollaborator) {
+			// Show admin elements
+			$li_edit_page_divider.show();
+			$li_edit_page.show();
+			$add_a_new.show();
+			$site_management.show();
 
-		// Determine whether the user is mantainer, if yes show and load admin elements
-		var collaboratorgroup = "g-" + sakai.site.currentsite.id + "-collaborators";
-		for (var i = 0, j = sdata.me.user.subjects.length; i<j; i++) {
-			if (sdata.me.user.subjects[i] === collaboratorgroup) {
-			
-				// Show admin elements
-				$li_edit_page_divider.show();
-				$li_edit_page.show();
-				$add_a_new.show();
-				$site_management.show();
-				
-				// Load admin part from a separate file
-				$.Load.requireJS(sakai.site.siteAdminJS);
-				
-				// Remember we are a collaborator.
-				sakai.site.isCollaborator = true;
-
-				break;
-			}
+			// Load admin part from a separate file
+			$.Load.requireJS(sakai.site.siteAdminJS);
 		}
 
 		// Check user's login status
-		if (sakai.site.meObject.user.userid){
+		if (sdata.me.user.userid){
 			$("#loginLink").hide();
 		} else {
 			$(".explore_nav").hide();
@@ -388,8 +376,6 @@ sakai.site = function(){
 	 * @return void
 	 */
 	sakai.site.onAdminLoaded = function(){
-		sakai.site.siteAdminLoaded = true;
-		
 		// Init site admin
 		sakai.site.site_admin();
 		
@@ -624,9 +610,6 @@ sakai.site = function(){
 				
 				// is a Dashboard
 				case "dashboard":
-					if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
-						$dashboard_options.show();
-					}
 					$.ajax({
 						url: sakai.site.urls.WEBPAGE_CONTENT(),
 						cache: false,
@@ -657,7 +640,7 @@ sakai.site = function(){
 			}
 		}
 	
-		if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
+		if (sakai.site.isCollaborator) {
 			if (pageType === "dashboard") {
 				$dashboard_options.show();
 				$li_edit_page_divider.hide();
@@ -1033,7 +1016,7 @@ sakai.site = function(){
 				
 				$main_content_div.append(el);
 				
-				if (sdata.me.user.subjects.indexOf("g-" + sakai.site.currentsite.id + "-collaborators") !== -1) {
+				if (sakai.site.isCollaborator) {
 				
 					var dashPageID = "#" + el.id;
 					

@@ -53,7 +53,7 @@ sakai.site_manage_members = function() {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
 		fillBasicSiteSettings(selectedSite);
-		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
+		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : sakai.lib.site.authz.roles}));
 		
 	};
 	
@@ -96,9 +96,9 @@ sakai.site_manage_members = function() {
 	 * @param {Object} person
 	 */
 	var unselectCorrectPerson = function(person){
-		for (var j = 0; j < json.members.length; j++) {
-			if( json.members[j]["rep:userId"] === person["rep:userId"]){
-				json.members[j].selected = false;
+		for (var j = 0; j < json.results.length; j++) {
+			if( json.results[j]["rep:userId"] === person["rep:userId"]){
+				json.results[j].selected = false;
 				$("#siteManage_person" + j).removeClass("selected");
 				$("#siteManage_person" + j).addClass("unselected");
 			}
@@ -108,8 +108,8 @@ sakai.site_manage_members = function() {
 	 * updates the selectedpersonslist
 	 */
     var updateSelectedPersons = function() {
-        if (typeof json.members === "undefined") {
-            json.members = [];
+        if (typeof json.results === "undefined") {
+            json.results = [];
         }
         $("#selected-members-container").html($.Template.render("selected-people-template", {"selectedPeople" :selectedPeople}));
 
@@ -128,23 +128,23 @@ sakai.site_manage_members = function() {
 	 * @param {Object} isNewSelection
 	 */
     var selectPerson = function(personIndex, isNewSelection, selectAll) {
-	  	if (json.members[personIndex]) {
-			if (typeof json.members === "undefined") {
-				json.members = [];
+	  	if (json.results[personIndex]) {
+			if (typeof json.results === "undefined") {
+				json.results = [];
 			}
-			if (!json.members[personIndex].selected) {
+			if (!json.results[personIndex].selected) {
 				if (isNewSelection) {
-					selectedPeople.push(json.members[personIndex]);
+					selectedPeople.push(json.results[personIndex]);
 				}
 				
-				json.members[personIndex].selected = true;
+				json.results[personIndex].selected = true;
 				$("#siteManage_person" + personIndex).removeClass("unselected");
 				$("#siteManage_person" + personIndex).addClass("selected");
 			}
 			else 
 				if (!selectAll) {
-					unselectCorrectPerson(json.members[personIndex]);
-					selectedPeople.splice(getSelectedIndex(json.members[personIndex]), 1);
+					unselectCorrectPerson(json.results[personIndex]);
+					selectedPeople.splice(getSelectedIndex(json.results[personIndex]), 1);
 					updateSelectedPersons();
 				}
 		}
@@ -178,31 +178,19 @@ sakai.site_manage_members = function() {
 				} else {
 					results[i].picture = undefined;
 				}
-				
-				var isViewer = false;
-				var isCollaborator = false;
-				
-				for (var g = 0; g < results[i]["member:groups"].length; g++){
-					if (results[i]["member:groups"][g] === "g-" + selectedSite + "-collaborators"){
-						results[i].role = "Collaborator";
-					} 
-					if (results[i]["member:groups"][g] === "g-" + selectedSite + "-viewers"){
-						results[i].role = "Viewer";
-					} 
-				}
-				
+				results[i].role = sakai.lib.site.authz.getRole(selectedSite, results[i]["member:groups"]);
             }
 			var toRender = {};
 			toRender.users = results;
 			$("#siteManage_members").html($.Template.render("siteManage_people_template", toRender));
-		 	$("#manage_members_count").html(getNumMembers(json.members.total));
+		 	$("#manage_members_count").html(getNumMembers(json.total));
             $(".siteManage_person").bind("click",
             function(e, ui) {
 				if (!$(e.target).hasClass("view-profile-label")) {
 					var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
 					var isSelected = false;
 					for (var i = 0; i < selectedPeople.length; i++) {
-						if (selectedPeople[i]["rep:userId"] === json.members.results[userindex]["rep:userId"]) {
+						if (selectedPeople[i]["rep:userId"] === json.results[userindex]["rep:userId"]) {
 							isSelected = true;
 							break;
 						}
@@ -213,7 +201,7 @@ sakai.site_manage_members = function() {
             });
 		$(".sakai_pager").pager({
 			pagenumber: currentPage,
-			pagecount: Math.ceil( json.members.total/pageSize),
+			pagecount: Math.ceil( json.total/pageSize),
 			buttonClickCallback: function(pageclickednumber){
 				currentPage = pageclickednumber;
 				getSiteMembers($("#txt_member_search").val(), pageclickednumber,"\n");
@@ -227,8 +215,8 @@ sakai.site_manage_members = function() {
 	 */
 	var selectCorrectPeople = function(){
 		for(var i =0; i< selectedPeople.length; i++){
-			for (var j = 0; j < json.members.length; j++) {
-				if( json.members[j]["rep:userId"] === selectedPeople[i]["rep:userId"]){
+			for (var j = 0; j < json.results.length; j++) {
+				if( json.results[j]["rep:userId"] === selectedPeople[i]["rep:userId"]){
 					selectPerson(j,false,false);
 				}
 			}
@@ -269,15 +257,15 @@ sakai.site_manage_members = function() {
             cache: false,
 			url: "/sites/" + selectedSite + ".members.json?sort=firstName,asc&start=" + start + "&items=" + pageSize,
             success: function(data) {
-                json.members = $.evalJSON(data);
+                json = $.evalJSON(data);
 				
                 //getSiteMembersData(searchTerm, page, splitChar);
-				 renderMembers(json.members,true);
+				 renderMembers(json,true);
 				
             },
             error: function(status) {
-                json.members = {};
-                renderMembers(json.members,true);
+                json = {};
+                renderMembers(json,true);
             }
 			
         });
@@ -287,21 +275,21 @@ sakai.site_manage_members = function() {
 	
 	var filterMembers = function(search){
 		if (search) {
-			for (var i = 0; i < json.members.length; i++) {
+			for (var i = 0; i < json.results.length; i++) {
 				var toShow = false;
-				if (typeof json.members[i].firstName === "object"){
-					json.members[i].firstName = json.members[i].firstName[0];
+				if (typeof json.results[i].firstName === "object"){
+					json.results[i].firstName = json.results[i].firstName[0];
 				}
-				if (typeof json.members[i].lastName === "object"){
-					json.members[i].email = json.members[i].lastName[0];
+				if (typeof json.results[i].lastName === "object"){
+					json.results[i].email = json.results[i].lastName[0];
 				}
-				if (typeof json.members[i].email === "object"){
-					json.members[i].email = json.members[i].email[0];
+				if (typeof json.results[i].email === "object"){
+					json.results[i].email = json.results[i].email[0];
 				}
-				if ((json.members[i].firstName + " " + json.members[i].lastName).toLowerCase().indexOf(search.toLowerCase()) !== -1){
+				if ((json.results[i].firstName + " " + json.results[i].lastName).toLowerCase().indexOf(search.toLowerCase()) !== -1){
 					toShow = true;
 				}
-				if (json.members[i].email && json.members[i].email.toLowerCase().indexOf(search.toLowerCase()) !== -1){
+				if (json.results[i].email && json.results[i].email.toLowerCase().indexOf(search.toLowerCase()) !== -1){
 					toShow = true;
 				}
 				if (toShow){
@@ -339,20 +327,20 @@ sakai.site_manage_members = function() {
         };
     };
 	/**
-	 * removes an array of items from another json.members.users
+	 * removes an array of items from another json.users
 	 * @param {Object} arrItems
 	 */
     var removeItemsFromArray = function(arrItems) {
-		 if(json.members.length === arrItems.length){
-		 	json.members = [];
+		 if(json.results.length === arrItems.length){
+		 	json.results = [];
 		 }
 		 else{
 		 	for (var i = 0; i < arrItems.length; i++) {
-            	json.members.splice(json.members.indexOf(arrItems[i]), 1);
+            	json.results.splice(json.results.indexOf(arrItems[i]), 1);
         	}
 		 }
         updateSelectedPersons();
-		renderMembers(json.members,false);
+		renderMembers(json,false);
 		
     };
 	
@@ -361,9 +349,9 @@ sakai.site_manage_members = function() {
 	 */
     var selectNone = function() {
       selectedPeople = [];
-        for (var i = 0; i < json.members.length; i++) {
-            if (json.members[i].selected) {
-                json.members[i].selected = false;
+        for (var i = 0; i < json.results.length; i++) {
+            if (json.results[i].selected) {
+                json.results[i].selected = false;
             }
         }
         $(".members-container li").attr("class", "unselected");
@@ -374,145 +362,85 @@ sakai.site_manage_members = function() {
 	/**
 	 * removes all selected members
 	 */
-    var deleteSelectedMembers = function() {
+	var deleteSelectedMembers = function() {
         var dataTemp = getPostData(true);
-		if (dataTemp.uuserid.length > 0) {
-			
-			var done = 0;
-			var toDo = dataTemp.uuserid.length;
-				
-			for (var i = 0; i < dataTemp.uuserid.length; i++){
-				var userid = "../../user/" + dataTemp.uuserid[i];
-				var group = false;
-				for (var u = 0; u < json.members.length; u++){
-					if (json.members[u]["rep:userId"] == dataTemp.uuserid[i]){
-						if (json.members[u].role == "Viewer"){
-							group = "g-" + selectedSite + "-viewers";
-						} else if (json.members[u].role == "Collaborator"){
-							group = "g-" + selectedSite + "-collaborators";
-						}
-					}
-				}
-				$.ajax({
-					url: "/system/userManager/group/" + group + ".update.html",
-					type: "POST",
-					success: function(data){
-						done++;
-						if (done === toDo) {
-							var arrItemsToRemove = [];
-		                    for (var m = 0; m < json.members.length; m++) {
-		                        if (json.members[m].selected === true) {
-		                            arrItemsToRemove.push(json.members[m]);
-		                        }
-		                    }
-		                    removeItemsFromArray(arrItemsToRemove);	
-						}
-					},
-					error: function(status){
-						done++;
-						if (done === toDo) {
-							alert(data);
-						}
-					},
-					data: {
-						":member@Delete": userid
-					}
-				});
+		var userCount = dataTemp.uuserid.length;
+		if (userCount > 0) {
+			var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(selectedSite);
+			var groupDeletions = {};
+			var group;
+			for (var i = 0; i < userCount; i++) {
+				group = roleToGroup[dataTemp.membertoken[i]];
+				groupDeletions[group] = groupDeletions[group] || [];
+				groupDeletions[group].push(dataTemp.uuserid[i]);
 			}
-			
+			var actions = [];
+			for (group in groupDeletions) {
+				if (groupDeletions.hasOwnProperty(group)) {
+					actions.push({
+						url: "/system/userManager/group/" + group + ".update.json",
+						data: {
+							":member@Delete": groupDeletions[group]
+						}
+					});
+				}
+			}
+			sakai.lib.batchPosts(actions);
 		}
-
-    };
-	
-	var updateToDo = 0;
-	var updateDone = 0;
+	};
 	
 	/**
-	 * add/update all selected people to the site
+	 * update all selected people memberships
 	 */
-	var addSelectedPeopleToSite = function(){
-		
-		updateToDo = 0;
-		updateDone = 0;
+	var changeSelectedPeopleRoles = function(){
 		var dataTemp = getPostData(false);
-		var group = "collaborators";
-		var othergroup = "viewers";
-		if (dataTemp.membertoken == "Viewer" || dataTemp.membertoken[0] == "Viewer"){
-			group = "viewers";
-			othergroup = "collaborators";
-		}
-		var toProcess = [];
-		for (var i = 0; i < dataTemp.uuserid.length; i++){
-			for (var m = 0; m < json.members.length; m++){
-				if (dataTemp.uuserid[i] === json.members[m]["rep:userId"]){
-					if (json.members[m].role == "Viewer" && group == "collaborators"){
-						toProcess.push(dataTemp.uuserid[i]);
+		var roleChanges = {};
+		for (var i = 0; i < dataTemp.uuserid.length; i++) {
+			// Find the selected person's current membership.
+			for (var m = 0; m < json.results.length; m++) {
+				if (dataTemp.uuserid[i] === json.results[m]["rep:userId"]) {
+					var newRole = dataTemp.membertoken[i];
+					var oldRole = json.results[m]["role"];
+					if (newRole !== oldRole) {
+						roleChanges[newRole] = roleChanges[newRole] || {};
+						roleChanges[newRole].additions = roleChanges[newRole].additions || [];
+						roleChanges[newRole].additions.push(dataTemp.uuserid[i]);
+						roleChanges[oldRole] = roleChanges[oldRole] || {};
+						roleChanges[oldRole].deletions = roleChanges[oldRole].deletions || [];
+						roleChanges[oldRole].deletions.push(dataTemp.uuserid[i]);
 					}
-					if (json.members[m].role == "Collaborator" && group == "viewers"){
-						toProcess.push(dataTemp.uuserid[i]);
-					}
+					break;
 				}
 			}
 		}
-		
-		if (toProcess.length === 0){
-			
+		// TODO Switching roles should be an atomic operation.
+		var actions = [];
+		var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(selectedSite);
+		for (var role in roleChanges) {
+			if (roleChanges.hasOwnProperty(role)) {
+				var data = {};
+				if (roleChanges[role].additions) {
+					data[":member"] = roleChanges[role].additions;
+				}
+				if (roleChanges[role].deletions) {
+					data[":member@Delete"] = roleChanges[role].deletions;
+				}
+				actions.push({
+					url: "/system/userManager/group/" + roleToGroup[role] + ".update.html",
+					data: data
+				});
+			}
+		}
+		var success = function(data){
 			getSiteMembers(null, 1, "");
 			selectNone();
-			
+		};
+		if (actions.length > 0) {
+			sakai.lib.batchPosts(actions, success);
 		} else {
-		
-			updateToDo = toProcess.length;
-			updateDone = 0;
-			
-			for (var i = 0; i < toProcess.length; i++) {
-				
-				var userid = "../../user/" + toProcess[i];
-				doIndividualUpdate(userid, group, othergroup);
-				
-			}
-			
+			success();
 		}
-
-	};
-	
-	var doIndividualUpdate = function(userid, group, othergroup){
-		$.ajax({
-			url: "/system/userManager/group/g-" + selectedSite + "-" + othergroup + ".update.html",
-			type: "POST",
-			success: function(data){
-				$.ajax({
-					url: "/system/userManager/group/g-" + selectedSite + "-" + group + ".update.html",
-					type: "POST",
-					success: function(data){
-						updateDone++;
-						if (updateDone === updateToDo) {
-							getSiteMembers(null, 1, "");
-							selectNone();
-						}
-					},
-					error: function(status){
-						updateDone++;
-						if (updateDone === updateToDo) {
-							alert(data);
-						}
-					},
-					data: {
-						":member": userid
-					}
-				});
-			},
-			error: function(status){
-				updateDone++;
-				if (updateDone === updateToDo) {
-					alert(data);
-				}
-			},
-			data: {
-				":member@Delete": userid
-			}
-		});
-	};
+	}
 
     $("#txt_member_search").bind("focus",
     function(e, ui) {
@@ -536,14 +464,14 @@ sakai.site_manage_members = function() {
     });
     $("#btn_members_selectAll").bind("click",
     function(e, ui) {
-        for (var i = 0; i < json.members.length; i++) {
+        for (var i = 0; i < json.results.length; i++) {
             selectPerson(i,true,true);
         }
         updateSelectedPersons();
     });
     $(".selected_people_addToSite").bind("click",
     function(e, ui) {
-        addSelectedPeopleToSite();
+        changeSelectedPeopleRoles();
 
     });
     $("#btn_members_selectNone").bind("click",

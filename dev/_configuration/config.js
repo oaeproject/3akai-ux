@@ -121,8 +121,6 @@ var Config = {
 	},	
 	
 	Site : {
-		// Default roles that will be available within a site, next to Owner
-		Roles : ["Collaborator", "Viewer"],
 		Styles : {
 			original : {
 				name : "Original sakai theme",

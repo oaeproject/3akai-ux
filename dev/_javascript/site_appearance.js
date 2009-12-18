@@ -290,13 +290,7 @@ sakai.site_appearance = function() {
 
 				// Check if we are an owner for this site.
 				// Otherwise we will redirect to the site page.
-				var isMaintainer = false;
-				for (var i = 0; i < sdata.me.user.subjects.length; i++){
-					if (sdata.me.user.subjects[i] === "g-" + siteId + "-collaborators"){
-						isMaintainer = true;
-						break;
-					}
-				}
+				var isMaintainer = sakai.lib.site.authz.isUserMaintainer(siteId, sdata.me.user.subjects);
 				if (isMaintainer) {
 
 					// Fill in the info.
