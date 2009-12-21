@@ -799,7 +799,10 @@ sdata.widgets.WidgetPreference =  {
 	$.i18n_widget = function(widgetname, widget_html_content) {
 	  
 	  var translated_content = "";
-	  var current_locale_string = sdata.me.user.locale.language+"_"+sdata.me.user.locale.country;
+	  var current_locale_string = false;
+	  if (typeof sdata.me.user.locale === "object") {
+	    current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
+	  }
 	  
 	  // If there is no i18n defined in Widgets, run standard i18n on content
 	  if (typeof Widgets.widgets[widgetname].i18n !== "object") {
