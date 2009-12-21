@@ -150,7 +150,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 				$(mainContainer, rootel).append(sFrame);
         	   
    			},
-   			error : function(status) {
+   			error: function(xhr, textStatus, thrownError) {
    				showGeneralMessage(mainMessagesContainer, $(error_unableforumPrefs).text(), true, 0);
    			}
    		});
@@ -221,7 +221,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
             success : function(data) {
 				createForumFinished(data);
             },
-            error : function(status) {
+            error: function(xhr, textStatus, thrownError) {
 				showGeneralMessage(settingsMessagesContainer, $(error_unableContactWookie).text(), true, 0);
             },
             data : oPostData

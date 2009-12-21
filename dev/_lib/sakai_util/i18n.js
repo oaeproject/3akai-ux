@@ -136,7 +136,7 @@ $(document).ready(function(){
 						doI18N(null, sdata.i18n.defaultBundle);
 					}
 				},
-				error : function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					loadLocalBundle();
 				}
 		});
@@ -165,7 +165,7 @@ $(document).ready(function(){
 					loadSiteLanguage(site);
 				}
 			},
-			error : function(status) {
+			error: function(xhr, textStatus, thrownError) {
 				// There is no default bundle, so we'll just show the interface without doing any translations
 				finishI18N();
 			}
@@ -227,7 +227,7 @@ $(document).ready(function(){
 				}
 				loadDefaultBundle();
 		  	},
-		  	error : function(data){
+		  	error: function(xhr, textStatus, thrownError) {
 				// There is no me service or the dummy file doesn't exist, so we'll just show the interface without doing any translations
 		  		finishI18N();
 		  	}

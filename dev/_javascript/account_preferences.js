@@ -153,7 +153,9 @@ sakai.accountPreferences =function(){
 					// clear all the fields
 					clearPassFields();
 				},
-				error : function(status) {
+				error: function(xhr, textStatus, thrownError) {
+					var status = xhr.status;
+					
 					// the old password was incorrect
 					if(status === 409){
 						showGeneralMessage($(errorIncorrectPass).html(), true, saveNewPass, generalMessagePass);
@@ -246,9 +248,9 @@ sakai.accountPreferences =function(){
 				// update the user of the successful reginal settings change
 				showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
 			},
-			error : function(status) {
+			error: function(xhr, textStatus, thrownError) {
 				// the user is logged out
-				if(status === 401){
+				if(xhr.status === 401){
 					document.location = Config.URL.GATEWAY_URL;
 				}
 				// some other error

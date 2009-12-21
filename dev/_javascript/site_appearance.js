@@ -352,7 +352,7 @@ sakai.site_appearance = function() {
 				// Hide the layover.
 				$(siteAppearanceChangeContainer).jqmHide();
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -382,7 +382,7 @@ sakai.site_appearance = function() {
 					updateGroupDef();
 				//}
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -647,7 +647,7 @@ sakai.site_appearance = function() {
 					// When the save is completed we redirect the user back to the main site page
 					redirectToSitePage();
 				},
-				error : function(data){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured");
 				}
 			});
@@ -744,7 +744,7 @@ sakai.site_appearance = function() {
 				// When the save is completed we initialize the site appearance pop-up again
 				sakai.site_appearance_change.doInit();	
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});

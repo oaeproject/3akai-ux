@@ -132,7 +132,7 @@ sakai.twitter = function(tuid,placement,showSettings){
 					var ev = {};
 					ev.value = json.status;
 				},
-				error : function(data){
+				error: function(xhr, textStatus, thrownError) {
 					setError("An error occurend when sending the status to the server.");
 				}
 			});
@@ -221,8 +221,8 @@ sakai.twitter = function(tuid,placement,showSettings){
 	            success : function(data) {
 					parseTwitterStatus(data, true);
 	            },
-	            error : function(status) {
-					parseTwitterStatus(status, false);
+	            error: function(xhr, textStatus, thrownError) {
+					parseTwitterStatus(xhr.status, false);
 	            },
 	            data : oPostData
 	        });
@@ -252,8 +252,8 @@ sakai.twitter = function(tuid,placement,showSettings){
 					success : function(data) {
 						parseTwitterResponse(data, true);
 					},
-					error : function(status) {
-						parseTwitterResponse(status, false);
+					error: function(xhr, textStatus, thrownError) {
+						parseTwitterResponse(xhr.status, false);
 					},
 					data : oPostData
 				});

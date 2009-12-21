@@ -489,7 +489,7 @@ sakai.site = function(){
 				// Write
 				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
 			},
-			error : function(httpstatus){
+			error: function(xhr, textStatus, thrownError) {
 				items.items = [];
 				items.items.unshift(site);
 				

@@ -596,8 +596,8 @@ sdata.widgets.WidgetPreference =  {
 			success : function(data) {
 				callback(data,true);
 			},
-			error : function(status) {
-				callback(status,false);
+			error: function(xhr, textStatus, thrownError) {
+				callback(xhr.status,false);
 			},
 			sendToLoginOnFail: args
 		});
@@ -634,8 +634,8 @@ sdata.widgets.WidgetPreference =  {
 			success : function(data) {
 				cb(data,true);
 			},
-			error : function(status) {
-				cb(status,false);
+			error: function(xhr, textStatus, thrownError) {
+				cb(xhr.status,false);
 			},
 			data : outputData,
 			sendToLoginOnFail: args

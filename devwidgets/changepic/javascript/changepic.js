@@ -290,13 +290,13 @@ sakai.changepic = function(tuid, placement, showSettings){
 						$(container).jqmHide();
 						
 					},
-					error : function(data){
+					error: function(xhr, textStatus, thrownError) {
 						alert("An error has occured");
 					}
 				});
 				
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -384,7 +384,7 @@ sakai._changepic.completeCallback = function(response){
 			//	we have saved the profile, now do the widgets other stuff.
 			sakai._changepic.doInit();	
 		},
-		error : function(data){
+		error: function(xhr, textStatus, thrownError) {
 			alert("An error has occured");
 		}
 	});

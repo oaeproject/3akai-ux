@@ -227,7 +227,7 @@ sakai.search = function(){
 					renderInvitations();
 					
 				},
-				error : function(data){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured");
 				}
 			});

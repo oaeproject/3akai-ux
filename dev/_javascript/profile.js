@@ -850,7 +850,7 @@ sakai.profile = function(){
 			success: function(data){
 				$("#accept_invitation_button").hide();
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});

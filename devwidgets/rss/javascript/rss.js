@@ -172,7 +172,7 @@ sakai.rss = function(tuid, placement, showSettings){
 			success : function(data) {
 					onResponse(printFeed(data));
 			},
-			error : function(status) {
+			error: function(xhr, textStatus, thrownError) {
 					alert("Unable to connect to the rss feed.");
 			}
  		});

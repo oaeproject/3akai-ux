@@ -2130,7 +2130,7 @@ sakai.site.site_admin = function(){
 				}
 					
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("Revision History: An error has occured");
 				sakai.site.versionHistoryNeedsReset = true;
 			}
@@ -2177,7 +2177,7 @@ sakai.site.site_admin = function(){
 				}, null, "text/plain");
 				sakai.site.resetVersionHistory();
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("Revision History: An error has occured");
 			}
 		});
@@ -2205,7 +2205,7 @@ sakai.site.site_admin = function(){
 					sakai.site._displayDashboard (json.data, true);
 				}
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured while trying to cahnge version preview");
 			}
 		});
@@ -2586,7 +2586,7 @@ sakai.site.site_admin = function(){
 					var templates = $.evalJSON(data);
 					updateTemplates(obj, newid, templates);
 				},
-				error : function(data){
+				error: function(xhr, textStatus, thrownError) {
 					var templates = {};
 					updateTemplates(obj, newid, templates);
 				}
@@ -2636,7 +2636,7 @@ sakai.site.site_admin = function(){
 				var templates = $.evalJSON(data);
 				renderTemplates(templates);
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				var templates = {};
 				renderTemplates(templates);
 			}

@@ -226,10 +226,10 @@ sakai.tangler = function(tuid, placement, showSettings){
 
 			// This will fail when it is not possible to connect to the server
 			// and when you are creating a completely new tangler forum
-			error : function(status) {
+			error: function(xhr, textStatus, thrownError) {
 				// Only execute the function if you aren't in settings mode.
 				if(!showSettings){
-					showForum(status,false);
+					showForum(xhr.status,false);
 				}
 			}
 		});

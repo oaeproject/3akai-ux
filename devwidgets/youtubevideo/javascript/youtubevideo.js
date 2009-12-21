@@ -164,8 +164,8 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
 			success : function(data) {
 				showVideo(data,true, youtubevideoVideo, settings);
 			},
-			error : function(status) {
-				showVideo(status,false, youtubevideoVideo, settings);
+			error: function(xhr, textStatus, thrownError) {
+				showVideo(xhr.status,false, youtubevideoVideo, settings);
 			}
 		});
 	};

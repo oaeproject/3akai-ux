@@ -76,7 +76,7 @@ sakai.index = function(){
 			url : Config.URL.ME_SERVICE,
 			cache : false,
 			success : decideLoggedIn,
-			error : function(status){
+			error: function(xhr, textStatus, thrownError) {
 				throw "Me service has failed";
 			}
 		});

@@ -341,7 +341,7 @@ sakai.newaccount = function(){
             success: function(data){
 				setError(usernameField,usernameTaken);
 			}, 
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				if (checkingOnly){
 					resetErrorFields();
 					$(usernameAvailable).show();

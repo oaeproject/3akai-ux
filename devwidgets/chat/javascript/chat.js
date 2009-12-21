@@ -1185,7 +1185,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			success : function(data) {
 				updateChatStatus();
 			},
-			error : function(data){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error occurend when sending the status to the server.");
 			}
 		});
