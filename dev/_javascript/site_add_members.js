@@ -52,7 +52,7 @@ sakai.site_add_members = function() {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
 		fillBasicSiteSettings(selectedSite);
-		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : Config.Site.Roles}));
+		$("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : sakai.lib.site.authz.roles}));
 	};
 	
 	/**
@@ -142,34 +142,14 @@ sakai.site_add_members = function() {
 		}
 
     };
-	/**
-	 * checks if the userid is already a member
-	 * @param {Object} userid
-	 */
-	var checkIfUserIDExists =function(userid){
-		for (var i = 0; i < json.members.length; i++) {
-			if (typeof json.members[i]["rep:userId"] === "object"){
-				json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
-			}
-			if(json.members[i]["rep:userId"] == userid){
-				return true;
-			}
-		}
-		return false;
-	};
-	
+
 	var checkRole = function(userid){
 		for (var i = 0; i < json.members.length; i++) {
 			if (typeof json.members[i]["rep:userId"] === "object") {
 				json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
 			}
 			if (json.members[i]["rep:userId"] == userid) {
-				if (json.members[i]["member:groups"][0].split("-")[json.members[i]["member:groups"][0].split("-").length - 1] === "collaborators"){
-					return "Collaborator";
-				} 
-				if (json.members[i]["member:groups"][0].split("-")[json.members[i]["member:groups"][0].split("-").length - 1] === "viewers"){
-					return "Viewer";
-				} 
+				return sakai.lib.site.authz.getRole(selectedSite, json.members[i]["member:groups"]);
 			}
 		}
 		return "";
@@ -191,9 +171,10 @@ sakai.site_add_members = function() {
 					people.results[i].picture = {};
 				}
                 people.results[i].userid = people.results[i]["rep:userId"];
-				people.results[i].isMember = checkIfUserIDExists(people.results[i].userid);
-				if (people.results[i].isMember){
-					people.results[i].role = checkRole(people.results[i].userid);
+				var existingRole = checkRole(people.results[i].userid);
+				if (existingRole) {
+					people.results[i].isMember = true;
+					people.results[i].role = existingRole;
 				}
             }
 			$("#siteManage_people").html($.Template.render("siteManage_people_template", people));
@@ -228,7 +209,10 @@ sakai.site_add_members = function() {
 		}
 	};
 	/**
-	 * searches for members
+	 * searches for people, whether they're already members of the site or not
+	 * TODO The search needs to support a contextual argument to indicate that an
+	 * existing site membership role should be returned with other information
+	 * about the person.
 	 * @param {Object} searchterm
 	 * @param {Object} page
 	 * @param {Object} splitChar
@@ -316,7 +300,8 @@ sakai.site_add_members = function() {
 	   	}
     };
 	/**
-	 * gets the site members (for counting) *temporary
+	 * gets the site members
+	 * TODO This is part of some broken logic: SAKIII-98
 	 */
  	var getSiteMembers = function() {
         $.ajax({
@@ -335,9 +320,6 @@ sakai.site_add_members = function() {
 				 if(typeof json.foundPeople !== "undefined"){
 				 	renderPeople(json.foundPeople);
 				 }
-				 
-				 
-                 $("#manage_members_count").html(getNumMembers(json.members.results));
             },
             onFail: function(status) {
                 json.members = {"results" : []};
@@ -348,36 +330,25 @@ sakai.site_add_members = function() {
 	getSiteMembers();
 	
 	var updateSiteMembers = function(addedMembers){
-		/*
-for(var i = 0 ; i < addedMembers.uuserid.length ; i++){
-			json.members.push({"rep:userId" : addedMembers.uuserid[i]});
-		}
-		$("#manage_members_count").html(getNumMembers(json.members));
-		renderPeople(json.foundPeople);
-*/
 		getSiteMembers();
 	};
 	
-		/**
-	 * add/update all selected people to the site
+	/**
+	 * add all selected people to the site
 	 */
     var addSelectedPeopleToSite = function() {
 		if(typeof json.foundPeople !== "undefined"){
 			var dataTemp = getPostData(false);
         	if (dataTemp.uuserid.length > 0) {
-				
-				var group = "collaborators";
-				if (dataTemp.membertoken == "Viewer" || dataTemp.membertoken[0] == "Viewer"){
-					group = "viewers";
-				}
-				
+				var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(selectedSite);
+				var group = roleToGroup[dataTemp.membertoken];
 				var newMembers = [];
 				for (var i = 0; i < dataTemp.uuserid.length; i++) {
 					var userid = "../../user/" + dataTemp.uuserid[i];
 					newMembers.push(userid);
 				}
 				$.ajax({
-					url: "/system/userManager/group/g-" + selectedSite + "-" + group + ".update.html",
+					url: "/system/userManager/group/" + group + ".update.html",
 					type: "POST",
 					success: function(data){
 							updateSiteMembers(dataTemp);

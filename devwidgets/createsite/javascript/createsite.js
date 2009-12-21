@@ -22,7 +22,6 @@ var sakai = sakai || {};
 
 sakai.createsite = function(tuid,placement,showSettings){
 
-
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
@@ -193,6 +192,78 @@ sakai.createsite = function(tuid,placement,showSettings){
 	 * Create the actual site.
 	 * Sends information to the server about the site you are making.
 	 */
+	var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
+		var actions = [];
+		var defaultProperties = sakai.lib.site.authz.defaultProperties;
+		var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteid);
+		
+		// Create a site node based on the template.
+		// Note that the template needs to be specified again to be stored as
+		// a property of the new site.
+		actions.push({
+			url: "/sites.createsite.json",
+			data: {
+				":sitepath": "/" + siteid,
+				"sakai:site-template" : "/templates/" + sitetemplate
+			}
+		});
+		
+		// Create site role holders.
+		var data;
+		var authorizables = [];
+		for (var i = 0, j = sakai.lib.site.authz.roles.length; i < j; i++) {
+			var role = sakai.lib.site.authz.roles[i];
+			var group = roleToGroup[role];
+			data = {
+				":name" : group,
+				"sakai:site" : "/sites/" + siteid,
+				name : role
+			};
+			if (role === sakai.lib.site.authz.maintenanceRole) {
+				data[":member"] = "../../user/" + sdata.me.user.userid;
+			}
+			actions.push({
+				url: "/system/userManager/group.create.html",
+				data: data
+			});
+			authorizables.push(group);
+		}
+		
+		// Set initial site properties.
+		data = $.extend({
+				"name" : sitetitle,
+				"description" : sitedescription,
+				"id" : siteid,
+				"sakai:skin" : "/dev/_skins/original/original.html",
+				"sakai:site-template" : "/templates/" + sitetemplate,
+				"sakai:authorizables" : authorizables			
+		}, defaultProperties);
+		actions.push({
+			url: "/sites/" + siteid,
+			data: data
+		});
+		
+		// Skip the old call to WidgetPreference.save for _widgets/created,
+		// since it should have been copied from the template.
+		
+		// There's an old call to _widgets.modifyAce to give everyone (including
+		// anonymous users) all privileges. Let's skip that for now and see what
+		// happens with normal ACL inheritance...
+		
+		actions = actions.concat(sakai.lib.site.authz.getStandardAccessActions(siteid));
+		actions = actions.concat(sakai.lib.site.authz.getAccessActions(siteid, defaultProperties.status, defaultProperties.access));
+		if (actions) {
+			var success = function(data) {
+				document.location = "/sites/" + siteid;
+			};
+			var error = function(request) {
+				showProcess(false);
+				alert("An error has occurred: " + request.status + " " + request.statusText);
+			};
+			sakai.lib.batchPosts(actions, success, error);
+		}
+	};
+	
 	var saveSite = function(){
 		
 		// Get the values from the input text and radio fields
@@ -211,359 +282,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 		// Site type is course/project or default
 		
 		var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
-		
-		var parameters = {
-			//"sling:resourceType" : "sakai/site",
-			"name" : sitetitle,
-			"sakai:title" : sitetitle,
-			"description" : sitedescription,
-			"id" : siteid,
-			":sitepath": "/" + siteid,
-			"sakai:skin" : "/dev/_skins/original/original.html",
-			"status" : "online",
-			"access" : "everyone",
-			"sakai:site-template" : "/templates/" + sitetemplate
-		};
 
 		// Hide the buttons and show the process status
 		showProcess(true);
-
-
-		//url : Config.URL.SITE_GET_SERVICE + "/" + siteid,
-		$.ajax({
-			url: "/sites/" + siteid + ".json",
-			success : function(data) {
-				showProcess(false);
-				alert("A site with this URL already exists");
-			},
-			error : function(status) {
-				switch(status){
-					case 401:
-						showProcess(false);
-						alert("You are not logged in, please log in again.");
-						break;
-
-					case 404:
-						$.ajax({
-							//url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
-							//url: "/sites/" + siteid,
-							url: "/sites.createsite.json",
-							type: "POST",
-							success: function(data){
-								
-								$.ajax({
-									//url: Config.URL.SITE_CREATE_SERVICE + "/" + siteid,
-									//url: "/sites/" + siteid,
-									url: "/sites/" + siteid,
-									type: "POST",
-									success: function(data){
-										setWidgetsPermissions(siteid);
-									},
-									error: function(status){
-										alert("An error occured");
-									},
-									data: {
-										"name" : sitetitle,
-										"description" : sitedescription,
-										"id" : siteid,
-										"sakai:skin" : "/dev/_skins/original/original.html",
-										"status" : "online",
-										"sakai:site-template" : "/templates/template"
-									}
-								});
-								
-								
-							},
-							error: function(status){
-								showProcess(false);
-								
-								if (status === 409) {
-									alert("A site with this URL already exists");
-								}
-								else {
-									alert("An error has occured whilst creating the site");
-								}
-							},
-							data: parameters
-						});
-						break;
-
-					default:
-						showProcess(false);
-						alert("And error occured whilst creating the site.");
-				}
-			}
-		});
+		doSaveSite(siteid, sitetitle, sitedescription, sitetemplate);
 	};
-	
-	/**
-	 * Set the permissions of the widget folder in the site you are creating
-	 * In the future this should happen in the back-end of the site
-	 * @param {String} siteid
-	 */
-	var setWidgetsPermissions = function(siteid){
-		sdata.widgets.WidgetPreference.save("/sites/" + siteid + "/_widgets","created",'Widget settings + data', function(){
-			$.ajax({
-				url: "/sites/" + siteid + "/_widgets" + ".modifyAce.json",
-				type: "POST",
-				success: function(data){
-					createCollaboratorGroup(siteid);
-				},
-				error: function(status){
-					createCollaboratorGroup(siteid);
-				},
-				data: {
-					"principalId":"everyone",
-					"privilege@jcr:all":"granted"
-				}
-			});
-		});			
-	};
-
-	var createCollaboratorGroup = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group.create.html",
-			type: "POST",
-			success: function(data){
-				createViewersGroup(siteid);
-			},
-			error: function(status){
-				alert("Failed to create collaborator group!");
-				return;
-				createViewersGroup(siteid);
-			},
-			data: {
-				":name": "g-" + siteid + "-collaborators"
-			}
-		});
-	};
-	
-	var createViewersGroup = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group.create.html",
-			type: "POST",
-			success: function(data){
-				addGroupsToSite(siteid);
-			},
-			error: function(status){
-				alert("Failed to create viewer group!");
-				return;
-				addGroupsToSite(siteid);
-			},
-			data: {
-				":name": "g-" + siteid + "-viewers"
-			}
-		});
-	};
-	
-	var addGroupsToSite = function(siteid){
-		$.ajax({
-			url: "/sites/" + siteid,
-			type: "POST",
-			success: function(data){
-				addSiteToCollaborators(siteid);
-			},
-			error: function(status){
-				addSiteToCollaborators(siteid);
-			},
-			data: {
-				"sakai:authorizables": ["g-" + siteid + "-collaborators","g-" + siteid + "-viewers"]
-			}
-		});
-	};
-	
-	var addSiteToCollaborators = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
-			type: "POST",
-			success: function(data){
-				addSiteToViewers(siteid);
-			},
-			error: function(status){
-				addSiteToViewers(siteid);
-			},
-			data: {
-				"sakai:site": ["/sites/" + siteid]
-			}
-		});
-	};
-	
-	var addSiteToViewers = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
-			type: "POST",
-			success: function(data){
-				addMeToCollaborators(siteid);
-			},
-			error: function(status){
-				addMeToCollaborators(siteid);
-			},
-			data: {
-				"sakai:site": ["/sites/" + siteid]
-			}
-		});
-	};
-	
-	var addMeToCollaborators = function(siteid){
-		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
-			type: "POST",
-			success: function(data){
-				if (withMembers) {
-					setGroupMaintenance1(siteid);
-				} else {
-					setGroupMaintenance1(siteid);
-				}
-			},
-			error: function(status){
-				if (withMembers) {
-					setGroupMaintenance1(siteid);
-				} else {
-					setGroupMaintenance1(siteid);
-				}
-			},
-			data: {
-				":member": "../../user/" + sdata.me.user.userid
-			}
-		});
-	};
-	
-	var addUserToCollaborators = function(siteid){
-		var boxes = $("#members_to_add input[@type=checkbox]:checked");
-		var toadd = [];
-		for (var i = 0; i < boxes.length; i++){
-			toadd[toadd.length] = "../../user/" + boxes[i].value;
-		}
-		$.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
-			type: "POST",
-			success: function(data){
-				setGroupMaintenance1(siteid);
-			},
-			error: function(status){
-				setGroupMaintenance1(siteid);
-			},
-			data: {
-				":member": toadd
-			}
-		});
-	};
-
-	var setGroupMaintenance1 = function(siteid){
-		/* $.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-collaborators" + ".update.html",
-			type: "POST",
-			success: function(data){
-				setGroupMaintenance2(siteid);
-			},
-			error: function(status){
-				setGroupMaintenance2(siteid);
-			},
-			data: {
-				"sakai:delegatedGroupAdmin": "g-" + siteid + "-collaborators",
-			}
-		}); */
-		setGroupMaintenance2(siteid);
-	};
-	
-	var setGroupMaintenance2 = function(siteid){
-		/* $.ajax({
-			url: "/system/userManager/group/" + "g-" + siteid + "-viewers" + ".update.html",
-			type: "POST",
-			success: function(data){
-				setSiteACL1(siteid);
-			},
-			error: function(status){					
-				setSiteACL1(siteid);
-			},
-			data: {
-				"sakai:delegatedGroupAdmin": "g-" + siteid + "-collaborators",
-			}
-		}); */
-		setSiteACL1(siteid);
-	};
-
-	var setSiteACL1 = function(siteid){
-		$.ajax({
-			url: "/sites/" + siteid + ".modifyAce.json",
-			type: "POST",
-			success: function(data){
-				setSiteACL2(siteid);
-			},
-			error: function(status){
-				setSiteACL2(siteid);
-			},
-			data: {
-				"principalId":"g-" + siteid + "-collaborators",
-				"privilege@jcr:read":"granted",
-				"privilege@jcr:removeChildNodes":"granted",
-				"privilege@jcr:removeNode":"granted",
-				"privilege@jcr:write":"granted",
-				"privilege@jcr:modifyProperties":"granted",
-				"privilege@jcr:addChildNodes":"granted",
-				"privilege@jcr:modifyAccessControl":"granted"
-				//"privilege@jcr:all":"granted"
-			}
-		});
-	};
-	
-	var setSiteACL2 = function(siteid){
-		$.ajax({
-			url: "/sites/" + siteid + ".modifyAce.json",
-			type: "POST",
-			success: function(data){
-				setSiteACL3(siteid);
-			},
-			error: function(status){
-				setSiteACL3(siteid);
-			},
-			data: {
-				"principalId":"g-" + siteid + "-viewers",
-				"privilege@jcr:read":"granted"
-			}
-		});
-	};
-	
-	var setSiteACL3 = function(siteid){
-		$.ajax({
-			url: "/sites/" + siteid + ".modifyAce.json",
-			type: "POST",
-			success: function(data){
-				setSiteACL4(siteid);
-			},
-			error: function(status){
-				setSiteACL4(siteid);
-			},
-			data: {
-				"principalId":"registered",
-				"privilege@jcr:read":"granted"
-			}
-		});
-	};
-	
-	var setSiteACL4 = function(siteid){
-		$.ajax({
-			url: "/sites/" + siteid + ".modifyAce.json",
-			type: "POST",
-			success: function(data){
-				/*
-				 * TODO
-				 * We need to have a mechanism to rewrite all the id's in the template pages!
-				 * This should probably go in the backend.
-				 */
-				document.location = "/sites/" + siteid;
-			},
-			error: function(status){
-				document.location = "/sites/" + siteid;
-			},
-			data: {
-				"principalId":"everyone",
-				"privilege@jcr:read":"granted"
-			}
-		});
-	};
-	
-	//document.location = "/" + siteid;
 
 	////////////////////
 	// Event Handlers //

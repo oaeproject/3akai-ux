@@ -28,17 +28,7 @@ sakai.site_basic_settings = function(){
     var siteid = ""; //The siteid for the site we are editing.
     var siteinfo = {}; // The json object with all the info for this site.
     var editloc = false;
-    
-    ///////////
-    // ACL's //
-    ///////////
-    
-    // These are the different Access Control Lists for each status of a site.
-    var aclOffline = ["k:*,s:OW,g:1,p:1", "k:*,s:AU,g:0,p:1", "k:*,s:AN,g:0,p:1"];
-    var aclOnlinePublic = ['foo'];
-    var aclOnlineSakaiUsers = ["k:*,s:OW,g:1,p:1", "k:*,s:AU,g:1,p:1", "k:*,s:AN,g:0,p:1"];
-    var aclOnlineInvite = ["k:*,s:OW,g:1,p:1", "k:*,s:GR:Viewer:maintain,g:1,p:1", "k:*,s:GR:Collaborater:maintain,g:1,p:1", "k:*,s:GR:owner:maintain,g:1,p:1", "k:*,s:AU,g:0,p:1", "k:*,s:AN,g:0,p:1"];
-    
+        
     /////////////
     // CSS IDs //
     /////////////
@@ -152,15 +142,7 @@ sakai.site_basic_settings = function(){
                 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                var isMaintainer = false;
-                for (var i = 0; i < sdata.me.user.subjects.length; i++) {
-                    if (sdata.me.user.subjects[i] === "g-" + siteid + "-collaborators") {
-                        isMaintainer = true;
-                        break;
-                    }
-                }
-                
-                if (isMaintainer) {
+                if (sakai.lib.site.authz.isUserMaintainer(siteid, sdata.me.user.subjects)) {
                     // Fill in the info.
                     $("#sitetitle").text(json.name);
                     $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
@@ -279,98 +261,18 @@ sakai.site_basic_settings = function(){
         }
         return ok;
     };
-    
+	    
     /**
      * This will set the permissions for this site.
-     * @param {String} location The JCR location for this site.
      * @param {String} status The status for this site. (online or offline)
      * @param {String} access Who gets access to the site (public, sakaiUsers, invite)
      */
-    var setStatusForSite = function(location, status, access){
-        // Get the correct ACL for this site
-        var acl = "";
-        if (status === "offline") {
-            // Only the owner gets access.
-            acl = "offline";
-        }
-        else {
-            if (access === 'everyone') {
-                acl = "everyone";
-            }
-            else 
-                if (access.toLowerCase() === 'sakaiusers') {
-                    acl = "sakaiusers";
-                }
-                else 
-                    if (access === 'invite') {
-                        acl = "invite";
-                    }
-        }
-        
-        var viewers = "g-" + siteid + "-viewers";
-        var registered = "registered";
-        var everyone = "everyone";
-        
-        var actions = [];
-        
-        if (acl == "offline") {
-            actions.push([viewers, "denied"]);
-            actions.push([everyone, "denied"]);
-            //setACL(viewers, "denied");
-            //setACL(registered, "denied");
-            //setACL(everyone, "denied");
-        }
-        else 
-            if (acl === "everyone") {
-                actions.push([viewers, "granted"]);
-                actions.push([everyone, "granted"]);
-            //setACL(viewers, "granted");
-            //setACL(registered, "granted");
-            //setACL(everyone, "granted");
-            }
-            else 
-                if (acl === "sakaiusers") {
-                    actions.push([viewers, "granted"]);
-                    actions.push([everyone, "denied"]);
-                //setACL(viewers, "granted");
-                //setACL(registered, "granted");
-                //setACL(everyone, "denied");
-                }
-                else 
-                    if (acl === "invite") {
-                        actions.push([viewers, "granted"]);
-                        actions.push([everyone, "denied"]);
-                    //setACL(viewers, "granted");
-                    //setACL(registered, "denied");
-                    //setACL(everyone, "denied");
-                    }
-        
-        setACL(actions);
+    var setStatusForSite = function(status, access){
+        var actions = sakai.lib.site.authz.getAccessActions(siteid, status, access);
+		if (actions) {
+			sakai.lib.batchPosts(actions);
+		}
         saveSettingsDone(true);
-        
-    };
-    
-    var setACL = function(actions){
-        if (actions.length > 0) {
-            var group = actions[0][0];
-            var toSet = actions[0][1];
-            $.ajax({
-                url: "/sites/" + siteid + ".modifyAce.json",
-                type: "POST",
-                success: function(data){
-                    actions.splice(0, 1);
-                    setACL(actions);
-                },
-                error: function(status){
-                    actions.splice(0, 1);
-                    setACL(actions);
-                },
-                data: {
-                    "principalId": group,
-                    "privilege@jcr:read": toSet
-                }
-            });
-        }
     };
     
     /**
@@ -423,7 +325,7 @@ sakai.site_basic_settings = function(){
                 data: tosend,
                 success: function(data){
                     // If we changed the location for this site, we have to move the folder.
-                    setStatusForSite(loc, status, access);
+                    setStatusForSite(status, access);
                 },
                 error: function(data){
                     saveSettingsDone(false, data);
@@ -437,84 +339,39 @@ sakai.site_basic_settings = function(){
     ////////////
     
     /**
-     * This will delete the site.
+     * This will (probably fail to) delete the site.
      * There are a couple of things we have to do before we delete the site.
-     *  - Get all the members for this site
-     *  - Remove them from it, so they dont see a link in there my_sakai panel.
-     *  - Remove the site out of JCR.
+     *  - Remove the site from JCR.
+     *  - Remove all members from all site role groups? But since we don't yet
+     *    have the membership list, we need to fetch that first (and hope no
+     *    other members get added). We also need to be able to delete
+     *    site groups even after our own membership is deleted....
+     *  - Delete the site role groups.
+     * TODO This should be an atomic server-side operation to prevent data corruption
+     * and to support role-based maintenance rights. See KERN-296 and SLING-1237.
+     * For now, I'll just consolidate this non-functioning code as a placeholder.
      */
     var deleteThisSite = function(){
-    
-        var collabs = "g-" + siteid + "-collaborators";
-        // Delete collaborator group
-        
-        $.ajax({
-            type: "DELETE",
-            url: "/sites/" + siteid,
-            success: function(data){
-                $.ajax({
-                    type: "POST",
-                    url: "/system/userManager/group/g-" + siteid + "-collaborators.delete.html",
-                    success: function(data){
-                        alert("Your site has been successfully deleted");
-                        document.location = Config.URL.MY_DASHBOARD;
-                    },
-                    error: function(data){
-                        alert("Failed to delete site.");
-                    }
-                });
-                
-            },
-            error: function(data){
-                alert("Failed to delete collaborators.");
-            },
-            data: {
-                ":applyTo": collabs
-            }
-        });
-        
-        /*
-         $.ajax({
-         type: "DELETE",
-         url: "/sites/" + siteid,
-         success: function(data){
-         
-         
-         var collabs = "g-" + siteid + "-collaborators";
-         // Delete collaborator group
-         $.ajax({
-         type: "POST",
-         url: "/system/userManager/group/g-" + siteid + "-collaborators.delete.html",
-         success: function(data){
-         
-         alert("Your site has been successfully deleted");
-         document.location = Config.URL.MY_DASHBOARD;
-         
-         },
-         error: function(data){
-         alert("Failed to delete collaborators.");
-         },
-         data: {
-         ":applyTo": collabs
-         }
-         });
-         // Delete viewer group
-         $.ajax({
-         type: "POST",
-         url: "/system/userManager/group/g-" + siteid + "-viewers.delete.html",
-         success: function(data) {
-         
-         },
-         error: function(data) {
-         alert("Failed to delete viewers.");
-         }
-         });
-         },
-         error: function(data){
-         alert("Failed to delete site.");
-         }
-         });
-         */
+		var actions = [];
+		actions.push({
+			url: "/sites/" + siteid,
+			data: {":operation" : "delete"}
+		});
+		var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteid);
+		var role, group;
+		for (role in roleToGroup) {
+			if (roleToGroup.hasOwnProperty(role)) {
+				group = roleToGroup[role];
+				actions.push({
+					url: "/system/userManager/group/" + group + ".delete.html"
+				});
+			}
+		}
+		var success = function(data){
+			alert("Your site has been successfully deleted");
+			document.location = Config.URL.MY_DASHBOARD;
+		};
+		sakai.lib.batchPosts(actions, success);
     };
     
     
