@@ -642,7 +642,7 @@ sakai.inbox = function() {
                 }
                 
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
                 $(inboxResults).html($(inboxGeneralMessagesErrorGeneral).text());
             }
@@ -679,7 +679,7 @@ sakai.inbox = function() {
 				updateUnreadNumbers();
 				
             },
-            error: function(data) {
+            error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
             }
         });
@@ -776,7 +776,7 @@ sakai.inbox = function() {
                     }
                 //}
             },
-            error: function(data) {
+            error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
             }
         });
@@ -835,7 +835,7 @@ sakai.inbox = function() {
 				updateUnreadNumbers();
 				
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorReadFail).text(), true);
             },
             data: postParameters
@@ -992,7 +992,7 @@ sakai.inbox = function() {
 			success: function(data) {
 				sendMessageFinished();
 			},
-			error: function(status) {
+			error: function(xhr, textStatus, thrownError) {
 				showGeneralMessage($(inboxGeneralMessagesSendFailed).text(), true);
 			},
 			data: toSend
@@ -1053,7 +1053,7 @@ sakai.inbox = function() {
             success: function(data) {
 				deleteMessagesFinished(pathToMessages, true);
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                deleteMessagesFinished(pathToMessages, false);
             },
 			data : {
@@ -1113,7 +1113,7 @@ sakai.inbox = function() {
 							deleteMessagesFinished(pathToMessages, true);
 						}
 					},
-					error: function(status){
+					error: function(xhr, textStatus, thrownError) {
 						deleted++;
 						if (deleted === toDelete) {
 							deleteMessagesFinished(pathToMessages, false);

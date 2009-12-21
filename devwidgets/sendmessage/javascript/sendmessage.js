@@ -185,7 +185,7 @@ if (!sakai.sendmessage){
 	                   }
 	                
 	            },
-	            error: function(status){
+	            error: function(xhr, textStatus, thrownError) {
 					showGeneralMessage(messageDone, $(messageErrorFriends).text(), true,0);
 	            }
 	        });
@@ -404,7 +404,7 @@ if (!sakai.sendmessage){
 								showMessageSent(true);
 							}
 						},
-						error: function(status) {
+						error: function(xhr, textStatus, thrownError) {
 							sent++;
 							if (sent === tosend){
 								showMessageSent(false);

@@ -152,7 +152,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
                 //	Close this widget.
                 sdata.container.informFinish(tuid);
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 //	Something went wrong trying to save the selected item.
                 alert("Something went wrong trying to save the selected item.");
             },
@@ -251,7 +251,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
                     sdata.files.getFiles(userSelection.parentFolder, displayItems);
                 }
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 // This is the first time this widget gets ran, so there are no settings yet.
                 if (showSettings) {
                     sdata.files.getFiles(siteFiles, displayItems);

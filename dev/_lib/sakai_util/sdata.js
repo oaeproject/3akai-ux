@@ -122,11 +122,11 @@ if(!Array.indexOf){
 		
 		// Call original error handler, but not in the case of 409 as we want that to be transparent for users
 		if ((s.error) && (requestStatus !== 409)) {
-		  s.error(requestStatus, status, e);
+		  s.error(xhr, status, e);
 		}
 
 		if (s.global) {
-		  jQuery.event.trigger("ajaxError", [xhr, s, e]);
+		  jQuery.event.trigger("ajaxError", [xhr, status, e]);
 		}
 	      }
 		
@@ -822,7 +822,7 @@ sdata.widgets.WidgetPreference =  {
 		sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
 		
 	      },
-	      error: function() {
+	      error: function(xhr, textStatus, thrownError) {
 		alert("Could not load default language bundle for widget: " + widgetname);
 	      }
 	    });
@@ -841,7 +841,7 @@ sdata.widgets.WidgetPreference =  {
 		sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
 		
 	      },
-	      error: function() {
+	      error: function(xhr, textStatus, thrownError) {
 		alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
 	      }
 	    });
@@ -1059,8 +1059,8 @@ sdata.files = {
                 });
 				callback(json, true);
             },
-            error: function(status){
-				callback(status, false);
+            error: function(xhr, textStatus, thrownError) {
+	      callback(xhr.status, false);
             }
         });
 	},
@@ -1089,8 +1089,8 @@ sdata.files = {
                 var json = $.evalJSON(data);
 				callback(json, true);
             },
-            error: function(status){
-				callback(status, false);
+            error: function(xhr, textStatus, thrownError) {
+		callback(xhr.status, false);
             }
         });
 	},

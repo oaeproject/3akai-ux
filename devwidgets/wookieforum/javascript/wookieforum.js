@@ -253,7 +253,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 				}
 				
 			},
-			error: function(data) {
+			error: function(xhr, textStatus, thrownError) {
 				$(settingsCreate).hide();
 				$(settingsAdd).show();
 			}

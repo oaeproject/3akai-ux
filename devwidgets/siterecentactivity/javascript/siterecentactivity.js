@@ -46,7 +46,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
 			success: function(data){
 				sakai.siterecentactivity.recentactivity = $.evalJSON(data);
 			},
-			error: function(){
+			error: function(xhr, textStatus, thrownError) {
 				sakai.siterecentactivity.recentactivity = {
 					items: []
 				};

@@ -230,7 +230,7 @@ sakai.tlrp = function(tuid, placement, showSettings) {
                 }
                 return true;
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to retrieve a file.");
             }
         });
@@ -559,7 +559,7 @@ sakai.tlrp = function(tuid, placement, showSettings) {
 					jsonData = $.evalJSON(data);
                     loadSettings(true);
                 },
-                error: function(status) {
+                error: function(xhr, textStatus, thrownError) {
                     loadSettings(false);
                 }
             });
@@ -572,7 +572,7 @@ sakai.tlrp = function(tuid, placement, showSettings) {
 					jsonData = $.evalJSON(data);
                     loadOutput();
                 },
-                error: function(status) {
+                error: function(xhr, textStatus, thrownError) {
                     alert("Problem while retrieving tlrp-widget settings.");
                 }
             });

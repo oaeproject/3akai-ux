@@ -401,7 +401,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 			 	var jsonTemp = $.evalJSON(data);
 				addUserResultToResults(jsonTemp);
 		    },
-		    error: function(status) {
+		    error: function(xhr, textStatus, thrownError) {
 		        json = {};
 		    }
 		});
@@ -1745,8 +1745,8 @@ sakai.quiz = function(tuid, placement, showSettings) {
                 json = $.evalJSON(data);
                 loadQuizSettings(true, json);
             },
-            error: function(status) {
-                loadQuizSettings(false, status);
+            error: function(xhr, textStatus, thrownError) {
+                loadQuizSettings(false, xhr.status);
             }
         });
 		// existing quizes request
@@ -1758,8 +1758,8 @@ sakai.quiz = function(tuid, placement, showSettings) {
                 quizes = $.evalJSON(data);
                 loadExistingQuizes(true, quizes);
             },
-            error: function(status) {
-                loadExistingQuizes(false, status);
+            error: function(xhr, textStatus, thrownError) {
+                loadExistingQuizes(false, xhr.status);
             }
         });
 	    } else {
@@ -1776,7 +1776,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
 					// show the start quiz screen
 	                showQuestions();
 	            },
-	            error: function(status) {
+	            error: function(xhr, textStatus, thrownError) {
 	                alert("Could not receive quiz data.");
 	            }
 	        });

@@ -153,7 +153,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 				//	$(addToContactsResponse).text($(addToContactsErrorMessage).text());
 				//}
 			},
-			error: function(status) {
+			error: function(xhr, textStatus, thrownError) {
+				
 			},
 			data: toSend
 		});
@@ -214,7 +215,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 				success: function(data) {
 					sendMessage(userid, message, title);
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					$(addToContactsResponse).text($(addToContactsErrorRequest).text());
 				},
 				data: toSend

@@ -295,7 +295,7 @@ sakai.search = function() {
 				success: function(data) {
 					renderCM($.evalJSON(data));
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					renderCM({});
 				}
 			});
@@ -308,7 +308,7 @@ sakai.search = function() {
 				success: function(data) {
 					renderPeople($.evalJSON(data));
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					renderPeople({});
 				}
 			});
@@ -321,7 +321,7 @@ sakai.search = function() {
 					var foundSites = $.evalJSON(data);
 					renderSites(foundSites);
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					renderSites({});
 				}
 			});

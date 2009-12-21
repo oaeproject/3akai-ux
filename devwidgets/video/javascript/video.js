@@ -383,8 +383,8 @@ sakai.video = function(tuid, placement, showSettings) {
             success: function(data) {
                 showSettingsScreen(data, true);
             },
-            error: function(status) {
-                showSettingsScreen(status, false);
+            error: function(xhr, textStatus, thrownError) {
+                showSettingsScreen(xhr.status, false);
             }
         });
 
@@ -398,8 +398,8 @@ sakai.video = function(tuid, placement, showSettings) {
             success: function(data) {
                 showVideos(data, true);
             },
-            error: function(status) {
-                showVideos(status, false);
+            error: function(xhr, textStatus, thrownError) {
+                showVideos(xhr.status, false);
             }
         });
     }

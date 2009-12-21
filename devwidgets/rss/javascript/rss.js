@@ -505,7 +505,7 @@ sakai.rss = function(tuid, placement, showSettings){
 					resultJSON = $.evalJSON(data);
 					loadSettings(true);
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					loadSettings(false);
 				}
 			});
@@ -523,7 +523,7 @@ sakai.rss = function(tuid, placement, showSettings){
 					resultJSON.feeds = [];
 					fillRssOutput();
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					$("#rss_no_feeds").show();
 					
 				}

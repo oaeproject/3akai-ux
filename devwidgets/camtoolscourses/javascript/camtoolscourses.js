@@ -161,7 +161,7 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 				favouritefeed =  eval('(' + data + ')');
 				splitGlobalFeed();
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				splitGlobalFeed();
 			},
 			cache: false
@@ -180,7 +180,7 @@ sakai.camtoolscourses = function(tuid, placement, showSettings){
 				globalfeed = $.evalJSON(data);
 				getFavouriteCoursesAndProjects();
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				fluid.log("Camtoolscourses: Could not receive the courses and projects from the server.");
 			},
 			cache: false

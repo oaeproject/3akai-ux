@@ -349,7 +349,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
 					displayRemoteContent(parameters); // Show the frame
 				}
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				// When the request isn't successful, it means that  there was no existing remotecontent
 				// so we show the basic settings.
 				displaySettings(null, false);

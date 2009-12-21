@@ -683,7 +683,7 @@ sakai.profile = function(){
 			$.ajax({
 				url: "/_user/message.create.html",
 				type: "POST",
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured whilst sending the messages");
 				},
 				data: toSend
@@ -767,7 +767,7 @@ sakai.profile = function(){
 					$("#accept_invitation_button").show();
 				}
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				//alert("An error has occured");	
 			}
 		});
@@ -822,7 +822,7 @@ sakai.profile = function(){
 								$('#add_to_contacts_dialog').jqmHide();
 								$("#add_to_contacts_button").hide();
 							},
-							error: function(status){
+							error: function(xhr, textStatus, thrownError) {
 								alert("An error has occured whilst sending the messages");
 							},
 							data: toSend
@@ -831,7 +831,7 @@ sakai.profile = function(){
 					
 					
 				},
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured");
 				},
 				data: data

@@ -309,7 +309,7 @@ sakai.filepicker = function(tuid, placement, showSettings){
                     sdata.container.informFinish(tuid);
                 }
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 //	Something went wrong trying to save the selected item.
                 alert("Something went wrong trying to save the selected items.");
             },
@@ -367,7 +367,7 @@ sakai.filepicker = function(tuid, placement, showSettings){
                 }
                 
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 // This is the first time this widget gets ran, so there are no settings yet.
                 if (showSettings) {
                     sdata.files.getFiles(siteFiles, displayItems);

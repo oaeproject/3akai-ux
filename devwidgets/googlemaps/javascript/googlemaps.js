@@ -149,7 +149,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 				// Set the initial value of search keyword input textbox
 				$("#googlemaps_input_text_location", rootel).val(json.maps[0].mapinput);
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
 
 				// Show the search input textfield and save, search, cancel buttons
 				$("#googlemaps_form_search", rootel).show();

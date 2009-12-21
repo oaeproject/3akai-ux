@@ -275,7 +275,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 						showDroppedMessage(movedFiles, showDroppedMessageIn);
 					}
 				},
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured");
 				}
 			});
@@ -330,7 +330,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 							// If the post was successful, we redo the search
 							doFileSearch(options);
 						},
-						error: function(status){
+						error: function(xhr, textStatus, thrownError) {
 							alert("An error has occured");
 						}
 					});*/
@@ -443,7 +443,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 			success: function(data){
 				doFileRender($.evalJSON(data));
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -932,7 +932,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 				// If the post was successful, we redo the search
 				doFileSearch(options);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has while deleting the files occured");
 			}
 		});
@@ -948,7 +948,7 @@ sakai.filemanager = function(tuid, placement, showSettings){
 				success: function(data){
 					alert(data);
 				},
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured");
 				}
 			});

@@ -297,7 +297,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 					callback();
 				}
 			},
-			error:function(data) {
+			error: function(xhr, textStatus, thrownError) {
 				$(settingsTagLoader).hide();
 			}
 		});
@@ -386,9 +386,9 @@ sakai.blog = function(tuid, placement, showSettings) {
 					//	There are some posts in here. Pass them along.
 					savePostToJCR(sSiteId, data, true, json, callback);				
 				},
-				error: function(data){
+				error: function(xhr, textStatus, thrownError) {
 					//	This is the first post.
-					savePostToJCR(sSiteId, data, false, json, callback);
+					savePostToJCR(sSiteId, xhr.status, false, json, callback);
 				}
 			});
 		}
@@ -925,7 +925,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 					var json = $.evalJSON(data);
 					showPosts(json, true);	
 				},
-				error: function(data) {
+				error: function(xhr, textStatus, thrownError) {
 					//	Show empty page.
 					var json = {'posts' : []};
 					$(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
@@ -1087,7 +1087,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 						callback();
 					}
 				},
-				error: function(data) {
+				error: function(xhr, textStatus, thrownError) {
 					getAllTags();
 				}
 		});

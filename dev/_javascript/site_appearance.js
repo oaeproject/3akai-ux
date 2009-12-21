@@ -311,7 +311,7 @@ sakai.site_appearance = function() {
 					redirectToSitePage();
 				}	  
 			},
-			error: function(status) {
+			error: function(xhr, textStatus, thrownError) {
 				
 				// If we don't find or we are not able to get information about the current site id,
 				// we redirect the user to the gateway url.

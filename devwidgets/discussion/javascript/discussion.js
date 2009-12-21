@@ -285,7 +285,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
 					editComplete(id, subject, body);
 				}
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("Failed to edit this post.");
 			},
 			data: post,
@@ -581,8 +581,8 @@ sakai.discussion = function(tuid, placement, showSettings) {
             success: function(data) {
                 showPosts(data, true);
             },
-            error: function(status) {
-                showPosts(status, false);
+            error: function(xhr, textStatus, thrownError) {
+                showPosts(xhr.status, false);
             }
         });
     };
@@ -614,7 +614,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
                     callback();
                 }
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to save the settings.");
             },
             type: 'POST',
@@ -636,7 +636,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
                 saveWidgetSettings();
                 sdata.container.informFinish(tuid);
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 alert("Unable to save your post.");
             },
             data: post
@@ -685,8 +685,8 @@ sakai.discussion = function(tuid, placement, showSettings) {
                     clearReplyFields();
                     getPostsFromJCR();
                 },
-                error: function(status) {
-                    if (status === 401) {
+                error: function(xhr, textStatus, thrownError) {
+                    if (xhr.status === 401) {
                         clearReplyFields();
                         alert("You are not allowed to add a reply.");
                     }
@@ -742,7 +742,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
             success: function() {
                 getPostsFromJCR();
             },
-            error: function() {
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to delete this post.");
             },
             data: data
@@ -894,7 +894,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
 					$(discussionNoDiscussions, rootel).show();
 				}
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				// No discussions available.
 				$(discussionNoDiscussions, rootel).show();
 			}
@@ -987,7 +987,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
                     getPostsFromJCR();
                 }
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 // We don't have settings for this widget yet.
                 if (showSettings) {
                     displaySettings();
@@ -1034,7 +1034,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
 					getPostsFromJCR();
 				}
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				// We don't have settings for this widget yet.
 				if (showSettings) {
 					displaySettings();

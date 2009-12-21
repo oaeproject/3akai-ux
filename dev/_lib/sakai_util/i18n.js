@@ -111,7 +111,7 @@ $(document).ready(function(){
 					sdata.i18n.localBundle = $.evalJSON(data);
 					doI18N(sdata.i18n.localBundle, sdata.i18n.defaultBundle);
 				},
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					// There is no language file for the language chosen by the user. We'll switch to using the
 					// default bundle only
 					doI18N(null, sdata.i18n.defaultBundle);

@@ -390,7 +390,7 @@ sakai.site.site_admin = function(){
 				setTimeout('sakai.site.setIframeHeight("elm1_ifr")',0);
 				
 			},
-			error: function(data){	
+			error: function(xhr, textStatus, thrownError) {	
 				sakai.site.timeoutid = setInterval(sakai.site.doAutosave, sakai.site.autosaveinterval);
 			}
 		});	
@@ -822,7 +822,7 @@ sakai.site.site_admin = function(){
 						}, null, "text/plain");	
 				
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				
 					// Render the new page under the new URL
 					
@@ -1974,7 +1974,7 @@ sakai.site.site_admin = function(){
 				// Refresh site_info object
 				sakai.site.refreshSiteInfo(pageid);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("Could not create this dashboard page.");
 			}
 		});
@@ -2448,7 +2448,7 @@ sakai.site.site_admin = function(){
 							});
 							
 						},
-						error: function(data){
+						error: function(xhr, textStatus, thrownError) {
 							
 							// Rewrite configuration file	
 							var parentEl = $(".root");
@@ -2741,7 +2741,7 @@ sakai.site.site_admin = function(){
 				document.location = "/sites/" + sakai.site.currentsite.id;
 				
 			},
-			error: function(data){	
+			error: function(xhr, textStatus, thrownError) {	
 				
 				delete sakai.site.site_info._pages[sakai.site.selectedpage];
 				document.location = "/sites/" + sakai.site.currentsite.id;

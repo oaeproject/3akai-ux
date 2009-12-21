@@ -214,7 +214,7 @@ sakai.newaccount = function(){
 				$(buttonsContainer).hide();
 				$(successMessage).show();
 			},
-			error: function(data){
+		error: function(xhr, textStatus, thrownError) {
 				resetErrorFields();
 			}
 		});
@@ -230,7 +230,7 @@ sakai.newaccount = function(){
 	 */
 	var checkAllFieldsForEmpty = function(fields){
 		var totalEmpty = 0;
-		for (var i = 0; i < fields.length; i++){
+		for (var i = 0, j = fields.length; i < j; i++){
 			if (checkEmpty(fields[i].id)){
 				totalEmpty++;
 				setError(fields[i].id,fields[i].error,true);	

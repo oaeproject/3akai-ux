@@ -36,7 +36,7 @@ sakai.logout = function(){
 		success: function(data){
 			window.location = Config.URL.GATEWAY_URL;
 		},
-		error: function(status){
+		error: function(xhr, textStatus, thrownError) {
 			window.location = Config.URL.GATEWAY_URL;
 		},
 		data: {"sakaiauth:logout":"1"}

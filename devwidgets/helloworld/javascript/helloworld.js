@@ -109,7 +109,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
 			success: function(data){
 				callback(data);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				callback(defaultColor);
 			}
 		});

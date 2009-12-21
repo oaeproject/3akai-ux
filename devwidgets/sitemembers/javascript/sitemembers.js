@@ -484,8 +484,8 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                 }
                 loader(false);
             },
-            error: function(status){
-                if (status === 500) {
+            error: function(xhr, textStatus, thrownError) {
+                if (xhr.status === 500) {
                     gotAllMembers = true;
                     displayMore(false);
                     loader(false);
@@ -508,7 +508,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                     getSiteMembers();
                 }
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 alert("An error occured");
             }
         });
@@ -569,7 +569,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                     doPageView();
                 }
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 widgetSettings.data = [];
                 widgetSettings.display = "compact";
                 widgetSettings.sort = "lastname";
@@ -637,7 +637,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             success: function(data){
                 closeSettings();
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to save settings");
             },
             data: toSend

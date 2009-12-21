@@ -225,7 +225,7 @@ sakai.accountPreferences =function(){
 				languages = $.evalJSON(data);	
 				putLangsinCmb(languages);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("Failed to retrieve the language list.");
 			}
 		});

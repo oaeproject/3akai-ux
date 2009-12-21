@@ -123,7 +123,7 @@ sakai.site_basic_settings = function(){
                 languages = $.evalJSON(data);
                 putLangsinCmb(languages, json);
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to retrieve languages.");
             }
         });
@@ -180,7 +180,7 @@ sakai.site_basic_settings = function(){
                     //document.location = Config.URL.SITE_URL_SITEID.replace(/__SITEID__/gi, siteid);
                 }
             },
-            error: function(status){
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
             }
         });
@@ -327,8 +327,8 @@ sakai.site_basic_settings = function(){
                     // If we changed the location for this site, we have to move the folder.
                     setStatusForSite(status, access);
                 },
-                error: function(data){
-                    saveSettingsDone(false, data);
+                error: function(xhr, textStatus, thrownError) {
+                    saveSettingsDone(false, xhr.status);
                 }
             });
         }

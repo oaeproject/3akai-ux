@@ -226,9 +226,9 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 					//	There are some posts in here. Pass them along.
 					savePostToJCR(sSiteId, data, true, json, callback);				
 				},
-				error: function(data){
+				error: function(xhr, textStatus, thrownError) {
 					//	This is the first post.
-					savePostToJCR(sSiteId, data, false, json, callback);
+					savePostToJCR(sSiteId, xhr.status, false, json, callback);
 				}
 			});
 		}
@@ -328,7 +328,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 			success: function(data){
 				loadSiteList(data);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				showGeneralMessage("Failed to retrieve the sites.", true);
 			}
 		});

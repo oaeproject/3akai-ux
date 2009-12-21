@@ -69,7 +69,7 @@ sakai.site_manage_members = function() {
                 var json = $.evalJSON(response);
 				$("#sitetitle").text(json.name);
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
             }
         });
@@ -263,7 +263,7 @@ sakai.site_manage_members = function() {
 				 renderMembers(json,true);
 				
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 json = {};
                 renderMembers(json,true);
             }

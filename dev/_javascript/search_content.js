@@ -271,7 +271,7 @@ sakai.search = function() {
 					var json = $.evalJSON(data);
 					renderResults(json, true);
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					var json = {};
 					renderResults(json, false);
 				}

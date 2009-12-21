@@ -328,7 +328,7 @@ sakai.contentmedia = function(){
 						
 					}
 				},
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					alert("An error has occured");
 				}
 			});
@@ -517,7 +517,7 @@ sakai.contentmedia = function(){
 			success: function(data){
 				doFileRender($.evalJSON(data));
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -1105,7 +1105,7 @@ sakai.contentmedia = function(){
 				// If the post was successful, we redo the search
 				doFileSearch(options);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has while deleting the files occured");
 			}
 		});
@@ -1334,7 +1334,7 @@ sakai.contentmedia = function(){
 				parseTreeData($.evalJSON(data));
 				//doFileRender($.evalJSON(data));
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -1398,7 +1398,7 @@ sakai.contentmedia = function(){
 					// Fetch the initial list of files
 					doFileSearch(options);
 				},
-				error: function(status){
+				error: function(xhr, textStatus, thrownError) {
 					//alert("An error has occured");
 				}
 			});

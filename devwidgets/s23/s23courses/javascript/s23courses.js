@@ -135,7 +135,7 @@ sakai.s23courses = function(tuid, placement, showSettings){
 			success: function(data){
 				globalfeed = $.evalJSON(data);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				fluid.log("s23courses: Could not receive the courses and projects from the server.");
 			},
 			complete: function(){

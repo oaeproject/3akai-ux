@@ -403,7 +403,7 @@ sakai.profile = function(){
 					url: fileUrl,
 					type: "POST",
 					data: tosend,
-					error: function(data){
+					error: function(xhr, textStatus, thrownError) {
 						alert("An error has occured while posting to " + fileUrl);
 					}
 				});
@@ -459,7 +459,7 @@ sakai.profile = function(){
 					url: fileUrl,
 					type: "POST",
 					data: tosend,
-					error: function(data){
+					error: function(xhr, textStatus, thrownError) {
 						alert("An error has occured while posting to " + fileUrl);
 					}
 				});

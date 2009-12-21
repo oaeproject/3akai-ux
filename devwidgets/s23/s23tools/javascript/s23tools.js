@@ -73,8 +73,8 @@ sakai.s23tools = function(tuid,placement,showSettings){
 			success: function(data){
 				doRender($.evalJSON(data));
 			},
-			error: function(status){
-				doRender(status);
+			error: function(xhr, textStatus, thrownError) {
+				doRender(xhr.status);
 			}
 		});
 	};

@@ -141,7 +141,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
 				// Process the friends: username, picture, ...
 				doProcessing(friends);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				
 				// Show the contact error
 				$(myfriendsErrorContactserver, rootel).show();

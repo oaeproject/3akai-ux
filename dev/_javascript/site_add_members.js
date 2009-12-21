@@ -66,7 +66,7 @@ sakai.site_add_members = function() {
                 var json = $.evalJSON(response);
 				$("#sitetitle").text(json.name);
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
             }
         });
@@ -239,7 +239,7 @@ sakai.site_add_members = function() {
 					searchPeople(searchterm, parseInt(pageclickednumber, 10), splitChar);
 				} });
             },
-            error: function(status) {
+            error: function(xhr, textStatus, thrownError) {
                 json.foundPeople = {};
                 renderPeople(json.foundPeople);
             }
@@ -354,7 +354,7 @@ sakai.site_add_members = function() {
 							updateSiteMembers(dataTemp);
 							selectNone();
 					},
-					error: function(status){
+					error: function(xhr, textStatus, thrownError) {
 						alert("Failed to add these members.");
 					},
 					data: {

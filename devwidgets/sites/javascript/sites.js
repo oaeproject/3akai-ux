@@ -118,7 +118,7 @@ sakai.sites = function(tuid,placement,showSettings){
 			success: function(data){
 				loadSiteList(data, true);
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				loadSiteList("", false);
 			}
 		});

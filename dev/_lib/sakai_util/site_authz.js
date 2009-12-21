@@ -219,13 +219,11 @@ sakai.lib.batchPosts = function(actions, success, error) {
 				}
             },
             // error: error,
-            error: function(request) {
+            error: function(xhr, textStatus, thrownError) {
             	if (error) {
-            		error(request);
+            		error(xhr,textStatus,thrownError);
             	} else {
-            		// See SAKIII-92.
-            		// alert("An error has occurred: " + request.status + " " + request.statusText);
-            		alert("An error has occurred: " + request);
+            		alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
             	}
             },
             data: action.data

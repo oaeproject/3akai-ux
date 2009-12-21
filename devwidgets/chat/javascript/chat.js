@@ -413,7 +413,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 				$(topNavigationMySitesList).html($.Template.render(topNavigationMySitesListTemplate, json));
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});
@@ -572,13 +572,13 @@ sakai.chat = function(tuid, placement, showSettings){
 							}
 							renderRecentSites(json);
 						},
-						error: function(data){
+						error: function(xhr, textStatus, thrownError) {
 							renderRecentSites(json);
 						}
 					});
 					
 				},
-				error: function(data){
+				error: function(xhr, textStatus, thrownError) {
 					renderRecentSites(json);
 				}
 			});
@@ -662,7 +662,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				$(peopleDropDownMyContactsList).html($.Template.render(peopleDropDownMyContactsListTemplate, pOnline));
 				
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occurred. /n Please try again later");
 			}
 		});
@@ -1206,7 +1206,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 				updateChatStatus();
 			},
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				currentChatStatus = "online";
 				updateChatStatus();
 			}
@@ -1428,7 +1428,7 @@ sakai.chat = function(tuid, placement, showSettings){
 						success: function(data) {
 							
 						},
-						error: function(status) {
+						error: function(xhr, textStatus, thrownError) {
 							alert("An error has occured when sending the message.");
 						},
 						data: data
@@ -1630,7 +1630,7 @@ sakai.chat = function(tuid, placement, showSettings){
 											type: "POST",
 											url: Config.URL.MESSAGES_GET_SERVICE.replace(/__ID__/, njson[i].messages[j].id),
 											success: function(userdata) {},
-											error: function(status) {
+											error: function(xhr, textStatus, thrownError) {
 												alert("An error has occured");
 											},
 											data: postParameters
@@ -1732,7 +1732,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 			},
 			
-			error: function(status){
+			error: function(xhr, textStatus, thrownError) {
 				
 				//if (doreload) {
 				// setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);

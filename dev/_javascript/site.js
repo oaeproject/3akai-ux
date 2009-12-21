@@ -215,7 +215,8 @@ sakai.site = function(){
 				// Save current site to Recent Sites
 				saveToRecentSites(response);
 			},
-			error: function(httpstatus){
+			error: function(xhr, textStatus, thrownError) {
+				var httpstatus = xhr.status;
 				if (httpstatus === 401) {
 					document.location = Config.URL.GATEWAY_URL;
 				}
@@ -305,7 +306,7 @@ sakai.site = function(){
 			if (adjusted) {
 				// We had to do some manipulation, save the content.
 				sdata.widgets.WidgetPreference.save(url.replace("/content", ""), "content", $el.html(), null);
-				for (var i = 0; i < moveWidgets.length;i++) {
+				for (var i = 0, j = moveWidgets.length; i < j; i++) {
 					// Move all the widgets.
 					var url = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].from;
 					var dest = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].to;
@@ -321,8 +322,8 @@ sakai.site = function(){
 						success: function(response) {
 							console.log(response);
 						},
-						error: function(status) {
-							console.log("Failed to move a widget: " + status);
+						error: function(xhr, textStatus, thrownError) {
+							alert("Failed to move a widget: " + xhr.status);
 						}
 					});
 				}
@@ -346,7 +347,8 @@ sakai.site = function(){
 				sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
 				History.history_change();
 			},
-			error: function(httpstatus){
+			error: function(xhr, textStatus, thrownError) {
+				var httpstatus = xhr.status;
 				History.history_change();
 				if (httpstatus === 401) {
 					document.location = Config.URL.GATEWAY_URL;
@@ -434,7 +436,8 @@ sakai.site = function(){
 				}
 				
 			},
-			error: function(httpstatus) {
+			error: function(xhr, textStatus, thrownError) {
+				var httpstatus = xhr.status;
 				sakai.site.site_info = {};
 				if (httpstatus === 401) {
 					document.location = Config.URL.GATEWAY_URL;
@@ -616,8 +619,8 @@ sakai.site = function(){
 						success: function(data){
 							displayDashboard(data, true);
 						},
-						error: function(status){
-							displayDashboard(status, false);
+						error: function(xhr, textStatus, thrownError) {
+							displayDashboard(xhr.status, false);
 						}
 					});
 					break;
@@ -632,8 +635,8 @@ sakai.site = function(){
 							response = sakai.site.ensureProperWidgetIDs(response, sakai.site.urls.WEBPAGE_CONTENT());
 							displayPage(response, true);
 						},
-						error: function(httpstatus){
-							displayPage(httpstatus, false);
+						error: function(xhr, textStatus, thrownError) {
+							displayPage(xhr.status, false);
 						}
 					});
 					break;
@@ -863,7 +866,7 @@ sakai.site = function(){
 				$.ajax({
 					url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage + "/content.save.html",
 					type: 'POST',
-					error: function(){
+					error: function(xhr, textStatus, thrownError) {
 						alert("Connection with the server was lost.");
 					}
 				});

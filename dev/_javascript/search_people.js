@@ -322,7 +322,7 @@ sakai.search = function() {
 					results = json;
 					renderResults(json, true);
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					var json = {};
 					results = json;
 					renderResults(json, false);
@@ -361,7 +361,7 @@ sakai.search = function() {
 				finaljson = mainSearch.preparePeopleForRender(json.results, finaljson);
 				sakai.createsite.initialise(finaljson);
 			},
-			error: function(status) {
+			error: function(xhr, textStatus, thrownError) {
 				alert("An error has occured");
 			}
 		});

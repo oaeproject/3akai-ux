@@ -835,8 +835,8 @@ sakai.poll = function(tuid, placement, showSettings){
 					$(pollInsertExisting, rootel).hide();
 				}
 			},
-			error: function(status){
-				parseAllPoll(status, false);
+			error: function(xhr, textStatus, thrownError) {
+				parseAllPoll(xhr.status, false);
 				if (addToAll) {addCurrentToAllPoll();}
 				if (functionOnComplete !== null) {
 					functionOnComplete();
@@ -1333,8 +1333,8 @@ sakai.poll = function(tuid, placement, showSettings){
 			success: function(data){
 				showPoll(data, true);
 			},
-			error: function(status){
-				showPoll(status, false);
+			error: function(xhr, textStatus, thrownError) {
+				showPoll(xhr.status, false);
 			}
 		});
 	};
@@ -1423,8 +1423,8 @@ sakai.poll = function(tuid, placement, showSettings){
 			success: function(data){
 				showPollSettings(data, true);
 			},
-			error: function(status){
-				showPollSettings(status, false);
+			error: function(xhr, textStatus, thrownError) {
+				showPollSettings(xhr.status, false);
 			}
 		});
 		$(pollShowContainer, rootel).hide();

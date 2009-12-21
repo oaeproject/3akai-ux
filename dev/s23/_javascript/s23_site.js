@@ -203,8 +203,8 @@ sakai.s23_site = function(){
 				// Parse the Sakai2 info
 				parseSakai2SiteInfo();
 			},
-			error: function(status){
-				fluid.log("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + status);
+			error: function(xhr, textStatus, thrownError) {
+				fluid.log("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + xhr.status);
 			}
 		});
 	};

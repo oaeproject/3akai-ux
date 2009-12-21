@@ -420,14 +420,14 @@ sakai._search = function(config, callback) {
 								$(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.message).text());
 							}
 						},
-						error: function(status) {
+						error: function(xhr, textStatus, thrownError) {
 							$(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.message).text());
 						},
 						data: toSend
 					});
 					
 				},
-				error: function(status) {
+				error: function(xhr, textStatus, thrownError) {
 					$(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.request).text());
 				},
 				data: data
