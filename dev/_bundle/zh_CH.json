@@ -1,5 +1,6 @@
 {
 "locale": "缺省",
+"locale_name": "中文",
 "INSTANCE_NAME": "sakai",
 "INDEX_INTRODUCTION_TEXT": "<h2>Sakai 3.0</h2><p>这是一个开发服务器，展示了Sakai 3的前台代码。内部用户的船舰功能目前已经被支持，您可以通过点击Sign Up连接来创建一个您自己的帐户。</p><h2>还不是Sakai的注册用户?</h2><p>点击&quot;退出&quot; 按钮创建一个</p>",
 "SING_UP_FOR_AN_ACCOUNT": "退出",

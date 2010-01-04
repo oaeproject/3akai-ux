@@ -3,12 +3,12 @@
     {
         "country": "CH",
         "language": "zh",
-        "displayName": "Chinese (China)"
+        "displayName": "中文"
     },
     {
         "country": "NL",
         "language": "nl",
-        "displayName": "Dutch (Netherlands)"
+        "displayName": "Nederlands"
     },
     {
         "country": "GB",
@@ -23,11 +23,16 @@
     {
         "country": "JP",
         "language": "ja",
-        "displayName": "Japanese (Japan)"
+        "displayName": "日本語"
+    },
+    {
+        "country": "HU",
+        "language": "hu",
+        "displayName": "Magyar"
     },
     {
         "country": "KR",
         "language": "ko",
-        "displayName": "Korean (South Korea)"
+        "displayName": "한국어"
     }]
 }
