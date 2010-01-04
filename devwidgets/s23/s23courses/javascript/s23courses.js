@@ -22,7 +22,7 @@ var sakai = sakai || {};
 
 sakai.s23courses = function(tuid, placement, showSettings){
 	
-	Config.URL.SAKAI2_MCP_URL = "/sakai-hybrid/sites";
+	Config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
 
 
 	/////////////////////////////
