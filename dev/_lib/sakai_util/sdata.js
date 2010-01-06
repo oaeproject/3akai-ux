@@ -848,10 +848,10 @@ sdata.widgets.WidgetPreference =  {
 	  }
 	
 	  // Translate widget name and description
-	  if (sdata.i18n.widgets[widgetname][current_locale_string]["name"]) {
+	  if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["name"] === "string")) {
 	    Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
 	  }
-	  if (sdata.i18n.widgets[widgetname][current_locale_string]["description"]) {
+	  if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["description"] === "string")) {
 	    Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
 	  }
 	  
@@ -874,11 +874,11 @@ sdata.widgets.WidgetPreference =  {
 	// Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
 	$.i18n.widgets_getValueForKey = function(widgetname, locale, key){
 	  	  
-	  if (sdata.i18n.widgets[widgetname][locale][key]){
+	  if ((typeof sdata.i18n.widgets[widgetname][locale] === "object") && (typeof sdata.i18n.widgets[widgetname][locale][key] === "string")){
 	      
 	      return sdata.i18n.widgets[widgetname][locale][key];
 	    
-	    } else if (sdata.i18n.widgets[widgetname]["default"][key]) {
+	    } else if ((typeof sdata.i18n.widgets[widgetname]["default"][key] === "string") && (typeof sdata.i18n.widgets[widgetname]["default"] === "object")) {
 	      
 	      return sdata.i18n.widgets[widgetname]["default"][key];
 	    
