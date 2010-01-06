@@ -629,7 +629,8 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         var toSend = {
             "sort": settings.sort,
             "display": settings.display,
-            "data": $.toJSON(settings.data)
+            "data": $.toJSON(settings.data),
+            "_charset_":"utf-8"
         };
         $.ajax({
             url: saveUrl,

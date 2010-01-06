@@ -310,7 +310,10 @@ sakai.contentmedia = function(){
 				postData.site = movedFiles.dropped[0];
 				postData.link = movedFiles.dropped[0] + "/_files";
 			}
-
+			
+			// Make sure POST data gets in as UTF-8 as per Sling requirement
+			postData["_charset_"] = "utf-8";
+			
 			// Send the ajax post
 			$.ajax({
 				type: "POST",
@@ -1092,7 +1095,8 @@ sakai.contentmedia = function(){
 		// supply an array with the URLs of the files that need to be deleted
 		$.ajax({
 			data: {
-				"resources" : doSelectedFilesURLToArray()
+				"resources" : doSelectedFilesURLToArray(),
+				"_charset_" : "utf-8"
 			},
 			type: "POST",
 			url: "/system/batch/delete",

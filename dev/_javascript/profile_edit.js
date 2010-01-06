@@ -282,6 +282,7 @@ sakai.profile = function(){
 					
 					var tosend = {};
 					tosend[savefield] = data[savestring];
+					tosend["_charset_"] = "utf-8";
 						
 					$.ajax({
 						url : fileUrl,
@@ -398,6 +399,7 @@ sakai.profile = function(){
 				
 				var tosend = {};
 				tosend[savefield] = data[savestring];
+				tosend["_charset_"] = "utf-8";
 				
 				$.ajax({
 					url: fileUrl,
@@ -454,7 +456,7 @@ sakai.profile = function(){
 
 				var tosend = {};
 				tosend[savefield] = data[savestring];
-				
+				tosend["_charset_"] = "utf-8";
 				$.ajax({
 					url: fileUrl,
 					type: "POST",
@@ -748,6 +750,7 @@ sakai.profile = function(){
 		
 		var tosend = {};
 		tosend[key] = val;
+		tosend["_charset_"] = "utf-8";
 		
 		$.ajax({
 			url : fileUrl,

@@ -209,13 +209,14 @@ sakai.search = function(){
 			$.ajax({
 				url: "/_user/contacts/" + user + ".accept.html",
 				type: "POST",
+				data : {"_charset_":"utf-8"},
 				success: function(data){
 					setTimeout(loadContacts,500,[1]);
 					
 					// remove from json file
 					
 					var index = -1;
-					for (var i = 0; i < foundInvitations.results.length; i++){
+					for (var i = 0, j = foundInvitations.results.length; i<j; i++){
 						if (foundInvitations.results[i].target == user){
 							index = i;
 						}

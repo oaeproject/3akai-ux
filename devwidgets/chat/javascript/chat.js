@@ -1175,7 +1175,8 @@ sakai.chat = function(tuid, placement, showSettings){
 		currentChatStatus = chatstatus;
 
 		var data = {
-			"chatstatus" : chatstatus
+			"chatstatus" : chatstatus,
+			"_charset_":"utf-8"
 		};
 
 		$.ajax({
@@ -1419,7 +1420,8 @@ sakai.chat = function(tuid, placement, showSettings){
 						"sakai:from": sdata.me.user.userid,
 						"sakai:subject": "",
 						"sakai:body":text,
-						"sakai:category":"chat"
+						"sakai:category":"chat",
+						"_charset_":"utf-8"
 					};
 						
 					$.ajax({
@@ -1621,7 +1623,8 @@ sakai.chat = function(tuid, placement, showSettings){
 									if (njson[i].messages[j]["sakai:read"] === "false"){
 										
 										var postParameters = {
-											"sakai:read":true
+											"sakai:read":true,
+											"_charset_":"utf-8"
 										};
 
 										// To mark a message as read we do a request to the sdata functions.
@@ -1846,6 +1849,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		} else {
 			data["sakai:status"] = status;
 		}
+		data["_charset_"] = "utf-8";
 		$.ajax({
 			url: url,
 			type: "POST",

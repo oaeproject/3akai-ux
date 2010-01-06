@@ -315,7 +315,8 @@ sakai.site_basic_settings = function(){
                 'description': descEL.val(),
                 'status': status,
                 'access': access,
-                'language': language
+                'language': language,
+		"_charset_":"utf-8"
             };
             
             //	Do a patch request to the profile info so that it gets updated with the new information.

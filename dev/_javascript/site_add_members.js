@@ -358,7 +358,8 @@ sakai.site_add_members = function() {
 						alert("Failed to add these members.");
 					},
 					data: {
-						":member": newMembers
+						":member": newMembers,
+						"_charset_":"utf-8"
 					}
 				});
 			}

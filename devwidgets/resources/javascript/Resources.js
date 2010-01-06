@@ -484,7 +484,7 @@ Resources.browser = {
 				}
 				
 				var url = "/sdata/c" + sdata.util.URL.encode(Resources.browser.currentpath.replace("%20"," ")) + "?f=pr&sid=" + Math.random();
-				var data = {"item":post.item,"name":post.name,"value":post.value,"action":post.action};
+				var data = {"item":post.item,"name":post.name,"value":post.value,"action":post.action,"_charset_":"utf-8"};
 				sdata.Ajax.request({
 					url :url,
 					httpMethod : "POST",
@@ -612,7 +612,7 @@ Resources.browser = {
 						for (var i = 0; i < list.length; i++){
 							
 							var url = "/sdata/c" + sdata.util.URL.encode(list[i].id.replace("%20"," ")) + "?f=mv&sid=" + Math.random();
-							var data = {"to":tourl};
+							var data = {"to":tourl,"_charset_":"utf-8"};
 							sdata.Ajax.request({
 								url :url,
 								httpMethod : "POST",
@@ -718,7 +718,7 @@ Resources.browser = {
 						for (var i = 0; i < list.length; i++){
 							
 							var url = "/sdata/c" + sdata.util.URL.encode(list[i].id.replace("%20"," ")) + "?f=mv&sid=" + Math.random();
-							var data = {"to":tourl};
+							var data = {"to":tourl,"_charset_":"utf-8"};
 							sdata.Ajax.request({
 								url :url,
 								httpMethod : "POST",
@@ -1095,7 +1095,7 @@ Resources.admin = {
 		}
 
 		var url = "/sdata/c" + sdata.util.URL.encode(sdata.util.URL.decode(Resources.browser.currentpath)) + "?f=pm&sid=" + Math.random();
-		var data = {"role": finalroles,"perm": finalperms,"set": finalset};
+		var data = {"role": finalroles,"perm": finalperms,"set": finalset,"_charset_":"utf-8"};
 		sdata.Ajax.request({
 			url :url,
 			httpMethod : "POST",
@@ -1729,10 +1729,10 @@ Resources.admin = {
 					}
 				}
 
-				data = {"hidden":false,"releaseDate":releaseDate,"retractDate":retractDate};
+				data = {"hidden":false,"releaseDate":releaseDate,"retractDate":retractDate,"_charset_":"utf-8"};
 	
 			} else if (hidechecked){
-				data = {"hidden":true,"releaseDate":"","retractDate":""};
+				data = {"hidden":true,"releaseDate":"","retractDate":"","_charset_":"utf-8"};
 			}
 		
 			if (valid){
@@ -1878,10 +1878,10 @@ Resources.admin = {
 						}
 					}
 
-					data = {"hidden":false,"releaseDate":releaseDate,"retractDate":retractDate};
+					data = {"hidden":false,"releaseDate":releaseDate,"retractDate":retractDate,"_charset_":"utf-8"};
 	
 				} else if (hidechecked){
-					data = {"hidden":true,"releaseDate":"","retractDate":""};
+					data = {"hidden":true,"releaseDate":"","retractDate":"","_charset_":"utf-8"};
 				}
 		
 				if (valid){
@@ -1961,7 +1961,7 @@ Resources.admin = {
 			}
 			
 			var url = "/sdata/c" + sdata.util.URL.encode(Resources.selector.selected[0].replace("%20"," ")) + "?f=pr&sid=" + Math.random();
-			var data = {"name":name,"value":value,"action":action};
+			var data = {"name":name,"value":value,"action":action,"_charset_":"utf-8"};
 			sdata.Ajax.request({
 				url :url,
 				httpMethod : "POST",
@@ -2082,7 +2082,7 @@ Resources.admin = {
 				Resources.tagging.hasloaded = false;
 
 				var url = "/sdata/c" + sdata.util.URL.encode(Resources.selector.selected[0].replace("%20"," ")) + "?f=pr&sid=" + Math.random();
-				var data = {"name": finalname,"value": finalvalue,"action": finalaction};
+				var data = {"name": finalname,"value": finalvalue,"action": finalaction,"_charset_":"utf-8"};
 				sdata.Ajax.request({
 					url :url,
 					httpMethod : "POST",
@@ -2194,7 +2194,7 @@ Resources.admin = {
 		Resources.tagging.hasloaded = false;
 
 		var url = "/sdata/c" + sdata.util.URL.encode(Resources.selector.selected[Resources.admin.currentbatch].replace("%20"," ")) + "?f=pr&sid=" + Math.random();
-		var data = {"name": finalname,"value": finalvalue,"action": finalaction};
+		var data = {"name": finalname,"value": finalvalue,"action": finalaction,"_charset_":"utf-8"};
 		sdata.Ajax.request({
 			url :url,
 			httpMethod : "POST",

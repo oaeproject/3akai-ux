@@ -342,8 +342,9 @@ sakai.site_appearance = function() {
 			url: "/sites/" + siteId,
 	    	type : "POST",
 	        data : {
-				"picture": stringtosave
-			},
+			"picture": stringtosave,
+			"_charset_":"utf-8"
+		},
 	        success : function(data) {
 				
 				// Update picture on the page
@@ -639,9 +640,10 @@ sakai.site_appearance = function() {
 				url: "/sites/" + siteId,
 		    	type : "POST",
 		        data : {
-					"sakai:skin":appearance.style.URL,
-					"style":appearance.style.id
-				},
+				"sakai:skin":appearance.style.URL,
+				"style":appearance.style.id,
+				"_charset_":"utf-8"
+			},
 		        success : function(data) {
 					
 					// When the save is completed we redirect the user back to the main site page
@@ -737,8 +739,9 @@ sakai.site_appearance = function() {
 			url: "/sites/" + siteId,
 	    	type : "POST",
 	        data : {
-				"picture": stringtosave
-			},
+			"picture": stringtosave,
+			"_charset_":"utf-8"
+		},
 	        success : function(data) {
 				
 				// When the save is completed we initialize the site appearance pop-up again

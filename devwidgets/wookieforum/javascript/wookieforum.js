@@ -212,7 +212,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 		var sDataToWookie = "userid=" + me.profile.firstName + '-' + me.profile.lastName + "&shareddatakey=" + sharedDataKey + "&servicetype=forum&requestid=getwidget";                 
     	
 		//	The data we are going to send to the proxy
-		var oPostData = {"method" : "POST", "url" : url, "post" : encodeURIComponent(sDataToWookie)};
+		var oPostData = {"method" : "POST", "url" : url, "post" : encodeURIComponent(sDataToWookie),"_charset_":"utf-8"};
         
 		//	The request
         $.ajax({

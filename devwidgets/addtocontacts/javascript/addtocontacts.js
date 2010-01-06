@@ -137,7 +137,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			"sakai:from": sdata.me.user.userid,
 			"sakai:subject": title,
 			"sakai:body":message,
-			"sakai:category":"invitation"
+			"sakai:category":"invitation",
+			"_charset_":"utf-8"
 		};
 			
 		$.ajax({
@@ -198,7 +199,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 			}
 			var toSend = {
 				"fromRelationships" : fromRelationships,
-				"toRelationships" : toRelationships
+				"toRelationships" : toRelationships,
+				"_charset_":"utf-8"
 			}
 			var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 			

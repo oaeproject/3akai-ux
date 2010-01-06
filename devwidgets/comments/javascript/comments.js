@@ -413,13 +413,14 @@ sakai.comments = function(tuid, placement, showSettings) {
         if (allowPost) {
             var body = $(commentsMessageTxt, rootel).val();
             var message = {
-                'sakai:type': 'comment',
-                'sakai:to': to,
-				'sakai:marker': tuid,
-				'sakai:subject': subject,
-                'sakai:body': body,
-                'sakai:messagebox': 'outbox',
-				'sakai:sendstate' : 'pending'
+                "sakai:type": "comment",
+                "sakai:to": to,
+		"sakai:marker": tuid,
+		"sakai:subject": subject,
+                "sakai:body": body,
+                "sakai:messagebox": "outbox",
+		"sakai:sendstate" : "pending",
+		"_charset_":"utf-8"
             };
             
             
@@ -617,7 +618,8 @@ sakai.comments = function(tuid, placement, showSettings) {
         // If the settings-input is valid an object will be returned else false will be returned
         var settings = getCommentsSettings();
         if (settings) {
-            var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
+            settings["_charset_"] = "utf-8";
+	    var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
             // gets the JSON-settings-object and converts it to a string
             
             $.ajax({

@@ -106,7 +106,7 @@ sakai.index = function(){
 		 * l : set to 1 because we want to perform a login action
 		 */
 		// -Fsakaiauth:un=user -Fsakaiauth:pw=pass -Fsakaiauth:login=1 
-		var data = {"sakaiauth:login" : 1, "sakaiauth:un" : values[usernameField], "sakaiauth:pw" : values[passwordField]};
+		var data = {"sakaiauth:login" : 1, "sakaiauth:un" : values[usernameField], "sakaiauth:pw" : values[passwordField], "_charset_":"utf-8"};
 		
 		$.ajax({
 			url : Config.URL.LOGIN_SERVICE,
