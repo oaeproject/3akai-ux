@@ -261,7 +261,9 @@ sakai.filemanager = function(tuid, placement, showSettings){
 				postData["sites@TypeHint"] = "string[]";
 
 			}
-
+			
+			postData["_charset_"] = "utf-8";
+			
 			$.ajax({
 				type: "POST",
 				data: postData,
@@ -320,7 +322,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 					$.ajax({
 						data: {
 							"tags": movedFiles.dropped,
-							":applyTo" : doSelectedFilesURLToArray()
+							":applyTo" : doSelectedFilesURLToArray(),
+							"_charset_":"utf-8"
 						},
 						type: "POST",
 						url: "/",
@@ -922,7 +925,8 @@ sakai.filemanager = function(tuid, placement, showSettings){
 		$.ajax({
 			data: {
 				":operation" : "delete",
-				":applyTo" : doSelectedFilesURLToArray()
+				":applyTo" : doSelectedFilesURLToArray(),
+				"_charset_":"utf-8"
 			},
 			type: "POST",
 			url: "/.json",

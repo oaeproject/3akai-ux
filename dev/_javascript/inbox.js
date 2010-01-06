@@ -806,7 +806,8 @@ sakai.inbox = function() {
     var markMessageRead = function(message, id) {
         var postParameters = {
             "sakai:read":true,
-			"sling:resourceType": "sakai/message"
+	    "sling:resourceType": "sakai/message",
+	    "_charset_": "utf-8"
         };
         //    To mark a message as read we do a request to the sdata functions.
         //    We use the Properties function to change the messageRead variable.
@@ -814,7 +815,7 @@ sakai.inbox = function() {
             type: "POST",
             url: "/_user/message/" + message.id,
             success: function(userdata) {
-				for (var i = 0; i < allMessages.length; i++){
+				for (var i = 0, j = allMessages.length; i<j; i++){
 					if (allMessages[i].id === message.id){
 						allMessages[i]["sakai:read"] = true;
 						break;
@@ -935,6 +936,7 @@ sakai.inbox = function() {
 		$.ajax({
 			url: "/_user/contacts/" + accepting + ".accept.html",
 			type: "POST",
+			data : {"_charset_":"utf-8"},
 			success: function(data){
 				$("#inbox-invitation-accept").hide();
 				$("#inbox-invitation-already").show();
@@ -979,7 +981,8 @@ sakai.inbox = function() {
 			"sakai:from": sdata.me.user.userid,
 			"sakai:subject": subject,
 			"sakai:body":body,
-			"sakai:category":"message"
+			"sakai:category":"message",
+			"_charset_":"utf-8"
 		};
 		
 		if (reply) {
@@ -1048,18 +1051,19 @@ sakai.inbox = function() {
 			pathToMessages[i] = "/_user/message/" + pathToMessages[i];
 		}
 		$.ajax({
-            url: "/system/batch/delete",
-            type: "POST",
-            success: function(data) {
-				deleteMessagesFinished(pathToMessages, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-               deleteMessagesFinished(pathToMessages, false);
-            },
-			data : {
-				"resources": pathToMessages
-			}
-        });	
+		    url: "/system/batch/delete",
+		    type: "POST",
+		    success: function(data) {
+			deleteMessagesFinished(pathToMessages, true);
+		    },
+		    error: function(xhr, textStatus, thrownError) {
+		       deleteMessagesFinished(pathToMessages, false);
+		    },
+		    data : {
+			    "resources": pathToMessages,
+			    "_charset_": "utf-8"
+		    }
+		});	
     };
     
     /**
@@ -1120,7 +1124,8 @@ sakai.inbox = function() {
 						}
 					},
 					data: {
-						"sakai:messagebox":"trash"
+						"sakai:messagebox":"trash",
+						"_charset_": "utf-8"
 					}
 				});
 			} 

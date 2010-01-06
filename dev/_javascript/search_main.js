@@ -401,7 +401,8 @@ sakai._search = function(config, callback) {
 					// do a request to the messaging service as well.
 					var toSend = {
 						"to": userid,
-						"message": $.toJSON(openSocialMessage)
+						"message": $.toJSON(openSocialMessage),
+						"_charset_":"utf-8"
 					};
 					$.ajax({
 						url: Config.URL.MESSAGES_SEND_SERVICE,

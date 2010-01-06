@@ -677,7 +677,8 @@ sakai.profile = function(){
 				"sakai:from": sdata.me.user.userid,
 				"sakai:subject": subject,
 				"sakai:body":body,
-				"sakai:category":"message"
+				"sakai:category":"message",
+				"_charset_":"utf-8"
 			};
 			
 			$.ajax({
@@ -795,12 +796,12 @@ sakai.profile = function(){
 			// construct openSocial message
 			var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
 					
-			var data = { "type" : type};
+			var data = { "type" : type, "_charset_":"utf-8"};
 			
 			$.ajax({
 				url: "/_user/contacts/" + user + ".invite.json",
 				type: "POST",
-			    success: function(data){
+				success: function(data){
 					
 					//var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
 						var toSend = {
@@ -812,7 +813,8 @@ sakai.profile = function(){
 							"sakai:from": sdata.me.user.userid,
 							"sakai:subject": title,
 							"sakai:body":message,
-							"sakai:category":"invitation"
+							"sakai:category":"invitation",
+							"_charset_":"utf-8"
 						};
 						
 						$.ajax({
@@ -847,6 +849,7 @@ sakai.profile = function(){
 		$.ajax({
 			url: "/_user/contacts/" + inviter + ".accept.html",
 			type: "POST",
+			data : {"_charset_":"utf-8"},
 			success: function(data){
 				$("#accept_invitation_button").hide();
 			},

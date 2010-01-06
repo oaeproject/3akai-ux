@@ -392,7 +392,8 @@ if (!sakai.sendmessage){
 						"sakai:from": sdata.me.user.userid,
 						"sakai:subject": subject,
 						"sakai:body":body,
-						"sakai:category":"message"
+						"sakai:category":"message",
+						"_charset_":"utf-8"
 					};
 						
 					$.ajax({

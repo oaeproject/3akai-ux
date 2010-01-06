@@ -96,15 +96,16 @@ sakai.myprofile = function (tuid, placement, showSettings) {
 		sdata.me.profile.chatstatus = status;
 		
 		var tosend = {
-			"chatstatus" : status
+			"chatstatus" : status,
+			"_charset_":"utf-8"
 		};
 		
 		var url = "/system/userManager/user/" + sdata.me.user.userid + ".update.html";
 		$.ajax({
 	      	url : url,
         	type : "POST",
-            data : tosend,
-            success : function (data) {
+		data : tosend,
+		success : function (data) {
 				updateChatStatus(status);
 			}
 		});

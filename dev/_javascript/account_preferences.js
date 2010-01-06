@@ -147,6 +147,7 @@ sakai.accountPreferences =function(){
 			$.ajax({
 				url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sdata.me.user.userid),
 				type : "POST",
+				data : {"_charset_":"utf-8"},
 				success : function(data) {
 					// update the user of the successful password change
 					showGeneralMessage($(messagePassChanged).html(), false, saveNewPass, generalMessagePass);
@@ -243,9 +244,9 @@ sakai.accountPreferences =function(){
 		$.ajax({
 			url : "/system/userManager/user/" + me.user.userid + ".update.html",
 			type : "POST",
-			
+			data : {"_charset_":"utf-8"},
 			success : function(data) {
-				// update the user of the successful reginal settings change
+				// update the user of the successful regional settings change
 				showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
 			},
 			error: function(xhr, textStatus, thrownError) {

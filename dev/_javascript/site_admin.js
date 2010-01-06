@@ -601,7 +601,8 @@ sakai.site.site_admin = function(){
 								"title": newpagetitle,
 								"type": "webpage",
 								"position": "" + (determineHighestPosition() + 100000),
-								"acl": "parent"
+								"acl": "parent",
+								"_charset_":"utf-8"
 							},
 							success: function(){
 								
@@ -661,7 +662,8 @@ sakai.site.site_admin = function(){
 								"id": sakai.site.selectedpage,
 								"title": newpagetitle,
 								"type": "webpage",
-								"position": position
+								"position": position,
+								"_charset_":"utf-8"
 							}
 						});
 						
@@ -801,7 +803,8 @@ sakai.site.site_admin = function(){
 									"id":pageid,
 									"title": newpagetitle,
 									"type": "webpage",
-									"position": position
+									"position": position,
+									"_charset_":"utf-8"
 								},
 								success: function(){
 									// Check in the page
@@ -861,7 +864,8 @@ sakai.site.site_admin = function(){
 									"id":pageid,
 									"title": newpagetitle,
 									"type": "webpage",
-									"position": position
+									"position": position,
+									"_charset_":"utf-8"
 								}
 							});
 							
@@ -1896,7 +1900,8 @@ sakai.site.site_admin = function(){
 				"title": "Untitled",
 				"type": "webpage",
 				"position": "" + (determineHighestPosition() + 100000),
-				"acl": "parent"
+				"acl": "parent",
+				"_charset_":"utf-8"
 			},
 			complete: function(){
 				// Init tinyMCE if needed

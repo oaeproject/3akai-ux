@@ -314,8 +314,9 @@ sakai.site = function(){
 					$.ajax({
 						url: url,
 						data: {
-							':operation' : 'move',
-							':dest' : dest
+							":operation" : "move",
+							":dest" : dest,
+							"_charset_":"utf-8"
 						},
 						cache: false,
 						type: "POST",
@@ -1334,7 +1335,8 @@ sakai.site = function(){
 			type: "POST",
 			data: {
 				"css": arrLinks,
-				"content": content
+				"content": content,
+				"_charset_":"utf-8"
 			},
 			success: function(data){
 				// Open a popup window with printable content

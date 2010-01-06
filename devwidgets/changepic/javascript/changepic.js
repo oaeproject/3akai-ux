@@ -252,7 +252,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 			y: Math.floor(userSelection.y1 * ratio),
 			width: Math.floor(userSelection.width * ratio),
 			height:Math.floor(userSelection.height * ratio),
-			dimensions: "256x256"
+			dimensions: "256x256",
+			"_charset_":"utf-8"
 		};
 		
 		// Post all of this to the server
@@ -264,7 +265,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 				
 				var tosave = {
 					"name": "256x256_" + picture._name,
-					"_name": picture._name
+					"_name": picture._name,
+					"_charset_":"utf-8"
 				};
 				
 				var stringtosave = $.toJSON(tosave);
@@ -276,10 +278,11 @@ sakai.changepic = function(tuid, placement, showSettings){
 		        	//url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
 					url: "/_user/public/" + me.user.userid + "/authprofile",
 		        	type : "POST",
-		            data : {
-						"picture" : $.toJSON(tosave)
-					},
-		            success : function(data) {
+				data : {
+					"picture" : $.toJSON(tosave),
+					"_charset_":"utf-8"
+				},
+				success : function(data) {
 						//	Change the picture in the page. (This is for my_sakai.html)
 						//	Math.random is for cache issues.						
 						for (var i = 0; i < imagesToChange.length;i++) {
@@ -373,7 +376,7 @@ sakai._changepic.completeCallback = function(response){
 	sdata.me.profile.picture = stringtosave;
 	
 	//	the object we wish to insert into the profile.json file.
-	var data = {"picture":stringtosave};
+	var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
 	$.ajax({
 		url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sdata.me.user.userid) + ".update.html",

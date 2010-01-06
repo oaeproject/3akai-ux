@@ -282,8 +282,13 @@ sakai.lib.site.authz.getAccessActions = function(siteId, statusType, accessType)
  *                 status code and text.
  */
 sakai.lib.batchPosts = function(actions, success, error){
+	
 	if (actions.length > 0) {
 		var action = actions.shift();
+		
+		// Make sure we send POST data utf-8 encoded as per Sling requirement
+		action.data["_charset_"] = "utf-8";
+		
 		$.ajax({
 			url: action.url,
 			type: "POST",

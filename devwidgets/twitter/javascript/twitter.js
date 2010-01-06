@@ -121,7 +121,7 @@ sakai.twitter = function(tuid,placement,showSettings){
 			var basic = {};
 			basic.status = json.status;
 			
-			var data = {"basic":$.toJSON(basic)};
+			var data = {"basic":$.toJSON(basic),"_charset_":"utf-8"};
 			
 			$.ajax({
 				url :"/_user/public/" + sdata.me.user.userid + "/authprofile",
@@ -243,7 +243,8 @@ sakai.twitter = function(tuid,placement,showSettings){
 				var oPostData = {
 					":basic-user" : json.screen_name,
 					":basic-password" : json.password,
-					status : currentBasic.status
+					status : currentBasic.status,
+					"_charset_":"utf-8"
 				};
 				
 				$.ajax({

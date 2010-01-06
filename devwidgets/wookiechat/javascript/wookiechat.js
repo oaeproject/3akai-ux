@@ -181,7 +181,8 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 		var oPostData = {
 			"method": "POST",
 			"url": url,
-			"post": encodeURIComponent(sDataToWookie)
+			"post": encodeURIComponent(sDataToWookie),
+			"_charset_":"utf-8"
 		};
 				
 		// The request.
