@@ -22,25 +22,25 @@ var sakai = sakai || {};
 
 sakai.flashChat = {
 
-	
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
-	
+
 	flashing: [], // Array that contains all the uids of the users that need to flash
-	
+
 	// Links and labels
 	onlineButton: "#online_button",
 	chatWith: "#chat_with",
-	
+
 	// CSS Classes
 	showOnlineVisibleClass : "show_online_visible",
-	
-	
+
+
 	///////////////////////
 	// Utility functions //
 	///////////////////////
-	
+
 	/**
 	 * Scroll to the bottom of an element
 	 * @param {Object} el The element that needs to be scrolled down
@@ -48,50 +48,50 @@ sakai.flashChat = {
 	scroll_to_bottom: function(el){
 		el.attr("scrollTop", el.attr("scrollHeight"));
 	},
-	
+
 	/////////////////////
 	// Flash functions //
 	/////////////////////
-	
+
 	/**
 	 * This will give the command to start the bar to flash
 	 * @param {String} uid 
 	 *  The uid of the user which window needs to flash
 	 * @param {Boolean} openWindow
-	 *  true:  Open the chat window during the flash
+	 *  true: Open the chat window during the flash
 	 *  false: Don't open the chat window
 	 */
 	doFlash: function(uid, openWindow){
-		
+
 		var busy = false;
-		
+
 		for (var i = 0; i < sakai.flashChat.flashing.length; i++) {
 			if (sakai.flashChat.flashing[i] === uid) {
 				busy = true;
 			}
 		}
-		
+
 		if (!busy) {
 			sakai.flashChat.startFlashing(uid, 0, openWindow);
 		}
-		
+
 	},
-	
+
 	/**
 	 * This will start the flashing for a certain window
 	 * @param {String} uid
-	 * 	The uid of the user which window needs to flash
+	 *  The uid of the user which window needs to flash
 	 * @param {Integer} i
-	 * 	The count of how many times it has flashed already
+	 *  The count of how many times it has flashed already
 	 * @param {Boolean} openWindow
-	 * 	true:  Open the chat window during the flashing
+	 *  true: Open the chat window during the flashing
 	 *  false: Don't open the chat window
 	 */
 	startFlashing: function(uid, i, openWindow){
-		
+
 		var till = 0;
 		var el = $(sakai.flashChat.onlineButton + "_" + uid);
-		
+
 		// Check if the openWindow variable is true or false
 		if(openWindow){
 			till = 9;
@@ -104,17 +104,17 @@ sakai.flashChat = {
 		}else {
 			till = 10;
 		}
-		
+
 		// Check if the count is even or not
 		if (i % 2 === 0) {
+
 			el.removeClass(sakai.flashChat.showOnlineVisibleClass);
-			//el.addClass(sakai.flashChat.showOnlineUnvisibleClass);
 		}
 		else {
-			//el.removeClass(sakai.flashChat.showOnlineUnvisibleClass);
+
 			el.addClass(sakai.flashChat.showOnlineVisibleClass);
 		}
-		
+
 		// Check whether it should stop flashing
 		if (i < till) {
 			i = i + 1;
@@ -131,11 +131,11 @@ sakai.flashChat = {
 			}
 			sakai.flashChat.flashing.splice(index, 1);
 		}
-		
 	}
 };
 
 sakai.chat = function(tuid, placement, showSettings){
+
 
 	/////////////////////////////
 	// Configuration variables //
@@ -146,10 +146,12 @@ sakai.chat = function(tuid, placement, showSettings){
 	var peopleFocus = false;
 	var peopleShown = false;
 	var personIconUrl = Config.URL.PERSON_ICON_URL;
+	var pulltime = "2100-10-10T10:10:10.000Z";
 	var sitesFocus = false;
 	var sitesShown = false;
 	var time = [];
-	
+	var sendMessages = []; // Array containing the id's of all the send messages
+
 	// JSON
 	var activewindows = {};
 	activewindows.items = [];
@@ -198,7 +200,10 @@ sakai.chat = function(tuid, placement, showSettings){
 	var nav = "#nav";
 	var navContentMediaLink = nav + "_content_media_link";
 	var navCoursesSitesLink = nav + "_courses_sites_link";
+	var navCoursesSitesLinkClass = "nav_courses_sites_link";
+	var navCoursesSitesLinkClassSelector = $("#explore_nav_container .nav_courses_sites_link");
 	var navPeopleLink = nav + "_people_link";
+	var navPeopleLinkClass = "nav_people_link";
 	var navMySakaiLink = nav + "_my_sakai_link";
 	var navSearchLink = nav + "_search_link";
 	var navProfileLink = nav + "_profile_link";
@@ -207,7 +212,6 @@ sakai.chat = function(tuid, placement, showSettings){
 	var peopleDropDown = "#people_dropdown";
 	var peopleDropDownMain = peopleDropDown + "_main";
 	var peopleDropDownClose = peopleDropDown + "_close";
-	var peopleDropDownCloseLink = peopleDropDownClose + "_link";
 	var peopleDropDownMyContactsList = peopleDropDown + "_my_contacts_list";
 	
 	// Top Navigation
@@ -238,7 +242,6 @@ sakai.chat = function(tuid, placement, showSettings){
 	
 	// CSS Classes with .
 	var initiateWindowClass = ".initiate_chat_window";
-	var roundedCornersClass = ".rounded_corners";
 	var userLinkChatStatusClass = ".user_link_chat_status";
 	var userChatClass = ".user_chat";
 	
@@ -248,9 +251,6 @@ sakai.chat = function(tuid, placement, showSettings){
 	var chatWithTxtClass = chatClass + "_with_txt";
 	
 	var exploreClass = ".explore";
-	var exploreClassNav = exploreClass + "_nav";
-	var exploreClassNavSelected = exploreClassNav + "_selected";
-	var exploreClassNavSelectedArrow = exploreClassNavSelected + "_arrow";
 	
 	// Containers
 	var chatMainContainer = "#chat_main_container";
@@ -270,14 +270,14 @@ sakai.chat = function(tuid, placement, showSettings){
 	///////////////////////
 	// Utility functions //
 	///////////////////////
-	
+
 	/*
 	 * Placeholders that will be replaced by the real functions. This
 	 * is necessary to comply with the JSLint rules
 	 */
 	sakai.chat.loadChatTextInitial = function(){};
 	var doWindowRender = function(){};
-	
+
 	/*
 	 * Sort the sites by their name
 	 */
@@ -294,7 +294,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			}
 		}
 	};
-	
+
 	/**
 	 * Clone a certain object.
 	 * We need this in activewindows, to not change the original object
@@ -335,8 +335,8 @@ sakai.chat = function(tuid, placement, showSettings){
 			chatStatus = "online";
 		}
 		return chatStatus;
- 	};
- 	
+	};
+
 	/**
 	 * Parse the name for a user
 	 * @param {String} uuid Uuid of the user
@@ -351,7 +351,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			return shortenString(uuid, 11);
 		}
 	};
-	
+
 	/**
 	 * Parse the picture for a user
 	 * @param {String} picture The picture path for a user
@@ -382,7 +382,19 @@ sakai.chat = function(tuid, placement, showSettings){
 		}
 		return shortenString("No status message");
 	};
-	
+
+	/**
+	 * Add the id of the message to the array of send messages
+	 * We needed to know which messages were send because otherwise
+	 * the person who sended the message saw it 2 times
+	 * @param {String} messageid The id of the message that was send
+	 */
+	var addToSendMessages = function(messageid){
+		
+		// Add the id of the message to the sendmessages array
+		sendMessages.push(messageid);
+	};
+
 
 	//////////////////////////////
 	// Courses & Sites dropdown //
@@ -541,7 +553,6 @@ sakai.chat = function(tuid, placement, showSettings){
 					// Do a request to the site service with all the names in it.
 					// This will give us the proper location, owner, siteid,..
 					var url = "/system/batch?";
-					var count = 0;
 					var n_items = {};
 					n_items.items = [];
 					
@@ -588,19 +599,21 @@ sakai.chat = function(tuid, placement, showSettings){
 	/**
 	 * Drop down the sites container under the top navigation bar
 	 */
-	$(".nav_courses_sites_link").live("click", function(ev) {
+	navCoursesSitesLinkClassSelector.live("click", function(ev) {
 		if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length === 0){
+
 			// Hide the people dropdown
 			$(peopleDropDownMain).hide();
 			$(peopleDropDownClose).hide();
 				
 			// Show the courses and sites.
+
 			$(mySitesDropDownMain).show();
 			$(mySitesDropDownClose).show();
 				
 			$(exploreClass).html(defaultNav);
 			$(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites", true));
-			$("#nav_courses_sites_link").removeClass("nav_courses_sites_link");
+			$(navCoursesSitesLink).removeClass(navCoursesSitesLinkClass);
 			if (!sitesShown) {
 				loadSites();
 				loadRecentSites();
@@ -608,7 +621,7 @@ sakai.chat = function(tuid, placement, showSettings){
 			}
 		}
 	});
-	
+
 	/*
 	 * Bind the close button for the sites container
 	 */
@@ -617,8 +630,8 @@ sakai.chat = function(tuid, placement, showSettings){
 		$(peopleDropDownMain).hide();
 		$(exploreClass).html(defaultNav);
 		selectPage();
-		$("#nav_people_link").addClass("nav_people_link");
-		$("#nav_courses_sites_link").addClass("nav_courses_sites_link");
+		$(navPeopleLink).addClass(navPeopleLinkClass);
+		$(navCoursesSitesLink).addClass(navCoursesSitesLink);
 	});
 	
 	
@@ -703,12 +716,12 @@ sakai.chat = function(tuid, placement, showSettings){
 	});
 	
 	$(dropdownPeopleSearchButton).live("click", doPeopleSearch);
-	
-	
+
+
 	////////////////////////////////////////////
 	// Courses & Sites dropdown : Show & Hide //
 	////////////////////////////////////////////
-	
+
 	/*
 	 * Drop down the people container beneath the top navigation bar
 	 */
@@ -758,9 +771,9 @@ sakai.chat = function(tuid, placement, showSettings){
 		$(onlineButton).removeClass(showOnlineVisibleClass);
 	};
 	
- 	/**
- 	 * Show the container with your online friends
- 	 */
+	/**
+	 * Show the container with your online friends
+	 */
 	var showOnline = function(){
 		var onlineWindow = $(showOnlineLink);
 		onlineWindow.css('bottom', 31 + onlineWindow.height() + "px");
@@ -885,7 +898,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		elementWindow.hide();
 		elementButton.removeClass(showOnlineVisibleClass);
 	};
- 	
+
 	/**
 	 * Show the chat window for a specific element and button
 	 * @param {Object} elementWindow The element that contains the window
@@ -980,7 +993,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		var specialjson = {};
 		specialjson.items = [];
 		specialjson.items[0] = clone(activewindows.items[index]);
- 				
+			
 		doWindowRender(clicked, specialjson);
 		
 		sakai.chat.loadChatTextInitial(true, activewindows);
@@ -1082,7 +1095,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 				
 				json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
-				json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"][0]);
+				json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"]);
 				json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
 			
 				saveToAllFriends(json.contacts[i]);
@@ -1107,9 +1120,9 @@ sakai.chat = function(tuid, placement, showSettings){
 			
 			// We render the template, add it to a temporary div element and set the html for it.
 			json.items = [];
-			for (var i = 0; i < json.contacts.length; i++){
-				if (json.contacts[i]['sakai:status'] == "online" && json.contacts[i].chatstatus != "offline"){
-					json.items.push(json.contacts[i]);
+			for (var j = 0; j < json.contacts.length; j++){
+				if (json.contacts[j]['sakai:status'] == "online" && json.contacts[j].chatstatus != "offline"){
+					json.items.push(json.contacts[j]);
 				}
 			}
 			var renderedTemplate = $.Template.render(chatAvailableTemplate, json).replace(/\r/g,'');
@@ -1201,7 +1214,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Get the chat status for the current user
 	 */
 	var getChatStatus = function(){	
- 		$.ajax({
+		$.ajax({
 			url: Config.URL.ME_SERVICE,
 			success: function(data){
 				var me = $.evalJSON(data);
@@ -1238,7 +1251,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Return the render of a certain chat message
 	 * @param {Object} message Message that needs to be rendered
 	 */
-	var render_chat_message = function(message){
+	var renderChatMessage = function(message){
 		return $.Template.render(chatContentTemplate, message);
 	};
 	
@@ -1266,9 +1279,9 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * @param {Object} el Elment where the element needs to be attached to
 	 * @param {Object} message Message that needs to be appended
 	 */
-	var add_chat_message = function(el, message){
+	var addChatMessage = function(el, message){
 		if(el.length > 0){
-			el.append(render_chat_message(message));
+			el.append(renderChatMessage(message));
 			checkHeight(el, chatWithContentNooverflowClass, chatWithContentOverflowClass);
 			scroll_to_bottom(el);
 		}	
@@ -1295,7 +1308,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Create a chat message
 	 * @param {Object} isMessageFromOtherUser Is the message from another user
 	 * @param {Object} otherUserName The name of the other user
-	 * @param {Object} inputmessage The message that needs to be added to the message
+	 * @param {Object} inputmessage The text that needs to be added to the message
 	 * @param {Object} inputdate The date of the message
 	 */
 	var createChatMessage = function(isMessageFromOtherUser, otherUserName, inputmessage, inputdate){
@@ -1388,9 +1401,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}
 			}
 			activewindows.items.splice(toremove, 1);
-			
-			
-			
+
 			$(onlineButton + "_" + selected).remove();
 			$(chatWith + "_" + selected).remove();
 			
@@ -1408,15 +1419,28 @@ sakai.chat = function(tuid, placement, showSettings){
 		$(chatWithTxtClass).unbind("keydown");
 		$(chatWithTxtClass).bind("keydown", function(ev){
 			if (ev.keyCode === 13) {
+
+				// Get the id of the user you are chatting with
 				var currentuser = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 2];
+
+				// Get the message/text you just wrote to him/her
 				var text = $(chatWith + "_" + currentuser + "_txt").val();
+
+				// Check if the text is not empty
 				if (text !== "") {
-					/** Create a chat message */
+
+					// Create a chat message object
 					var message = {};
+
+					// Fill in the object with the appropriate data
 					message = createChatMessage(false, "", text, new Date());
-					add_chat_message($(chatWith + "_" + currentuser + "_content"), message);
+
+					// Add the chat message to the window
+					addChatMessage($(chatWith + "_" + currentuser + "_content"), message);
+
+					// Clear the input box
 					$(chatWith + "_" + currentuser + "_txt").val("");
-					
+
 					var data = {
 						"sakai:type": "chat",
 						"sakai:sendstate": "pending",
@@ -1428,12 +1452,20 @@ sakai.chat = function(tuid, placement, showSettings){
 						"sakai:category":"chat",
 						"_charset_":"utf-8"
 					};
-						
+
 					$.ajax({
 						url: Config.URL.MESSAGES_CREATE_SERVICE,
 						type: "POST",
 						success: function(data) {
 							
+							// We evaluate the response after sending 
+							// the message and store it in an object
+							var response = $.evalJSON(data);
+							
+							// Add the id to the send messages object
+							// We need to do this because otherwise the user who
+							// sends the message, will see it 2 times
+							addToSendMessages(response.id);
 						},
 						error: function(xhr, textStatus, thrownError) {
 							alert("An error has occured when sending the message.");
@@ -1492,12 +1524,18 @@ sakai.chat = function(tuid, placement, showSettings){
 	 */
 	sakai.chat.checkNewMessages = function(){
 
+		// Create a data object
+		var data = {};
+		
+		// Check if the time is not 0, if so set the current time
+		if (time.length !== 0) {
+			data.t = time;
+		}
+
 		// Send an ajax request to check if there are any new messages
 		$.ajax({
 			url: Config.URL.CHAT_UPDATE_SERVICE,
-			data: {
-				t: time
-			},
+			data: data,
 			success: function(data){
 
 				// Parse the json data and get the time
@@ -1509,6 +1547,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				}else {
 					setTimeout(sakai.chat.checkNewMessages, 5000);
 				}
+				pulltime = json.pulltime;
 			}
 		});
 	};
@@ -1557,7 +1596,8 @@ sakai.chat = function(tuid, placement, showSettings){
 			url: Config.URL.CHAT_GET_SERVICE.replace(/__KIND__/, para),
 			data: {
 				"_from" : tosend,
-				"items" : 1000
+				"items" : 1000,
+				"t" : pulltime
 			},
 			cache: false,
 			sendToLoginOnFail: true,
@@ -1571,10 +1611,10 @@ sakai.chat = function(tuid, placement, showSettings){
 					for(var i = json.results.length - 1; i >= 0; i--) {
 						var message = json.results[i];
 						var user = "";
-						if (message.userFrom["rep:userId"][0] === sdata.me.user.userid){
-							user = message.userTo["rep:userId"][0];
+						if (message.userFrom["rep:userId"] === sdata.me.user.userid){
+							user = message.userTo["rep:userId"];
 						} else {
-							user = message.userFrom["rep:userId"][0];
+							user = message.userFrom["rep:userId"];
 						}
 						var isIncluded = true;
 						if (hasNew){
@@ -1597,24 +1637,29 @@ sakai.chat = function(tuid, placement, showSettings){
 						}
 					}
 					
-					for (var i in njson) {
+					for (var k in njson) {
 						
 						// We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
-						if(njson.hasOwnProperty(i)){
+						if(njson.hasOwnProperty(k)){
 							var isMessageFromOtherUser = false;
 							
 							// Check if there exists a window for the user
-							if ($(chatWith + "_" + i).length > 0) {
-								
-								var el = $(chatWith + "_" + i + "_content");
-								var chatwithusername = parseName(i, njson[i].messages[0].userFrom.firstName, njson[i].messages[0].userFrom.lastName);
-								
+							if ($(chatWith + "_" + k).length > 0) {
+
+								// We check if the message is in the sendMessages array
+								if($.inArray(njson[k].messages[0].id, sendMessages) !== -1){
+									continue;
+								}
+
+								var el = $(chatWith + "_" + k + "_content");
+								var chatwithusername = parseName(k, njson[k].messages[0].userFrom.firstName, njson[k].messages[0].userFrom.lastName);
+
 								// Create a message object
-								var message = {};
+								var chatmessage = {};
 								
-								for(var j = 0; j < njson[i].messages.length; j++){
+								for(var j = 0; j < njson[k].messages.length; j++){
 									// Check if the message is from the current user or from the friend you are talking to
-									if (sdata.me.user.userid == njson[i].messages[j].userFrom["rep:userId"][0]) {
+									if (sdata.me.user.userid == njson[k].messages[j].userFrom["rep:userId"]) {
 										isMessageFromOtherUser = false;
 									}
 									else {
@@ -1622,83 +1667,43 @@ sakai.chat = function(tuid, placement, showSettings){
 									}
 									
 									// Create a chat message and add it
-									message = createChatMessage(isMessageFromOtherUser, chatwithusername, njson[i].messages[j]["sakai:body"], njson[i].messages[j]["jcr:created"]);
-									add_chat_message(el, message);
-									
-									if (njson[i].messages[j]["sakai:read"] === "false"){
-										
-										var postParameters = {
-											"sakai:read":true,
-											"_charset_":"utf-8"
-										};
-
-										// To mark a message as read we do a request to the sdata functions.
-										// We use the Properties function to change the messageRead variable.
-										$.ajax({
-											type: "POST",
-											url: Config.URL.MESSAGES_GET_SERVICE.replace(/__ID__/, njson[i].messages[j].id),
-											success: function(userdata) {},
-											error: function(xhr, textStatus, thrownError) {
-												alert("An error has occured");
-											},
-											data: postParameters
-										});
-											
-									}
-									
-									var flash = true;
-									
-									if(njson[i].messages[j]["sakai:read"] === false){
-										
-										// Check if the window is active (already open) or not
-										// If it is not open, the window should flash
-										for(var k = 0; k < activewindows.items.length; k++){
-											if(activewindows.items[k] === i && activewindows.items[k].active){
-												flash = false;
-											}
-										}
-										
-										if (flash){
-											setTimeout("sakai.flashChat.doFlash('" + chatwithuserUid + "', '" + !hasOpenChatWindow + "')", 500);
-										}
-										
-									}
+									chatmessage = createChatMessage(isMessageFromOtherUser, chatwithusername, njson[k].messages[j]["sakai:body"], njson[k].messages[j]["jcr:created"]);
+									addChatMessage(el, chatmessage);
 								}						
-							
+
 							} else {
 								
 								// Check whether there is a new message for this user
-								
-								var cont = false;
-								for(var j = 0; j < njson[i].messages.length; j++){
-									if (njson[i].messages[j]["sakai:read"] === "false"){
+								/*var cont = false;
+								for(var n = 0; n < njson[k].messages.length; n++){
+									if (njson[k].messages[n]["sakai:read"] === "false"){
 										cont = true;
 									}
-								}
+								}*/
 								
-								if (cont){
+								//if (cont){
 									
 									// Add the user information to the active windows
 									var index = activewindows.items.length;
 									activewindows.items[index] = {};
-									activewindows.items[index].userid = i;
+									activewindows.items[index].userid = k;
 									activewindows.items[index].active = false;
-									var friendProfile = njson[i].messages[0].userFrom;
-									if (njson[i].messages[0].userFrom["rep:userId"][0] == sdata.me.user.userid){
-										friendProfile = njson[i].messages[0].userTo;
+									var friendProfile = njson[k].messages[0].userFrom;
+									if (njson[k].messages[0].userFrom["rep:userId"] == sdata.me.user.userid){
+										friendProfile = njson[k].messages[0].userTo;
 									}
 									
 									// Parse the name, photo, statusmessage and chatstatus into the activewindows objects
-									activewindows.items[index].name = parseName(i, friendProfile.firstName, friendProfile.lastName);	
-									activewindows.items[index].photo = parsePicture(friendProfile.picture, i);
+									activewindows.items[index].name = parseName(k, friendProfile.firstName, friendProfile.lastName);	
+									activewindows.items[index].photo = parsePicture(friendProfile.picture, k);
 									activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
 									activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
 									
 									var togo = true;
 									// Togo will be false if the userid is in the activewindows and it's window is active
-									for (var l = 0; l < activewindows.items.length; l++) {
-										if (activewindows.items[l].userid === i) {
-											if (activewindows.items[l].active) {
+									for (var o = 0; o < activewindows.items.length; o++) {
+										if (activewindows.items[o].userid === k) {
+											if (activewindows.items[o].active) {
 												togo = false;
 											}
 										}
@@ -1706,19 +1711,19 @@ sakai.chat = function(tuid, placement, showSettings){
 								
 									if (togo) {
 										if (hasOpenChatWindow) {
-											setTimeout("sakai.flashChat.doFlash('" + i + "', false)", 500);
+											setTimeout("sakai.flashChat.doFlash('" + k + "', false)", 500);
 		
 										} else {
-											setTimeout("sakai.flashChat.doFlash('" + i + "', true)", 500);
+											setTimeout("sakai.flashChat.doFlash('" + k + "', true)", 500);
 										}
 									}
 									
 									// Extract existing windows
 									var newactivewindows = {};
 									newactivewindows.items = [];
-									for (var l = 0; l < activewindows.items.length; l++) {
-										if ($(chatWith + "_" + activewindows.items[l].userid).length === 0) {
-											newactivewindows.items[newactivewindows.items.length] = activewindows.items[l];
+									for (var p = 0; p < activewindows.items.length; p++) {
+										if ($(chatWith + "_" + activewindows.items[p].userid).length === 0) {
+											newactivewindows.items[newactivewindows.items.length] = activewindows.items[p];
 										}
 									}
 									
@@ -1727,9 +1732,7 @@ sakai.chat = function(tuid, placement, showSettings){
 									doWindowRender(null, newactivewindows);
 									sakai.chat.loadChatTextInitial(true, newactivewindows, true);
 									
-								}
-								
-								//sakai.chat.loadChatTextInitial(true, activewindows);
+								//}
 							}
 						}
 					}
@@ -1841,7 +1844,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		getCountUnreadMessages();
 		setPresence(true);
 	};
-	
+
 	var setPresence = function(initial){
 		var status = "online";
 		var data = {};
@@ -1855,7 +1858,7 @@ sakai.chat = function(tuid, placement, showSettings){
 		} else {
 			data["sakai:status"] = status;
 		}
-		data["_charset_"] = "utf-8";
+		data._charset_ = "utf-8";
 		$.ajax({
 			url: url,
 			type: "POST",
