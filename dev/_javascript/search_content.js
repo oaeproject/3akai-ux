@@ -220,7 +220,7 @@ sakai.search = function() {
 		mainSearch.fillInElements(page, searchquery, searchwhere);
 		
 		var dd = $("#search_filter").get(0);
-		for (var i = 0; i < dd.options.length; i++){
+		for (var i = 0, j = dd.options.length; i<j; i++){
 			if (dd.options[i].value == searchwhere){
 				dd.selectedIndex = i;
 			}
@@ -236,9 +236,7 @@ sakai.search = function() {
 		if (searchterm) {
 			// Show and hide the correct elements.
 			showSearchContent();
-			
-			// Set off the AJAX request
-			
+						
 			// Sites Search
 			var searchWhere = mainSearch.getSearchWhereSites();
 			

@@ -208,6 +208,7 @@ sakai.search = function() {
 		}
 		
 		if (foundSites && foundSites.results) {
+			
 			finaljson.items = foundSites.results;
 		}
 		
@@ -316,7 +317,7 @@ sakai.search = function() {
 			// Sites search
 			$.ajax({
 				cache: false,
-				url: "/var/search/sites?page=0&items=5&q=" + urlsearchterm,
+				url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE + "?page=0&items=5&q=" + urlsearchterm,
 				success: function(data) {
 					var foundSites = $.evalJSON(data);
 					renderSites(foundSites);
@@ -341,7 +342,7 @@ sakai.search = function() {
 	 */
 	var searchPerson = function(userid) {
 		var person = false;
-		for (var i = 0; i < foundPeople.length; i++) {
+		for (var i = 0, j = foundPeople.length; i<j; i++) {
 			if (foundPeople[i].userid[0] === userid) {
 				person = foundPeople[i];
 				break;

@@ -172,8 +172,8 @@
 						<div id="sites_search_result_template"><!--
 							{for i in items}
 								<div class="fl-container fl-fix search_result_course_site">
-									<div class="search_result_course_site_title"><a href="${i.path}">${i.name}</a></div>
-									<div class="search_result_course_site_url">${i.description}</div>
+									<div class="search_result_course_site_title"><a href="${i.path}">${i.data.id}</a></div>
+									<div class="search_result_course_site_url">${i.data["sakai:body"]}</div>
 									<div class="search_result_course_site_url"><a href="${i.path}">${Config.SakaiDomain}${i.path}</a></div>
 								</div>
 							{forelse}
