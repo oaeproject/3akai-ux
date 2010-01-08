@@ -217,6 +217,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	var topNavigationMySitesList = topNavigation + "_my_sites_list";
 	
 	// User Link
+	var userLinkContainer = "#user_link_container";
 	var userLink = "#user_link";
 	var userLinkMenu = userLink + "_menu";
 	var userLinkMenuLink = userLink + "_menu" + " a";
@@ -1134,13 +1135,17 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Show or hide the user link menu
 	 */
 	var showHideUserLinkMenu = function(){
+		
+		
 		if($(userLinkMenu).is(":visible")){
 			$(userLinkMenu).hide();
 		}else{
-			$(userLinkMenu).css("left", Math.round($(userLink).offset().left) + 5 + "px");
+			$(userLinkMenu).css("left", Math.round($(userLink).offset().left) + "px");
+			$(userLinkMenu).css("top", Math.round($(userLink).offset().top) + $(userLink).height() + "px");
 			$(userLinkMenu).css("width", ($(userLink).width() + 10) + "px");
 			$(userLinkMenu).show();
 		}
+		
 	};
 	
 	/**
@@ -1159,7 +1164,7 @@ sakai.chat = function(tuid, placement, showSettings){
 	 * Update the status on the page
 	 */
 	var updateChatStatus = function(){
-		updateChatStatusElement($(userIdLabel), currentChatStatus);
+		updateChatStatusElement($(userLink), currentChatStatus);
 		if ($(myprofileName)) {
 			updateChatStatusElement($(myprofileName), currentChatStatus);
 		}
@@ -1828,6 +1833,7 @@ sakai.chat = function(tuid, placement, showSettings){
 				$(pictureHolder).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture.name);
 			}
 		}
+		
 		
 	   	selectPage();
 		getChatStatus();

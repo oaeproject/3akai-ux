@@ -189,27 +189,33 @@ body.search-container .explore_nav .explore #nav_search_link a {
 
 /*** Top Right Navbar ***/
 .explore_nav .personal-container {
-	margin-top: .8em;
+	margin-top: 10px;
 	background: url('../../_images/topBar_tr.png') top right no-repeat;
 	padding-right: 5px;
 	overflow: hidden;
-	height: 25px;
 }
 .explore_nav .personal {
-	padding: 5px 10px;
+	padding: 4px 0 0 5px;
 	margin: 0;
 	background: url('../../_images/topBar_tl.png') top left no-repeat;
-	min-height: 1em;
+	min-height: 30px;
 	}
 .explore_nav .personal li a {
-    font-size:0.95em;
+    font-size:0.9em;
     padding:0 5px 0 7px;
     border-left: 1px solid #666a6d;
     color: #fff;
-	}
-.explore_nav .personal li strong {
+}
+.explore_nav .personal li span {
 	color: #fff;
+	font-size: 0.9em;
 	}
+.explore_nav .user_link span {
+	background: url('../../_images/white_subnav_arrow.png') bottom right no-repeat;
+	padding-right: 17px;
+	padding-left: 5px;
+}
+
 .explore_nav .personal li.last a{
 	 border:none;
 	 padding-right:0
@@ -222,7 +228,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .explore_nav .personal .mail img {position: relative; top: -1px;}
 .explore_nav_selected_arrow {margin: 12px 0 0 5px;}
 .explore_nav_selected {background-color: #878A8C; height:32px;}
-.explore_nav_selected_dropdown {height: 38px; background-color: #fff !important;}
+.explore_nav_selected_dropdown {height: 46px; background-color: #fff !important;}
 .explore_nav_selected_dropdown span {color: #595e62 !important;}
 
 #widget_chat {
@@ -238,7 +244,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 
 
 /* HEADER */
-.header { padding: 12px 0 0 0; }
+.header { padding: 5px 0 0 0; }
 .header .fixed-container { background: #fff url('../../_images/header_l.png') top left no-repeat; }
 .header .fixed-container .decor { background: url('../../_images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
 
