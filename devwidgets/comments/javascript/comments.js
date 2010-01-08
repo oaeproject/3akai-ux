@@ -570,7 +570,7 @@ sakai.comments = function(tuid, placement, showSettings) {
                 
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
                 if (widgetSettings["sakai:allowanonymous"] === false && !isLoggedIn) {
-                    $(commentsCommentBtn, rootel).hide();
+                    $(commentsCommentBtn, rootel).parent().hide();
                 }
                 
                 if (showSettings) {
