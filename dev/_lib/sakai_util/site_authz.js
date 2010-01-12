@@ -43,7 +43,9 @@ sakai.lib.site.authz = {
 			"privilege@jcr:readAccessControl": "granted",
 			"privilege@jcr:removeChildNodes": "granted",
 			"privilege@jcr:removeNode": "granted",
-			"privilege@jcr:write": "granted"
+			"privilege@jcr:write": "granted",
+			"privilege@jcr:nodeTypeManagement" : "granted",
+			"privilege@jcr:versionManagement" : "granted"
 		}
 	}],
 	// Standard site-wide schemes for site availability and access rights.
