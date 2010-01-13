@@ -188,7 +188,7 @@ $.fn.simpleTree = function(opt){
 					$('body').append('<div id="drag_container"><ul></ul></div>');
 					$('#drag_container').hide().css({opacity:'0.8'});
 					$('#drag_container >ul').append(cloneNode);
-					$("<img>").attr({id	: "tree_plus",src	: "images/plus.gif"}).css({width: "7px",display: "block",position: "absolute",left	: "5px",top: "5px", display:'none'}).appendTo("body");
+					$("<img>").attr({id	: "tree_plus",src	: "/dev/_images/simpletree/plus.gif"}).css({width: "7px",display: "block",position: "absolute",left	: "5px",top: "5px", display:'none'}).appendTo("body");
 					$(document).bind("mousemove", {LI:LI}, TREE.dragStart).bind("mouseup",TREE.dragEnd);
 				}
 				return false;
@@ -229,7 +229,7 @@ $.fn.simpleTree = function(opt){
 			TREE.setEventLine($('.line, .line-last', obj));
 		};
 		TREE.setTrigger = function(node){
-			$('>span',node).before('<img class="trigger" src="images/spacer.gif" border=0>');
+			$('>span',node).before('<img class="trigger" src="/dev/_images/simpletree/spacer.gif" border=0>');
 			var trigger = $('>.trigger', node);
 			trigger.click(function(event){
 				TREE.nodeToggle(node);
@@ -266,19 +266,19 @@ $.fn.simpleTree = function(opt){
 
 					if(parent.className.indexOf('folder-close')>=0 && ajaxChildSize==0)
 					{
-						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src','images/plus.gif');
+						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src','/dev/_images/simpletree/plus.gif');
 						$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 						dragDropTimer = setTimeout(function(){
 							parent.className = parent.className.replace('close','open');
 							$('>ul',parent).show();
 						}, 700);
 					}else if(parent.className.indexOf('folder')>=0 && ajaxChildSize==0){
-						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src','images/plus.gif');
+						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src','/dev/_images/simpletree/plus.gif');
 						$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 					}else if(parent.className.indexOf('folder-close')>=0 && ajaxChildSize>0)
 					{
 						mouseMoved = false;
-						$("#tree_plus").attr('src','images/minus.gif');
+						$("#tree_plus").attr('src','/dev/_images/simpletree/minus.gif');
 						$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 
 						$('>ul',parent).show();
@@ -288,7 +288,7 @@ $.fn.simpleTree = function(opt){
 						TREE.setAjaxNodes(ajaxChild,parent.id, function(){
 							parent.className = parent.className.replace('close','open');
 							mouseMoved = true;
-							$("#tree_plus").attr('src','images/plus.gif');
+							$("#tree_plus").attr('src','/dev/_images/simpletree/plus.gif');
 							$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 						});
 
