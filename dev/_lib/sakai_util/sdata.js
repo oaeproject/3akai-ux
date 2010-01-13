@@ -649,7 +649,7 @@ sdata.widgets.WidgetPreference =  {
 				      cb(data,true);
 				    },
 				    error: function() {
-				      alert("Widgetpreference.save failed to set resourceType in sdata.js!");
+				      fluid.log("Widgetpreference.save failed to set resourceType in sdata.js!");
 				    }
 				  });  
 				} else {

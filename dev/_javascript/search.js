@@ -210,6 +210,18 @@ sakai.search = function() {
 		if (foundSites && foundSites.results) {
 			
 			finaljson.items = foundSites.results;
+			
+			// If result is page content set up page path
+			for (var i=0, j=finaljson.items.length; i<j; i++ ) {
+				var full_path = finaljson.items[i]["path"];
+				var site_path = finaljson.items[i]["site"]["path"];
+				var page_path = site_path;
+				if (finaljson.items[i]["type"] === "sakai/pagecontent") {
+					page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
+					
+				}
+				finaljson.items[i]["pagepath"] = page_path;
+			}
 		}
 		
 		$(searchConfig.sites.searchResult).html($.Template.render(searchConfig.sites.searchResultTemplate, finaljson));
