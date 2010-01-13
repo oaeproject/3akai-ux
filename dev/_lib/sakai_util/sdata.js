@@ -610,17 +610,18 @@ sdata.widgets.WidgetPreference =  {
 	 * @param prefcontent the content to be saved
 	 * @param {function} callback, the call back to call when the save is complete
 	 */
-	save : function(url, prefname, prefcontent, callback, requireslogin,contentType){
+	save : function(url, prefname, prefcontent, callback, requireslogin, contentType, resourceType){
 		
 		var cb = callback || function() {}; 
 		var args = (requireslogin === false ? false : true);
 		var ct = contentType || "text/plain";
+		var rt = resourceType || "";
 		
 		var boundaryString = "bound"+Math.floor(Math.random() * 9999999999999);
 		var boundary = '--' + boundaryString;
 		
 		var outputData = boundary + '\r\n' +
-					 'Content-Disposition: form-data; name="' + prefname + '"; filename="' + prefname + '"\r\n'+ 
+					 'Content-Disposition: form-data; name="' + prefname + '"; filename="' + prefname + '"; \r\n'+ 
 					 'Content-Type: '+ ct + '\r\n' +
 					 '\r\n'+
 					 prefcontent +
@@ -632,7 +633,29 @@ sdata.widgets.WidgetPreference =  {
 			type : "POST",
 			contentType : "multipart/form-data; boundary=" + boundaryString,
 			success : function(data) {
-				cb(data,true);
+				// Set Sling resourceType on node if set by caller (so that search servlet finds it) - TO DO this should eventually be in a batch POST
+				// jcr:mixinTypes required to get around 500 thrown by Sling
+				
+				if (rt !== "") {
+				  $.ajax({
+				    url: url+"/"+prefname,
+				    type: "POST",
+				    data: {
+				      "jcr:mixinTypes": "sakai:propertiesmix",
+				      "sling:resourceType": rt,
+				      "_charset_":"utf-8"
+				    },
+				    success: function() {
+				      cb(data,true);
+				    },
+				    error: function() {
+				      alert("Widgetpreference.save failed to set resourceType in sdata.js!");
+				    }
+				  });  
+				} else {
+				  cb(data,true);
+				}
+				
 			},
 			error: function(xhr, textStatus, thrownError) {
 				cb(xhr.status,false);

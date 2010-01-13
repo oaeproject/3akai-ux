@@ -618,7 +618,7 @@ sakai.site.site_admin = function(){
 							}
 						});
 									
-					}, null, "text/plain");					
+					}, null, "text/plain", "sakai/pagecontent");					
 					
 				}
 				else {
@@ -673,7 +673,7 @@ sakai.site.site_admin = function(){
 							type: 'POST'
 						});
 					
-					}, null, "text/plain");
+					}, null, "text/plain", "sakai/pagecontent");
 					
 				}
 			}
@@ -822,7 +822,7 @@ sakai.site.site_admin = function(){
 								}
 							});
 					
-						}, null, "text/plain");	
+						}, null, "text/plain", "sakai/pagecontent");	
 				
 			},
 			error: function(xhr, textStatus, thrownError) {
@@ -878,7 +878,7 @@ sakai.site.site_admin = function(){
 							// Refresh site info
 							sakai.site.refreshSiteInfo();
 							
-						}, null, "text/plain");	
+						}, null, "text/plain", "sakai/pagecontent");	
 				
 			}
 		});
@@ -992,7 +992,7 @@ sakai.site.site_admin = function(){
 		}
 		
 		// Save the data
-		sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "_content", tosave, function(){}, null, "text/plain");
+		sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "_content", tosave, function(){}, null, "text/plain", "sakai/pagecontent");
 
 		// Update autosave indicator
 		var now = new Date();
@@ -2179,7 +2179,7 @@ sakai.site.site_admin = function(){
 							url: newfolderpath + "/content.save.html",
 							type: 'POST'
 					});
-				}, null, "text/plain");
+				}, null, "text/plain", "sakai/pagecontent");
 				sakai.site.resetVersionHistory();
 			},
 			error: function(xhr, textStatus, thrownError) {
