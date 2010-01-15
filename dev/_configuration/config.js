@@ -86,6 +86,7 @@ var Config = {
 		PRESENCE_CONTACTS_SERVICE: "/_user/presence.contacts.json",
 		PROXY_SERVICE: "/var/proxy/rss.json?rss=",
 		SEARCH_SERVICE: "/var/search/users",
+		SEARCH_CONTENT_COMPREHENSIVE: "/var/search/sitecontent.json",
 		SITE_GET_SERVICE: "/_rest/site/get",
 		SITE_CREATE_SERVICE: "/_rest/site/create",
 		SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",

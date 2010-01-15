@@ -291,6 +291,15 @@ a.search_results_part_title {
 	color: #999;
 }
 
+.search_result_course_site_excerpt {
+	font-size: .95em;
+	color: #666;
+}
+.search_result_course_site_excerpt strong {
+	font-size: .95em;
+	color: #333;
+}
+
 /* FOOTER */
 
 .page_footer {

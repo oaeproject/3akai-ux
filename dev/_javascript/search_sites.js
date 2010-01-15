@@ -150,6 +150,18 @@ sakai.search = function() {
 			// If we have results we add them to the object.
 			if (results && results.results) {
 				finaljson.items = results.results;
+				
+				// If result is page content set up page path
+				for (var i=0, j=finaljson.items.length; i<j; i++ ) {
+					var full_path = finaljson.items[i]["path"];
+					var site_path = finaljson.items[i]["site"]["path"];
+					var page_path = site_path;
+					if (finaljson.items[i]["type"] === "sakai/pagecontent") {
+						page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
+						
+					}
+					finaljson.items[i]["pagepath"] = page_path;
+				}
 			}
 						
 			// If we don't have any results or they are less then the number we should display 
@@ -222,7 +234,7 @@ sakai.search = function() {
 			}
 			
 			$.ajax({
-				url: "/var/search/sites?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
+				url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
 				cache: false,
 				success: function(data) {
 					var json = $.evalJSON(data);

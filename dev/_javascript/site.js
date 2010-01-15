@@ -488,14 +488,18 @@ sakai.site = function(){
 				items.items = items.items.splice(0,5);
 				
 				// Write
-				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+				if (sdata.me.user.userStoragePrefix) {
+					sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+				}
 			},
 			error: function(xhr, textStatus, thrownError) {
 				items.items = [];
 				items.items.unshift(site);
 				
 				// Write
-				sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+				if (sdata.me.user.userStoragePrefix) {
+					sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+				}
 			}
 		});
 	};
