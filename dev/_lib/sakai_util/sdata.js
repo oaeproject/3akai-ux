@@ -539,6 +539,59 @@ sdata.widgets.WidgetLoader = {
 };
 
 
+// General preference save and load functions
+sdata.preference = {
+  
+  // Saves a preference to a specified 
+  // @param url {String} The path to the preference where it needs to be saved
+  // @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
+  // @param callback {Function} A callback function which is executed at the end of the operation
+  // @returns {Void}
+  save: function(pref_url, pref_data, callback) {
+      
+      // Arg check
+      if ((!pref_url) || (pref_url) || (!pref_data) || (!callback)) {
+	fluid.log("sdata.preference.save(): Not Enough arguments!");
+	return;
+      }
+      
+      var pref_data_string = $.toJSON(pref_data);
+      
+      $.ajax({
+	      url: pref_url,
+	      type: "POST",
+	      data: {
+		      ":operation": "createTree",
+		      "tree": pref_data_string
+	      },
+	      success: function(data) {
+		callback(true, data);
+	      },
+	      error: function(xhr, status, e) {
+		fluid.log("site_admin.js: There was an error saving the template configuration file: "+xhr.url);
+		callback(false,xhr);
+	      }
+      });
+  },
+  
+  load: function(pref_url, callback) {
+    $.ajax({
+	      url: pref_url + ".infinity.json",
+	      type: "GET",
+	      success: function(data) {
+		var returned_data = $.evalJSON(data);
+		callback(true, data);
+	      },
+	      error: function(xhr, status, e) {
+		fluid.log("site_admin.js: There was an error loading the template configuration file: "+xhr.url);
+		callback(false,xhr);
+	      }
+      });
+  }
+  
+};
+
+
 //////////////////////////////
 // Widget Utility Functions //
 //////////////////////////////
@@ -649,7 +702,7 @@ sdata.widgets.WidgetPreference =  {
 				      cb(data,true);
 				    },
 				    error: function() {
-				      fluid.log("Widgetpreference.save failed to set resourceType in sdata.js!");
+				      
 				    }
 				  });  
 				} else {
