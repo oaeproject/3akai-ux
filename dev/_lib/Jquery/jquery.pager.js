@@ -56,8 +56,8 @@
         // add in the previous and next buttons
         //$pager.append(renderButton('First', pagenumber, pagecount, buttonClickCallback)).append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback));
 		
-		// Without 'First' button
-		$pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts));
+	// Without 'First' button
+	$pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts));
 		
         // pager currently only handles 10 viewable pages ( could be easily parameterized, maybe in next version ) so handle edge cases
         var startPoint = 1;
@@ -155,10 +155,10 @@
         pagenumber: 1,
         pagecount: 1,
 		htmlparts : {
-			'first' : 'first',
-			'last' : 'last',
-			'prev' : '<span><img src="/dev/_images/pager_next_left.png" alt="" /> <span class="t">Prev</span></span>',
-			'next' : '<span><span class="t">Next</span> <img src="/dev/_images/pager_next_right.png" alt="" /></span>' 
+			"first" : "first",
+			"last" : "last",
+			"prev" : "<span><img src=\"/dev/_images/pager_next_left.png\" alt=\"\" /> <span class=\"t\">Prev</span></span>",
+			"next" : "<span><span class=\"t\">Next</span> <img src=\"/dev/_images/pager_next_right.png\" alt=\"\" /></span>" 
 		}
     };
 

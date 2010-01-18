@@ -631,7 +631,7 @@ sdata.preference = {
       }
       
       });
-  },
+  }
 };
 
 
