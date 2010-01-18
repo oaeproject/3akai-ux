@@ -157,8 +157,8 @@
 		htmlparts : {
 			'first' : 'first',
 			'last' : 'last',
-			'prev' : '<span><img src="/dev/_images/scroll_arrow_left.png" alt="" /> <span class="t">Prev</span></span>',
-			'next' : '<span><span class="t">Next</span> <img src="/dev/_images/scroll_arrow_right.png" alt="" /></span>' 
+			'prev' : '<span><img src="/dev/_images/pager_next_left.png" alt="" /> <span class="t">Prev</span></span>',
+			'next' : '<span><span class="t">Next</span> <img src="/dev/_images/pager_next_right.png" alt="" /></span>' 
 		}
     };
 
