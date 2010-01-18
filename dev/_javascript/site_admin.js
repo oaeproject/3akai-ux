@@ -1939,7 +1939,6 @@ sakai.site.site_admin = function(){
 	);
 	
 	
-	
 	/////////////////////////////
 	// ADD NEW: DASHBOARD
 	/////////////////////////////
@@ -2020,30 +2019,6 @@ sakai.site.site_admin = function(){
 	}, function(out){
 		$("#option_page_dashboard").removeClass("selected_option");
 	});
-	
-	
-	
-	
-	//////////////////////////////////
-	// ADD NEW: PAGE FROM TEMPLATE
-	//////////////////////////////////
-	
-
-	// ?
-
-	
-	// Bind Add a new page from template hover event
-	$("#option_page_from_template").hover(
-		function(over){
-			$("#option_page_from_template").addClass("selected_option");
-		}, 
-		function(out){
-			$("#option_page_from_template").removeClass("selected_option");
-		}
-	);
-	
-	
-	
 	
 	
 	
@@ -2539,8 +2514,24 @@ sakai.site.site_admin = function(){
 			});	
 		}
 	});
-
-
+	
+	
+	//////////////////////////////////
+	// ADD NEW: PAGE FROM TEMPLATE
+	//////////////////////////////////
+	
+	// Bind Add a new page from template hover event
+	$("#option_page_from_template").hover(
+		function(over){
+			$("#option_page_from_template").addClass("selected_option");
+		}, 
+		function(out){
+			$("#option_page_from_template").removeClass("selected_option");
+		}
+	);
+	
+	
+	
 	/////////////////////////////////
 	// MORE: SAVE PAGE AS TEMPLATE //
 	/////////////////////////////////
@@ -2578,22 +2569,13 @@ sakai.site.site_admin = function(){
 			obj.name = name;
 			obj.description = description;
 			
-			var a = ["u"];
-			var k = ["" + newid];
-			var v = ["" + $.toJSON(obj)];
-			var tosend = {"v":v,"k":k,"a":a};
-				
-			// Get templates configuration file
-			$.ajax({
-			  	url : Config.URL.TEMPLATES_CONFIG,
-				cache: false,
-				success : function(data) {
-					var templates = $.evalJSON(data);
-					updateTemplates(obj, newid, templates);
-				},
-				error: function(xhr, textStatus, thrownError) {
-					var templates = {};
-					updateTemplates(obj, newid, templates);
+			// Load template configuration file
+			sdata.preference.load(Config.URL.TEMPLATES_CONFIG, function(success, pref_data){
+				if (success) {
+					updateTemplates(obj, newid, pref_data);
+				} else {
+					var empty_templates = {};
+					updateTemplates(obj, newid, empty_templates);
 				}
 			});
 		}
@@ -2607,15 +2589,21 @@ sakai.site.site_admin = function(){
 	 * @return void
 	 */
 	var updateTemplates = function(obj, newid, templates){
+		
 		templates[newid] = obj;
-		var tosave = $.toJSON(templates);
-		sdata.widgets.WidgetPreference.save(Config.URL.TEMPLATES, "configuration", tosave, function(success){
-			sdata.widgets.WidgetPreference.save(Config.URL.TEMPLATES + newid, "content", sakai.site.pagecontents[sakai.site.selectedpage], function(success){
+		
+		sdata.preference.save(Config.URL.TEMPLATES+"configuration", templates, function(success, response) {
+			
+			if (success) {
+				sdata.widgets.WidgetPreference.save(Config.URL.TEMPLATES + newid, "content", sakai.site.pagecontents[sakai.site.selectedpage], function(success){
 				$("#save_as_template_container").jqmHide();
 				$("#template_name").val("");
 				$("#template_description").val("");
-			});
+				});
+			}
+			
 		});
+		
 	};
 	
 	/**
@@ -2632,18 +2620,13 @@ sakai.site.site_admin = function(){
 		$("#add_new_menu").hide();
 		sakai.site.isShowingDropdown = false;
 		
-				
-		// Get templates configuration file
-		$.ajax({
-		 	url: Config.URL.TEMPLATES_CONFIG,
-			cache: false,
-			success : function(data) {
-				var templates = $.evalJSON(data);
-				renderTemplates(templates);
-			},
-			error: function(xhr, textStatus, thrownError) {
-				var templates = {};
-				renderTemplates(templates);
+		// Load template configuration file
+		sdata.preference.load(Config.URL.TEMPLATES_CONFIG, function(success, pref_data){
+			if (success) {
+				renderTemplates(pref_data);
+			} else {
+				var empty_templates = {};
+				renderTemplates(empty_templates);
 			}
 		});
 		
@@ -2692,13 +2675,18 @@ sakai.site.site_admin = function(){
 				}
 			}
 			
-			sdata.widgets.WidgetPreference.save("/sdata/p/_templates/pages", "configuration", $.toJSON(newobj), function(success){});
-			
-			$.ajax({
-			 	url : Config.URL.TEMPLATES + todelete,
-			 	type : "DELETE"
+			// Save updated template preferences			
+			sdata.preference.save(Config.URL.TEMPLATES+"configuration", newobj, function(success, response) {
+				if (success) {
+					
+					// Delete template content
+					$.ajax({
+						url : Config.URL.TEMPLATES + todelete,
+						type : "DELETE"
+					});
+				}
 			});
-			
+
 			renderTemplates(newobj);
 		});
 		
