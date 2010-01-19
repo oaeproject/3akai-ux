@@ -375,7 +375,7 @@
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 			</div>
 		</div>
-		<div class="contentmedia_dialog_body">
+		<div class="dialog_content">
 			<a href="javascript:;" id="contentmedia_dialog_permissions_trigger">Permissions</a> | 
 			<a href="javascript:;" id="contentmedia_dialog_associations_trigger">Site Associations</a>
 			
@@ -421,8 +421,13 @@
 						<option value="/_sites/site99">site99</option>
 					</select>
 				</div>
+				
+				<input type="button" value="Set associations" class="contentmedia_dialog_button"/>
 			</div>
 		</div>
+	<div class="dialog_footer">
+		<div class="dialog_footer_inner"><!-- --></div>
+	</div>
 	</div>
 	<div id="contentmedia_dialog_remove" class="dialog">
 		<div class="dialog_header">
@@ -431,7 +436,7 @@
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
 			</div>
 		</div>
-		<div class="contentmedia_dialog_body">
+		<div class="dialog_content">
 			<span>Are you sure you want to remove the following file(s)?</span><br />
 			<div id="contentmedia_dialog_remove_list"></div>
 			<input type="button" value="yes" id="contentmedia_dialog_remove_confirm" />
@@ -447,6 +452,9 @@
 					</div>
 				{/for}
 			--></div>
+		</div>
+		<div class="dialog_footer">
+			<div class="dialog_footer_inner"><!-- --></div>
 		</div>
 	</div>
 	<script type="text/javascript" language="JavaScript" src="_javascript/contentmedia.js"></script>

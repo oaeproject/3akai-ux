@@ -428,13 +428,10 @@
 }
 
 /* Dialog */
-.contentmedia_dialog_body {
-	margin: 6px;
-}
-.contentmedia_dialog_body form {
+.contentmedia-container .dialog_content form {
 	padding: 4px;
 }
-.contentmedia_dialog_body input {
+.contentmedia-container .dialog_content input {
 	margin: 5px 0;
 }
 #contentmedia_dialog_associations_move_container {
@@ -454,7 +451,7 @@
 	margin: 8px;	
 }
 .contentmedia_dialog_associations_select_container select {
-	width: 200px;
+	width: 197px;
 }
 
 #contentmedia_dialog_remove_list {
@@ -464,6 +461,10 @@
 	overflow-x:hidden;
 	overflow-y:auto;
 	padding:5px;
+}
+
+.contentmedia_dialog_button {
+	clear: both;
 }
 
 /* Override Fluid */
