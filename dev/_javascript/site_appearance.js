@@ -78,7 +78,7 @@ sakai.site_appearance = function() {
 	var siteAppearanceAppendIdToUrlClass = siteAppearanceClass + "_append_id_to_url";
 
 	// Tab
-	var tabActiveClass = "fl-activeTab";
+	var tabActiveClass = "fl-tabs-active";
 
 	// Template
 	var siteAppearanceTemplate = "site_appearance";

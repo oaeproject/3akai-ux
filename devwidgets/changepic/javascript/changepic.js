@@ -50,7 +50,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 	var tabUpload = "#changepic_upload";
 	var tabSelectContent = "#changepic_selectpicture";
 	var tabUploadContent = "#changepic_uploadnew";
-	var tabActiveClass = "fl-activeTab";
+	var tabActiveClass = "fl-tabs-active";
 	var tabSearchSelected = "search_tab_selected";
 	
 	//	others

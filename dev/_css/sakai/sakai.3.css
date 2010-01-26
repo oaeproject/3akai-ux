@@ -174,7 +174,7 @@ a { color:#333; text-decoration:none;}
 .primary-tabs {border-bottom: 1px solid #EBEBEB;padding: 0 0 2px 20px;}
 .primary-tabs ul.fl-tabs {border: none;}
 .primary-tabs li a {background-color:#F3F3F3;border: none;border-bottom: 1px solid #EBEBEB;color:#3399CC;padding: 4px 21px 4px 21px;margin-right: 4px;margin-bottom: -9px;}
-.primary-tabs .fl-activeTab a {background-color: #FFF;border-left: 1px solid #EBEBEB;border-right: 1px solid #EBEBEB;border-top: 1px solid #EBEBEB;border-bottom: 1px solid #FFF;padding: 7px 20px 4px 20px;color:#333333;font-weight:bold;}
+.primary-tabs .fl-tabs-active a {background-color: #FFF;border-left: 1px solid #EBEBEB;border-right: 1px solid #EBEBEB;border-top: 1px solid #EBEBEB;border-bottom: 1px solid #FFF;padding: 7px 20px 4px 20px;color:#333333;font-weight:bold;}
 
 /* TOP NAVIGATION
 .explore_nav {background-color: #EEEEEE;	height: 22px;}

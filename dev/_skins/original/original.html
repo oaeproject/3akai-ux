@@ -73,10 +73,10 @@
 	<div class="fl-fix fl-centered fixed-container">
 	    
 	    <!-- MAIN PAGE -->
-	    <div class="fl-fix fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
+	    <div class="fl-fix fl-col-fixed main_container column_splitter_sites" id="show_view_container">
 			   
 			<!-- Page Nav -->
-			<div class="fl-col-side page_nav">	
+			<div class="fl-col page_nav">	
 			    
 			    <div class="add_a_new_container">
 				<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
@@ -122,7 +122,7 @@
 			</div>
 			
 			<!-- MAIN CONTENT -->
-			<div class="fl-col-main content_container">
+			<div class="fl-col-fixed content_container">
 			    
 			    <!-- TOP BORDER -->
 			    <div class="content_top"><div class="content_top_inner"></div></div>
@@ -387,7 +387,7 @@
 			<!-- TAB NAVIGATION --> 
 			<div class="primary-tabs">
 			    <ul class="fl-tabs fl-tabs-right">
-			        <li class="fl-activeTab" id="tab_text_editor"><a>Text Editor</a></li>
+			        <li class="fl-tabs-active" id="tab_text_editor"><a>Text Editor</a></li>
 			        <li id="tab_html"><a href="javascript:;">HTML</a></li>
 			        <li id="tab_preview"><a href="javascript:;">Preview</a></li>
 			    </ul>
@@ -761,7 +761,7 @@
 			    </div>
 			    <div id="list_container_template"><!--
 				    {if size > 0}
-				    <ul class="fl-listmenu template_list">
+				    <ul class="fl-list-menu template_list">
 					    {for i in items}
 				    <li>
 						    <a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>

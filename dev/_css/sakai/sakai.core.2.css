@@ -345,7 +345,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 }
 
 /* Fluid overrides */
-.fl-col-mixed2 .fl-col-side{
+.fl-col-fixed .col-side {
 	width: 230px;
 }
 
@@ -537,10 +537,10 @@ body.search-container .explore_nav .explore #nav_search_link a {
     font-weight:normal;
     border-bottom:none;
 }
-.content_container .fl-activeTab a {
+.content_container .fl-tabs-active a {
     background-color:#fff;
 }
-.content_container .fl-activeTab a {
+.content_container .fl-tabs-active a {
     font-weight:bold;
     color:#000;    
 }*/
@@ -588,7 +588,7 @@ body.search-container .explore_nav .explore #nav_search_link a {
 	margin:0 auto;
 }
 /* overrides for standard fl-col */
-.fl-col-mixed2 .fl-col-main { margin-left: 230px; }
+.fl-col-fixed .content_container { margin-left: 230px; }
 .content_container .create_options .more_options .fl-col {margin:0; width:120px; overflow:hidden;}
 .content_container .create_options .more_options p {color:#999; margin-right:80px;}
 .content_container .create_options .more_options p a {color:#000;}
@@ -632,10 +632,10 @@ body.search-container .explore_nav .explore #nav_search_link a {
     font-weight:normal;
     margin-left:0;
 }
-.gateway_heading .search .fl-tabs li.fl-activeTab {    
+.gateway_heading .search .fl-tabs li.fl-tabs-active {    
     border:none;
 }
-.gateway_heading .search .fl-tabs li.fl-activeTab a {
+.gateway_heading .search .fl-tabs li.fl-tabs-active a {
     background:#999 url(../../_images/gateway_search_indicator.png) no-repeat scroll center bottom;
     color:#fff;
 }
@@ -671,20 +671,20 @@ body.search-container .explore_nav .explore #nav_search_link a {
 .gateway_main_column {
     background-color:#f5f5f5;    
 }
-.gateway_main_column .fl-listmenu {
+.gateway_main_column .fl-list-menu {
     margin:0;
     width:125px;
     border:none;
     background-color:#e0e0e0;
 }
-.gateway_main_column .fl-listmenu li {
+.gateway_main_column .fl-list-menu li {
     border:none;    
 }
-.gateway_main_column .fl-listmenu a {    
+.gateway_main_column .fl-list-menu a {    
     padding:15px;
     border-bottom:1px solid #fff;
 }
-.gateway_main_column .fl-listmenu .active a {
+.gateway_main_column .fl-list-menu .active a {
     background-color:#f5f5f5;
     border-color:#f5f5f5;
 }

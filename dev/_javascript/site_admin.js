@@ -1357,8 +1357,8 @@ sakai.site.site_admin = function(){
 	 * @return void
 	 */
 	var switchtab = function(inactiveid, inactivetext, activeid, activetext){
-		$("#tab_" + inactiveid).removeClass("fl-activeTab").html('<a href="javascript:;">' + inactivetext + '</a>');
-		$("#tab_" + activeid).addClass("fl-activeTab").html('<a href="javascript:;">' + activetext + '</a>');
+		$("#tab_" + inactiveid).removeClass("fl-tabs-active").html('<a href="javascript:;">' + inactivetext + '</a>');
+		$("#tab_" + activeid).addClass("fl-tabs-active").html('<a href="javascript:;">' + activetext + '</a>');
 	};
 	
 	

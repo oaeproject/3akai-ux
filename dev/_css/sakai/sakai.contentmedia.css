@@ -475,10 +475,8 @@
 #uploader-contents {overflow:auto;}
 .fl-uploader{width:228px;position:relative;display:block;clear:both;}
 .fl-uploader-manually-degrade,.fl-uploader-manually-enhance{display:block;width:200px;clear:both;float:none;text-align:left;padding:0;font-size:0.8em;}
-.fl-ProgEnhance-basic div input{margin-top:.6em;}
-.fl-ProgEnhance-enhanced{display:none;}
-.fl-progEnhance-basic div input{margin-top:.6em;}
-.fl-progEnhance-enhanced{display:none;}
+.fl-ProgEnhance-basic div input, .fl-progEnhance-basic div input{margin-top:.6em;}
+.fl-ProgEnhance-enhanced, .fl-progEnhance-enhanced{display:none;}
 .fl-uploader td,.fl-uploader th{border:none;}
 .fl-uploader table{border-collapse:separate;margin:0;}
 .fl-uploader form{height:auto!important;}

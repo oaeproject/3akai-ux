@@ -12,15 +12,11 @@
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }
 
-.inbox_main .fl-col-side
+.inbox_main .side_panel
 { padding: 0; }
 
-.inbox_main .fl-col-main
+.inbox_main .col-main
 { margin-top: 8px; margin-left: 240px; padding: 0}
-
-
-
-
 
 
 /** SIDE NAV **/
@@ -44,7 +40,6 @@
 
 .inbox_main .drop-box ul li
 { list-style-type: none; padding: 5px 5px 5px 12px; }
-
 
 
 /** Folders **/

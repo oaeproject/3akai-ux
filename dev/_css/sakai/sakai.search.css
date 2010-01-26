@@ -101,7 +101,7 @@ strong {
 }
 
 
-.fl-tabs .fl-activeTab a {
+.fl-tabs .fl-tabs-active a {
 	background-color: #eee;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;

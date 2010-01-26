@@ -65,12 +65,12 @@ ul.fl-tabs li a{
 	float: left;
 	margin: 0;
 }
-.content-management .management_tab_nav ul li.fl-activeTab {
+.content-management .management_tab_nav ul li.fl-tabs-active {
 	background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat;	
 	padding-left: 5px;
 	height: 30px;
 }
-.content-management .management_tab_nav .fl-activeTab a {
+.content-management .management_tab_nav .fl-tabs-active a {
 	background: url('../../_images/tab_corner_tr.png') top right no-repeat;
 	font-weight: normal;
 	bottom: 0;

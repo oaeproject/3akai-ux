@@ -48,10 +48,10 @@
 .basic_appearance .primary-tabs ul li a
 { padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
 
-.basic_appearance .primary-tabs ul li.fl-activeTab
+.basic_appearance .primary-tabs ul li.fl-tabs-active
 { background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
 
-.basic_appearance .primary-tabs ul li.fl-activeTab a
+.basic_appearance .primary-tabs ul li.fl-tabs-active a
 { background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
 
 
@@ -217,7 +217,7 @@
 .basic_appearance #site_appearance_change_select_content, .basic_appearance #site_appearance_change_upload_content {padding-left: 10px;}
 .basic_appearance .fl-tabs {border-bottom: 1px solid #ddd;}
 .basic_appearance .fl-tabs li a {bottom: 2px !important; #bottom: 1px !important;}
-.basic_appearance .fl-tabs .fl-activeTab a {background-color:#fff !important;border:1px solid #ddd;border-bottom-color: #eee; color:#000 !important;	font-weight:normal !important;}
+.basic_appearance .fl-tabs .fl-tabs-active a {background-color:#fff !important;border:1px solid #ddd;border-bottom-color: #eee; color:#000 !important;	font-weight:normal !important;}
 .basic_appearance .fl-tabs li a {background-color: #eee; border: 1px solid #eee; border-bottom-color: #ddd; bottom:1px; color: #000 !important;	margin-left: -1px;	padding: 6px 20px;	position: relative;}
 
 .basic_appearance iframe {width: 520px;}
