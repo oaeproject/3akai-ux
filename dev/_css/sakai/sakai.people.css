@@ -41,6 +41,10 @@
 }
 
 /** CONTENT **/
+.search_results_container {
+	overflow: hidden;
+}
+
 .people .content_search {
 	padding: 0;
 }
