@@ -26,13 +26,13 @@ strong {color: #000;}
 .options a {font-size: .9em; color: #454A4F; font-weight: bold;}
 
 .greeting_picture img {
-	width: 60px;
-	height: 60px;
+    width: 60px;
+    height: 60px;
 }
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
 #toolscontainer {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 /* FOOTER */
@@ -44,7 +44,7 @@ strong {color: #000;}
 #change_layout_dialog {width:400px; margin-left: -200px;}
 #change_layout_dialog .elf-right-up {padding-top:40px; padding-bottom: 85px;}
 #change_layout_dialog .add-tools-right {width:100%; margin-bottom: 40px;}
-.layout_container {float:left;  padding-left:25px;  padding-right:13px;	}
+.layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
 .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 .layout_picker_item_column {border-right: 1px solid #3399CC;}
 .layout_picker_item_radio {margin-left:50px; margin-top:10px;}

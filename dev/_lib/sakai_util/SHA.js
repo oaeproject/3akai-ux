@@ -4,8 +4,8 @@ function sha1Hash(msg)
     var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
 
 
-    // PREPROCESSING 
- 
+    // PREPROCESSING
+
     msg += String.fromCharCode(0x80); // add trailing '1' bit to string [§5.1.1]
 
     // convert string msg into 512-bit/16-integer blocks arrays of ints [§5.2.1]
@@ -15,7 +15,7 @@ function sha1Hash(msg)
     for (var i=0; i<N; i++) {
         M[i] = new Array(16);
         for (var j=0; j<16; j++) {  // encode 4 chars per integer, big-endian encoding
-            M[i][j] = (msg.charCodeAt(i*64+j*4)<<24) | (msg.charCodeAt(i*64+j*4+1)<<16) | 
+            M[i][j] = (msg.charCodeAt(i*64+j*4)<<24) | (msg.charCodeAt(i*64+j*4+1)<<16) |
                       (msg.charCodeAt(i*64+j*4+2)<<8) | (msg.charCodeAt(i*64+j*4+3));
         }
     }
@@ -57,9 +57,9 @@ function sha1Hash(msg)
 
         // 4 - compute the new intermediate hash value
         H0 = (H0+a) & 0xffffffff;  // note 'addition modulo 2^32'
-        H1 = (H1+b) & 0xffffffff; 
-        H2 = (H2+c) & 0xffffffff; 
-        H3 = (H3+d) & 0xffffffff; 
+        H1 = (H1+b) & 0xffffffff;
+        H2 = (H2+c) & 0xffffffff;
+        H3 = (H3+d) & 0xffffffff;
         H4 = (H4+e) & 0xffffffff;
     }
 
@@ -69,7 +69,7 @@ function sha1Hash(msg)
 //
 // function 'f' [§4.1.1]
 //
-function f(s, x, y, z) 
+function f(s, x, y, z)
 {
     switch (s) {
     case 0: return (x & y) ^ (~x & z);           // Ch()
@@ -88,8 +88,8 @@ function ROTL(x, n)
 }
 
 //
-// extend Number class with a tailored hex-string method 
-//   (note toString(16) is implementation-dependant, and 
+// extend Number class with a tailored hex-string method
+//   (note toString(16) is implementation-dependant, and
 //   in IE returns signed numbers when used on full words)
 //
 Number.prototype.toHexStr = function()

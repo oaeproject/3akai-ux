@@ -1,6 +1,6 @@
 /** inbox_main.html **/
 
-/** CONTAINER **/ 
+/** CONTAINER **/
 .fixed-container
 { background: #fff;}
 
@@ -162,7 +162,7 @@
 { color: #666; }
 
 .inbox_main .inbox-table tr.inbox_message:hover {
-	background-color:#d9eaf5;cursor:pointer;
+    background-color:#d9eaf5;cursor:pointer;
 }
 .inbox_main .inbox-table td
 { border: none;  color: #666; text-align: left; font-size: 1em; border-bottom: 1px solid #d5dbdf; }

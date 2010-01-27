@@ -1,27 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Sakai 3 R&amp;D - Search: Content &amp; Media</title>
-	
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sakai 3 R&amp;D - Search: Content &amp; Media</title>
+
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-	<link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-	
-	<script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_javascript/_history/rsh.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_javascript/_history/search_history.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-	<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
+    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
+
+    <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_javascript/_history/rsh.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_javascript/_history/search_history.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
 
 </head>
 <body id="root" class="fl-centered fl-container i18nable search-container">
@@ -30,114 +30,114 @@
 <div id="widget_chat" class="widget_inline"></div>
 <!-- CONTENT -->
 <div class="fl-container-flex content content_search">
-	<div class="fl-fix fl-centered fixed-container">
-		<div class="decor"><!-- --></div>
-		<!-- TITLE -->
-		<h1 class="title">Search content &amp; media</h1>
-		<!-- TAB NAVIGATION -->
-		<div class="search_tab_nav">
-			<ul class="fl-tabs fl-tabs-right">
-				<li><a id="tab_search_all" href="search.html#">All</a></li>
-				<li class="fl-tabs-active search_tab_selected"><a href="search_content.html#" id="tab_search_content">Content &amp; Media</a></li>
-				<li><a href="search_people.html#" id="tab_search_people">People</a></li>
-				<li><a href="search_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
-			</ul>
-		</div>
-		<!-- TAB CONTENT -->
-		<div class="fl-centered fl-container fl-tab-content search_content_wrapper">
-			<div class="search_tab_content_top">
-				<div class="search_tab_content_top_inner"><!-- --></div>
-			</div>
-			<div class="search_content_main">
-				<!-- SEARCH BAR -->
-				<div class="fl-left fl-container fl-fix search_bar">
-					<div id="search_form" >
-						<div id="search_site_select"></div>
-						<div id="search_site_select_template"><!--
-							<select class="skinned_select" id="search_filter">
-								<option value="entire_community" id="search_filter_community">Entire Community</option>
-								<option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
-								{if sites.length > 0}
-									<optgroup id="search_filter_my_sites" label="Choose a specific site where you want to search in.">
-										{for i in sites}
-											<option value="${i.siteref}" id="search_filter_my_sites_${i.siteref}">${i.site.name}</option>
-										{/for}
-									</optgroup>
-								{/if}
-							</select>
-						--></div>
-						<input type="text" id="search_text" class="input" value="Enter a searchterm" />
-						<div class="buttonBar fl-force-left"> <a href="javascript:;" class="button search_button" id="search_button"><span>Search</span></a> </div>
-						<!-- SITEs TEMPLATE -->
-						<div id="search_filter_my_sites_template" style="display:none;"><!--
-							{for i in items}
-								<option value="${i.location}" id="search_filter_my_sites_${i.location.substring(1)}">${i.name}</option>
-							{/for}
-						--></div>
-					</div>
-				</div>
-				<div class="fl-left fl-container search_result_title" id="search_results_header">
-					Found <strong id="search_numberFound">0</strong> 
-					results matching your search for 
-					<span class="keyword" id="search_mysearchterm"></span> </div>
-				<!-- SEARCH RESULTS -->
-				<div id="search_results_page1" class="fl-container fl-fix search_results_container">
-					<div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-					<!-- CONTENT -->
-					<div class="fl-container fl-fix search_results_part">
-						<!-- CONTAINER FOR THE RESULTS -->
-						<div id="search_results_container"></div>
-					</div>
-					<!-- TEMPLATE CONTAINING THE RESULTS -->
-					<div id="search_results_template"><!--
-						{for i in items}
-							<div class="fl-container fl-fix search_result">
-								{if i['sakai:mimeType']}
-									{var mimeType = i['sakai:mimeType']}
-								{elseif i.file && i.file['sakai:mimeType']}
-									{var mimeType = i.file['sakai:mimeType']}
-								{elseif i['jcr:primaryType'] === "sling:Folder"}
-									{var mimeType = 'folder'}
-								{/if}
-								{if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
-									{var mimeTypeDescription = Config.MimeTypes[mimeType].description}
-									<img src="${i.path}" alt="${mimeTypeDescription}" />
-								{elseif Config.MimeTypes[mimeType]}
-									{var mimeTypeDescription = Config.MimeTypes[mimeType].description}
-									<img src="${Config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
-								{else}
-									{var mimeTypeDescription = Config.MimeTypes["other"].description}
-									<img src="${Config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
-								{/if}
-								<div class="search_result_right">
-									<div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
-									{if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
-									{if i["sakai:tags"] && i["sakai:tags"].length > 0}
-										<div class="search_result_tags">Tags: 
-											{for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
-										</div>
-									{/if}
-									{if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
-								</div>
-							</div>
-						{forelse}
-							No Content &amp; Media found
-						{/for}
-					--></div>
-					<div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-				</div>
-			</div>
-			<div class="search_tab_content_bottom">
-				<div class="search_tab_content_bottom_inner"><!-- --></div>
-			</div>
-		</div>
-		<!-- CONTAINER FOR THE PAGER -->
-		<div class="jq_pager"><!-- --></div>
-	</div>
+    <div class="fl-fix fl-centered fixed-container">
+        <div class="decor"><!-- --></div>
+        <!-- TITLE -->
+        <h1 class="title">Search content &amp; media</h1>
+        <!-- TAB NAVIGATION -->
+        <div class="search_tab_nav">
+            <ul class="fl-tabs fl-tabs-right">
+                <li><a id="tab_search_all" href="search.html#">All</a></li>
+                <li class="fl-tabs-active search_tab_selected"><a href="search_content.html#" id="tab_search_content">Content &amp; Media</a></li>
+                <li><a href="search_people.html#" id="tab_search_people">People</a></li>
+                <li><a href="search_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
+            </ul>
+        </div>
+        <!-- TAB CONTENT -->
+        <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
+            <div class="search_tab_content_top">
+                <div class="search_tab_content_top_inner"><!-- --></div>
+            </div>
+            <div class="search_content_main">
+                <!-- SEARCH BAR -->
+                <div class="fl-left fl-container fl-fix search_bar">
+                    <div id="search_form" >
+                        <div id="search_site_select"></div>
+                        <div id="search_site_select_template"><!--
+                            <select class="skinned_select" id="search_filter">
+                                <option value="entire_community" id="search_filter_community">Entire Community</option>
+                                <option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
+                                {if sites.length > 0}
+                                    <optgroup id="search_filter_my_sites" label="Choose a specific site where you want to search in.">
+                                        {for i in sites}
+                                            <option value="${i.siteref}" id="search_filter_my_sites_${i.siteref}">${i.site.name}</option>
+                                        {/for}
+                                    </optgroup>
+                                {/if}
+                            </select>
+                        --></div>
+                        <input type="text" id="search_text" class="input" value="Enter a searchterm" />
+                        <div class="buttonBar fl-force-left"> <a href="javascript:;" class="button search_button" id="search_button"><span>Search</span></a> </div>
+                        <!-- SITEs TEMPLATE -->
+                        <div id="search_filter_my_sites_template" style="display:none;"><!--
+                            {for i in items}
+                                <option value="${i.location}" id="search_filter_my_sites_${i.location.substring(1)}">${i.name}</option>
+                            {/for}
+                        --></div>
+                    </div>
+                </div>
+                <div class="fl-left fl-container search_result_title" id="search_results_header">
+                    Found <strong id="search_numberFound">0</strong>
+                    results matching your search for
+                    <span class="keyword" id="search_mysearchterm"></span> </div>
+                <!-- SEARCH RESULTS -->
+                <div id="search_results_page1" class="fl-container fl-fix search_results_container">
+                    <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+                    <!-- CONTENT -->
+                    <div class="fl-container fl-fix search_results_part">
+                        <!-- CONTAINER FOR THE RESULTS -->
+                        <div id="search_results_container"></div>
+                    </div>
+                    <!-- TEMPLATE CONTAINING THE RESULTS -->
+                    <div id="search_results_template"><!--
+                        {for i in items}
+                            <div class="fl-container fl-fix search_result">
+                                {if i['sakai:mimeType']}
+                                    {var mimeType = i['sakai:mimeType']}
+                                {elseif i.file && i.file['sakai:mimeType']}
+                                    {var mimeType = i.file['sakai:mimeType']}
+                                {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                    {var mimeType = 'folder'}
+                                {/if}
+                                {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
+                                    {var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+                                    <img src="${i.path}" alt="${mimeTypeDescription}" />
+                                {elseif Config.MimeTypes[mimeType]}
+                                    {var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+                                    <img src="${Config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                                {else}
+                                    {var mimeTypeDescription = Config.MimeTypes["other"].description}
+                                    <img src="${Config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                {/if}
+                                <div class="search_result_right">
+                                    <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
+                                    {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                        <div class="search_result_tags">Tags:
+                                            {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
+                                        </div>
+                                    {/if}
+                                    {if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+                                </div>
+                            </div>
+                        {forelse}
+                            No Content &amp; Media found
+                        {/for}
+                    --></div>
+                    <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                </div>
+            </div>
+            <div class="search_tab_content_bottom">
+                <div class="search_tab_content_bottom_inner"><!-- --></div>
+            </div>
+        </div>
+        <!-- CONTAINER FOR THE PAGER -->
+        <div class="jq_pager"><!-- --></div>
+    </div>
 </div>
 
 <!-- FOOTER WIDGET -->
-<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>	
+<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
 
 <script type="text/javascript" language="JavaScript" src="_javascript/search_main.js"></script>
 <script type="text/javascript" language="JavaScript" src="_javascript/search_content.js"></script>

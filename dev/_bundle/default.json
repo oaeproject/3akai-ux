@@ -1,6 +1,6 @@
 {
 "locale": "default",
-"INSTANCE_NAME": "sakai",	
+"INSTANCE_NAME": "sakai",
 "INDEX_INTRODUCTION_TEXT": "<h2>Sakai 3.0</h2><p>This is a development server to show progress in putting the Sakai 3 front end on top of K2. Internal user creation is now possible, so you can create your own account by clicking the Sign Up for An Account button.</p><h2>Not a member yet?</h2><p>Click the &quot;Sign Up for an Account&quot; button to create one</p>",
 "SING_UP_FOR_AN_ACCOUNT": "Sign Up for an Account",
 "SIGN_IN_HERE": "Existing members, sign in here",

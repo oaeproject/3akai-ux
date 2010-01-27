@@ -1,115 +1,115 @@
 .options {
-	padding:25px 25px 0pt 0pt;
-	text-align:right;
+    padding:25px 25px 0pt 0pt;
+    text-align:right;
 }
 
 .options a {
-	color:#3399CC;
-	font-size:1em;
-	font-weight:bold;
+    color:#3399CC;
+    font-size:1em;
+    font-weight:bold;
 }
 
 .jq_pager ul.pages {
-	margin:10px 0 0px !important;
+    margin:10px 0 0px !important;
 }
 
 .search_results_part {
-	padding-bottom:20px !important;
+    padding-bottom:20px !important;
 }
 
 /** HEADER **/
 .people .find_more_people a {
-	float: right;
+    float: right;
 }
 .people .find_more_people a {
-	background: url(../../_images/arrow_right_sm2_blue.png) no-repeat scroll right center;
-	padding:0 10px 0 0;
-	color:#0C91C5;
-	font-size:14px;
-	padding-left:10px;
-	line-height: 2.0em;
+    background: url(../../_images/arrow_right_sm2_blue.png) no-repeat scroll right center;
+    padding:0 10px 0 0;
+    color:#0C91C5;
+    font-size:14px;
+    padding-left:10px;
+    line-height: 2.0em;
 }
 .people .site_heading {
-	padding: 15px 0;
-	border: none;
-	margin: 0;
+    padding: 15px 0;
+    border: none;
+    margin: 0;
 }
 .people .site_heading h1 {
-	font-size: 2.0em;
-	color: #454A4F;
-	display: inline;
+    font-size: 2.0em;
+    color: #454A4F;
+    display: inline;
 }
 
 /** CONTENT **/
 .search_results_container {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .people .content_search {
-	padding: 0;
+    padding: 0;
 }
 .people .main-container {
-	background: #FFF;
+    background: #FFF;
 }
 .people .outline-top {
-	background: url('../../_images/content_tr_flip.png') top right no-repeat;
-	padding: 0 5px 0 0;
-	margin: 0;
+    background: url('../../_images/content_tr_flip.png') top right no-repeat;
+    padding: 0 5px 0 0;
+    margin: 0;
 }
 .people .outline-top-inner {
-	background: url('../../_images/content_tl.gif') 0 0 no-repeat;
-	margin: 0;	
-	height: 6px;
+    background: url('../../_images/content_tl.gif') 0 0 no-repeat;
+    margin: 0;
+    height: 6px;
 }
 .people .outline {
-	border-left: 3px solid #D5DBDF;
-	border-right: 3px solid #D5DBDF;
-	padding: 8px 10px;
+    border-left: 3px solid #D5DBDF;
+    border-right: 3px solid #D5DBDF;
+    padding: 8px 10px;
 }
 .people .outline-bottom {
-	background: url('../../_images/content_br.png') top right no-repeat;
-	padding: 0 5px 0 0;
-	margin: 0 0 20px 0;	
+    background: url('../../_images/content_br.png') top right no-repeat;
+    padding: 0 5px 0 0;
+    margin: 0 0 20px 0;
 }
 .people .outline-bottom-inner {
-	background: url('../../_images/content_bl.png') 0 0 no-repeat;
-	margin: 0;	
-	height: 6px;
+    background: url('../../_images/content_bl.png') 0 0 no-repeat;
+    margin: 0;
+    height: 6px;
 }
 .people .search_tab_content {
-	background-image: none;
+    background-image: none;
 }
 .people .fl-tab-content {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 .people .search_results_container {
-	margin: 0 0 10px 0;
-	padding: 0;
-	background: #EFF2F4;
+    margin: 0 0 10px 0;
+    padding: 0;
+    background: #EFF2F4;
 }
 .people .search_results_part {
-	padding: 0 10px;
+    padding: 0 10px;
 }
 .people .search_results_part_header {
-	margin-top: 0;
+    margin-top: 0;
 }
 .search_result_person_link {
-	font-size: 0.9em;
-	/* font-weight: bold; */
-	margin: 0 0 0 10px;
+    font-size: 0.9em;
+    /* font-weight: bold; */
+    margin: 0 0 0 10px;
 }
 .people .search_top_rounded {
-	background:transparent url(../../_images/search_results_tl.png) no-repeat scroll left top;
+    background:transparent url(../../_images/search_results_tl.png) no-repeat scroll left top;
 }
 .people .search_top_rounded_inner {
-	background:transparent url(../../_images/search_results_tr.png) no-repeat scroll right top;
-	height:10px;
+    background:transparent url(../../_images/search_results_tr.png) no-repeat scroll right top;
+    height:10px;
 }
 .people .search_bottom_rounded {
-	background:transparent url(../../_images/search_results_bl.png) no-repeat scroll left bottom;
+    background:transparent url(../../_images/search_results_bl.png) no-repeat scroll left bottom;
 }
 .people .search_bottom_rounded_inner {
-	background:transparent url(../../_images/search_results_br.png) no-repeat scroll right bottom;
-	height:10px;
+    background:transparent url(../../_images/search_results_br.png) no-repeat scroll right bottom;
+    height:10px;
 }

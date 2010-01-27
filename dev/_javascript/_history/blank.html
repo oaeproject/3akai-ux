@@ -3,13 +3,13 @@
 <head>
     <script language="JavaScript">
         function pageLoaded() {
-	       window.parent.dhtmlHistory.iframeLoaded(window.location);
-	       document.getElementById("output").innerHTML = window.location;
+           window.parent.dhtmlHistory.iframeLoaded(window.location);
+           document.getElementById("output").innerHTML = window.location;
         }
     </script>
 </head>
 <body onload="pageLoaded();" style="width:700px;padding:2px;margin:0;">
     <p>blank.html - Needed for Internet Explorer's hidden iframe</p>
-	<p id="output"></p>
+    <p id="output"></p>
 </body>
 </html>

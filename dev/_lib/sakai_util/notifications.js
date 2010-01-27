@@ -21,11 +21,11 @@
 
 /*
  * Note:
- * 
+ *
  * This is just a quick and dirty proof of concept.
- * 
+ *
  * It definetly needs a skin and some recoding as well.
- * 
+ *
  */
 
 
@@ -35,11 +35,11 @@ var sakai = sakai || {};
 sakai.lib = sakai.lib || {};
 
 sakai.lib.notifications = {
-    
+
     /**
      * Config
      */
-    
+
     default_warning_icon_url: "/dev/_images/inbox_folders_announcements.gif",
     default_normal_icon_url: "/dev/_images/inbox_folders_announcements.gif",
     default_error_icon_url: "/dev/_images/inbox_folders_announcements.gif",
@@ -48,7 +48,7 @@ sakai.lib.notifications = {
     default_fade_in_time: 500,
     default_fade_out_time: 500,
     default_stayontop: false,
-    
+
 
     /**
      * Displays a Growl-like notification.
@@ -62,11 +62,11 @@ sakai.lib.notifications = {
      * @param {Number} fadeOutTime The amount of milliseconds it takes for the message to fade out. (default = 500)
      */
     showNotification: function(title, message, type, stayontop, icon, fadeInTime, displayTime, fadeOutTime){
-        
+
         var d = new Date();
         var notification_id = "notification_" + d.getTime();
-	var $containerEL = $("<div></div>").attr({id:notification_id});
-		
+    var $containerEL = $("<div></div>").attr({id:notification_id});
+
         var iconUrl = "";
         switch (type) {
             case "error":
@@ -82,59 +82,59 @@ sakai.lib.notifications = {
                 iconUrl = this.default_warning_icon_url;
                 break;
         }
-        
+
         // If the user provided an icon, use that one.
         if (icon) {
             iconUrl = icon;
         }
-		
-		// Create the close icon.
-		var closeEL = document.createElement("img");
-		closeEL.setAttribute("src", this.default_close_icon);
-		closeEL.setAttribute("class", "notification_close");
-		closeEL.style.display = "none";
-		$containerEL.append(closeEL);
-		
-		// Close icon click event
-		$(closeEL).bind('click', function(e, ui) {
-		    $(this).parent().stop(true).remove();
-		});
-		
+
+        // Create the close icon.
+        var closeEL = document.createElement("img");
+        closeEL.setAttribute("src", this.default_close_icon);
+        closeEL.setAttribute("class", "notification_close");
+        closeEL.style.display = "none";
+        $containerEL.append(closeEL);
+
+        // Close icon click event
+        $(closeEL).bind('click', function(e, ui) {
+            $(this).parent().stop(true).remove();
+        });
+
         // Create the image icon.
         var imgEL = document.createElement("img");
         imgEL.setAttribute("src", iconUrl);
         $containerEL.append(imgEL);
-        
+
         // Create the title.
         var titleEL = document.createElement("span");
         titleEL.setAttribute("class", "notification_title");
         titleEL.innerHTML = title;
         $containerEL.append(titleEL);
-        
+
         // Create the message
         var messageEL = document.createElement("span");
         messageEL.setAttribute("class", "notification_message");
         messageEL.innerHTML = message;
         $containerEL.append(messageEL);
-        
+
         // Add the message to the container
         var $notification_container = $("#notification_container");
         if ($notification_container.length === 0) {
-            
-	    // Create the notification container if it doesn't exist yet
-	    $notification_container = $("<div></div>").attr({id:"notification_container"}).append($containerEL);
+
+        // Create the notification container if it doesn't exist yet
+        $notification_container = $("<div></div>").attr({id:"notification_container"}).append($containerEL);
             $("body").append($notification_container);
         }
         else {
-	    // Add to an existing container
+        // Add to an existing container
             $notification_container.append($containerEL);
         }
-        
+
         // Position notification
-	if (window.pageYOffset > 0) {
-	    $notification_container.css("top", window.pageYOffset + 10);
-	}
-	
+    if (window.pageYOffset > 0) {
+        $notification_container.css("top", window.pageYOffset + 10);
+    }
+
         // Default timings
         if (typeof displayTime === "undefined") {
             displayTime = this.default_display_time;
@@ -148,21 +148,21 @@ sakai.lib.notifications = {
         if (typeof stayontop === "undefined") {
             stayontop = this.default_stayontop;
         }
-        
+
         // Fade out notification and clear
         $("#" + notification_id).corners().bind("mouseenter", function() {
-	    
-	    // hovering over the notifcation shows the close icon.
-	     $(".notification_close", this).show();
-	    }).bind("mouseleave", function() {
-		$(".notification_close", this).hide();
-		}).fadeIn(fadeInTime, function(){
-		    if (!stayontop) {
-			// It's not required to stay on top so it can fade out and cleaned up
-			setTimeout("$('#" + notification_id + "').fadeOut(" + fadeOutTime + ",function() { $(this).remove(); });", displayTime);
-		    }
-		});
-        
+
+        // hovering over the notifcation shows the close icon.
+         $(".notification_close", this).show();
+        }).bind("mouseleave", function() {
+        $(".notification_close", this).hide();
+        }).fadeIn(fadeInTime, function(){
+            if (!stayontop) {
+            // It's not required to stay on top so it can fade out and cleaned up
+            setTimeout("$('#" + notification_id + "').fadeOut(" + fadeOutTime + ",function() { $(this).remove(); });", displayTime);
+            }
+        });
+
     }
 
 

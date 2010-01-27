@@ -24,26 +24,26 @@ sakai.site_basic_settings = function(){
     //////////////////////
     // Config variables //
     //////////////////////
-    
+
     var siteid = ""; //The siteid for the site we are editing.
     var siteinfo = {}; // The json object with all the info for this site.
     var editloc = false;
-        
+
     /////////////
     // CSS IDs //
     /////////////
-    
+
     var siteSettings = "#siteSettings";
     var siteSettingsClass = ".siteSettings";
     var siteSettingsName = "siteSettings";
     var siteSettingsAppendSiteIDtoURL = siteSettingsClass + "_appendSiteIDtoURL";
-    
+
     var siteSettingsTitleClass = siteSettingsClass + "_title";
     var siteSettingsConfirm = siteSettings + "_confirm";
     var siteSettingsResponse = siteSettings + "_response";
     var siteSettingsSave = siteSettings + "_save";
     var siteSettingsCancel = siteSettings + "_cancel";
-    
+
     //    Site info
     var siteSettingsInfo = siteSettings + "_info";
     var siteSettingsInfoTitle = siteSettingsInfo + "_title";
@@ -73,24 +73,24 @@ sakai.site_basic_settings = function(){
     var siteSettingsDeleteContainer = siteSettingsDelete + "_container";
     var siteSettingsDeleteYes = siteSettingsDelete + "_yes";
     var siteSettingsDeleteNo = siteSettingsDelete + "_no";
-    
+
     //    Errors
     var siteSettingsError = siteSettings + "_error";
     var siteSettingsErrorUnauthorized = siteSettingsError + "_unauthorized";
     var siteSettingsErrorSaveFail = siteSettingsError + "_saveFail";
     var siteSettingsErrorSaveSuccess = siteSettingsError + "_saveSuccess";
-    
+
     // Language fields
     var siteSettingLanguageCmb = siteSettings + "_language";
     var siteSettingLanguageTemplate = siteSettingsName + "_languagesTemplate";
-    
-    
-    
+
+
+
     /////////////////////////
     // Retrieval functions //
     /////////////////////////
-    
-    
+
+
     /**
      * Replace or remove malicious characters from the string
      * We use this function to modify the siteid
@@ -101,7 +101,7 @@ sakai.site_basic_settings = function(){
         input = input.replace(/[:]|[?]|[=]|[&]/g, "_");
         return input;
     };
-    
+
     /**
      * Puts the languages in a combobox
      * @param {Object} languages
@@ -112,7 +112,7 @@ sakai.site_basic_settings = function(){
             $(siteSettingLanguageCmb + " option[value=" + json.language + "]").attr("selected", true);
         }
     };
-    
+
     /**
      * Gets all the languages supported and puts them in a combobox
      */
@@ -128,7 +128,7 @@ sakai.site_basic_settings = function(){
             }
         });
     };
-    
+
     /**
      * This will fill in all the field settings for the site.
      */
@@ -139,7 +139,7 @@ sakai.site_basic_settings = function(){
             success: function(response){
                 var json = $.evalJSON(response);
                 siteinfo = json;
-                
+
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
                 if (sakai.lib.site.authz.isUserMaintainer(siteid, sdata.me.user.subjects)) {
@@ -152,7 +152,7 @@ sakai.site_basic_settings = function(){
                     $(siteSettingsInfoSitePart).text(Config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
                     $(siteSettingsInfoSitePartTextLocation).text(json.id);
                     getLanguages(json);
-                    
+
                     // Status
                     if (json.status && json.status === 'offline') {
                         $(siteSettingsStatusOff).attr('checked', 'checked');
@@ -162,12 +162,12 @@ sakai.site_basic_settings = function(){
                     else {
                         $(siteSettingsStatusOn).attr('checked', 'checked');
                     }
-                    
+
                     // Access
                     if (json.access && json.access.toLowerCase() === 'sakaiusers') {
                         $(siteSettingsAccessSakaiUsers).attr('checked', 'checked');
                     }
-                    else 
+                    else
                         if (json.access && json.access.toLowerCase() === 'invite') {
                             $(siteSettingsAccessInvite).attr('checked', 'checked');
                         }
@@ -185,28 +185,28 @@ sakai.site_basic_settings = function(){
             }
         });
     };
-    
-    
+
+
     /**
      * This will fill in all the info in the various fields over the page
      */
     var fillPage = function(){
-        // Start by setting the siteids in the various urls.        
+        // Start by setting the siteids in the various urls.
         var qs = new Querystring();
         siteid = qs.get("siteid", false);
         $(siteSettingsAppendSiteIDtoURL).each(function(i, el){
             $(el).attr('href', $(el).attr('href') + siteid);
         });
-        
+
         // fill in the title, description, etc for this site.
         fillBasicSiteSettings(siteid);
     };
-    
+
     ////////////////////////
     // Save site settings //
     ////////////////////////
-    
-    
+
+
     var saveSettingsDone = function(success, data){
         if (success) {
             $(siteSettingsResponse).text($(siteSettingsErrorSaveSuccess).text());
@@ -221,20 +221,20 @@ sakai.site_basic_settings = function(){
                 $(siteSettingsResponse).text($(siteSettingsErrorSaveFail).text());
             }
         }
-        
+
         // Show the result
         $(siteSettingsConfirm).hide();
         $(siteSettingsResponse).show();
-        
+
         // After x seconds we hide the response and show the buttons again.
         setTimeout(function(){
             $(siteSettingsResponse).hide();
             $(siteSettingsConfirm).show();
         }, 2500);
     };
-    
-    
-    
+
+
+
     /**
      * This function will check if all the values have been filled in correctly.
      * It will add a class to those that aren't.
@@ -261,7 +261,7 @@ sakai.site_basic_settings = function(){
         }
         return ok;
     };
-	    
+
     /**
      * This will set the permissions for this site.
      * @param {String} status The status for this site. (online or offline)
@@ -269,12 +269,12 @@ sakai.site_basic_settings = function(){
      */
     var setStatusForSite = function(status, access){
         var actions = sakai.lib.site.authz.getAccessActions(siteid, status, access);
-		if (actions) {
-			sakai.lib.batchPosts(actions);
-		}
+        if (actions) {
+            sakai.lib.batchPosts(actions);
+        }
         saveSettingsDone(true);
     };
-    
+
     /**
      * This will do a request to the site service to update this site its basic settings.
      * If this succeeds it will do a request too the JCR PERMISSIONS function to set all the permissions
@@ -288,7 +288,7 @@ sakai.site_basic_settings = function(){
             var descEL = $(siteSettingsInfoDescription);
             var titleEL = $(siteSettingsInfoTitle);
             var siteLocEL = $(siteSettingsInfoSitePartEditInput);
-            
+
             var loc = siteinfo.location;
             // If the user edited the location we have to be sure that it is a valid one.
             if (editloc) {
@@ -304,11 +304,11 @@ sakai.site_basic_settings = function(){
             if ($(siteSettingsAccessSakaiUsers + "[type=radio]").is(":checked")) {
                 access = "sakaiUsers";
             }
-            else 
+            else
                 if ($(siteSettingsAccessInvite + "[type=radio]").is(":checked")) {
                     access = "invite";
                 }
-            
+
             var language = $(siteSettingLanguageCmb + " option:selected").val();
             var tosend = {
                 'name': titleEL.val(),
@@ -316,10 +316,10 @@ sakai.site_basic_settings = function(){
                 'status': status,
                 'access': access,
                 'language': language,
-		"_charset_":"utf-8"
+        "_charset_":"utf-8"
             };
-            
-            //	Do a patch request to the profile info so that it gets updated with the new information.
+
+            //    Do a patch request to the profile info so that it gets updated with the new information.
             $.ajax({
                 url: "/sites/" + siteinfo.id,
                 type: "POST",
@@ -334,11 +334,11 @@ sakai.site_basic_settings = function(){
             });
         }
     };
-    
+
     ////////////
     // Delete //
     ////////////
-    
+
     /**
      * This will (probably fail to) delete the site.
      * There are a couple of things we have to do before we delete the site.
@@ -353,35 +353,35 @@ sakai.site_basic_settings = function(){
      * For now, I'll just consolidate this non-functioning code as a placeholder.
      */
     var deleteThisSite = function(){
-		var actions = [];
-		actions.push({
-			url: "/sites/" + siteid,
-			data: {":operation" : "delete"}
-		});
-		var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteid);
-		var role, group;
-		for (role in roleToGroup) {
-			if (roleToGroup.hasOwnProperty(role)) {
-				group = roleToGroup[role];
-				actions.push({
-					url: "/system/userManager/group/" + group + ".delete.html"
-				});
-			}
-		}
-		var success = function(data){
-			alert("Your site has been successfully deleted");
-			document.location = Config.URL.MY_DASHBOARD;
-		};
-		sakai.lib.batchPosts(actions, success);
+        var actions = [];
+        actions.push({
+            url: "/sites/" + siteid,
+            data: {":operation" : "delete"}
+        });
+        var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteid);
+        var role, group;
+        for (role in roleToGroup) {
+            if (roleToGroup.hasOwnProperty(role)) {
+                group = roleToGroup[role];
+                actions.push({
+                    url: "/system/userManager/group/" + group + ".delete.html"
+                });
+            }
+        }
+        var success = function(data){
+            alert("Your site has been successfully deleted");
+            document.location = Config.URL.MY_DASHBOARD;
+        };
+        sakai.lib.batchPosts(actions, success);
     };
-    
-    
+
+
     /////////////////////
     // Event listeners //
     /////////////////////
-    
+
     // Site location
-    
+
     /**
      * The user wants to edit the location for a site.
      * We will swap the text with an input box.
@@ -398,8 +398,8 @@ sakai.site_basic_settings = function(){
         $(siteSettingsInfoSitePartEdit).hide();
         $(siteSettingsInfoSitePartText).css('display', 'inline');
     });
-    
-    
+
+
     /*
      * Edit location
      */
@@ -408,18 +408,18 @@ sakai.site_basic_settings = function(){
         $(siteSettingsInfoSitePartEditInputTooltip).css('position', 'absolute');
         $(siteSettingsInfoSitePartEditInputTooltip).css('left', offset.left);
         $(siteSettingsInfoSitePartEditInputTooltip).css('top', offset.top + 28);
-        
+
         $(siteSettingsInfoSitePartEditInputTooltip).fadeIn("normal");
     });
-    
+
     $(siteSettingsInfoSitePartEditInput).blur(function(){
         // Hide the tooltip
         $(siteSettingsInfoSitePartEditInputTooltip).hide();
         // Replace all the bad chars.
         $(siteSettingsInfoSitePartEditInput).val(replaceCharacters($(siteSettingsInfoSitePartEditInput).val()));
     });
-    
-    /* 
+
+    /*
      * The user wants the site offline, disable the other options
      */
     $(siteSettingsStatusOff).bind('click', function(){
@@ -428,14 +428,14 @@ sakai.site_basic_settings = function(){
     $(siteSettingsStatusOn).bind('click', function(){
         $(siteSettingsAccess).show();
     });
-    
+
     /*
      * Save all the settings
      */
     $(siteSettingsSave).bind('click', function(){
         saveSettings();
     });
-    
+
     /*
      * Delete this site
      */
@@ -454,7 +454,7 @@ sakai.site_basic_settings = function(){
     $(siteSettingsDeleteNo).bind('click', function(){
         $(siteSettingsDeleteContainer).jqmHide();
     });
-    
+
     fillPage();
 };
 sdata.container.registerForLoad("sakai.site_basic_settings");
