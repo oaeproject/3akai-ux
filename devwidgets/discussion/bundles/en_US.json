@@ -1,7 +1,7 @@
 {
-"name": "Discussion US",
-"description": "Discussion widget US\r\n",
-"WIDGET_TITLE": "Discussion US",
+"name": "Discussion",
+"description": "Discussion widget\r\n",
+"WIDGET_TITLE": "Discussion",
 "C_COMPACT_VIEW": "Change to compact view",
 "C_FULL_VIEW": "Change to full view",
 "SHOW_ALL": "Show all",
