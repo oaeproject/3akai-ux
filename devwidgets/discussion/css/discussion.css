@@ -80,7 +80,7 @@
 .discussion_settings_tabs {margin-left:0px;margin-bottom:10px;}
 .discussion_settings_tabs li {display:inline;list-style-type:none;}
 .discussion_settings_tab, .discussion_settings_tab_selected {border:1px solid #dfdfdf;padding:10px 20px;}
-.discussion_settings_tab {background-color:#fbfbfb;	}
+.discussion_settings_tab {background-color:#fbfbfb;    }
 .discussion_settings_tab_selected {border-bottom-color:#ffffff;font-weight:bold;}
 .discussion_settings_container {border:1px solid #dfdfdf;margin-top:0px; padding:10px;}
 #discussion_settings_new_subject ,#discussion_settings_new_body {border:1px solid #dfdfdf;margin-right:0px;}

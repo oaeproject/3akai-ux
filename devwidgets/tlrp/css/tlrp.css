@@ -4,126 +4,126 @@
     background-color:#e2e1e1;
 }
 .tlrpLeft{
-	float:left;
+    float:left;
 }
 .tlrpRight{
-	float:right;
+    float:right;
 }
 .tlrpClear{
-	clear:both;
+    clear:both;
     height:0px;
 }
 
 #tlrp_output{
-	overflow:auto;
+    overflow:auto;
 }
 
 /* Tab navigation (output) */
 .tlrp_tabs{
-	margin:0;
-	margin-top:3px;
-	margin-bottom:4px;
-	padding:0;
+    margin:0;
+    margin-top:3px;
+    margin-bottom:4px;
+    padding:0;
 }
 .tlrp_tabs li{
-	display:inline;
-	margin-right:5px;
+    display:inline;
+    margin-right:5px;
 }
 .tlrp_tabs li a{
-	color: #FFFFFF;
-	padding: 10px 70px 10px 70px;
-	background-repeat:repeat-x;
+    color: #FFFFFF;
+    padding: 10px 70px 10px 70px;
+    background-repeat:repeat-x;
 }
 .tlrp_tabs li a:hover{
-	text-decoration:none;
+    text-decoration:none;
 }
 #tlrptabMatchBtn{
-	background-image:url(../images/matchesBlue.png);
+    background-image:url(../images/matchesBlue.png);
 }
 #tlrptabRelatedBtn{
-	background-image:url(../images/related.png);
+    background-image:url(../images/related.png);
 }
 .tlrp_tabContainers{
-	width:578px;
+    width:578px;
 }
 #tlrpBreadCrumbBarMatches, #tlrpBreadCrumbBarRelated {
-	width:558px;
-	height:23px;
-	color: #FFFFFF;
-	padding-left:20px;
-	padding-top:5px;
+    width:558px;
+    height:23px;
+    color: #FFFFFF;
+    padding-left:20px;
+    padding-top:5px;
 }
 #tlrpBreadCrumbBarMatches{
-	background-color:#267DBA;
+    background-color:#267DBA;
 }
 #tlrpBreadCrumbBarRelated{
-	background-color:#B6B6B6;
+    background-color:#B6B6B6;
 }
 #tlrp_txtSearch{
-	width:719px;
-	height:16px;
-	padding: 3px 10px 3px 15px;
-	margin-bottom:20px;
-	background-image: url(../images/search.png);
-	background-repeat: repeat-x;
-	border-color:#B7B7B7;
-	border-width:1px;
-	border-style:solid;
+    width:719px;
+    height:16px;
+    padding: 3px 10px 3px 15px;
+    margin-bottom:20px;
+    background-image: url(../images/search.png);
+    background-repeat: repeat-x;
+    border-color:#B7B7B7;
+    border-width:1px;
+    border-style:solid;
     border-right-style:none;
     float:left;
 }
 #tlrp_searchBtn{
-	height:18px;
+    height:18px;
     width:30px;
     float:left;
     display:inline-block;
-	padding: 1px 0px 3px 0px;
-	margin-bottom:20px;
-	background-image: url(../images/search.png);
-	background-repeat: repeat-x;
-	border-color:#B7B7B7;
-	border-width:1px;
-	border-style:solid;
+    padding: 1px 0px 3px 0px;
+    margin-bottom:20px;
+    background-image: url(../images/search.png);
+    background-repeat: repeat-x;
+    border-color:#B7B7B7;
+    border-width:1px;
+    border-style:solid;
     border-left-style:none;
 }
 
 /* Left tabs */
 .tlrp_leftTabs{
-	margin:0px;
+    margin:0px;
 }
 .tlrp_leftTabs li{
-	list-style-type:none;
+    list-style-type:none;
 }
 .tlrp_leftTabs li a{
-	list-style-type:none;
-	padding: 20px 0px 20px 0px;
-	text-align:center;
-	width:200px;
-	display:block;
-	background-repeat:repeat-x;
-	
+    list-style-type:none;
+    padding: 20px 0px 20px 0px;
+    text-align:center;
+    width:200px;
+    display:block;
+    background-repeat:repeat-x;
+
 }
 .tlrp_leftTabs li a:hover{
-	text-decoration:none;	
+    text-decoration:none;
 }
 .tlrp_leftTabs_tab{
-	background-image: url(../images/lightGrey.png);
+    background-image: url(../images/lightGrey.png);
 }
 .tlrp_leftTabs_selected{
-	background-image: url(../images/darkGrey.png);
+    background-image: url(../images/darkGrey.png);
 }
 .tlrpLeftTabContainers{
-	height:429px;
-	width:578px;
-	background-color:#C1C1C1;
-	color:#FFFFFF;
-	overflow:auto;
+    height:429px;
+    width:578px;
+    background-color:#C1C1C1;
+    color:#FFFFFF;
+    overflow:auto;
 }
 .tlrpLeftTabContainers ul li {
     list-style-type:none;
 }
 .tlrpLeftTabContainers h1, .tlrpLeftTabContainers h2 {
-	color:#ffffff;
+    color:#ffffff;
 }
 
 /** Display articles */
@@ -147,7 +147,7 @@ ul.tlrpTagArticleList li.tlrpArticleGroupBar {
     overflow:hidden;
 }
 
-ul.tlrpArticle { 
+ul.tlrpArticle {
     width:450px;
     height:49px;
     float:left;
@@ -213,11 +213,11 @@ a.tlrpArticleRead {
 
 /** Breadcrumbs*/
 .tlrpBreadCrumbItems a{
-	color:#FFFFFF;
-	font-weight:normal;	
+    color:#FFFFFF;
+    font-weight:normal;
 }
 .tlrpBreadCrumbItems a:hover{
-	text-decoration:none;
+    text-decoration:none;
 }
 
 

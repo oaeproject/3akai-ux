@@ -9,137 +9,137 @@
 
 <!-- SETTINGS VIEW -->
 <div id="tlrp_settings" style="display:none">
-	<label for="tlrp_settings_txtFilter">Apply filter to respository:</label>
-	<p>
-		<input type="text" id="tlrp_settings_txtFilter" />
-		<a class="button-default"  id="tlrp_addFilter" href="javascript:;">Add Filter</a>
-	</p>
-	<div id="tlrp_filterListContainer">
-	</div>
-	<div id="tlrp_filterListTemplate"><!--
-	<ul>
-		{for f in filters}
-			<li>
-				<span>${f}</span>
-				<a class="tlrp_filter_delete" id="tlrp_filter_delete${filters.indexOf(f)}" href="javascript:;"></a>
-			</li>
-		{/for}
-	</ul>	
-	--></div>
-	<p class="tlrp_p">
-		<input id="tlrp_selectAllChk" type="checkbox"><label class="tlrp_label" for="tlrp_selectAllChk">Select all</label></input>
-	</p>
-	<div id="tlrp_respositoryListContainer">
-		
-	</div>
-	<div id="tlrp_respositoryListTemplate"><!--
-	{for i in items}
-		<div class="tlrp_respositoryListItem">
-			<div class="tlrp_respositoryListItem_checkbox">
-				<input type="checkbox" />
-			</div>
-			<div class="tlrp_respositoryListItem_data">
-				<ul>
-					<li class="tlrp_respositoryListItem_data_title">
-						${i.name}
-					</li>
-					<li class="tlrp_respositoryListItem_data_subscript">
-						<span>retrieving number of</span> items
-					</li>
-				</ul>
-			</div>
-		</div>
-	{/for}
-	--></div>
-	<div class="tlrp_buttonBar">
-		<a class="button-default tlrpLeft"  id="tlrp_settings_cancel" href="javascript:;">Cancel</a>
-		<a class="button-default tlrpRight" id="tlrp_settings_insert" href="javascript:;">Insert</a>
-	</div>
+    <label for="tlrp_settings_txtFilter">Apply filter to respository:</label>
+    <p>
+        <input type="text" id="tlrp_settings_txtFilter" />
+        <a class="button-default"  id="tlrp_addFilter" href="javascript:;">Add Filter</a>
+    </p>
+    <div id="tlrp_filterListContainer">
+    </div>
+    <div id="tlrp_filterListTemplate"><!--
+    <ul>
+        {for f in filters}
+            <li>
+                <span>${f}</span>
+                <a class="tlrp_filter_delete" id="tlrp_filter_delete${filters.indexOf(f)}" href="javascript:;"></a>
+            </li>
+        {/for}
+    </ul>
+    --></div>
+    <p class="tlrp_p">
+        <input id="tlrp_selectAllChk" type="checkbox"><label class="tlrp_label" for="tlrp_selectAllChk">Select all</label></input>
+    </p>
+    <div id="tlrp_respositoryListContainer">
+
+    </div>
+    <div id="tlrp_respositoryListTemplate"><!--
+    {for i in items}
+        <div class="tlrp_respositoryListItem">
+            <div class="tlrp_respositoryListItem_checkbox">
+                <input type="checkbox" />
+            </div>
+            <div class="tlrp_respositoryListItem_data">
+                <ul>
+                    <li class="tlrp_respositoryListItem_data_title">
+                        ${i.name}
+                    </li>
+                    <li class="tlrp_respositoryListItem_data_subscript">
+                        <span>retrieving number of</span> items
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {/for}
+    --></div>
+    <div class="tlrp_buttonBar">
+        <a class="button-default tlrpLeft"  id="tlrp_settings_cancel" href="javascript:;">Cancel</a>
+        <a class="button-default tlrpRight" id="tlrp_settings_insert" href="javascript:;">Insert</a>
+    </div>
 </div>
 
 <!-- OUTPUT VIEW -->
 <div id="tlrp_output" style="display:none">
-	<input type="text" disabled="true" id="tlrp_txtSearch"/><a href="javascript:;" class="" id="tlrp_searchBtn"><img src="/devwidgets/tlrp/images/magnifierSearchButton.png" alt="Search" /></a>
+    <input type="text" disabled="true" id="tlrp_txtSearch"/><a href="javascript:;" class="" id="tlrp_searchBtn"><img src="/devwidgets/tlrp/images/magnifierSearchButton.png" alt="Search" /></a>
     <br class="tlrpClear" />
     <div class="tlrpMain">
-    	<div class="tlrpLeft"id="tlrpLeftContainer">
-    		<ul class="tlrp_leftTabs">
-    			<li><a href="javascript:;" class="tlrp_leftTabs_tab tlrp_leftTabs_selected" id="tlrpAuthorBtn">Author</a></li>
-    			<li><a href="javascript:;" class="tlrp_leftTabs_tab" id="tlrpCatBtn">Category</a></li>
-    			<li><a href="javascript:;" class="tlrp_leftTabs_tab" id="tlrpTagBtn">Tag</a></li>
-    			<li><a href="javascript:;" class="tlrp_leftTabs_tab" id="tlrpYearBtn">Year</a></li>
-    		</ul>
-    	</div>
-    	<div class="tlrpLeft">
-		<ul class="tlrp_tabs">
-			<li><a href="javascript:;" id="tlrptabMatchBtn">Matches</a></li>
-			<li><a href="javascript:;" id="tlrptabRelatedBtn">Related</a></li>
-		</ul>
-		<div id="tlrptabMatchContainer" class="tlrp_tabContainers">
-			<div id="tlrpBreadCrumbBarMatches" class="tlrp_keywordBar"></div>
-		</div>
-		<div id="tlrptabRelatedContainer" class="tlrp_tabContainers" style="display:none">
-			<div id="tlrpBreadCrumbBarRelated" class="tlrp_keywordBar"></div>
-		</div>
-        
-        
-        
-        
+        <div class="tlrpLeft"id="tlrpLeftContainer">
+            <ul class="tlrp_leftTabs">
+                <li><a href="javascript:;" class="tlrp_leftTabs_tab tlrp_leftTabs_selected" id="tlrpAuthorBtn">Author</a></li>
+                <li><a href="javascript:;" class="tlrp_leftTabs_tab" id="tlrpCatBtn">Category</a></li>
+                <li><a href="javascript:;" class="tlrp_leftTabs_tab" id="tlrpTagBtn">Tag</a></li>
+                <li><a href="javascript:;" class="tlrp_leftTabs_tab" id="tlrpYearBtn">Year</a></li>
+            </ul>
+        </div>
+        <div class="tlrpLeft">
+        <ul class="tlrp_tabs">
+            <li><a href="javascript:;" id="tlrptabMatchBtn">Matches</a></li>
+            <li><a href="javascript:;" id="tlrptabRelatedBtn">Related</a></li>
+        </ul>
+        <div id="tlrptabMatchContainer" class="tlrp_tabContainers">
+            <div id="tlrpBreadCrumbBarMatches" class="tlrp_keywordBar"></div>
+        </div>
+        <div id="tlrptabRelatedContainer" class="tlrp_tabContainers" style="display:none">
+            <div id="tlrpBreadCrumbBarRelated" class="tlrp_keywordBar"></div>
+        </div>
+
+
+
+
         <!-- PRELOADER -->
         <div class="tlrpLeftTabContainers" id="tlrpLeftTabPreloaderContainer">
-			<div id="tlrpPreloaderContainer"></div>
-			<div id="tlrpPreloaderTemplate" style="display:none"><!--
+            <div id="tlrpPreloaderContainer"></div>
+            <div id="tlrpPreloaderTemplate" style="display:none"><!--
                 <div id="tlrpPreloader">
-				Loaded ${i} of ${total} items.<br /><br />
+                Loaded ${i} of ${total} items.<br /><br />
                 <img src="/devwidgets/tlrp/images/ajax-loader.gif" alt="Loading" />
                </div>
-			--></div>
-		</div>
-        
-        
-        <!-- CATEGORY SEARCH -->        
-	    <div class="tlrpLeftTabContainers" id="tlrpLeftTabCatContainer" style="display:none">
-			<div id="tlrpCatContainerContainingParent">
-				
-			</div>
-			<div id="tlrp_floatedContainersTemplate"><!--
-					<div id="tlrpCatContainer" class="tlrp_cat_slider"></div>
-					<div id="tlrpCatChildrenContainerParent" class="tlrp_cat_slider">
-						<div id="tlrpCatChildrenContainer1"></div>
-					</div>
-					{for c in containers}
-						<div id="tlrpCatChildrenContainer${c + 2}" class="tlrp_cat_slider"></div>
-					{/for}
-					<div class="tlrpClear"></div>
-			--></div>
-			<div id="tlrpCatTemplate" style="display:none"><!--
-				<ul id="tlrpCat${children}List">
-					{for i in items}
-						<li>
-							<a href="javascript:;" class="tlrpCat${children}ListItem" id="tlrpCat${children}ListItem${items.indexOf(i)}" title="${i.prefLabel}"><span>
-								{if i.prefLabel.length > 25}
-									${i.prefLabel.substring(0,25)}... (${i.numArticles})
-								{else}
-									${i.prefLabel} (${i.numArticles})
-								{/if}
-							</span></a>
-							{if i.childItems.length > 0}
-							<a href="javascript:;" class="tlrpCat${children}ListItemArrow" id="tlrpCat${children}ListItemArrow${items.indexOf(i)}"></a>
-							{/if}
-						</li>
-					{/for}
-				</ul>
-			--></div>
-		</div>
-        
-        
-        
+            --></div>
+        </div>
+
+
+        <!-- CATEGORY SEARCH -->
+        <div class="tlrpLeftTabContainers" id="tlrpLeftTabCatContainer" style="display:none">
+            <div id="tlrpCatContainerContainingParent">
+
+            </div>
+            <div id="tlrp_floatedContainersTemplate"><!--
+                    <div id="tlrpCatContainer" class="tlrp_cat_slider"></div>
+                    <div id="tlrpCatChildrenContainerParent" class="tlrp_cat_slider">
+                        <div id="tlrpCatChildrenContainer1"></div>
+                    </div>
+                    {for c in containers}
+                        <div id="tlrpCatChildrenContainer${c + 2}" class="tlrp_cat_slider"></div>
+                    {/for}
+                    <div class="tlrpClear"></div>
+            --></div>
+            <div id="tlrpCatTemplate" style="display:none"><!--
+                <ul id="tlrpCat${children}List">
+                    {for i in items}
+                        <li>
+                            <a href="javascript:;" class="tlrpCat${children}ListItem" id="tlrpCat${children}ListItem${items.indexOf(i)}" title="${i.prefLabel}"><span>
+                                {if i.prefLabel.length > 25}
+                                    ${i.prefLabel.substring(0,25)}... (${i.numArticles})
+                                {else}
+                                    ${i.prefLabel} (${i.numArticles})
+                                {/if}
+                            </span></a>
+                            {if i.childItems.length > 0}
+                            <a href="javascript:;" class="tlrpCat${children}ListItemArrow" id="tlrpCat${children}ListItemArrow${items.indexOf(i)}"></a>
+                            {/if}
+                        </li>
+                    {/for}
+                </ul>
+            --></div>
+        </div>
+
+
+
         <!-- TAG SEARCH -->
           <div class="tlrpLeftTabContainers" id="tlrpLeftTabTagContainer" style="display:none;">
             <div id="tlrpTagSubjectsContainer" style="display:none;"></div>
-			<div id="tlrpTagArticles">
-			    <div id="tlrpTagResultsContainer">
-			        <div id="tlrpTagResults"><span id="tlrpTagResultsDisplayed"></span> items filtered from <span id="tlrpTagResultsTotal"></span> originally.</div>
+            <div id="tlrpTagArticles">
+                <div id="tlrpTagResultsContainer">
+                    <div id="tlrpTagResults"><span id="tlrpTagResultsDisplayed"></span> items filtered from <span id="tlrpTagResultsTotal"></span> originally.</div>
                     <a id="tlrpTagResultsClearFilter" href="javascript:;">Reset filters</a>
                 </div>
                 <div id="tlrpTagSort">
@@ -150,32 +150,32 @@
                     <div class="tlrpClear"></div>
                 </div>
                 <div id="tlrpTagArticlesContainer"></div>
-			</div>
+            </div>
             <div id="tlrpTagSubjectsTemplate" style="display:none"><!--
-				<ul>
+                <ul>
                 {var c=1}
-				{for i in items}
-				    <li>
+                {for i in items}
+                    <li>
                     {if c <= 6}
                         <h${c} style="display:inline">
                     {/if}
                     <a href="javascript:;" class="tlrpTagLink" id="tlrpTagLink${i.subject}" title="Get all the article's for ${i.subject}.">${i.subject}</a>
-                    
+
                     {if c <= 6}
                         </h${c}>
                     {/if}
                      (${i.count})
                     </li>
                     ${c++|eat}
-				{/for}
-				</ul>
-			--></div>
-		</div>
-        
+                {/for}
+                </ul>
+            --></div>
+        </div>
+
         <!-- YEAR PART -->
-		<div class="tlrpLeftTabContainers" id="tlrpLeftTabYearContainer" style="display:none">
-		   <div id="tlrpYearResults"></div>
-		</div>
+        <div class="tlrpLeftTabContainers" id="tlrpLeftTabYearContainer" style="display:none">
+           <div id="tlrpYearResults"></div>
+        </div>
         <div id="tlrpYearTemplate"><!--
            {var resultsToDisplay = 17}
            {for y in years}
@@ -191,7 +191,7 @@
                                      <span style="display:none;" class="tlrpYearArticleDescription">${a.description}</span>
                                      <span style="display:none;" class="tlrpYearArticleCreator">${a.creator}</span>
                                  </li>
-                             {elseif a_index == resultsToDisplay} 
+                             {elseif a_index == resultsToDisplay}
                                  ${tooMuchResults = true|eat}
                              {/if}
                          {/for}
@@ -205,22 +205,22 @@
                {/if}
            {/for}
            --></div>
-           
-		<!-- YEARSBALLOON TIP TEMPLATE -->
+
+        <!-- YEARSBALLOON TIP TEMPLATE -->
         <div id="tlrpYearTooMuchResultsBalloon" class="tlrp_rounded_corners" style="display:none;">
             <span id="tlrpArticleDescriptionAuthor">Type in a more specified searchterm to get better results.</span><br />
             <img src="/devwidgets/tlrp/images/greyTriangleBordered.png" alt="triangle" />
         </div>
-           
-           
-         <!-- AUTHOR SEARCH -->      
+
+
+         <!-- AUTHOR SEARCH -->
         <div class="tlrpLeftTabContainers" id="tlrpLeftTabAuthorContainer" style="display:none">
-    		<div class="tlrp_alphabetBarContainer">
-    			<ul class="tlrp_alphabetBar"></ul>
-    		</div>
-    		<div id="tlrpAuthorArticles" style="display:none">
-    		    <div id="tlrpAuthorResultsContainer" class="tlrpResultsContainer">
-    		        <div class="tlrpResults"><span class="tlrpResultsDisplayed"></span> items filtered from <span class="tlrpResultsTotal"></span> originally.</div>
+            <div class="tlrp_alphabetBarContainer">
+                <ul class="tlrp_alphabetBar"></ul>
+            </div>
+            <div id="tlrpAuthorArticles" style="display:none">
+                <div id="tlrpAuthorResultsContainer" class="tlrpResultsContainer">
+                    <div class="tlrpResults"><span class="tlrpResultsDisplayed"></span> items filtered from <span class="tlrpResultsTotal"></span> originally.</div>
                     <a id="tlrpAuthorResultsClearFilter" class="tlrpResultsClearFilter">Reset filters</a>
                 </div>
                 <div id="tlrpAuthorSort" class="tlrpSort">
@@ -231,38 +231,38 @@
                     <div class="tlrpClear"></div>
                 </div>
                 <div id="tlrpAuthorContainer"></div>
-    		</div>
-    		<div id="tlrpAlphabetTemplate" style="display:none"><!--
-    			{for l in alphabet}
-    				<li>
-    					<a href="javascript:;" id="tlrp_alphabetLetter${alphabet.indexOf(l)}">${l.toUpperCase()}</a>
-    				</li>
-    			{/for}
-    		--></div>
-    		
-    		<ul id="tlrp_authorsList"></ul>
-    		<div id="tlrpAuthorsListTemplate" style="display:none"><!--
-    				{for a in authors}
-    					<li>
-    						<a href="javascript:;" id="tlrp_authorIndex${authors.indexOf(a)}">${a.author} (${a.numArticles})</a>
-    					</li>
-    				{forelse}
-    					<li>
-    						No authors for the letter ${letter}.
-    					</li>
-    				{/for}
-    		--></div>
-    	</div>
-        
-        
-        
+            </div>
+            <div id="tlrpAlphabetTemplate" style="display:none"><!--
+                {for l in alphabet}
+                    <li>
+                        <a href="javascript:;" id="tlrp_alphabetLetter${alphabet.indexOf(l)}">${l.toUpperCase()}</a>
+                    </li>
+                {/for}
+            --></div>
+
+            <ul id="tlrp_authorsList"></ul>
+            <div id="tlrpAuthorsListTemplate" style="display:none"><!--
+                    {for a in authors}
+                        <li>
+                            <a href="javascript:;" id="tlrp_authorIndex${authors.indexOf(a)}">${a.author} (${a.numArticles})</a>
+                        </li>
+                    {forelse}
+                        <li>
+                            No authors for the letter ${letter}.
+                        </li>
+                    {/for}
+            --></div>
+        </div>
+
+
+
         <!-- SORTING TEMPLATES -->
         <div id="tlrpSortByTemplate" style="display:none;"><!--
-            Sorted by 
+            Sorted by
             {for s in sortedBy}
                 <a class="tlrpSortByItem" href="javascript:;">${s}</a>{if s_index < (sortedBy.length - 2)}, {elseif s_index < (sortedBy.length - 1)} and {else};{/if}
             {forelse}
-                nothing.        
+                nothing.
             {/for}
             <a href="javascript:;" class="tlrpSortByThenBy">then by...</a>
             <div class="tlrpSortByAvailableOptions" style="display:none;">
@@ -285,19 +285,19 @@
                     <span>There is nothing left on what you can sort on.</span>
                 {/for}
         --></div>
-        
-        
-        
-        
+
+
+
+
           <!-- ARTICLES RESULT TEMPLATE -->
          <div id="tlrpArticleNoDescription" style="display:none;">No description found.</div>
          <div id="tlrpArticleResultTemplate" style="display:none;"><!--
              {macro getValueForProp(article, prop)}${article[prop]}{/macro}
-         
+
              <ul class="tlrpTagArticleList">
-                 
+
                  {for a in articles}
-                 
+
                 {if isGrouped}
                      {var prevValues = []}
                      {var val = ""}
@@ -312,12 +312,12 @@
                                     ${val}
                                  {/if}
                              </li>
-                         {/if}     
+                         {/if}
                          ${prevValues[s_index] = val|eat}
                      {/for}
                  {/if}
-                 
-			    <li>
+
+                <li>
                 {if showBalloonTip}
                     <ul class="tlrpArticle tlrpArticleWithBalloonTip">
                 {else}
@@ -329,18 +329,18 @@
                           {var creator = a.creator || "Unknown"}
                           {if typeof a.title === "object"}
                               ${title = a.title.join(',')|eat}
-                          {/if}                          
+                          {/if}
                           {if typeof a.creator === "object"}
                               ${creator = a.creator.join(',')|eat}
                           {/if}
-                          
+
                           {if title.length > 80}
                               <span class="tlrpArticleTitle">${title.substring(0, 80)}...</span>
                           {else}
                               <span>${title}</span>
                           {/if}
                           <br />
-                          <label>Author:</label> 
+                          <label>Author:</label>
                           {if creator.length > 80}
                               <span class="tlrpArticleCreator">${creator.substring(0, 80)}...</span>
                           {else}
@@ -357,45 +357,45 @@
                 {/for}
            </ul>
         --></div>
-        
-        
-        
+
+
+
         <!-- BALLOON TIP TEMPLATE -->
         <div id="tlrpArticleDescription" class="tlrp_rounded_corners" style="display:none;">
             <img src="/devwidgets/tlrp/images/triangle.png" alt="triangle" /><br />
             <span id="tlrpArticleDescriptionAuthor">Author</span><br />
             <span id="tlrpArticleDescriptionDescription">Description</span>
         </div>
-        
-        
-        
+
+
+
         <!-- BREADCRUMBS TEMPLATE -->
-		<div id="tlrpBreadCrumbTemplate" style="display:none;"><!--
-		<div class="tlrpBreadCrumbItems">
-			{for b in breadcrumbs}
-			<a href="javascript:;" title="${b.title}" id="tlrpBreadCrumb${breadcrumbs.indexOf(b)}" class="tlrpBreadCrumb">
-				{if breadcrumbs.indexOf(b) === 0}
-					{if b.title == ""}
-						All records
-					{elseif b.title.length > titleLength && titleLength > -1}
-						Searched on ${b.title.substring(0,titleLength)}...
-					{else}
-						Searched on ${b.title}
-				 	{/if}
-				{else}
-					{if b.title.length > titleLength && titleLength > -1}
-						&gt; ${b.title.substring(0,titleLength)}...
-					{else}
-						&gt; ${b.title}
-				 	{/if}
-				{/if}
-			</a>	
-			{/for}
-		</div>
-		--></div>
-	</div>
+        <div id="tlrpBreadCrumbTemplate" style="display:none;"><!--
+        <div class="tlrpBreadCrumbItems">
+            {for b in breadcrumbs}
+            <a href="javascript:;" title="${b.title}" id="tlrpBreadCrumb${breadcrumbs.indexOf(b)}" class="tlrpBreadCrumb">
+                {if breadcrumbs.indexOf(b) === 0}
+                    {if b.title == ""}
+                        All records
+                    {elseif b.title.length > titleLength && titleLength > -1}
+                        Searched on ${b.title.substring(0,titleLength)}...
+                    {else}
+                        Searched on ${b.title}
+                     {/if}
+                {else}
+                    {if b.title.length > titleLength && titleLength > -1}
+                        &gt; ${b.title.substring(0,titleLength)}...
+                    {else}
+                        &gt; ${b.title}
+                     {/if}
+                {/if}
+            </a>
+            {/for}
+        </div>
+        --></div>
+    </div>
     <br style="clear:left;" />
-    
+
     </div>
 </div>
 

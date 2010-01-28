@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
  *
- * 	http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -21,140 +21,140 @@
 var sakai = sakai || {};
 
 sakai.s23courses = function(tuid, placement, showSettings){
-	
-	Config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
+
+    Config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
 
 
-	/////////////////////////////
-	// Configuration variables //
-	/////////////////////////////
-	
-	var rootel = $("#" + tuid);
-	
-	// Paging
-	var pageCurrent = 0;		// The page you are currently on
-	var pageSize = 10;			// How many items you want to see on 1 page
-	
-	var globalfeed = false;
-	
-	var parseglobal = false;
-	var parsenormal = [];
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
 
-	// CSS selectors
-	var s23coursesId = "#s23courses";
-	var $s23coursesContainer = $(s23coursesId + "_container");
-	var $s23coursesSubcontainer = $(s23coursesId + "_subcontainer");
-	var jqPagerClass = ".jq_pager";
-	
-	// Templates
-	var s23coursesContainerTemplate = "s23courses_container_template";
+    var rootel = $("#" + tuid);
 
+    // Paging
+    var pageCurrent = 0;        // The page you are currently on
+    var pageSize = 10;            // How many items you want to see on 1 page
 
-	///////////////////////////
-	// General functionality //
-	///////////////////////////
-	
-	/**
-	 * Parse the templates with JST
-	 */
-	var parseTemplates = function(){
+    var globalfeed = false;
 
-		// Make an array that contains only the elements that will appear on one page
-		var pagingArray = {
-			all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize) 
-		};
+    var parseglobal = false;
+    var parsenormal = [];
 
-		// Render the template and pass through the parseglobal object
-		$.Template.render(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
+    // CSS selectors
+    var s23coursesId = "#s23courses";
+    var $s23coursesContainer = $(s23coursesId + "_container");
+    var $s23coursesSubcontainer = $(s23coursesId + "_subcontainer");
+    var jqPagerClass = ".jq_pager";
 
-		//
-		if(parseglobal.all.length >= pageSize){
-			// Render paging
-			renderPaging();
-		}
-	};
-
-	/**
-	 * Split the global feed into normal and favourited projects
-	 */
-	var splitGlobalFeed = function(){
-
-		// Set the parse global object
-		parseglobal = {
-			all: globalfeed
-		};
-		
-		// Parse the template with the new modified feeds
-		parseTemplates();
-
-		// Show the container for the courses and projects
-		$s23coursesContainer.show();
-	};
+    // Templates
+    var s23coursesContainerTemplate = "s23courses_container_template";
 
 
-	////////////
-	// Paging //
-	////////////
-	
-	/**
-	 * Will be called when the pager is being clicked.
-	 * This will initiate a new search query and rerender
-	 * the current files
-	 * @param {Object} clickedPage
-	 */
-	var doPaging = function(clickedPage){
-		pageCurrent = clickedPage - 1;
-		parseTemplates();
-	};
-	
-	/**
-	 * Render the paging of the courses and projects widget
-	 */
-	var renderPaging = function(){
-		// Render paging
-		$(jqPagerClass).pager({
-			pagenumber: pageCurrent + 1,
-			pagecount: Math.ceil(parseglobal.all.length / pageSize),
-			buttonClickCallback: doPaging
-		});
-	};
+    ///////////////////////////
+    // General functionality //
+    ///////////////////////////
+
+    /**
+     * Parse the templates with JST
+     */
+    var parseTemplates = function(){
+
+        // Make an array that contains only the elements that will appear on one page
+        var pagingArray = {
+            all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
+        };
+
+        // Render the template and pass through the parseglobal object
+        $.Template.render(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
+
+        //
+        if(parseglobal.all.length >= pageSize){
+            // Render paging
+            renderPaging();
+        }
+    };
+
+    /**
+     * Split the global feed into normal and favourited projects
+     */
+    var splitGlobalFeed = function(){
+
+        // Set the parse global object
+        parseglobal = {
+            all: globalfeed
+        };
+
+        // Parse the template with the new modified feeds
+        parseTemplates();
+
+        // Show the container for the courses and projects
+        $s23coursesContainer.show();
+    };
 
 
-	////////////////////////
-	// Init functionality //
-	////////////////////////
+    ////////////
+    // Paging //
+    ////////////
 
-	/**
-	 * Get the courses and projects for the user that is logged in.
-	 * This function sends a request to the proxy server that will then send a request to camtools.
-	 * Since there is single signon functionality, the user is automatically logged into camtools.
-	 */
-	var getCoursesAndProjects = function(){
-		$.ajax({
-			url: Config.URL.SAKAI2_MCP_URL,
-			success: function(data){
-				globalfeed = $.evalJSON(data);
-			},
-			error: function(xhr, textStatus, thrownError) {
-				fluid.log("s23courses: Could not receive the courses and projects from the server.");
-			},
-			complete: function(){
-				splitGlobalFeed();
-			},
-			cache: false
-		});
-	};
+    /**
+     * Will be called when the pager is being clicked.
+     * This will initiate a new search query and rerender
+     * the current files
+     * @param {Object} clickedPage
+     */
+    var doPaging = function(clickedPage){
+        pageCurrent = clickedPage - 1;
+        parseTemplates();
+    };
 
-	/**
-	 * Execute this function when the widget get launched
-	 */
-	var doInit = function(){
-		
-		// Get the courses and projects for the current user
-		getCoursesAndProjects();
-	};
+    /**
+     * Render the paging of the courses and projects widget
+     */
+    var renderPaging = function(){
+        // Render paging
+        $(jqPagerClass).pager({
+            pagenumber: pageCurrent + 1,
+            pagecount: Math.ceil(parseglobal.all.length / pageSize),
+            buttonClickCallback: doPaging
+        });
+    };
 
-	doInit();
+
+    ////////////////////////
+    // Init functionality //
+    ////////////////////////
+
+    /**
+     * Get the courses and projects for the user that is logged in.
+     * This function sends a request to the proxy server that will then send a request to camtools.
+     * Since there is single signon functionality, the user is automatically logged into camtools.
+     */
+    var getCoursesAndProjects = function(){
+        $.ajax({
+            url: Config.URL.SAKAI2_MCP_URL,
+            success: function(data){
+                globalfeed = $.evalJSON(data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                fluid.log("s23courses: Could not receive the courses and projects from the server.");
+            },
+            complete: function(){
+                splitGlobalFeed();
+            },
+            cache: false
+        });
+    };
+
+    /**
+     * Execute this function when the widget get launched
+     */
+    var doInit = function(){
+
+        // Get the courses and projects for the current user
+        getCoursesAndProjects();
+    };
+
+    doInit();
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("s23courses");

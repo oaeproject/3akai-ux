@@ -3,54 +3,54 @@
 
 <div class="myfriends_widget">
 
-	<div class="fl-widget-content" id="myfriends_list"></div>
+    <div class="fl-widget-content" id="myfriends_list"></div>
 
-	<div id="myfriends_list_template" style="display:none"><!--
-		{for i in items}
-			<div class="myfriends_list_contact">
-				<a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_picture"><img src="/dev/_images/person_icon.jpg" alt="person icon" /></a>
-				<a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
-			</div>	
-		{forelse}
-			<span id="myfriends_nocontacts">You currently have no contacts</span>
-		{/for}	
-	--></div>
+    <div id="myfriends_list_template" style="display:none"><!--
+        {for i in items}
+            <div class="myfriends_list_contact">
+                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_picture"><img src="/dev/_images/person_icon.jpg" alt="person icon" /></a>
+                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
+            </div>
+        {forelse}
+            <span id="myfriends_nocontacts">You currently have no contacts</span>
+        {/for}
+    --></div>
 <!--
 <div class="myfriends_list_contact">
-				<a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" /></a>
-				<a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
-			</div>	
+                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_picture"><img src="${i.photo}" /></a>
+                <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
+            </div>
 -->
 
-	<div id="myfriends_requests_template"><!--
-		{if total > 0}
-			<span>
-				${total} 
-				{if total == 1}
-					Contact Request
-				{else}
-					Connection Requests
-				{/if}
-			</span>
-		{/if}
-	--></div>
+    <div id="myfriends_requests_template"><!--
+        {if total > 0}
+            <span>
+                ${total}
+                {if total == 1}
+                    Contact Request
+                {else}
+                    Connection Requests
+                {/if}
+            </span>
+        {/if}
+    --></div>
 
 
-	<!-- ERROR MESSAGES -->
-	<span id="myfriends_error_contactserver" style="display:none;">Unable to contact the server. Please try again later.</span>
-	
-	<!-- FOOTER LINKS -->
-	<div class="fl-widget-options fl-fix">
-		<div class="widget-options-inner">
-			<ul>
-				<li><a href="people.html">View &amp; Edit Contacts</a></li>
-				<li><span class="pipe_divider">|</span></li>
-				<li><a href="search_people.html">Find People</a></li>
-				<li><a href="people.html" class="myfriends_requests" id="myfriends_requests"></a></li>
-			</ul>
-			
-		</div>
-	</div>	
+    <!-- ERROR MESSAGES -->
+    <span id="myfriends_error_contactserver" style="display:none;">Unable to contact the server. Please try again later.</span>
+
+    <!-- FOOTER LINKS -->
+    <div class="fl-widget-options fl-fix">
+        <div class="widget-options-inner">
+            <ul>
+                <li><a href="people.html">View &amp; Edit Contacts</a></li>
+                <li><span class="pipe_divider">|</span></li>
+                <li><a href="search_people.html">Find People</a></li>
+                <li><a href="people.html" class="myfriends_requests" id="myfriends_requests"></a></li>
+            </ul>
+
+        </div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->

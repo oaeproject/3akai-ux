@@ -19,14 +19,14 @@
         if (sortAttr === "") {
             return $(this);
         }
-        
+
         //If sort attribute is a single string such as "name"
         if (typeof(sortAttr) === "string") {
-        
+
             var retObj = $(this).get().sort(function(a, b) {
                 //Sort numeric values
                 if (typeof($(a).attr(sortAttr)) === "number") {
-                
+
                     return parseInt($(a).attr(sortAttr), 10) > parseInt($(b).attr(sortAttr), 10) ? 1 : -1;
                 }
                 //sort string values
@@ -56,7 +56,7 @@
                             al = al.toLowerCase();
                             bl = bl.toLowerCase();
                         }
-                        
+
                         if (al > bl) {
                             retval = 1;
                             break;
@@ -68,7 +68,7 @@
                         i++;
                     }
                     return retval;
-                    
+
                 });
                 if (getSort(sortDesc)) {
                     return $(retObj.reverse());
@@ -80,9 +80,9 @@
             //Sort object based on single sort attribute
             else {
                 var retObj = $(this)
-				.get()
-				.sort(
-				function(a, b) {
+                .get()
+                .sort(
+                function(a, b) {
                     var attrLen = 0;
                     for (var v in sortAttr) {
                         var al = $(a).attr(v);
@@ -98,7 +98,7 @@
                             return (getSort(sortAttr[v])) ? -1 : 1;
                         }
                     }
-                    
+
                 });
                 /*
                 if (getSort(sortDesc)) {
@@ -109,11 +109,11 @@
                 }
                 */
                 return $(retObj);
-                
+
             }
         }
     };
-    
+
     //Determines if the sort should be Ascending(false) or Descending(true)
     //Can determine based on Boolean Value or String
     function getSort(sortDesc) {

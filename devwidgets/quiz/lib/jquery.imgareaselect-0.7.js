@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2008-2009 Michal Wojciechowski (odyniec.net)
  *
- * Dual licensed under the MIT (MIT-LICENSE.txt) 
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
  * http://odyniec.net/projects/imgareaselect/
@@ -25,7 +25,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
         resizeMargin = 10, resize = [ ], V = 0, H = 1,
         keyDown, d, aspectRatio, x1, x2, y1, y2, x, y, adjusted,
         selection = { x1: 0, y1: 0, x2: 0, y2: 0, width: 0, height: 0 };
-		
+
     var $a = $area.add($border1).add($border2).add($areaOver);
     var $o = $outLeft.add($outTop).add($outRight).add($outBottom);
 
@@ -46,7 +46,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
 
     function selY(y)
     {
-		return y - imgOfs.top - parScroll.top + parOfs.top;
+        return y - imgOfs.top - parScroll.top + parOfs.top;
     }
 
     function evX(event)
@@ -79,7 +79,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
         imgOfs.left = parseInt(imgOfs.left);
         imgOfs.top = parseInt(imgOfs.top);
         imgWidth = $img.width();
-        imgHeight = $img.height(); 
+        imgHeight = $img.height();
 
         if (jQuery(parent).is('body'))
             parOfs = parScroll = { left: 0, top: 0 };
@@ -123,7 +123,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
             if (handles.length == 8) {
                 handles[4].css({ left: viewX(selection.x1 + (selection.width -
                     handleWidth) / 2) + 'px', top: viewY(selection.y1) + 'px' });
-                handles[5].css({ left: viewX(selection.x1) + 'px', top: 
+                handles[5].css({ left: viewX(selection.x1) + 'px', top:
                     viewY(selection.y1 + (selection.height - handleWidth) / 2) + 'px' });
                 handles[6].css({ left: viewX(selection.x1 + (selection.width - handleWidth)
                     / 2) + 'px', top: viewY(selection.y2 - handleWidth) + 'px' });
@@ -312,7 +312,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
 
         doResize(x2, y2);
 
-        return false;        
+        return false;
     }
 
     function doMove(newX1, newY1)
@@ -339,7 +339,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
 
         doMove(newX1, newY1);
 
-        event.preventDefault();     
+        event.preventDefault();
         return false;
     }
 
@@ -347,7 +347,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
     {
         adjust();
 
-        selection = { x1: selX(x1), y1: selY(y1) };       
+        selection = { x1: selX(x1), y1: selY(y1) };
         doResize(x1, y1);
 
         resize = [ ];
@@ -404,7 +404,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
         x2 = viewX(selection.x2);
         y2 = viewY(selection.y2);
     }
-	
+
 
     var docKeyPress = function(event) {
         var k = options.keys, d = 10, t,
@@ -508,7 +508,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
             handleWidth = 4 + options.borderWidth;
 
             $handles.css({ position: position, borderWidth: options.borderWidth,
-                borderStyle: 'solid', borderColor: options.borderColor1, 
+                borderStyle: 'solid', borderColor: options.borderColor1,
                 backgroundColor: options.borderColor2, display: $area.css('display'),
                 width: handleWidth + 'px', height: handleWidth + 'px',
                 fontSize: '0px', zIndex: zIndex > 0 ? zIndex + 1 : '1' });
@@ -523,7 +523,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
         $border2.addClass(options.classPrefix + '-border2');
 
         $a.css({ borderWidth: options.borderWidth + 'px' });
-        $area.css({ backgroundColor: options.selectionColor, opacity: options.selectionOpacity });       
+        $area.css({ backgroundColor: options.selectionColor, opacity: options.selectionOpacity });
         $border1.css({ borderStyle: 'solid', borderColor: options.borderColor1 });
         $border2.css({ borderStyle: 'dashed', borderColor: options.borderColor2 });
         $o.css({ opacity: options.outerOpacity, backgroundColor: options.outerColor });
@@ -563,7 +563,7 @@ jQuery.imgAreaSelect.init = function (img, options) {
         options.enable = options.disable = undefined;
     };
 
-    if (jQuery.browser.msie)   
+    if (jQuery.browser.msie)
         $img.attr('unselectable', 'on');
 
     jQuery.imgAreaSelect.keyPress = jQuery.browser.msie ||

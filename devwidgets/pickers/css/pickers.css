@@ -39,20 +39,20 @@
 }
 /* Creates a border around the selected files */
 div.picker_selectedfile {
-	border:1px solid #d3d3d3;
-	padding:3px 5px 3px 5px;
-	display:inline-block;
-	background-color:#eee;
-	margin-left:3px;
-	font-size:0.9em;
+    border:1px solid #d3d3d3;
+    padding:3px 5px 3px 5px;
+    display:inline-block;
+    background-color:#eee;
+    margin-left:3px;
+    font-size:0.9em;
 }
 div.picker_selectedfile img {
-	cursor:pointer;
+    cursor:pointer;
 }
 
 p.picker_selectedFile img {
-	float:left;
-	margin-right:4px;
+    float:left;
+    margin-right:4px;
 }
 
 
@@ -61,46 +61,46 @@ p.picker_selectedFile img {
 .picker_pager .pages li { display:inline-block; font-size:0.95em;}
 .picker_pager .pages li.hidden { display:none;}
 .picker_pager .pages li#jq_pager_three_dots_end {
-	margin-left:4px;
-	margin-right:9px;
+    margin-left:4px;
+    margin-right:9px;
 }
 .picker_pager .pages li#jq_pager_three_dots_begin {
-	margin-left:9px;
-	margin-right:4px;
+    margin-left:9px;
+    margin-right:4px;
 }
 .picker_pager .pgNext, .picker_pager .pgPrev {
-	border:1px solid #d3d3d3;
-	padding:2px 5px 2px 5px;
-	margin:0px 10px 0px 10px;
+    border:1px solid #d3d3d3;
+    padding:2px 5px 2px 5px;
+    margin:0px 10px 0px 10px;
 }
 .picker_pager .pgNext span, .picker_pager .pgPrev span {
-	text-decoration:underline;
+    text-decoration:underline;
 }
 
 .picker_pager .page-number {
-	border:1px solid #217893;
-	margin-left:3px;
-	margin-right:3px;
-	padding:1px 5px;
-	text-decoration:underline;
-	color:#217893;
+    border:1px solid #217893;
+    margin-left:3px;
+    margin-right:3px;
+    padding:1px 5px;
+    text-decoration:underline;
+    color:#217893;
 }
 .picker_pager .pgCurrent {
-	border:0;
-	text-decoration:none;
-	font-weight:bold;
-	color:#4b4b4b;
+    border:0;
+    text-decoration:none;
+    font-weight:bold;
+    color:#4b4b4b;
 }
 
-.picker_pager .pgEmpty { 
-	display:none !important; 
+.picker_pager .pgEmpty {
+    display:none !important;
 }
 
 .picker_main p {
-	display:inline-block;
-	width:300px;
-	float:left;
-	overflow:hidden;
+    display:inline-block;
+    width:300px;
+    float:left;
+    overflow:hidden;
 }
 
 .picker_breadcrumb_hidden { display:none;}

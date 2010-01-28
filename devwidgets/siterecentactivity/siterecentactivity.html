@@ -1,45 +1,45 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/siterecentactivity/css/siterecentactivity.css" />
 
 <div id="siterecentactivity_settings" style="display:none">
-	<p>No settings available</p>
-	<div class="dialog_buttons">
-		<a class="button-default submit_button" href="javascript:;" id="siterecentactivity_settings_submit">Finish</a>
-		<a class="button cancel-button" href="javascript:;" id="siterecentactivity_settings_cancel">Cancel</a>
-	</div>
+    <p>No settings available</p>
+    <div class="dialog_buttons">
+        <a class="button-default submit_button" href="javascript:;" id="siterecentactivity_settings_submit">Finish</a>
+        <a class="button cancel-button" href="javascript:;" id="siterecentactivity_settings_cancel">Cancel</a>
+    </div>
 </div>
 <div id="siterecentactivity_output">
-	<div class="siterecentactivity">
-		
-		<div class="si_titlebar">
-			<div class="si_titlebar_inner"><h2 class="si_title">Recent Activity</h2></div>
-		</div>
-		
-		<div id="siterecentactivity_container" class="si_content"><!-- --></div>
-		
-		<div id="siterecentactivity_container_template"><!--
-			<ul>
-			{for i in items}
-				<li>
-					<a href="${i.page_url}">${i.page_id}</a>
-					<p>
-					{if i.type === "page_edit"}
-						Page updated ${i.date_parsed}
-					{elseif i.type === "page_create"}
-						Page created ${i.date_parsed}
-					{/if}
-					</p>
-				</li>
-			{forelse}
-				<li class="siterecentactivity_empty">No recent activity available</li>
-			{/for}
-			</ul>
-		--></div>
-		
-		<div class="si_bottom">
-			<div class="si_bottom_inner"><!-- --></div>
-		</div>
-		
-	</div>
+    <div class="siterecentactivity">
+
+        <div class="si_titlebar">
+            <div class="si_titlebar_inner"><h2 class="si_title">Recent Activity</h2></div>
+        </div>
+
+        <div id="siterecentactivity_container" class="si_content"><!-- --></div>
+
+        <div id="siterecentactivity_container_template"><!--
+            <ul>
+            {for i in items}
+                <li>
+                    <a href="${i.page_url}">${i.page_id}</a>
+                    <p>
+                    {if i.type === "page_edit"}
+                        Page updated ${i.date_parsed}
+                    {elseif i.type === "page_create"}
+                        Page created ${i.date_parsed}
+                    {/if}
+                    </p>
+                </li>
+            {forelse}
+                <li class="siterecentactivity_empty">No recent activity available</li>
+            {/for}
+            </ul>
+        --></div>
+
+        <div class="si_bottom">
+            <div class="si_bottom_inner"><!-- --></div>
+        </div>
+
+    </div>
 </div>
 
 <script type="text/javascript" language="JavaScript" src="/devwidgets/siterecentactivity/javascript/siterecentactivity.js"></script>

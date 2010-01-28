@@ -1,72 +1,72 @@
 <div id="user_link_menu" style="display:none">
-	<div class="user_link_menu_border">
-		<ul>
-			<li class="insert_more_menu_inactive">Chat Status</li>
-			<li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
-			<li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
-			<li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
-		</ul>
-	</div>
-	<div>
-		<ul>
-			<li><a href="/dev/inbox.html">My Inbox</a></li>
-			<li><a href="/dev/people.html">My Contacts</a></li>
-			<li><a href="/dev/profile.html">My Profile</a></li>
-			<li><a href="/dev/account_preferences.html">My Account</a></li>
-		</ul>
-	</div>
+    <div class="user_link_menu_border">
+        <ul>
+            <li class="insert_more_menu_inactive">Chat Status</li>
+            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
+            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
+            <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <li><a href="/dev/inbox.html">My Inbox</a></li>
+            <li><a href="/dev/people.html">My Contacts</a></li>
+            <li><a href="/dev/profile.html">My Profile</a></li>
+            <li><a href="/dev/account_preferences.html">My Account</a></li>
+        </ul>
+    </div>
 </div>
 
 <!-- EXPLORE NAV CONTAINER -->
 <div id="explore_nav_container" style="display:none">
-	<div class="fl-container explore_nav">
-		<ul class="explore fl-force-left">
-			<li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
-			<li id="nav_content_media_link"><a href="/dev/content_media.html">Content &amp; Media</a></li>
-			<li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
-			<li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
-			<li id="nav_search_link"><a href="/dev/search.html">Search</a></li>
-		</ul>
-	
-		<div class="personal-container fl-force-right">
-		    
-			<div class="personal">
-				<ul>
-					<!-- CHAT STATUS DROPDOWN -->
-					<li id="user_link_container">
-						<a id="user_link" class="user_link" href="#">
-							<span id="userid"></span>
-							
-						</a>
-					</li>
-					<li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
-					<li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">Help</a></li>
-					<li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+    <div class="fl-container explore_nav">
+        <ul class="explore fl-force-left">
+            <li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
+            <li id="nav_content_media_link"><a href="/dev/content_media.html">Content &amp; Media</a></li>
+            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
+            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
+            <li id="nav_search_link"><a href="/dev/search.html">Search</a></li>
+        </ul>
+
+        <div class="personal-container fl-force-right">
+
+            <div class="personal">
+                <ul>
+                    <!-- CHAT STATUS DROPDOWN -->
+                    <li id="user_link_container">
+                        <a id="user_link" class="user_link" href="#">
+                            <span id="userid"></span>
+
+                        </a>
+                    </li>
+                    <li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
+                    <li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">Help</a></li>
+                    <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- SELECTED PAGE -->
 <div id="nav_selected_page_template"><!--
-	{if dropdown}
-		<div class="explore_nav_selected_dropdown" id="mysites_dropdown_close_link">
-	{else}
-		<div class="explore_nav_selected">
-	{/if}
-		<a href="javascript:;">
-			<span>${value}</span>
-		</a>
-		{if dropdown}
-			<img src="/dev/_images/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
-		{/if}
-	</div>
+    {if dropdown}
+        <div class="explore_nav_selected_dropdown" id="mysites_dropdown_close_link">
+    {else}
+        <div class="explore_nav_selected">
+    {/if}
+        <a href="javascript:;">
+            <span>${value}</span>
+        </a>
+        {if dropdown}
+            <img src="/dev/_images/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
+        {/if}
+    </div>
 --></div>
 
 <!-- DROPDOWN -->
 <div class="fl-container-flex fl-col-flex2 fl-fix dropdown" id="people_dropdown_main" style="display:none">
-	<div class="fixed-container">
+    <div class="fixed-container">
         <!-- MY CONTACTS -->
         <div class="fl-col dropdown_contacts">
             <h2>My Contacts</h2>
@@ -81,10 +81,10 @@
                             <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
                         {/if}
                         <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
-                    </div>	
+                    </div>
                 {forelse}
                     <span style="font-size:0.95em">You currently have no contacts</span>
-                {/for}	
+                {/for}
             --></div>
             <div style="clear:both">
                 <a href="/dev/people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
@@ -96,26 +96,26 @@
             <div class="fl-fix dropdown_search_container">
                 <div>
                     <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"/>
-		    <div class="dropdown_search_button_left fl-force-left">
-			<input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="Search"/>
-		    </div>
+            <div class="dropdown_search_button_left fl-force-left">
+            <input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="Search"/>
+            </div>
                 </div>
             </div>
         </div>
-	</div>
-	<div class="dropdown_bottom_part_left">
-		<div class="dropdown_bottom_part_right"></div>
-	</div>
+    </div>
+    <div class="dropdown_bottom_part_left">
+        <div class="dropdown_bottom_part_right"></div>
+    </div>
 </div>
 
-	
+
 <!-- DROPDOWN -->
 <div class="fl-container-flex fl-col-flex3 fl-fix dropdown dropdown_mysites" id="mysites_dropdown_main" style="display:none">
-	<div class="fixed-container">
+    <div class="fixed-container">
         <!-- MY SITES -->
         <div class="fl-col dropdown_sites">
             <h2>My Sites</h2>
-            <div id="top_navigation_my_sites_list"></div>	
+            <div id="top_navigation_my_sites_list"></div>
             <div id="top_navigation_my_sites_list_template"><!--
                 <ul class="my_site_list">
                     {for i in entry}
@@ -127,7 +127,7 @@
             --></div>
             <a href="/dev/sites_edit.html" class="view_all_link hidedev">View &amp; Edit All &raquo;</a>
         </div>
-            
+
         <!-- RECENTLY VISITED -->
         <div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
             <h2>Recent Sites</h2>
@@ -143,7 +143,7 @@
                 </ul>
             {/if}
         --></div>
-        
+
         <!-- SEARCH -->
         <div class="dropdown_search_course_sites">
             <h2>Search for Courses &amp; Sites</h2>
@@ -161,166 +161,166 @@
             </div>
         </div>
     </div>
-	<div class="dropdown_bottom_part_left">
-		<div class="dropdown_bottom_part_right"></div>
-	</div>
+    <div class="dropdown_bottom_part_left">
+        <div class="dropdown_bottom_part_right"></div>
+    </div>
 </div>
 
 <!-- CREATE A SITE WIDGET -->
 <div id="top_navigation_widgets"></div>
 
 <div id="chat_available_template" style="display:none"><!--
-	<a href="javascript:;" id="chat_available_minimize">
-		<img class="chat_button_image" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
-	</a>
-	<table>
-		<tbody>
-			<tr id="chat_available_me" class="chat_top_container">
-				{if me}
-				<td class="chat_available_image">
-					{if me.photo}
-						<img src="${me.photo}"/>
-					{else}
-						<img src="/dev/_images/person_icon.jpg" />
-					{/if}
-				</td>
-				<td>
-					<span class="chat_available_name chat_available_status_${me.chatstatus}">${me.name}</span><br />
-					<span class="chat_available_statusmessage">${me.statusmessage}</span>
-				</td>
-				{/if}
-			</tr>
-		</tbody>
-	</table>
-	<div id="chat_available_others" {if totalitems > 4} class="chat_available_others_overflow" {else} class="chat_available_others_nooverflow" {/if}>
-		<table>
-			<tbody>
-				{for i in items}
-					{if i['sakai:status'] == "online" && i.chatstatus != "offline"}
-						<tr class="chat_available_friend">
-							<td class="chat_available_image">
-								{if i.photo}
-									<img src="${i.photo}" />
-								{else}
-									<img src="/dev/_images/person_icon.jpg" />
-								{/if}
-							</td>
-							<td>
-								<span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</span><br />
-								<span class="chat_available_statusmessage">${i.statusmessage}</span>
-							</td>
-						</tr>
-					{/if}
-				{forelse}
-				<tr>
-					<td id="chat_no_online_connections">
-						No online connections found
-					</td>
-				</tr>
-				{/for}
-			</tbody>
-		</table>
-	</div>
+    <a href="javascript:;" id="chat_available_minimize">
+        <img class="chat_button_image" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
+    </a>
+    <table>
+        <tbody>
+            <tr id="chat_available_me" class="chat_top_container">
+                {if me}
+                <td class="chat_available_image">
+                    {if me.photo}
+                        <img src="${me.photo}"/>
+                    {else}
+                        <img src="/dev/_images/person_icon.jpg" />
+                    {/if}
+                </td>
+                <td>
+                    <span class="chat_available_name chat_available_status_${me.chatstatus}">${me.name}</span><br />
+                    <span class="chat_available_statusmessage">${me.statusmessage}</span>
+                </td>
+                {/if}
+            </tr>
+        </tbody>
+    </table>
+    <div id="chat_available_others" {if totalitems > 4} class="chat_available_others_overflow" {else} class="chat_available_others_nooverflow" {/if}>
+        <table>
+            <tbody>
+                {for i in items}
+                    {if i['sakai:status'] == "online" && i.chatstatus != "offline"}
+                        <tr class="chat_available_friend">
+                            <td class="chat_available_image">
+                                {if i.photo}
+                                    <img src="${i.photo}" />
+                                {else}
+                                    <img src="/dev/_images/person_icon.jpg" />
+                                {/if}
+                            </td>
+                            <td>
+                                <span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</span><br />
+                                <span class="chat_available_statusmessage">${i.statusmessage}</span>
+                            </td>
+                        </tr>
+                    {/if}
+                {forelse}
+                <tr>
+                    <td id="chat_no_online_connections">
+                        No online connections found
+                    </td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
+    </div>
 --></div>
 
 <!-- CHAT WINDOW -->
 <div style="display:none" id="chat_windows_template"><!--
-	{var index = 0}
-	{for i in items}
-		{if special != false}
-			{if special == 0}
-			<span class="user_chat_first">
-			{else}
-			<span>
-			{/if}
-			<span id="online_button_${i.userid}" class="user_chat">
-				
-		{else}
-			{if index == 0}
-			<span class="user_chat_first">
-			{else}
-			<span>
-			{/if}
-			<span id="online_button_${i.userid}" class="user_chat">	
-		{/if}
-		<a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
-		</span>
-		</span>
-		
-		${index++|eat}
-	{/for}	
+    {var index = 0}
+    {for i in items}
+        {if special != false}
+            {if special == 0}
+            <span class="user_chat_first">
+            {else}
+            <span>
+            {/if}
+            <span id="online_button_${i.userid}" class="user_chat">
+
+        {else}
+            {if index == 0}
+            <span class="user_chat_first">
+            {else}
+            <span>
+            {/if}
+            <span id="online_button_${i.userid}" class="user_chat">
+        {/if}
+        <a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+        </span>
+        </span>
+
+        ${index++|eat}
+    {/for}
 --></div>
 
 <!-- CHAT WINDOW -->
 <div style="display:none" id="chat_windows_windows_template"><!--
-	{var index = 0}
-	{for i in items}
-		
-		{if special != false}
-			<div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(special*150)}px; display:none">
-		{else}
-			<div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(index*150)}px; display:none">
-		{/if}
-				
-				<table class="chat_top_table">
-					<tr class="chat_top_container">
-						<td class="chat_available_image">
-							{if i.photo}
-								<img src="${i.photo}" id="chat_window_photo_${i.userid}" />
-							{else}
-								<img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
-							{/if}
-						</td>
-						<td>
-							<a href="javascript:;">
-								<img id="chat_close_${i.userid}" class="chat_user_button_image chat_close" src="/devwidgets/chat/images/chat_close.png" alt="" />
-							</a>
-							<a href="javascript:;">
-								<img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
-							</a>
-							<span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
-							<span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
-						</td>
-					</tr>
-				</table>
-				<div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow"></div>
-				<input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text"/>
-			</div>
-		
-		${index++|eat}
-	{/for}	
+    {var index = 0}
+    {for i in items}
+
+        {if special != false}
+            <div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(special*150)}px; display:none">
+        {else}
+            <div id="chat_with_${i.userid}" class="chat_with_user" style="left: ${(index*150)}px; display:none">
+        {/if}
+
+                <table class="chat_top_table">
+                    <tr class="chat_top_container">
+                        <td class="chat_available_image">
+                            {if i.photo}
+                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" />
+                            {else}
+                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
+                            {/if}
+                        </td>
+                        <td>
+                            <a href="javascript:;">
+                                <img id="chat_close_${i.userid}" class="chat_user_button_image chat_close" src="/devwidgets/chat/images/chat_close.png" alt="" />
+                            </a>
+                            <a href="javascript:;">
+                                <img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/chat/images/chat_minimize.png" alt="" />
+                            </a>
+                            <span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
+                            <span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
+                        </td>
+                    </tr>
+                </table>
+                <div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow"></div>
+                <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text"/>
+            </div>
+
+        ${index++|eat}
+    {/for}
 --></div>
 
 <!-- CHAT MESSAGE -->
 <div style="display:none" id="chat_content_template"><!--
-	<div class="chat_content_container">
-		<span class="chat_content_name">${name}</span><span class="chat_content_time">${time}</span><br />
-		<span class="chat_content_message">${message}</span>
-	</div>
+    <div class="chat_content_container">
+        <span class="chat_content_name">${name}</span><span class="chat_content_time">${time}</span><br />
+        <span class="chat_content_message">${message}</span>
+    </div>
 --></div>
 
 <!-- CHAT BOTTOM CONTAINER -->
 <div class="chat_main_container doFixed" id="chat_main_container" style="display:none; left:0px;">
-	<div id="chat_container" style="height:30px">
-		<table class="chat_main_table" summary="Chat">
-			<tr>
-				<td id="chat_windows"></td>
-				<td id="chat_online_connections_link">
-					<span id="online_button">
-						<img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
-						<a class="chat_straight_link" id="chat_online"></a>
-						
-						<!-- SHOW ONLINE FRIENDS -->
-						<div id="show_online" style="display:none">
-							<div id="chat_available"></div>
-						</div>
-						
-					</span>
-				</td>
-			</tr>
-		</table>
-		<div id="chat_windows_container" style="position:relative"></div>
-	</div>
+    <div id="chat_container" style="height:30px">
+        <table class="chat_main_table" summary="Chat">
+            <tr>
+                <td id="chat_windows"></td>
+                <td id="chat_online_connections_link">
+                    <span id="online_button">
+                        <img src="/devwidgets/chat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
+                        <a class="chat_straight_link" id="chat_online"></a>
+
+                        <!-- SHOW ONLINE FRIENDS -->
+                        <div id="show_online" style="display:none">
+                            <div id="chat_available"></div>
+                        </div>
+
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <div id="chat_windows_container" style="position:relative"></div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->

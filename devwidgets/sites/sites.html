@@ -8,31 +8,31 @@
 <!-- CONTENT -->
 <div class="my_course_sites_widget">
 
-	<div class="fl-widget-content" id="sites_list">
-	</div>
-	<div id="sites_list_template"><!--
-		<ul>
-			{for site in entry}
-				<li><a href="${site.siteref}">${site.site.name}</a></li>
-			{/for}
-		</ul>
-	--></div>
-	<div class="fl-widget-options fl-fix" id="sites_top">
-		<div class="widget-options-inner">
-			<ul>
-				<li class="hidedev"><a href="sites_edit.html">Edit</a></li>
-				<li class="hidedev"><span class="pipe_divider">|</span></li>
-				<li><a href="javascript:;" id="create_new_site_link">Create a Site</a></li>
-			</ul>
-		</div>
-	</div>	
+    <div class="fl-widget-content" id="sites_list">
+    </div>
+    <div id="sites_list_template"><!--
+        <ul>
+            {for site in entry}
+                <li><a href="${site.siteref}">${site.site.name}</a></li>
+            {/for}
+        </ul>
+    --></div>
+    <div class="fl-widget-options fl-fix" id="sites_top">
+        <div class="widget-options-inner">
+            <ul>
+                <li class="hidedev"><a href="sites_edit.html">Edit</a></li>
+                <li class="hidedev"><span class="pipe_divider">|</span></li>
+                <li><a href="javascript:;" id="create_new_site_link">Create a Site</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <!-- CONTAINER FOR THE CREATESITE CONTAINER -->
 <div id="createsitecontainer" style="display:none;">
-	
-	<!-- We need this container to show the pop-up where you can add a site -->
-	<div id="widget_createsite" class="widget_inline"></div>
+
+    <!-- We need this container to show the pop-up where you can add a site -->
+    <div id="widget_createsite" class="widget_inline"></div>
 </div>
 
 <!-- JAVASCRIPT -->

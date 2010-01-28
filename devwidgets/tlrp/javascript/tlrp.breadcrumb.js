@@ -27,74 +27,74 @@ sakai.tlrp.breadcrumb = function(tuid, parent, titleLength) {
         "titleLength": titleLength,
         "breadcrumbs": []
     };
-    
-	
+
+
     /////////////////////////////
     // Configuration variables //
-    /////////////////////////////	
-	
+    /////////////////////////////
+
     var tlrpBreadCrumbTemplate = "tlrpBreadCrumbTemplate";
     var tlrpBreadCrumbItem = "tlrpBreadCrumb";
     var tlrpBreadCrumbItemClass = ".tlrpBreadCrumb";
-    
-	
+
+
     ///////////////////////
     // Private functions //
     ///////////////////////
-    
-	/**
-	 * Add a new item to the breadcrumber
-	 * @param {Object} breadCrumb: string to be added
-	 * @param {Object} clickHandler: the function to call if this is clicked
-	 * @param {Object} level: the level
-	 */
+
+    /**
+     * Add a new item to the breadcrumber
+     * @param {Object} breadCrumb: string to be added
+     * @param {Object} clickHandler: the function to call if this is clicked
+     * @param {Object} level: the level
+     */
     var addItemToBreadCrumps = function(breadCrumb, clickHandler, level) {
-		// make a breadcrumb object
+        // make a breadcrumb object
         var jsonBC = {};
         jsonBC.title = breadCrumb;
         jsonBC.clickHandler = clickHandler;
-		// if a level is specified splice the breadcrumber to that level
+        // if a level is specified splice the breadcrumber to that level
         if (level) {
             json.breadcrumbs.splice(level);
         }
-		// add the new breadcrumb
+        // add the new breadcrumb
         json.breadcrumbs.push(jsonBC);
-		// render the breadcrumber items
+        // render the breadcrumber items
         $(rootel).html($.Template.render(tlrpBreadCrumbTemplate, json));
-        
+
     };
-    
-    
+
+
     ////////////////////
     // Event Handlers //
     ////////////////////
-	
-	/**
-	 * Is called whenm a breadcrumb is clicked
-	 * @param {Object} e
-	 */
+
+    /**
+     * Is called whenm a breadcrumb is clicked
+     * @param {Object} e
+     */
     var doBreadCrumb = function(e) {
-		// get the index of the breadcrumb
+        // get the index of the breadcrumb
         var index = parseInt(e.target.id.replace(tlrpBreadCrumbItem, ""), 10);
-		// check if the breadcrumber has a eventhandler
-		// if so calll it and put the index as a parameter
+        // check if the breadcrumber has a eventhandler
+        // if so calll it and put the index as a parameter
         if (typeof json.breadcrumbs[index].clickHandler !== "undefined") {
             json.breadcrumbs[index].clickHandler(index);
         }
-		// splice the breadcrumbs to the clicked breadcrumb
+        // splice the breadcrumbs to the clicked breadcrumb
         json.breadcrumbs.splice(index + 1);
-		// rerender
+        // rerender
         $(rootel).html($.Template.render(tlrpBreadCrumbTemplate, json));
     };
-    
+
     $(tlrpBreadCrumbItemClass, rootel).live("click", doBreadCrumb);
-    
+
     var getJson = function() { return json; };
-    
+
     //////////////////////
     // Public functions //
     //////////////////////
-    
+
     return {
         getJson : getJson,
         add: addItemToBreadCrumps,
@@ -102,7 +102,7 @@ sakai.tlrp.breadcrumb = function(tuid, parent, titleLength) {
             json.breadcrumbs = [];
         }
     };
-    
+
 };
 sdata.widgets.WidgetLoader.informOnLoad("tlrp");
 

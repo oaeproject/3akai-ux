@@ -18,42 +18,42 @@
 
 /* Paragraphs */
 #camtoolscourses_container p {
-	margin: 13px 13px 0;
+    margin: 13px 13px 0;
 }
 
 /* Headers */
 #camtoolscourses_container h3 {
-	clear: both;
-	color: #666;
-	font-size: 1.1em;
-	font-weight: normal;
-	margin: 7px 13px 13px;
+    clear: both;
+    color: #666;
+    font-size: 1.1em;
+    font-weight: normal;
+    margin: 7px 13px 13px;
 }
 
 /* List */
 #camtoolscourses_subcontainer ul {
-	float: left;
-	margin-bottom: .7em;
-	width: 100%;
+    float: left;
+    margin-bottom: .7em;
+    width: 100%;
 }
 
 #camtoolscourses_subcontainer ul li {
-	background: url('/dev/_images/folder_icon.png') 11px 5px no-repeat;
-	border-bottom: 1px solid #ccc;
-	list-style: none;
-	margin: 0;
-	padding: 5px 5px 5px 40px;
+    background: url('/dev/_images/folder_icon.png') 11px 5px no-repeat;
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 5px 5px 5px 40px;
 }
 
 #camtoolscourses_subcontainer ul li.camtoolscourses_favourite {
-	background: url('/dev/_images/contentmedia_bookmark.png') 12px 5px no-repeat;
+    background: url('/dev/_images/contentmedia_bookmark.png') 12px 5px no-repeat;
 }
 
 #camtoolscourses_subcontainer ul li a {
-	color: #006E96;
-	display: block;
-	font-size: 1em;
-	font-weight: bold;
+    color: #006E96;
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
 }
 
 

@@ -28,91 +28,91 @@ var sakai = sakai || {};
  */
 sakai.footer = function(tuid,placement,showSettings){
 
-	//////////////////////
-	// Helper functions //
-	//////////////////////
+    //////////////////////
+    // Helper functions //
+    //////////////////////
 
-	/*
-	 * This helper function will 
-	 */
-	var getDocName = function() {
-		var url = document.URL;
-		var slash = "/";
-		if (url.match(/\\/)) {
-			slash = "\\";
-		}
-		return url.substring(url.lastIndexOf(slash) + 1);
-	};
-	
-	
-	/////////////////////////////
-	// Configuration variables //
-	/////////////////////////////
-	
-	var footer_root = $("#footer_main");
-	var debug_info = $("#debug_info");
-	var back_to_top_link = $("#footer_main .back-top");
-	var doc_name = getDocName();
-	
-	
-	////////////////////
-	// Main functions //
-	////////////////////
-	var showDebugInfo = function(container) {
-		
-		// Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
-		var debug_text = "DEBUG:";
-		debug_text += " UX svn: <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67318' target='_blank'>67318</a>, <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67317'>67317</a>";
-		debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/70291c979dcc75f9633db07735c0a70b03e2a5f5' target='_blank'>70291c979dcc75f9633db07735c0a70b03e2a5f5</a>";
-		debug_text += " | DOC mod date: " + document.lastModified;
-		debug_text += " | PLACE: " + doc_name;
-		
-		// Put text into holding tag
-		container.html(debug_text);
-		
-		// Show debug item
-		container.show();	
-	};
-
-	
-	
+    /*
+     * This helper function will
+     */
+    var getDocName = function() {
+        var url = document.URL;
+        var slash = "/";
+        if (url.match(/\\/)) {
+            slash = "\\";
+        }
+        return url.substring(url.lastIndexOf(slash) + 1);
+    };
 
 
-	/*
-	 * This event handler will make sure that the Top link
-	 * that's available in every page footer will scroll back
-	 * to the top of the page
-	 */
-	$(".back-top").live("click", function(ev){
-		window.scrollTo(0,0);
-	});
-	
-	
-	/////////////////////////////
-	// Initialisation function //
-	/////////////////////////////
-	
-	
-	var doInit = function(){
-		
-		// Display debug info if set in config
-		if (Config.displayDebugInfo === true) {
-			// Make space for debug info
-			footer_root.height("65px");
-			
-			// Show the debug info
-			showDebugInfo(debug_info);
-		} else {
-			footer_root.height("45px");
-		}
-		
-		// index.html mods
-		if ((doc_name === "index.html") || (doc_name === "")) {
-			back_to_top_link.hide();
-			footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
-		}
-	};
-	doInit();
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
+
+    var footer_root = $("#footer_main");
+    var debug_info = $("#debug_info");
+    var back_to_top_link = $("#footer_main .back-top");
+    var doc_name = getDocName();
+
+
+    ////////////////////
+    // Main functions //
+    ////////////////////
+    var showDebugInfo = function(container) {
+
+        // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
+        var debug_text = "DEBUG:";
+        debug_text += " UX svn: <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67318' target='_blank'>67318</a>, <a href='https://source.sakaiproject.org/viewsvn?view=rev&revision=67317'>67317</a>";
+        debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/70291c979dcc75f9633db07735c0a70b03e2a5f5' target='_blank'>70291c979dcc75f9633db07735c0a70b03e2a5f5</a>";
+        debug_text += " | DOC mod date: " + document.lastModified;
+        debug_text += " | PLACE: " + doc_name;
+
+        // Put text into holding tag
+        container.html(debug_text);
+
+        // Show debug item
+        container.show();
+    };
+
+
+
+
+
+    /*
+     * This event handler will make sure that the Top link
+     * that's available in every page footer will scroll back
+     * to the top of the page
+     */
+    $(".back-top").live("click", function(ev){
+        window.scrollTo(0,0);
+    });
+
+
+    /////////////////////////////
+    // Initialisation function //
+    /////////////////////////////
+
+
+    var doInit = function(){
+
+        // Display debug info if set in config
+        if (Config.displayDebugInfo === true) {
+            // Make space for debug info
+            footer_root.height("65px");
+
+            // Show the debug info
+            showDebugInfo(debug_info);
+        } else {
+            footer_root.height("45px");
+        }
+
+        // index.html mods
+        if ((doc_name === "index.html") || (doc_name === "")) {
+            back_to_top_link.hide();
+            footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
+        }
+    };
+    doInit();
 
 };
 

@@ -5,7 +5,7 @@
     padding-left: 30px;
     padding-right: 30px;
     padding-top:5px;
-} 
+}
 #tlrpTagSort {
     background-color: #5ab4ea;
 }
@@ -24,10 +24,10 @@
 #tlrpTagResultsDisplayed, #tlrpTagResultsTotal {
     font-size: 13px;
     font-weight: bold;
-} 
+}
 #tlrpTagResults {
     float: left;
-} 
+}
 #tlrpTagResultsClearFilter {
     float: right;
     display: inline-block;

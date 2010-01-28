@@ -11,52 +11,52 @@
 <div class="dialog" id="addtocontacts_dialog">
     <!-- HEADER -->
     <div class="dialog_header">
-	<div class="dialog_header_inner">
-	    <h1>Add to Contacts</h1>
-	    <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-	</div>
+    <div class="dialog_header_inner">
+        <h1>Add to Contacts</h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
     </div>
-    
+    </div>
+
     <div id="addtocontacts_add" style="display:none;">
-		<!-- CONTENT -->
-    	<div class="dialog_content">		
-    		<form id="addtocontacts_form" method="post" action="javascript:;">
-    			<!-- All the elements with the addtocontacts_displayname class will contain the username of the user -->
-    	        <h4>Invite <span class="addtocontacts_displayname addtocontacts_bold" /> to connect through Sakai</h4>
+        <!-- CONTENT -->
+        <div class="dialog_content">
+            <form id="addtocontacts_form" method="post" action="javascript:;">
+                <!-- All the elements with the addtocontacts_displayname class will contain the username of the user -->
+                <h4>Invite <span class="addtocontacts_displayname addtocontacts_bold" /> to connect through Sakai</h4>
                 <span class="addtocontacts_displayname addtocontacts_bold" />
-    			<table class="addcontact" summary="Profile picture">
-    				<tr>
-    			   		<td class="addtocontacts_piccol">
-    						<img id="addtocontacts_profilepicture" src="" width="60" height="60" alt="Profile picture" />
-    			   		</td>
-						<!-- The following container will contain all the different content types that are available -->
-    					<td id="addtocontacts_types"></td>
-    			   	</tr>
-    			</table>
-    			<label for="addtocontacts_form_personalnote">Add a personal note to the invitation:</label>
-    			<textarea cols="75" rows="3" id="addtocontacts_form_personalnote" name="addtocontacts_form_personalnote"></textarea>			
-    		</form>
-    		
-    		<div id="addtocontacts_response"></div>
-		
-			<!-- DIALOG BUTTONS -->
-			<div class="dialog_buttons">
-			    <a href="javascript:;" class="button-default addtocontacts_bold" id="addtocontacts_form_invite">Invite</a>
-			    <a href="javascript:;" class="button jqmClose">Cancel</a>
-			</div>
-    	</div>
+                <table class="addcontact" summary="Profile picture">
+                    <tr>
+                           <td class="addtocontacts_piccol">
+                            <img id="addtocontacts_profilepicture" src="" width="60" height="60" alt="Profile picture" />
+                           </td>
+                        <!-- The following container will contain all the different content types that are available -->
+                        <td id="addtocontacts_types"></td>
+                       </tr>
+                </table>
+                <label for="addtocontacts_form_personalnote">Add a personal note to the invitation:</label>
+                <textarea cols="75" rows="3" id="addtocontacts_form_personalnote" name="addtocontacts_form_personalnote"></textarea>
+            </form>
+
+            <div id="addtocontacts_response"></div>
+
+            <!-- DIALOG BUTTONS -->
+            <div class="dialog_buttons">
+                <a href="javascript:;" class="button-default addtocontacts_bold" id="addtocontacts_form_invite">Invite</a>
+                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            </div>
+        </div>
     </div>
-	
-	<div id="addtocontacts_done_container" class="dialog_content" style="display:none;">
-		<div id="addtocontacts_done">
-			<span class="addtocontacts_displayname" /> has been added to your contact list.
-		</div>
-	</div>
-	
-	<!-- DIALOG FOOTER -->
-	<div class="dialog_footer">
-		<div class="dialog_footer_inner"><!-- --></div>
-	</div>
+
+    <div id="addtocontacts_done_container" class="dialog_content" style="display:none;">
+        <div id="addtocontacts_done">
+            <span class="addtocontacts_displayname" /> has been added to your contact list.
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
 </div>
 
 <!-- PERSONAL NOTE TEMPLATE -->
@@ -68,9 +68,9 @@ I would like to invite you to become a member of my network on Sakai.
 
 <!-- WHAT TYPE OF CONNECTION TEMPLATE -->
 <div id="addtocontacts_form_type_template" style="display:none"><!--
-	{for type in relationships}
-		<input type="checkbox" name="addtocontacts_form_type" value="${type.name}" id="addtocontacts_checkbox_${type_index}" {if type_index == 0}CHECKED{/if}/> <label for="addtocontacts_checkbox_${type_index}">${type.definition}</label><br/>
-	{/for}
+    {for type in relationships}
+        <input type="checkbox" name="addtocontacts_form_type" value="${type.name}" id="addtocontacts_checkbox_${type_index}" {if type_index == 0}CHECKED{/if}/> <label for="addtocontacts_checkbox_${type_index}">${type.definition}</label><br/>
+    {/for}
 --></div>
 
 

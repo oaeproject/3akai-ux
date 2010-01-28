@@ -32,7 +32,7 @@ sakai.comments = function(tuid, placement, showSettings) {
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-    
+
     var json = false; // Variable used to recieve information by json
     var widgetSettings = {}; // Will hold the widget settings.
     var me = sdata.me; // Contains information about the current user
@@ -42,13 +42,13 @@ sakai.comments = function(tuid, placement, showSettings) {
     var clickedPage = 1;
     var defaultPostsPerPage = 10;
     var currentSite = placement.split("/")[0];
-	var store = "/sites/" + currentSite + "/store/";
-	
+    var store = "/sites/" + currentSite + "/store/";
+
     // Main Ids
     var comments = "#comments";
     var commentsName = "comments";
     var commentsClass = ".comments";
-    
+
     // Output containers
     var commentsOutputContainer = comments + "_mainContainer";
     var commentsFillInComment = comments + "_fillInComment";
@@ -58,7 +58,7 @@ sakai.comments = function(tuid, placement, showSettings) {
     var commentsNumCommentsDisplayed = commentsNumComments + "Displayed";
     var commentsCommentComments = comments + "_commentscomment";
     var commentsCancelComment = comments + "_cancelComment";
-    
+
     // Edit parts
     var commentsEdit = commentsClass + "_edit";
     var commentsMessage = comments + "_message_";
@@ -66,11 +66,11 @@ sakai.comments = function(tuid, placement, showSettings) {
     var commentsEditText = comments + "_editComment_txt_";
     var commentsEditSave = commentsClass + "_editComment_save";
     var commentsEditCancel = commentsClass + "_editComment_cancel";
-    
+
     // Delete
     var commentsDelete = commentsClass + "_delete";
     var commentsUnDelete = commentsClass + "_undelete";
-    
+
     // Output textboxes
     var commentsMessageTxt = comments + "_txtMessage";
     var commentsNamePosterTxt = comments + "_txtNamePoster";
@@ -78,38 +78,38 @@ sakai.comments = function(tuid, placement, showSettings) {
     // Their containers
     var commentsNamePosterTxtContainer = commentsNamePosterTxt + "_container";
     var commentsMailPosterTxtContainer = commentsMailPosterTxt + "_container";
-    
+
     // Output classes
     var commentsCommentBtn = commentsClass + "_comment";
     var commentsPager = commentsClass + "_jqpager";
-    
-    
+
+
     // Output templates
     var commentsShowCommentsTemplate = commentsName + "_showCommentsTemplate";
-    
+
     // Settings
     var commentsSettingsContainer = comments + "_settings";
-    
+
     // Settings checkboxes and radiobuttons
     var commentsEmailReqChk = comments + "_Emailrequired";
     var commentsNameReqChk = comments + "_Namerequired";
     var commentsSendMailChk = comments + "_SendMail";
     var commentsPageTxt = comments + "_txtPage";
-    
+
     // Settings buttons
     var commentsSubmit = comments + "_submit";
     var commentsCancel = comments + "_cancel";
-    
+
     // Settings names
     var commentsDisplayRbt = commentsName + "_ChooseDisplayComments";
     var commentsDirectionRbt = commentsName + "_ChooseDirectionComments";
     var commentsPermissionsRbt = commentsName + "_ChoosePermissionComments";
-    
-    
+
+
     ////////////////////////
     // Utility  functions //
     ////////////////////////
-    
+
     /**
      * Parse a json string to a valid date
      * @param {String} dateInput String of a date that needs to be parsed
@@ -119,7 +119,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         /** Get the date with the use of regular expressions */
         if (dateInput !== null) {
             /** Get the date with the use of regular expressions */
-            var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50 
+            var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50
             var d = new Date();
             d.setYear(match[1]);
             d.setMonth(match[2] - 1);
@@ -130,9 +130,9 @@ sakai.comments = function(tuid, placement, showSettings) {
             return d;
         }
         return null;
-        
+
     };
-    
+
     /**
      * returns how many years, months, days or hours since the dateinput
      * @param {Date} date
@@ -178,11 +178,11 @@ sakai.comments = function(tuid, placement, showSettings) {
                 return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " years";
             }
         }
-        
+
         return null;
-        
+
     };
-    
+
     /**
      * Format an input date (used by TrimPath)
      * @param {Date} d Date that needs to be formatted
@@ -192,17 +192,17 @@ sakai.comments = function(tuid, placement, showSettings) {
         if (d === null) {
             return null;
         }
-        
+
         var names_of_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var current_hour = d.getHours();
         var current_minutes = d.getMinutes() + "";
         if (current_minutes.length === 1) {
             current_minutes = "0" + current_minutes;
         }
-        
+
         return (names_of_months[d.getMonth()].substring(0, 3) + " " + d.getDate() + ", " + d.getFullYear() + " - " + current_hour + ":" + current_minutes);
     };
-    
+
     /**
      * Converts all HTML to flat text and converts \n to <br />
      * @param {String} str
@@ -212,11 +212,11 @@ sakai.comments = function(tuid, placement, showSettings) {
         str = str.replace(/\n/g, '<br />');
         return str;
     };
-    
+
     ///////////////////
     // show comments //
     ///////////////////
-    
+
     /**
      * Show the comments in a paged state or not
      */
@@ -230,12 +230,12 @@ sakai.comments = function(tuid, placement, showSettings) {
             jsonDisplay.comments[i] = {};
             var comment = json.results[i].post;
             // Checks if the date is already parsed to a date object
-			// TODO: Get jcr:created
+            // TODO: Get jcr:created
             var tempDate = comment["sakai:created"];
             try {
                 // if the date is not a string this should generate en exception
                 comment.date = parseDate(tempDate);
-            } 
+            }
             catch (ex) {
                 comment.date = tempDate;
             }
@@ -245,8 +245,8 @@ sakai.comments = function(tuid, placement, showSettings) {
             comment.message = tidyInput(comment["sakai:body"]);
             // weird json bug.
             comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
-            
-            
+
+
             var user = {};
             // User
             // Puts the userinformation in a better structure for trimpath
@@ -280,14 +280,14 @@ sakai.comments = function(tuid, placement, showSettings) {
                     comment.profile.email = comment['sakai:email'];
                 }
             }
-            
+
             comment.user = user;
-            
+
             jsonDisplay.comments[i] = comment;
         }
         $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonDisplay));
     };
-    
+
     /**
      * Show all the posted comments
      * This function first retrieves all the users who have posted in this widget and then call the displayCommentsPagedOrNot function
@@ -305,28 +305,28 @@ sakai.comments = function(tuid, placement, showSettings) {
         if (json.total === 1) {
             $(commentsCommentComments, rootel).text("comment");
         }
-        
-        
+
+
         // Change the page-number on the display
         $(commentsPager, rootel).pager({
             pagenumber: clickedPage,
             pagecount: Math.ceil(json.total / widgetSettings.perPage),
             buttonClickCallback: pagerClickHandler
         });
-        
+
         if (json.total > widgetSettings.perPage) {
             $(commentsPager, rootel).show();
         }
         // Checks if the comments undefined or if it's length is 0
         displayCommentsPagedOrNot();
     };
-    
+
     /**
      * Gets the comments from the service.
      */
     var getComments = function() {
         var sortOn = "sakai:created";
-		var sortOrder = "descending";
+        var sortOrder = "descending";
         var items = 10;
         if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
             sortOrder = "ascending";
@@ -334,8 +334,8 @@ sakai.comments = function(tuid, placement, showSettings) {
         if (widgetSettings.perPage) {
             items = widgetSettings.perPage;
         }
-        
-		var url = "/var/search/comments/flat.json?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items +"&marker=" + tuid + "&path=" + store.substring(0, store.length - 1);
+
+        var url = "/var/search/comments/flat.json?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items +"&marker=" + tuid + "&path=" + store.substring(0, store.length - 1);
         $.ajax({
             url: url,
             cache: false,
@@ -348,14 +348,14 @@ sakai.comments = function(tuid, placement, showSettings) {
             }
         });
     };
-    
+
     /**
      * Pager click handler
      * @param {Number} pageclickednumber
      */
     var pagerClickHandler = function(pageclickednumber) {
         clickedPage = pageclickednumber;
-        
+
         // Change the page-number on the display
         $(commentsPager, rootel).pager({
             pagenumber: pageclickednumber,
@@ -364,7 +364,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         });
         getComments();
     };
-    
+
     /**
      * Returns a unique reference to this comment placement.
      * For now this is just placement + "#" +  tuid
@@ -372,8 +372,8 @@ sakai.comments = function(tuid, placement, showSettings) {
     var getReferenceID = function() {
         return placement + "/" + tuid;
     };
-    
-    
+
+
     /**
      * Post a new comment
      */
@@ -383,7 +383,7 @@ sakai.comments = function(tuid, placement, showSettings) {
             "message": $(commentsMessageTxt, rootel).val()
         };
         comment["sakai:type"] = "comment";
-        
+
         var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
         var allowPost = true;
         // If the user is not loggedin but we allow anon comments, we check some extra fields.
@@ -406,24 +406,24 @@ sakai.comments = function(tuid, placement, showSettings) {
             allowPost = false;
             alert("Anonymous users are not allowed to post comments. Please register or log in to add your comment.");
         }
-		
-		var subject = 'Comment on sites/' + placement;
-		var to = "internal:s-" + currentSite;
-		
+
+        var subject = 'Comment on sites/' + placement;
+        var to = "internal:s-" + currentSite;
+
         if (allowPost) {
             var body = $(commentsMessageTxt, rootel).val();
             var message = {
                 "sakai:type": "comment",
                 "sakai:to": to,
-		"sakai:marker": tuid,
-		"sakai:subject": subject,
+        "sakai:marker": tuid,
+        "sakai:subject": subject,
                 "sakai:body": body,
                 "sakai:messagebox": "outbox",
-		"sakai:sendstate" : "pending",
-		"_charset_":"utf-8"
+        "sakai:sendstate" : "pending",
+        "_charset_":"utf-8"
             };
-            
-            
+
+
             var url = "/_user/message.create.html";
             $.ajax({
                 url: url,
@@ -454,11 +454,11 @@ sakai.comments = function(tuid, placement, showSettings) {
             alert("Please fill in all the fields.");
         }
     };
-    
+
     ////////////////////////
     // Settings functions //
     ////////////////////////
-        
+
     /**
      * show the settingsscreen
      * @param {Boolean} exists
@@ -467,7 +467,7 @@ sakai.comments = function(tuid, placement, showSettings) {
     var showSettingScreen = function(exists, response) {
         $(commentsOutputContainer, rootel).hide();
         $(commentsSettingsContainer, rootel).show();
-        
+
         // If you're changing an comment-widget, then the saved values need to be filled in
         if (exists) {
             $("input[name=" + commentsDirectionRbt + "][value=" + widgetSettings.direction + "]", rootel).attr("checked", true);
@@ -483,13 +483,13 @@ sakai.comments = function(tuid, placement, showSettings) {
             }
             $(commentsEmailReqChk, rootel).attr("checked", widgetSettings['sakai:forcemail']);
             $(commentsNameReqChk, rootel).attr("checked", widgetSettings['sakai:forcename']);
-            
-            
+
+
             $(commentsSendMailChk, rootel).attr("checked", widgetSettings['sakai:notification']);
             $(commentsPageTxt, rootel).val(widgetSettings.perPage);
         }
     };
-    
+
     /**
      * When the settings are saved to JCR, this function will be called.
      * It will notify the container that it can be closed.
@@ -497,7 +497,7 @@ sakai.comments = function(tuid, placement, showSettings) {
     var finishNewSettings = function() {
         sdata.container.informFinish(tuid);
     };
-    
+
     /**
      * fills up the settings JSON-object
      * @return {Object} the settings JSON-object, returns {Boolean} false if input is invalid
@@ -505,15 +505,15 @@ sakai.comments = function(tuid, placement, showSettings) {
     var getCommentsSettings = function() {
         var comments = {};
         comments.comments = [];
-        
+
         // Checks if there's already some comments placed on the widget
         comments.comments = json.comments || [];
-        
+
         comments.perPage = parseInt($(commentsPageTxt, rootel).val(), 10);
         if (isNaN(comments.perPage)) {
             comments.perPage = defaultPostsPerPage;
         }
-        
+
         if (comments.perPage < 1) {
             alert("Please fill in a number bigger then 0.");
             return false;
@@ -523,10 +523,10 @@ sakai.comments = function(tuid, placement, showSettings) {
             alert("Please fill in a valid number.");
             return false;
         }
-        
-        
+
+
         comments.direction = $("input[name=" + commentsDirectionRbt + " ]:checked", rootel).val();
-        
+
         // These properties are noy yet used in the comments-widget, but are saved in JCR
         comments['sakai:allowanonymous'] = true;
         if ($("#comments_RequireLogInID", rootel).is(":checked")) {
@@ -536,13 +536,13 @@ sakai.comments = function(tuid, placement, showSettings) {
         comments['sakai:forcemail'] = $(commentsEmailReqChk, rootel).attr("checked");
         comments['sakai:notification'] = $(commentsSendMailChk, rootel).attr("checked");
         comments['sakai:notificationaddress'] = me.user.userid;
-		comments['sling:resourceType'] = 'sakai/settings';
-		comments['sakai:marker'] = tuid;
-		comments['sakai:type'] = "comment";
-        
+        comments['sling:resourceType'] = 'sakai/settings';
+        comments['sakai:marker'] = tuid;
+        comments['sakai:type'] = "comment";
+
         return comments;
     };
-    
+
     /**
      * Makes sure that values that are supposed to be booleans, really are booleans.
      * @param {String[]} arr Array of strings which holds keys for the widgetSettings variable that needs to be checked.
@@ -553,7 +553,7 @@ sakai.comments = function(tuid, placement, showSettings) {
             widgetSettings[name] = (widgetSettings[name] && (widgetSettings[name] === true || widgetSettings[name] === "true" || widgetSettings[name] === 1)) ? true : false;
         }
     };
-    
+
     /**
      * Gets the widget settings and shows the appropriate view.
      */
@@ -567,12 +567,12 @@ sakai.comments = function(tuid, placement, showSettings) {
                 // Clean up some values so that true is really true and not "true" or 1 ...
                 var keysToClean = ['sakai:forcename', 'sakai:forcemail', 'notification', 'sakai:allowanonymous'];
                 cleanBooleanSettings(keysToClean);
-                
+
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
                 if (widgetSettings["sakai:allowanonymous"] === false && !isLoggedIn) {
                     $(commentsCommentBtn, rootel).parent().hide();
                 }
-                
+
                 if (showSettings) {
                     showSettingScreen(true, data);
                 }
@@ -590,11 +590,11 @@ sakai.comments = function(tuid, placement, showSettings) {
             }
         });
     };
-    
+
     ////////////////////
     // Event Handlers //
     ////////////////////
-    
+
     /** Bind the choose display radiobuttons button */
     $("input[name=" + commentsDisplayRbt + "]", rootel).bind("click", function(e, ui) {
         var selectedValue = $("input[name=" + commentsDisplayRbt + "]:checked", rootel).val();
@@ -603,25 +603,25 @@ sakai.comments = function(tuid, placement, showSettings) {
             $(commentsPageTxt, rootel).focus();
         }
     });
-    
+
     /** Bind the choose permissions radiobuttons button */
     $("input[name=" + commentsPermissionsRbt + "]", rootel).bind("change", function(e, ui) {
         var selectedValue = $("input[name=" + commentsPermissionsRbt + "]:checked", rootel).val();
         // If a login is required the user shouldn't have the posibility to check Name-required or Email-required
         $(commentsNameReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
         $(commentsEmailReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
-        
+
     });
-    
+
     /** Bind the settings submit button*/
     $(commentsSubmit, rootel).bind("click", function(e, ui) {
         // If the settings-input is valid an object will be returned else false will be returned
         var settings = getCommentsSettings();
         if (settings) {
             settings["_charset_"] = "utf-8";
-	    var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
+        var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
             // gets the JSON-settings-object and converts it to a string
-            
+
             $.ajax({
                 url: saveUrl,
                 type: "POST",
@@ -634,11 +634,11 @@ sakai.comments = function(tuid, placement, showSettings) {
                 },
                 data: settings
             });
-            
+
         }
-        
+
     });
-    
+
     /** Bind the insert comment button*/
     $(commentsCommentBtn, rootel).bind("click", function(e, ui) {
         // checks if the user is loggedIn
@@ -666,25 +666,25 @@ sakai.comments = function(tuid, placement, showSettings) {
         $(commentsFillInComment, rootel).show();
         $(txtToFocus, rootel).focus();
     });
-    
+
     /**
      * Hide the form, but keep the input.
      */
     $(commentsCancelComment, rootel).bind('click', function() {
         $(commentsFillInComment, rootel).hide();
     });
-    
+
     /** Bind submit comment button */
     $(commentsPostCommentStart, rootel).bind("click", function(e, ui) {
         postComment();
     });
-    
+
     /** Bind the settings cancel button */
     $(commentsCancel, rootel).bind("click", function(e, ui) {
         sdata.container.informCancel(tuid);
     });
-    
-    
+
+
     /////////////////
     // DELETE LINK //
     /////////////////
@@ -710,22 +710,22 @@ sakai.comments = function(tuid, placement, showSettings) {
             data: data
         });
     };
-    
+
     $(commentsDelete, rootel).live("click", function(e, ui) {
         var id = e.target.id.replace(commentsDelete.replace(/\./g, ""), "");
         doDelete(id, true);
     });
-    
+
     $(commentsUnDelete, rootel).live("click", function(e, ui) {
         var id = e.target.id.replace(commentsUnDelete.replace(/\./g, ""), "");
         doDelete(id, false);
     });
-    
-    
+
+
     ////////////////
     // EDIT PARTS //
     ////////////////
-    
+
     /**
      * Edit link
      */
@@ -735,7 +735,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         $(commentsMessage + id, rootel).hide();
         $(commentsMessageEditContainer + id, rootel).show();
     });
-    
+
     /**
      * Save the edited comment.
      */
@@ -745,7 +745,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         if (message !== "") {
             var data = {
                 "sakai:body": message,
-				"sakai:editedby" : me.user.userid + "|" + new Date().toUTCString()
+                "sakai:editedby" : me.user.userid + "|" + new Date().toUTCString()
             };
             // Do a post to the comment to edit the message.
             var commentUrl = store + id;
@@ -770,7 +770,7 @@ sakai.comments = function(tuid, placement, showSettings) {
             alert("Please enter a message.");
         }
     });
-    
+
     /**
      * Cancel the edit comment.
      */
@@ -780,7 +780,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         $(commentsMessageEditContainer + id, rootel).hide();
         $(commentsMessage + id, rootel).show();
     });
-    
+
     /////////////////////////////
     // Initialisation function //
     /////////////////////////////

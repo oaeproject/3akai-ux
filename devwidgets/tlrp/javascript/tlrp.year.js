@@ -23,21 +23,21 @@ sakai.tlrp.year = function(records, tuid) {
     //////////////////////
     // Config variables //
     //////////////////////
-    
+
     var rootel = $("#" + tuid);
     var tlrpKeyWordBar = "tlrpTagBreadCrumbBar";
     var balloon = false;
     var breadCrumber = false;
-    
-    
+
+
     /////////////
     // CSS Ids //
     /////////////
-    
+
     var tlrpYear = "tlrpYear";
     var tlrpYearID = "#" + tlrpYear;
     var tlrpYearClass = "." + tlrpYear;
-    
+
     var tlrpYearResults = tlrpYearID + "Results";
     var tlrpYearTemplate = tlrpYear + "Template";
     var tlrpYearResultsListItems = tlrpYearResults + " ul li";
@@ -54,11 +54,11 @@ sakai.tlrp.year = function(records, tuid) {
     var tlrpYearTooMuchresults = tlrpYearClass + "TooMuchResults";
     var tlrpYearTooMuchResultsBalloon = tlrpYearTooMuchresults.replace('.','#') + "Balloon";
     var tlrpLeftTabYearContainer = "#tlrpLeftTabYearContainer";
-    
+
     //////////////////////
     // Search functions //
     //////////////////////
-    
+
     /**
      * Converts arrays to comma seperated strings in this item and makes undefined properties empty.
      * @param {Object} item
@@ -81,7 +81,7 @@ sakai.tlrp.year = function(records, tuid) {
         }
         return item;
     };
-    
+
     /**
      * Does the actual search.
      * @param {string} subject The term to look for
@@ -116,8 +116,8 @@ sakai.tlrp.year = function(records, tuid) {
         itemsByYear.nrOfYears = nrOfYears;
         return itemsByYear;
     };
-    
-    
+
+
     /**
      * Main search term
      * @param {Object} term
@@ -134,61 +134,61 @@ sakai.tlrp.year = function(records, tuid) {
             sorter.setData(items[i].articles);
             //sorter.sort();
             items[i].articles = sorter.getData();
-        }        
-        
+        }
+
         // Add breadcrumb
         breadCrumber.clear();
         breadCrumber.add(term);
-        
+
         // Make the window big enough.
         $(tlrpYearResults, rootel).css('width', (items.nrOfYears * 220)+ "px");
-        
+
         var json = {
             'years': items
         };
         $(tlrpYearResults, rootel).html($.Template.render (tlrpYearTemplate, json));
-        
-        
-        
+
+
+
         // Add some nice rounded corners
         $(tlrpYearResultsListItems, rootel).corners("5px");
     };
-    
+
     ///////////////////
     // AID Functions //
     ///////////////////
-    
+
     /**
      * This function will shorten the string str after maxChars characters and add the appendix if nescecary.
      * @param {string} str the string you wish to substring
      * @param {Number} maxChars After how many characters should the string be cut off.
-     * @param {string} appendix What addendum should we append. 
+     * @param {string} appendix What addendum should we append.
      */
     var checkDoSubstring = function(str, maxChars, appendix) {
         if (str.length > maxChars) {
             str = str.substring(0, maxChars) + appendix;
         }
         return str;
-    };    
-    
+    };
+
     /**
      * Returns the breadcrumb bar
      */
     var getBreadCrumbBar = function() {
         return tlrpKeyWordBar;
     };
-    
+
     ////////////////////////
     // Events for sliding //
     ////////////////////////
-    
+
     var goScroll = false;
     var goScrollLeft = 0;
     var goX = 0;
-    
+
     $(tlrpLeftTabYearContainer).mousedown(function(event) {
         $(this).data('down', true).data('x', event.clientX).data('scrollLeft', this.scrollLeft);
-        
+
         return false;
     }).mouseup(function(event) {
         $(this).data('down', false);
@@ -198,14 +198,14 @@ sakai.tlrp.year = function(records, tuid) {
         'overflow': 'hidden',
         'cursor': '-moz-grab'
     });
-    
+
     $(window).mouseout(function(event) {
         if ($(tlrpLeftTabYearContainer).data('down')) {
             try {
                 if (event.originalTarget.nodeName === 'BODY' || event.originalTarget.nodeName === 'HTML') {
                     $(tlrpLeftTabYearContainer).data('down', false);
                 }
-            } 
+            }
             catch (e) {
             }
         }
@@ -215,11 +215,11 @@ sakai.tlrp.year = function(records, tuid) {
         }
     });
 
-    
+
     //////////////////////
     // Balloon tooltips //
     //////////////////////
-    
+
     // Articles
     $(tlrpYearResultsListItems, rootel).live('mouseover', function() {
         // Get the balloon tip
@@ -236,10 +236,10 @@ sakai.tlrp.year = function(records, tuid) {
         if (desc === "") {
             desc = $(tlrpArticleNoDescription).text();
         }
-        
+
         desc = checkDoSubstring(desc, 100, '...');
         creator = checkDoSubstring(creator, 25, '...');
-        
+
         // Set it's text.
         $(tlrpArticleDescriptionAuthor, balloon).text(creator);
         $(tlrpArticleDescriptionDescription, balloon).text(desc);
@@ -251,13 +251,13 @@ sakai.tlrp.year = function(records, tuid) {
             'left': $(this).offset().left + 10,
             'top': $(this).offset().top + 25,
             'margin': '0px'
-        
+
         });
         // Maybe we are still fading the animation out. We have to stop this.
         $(balloon).stop();
         $(balloon).show();
     });
-    
+
     /**
      * Roll out of the link. Remove the balloon tip.
      * @param {Object} e
@@ -265,12 +265,12 @@ sakai.tlrp.year = function(records, tuid) {
     $(tlrpYearResultsListItems, rootel).live('mouseout', function(e) {
         $(tlrpArticleDescriptionForYear).fadeOut("fast");
     });
-    
+
     // Too much results
     $(tlrpYearTooMuchresults, rootel).live('mouseover', function() {
         // Get the balloon tip
         var balloon = $(tlrpYearTooMuchResultsBalloon);
-               
+
         // Position the balloon correctly. The opacity is to cancel the fadeOut.
         $(balloon).css({
             'opacity': '1',
@@ -278,13 +278,13 @@ sakai.tlrp.year = function(records, tuid) {
             'left': $(this).offset().left + 60,
             'top': $(this).offset().top - 55,
             'margin': '0px'
-        
+
         });
         // Maybe we are still fading the animation out. We have to stop this.
         $(balloon).stop();
         $(balloon).show();
     });
-    
+
     /**
      * Roll out of the link. Remove the balloon tip.
      * @param {Object} e
@@ -292,25 +292,25 @@ sakai.tlrp.year = function(records, tuid) {
     $(tlrpYearTooMuchresults, rootel).live('mouseout', function(e) {
         $(tlrpYearTooMuchResultsBalloon, rootel).fadeOut("fast");
     });
-    
-    
+
+
     /////////////////////////////
     // Initialisation function //
     /////////////////////////////
-    
+
     var doInit = function() {
         breadCrumber = new sakai.tlrp.breadcrumb(tuid + " ." + tlrpKeyWordBar, "." + tlrpKeyWordBar);
     };
-    
+
     doInit();
-    
+
     /////////////////////////////
     // Return public functions //
     /////////////////////////////
-    
+
     return {
         'search': search,
         'getBreadCrumbBar': getBreadCrumbBar
-    };  
+    };
 };
 sdata.widgets.WidgetLoader.informOnLoad("tlrp");
