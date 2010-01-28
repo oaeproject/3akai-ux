@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.fl-uploader { 
+.fl-uploader {
     width: 237px;
     position: relative;
     display: block;
@@ -42,7 +42,7 @@
 .fl-progEnhance-basic div input {
     margin-top: 0.6em;
 }
- 
+
 .fl-progEnhance-enhanced {
     display: none;
 }
@@ -166,7 +166,7 @@ html>body .fl-uploader a.fl-uploader-browse {
     color: #666;
 }
 
-.fl-uploader-queue-header th { 
+.fl-uploader-queue-header th {
     text-align: left;
     font-size: 0.94em;
     font-weight: normal;
@@ -181,7 +181,7 @@ html>body .fl-uploader a.fl-uploader-browse {
     border: 1px solid #999;
 }
 
-.fl-uploader-queue-footer table { 
+.fl-uploader-queue-footer table {
     width: 100%;
     position:relative;
     z-index:6;
@@ -217,7 +217,7 @@ html>body .fl-uploader a.fl-uploader-browse {
     position: relative;
     overflow: hidden;
 }
-        
+
 .fl-uploader-queue {
     position: relative;
     font-size: 0.9em;
@@ -227,7 +227,7 @@ html>body .fl-uploader a.fl-uploader-browse {
 
 /* hidden from IE6 */
 html>body .fl-uploader-queue {
-    width: 100%;    
+    width: 100%;
 }
 
 /* this style is here for debugging, if everything is working right the list items are focusable but the list not. */
@@ -253,7 +253,7 @@ html>body .fl-uploader-queue {
     color: #666;
 }
 
-.fl-uploader-queue td, .fl-uploader-queue th { 
+.fl-uploader-queue td, .fl-uploader-queue th {
     text-align: left;
     padding: 3px 6px;
     border-bottom: 1px solid #BBCFDC;
@@ -326,7 +326,7 @@ html>body .fl-uploader-queue {
 }
 
 /* ERRORS
- * 
+ *
  */
 
 .fl-uploader-queue .fl-uploader-file-state-error th {
@@ -355,7 +355,7 @@ html>body .fl-uploader-queue {
     text-align: center;
 }
 
-.fl-uploader-queue td.fileStatus { 
+.fl-uploader-queue td.fileStatus {
     white-space: nowrap;
 }
 
@@ -392,7 +392,7 @@ button span.fl-uploader-button-text-hidden {
 /* element states */
 
 .fl-uploader-disabled, .fl-uploader-dim {
-    cursor: auto; 
+    cursor: auto;
 }
 
 .fl-uploader-disabled {
@@ -442,7 +442,7 @@ button span.fl-uploader-button-text-hidden {
     top: 0;
     height: 100%;
     width:76%;
-} 
+}
 
 .fl-uploader-total-progress-okay {
     background-image: url('../images/gradient-total-green.png');
@@ -459,8 +459,8 @@ button span.fl-uploader-button-text-hidden {
 /* Hidden SWF for Flash 9*/
 
 .fl-uploader-flash9-container {
-    overflow: hidden; 
-    width: 1px; 
+    overflow: hidden;
+    width: 1px;
     height: 1px;
 }
 

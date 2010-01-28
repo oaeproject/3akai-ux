@@ -1,5 +1,5 @@
 
-/** CONTAINER **/ 
+/** CONTAINER **/
 .fixed-container
 { background: #fff; }
 
@@ -24,10 +24,10 @@
 { padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
 
 
-.profile_preview .primary-tabs ul li.fl-activeTab
+.profile_preview .primary-tabs ul li.fl-tabs-active
 { background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important;  }
 
-.profile_preview .primary-tabs ul li.fl-activeTab a
+.profile_preview .primary-tabs ul li.fl-tabs-active a
 { background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
 
 
@@ -105,7 +105,7 @@
 { padding: 0 0 0 20px; }
 
 .profile_preview .profile_section .multi_entry table div
-{ padding: 5px;	}
+{ padding: 5px;    }
 
 
 /** BUTTONS **/

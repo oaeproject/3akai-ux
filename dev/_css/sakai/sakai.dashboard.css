@@ -24,11 +24,11 @@
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
 #toolscontainer {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 /* Change layout */
-.layout_container {float:left;  padding-left:25px;  padding-right:13px;	}
+.layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
 .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 .layout_picker_item_column {border-right: 1px solid #3399CC;}
 .layout_picker_item_radio {margin-left:50px; margin-top:10px;}

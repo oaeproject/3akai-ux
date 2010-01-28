@@ -3,48 +3,48 @@
 
 <!-- MAIN VIEW -->
 <div id="video_maincontainer" style="display:none">
-	<div id="video_ShowMain">
-		<!-- Shows the video (output) --> 
-	</div>
-	<div id="video_MainTemplate" ><!--
-		<div class="video_containerInTemplate">
-			<div id="video_tempYoutubeVideoMain">
-				<div id="${videoContainer}"/>
-			</div>
-			{if source != ""}
-				<a href="${URL}" >${source}</a>
-			{/if}
-		</div>
-		--></div>	
+    <div id="video_ShowMain">
+        <!-- Shows the video (output) -->
+    </div>
+    <div id="video_MainTemplate" ><!--
+        <div class="video_containerInTemplate">
+            <div id="video_tempYoutubeVideoMain">
+                <div id="${videoContainer}"/>
+            </div>
+            {if source != ""}
+                <a href="${URL}" >${source}</a>
+            {/if}
+        </div>
+        --></div>
 </div>
 
 <!-- SETTINGS VIEW -->
 <div id="video_settings" style="display:none">
-	<div id="video_fillInfo" class="video_settingsStep">
-		<div class="video_clear"></div>
-		<label for="video_txtURL">URL:</label><br />
-		<input type="text" id="video_txtURL" class="video_longtxt"></input>
-		<label>Source:</label><br />
-		<br />
-		<div>
-			<input type="radio" name="video_source" value="video_noSource" id="video_source_nosource"><label for="video_source_nosource" class="video_source_rbtLabel">Don't show any source.</label></input><br />
-			<input type="radio" name="video_source" value="video_guess" id="video_source_guessURL" checked="checked"><label for="video_source_guessURL" class="video_source_rbtLabel">Guess source from URL</label></input><br />
-			<input type="radio" name="video_source" value="video_txt"  id="video_source_inputSource"><label for="video_source_inputSource" class="video_source_rbtLabel">
-					Use this as source:
-					<input type="text" id="video_txtSource"></input>
-				</label
-			</input><br />
-			
-		</div>
-	</div>
-	<div class="video_buttonBar">
-		<a class="button-default video_right_aligned_btn" id="video_insertPlaceHolder" href="javascript:;" style="float:left; margin-top:20px;">Insert a quick placeholder</a>
-		<a class="button-default video_leftButton" style="display:none;" id="video_btnBack" href="javascript:;" >Back</a>
-		<a class="button-default video_rightButton" style="display:none;" id="video_btnPreview" href="javascript:;">Preview</a>
-		<a class="button-default video_rightButton"  id="video_btnInsertWidget" href="javascript:;">Insert the widget</a>
-	</div>
+    <div id="video_fillInfo" class="video_settingsStep">
+        <div class="video_clear"></div>
+        <label for="video_txtURL">URL:</label><br />
+        <input type="text" id="video_txtURL" class="video_longtxt"></input>
+        <label>Source:</label><br />
+        <br />
+        <div>
+            <input type="radio" name="video_source" value="video_noSource" id="video_source_nosource"><label for="video_source_nosource" class="video_source_rbtLabel">Don't show any source.</label></input><br />
+            <input type="radio" name="video_source" value="video_guess" id="video_source_guessURL" checked="checked"><label for="video_source_guessURL" class="video_source_rbtLabel">Guess source from URL</label></input><br />
+            <input type="radio" name="video_source" value="video_txt"  id="video_source_inputSource"><label for="video_source_inputSource" class="video_source_rbtLabel">
+                    Use this as source:
+                    <input type="text" id="video_txtSource"></input>
+                </label
+            </input><br />
 
-	<div class="video_clear"></div>
+        </div>
+    </div>
+    <div class="video_buttonBar">
+        <a class="button-default video_right_aligned_btn" id="video_insertPlaceHolder" href="javascript:;" style="float:left; margin-top:20px;">Insert a quick placeholder</a>
+        <a class="button-default video_leftButton" style="display:none;" id="video_btnBack" href="javascript:;" >Back</a>
+        <a class="button-default video_rightButton" style="display:none;" id="video_btnPreview" href="javascript:;">Preview</a>
+        <a class="button-default video_rightButton"  id="video_btnInsertWidget" href="javascript:;">Insert the widget</a>
+    </div>
+
+    <div class="video_clear"></div>
 </div>
 
 <!-- JAVASCRIPT -->

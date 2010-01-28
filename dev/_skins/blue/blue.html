@@ -1,41 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Sakai 3 R&amp;D</title>
 
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D</title>
+	<link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
+	<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
+	<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css" />
+	<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
+	<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search_b.css" />
+	<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
+	<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+	<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
+	
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/InfusionAll.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/rsh.js"></script>	
+	<script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/site_history.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/trimpath.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.corners.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.simple.tree.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqScrollPane.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqModal.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.pager.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/OpenSocial/message.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/querystring.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
+</head>
+<body>
 
-        <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search_b.css" />
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
-		<link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
-		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
-		
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/InfusionAll.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/rsh.js"></script>	
-		<script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/site_history.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/trimpath.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.corners.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.simple.tree.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqScrollPane.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqModal.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.cookie.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.pager.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/OpenSocial/message.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/querystring.js"></script>
-		<script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
-
-    </head>
-    <body>
-    	
-   		<!-- TrimPath Templates -->
+		<!-- TrimPath Templates -->
 		<div id="editor_extra_buttons"><!--
 			<td>
 				<span class='mceSeparator' style='width:5px'/>
@@ -67,27 +65,27 @@
 						</tr>
 					</tbody>
 				</table>
-			</td>   
+			</td>
 		--></div>
 		
 		<!-- EXPLORE BAR -->
-	    <div id="widget_chat" class="widget_inline"></div>
+		<div id="widget_chat" class="widget_inline"></div>
 		
 		<!-- TITLE BAR + SEARCH -->
-        <div class="fl-container site_heading" style="padding:10px 0 10px 23px;">
-            <form class="search fl-force-right" action="" method="">
-                <input type="text" name="search" value="Search this site" class="fl-force-left search_field" />
+		<div class="fl-container site_heading" style="padding:10px 0 10px 23px;">
+			<form class="search fl-force-right" action="" method="">
+				<input type="text" name="search" value="Search this site" class="fl-force-left search_field" />
 				<a class="button-default save_button search_btn" href="javascript:;">Search</a>
-                <!-- <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" /> -->
-            </form>
-            <h1 id="sitetitle"></h1>
-        </div>
-      
-	   <!-- WORK AREA -->
-        <div class="fl-col-mixed2 main_container column_splitter_sites" id="show_view_container">
-	       
-            <!-- Page Nav -->
-            <div class="fl-col-side page_nav">	
+				<!-- <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" /> -->
+			</form>
+			<h1 id="sitetitle"></h1>
+		</div>
+	 s
+	<!-- WORK AREA -->
+		<div class="fl-col-fixed main_container column_splitter_sites" id="show_view_container">
+		   
+			<!-- Page Nav -->
+			<div class="fl-col page_nav">	
 				<a class="add_a_new" id="add_a_new" style="display:none" href="javascript:;">Add a New ...</a>
 				<div id="page_nav_content" class="pages page_nav_content">
 					
@@ -95,18 +93,18 @@
 					
 				<div class="site_management" id="site_management" style="display:none">
 					<h3>Site Management</h3>
-	            	<ul>
-	                	<li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
-	                	<li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
-	                	<li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
+					<ul>
+						<li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
+						<li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
+						<li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
 						<li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
-	            	</ul>
+					</ul>
 				</div>
-            </div>
-            
-            <!-- Main Content -->
-            <div class="fl-col-main content_container">
-                
+			</div>
+			
+			<!-- Main Content -->
+			<div class="fl-col-fixed content_container">
+				
 				<div class="content_page_options" id="content_page_options">
 					<ul class="fl-force-right">
 						<li id="li_edit_page" style="display:none"><a href="javascript:;" id="edit_page">Edit page</a></li>
@@ -123,47 +121,47 @@
 						
 					</select>
 					<a href="javascript:;" class="button-default" id="revision_history_revert" style="color:black; font-weight: bold">Use this Version</a>
-			        <a href="javascript:;" class="button-default" id="revision_history_cancel" style="color:black; font-weight: normal">Cancel</a>
+					<a href="javascript:;" class="button-default" id="revision_history_cancel" style="color:black; font-weight: normal">Cancel</a>
 				</div>
 				
 				<h1 id="pagetitle"></h1>
-                
+				
 				<div class="content_page_header" style="display:none">
-                	<img src="_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
+					<img src="_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" />
 					<p><a href="#">John Doe</a></p>
 					<p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
-                </div>
-                
+				</div>
+				
 				
 				<div id="main-content-div">
 				
-				</div>             
-            </div>
-        </div>
-	 
-        <!-- WORK AREA -->
-        <div class="fl-fix" id="edit_view_container" style="display:none">
-            <div class="main_container content_container">
-                <div class="content">
-                    <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
-                    <div class="buttonBar" style="margin-bottom:-1.2em">
-                        <a href="javascript:;" class="button-default save_button">Save</a>
-                        <a href="javascript:;" class="button cancel-button">Cancel</a>
-                        <span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
-                    </div>
-                    <ul class="fl-tabs fl-tabs-r tab-nav">
-						<li class="fl-activeTab tab-nav-selected" id="tab_text_editor"><!--fl-activeTab --><span>Text Editor</span></li>
+				</div>
+			</div>
+		</div>
+
+		<!-- WORK AREA -->
+		<div class="fl-fix" id="edit_view_container" style="display:none">
+			<div class="main_container content_container">
+				<div class="content">
+					<!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+					<div class="buttonBar" style="margin-bottom:-1.2em">
+						<a href="javascript:;" class="button-default save_button">Save</a>
+						<a href="javascript:;" class="button cancel-button">Cancel</a>
+						<span class="messageInformation" id="messageInformation" style="padding:20px; display:none">Auto saved at <span id="realtime"></span></span>
+					</div>
+					<ul class="fl-tabs fl-tabs-r tab-nav">
+						<li class="fl-tabs-active tab-nav-selected" id="tab_text_editor"><!--fl-tabs-active --><span>Text Editor</span></li>
 						<li id="tab_html"><a href="javascript:;">HTML</a></li>
 						<li id="tab_preview"><a href="javascript:;">Preview</a></li>
 					</ul>
-                    <div class="tab-nav-panel" id="tab-nav-panel">
-                    	<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
-                        <div class="toolbar" id="toolbarcontainer"style="z-index:1234">
-                        	<div class="mceToolbarExternal mceEditor defaultSkin"></div>
-                        </div>
+					<div class="tab-nav-panel" id="tab-nav-panel">
+						<div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
+						<div class="toolbar" id="toolbarcontainer"style="z-index:1234">
+							<div class="mceToolbarExternal mceEditor defaultSkin"></div>
+						</div>
 						<div class="fl-tab-content-border" id="title-input-container">
-                            <input type="text" value="Untitled" class="title-input" id="title-input"/>
-                        </div>
+							<input type="text" value="Untitled" class="title-input" id="title-input"/>
+						</div>
 						<div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
 							<div id="placeholderforeditor" class="textarea">
 								<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
@@ -171,15 +169,15 @@
 									&nbsp;
 								</textarea>
 							</div>
-                        </div>
+						</div>
 						<div id="html-editor" style="display:none; margin:10px 13px 0px 0px">
 							<textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
 						</div>
-                    </div>
-                    <p class="new_page_path" id="new_page_path">
-                         Site title / Some page / <span>Untitled</span>
-                        <input class="custom_button" type="button" value="Move ..." name="somename"/>
-                    </p>
+					</div>
+					<p class="new_page_path" id="new_page_path">
+						 Site title / Some page / <span>Untitled</span>
+						<input class="custom_button" type="button" value="Move ..." name="somename"/>
+					</p>
 					<div style="display:none" id="new_page_path_template"><!--
 						{var index = 0}
 						<span>Page location:</span>
@@ -197,22 +195,22 @@
 					<div class="fl-tab-content-border content_container" id="page_preview_content" style="display:none; margin-bottom: 20px">
 						
 					</div>
-                    <div class="buttonBar">
-                        <a href="javascript:;" class="button-default save_button">Save</a>
-                        <a href="javascript:;" class="button cancel-button">Cancel</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- FOOTER copyright -->
-        <div class="fl-container footer_copyright">
-            <a href="javascript:;" id="back_to_top">Back To Top</a>
-            <p>
-                Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
-                <br/>
-                &copy; 2004-2008 <a href="#">The Sakai Foundation</a>
-            </p>
-        </div>
+					<div class="buttonBar">
+						<a href="javascript:;" class="button-default save_button">Save</a>
+						<a href="javascript:;" class="button cancel-button">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- FOOTER copyright -->
+		<div class="fl-container footer_copyright">
+			<a href="javascript:;" id="back_to_top">Back To Top</a>
+			<p>
+				Portions of Sakai are copyrighted by other parties as described in the <a href="#">acknowledgement screen</a>
+				<br/>
+				&copy; 2004-2008 <a href="#">The Sakai Foundation</a>
+			</p>
+		</div>
 		
 		<div class="add_new_menu" id="add_new_menu" style="display:none">
 			<ul>
@@ -270,20 +268,20 @@
 		
 		<div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1 id="dialog_title"></h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 			<div id="dialog_content" class="dialog_content" style="padding:10px;"></div>
 		</div>
 		
 		<div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Appearance</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 						
 			<div class="dialog_content">
@@ -300,18 +298,18 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <!--<a href="javascript:;" class="button-default">Save</a>-->
-			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
-			     </div>
+					<!--<a href="javascript:;" class="button-default">Save</a>-->
+					<a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+				 </div>
 			</div>
 		</div>
 		
 		<div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Auto-save</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 						
 			<div class="dialog_content">
@@ -324,18 +322,18 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <a href="javascript:;" id="autosave_revert" class="button-default">Yes</a>
-			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
-			     </div>
+					<a href="javascript:;" id="autosave_revert" class="button-default">Yes</a>
+					<a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+				 </div>
 			</div>
 		</div>
 		
 		<div id="delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Delete a page</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 						
 			<div class="dialog_content">
@@ -348,18 +346,18 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <a href="javascript:;" id="delete_confirm" class="button-default">Yes</a>
-			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
-			     </div>
+					<a href="javascript:;" id="delete_confirm" class="button-default">Yes</a>
+					<a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+				 </div>
 			</div>
 		</div>
 		
 		<div id="link_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Insert a link</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 						
 			<div class="dialog_content">
@@ -374,18 +372,18 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <a href="javascript:;" id="insert_link_confirm" class="button-default">Insert</a>
-			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
-			     </div>
+					<a href="javascript:;" id="insert_link_confirm" class="button-default">Insert</a>
+					<a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+				 </div>
 			</div>
 		</div>
 		
 		<div id="move_dialog" class="dialog" style="width:400px; margin-left: -200px">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Move Page</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 						
 			<div class="dialog_content">
@@ -400,9 +398,9 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <a href="javascript:;" id="move_page_confirm" class="button-default">Save</a>
-			        <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
-			     </div>
+					<a href="javascript:;" id="move_page_confirm" class="button-default">Save</a>
+					<a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+				 </div>
 			</div>
 		</div>
 		
@@ -419,10 +417,10 @@
 		
 		<div class="dialog" id="save_as_template_container">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Save as Template</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 			
 			<div class="dialog_content">
@@ -439,18 +437,18 @@
 			
 			<div class="dialog_footer">
 				 <div class="buttonBar">
-			        <a href="javascript:;" class="button-default" id="save_as_page_template_button">Save</a>
-			        <a href="javascript:;" class="button jqmClose">Cancel</a>
-			     </div>
+					<a href="javascript:;" class="button-default" id="save_as_page_template_button">Save</a>
+					<a href="javascript:;" class="button jqmClose">Cancel</a>
+				 </div>
 			</div>
 		</div>
 
 		<div class="dialog" id="select_template_for_page">
 			<div class="dialog_header">
-			    <div class="dialog_header_inner">
+				<div class="dialog_header_inner">
 				<h1>Add page from template</h1>
 				<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-			    </div>
+				</div>
 			</div>
 			
 			<div class="dialog_content">
@@ -459,9 +457,9 @@
 				</div>
 				<div id="list_container_template"><!--
 					{if size > 0}
-					<ul class="fl-listmenu template_list">
+					<ul class="fl-list-menu template_list">
 						{for i in items}
-				        <li>
+						<li>
 							<a class="fl-icon fl-force-right delete template_delete" id="template_delete_${i.id}" href="javascript:;"></a>
 							<a href="javascript:;" id="page_template_selection_${i.id}" class="page_template_selection">
 								<span class="menu_title">${i.name}</span>
@@ -469,7 +467,7 @@
 							</a>
 						</li>	
 						{/for}
-			        </ul>
+					</ul>
 					{else}
 						<span>No templates available. In order to create one, go to the page you would like to use as a template, hit the
 						more menu and select Save As Page Template.</span>
@@ -478,7 +476,7 @@
 
 				<!-- DIALOG BUTTONS -->
 				<div class="dialog_buttons">
-				    <a href="javascript:;" class="button jqmClose">Cancel</a>
+					<a href="javascript:;" class="button jqmClose">Cancel</a>
 				</div>
 			</div>
 			
@@ -489,6 +487,6 @@
 		</div>
 		
 		<script type="text/javascript" src="/dev/_javascript/site.js"></script>
-		
-    </body>
+
+</body>
 </html>

@@ -9,23 +9,23 @@
 
 <!-- CONTENT -->
 <div class="s23tools_widget">
-	<div class="fl-widget-content" id="s23tools_container"><!-- --></div>
-	<div id="s23tools_container_template"><!--
-		<h2>${title}</h2>
-		<ul>
-			{for site in pages}
-				{if site.tools && site.tools[0]}
-					<li><a href="/portal/tool/${site.tools[0].url}">${site.name}</a></li>
-				{else}
-					<li>${site.name}</li>
-				{/if}
-			{/for}
-		</ul>
-		<a id="s23tools_logout" href="/portal/logout">Log out</a> (Sakai2)
-		--></div>
-	<div class="fl-widget-no-options fl-fix" id="sites_top">
-		<div class="widget-no-options-inner"><!-- --></div>
-	</div>
+    <div class="fl-widget-content" id="s23tools_container"><!-- --></div>
+    <div id="s23tools_container_template"><!--
+        <h2>${title}</h2>
+        <ul>
+            {for site in pages}
+                {if site.tools && site.tools[0]}
+                    <li><a href="/portal/tool/${site.tools[0].url}">${site.name}</a></li>
+                {else}
+                    <li>${site.name}</li>
+                {/if}
+            {/for}
+        </ul>
+        <a id="s23tools_logout" href="/portal/logout">Log out</a> (Sakai2)
+        --></div>
+    <div class="fl-widget-no-options fl-fix" id="sites_top">
+        <div class="widget-no-options-inner"><!-- --></div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->

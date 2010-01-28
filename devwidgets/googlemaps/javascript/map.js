@@ -18,53 +18,53 @@
 
 // Init google map object with Cambridge location as the center position
 var map = new google.maps.Map(document.getElementById("googlemaps_map_canvas"), {
-	zoom: 8,
-	center: new google.maps.LatLng(52.2025441, 0.1312368),
-	mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
-	mapTypeId: google.maps.MapTypeId.ROADMAP,
-	navigationControlOptions: { style: google.maps.NavigationControlStyle.ZOOM_PAN }
+    zoom: 8,
+    center: new google.maps.LatLng(52.2025441, 0.1312368),
+    mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    navigationControlOptions: { style: google.maps.NavigationControlStyle.ZOOM_PAN }
 });
 
 // Init google marker object with Cambridge location as the center position
 var marker = new google.maps.Marker({
-	position: new google.maps.LatLng(52.2025441, 0.1312368),
-	title: 'Point A',
-	map: map,
-	draggable: false
+    position: new google.maps.LatLng(52.2025441, 0.1312368),
+    title: 'Point A',
+    map: map,
+    draggable: false
 });
 
 // Init a google maps infor window object to open a info window to show the location info
 var infoWindow = new google.maps.InfoWindow({
-	content: ""
+    content: ""
 });
 
 // Init a json object which inlcudes the basic properties of the google map
 var json = {
-	"maps": [{
-		"mapcenter": {
-			"lat": map.getCenter().lat(), 
-			"lng": map.getCenter().lng()
-		}, 
-		"mapzoom": map.getZoom(),
-		"mapinput": "", 
-		"mapsize": "", 
-		"maphtml": "Cambridge, UK"
-	}]
+    "maps": [{
+        "mapcenter": {
+            "lat": map.getCenter().lat(),
+            "lng": map.getCenter().lng()
+        },
+        "mapzoom": map.getZoom(),
+        "mapinput": "",
+        "mapsize": "",
+        "maphtml": "Cambridge, UK"
+    }]
 };
 
 /**
  * Update the content in infoWindow
  */
 function updateInfoWindow(html) {
-	if (infoWindow) {
-		infoWindow.close();
-	}
-	
-	json.maps[0].maphtml = html;
-	infoWindow = new google.maps.InfoWindow({
-		content: "<h4>" + html + "</h4>"
-	});
-	infoWindow.open(map, marker);
+    if (infoWindow) {
+        infoWindow.close();
+    }
+
+    json.maps[0].maphtml = html;
+    infoWindow = new google.maps.InfoWindow({
+        content: "<h4>" + html + "</h4>"
+    });
+    infoWindow.open(map, marker);
 }
 
 /**
@@ -72,20 +72,20 @@ function updateInfoWindow(html) {
  * @param {Object} position of the closest location
  */
 function geocodePosition(position) {
-	var geocoder = new google.maps.Geocoder();
-	if (geocoder) {
-		geocoder.geocode({
-			latLng: position
-		}, function(responses){
-			if (responses && responses.length > 0) {
-				var html = responses[0].formatted_address;
-				updateInfoWindow(html);
-			}
-			else {
-				alert("Cannot determine address at this location.");
-			}
-		});
-	}
+    var geocoder = new google.maps.Geocoder();
+    if (geocoder) {
+        geocoder.geocode({
+            latLng: position
+        }, function(responses){
+            if (responses && responses.length > 0) {
+                var html = responses[0].formatted_address;
+                updateInfoWindow(html);
+            }
+            else {
+                alert("Cannot determine address at this location.");
+            }
+        });
+    }
 }
 
 /**
@@ -93,34 +93,34 @@ function geocodePosition(position) {
  * @param {Object} address the position of the closest location
  */
 function geocodeAddress(address) {
-	var geocoder = new google.maps.Geocoder();
+    var geocoder = new google.maps.Geocoder();
     if (geocoder) {
-		geocoder.geocode({
-			"address": address
-		}, function(results, status){
-			if (status == google.maps.GeocoderStatus.OK) {
-				var position = results[0].geometry.location;
-				map.setCenter(position);
-				marker.setMap(map);
-				marker.setPosition(position);
-				var html = address;
-				updateInfoWindow(html);
-			}
-			else {
-				alert("Cannot determine address at this location.");
-			}
-		});
-	}
+        geocoder.geocode({
+            "address": address
+        }, function(results, status){
+            if (status == google.maps.GeocoderStatus.OK) {
+                var position = results[0].geometry.location;
+                map.setCenter(position);
+                marker.setMap(map);
+                marker.setPosition(position);
+                var html = address;
+                updateInfoWindow(html);
+            }
+            else {
+                alert("Cannot determine address at this location.");
+            }
+        });
+    }
 }
 
 /**
  * Get the json object
  */
 var getJSON = function() {
-	json.maps[0].mapcenter.lat = map.getCenter().lat();
-	json.maps[0].mapcenter.lng = map.getCenter().lng();
-	json.maps[0].mapzoom = map.getZoom();
-	return json;
+    json.maps[0].mapcenter.lat = map.getCenter().lat();
+    json.maps[0].mapcenter.lng = map.getCenter().lng();
+    json.maps[0].mapzoom = map.getZoom();
+    return json;
 };
 
 /**
@@ -128,17 +128,17 @@ var getJSON = function() {
  * @param {string} keyword the target location
  * @param {string} The region where Google will perform the search
  */
-function search(keyword, region) {	
-	
-	// If region is provided, attach it ot the search query
-	// TO DO: This later will need to be moved to the Google API
-	if (region !== "") {
-		geocodeAddress(keyword+", "+region);
-		json.maps[0].mapinput = keyword+", "+region;
-	} else {
-		geocodeAddress(keyword);
-		json.maps[0].mapinput = keyword;
-	}
+function search(keyword, region) {
+
+    // If region is provided, attach it ot the search query
+    // TO DO: This later will need to be moved to the Google API
+    if (region !== "") {
+        geocodeAddress(keyword+", "+region);
+        json.maps[0].mapinput = keyword+", "+region;
+    } else {
+        geocodeAddress(keyword);
+        json.maps[0].mapinput = keyword;
+    }
 }
 
 /**
@@ -146,28 +146,28 @@ function search(keyword, region) {
  * @param {Object} jsonTarget the json object includes map's properties
  */
 function setMap(jsonTarget) {
-	json = jsonTarget;
-	
-	var latLng = new google.maps.LatLng(json.maps[0].mapcenter.lat, json.maps[0].mapcenter.lng);
-	map.setCenter(latLng);
-	map.setZoom(json.maps[0].mapzoom);
-	marker.setPosition(latLng);
-	
-	// Init the infoWindow object and decide to open it or not
-	if (json.maps[0].maphtml) {
-		updateInfoWindow(json.maps[0].maphtml);
-	}
+    json = jsonTarget;
+
+    var latLng = new google.maps.LatLng(json.maps[0].mapcenter.lat, json.maps[0].mapcenter.lng);
+    map.setCenter(latLng);
+    map.setZoom(json.maps[0].mapzoom);
+    marker.setPosition(latLng);
+
+    // Init the infoWindow object and decide to open it or not
+    if (json.maps[0].maphtml) {
+        updateInfoWindow(json.maps[0].maphtml);
+    }
 }
 
 /**
  * Init the listeners of marker
  */
 function init() {
-	
-	//alert(new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude))
-	google.maps.event.addListener(marker, "click", function() {
-		geocodePosition(marker.getPosition());
-	});
+
+    //alert(new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude))
+    google.maps.event.addListener(marker, "click", function() {
+        geocodePosition(marker.getPosition());
+    });
 }
 
 init();

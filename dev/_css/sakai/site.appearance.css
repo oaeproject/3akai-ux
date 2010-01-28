@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/** CONTAINER **/ 
+/** CONTAINER **/
 .fixed-container
 { background: #fff; }
 
@@ -48,10 +48,10 @@
 .basic_appearance .primary-tabs ul li a
 { padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
 
-.basic_appearance .primary-tabs ul li.fl-activeTab
+.basic_appearance .primary-tabs ul li.fl-tabs-active
 { background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
 
-.basic_appearance .primary-tabs ul li.fl-activeTab a
+.basic_appearance .primary-tabs ul li.fl-tabs-active a
 { background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
 
 
@@ -170,7 +170,7 @@
 
 
  /* site_management_appearance.html*/
- 
+
  /*
 .basic_appearance h4{margin: 10px 0 10px 0;}
 .basic_appearance h3{margin:0; padding:0 0 3px 0; font-size: 16px; border-bottom: 1px solid #ebebeb;}
@@ -193,7 +193,7 @@
 .basic_appearance .full-preview .preview-heading{float: right;}
 .basic_appearance .full-preview .preview-logo{line-height: 80px; width: 105px; text-align: center; border-right: 1px solid #ccc; font-weight: bold;}
 .basic_appearance .full-preview .site_search{margin: 10px 22px 0 0;}
-.basic_appearance .full-preview  h1{margin: 0; 	padding: 0;	font-weight: bold; font-size: 26px; vertical-align: middle; line-height: 80px; padding-right: 200px;}
+.basic_appearance .full-preview  h1{margin: 0;     padding: 0;    font-weight: bold; font-size: 26px; vertical-align: middle; line-height: 80px; padding-right: 200px;}
 .basic_appearance .full-preview  h2{margin-top: 50px;}
 .basic_appearance .full-preview  h5{margin: 15px 0 5px 0;}
 .basic_appearance .full-preview  .preview-container{margin: 22px; font-size: 11px;}
@@ -217,8 +217,8 @@
 .basic_appearance #site_appearance_change_select_content, .basic_appearance #site_appearance_change_upload_content {padding-left: 10px;}
 .basic_appearance .fl-tabs {border-bottom: 1px solid #ddd;}
 .basic_appearance .fl-tabs li a {bottom: 2px !important; #bottom: 1px !important;}
-.basic_appearance .fl-tabs .fl-activeTab a {background-color:#fff !important;border:1px solid #ddd;border-bottom-color: #eee; color:#000 !important;	font-weight:normal !important;}
-.basic_appearance .fl-tabs li a {background-color: #eee; border: 1px solid #eee; border-bottom-color: #ddd; bottom:1px; color: #000 !important;	margin-left: -1px;	padding: 6px 20px;	position: relative;}
+.basic_appearance .fl-tabs .fl-tabs-active a {background-color:#fff !important;border:1px solid #ddd;border-bottom-color: #eee; color:#000 !important;    font-weight:normal !important;}
+.basic_appearance .fl-tabs li a {background-color: #eee; border: 1px solid #eee; border-bottom-color: #ddd; bottom:1px; color: #000 !important;    margin-left: -1px;    padding: 6px 20px;    position: relative;}
 
 .basic_appearance iframe {width: 520px;}
 

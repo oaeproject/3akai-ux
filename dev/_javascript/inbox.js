@@ -22,32 +22,32 @@ var sakai = sakai || {};
 sakai.inbox = function() {
 
     //////////////////////////////
-    // Configuration variables 	//
-    //////////////////////////////	
-    
-    var messagesPerPage = 13; //	The number of messages per page.
-    var allMessages = []; //	Array that will hold all the messages.
+    // Configuration variables     //
+    //////////////////////////////
+
+    var messagesPerPage = 13; //    The number of messages per page.
+    var allMessages = []; //    Array that will hold all the messages.
     var me = sdata.me;
-    var generalMessageFadeOutTime = 3000; //	The amount of time it takes till the general message box fades out
-    var selectedMessage = {}; //	The current message
+    var generalMessageFadeOutTime = 3000; //    The amount of time it takes till the general message box fades out
+    var selectedMessage = {}; //    The current message
     var selectedType = 'inbox';
     var selectedCategory = "";
     var sortOrder = "descending";
     var sortBy = "date";
     var currentPage = 0;
-    var messagesForTypeCat; //		The number of messages for this type/cat.
+    var messagesForTypeCat; //        The number of messages for this type/cat.
     var box = "";
     var cats = "";
-    
-    
+
+
     //////////////////////////////
-    // 		    CSS IDs    		//
+    //             CSS IDs            //
     //////////////////////////////
-    
+
     var inbox = "inbox";
     var inboxID = "#inbox";
     var inboxClass = ".inbox";
-    
+
     //    global vars
     var inboxGeneralMessage = inboxID + "_general_message";
     var inboxMessageError = inbox + "_error_message";
@@ -56,7 +56,7 @@ sakai.inbox = function() {
     var inboxResults = inboxID + "_results";
     var inboxArrow = inboxClass + "_arrow";
     var inboxFolders = inboxID + "_folders";
-    
+
     //    Filters on the left side
     var inboxFilter = inboxID + "_filter";
     var inboxFilterClass = inboxClass + "_filter";
@@ -69,14 +69,14 @@ sakai.inbox = function() {
     var inboxFilterTrash = inboxFilter + "_trash";
     var inboxFilterNrMessages = inboxFilterClass + "_nrMessages";
     var inboxBold = inbox + "_bold";
-       
+
     //    Different panes (inbox, send message, view message, ..)
     var inboxPane = inboxID + "_pane";
     var inboxPaneClass = inboxClass + "_pane";
     var inboxPaneInbox = inboxPane + "_inbox";
     var inboxPaneCompose = inboxPane + "_compose";
     var inboxPaneMessage = inboxPane + "_message";
-        
+
     //    Main inbox
     var inboxTable = inboxID + "_table";
     var inboxTablePreloader = inboxTable + "_preloader";
@@ -89,23 +89,23 @@ sakai.inbox = function() {
     var inboxTableSubject = inboxTable + "_subject_";
     var inboxTablesubjectReadClass = 'inbox-subject-read';
     var inboxTablesubjectUnreadClass = 'inbox-subject-unread';
-    
+
     var inboxInbox = inboxID + "_inbox";
     var inboxInboxClass = inboxClass + "_inbox";
-    
+
     var inboxInboxSortUp = inboxInbox + "_sort_up";
     var inboxInboxSortDown = inboxInbox + "_sort_down";
-    
+
     var inboxInboxCheckAll = inboxInbox + "_checkAll";
     var inboxInboxDelete = inboxInbox + "_delete";
 
     var inboxInboxMessage = inboxInboxClass + "_message";
     var inboxInboxHeader = inboxInboxClass + "_header";
     var inboxInboxCheckMessage = inboxInboxClass + '_check_message';
-    
+
     var inboxTableHeaderSort = inboxInboxClass + "_table_header_sort";
-    
-    
+
+
     //    Specific message
     var inboxSpecificMessage = inboxID + "_message";
     var inboxSpecificMessageBackToInbox = inboxSpecificMessage + "_back_to_inbox";
@@ -118,28 +118,28 @@ sakai.inbox = function() {
     var inboxSpecificMessageFrom = inboxSpecificMessage + "_from";
     var inboxSpecificMessageSubject = inboxSpecificMessage + "_subject";
     var inboxSpecificMessagePicture = inboxSpecificMessage + "_picture";
-    
+
     //    Reply on a message
     var inboxSpecificMessageReplies = inboxSpecificMessage + "_replies";
     var inboxSpecificMessageRepliesTemplate = inbox + "_message_replies_template";
     var inboxSpecificMessageRepliesTemplateChats = "inbox_compose_replies_template_chats";
-    
+
     var inboxSpecificMessageCompose = inboxSpecificMessage + "_compose";
     var inboxSpecificMessageComposeSubject = inboxSpecificMessageCompose + "_subject";
     var inboxSpecificMessageComposeBody = inboxSpecificMessageCompose + "_body";
     var inboxSpecificMessageComposeSend = inboxSpecificMessageCompose + "_send";
     var inboxSpecificMessageComposeCancel = inboxSpecificMessageCompose + "_cancel";
-    
-    
+
+
     //    New message
     var inboxCompose = inboxID + "_compose";
     var inboxComposeCancel = "#send_message_cancel";
     var inboxComposeMessage = inboxCompose + "_message";
     var inboxComposeNew = inboxCompose + "_new";
     var inboxComposeNewContainer = inboxComposeNew + "_container";
-    
+
     var inboxComposeNewPanel = inboxComposeNew + "_panel";
-    
+
     //    Errors and messages
     var inboxGeneralMessages = inboxID + "_generalmessages";
     var inboxGeneralMessagesError = inboxGeneralMessages + "_error";
@@ -152,40 +152,40 @@ sakai.inbox = function() {
     var inboxGeneralMessagesSent = inboxGeneralMessages + "_sent";
     var inboxGeneralMessagesDeletedFailed = inboxGeneralMessagesDeleted + "_failed";
     var inboxGeneralMessagesSendFailed = inboxGeneralMessages + "_send_fail";
-    
+
     //    other IDs
     var chatUnreadMessages = "#chat_unreadMessages";
-    
-    
+
+
     //    Keep JSLint.com happy...
     var pageMessages = function() {};
     var getCount = function() {};
     var getAllMessages = function() {};
-    
+
     //////////////////////////////
-    // 		Aid functions 		//
+    //         Aid functions         //
     //////////////////////////////
-	
-	var unreadMessages = 0;
-	var unreadInvitations = 0;
-	var unreadAnnouncements = 0;
-	var unreadChats = 0;	
-    
+
+    var unreadMessages = 0;
+    var unreadInvitations = 0;
+    var unreadAnnouncements = 0;
+    var unreadChats = 0;
+
     /**
      * This function will redirect the user to the login page.
      */
     var redirectToLoginPage = function() {
         document.location = Config.URL.GATEWAY_URL;
     };
-    
+
     /**
      * This will show the preloader.
      */
     var showLoader = function() {
         $(inboxTable).append($.Template.render(inboxTablePreloader.substring(1), {}));
     };
-    
-    /** 
+
+    /**
      * Scroll to a specific element in a page
      * @param {Object} element The element you want to scroll to
      */
@@ -194,22 +194,22 @@ sakai.inbox = function() {
             scrollTop: element.offset().top
         }, 1);
     };
-    
+
     /**
      * Shows a general message on the top screen
-     * @param {String} msg	the message you want to display
-     * @param {Boolean} isError	true for error (red block)/false for normal message(green block)
+     * @param {String} msg    the message you want to display
+     * @param {Boolean} isError    true for error (red block)/false for normal message(green block)
      * @param {Number} timeoutthe amout of milliseconds you want the message to be displayed, 0 = always (till the next message)
      */
     var showGeneralMessage = function(msg, isError, timeout) {
-		var type = "normal";
-		var stay = false;
-		if (isError) {
-			type = "error";
-			stay = true;
-		}
-		sakai.lib.notifications.showNotification("My Messages", msg, type, stay, "/dev/_images/inbox_folders_messages.gif");
-		/*
+        var type = "normal";
+        var stay = false;
+        if (isError) {
+            type = "error";
+            stay = true;
+        }
+        sakai.lib.notifications.showNotification("My Messages", msg, type, stay, "/dev/_images/inbox_folders_messages.gif");
+        /*
         $(inboxGeneralMessage).html(msg);
         if (isError) {
             $(inboxGeneralMessage).addClass(inboxMessageError);
@@ -219,41 +219,41 @@ sakai.inbox = function() {
             $(inboxGeneralMessage).removeClass(inboxMessageError);
             $(inboxGeneralMessage).addClass(inboxMessageNormal);
         }
-        
+
         $(inboxGeneralMessage).show();
         if (typeof timeout === "undefined" || timeout !== 0) {
             $(inboxGeneralMessage).fadeOut(generalMessageFadeOutTime);
         }
         */
     };
-    
+
     /**
      * This will hide all the panes (the inbox, new reply, view message, etc..)
      */
     var hideAllPanes = function() {
         $(inboxPaneClass).hide();
     };
-    
+
     /**
      * Will show the required pane and hide all the others.
      * @param {String} the Id of the pane you want to show
      */
     var showPane = function(pane) {
-        //	We do a check to see if the pane isn't already visible
-        //	Otherwise we get an annoying flicker.
+        //    We do a check to see if the pane isn't already visible
+        //    Otherwise we get an annoying flicker.
         if (!$(pane).is(":visible")) {
             hideAllPanes();
             $(pane).show();
         }
     };
-    
+
     /**
      * Check or uncheck all messages depending on the top checkbox.
      */
     var tickMessages = function() {
         $(inboxInboxCheckMessage).attr("checked", ($(inboxInboxCheckAll).is(':checked') ? 'checked' : ''));
     };
-    
+
     /**
      * This will display the first page of the specified messages
      * @param {String} type The type of the messages (inbox, sent or trash or * for all of them)
@@ -263,27 +263,27 @@ sakai.inbox = function() {
      */
     var filterMessages = function(type, category, read, id) {
         $(inboxTableHeaderFromContent).text("From");
-        
+
         //    The small header above the webpage
         $(inboxInboxHeader).hide();
-        $(inboxID + "_" + type).show();        
-        
+        $(inboxID + "_" + type).show();
+
         //    Remember the type and category we want to see.
         selectedType = type;
         selectedCategory = category;
-        
-        //	Display first page.
+
+        //    Display first page.
         //getCount(read);
-		getAllMessages();
-        
-        //	show the inbox pane
+        getAllMessages();
+
+        //    show the inbox pane
         showPane(inboxPaneInbox);
-        
-        //	set the title bold
+
+        //    set the title bold
         $(inboxFilterClass).removeClass(inboxBold);
         $(id).addClass(inboxBold);
-    };    
-    
+    };
+
     /**
      * Removes all the messages out of the DOM.
      * It will also remove the preloader in the table.
@@ -291,25 +291,25 @@ sakai.inbox = function() {
     var removeAllMessagesOutDOM = function() {
         $(inboxTableMessage).remove();
     };
-    
+
     /**
      * This method will clear the input fields for the reply part of a specific message.
      * It will also hide the form again.
      */
-    var clearInputFields = function() {        
-        //	Clear all the input fields.
+    var clearInputFields = function() {
+        //    Clear all the input fields.
         $(inboxSpecificMessageComposeSubject + ", " + inboxSpecificMessageComposeBody).val('');
-        
-        //	Hide the reply form.
+
+        //    Hide the reply form.
         $(inboxSpecificMessageCompose).hide();
     };
-    
-    
+
+
     ///////////////////////////
     //    RENDER MESSAGES    //
     ///////////////////////////
-    
-    
+
+
     //    TODO: Document properties.
     /**
      * Used for the date formatter.
@@ -320,7 +320,7 @@ sakai.inbox = function() {
         longMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         longDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        
+
         // Day
         d: function() {
             return (replaceChars.date.getDate() < 10 ? '0' : '') + replaceChars.date.getDate();
@@ -434,8 +434,8 @@ sakai.inbox = function() {
             return replaceChars.date.getTime() / 1000;
         }
     };
-    
-    
+
+
     /**
      * Format a date to a string.
      * See replaceChars for the specific options.
@@ -457,107 +457,107 @@ sakai.inbox = function() {
         }
         return returnStr;
     };
-    
+
     /**
      * Adds the correct format to a message.
      * ex: parsing the date
      * @param {Object} message
      */
     var formatMessage = function(message) {
-    
-		//2009-06-30T21:58:37.731+01:00
-		if (typeof message === "string"){
-			message = $.evalJSON(message);
-		}
-		var dateString = message["jcr:created"];
+
+        //2009-06-30T21:58:37.731+01:00
+        if (typeof message === "string"){
+            message = $.evalJSON(message);
+        }
+        var dateString = message["jcr:created"];
         var d = new Date();
-		d.setFullYear(parseInt(dateString.substring(0,4),10));
-		d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
-		d.setDate(parseInt(dateString.substring(8,10),10));
-		d.setHours(parseInt(dateString.substring(11,13),10));
-		d.setMinutes(parseInt(dateString.substring(14,16),10));
-		d.setSeconds(parseInt(dateString.substring(17,19),10));
+        d.setFullYear(parseInt(dateString.substring(0,4),10));
+        d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
+        d.setDate(parseInt(dateString.substring(8,10),10));
+        d.setHours(parseInt(dateString.substring(11,13),10));
+        d.setMinutes(parseInt(dateString.substring(14,16),10));
+        d.setSeconds(parseInt(dateString.substring(17,19),10));
         //Jan 22, 2009 10:25 PM
         message.date = formatDate(d, "M j, Y G:i A");
-       
+
         if (message["sakai:read"] === "true" || message["sakai:read"] === true) {
             message.read = true;
         } else {
-			message.read = false;
-		}
-		
-		if (message["sakai:category"] === "message" || message["sakai:category"] === undefined){
-			message.category = "Message";
-		} else if (message["sakai:category"] === "announcement"){
-			message.category = "Announcement";
-		} else if (message["sakai:category"] === "invitation"){
-			message.category = "Invitation";
-		} else if (message["sakai:category"] === "chat"){
-			message.category = "Chat";
-		}
-        
+            message.read = false;
+        }
+
+        if (message["sakai:category"] === "message" || message["sakai:category"] === undefined){
+            message.category = "Message";
+        } else if (message["sakai:category"] === "announcement"){
+            message.category = "Announcement";
+        } else if (message["sakai:category"] === "invitation"){
+            message.category = "Invitation";
+        } else if (message["sakai:category"] === "chat"){
+            message.category = "Chat";
+        }
+
         if (message["sakai:previousmessage"]) {
             message["sakai:previousmessage"] = formatMessage(message["sakai:previousmessage"]);
         }
-		
-		// A chat message doesn't really have subject, only a body.
-		if(message["sakai:type"] === "chat"){
-			message.subject = "Chat message";
-		}      
-        
-		// pictures
-		if (message.userFrom.picture && $.evalJSON(message.userFrom.picture).name) {
-			message.userFrom.photo = $.evalJSON(message.userFrom.picture).name;
-		}
-		if (message.userTo.picture && $.evalJSON(message.userTo.picture).name) {
-			message.userTo.photo = $.evalJSON(message.userTo.picture).name;
-		}
-		
+
+        // A chat message doesn't really have subject, only a body.
+        if(message["sakai:type"] === "chat"){
+            message.subject = "Chat message";
+        }
+
+        // pictures
+        if (message.userFrom.picture && $.evalJSON(message.userFrom.picture).name) {
+            message.userFrom.photo = $.evalJSON(message.userFrom.picture).name;
+        }
+        if (message.userTo.picture && $.evalJSON(message.userTo.picture).name) {
+            message.userTo.photo = $.evalJSON(message.userTo.picture).name;
+        }
+
         return message;
     };
-    
+
     /**
      * Renders the messages.
      * @param {Object} The JSON response from the server. Make sure it has a .message array in it.
      */
     var renderMessages = function(response) {
-		for (var i = 0; i < response.results.length; i++) {
-			if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
-				response.results.splice(i, 1);
-			}
-		}
-		
+        for (var i = 0; i < response.results.length; i++) {
+            if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
+                response.results.splice(i, 1);
+            }
+        }
+
         for (var j = 0; j < response.results.length; j++) {
-			//	temporary internal id.
-            //	Use the name for the id.
+            //    temporary internal id.
+            //    Use the name for the id.
             response.results[j].nr = j;
-			response.results[j].subject = response.results[j]["sakai:subject"];
-			response.results[j].body = response.results[j]["sakai:body"];
-			response.results[j].messagebox = response.results[j]["sakai:messagebox"];
+            response.results[j].subject = response.results[j]["sakai:subject"];
+            response.results[j].body = response.results[j]["sakai:body"];
+            response.results[j].messagebox = response.results[j]["sakai:messagebox"];
             response.results[j] = formatMessage(response.results[j]);
         }
-                        
+
         allMessages = response.results;
-                
-        //	Show messages
+
+        //    Show messages
         var tplData = {
             'messages': response.results
         };
-        
-        //	remove previous messages
+
+        //    remove previous messages
         removeAllMessagesOutDOM();
-        
+
         //    Add them to the DOM
-		$(inboxTable).children('tbody').append($.Template.render(inboxTableMessagesTemplate, tplData));
-                                
-        //	do checkboxes
+        $(inboxTable).children('tbody').append($.Template.render(inboxTableMessagesTemplate, tplData));
+
+        //    do checkboxes
         tickMessages();
     };
-    
+
     /////////////////
     //    PAGER    //
     /////////////////
-    
+
     /**
      * Show a certain page of messages.
      * @param {int} pageNumber The page number you want to display.
@@ -573,7 +573,7 @@ sakai.inbox = function() {
         //    Show set of messages
         getAllMessages();
     };
-    
+
     /**
      * Draw up the pager at the bottom of the page.
      * @param {int} pageNumber The number of the current page
@@ -585,27 +585,27 @@ sakai.inbox = function() {
             buttonClickCallback: showPage
         });
     };
-       
-    
+
+
     /////////////////////////
     //    JCR Functions    //
-    /////////////////////////    
-     
-    
+    /////////////////////////
+
+
     /**
      * Gets all the messages from the JCR.
      */
     getAllMessages = function(callback) {
-    
-		box = "inbox";
-		if (selectedType === "sent"){
-			box = "outbox";
-		} else if (selectedType === "trash"){
-			box = "trash";
-		}
-		
-		var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
-		
+
+        box = "inbox";
+        if (selectedType === "sent"){
+            box = "outbox";
+        } else if (selectedType === "trash"){
+            box = "trash";
+        }
+
+        var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
+
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
             types = "";
@@ -613,34 +613,34 @@ sakai.inbox = function() {
         else if (typeof selectedType === "Array") {
             types = "&types=" + selectedType.join(",");
         }
-        
-		cats = selectedCategory;
-		if (selectedCategory){
-			if (selectedCategory === "Message"){
-				cats = "message";
-			} else if (selectedCategory === "Announcement"){
-				cats = "announcement";
-			} else if (selectedCategory === "Invitation"){
-				cats = "invitation";
-			} else if (selectedCategory === "Chat"){
-				cats = "chat";
-			}
-			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
-		}
-		
+
+        cats = selectedCategory;
+        if (selectedCategory){
+            if (selectedCategory === "Message"){
+                cats = "message";
+            } else if (selectedCategory === "Announcement"){
+                cats = "announcement";
+            } else if (selectedCategory === "Invitation"){
+                cats = "invitation";
+            } else if (selectedCategory === "Chat"){
+                cats = "chat";
+            }
+            url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
+        }
+
         $.ajax({
             url: url,
-			cache: false,
+            cache: false,
             success: function(data) {
                 var json = $.evalJSON(data);
-				if (json.results) {
-            	    //    Render the messages
-					renderMessages(json);
-                }                       
-                if (typeof callback !== "undefined") {
-                	callback();
+                if (json.results) {
+                    //    Render the messages
+                    renderMessages(json);
                 }
-                
+                if (typeof callback !== "undefined") {
+                    callback();
+                }
+
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
@@ -648,85 +648,85 @@ sakai.inbox = function() {
             }
         });
     };
-    
+
     /**
      * Will do a count of all the unread messages and change the values in the DOM.
      * Note: This function will only check the nr of messages there are. It will not fetch them!
      */
     var showUnreadMessages = function() {
-    
+
         $.ajax({
             url: "/_user/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
-			cache: false, 
+            cache: false,
             success: function(data) {
                 var json = $.evalJSON(data);
-                     
+
                 var totalcount = 0;
-				
-				for (var i = 0; i < json.count.length; i++){
-					if (json.count[i].group === "message"){
-						unreadMessages = json.count[i].count;
-					} else if (json.count[i].group === "announcement"){
-						unreadAnnouncements = json.count[i].count;
-					} else if (json.count[i].group === "invitation"){
-						unreadInvitations = json.count[i].count;
-					} else if (json.count[i].group === "chat"){
-						$(inboxFilterChats).append(tpl.replace(/__NR__/gi, json.count[i].count));
-					}
-					totalcount += json.count[i].count;
-				}
-				
-				updateUnreadNumbers();
-				
+
+                for (var i = 0; i < json.count.length; i++){
+                    if (json.count[i].group === "message"){
+                        unreadMessages = json.count[i].count;
+                    } else if (json.count[i].group === "announcement"){
+                        unreadAnnouncements = json.count[i].count;
+                    } else if (json.count[i].group === "invitation"){
+                        unreadInvitations = json.count[i].count;
+                    } else if (json.count[i].group === "chat"){
+                        $(inboxFilterChats).append(tpl.replace(/__NR__/gi, json.count[i].count));
+                    }
+                    totalcount += json.count[i].count;
+                }
+
+                updateUnreadNumbers();
+
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
             }
         });
     };
-    
-	var updateUnreadNumbers = function(){
-		
-		if (unreadMessages > 0){
-			$("#inbox_unread_nr_messages").text("(" + unreadMessages + ")");
-		} else {
-			$("#inbox_unread_nr_messages").text("");
-		} 
-		
-		if (unreadAnnouncements > 0){
-			$("#inbox_unread_nr_announcements").text("(" + unreadAnnouncements + ")");
-		} else {
-			$("#inbox_unread_nr_announcements").text("");
-		}
-		
-		if (unreadInvitations > 0){
-			$("#inbox_unread_nr_invitations").text("(" + unreadInvitations + ")");
-		} else {
-			$("#inbox_unread_nr_invitations").text("");
-		}
-		
-	};
-	
+
+    var updateUnreadNumbers = function(){
+
+        if (unreadMessages > 0){
+            $("#inbox_unread_nr_messages").text("(" + unreadMessages + ")");
+        } else {
+            $("#inbox_unread_nr_messages").text("");
+        }
+
+        if (unreadAnnouncements > 0){
+            $("#inbox_unread_nr_announcements").text("(" + unreadAnnouncements + ")");
+        } else {
+            $("#inbox_unread_nr_announcements").text("");
+        }
+
+        if (unreadInvitations > 0){
+            $("#inbox_unread_nr_invitations").text("(" + unreadInvitations + ")");
+        } else {
+            $("#inbox_unread_nr_invitations").text("");
+        }
+
+    };
+
     /**
      * This method will do a request to the messaging count service.
      * It will ask how many items there are for all the specified parameters.
      * It also takes in account the selectedtype and category. These come from module variables!
      * It will remove all messages in the dom, and start the request to fetch other ones.
-     * 
-     * @param {String} read all = all the message, true = the read messages, false = the unread messages. 
+     *
+     * @param {String} read all = all the message, true = the read messages, false = the unread messages.
      *         (Comma seperated for every value you have in selectedtype and selectedcategory)
      */
     getCount = function(read) {
-		console.log("Getting count.");
-		var box = "inbox";
-		if (selectedType === "sent"){
-			box = "outbox";
-		} else if (selectedType === "trash"){
-			box = "trash";
-		}
-		
-		var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
-		
+        console.log("Getting count.");
+        var box = "inbox";
+        if (selectedType === "sent"){
+            box = "outbox";
+        } else if (selectedType === "trash"){
+            box = "trash";
+        }
+
+        var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
+
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
             types = "";
@@ -734,40 +734,40 @@ sakai.inbox = function() {
         else if (typeof selectedType === "Array") {
             types = "&types=" + selectedType.join(",");
         }
-        
-		var cats = selectedCategory;
-		if (selectedCategory){
-			if (selectedCategory === "Message"){
-				cats = "message";
-			} else if (selectedCategory === "Announcement"){
-				cats = "announcement";
-			} else if (selectedCategory === "Invitation"){
-				cats = "invitation";
-			} else if (selectedCategory === "Chat"){
-				cats = "chat";
-			}
-			url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "0&page=" + currentPage;
-		}
-		
-        //	remove previous messages
+
+        var cats = selectedCategory;
+        if (selectedCategory){
+            if (selectedCategory === "Message"){
+                cats = "message";
+            } else if (selectedCategory === "Announcement"){
+                cats = "announcement";
+            } else if (selectedCategory === "Invitation"){
+                cats = "invitation";
+            } else if (selectedCategory === "Chat"){
+                cats = "chat";
+            }
+            url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "0&page=" + currentPage;
+        }
+
+        //    remove previous messages
         removeAllMessagesOutDOM();
-		
-        //	Show a preloader
+
+        //    Show a preloader
         showLoader();
-        
+
         $.ajax({
             //url: Config.URL.MESSAGES_COUNT_SERVICE + "?read=" + read + types + cats,
             url: url,
-			success: function(data) {
+            success: function(data) {
                 var json = $.evalJSON(data);
                 //if (json.response === "OK") {
                     messagesForTypeCat = json.total;
-                    if (json.total === 0) {       
-                        
-                        json.messages = [];              
+                    if (json.total === 0) {
+
+                        json.messages = [];
                         renderMessages(json);
-                        
-                        //	Set the pager to page 1. The pager will be disabled because there is no data to page..
+
+                        //    Set the pager to page 1. The pager will be disabled because there is no data to page..
                         pageMessages(1);
                     }
                     else {
@@ -781,11 +781,11 @@ sakai.inbox = function() {
             }
         });
     };
-    
+
     ////////////////////////////////////
     //    DISPLAY SPECIFIC MESSAGE    //
     ////////////////////////////////////
-    
+
     /**
      * Get the message out of the list with the specific id.
      * @param {String} id    The id of a message
@@ -797,7 +797,7 @@ sakai.inbox = function() {
             }
         }
     };
-    
+
     /**
      * Mark a message as read.
      * @param {Object} message The JSON object that represents the message.
@@ -806,8 +806,8 @@ sakai.inbox = function() {
     var markMessageRead = function(message, id) {
         var postParameters = {
             "sakai:read":true,
-	    "sling:resourceType": "sakai/message",
-	    "_charset_": "utf-8"
+        "sling:resourceType": "sakai/message",
+        "_charset_": "utf-8"
         };
         //    To mark a message as read we do a request to the sdata functions.
         //    We use the Properties function to change the messageRead variable.
@@ -815,26 +815,26 @@ sakai.inbox = function() {
             type: "POST",
             url: "/_user/message/" + message.id,
             success: function(userdata) {
-				for (var i = 0, j = allMessages.length; i<j; i++){
-					if (allMessages[i].id === message.id){
-						allMessages[i]["sakai:read"] = true;
-						break;
-					}
-				}
-                //	mark the message in the inbox table as read.
+                for (var i = 0, j = allMessages.length; i<j; i++){
+                    if (allMessages[i].id === message.id){
+                        allMessages[i]["sakai:read"] = true;
+                        break;
+                    }
+                }
+                //    mark the message in the inbox table as read.
                 $(inboxTableMessageID + id).addClass(inboxTablesubjectReadClass);
                 $(inboxTableMessageID + id).removeClass(inboxTablesubjectUnreadClass);
-                
+
                 if (message["sakai:category"] === "message"){
-					unreadMessages -= 1;
-				} else if (message["sakai:category"] === "invitation"){
-					unreadInvitations -= 1;
-				} else if (message["sakai:category"] === "announcement"){
-					unreadAnnouncements -= 1;
-				}
-				
-				updateUnreadNumbers();
-				
+                    unreadMessages -= 1;
+                } else if (message["sakai:category"] === "invitation"){
+                    unreadInvitations -= 1;
+                } else if (message["sakai:category"] === "announcement"){
+                    unreadAnnouncements -= 1;
+                }
+
+                updateUnreadNumbers();
+
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorReadFail).text(), true);
@@ -842,20 +842,20 @@ sakai.inbox = function() {
             data: postParameters
         });
     };
-    
+
     /**
      * Displays only the message with that id.
      * @param {String} id    The id of a message
      */
     var displayMessage = function(id) {
-		$(".message-options").show();
-		$("#inbox_message_previous_messages").hide();
-		$("#inbox_message_replies").html("");
-		
-		// Hide invitation links
-		$("#inbox-invitation-accept").hide();
-		$("#inbox-invitation-already").hide();
-		
+        $(".message-options").show();
+        $("#inbox_message_previous_messages").hide();
+        $("#inbox_message_replies").html("");
+
+        // Hide invitation links
+        $("#inbox-invitation-accept").hide();
+        $("#inbox-invitation-already").hide();
+
         showPane(inboxPaneMessage);
         var message = getMessageWithId(id);
         selectedMessage = message;
@@ -871,45 +871,45 @@ sakai.inbox = function() {
             else {
                 $(inboxSpecificMessagePicture).attr('src', Config.URL.PERSON_ICON_URL);
             }
-            
+
             //    Reply part.
             $(inboxSpecificMessageComposeSubject).val('Re: ' + message.subject);
-            
-			if (message["sakai:category"] === "invitation"){
-				// Check whether this request is still pending
-				$.ajax({
-					url: "/_user/contacts/invited.json?page=0&items=100",
-					success: function(data) {
-						var response = $.evalJSON(data);
-						var pending = false;
-						for (var i = 0; i < response.results.length; i++){
-							if (response.results[i].target === message["sakai:from"]){
-								// Still a pending invitation
-								pending = true;
-							}
-						}
-						if (pending){
-							$("#inbox-invitation-accept").show();
-						} else {
-							$("#inbox-invitation-already").show();
-						}
-					}
-				});
-			}
-            
-            //    This message has some replies attached to it.           
+
+            if (message["sakai:category"] === "invitation"){
+                // Check whether this request is still pending
+                $.ajax({
+                    url: "/_user/contacts/invited.json?page=0&items=100",
+                    success: function(data) {
+                        var response = $.evalJSON(data);
+                        var pending = false;
+                        for (var i = 0; i < response.results.length; i++){
+                            if (response.results[i].target === message["sakai:from"]){
+                                // Still a pending invitation
+                                pending = true;
+                            }
+                        }
+                        if (pending){
+                            $("#inbox-invitation-accept").show();
+                        } else {
+                            $("#inbox-invitation-already").show();
+                        }
+                    }
+                });
+            }
+
+            //    This message has some replies attached to it.
             if (message["sakai:previousmessage"]) {
                 $(inboxSpecificMessagePreviousMessages).show();
                 var replieshtml = "";
                 var replies = {};
                 //    We render the chat replies slightly differently.
                 if (message["sakai:category"] === Config.Messages.Categories.chat) {
-					$(".message-options").hide();
-					$("#inbox_message_previous_messages").hide();
-	                replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, message);   
-	            }
+                    $(".message-options").hide();
+                    $("#inbox_message_previous_messages").hide();
+                    replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, message);
+                }
                 else {
-		    		var json = {'message' : message};
+                    var json = {'message' : message};
                     replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplate, json);
                 }
                 $(inboxSpecificMessageReplies).html(replieshtml);
@@ -918,99 +918,99 @@ sakai.inbox = function() {
                 //    There are no replies hide the header that states 'Previous messages'.
                 $(inboxSpecificMessagePreviousMessages).hide();
             }
-            
+
             if (message["sakai:read"] === "false") {
                 //    We haven't read this message yet. Mark it as read.
                 markMessageRead(message, id);
             }
         }
-        
+
     };
-	
-	///////////////////////
-	// ACCEPT INVITATION //
-	///////////////////////
-	
-	$("#inbox_message_accept_invitation").live("click", function(ev){
-		var accepting = selectedMessage["sakai:from"];
-		$.ajax({
-			url: "/_user/contacts/" + accepting + ".accept.html",
-			type: "POST",
-			data : {"_charset_":"utf-8"},
-			success: function(data){
-				$("#inbox-invitation-accept").hide();
-				$("#inbox-invitation-already").show();
-			}
-		});
-	});
-    
+
+    ///////////////////////
+    // ACCEPT INVITATION //
+    ///////////////////////
+
+    $("#inbox_message_accept_invitation").live("click", function(ev){
+        var accepting = selectedMessage["sakai:from"];
+        $.ajax({
+            url: "/_user/contacts/" + accepting + ".accept.html",
+            type: "POST",
+            data : {"_charset_":"utf-8"},
+            success: function(data){
+                $("#inbox-invitation-accept").hide();
+                $("#inbox-invitation-already").show();
+            }
+        });
+    });
+
     ////////////////////////
     //    SEND MESSAGE    //
     ////////////////////////
-    
-    
+
+
     /**
      * When a message has been sent this function gets called.
-     * @param {Object} data	A JSON object that contains the response from the server.
+     * @param {Object} data    A JSON object that contains the response from the server.
      */
     var sendMessageFinished = function() {
         showGeneralMessage($(inboxGeneralMessagesSent).text(), false, 5000);
         clearInputFields();
-            
-        //	Show the sent inbox pane.
-        filterMessages(Config.Messages.Types.sent, '', "all", inboxFilterSent);            
+
+        //    Show the sent inbox pane.
+        filterMessages(Config.Messages.Types.sent, '', "all", inboxFilterSent);
         $(inboxTableHeaderFromContent).text("To");
-    
-	};
-    
-    
+
+    };
+
+
     /**
      *
-     * @param {Array} to	Array with the uuids of the users to post a message to.
+     * @param {Array} to    Array with the uuids of the users to post a message to.
      * @param {String} subject    The subject for this message.
      * @param {String} body    The text that this message will contain.
      * @param {String} category The category for this message.
      * @param {String} reply The id of the message you are replying on.
      */
     var sendMessage = function(to, subject, body, category, reply) {
-		var toSend = {
-			"sakai:type": "internal",
-			"sakai:sendstate": "pending",
-			"sakai:messagebox": "outbox",
-			"sakai:to": selectedMessage["sakai:from"],
-			"sakai:from": sdata.me.user.userid,
-			"sakai:subject": subject,
-			"sakai:body":body,
-			"sakai:category":"message",
-			"_charset_":"utf-8"
-		};
-		
-		if (reply) {
-			toSend["sakai:previousmessage"] = reply;
-		}
-					
-		$.ajax({
-			url: "/_user/message.create.html",
-			type: "POST",
-			success: function(data) {
-				sendMessageFinished();
-			},
-			error: function(xhr, textStatus, thrownError) {
-				showGeneralMessage($(inboxGeneralMessagesSendFailed).text(), true);
-			},
-			data: toSend
-		});
+        var toSend = {
+            "sakai:type": "internal",
+            "sakai:sendstate": "pending",
+            "sakai:messagebox": "outbox",
+            "sakai:to": selectedMessage["sakai:from"],
+            "sakai:from": sdata.me.user.userid,
+            "sakai:subject": subject,
+            "sakai:body":body,
+            "sakai:category":"message",
+            "_charset_":"utf-8"
+        };
+
+        if (reply) {
+            toSend["sakai:previousmessage"] = reply;
+        }
+
+        $.ajax({
+            url: "/_user/message.create.html",
+            type: "POST",
+            success: function(data) {
+                sendMessageFinished();
+            },
+            error: function(xhr, textStatus, thrownError) {
+                showGeneralMessage($(inboxGeneralMessagesSendFailed).text(), true);
+            },
+            data: toSend
+        });
 
     };
-    
-    
-    
+
+
+
     ////////////////////////////
     //    Delete a message    //
     ////////////////////////////
-    
-    
-    
+
+
+
     /**
      * Removes all the messages from memory that are in pathToMessages if success = true
      * success = false will show an error.
@@ -1019,157 +1019,157 @@ sakai.inbox = function() {
      */
     var deleteMessagesFinished = function(pathToMessages, success) {
         if (success) {
-            //	pathToMessages[i] = "/_userprivate/DE/C2/c663d46a368c04608caf5f50697d668deeb4ad33/messages/2009/04/ee8f9453badb024a1703542ee32d5ed760d2687d"
-            //	Final part is the id of our message.
-            
-            //	Repage the inbox
-			currentPage = currentPage + 1;
+            //    pathToMessages[i] = "/_userprivate/DE/C2/c663d46a368c04608caf5f50697d668deeb4ad33/messages/2009/04/ee8f9453badb024a1703542ee32d5ed760d2687d"
+            //    Final part is the id of our message.
+
+            //    Repage the inbox
+            currentPage = currentPage + 1;
             showPage(currentPage);
-            
-			var txt = "";
-			if (pathToMessages.length === 1) {
-				txt = $(inboxGeneralMessagesDeleted_1).text();
-			}
-			else {
-				txt = pathToMessages.length + $(inboxGeneralMessagesDeleted_x).text();
-			}
-			
+
+            var txt = "";
+            if (pathToMessages.length === 1) {
+                txt = $(inboxGeneralMessagesDeleted_1).text();
+            }
+            else {
+                txt = pathToMessages.length + $(inboxGeneralMessagesDeleted_x).text();
+            }
+
             showGeneralMessage(txt, false, 5000);
         }
         else {
             showGeneralMessage($(inboxGeneralMessagesDeletedFailed).text(), true);
         }
     };
-    
+
     /**
      * This will do a DELETE request to the specified path and harddelete that message.
      * @param {String[]} path The message that you want to delete.
      * @param {int} index The index of the array that needs to be deleted.
      */
     var hardDeleteMessage = function(pathToMessages) {
-		for (var i = 0,j=pathToMessages.length;i<j;i++) {
-			pathToMessages[i] = "/_user/message/" + pathToMessages[i];
-		}
-		$.ajax({
-		    url: "/system/batch/delete",
-		    type: "POST",
-		    success: function(data) {
-			deleteMessagesFinished(pathToMessages, true);
-		    },
-		    error: function(xhr, textStatus, thrownError) {
-		       deleteMessagesFinished(pathToMessages, false);
-		    },
-		    data : {
-			    "resources": pathToMessages,
-			    "_charset_": "utf-8"
-		    }
-		});	
+        for (var i = 0,j=pathToMessages.length;i<j;i++) {
+            pathToMessages[i] = "/_user/message/" + pathToMessages[i];
+        }
+        $.ajax({
+            url: "/system/batch/delete",
+            type: "POST",
+            success: function(data) {
+            deleteMessagesFinished(pathToMessages, true);
+            },
+            error: function(xhr, textStatus, thrownError) {
+               deleteMessagesFinished(pathToMessages, false);
+            },
+            data : {
+                "resources": pathToMessages,
+                "_charset_": "utf-8"
+            }
+        });
     };
-    
+
     /**
      * Delete all the messages that are in ids
-     * @param {Array} ids	An array of ids that have to be deleted.
+     * @param {Array} ids    An array of ids that have to be deleted.
      */
     var deleteMessages = function(pathToMessages, hardDelete) {
-		if (typeof hardDelete === "undefined") {
+        if (typeof hardDelete === "undefined") {
             hardDelete = false;
         }
         if (hardDelete) {
-            //	We will have to do a hard delete to all the JCR files.
+            //    We will have to do a hard delete to all the JCR files.
             hardDeleteMessage(pathToMessages);
         }
         else {
-			var toDelete = pathToMessages.length;
-			var deleted = 0;
-			
-			// Update unread number on left hand side
-			var deletedUnreadMessages = 0;
-			var deletedUnreadAnnouncements = 0;
-			var deletedUnreadInvitations = 0;
-			
-			for (var i = 0; i < allMessages.length; i++){
-				for (var m = 0; m < pathToMessages.length; m++){
-					if (allMessages[i].id === pathToMessages[m]){
-						if (allMessages[i]["sakai:read"] === "false" && allMessages[i]["sakai:category"]){
-							if (allMessages[i]["sakai:category"] === "message"){
-								deletedUnreadMessages++;
-							} else if (allMessages[i]["sakai:category"] === "invitation"){
-								deletedUnreadInvitations++;
-							} else if (allMessages[i]["sakai:category"] === "announcement"){
-								deletedUnreadAnnouncements++;
-							}
-						}
-					}
-				}
-			}
-			unreadMessages -= deletedUnreadMessages;
-			unreadAnnouncements -= deletedUnreadAnnouncements;
-			unreadInvitations -= deletedUnreadInvitations;
-			updateUnreadNumbers();
-			
-			for (var d = 0; d < pathToMessages.length; d++) {
-				$.ajax({
-					url: "/_user/message/" + pathToMessages[d],
-					type: "POST",
-					success: function(data){
-						deleted++;
-						if (deleted === toDelete) {
-							deleteMessagesFinished(pathToMessages, true);
-						}
-					},
-					error: function(xhr, textStatus, thrownError) {
-						deleted++;
-						if (deleted === toDelete) {
-							deleteMessagesFinished(pathToMessages, false);
-						}
-					},
-					data: {
-						"sakai:messagebox":"trash",
-						"_charset_": "utf-8"
-					}
-				});
-			} 
+            var toDelete = pathToMessages.length;
+            var deleted = 0;
+
+            // Update unread number on left hand side
+            var deletedUnreadMessages = 0;
+            var deletedUnreadAnnouncements = 0;
+            var deletedUnreadInvitations = 0;
+
+            for (var i = 0; i < allMessages.length; i++){
+                for (var m = 0; m < pathToMessages.length; m++){
+                    if (allMessages[i].id === pathToMessages[m]){
+                        if (allMessages[i]["sakai:read"] === "false" && allMessages[i]["sakai:category"]){
+                            if (allMessages[i]["sakai:category"] === "message"){
+                                deletedUnreadMessages++;
+                            } else if (allMessages[i]["sakai:category"] === "invitation"){
+                                deletedUnreadInvitations++;
+                            } else if (allMessages[i]["sakai:category"] === "announcement"){
+                                deletedUnreadAnnouncements++;
+                            }
+                        }
+                    }
+                }
+            }
+            unreadMessages -= deletedUnreadMessages;
+            unreadAnnouncements -= deletedUnreadAnnouncements;
+            unreadInvitations -= deletedUnreadInvitations;
+            updateUnreadNumbers();
+
+            for (var d = 0; d < pathToMessages.length; d++) {
+                $.ajax({
+                    url: "/_user/message/" + pathToMessages[d],
+                    type: "POST",
+                    success: function(data){
+                        deleted++;
+                        if (deleted === toDelete) {
+                            deleteMessagesFinished(pathToMessages, true);
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                        deleted++;
+                        if (deleted === toDelete) {
+                            deleteMessagesFinished(pathToMessages, false);
+                        }
+                    },
+                    data: {
+                        "sakai:messagebox":"trash",
+                        "_charset_": "utf-8"
+                    }
+                });
+            }
         }
     };
-    
-    
+
+
     //////////////////////////
-    //	Event handling		//
+    //    Event handling        //
     //////////////////////////
-    
-    
-    
-    //	Compose a new message.
+
+
+
+    //    Compose a new message.
     $(inboxComposeNew).click(function() {
-        //	show the selector
+        //    show the selector
         $(inboxComposeNewPanel).toggle();
     });
     $(inboxComposeMessage).click(function() {
-		showPane(inboxPaneCompose);
-        
-        //	initialise the sendmessage widget
-        //	we tell it to show it in our id and NOT as a layover.
+        showPane(inboxPaneCompose);
+
+        //    initialise the sendmessage widget
+        //    we tell it to show it in our id and NOT as a layover.
         sakai.sendmessage.initialise(null, true, inboxComposeNewContainer, sendMessageFinished);
     });
-    
+
     //    This is the widget id!
     $(inboxComposeCancel).live("click", function() {
-        //	Jump back to inbox
+        //    Jump back to inbox
         showPane(inboxPaneInbox);
     });
-    
-    
-    //	*****************************
-    //	Show a specific message
-    
+
+
+    //    *****************************
+    //    Show a specific message
+
     $(inboxInboxMessage).live("click", function(e, ui) {
         var id = e.target.id;
         id = id.split('_');
         displayMessage(id[id.length - 1]);
     });
-    
-    /*	Filter the messages. */
-   
+
+    /*    Filter the messages. */
+
     $(inboxFilterMessages).click(function() {
         filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.message, "all", inboxFilterMessages);
     });
@@ -1185,41 +1185,41 @@ sakai.inbox = function() {
     $(inboxFilterInbox).click(function() {
         filterMessages(Config.Messages.Types.inbox, '', "all", inboxFilterInbox);
     });
-    
-    $(inboxFilterSent).click(function() {        
+
+    $(inboxFilterSent).click(function() {
         filterMessages(Config.Messages.Types.sent, '', "all", inboxFilterSent);
-        
-        //	Change header to 'to' instead of 'from'
+
+        //    Change header to 'to' instead of 'from'
         $(inboxTableHeaderFromContent).text("To");
     });
-    
+
     $(inboxFilterTrash).click(function() {
         filterMessages(Config.Messages.Types.trash, '', "all", inboxFilterTrash);
         $(inboxTableHeaderFromContent).text("From/To");
     });
-    
-    
-    
-    
-    //	Check all message
+
+
+
+
+    //    Check all message
     $(inboxInboxCheckAll).change(function() {
         tickMessages();
     });
     $(inboxInboxDelete).click(function() {
-        //	Delete all checked messages
+        //    Delete all checked messages
         var pathToMessages = [];
         $(inboxInboxCheckMessage + ":checked").each(function() {
             var pathToMessage = $(this).val();
             pathToMessages.push(pathToMessage);
         });
-        
-        //	If we are in trash we hard delete the messages
+
+        //    If we are in trash we hard delete the messages
         deleteMessages(pathToMessages, (selectedType === Config.Messages.Types.trash));
-        
+
     });
-    
-    
-    //	Sorters for the inbox.
+
+
+    //    Sorters for the inbox.
     $(inboxTableHeaderSort).bind("mouseenter", function() {
         if (sortOrder === 'descending') {
             $(this).append($(inboxInboxSortUp).html());
@@ -1234,83 +1234,83 @@ sakai.inbox = function() {
     $(inboxTableHeaderSort).bind("click", function() {
         sortBy = $(this).attr('id').replace(/inbox_tableHeader_/gi, '');
         sortOrder = (sortOrder === 'descending') ? 'ascending' : 'descending';
-        
+
         getAllMessages();
     });
-    
-    
-    
-    
-    
-    
-    //	Specific message
-    //	**********************************
-    
+
+
+
+
+
+
+    //    Specific message
+    //    **********************************
+
     $(inboxSpecificMessageBackToInbox).click(function() {
         //    Show the inbox.
         showPane(inboxPaneInbox);
-        
-        //	Clear all the input fields
+
+        //    Clear all the input fields
         clearInputFields();
     });
-    
+
     $(inboxSpecificMessageOptionReply).click(function() {
         $(inboxSpecificMessageCompose).show();
         scrollTo($(inboxSpecificMessageCompose));
     });
-    
+
     $(inboxSpecificMessageOptionDelete).click(function() {
         var harddelete = false;
         if ($.inArray(selectedMessage.types, "trash") > -1) {
-            //	This is a trashed message, hard delete it.
+            //    This is a trashed message, hard delete it.
             harddelete = true;
         }
-        //	Delete the message
+        //    Delete the message
         deleteMessages([selectedMessage.pathToMessage], harddelete);
-        
-        //	Show the inbox
+
+        //    Show the inbox
         showPane(inboxPaneInbox);
-        
-        //	Clear all the input fields
+
+        //    Clear all the input fields
         clearInputFields();
     });
-    
+
     $(inboxSpecificMessageComposeCancel).click(function() {
-        //	Clear all the input fields
+        //    Clear all the input fields
         clearInputFields();
     });
-    
+
     $(inboxSpecificMessageComposeSend).click(function() {
-        //	we want to send a message.
+        //    we want to send a message.
         var subject = $(inboxSpecificMessageComposeSubject).val();
         var body = $(inboxSpecificMessageComposeBody).val();
         sendMessage([selectedMessage.from], subject, body, Config.Messages.Categories.message, selectedMessage["sakai:id"]);
-        
-        //	Clear all the input fields
+
+        //    Clear all the input fields
         clearInputFields();
     });
-    
-    
+
+
     ///////////////////////////////////
     //    INITIALISATION FUNCTION    //
     ///////////////////////////////////
-    
-    
+
+
     var doInit = function() {
         //    Check if we are logged in our out.
         var uuid = sdata.me.user.userid;
-		if (!uuid || uuid === "anon") {
-			redirectToLoginPage();
-		}
-		else {
+        if (!uuid || uuid === "anon") {
+            redirectToLoginPage();
+        }
+        else {
             //    We are logged in. Do all the nescecary stuff.
-            //	load the list of messages.
+            //    load the list of messages.
             getCount("all");
             showUnreadMessages();
-		}
-        
+        }
+
     };
-    
-    doInit();   
+
+    doInit();
 };
 sdata.container.registerForLoad("sakai.inbox");

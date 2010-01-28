@@ -12,7 +12,7 @@
 
 /* Widget options */
 .fl-theme-mist .fl-widget-options {}
-    .fl-theme-mist .fl-widget-options ul {} 
+    .fl-theme-mist .fl-widget-options ul {}
     .fl-theme-mist .fl-widget-options li {border-left:1px solid #ccc;}
     .fl-theme-mist .fl-widget-options a {}
     .fl-theme-mist .fl-widget-options .icon {}
@@ -25,7 +25,7 @@
     .fl-theme-mist .fl-widget .more  {background-image:url('../images/fluid-theme-mist/icon-widget-More.png'); margin-left:0px;}
     .fl-theme-mist .fl-widget .close {background-image:url('../images/fluid-theme-mist/icon-widget-Close.png'); margin-right:0px;}
     .fl-theme-mist .fl-widget .settings {background-image:url('../images/fluid-theme-mist/icon-widget-ShowSettings.png'); margin-right:0px; width:70px; }
-    
+
     .fl-theme-mist .fl-widget-options .viewOptions {background-position:top left; background-image:url('../images/fluid-theme-mist/icon-options-ListOrGrid.png'); background-color:#fff;  border:1px solid #000;}
     /* Widget :: Menus */
     .fl-theme-mist .fl-widget-content .menu {padding:0px; overflow-y:auto; overflow-x:hidden; background-color:#f8f8f8; border:1px solid #ccc; border-bottom:none; zoom:1;}

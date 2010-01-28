@@ -3,32 +3,32 @@
 <link type="text/css" href="/devwidgets/camtoolscourses/css/camtoolscourses.css" />
 
 <div id="camtoolscourses_container" class="fl-widget-content" style="display:none;">
-	<h3>My Courses and Projects</h3>
-	<div id="camtoolscourses_subcontainer">
-		<!-- -->
-	</div>
-	<div id="contentmedia_paging" class="jq_pager"></div>
+    <h3>My Courses and Projects</h3>
+    <div id="camtoolscourses_subcontainer">
+        <!-- -->
+    </div>
+    <div id="contentmedia_paging" class="jq_pager"></div>
 </div>
 
 <div id="camtoolscourses_container_template"><!--
-	{if all && all.length > 0}
-		<div id="camtoolscourses_list_all">
-			<ul>
-			{for i in all}
-				<li{if i.favourite} class="camtoolscourses_favourite" {/if}><a href="${i.url}" target="_blank">${i.title}</a></li>
-			{/for}
-			</ul>
-		</div>
-	{else}
-		<p class="camtoolscourses_content">
-			You have no courses/projects available in Camtools 2008.
-		</p>
-	{/if}
+    {if all && all.length > 0}
+        <div id="camtoolscourses_list_all">
+            <ul>
+            {for i in all}
+                <li{if i.favourite} class="camtoolscourses_favourite" {/if}><a href="${i.url}" target="_blank">${i.title}</a></li>
+            {/for}
+            </ul>
+        </div>
+    {else}
+        <p class="camtoolscourses_content">
+            You have no courses/projects available in Camtools 2008.
+        </p>
+    {/if}
 --></div>
 
 <!-- FOOTER LINKS -->
 <div class="fl-widget-no-options fl-fix">
-	<div class="widget-no-options-inner"><!-- --></div>
+    <div class="widget-no-options-inner"><!-- --></div>
 </div>
 
 <!-- JAVASCRIPT -->

@@ -23,25 +23,25 @@ var sakai = sakai || {};
 
 sakai.logout = function(){
 
-	/*
-	 * Will do a POST request to the logout service, which will cause the
-	 * session to be destroyed. After this, we will redirect again to the
-	 * login page. If the request fails, this is probably because of the fact
-	 * that there is no current session. We can then just redirect to the login
-	 * page again without notifying the user.
-	 */
-	$.ajax({
-		url: Config.URL.LOGOUT_SERVICE,
-		type: "POST",
-		success: function(data){
-			window.location = Config.URL.GATEWAY_URL;
-		},
-		error: function(xhr, textStatus, thrownError) {
-			window.location = Config.URL.GATEWAY_URL;
-		},
-		data: {"sakaiauth:logout":"1","_charset_":"utf-8"}
-	});
-	
+    /*
+     * Will do a POST request to the logout service, which will cause the
+     * session to be destroyed. After this, we will redirect again to the
+     * login page. If the request fails, this is probably because of the fact
+     * that there is no current session. We can then just redirect to the login
+     * page again without notifying the user.
+     */
+    $.ajax({
+        url: Config.URL.LOGOUT_SERVICE,
+        type: "POST",
+        success: function(data){
+            window.location = Config.URL.GATEWAY_URL;
+        },
+        error: function(xhr, textStatus, thrownError) {
+            window.location = Config.URL.GATEWAY_URL;
+        },
+        data: {"sakaiauth:logout":"1","_charset_":"utf-8"}
+    });
+
 };
 
 sdata.container.registerForLoad("sakai.logout");

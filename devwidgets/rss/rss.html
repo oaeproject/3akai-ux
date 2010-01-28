@@ -3,104 +3,103 @@
 
 <!-- SETTINGS VIEW -->
 <div id="rss_settings" class="fl-widget-content" style="display:none">
-	<p>
-		Fill in the form below to add news from other sources to your page, the only thing you need to know is the URL to the rss feed, 
-		the url looks simular to "<span class="rss_quote">http://www.website.com/rss.xml</span>"
-	</p>
-	<form class="rss_settings_form" method="post">
-		<label for="rss_settings_txtTitle">Title:</label>
-		<p>
-		<input type="text" id="rss_settings_txtTitle" />
-		</p>
-		<label for="rss_settings_txtUrl">RSS feed url:</label><br />
-		<input type="text" id="rss_settings_txtUrl" />
-		<br/>
-		<a class="button-default rss_settings_btnAddUrl" href="javascript:;">Add url</a>
-		<br />
-		
-	
-		<div id="rss_settings_rssFeedList">
-			<!-- In this list all the feeds added to the rss-widget will be shown -->
-		</div>
-		<div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
-			{for i in feeds}
-			<div class="rss_settings_rssFeedListItem">
-				<span class="rss_bold rss_setting_listLeft">${i.title}</span>
-				<a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/dev/_images/close_icon_small.png" alt="X"></img></a>
-				<div class="rss_clear"></div>
-				<span>
-					${i.items.length}
-					{if i.items.length == 1}
-					 item
-					{else}
-					 items
-					{/if}
-				</span>
-			</div>
-			{/for}
-		--></div>
-		<p>
-			<br />
-			<span>Show the latest </span><input type="text" id="rss_settings_numEntries"/><span> entries.</span<br />
-			<input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">Display source</label><br />
-			<input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">Display headlines only</label><br />
-		</p>
-		<div class="rss_settings_buttonbar">
-			<a class="button-default rss_left"  id="rss_setting_cancel" href="javascript:;">Cancel</a>
-			<a class="button-default rss_right" id="rss_setting_finish" href="javascript:;">Finish</a>
-		</div>
-	</form>
+    <p>
+        Fill in the form below to add news from other sources to your page, the only thing you need to know is the URL to the rss feed,
+        the url looks simular to "<span class="rss_quote">http://www.website.com/rss.xml</span>"
+    </p>
+    <form class="rss_settings_form" method="post">
+        <label for="rss_settings_txtTitle">Title:</label>
+        <p>
+        <input type="text" id="rss_settings_txtTitle" />
+        </p>
+        <label for="rss_settings_txtUrl">RSS feed url:</label><br />
+        <input type="text" id="rss_settings_txtUrl" />
+        <br/>
+        <a class="button-default rss_settings_btnAddUrl" href="javascript:;">Add url</a>
+        <br />
+
+        <div id="rss_settings_rssFeedList">
+            <!-- In this list all the feeds added to the rss-widget will be shown -->
+        </div>
+        <div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
+            {for i in feeds}
+            <div class="rss_settings_rssFeedListItem">
+                <span class="rss_bold rss_setting_listLeft">${i.title}</span>
+                <a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/dev/_images/close_icon_small.png" alt="X"></img></a>
+                <div class="rss_clear"></div>
+                <span>
+                    ${i.items.length}
+                    {if i.items.length == 1}
+                     item
+                    {else}
+                     items
+                    {/if}
+                </span>
+            </div>
+            {/for}
+        --></div>
+        <p>
+            <br />
+            <span>Show the latest </span><input type="text" id="rss_settings_numEntries"/><span> entries.</span<br />
+            <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">Display source</label><br />
+            <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">Display headlines only</label><br />
+        </p>
+        <div class="rss_settings_buttonbar">
+            <a class="button-default rss_left"  id="rss_setting_cancel" href="javascript:;">Cancel</a>
+            <a class="button-default rss_right" id="rss_setting_finish" href="javascript:;">Finish</a>
+        </div>
+    </form>
 </div>
 <!-- MAIN VIEW -->
 <div id="rss_output" class="fl-widget-content" style="display:none">
 <!-- in this container all the entries of the feeds will be shown-->
-	<div id="rss_no_feeds" style="display:none">
-		No feeds set
-	</div>
+    <div id="rss_no_feeds" style="display:none">
+        No feeds set
+    </div>
 </div>
 
 <!-- WIDGET FOOTER-->
 <div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>
 
 <div id="rss_output_template" style="display:none"><!--
-		<div class="rss_output_header">
-			<h1>${title}</h1>
-			<a class="button-default rss_output_order rss_right" id="rss_output_order_date" href="javascript:;">sort by date</a>
-			<a class="button-default rss_output_order rss_right" id="rss_output_order_source" href="javascript:;">sort by source</a>
-		</div>
-		
-		{for i in shownEntries}
-			<div class="rss_output_entry">
-				{if !displayHeadlines}
-					<h2 class="rss_left">${i.title}</h2>
-					<span class="rss_title rss_right" >${i.parsedDate}</span>
-					<div class="rss_clear"></div>
-					<p>${i.description}
-						{if i.link != ""}
-							<a href="${i.link}" target="_blank">read more</a>
-						{/if}
-					</p>
-				{else}
-					<a href="${i.link}"><h2 class="rss_left">${i.title}</h2></a>
-					<span class="rss_title rss_right" >${i.parsedDate}</span>
-					<div class="rss_clear"></div>
-					{if displaySource}
-						<br />
-					{/if}
-				{/if}
-				{if displaySource}
-					<span class="rss_left"><span class="rss_title">Source: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
-				{/if}
-				<a class="rss_sendToFriend rss_right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">Send article to a friend</a>
-				
-			</div>
-		{/for}
-		<div class="jq_pager rss_jq_pager"></div>
-	--></div>
+        <div class="rss_output_header">
+            <h1>${title}</h1>
+            <a class="button-default rss_output_order rss_right" id="rss_output_order_date" href="javascript:;">sort by date</a>
+            <a class="button-default rss_output_order rss_right" id="rss_output_order_source" href="javascript:;">sort by source</a>
+        </div>
+
+        {for i in shownEntries}
+            <div class="rss_output_entry">
+                {if !displayHeadlines}
+                    <h2 class="rss_left">${i.title}</h2>
+                    <span class="rss_title rss_right" >${i.parsedDate}</span>
+                    <div class="rss_clear"></div>
+                    <p>${i.description}
+                        {if i.link != ""}
+                            <a href="${i.link}" target="_blank">read more</a>
+                        {/if}
+                    </p>
+                {else}
+                    <a href="${i.link}"><h2 class="rss_left">${i.title}</h2></a>
+                    <span class="rss_title rss_right" >${i.parsedDate}</span>
+                    <div class="rss_clear"></div>
+                    {if displaySource}
+                        <br />
+                    {/if}
+                {/if}
+                {if displaySource}
+                    <span class="rss_left"><span class="rss_title">Source: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
+                {/if}
+                <a class="rss_sendToFriend rss_right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">Send article to a friend</a>
+
+            </div>
+        {/for}
+        <div class="jq_pager rss_jq_pager"></div>
+    --></div>
 <!-- SEND MESSAGE CONTAINER -->
 <div id="rss_sendmessagecontainer" style="display:none;">
-	<div id="widget_sendmessage" class="widget_inline"></div>
-</div>	
+    <div id="widget_sendmessage" class="widget_inline"></div>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" language="JavaScript" src="/devwidgets/rss/javascript/rss.js" />

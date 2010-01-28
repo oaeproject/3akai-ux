@@ -25,40 +25,40 @@ sakai.tlrp.sort = function(oData, rootel) {
     rootel = $(rootel);
     // The object that will contain all the data.
     var data = [];
-    
+
     var sortByAvailableOptions = ['creator', 'date', 'source', 'subject', 'title'];
     // This is the array that wil contain all the ways that the objects are sorted.
     var sortBy = [];
     var sortOrder = [];
     var sortBySelector = ""; // The jQuery selector where the sorted by message will come.
     var sortCallback = false;
-    
+
     // CSS IDs //
     /////////////
-    
+
     var tlrp = "#tlrp";
     var tlrpClass = ".tlrp";
-    
+
     var tlrpSortBy = tlrp + "SortBy";
     var tlrpSortByClass = tlrpClass + "SortBy";
     var tlrpSortByTemplate = tlrpSortBy + "Template";
     var tlrpSortByThenBy = tlrpSortByClass + "ThenBy";
     var tlrpSortByThenByOption = tlrpSortByThenBy + "Option";
-    
+
     var tlrpSortByAvailableOptions = tlrpSortByClass + "AvailableOptions";
     var tlrpSortByItem = tlrpSortByClass + "Item";
     var tlrpSortByItemOptions = tlrpSortBy + "ItemOptions";
     var tlrpSortByItemOptionsTemplate = tlrpSortByItemOptions + "Template";
-    
+
     var tlrpSortByAscending = tlrpSortByClass + "Ascending";
     var tlrpSortByDescending = tlrpSortByClass + "Descending";
     var tlrpSortByEditOption = tlrpSortByClass + "EditOption";
-    
-    
+
+
     ///////////////////
     // Functionality //
     ///////////////////
-    
+
     /**
      * Set the data that needs to be sorted.
      * @param {Object} oData
@@ -66,14 +66,14 @@ sakai.tlrp.sort = function(oData, rootel) {
     var setData = function(oData) {
         data = oData;
     };
-    
+
     /**
      * Get the data.
      */
     var getData = function() {
         return data;
     };
-    
+
     /**
      * Adds a sorting method to the list.
      * @param {string} sort The attribute you want to sort on. Make sure it is in the sortByAvailableOptions list!
@@ -94,7 +94,7 @@ sakai.tlrp.sort = function(oData, rootel) {
             sortByAvailableOptions.splice(sortByAvailableOptions.indexOf(sort), 1);
         }
     };
-    
+
     /**
      * Removes a sorting out of the list.
      * @param {string} sort
@@ -106,7 +106,7 @@ sakai.tlrp.sort = function(oData, rootel) {
             sortByAvailableOptions.push(sort);
         }
     };
-    
+
     /**
      * This will perform an actual sort.
      * @return {object[]} A sorted array of objects.
@@ -126,16 +126,16 @@ sakai.tlrp.sort = function(oData, rootel) {
             // Sort the actual data.
             var t = $(data).sort(options, sortByOrder);
             setData($(t).get());
-            
+
             // Execute the callback.
             if (sortCallback) {
                 sortCallback(getData());
             }
         }
-        
+
         return getData();
     };
-    
+
     /**
      * Remove all the sorting that is in place.
      */
@@ -146,14 +146,14 @@ sakai.tlrp.sort = function(oData, rootel) {
             sortBy.splice(0, 1);
         }
     };
-    
+
     /**
      * Returns the array with all the current sortings.
      */
     var getSortBy = function() {
         return sortBy;
     };
-    
+
     /**
      * The callback function that will be executed once the sorting is done.
      * @param {Object} method
@@ -161,11 +161,11 @@ sakai.tlrp.sort = function(oData, rootel) {
     var setSortCallback = function(method) {
         sortCallback = method;
     };
-    
+
     ////////////////////////
     // Template functions //
     ////////////////////////
-    
+
     /**
      * Sets the jQuery selector where the sorted by message will come in.
      * @param {string} selector The jQuery selector.
@@ -173,14 +173,14 @@ sakai.tlrp.sort = function(oData, rootel) {
     var setSortBySelector = function(selector) {
         sortBySelector = selector;
     };
-    
+
     /**
      * Returns the jQuery selector for the sorted by message.
      */
     var getSortBySelector = function() {
         return sortBySelector;
     };
-    
+
     /**
      * Generates the HTML for the sorted by message.
      * @param {Object} template
@@ -194,15 +194,15 @@ sakai.tlrp.sort = function(oData, rootel) {
             'sortedBy': sortBy,
             'availableOptions': sortByAvailableOptions
         };
-        
+
         return $.Template.render (template.replace(/#/gi, ''), json);
     };
-    
-    
+
+
     ////////////
     // Events //
     ////////////
-    
+
     // A user wants to view the extra options to sort on.
     $(tlrpSortByThenBy, rootel).live('click', function() {
         $(tlrpSortByAvailableOptions, rootel).toggle();
@@ -211,7 +211,7 @@ sakai.tlrp.sort = function(oData, rootel) {
             'top': $(this).offset().top + 18
         });
     });
-    
+
     // If the user clicks somewhere else, the container is hidden
     $("body:not(" + tlrpSortByThenBy + ")").click(function() {
         if ($(tlrpSortByAvailableOptions, rootel).is(":visible")) {
@@ -221,8 +221,8 @@ sakai.tlrp.sort = function(oData, rootel) {
             $(tlrpSortByItemOptions).hide();
         }
     });
-    
-    
+
+
     // A user wants to add an extra option of sorting.
     $(tlrpSortByThenByOption, rootel).live('click', function() {
         // Add the sorting
@@ -233,7 +233,7 @@ sakai.tlrp.sort = function(oData, rootel) {
         // Render the sorted by message.
         $(getSortBySelector()).html(generateSortByHTML());
     });
-    
+
     // A user wants to see the options for a sorting option
     $(tlrpSortByItem, rootel).live('click', function() {
         $("#tlrpSortByItemOptions").css({
@@ -241,9 +241,9 @@ sakai.tlrp.sort = function(oData, rootel) {
             'top': $(this).offset().top + 18
         });
         $(tlrpSortByItemOptions).toggle();
-        
+
         var mySortOrder = sortOrder[sortBy.indexOf($(this).html())];
-        
+
         var json = {
             'sort': $(this).html(),
             'sortedBy': sortBy,
@@ -252,7 +252,7 @@ sakai.tlrp.sort = function(oData, rootel) {
         };
         $(tlrpSortByItemOptions).html($.Template.render (tlrpSortByItemOptionsTemplate.replace('#',''), json));
     });
-    
+
     /**
      * Someone wants to change the sort order.
      * It's not nescecary to add the rootel because it isnt in the container!
@@ -267,7 +267,7 @@ sakai.tlrp.sort = function(oData, rootel) {
         sortOrder[sortBy.indexOf(s)] = 'asc';
         sort();
     });
-    
+
     $(tlrpSortByEditOption).live('click', function(e) {
         var s = e.target.id.split('_');
         // Remove this sorting
@@ -277,19 +277,19 @@ sakai.tlrp.sort = function(oData, rootel) {
         // sort the data.
         sort();
     });
-    
-    
+
+
     ////////////////////
     // Initialisation //
     ////////////////////
-    
-    setData(oData);    
+
+    setData(oData);
     sortByAvailableOptions = sortByAvailableOptions.sort();
-    
+
     ///////////////////
     // Return values //
     ///////////////////
-    
+
     return {
         'addSort': addSort,
         'removeSort': removeSort,
@@ -302,8 +302,8 @@ sakai.tlrp.sort = function(oData, rootel) {
         'sort': sort,
         'generateSortByHTML': generateSortByHTML,
         'setSortCallback': setSortCallback
-    
+
     };
-    
+
 };
 sdata.widgets.WidgetLoader.informOnLoad("tlrp");
