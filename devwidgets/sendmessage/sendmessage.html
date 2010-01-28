@@ -1,92 +1,84 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/sendmessage/css/sendmessage.css"></link>
 
-
 <!-- ERROR MESSAGES -->
 <span id="sendmessage_message_ok" style="display:none;">The message has been sent.</span>
 <span id="sendmessage_message_error" style="display:none;">The message could not be sent.</span>
 <span id="sendmessage_friends_error" style="display:none;">Failed to retrieve your friends.</span>
 <span id="sendmessage_fields_error" style="display:none;">Please fill in all the fields.</span>
 
-
 <div class="dialog" id="message_dialog">
-	
-	<!-- HEADER --> 
-	<div class="dialog_header">
-		<div class="dialog_header_inner">
-			<h1>Send Message</h1>
-			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-		</div>
-	</div>
 
-	
+    <!-- HEADER -->
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>Send Message</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+        </div>
+    </div>
 
+    <!-- FORM -->
+    <div id="message_form" class="dialog_content">
 
-	<!-- FORM -->
-	<div id="message_form" class="dialog_content">
-		
-		<!-- CONTAINER FOR MESSAGES -->
-		<div id="message_done"></div>
-		
-		<div id="sendmessage_dialog_box" class="send_message dialogue_box fl-centered">
-			<form class="compose-form" action="" method="post">
-				
-				<!-- FROM -->
-				<div>From: <span id="message_from"></span></div>
-				
-				<!-- TO -->
-				<div id="sendmessage_fixed_to_user">To: <span id="message_to"></span></div>
-				
-				<!-- MULTIPLE RECIPIENTS -->
-				<div id="sendmessage_multiple_to_container" style="display:none;">
-				
-					<label for="sendmessage_multiple_to">To</label>
-					<br />
-					<div id="sendmessage_multiple_to_input_container">
-						<input type="text" id="sendmessage_multiple_to" />
-					</div>
-				
-				
-					<div id="sendmessage_multiple_to_what" style="display:none;">Type the name of a friend.</div>
-			
-				</div>
-				
-				<!-- SUBJECT -->
-				<div>
-				    <label for="comp-subject">Subject</label><br />
-				    <input type="text" class="text-field compose-subject" id="comp-subject" />
-				</div>
-				
-				<!-- BODY -->
-				<div>
-				    <label for="comp-body">Body</label><br />
-				    <textarea class="text-field compose-body" id="comp-body" cols="90" rows="10"></textarea>
-				</div>
-			
-				<!-- BUTTONS -->
-				<div class="dialog_buttons">
-					<a href="javascript:;" id="send_message" class="button-default">Send Message</a>
-					<a href="javascript:;" id="send_message_cancel" class="button jqmClose cancel-button">Cancel</a>
-				</div>
-		    
-			</form>
-		</div>
-		
-	</div>
-	
-	<!-- FOOTER -->
-	<div id="sendmessage_dialog_footer" class="dialog_footer">
-		<div class="dialog_footer_inner"></div>
-	</div>
+        <!-- CONTAINER FOR MESSAGES -->
+        <div id="message_done"></div>
+
+        <div id="sendmessage_dialog_box" class="send_message dialogue_box fl-centered">
+            <form class="compose-form" action="" method="post">
+
+                <!-- FROM -->
+                <div>From: <span id="message_from"></span></div>
+
+                <!-- TO -->
+                <div id="sendmessage_fixed_to_user">To: <span id="message_to"></span></div>
+
+                <!-- MULTIPLE RECIPIENTS -->
+                <div id="sendmessage_multiple_to_container" style="display:none;">
+
+                    <label for="sendmessage_multiple_to">To</label>
+                    <br />
+                    <div id="sendmessage_multiple_to_input_container">
+                        <input type="text" id="sendmessage_multiple_to" />
+                    </div>
+
+                    <div id="sendmessage_multiple_to_what" style="display:none;">Type the name of a friend.</div>
+
+                </div>
+
+                <!-- SUBJECT -->
+                <div>
+                    <label for="comp-subject">Subject</label><br />
+                    <input type="text" class="text-field compose-subject" id="comp-subject" />
+                </div>
+
+                <!-- BODY -->
+                <div>
+                    <label for="comp-body">Body</label><br />
+                    <textarea class="text-field compose-body" id="comp-body" cols="90" rows="10"></textarea>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" id="send_message" class="button-default">Send Message</a>
+                    <a href="javascript:;" id="send_message_cancel" class="button jqmClose cancel-button">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div id="sendmessage_dialog_footer" class="dialog_footer">
+        <div class="dialog_footer_inner"></div>
+    </div>
 </div>
-	
-
 
 <!-- TEMPLATE FOR THE MULTPLE TO LIST -->
 <div id="sendmessage_box_template"><!--
-	<span class="sendmessage_multipleBox_result" id="sendmessage_to_result_${uid}"> ${name}
-    	<img src="/dev/_images/close_icon.png" alt="X" width="15" height="15" class="sendmessage_multipleBox_delete" id="sendmessage_to_result_img_${uid}" />
-	</span>
+    <span class="sendmessage_multipleBox_result" id="sendmessage_to_result_${uid}"> ${name}
+        <img src="/dev/_images/close_icon.png" alt="X" width="15" height="15" class="sendmessage_multipleBox_delete" id="sendmessage_to_result_img_${uid}" />
+    </span>
 --></div>
 
 <!-- JAVASCRIPT -->

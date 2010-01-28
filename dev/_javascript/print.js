@@ -21,21 +21,21 @@
 
 var sakai = sakai || {};
 sakai.print = function(){
-	
-	var json = false;
 
-	$.ajax({
-		url: "/_user/private/print.json",
-		cache: false,
-		success: function(data){
-			json = $.evalJSON(data);
-			$(".content_container").html(json.content);
-			/* for (var i = 0; i < json.css.length; i++){
-				$.Load.requireCSS(json.css[i]);
-			} */
-		}
-	});
-	
+    var json = false;
+
+    $.ajax({
+        url: "/_user/private/print.json",
+        cache: false,
+        success: function(data){
+            json = $.evalJSON(data);
+            $(".content_container").html(json.content);
+            /* for (var i = 0; i < json.css.length; i++){
+                $.Load.requireCSS(json.css[i]);
+            } */
+        }
+    });
+
 };
 
 sdata.container.registerForLoad("sakai.print");

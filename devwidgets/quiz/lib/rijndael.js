@@ -146,7 +146,7 @@ var RND = function() {
         for (i = 0; i < hM; i++) bt[i] = Math.round(Math.random() * 255);
         return bt;
     }
-	function encrypt(bk, EY) {
+    function encrypt(bk, EY) {
             var i;
             if (!bk || bk.length * 8 != BB) return;
             if (!EY) return;
@@ -168,7 +168,7 @@ var RND = function() {
         }
 
     return {
-        
+
         byteArrayToString: function(bA) {
             var R = "";
             for (var i = 0; i < bA.length; i++) if (bA[i] != 0) R += String.fromCharCode(bA[i]);

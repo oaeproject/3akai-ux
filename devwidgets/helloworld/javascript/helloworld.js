@@ -32,100 +32,100 @@ sakai.helloworld = function(tuid,placement,showSettings){
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-	
-	var defaultColor = "#000000";
-	var saveLocation = "color.txt";
-	
-	// Dom identifiers	
-	var rootel = $("#" + tuid);
-	var settingsContainer = "#helloworld_settings";
-	var viewContainer = "#helloworld_main";
-	var colorPicker = "#helloworld_color";
-	var usernameContainer = "#helloworld_username";
-	var seaveHelloworld = "#helloworld_save";
-		
-	
+
+    var defaultColor = "#000000";
+    var saveLocation = "color.txt";
+
+    // Dom identifiers
+    var rootel = $("#" + tuid);
+    var settingsContainer = "#helloworld_settings";
+    var viewContainer = "#helloworld_main";
+    var colorPicker = "#helloworld_color";
+    var usernameContainer = "#helloworld_username";
+    var seaveHelloworld = "#helloworld_save";
+
+
     ////////////////////
     // Main functions //
     ////////////////////
-	
-	/**
-	 * Shows the Hello world string in the right color
-	 * @param {Object} color
-	 */
-	var showHelloWorld = function(color){
-		$(viewContainer + " p", rootel).css("color",color);
-		$(viewContainer, rootel).show();
-	};
+
+    /**
+     * Shows the Hello world string in the right color
+     * @param {Object} color
+     */
+    var showHelloWorld = function(color){
+        $(viewContainer + " p", rootel).css("color",color);
+        $(viewContainer, rootel).show();
+    };
 
 
     ////////////////////////
     // Settings functions //
     ////////////////////////
-	
-	/**
-	 * Selects the current color form the combobox
-	 * @param {Object} color
-	 */
-	var selectCurrentColor = function(color){
-		var select = $(colorPicker,rootel).get(0);
-		var toSelect = 0;
-		for (var i = 0; i < select.options.length; i++){
-			var option = select.options[i];
-			toSelect = option.value === color ? i : 0;
-		}
-		select.selectedIndex = toSelect;
-	};
-	
-	
+
+    /**
+     * Selects the current color form the combobox
+     * @param {Object} color
+     */
+    var selectCurrentColor = function(color){
+        var select = $(colorPicker,rootel).get(0);
+        var toSelect = 0;
+        for (var i = 0; i < select.options.length; i++){
+            var option = select.options[i];
+            toSelect = option.value === color ? i : 0;
+        }
+        select.selectedIndex = toSelect;
+    };
+
+
     ////////////////////
     // Event Handlers //
     ////////////////////
-	
-	/** Binds the helloworld save button*/
-	$(seaveHelloworld).bind("click", function(ev){
-		var select = $(colorPicker, rootel).get(0);
-		var selected = select.options[select.selectedIndex].value;
-		var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-		sdata.widgets.WidgetPreference.save(saveUrl, saveLocation, selected, function(){
-			sdata.container.informFinish(tuid, "helloworld");
-		});
-	});
-	
-	
+
+    /** Binds the helloworld save button*/
+    $(seaveHelloworld).bind("click", function(ev){
+        var select = $(colorPicker, rootel).get(0);
+        var selected = select.options[select.selectedIndex].value;
+        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
+        sdata.widgets.WidgetPreference.save(saveUrl, saveLocation, selected, function(){
+            sdata.container.informFinish(tuid, "helloworld");
+        });
+    });
+
+
     /////////////////////////////
     // Initialisation function //
     /////////////////////////////
-	
-	/**
-	 * Retrieves the prefered color from JCR
-	 * @param {Object} callback
-	 */
-	var getPreferedColor = function(callback){
-		var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation);
-		$.ajax({
-			cache: false,
-			url: url,
-			success: function(data){
-				callback(data);
-			},
-			error: function(xhr, textStatus, thrownError) {
-				callback(defaultColor);
-			}
-		});
-	};
-	
-	var doInit = function(){
-		if (showSettings) {
-			getPreferedColor(selectCurrentColor);
-			$(settingsContainer, rootel).show();
-		} else {
-			var me = sdata.me;
-			$(usernameContainer, rootel).text(me.profile.firstName);
-			getPreferedColor(showHelloWorld);
-		}
-	};
-	doInit();
+
+    /**
+     * Retrieves the prefered color from JCR
+     * @param {Object} callback
+     */
+    var getPreferedColor = function(callback){
+        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation);
+        $.ajax({
+            cache: false,
+            url: url,
+            success: function(data){
+                callback(data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                callback(defaultColor);
+            }
+        });
+    };
+
+    var doInit = function(){
+        if (showSettings) {
+            getPreferedColor(selectCurrentColor);
+            $(settingsContainer, rootel).show();
+        } else {
+            var me = sdata.me;
+            $(usernameContainer, rootel).text(me.profile.firstName);
+            getPreferedColor(showHelloWorld);
+        }
+    };
+    doInit();
 
 };
 

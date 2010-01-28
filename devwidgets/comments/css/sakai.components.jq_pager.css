@@ -1,8 +1,8 @@
 /* Pager CSS */
 
 .jq_pager {
-	margin-left: auto;
-	margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .jq_pager ul.pages {
@@ -43,15 +43,15 @@ background-color:#fff;
 
 
 .jq_pager .hidden {
-	display: none !important;
+    display: none !important;
 }
 
 #jq_pager_three_dots_begin {
-	border: none;
-	color: #666;
+    border: none;
+    color: #666;
 }
 
 #jq_pager_three_dots_end {
-	border: none;
-	color: #666;
+    border: none;
+    color: #666;
 }

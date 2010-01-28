@@ -85,7 +85,7 @@
 .pretend_link {cursor:pointer;}
 #chat_container {background: url('/devwidgets/chat/images/bottomBar_tl.png') top left no-repeat;color:#fff;height:25px;width: 960px;margin: 0 auto;position:relative;top:5px;}
 .chat_main_table {background: url('/devwidgets/chat/images/bottomBar_tr.png') top right no-repeat;width:100%;height:30px;}
-#chat_online_connections_link {cursor:pointer;width:50px;	}
+#chat_online_connections_link {cursor:pointer;width:50px;    }
 #online_button {border-left:1px solid #454a4f; color: #fff; float:right;height:30px;line-height:30px;margin-left:auto;text-align:center;top:-1px;width:70px;}
 .chat_people_icon {cursor:pointer;position:relative;top:1px;}
 .doFixed {position:fixed;}

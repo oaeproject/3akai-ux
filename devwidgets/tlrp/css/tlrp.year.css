@@ -9,7 +9,7 @@
 }
 
 
-.tlrpYearResults {   
+.tlrpYearResults {
     border-left:1px solid #939392;
     height:360px;
 }
@@ -106,8 +106,8 @@
     color:#ffffff;
 }
 
-#tlrpYearResults { 
-	min-width: 578px;
+#tlrpYearResults {
+    min-width: 578px;
     background-color:#dddddd;
 }
 

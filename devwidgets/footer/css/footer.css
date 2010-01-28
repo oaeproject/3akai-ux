@@ -17,11 +17,11 @@
  */
 
 /* General */
-.sakai-footer { 
-	background: url('../images/footer.png') center bottom no-repeat; color: #fff; height: 60px; margin: 0 auto 45px auto; padding: 10px 0; width: 960px;
+.sakai-footer {
+    background: url('../images/footer.png') center bottom no-repeat; color: #fff; height: 60px; margin: 0 auto 45px auto; padding: 10px 0; width: 960px;
 
-	/* Give IE6 a GIF rather than transparent PNG*/
-	_background: url('../images/footer.gif') center bottom no-repeat; _height: 60px; _padding: 0; _width: 960px;
+    /* Give IE6 a GIF rather than transparent PNG*/
+    _background: url('../images/footer.gif') center bottom no-repeat; _height: 60px; _padding: 0; _width: 960px;
 }
 
 .sakai-footer .debug_info { margin: 5px 0 0 76px;}

@@ -22,180 +22,180 @@ var sakai = sakai || {};
 
 sakai.myfriends = function(tuid,placement,showSettings){
 
-	
-	/////////////////////////////
-	// Configuration variables //
-	/////////////////////////////
 
-	var rootel = $("#" + tuid);
-	var numberFriends = 5; // The number of friends that will be shown
-	
-	// - ID
-	var myfriends = "#myfriends";
-	
-	// Contact request
-	var myfriendsRequests = myfriends + "_requests";
-	
-	// Error
-	var myfriendsError = myfriends + "_error";
-	var myfriendsErrorContactserver = myfriendsError + "_contactserver";
-	
-	// List
-	var myfriendsList = myfriends + "_list";
-	
-	// Templates
-	var myfriendsListTemplate = "myfriends_list_template";
-	var myfriendsRequestsTemplate = "myfriends_requests_template";
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
 
+    var rootel = $("#" + tuid);
+    var numberFriends = 5; // The number of friends that will be shown
 
-	///////////////////////
-	// Utility functions //
-	///////////////////////
+    // - ID
+    var myfriends = "#myfriends";
 
-	/**
-	 * Parse the name for a user
-	 * @param {String} uuid Uuid of the user
-	 * @param {String} firstName Firstname of the user
-	 * @param {String} lastName Lastname of the user
-	 */
-	var parseName = function(uuid, firstName, lastName){
-		if (firstName && lastName) {
-			return firstName + " " + lastName;
-		}
-		else {
-			return uuid;
-		}
-	};
-	
-	/**
-	 * Parse the picture for a user
-	 * @param {String} picture The picture path for a user
-	 * @param {String} userStoragePrefix The user's storage prefix
-	 */
-	var parsePicture = function(picture, uuid){
-		// Check if the picture is undefined or not
-		// The picture will be undefined if the other user is in process of
-		// changing his/her picture
-		if (picture && $.evalJSON(picture).name) {
-			return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;				
-		}
-		return Config.URL.PERSON_ICON_URL;
-	};
+    // Contact request
+    var myfriendsRequests = myfriends + "_requests";
+
+    // Error
+    var myfriendsError = myfriends + "_error";
+    var myfriendsErrorContactserver = myfriendsError + "_contactserver";
+
+    // List
+    var myfriendsList = myfriends + "_list";
+
+    // Templates
+    var myfriendsListTemplate = "myfriends_list_template";
+    var myfriendsRequestsTemplate = "myfriends_requests_template";
 
 
-	///////////////////////////
-	// Get & process friends //
-	///////////////////////////
+    ///////////////////////
+    // Utility functions //
+    ///////////////////////
 
-	/**
-	 * Process the information for each friend
-	 * @param {Object} friends JSON object containing all the friends the current user
-	 */
-	var doProcessing = function(friends){
-		var jsonFriends = {};
-		
-		// Array that will contain a specified number of friends of the current user
-		jsonFriends.items = [];
-		
-		if (friends.results) {
-			
-			// Run process each friend
-			for (var i = 0; i < friends.results.length; i++) {
-				if (i <= numberFriends) {
-					var friend = friends.results[i];
-					
-					// Set the id of the friend
-					friend.id = friend.target;
-					
-					// Parse the name of the friend
-					friend.name = parseName(friend.target, friend.profile.firstName, friend.profile.lastName);
-					
-					// Parse the picture of the friend
-					friend.photo = parsePicture(friend.profile.picture, friend.target);
-					
-					// Add the friend to the array
-					jsonFriends.items.push(friend);
-				}
-			}
-		}
-		
-		// Render the template with the friends
-		$(myfriendsList).html($.Template.render(myfriendsListTemplate, jsonFriends));
-	};
+    /**
+     * Parse the name for a user
+     * @param {String} uuid Uuid of the user
+     * @param {String} firstName Firstname of the user
+     * @param {String} lastName Lastname of the user
+     */
+    var parseName = function(uuid, firstName, lastName){
+        if (firstName && lastName) {
+            return firstName + " " + lastName;
+        }
+        else {
+            return uuid;
+        }
+    };
 
-	
-	/**
-	 * Get all the friends for the current user.
-	 * It only gets the friends that have an accepted status
-	 * and the request is ordered by the first and last name of the friends
-	 */
-	var getFriends = function(){
-		$.ajax({
-			url: "/_user/contacts/accepted.json" + "?page=0&items=6",
-			cache: false,
-			success: function(data){
-				
-				// Parse the data into a JSON object
-				var friends = $.evalJSON(data);
-				
-				// Process the friends: username, picture, ...
-				doProcessing(friends);
-			},
-			error: function(xhr, textStatus, thrownError) {
-				
-				// Show the contact error
-				$(myfriendsErrorContactserver, rootel).show();
-			}
-		});
-	};
+    /**
+     * Parse the picture for a user
+     * @param {String} picture The picture path for a user
+     * @param {String} userStoragePrefix The user's storage prefix
+     */
+    var parsePicture = function(picture, uuid){
+        // Check if the picture is undefined or not
+        // The picture will be undefined if the other user is in process of
+        // changing his/her picture
+        if (picture && $.evalJSON(picture).name) {
+            return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
+        }
+        return Config.URL.PERSON_ICON_URL;
+    };
 
 
-	//////////////////////
-	// Contact requests //
-	//////////////////////	
-	
-	/**
-	 * Get all the contact request for the current user and show
-	 * them on the page.
-	 */
-	var getContactRequests = function(){
-		$.ajax({
-			url: "/_user/contacts/invited.json",
-			cache: false,
-			success: function(data){
-				var contactrequests = $.evalJSON(data);
-				var jsonTotal = {};
-				jsonTotal.total = 0;
-				
-				// Check if the array contains any friends
-				if (contactrequests.total){
-					
-					// Only count the contacts which status is Invited
-					jsonTotal.total += contactrequests.total;
-				}
+    ///////////////////////////
+    // Get & process friends //
+    ///////////////////////////
 
-				// Render the requests on the page
-				$(myfriendsRequests).html($.Template.render(myfriendsRequestsTemplate, jsonTotal));
-			}
-		});
-	};
+    /**
+     * Process the information for each friend
+     * @param {Object} friends JSON object containing all the friends the current user
+     */
+    var doProcessing = function(friends){
+        var jsonFriends = {};
+
+        // Array that will contain a specified number of friends of the current user
+        jsonFriends.items = [];
+
+        if (friends.results) {
+
+            // Run process each friend
+            for (var i = 0; i < friends.results.length; i++) {
+                if (i <= numberFriends) {
+                    var friend = friends.results[i];
+
+                    // Set the id of the friend
+                    friend.id = friend.target;
+
+                    // Parse the name of the friend
+                    friend.name = parseName(friend.target, friend.profile.firstName, friend.profile.lastName);
+
+                    // Parse the picture of the friend
+                    friend.photo = parsePicture(friend.profile.picture, friend.target);
+
+                    // Add the friend to the array
+                    jsonFriends.items.push(friend);
+                }
+            }
+        }
+
+        // Render the template with the friends
+        $(myfriendsList).html($.Template.render(myfriendsListTemplate, jsonFriends));
+    };
 
 
-	/////////////////////////////
-	// Initialisation function //
-	/////////////////////////////
-	
-	var doInit = function() {
-		
-		// Get the firends for the current user
-		getFriends();
-		
-		// Get the contacts requests for the current user
-		getContactRequests();
-	};
-	
-	doInit();
-	
+    /**
+     * Get all the friends for the current user.
+     * It only gets the friends that have an accepted status
+     * and the request is ordered by the first and last name of the friends
+     */
+    var getFriends = function(){
+        $.ajax({
+            url: "/_user/contacts/accepted.json" + "?page=0&items=6",
+            cache: false,
+            success: function(data){
+
+                // Parse the data into a JSON object
+                var friends = $.evalJSON(data);
+
+                // Process the friends: username, picture, ...
+                doProcessing(friends);
+            },
+            error: function(xhr, textStatus, thrownError) {
+
+                // Show the contact error
+                $(myfriendsErrorContactserver, rootel).show();
+            }
+        });
+    };
+
+
+    //////////////////////
+    // Contact requests //
+    //////////////////////
+
+    /**
+     * Get all the contact request for the current user and show
+     * them on the page.
+     */
+    var getContactRequests = function(){
+        $.ajax({
+            url: "/_user/contacts/invited.json",
+            cache: false,
+            success: function(data){
+                var contactrequests = $.evalJSON(data);
+                var jsonTotal = {};
+                jsonTotal.total = 0;
+
+                // Check if the array contains any friends
+                if (contactrequests.total){
+
+                    // Only count the contacts which status is Invited
+                    jsonTotal.total += contactrequests.total;
+                }
+
+                // Render the requests on the page
+                $(myfriendsRequests).html($.Template.render(myfriendsRequestsTemplate, jsonTotal));
+            }
+        });
+    };
+
+
+    /////////////////////////////
+    // Initialisation function //
+    /////////////////////////////
+
+    var doInit = function() {
+
+        // Get the firends for the current user
+        getFriends();
+
+        // Get the contacts requests for the current user
+        getContactRequests();
+    };
+
+    doInit();
+
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("myfriends");

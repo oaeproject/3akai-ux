@@ -3,111 +3,110 @@
 
 <!-- CONTAINER -->
 <div style="display:none" id="createsite_container" class="dialog">
-	<div class="dialog_header">
-		<div class="dialog_header_inner">
-			<h1>Create a new site</h1>
-			<a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-		</div>
-	</div>
-	
-	<div class="dialog_content">
-		<!-- COURSE -->
-		<div id="createsite_coursesite_container">
-	   		<p>Provide the following information and click the "Create Site" button</p>
-			
-			<div id="createsite_iscoursesite">
-				<span class="createsite_strong">Is this a course site?</span>
-				<input type="radio" name="createsite_options" id="createsite_option_noncourse" checked="checked" />
-				<label for="createsite_option_noncourse">No</label>
-				<input type="radio" name="createsite_options" id="createsite_option_course"/>
-				<label for="createsite_option_course">Yes</label>
-			</div>
-			
-			<div class="createsite_information"><span class="createsite_strong">*</span> = Required Information</div>
-		</div>
-		
-		<!-- NONCOURSE -->
-		<div id="createsite_noncourse_container">
-			<label for="createsite_noncourse_name">* Name:</label>
-			<input id="createsite_noncourse_name" type="text" value="" /><br />
-			
-			<label for="createsite_noncourse_id">* Url:</label>
-			<span id="createsite_noncourse_url"></span>
-			<input id="createsite_noncourse_id" type="text" value="" /><br />
-			
-			<label>* Template:</label>
-			<div id="createsite_noncourse_template_container">
-				<input checked="checked" id="createsite_noncourse_template_template" type="radio" name="createsite_noncourse_template" value="template" />
-				<label for="createsite_noncourse_template_template">Blank Site</label><br />
-				<input id="createsite_noncourse_template_interdisciplinary" type="radio" name="createsite_noncourse_template" value="interdisciplinary" />
-				<label for="createsite_noncourse_template_interdisciplinary">Interdisciplinary Research Site</label><br />
-			</div>
-			
-			
-			<label for="createsite_noncourse_description" class="description_fields">Description:</label>
-			<textarea id="createsite_noncourse_description" rows="3" cols="30" class="description_fields"></textarea><br />
-			
-			<span class="createsite_maxcharacters description_fields">(Max 80 characters)</span>
-			
-			<label for="createsite_noncourse_description" class="member_fields" style=" padding-bottom:10px; ">* Members:</label>
-			<div class="member_fields" style="clear:both; overflow: auto; max-height: 150px;" id="members_to_add"></div>
-			
-			<div id="members_to_add_template"><!--
-				<table>
-					{var index = 0}
-					{for i in items}
-						<tr>
-							<td style="border:none">
-								{if index == 0}
-									<input type="checkbox" value="${i.userid}" disabled="disabled" CHECKED/>
-								{else}
-									<input type="checkbox" value="${i.userid}" CHECKED/>
-								{/if}
-							</td>
-							<td style="border:none">
-								<img src="${i.picture}" width="16px"/>
-							</td>
-							<td style="border:none">
-								${i.name}
-							</td>
-						</tr>
-						${index++|eat}
-					{/for}
-				</table>
-			--></div>
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>Create a new site</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+        </div>
+    </div>
 
-			<div class="dialog_buttons">
-				<span id="createsite_noncourse_process" style="display:none">Processing ...</span>
-				<a href="javascript:;" id="createsite_noncourse_save" class="button-default">Create Site</a>
-				<a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose cancel-button">Cancel</a>
-			</div>
-		</div>
-		
-		<div id="createsite_course_container" style="display:none">
-			<p>Please fill out all of your course's details and also tell what you would like to see initially on your course site. 
-			Once we have authorized and created your site, we will get back in touch with you with more details:</p>
-			
-			<textarea id="createsite_course_details" rows="3" cols="30"></textarea>
-				
-			<div class="dialog_buttons">
-				<a href="javascript:;" id="createsite_course_request" class="button-default">Request Site</a>
-			</div>			
-		</div>
-		
-		<div id="createsite_course_requested_container" style="display:none">
-			<p>Request successful</p>
-			<p>Your site has been successfully requested. We'll get in touch with you as soon as possible.</p>
-			
-			<div class="dialog_buttons">
-				<a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose">Close</a>
-			</div>
-		</div>
-	</div>
-	
-	<!-- DIALOG FOOTER -->
-	<div class="dialog_footer">
-		<div class="dialog_footer_inner"><!-- --></div>
-	</div>
+    <div class="dialog_content">
+        <!-- COURSE -->
+        <div id="createsite_coursesite_container">
+               <p>Provide the following information and click the "Create Site" button</p>
+
+            <div id="createsite_iscoursesite">
+                <span class="createsite_strong">Is this a course site?</span>
+                <input type="radio" name="createsite_options" id="createsite_option_noncourse" checked="checked" />
+                <label for="createsite_option_noncourse">No</label>
+                <input type="radio" name="createsite_options" id="createsite_option_course"/>
+                <label for="createsite_option_course">Yes</label>
+            </div>
+
+            <div class="createsite_information"><span class="createsite_strong">*</span> = Required Information</div>
+        </div>
+
+        <!-- NONCOURSE -->
+        <div id="createsite_noncourse_container">
+            <label for="createsite_noncourse_name">* Name:</label>
+            <input id="createsite_noncourse_name" type="text" value="" /><br />
+
+            <label for="createsite_noncourse_id">* Url:</label>
+            <span id="createsite_noncourse_url"></span>
+            <input id="createsite_noncourse_id" type="text" value="" /><br />
+
+            <label>* Template:</label>
+            <div id="createsite_noncourse_template_container">
+                <input checked="checked" id="createsite_noncourse_template_template" type="radio" name="createsite_noncourse_template" value="template" />
+                <label for="createsite_noncourse_template_template">Blank Site</label><br />
+                <input id="createsite_noncourse_template_interdisciplinary" type="radio" name="createsite_noncourse_template" value="interdisciplinary" />
+                <label for="createsite_noncourse_template_interdisciplinary">Interdisciplinary Research Site</label><br />
+            </div>
+
+            <label for="createsite_noncourse_description" class="description_fields">Description:</label>
+            <textarea id="createsite_noncourse_description" rows="3" cols="30" class="description_fields"></textarea><br />
+
+            <span class="createsite_maxcharacters description_fields">(Max 80 characters)</span>
+
+            <label for="createsite_noncourse_description" class="member_fields" style=" padding-bottom:10px; ">* Members:</label>
+            <div class="member_fields" style="clear:both; overflow: auto; max-height: 150px;" id="members_to_add"></div>
+
+            <div id="members_to_add_template"><!--
+                <table>
+                    {var index = 0}
+                    {for i in items}
+                        <tr>
+                            <td style="border:none">
+                                {if index == 0}
+                                    <input type="checkbox" value="${i.userid}" disabled="disabled" CHECKED/>
+                                {else}
+                                    <input type="checkbox" value="${i.userid}" CHECKED/>
+                                {/if}
+                            </td>
+                            <td style="border:none">
+                                <img src="${i.picture}" width="16px"/>
+                            </td>
+                            <td style="border:none">
+                                ${i.name}
+                            </td>
+                        </tr>
+                        ${index++|eat}
+                    {/for}
+                </table>
+            --></div>
+
+            <div class="dialog_buttons">
+                <span id="createsite_noncourse_process" style="display:none">Processing ...</span>
+                <a href="javascript:;" id="createsite_noncourse_save" class="button-default">Create Site</a>
+                <a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose cancel-button">Cancel</a>
+            </div>
+        </div>
+
+        <div id="createsite_course_container" style="display:none">
+            <p>Please fill out all of your course's details and also tell what you would like to see initially on your course site.
+            Once we have authorized and created your site, we will get back in touch with you with more details:</p>
+
+            <textarea id="createsite_course_details" rows="3" cols="30"></textarea>
+
+            <div class="dialog_buttons">
+                <a href="javascript:;" id="createsite_course_request" class="button-default">Request Site</a>
+            </div>
+        </div>
+
+        <div id="createsite_course_requested_container" style="display:none">
+            <p>Request successful</p>
+            <p>Your site has been successfully requested. We'll get in touch with you as soon as possible.</p>
+
+            <div class="dialog_buttons">
+                <a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose">Close</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->

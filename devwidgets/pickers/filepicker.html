@@ -5,24 +5,22 @@
 
 <!-- HTML -->
 <div id="picker_container" class="picker_container fl-widget-content">
-	<div id="picker_settings" class="picker_settings" style="display:none;">
-		<h1>Pick a file</h1>
-		
-		
-		<div id="picker_breadcrumb" class="picker_breadcrumb"></div>
-		<div id="picker_tree" class="picker_tree"></div>
-		<div id="picker_pager" class="picker_pager"></div>
-		
-		
-		<div id="picker_selectedfiles"></div>
-		
-		<div class="buttonBar">
-			<a class="button-default save_button" href="javascript:;" id="picker_button_select">Select file</a>
-			<a class="button cancel-button" href="javascript:;" id="picker_button_cancel">Cancel</a>
-		</div>
-	</div>
-	
-	<div id="picker_main" class="picker_main" style="display:none;"></div>
+    <div id="picker_settings" class="picker_settings" style="display:none;">
+        <h1>Pick a file</h1>
+
+        <div id="picker_breadcrumb" class="picker_breadcrumb"></div>
+        <div id="picker_tree" class="picker_tree"></div>
+        <div id="picker_pager" class="picker_pager"></div>
+
+        <div id="picker_selectedfiles"></div>
+
+        <div class="buttonBar">
+            <a class="button-default save_button" href="javascript:;" id="picker_button_select">Select file</a>
+            <a class="button cancel-button" href="javascript:;" id="picker_button_cancel">Cancel</a>
+        </div>
+    </div>
+
+    <div id="picker_main" class="picker_main" style="display:none;"></div>
 </div>
 
 <!-- WIDGET FOOTER-->
@@ -30,81 +28,77 @@
 
 <!-- templates -->
 <div id="picker_tree_template"><!--
-		<ul class="picker_items">
-		{for i in results}
-			<li class="{if selected.path === i.path}selected {/if} picker_item" id="picker_item_${i.index}">
-			
-			
-			{if i["sling:resourceType"] === "sakai/folder"}
-				<img src="/dev/_images2/folder_18.png" alt="Folder" />
-			{else}
-				{if icons[i.file["sakai:mimeType"]]}
-					<img src="/devwidgets/pickers/images/icons/small/${icons[i.file["sakai:mimeType"]]}" alt="File" />
-				{else}
-					<img src="/dev/_images2/page_18.png" alt="File" />
-				{/if}
-			{/if}
-			
-			<a href="javascript:;" title="${i.name} at ${i.path}">
-				{if i.name.length > 12}
-					${i.name.substring(0,12)}...
-				{else}
-					${i.name}
-				{/if}
-			</a>
-			</li>
-		{forelse}
-			<li>There are no resources available in this folder..</li>
-		{/for}
-		</ul>
-		--></div>
-		
-		
-		<div id="picker_breadcrumb_template"><!--
-		Location:
-		{for l in locations}
-			{if l.folder}
-				<a id="picker_breadcrumb_${l_index}" class="picker_breadcrumb_${type} picker_breadcrumb">${l.name}</a>
-			{else}
-				<span id="picker_breadcrumb_${l_index}">${l.name}</span>
-			{/if}
-			
-			{if l_index < (locations.length - 1) && l_index != 0}
-				 &#187; 
-			{/if}
-		{/for}
-		--></div>
-		
-		
-		<div id="picker_selectedfiles_template"><!--
-			<label>Selected files:</label>
-			{for file in selectedFiles}
-				<div class="picker_selectedfile">
-					${file.name} <img src="/dev/_images2/remove_x.png" alt="x" id="picker_selectedfile_remove_${file_index}" />
-				</div>
-			{forelse}
-				No files selected yet.
-			{/for}
-		--></div>
-		
-		
-	<div id="picker_main_template"><!--
-		{for file in files}
-			<p class="picker_selectedFile">
-			<a href="${file["path"]}">
-				{if icons[file["sakai:mimeType"]]}
-					<img src="/devwidgets/pickers/images/icons/big/${icons[file["sakai:mimeType"]]}" alt="File" /><br />
-				{else}
-					<img src="/devwidgets/pickers/images/icons/big/file.png" alt="File" /><br />		
-				{/if}
-			</a>
-			File: <a href="${file["path"]}">${file.name}</a><br />
-			Type: ${file.fileType}
-			</p>
-		{forelse}
-			No selected files yet.
-		{/for}
-	--></div>
+        <ul class="picker_items">
+        {for i in results}
+            <li class="{if selected.path === i.path}selected {/if} picker_item" id="picker_item_${i.index}">
+
+            {if i["sling:resourceType"] === "sakai/folder"}
+                <img src="/dev/_images2/folder_18.png" alt="Folder" />
+            {else}
+                {if icons[i.file["sakai:mimeType"]]}
+                    <img src="/devwidgets/pickers/images/icons/small/${icons[i.file["sakai:mimeType"]]}" alt="File" />
+                {else}
+                    <img src="/dev/_images2/page_18.png" alt="File" />
+                {/if}
+            {/if}
+
+            <a href="javascript:;" title="${i.name} at ${i.path}">
+                {if i.name.length > 12}
+                    ${i.name.substring(0,12)}...
+                {else}
+                    ${i.name}
+                {/if}
+            </a>
+            </li>
+        {forelse}
+            <li>There are no resources available in this folder..</li>
+        {/for}
+        </ul>
+        --></div>
+
+        <div id="picker_breadcrumb_template"><!--
+        Location:
+        {for l in locations}
+            {if l.folder}
+                <a id="picker_breadcrumb_${l_index}" class="picker_breadcrumb_${type} picker_breadcrumb">${l.name}</a>
+            {else}
+                <span id="picker_breadcrumb_${l_index}">${l.name}</span>
+            {/if}
+
+            {if l_index < (locations.length - 1) && l_index != 0}
+                 &#187;
+            {/if}
+        {/for}
+        --></div>
+
+        <div id="picker_selectedfiles_template"><!--
+            <label>Selected files:</label>
+            {for file in selectedFiles}
+                <div class="picker_selectedfile">
+                    ${file.name} <img src="/dev/_images2/remove_x.png" alt="x" id="picker_selectedfile_remove_${file_index}" />
+                </div>
+            {forelse}
+                No files selected yet.
+            {/for}
+        --></div>
+
+    <div id="picker_main_template"><!--
+        {for file in files}
+            <p class="picker_selectedFile">
+            <a href="${file["path"]}">
+                {if icons[file["sakai:mimeType"]]}
+                    <img src="/devwidgets/pickers/images/icons/big/${icons[file["sakai:mimeType"]]}" alt="File" /><br />
+                {else}
+                    <img src="/devwidgets/pickers/images/icons/big/file.png" alt="File" /><br />
+                {/if}
+            </a>
+            File: <a href="${file["path"]}">${file.name}</a><br />
+            Type: ${file.fileType}
+            </p>
+        {forelse}
+            No selected files yet.
+        {/for}
+    --></div>
 
 <!-- JS -->
 <script type="text/javascript" language="JavaScript" src="/devwidgets/pickers/javascript/jquery.pager.js" />

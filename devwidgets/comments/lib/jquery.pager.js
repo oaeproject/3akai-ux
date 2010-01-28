@@ -9,7 +9,7 @@
 * Dual licensed under the MIT and GPL licenses:
 * http://www.opensource.org/licenses/mit-license.php
 * http://www.gnu.org/licenses/gpl.html
-* 
+*
 * Read the related blog post and contact the author at http://www.j-dee.com/2008/12/22/jquery-pager-plugin/
 *
 * This version is far from perfect and doesn't manage it's own state, therefore contributions are more than welcome!
@@ -20,12 +20,12 @@
 *       pagecount is the total number of pages to display
 *       buttonClickCallback is the method to fire when a pager button is clicked.
 *
-* buttonClickCallback signiture is PagerClickTest = function(pageclickednumber) 
+* buttonClickCallback signiture is PagerClickTest = function(pageclickednumber)
 * Where pageclickednumber is the number of the page clicked in the control.
 *
 * The included Pager.CSS file is a dependancy but can obviously tweaked to your wishes
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
-* 
+*
 * modified by Oszkar Nagy (oszkar@caret.cam.ac.uk) for Sakai
 */
 (function($) {
@@ -38,7 +38,7 @@
 
         // empty out the destination element and then render out the pager with the supplied options
             $(this).empty().append(renderpager(parseInt(options.pagenumber), parseInt(options.pagecount), options.buttonClickCallback));
-            
+
             // specify correct cursor activity
             $('.pages li').mouseover(function() { document.body.style.cursor = "pointer"; }).mouseout(function() { document.body.style.cursor = "auto"; });
         });
@@ -52,10 +52,10 @@
 
         // add in the previous and next buttons
         //$pager.append(renderButton('First', pagenumber, pagecount, buttonClickCallback)).append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback));
-		
-		// Without 'First' button
-		$pager.append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback))
-		
+
+        // Without 'First' button
+        $pager.append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback))
+
         // pager currently only handles 10 viewable pages ( could be easily parameterized, maybe in next version ) so handle edge cases
         var startPoint = 1;
         var endPoint = 9;
@@ -73,11 +73,11 @@
         if (startPoint < 1) {
             startPoint = 1;
         }
-		
-		// Add 3 dots divider
-		var $divider_begin = $('<li id="jq_pager_three_dots_begin" class="hidden">...</li>');
-		$pager.append($divider_begin);
-		
+
+        // Add 3 dots divider
+        var $divider_begin = $('<li id="jq_pager_three_dots_begin" class="hidden">...</li>');
+        $pager.append($divider_begin);
+
         // loop thru visible pages and render buttons
         for (var page = startPoint; page <= endPoint; page++) {
 
@@ -89,24 +89,24 @@
 
         // render in the next and last buttons before returning the whole rendered control back.
         //$pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback)).append(renderButton('Last', pagenumber, pagecount, buttonClickCallback));
-		
-		// Add 3 dots divider
-		var $divider_end = $('<li id="jq_pager_three_dots_end" class="hidden">...</li>');
-		$pager.append($divider_end);
-		
-		// without 'Last' button:
-		$pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback));
-		
-		if (startPoint > 1)
-			{
-				$divider_begin.removeClass('hidden');
-			}
-		
-		if (pagecount > endPoint)
-			{
-				$divider_end.removeClass('hidden');
-			}
-		
+
+        // Add 3 dots divider
+        var $divider_end = $('<li id="jq_pager_three_dots_end" class="hidden">...</li>');
+        $pager.append($divider_end);
+
+        // without 'Last' button:
+        $pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback));
+
+        if (startPoint > 1)
+            {
+                $divider_begin.removeClass('hidden');
+            }
+
+        if (pagecount > endPoint)
+            {
+                $divider_end.removeClass('hidden');
+            }
+
         return $pager;
     }
 

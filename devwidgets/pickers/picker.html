@@ -7,58 +7,56 @@
 
 <!-- HTML -->
 <div id="picker_container">
-	<div id="picker_settings" style="display:none;">
-		<h1>Pick a file</h1>
-		<div id="picker_tree_template"><!--
-		<ul>
-		{for i in results}
-		
-			
-			<li class="{if selected.path === i.path}selected {/if} picker_item" id="picker_item_${i_index}">
-			
-			
-			{if i["sling:resourceType"] === "sakai/folder"}
-				<img src="/dev/_images2/folder_18.png" alt="Folder" />
-			{else}
-				{if endFormat !== folder}
-					<img src="/dev/_images2/page_18.png" alt="File" />
-				{/if}
-			{/if}
-			
-			<a href="javascript:;" title="${i.name} at ${i.path}">${i.name}</a>
-			</li>
-		{forelse}
-			<li>There are no resources available for this site yet.</li>
-		{/for}
-		</ul>
-		--></div>
-		<div id="picker_breadcrumb_template"><!--
-		Location:
-		{for l in locations}
-			{if l.folder}
-				<a id="picker_breadcrumb_${l_index}">${l.name}</a>
-			{else}
-				<span id="picker_breadcrumb_${l_index}">${l.name}</span>
-			{/if}
-			
-			{if l_index < (locations.length - 1) && l_index != 0}
-				 &#187; 
-			{/if}
-		{/for}
-		
-		--></div>
-		<div id="picker_breadcrumb"></div>
-		<div id="picker_tree" class="picker_tree"></div>
-		<label>Selected file:</label> <a id="picker_selectedfile_name" href="javascript:;"></a><br />
-		<label>Located in:</label> <a id="picker_selectedfile_location"></a><br />
-		<div class="buttonBar">
-			<a class="button-default save_button" href="javascript:;" id="picker_button_select">Select file</a>
-			<a class="button cancel-button" href="javascript:;" id="picker_button_cancel">Cancel</a>
-		</div>
-	</div>
-	<div id="picker_main" style="display:none;">
-		Download this file..
-	</div>
+    <div id="picker_settings" style="display:none;">
+        <h1>Pick a file</h1>
+        <div id="picker_tree_template"><!--
+        <ul>
+        {for i in results}
+
+            <li class="{if selected.path === i.path}selected {/if} picker_item" id="picker_item_${i_index}">
+
+            {if i["sling:resourceType"] === "sakai/folder"}
+                <img src="/dev/_images2/folder_18.png" alt="Folder" />
+            {else}
+                {if endFormat !== folder}
+                    <img src="/dev/_images2/page_18.png" alt="File" />
+                {/if}
+            {/if}
+
+            <a href="javascript:;" title="${i.name} at ${i.path}">${i.name}</a>
+            </li>
+        {forelse}
+            <li>There are no resources available for this site yet.</li>
+        {/for}
+        </ul>
+        --></div>
+        <div id="picker_breadcrumb_template"><!--
+        Location:
+        {for l in locations}
+            {if l.folder}
+                <a id="picker_breadcrumb_${l_index}">${l.name}</a>
+            {else}
+                <span id="picker_breadcrumb_${l_index}">${l.name}</span>
+            {/if}
+
+            {if l_index < (locations.length - 1) && l_index != 0}
+                 &#187;
+            {/if}
+        {/for}
+
+        --></div>
+        <div id="picker_breadcrumb"></div>
+        <div id="picker_tree" class="picker_tree"></div>
+        <label>Selected file:</label> <a id="picker_selectedfile_name" href="javascript:;"></a><br />
+        <label>Located in:</label> <a id="picker_selectedfile_location"></a><br />
+        <div class="buttonBar">
+            <a class="button-default save_button" href="javascript:;" id="picker_button_select">Select file</a>
+            <a class="button cancel-button" href="javascript:;" id="picker_button_cancel">Cancel</a>
+        </div>
+    </div>
+    <div id="picker_main" style="display:none;">
+        Download this file..
+    </div>
 </div>
 
 <!-- JS -->

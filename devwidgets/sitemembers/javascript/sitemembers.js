@@ -38,7 +38,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     var siteid = placement.split("/")[0];
     // The total amount of memebrs
     var totalMembers = 1;
-    
+
     var widgetSettings = {};
     var rootel = $("#" + tuid); // Get the main div used by the widget
     var me = sdata.me;
@@ -48,15 +48,15 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     var sortOn = "lastName"; // Sort the user on their lastname. Options are (lastName, firstName, id)
     var sortOrder = "asc"; // asc(Ascending) or desc(Descending)
     var gotAllMembers = false;
-    
+
     /////////////
     // CSS IDS //
     /////////////
-    
+
     var sitemembers = "sitemembers";
     var sitemembersID = "#" + sitemembers;
     var sitemembersClass = "." + sitemembers;
-    
+
     // Settings
     var sitemembers_settings = sitemembersID + "_settings";
     var sitemembers_settings_save = sitemembers_settings + "_save";
@@ -71,7 +71,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     //var sitemembers_settings_sort = sitemembers_settings + "_sort";
     //var sitemembers_settings_sort_name = sitemembers_settings_sort + "_name";
     //var sitemembers_settings_sort_position = sitemembers_settings_sort + "_position";
-    
+
     // Normal
     var sitemembers_wide = sitemembers + "_wide";
     var sitemembers_normal = sitemembersID + "_normal";
@@ -83,7 +83,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     var sitemembers_normal_result_addtocontacts = sitemembers_normal_result + "_addtocontacts";
     var sitemembers_normal_container = sitemembers_normal + "_container";
     var sitemembers_normal_results_template = sitemembers_normal + "_results_template";
-    
+
     var sitemembers_normal_data = sitemembers_normal + "_data";
     var sitemembers_normal_data_degrees = sitemembers_normal_data + "_degrees";
     var sitemembers_normal_data_talks = sitemembers_normal_data + "_talks";
@@ -93,16 +93,16 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     var sitemembers_normal_data_hobbies = sitemembers_normal_data + "_hobbies";
     var sitemembers_normal_data_personalinterests = sitemembers_normal_data + "_personalinterests";
     var sitemembers_normal_data_academicinterests = sitemembers_normal_data + "_academicinterests";
-    
+
     var sitemembers_normal_more = sitemembers_normalClass + "_more";
     var sitemembers_normal_loader = sitemembers_normalClass + "_loader";
-    
+
     var sitemembers_normal_footer = sitemembers_normal + "_footer";
     var sitemembers_normal_footer_text = sitemembers_normal_footer + "_text";
     var sitemembers_normal_footer_filter = sitemembers_normal_footer + "_filter";
     var sitemembers_normal_footer_onlycontacts = sitemembers_normal_footer + "_onlycontacts";
     var sitemembers_normal_footer_all = sitemembers_normal_footer + "_all";
-    
+
     // Full names for data that can be displayed
     var displaydata = {};
     displaydata.aboutme = "About me";
@@ -113,11 +113,11 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     displaydata.publications = "Publications";
     displaydata.hobbies = "Hobbies";
     displaydata.profexperience = "Professional experience";
-    
+
     /////////////////
     // RENDERERS //
     /////////////////
-    
+
     /**
      * Get the HTML for degrees for a user.
      * @param {Object} user
@@ -133,7 +133,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         return $.Template.render(sitemembers_normal_data_degrees.replace("#", ''), json);
     };
-    
+
     /**
      * Get the HTML for the Talks rendering.
      * @param {Object} user
@@ -149,8 +149,8 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         return $.Template.render(sitemembers_normal_data_talks.replace("#", ''), json);
     };
-    
-    
+
+
     /**
      * Get the HTML for the Publications rendering.
      * @param {Object} user
@@ -166,7 +166,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         return $.Template.render(sitemembers_normal_data_publications.replace("#", ''), json);
     };
-    
+
     /**
      * Get the HTML for the Professional experience rendering.
      * @param {Object} user
@@ -182,7 +182,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         return $.Template.render(sitemembers_normal_data_profexperience.replace("#", ''), json);
     };
-    
+
     /**
      * Get the HTML for a default template like aboutme, hobbies, ...
      * @param {Object} key The key (like hobbies)
@@ -199,27 +199,27 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             if (what === "hobbies" && user.aboutme.hobbies) {
                 json.hobbies = user.aboutme.hobbies;
             }
-            else 
+            else
                 if (what === "aboutme" && user.aboutme.aboutme) {
                     json.aboutme = user.aboutme.aboutme;
                 }
-                else 
+                else
                     if (what === "personalinterests" && user.aboutme.personalinterests) {
                         json.personalinterests = user.aboutme.personalinterests[0];
                     }
-                    else 
+                    else
                         if (what === "academicinterests" && user.aboutme.academicinterests) {
                             json.academicinterests = user.aboutme.personalinterests[0];
                         }
         }
-        
+
         return $.Template.render(template.replace("#", ''), json);
     };
-    
+
     ////////////////////
     // FILTER MEMBERS //
     ////////////////////
-    
+
     /**
      * Filters the members.
      */
@@ -233,7 +233,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         else {
             membersToUse = myContactsOnSite;
         }
-        
+
         if (filterOn === "") {
             membersToDisplay = membersToUse;
         }
@@ -246,10 +246,10 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         // Clear the list
         clearList();
-        // Add found results.			
+        // Add found results.
         renderAndAppendSiteMembers(membersToDisplay);
     };
-    
+
     /**
      * Will filter the site members by only showing the ones that are in our contact list.
      */
@@ -264,15 +264,15 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         // Clear the list
         clearList();
-        // Add found results.	
+        // Add found results.
         renderAndAppendSiteMembers(membersToDisplay);
     };
-    
-    
+
+
     ///////////////////
     // AID FUNCTIONS //
     ///////////////////
-    
+
     var getTotalAmountOfMembers = function(){
         $.ajax({
             url: "/var/search/sites.json?q=" + siteid,
@@ -285,7 +285,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             }
         });
     };
-    
+
     /**
      * Set the status of the loader
      * @param {Boolean} show Wether to show the loader or not.
@@ -298,7 +298,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             $(sitemembers_normal_loader, rootel).hide();
         }
     };
-    
+
     /**
      * Checks if the provided user is a contact of us.
      * @param {Object} user
@@ -311,7 +311,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         return false;
     };
-    
+
     /**
      * Clears the list
      */
@@ -321,7 +321,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         // HTML
         $(sitemembers_normal_container, rootel).html("");
     };
-    
+
     /**
      * Renders the members into HTML.
      * @param {Object} members
@@ -337,12 +337,12 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         // Add rounded corners to results (Not fully working)
         // $(sitemembers_normal_result, rootel).corners();
     };
-    
+
     /**
      * prepares the member objects..
      */
     var prepareSiteMembers = function(members){
-    
+
         // Make sure we have properly formed data.
         for (var i = 0, j = members.length; i < j; i++) {
             var user = members[i];
@@ -362,7 +362,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             if (typeof user["rep:userId"] === "object") {
                 user.userid = user["rep:userId"][0];
             }
-            
+
             // Check if we are this user.
             user.isMe = false;
             if (user.userid === me.user.userid) {
@@ -370,70 +370,70 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             }
             // Check to see if this user is a contact of us.
             user.isContact = checkIfContact(user);
-            
+
             // The fullname for this user. (User for filtering)
             user.fullname = user.firstName + " " + user.lastName;
-            
+
             user.basic = $.evalJSON(user.basic);
             user.aboutme = $.evalJSON(user.aboutme);
             user.education = $.evalJSON(user.education);
             user.talks = $.evalJSON(user.talks);
             user.academic = $.evalJSON(user.academic);
             user.job = $.evalJSON(user.job);
-            
-            
+
+
             // the information the admin wants displayed.
             user.displayedData = [];
             for (var di = 0, dj = widgetSettings.data.length; di < dj; di++) {
                 var toShow = widgetSettings.data[di];
                 var o = {};
                 o.key = displaydata[toShow];
-                
+
                 if (toShow === "aboutme") {
                     o.value = displayAboutMe(user, "aboutme", sitemembers_normal_data_aboutme);
                 }
-                else 
+                else
                     if (toShow === "hobbies") {
                         o.value = displayAboutMe(user, "hobbies", sitemembers_normal_data_hobbies);
                     }
-                    else 
+                    else
                         if (toShow === "academicinterests") {
                             o.value = displayAboutMe(user, "academicinterests", sitemembers_normal_data_academicinterests);
                         }
-                        else 
+                        else
                             if (toShow === "personalinterests") {
                                 o.value = displayAboutMe(user, "personalinterests", sitemembers_normal_data_personalinterests);
                             }
-                            else 
+                            else
                                 if (toShow === "degrees") {
                                     o.value = displayDegrees(user);
                                 }
-                                else 
+                                else
                                     if (toShow === "talks") {
                                         o.value = displayTalks(user);
                                     }
-                                    else 
+                                    else
                                         if (toShow === "publications") {
                                             o.value = displayPublications(user);
                                         }
-                                        else 
+                                        else
                                             if (toShow === "profexperience") {
                                                 o.value = displayProfExperience(user);
                                             }
-                
+
                 user.displayedData.push(o);
             }
-            
+
             if (user.isContact) {
                 myContactsOnSite.push(user);
             }
-            
+
             members[i] = user;
         }
-        
+
         return members;
     };
-    
+
     /**
      * Display the more links, or the reached end.
      * @param {Boolean} more true = show more links, false = show reached end links
@@ -446,7 +446,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             $(sitemembers_normal_more, rootel).hide();
         }
     };
-    
+
     /**
      * Does a request to the site.members.json servlet and retrieves all the members for this site.
      */
@@ -459,7 +459,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             url: url,
             success: function(data){
                 var json = $.evalJSON(data).results;
-                
+
                 // If we get an emty list, then we assume we have received all the members.
                 if (json.length === 0) {
                     gotAllMembers = true;
@@ -470,11 +470,11 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                     // Set the start param for next get.
                     startPos += json.length;
                     $(sitemembers_normal_nrFetched, rootel).text(startPos);
-                    
+
                     if (totalMembers <= startPos) {
                         displayMore(false);
                     }
-                    
+
                     // Make sure the formatting is correct.
                     var members = prepareSiteMembers(json);
                     // Add the new members to the list.
@@ -493,8 +493,8 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             }
         });
     };
-    
-    
+
+
     /**
      * Fetches the contacts for this user.
      */
@@ -513,7 +513,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             }
         });
     };
-    
+
     /**
      * Shows the normal viwe
      */
@@ -524,11 +524,11 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             $(sitemembers_normal, rootel).attr('class', sitemembers_wide);
         }
     };
-    
+
     ///////////////////
     // SETTINGS VIEW //
     ///////////////////
-    
+
     /**
      * Displays the settings object.
      */
@@ -540,16 +540,16 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         else {
             $(sitemembers_settings_display_compact).attr("checked", true);
         }
-        
+
         // Remove all checks
         $(sitemembers_settings_dataClass + " input", rootel).attr('checked', false);
         // Place correct checks
         for (var i = 0; i < widgetSettings.data.length; i++) {
             $(sitemembers_settings_dataClass + " input[value=" + widgetSettings.data[i] + "]").attr('checked', true);
         }
-        
+
     };
-    
+
     /**
      * Retrieves the settings object from JCR.
      */
@@ -578,7 +578,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             }
         });
     };
-    
+
     /**
      * Builds the comments settings object.
      * @return Will return the object that holds all the setting values for the sitemembers widget.
@@ -588,7 +588,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         settings.sort = "lastname";
         settings.display = "compact";
         settings.data = [];
-        
+
         // Get the checked values.
         $(sitemembers_settings_dataClass + " input:checked").each(function(){
             settings.data.push($(this).val());
@@ -597,28 +597,28 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         if ($(sitemembers_settings_display_wide + ":checked", rootel).length === 1) {
             settings.display = "wide";
         }
-        
+
         return settings;
     };
-    
+
     /**
      * When the settings are saved to JCR, this function will be called.
      * It will notify the container that it can be closed.
      */
     var closeSettings = function(){
-		// If this is in a dashboard then we just show the main view.
-		// We check this by seeing if the dashboard element (or its parents) are visible or not
-		if ($(".sakai_dashboard_page").is(":visible") && $('.sakai_dashboard_page').parents(':hidden').length === 0) {
+        // If this is in a dashboard then we just show the main view.
+        // We check this by seeing if the dashboard element (or its parents) are visible or not
+        if ($(".sakai_dashboard_page").is(":visible") && $('.sakai_dashboard_page').parents(':hidden').length === 0) {
             $(sitemembers_settings, rootel).hide();
             $(sitemembers_normal, rootel).show();
-			showSettings = false;
-			init();
-		}
-		else {
-			sdata.container.informFinish(tuid);
-		}
+            showSettings = false;
+            init();
+        }
+        else {
+            sdata.container.informFinish(tuid);
+        }
     };
-    
+
     /**
      * Start the process to save all the settings for the site members widget to JCR.
      */
@@ -644,7 +644,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             data: toSend
         });
     };
-    
+
     ////////////////////
     // EVENT HANDLERS //
     ////////////////////
@@ -655,14 +655,14 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         // The settings for this widget should be saved.
         saveSettings();
     });
-    
-    /** 
+
+    /**
      * Cancel the settings.
      */
     $(sitemembers_settings_cancel, rootel).live("click", function(){
         closeSettings();
     });
-    
+
     /**
      * Event for sending a message.
      * @param {Object} e
@@ -679,7 +679,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                 lastName = allMembers[i].lastName;
             }
         }
-        
+
         var o = {
             "uuid": id,
             'firstName': firstName,
@@ -687,7 +687,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         };
         sakai.sendmessage.initialise(o);
     });
-    
+
     /**
      * Event for adding a contact.
      * @param {Object} e
@@ -700,14 +700,14 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             renderAndAppendSiteMembers(allMembers);
         });
     });
-    
+
     /**
      * Gets more site members.
      */
     $(sitemembers_normal_more, rootel).click(function(){
         getSiteMembers();
     });
-    
+
     /**
      * The user wants to filter users.
      */
@@ -719,7 +719,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
             filterMembers();
         }
     });
-    
+
     /**
      * Only display the site members who are our contacts.
      */
@@ -732,7 +732,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         $(this).hide();
         $(sitemembers_normal_footer_all, rootel).show();
     });
-    
+
     /**
      * Show our entire list.
      */
@@ -743,17 +743,17 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         }
         // Clear the list
         clearList();
-        // Add found results.	
+        // Add found results.
         renderAndAppendSiteMembers(allMembers);
         $(this).hide();
         $(sitemembers_normal_footer_onlycontacts, rootel).show();
     });
-    
+
     ////////////////////
     // INITIALISATION //
     ////////////////////
-    
-    
+
+
     var init = function(){
         if (showSettings) {
             // Show the settings view.
@@ -767,9 +767,9 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         // Get the settings, when the settings are received we either fill in the settings view or get all the members for the normal view.
         getSiteMembersSettingsFromJCR();
     };
-    
+
     init();
-    
+
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("sitemembers");

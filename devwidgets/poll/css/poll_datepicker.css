@@ -293,7 +293,7 @@
 .ui-datepicker .ui-datepicker-title { margin: 0 2.3em; line-height: 1.8em; text-align: center; }
 .ui-datepicker .ui-datepicker-title select { float:left; font-size:1em; margin:1px 0; }
 .ui-datepicker select.ui-datepicker-month-year {width: 100%;}
-.ui-datepicker select.ui-datepicker-month, 
+.ui-datepicker select.ui-datepicker-month,
 .ui-datepicker select.ui-datepicker-year { width: 49%;}
 .ui-datepicker .ui-datepicker-title select.ui-datepicker-year { float: right; }
 .ui-datepicker table {width: 100%; font-size: .9em; border-collapse: collapse; margin:0 0 .4em; }
@@ -329,12 +329,12 @@
 .ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
 .ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
 .ui-datepicker-trigger {
-	background-color: #f1f1f1;
-	border: 1px solid #d6d6d6;
-	border-left: 0px;
-	float:left;
-	margin-top:5px;
-	padding:7px 7px 6px 2px;
+    background-color: #f1f1f1;
+    border: 1px solid #d6d6d6;
+    border-left: 0px;
+    float:left;
+    margin-top:5px;
+    padding:7px 7px 6px 2px;
 }
 /* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
 .ui-datepicker-cover {

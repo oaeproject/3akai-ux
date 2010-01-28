@@ -50,7 +50,7 @@
 { display: none; }
 
 .profile .options
-{ padding: 0px; text-align:left !important; width: 250px; 
+{ padding: 0px; text-align:left !important; width: 250px;
 padding:1px 1px 1px 2px;
 position:relative;}
 
@@ -94,9 +94,9 @@ position:relative;}
 
 This is for IE:
 .fl-tabs li a {
-	position:relative;
-	bottom:1px !important;
-	#bottom:0px !important; 
+    position:relative;
+    bottom:1px !important;
+    #bottom:0px !important;
 }
 
 Removed:

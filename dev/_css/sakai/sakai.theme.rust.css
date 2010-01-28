@@ -12,7 +12,7 @@
 
 /* Widget options */
 .fl-theme-rust .fl-widget-options {}
-    .fl-theme-rust .fl-widget-options ul {} 
+    .fl-theme-rust .fl-widget-options ul {}
     .fl-theme-rust .fl-widget-options li {border-left:1px solid #cf923e;}
     .fl-theme-rust .fl-widget-options a {color:#cf923e !important;}
     .fl-theme-rust .fl-widget-options .icon {}
@@ -25,7 +25,7 @@
     .fl-theme-rust .fl-widget .more  {background-image:url('../images/fluid-theme-rust/icon-widget-More.png'); margin-left:0px;}
     .fl-theme-rust .fl-widget .close {background-image:url('../images/fluid-theme-rust/icon-widget-Close.png'); margin-right:0px;}
     .fl-theme-rust .fl-widget .settings {background-image:url('../images/fluid-theme-rust/icon-widget-Settings.png'); margin-right:0px; width:16px; }
-    
+
     .fl-theme-rust .fl-widget-options .viewOptions {background-image:url('../images/fluid-theme-rust/icon-options-ListOrGrid.png'); background-color:#FFFBC2;  border:1px solid #cf923e;}
     /* Widget :: Menus */
     .fl-theme-rust .fl-widget-content .menu {padding:0px; overflow-y:auto; overflow-x:hidden; border:1px solid #cf923e; border-bottom:none; zoom:1; background-color:transparent;}
