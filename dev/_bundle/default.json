@@ -36,5 +36,13 @@
 "VERSION": "3.0 R&amp;D",
 "MY_SAKAI": "My Sakai",
 "ADD_SAKAI_GOODIES": "Add Sakai Goodies",
-"EDIT_PAGE": "Edit page"
+"EDIT_PAGE": "Edit page",
+"CHANGE_LAYOUT": "Change layout",
+"CLOSE_DIALOG": "Close Dialog",
+"SAVE": "Save",
+"CANCEL": "Cancel",
+"SEARCH_FOR": "Search for media, people and sites",
+"SEARCH": "Search",
+"CHANGE_PHOTO": "Change photo",
+"EDIT_PROFILE": "Edit Profile"
 }
