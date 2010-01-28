@@ -22,7 +22,6 @@
 
     <span id="blog_settings_selectedTags"><span id="blog_settings_nrOfSelectedTags">0</span> tags selected</span><br />
 
-
     <div id="blog_settings_selectedTagsCloud"><!-- This will be filled by the tags cloud --></div>
     <div id="blog_settings_selectedTagsCloudTemplate"><!--
      {for t in tags}
@@ -37,7 +36,6 @@
     <a class="button-default cancel-button" href="javascript:;" id="blog_settingsCancel">Cancel</a>
     <a class="button-default submit_button" href="javascript:;" id="blog_settingsSubmit">Save blog settings</a>
 </div>
-
 
 <!-- MAIN VIEW -->
 <div id="blog_view" style="display:none;">
@@ -71,7 +69,6 @@
                                 {/if}
                                 <a href="/dev/profile.html?user=${c.poster}" class="blog_poster">${c.name}</a>
                             </div>
-
 
                             <div class="blog_message">
                                 <ul id="blog_postActions${c.id}" class="blog_postActions link">
@@ -114,8 +111,6 @@
         <p class="blog_noPostMatching">There are no posts yet matching the blog criteria.</p>
     {/if}
 --></div>
-
-
 
     <div id="blog_view_posts"><!-- This is the container where all the post will be shown --></div>
 

@@ -8,11 +8,9 @@
     <div id="picker_settings" class="picker_settings" style="display:none;">
         <h1>Pick a file</h1>
 
-
         <div id="picker_breadcrumb" class="picker_breadcrumb"></div>
         <div id="picker_tree" class="picker_tree"></div>
         <div id="picker_pager" class="picker_pager"></div>
-
 
         <div id="picker_selectedfiles"></div>
 
@@ -33,7 +31,6 @@
         <ul class="picker_items">
         {for i in results}
             <li class="{if selected.path === i.path}selected {/if} picker_item" id="picker_item_${i.index}">
-
 
             {if i["sling:resourceType"] === "sakai/folder"}
                 <img src="/dev/_images2/folder_18.png" alt="Folder" />
@@ -59,7 +56,6 @@
         </ul>
         --></div>
 
-
         <div id="picker_breadcrumb_template"><!--
         Location:
         {for l in locations}
@@ -75,7 +71,6 @@
         {/for}
         --></div>
 
-
         <div id="picker_selectedfiles_template"><!--
             <label>Selected files:</label>
             {for file in selectedFiles}
@@ -86,7 +81,6 @@
                 No files selected yet.
             {/for}
         --></div>
-
 
     <div id="picker_main_template"><!--
         {for file in files}

@@ -13,9 +13,7 @@
         <ul>
         {for i in results}
 
-
             <li class="{if selected.path === i.path}selected {/if} picker_item" id="picker_item_${i_index}">
-
 
             {if i["sling:resourceType"] === "sakai/folder"}
                 <img src="/dev/_images2/folder_18.png" alt="Folder" />
