@@ -33,12 +33,12 @@
             <div class="dialog_header">
                 <div class="dialog_header_inner">
                     <h1>__MSG__CHANGE_LAYOUT__</h1>
-                    <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
             <div class="dialog_content">
                 <div class="add-tools-right">
-                    <h4>Select a Layout for your "__MSG__MY_SAKAI__" Page:</h4>
+                    <h4>__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__</h4>
                     <div class="elf-right-up">
                         <div id="layouts_list"></div>
                     </div>
@@ -93,7 +93,7 @@
             <div class="dialog_header">
                 <div class="dialog_header_inner">
                     <h1>__MSG__ADD_SAKAI_GOODIES__</h1>
-                    <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
 
@@ -116,7 +116,7 @@
                 {else}
                 <tr id="row_add_${i.id}" class="add">
                 {/if}
-                <td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">Add</a></td>
+                <td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">__MSG__ADD__</a></td>
                 <td>
                 <div class="dialog_add_goodies_title">${i.title}</div>
                 <div class="dialog_add_goodies_description">
@@ -129,7 +129,7 @@
                 {else}
                 <tr id="row_remove_${i.id}" class="remove" style="display:none">
                 {/if}
-                <td width="80px"><a href="javascript:;" id="btn_remove_${i.id}" class="add-button remove goodies_remove_button">Remove</a></td>
+                <td width="80px"><a href="javascript:;" id="btn_remove_${i.id}" class="add-button remove goodies_remove_button">__MSG__REMOVE__</a></td>
                 <td>
                 <div class="dialog_remove_goodies_title">${i.title}</div>
                 <div class="dialog_remove_goodies_description">

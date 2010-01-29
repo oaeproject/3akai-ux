@@ -35,7 +35,7 @@
 "HEADER_BYLINE": "由教学者设计，为教学者服务的开源协作学习平台。",
 "HEADER_SMALLLINE": "Sakai是一个功能强大而灵活的教学、学习、科研、管理协作系统解决方案，Sakai协作学习环境（CLE）免费发布和使用，我们鼓励为适应学校实际需求而进行的创新与定制开发",
 "VERSION": "3.0 R&amp;D",
-"MY_SAKAI": "我的 Sakai",
+"MY_SAKAI": "我的Sakai",
 "ADD_SAKAI_GOODIES": "增加Sakai功能板块",
 "EDIT_PAGE": "编辑页面",
 "CHANGE_LAYOUT": "改变布局",
@@ -45,5 +45,8 @@
 "SEARCH_FOR": "查找媒体、人员和站点信息",
 "SEARCH": "查询",
 "CHANGE_PHOTO": "换照片",
-"EDIT_PROFILE": "编辑个人信息"
+"EDIT_PROFILE": "编辑个人信息",
+"SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE": "为“我的Sakai”页面选择一种布局：", 
+"ADD": "增加",
+"REMOVE": "删除"
 }

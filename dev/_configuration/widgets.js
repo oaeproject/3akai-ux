@@ -365,7 +365,12 @@ var Widgets = {
             name:"chat",
             id:"chat",
             personalportal:0,
-            siteportal:0
+            siteportal:0,
+            i18n: {
+                "default": "/devwidgets/chat/bundles/default.json",
+                "en_US": "/devwidgets/chat/bundles/en_US.json",
+                "zh_CN": "/devwidgets/chat/bundles/zh_CN.json"
+            }
         },
         filemanager :
         {
@@ -530,7 +535,12 @@ var Widgets = {
             id:"footer",
             personalportal:0,
             siteportal:0,
-            siteportal:0
+            siteportal:0,
+            i18n: {
+                "default": "/devwidgets/footer/bundles/default.json",
+                "en_US": "/devwidgets/footer/bundles/en_US.json",
+                "zh_CN": "/devwidgets/footer/bundles/zh_CN.json"
+            }
         },
         tangler :
         {
