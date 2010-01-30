@@ -5,9 +5,9 @@
     <title>Sakai 3 R&amp;D - Site settings</title>
 
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/site.management.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.treeview.css" />
@@ -66,7 +66,8 @@
             </div>
             <div class="management_content_main">
                 <!-- DELETE SITE -->
-                <div id="siteSettings_delete_button_container"> <span class="dark-gray-button"><a href="javascript:;" id="siteSettings_delete_button"><span>Delete this Site</span></a></span>
+                <div id="siteSettings_delete_button_container">
+                    <button id="siteSettings_delete_button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Delete this Site</span></button>
                 </div>
                 <div class="basic_title">Basic Settings</div>
                 <div class="section_container">
@@ -126,10 +127,14 @@
                             <input type="radio" id="siteSettings_access_invite" class="siteSetting_access site_private" name="privacy" />
                             <label for="allow_invite"> Only people I invite</label>
                         </div>
-                        <div id="siteSettings_confirm" class="settings_confirm_container"><span class="dark-gray-button"><a href="javascript:;" class="button-primary" id="siteSettings_save">Save</a></span> <span class="light-gray-button"><a href="javascript:;" class="button-secondary" id="siteSettings_cancel">Cancel</a></span> </div>
-                        <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
+                        <div id="siteSettings_confirm" class="settings_confirm_container">
+                            <button id="siteSettings_save" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Save</span></button>
+                            <button id="siteSettings_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+                        </div>
+                         <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
                     </form>
                 </div>
+				<!-- Dialog: Site Settings Delete Container -->  
                 <div class="dialog" id="siteSettings_delete_container">
                     <div class="dialog_header">
                         <div class="dialog_header_inner">

@@ -26,8 +26,80 @@
 
 /* Hide i18nable elements by default until the messages are replaced by the translated
 strings, and i18n will show the element. Typically this class is applied at body level */
-.i18nable { display:none; }
+.i18nable {
+    display:none;
+}
 
+/* ----------------------------------------------------------------------------
+ * PROGRAMMATICALLY SET STYLES
+ * styles used to programmatically set placement of widgets on the page 
+ * ----------------------------------------------------------------------------
+ */
+
+.inline_class_widget_rightfloat {
+    float:right;
+    padding: 5px;
+}
+.inline_class_widget_leftfloat {
+    float:left;
+    padding: 5px;
+}
+
+/* ----------------------------------------------------------------------------
+ *    BUTTONS 
+ * ----------------------------------------------------------------------------
+ */
+
+.s3d-button {
+    position: relative;
+    border: none; 
+    margin: 0 5px 0 0;
+    padding: 0 13px 0 0;
+    cursor: pointer;
+    overflow: visible; /* removes extra side padding in IE */
+    background: url("../../_images/button-sprite-3state.png") no-repeat scroll right -40px transparent;
+    font-size: 0.9em;
+    color: #fff;
+    font-weight: bold;
+}
+
+.s3d-button::-moz-focus-inner {
+    border: none;  /* overrides extra padding in Firefox */
+}
+
+.s3d-button .s3d-button-inner {
+    position: relative;
+    display: block;
+    background: url("../../_images/button-sprite-3state.png") no-repeat scroll left top transparent;
+    margin: 0;
+    height: 23px;
+    line-height: 23px;
+    white-space: nowrap;
+    padding: 0 0 0 15px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    /* Safari and Google Chrome only - fix margins */
+    .s3d-button .s3d-button-inner {
+        margin-top: -1px;
+    }
+}
+
+.s3d-button-primary {
+    background-position: right -120px;
+}
+
+.s3d-button-primary .s3d-button-inner {
+    background-position: left -80px;
+}
+
+.s3d-button-disabled {
+    background-position: right -200px;
+}
+
+.s3d-button-disabled .s3d-button-inner {
+    background-position: left -160px;    
+}
 
 /* ----------------------------------------------------------------------------
  *    DIALOGS
