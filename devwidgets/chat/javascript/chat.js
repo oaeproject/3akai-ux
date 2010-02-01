@@ -1838,7 +1838,7 @@ sakai.chat = function(tuid, placement, showSettings){
         }
 
 
-           selectPage();
+        selectPage();
         getChatStatus();
         addBinding();
         getCountUnreadMessages();
