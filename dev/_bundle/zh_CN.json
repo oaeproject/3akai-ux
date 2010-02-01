@@ -1,6 +1,6 @@
 {
-"locale": "缺省",
-"locale_name": "中文",
+"locale": "zh_CN",
+"locale_name": "中文（中国）",
 "INSTANCE_NAME": "sakai",
 "INDEX_INTRODUCTION_TEXT": "<h2>Sakai 3.0</h2><p>这是一个开发服务器，展示了Sakai 3的前台代码。内部用户的船舰功能目前已经被支持，您可以通过点击Sign Up连接来创建一个您自己的帐户。</p><h2>还不是Sakai的注册用户?</h2><p>点击&quot;退出&quot; 按钮创建一个</p>",
 "SING_UP_FOR_AN_ACCOUNT": "退出",
@@ -35,6 +35,18 @@
 "HEADER_BYLINE": "由教学者设计，为教学者服务的开源协作学习平台。",
 "HEADER_SMALLLINE": "Sakai是一个功能强大而灵活的教学、学习、科研、管理协作系统解决方案，Sakai协作学习环境（CLE）免费发布和使用，我们鼓励为适应学校实际需求而进行的创新与定制开发",
 "VERSION": "3.0 R&amp;D",
-"MY_SAKAI": "我的 Sakai",
-"ADD_SAKAI_GOODIES": "增加Sakai功能板块"
+"MY_SAKAI": "我的Sakai",
+"ADD_SAKAI_GOODIES": "增加Sakai功能板块",
+"EDIT_PAGE": "编辑页面",
+"CHANGE_LAYOUT": "改变布局",
+"CLOSE_DIALOG": "关闭",
+"SAVE": "保存",
+"CANCEL": "取消",
+"SEARCH_FOR": "查找媒体、人员和站点信息",
+"SEARCH": "查询",
+"CHANGE_PHOTO": "换照片",
+"EDIT_PROFILE": "编辑个人信息",
+"SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE": "为“我的Sakai”页面选择一种布局：", 
+"ADD": "增加",
+"REMOVE": "删除"
 }

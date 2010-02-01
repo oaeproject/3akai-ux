@@ -1,18 +1,18 @@
 <div id="user_link_menu" style="display:none">
     <div class="user_link_menu_border">
         <ul>
-            <li class="insert_more_menu_inactive">Chat Status</li>
-            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">Available</a></li>
-            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">Busy</a></li>
-            <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">Offline</a></li>
+            <li class="insert_more_menu_inactive">__MSG__CHAT_STATUS__</li>
+            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">__MSG__AVAILABLE__</a></li>
+            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">__MSG__BUSY__</a></li>
+            <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">__MSG__OFFLINE__</a></li>
         </ul>
     </div>
     <div>
         <ul>
-            <li><a href="/dev/inbox.html">My Inbox</a></li>
-            <li><a href="/dev/people.html">My Contacts</a></li>
-            <li><a href="/dev/profile.html">My Profile</a></li>
-            <li><a href="/dev/account_preferences.html">My Account</a></li>
+            <li><a href="/dev/inbox.html">__MSG__MY_INBOX__</a></li>
+            <li><a href="/dev/people.html">__MSG__MY_CONTACTS__</a></li>
+            <li><a href="/dev/profile.html">__MSG__MY_PROFILE__</a></li>
+            <li><a href="/dev/account_preferences.html">__MSG__MY_ACCOUNT__</a></li>
         </ul>
     </div>
 </div>
@@ -22,10 +22,10 @@
     <div class="fl-container explore_nav">
         <ul class="explore fl-force-left">
             <li id="nav_my_sakai_link"><a  href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
-            <li id="nav_content_media_link"><a href="/dev/content_media.html">Content &amp; Media</a></li>
-            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">People</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
-            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">Courses &amp; Sites</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
-            <li id="nav_search_link"><a href="/dev/search.html">Search</a></li>
+            <li id="nav_content_media_link"><a href="/dev/content_media.html">__MSG__CONTENT_AND_MEDIA__</a></li>
+            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">__MSG__PEOPLE__</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
+            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">__MSG__COURSES_AND_SITES__</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
+            <li id="nav_search_link"><a href="/dev/search.html">__MSG__SEARCH__</a></li>
         </ul>
 
         <div class="personal-container fl-force-right">
@@ -40,8 +40,8 @@
                         </a>
                     </li>
                     <li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
-                    <li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">Help</a></li>
-                    <li><a class="sign_out" href="/dev/logout.html">Sign out</a></li>
+                    <li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">__MSG__HELP__</a></li>
+                    <li><a class="sign_out" href="/dev/logout.html">__MSG__SIGN_OUT__</a></li>
                 </ul>
             </div>
         </div>
@@ -69,7 +69,7 @@
     <div class="fixed-container">
         <!-- MY CONTACTS -->
         <div class="fl-col dropdown_contacts">
-            <h2>My Contacts</h2>
+            <h2>__MSG__MY_CONTACTS__</h2>
             <div class="fl-container" id="people_dropdown_my_contacts_list">
             </div>
             <div id="people_dropdown_my_contacts_list_template"><!--
@@ -83,21 +83,21 @@
                         <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
                     </div>
                 {forelse}
-                    <span style="font-size:0.95em">You currently have no contacts</span>
+                    <span style="font-size:0.95em">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
                 {/for}
             --></div>
             <div style="clear:both">
-                <a href="/dev/people.html" class="view_all_link">View &amp; Edit Contacts &raquo;</a>
+                <a href="/dev/people.html" class="view_all_link">__MSG__VIEW_AND_EDIT_CONTACTS__</a>
             </div>
         </div>
         <!-- SEARCH -->
         <div class="dropdown_search_people">
-            <h2>Search for People</h2>
+            <h2>__MSG__SEARCH_FOR_PEOPLE__</h2>
             <div class="fl-fix dropdown_search_container">
                 <div>
-                    <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="Type name or keywords"/>
+                    <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
             <div class="dropdown_search_button_left fl-force-left">
-            <input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="Search"/>
+            <input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="__MSG__SEARCH__"/>
             </div>
                 </div>
             </div>
@@ -113,14 +113,14 @@
     <div class="fixed-container">
         <!-- MY SITES -->
         <div class="fl-col dropdown_sites">
-            <h2>My Sites</h2>
+            <h2>__MSG__MY_SITES__</h2>
             <div id="top_navigation_my_sites_list"></div>
             <div id="top_navigation_my_sites_list_template"><!--
                 <ul class="my_site_list">
                     {for i in entry}
                         <li><a href="/sites/${i.location}">${i.name}</a></li>
                     {forelse}
-                        <span>You aren't a member of any sites yet</span>
+                        <span>__MSG__YOU_ARENT_A_MEMEBER_OF_ANY_SITES_YET__</span>
                     {/for}
                 </ul>
             --></div>
@@ -129,11 +129,11 @@
 
         <!-- RECENTLY VISITED -->
         <div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
-            <h2>Recent Sites</h2>
+            <h2>__MSG__RECENT_SITES__</h2>
         </div>
         <div id='chat_dropdown_recent_sites_template'><!--
             {if count == 0}
-                <span>No recent sites found<span>
+                <span>__MSG__NO_RECENT_SITES_FOUND__<span>
             {else}
                 <ul class="my_site_list">
                     {for i in items}
@@ -145,17 +145,17 @@
 
         <!-- SEARCH -->
         <div class="dropdown_search_course_sites">
-            <h2>Search for Courses &amp; Sites</h2>
+            <h2>__MSG__SEARCH_FOR_COURSES_AND_SITES__</h2>
             <div class="fl-fix dropdown_search_container">
             <div>
-                <input type="text" id="courses_sites_search" class="dropdown_search_input" value="Type name or keywords"/>
+                <input type="text" id="courses_sites_search" class="dropdown_search_input" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
                 <div class="dropdown_search_button_left fl-force-left">
-                    <input type="button" id="courses_sites_search_button" class="dropdown_search_button_right" value="Search"/>
+                    <input type="button" id="courses_sites_search_button" class="dropdown_search_button_right" value="__MSG__SEARCH__"/>
                 </div>
             </div>
             </div>
             <div class="dropdown_create_sakai_site">
-                <a href="javascript:;" id="top_navigation_create_site">Create a Sakai Site</a>
+                <a href="javascript:;" id="top_navigation_create_site">__MSG__CREATE_A_SAKAI_SITES__</a>
                 <img src="/dev/_images/create_new_site_button_rt.png" alt="Close Icon"/>
             </div>
         </div>
