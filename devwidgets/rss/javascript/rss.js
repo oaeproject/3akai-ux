@@ -167,7 +167,7 @@ sakai.rss = function(tuid, placement, showSettings){
         // later on this will also be added to the json-object
         feedUrl = url;
          $.ajax({
-            url : Config.URL.PROXY_RSS + "http://" +  url,
+            url : Config.URL.PROXY_RSS +  url,
             type : "GET",
             success : function(data) {
                     onResponse(printFeed(data));

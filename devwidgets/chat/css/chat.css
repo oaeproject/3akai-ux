@@ -83,9 +83,9 @@
 .chat_available_status_busy {background:url(/devwidgets/chat/images/bullet_orange.png) no-repeat -2px 0;}
 .chat_available_status_offline {background:url(/devwidgets/chat/images/bullet_red.png) no-repeat -2px 0;}
 .pretend_link {cursor:pointer;}
-#chat_container {background: url('/devwidgets/chat/images/bottomBar_tl.png') top left no-repeat;color:#fff;height:25px;width: 960px;margin: 0 auto;position:relative;top:5px;}
-.chat_main_table {background: url('/devwidgets/chat/images/bottomBar_tr.png') top right no-repeat;width:100%;height:30px;}
-#chat_online_connections_link {cursor:pointer;width:50px;    }
+#chat_container {background: #444; color:#fff;height:25px;width: 960px;margin: 0 auto;position:relative;top:5px;}
+.chat_main_table {background: #444; width:100%;height:30px;}
+#chat_online_connections_link {cursor:pointer;width:50px; background: #333; }
 #online_button {border-left:1px solid #454a4f; color: #fff; float:right;height:30px;line-height:30px;margin-left:auto;text-align:center;top:-1px;width:70px;}
 .chat_people_icon {cursor:pointer;position:relative;top:1px;}
 .doFixed {position:fixed;}
@@ -127,9 +127,3 @@
 #people_dropdown_my_contacts_list {padding-bottom: 10px;}
 .dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/_images/dropdown_bottom_left.png) no-repeat; height: 10px;}
 .dropdown_bottom_part_right {background: url(/dev/_images/dropdown_bottom_right.png) no-repeat top right; height: 10px;}
-
-
-
-
-
-
