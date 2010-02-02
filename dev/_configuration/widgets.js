@@ -150,7 +150,7 @@ var Widgets = {
             url:"/devwidgets/discussion/discussion.html",
             name:"Discussion",
             id:"discussion",
-            personalportal:0,
+            personalportal:1,
             siteportal:0,
             ca:1,
             showinmedia:0,
@@ -158,7 +158,8 @@ var Widgets = {
             img:"/devwidgets/discussion/images/discussion.png",
             i18n: {
                 "default": "/devwidgets/discussion/bundles/default.json",
-                "en_US": "/devwidgets/discussion/bundles/en_US.json"
+                "en_US": "/devwidgets/discussion/bundles/en_US.json",
+                "zh_CN": "/devwidgets/discussion/bundles/zh_CN.json"
             }
         },
         filepicker :
@@ -283,8 +284,13 @@ var Widgets = {
             personalportal:1,
             siteportal:0,
             hasSettings: 1,
-            img:"/dev/img/myprofile.png"
-        },
+            img:"/dev/img/myprofile.png",
+            i18n: {
+                 "default": "/devwidgets/twitter/bundles/default.json",
+                 "en_US": "/devwidgets/twitter/bundles/en_US.json",
+                 "zh_CN": "/devwidgets/twitter/bundles/zh_CN.json"
+             }
+         },
         helloworldwow :
         {
             description:"GWT Widget Example\r\n",
