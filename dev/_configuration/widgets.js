@@ -70,7 +70,12 @@ var Widgets = {
             ca:1,
             showinmedia:0,
             showinsakaigoodies:1,
-            img:"/devwidgets/googlemaps/images/googlemaps.png"
+            img:"/devwidgets/googlemaps/images/googlemaps.png",
+            i18n: {
+                "default": "/devwidgets/googlemaps/bundles/default.json",
+                "en_US": "/devwidgets/googlemaps/bundles/en_US.json",
+                "zh_CN": "/devwidgets/googlemaps/bundles/zh_CN.json"
+            }
         },
         sites :
         {
