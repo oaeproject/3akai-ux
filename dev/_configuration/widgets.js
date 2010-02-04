@@ -108,7 +108,12 @@ var Widgets = {
             id:"addtocontacts",
             personalportal:0,
             siteportal:0,
-            img:"/dev/img/sites.png"
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/addtocontacts/bundles/default.json",
+                "en_US": "/devwidgets/addtocontacts/bundles/en_US.json",
+                "zh_CN": "/devwidgets/addtocontacts/bundles/zh_CN.json"
+            }
         },
         camtoolscourses :
         {

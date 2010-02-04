@@ -1,0 +1,16 @@
+{
+"name": "Add to contacts",
+"description": "Addtocontacts widget\r\n",
+"WIDGET_TITLE": "Addtocontacts",
+"FAILED_TO_SEND_THE_MESSAGE": "消息发送失败",
+"FAILED_TO_INVITE_THIS_USER": "邀请用户失败",
+"PLEASE_SELECT_HOW_YOU_ARE_CONNECTED_TO_THIS_USER": "请选择如何连接到这个用户",
+"CLOSE_DIALOG": "关闭对话框",
+"TO_CONNECT_THROUGH_SAKAI": "（通过Sakai连接）",
+"INVITE": "邀请",
+"CANCEL": "取消",
+"ADD_TO_CONTACTS": "添加联系人",
+"ADD_A_PERSONAL_NOTE_TO_THE_INVITATION": "邀请说明信息",
+"HAS_BEEN_ADDED_TO_YOUR_CONTACTS_LIST": "已添加到联系人列表中",
+"I_WOULD_LIKE_TO_INVITE_YOU_TO_BECOME_A_MEMBER_OF_MY_NETWORKS_ON_SAKAI": "我想邀请你加入我的Sakai人际网络"
+}
