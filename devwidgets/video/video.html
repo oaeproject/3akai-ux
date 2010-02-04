@@ -21,7 +21,7 @@
 <!-- SETTINGS VIEW -->
 <div id="video_settings" style="display:none">
     <div id="video_fillInfo" class="video_settingsStep">
-        <div class="video_clear"></div>
+        <div class="fl-push"></div>
         <label for="video_txtURL">URL:</label><br />
         <input type="text" id="video_txtURL" class="video_longtxt"></input>
         <label>Source:</label><br />
@@ -37,14 +37,12 @@
 
         </div>
     </div>
-    <div class="video_buttonBar">
-        <a class="button-default video_right_aligned_btn" id="video_insertPlaceHolder" href="javascript:;" style="float:left; margin-top:20px;">Insert a quick placeholder</a>
-        <a class="button-default video_leftButton" style="display:none;" id="video_btnBack" href="javascript:;" >Back</a>
-        <a class="button-default video_rightButton" style="display:none;" id="video_btnPreview" href="javascript:;">Preview</a>
-        <a class="button-default video_rightButton"  id="video_btnInsertWidget" href="javascript:;">Insert the widget</a>
+    <div class="video_buttonBar fl-fix fl-push">
+        <a class="button-default fl-force-left" id="video_insertPlaceHolder" href="javascript:;">Insert a quick placeholder</a>
+        <a class="button-default video_leftButton fl-force-left" style="display:none;" id="video_btnBack" href="javascript:;" >Back</a>
+        <a class="button-default video_rightButton fl-force-right" style="display:none;" id="video_btnPreview" href="javascript:;">Preview</a>
+        <a class="button-default video_rightButton fl-force-right"  id="video_btnInsertWidget" href="javascript:;">Insert the widget</a>
     </div>
-
-    <div class="video_clear"></div>
 </div>
 
 <!-- JAVASCRIPT -->

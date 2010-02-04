@@ -86,7 +86,7 @@
                     <span style="font-size:0.95em">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
                 {/for}
             --></div>
-            <div style="clear:both">
+            <div class="fl-push">
                 <a href="/dev/people.html" class="view_all_link">__MSG__VIEW_AND_EDIT_CONTACTS__</a>
             </div>
         </div>
@@ -96,9 +96,7 @@
             <div class="fl-fix dropdown_search_container">
                 <div>
                     <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
-            <div class="dropdown_search_button_left fl-force-left">
-            <input type="button" id="dropdown_people_search_button" class="dropdown_search_button_right" value="__MSG__SEARCH__"/>
-            </div>
+                    <button id="dropdown_people_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                 </div>
             </div>
         </div>
@@ -147,16 +145,11 @@
         <div class="dropdown_search_course_sites">
             <h2>__MSG__SEARCH_FOR_COURSES_AND_SITES__</h2>
             <div class="fl-fix dropdown_search_container">
-            <div>
-                <input type="text" id="courses_sites_search" class="dropdown_search_input" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
-                <div class="dropdown_search_button_left fl-force-left">
-                    <input type="button" id="courses_sites_search_button" class="dropdown_search_button_right" value="__MSG__SEARCH__"/>
+                <div>
+                    <input type="text" id="courses_sites_search" class="dropdown_search_input" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
+                    <button id="courses_sites_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                 </div>
-            </div>
-            </div>
-            <div class="dropdown_create_sakai_site">
-                <a href="javascript:;" id="top_navigation_create_site">__MSG__CREATE_A_SAKAI_SITES__</a>
-                <img src="/dev/_images/create_new_site_button_rt.png" alt="Close Icon"/>
+                <button id="top_navigation_create_site" class="s3d-button s3d-create-site-button"><span class="s3d-button-inner"><span class="s3d-button-icon-left">__MSG__CREATE_A_SAKAI_SITES__</span></span></button>
             </div>
         </div>
     </div>

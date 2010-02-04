@@ -5,12 +5,12 @@
     <title>Sakai 3 R&amp;D - Content &amp; Media</title>
 
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.contentmedia.css" />
     <link type="text/css" rel="stylesheet" href="_css/sakai/sakai.components.jq_pager.css" />
     <link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css"/>
     <link rel="stylesheet" type="text/css" href="_lib/JsTree/tree_component.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
@@ -79,9 +79,7 @@
                             <div id="contentmedia_search">
                                 <form>
                                     <input type="text" value="Search for files ..." class="input" id="search_text"/>
-                                    <a id="contentmedia_search_button" class="search_button" href="javascript:;">
-                                        <span>Search</span>
-                                    </a>
+                                    <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">Search</span></span></button>
                                 </form>
                             </div>
 
@@ -417,7 +415,7 @@
                     </select>
                 </div>
 
-                <input type="button" value="Set associations" class="contentmedia_dialog_button"/>
+                <input type="button" value="Set associations" class="fl-push"/>
             </div>
         </div>
     <div class="dialog_footer">

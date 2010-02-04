@@ -14,7 +14,7 @@
                 <input type="text" id="linktool_settings_url" value="${url}" /><br />
             </p>
             <p>
-                <label class="linktool_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="linktool_clear" />
+                <label class="linktool_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
             </p>
             <div id="linktool_settings_preview">
 
@@ -63,7 +63,7 @@
                     <label for="linktool_settings_height">Height:</label>
                     <input type="text" id="linktool_settings_height" value="${height}" /><span> px</span>
                     <a class="button-default" href="javascript:;" id="linktool_settings_reset_size">Reset to original size</a>
-                    <br class="linktool_clear" />
+                    <br class="fl-push" />
                 </div>
             </div>
 
@@ -71,16 +71,16 @@
                 <label class="linktool_settings_label_head">Border:</label><br />
                 <div class="linktool_settings_block">
                     <label for="linktool_settings_borders">Width:</label>
-                    <input type="text" id="linktool_settings_borders" value="${border_size}" /><span> px</span><br class="linktool_clear" />
+                    <input type="text" id="linktool_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
                     <div id="linktool_settings_color_container">
                     </div>
                 </div>
             </div>
         </div>
 
-        <a class="button-default" href="javascript:;" id="linktool_settings_cancel">Cancel</a>
-        <a class="button-default" href="javascript:;" id="linktool_settings_insert">Save</a>
-        <br class="linktool_clear" />
+        <a class="button-default fl-force-left" href="javascript:;" id="linktool_settings_cancel">Cancel</a>
+        <a class="button-default fl-force-right" href="javascript:;" id="linktool_settings_insert">Save</a>
+        <br class="fl-push" />
     </form>
 --></div>
 
@@ -97,7 +97,7 @@
     <a id="linktool_settings_color_ff0000" class="linktool_settings_color {if border_color == "ff0000"} linktool_settings_color_selected{/if}">&nbsp;</a>
     <a id="linktool_settings_color_008000" class="linktool_settings_color {if border_color == "008000"} linktool_settings_color_selected{/if}">&nbsp;</a>
     <a id="linktool_settings_color_0000ff" class="linktool_settings_color {if border_color == "0000ff"} linktool_settings_color_selected{/if}">&nbsp;</a>
-    <br class="linktool_clear" />
+    <br class="fl-push" />
 --></div>
 
 <!-- Template for rendering the querystring -->

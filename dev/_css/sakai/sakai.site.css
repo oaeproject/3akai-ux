@@ -151,11 +151,6 @@
 .sakai_site .revision_history div
 { float: left; }
 
-.sakai_site .revision_history .clear
-{ clear: both; }
-
-
-
 /* SITE MANAGEMENT NAV */
 .site_management
 { margin:0; padding: 0; border: none; }

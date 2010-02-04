@@ -6,15 +6,16 @@
     <title>Sakai 3 R&amp;D - Site View</title>
 
     <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.3.css" />
+    
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search_b.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
     <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.site.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.dashboard.css"/>
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
 
     <script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
@@ -54,10 +55,11 @@
 
             <!-- SEARCH -->
             <div class="search_container">
-                <form class="search buttonBar fl-force-right" id="search_form" action="" method="post" onsubmit="return false;">
+                <form class="search_form buttonBar fl-force-right" id="search_form" action="" method="post" onsubmit="return false;">
                     <input type="text" name="search" value="Search this site" id="search_filed" class="search_field" />
-                    <a id="search_filed_button" class="button search_button" href="javascript:;"><span>Search</span></a>
-                    <br class="clear" />
+                    <button id="search_filed_button" class="s3d-button s3d-search-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">Search</span></span></button>
+                    
+                    <br class="fl-push" />
                 </form>
             </div>
 
@@ -134,10 +136,9 @@
                     <div class="revision_history_viewing">Viewing:</div>
 
                     <div><select id="revision_history_list"></select></div>
-
-                    <div class="greybutton"><a href="javascript:;" class="button-default" id="revision_history_revert" >Use this Version</a></div>
-
-                    <div class="lightgreybutton"><a href="javascript:;" class="button-default" id="revision_history_cancel" >Cancel</a></div>
+                    
+                    <button id="revision_history_revert" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Use this Version</span></button>
+                    <button id="revision_history_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
 
                 </div>
 
@@ -371,8 +372,8 @@
 
             <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
             <div class="buttonBar">
-                <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
-                <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
+                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
+                <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
                 <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
             </div>
 
@@ -428,8 +429,8 @@
                 </div>
 
                 <div class="buttonBar">
-                    <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
-                    <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
+                    <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
+                    <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
                 </div>
 
                 </div>

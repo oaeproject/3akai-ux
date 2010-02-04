@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#youtubevideo_preview, #youtubevideo_savepreferences {float:right;}
-#youtubevideo_back {float:left;}
 #youtubevideo_youtubeurl {width:100px; margin-bottom:10px;}
-.youtubevideo_clear {clear:both;}
 #youtubevideo_videoSettings {width:425px; margin-left:auto; margin-right:auto; margin-bottom:20px;}
 #youtubevideo_settings input[type=text] {width:450px; border-style:solid; border-width:1.5px; padding-top:5px; padding-bottom:5px; border-color:#DEDEDE; background-color:#f4f4f4; font-size:14px;}

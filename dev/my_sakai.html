@@ -5,12 +5,12 @@
         <title>Sakai 3 R&amp;D - My Sakai</title>
 
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
         <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 
         <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
         <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
@@ -162,9 +162,9 @@
                 <!-- SEARCH FIELD -->
                 <div class="fl-col fl-container-400 search">
                     <form class="search_form buttonBar" id="search_form" action="" method="post">
-                        <input type="text" id="search_field" class="search_input_field" value="__MSG__SEARCH_FOR__"/>
-                        <a href="javascript:;" id="search_button" class="button search_button"><span>__MSG__SEARCH__</span></a>
-                    <br class="clear" />
+                        <input type="text" id="search_field" class="search_input_field" value="__MSG__SEARCH__"/>
+                        <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
+                    <br class="fl-push" />
                     </form>
 
                     <!-- OPTIONS -->

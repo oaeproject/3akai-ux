@@ -1,20 +1,5 @@
-.accountPref_error_message {color:#FF0000; margin-left:20px; padding-top:12px; }
-.accountPref_normal_message {margin-left:20px; padding-top:12px; }
-.page-footer {margin-bottom: 50px;}
-
-
 /** HEADER **/
-.account_preferences .find_more_people a {
-    float: right;
-}
-.account_preferences .find_more_people a {
-    background: url(../../_images/arrow_left_sm2_blue.gif) no-repeat scroll left center;
-    padding:0 0 0 10px;
-    color:#0C91C5;
-    font-size:14px;
-    padding-left:10px;
-    line-height: 2.0em;
-}
+
 .account_preferences .site_heading {
     padding: 15px 0;
     border: none;
@@ -65,28 +50,14 @@
     margin-top: 10px;
     border: none;
 }
-.account_preferences .preferences-container {
-    padding: 0;
-    width: 100%;
-    clear: both;
-}
+
 .account_preferences .save-preferences {
-    background:none;
+    margin-left: 365px;
+    background: none;
     height: auto;
     margin-top:5px;
 }
-.account_preferences .save-preferences .button {
-    margin-left: 365px;
-}
-.account_preferences .button-preferences {
-    height:  24px;
-    width: 118px;
-    background: none;
-    border: none;
-}
+
 .account_preferences .regional .preferences-form select {
     width: 300px;
-}
-.clearboth {
-    clear: both;
 }

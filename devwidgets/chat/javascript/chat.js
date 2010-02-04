@@ -1873,8 +1873,8 @@ sakai.chat = function(tuid, placement, showSettings){
         return;
     }
     else {
-        loadPersistence();
-        checkOnline();
+        //loadPersistence();
+        //checkOnline();
         doInit();
     }
 
