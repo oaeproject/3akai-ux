@@ -47,7 +47,7 @@ sakai.site_add_members = function() {
         var qs = new Querystring();
         selectedSite = qs.get("siteid",false);
         $("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
-        $(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
+        $(".s3s-manage-members").attr("href", $(".s3s-manage-members").attr("href") + "?siteid=" + selectedSite);
         $(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
@@ -399,7 +399,7 @@ sakai.site_add_members = function() {
            updateSelectedPersons();
        }
     });
-    $(".selected_people_addToSite").bind("click",
+    $(".s3s-selected_people_addToSite").bind("click",
     function(e, ui) {
         addSelectedPeopleToSite();
 

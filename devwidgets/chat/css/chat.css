@@ -113,17 +113,45 @@
 .dropdown .dropdown_search_course_sites {margin-left:540px; margin-top: 20px;}
 .dropdown ul {margin:0;padding:0 0 10px;}
 .dropdown ul li {list-style-type:none;padding:2px 0;}
-.dropdown .dropdown_create_sakai_site {padding-top:20px;padding-bottom:20px;}
-.dropdown .dropdown_create_sakai_site a {background: url(/dev/_images/create_new_site_button_left.png) ;background-repeat:no-repeat;display:block;float:left;height:10px;text-indent:0; padding:9px 10px 9px 40px; color: #006e96; font-weight: bold;}
-.dropdown .dropdown_create_sakai_site img {position:relative;top:4px;padding-right:5px;}
 .close {margin-bottom:-25px;position:relative;top:-30px;margin-right:25px;}
 .close_icon {padding-left:5px;position:relative;top:4px;}
 .initiate_chat_window,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
 .dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}
 .chat_has_dropdown img {margin-left:-10px; margin-top: 11px; padding-right: 10px;}
-.dropdown .dropdown_search_button_right {background: url(/dev/_images/gray_button_left.png); background-repeat: no-repeat; height: 23px; padding-left: 10px; color: #fff; border: none;}
-.dropdown .dropdown_search_button_left {background: url(/dev/_images/gray_button_right.png) no-repeat top right; height: 23px; padding-right: 10px; margin-right: 10px;}
 #people_dropdown_my_contacts_list {padding-bottom: 10px;}
 .dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/_images/dropdown_bottom_left.png) no-repeat; height: 10px;}
 .dropdown_bottom_part_right {background: url(/dev/_images/dropdown_bottom_right.png) no-repeat top right; height: 10px;}
+
+/* create site button
+ * overrides sd3-button from sakai.base.css
+ */
+
+.s3d-create-site-button {
+    height: 27px;
+    background-position: right -356px;
+    padding-right: 18px;
+    margin: 20px 0;
+}
+
+.s3d-create-site-button:hover {
+    background-position: right -196px;
+}
+
+.s3d-create-site-button .s3d-button-inner {
+    height: 27px;
+    background-position: left -316px;
+    padding-left: 3px;
+    color: #006E96;
+}
+
+.s3d-create-site-button:hover .s3d-button-inner {
+    background-position: left -156px;
+}
+
+.s3d-create-site-button .s3d-button-icon-left {
+    background-image: url("/dev/_images/icon-create-site.png");
+    background-position:left top;
+    line-height:30px;
+    padding-left:33px;
+}

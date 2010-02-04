@@ -5,9 +5,9 @@
     <title>Sakai 3 R&amp;D - Appearance</title>
 
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/site.appearance.css" />
     <link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css" />
 
@@ -91,10 +91,8 @@
                                     <div id="site_appearance_logo_template"><!--
                                         <img src="${fullName}" alt="Site logo" />
                                     --></div>
+                                    <button id="site_appearance_change_logo_trigger" class="s3d-button"><span class="s3d-button-inner">Change</span></button>
 
-                                    <div class="lightgrey_button">
-                                        <input type="button" id="site_appearance_change_logo_trigger" class="button button-secondary change-logo" value="Change" />
-                                    </div>
                                 </div>
 
                                 <div class="site_style">
@@ -119,14 +117,9 @@
                                 </div>
 
                                 <div class="button-container fl-fix">
-                                    <div class="grey_button">
-                                        <input type="submit" class="button button-primary" value="Save" id="site_appearance_save" />
-                                    </div>
-
-                                    <div class="grey_button" style="margin-left: 10px;">
-                                        <input type="button" class="button button-secondary cancel" value="Cancel" id="site_appearance_cancel" />
-                                    </div>
-                                </div>
+                                    <button id="site_appearance_save" type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Save</span></button>
+                                    <button id="site_appearance_cancel" type="button" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+                                 </div>
                             </div>
                         </div>
 

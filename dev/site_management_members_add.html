@@ -5,13 +5,13 @@
     <title>Sakai 3 R&amp;D - Add Members</title>
 
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.site_management_members_add.css" />
     <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
 
@@ -65,7 +65,9 @@
             </div>
             <div class="management_content_main">
                 <!-- CURRENT MEMBERS -->
-                <div class="fl-force-right"><span class="dark-gray-button"><a href="site_management_members_manage.html" class="manage-members">Manage current members</a></span> </div>
+                <div class="fl-force-right">
+                    <a class="s3d-button s3d-button-primary s3s-manage-members" href="site_management_members_manage.html"><span class="s3d-button-inner">Manage current members</span></a>
+                </div>
                 <div class="add_member_title"> Add members to this site: </div>
                 <!-- MIXED COLUMN -->
                 <div class="fl-col-mixed-200">
@@ -89,7 +91,8 @@
                                 --></div>
                                 <!-- <strong>Tag selected people as:</strong>
                         <input type="text" class="tag-people" value="Add your tags here" /> -->
-                                <input type="image" src="_images/add_selected_people.png" class="button button-primary add-people selected_people_addToSite" value="Add selected people"/>
+                                <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">Add selected people</span></button>
+
                             </form>
                             <div id="selected-people-container" class="selected_personsContainer"></div>
                             <div style="display:none" id="selected-people-template"><!--
