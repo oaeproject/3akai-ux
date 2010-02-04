@@ -5,13 +5,13 @@
     <title>Sakai 3 R&amp;D - Manage Members</title>
 
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.site_management_members_manage.css" />
     <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
 
@@ -65,7 +65,9 @@
                 <div class="management_tab_content_top_inner"></div>
             </div>
             <div class="management_content_main">
-                <div class="fl-force-right"><span class="dark-gray-button"><a class="manage-members" href="site_management_members_add.html">Add people to my site</a></span> </div>
+                <div class="fl-force-right">
+                    <a class="s3d-button s3d-button-primary s3s-manage-members" href="site_management_members_add.html"><span class="s3d-button-inner">Add people to my site</span></a>
+                </div>
                 <!-- CURRENT MEMBERS -->
                 <div class="manage_member_title"> Manage current members (<span id="manage_members_count">0</span>) </div>
                 <!-- MIXED COLUMN -->
@@ -101,8 +103,8 @@
                                             Suspended </li>
                                     </ul>
                                 </div>
-                                <input type="image" src="_images/update_selected_people.png" class="button button-primary update-people selected_people_addToSite" value="Update selected people"/>
-                                <input type="image" src="_images/remove_selected_people.png" class="button button-secondary remove-people" id="selected_members_delete" value="Remove selected people" />
+                                <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">Update selected people</span></button>
+                                <button id="selected_members_delete" class="s3d-button"><span class="s3d-button-inner">Remove selected people</span></button>
                             </form>
                             <div id="selected-members-container"  class="selected_personsContainer"></div>
                             <div style="display:none" id="selected-people-template"><!--

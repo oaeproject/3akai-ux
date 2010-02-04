@@ -255,8 +255,10 @@
     font-style:normal;
 }
 
-#contentmedia_search_button {background: #454a4f url('../../_images/search_button.png') top left no-repeat;border: none;color: #fff;display: block;height: 23px;margin: 0.8em 0 1.2em;padding: 0;width: 88px; float: right; }
-#contentmedia_search_button span {position:absolute;top:-9999px;left:-9999px;}
+#contentmedia_search_button {
+    margin: 0.8em 0 1.2em;
+    float: right;
+}
 
 /* List */
 .contentmedia_list_heading {
