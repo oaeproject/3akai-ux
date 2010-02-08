@@ -917,97 +917,96 @@ sdata.widgets.WidgetPreference =  {
 
     $.i18n_widget = function(widgetname, widget_html_content) {
 
-      var translated_content = "";
-      var current_locale_string = false;
-      if (typeof sdata.me.user.locale === "object") {
-        current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
-      }
+        var translated_content = "";
+        var current_locale_string = false;
+        if (typeof sdata.me.user.locale === "object") {
+          current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
+        }
 
-      // If there is no i18n defined in Widgets, run standard i18n on content
-      if (typeof Widgets.widgets[widgetname].i18n !== "object") {
-        translated_content = $.i18n(widget_html_content, sdata.i18n.localBundle, sdata.i18n.defaultBundle)
+        // If there is no i18n defined in Widgets, run standard i18n on content
+        if (typeof Widgets.widgets[widgetname].i18n !== "object") {
+          translated_content = $.i18n(widget_html_content, sdata.i18n.localBundle, sdata.i18n.defaultBundle)
+          return translated_content;
+        }
+
+        // Load default language bundle for the widget if exists
+        if (Widgets.widgets[widgetname]["i18n"]["default"]) {
+
+          $.ajax({
+              url: Widgets.widgets[widgetname]["i18n"]["default"],
+              async: false,
+              success: function(messages_raw) {
+
+                  sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
+                  sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
+
+              },
+              error: function(xhr, textStatus, thrownError) {
+                  //alert("Could not load default language bundle for widget: " + widgetname);
+              }
+          });
+
+        }
+
+        // Load current language bundle for the widget if exists
+        if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
+
+            $.ajax({
+                url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
+                async: false,
+                success: function(messages_raw) {
+
+                    sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
+                    sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
+                }
+            });
+        }
+
+        // Translate widget name and description
+        if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["name"] === "string")) {
+            Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
+        }
+        if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["description"] === "string")) {
+            Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
+        }
+
+
+        // Change messages
+        var expression = new RegExp("__MSG__(.*?)__", "gm");
+        var lastend = 0;
+        while(expression.test(widget_html_content)) {
+            var replace = RegExp.lastMatch;
+            var lastParen = RegExp.lastParen;
+            var toreplace = $.i18n.widgets_getValueForKey(widgetname, current_locale_string, lastParen);
+            translated_content += widget_html_content.substring(lastend,expression.lastIndex-replace.length) + toreplace;
+            lastend = expression.lastIndex;
+        }
+        translated_content += widget_html_content.substring(lastend);
+
         return translated_content;
-      }
-
-      // Load default language bundle for the widget if exists
-      if (Widgets.widgets[widgetname]["i18n"]["default"]) {
-
-        $.ajax({
-          url: Widgets.widgets[widgetname]["i18n"]["default"],
-          async: false,
-          success: function(messages_raw) {
-
-        sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
-        sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
-
-          },
-          error: function(xhr, textStatus, thrownError) {
-        alert("Could not load default language bundle for widget: " + widgetname);
-          }
-        });
-
-      }
-
-      // Load current language bundle for the widget if exists
-      if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
-
-        $.ajax({
-          url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
-          async: false,
-          success: function(messages_raw) {
-
-        sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
-        sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
-
-          },
-          error: function(xhr, textStatus, thrownError) {
-        alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
-          }
-        });
-      }
-
-      // Translate widget name and description
-      if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["name"] === "string")) {
-        Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
-      }
-      if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["description"] === "string")) {
-        Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
-      }
-
-
-      // Change messages
-      var expression = new RegExp("__MSG__(.*?)__", "gm");
-      var lastend = 0;
-      while(expression.test(widget_html_content)) {
-        var replace = RegExp.lastMatch;
-        var lastParen = RegExp.lastParen;
-        var toreplace = $.i18n.widgets_getValueForKey(widgetname, current_locale_string, lastParen);
-        translated_content += widget_html_content.substring(lastend,expression.lastIndex-replace.length) + toreplace;
-        lastend = expression.lastIndex;
-      }
-      translated_content += widget_html_content.substring(lastend);
-
-      return translated_content;
     };
 
     // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
     $.i18n.widgets_getValueForKey = function(widgetname, locale, key){
 
-      if ((typeof sdata.i18n.widgets[widgetname][locale] === "object") && (typeof sdata.i18n.widgets[widgetname][locale][key] === "string")){
+        if ((typeof sdata.i18n.widgets[widgetname][locale] === "object") && (typeof sdata.i18n.widgets[widgetname][locale][key] === "string")){
 
-          return sdata.i18n.widgets[widgetname][locale][key];
+            return sdata.i18n.widgets[widgetname][locale][key];
 
         } else if ((typeof sdata.i18n.widgets[widgetname]["default"][key] === "string") && (typeof sdata.i18n.widgets[widgetname]["default"] === "object")) {
 
-          return sdata.i18n.widgets[widgetname]["default"][key];
+            return sdata.i18n.widgets[widgetname]["default"][key];
 
         } else if (sdata.i18n.localBundle[key]) {
 
-          return sdata.i18n.localBundle[key]
+            return sdata.i18n.localBundle[key]
 
         } else if (sdata.i18n.defaultBundle[key]) {
 
-          return sdata.i18n.defaultBundle[key];
+            return sdata.i18n.defaultBundle[key];
 
         }
     };
