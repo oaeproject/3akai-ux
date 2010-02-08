@@ -41,14 +41,14 @@
     <div class="fl-fix fl-centered fixed-container">
         <div class="decor"><!-- --></div>
         <!-- TITLE -->
-        <h1 class="title">Search all</h1>
+        <h1 class="title">__MSG__SEARCH_ALL__</h1>
         <!-- TAB NAVIGATION -->
         <div class="search_tab_nav">
             <ul class="fl-tabs fl-tabs-right">
-                <li class="fl-tabs-active search_tab_selected"><a id="tab_search_all" href="search.html#">All</a></li>
-                <li><a href="search_content.html#" id="tab_search_content">Content &amp; Media</a></li>
-                <li><a href="search_people.html#" id="tab_search_people">People</a></li>
-                <li><a href="search_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
+                <li class="fl-tabs-active search_tab_selected"><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
+                <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
+                <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
+                <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
             </ul>
         </div>
         <!-- TAB CONTENT -->
@@ -69,8 +69,8 @@
                         <option value="entire_community">Entire Sakai Network</option>
                         <option value="friends">Friends</option>
                     </select> -->
-                        <input type="text" id="search_text" class="input" value="Insert name or keyword ..." />
-                        <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">Search</span></span></button>
+                        <input type="text" id="search_text" class="input" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
+                        <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                     </div>
                 </div>
                 <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">Found <strong id="search_numberFound">0</strong> results matching your search for <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
@@ -144,10 +144,10 @@
                                 {/if}
                                 {if ! i.isMe}
                                     {if ! i.connected}
-                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                         <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                     {/if}
-                                    <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
+                                    <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
                                 {/if}
                             </div>
                         {forelse}

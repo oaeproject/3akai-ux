@@ -1,0 +1,12 @@
+{
+"name": "Googlemaps",
+"description": "Googlemaps widget\r\n",
+"WIDGET_TITLE": "Googlemaps",
+"SEARCH": "查询",
+"SAVE": "保存",
+"CANCEL": "取消",
+"SIZE": "尺寸",
+"SMALL": "小",
+"LARGE": "大",
+"LOCATION": "位置"
+}
