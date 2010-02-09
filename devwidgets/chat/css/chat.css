@@ -16,6 +16,129 @@
  * specific language governing permissions and limitations under the License.
  */
 
+
+
+/**
+ * Top Navigation Bar
+ */
+
+#id0 #explore_nav_container {
+    background-color: #454a4f;
+    color: #fff;
+    }
+.pipe_divider {color: #999;}
+.explore_nav {
+    margin: 0 auto;
+    /* overflow: hidden; */
+    vertical-align: bottom;
+    width: 960px;
+    height: 32px;
+    }
+.explore_nav * {}
+.explore_nav ul {
+    padding:0;
+    margin:0;
+    }
+.explore_nav li {
+    float: left;
+    list-style:none none;
+    padding: 0;
+    margin: 0;
+    height: 32px;
+    }
+.explore_nav a {}
+.explore_nav .explore {
+    font-size: 1em;
+    }
+.explore_nav ul.explore li {
+    padding: 0;
+    padding-bottom: 6px;
+    border-left: 1px solid #878a8c;
+  }
+.explore_nav .explore li#nav_my_sakai_link {
+        border-left: none;
+    }
+
+.explore_nav .explore li a {
+    color:#fff;
+    font-weight: bold;
+    padding: 8px 20px;
+    text-align: center;
+    display: block;
+    float: left;
+    }
+
+.explore_nav .explore li small {
+    color:#ddd;
+    font-size: 0.85em;
+    }
+
+/*** Top Right Navbar ***/
+.explore_nav .personal-container {
+    margin-top: 10px;
+    background: url('../../_images/topBar_tr.png') top right no-repeat;
+    padding-right: 5px;
+    overflow: hidden;
+}
+.explore_nav .personal {
+    padding: 4px 0 0 5px;
+    margin: 0;
+    background: url('../../_images/topBar_tl.png') top left no-repeat;
+    min-height: 30px;
+    }
+.explore_nav .personal li a {
+    font-size:0.9em;
+    padding:0 5px 0 7px;
+    border-left: 1px solid #666a6d;
+    color: #fff;
+}
+.explore_nav .personal li span {
+    color: #fff;
+    font-size: 0.9em;
+    }
+.explore_nav .user_link span {
+    background: url('../../_images/white_subnav_arrow.png') bottom right no-repeat;
+    padding-right: 17px;
+    padding-left: 5px;
+}
+
+.explore_nav .personal li.last a{
+     border:none;
+     padding-right:0
+    }
+.personal img{
+    vertical-align: middle;
+    }
+.explore_nav .personal .user_link {border: none;}
+.explore_nav .personal .user_link img {position: relative; top: -1px; padding: 0 3px 0 3px;}
+.explore_nav .personal .mail img {position: relative; top: -1px;}
+
+.explore_nav .explore .explore_nav_selected {
+    background:url("../../../dev/_images/arrow_down_grey.png") no-repeat scroll center 32px transparent;
+    padding-bottom:12px;
+}
+
+.explore_nav .explore_nav_selected {
+    background-color: #878A8C;
+    height:32px;
+}
+
+
+#widget_chat {
+    position: relative;
+    width: 960px;
+    margin: 0 auto;
+}
+#widget_chat #user_link_menu {
+    position: absolute;
+    top: 43px;
+    right: 285px;
+}
+
+
+
+
+
 /* chat_available */
 #chat_available table {margin:0;}
 #chat_available table th, #chat_available table td {border:none;text-align:left;padding:7px;}
@@ -108,6 +231,12 @@
 #error_message {
     font-size: 9pt;
     color: #ff0;
+}
+
+#login_busy {
+    background: url("../../../dev/_images/ajax_load.gif") 0 0 no-repeat;
+    width: 80px;
+    height: 10px;
 }
 
 

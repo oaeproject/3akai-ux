@@ -147,7 +147,7 @@ sakai.chat = function(tuid, placement, showSettings){
     var peopleShown = false;
     var personIconUrl = Config.URL.PERSON_ICON_URL;
     var pulltime = "2100-10-10T10:10:10.000Z";
-    var sitesFocus = false;
+    var searchFocus = false;
     var sitesShown = false;
     var time = [];
     var sendMessages = []; // Array containing the id's of all the send messages
@@ -186,16 +186,6 @@ sakai.chat = function(tuid, placement, showSettings){
     var coursesSitesSearch = "#courses_sites_search";
     var coursesSitesSearchButton = coursesSitesSearch + "_button";
 
-    // Dropdown: people
-    var dropdownPeopleSearch = "#dropdown_people_search";
-    var dropdownPeopleSearchButton = dropdownPeopleSearch + "_button";
-
-    // My Sites
-    var mySitesDropDown = "#mysites_dropdown";
-    var mySitesDropDownMain = mySitesDropDown + "_main";
-    var mySitesDropDownClose = mySitesDropDown + "_close";
-    var mySitesDropDownCloseLink = mySitesDropDownClose + "_link";
-
     // Navigation
     var nav = "#nav";
     var navContentMediaLink = nav + "_content_media_link";
@@ -206,7 +196,13 @@ sakai.chat = function(tuid, placement, showSettings){
     var navPeopleLinkClass = "nav_people_link";
     var navMySakaiLink = nav + "_my_sakai_link";
     var navSearchLink = nav + "_search_link";
+    var navCalendarLink = nav + "_calendar_link";
     var navProfileLink = nav + "_profile_link";
+
+    // Seach
+    $general_search_container = $("#general_search_container");
+    $general_search_input = $("#general_search_input")
+    $general_search_submit_button = $("#general_search_submit_button");
 
     // People
     var peopleDropDown = "#people_dropdown";
@@ -229,6 +225,9 @@ sakai.chat = function(tuid, placement, showSettings){
     // Login
     var $login_error_message = $("#login_error_message");
     var $login_container = $("#login_container");
+    var $login_submit_button = $("#login_submit_button");
+    var $login_cancel_button = $("#login_cancel_button");
+    var $login_busy = $("#login_busy");
 
 
     // CSS Classes
@@ -259,18 +258,12 @@ sakai.chat = function(tuid, placement, showSettings){
 
     // Containers
     var chatMainContainer = "#chat_main_container";
-    var createSiteContainer = "#createsitecontainer";
     var exploreNavigationContainer = "#explore_nav_container";
 
     // Templates
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
-    var chatDropdownRecentSitesTemplate = "chat_dropdown_recent_sites_template";
     var chatWindowsTemplate = "chat_windows_template";
-    var navSelectedPageTemplate = "nav_selected_page_template";
-    var peopleDropDownMyContactsListTemplate = "people_dropdown_my_contacts_list_template";
-    var topNavigationMySitesListTemplate = "top_navigation_my_sites_list_template";
-
 
     ///////////////////////
     // Utility functions //
@@ -401,78 +394,27 @@ sakai.chat = function(tuid, placement, showSettings){
     };
 
 
-    //////////////////////////////
-    // Courses & Sites dropdown //
-    //////////////////////////////
 
     /**
-     * Load the sites for the current user
+     *
+     * General search
+     *
      */
-    var loadSites = function(){
-        var el = $(widgetCreateSite);
-        if (!el.get(0)) {
-            /** TODO Remove the inline html */
-            $(topNavigationWidgets).append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
-            sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
-        }
-        $.ajax({
-            url: Config.URL.SITES_SERVICE,
-            cache: false,
-            success: function(data){
-                var json = {};
-                json.entry = $.evalJSON(data) || [];
-                for (var i = 0; i < json.entry.length; i++) {
-                    json.entry[i] = json.entry[i].site;
-                    json.entry[i].location = json.entry[i].id;
-                }
-                json.entry = json.entry.sort(doSortSites);
-                if (json.entry.length > 5) {
-                    json.entry = json.entry.splice(0, 5);
-                }
-                $(topNavigationMySitesList).html($.Template.render(topNavigationMySitesListTemplate, json));
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("An error has occured");
-            }
-        });
-    };
-
-    /**
-     * Show the create new site lightbox
-     */
-    var createNewSite = function(){
-        $(createSiteContainer).show();
-        // Initialise the createsite widget.
-        sakai.createsite.initialise();
-    };
-
-    /**
-     * Search for the site(s) you putted in the input field
-     */
-    var doSitesSearch = function(){
-        var tosearch = $(coursesSitesSearch).val();
-        if (tosearch) {
+    var doSearch = function(){
+        var tosearch = $general_search_input.val();
+        if (tosearch && (tosearch !== "")) {
             document.location = Config.URL.SEARCH_SITES_URL + "#1|" + tosearch;
         }
     };
 
     /**
-     * Bind the create site button in the top navigation
-     */
-    $(topNavigationCreateSite).bind("click", function(ev){
-        createNewSite();
-    });
-
-    /**
      * If this is the first time the field gets focus, we'll make his text color black
      * and remove the default value
      */
-    $(coursesSitesSearch).bind("focus", function(ev){
-        if (!sitesFocus) {
-            var el = $(coursesSitesSearch);
-            el.val("");
-            el.addClass(focussedFieldClass);
-            sitesFocus = true;
+    $general_search_container.bind("focus", function(ev){
+        if (!searchFocus) {
+            $general_search_input.val("").addClass(focussedFieldClass);
+            searchFocus = true;
         }
     });
 
@@ -480,41 +422,24 @@ sakai.chat = function(tuid, placement, showSettings){
      * Check on every keypress whether the enter key has been pressed or not. If so,
      * search for sites
      */
-    $(coursesSitesSearch).bind("keypress", function(ev){
+    $general_search_container.bind("keypress", function(ev){
         if (ev.which === 13) {
-            doSitesSearch();
+            doSearch();
         }
     });
 
-    $(coursesSitesSearchButton).bind("click", doSitesSearch);
+    // Bind general search button click
+    $general_search_submit_button.bind("click", doSearch);
 
 
-    ////////////////////////////////////////////
-    // Courses & Sites dropdown : Show & Hide //
-    ////////////////////////////////////////////
 
-    defaultNav = $(exploreClass).html();
-
-    /**
-     * Render the template to show on which page you are currently on.
-     * You can see this by the dark border in the top navigation of a page
-     * @param {String} value The value of the page name
-     * @return {String} The result of the render
-     */
-    var renderSelectedPage = function(value, isDropdown){
-
-        var page = {};
-        page.value = value;
-        page.dropdown = isDropdown || false;
-        return $.Template.render(navSelectedPageTemplate, page);
-    };
 
     /**
      * Select the page in the top navigation where you are currently on.
      * This will display a dark balloon around the page we are on now.
      * This is decided by looking at the current url.
      */
-    var selectPage = function(){
+    var determineCurrentNav = function(){
         var windowLocationPath = window.location.pathname.toLowerCase();
 
         if (windowLocationPath.indexOf(Config.URL.MY_DASHBOARD) !== -1){
@@ -531,216 +456,6 @@ sakai.chat = function(tuid, placement, showSettings){
 
     };
 
-    /**
-     * Render the recent sites for the current user
-     * @param {Object} json JSON object that contains the recent sites
-     * and a count with how many there are
-     */
-    var renderRecentSites = function(json){
-        $(chatDropdownRecentSites).append($.Template.render(chatDropdownRecentSitesTemplate,json));
-    };
-
-    /**
-     * Load the recent sites that the current user has visited
-     */
-    var loadRecentSites = function(){
-        var json = {};
-        json.count = 0;
-
-            $.ajax({
-                url: Config.URL.RECENT_SITES_URL.replace(/__USERSTORAGEPREFIX__/, sdata.me.user.userStoragePrefix),
-                cache: false,
-                success: function(data){
-                    // The response is a json object with an "items" array that contains the
-                    // names for the recent sites.
-                    var items = $.evalJSON(data);
-
-                    // Do a request to the site service with all the names in it.
-                    // This will give us the proper location, owner, siteid,..
-                    var url = "/system/batch?";
-                    var n_items = {};
-                    n_items.items = [];
-
-                    for (var i = 0; i < items.items.length; i++) {
-                        n_items.items[i] = "resources=/sites/" + items.items[i] + ".json";
-                    }
-                    url += n_items.items.join("&");
-
-
-                    $.ajax({
-                        url: url,
-                        cache: false,
-                        success: function(data){
-                            var response = $.evalJSON(data);
-                            json = {};
-                            json.items = [];
-                            json.count = 0;
-
-                            // We do a check for the number of sites we have.
-                            // If we only have 1 site we will get a JSONObject
-                            // If we have multiple it will be an array of JSONObjects.
-                            for (var i = 0; i < response.length; i++) {
-                                var el = {};
-                                var site = $.evalJSON(response[i].data);
-                                el.location = site.id;
-                                el.name = site.name;
-                                json.items[json.items.length] = el;
-                                json.count++;
-                            }
-                            renderRecentSites(json);
-                        },
-                        error: function(xhr, textStatus, thrownError) {
-                            renderRecentSites(json);
-                        }
-                    });
-
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    renderRecentSites(json);
-                }
-            });
-    };
-
-    /**
-     * Drop down the sites container under the top navigation bar
-     */
-    navCoursesSitesLinkClassSelector.live("click", function(ev) {
-        if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length === 0){
-
-            // Hide the people dropdown
-            $(peopleDropDownMain).hide();
-            $(peopleDropDownClose).hide();
-
-            // Show the courses and sites.
-
-            $(mySitesDropDownMain).show();
-            $(mySitesDropDownClose).show();
-
-            $(exploreClass).html(defaultNav);
-            $(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites", true));
-            $(navCoursesSitesLink).removeClass(navCoursesSitesLinkClass);
-            if (!sitesShown) {
-                loadSites();
-                loadRecentSites();
-                sitesShown = true;
-            }
-        }
-    });
-
-    /*
-     * Bind the close button for the sites container
-     */
-    $(mySitesDropDownCloseLink).live("click", function(ev){
-        $(mySitesDropDownMain).hide();
-        $(peopleDropDownMain).hide();
-        $(exploreClass).html(defaultNav);
-        selectPage();
-        $(navPeopleLink).addClass(navPeopleLinkClass);
-        $(navCoursesSitesLink).addClass(navCoursesSitesLink);
-    });
-
-
-    ///////////////////////////////
-    // People dropdown : Handler //
-    ///////////////////////////////
-
-    /**
-     * Load all the friends for the current user
-     */
-    var loadPeople = function(){
-        $.ajax({
-            url: Config.URL.FRIEND_ACCEPTED_SERVICE,
-            data: {
-                page: 0,
-                items: 4
-            },
-            cache: false,
-            success: function(data){
-                var friends = $.evalJSON(data);
-
-                var pOnline = {};
-                pOnline.items = [];
-                var total = 0;
-                pOnline.showMore = false;
-
-                if (friends.results) {
-                    for (var i = 0; i < friends.results.length; i++) {
-                        var isOnline = false;
-                        if (!isOnline && total < 4) {
-                            var item = friends.results[i];
-                            item.id = item.target;
-                            item.name = parseName(item.id, item.profile.firstName, item.profile.lastName);
-                            item.photo = parsePicture(item.profile.picture, item.id);
-                            item.online = false;
-                            pOnline.items[pOnline.items.length] = item;
-                            total++;
-                        }
-                    }
-                }
-
-                $(peopleDropDownMyContactsList).html($.Template.render(peopleDropDownMyContactsListTemplate, pOnline));
-
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("An error has occurred. /n Please try again later");
-            }
-        });
-    };
-
-    /**
-     * Perform a search for the people the user inserted in the input field
-     */
-    var doPeopleSearch = function(){
-        var tosearch = $(dropdownPeopleSearch).val();
-        if (tosearch) {
-            document.location = Config.URL.SEARCH_PEOPLE_URL + "#1|" + tosearch;
-        }
-    };
-
-    /*
-     * If this is the first time the field gets focus, we'll make his text color black
-     * and remove the default value
-     */
-    $(dropdownPeopleSearch).bind("focus", function(ev){
-        if (!peopleFocus) {
-            peopleFocus = true;
-            var el = $(dropdownPeopleSearch);
-            el.val("");
-            el.addClass(focussedFieldClass);
-        }
-    });
-
-    /*
-     * Check on every keypress whether the enter key has been pressed or not. If so,
-     * search for people
-     */
-    $(dropdownPeopleSearch).live("keypress", function(ev){
-        if (ev.which === 13) {
-            doPeopleSearch();
-        }
-    });
-
-    $(dropdownPeopleSearchButton).live("click", doPeopleSearch);
-
-
-    ////////////////////////////////////////////
-    // Courses & Sites dropdown : Show & Hide //
-    ////////////////////////////////////////////
-
-    /*
-     * Drop down the people container beneath the top navigation bar
-     */
-    $(".nav_people_link").live("click", function(ev) {
-        $(mySitesDropDownMain).hide();
-        $(peopleDropDownMain).show();
-        $(exploreClass).html(defaultNav);
-        $(navPeopleLink).html(renderSelectedPage("People", true));
-        $("#nav_people_link").removeClass("nav_people_link");
-        if (!peopleShown) {
-            loadPeople();
-            peopleShown = true;
-        }
-    });
 
 
     //////////////
@@ -1809,6 +1524,14 @@ sakai.chat = function(tuid, placement, showSettings){
             // We are logged in, reload page
             document.location.reload();
         } else {
+
+            // Show buttons
+            $login_submit_button.show();
+            $login_cancel_button.show();
+
+            // Show ajax loader
+            $login_busy.hide();
+
             $login_error_message.show();
         }
 
@@ -1887,7 +1610,7 @@ sakai.chat = function(tuid, placement, showSettings){
         //
 
         // Bind Log in submit button
-        $("#login_submit_button").bind("click", function() {
+        $login_submit_button.bind("click", function() {
 
             // Hide any previous login error msgs
             $login_error_message.hide();
@@ -1898,6 +1621,14 @@ sakai.chat = function(tuid, placement, showSettings){
                 return;
             } else {
                 // Start logging in
+
+                // Hide buttons
+                $login_submit_button.hide();
+                $login_cancel_button.hide();
+
+                // Show ajax loader
+                $login_busy.show();
+
                 var data = {"sakaiauth:login" : 1, "sakaiauth:un" : $("#login_username").val(), "sakaiauth:pw" : $("#login_password").val(), "_charset_":"utf-8"};
                 $.ajax({
                     url : Config.URL.LOGIN_SERVICE,
@@ -1911,7 +1642,7 @@ sakai.chat = function(tuid, placement, showSettings){
         });
 
         // Cancel button
-        $("#login_cancel_button").bind("click", function() {
+        $login_cancel_button.bind("click", function() {
 
             // Hide error msg
             $login_error_message.hide();
@@ -1925,7 +1656,7 @@ sakai.chat = function(tuid, placement, showSettings){
 
             if (event.keyCode === 13) {
                 if ($login_container.is(":visible")) {
-                    $("#login_submit_button").trigger("click");
+                    $login_submit_button.trigger("click");
                 }
             }
         });
@@ -1967,8 +1698,13 @@ sakai.chat = function(tuid, placement, showSettings){
         }
 
 
-        selectPage();
+        // Highlight current nav item
+        determineCurrentNav
+
+        // Get chat status
         getChatStatus();
+
+        // Set presence and bind things
         addBinding();
         getCountUnreadMessages();
         setPresence(true);
@@ -2013,6 +1749,8 @@ sakai.chat = function(tuid, placement, showSettings){
     ///////////////////////
 
     if (sdata.me.user.userid === undefined) {
+
+        // If user not logged in -> switch to anonymous mode
         switchToAnonymousMode();
     }
     else {

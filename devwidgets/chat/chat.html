@@ -17,19 +17,23 @@
     </div>
 </div>
 
+
 <!-- EXPLORE NAV CONTAINER -->
 <div id="explore_nav_container" style="display:none">
     <div class="fl-container explore_nav">
         <ul class="explore fl-force-left">
             <li id="nav_my_sakai_link"><a href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
             <li id="nav_content_media_link"><a href="javascript:;" style="color: #666;">__MSG__CONTENT_AND_MEDIA__</a></li>
-            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">__MSG__PEOPLE__</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
-            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">__MSG__COURSES_AND_SITES__</a><img src="/dev/_images/white_subnav_arrow.png"/></li>
-            <li id="nav_search_link"><a href="/dev/search.html">__MSG__SEARCH__</a></li>
+            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">__MSG__PEOPLE__</a></li>
+            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">__MSG__COURSES_AND_SITES__</a></li>
+            <li id="nav_events_link"><a href="javascript:;">Calendar</a></li>
         </ul>
+
+        <!-- PERSONAL CONTAINER -->
         <div class="personal-container fl-force-right">
 
             <div class="personal">
+
                 <ul>
                     <li id="other_logins_button_container" style="display: none;"><a class="other_logins" href="javascript:;">Institutional login</a></li>
                     <li id="register_button_container" style="display: none;"><a class="register" href="/dev/create_new_account.html">Register</a></li>
@@ -46,18 +50,19 @@
                     <li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">__MSG__HELP__</a></li>
                     <li><a class="sign_out" href="/dev/logout.html">__MSG__SIGN_OUT__</a></li>
                 </ul>
+
                 <div id="login_container" style="display: none;">
                     <form id="login_form" method="POST">
                         <label for="login_username">__MSG__USERNAME__</label>
                         <br/>
                         <input type="text" alt="__MSG__USERNAME__" id="login_username" name="login_username" />
                         <br />
-
                         <label for="login_password">__MSG__PASSWORD__</label>
                         <br />
                         <input type="password" alt="__MSG__PASSWORD__" id="login_password" name="login_password" />
 
                         <div id="login_error_message" style="display: none;">__MSG__LOGIN_FAILED__!</div>
+                        <div id="login_busy" class="fl-force-right" style="display:none;"></div>
 
                         <div class="login-container-button fl-force-right">
                             <button id="login_cancel_button" type="button" class="s3d-button s3d-button-secondary"><span class="s3d-button-inner">Cancel</span></button>
@@ -65,124 +70,18 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 
-
-<!-- SELECTED PAGE -->
-<div id="nav_selected_page_template"><!--
-    {if dropdown}
-        <div class="explore_nav_selected_dropdown" id="mysites_dropdown_close_link">
-    {else}
-        <div class="explore_nav_selected">
-    {/if}
-        <a href="javascript:;">
-            <span>${value}</span>
-        </a>
-        {if dropdown}
-            <img src="/dev/_images/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
-        {/if}
-    </div>
---></div>
-
-<!-- DROPDOWN -->
-<div class="fl-container-flex fl-col-flex2 fl-fix dropdown" id="people_dropdown_main" style="display:none">
-    <div class="fixed-container">
-        <!-- MY CONTACTS -->
-        <div class="fl-col dropdown_contacts">
-            <h2>__MSG__MY_CONTACTS__</h2>
-            <div class="fl-container" id="people_dropdown_my_contacts_list">
-            </div>
-            <div id="people_dropdown_my_contacts_list_template"><!--
-                {for i in items}
-                    <div class="dropdown_person">
-                        {if i.photo}
-                            <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"><img src="${i.photo}" style="width:60px;height:60px"/></a>
-                        {else}
-                            <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_picture"></a>
-                        {/if}
-                        <a href="/dev/profile.html?user=${i.id}" class="dropdown_person_name">${i.name}</a>
-                    </div>
-                {forelse}
-                    <span style="font-size:0.95em">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
-                {/for}
-            --></div>
-            <div style="clear:both">
-                <a href="/dev/people.html" class="view_all_link">__MSG__VIEW_AND_EDIT_CONTACTS__</a>
-            </div>
-        </div>
-        <!-- SEARCH -->
-        <div class="dropdown_search_people">
-            <h2>__MSG__SEARCH_FOR_PEOPLE__</h2>
-            <div class="fl-fix dropdown_search_container">
-                <div>
-                    <input type="text" class="dropdown_search_input" id="dropdown_people_search" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
-                    <button id="dropdown_people_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="dropdown_bottom_part_left">
-        <div class="dropdown_bottom_part_right"></div>
-    </div>
+<!-- SEARCH -->
+<div id="genaral_search_container" class="fl-force-right">
+    <input type="text" id="general_search_input" class="general_search_input" value="Search for media, people and sites"/>
+    <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
 </div>
 
-<!-- DROPDOWN -->
-<div class="fl-container-flex fl-col-flex3 fl-fix dropdown dropdown_mysites" id="mysites_dropdown_main" style="display:none">
-    <div class="fixed-container">
-        <!-- MY SITES -->
-        <div class="fl-col dropdown_sites">
-            <h2>__MSG__MY_SITES__</h2>
-            <div id="top_navigation_my_sites_list"></div>
-            <div id="top_navigation_my_sites_list_template"><!--
-                <ul class="my_site_list">
-                    {for i in entry}
-                        <li><a href="/sites/${i.location}">${i.name}</a></li>
-                    {forelse}
-                        <span>__MSG__YOU_ARENT_A_MEMEBER_OF_ANY_SITES_YET__</span>
-                    {/for}
-                </ul>
-            --></div>
-            <a href="/dev/sites_edit.html" class="view_all_link hidedev">View &amp; Edit All &raquo;</a>
-        </div>
-
-        <!-- RECENTLY VISITED -->
-        <div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
-            <h2>__MSG__RECENT_SITES__</h2>
-        </div>
-        <div id='chat_dropdown_recent_sites_template'><!--
-            {if count == 0}
-                <span>__MSG__NO_RECENT_SITES_FOUND__<span>
-            {else}
-                <ul class="my_site_list">
-                    {for i in items}
-                        <li><a href="/sites/${i.location}">${i.name}</a></li>
-                    {/for}
-                </ul>
-            {/if}
-        --></div>
-
-        <!-- SEARCH -->
-        <div class="dropdown_search_course_sites">
-            <h2>__MSG__SEARCH_FOR_COURSES_AND_SITES__</h2>
-            <div class="fl-fix dropdown_search_container">
-                <div>
-                    <input type="text" id="courses_sites_search" class="dropdown_search_input" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
-                    <button id="courses_sites_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-                </div>
-                <button id="top_navigation_create_site" class="s3d-button s3d-create-site-button"><span class="s3d-button-inner"><span class="s3d-button-icon-left">__MSG__CREATE_A_SAKAI_SITES__</span></span></button>
-            </div>
-        </div>
-    </div>
-    <div class="dropdown_bottom_part_left">
-        <div class="dropdown_bottom_part_right"></div>
-    </div>
-</div>
-
-<!-- CREATE A SITE WIDGET -->
-<div id="top_navigation_widgets"></div>
 
 <div id="chat_available_template" style="display:none"><!--
     <a href="javascript:;" id="chat_available_minimize">
