@@ -93,7 +93,7 @@ if(!Array.indexOf){
                     if (exists) {
                         var me = $.evalJSON(response);
                         if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
-                            document.location = redirecturl;
+                            //document.location = redirecturl;
                         }
                     }
                 };
@@ -329,7 +329,7 @@ sdata.widgets.WidgetLoader = {
         var informOnLoad = function(widgetname){
             var doDelete = false;
             if (widgets[widgetname] && widgets[widgetname].length > 0){
-                for (var i = 0; i < widgets[widgetname].length; i++){
+                for (var i = 0, j = widgets[widgetname].length; i<j; i++){
                     widgets[widgetname][i].done++;
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
                         var initfunction = eval(widgetNameSpace + "." + widgetname);
@@ -1104,7 +1104,7 @@ sdata.container = {
     },
 
     performLoad : function(){
-        for (var i = 0; i < sdata.container.toLoad.length; i++){
+        for (var i = 0, j = sdata.container.toLoad.length; i<j; i++){
             var fct = eval(sdata.container.toLoad[i]);
             try {
                 fct();

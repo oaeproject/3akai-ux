@@ -31,21 +31,45 @@
 
             <div class="personal">
                 <ul>
+                    <li id="other_logins_button_container" style="display: none;"><a class="other_logins" href="javascript:;">Institutional login</a></li>
+                    <li id="register_button_container" style="display: none;"><a class="register" href="/dev/create_new_account.html">Register</a></li>
+                    <li id="login_button_container" style="display: none;"><a class="log_in" href="javascript:;">Log in</a></li>
+
                     <!-- CHAT STATUS DROPDOWN -->
                     <li id="user_link_container">
                         <a id="user_link" class="user_link" href="javascript:;">
                             <span id="userid"></span>
-
                         </a>
                     </li>
+
                     <li><a class="mail" href="/dev/inbox.html"><img src="/dev/_images/mail_icon.png" alt="Mail Icon" /> (<span id="chat_unreadMessages">0</span>)</a></li>
                     <li><a class="help" href="http://confluence.sakaiproject.org/display/SAKDEV/Sakai+3" target="_blank">__MSG__HELP__</a></li>
                     <li><a class="sign_out" href="/dev/logout.html">__MSG__SIGN_OUT__</a></li>
                 </ul>
+                <div id="login_container" style="display: none;">
+                    <form id="login_form" method="POST">
+                        <label for="login_username">__MSG__USERNAME__</label>
+                        <br/>
+                        <input type="text" alt="__MSG__USERNAME__" id="login_username" name="login_username" />
+                        <br />
+
+                        <label for="login_password">__MSG__PASSWORD__</label>
+                        <br />
+                        <input type="password" alt="__MSG__PASSWORD__" id="login_password" name="login_password" />
+
+                        <div id="login_error_message" style="display: none;">__MSG__LOGIN_FAILED__!</div>
+
+                        <div class="login-container-button fl-force-right">
+                            <button id="login_cancel_button" type="button" class="s3d-button s3d-button-secondary"><span class="s3d-button-inner">Cancel</span></button>
+                            <button id="login_submit_button" type="button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Sign In</span></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- SELECTED PAGE -->
 <div id="nav_selected_page_template"><!--

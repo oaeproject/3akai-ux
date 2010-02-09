@@ -77,6 +77,40 @@
 #user_link_menu li a {border:none;color:#fff;font-size:1.05em !important;padding:0;}
 .user_link_inactive li {font-size:0.95em !important;}
 
+/* anonymous */
+
+/* anonymous login form */
+#login_container {
+    background:none repeat scroll 0 0 #878A8C;
+    left:785px;
+    padding:10px;
+    position:absolute;
+    top:32px;
+    width:246px;
+    z-index:1000;
+    text-align: right;
+    color: #eee;
+}
+
+#login_container input {
+    border:1px solid #666666;
+    height:20px;
+    line-height:20px;
+    margin:3px 0 10px;
+    text-align:right;
+    width:240px;
+    font-size:11pt;
+    font-weight:bold;
+    color: #333;
+    padding:0 10px 0 0;
+}
+
+#error_message {
+    font-size: 9pt;
+    color: #ff0;
+}
+
+
 /* user status */
 .chat_available_status_online, .chat_available_status_busy, .chat_available_status_offline {padding-left:15px;}
 .chat_available_status_online {background:url(/devwidgets/chat/images/bullet_green.png) no-repeat -2px 0;}

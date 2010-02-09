@@ -226,6 +226,11 @@ sakai.chat = function(tuid, placement, showSettings){
     var userLinkMenu = userLink + "_menu";
     var userLinkMenuLink = userLink + "_menu" + " a";
 
+    // Login
+    var $login_error_message = $("#login_error_message");
+    var $login_container = $("#login_container");
+
+
     // CSS Classes
     var focussedFieldClass = "focussedInput";
 
@@ -1501,18 +1506,6 @@ sakai.chat = function(tuid, placement, showSettings){
     });
 
 
-    ///////////////////////
-    // Initial functions //
-    ///////////////////////
-
-    if (sdata.me.user.userid === undefined) {
-        return;
-    }
-    else {
-        sdata.widgets.WidgetLoader.insertWidgets("chat_container");
-    }
-
-
     /**
      * Check if there are any new chat messages for the current user
      * A response could look like this:
@@ -1804,6 +1797,142 @@ sakai.chat = function(tuid, placement, showSettings){
 
     };
 
+
+    /**
+     * This will determine whether there is a valid session. If there is, we'll
+     * redirect to the URL requested or the personal dashboard if nothing has been provided.
+     */
+    var decideLoggedIn = function(data){
+
+        var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
+        if (mejson.user.userid) {
+            // We are logged in, reload page
+            document.location.reload();
+        } else {
+            $login_error_message.show();
+        }
+
+    };
+
+    /**
+     * This will be executed after the post to the login service has finished.
+     * We send a new request to the Me service, explicity disabling cache by
+     * adding a random number behind the URL, becasue otherwise it would get
+     * the cached version of the me object which would still say I'm not logged
+     * in.
+     */
+    var checkLogInSuccess = function(){
+
+        $.ajax({
+            url : Config.URL.ME_SERVICE,
+            cache : false,
+            success : decideLoggedIn,
+            error: function(xhr, textStatus, thrownError) {
+
+                // This executes a couple of times after log in, but then login
+                // will be successful. Does not affect experience, but at some
+                // point this needs to be looked at.
+
+                //throw "Me service has failed! ("+xhr.status+")";
+
+            }
+        });
+
+    };
+
+    /**
+     * Switch navigation bar to anonymous mode
+     * @returns void
+     */
+    var switchToAnonymousMode = function() {
+
+        // Show Nav Container
+        $(exploreNavigationContainer).show();
+
+        // Fill in user
+
+        // Hide things which are irrelvant for Anonymous user
+        $(".personal .mail").hide();
+        $(".personal .sign_out").hide();
+        $("#user_link_container").hide();
+
+        // Show anonymous elements
+        $("#other_logins_button_container").show();
+        $("#register_button_container").show();
+        $("#login_button_container").show();
+
+        // Set institutional login page link
+        $("#other_logins_container .other_logins").attr("href", Config.URL.PUBLIC_INSTITUTIONAL_LOGIN_PAGE);
+
+        // Set up public nav links
+        $("#nav_my_sakai_link a").attr("href", Config.URL.PUBLIC_MY_SAKAI_PAGE);
+        $("#nav_content_media_link a").attr("href", Config.URL.PUBLIC_CONTENT_MEDIA_PAGE);
+        $("#nav_people_link a").attr("href", Config.URL.PUBLIC_PEOPLE_PAGE);
+        $("#nav_courses_sites_link a").attr("href", Config.URL.PUBLIC_COURSES_SITES_PAGE);
+        $("#nav_search_link a").attr("href", Config.URL.PUBLIC_SEARCH_PAGE);
+
+        // Bind Log in button
+        $("#login_button_container .log_in").bind("click", function() {
+            $login_container.show();
+        });
+
+        var personal_container_position = $("#explore_nav_container .personal-container").position();
+
+        // Adjust width of login container
+        $login_container.css({"width": ($("#explore_nav_container .personal-container").innerWidth() - 19) + "px", "left": (personal_container_position.left - 8) + "px"});
+
+        // Adjust width of inputs
+        $("#login_container input").css({"width": ($("#explore_nav_container .personal-container").innerWidth() - 30) + "px"});
+
+        //
+
+        // Bind Log in submit button
+        $("#login_submit_button").bind("click", function() {
+
+            // Hide any previous login error msgs
+            $login_error_message.hide();
+
+            // Check if fileds are empty
+            if ( ($("#login_username").val() === "") || ($("#login_password").val() === "") ) {
+                $login_error_message.show();
+                return;
+            } else {
+                // Start logging in
+                var data = {"sakaiauth:login" : 1, "sakaiauth:un" : $("#login_username").val(), "sakaiauth:pw" : $("#login_password").val(), "_charset_":"utf-8"};
+                $.ajax({
+                    url : Config.URL.LOGIN_SERVICE,
+                    type : "POST",
+                    success : checkLogInSuccess,
+                    error : checkLogInSuccess,
+                    data : data
+                });
+
+            }
+        });
+
+        // Cancel button
+        $("#login_cancel_button").bind("click", function() {
+
+            // Hide error msg
+            $login_error_message.hide();
+
+            // Hide login container
+            $login_container.hide();
+        });
+
+        // Bind Enter key to Login form
+        $(window).keypress(function(event) {
+
+            if (event.keyCode === 13) {
+                if ($login_container.is(":visible")) {
+                    $("#login_submit_button").trigger("click");
+                }
+            }
+        });
+
+
+    };
+
     /**
      * Contains all the functions and methods that need to be
      * executed on the initial load of the page
@@ -1814,8 +1943,8 @@ sakai.chat = function(tuid, placement, showSettings){
 
         // Check if it is possible to receive the uid for the
         // current user
-        if (!person.user.userid) {
-            return;
+        if (person.user.userid === undefined) {
+            switchToAnonymousMode();
         }
         else {
             $(exploreNavigationContainer).show();
@@ -1870,7 +1999,7 @@ sakai.chat = function(tuid, placement, showSettings){
     };
 
     if (sdata.me.user.userid === undefined) {
-        return;
+        switchToAnonymousMode();
     }
     else {
         loadPersistence();
@@ -1878,6 +2007,18 @@ sakai.chat = function(tuid, placement, showSettings){
         doInit();
     }
 
-};
 
+    ///////////////////////
+    // Initial functions //
+    ///////////////////////
+
+    if (sdata.me.user.userid === undefined) {
+        switchToAnonymousMode();
+    }
+    else {
+        sdata.widgets.WidgetLoader.insertWidgets("chat_container");
+    }
+
+
+};
 sdata.widgets.WidgetLoader.informOnLoad("chat");
