@@ -26,5 +26,10 @@
 "MY_ACCOUNT": "My Account",
 "NO_RECENT_SITES_FOUND": "No recent sites found",
 "YOU_ARENT_A_MEMEBER_OF_ANY_SITES_YET": "You aren't a member of any sites yet",
-"YOU_CURRENTLY_HAVE_NO_CONTACTS": "You currently have no contacts"
+"YOU_CURRENTLY_HAVE_NO_CONTACTS": "You currently have no contacts",
+"SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE": "Select a Layout for your \"My Sakai\" Page:",
+"PEOPLE": "People",
+"COURSES_AND_SITES": "Courses &amp; Sites",
+"CONTENT_AND_MEDIA": "Content &amp; Media",
+"SEARCH": "Search"
 }

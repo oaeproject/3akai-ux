@@ -32,13 +32,13 @@
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
 
      <!-- ERRORS AND MESSAGES -->
-    <span id="accountPref_error_passNotEqual" style="display:none;">New passwords aren't equal.</span>
-    <span id="accountPref_error_incorrectPass" style="display:none;">You filled in an incorrect password.</span>
-    <span id="accountPref_error_failChangePass" style="display:none;">Changing password failed.</span>
-    <span id="accountPref_message_passChanged" style="display:none;">Password changed.</span>
-    <span id="accountPref_error_invalidPass" style="display:none;">Password should be at least 5 characters long.</span>
-    <span id="accountPref_error_failChangeLang" style="display:none;">Changing regional settings failed.</span>
-    <span id="accountPref_message_ChangeLang" style="display:none;">Regional settings changed.</span>
+    <span id="accountPref_error_passNotEqual" style="display:none;">__MSG__NEW_PASSWORDS_ARENT_EQUAL__.</span>
+    <span id="accountPref_error_incorrectPass" style="display:none;">__MSG__YOU_FILLED_IN_AN_INCORRECT_PASSWORD__.</span>
+    <span id="accountPref_error_failChangePass" style="display:none;">__MSG__CHANGING_PASSWORD__FAILED__.</span>
+    <span id="accountPref_message_passChanged" style="display:none;">__MSG__PASSWORD_CHANGED__.</span>
+    <span id="accountPref_error_invalidPass" style="display:none;">__MSG__PASSWORD_SHOULD_BE_AT_LEAST_FIVE_CHARACTERS_LONG__.</span>
+    <span id="accountPref_error_failChangeLang" style="display:none;">__MSG__CHANGING_REGIONAL_SETTINGS_FAILED__.</span>
+    <span id="accountPref_message_ChangeLang" style="display:none;">__MSG__REGIONAL_SETTINGS_CHANGED__.</span>
 
     <!-- EXPLORE BAR -->
     <div id="widget_chat" class="widget_inline"></div>
@@ -50,7 +50,7 @@
 
                 <!-- TITLE BAR  -->
                     <div class="site_heading">
-                        <h1>Set your account details</h1>
+                        <h1>__MSG__SET_YOUR_ACCOUNT_DETAILS__</h1>
                     </div>
 
         </div>
@@ -65,34 +65,34 @@
     <!-- CONTENT -->
     <div class="fl-push password" id="accountPref_changePassContainer">
         <h4 class="section_header">
-            Password:
+            __MSG__PASSWORD__:
         </h4>
         <form class="preferences-form" method="" action="">
             <div class="form-item">
-                    <label for="curr_pass">Current Password:</label>
+                    <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
                     <input type="password" id="curr_pass" class="password-preferences-input" />
             </div>
             <div class="form-item">
-                    <label for="new_pass">New Password:</label>
+                    <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
                     <input type="password" id="new_pass" class="password-preferences-input" />
             </div>
             <div class="form-item">
-                    <label for="retype_pass">Re-Type New Password:</label>
+                    <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
                     <input type="password" id="retype_pass" class="password-preferences-input" />
             </div>
             <div class="save-preferences">
-                <button id="accountPref_saveNewPass" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Save Changes</span></button>
+                <button id="accountPref_saveNewPass" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
                 <div class="accountPref_general_message" id="accountPref_general_message_pass"></div>
             </div>
         </form>
     </div>
     <div class="fl-push regional">
         <h4 class="section_header">
-            Regional Settings:
+            __MSG__REGIONAL_SETTINGS__:
         </h4>
         <form class="preferences-form" method="get" action="" >
             <div class="form-item">
-                    <label for="time_zone">Time Zone:</label>
+                    <label for="time_zone">__MSG__TIME_ZONE__:</label>
                     <select id="time_zone" name="time-zone">
                               <option value="AET">AET</option>
                             <option value="AGT">AGT</option>
@@ -688,13 +688,13 @@
                     </select>
              </div>
              <div class="form-item">
-                    <label for="pass_language">Language:</label>
+                    <label for="pass_language">__MSG__LANGUAGE__:</label>
                     <select id="pass_language" name="language">
 
                     </select>
             </div>
             <div class="save-preferences">
-                <button id="accountPref_submitRegional" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Save Changes</span></button>
+                <button id="accountPref_submitRegional" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
                 <div class="accountPref_general_message" id="accountPref_general_message_regional"></div>
             </div>
         </form>

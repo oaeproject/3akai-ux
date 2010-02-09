@@ -49,10 +49,10 @@
                 <!-- TAB NAVIGATION -->
                 <div class="search_tab_nav">
                     <ul class="fl-tabs fl-tabs-right">
-                        <li><a id="tab_search_all" href="search.html#">All</a></li>
-                        <li><a href="search_content.html#" id="tab_search_content">Content &amp; Media</a></li>
-                        <li class="fl-tabs-active search_tab_selected"><a href="search_people.html#" id="tab_search_people">People</a></li>
-                        <li><a href="search_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
+                        <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
+                        <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
+                        <li class="fl-tabs-active search_tab_selected"><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
+                        <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
                     </ul>
                 </div>
 
@@ -66,11 +66,12 @@
 
                             <div id="search_form">
                                 <select class="skinned_select" id="search_filter">
-                                    <option value="entire_community" id="search_filter_community">Entire Sakai Network</option>
-                                    <option value="my_contacts" id="search_filter_my_contacts">My contacts</option>
+                                    <option value="entire_community" id="search_filter_community">__MSG__ENTIRE_SAKAI_NETWORK__</option>
+                                    <option value="my_contacts" id="search_filter_my_contacts">__MSG__MY_CONTACTS__</option>
                                 </select>
-                                <input type="text" id="search_text" class="input" value="Enter a search term" />
-                                <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">Search</span></span></button>
+
+                                <input type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCH_TERM__" />
+                                <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
                         </div>
 
@@ -79,13 +80,13 @@
 
                             <!-- CREATE SITE WITH THESE PEOPLE -->
                             <div id="create_site_these_people" style="float:right; padding: 20px 10px 10px 10px; display:none;">
-                                <a id="create_site_these_people_link" href="javascript:;">Create site with these people</a>
+                                <a id="create_site_these_people_link" href="javascript:;">__MSG__CREATE_SITE_WITH_THESE_PEOPLE__</a>
                             </div>
 
                               <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                             <div class="search_result_title" id="search_results_header">
-                                Found <strong id="search_numberFound">0</strong>
-                                results matching your search for
+                                __MSG__FOUND__ <strong id="search_numberFound">0</strong>
+                                __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
                                 <span class="keyword" id="search_mysearchterm"></span>
                             </div>
 
@@ -112,15 +113,15 @@
                                 <div class="search_result_person_links">
                                 {if ! i.isMe}
                                 {if ! i.connected}
-                                <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                                <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                 <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                 {/if}
-                                <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">Message</a>
+                                <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
                                 {/if}
                                 </div>
                                 </div>
                                 {forelse}
-                                <div class="search_no_results">No people found.</span>
+                                <div class="search_no_results">__MSG__NO_PEOPLE_FOUND__.</span>
                                 {/for}
                             --></div>
                               <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>

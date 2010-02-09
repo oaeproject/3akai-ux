@@ -1,0 +1,9 @@
+{
+"name": "讨论",
+"description": "Discussion widget\r\n",
+"WIDGET_TITLE": "讨论",
+"C_COMPACT_VIEW": "切换到简易视图",
+"C_FULL_VIEW": "切换到完整视图",
+"SHOW_ALL": "全部显示",
+"HIDE_ALL": "全部隐藏"
+}

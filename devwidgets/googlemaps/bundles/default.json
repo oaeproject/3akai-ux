@@ -1,0 +1,12 @@
+{
+"name": "Googlemaps",
+"description": "Googlemaps widget\r\n",
+"WIDGET_TITLE": "Googlemaps",
+"SEARCH": "Search",
+"SAVE": "Save",
+"CANCEL": "Cancel",
+"SIZE": "Size",
+"SMALL": "Small",
+"LARGE": "Large",
+"LOCATION": "Location"
+}
