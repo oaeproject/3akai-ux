@@ -137,7 +137,7 @@ sakai.flashChat = {
 
 
 
-sakai.chat = function(tuid, placement, showSettings){
+sakai.navigationchat = function(tuid, placement, showSettings){
 
 
     /////////////////////////////
@@ -265,7 +265,7 @@ sakai.chat = function(tuid, placement, showSettings){
      * Placeholders that will be replaced by the real functions. This
      * is necessary to comply with the JSLint rules
      */
-    sakai.chat.loadChatTextInitial = function(){};
+    sakai.navigationchat.loadChatTextInitial = function(){};
     var doWindowRender = function(){};
 
     /*
@@ -741,7 +741,7 @@ sakai.chat = function(tuid, placement, showSettings){
 
         doWindowRender(clicked, specialjson);
 
-        sakai.chat.loadChatTextInitial(true, activewindows);
+        sakai.navigationchat.loadChatTextInitial(true, activewindows);
     };
 
     /**
@@ -1255,7 +1255,7 @@ sakai.chat = function(tuid, placement, showSettings){
      * }
      * The update variable will be true
      */
-    sakai.chat.checkNewMessages = function(){
+    sakai.navigationchat.checkNewMessages = function(){
 
         // Create a data object
         var data = {};
@@ -1276,9 +1276,9 @@ sakai.chat = function(tuid, placement, showSettings){
                 time = json.time;
 
                 if(json.update){
-                    sakai.chat.loadChatTextInitial(false);
+                    sakai.navigationchat.loadChatTextInitial(false);
                 }else {
-                    setTimeout(sakai.chat.checkNewMessages, 5000);
+                    setTimeout(sakai.navigationchat.checkNewMessages, 5000);
                 }
                 pulltime = json.pulltime;
             }
@@ -1294,7 +1294,7 @@ sakai.chat = function(tuid, placement, showSettings){
      *  JSON object that contains information about the user window that
      *  needs to be loaded
      */
-    sakai.chat.loadChatTextInitial = function(initial, specialjson, hasNew){
+    sakai.navigationchat.loadChatTextInitial = function(initial, specialjson, hasNew){
 
         // Check if the current user is anonymous.
         // If this is the case, exit this function
@@ -1463,7 +1463,7 @@ sakai.chat = function(tuid, placement, showSettings){
 
                                     // Render the windows and load the initial chat text function again
                                     doWindowRender(null, newactivewindows);
-                                    sakai.chat.loadChatTextInitial(true, newactivewindows, true);
+                                    sakai.navigationchat.loadChatTextInitial(true, newactivewindows, true);
 
                                 //}
                             }
@@ -1472,14 +1472,14 @@ sakai.chat = function(tuid, placement, showSettings){
                 }
 
                 if (doreload) {
-                    setTimeout(sakai.chat.checkNewMessages, 5000);
+                    setTimeout(sakai.navigationchat.checkNewMessages, 5000);
                 }
             },
 
             error: function(xhr, textStatus, thrownError) {
 
                 //if (doreload) {
-                // setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
+                // setTimeout("sakai.navigationchat.loadChatTextInitial('" + false +"')", 5000);
                 //}
             }
         });
@@ -1504,7 +1504,7 @@ sakai.chat = function(tuid, placement, showSettings){
             doWindowRender(toshow);
         }
 
-        sakai.chat.loadChatTextInitial(true);
+        sakai.navigationchat.loadChatTextInitial(true);
     };
 
     /**
@@ -1779,9 +1779,9 @@ sakai.chat = function(tuid, placement, showSettings){
         switchToAnonymousMode();
     }
     else {
-        sdata.widgets.WidgetLoader.insertWidgets("chat_container");
+        sdata.widgets.WidgetLoader.insertWidgets("navigationchat_container");
     }
 
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("chat");
+sdata.widgets.WidgetLoader.informOnLoad("navigationchat");

@@ -373,19 +373,19 @@ var Widgets = {
             personalportal:0,
             siteportal:0
         },
-        chat :
+        navigationchat :
         {
-            description:"chat",
+            description:"navigationchat",
             iframe:0,
-            url:"/devwidgets/chat/chat.html",
-            name:"chat",
-            id:"chat",
+            url:"/devwidgets/navigationchat/navigationchat.html",
+            name:"navigationchat",
+            id:"navigationchat",
             personalportal:0,
             siteportal:0,
             i18n: {
-                "default": "/devwidgets/chat/bundles/default.json",
-                "en_US": "/devwidgets/chat/bundles/en_US.json",
-                "zh_CN": "/devwidgets/chat/bundles/zh_CN.json"
+                "default": "/devwidgets/navigationchat/bundles/default.json",
+                "en_US": "/devwidgets/navigationchat/bundles/en_US.json",
+                "zh_CN": "/devwidgets/navigationchat/bundles/zh_CN.json"
             }
         },
         filemanager :

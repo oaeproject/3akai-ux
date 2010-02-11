@@ -170,7 +170,7 @@
 #chat_available table {margin:0;}
 #chat_available table th, #chat_available table td {border:none;text-align:left;padding:7px;}
 #chat_available_me .chat_top_container {border-bottom:1px #ebebeb solid;}
-.chat_available_status_online {background:url(/devwidgets/chat/images/chat_status_online.png) no-repeat 0px 2px;}
+.chat_available_status_online {background:url(/devwidgets/navigationchat/images/chat_status_online.png) no-repeat 0px 2px;}
 .chat_top_container .chat_available_image {width:40px;}
 .chat_top_container .chat_available_image img {height:40px;width:40px;}
 .chat_available_friend img {height:32px;width:32px;}
@@ -221,6 +221,7 @@
 /* user_link */
 #user_link_container {position:relative; text-align: left; min-width: 50px; max-width: 195px; }
 #user_link_menu {background-color:#868a8d; font-size:9pt; line-height:16px; position:absolute; top:30px;z-index:500; padding:0 0 6px;}
+#user_link_menu div { margin-top: 5px; }
 .user_link_menu_border {border-bottom:1px solid #777; }
 #user_link_menu ul {margin:0;padding:0}
 #user_link_menu li {display:block; list-style-type:none;margin:0; padding:3px 5px 6px 13px;}
