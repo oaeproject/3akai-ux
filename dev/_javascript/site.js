@@ -239,7 +239,7 @@ sakai.site = function(){
         }
 
         // Determine whether the user is maintainer, if yes show and load admin elements
-        sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite.id, sdata.me.user.subjects);
+        sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite, sdata.me.user.subjects);
         if (sakai.site.isCollaborator) {
             // Show admin elements
             $li_edit_page_divider.show();
