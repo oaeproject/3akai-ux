@@ -465,10 +465,6 @@
     padding:5px;
 }
 
-.contentmedia_dialog_button {
-    clear: both;
-}
-
 /* Override Fluid */
 .fl-tab-content {
     border: none;

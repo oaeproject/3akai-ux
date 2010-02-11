@@ -1763,8 +1763,8 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         switchToAnonymousMode();
     }
     else {
-        loadPersistence();
-        checkOnline();
+        //loadPersistence();
+        //checkOnline();
         doInit();
     }
 

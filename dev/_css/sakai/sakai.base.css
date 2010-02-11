@@ -24,11 +24,42 @@
  * ----------------------------------------------------------------------------
  */
 
-/* Hide i18nable elements by default until the messages are replaced by the translated
-strings, and i18n will show the element. Typically this class is applied at body level */
-.i18nable {
-    display:none;
+html {
+    background: #75ADD7 url('../../_images/body_bg.jpg') top left repeat-x;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 120%;
 }
+
+/* adding a visable outline on focus for accessibility */
+:focus {
+    outline: 1px dotted #000;
+}
+
+/* LINKS */
+
+a { 
+    color: #333;
+    text-decoration: none;
+}
+
+/* Hidden elements
+ ** localization: .i18nable 
+ * Hide i18nable elements by default until the messages are replaced by the translated
+ * strings, and i18n will show the element. Typically this class is applied at body level
+ ** functionality: .s3d-hidden
+ * user for elements that will then be shown later using jQuery().show() 
+ */
+
+.s3d-hidden, .i18nable {
+    display: none;
+}
+
+
+
+
+/* UTILITY CLASSES */
+
+
 
 /* ----------------------------------------------------------------------------
  * PROGRAMMATICALLY SET STYLES
@@ -108,12 +139,21 @@ html>body .s3d-button .s3d-button-inner {
     background-position: left -160px;
 }
 
-.s3d-button[disabled="disabled"], .s3d-button-disabled {
+.s3d-button[disabled], .s3d-disabled {
     background-position: right -280px;
     cursor: default;
 }
 
-.s3d-button[disabled="disabled"] .s3d-button-inner, .s3d-button-disabled .s3d-button-inner {
+.s3d-button:hover[disabled], .s3d-disabled.s3d-button-hover {
+    background-position: right -280px;
+    cursor: default;
+}
+
+.s3d-button[disabled] .s3d-button-inner, .s3d-disabled .s3d-button-inner {
+    background-position: left -240px;    
+}
+
+, .s3d-button:hover[disabled] .s3d-button-inner, .s3d-disabled.s3d-button-hover .s3d-button-inner  {
     background-position: left -240px;    
 }
 

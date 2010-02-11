@@ -16,10 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.rss_clear {clear:both;}
-.rss_left {float:left;}
-.rss_right {float:right;}
-
 /* Settings */
 .rss_quote {font-style:italic;}
 .rss_title {font-weight:bold;}

@@ -17,7 +17,6 @@
  */
 
 /* Global */
-.remotecontent_clear {clear:both;}
 
 /* Settings */
 #remotecontent_settings {padding-bottom:10px;}
@@ -50,7 +49,3 @@
 /* Block */
 .remotecontent_settings_block {margin-left:15px;}
 .remotecontent_settings_block label {float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px;}
-
-/* Cancel & Insert */
-#remotecontent_settings_cancel {float:left;}
-#remotecontent_settings_insert {float:right;}

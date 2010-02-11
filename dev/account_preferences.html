@@ -4,15 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3  R&amp;D - Account Preferences</title>
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
     <link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css"/>
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.account_preferences.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
@@ -64,7 +63,7 @@
     <div class="outline">
 
     <!-- CONTENT -->
-    <div class="preferences-container password" id="accountPref_changePassContainer">
+    <div class="fl-push password" id="accountPref_changePassContainer">
         <h4 class="section_header">
             __MSG__PASSWORD__:
         </h4>
@@ -82,12 +81,12 @@
                     <input type="password" id="retype_pass" class="password-preferences-input" />
             </div>
             <div class="save-preferences">
-                <input type="image" id="accountPref_saveNewPass" src="_images/save_changes.png" class="button submit button-disabled button-preferences" value="__MSG__SAVE_CHANGES__" />
+                <button id="accountPref_saveNewPass" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
                 <div class="accountPref_general_message" id="accountPref_general_message_pass"></div>
             </div>
         </form>
     </div>
-    <div class="preferences-container regional">
+    <div class="fl-push regional">
         <h4 class="section_header">
             __MSG__REGIONAL_SETTINGS__:
         </h4>
@@ -695,7 +694,7 @@
                     </select>
             </div>
             <div class="save-preferences">
-                <input type="image" id="accountPref_submitRegional" src="_images/save_changes.png" class="button submit button-primary button-preferences" value="__MSG__SAVE_CHANGES__" />
+                <button id="accountPref_submitRegional" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
                 <div class="accountPref_general_message" id="accountPref_general_message_regional"></div>
             </div>
         </form>
@@ -706,7 +705,7 @@
     {/for}
     --></div>
 
-    <div class="clearboth"></div>
+    <div class="fl-push"></div>
     </div>
     <div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
     </div>

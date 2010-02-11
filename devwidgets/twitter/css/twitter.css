@@ -28,7 +28,6 @@
 .twitter_input_label {display:block;clear:both;}
 
 /* Message Container */
-#twitter_message_container {clear:both;}
 .twitter_error {color:#ff0000 !important;}
 .twitter_info {color:#4aa02c !important;}
 .twitter_input_text {border:1px solid #dddddd;height:19px;padding-left:3px;padding-top:3px;float:left;}

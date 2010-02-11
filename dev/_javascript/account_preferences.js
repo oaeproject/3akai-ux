@@ -18,7 +18,7 @@
 
 /*global $, Config, sdata */
 
-sakai.accountPreferences =function(){
+sakai.accountPreferences = function(){
 
     var me = sdata.me;
     var languages = {};
@@ -44,7 +44,7 @@ sakai.accountPreferences =function(){
     var saveRegional = accountPrefID + "_submitRegional";
 
     // classes
-    var buttonDisabled = "button-disabled";
+    var buttonDisabled = "s3d-disabled";
 
     // messages
     var generalMessageShowTime = 3000;
@@ -263,7 +263,21 @@ sakai.accountPreferences =function(){
             data : locale
         });
     };
-
+    
+    /**
+     * Disable or enable elements
+     * can take a single or multivalue jQuery obj
+     */
+    
+    var enableElements = function (jQueryObj) {
+        jQueryObj.removeAttr("disabled");
+        jQueryObj.removeClass("s3d-disabled");
+    };
+    
+    var disableElements = function (jQueryObj) {
+        jQueryObj.attr("disabled", "disabled");
+        jQueryObj.addClass("s3d-disabled");
+    };
 
     ////////////////////
     // Event Handlers //
@@ -294,11 +308,11 @@ sakai.accountPreferences =function(){
         // check if the user didn't just fill in some spaces
         if(checkIfInputValid()){
             // enable the change pass button
-            $(saveNewPass).removeClass(buttonDisabled);
+            enableElements($(saveNewPass));
         }
         else{
             // disable the change pass button
-            $(saveNewPass).addClass(buttonDisabled);
+            disableElements($(saveNewPass));
         }
     });
     /** Binds the save regional button **/
