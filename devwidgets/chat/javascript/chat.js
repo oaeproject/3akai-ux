@@ -134,6 +134,9 @@ sakai.flashChat = {
     }
 };
 
+
+
+
 sakai.chat = function(tuid, placement, showSettings){
 
 
@@ -171,50 +174,36 @@ sakai.chat = function(tuid, placement, showSettings){
 
     // Chat
     var chat = "#chat";
-    var chatAvailable = chat + "_available";
+    var chatAvailable = "#chat_available";
     var chatAvailableMinimize = chatAvailable + "_minimize";
-    var chatDropdownRecentSites = chat + "_dropdown_recent_sites";
-    var chatOnline = chat + "_online";
+    var chatDropdownRecentSites = "#chat_dropdown_recent_sites";
+    var chatOnline = "#chat_online";
     var chatOnlineConnectionsLink = chatOnline + "_connections_link";
-    var chatUnreadMessages = chat + "_unreadMessages";
-    var chatWindow = chat + "_window";
+    var chatUnreadMessages = "#chat_unreadMessages";
+    var chatWindow = "#chat_window";
     var chatWindowChatstatus = chatWindow + "_chatstatus";
-    var chatWindows = chat + "_windows";
-    var chatWith = chat + "_with";
-
-    // Courses & Sites
-    var coursesSitesSearch = "#courses_sites_search";
-    var coursesSitesSearchButton = coursesSitesSearch + "_button";
+    var chatWindows = "#chat_windows";
+    var chatWith = "#chat_with";
 
     // Navigation
     var nav = "#nav";
-    var navContentMediaLink = nav + "_content_media_link";
-    var navCoursesSitesLink = nav + "_courses_sites_link";
+    var navContentMediaLink = "#nav_content_media_link";
+    var navCoursesSitesLink = "#nav_courses_sites_link";
     var navCoursesSitesLinkClass = "nav_courses_sites_link";
     var navCoursesSitesLinkClassSelector = $("#explore_nav_container .nav_courses_sites_link");
-    var navPeopleLink = nav + "_people_link";
+    var navPeopleLink = "#nav_people_link";
     var navPeopleLinkClass = "nav_people_link";
-    var navMySakaiLink = nav + "_my_sakai_link";
-    var navSearchLink = nav + "_search_link";
-    var navCalendarLink = nav + "_calendar_link";
-    var navProfileLink = nav + "_profile_link";
+    var navMySakaiLink = "#nav_my_sakai_link";
+    var navSearchLink = "#nav_search_link";
+    var navCalendarLink = "#nav_calendar_link";
+    var navProfileLink = "#nav_profile_link";
+    var navSelectedNavItemClass = "explore_nav_selected";
 
     // Seach
-    $general_search_container = $("#general_search_container");
-    $general_search_input = $("#general_search_input")
-    $general_search_submit_button = $("#general_search_submit_button");
-
-    // People
-    var peopleDropDown = "#people_dropdown";
-    var peopleDropDownMain = peopleDropDown + "_main";
-    var peopleDropDownClose = peopleDropDown + "_close";
-    var peopleDropDownMyContactsList = peopleDropDown + "_my_contacts_list";
-
-    // Top Navigation
-    var topNavigation = "#top_navigation";
-    var topNavigationCreateSite = topNavigation + "_create_site";
-    var topNavigationWidgets = topNavigation + "_widgets";
-    var topNavigationMySitesList = topNavigation + "_my_sites_list";
+    var $general_search_container = $("#general_search_container");
+    var $general_search_input = $("#general_search_input")
+    var $general_search_submit_button = $("#general_search_submit_button");
+    var searchFocus = false;
 
     // User Link
     var userLinkContainer = "#user_link_container";
@@ -231,7 +220,7 @@ sakai.chat = function(tuid, placement, showSettings){
 
 
     // CSS Classes
-    var focussedFieldClass = "focussedInput";
+    var searchInputFocusClass = "search_input_focus";
 
     var chatAvailableStatusClass = "chat_available_status";
     var chatAvailableStatusClassOnline = chatAvailableStatusClass + "_online";
@@ -264,6 +253,9 @@ sakai.chat = function(tuid, placement, showSettings){
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
     var chatWindowsTemplate = "chat_windows_template";
+
+
+
 
     ///////////////////////
     // Utility functions //
@@ -394,74 +386,6 @@ sakai.chat = function(tuid, placement, showSettings){
     };
 
 
-
-    /**
-     *
-     * General search
-     *
-     */
-    var doSearch = function(){
-        var tosearch = $general_search_input.val();
-        if (tosearch && (tosearch !== "")) {
-            document.location = Config.URL.SEARCH_SITES_URL + "#1|" + tosearch;
-        }
-    };
-
-    /**
-     * If this is the first time the field gets focus, we'll make his text color black
-     * and remove the default value
-     */
-    $general_search_container.bind("focus", function(ev){
-        if (!searchFocus) {
-            $general_search_input.val("").addClass(focussedFieldClass);
-            searchFocus = true;
-        }
-    });
-
-    /**
-     * Check on every keypress whether the enter key has been pressed or not. If so,
-     * search for sites
-     */
-    $general_search_container.bind("keypress", function(ev){
-        if (ev.which === 13) {
-            doSearch();
-        }
-    });
-
-    // Bind general search button click
-    $general_search_submit_button.bind("click", doSearch);
-
-
-
-
-    /**
-     * Select the page in the top navigation where you are currently on.
-     * This will display a dark balloon around the page we are on now.
-     * This is decided by looking at the current url.
-     */
-    var determineCurrentNav = function(){
-        var windowLocationPath = window.location.pathname.toLowerCase();
-
-        if (windowLocationPath.indexOf(Config.URL.MY_DASHBOARD) !== -1){
-            $(navMySakaiLink).html(renderSelectedPage($.i18n.getValueForKey("MY_SAKAI")));
-        } else if (windowLocationPath.indexOf(Config.URL.SEARCH_GENERAL_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_PEOPLE_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_SITES_URL) !== -1 || windowLocationPath.indexOf(Config.URL.SEARCH_CONTENT_URL) !== -1){
-            $(navSearchLink).html(renderSelectedPage("Search"));
-        } else if (windowLocationPath.indexOf(Config.URL.PEOPLE_URL) !== -1){
-            $(navPeopleLink).html(renderSelectedPage("People"));
-        } else if (windowLocationPath.indexOf(Config.URL.PROFILE_URL) !== -1){
-            $(navProfileLink).html(renderSelectedPage("Profile"));
-        } else if (windowLocationPath.indexOf(Config.URL.CONTENT_MEDIA_URL) !== -1){
-            $(navContentMediaLink).html(renderSelectedPage("Content &amp; Media"));
-        }
-
-    };
-
-
-
-    //////////////
-    // Messages //
-    //////////////
-
     /**
      * Get the number of messages that are unread and show it.
      */
@@ -477,6 +401,107 @@ sakai.chat = function(tuid, placement, showSettings){
             }
         });
     };
+
+
+    ////////////////
+    // NAVIGATION //
+    ///////////////
+
+
+    /**
+     * Select the page in the top navigation where you are currently on.
+     * This will apply a class to the selected navigation item based on the current URL
+     * @returns void;
+     */
+    var determineCurrentNav = function(){
+        var windowLocationPath = window.location.pathname.toLowerCase();
+
+        // Remove all selected classes from nav elements
+        $("#nav "+navSelectedNavItemClass).removeClass(navSelectedNavItemClass);
+
+        // My Sakai
+        if ((windowLocationPath.indexOf(Config.URL.MY_DASHBOARD) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_MY_SAKAI_PAGE) !== -1)){
+            $(navMySakaiLink).addClass(navSelectedNavItemClass);
+            return;
+        }
+
+        // Content & Media
+        if ((windowLocationPath.indexOf(Config.URL.CONTENT_MEDIA_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_CONTENT_MEDIA) !== -1)){
+            $(navContentMediaLink).addClass(navSelectedNavItemClass);
+            return;
+        }
+
+        // People
+        if ((windowLocationPath.indexOf(Config.URL.PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_PEOPLE_PAGE) !== -1)){
+            $(navPeopleLink).addClass(navSelectedNavItemClass);
+            return;
+        }
+
+        // Courses & Sites
+        if ((windowLocationPath.indexOf(Config.URL.COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf("/sites/") !== -1)){
+            $(navCoursesSitesLink).addClass(navSelectedNavItemClass);
+            return;
+        }
+
+        // Calendar
+        if ((windowLocationPath.indexOf(Config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_SEARCH) !== -1)){
+            $(navCalendarLink).addClass(navSelectedNavItemClass);
+            return;
+        }
+
+    };
+
+
+    ////////////
+    // SEARCH //
+    ////////////
+
+    var doSearch = function(){
+        var tosearch = $general_search_input.val();
+
+        // Reset focus
+        $general_search_input.val("").removeClass(searchInputFocusClass);
+        searchFocus == false;
+
+        if (tosearch && (tosearch !== "")) {
+            document.location = Config.URL.SEARCH_GENERAL_URL + "#1|" + tosearch;
+        }
+    };
+
+    /**
+     * If this is the first time the field gets focus, we'll make his text color black
+     * and remove the default value
+     */
+    $general_search_input.bind("focus", function(ev){
+        if (!searchFocus) {
+            $general_search_input.val("").addClass(searchInputFocusClass);
+            searchFocus = true;
+        }
+    });
+
+    $general_search_input.bind("click", function(ev){
+        if (!searchFocus) {
+            $general_search_input.val("").addClass(searchInputFocusClass);
+            searchFocus = true;
+        }
+    });
+
+    /**
+     * Check on every keypress whether the enter key has been pressed or not. If so,
+     * search for sites
+     */
+    $(window).bind("keypress", function(ev){
+        if ((ev.which === 13) && (searchFocus === true)) {
+            doSearch();
+        }
+    });
+
+    // Bind general search button click
+    $general_search_submit_button.bind("click", doSearch);
+
+
+
+
 
 
     //////////
@@ -874,7 +899,7 @@ sakai.chat = function(tuid, placement, showSettings){
             $(userLinkMenu).hide();
         }else{
             $(userLinkMenu).css("left", Math.round($(userLink).offset().left) + "px");
-            $(userLinkMenu).css("top", Math.round($(userLink).offset().top) + $(userLink).height() + "px");
+            $(userLinkMenu).css("top", (Math.round($(userLink).offset().top) + $(userLink).height() + 2) + "px");
             $(userLinkMenu).css("width", ($(userLink).width() + 10) + "px");
             $(userLinkMenu).show();
         }
@@ -1699,7 +1724,7 @@ sakai.chat = function(tuid, placement, showSettings){
 
 
         // Highlight current nav item
-        determineCurrentNav
+        determineCurrentNav();
 
         // Get chat status
         getChatStatus();

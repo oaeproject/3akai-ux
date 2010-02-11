@@ -1,32 +1,13 @@
-<div id="user_link_menu" style="display:none">
-    <div class="user_link_menu_border">
-        <ul>
-            <li class="insert_more_menu_inactive">__MSG__CHAT_STATUS__</li>
-            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">__MSG__AVAILABLE__</a></li>
-            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">__MSG__BUSY__</a></li>
-            <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">__MSG__OFFLINE__</a></li>
-        </ul>
-    </div>
-    <div>
-        <ul>
-            <li><a href="/dev/inbox.html">__MSG__MY_INBOX__</a></li>
-            <li><a href="/dev/people.html">__MSG__MY_CONTACTS__</a></li>
-            <li><a href="/dev/profile.html">__MSG__MY_PROFILE__</a></li>
-            <li><a href="/dev/account_preferences.html">__MSG__MY_ACCOUNT__</a></li>
-        </ul>
-    </div>
-</div>
-
 
 <!-- EXPLORE NAV CONTAINER -->
 <div id="explore_nav_container" style="display:none">
     <div class="fl-container explore_nav">
-        <ul class="explore fl-force-left">
+        <ul class="explore">
             <li id="nav_my_sakai_link"><a href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
-            <li id="nav_content_media_link"><a href="javascript:;" style="color: #666;">__MSG__CONTENT_AND_MEDIA__</a></li>
-            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="javascript:;">__MSG__PEOPLE__</a></li>
-            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;">__MSG__COURSES_AND_SITES__</a></li>
-            <li id="nav_events_link"><a href="javascript:;">Calendar</a></li>
+            <li id="nav_content_media_link"><a href="javascript:;" style="color: #888;">__MSG__CONTENT_AND_MEDIA__</a></li>
+            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="/dev/people.html">__MSG__PEOPLE__</a></li>
+            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;" style="color: #888;">__MSG__COURSES_AND_SITES__</a></li>
+            <li id="nav_events_link"><a href="javascript:;" href="javascript:;" style="color: #888;">__MSG__CALENDAR__</a></li>
         </ul>
 
         <!-- PERSONAL CONTAINER -->
@@ -74,12 +55,38 @@
             </div>
         </div>
     </div>
+
 </div>
 
+<!-- USER LINK MENU -->
+<div id="user_link_menu" style="display:none">
+    <div class="user_link_menu_border">
+        <ul>
+            <li class="insert_more_menu_inactive">__MSG__CHAT_STATUS__</li>
+            <li><a id="user_link_chat_status_online" class="user_link_chat_status" href="javascript:;">__MSG__AVAILABLE__</a></li>
+            <li><a id="user_link_chat_status_busy" class="user_link_chat_status" href="javascript:;">__MSG__BUSY__</a></li>
+            <li><a id="user_link_chat_status_offline" class="user_link_chat_status" href="javascript:;">__MSG__OFFLINE__</a></li>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <li><a href="/dev/inbox.html">__MSG__MY_INBOX__</a></li>
+            <li><a href="/dev/people.html">__MSG__MY_CONTACTS__</a></li>
+            <li><a href="/dev/profile.html">__MSG__MY_PROFILE__</a></li>
+            <li><a href="/dev/account_preferences.html">__MSG__MY_ACCOUNT__</a></li>
+        </ul>
+    </div>
+</div>
+
+
+
 <!-- SEARCH -->
-<div id="genaral_search_container" class="fl-force-right">
-    <input type="text" id="general_search_input" class="general_search_input" value="Search for media, people and sites"/>
-    <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
+<div id="genaral_search_container">
+    <form class="fl-force-right">
+        <input type="text" id="general_search_input" class="general_search_input" value="Search for media, people and sites"/>
+        <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
+        <br class="clear"/>
+    </form>
 </div>
 
 

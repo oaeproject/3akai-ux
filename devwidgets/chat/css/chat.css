@@ -28,11 +28,10 @@
     }
 .pipe_divider {color: #999;}
 .explore_nav {
-    margin: 0 auto;
-    /* overflow: hidden; */
     vertical-align: bottom;
     width: 960px;
     height: 32px;
+    margin: 0 auto 12px auto;
     }
 .explore_nav * {}
 .explore_nav ul {
@@ -44,7 +43,6 @@
     list-style:none none;
     padding: 0;
     margin: 0;
-    height: 32px;
     }
 .explore_nav a {}
 .explore_nav .explore {
@@ -61,66 +59,94 @@
 
 .explore_nav .explore li a {
     color:#fff;
-    font-weight: bold;
     padding: 8px 20px;
     text-align: center;
     display: block;
     float: left;
-    }
+    font-weight: normal;
+}
 
 .explore_nav .explore li small {
     color:#ddd;
     font-size: 0.85em;
-    }
+}
+
+/* Selected Nav element */
+.explore_nav .explore .explore_nav_selected {
+    background:url("../../../dev/_images/arrow_down_grey.png") no-repeat scroll center 32px transparent;
+    padding-bottom:12px;
+}
+
+.explore_nav .explore .explore_nav_selected a {
+    background-color: #666A6E;
+    font-weight: bold;
+}
+
 
 /*** Top Right Navbar ***/
 .explore_nav .personal-container {
     margin-top: 10px;
-    background: url('../../_images/topBar_tr.png') top right no-repeat;
+    background: url('../../../dev/_images/topBar_tr.png') top right no-repeat;
     padding-right: 5px;
     overflow: hidden;
 }
 .explore_nav .personal {
     padding: 4px 0 0 5px;
     margin: 0;
-    background: url('../../_images/topBar_tl.png') top left no-repeat;
+    background: url('../../../dev/_images/topBar_tl.png') top left no-repeat;
     min-height: 30px;
     }
 .explore_nav .personal li a {
-    font-size:0.9em;
+    font-size: 9pt;
     padding:0 5px 0 7px;
     border-left: 1px solid #666a6d;
     color: #fff;
 }
 .explore_nav .personal li span {
     color: #fff;
-    font-size: 0.9em;
-    }
+}
+
 .explore_nav .user_link span {
-    background: url('../../_images/white_subnav_arrow.png') bottom right no-repeat;
+    background: url('../../../dev/_images/white_subnav_arrow.png') bottom right no-repeat;
     padding-right: 17px;
     padding-left: 5px;
 }
 
-.explore_nav .personal li.last a{
-     border:none;
-     padding-right:0
-    }
-.personal img{
-    vertical-align: middle;
-    }
+.explore_nav .personal li.last a{ border:none; padding-right:0; }
+.personal img{ vertical-align: middle;}
 .explore_nav .personal .user_link {border: none;}
 .explore_nav .personal .user_link img {position: relative; top: -1px; padding: 0 3px 0 3px;}
 .explore_nav .personal .mail img {position: relative; top: -1px;}
 
-.explore_nav .explore .explore_nav_selected {
-    background:url("../../../dev/_images/arrow_down_grey.png") no-repeat scroll center 32px transparent;
-    padding-bottom:12px;
+
+
+
+
+
+/* General Search */
+#genaral_search_container {
+    margin: 12px auto 0px auto;
+    text-align:right;
+    width:960px;
+    clear: both;
 }
 
-.explore_nav .explore_nav_selected {
-    background-color: #878A8C;
-    height:32px;
+#general_search_input {
+    width: 27em;
+    color: #ddd;
+    font-style: italic;
+    padding: 1px 0 0 10px;
+    display: block;
+    float: left;
+    margin: 0 5px 0 0;
+    height: 20px;
+    border: 1px solid #777;
+}
+
+.search_input_focus {
+    font-weight: bold !important;
+    color: #333 !important;
+    font-style: normal !important;
 }
 
 
@@ -129,6 +155,7 @@
     width: 960px;
     margin: 0 auto;
 }
+
 #widget_chat #user_link_menu {
     position: absolute;
     top: 43px;
@@ -193,12 +220,12 @@
 
 /* user_link */
 #user_link_container {position:relative; text-align: left; min-width: 50px; max-width: 195px; }
-#user_link_menu {background-color:#868a8d; font-size:0.95em !important;line-height:1.6em;position:absolute;top:30px;z-index:500;}
-.user_link_menu_border {border-bottom:1px solid #666;}
+#user_link_menu {background-color:#868a8d; font-size:9pt; line-height:16px; position:absolute; top:30px;z-index:500; padding:0 0 6px;}
+.user_link_menu_border {border-bottom:1px solid #777; }
 #user_link_menu ul {margin:0;padding:0}
-#user_link_menu li {display:block;list-style-type:none;margin:0;padding:3px 5px 3px 10px;}
-#user_link_menu li a {border:none;color:#fff;font-size:1.05em !important;padding:0;}
-.user_link_inactive li {font-size:0.95em !important;}
+#user_link_menu li {display:block; list-style-type:none;margin:0; padding:3px 5px 6px 13px;}
+#user_link_menu li a {border:none;color:#fff;font-size: 9pt; padding:0;}
+.user_link_inactive li {font-size:9pt; }
 
 /* anonymous */
 
@@ -242,9 +269,9 @@
 
 /* user status */
 .chat_available_status_online, .chat_available_status_busy, .chat_available_status_offline {padding-left:15px;}
-.chat_available_status_online {background:url(/devwidgets/chat/images/bullet_green.png) no-repeat -2px 0;}
-.chat_available_status_busy {background:url(/devwidgets/chat/images/bullet_orange.png) no-repeat -2px 0;}
-.chat_available_status_offline {background:url(/devwidgets/chat/images/bullet_red.png) no-repeat -2px 0;}
+.chat_available_status_online { background: url("../images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_busy {background:url("../images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline {background:url("../images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
 .pretend_link {cursor:pointer;}
 #chat_container {background: #444; color:#fff;height:25px;width: 960px;margin: 0 auto;position:relative;top:5px;}
 .chat_main_table {background: #444; width:100%;height:30px;}
