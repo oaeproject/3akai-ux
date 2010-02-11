@@ -21,6 +21,8 @@
 var sakai = sakai || {};
 sakai.site_manage_members = function() {
     var json = {};
+    var roleToGroup = {};
+    var siteJson = {};
     var selectedSite = "";
     var pageSize = 10;
     var currentPage = 1;
@@ -53,7 +55,7 @@ sakai.site_manage_members = function() {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
         fillBasicSiteSettings(selectedSite);
-        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : sakai.lib.site.authz.roles}));
+        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
 
     };
 
@@ -66,8 +68,9 @@ sakai.site_manage_members = function() {
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response) {
-                var json = $.evalJSON(response);
-                $("#sitetitle").text(json.name);
+                siteJson = $.evalJSON(response);
+                roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
+                $("#sitetitle").text(siteJson.name);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
@@ -178,7 +181,7 @@ sakai.site_manage_members = function() {
                 } else {
                     results[i].picture = undefined;
                 }
-                results[i].role = sakai.lib.site.authz.getRole(selectedSite, results[i]["member:groups"]);
+                results[i].role = sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
             }
             var toRender = {};
             toRender.users = results;
@@ -366,7 +369,6 @@ sakai.site_manage_members = function() {
         var dataTemp = getPostData(true);
         var userCount = dataTemp.uuserid.length;
         if (userCount > 0) {
-            var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(selectedSite);
             var groupDeletions = {};
             var group;
             for (var i = 0; i < userCount; i++) {
@@ -415,7 +417,6 @@ sakai.site_manage_members = function() {
         }
         // TODO Switching roles should be an atomic operation.
         var actions = [];
-        var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(selectedSite);
         for (var role in roleChanges) {
             if (roleChanges.hasOwnProperty(role)) {
                 var data = {};
