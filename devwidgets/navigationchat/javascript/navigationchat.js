@@ -134,9 +134,6 @@ sakai.flashChat = {
     }
 };
 
-
-
-
 sakai.navigationchat = function(tuid, placement, showSettings){
 
 
@@ -150,7 +147,6 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var peopleShown = false;
     var personIconUrl = Config.URL.PERSON_ICON_URL;
     var pulltime = "2100-10-10T10:10:10.000Z";
-    var searchFocus = false;
     var sitesShown = false;
     var time = [];
     var sendMessages = []; // Array containing the id's of all the send messages
@@ -200,8 +196,8 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var navSelectedNavItemClass = "explore_nav_selected";
 
     // Seach
-    var $general_search_container = $("#general_search_container");
-    var $general_search_input = $("#general_search_input")
+    var $general_search_form = $("#genaral_search_container form");
+    var $general_search_input = $("#general_search_input");
     var $general_search_submit_button = $("#general_search_submit_button");
     var searchFocus = false;
 
@@ -456,14 +452,15 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     // SEARCH //
     ////////////
 
+    /**
+     * Execute the search for the value that is in the search input field
+     */
     var doSearch = function(){
         var tosearch = $general_search_input.val();
 
-        // Reset focus
-        $general_search_input.val("").removeClass(searchInputFocusClass);
-        searchFocus == false;
-
-        if (tosearch && (tosearch !== "")) {
+        if (tosearch) {
+            // Redirecting back to the general search page. This expects the URL to be
+            // in a format like this one: page.html#pageid|searchstring
             document.location = Config.URL.SEARCH_GENERAL_URL + "#1|" + tosearch;
         }
     };
@@ -479,29 +476,15 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         }
     });
 
-    $general_search_input.bind("click", function(ev){
-        if (!searchFocus) {
-            $general_search_input.val("").addClass(searchInputFocusClass);
-            searchFocus = true;
-        }
-    });
-
     /**
-     * Check on every keypress whether the enter key has been pressed or not. If so,
-     * search for sites
+     * Bind the submit event to the search form
+     * This event is triggered when you hit enter in the input field and
+     * when you click on the submit button
      */
-    $(window).bind("keypress", function(ev){
-        if ((ev.which === 13) && (searchFocus === true)) {
-            doSearch();
-        }
+    $general_search_form.bind("submit", function(){
+        doSearch();
+        return false;
     });
-
-    // Bind general search button click
-    $general_search_submit_button.bind("click", doSearch);
-
-
-
-
 
 
     //////////
