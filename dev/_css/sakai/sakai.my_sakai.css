@@ -9,11 +9,11 @@ strong {color: #000;}
 
 /* HEADER */
 .header .greeting {padding-top: 19px;margin-right: 20px;}
-.header .greeting .greeting_picture {float: left; padding: 0px 5px 25px 0px;}
+.header .greeting .greeting_picture {float: left; padding: 0 5px 10px 0;}
 .header .greeting .greeting_text {font-size: 2em; color: #454A4F; display: block; padding-top: 10px; padding-bottom: 6px; font-weight: bold;}
 .header .greeting .greeting_links {font-size: .9em; color: #454A4F; font-weight: bold;}
 .header .greeting .pipe_divider {padding: 0 12px;}
-.header .page_options { text-align: right; margin: 51px 0; }
+.header .page_options { text-align: right; margin: 51px 0 0; }
 .focussedInput {color: #000000 !important;}
 
 /* OPTIONS */
