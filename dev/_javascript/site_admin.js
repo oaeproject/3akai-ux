@@ -2846,7 +2846,6 @@ sakai.site.site_admin = function(){
         sdata.container.registerFinishFunction(sakai.site.widgetFinish);
         sdata.container.registerCancelFunction(sakai.site.widgetCancel);
         fillInsertMoreDropdown();
-        $.Load.requireJS("/dev/_lib/tiny_mce/tiny_mce.js");
     };
 
     admin_init();
