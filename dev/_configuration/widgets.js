@@ -155,7 +155,7 @@ var Widgets = {
             url:"/devwidgets/discussion/discussion.html",
             name:"Discussion",
             id:"discussion",
-            personalportal:1,
+            personalportal:0,
             siteportal:0,
             ca:1,
             showinmedia:0,
