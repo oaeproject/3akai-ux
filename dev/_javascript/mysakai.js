@@ -29,12 +29,6 @@ sakai.dashboard = function(){
     /////////////////////////////
 
     var stateFile = "devstate";
-    var focussedFieldClass = "focussedInput";
-
-    // Search related fields
-    var searchField = "#search_field";
-    var searchButton = "#search_button";
-    var searchForm = "#search_form";
 
     // Add Goodies related fields
     var addGoodiesDialog = "#add_goodies_dialog";
@@ -937,53 +931,6 @@ sakai.dashboard = function(){
         overlay: 20,
         toTop: true,
         onShow: renderGoodies
-    });
-
-
-    ////////////////////////////////
-    // Search field functionality //
-    ////////////////////////////////
-
-    /*
-     * This variable will tell us whether the search field has had focus. If not, when the
-     * field gets focus for the first time, we'll change it's text color and remove the default
-     * text out of the input field
-     */
-    var searchHadFocus = false;
-
-    var doSearch = function(){
-        var value = $(searchField).val();
-        // Check whether the field is not empty
-        if (value){
-            // Redirecting back to the general search page. This expects the URL to be
-            // in a format like this one: page.html#pageid|searchstring
-            document.location = Config.URL.SEARCH_GENERAL_URL + "#1|" + value;
-        }
-    };
-
-    /*
-     * If this is the first time the field gets focus, we'll make his text color black
-     * and remove the default value
-     */
-    $(searchField).bind("focus", function(ev){
-        if (!searchHadFocus){
-            $(searchField).addClass(focussedFieldClass);
-            $(searchField).val("");
-            searchHadFocus = true;
-        }
-    });
-
-    $(searchField).bind("keypress", function(ev){
-        if (ev.which == 13){
-            doSearch();
-        }
-    });
-
-    $(searchButton).bind("click", doSearch);
-
-    $(searchForm).bind("submit", function(ev){
-        doSearch();
-        return false;
     });
 
 
