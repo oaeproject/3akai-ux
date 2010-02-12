@@ -16,8 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
-
 /**
  * Top Navigation Bar
  */
@@ -30,12 +28,12 @@
 .explore_nav .explore { font-size: 1em; }
 .explore_nav ul.explore li { padding: 0; padding-bottom: 6px; border-left: 1px solid #878a8c; }
 .explore_nav .explore li#nav_my_sakai_link { border-left: none; }
-.explore_nav .explore li a { color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
+.explore_nav .explore li a { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
 .explore_nav .explore li small { color:#ddd; font-size: 0.85em; }
 
 /* Selected Nav element */
 .explore_nav .explore .explore_nav_selected { background:url("../../../dev/_images/arrow_down_grey.png") no-repeat scroll center 32px transparent; padding-bottom:12px; }
-.explore_nav .explore .explore_nav_selected a { background-color: #666A6E;}
+.explore_nav .explore .explore_nav_selected a { background-color: #666A6E; height:16px;}
 
 
 /*** Top Right Navbar ***/
@@ -45,11 +43,11 @@
 .explore_nav .personal li .other_logins { border-left: none; }
 .explore_nav .personal li span { color: #fff; }
 .explore_nav .user_link span { background: url('../../../dev/_images/white_subnav_arrow.png') bottom right no-repeat; padding-right: 17px; padding-left: 5px; }
-.explore_nav .personal li.last a{ border:none; padding-right:0; }
+.explore_nav .personal li.last a { border:none; padding-right:0; }
 .personal img { vertical-align: middle;}
-.explore_nav .personal .user_link {border: none;}
-.explore_nav .personal .user_link img {position: relative; top: -1px; padding: 0 3px 0 3px;}
-.explore_nav .personal .mail img {position: relative; top: -1px;}
+.explore_nav .personal .user_link { border: none;}
+.explore_nav .personal .user_link img { position: relative; top: -1px; padding: 0 3px 0 3px;}
+.explore_nav .personal .mail img { position: relative; top: -1px;}
 
 /* User Link Dropdown */
 #user_link_container {position:relative; text-align: left; min-width: 50px; max-width: 195px; }
@@ -68,8 +66,8 @@
 #login_busy { background: url("../../../dev/_images/ajax_load.gif") 0 0 no-repeat; width: 80px; height: 10px; }
 
 /* General Search */
-#genaral_search_container {margin:15px auto;text-align:right;width:960px}
-#general_search_input { border: none; color: #aaa; float: left; font-size: 0.95em; height: 20px; margin: 0 14px 0 0; padding: 1px 5px; width: 18em; }
+#genaral_search_container { margin:15px auto 0; text-align:right;width:960px; overflow: hidden; }
+#general_search_input { border: 1px solid #777; color: #aaa; float: left; font-size: 1em; height: 20px; margin: 0 14px 0 0; padding: 1px 5px; width: 27em; }
 .search_input_focus { color: #333 !important;}
 
 /* CHAT */
@@ -77,8 +75,8 @@
 #widget_chat #user_link_menu { position: absolute; top: 43px; right: 285px; }
 
 /* chat_available */
-#chat_available table {margin:0;}
-#chat_available table th, #chat_available table td {border:none;text-align:left;padding:7px;}
+#chat_available table { margin:0; }
+#chat_available table th, #chat_available table td { border:none;text-align:left;padding:7px; }
 #chat_available_me .chat_top_container {border-bottom:1px #ebebeb solid;}
 .chat_available_status_online {background:url(/devwidgets/navigationchat/images/chat_status_online.png) no-repeat 0px 2px;}
 .chat_top_container .chat_available_image {width:40px;}

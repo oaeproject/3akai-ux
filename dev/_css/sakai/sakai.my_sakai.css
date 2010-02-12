@@ -21,15 +21,10 @@ strong {color: #000;}
 .options .fixed-container { background-color: #fff; }
 .options a {font-size: 9pt; color: #454A4F; font-weight: bold;}
 
-.greeting_picture img {
-    width: 60px;
-    height: 60px;
-}
+.greeting_picture img { width: 60px; height: 60px; }
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
-#toolscontainer {
-    margin-left: 20px;
-}
+#toolscontainer { margin-left: 20px; }
 
 /* FOOTER */
 .page_footer {padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999;}
