@@ -1763,8 +1763,8 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         switchToAnonymousMode();
     }
     else {
-        //loadPersistence();
-        //checkOnline();
+        loadPersistence();
+        checkOnline();
         doInit();
     }
 
@@ -1779,7 +1779,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         switchToAnonymousMode();
     }
     else {
-        sdata.widgets.WidgetLoader.insertWidgets("navigationchat_container");
+        sdata.widgets.WidgetLoader.insertWidgets("chat_container");
     }
 
 
