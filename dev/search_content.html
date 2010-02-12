@@ -28,20 +28,20 @@
 <body id="root" class="fl-centered fl-container i18nable search-container">
 
 <!-- EXPLORE BAR -->
-<div id="widget_navigationchat" class="widget_inline"></div>
+<div id="widget_navigationchat" class="widget_inline i18nable"></div>
 <!-- CONTENT -->
 <div class="fl-container-flex content content_search">
     <div class="fl-fix fl-centered fixed-container">
         <div class="decor"><!-- --></div>
         <!-- TITLE -->
-        <h1 class="title">Search content &amp; media</h1>
+        <h1 class="title">__MSG__SEARCH_CONTENT_AND_MEDIA__</h1>
         <!-- TAB NAVIGATION -->
         <div class="search_tab_nav">
             <ul class="fl-tabs fl-tabs-right">
-                <li><a id="tab_search_all" href="search.html#">All</a></li>
-                <li class="fl-tabs-active search_tab_selected"><a href="search_content.html#" id="tab_search_content">Content &amp; Media</a></li>
-                <li><a href="search_people.html#" id="tab_search_people">People</a></li>
-                <li><a href="search_sites.html#" id="tab_search_sites">Courses &amp; Sites</a></li>
+                <li><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
+                <li class="fl-tabs-active search_tab_selected"><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
+                <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
+                <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
             </ul>
         </div>
         <!-- TAB CONTENT -->
@@ -56,10 +56,10 @@
                         <div id="search_site_select"></div>
                         <div id="search_site_select_template"><!--
                             <select class="skinned_select" id="search_filter">
-                                <option value="entire_community" id="search_filter_community">Entire Community</option>
-                                <option value="all_my_sites" id="search_filter_all_my_sites">All my sites</option>
+                                <option value="entire_community" id="search_filter_community">__MSG__ENTIRE_COMMUNITY__</option>
+                                <option value="all_my_sites" id="search_filter_all_my_sites">__MSG__ALL_MY_SITES__</option>
                                 {if sites.length > 0}
-                                    <optgroup id="search_filter_my_sites" label="Choose a specific site where you want to search in.">
+                                    <optgroup id="search_filter_my_sites" label="__MSG__CHOOSE_A_SPECIFIC_SITE_WHERE_YOU_WANT_TO_SEARCH_IN__.">
                                         {for i in sites}
                                             <option value="${i.siteref}" id="search_filter_my_sites_${i.siteref}">${i.site.name}</option>
                                         {/for}
@@ -67,8 +67,8 @@
                                 {/if}
                             </select>
                         --></div>
-                        <input type="text" id="search_text" class="input" value="Enter a searchterm" />
-                        <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">Search</span></span></button>
+                        <input type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCHTERM__" />
+                        <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                         <!-- SITEs TEMPLATE -->
                         <div id="search_filter_my_sites_template" style="display:none;"><!--
                             {for i in items}
@@ -78,8 +78,8 @@
                     </div>
                 </div>
                 <div class="fl-left fl-container search_result_title" id="search_results_header">
-                    Found <strong id="search_numberFound">0</strong>
-                    results matching your search for
+                    __MSG__FOUND__ <strong id="search_numberFound">0</strong>
+                    __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
                     <span class="keyword" id="search_mysearchterm"></span> </div>
                 <!-- SEARCH RESULTS -->
                 <div id="search_results_page1" class="fl-container fl-fix search_results_container">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                         {forelse}
-                            No Content &amp; Media found
+                            __MSG__NO_CONTENT_AND_MEDIA_FOUND__
                         {/for}
                     --></div>
                     <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>

@@ -893,7 +893,7 @@ sdata.widgets.WidgetPreference =  {
                     throw "Not in default file";
                 }
             } catch (notInDefaultFile){
-                fluid.log("i18n key " + key + " was not found in any bundle");
+                //fluid.log("i18n key " + key + " was not found in any bundle");
             }
         }
     };

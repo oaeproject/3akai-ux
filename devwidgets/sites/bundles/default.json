@@ -1,0 +1,9 @@
+{
+"name": "Sites",
+"description": "Sites widget\r\n",
+"WIDGET_TITLE": "Sites",
+"CREATE_A_SITE": "Create a Site",
+"EDIT": "Edit",
+"YOU_ARENT_A_MEMBER_OF_ANY_SITES_YET": "You aren't a member of any sites yet",
+"NO_SETTINGS_AVAILABLE": "No settings available"
+}

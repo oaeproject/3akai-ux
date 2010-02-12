@@ -32,7 +32,7 @@
 
 </head>
 
-<body id="root" class="fl-centered fl-container people">
+<body id="root" class="fl-centered fl-container people i18nable">
 
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
@@ -48,9 +48,9 @@
                 <!-- TITLE BAR  -->
                     <div class="site_heading">
                         <div class="fl-container options find_more_people">
-                            <a id="edit-layout" href="search_people.html">Find more people</a>
+                            <a id="edit-layout" href="search_people.html">__MSG__FIND_MORE_PEOPLE__</a>
                         </div>
-                        <h1>My People</h1>
+                        <h1>__MSG__MY_PEOPLE__</h1>
                     </div>
 
         </div>
@@ -73,7 +73,7 @@
                 <div class="fl-container fl-fix search_results_part">
 
                     <div class="fl-container fl-fix search_results_part_header">
-                        <a href="#" class="search_results_part_title">My Contacts</a>
+                        <a href="#" class="search_results_part_title">__MSG__MY_CONTACTS__</a>
                     </div>
 
                     <div id="contacts_search_result">
@@ -103,7 +103,7 @@
                                 {/if}
                             </div>
                         {forelse}
-                            No contacts found
+                            __MSG__NO_CONTACTS_FOUND__
                         {/for}
                     --></div>
 
@@ -122,7 +122,7 @@
                 <div class="fl-container fl-fix search_results_part">
 
                     <div class="fl-container fl-fix search_results_part_header">
-                        <a href="javascript:;" class="search_results_part_title">My Contact Invitations</a>
+                        <a href="javascript:;" class="search_results_part_title">__MSG__MY_CONTACTS_INVITATIONS__</a>
                     </div>
 
                     <div id="invited_search_result">
@@ -150,7 +150,7 @@
                                 {/if}
                             </div>
                         {forelse}
-                            No invitations found
+                            __MSG__NO_INVITATIONS_FOUND__
                         {/for}
                     --></div>
 
@@ -165,7 +165,7 @@
                 <div class="fl-container fl-fix search_results_part">
 
                     <div class="fl-container fl-fix search_results_part_header">
-                        <a href="#" class="search_results_part_title">Pending Invitations</a>
+                        <a href="#" class="search_results_part_title">__MSG__PENDING_INVITATIONS__</a>
                     </div>
 
                     <div id="pending_search_result">
@@ -191,7 +191,7 @@
                                 {/if}
                             </div>
                         {forelse}
-                            No pending contacts found
+                            __MSG__NO_PENDING_CONTACTS_FOUND__
                         {/for}
                     --></div>
 

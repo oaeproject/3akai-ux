@@ -30,5 +30,7 @@
 "PEOPLE": "人员",
 "COURSES_AND_SITES": "课程与站点",
 "CONTENT_AND_MEDIA": "内容与媒体",
-"SEARCH": "查询"
+"SEARCH": "查询",
+"NO_ONLINE_CONNECTIONS_FOUND": "未发现在线联系人",
+"PROFILE": "个人信息"
 }

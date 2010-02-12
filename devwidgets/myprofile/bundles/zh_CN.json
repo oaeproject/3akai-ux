@@ -1,0 +1,11 @@
+{
+"name": "My Profile",
+"description": "My Personal Profile widget\r\n",
+"WIDGET_TITLE": "My Profile",
+"EDIT_PROFILE": "编辑个人信息", 
+"PREVIEW_PROFILE": "预览个人信息",
+"AVAILABLE": "空闲",
+"BUSY": "忙碌",
+"OFFLINE": "离线",
+"CHAT_STATUS": "状态"
+}

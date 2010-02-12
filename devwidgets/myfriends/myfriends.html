@@ -12,7 +12,7 @@
                 <a href="/dev/profile.html?user=${i.id}" class="myfriends_list_contact_name">${i.name}</a>
             </div>
         {forelse}
-            <span id="myfriends_nocontacts">You currently have no contacts</span>
+            <span id="myfriends_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__</span>
         {/for}
     --></div>
 <!--
@@ -36,15 +36,15 @@
     --></div>
 
     <!-- ERROR MESSAGES -->
-    <span id="myfriends_error_contactserver" style="display:none;">Unable to contact the server. Please try again later.</span>
+    <span id="myfriends_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
 
     <!-- FOOTER LINKS -->
     <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
             <ul>
-                <li><a href="people.html">View &amp; Edit Contacts</a></li>
+                <li><a href="people.html">__MSG__VIEW_AND_EDIT_CONTACTS__</a></li>
                 <li><span class="pipe_divider">|</span></li>
-                <li><a href="search_people.html">Find People</a></li>
+                <li><a href="search_people.html">__MSG__FIND_PEOPLE__</a></li>
                 <li><a href="people.html" class="myfriends_requests" id="myfriends_requests"></a></li>
             </ul>
 

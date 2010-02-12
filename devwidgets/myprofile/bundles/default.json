@@ -1,0 +1,11 @@
+{
+"name": "My Profile",
+"description": "My Personal Profile widget\r\n",
+"WIDGET_TITLE": "My Profile",
+"EDIT_PROFILE": "Edit Profile",
+"PREVIEW_PROFILE": "Preview Profile",
+"AVAILABLE": "Available",
+"BUSY": "Busy",
+"OFFLINE": "Offline",
+"CHAT_STATUS": "Chat Status"
+}
