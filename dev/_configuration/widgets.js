@@ -53,12 +53,6 @@ var Widgets = {
             name:"Add a contact",
             url:"/devwidgets/addtocontacts/addtocontacts.html"
         },
-        camtoolscourses: {
-            description:"Your courses &amp; sites for Camtools 2008",
-            id:"camtoolscourses",
-            name:"Camtools 2008 Courses &amp; Projects",
-            url:"/devwidgets/camtoolscourses/camtoolscourses.html"
-        },
         changepic: {
             i18n: {
                 "default": "/devwidgets/changepic/bundles/default.json",
@@ -113,12 +107,6 @@ var Widgets = {
             id:"footer",
             name:"Dynamic Footer",
             url:"/devwidgets/footer/footer.html"
-        },
-        filemanager: {
-            description:"filemanager",
-            name:"filemanager",
-            id:"filemanager",
-            url:"/devwidgets/filemanager/filemanager.html"
         },
         filepicker: {
             description:"Pick a file.",
@@ -243,13 +231,6 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/remotecontent/remotecontent.html"
         },
-        Resources: {
-            description:"Resources tool",
-            history: {"init":"Resources.initHistory","nav":"Resources.browser.printResources",tag:"Resources.tagging.showTagViewReal"},
-            id:"resources",
-            name:"Resources",
-            url:"/devwidgets/Resources/Resources.html"
-        },
         rss: {
             ca:true,
             description:"RSS Feed Reader",
@@ -325,13 +306,6 @@ var Widgets = {
             img:"/devwidgets/discussion/images/discussion.png",
             name:"Tag",
             url:"/devwidgets/pickers/tagpicker.html"
-        },
-        tlrp: {
-            description:"TLRP BERA Widget",
-            id:"tlrp",
-            img:"/devwidgets/tlrp/images/tlrp.png",
-            name:"TLRP BERA",
-            url:"/devwidgets/tlrp/tlrp.html"
         },
         twitter: {
             description:"Twitter Widget",
