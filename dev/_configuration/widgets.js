@@ -56,7 +56,11 @@ var Widgets = {
             id:"changepic",
             personalportal:0,
             siteportal:0,
-            img:"/dev/img/sites.png"
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/changepic/bundles/default.json",
+                "zh_CN": "/devwidgets/changepic/bundles/zh_CN.json"
+            }
         },
         googlemaps :
         {
@@ -86,7 +90,12 @@ var Widgets = {
             id:"sites",
             personalportal:1,
             siteportal:0,
-            img:"/dev/img/sites.png"
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/sites/bundles/default.json",
+                "en_US": "/devwidgets/sites/bundles/en_US.json",
+                "zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
+            }
         },
         myprofile :
         {
@@ -97,7 +106,12 @@ var Widgets = {
             id:"myprofile",
             personalportal:1,
             siteportal:0,
-            img:"/dev/img/myprofile.png"
+            img:"/dev/img/myprofile.png",
+            i18n: {
+                "default": "/devwidgets/myprofile/bundles/default.json",
+                "en_US": "/devwidgets/myprofile/en_US.json",
+                "zh_CN": "/devwidgets/myprofile/bundles/zh_CN.json"
+            }
         },
         addtocontacts :
         {
@@ -146,7 +160,11 @@ var Widgets = {
             id:"sendmessage",
             personalportal:0,
             siteportal:0,
-            img:"/dev/img/sites.png"
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/sites/bundles/default.json",
+                "zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
+            }
         },
         discussion :
         {
@@ -291,10 +309,10 @@ var Widgets = {
             hasSettings: 1,
             img:"/dev/img/myprofile.png",
             i18n: {
-                 "default": "/devwidgets/twitter/bundles/default.json",
-                 "en_US": "/devwidgets/twitter/bundles/en_US.json",
-                 "zh_CN": "/devwidgets/twitter/bundles/zh_CN.json"
-             }
+                "default": "/devwidgets/twitter/bundles/default.json",
+                "en_US": "/devwidgets/twitter/bundles/en_US.json",
+                "zh_CN": "/devwidgets/twitter/bundles/zh_CN.json"
+            }
          },
         helloworldwow :
         {
@@ -318,7 +336,11 @@ var Widgets = {
             id:"createsite",
             personalportal:0,
             siteportal:0,
-            img:"/dev/img/sites.png"
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/createsite/bundles/default.json",
+                "zh_CN": "/devwidgets/createsite/bundles/zh_CN.json"
+            }
         },
         sendmessage :
         {
@@ -329,7 +351,11 @@ var Widgets = {
             id:"sendmessage",
             personalportal:0,
             siteportal:0,
-            img:"/dev/img/sites.png"
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/sendmessage/bundles/default.json",
+                "zh_CN": "/devwidgets/sendmessage/bundles/zh_CN.json"
+            }
         },
         myfriends :
         {
@@ -341,7 +367,11 @@ var Widgets = {
             personalportal:1,
             siteportal:0,
             img:"/dev/img/myprofile.png",
-            multipleinstance: false
+            multipleinstance: false,
+            i18n: {
+                "default": "/devwidgets/myfriends/bundles/default.json",
+                "zh_CN": "/devwidgets/myfriends/bundles/zh_CN.json"
+            }
         },
         pagemanagement :
         {
