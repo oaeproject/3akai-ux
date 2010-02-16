@@ -43,14 +43,14 @@ sdata.me = false;
 
 
 if(!Array.indexOf){
-  Array.prototype.indexOf = function(obj){
-   for(var i=0; i<this.length; i++){
-    if(this[i]==obj){
-     return i;
-    }
-   }
-   return -1;
-  };
+    Array.prototype.indexOf = function(obj){
+        for(var i=0, j=this.length; i<j; i++){
+            if(this[i]==obj){
+                return i;
+            }
+        }
+        return -1;
+    };
 }
 
 ///////////////////////////

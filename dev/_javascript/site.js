@@ -221,16 +221,62 @@ sakai.site = function(){
 
         var siteid = document.location.pathname.split("/")[document.location.pathname.split("/").length - 1];
         sakai.site.currentsite = siteid.split(".")[0];
+
         $.ajax({
-            //url: sakai.site.urls.CURRENT_SITE_OBJECT(),
             url: "/sites/" + sakai.site.currentsite + ".json",
             cache: false,
-            async: false,
             success: function(response){
+
                 sakai.site.currentsite = $.evalJSON(response);
 
+                // Adjust links if not on dev
+                if (!sakai.site.currentsite) {
+                    document.location = "/dev/";
+                } else {
+                    var sitepath = sakai.site.currentsite.id;
+                    $site_management_members_link.attr("href", $site_management_members_link.attr("href") + sitepath);
+                    $site_management_basic_link.attr("href", $site_management_basic_link.attr("href") + sitepath);
+                    $site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
+                    $site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
+                    $site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
+                }
+
+                // Determine whether the user is maintainer, if yes show and load admin elements
+                sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite, sdata.me.user.subjects);
+                if (sakai.site.isCollaborator) {
+
+                    // Show admin elements
+                    $li_edit_page_divider.show();
+                    $li_edit_page.show();
+                    $add_a_new.show();
+                    $site_management.show();
+
+                    // Load admin part from a separate file
+                    $.Load.requireJS(sakai.site.siteAdminJS);
+                }
+
+                // Check user's login status
+                if (sdata.me.user.userid){
+                    $("#loginLink").hide();
+                } else {
+                    $(".explore_nav").hide();
+                    $widget_chat.hide();
+                    sakai._isAnonymous = true;
+                    $loginLink.show();
+                }
+
+                // Show initial content and display site title
+                $initialcontent.show();
+                $sitetitle.text(sakai.site.currentsite.name);
+
+                // Refresh site_info object
+                sakai.site.refreshSiteInfo();
+
+                // Load site navigation
+                sakai.site.loadSiteNavigation();
+
                 // Save current site to Recent Sites
-                saveToRecentSites(response);
+                saveToRecentSites(sakai.site.currentsite);
             },
             error: function(xhr, textStatus, thrownError) {
 
@@ -239,50 +285,7 @@ sakai.site = function(){
             }
         });
 
-        // Adjust links if not on dev
-        if (!sakai.site.currentsite) {
-            document.location = "/dev/";
-        } else {
-            var sitepath = sakai.site.currentsite.id;
-            $site_management_members_link.attr("href", $site_management_members_link.attr("href") + sitepath);
-            $site_management_basic_link.attr("href", $site_management_basic_link.attr("href") + sitepath);
-            $site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
-            $site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
-            $site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
-        }
 
-        // Determine whether the user is maintainer, if yes show and load admin elements
-        sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite, sdata.me.user.subjects);
-        if (sakai.site.isCollaborator) {
-            // Show admin elements
-            $li_edit_page_divider.show();
-            $li_edit_page.show();
-            $add_a_new.show();
-            $site_management.show();
-
-            // Load admin part from a separate file
-            $.Load.requireJS(sakai.site.siteAdminJS);
-        }
-
-        // Check user's login status
-        if (sdata.me.user.userid){
-            $("#loginLink").hide();
-        } else {
-            $(".explore_nav").hide();
-            $widget_chat.hide();
-            sakai._isAnonymous = true;
-            $loginLink.show();
-        }
-
-        // Show initial content and display site title
-        $initialcontent.show();
-        $sitetitle.text(sakai.site.currentsite.name);
-
-        // Refresh site_info object
-        sakai.site.refreshSiteInfo();
-
-        // Load site navigation
-        sakai.site.loadSiteNavigation();
 
     };
 
@@ -292,7 +295,6 @@ sakai.site = function(){
      */
     sakai.site.refreshSiteInfo = function(pageToOpen) {
 
-        // NEW !!
         // Load site information
         $.ajax({
             url: Config.URL.GENERAL_SEARCH_SERVICE,
@@ -341,7 +343,6 @@ sakai.site = function(){
 
             },
             error: function(xhr, textStatus, thrownError) {
-                var httpstatus = xhr.status;
                 sakai.site.site_info = {};
                 fluid.log("site.js: Could not load site info. \n HTTP status code: " + xhr.status);
 
@@ -359,6 +360,7 @@ sakai.site = function(){
     sakai.site.ensureProperWidgetIDs = function(content, url) {
         var adjusted = false;
         var moveWidgets = [];
+
         // Wrap the content in a dummy div so we don't lose anything.
         var $el = $("<div>" + content + "</div>");
         $(".widget_inline", $el).each(function(){
@@ -424,14 +426,8 @@ sakai.site = function(){
                 History.history_change();
             },
             error: function(xhr, textStatus, thrownError) {
-                var httpstatus = xhr.status;
                 History.history_change();
-                if (httpstatus === 401) {
-                    document.location = Config.URL.GATEWAY_URL;
-                }
-                else {
-                    alert("site.js: Could not load site navigation content. \n HTTP status code: " + httpstatus);
-                }
+                alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
     };
@@ -469,13 +465,13 @@ sakai.site = function(){
      * @param {Object} response
      * @return void
      */
-    var saveToRecentSites = function(response){
+    var saveToRecentSites = function(site_object){
 
         var items = {};
-        var site = $.evalJSON(response).id;
+        var site = site_object.id;
 
         $.ajax({
-               url : "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
+            url : "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
             cache: false,
             success : function(data) {
 
@@ -555,7 +551,6 @@ sakai.site = function(){
             sakai.site.versionHistoryNeedsReset = false;
         }
 
-
         // Reset flags
         sakai.site.showingInsertMore = false;
         sakai.site.inEditView = false;
@@ -602,7 +597,9 @@ sakai.site = function(){
             $("#" + sakai.site.selectedpage).show();
 
             // Re-render Site Navigation to reflect changes if navigation widget is already loaded
-            sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+            if (sakai._navigation) {
+                sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+            }
         }
         else {
 
@@ -626,9 +623,23 @@ sakai.site = function(){
                         type: "GET",
                         success: function(data) {
 
-                            sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"] = $.evalJSON(data);
+                            sakai.site.pagecontents[pageUrlTitle] = $.evalJSON(data);
 
-                            displayDashboard(sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"]["sakai:content"], true);
+                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["sakai:content"], true);
+
+                            if (sakai.site.isCollaborator) {
+                                if (pageType === "dashboard") {
+                                    $dashboard_options.show();
+                                    $li_edit_page_divider.hide();
+                                    $li_edit_page.hide();
+                                } else {
+                                    $li_edit_page_divider.show();
+                                    $li_edit_page.show();
+                                }
+                            }
+
+                            // Re-render Site Navigation to reflect changes if navigation widget is already loaded
+                            //sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
                         },
                         error: function(xhr, status, e) {
                             fluid.log("site.js: Could not load page content for dashboard!");
@@ -645,10 +656,26 @@ sakai.site = function(){
                         type: "GET",
                         success: function(data) {
 
-                            sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"] = $.evalJSON(data);
+                            var content_node = $.evalJSON(data);
+                            sakai.site.pagecontents[pageUrlTitle] = content_node;
 
                             // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                            displayPage(sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"]["sakai:content"], true);
+                            displayPage(sakai.site.pagecontents[pageUrlTitle]["sakai:content"], true);
+
+                            if (sakai.site.isCollaborator) {
+                                if (pageType === "dashboard") {
+                                    $dashboard_options.show();
+                                    $li_edit_page_divider.hide();
+                                    $li_edit_page.hide();
+                                } else {
+                                    $li_edit_page_divider.show();
+                                    $li_edit_page.show();
+                                }
+                            }
+
+                            // Re-render Site Navigation to reflect changes if navigation widget is already loaded
+                            //sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+
                         },
                         error: function(xhr, status, e) {
                             fluid.log("site.js: Could not load page content for webpage!");
@@ -657,20 +684,6 @@ sakai.site = function(){
                     break;
             }
         }
-
-        if (sakai.site.isCollaborator) {
-            if (pageType === "dashboard") {
-                $dashboard_options.show();
-                $li_edit_page_divider.hide();
-                $li_edit_page.hide();
-            } else {
-                $li_edit_page_divider.show();
-                $li_edit_page.show();
-            }
-        }
-
-        // Re-render Site Navigation to reflect changes if navigation widget is already loaded
-        sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
 
     };
 
@@ -1265,10 +1278,10 @@ sakai.site = function(){
             // Page exists
 
             // Store page content
-            sakai.site.pagecontents[sakai.site.selectedpage] = response;
+            //sakai.site.pagecontents[sakai.site.selectedpage] = response;
 
             // If page already exists in DOM just show it, else create it
-            var element_to_test = $("#" + sakai.site.escapePageId(sakai.site.selectedpage));
+            var element_to_test = $("#" + sakai.site.selectedpage);
             if (element_to_test.length > 0){
                 element_to_test.show();
             } else
@@ -1286,22 +1299,19 @@ sakai.site = function(){
             // Insert widgets
             sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 
-            // Re-render Site Navigation to reflect changes if navigation widget is already loaded
-            try {
+            // (Re)-Render Navigation widget
+            if (sakai._navigation) {
                 sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
-            } catch (error){
-
             }
-
 
         }
         else {
             // Page does not exist
 
             // Create error element
-            sakai.site.pagecontents[sakai.site.selectedpage] = "";
+            sakai.site.pagecontents[sakai.site.selectedpage] = {};
             var errorel = document.createElement("div");
-            errorel.id = sakai.site.escapePageId(sakai.site.selectedpage);
+            errorel.id = sakai.site.selectedpage;
             errorel.className = "content";
             errorel.innerHTML = "";
 
