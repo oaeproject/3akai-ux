@@ -128,9 +128,7 @@ sakai.site = function(){
     sakai.site.escapePageId = function(pageid){
         var regexp = new RegExp("[^a-z0-9_-]", "gi");
         var escaped = pageid.replace(regexp,"_-_-_-_-_");
-        //var escaped = pageid.replace(/ /g, "\\%20");
-        //escaped = pageid.replace(/[.]/g, "\\\\\\.");
-        //escaped = pageid.replace(/\//g, "\\\/");
+
         return escaped;
     };
 
@@ -191,6 +189,25 @@ sakai.site = function(){
         return string;
     };
 
+    /**
+     * Cretes URL safe page title
+     * @param title {String} The title of a page
+     * @returns {String} URL safe title
+     */
+    sakai.site.createURLSafeTitle = function(title) {
+        var url_safe_title = title.toLowerCase();
+        url_safe_title = url_safe_title.replace(/ /g,"-");
+        url_safe_title = url_safe_title.replace(/'/g,"");
+        url_safe_title = url_safe_title.replace(/"/g,"");
+        url_safe_title = url_safe_title.replace(/[:]/g,"");
+        url_safe_title = url_safe_title.replace(/[?]/g,"");
+        url_safe_title = url_safe_title.replace(/[=]/g,"");
+
+        var regexp = new RegExp("[^a-z0-9_-]", "gi");
+        url_safe_title = url_safe_title.replace(regexp,"-");
+
+        return url_safe_title;
+    }
 
     /////////////
     // LOADING //
@@ -216,13 +233,9 @@ sakai.site = function(){
                 saveToRecentSites(response);
             },
             error: function(xhr, textStatus, thrownError) {
-                var httpstatus = xhr.status;
-                if (httpstatus === 401) {
-                    document.location = Config.URL.GATEWAY_URL;
-                }
-                else {
-                    alert("site.js: Could not load site object. \n HTTP status code: " + httpstatus);
-                }
+
+                fluid.log("site.js: Could not load site object. \n HTTP status code: " + xhr.status);
+
             }
         });
 
@@ -271,6 +284,70 @@ sakai.site = function(){
         // Load site navigation
         sakai.site.loadSiteNavigation();
 
+    };
+
+/**
+     * Function which (re)-loads the information available on a site
+     * @return void
+     */
+    sakai.site.refreshSiteInfo = function(pageToOpen) {
+
+        // NEW !!
+        // Load site information
+        $.ajax({
+            url: Config.URL.GENERAL_SEARCH_SERVICE,
+            cache: false,
+            async: false,
+            data: {
+                "path": "/sites/" + sakai.site.currentsite.id,
+                "items": 255
+            },
+            success: function(response) {
+
+                // Init, convert response to JS object
+                var temp = $.evalJSON(response);
+                temp = temp.results;
+
+                // Sort site objects by their path
+                var compareURL = function(a,b) {
+                    return a.path>b.path ? 1 : a.path<b.path ? -1 : 0;
+                };
+                temp.sort(compareURL);
+
+                // Create site_info object, the unique key being the partial path of the page from the root of the site
+                // This will also keep the alphabetical order
+                sakai.site.site_info["_pages"] = {};
+                for (var i=0, j=temp.length; i<j; i++) {
+
+                    if (typeof temp[i] !== undefined) {
+                        // Save page data
+                        sakai.site.site_info["_pages"][temp[i]["sakai:pageURLTitle"]] = temp[i];
+                    }
+                }
+
+                // Create a helper function which returns the number of pages
+                sakai.site.site_info.number_of_pages = function() {
+                    var counter = 0;
+                    for (var i in sakai.site.site_info._pages) {
+                        counter++;
+                    }
+                    return counter;
+                };
+
+                if (pageToOpen){
+                    // Open page
+                    sakai.site.openPage(pageToOpen);
+                }
+
+            },
+            error: function(xhr, textStatus, thrownError) {
+                var httpstatus = xhr.status;
+                sakai.site.site_info = {};
+                fluid.log("site.js: Could not load site info. \n HTTP status code: " + xhr.status);
+
+            }
+
+        });
     };
 
     /**
@@ -382,74 +459,6 @@ sakai.site = function(){
 
     };
 
-    /**
-     * Function which (re)-loads the information available on a site
-     * @return void
-     */
-    sakai.site.refreshSiteInfo = function(pageToOpen) {
-
-        // NEW !!
-        // Load site information
-        $.ajax({
-            url: Config.URL.GENERAL_SEARCH_SERVICE,
-            cache: false,
-            async: false,
-            data: {
-                "path": "/sites/" + sakai.site.currentsite.id,
-                "items": 255
-            },
-            success: function(response) {
-
-                // Init, convert response to JS object
-                var temp = $.evalJSON(response);
-                temp = temp.results;
-
-                // Sort site objects by their path
-                var compareURL = function(a,b) {
-                    return a.path>b.path ? 1 : a.path<b.path ? -1 : 0;
-                };
-                temp.sort(compareURL);
-
-                // Create site_info object, the unique key being the partial path of the page from the root of the site
-                // This will also keep the alphabetical order
-                sakai.site.site_info["_pages"] = {};
-                for (var i=0, j=temp.length; i<j; i++) {
-
-                    // Create key
-                    var site_info_key = temp[i].path.replace("/sites/"+sakai.site.currentsite.id+"/_pages/", "").replace(/\/_pages\//g,"/");
-                    sakai.site.site_info["_pages"][site_info_key] = temp[i];
-                }
-
-                // Create a helper function which returns the number of pages
-                sakai.site.site_info.number_of_pages = function() {
-                    var counter = 0;
-                    for (var i in sakai.site.site_info._pages) {
-                        counter++;
-                    }
-                    return counter;
-                };
-
-                if (pageToOpen){
-                    // Open page
-                    sakai.site.openPage(pageToOpen);
-                }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
-                var httpstatus = xhr.status;
-                sakai.site.site_info = {};
-                if (httpstatus === 401) {
-                    document.location = Config.URL.GATEWAY_URL;
-                }
-                else {
-                    alert("site.js: Could not load site info. \n HTTP status code: " + httpstatus);
-                }
-
-            }
-
-        });
-    };
-
 
     //////////////////
     // RECENT SITES //
@@ -535,7 +544,7 @@ sakai.site = function(){
      * @param {String} pageid
      * @return void
      */
-    sakai.site.openPageH = function(pageid){
+    sakai.site.openPageH = function(pageUrlTitle){
 
         // Vars
         var pageType = false;
@@ -552,25 +561,25 @@ sakai.site = function(){
         sakai.site.inEditView = false;
 
 
-        // If no pageid is supplied, default to the first available page
-        if (!pageid) {
+        // If no pageUrlTitle is supplied, default to the first available page
+        if (!pageUrlTitle) {
             var lowest = false;
             for (var i in sakai.site.site_info._pages) {
-                if (lowest === false || parseInt(sakai.site.site_info._pages[i].position, 10) < lowest){
-                    pageid = i;
-                    lowest = parseInt(sakai.site.site_info._pages[i].position, 10);
+                if (lowest === false || parseInt(sakai.site.site_info._pages[i]["sakai:pagePosition"], 10) < lowest){
+                    pageUrlTitle = i;
+                    lowest = parseInt(sakai.site.site_info._pages[i]["sakai:pagePosition"], 10);
                 }
             }
         }
 
         //Store currently selected page
-        sakai.site.selectedpage = pageid;
+        sakai.site.selectedpage = pageUrlTitle;
 
         // Get page type
-        pageType = sakai.site.site_info._pages[pageid].type;
+        pageType = sakai.site.site_info._pages[pageUrlTitle]["sakai:pageType"];
 
         // Set page title
-        $pagetitle.text(sakai.site.site_info._pages[pageid].title);
+        $pagetitle.text(sakai.site.site_info._pages[pageUrlTitle]["sakai:pageTitle"]);
 
         // Set login link
         $loginLink.attr("href", sakai.site.urls.LOGIN());
@@ -584,22 +593,16 @@ sakai.site = function(){
         $sidebar_content_pages.show();
         $main_content_div.children().css("display","none");
         $(".dashboard_options").hide();
-        //sakai.dashboard.hidepopup();
 
-        if ($("#main-content-div #" + sakai.site.escapePageId(sakai.site.selectedpage)).length > 0) {
+        if ($("#main-content-div #" + sakai.site.selectedpage).length > 0) {
 
             // If page has been opened
 
             // Show page
-            $("#" + sakai.site.escapePageId(pageid)).show();
+            $("#" + sakai.site.selectedpage).show();
 
             // Re-render Site Navigation to reflect changes if navigation widget is already loaded
-            try {
-                sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
-            } catch (error){
-
-            }
-
+            sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
         }
         else {
 
@@ -616,14 +619,19 @@ sakai.site = function(){
 
                 // is a Dashboard
                 case "dashboard":
+
+                    // Load content of the dashboard page
                     $.ajax({
-                        url: sakai.site.urls.WEBPAGE_CONTENT(),
-                        cache: false,
-                        success: function(data){
-                            displayDashboard(data, true);
+                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/sakai:pageContent.infinity.json",
+                        type: "GET",
+                        success: function(data) {
+
+                            sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"] = $.evalJSON(data);
+
+                            displayDashboard(sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"]["sakai:content"], true);
                         },
-                        error: function(xhr, textStatus, thrownError) {
-                            displayDashboard(xhr.status, false);
+                        error: function(xhr, status, e) {
+                            fluid.log("site.js: Could not load page content for dashboard!");
                         }
                     });
                     break;
@@ -631,15 +639,19 @@ sakai.site = function(){
                 // is a Webpage
                 case "webpage":
 
+                    // Load contents of a webpage
                     $.ajax({
-                        url: sakai.site.urls.WEBPAGE_CONTENT(),
-                        cache: false,
-                        success: function(response){
-                            response = sakai.site.ensureProperWidgetIDs(response, sakai.site.urls.WEBPAGE_CONTENT());
-                            displayPage(response, true);
+                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/sakai:pageContent.infinity.json",
+                        type: "GET",
+                        success: function(data) {
+
+                            sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"] = $.evalJSON(data);
+
+                            // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
+                            displayPage(sakai.site.site_info._pages[pageUrlTitle]["sakai:pageContent"]["sakai:content"], true);
                         },
-                        error: function(xhr, textStatus, thrownError) {
-                            displayPage(xhr.status, false);
+                        error: function(xhr, status, e) {
+                            fluid.log("site.js: Could not load page content for webpage!");
                         }
                     });
                     break;
@@ -658,14 +670,7 @@ sakai.site = function(){
         }
 
         // Re-render Site Navigation to reflect changes if navigation widget is already loaded
-        try {
         sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
-
-        }
-        catch (error) {
-
-        }
-
 
     };
 
@@ -1284,8 +1289,6 @@ sakai.site = function(){
             // Re-render Site Navigation to reflect changes if navigation widget is already loaded
             try {
                 sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
-                // alert(sakai.site.selectedpage);
-                // alert($.toJSON(sakai.site.site_info._pages));
             } catch (error){
 
             }

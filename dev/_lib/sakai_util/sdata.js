@@ -550,88 +550,86 @@ sdata.widgets.WidgetLoader = {
  */
 sdata.preference = {
 
-  /** Saves a preference data to a specified URL
-   * @param pref_url {String} The path to the preference where it needs to be saved
-   * @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
-   * @param callback {Function} A callback function which is executed at the end of the operation
-   * @returns {Void}
-   */
-  save: function(pref_url, pref_data, callback) {
+    /** Saves a preference data to a specified URL
+     * @param pref_url {String} The path to the preference where it needs to be saved
+     * @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
+     * @param callback {Function} A callback function which is executed at the end of the operation
+     * @returns {Void}
+     */
+    save: function(pref_url, pref_data, callback) {
 
-      // Arg check
-      if ((!pref_url) || (pref_url === "") || (!pref_data) || (!callback)) {
-    fluid.log("sdata.preference.save(): Not Enough arguments!");
-    return;
-      }
+        // Arg check
+        if ((!pref_url) || (pref_url === "") || (!pref_data) || (!callback)) {
+            fluid.log("sdata.preference.save(): Not Enough arguments!");
+            return;
+        }
 
-      // Create JSON String
-      var pref_data_string = $.toJSON(pref_data);
+        // Create JSON String
+        var pref_data_string = $.toJSON(pref_data);
 
-      // Send save request
-      $.ajax({
-    url: pref_url,
-    type: "POST",
-    data: {
-        ":operation": "createTree",
-        "tree": pref_data_string
-    },
 
-    success: function(data) {
-      callback(true, data);
-    },
+        // Send save request
+        $.ajax({
+                url: pref_url,
+                type: "POST",
+                data: {
+                    ":operation": "createTree",
+                    "tree": pref_data_string
+            },
 
-    error: function(xhr, status, e) {
-      fluid.log("site_admin.js: There was an error saving the template configuration file: "+this.url);
-      callback(false,xhr);
-    }
-      });
+            success: function(data) {
+                callback(true, data);
+            },
+
+            error: function(xhr, status, e) {
+                fluid.log("site_admin.js: There was an error saving the template configuration file: "+this.url);
+                callback(false,xhr);
+            }
+        });
   },
 
-  /** Loads a preference data from a specified URL
-   * @param pref_url {String} The path to the preference which needs to be loaded
-   * @param callback {Function} A callback function which is executed at the end of the operation
-   * @returns {Void}
-   */
-  load: function(pref_url, callback) {
-    $.ajax({
-      url: pref_url + ".infinity.json",
-      type: "GET",
+    /** Loads a preference data from a specified URL
+     * @param pref_url {String} The path to the preference which needs to be loaded
+     * @param callback {Function} A callback function which is executed at the end of the operation
+     * @returns {Void}
+     */
+    load: function(pref_url, callback) {
+        $.ajax({
+            url: pref_url + ".infinity.json",
+            type: "GET",
+            success: function(data) {
 
-      success: function(data) {
+                var returned_data = $.evalJSON(data);
 
-    var returned_data = $.evalJSON(data);
+                // Helper to remove JRC properties
+                var removeJCRObjects = function(current_object) {
 
-    // Helper to remove JRC properties
-    var removeJCRObjects = function(current_object) {
+                    if (current_object["jcr:primaryType"]) {
+                        delete current_object["jcr:primaryType"];
+                    }
 
-      if (current_object["jcr:primaryType"]) {
-        delete current_object["jcr:primaryType"];
-      }
+                    if (current_object["jcr:created"]) {
+                        delete current_object["jcr:created"];
+                    }
 
-      if (current_object["jcr:created"]) {
-        delete current_object["jcr:created"];
-      }
+                    for (var i in current_object) {
+                        if (typeof current_object[i] === "object") {
+                          var next_object = current_object[i];
+                          removeJCRObjects(next_object);
+                        }
+                    }
+                }
 
-      for (var i in current_object) {
-        if (typeof current_object[i] === "object") {
-          var next_object = current_object[i];
-          removeJCRObjects(next_object);
-        }
-      }
+                removeJCRObjects(returned_data);
+
+                callback(true, returned_data);
+            },
+            error: function(xhr, status, e) {
+                fluid.log("site_admin.js: There was an error loading the template configuration file: "+this.url);
+                callback(false,xhr);
+            }
+        });
     }
-
-    removeJCRObjects(returned_data);
-
-    callback(true, returned_data);
-      },
-
-      error: function(xhr, status, e) {
-    fluid.log("site_admin.js: There was an error loading the template configuration file: "+this.url);
-    callback(false,xhr);
-      }
-
-      });
-  }
 };
 
 
