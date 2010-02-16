@@ -26,8 +26,8 @@
             {/if}
 
                 <div class="quiz_questionsBtnBar">
-                <a class="button-default quiz_left" id="quiz_showResults" href="javascript:;">Show results</a>
-                    <a class="button-default quiz_right" id="quiz_startQuizBtn" href="javascript:;">Start quiz</a>
+                <a class="button-default fl-force-left" id="quiz_showResults" href="javascript:;">Show results</a>
+                    <a class="button-default fl-force-right" id="quiz_startQuizBtn" href="javascript:;">Start quiz</a>
                 </div>
             </div>
         </div>
@@ -78,22 +78,22 @@
                     <div class="quiz_dragTag" id="quiz_dragTag${answer.answers.indexOf(i)}" style="left:10px;top:${35*answer.answers.indexOf(i) + 10}px"><div>${i.tag}</div></div>
                 {/for}
                 </div>
-                <div class="quiz_clear" ></div>
+                <div class="fl-push" ></div>
             {/if}
             {if img != "" && answerType != "quiz_imgTagger"}
                 <img src="${img}" class="quiz_questionImg" alt="image"/>
             {/if}
             <div>
             <div class="quiz_questionsBtnBar">
-            <a class="button-default quiz_left" id="quiz_showResults" href="javascript:;">Show results</a>
+            <a class="button-default fl-force-left" id="quiz_showResults" href="javascript:;">Show results</a>
 
                 {if !isLastQuestion}
-                <a class="button-default quiz_nextQuestion quiz_right" id="quiz_nextQuestion${index}" href="javascript:;">Next</a>
+                <a class="button-default quiz_nextQuestion fl-force-right" id="quiz_nextQuestion${index}" href="javascript:;">Next</a>
                 {else}
-                <a class="button-default quiz_nextQuestion  quiz_right" id="quiz_nextQuestion${index}" href="javascript:;">End quiz</a>
+                <a class="button-default quiz_nextQuestion  fl-force-right" id="quiz_nextQuestion${index}" href="javascript:;">End quiz</a>
                 {/if}
 
-            <div class="quiz_clear"></div>
+            <div class="fl-push"></div>
             <div>
     --></div>
     <div id="quiz_overviewAnswersListTemplate"><!--
@@ -171,14 +171,14 @@
     --></div>
     <div id="quiz_resultGraphTemplate"><!--
         {if resultDisplay != "text"}
-            <ul class="quiz_left">
+            <ul class="fl-force-left">
                 {for i in titles}
                     <li><span class='quiz_legendItem' style='background-color:#${colors[titles.indexOf(i)]}'></span>
                     ${i}
                     </li>
                 {/for}
             </ul>
-            <img alt="problem while loading statistics" class="quiz_right" src="http://chart.apis.google.com/chart?chs=350x200&chd=t:${procValues.join(',')}&cht=${resultDisplay}${axis}${values}&chf=bg,s,f1f1f1&chco=${colorsJoined}" />
+            <img alt="problem while loading statistics" class="fl-force-right" src="http://chart.apis.google.com/chart?chs=350x200&chd=t:${procValues.join(',')}&cht=${resultDisplay}${axis}${values}&chf=bg,s,f1f1f1&chco=${colorsJoined}" />
         {else}
             <ul class="quiz_resultGraphTemplateUL">
                 {for i in titles}
@@ -195,7 +195,7 @@
                 {/for}
             </ul>
         {/if}
-        <div class="quiz_clear"></div>
+        <div class="fl-push"></div>
     --></div>
 
     </form>
@@ -255,35 +255,35 @@
 
             </div>
             <div id="quiz_infoHoverContainer">
-                    <img src="/devwidgets/quiz/images/quiz_infoIcon.png" alt="info" id="quiz_showInfo" class="quiz_left"><img>
+                    <img src="/devwidgets/quiz/images/quiz_infoIcon.png" alt="info" id="quiz_showInfo" class="fl-force-left"><img>
                     <div id="quiz_info" style="display:none;">
                         <div>
-                            <img src="/devwidgets/quiz/images/quiz_pictureicon.png" alt="picture" class="quiz_left" ><img>
-                            <p class="quiz_left">
+                            <img src="/devwidgets/quiz/images/quiz_pictureicon.png" alt="picture" class="fl-force-left" ><img>
+                            <p class="fl-force-left">
                                 You can use the image to ask visual illustrated questions&#44; for example: &#34;What do you see on the picture below?&#34;
                                 or you can just add it as a decorative item.
                             </p>
-                            <div class="quiz_clear"></div>
+                            <div class="fl-push"></div>
                         </div>
                         <div>
-                            <img src="/devwidgets/quiz/images/quiz_mathformulaicon.png" alt="math" class="quiz_left" ><img>
-                            <p class="quiz_left">
+                            <img src="/devwidgets/quiz/images/quiz_mathformulaicon.png" alt="math" class="fl-force-left" ><img>
+                            <p class="fl-force-left">
                                 You can use the image to ask mathematical questions&#44; for example: &#34;What is the solution on this formula?&#34;.
                             </p>
-                            <div class="quiz_clear"></div>
+                            <div class="fl-push"></div>
                         </div>
                         <div>
-                            <img src="/devwidgets/quiz/images/quiz_imagetaggingicon.png" alt="image tagging" class="quiz_left"><img>
-                            <p class="quiz_left">
+                            <img src="/devwidgets/quiz/images/quiz_imagetaggingicon.png" alt="image tagging" class="fl-force-left"><img>
+                            <p class="fl-force-left">
                                 You can add tags to you image&#44; that way you can ask to point at parts of an image&#44; for example: &#34;Drag the heart tag to the right place.&#34;
                             </p>
-                            <div class="quiz_clear"></div>
+                            <div class="fl-push"></div>
                         </div>
                     </div>
-                    <p class="quiz_left" id="quiz_addMediaToQ">
+                    <p class="fl-force-left" id="quiz_addMediaToQ">
                         Add media to your question:
                     </p>
-                    <div class="quiz_clear"></div>
+                    <div class="fl-push"></div>
                     <ul class="quiz_tabs">
                         <li>
                             <a class="quiz_imgTab quiz_selectedtab" href="javascript:;" id="quiz_imgSelectSite">Select image from &#34;<span></span>&#34;</a>
@@ -312,7 +312,7 @@
                                 <input type="text" id="quiz_txtImgURL"/><br />
                                 <br />
                                 <a class="button-default quiz_insertImg" id="quiz_insertURLImg" href="javascript:;">Insert image</a>
-                                <div class="quiz_clear"></div><br />
+                                <div class="fl-push"></div><br />
                                 <a class="button-default quiz_imgTagQuestion" href="javascript:;">Insert image tagger</a>
                             </div>
                             <div class="quiz_tabContainer_right" id="quiz_URLimgPreview">
@@ -331,7 +331,7 @@
                             </div>
                         </div>
 
-                        <div class="quiz_clear"></div>
+                        <div class="fl-push"></div>
                     </div>
                     <br />
                     <a class="button-default quiz_addQuestion" href="javascript:;">Add question to quiz</a>
@@ -380,10 +380,10 @@
             {/if}
             <div>
             <div>
-            <a class="button-default quiz_changeQuestion quiz_left" id="quiz_changeQuestion${Previndex}" href="javascript:;">Previous question</a>
-            <a class="button-default quiz_insertQuestion quiz_left" href="javascript:;">Insert question</a>
-            <a class="button-default quiz_changeQuestion quiz_right" id="quiz_changeQuestion${Nextindex}" href="javascript:;">Next question</a>
-            <div class="quiz_clear"></div>
+            <a class="button-default quiz_changeQuestion fl-force-left" id="quiz_changeQuestion${Previndex}" href="javascript:;">Previous question</a>
+            <a class="button-default quiz_insertQuestion fl-force-left" href="javascript:;">Insert question</a>
+            <a class="button-default quiz_changeQuestion fl-force-right" id="quiz_changeQuestion${Nextindex}" href="javascript:;">Next question</a>
+            <div class="fl-push"></div>
             <div>
             --></div>
         </div>
@@ -393,8 +393,8 @@
 
             </div>
 
-            <a class="button-default quiz_lastQuestion quiz_right" id="quiz_btnadvancedSettings" href="javascript:;">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></a>
-            <div class="quiz_clear" ></div>
+            <a class="button-default quiz_lastQuestion fl-force-right" id="quiz_btnadvancedSettings" href="javascript:;">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></a>
+            <div class="fl-push" ></div>
             <div style="display:none;" id="quiz_advancedSettings">
                 <label for="quiz_txtTitle" class="quiz_bigLabel">Quiztitle:</label><br />
                 <input type="text"  id="quiz_txtTitle"/>
@@ -407,7 +407,7 @@
                 </input></li>
                 </ul>
 
-                <div class="quiz_left">
+                <div class="fl-force-left">
                     <label class="quiz_bigLabel">Would you like to display the results?</label><br />
                 <ul>
                 <li><input type="radio" checked="true" id="quiz_everyoneShowResultsID" value="quiz_everyoneShowResults" name="quiz_displaySetting">
@@ -422,7 +422,7 @@
                 </ul>
                 </div>
 
-                <div class="quiz_left">
+                <div class="fl-force-left">
                     <label>How should the results be displayed:</label>
                     <ul id="quiz_resulttype">
                         <li id="quiz_resulttype_bvs" class="quiz_resulttype_active">
@@ -447,7 +447,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="quiz_clear"></div>
+                <div class="fl-push"></div>
                 <ul>
                     <li><input type="checkbox" id="quiz_showAnswersSetting"><label for="quiz_showAnswersSetting" class="quiz_label">Show answers</label></input></li>
                     <li><input type="checkbox" id="quiz_timeLimitSetting"><label for="quiz_timeLimitSetting"class="quiz_label">Complete quiz in <input type="text" id="quiz_txtTime" /> minutes</label></input></li>
@@ -459,74 +459,74 @@
                 <div class="quiz_overviewlist">
                     {for i in questions}
                     <div class="quiz_overviewListItem">
-                        <div class="quiz_left">
+                        <div class="fl-force-left">
                             {if questions.indexOf(i) == editQindex}
                                 <input type="text" class="quiz_editQtxt" id="quiz_editQtxt${questions.indexOf(i)}" value="${i.question}"></input>
                             {else}
                                 <a href="javascript:;" class="quiz_viewAnswers" id="quiz_viewAnswers${questions.indexOf(i)}">${i.question}</a>
                             {/if}
                         </div>
-                        <div class="quiz_right">
+                        <div class="fl-force-right">
                         <a href="javascript:;" class="quiz_removeQbtn" id="quiz_removeQbtn${questions.indexOf(i)}">
                             X Remove
                         </a>
                         </div>
-                        <div class="quiz_right">
+                        <div class="fl-force-right">
                         <a href="javascript:;" class="quiz_editQbtn" id="quiz_editQbtn${questions.indexOf(i)}">
                             Edit
                         </a>
 
                         </div>
-                        <div class="quiz_clear"></div>
+                        <div class="fl-push"></div>
 
                     {if questions.indexOf(i) == selectedIndex}
                     <div>
                     {if i.img != ""}
-                        <img src="${i.img}" alt="image" class="quiz_left quiz_leftImage"></img>
-                        <div class="quiz_left quiz_leftImage_container">
+                        <img src="${i.img}" alt="image" class="fl-force-left fl-force-leftImage"></img>
+                        <div class="fl-force-left fl-force-leftImage_container">
                     {else}
-                        <div class="quiz_left quiz_leftNoImageContainer">
+                        <div class="fl-force-left fl-force-leftNoImageContainer">
                     {/if}
 
                     {if i.answerType == "quiz_NormalAnswerRbt"}
-                        <div class="quiz_left">
+                        <div class="fl-force-left">
                         {if editAnswerIndex != -1}
                             <input type="text" class="quiz_editAtxt" value="${showAnswers}"></input>
                         {else}
                             ${showAnswers}
                         {/if}
                         </div>
-                        <div class="quiz_right">
+                        <div class="fl-force-right">
                             <a href="javascript:;" class="quiz_editAbtn">
                                 Edit
                             </a>
                         </div>
-                        <div class="quiz_clear"></div>
+                        <div class="fl-push"></div>
                     {elseif i.answerType == "quiz_MultipleAnswersRbt"}
                         {for j in showAnswers}
-                            <div class="quiz_left">
+                            <div class="fl-force-left">
                             {if editAnswerIndex == showAnswers.indexOf(j)}
                                 <input type="text" class="quiz_editAtxt" id="quiz_editAtxt${showAnswers.indexOf(j)}" value="${j.value}"></input>
                             {else}
                                 ${j.value}
                             {/if}
                             </div>
-                            <div class="quiz_right">
+                            <div class="fl-force-right">
                                 <a href="javascript:;" class="quiz_removeAbtn" id="quiz_removeAbtn${showAnswers.indexOf(j)}">
                                     X Remove
                                 </a>
                             </div>
-                            <div class="quiz_right">
+                            <div class="fl-force-right">
                                 <a href="javascript:;" class="quiz_editAbtn" id="quiz_editAbtn${showAnswers.indexOf(j)}">
                                     Edit
                                 </a>
                             </div>
-                            <div class="quiz_clear"></div>
+                            <div class="fl-push"></div>
                         {/for}
 
                     {/if}
                     </div>
-                    <div class="quiz_clear"></div>
+                    <div class="fl-push"></div>
                     </div>
                     {/if}
                     </div>
@@ -562,21 +562,20 @@
             <div id="quiz_tagImgInfo" style="display:none;">
                 <form class="quiz_form">
                     <input type="text" id="quiz_txtTag"></input>
-                    <a class="button-default" class="quiz_left" id="quiz_addTag" href="javascript:;">Add tag to image</a>
+                    <a class="button-default" class="fl-force-left" id="quiz_addTag" href="javascript:;">Add tag to image</a>
                 </form>
             </div>
-            <div class="quiz_clear"></div>
+            <div class="fl-push"></div>
         --></div>
         </div>
 
-        <div>
+        <div class="fl-fix">
             <a class="button-default" id="quiz_backPage" href="javascript:;">Back</a>
             <a class="button-default" id="quiz_backToOverview" style="display:none;" href="javascript:;">Back</a>
             <a class="button-default" id="quiz_nextPage" href="javascript:;">Next</a>
             <a class="button-default" id="quiz_submitWidget" style="display:none;" href="javascript:;">Finish</a>
             <a class="button-default" id="quiz_insertTagQuestion" style="display:none;" href="javascript:;">Insert question</a>
             <a class="button-default" id="quiz_saveImgTagger" style="display:none;" href="javascript:;">Save</a>
-            <div class="quiz_clear"></div>
         </div>
 
     </form>

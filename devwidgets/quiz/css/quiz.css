@@ -16,11 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.quiz_left {float:left;}
-.quiz_right {float:right;}
 .quiz_relative {position:relative;}
 .quiz_img {max-width:500px;}
-.quiz_clear {clear:both;}
 .quiz_noBorder {border:none;}
 .quiz_widthSet {width: 210px;}
 

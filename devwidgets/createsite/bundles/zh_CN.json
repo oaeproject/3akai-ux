@@ -1,0 +1,23 @@
+{
+"name": "Createsite",
+"description": "Createsite widget\r\n",
+"WIDGET_TITLE": "创建一个新站点",
+"PROVIDE_THE_FOLLOWING_INFORMATIONS_AND_CLICK_THE_CREATE_SITE_BUTTON": "请提供如下信息，并点击 \"创建站点\" 按钮",
+"IS_THIS_A_COURSE_SITE": "是否课程站点",
+"YES": "是",
+"NO": "不是",
+"REQUIRED_INFORMATION": "所需信息",
+"NAME": "姓名",
+"URL": "地址",
+"TEMPLATE": "模板",
+"BLANK_SITE": "空站点",
+"INTERDISCIPLINARY_RESEARCH_SITE": "跨学科研究站点",
+"MEMBERS": "成员",
+"CREATE_SITE": "创建站点",
+"CANCEL": "取消",
+"PROCESSING": "处理中",
+"REQUEST_SUCCESSFUL": "执行成功",
+"YOUR_SITE_HAS_BEEN_SUCCESSFULLY_REQUESTED": "您的站点已经创建成功. 我们会尽快与您联系",
+"PLEASE_FILL_OUT_ALL_OF_YOUR_COURSES_AND ALSO_TELL": "请填写您的课程细节信息, 并告诉我们您希望看到的课程站点的初始状态, 我们会与您联系确定更多细节信息",
+"REQUEST_SITE": "请求创建站点"
+}

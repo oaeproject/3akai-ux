@@ -69,13 +69,13 @@
 { color: #454a4f; margin: 0 0 0 120px; font-size: 1em; font-weight: normal; position:relative; top: -62px; }
 
 .profile_preview .profile_user_status_online
-{background: url(/devwidgets/chat/images/chat_status_online.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
+{background: url(/devwidgets/navigationchat/images/chat_status_online.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
 
 .profile_preview .profile_user_status_busy
-{background: url(/devwidgets/chat/images/chat_status_busy.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
+{background: url(/devwidgets/navigationchat/images/chat_status_busy.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
 
 .profile_preview .profile_user_status_offline
-{background: url(/devwidgets/chat/images/chat_status_offline.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
+{background: url(/devwidgets/navigationchat/images/chat_status_offline.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
 
 
 

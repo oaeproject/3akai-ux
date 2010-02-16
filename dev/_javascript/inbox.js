@@ -729,7 +729,6 @@ sakai.inbox = function() {
      *         (Comma seperated for every value you have in selectedtype and selectedcategory)
      */
     getCount = function(read) {
-        console.log("Getting count.");
         var box = "inbox";
         if (selectedType === "sent"){
             box = "outbox";

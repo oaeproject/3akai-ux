@@ -19,7 +19,7 @@
         <div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_hobbies" value="hobbies" /><label for="chk_sitemembers_hobbies">Hobbies</label></div>
         <div class="sitemembers_settings_data"><input type="checkbox" name="sitemembers_data" id="chk_sitemembers_profexperience" value="profexperience" /><label for="chk_sitemembers_profexperience">Professional experience</label></div>
     </div>
-    <br class="sitemembers_clearer" />
+    <br class="fl-push" />
     <h2>Display mode:</h2>
 
     <input type="radio" id="sitemembers_settings_display_compact" name="sitemembers_settings_display" checked="checked" /> <label for="sitemembers_settings_display_compact">Compact (single column of members)</label><br />
@@ -33,7 +33,7 @@
         <div class="greybutton"><a href="javascript:;" id="sitemembers_settings_save">Save</a></div>
         <div class="lightgreybutton"><a href="javascript:;" id="sitemembers_settings_cancel">Cancel</a></div>
     </div>
-    <br class="sitemembers_clearer" />
+    <br class="fl-push" />
 
 </div>
 
@@ -51,7 +51,7 @@
     <div id="sitemembers_normal_fetchBar">
         <span id="sitemembers_normal_fetching">Fetched <span class="sitemembers_normal_nrFetched">0</span> out of <span class="sitemembers_normal_count">1</span> members.</span>
         <a class="sitemembers_normal_more" style="display:none;" href="javascript:;">More &#187;</a>
-        <br class="sitemembers_clearer" />
+        <br class="fl-push" />
     </div>
 
     <div id="sitemembers_normal_footer">
@@ -100,7 +100,7 @@
                 {/for}
             </div>
         </div>
-        {if m_index % 2}<br class="sitemembers_clearer" />{/if}
+        {if m_index % 2}<br class="fl-push" />{/if}
     {forelse}
         <div class="sitemembers_normal_no_results">No people found.</span>
     {/for}

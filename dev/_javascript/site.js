@@ -310,7 +310,6 @@ sakai.site = function(){
                     // Move all the widgets.
                     var url = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].from;
                     var dest = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].to;
-                    console.log("From: " + url + " - TO: " + dest);
                     $.ajax({
                         url: url,
                         data: {
@@ -321,7 +320,6 @@ sakai.site = function(){
                         cache: false,
                         type: "POST",
                         success: function(response) {
-                            console.log(response);
                         },
                         error: function(xhr, textStatus, thrownError) {
                             alert("Failed to move a widget: " + xhr.status);

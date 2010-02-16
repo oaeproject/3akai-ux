@@ -1,0 +1,6 @@
+{
+"name": "Sendmessage",
+"description": "Sendmessage widget\r\n",
+"WIDGET_TITLE": "Send message",
+"THE_MESSAGE_HAS_BEEN_SENT": "消息发送成功"
+}

@@ -80,9 +80,7 @@ ul.fl-tabs li a{
 }
 
 /* CONTENT CONTAINER */
-.clearboth {
-    clear: both;
-}
+
 .management_content_wrapper {
     padding: 0;
     margin: 0;

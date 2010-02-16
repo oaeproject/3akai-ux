@@ -8,13 +8,14 @@
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.edit.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css"/>
 
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
@@ -32,10 +33,10 @@
 
 </head>
 
-<body class="fl-centered profile_preview">
+<body class="fl-centered profile_preview i18nable">
 
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
+    <div id="widget_navigationchat" class="widget_inline"></div>
 
     <div class="fl-container-flex header">
         <div class="fl-fix fl-centered fixed-container">
@@ -75,7 +76,6 @@
                         <div class="profile_user_headline"></div>
 
                         <button id="changepic_container_trigger" class="s3d-button"><span class="s3d-button-inner">__MSG__CHANGE_PHOTO__</span></button>
-
                     </div>
 
                     <!-- BASIC INFORMATION -->
@@ -221,16 +221,16 @@
 
                     <!-- DEGREES -->
                     <div class="fl-fix profile_section" id="degrees">
-                        <a href="javascript:;" class="degreesadd popup_field_trigger">Add a degree</a>
+                        <a href="javascript:;" class="degreesadd popup_field_trigger">__MSG__ADD_A_DEGREE__</a>
                         <div class="profile_section_header">
-                            Degrees
+                            __MSG__DEGREES__
                         </div>
 
                         <div class="profile_section_body" id="degrees_list">
                         <table summary="Degrees">
                                     <tr id="no_degrees" style="display:block">
                                         <td colspan="2">
-                                            <span>No degrees added yet</span>
+                                            <span>__MSG__NO_DEGREES_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
@@ -264,7 +264,7 @@
                                     <table style="width:100%">
                                         <tr id="no_degrees" style="display:block">
                                             <td colspan="2">
-                                                <span>No degrees added yet</span>
+                                                <span>__MSG__NO_DEGREES_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
@@ -274,16 +274,16 @@
 
                     <!-- PUBLICATIONS -->
                     <div class="fl-fix profile_section" id="papers">
-                        <a href="javascript:;" class="papersadd popup_field_trigger">Add a publication</a>
+                        <a href="javascript:;" class="papersadd popup_field_trigger">__MSG__ADD_A_PUBLICATION__</a>
                         <div class="profile_section_header">
-                            Publications
+                            __MSG__PUBLICATIONS__
                         </div>
 
                         <div class="profile_section_body" id="papers_list">
                             <table summary="Publications">
                                 <tr id="no_papers" style="display:block">
                                     <td colspan="2">
-                                        <span>No publications added yet</span>
+                                        <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
                                     </td>
                                 </tr>
                             </table>
@@ -332,7 +332,7 @@
                                     <table>
                                         <tr>
                                             <td colspan="2">
-                                                <span>No publications added yet</span>
+                                                <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
@@ -342,16 +342,16 @@
 
                     <!-- TALKS -->
                     <div class="fl-fix profile_section" id="talks">
-                        <a href="javascript:;" class="talksadd popup_field_trigger">Add a talk</a>
+                        <a href="javascript:;" class="talksadd popup_field_trigger">__MSG__ADD_A_TALK__</a>
                         <div class="profile_section_header">
-                            Talks
+                            __MSG__TALKS__
                         </div>
 
                         <div class="profile_section_body" id="talks_list">
                             <table summary="Talks">
                                 <tr id="no_talks" style="display:block">
                                     <td colspan="2">
-                                        <span>No talks added yet</span>
+                                        <span>__MSG__NO_TALKS_ADDED_YET__</span>
                                     </td>
                                 </tr>
                             </table>
@@ -387,7 +387,7 @@
                                 <table>
                                     <tr>
                                         <td colspan="2">
-                                            <span>No talks added yet</span>
+                                            <span>__MSG__NO_TALKS_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
@@ -399,14 +399,14 @@
                     <div class="fl-fix profile_section" id="jobs">
                         <a href="javascript:;" class="jobsadd popup_field_trigger">Add a position</a>
                         <div class="profile_section_header">
-                            Professional Experience
+                            __MSG__PROFESSIONAL_EXPERIENCE__
                         </div>
 
                         <div class="profile_section_body" id="jobs_list">
                             <table summary="Professional Experience">
                                 <tr id="no_jobs" style="display:block">
                                     <td colspan="2">
-                                        <span>No positions added yet</span>
+                                        <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
                                     </td>
                                 </tr>
                             </table>
@@ -440,7 +440,7 @@
                                 <table>
                                     <tr>
                                         <td colspan="2">
-                                            <span>No positions added yet</span>
+                                            <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
@@ -451,12 +451,12 @@
                     <!-- ADDITIONAL INFO -->
                     <div class="fl-fix profile_section" id="additional">
 
-                        <div class="profile_section_header">Additional Information</div>
+                        <div class="profile_section_header">__MSG__ADDITIONAL_INFORMATION__</div>
 
                         <div class="profile_section_body">
                             <table summary="Awards and Honors">
                                 <tr id="awards">
-                                    <th class="entry_label">Awards &amp; Honors:</th>
+                                    <th class="entry_label">__MSG__AWARDS_AND_HONORS__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_awards" class="flc-inlineEdit-text"></div>
@@ -465,7 +465,7 @@
                                 </tr>
 
                                 <tr id="clubs">
-                                    <th class="entry_label">Clubs:</th>
+                                    <th class="entry_label">__MSG__CLUBS__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_clubs" class="flc-inlineEdit-text"></div>
@@ -474,7 +474,7 @@
                                 </tr>
 
                                 <tr id="societies">
-                                    <th class="entry_label">Societies:</th>
+                                    <th class="entry_label">__MSG__SOCIETIES__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_societies" class="flc-inlineEdit-text"></div>
@@ -487,16 +487,16 @@
 
                     <!-- WEBSITES -->
                     <div class="fl-fix profile_section" id="websites">
-                        <a href="javascript:;" class="websitesadd popup_field_trigger">Add a website</a>
+                        <a href="javascript:;" class="websitesadd popup_field_trigger">__MSG__ADD_A_WEBSITE__</a>
                         <div class="profile_section_header">
-                            Websites
+                            __MSG__WEBSITES__
                         </div>
 
                         <div class="profile_section_body" id="websites_list">
                             <table summary="Websites">
                                 <tr id="no_websites" style="display:block">
                                     <td colspan="2">
-                                        <span>No websites added yet</span>
+                                        <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
                                     </td>
                                 </tr>
                             </table>
@@ -521,7 +521,7 @@
                                 <table>
                                     <tr>
                                         <td colspan="2" style="padding-bottom:0px;">
-                                            <span>No websites added yet</span>
+                                            <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
@@ -533,12 +533,12 @@
                     <!-- UNI CONTACT INFO -->
                     <div class="fl-fix profile_section" id="unicontactinfo">
 
-                        <div class="profile_section_header">University Contact Info</div>
+                        <div class="profile_section_header">__MSG__UNIVERSITY_CONTACT_INFO__</div>
 
                         <div class="profile_section_body">
                             <table summary="University Contact Info">
                                 <tr id="uniemail">
-                                    <th class="entry_label">Email Address:</th>
+                                    <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_uniemail" class="flc-inlineEdit-text"></div>
@@ -547,7 +547,7 @@
                                 </tr>
 
                                 <tr id="uniphone">
-                                    <th class="entry_label">Phone:</th>
+                                    <th class="entry_label">__MSG__PHONE__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_uniphone" class="flc-inlineEdit-text"></div>
@@ -556,7 +556,7 @@
                                 </tr>
 
                                 <tr id="unimobile">
-                                    <th class="entry_label">Mobile:</th>
+                                    <th class="entry_label">__MSG__MOBILE__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_unimobile" class="flc-inlineEdit-text"></div>
@@ -565,7 +565,7 @@
                                 </tr>
 
                                 <tr id="uniaddress">
-                                    <th class="entry_label">Address:</th>
+                                    <th class="entry_label">__MSG__ADDRESS__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_uniaddress" class="flc-inlineEdit-text"></div>
@@ -579,12 +579,12 @@
                     <!-- HOME CONTACT -->
                     <div class="fl-fix profile_section" id="homecontactinfo">
 
-                        <div class="profile_section_header">Home Contact Info</div>
+                        <div class="profile_section_header">__MSG__HOME_CONTACT_INFO__</div>
 
                         <div class="profile_section_body">
                             <table summary="Home Contact Info">
                                 <tr id="homeemail">
-                                    <th class="entry_label">Email Address:</th>
+                                    <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_homeemail" class="flc-inlineEdit-text"></div>
@@ -593,7 +593,7 @@
                                 </tr>
 
                                 <tr id="homephone">
-                                    <th class="entry_label">Phone:</th>
+                                    <th class="entry_label">__MSG__PHONE__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_homephone" class="flc-inlineEdit-text"></div>
@@ -602,7 +602,7 @@
                                 </tr>
 
                                 <tr id="homemobile">
-                                    <th class="entry_label">Mobile:</th>
+                                    <th class="entry_label">__MSG__MOBILE__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_homemobile" class="flc-inlineEdit-text"></div>
@@ -611,7 +611,7 @@
                                 </tr>
 
                                 <tr id="homeaddress">
-                                    <th class="entry_label">Address:</th>
+                                    <th class="entry_label">__MSG__ADDRESS__:</th>
                                     <td>
                                         <div class="flc-inlineEditable">
                                             <div id="txt_homeaddress" class="flc-inlineEdit-text"></div>

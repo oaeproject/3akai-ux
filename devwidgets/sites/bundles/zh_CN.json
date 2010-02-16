@@ -1,0 +1,9 @@
+{
+"name": "Sites",
+"description": "Sites widget\r\n",
+"WIDGET_TITLE": "Sites",
+"CREATE_A_SITE": "创建一个站点",
+"EDIT": "编辑",
+"YOU_ARENT_A_MEMBER_OF_ANY_SITES": "您还不是任何站点的成员",
+"NO_SETTINGS_AVAILABLE": "无可用设置"
+}

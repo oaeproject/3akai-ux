@@ -5,12 +5,14 @@
     <title>Sakai 3 R&amp;D - Search All</title>
 
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+    <link type="text/css" rel="stylesheet" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-    <link type="text/css" rel="stylesheet" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css"/>
+    <link type="text/css" rel="stylesheet" href="/devwidgets/navigationchat/css/navigationchat.css"/>
+
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
 
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
@@ -33,7 +35,7 @@
 <body id="root" class="fl-centered fl-container i18nable search-container">
 
 <!-- EXPLORE BAR -->
-<div id="widget_chat" class="widget_inline"></div>
+<div id="widget_navigationchat" class="widget_inline"></div>
 <div id="widget_filemanager" class="widget_inline"></div>
 
 <!-- CONTENT -->
@@ -60,28 +62,29 @@
                 <!-- SEARCH BAR -->
                 <div class="fl-left fl-container fl-fix search_bar">
                     <div class="fl-left fl-container" id="introduction_text">
-                        <h4>Find content, media, sites and people on Sakai 3</h4>
-                        <p> Sakai 3 makes it easy for you to find content, media, sites and people. <br/>
-                            You'll find pages and sites of your interest, and people with who you can connect. </p>
+                        <h4>__MSG__FIND_CONTENT_MEDIA_SITES_AND_PEOPLE_ON_SAKAI_3__</h4>
+                        <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_SITES_AND_PEOPLE__. <br/>
+                            __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
                     </div>
                     <div id="search_form" >
                         <!-- <select class="skinned_select">
                         <option value="entire_community">Entire Sakai Network</option>
                         <option value="friends">Friends</option>
                     </select> -->
+
                         <input type="text" id="search_text" class="input" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
                         <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                     </div>
                 </div>
-                <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">Found <strong id="search_numberFound">0</strong> results matching your search for <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
+                <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">__MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
                 <!-- TEMPORARY SEARCH TEXtT -->
-                <span id="search_result_temp" style="display:none;"><b>Searching ...</b></span>
+                <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
                 <!-- SEARCH RESULTS -->
                 <!-- CONTENT / MEDIA PART -->
                 <div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
                 <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                 <div class="fl-container fl-fix search_results_part">
-                    <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Content &amp; Media</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View all <span id="display_more_cm_number">0</span> Content &amp; Media items &raquo;</small></a> </div>
+                    <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View all <span id="display_more_cm_number">0</span> Content &amp; Media items &raquo;</small></a> </div>
                     <div id="cm_search_result"></div>
                     <div id="cm_search_result_template"><!--
                     {for i in items}
@@ -115,7 +118,7 @@
                             </div>
                         </div>
                     {forelse}
-                        No Content &amp; Media found
+                        __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
                     {/for}
                     --></div>
                     <div class="search_results_part_footer"><!-- --></div>
@@ -126,7 +129,7 @@
                 <div class="fl-container fl-fix search_results_container" style="display:none" id="people_header">
             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                     <div class="fl-container fl-fix search_results_part">
-                        <div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">People</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View all <span id="display_more_people_number">0</span> People &raquo;</small></a> </div>
+                        <div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">__MSG__PEOPLE__</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View all <span id="display_more_people_number">0</span> People &raquo;</small></a> </div>
                         <div id="people_search_result"> </div>
                         <div id="people_search_result_template"><!--
                         {for i in items}
@@ -151,7 +154,7 @@
                                 {/if}
                             </div>
                         {forelse}
-                            No people found.
+                            __MSG__NO_PEOPLE_FOUND__.
                         {/for}
                         --></div>
                     </div>
@@ -161,7 +164,7 @@
                 <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                     <div class="fl-container fl-fix search_results_part">
-                        <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">Courses &amp; Sites</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View all <span id="display_more_sites_number">0</span> Courses &amp; Sites &raquo;</small></a> </div>
+                        <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View all <span id="display_more_sites_number">0</span> Courses &amp; Sites &raquo;</small></a> </div>
                         <div id="sites_search_result"> </div>
                         <div id="sites_search_result_template"><!--
                             {for i in items}
@@ -171,7 +174,7 @@
                                     <div class="search_result_course_site_excerpt">${i.excerpt}</div>
                                 </div>
                             {forelse}
-                                No Courses &amp; Sites found
+                                __MSG__NO_COURSES_AND_SITES_FOUND__.
                             {/for}
                         --></div>
                     </div>
