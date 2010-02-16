@@ -258,9 +258,8 @@ sakai.site = function(){
                 // Check user's login status
                 if (sdata.me.user.userid){
                     $("#loginLink").hide();
+                    sakai._isAnonymous = false;
                 } else {
-                    $(".explore_nav").hide();
-                    $widget_chat.hide();
                     sakai._isAnonymous = true;
                     $loginLink.show();
                 }
@@ -289,8 +288,9 @@ sakai.site = function(){
 
     };
 
-/**
-     * Function which (re)-loads the information available on a site
+    /**
+     * Function which (re)-loads the information available on a site (async)
+     * @param pageToOpen {String} URL safe title of a page which we want to open after the site info object refresh (optional)
      * @return void
      */
     sakai.site.refreshSiteInfo = function(pageToOpen) {
@@ -619,13 +619,13 @@ sakai.site = function(){
 
                     // Load content of the dashboard page
                     $.ajax({
-                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/sakai:pageContent.infinity.json",
+                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/page-content.infinity.json",
                         type: "GET",
                         success: function(data) {
 
                             sakai.site.pagecontents[pageUrlTitle] = $.evalJSON(data);
 
-                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["sakai:content"], true);
+                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["payload"], true);
 
                             if (sakai.site.isCollaborator) {
                                 if (pageType === "dashboard") {
@@ -652,7 +652,7 @@ sakai.site = function(){
 
                     // Load contents of a webpage
                     $.ajax({
-                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/sakai:pageContent.infinity.json",
+                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/page-content.infinity.json",
                         type: "GET",
                         success: function(data) {
 
@@ -660,7 +660,7 @@ sakai.site = function(){
                             sakai.site.pagecontents[pageUrlTitle] = content_node;
 
                             // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                            displayPage(sakai.site.pagecontents[pageUrlTitle]["sakai:content"], true);
+                            displayPage(sakai.site.pagecontents[pageUrlTitle]["payload"], true);
 
                             if (sakai.site.isCollaborator) {
                                 if (pageType === "dashboard") {
