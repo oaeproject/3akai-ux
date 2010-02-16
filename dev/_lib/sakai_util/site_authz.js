@@ -65,20 +65,12 @@ sakai.lib.site.authz.getRole = function(siteJson, userMemberships){
 };
 
 /**
- * For a given site and a list of a user's JCR group memberships, return whether
- * the user should have access to the site's administrative and maintenance
- * functionality.
- *
- * TODO Currently this is decided by the user's membership role in the site.
- * However, in a discussion list thread it was generally agreed that access to
- * the maintenance UX should be determined by JCR privileges rather than by
- * JCR group membership. E.g., this function should also return "true" for
- * non-site-members who have universal administrative rights.
+ * For the given site, return whether the current user should have access to
+ * the site's administrative and maintenance functionality.
  *
  * @param {Object} siteJson
- * @param {String[]} userMemberships JCR group IDs for the user
  */
-sakai.lib.site.authz.isUserMaintainer = function(siteJson, userMemberships){
+sakai.lib.site.authz.isUserMaintainer = function(siteJson){
     return (siteJson[":isMaintainer"]);
 };
 

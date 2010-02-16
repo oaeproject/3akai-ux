@@ -290,7 +290,7 @@ sakai.site_appearance = function() {
 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(json, sdata.me.user.subjects);
+                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(json);
                 if (isMaintainer) {
 
                     // Fill in the info.
