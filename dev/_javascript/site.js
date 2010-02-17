@@ -336,7 +336,15 @@ sakai.site = function(){
                     return counter;
                 };
 
+                // Refresh navigation
+
                 if (pageToOpen){
+
+                    // Refresh navigation
+                    if (sakai._navigation) {
+                        sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+                    }
+
                     // Open page
                     sakai.site.openPage(pageToOpen);
                 }
@@ -517,15 +525,11 @@ sakai.site = function(){
      */
     sakai.site.resetVersionHistory = function(){
 
-        try {
-            if (sakai.site.selectedpage) {
-                $("#revision_history_container").hide();
-                $("#content_page_options").show();
-                $("#" + sakai.site.escapePageId(sakai.site.selectedpage)).html(sakai.site.pagecontents[sakai.site.selectedpage]);
-                sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage.replace(/ /g, "%20"),null,sakai.site.currentsite.id + "/_widgets");
-            }
-        } catch (err){
-            // Ignore
+        if (sakai.site.selectedpage) {
+            $("#revision_history_container").hide();
+            $("#content_page_options").show();
+            $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["content"]);
+            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
         }
 
     };
@@ -870,29 +874,28 @@ sakai.site = function(){
                 sakai.site.portaljsons[sakai.site.selectedpage] = o;
 
                 //Save the prefs.
-                sdata.widgets.WidgetPreference.save(sakai.site.urls.CURRENT_SITE_PAGES(), "content", $.toJSON(o), checkSaveStateSuccess);
+                var dashboard_content = $.toJSON(o);
 
-            }
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"], dashboard_content, function(success, data){
+                    if (success) {
 
-        };
-
-        /**
-         * Checks if we succesfully saved the state.
-         * @param {Object} success
-         */
-        var checkSaveStateSuccess = function(success){
-            if (!success) {
-                window.alert("Connection with the server was lost");
-            } else {
-                $.ajax({
-                    url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage + "/content.save.html",
-                    type: 'POST',
-                    error: function(xhr, textStatus, thrownError) {
-                        alert("Connection with the server was lost.");
+                        // Check in page to version history
+                        $.ajax({
+                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.save.html",
+                            type: 'POST',
+                            error: function(xhr, textStatus, thrownError) {
+                                fluid.log("site.js/saveState(): Could not check in dashboard page at " + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"]);
+                            }
+                        });
+                    } else {
+                        fluid.log("site.js/saveState(): Could not update dashboard page content at " + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"]);
                     }
                 });
+
             }
+
         };
+
 
         /**
          * Displays a dashboard page.
@@ -901,13 +904,13 @@ sakai.site = function(){
          */
         var displayDashboard = function(response, exists){
             if (exists) {
-                var json = $.evalJSON(response);
+                var dashboard_content_json = $.evalJSON(response);
                 try {
-                    sakai.site.portaljsons[sakai.site.selectedpage] = json;
-                    showportal(json);
+                    sakai.site.portaljsons[sakai.site.selectedpage] = dashboard_content_json;
+                    showportal(dashboard_content_json);
                 }
                 catch (err) {
-                    showportal(json);
+                    showportal(dashboard_content_json);
                 }
             }
             else {
