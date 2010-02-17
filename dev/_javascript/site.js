@@ -323,7 +323,7 @@ sakai.site = function(){
 
                     if (typeof temp[i] !== undefined) {
                         // Save page data
-                        sakai.site.site_info["_pages"][temp[i]["sakai:pageURLTitle"]] = temp[i];
+                        sakai.site.site_info["_pages"][temp[i]["pageURLTitle"]] = temp[i];
                     }
                 }
 
@@ -560,9 +560,9 @@ sakai.site = function(){
         if (!pageUrlTitle) {
             var lowest = false;
             for (var i in sakai.site.site_info._pages) {
-                if (lowest === false || parseInt(sakai.site.site_info._pages[i]["sakai:pagePosition"], 10) < lowest){
+                if (lowest === false || parseInt(sakai.site.site_info._pages[i]["pagePosition"], 10) < lowest){
                     pageUrlTitle = i;
-                    lowest = parseInt(sakai.site.site_info._pages[i]["sakai:pagePosition"], 10);
+                    lowest = parseInt(sakai.site.site_info._pages[i]["pagePosition"], 10);
                 }
             }
         }
@@ -571,10 +571,10 @@ sakai.site = function(){
         sakai.site.selectedpage = pageUrlTitle;
 
         // Get page type
-        pageType = sakai.site.site_info._pages[pageUrlTitle]["sakai:pageType"];
+        pageType = sakai.site.site_info._pages[pageUrlTitle]["pageType"];
 
         // Set page title
-        $pagetitle.text(sakai.site.site_info._pages[pageUrlTitle]["sakai:pageTitle"]);
+        $pagetitle.text(sakai.site.site_info._pages[pageUrlTitle]["pageTitle"]);
 
         // Set login link
         $loginLink.attr("href", sakai.site.urls.LOGIN());
@@ -619,13 +619,13 @@ sakai.site = function(){
 
                     // Load content of the dashboard page
                     $.ajax({
-                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/page-content.infinity.json",
+                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/pageContent.infinity.json",
                         type: "GET",
                         success: function(data) {
 
                             sakai.site.pagecontents[pageUrlTitle] = $.evalJSON(data);
 
-                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["payload"], true);
+                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["content"], true);
 
                             if (sakai.site.isCollaborator) {
                                 if (pageType === "dashboard") {
@@ -652,7 +652,7 @@ sakai.site = function(){
 
                     // Load contents of a webpage
                     $.ajax({
-                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/page-content.infinity.json",
+                        url: sakai.site.site_info._pages[pageUrlTitle]["path"] + "/pageContent.infinity.json",
                         type: "GET",
                         success: function(data) {
 
@@ -660,7 +660,7 @@ sakai.site = function(){
                             sakai.site.pagecontents[pageUrlTitle] = content_node;
 
                             // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                            displayPage(sakai.site.pagecontents[pageUrlTitle]["payload"], true);
+                            displayPage(sakai.site.pagecontents[pageUrlTitle]["content"], true);
 
                             if (sakai.site.isCollaborator) {
                                 if (pageType === "dashboard") {

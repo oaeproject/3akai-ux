@@ -95,8 +95,8 @@ sakai.navigation = function(tuid, placement, showSettings){
             // Get values which are important for the renderer
             var current_page = {};
             current_page["url_title"] = pageUrlTitle;
-            current_page["title"] = site_info_object[pageUrlTitle]["sakai:pageTitle"];
-            current_page["position"] = parseInt(site_info_object[pageUrlTitle]["sakai:pagePosition"], 10);
+            current_page["title"] = site_info_object[pageUrlTitle]["pageTitle"];
+            current_page["position"] = parseInt(site_info_object[pageUrlTitle]["pagePosition"], 10);
 
             // Mark selected page (for different icon)
             if (pageUrlTitle === selectedPageUrlTitle) {
