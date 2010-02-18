@@ -316,7 +316,7 @@ sakai.search = function() {
 
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&people=" + searchWhere + "&s=sakai:firstName&s=sakai:lastName",
+                url: Config.URL.SEARCH_PEOPLE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&people=" + searchWhere + "&s=sakai:firstName&s=sakai:lastName",
                 success: function(data) {
                     var json = $.evalJSON(data);
                     results = json;
@@ -350,7 +350,7 @@ sakai.search = function() {
     $("#create_site_these_people_link").bind("click", function(ev){
         var searchterm = $(searchConfig.global.text).val().toLowerCase();
         var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = Config.URL.SEARCH_SERVICE + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
+        var url = Config.URL.SEARCH_PEOPLE_SERVICE + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
         $.ajax({
             cache: false,
             url: url,

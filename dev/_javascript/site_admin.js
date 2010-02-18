@@ -505,7 +505,7 @@ sakai.site.site_admin = function(){
 
     /**
      * Save page
-     * Saves content and metadata of a page
+     * General function which saves content and metadata of a page
      * @param url {String} URL of the page which needs to be saved
      * @param type {String} type of page ( "webpage", "dashboard" )
      * @param title {String} title of the page

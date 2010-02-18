@@ -305,7 +305,7 @@ sakai.search = function() {
 
             // Content & Media Search
             $.ajax({
-                url: Config.URL.SEARCH_ALL_FILES,
+                url: Config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
                     "search" : urlsearchterm,
                     "items" : cmToSearch
@@ -322,7 +322,7 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_SERVICE + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: Config.URL.SEARCH_PEOPLE_SERVICE + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
                 cache: false,
                 success: function(data) {
                     renderPeople($.evalJSON(data));
@@ -335,7 +335,7 @@ sakai.search = function() {
             // Sites search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE + "?page=0&items=5&q=" + urlsearchterm,
+                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
                 success: function(data) {
                     var foundSites = $.evalJSON(data);
                     renderSites(foundSites);
