@@ -288,14 +288,21 @@ sakai._search = function(config, callback) {
                 if (getMyFriends().results) {
                     for (var ii = 0, jj = getMyFriends().results.length; ii<jj; ii++) {
                         var friend = getMyFriends().results[ii];
-                        if (friend.target === user.userid[0]) {
+                        if (friend.target === user.userid) {
                             user.connected = true;
                         }
                     }
                 }
-                if (user.userid[0] === sdata.me.user.userid) {
+                // Check if the user you found in the list isn't the current
+                // logged in user
+                if (user.userid === sdata.me.user.userid) {
                     user.isMe = true;
                 }
+                // Check if the user that is found isn't an annonymous user
+                else if (user.userid === "anonymous"){
+                    user.isAnonymous = true;
+                }
+                
 
                 finaljson.items.push(user);
             }

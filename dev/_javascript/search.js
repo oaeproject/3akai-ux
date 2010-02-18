@@ -361,7 +361,7 @@ sakai.search = function() {
     var searchPerson = function(userid) {
         var person = false;
         for (var i = 0, j = foundPeople.length; i<j; i++) {
-            if (foundPeople[i].userid[0] === userid) {
+            if (foundPeople[i].userid === userid) {
                 person = foundPeople[i];
                 break;
             }
@@ -382,7 +382,7 @@ sakai.search = function() {
         if (contactclicked) {
             $(searchConfig.global.sendmessageContainer).show();
             if (!person.uuid) {
-                person.uuid = person.userid[0];
+                person.uuid = person.userid;
             }
             if (!person.hasOwnProperty("firstName") && !person.hasOwnProperty("lastName")) {
                 person.firstName = person.uuid;
