@@ -322,7 +322,7 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_SERVICE + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: Config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
                 cache: false,
                 success: function(data) {
                     renderPeople($.evalJSON(data));
