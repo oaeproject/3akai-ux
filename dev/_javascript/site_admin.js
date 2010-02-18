@@ -517,6 +517,8 @@ sakai.site.site_admin = function(){
      */
     var savePage = function(url, type, title, content, position, acl, callback) {
 
+        // acl argument is not used now but will be later probably
+
         var url_safe_title = "";
         var url_elements = url.split("/");
         url_safe_title = url_elements[url_elements.length - 1];
@@ -527,11 +529,9 @@ sakai.site.site_admin = function(){
             "pageURLTitle": url_safe_title,
             "pageType": type,
             "pagePosition": position,
-            "acl": acl,
             "_charset_":"utf-8",
             "pageContent": {
                 "sling:resourceType": "sakai/pagecontent",
-                "acl": "parent",
                 "_charset_":"utf-8",
                 "content": content
             }
@@ -562,7 +562,7 @@ sakai.site.site_admin = function(){
      */
     sakai.site.updatePageContent = function(url, content, callback) {
 
-        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "acl": "parent", "_charset_":"utf-8", "content": content }});
+        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "_charset_":"utf-8", "content": content }});
 
         $.ajax({
             url: url,
@@ -953,7 +953,7 @@ sakai.site.site_admin = function(){
         }
 
         // Save the data
-        var jsonString = $.toJSON({"pageContentAutoSave": { "acl": "parent", "_charset_": "utf-8", "content": tosave }});
+        var jsonString = $.toJSON({"pageContentAutoSave": { "_charset_": "utf-8", "content": tosave }});
         $.ajax({
             url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: "POST",
@@ -2472,11 +2472,9 @@ sakai.site.site_admin = function(){
     var updateTemplates = function(obj, newid, templates){
 
         templates[newid] = obj;
-        templates[newid]["acl"] = "parent";
         templates[newid]["_charset_"] = "utf-8";
         templates[newid]["sling:resourceType"] = "sakai/pagetemplate";
         templates[newid]["pageContent"] = {};
-        templates[newid]["pageContent"]["acl"] = "parent";
         templates[newid]["pageContent"]["_charset_"] = "utf-8";
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
         templates[newid]["pageContent"]["content"] = sakai.site.pagecontents[sakai.site.selectedpage]["content"];
