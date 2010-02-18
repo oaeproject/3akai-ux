@@ -876,19 +876,19 @@ sakai.site = function(){
                 //Save the prefs.
                 var dashboard_content = $.toJSON(o);
 
-                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"], dashboard_content, function(success, data){
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], dashboard_content, function(success, data){
                     if (success) {
 
                         // Check in page to version history
                         $.ajax({
-                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.save.html",
+                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
                             type: 'POST',
                             error: function(xhr, textStatus, thrownError) {
-                                fluid.log("site.js/saveState(): Could not check in dashboard page at " + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"]);
+                                fluid.log("site.js/saveState(): Could not check in dashboard page at " + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
                             }
                         });
                     } else {
-                        fluid.log("site.js/saveState(): Could not update dashboard page content at " + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"]);
+                        fluid.log("site.js/saveState(): Could not update dashboard page content at " + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
                     }
                 });
 

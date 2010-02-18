@@ -378,7 +378,7 @@ sakai.site.site_admin = function(){
 
         // Show the autosave dialog if a previous autosave version is available
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContentAutoSave.json",
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContentAutoSave.json",
             cache: false,
             success: function(data){
 
@@ -436,7 +436,7 @@ sakai.site.site_admin = function(){
 
             // Delete the folder that has been created for the new page
             $.ajax({
-                url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"],
+                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
                 type: 'DELETE'
             });
 
@@ -525,7 +525,6 @@ sakai.site.site_admin = function(){
             "sling:resourceType": "sakai/page",
             "pageTitle": title,
             "pageURLTitle": url_safe_title,
-            "pageURL": url,
             "pageType": type,
             "pagePosition": position,
             "acl": acl,
@@ -671,7 +670,7 @@ sakai.site.site_admin = function(){
 
                             // Check in new page content to revision history
                             $.ajax({
-                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.save.html",
+                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
                                 type: "POST"
                             });
 
@@ -705,7 +704,7 @@ sakai.site.site_admin = function(){
                     sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 
                     // Save page node
-                    sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"], sakai.site.pagecontents[sakai.site.selectedpage]["content"], function(success, data){
+                    sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["content"], function(success, data){
 
                         if (success) {
                             // Save the recent activity
@@ -719,7 +718,7 @@ sakai.site.site_admin = function(){
 
                             // Check in new page content to revision history
                             $.ajax({
-                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.save.html",
+                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
                                 type: "POST"
                             });
 
@@ -804,7 +803,7 @@ sakai.site.site_admin = function(){
 
         // Delete current page node
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"],
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: "DELETE",
             success: function(data) {
                 $("#" + sakai.site.selectedpage).remove();
@@ -912,7 +911,7 @@ sakai.site.site_admin = function(){
      */
     var showPageLocation = function(){
 
-        $("#new_page_path").html("<div><span>Page location:</span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "</div>"); //&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
+        $("#new_page_path").html("<div><span>Page location:</span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "</div>"); //&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
 
         // Bind Move... button's click event to its functionality
         $("#move_inside_edit").bind("click", function(ev){
@@ -956,7 +955,7 @@ sakai.site.site_admin = function(){
         // Save the data
         var jsonString = $.toJSON({"pageContentAutoSave": { "acl": "parent", "_charset_": "utf-8", "content": tosave }});
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"],
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: "POST",
             data: {
                 ":operation": "createTree",
@@ -1002,7 +1001,7 @@ sakai.site.site_admin = function(){
         // Remove autosave file
         if (sakai.site.autosavecontent) {
             $.ajax({
-                url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContentAutoSave",
+                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContentAutoSave",
                 type: 'DELETE'
             });
         }
@@ -2021,7 +2020,7 @@ sakai.site.site_admin = function(){
         $("#more_menu").hide();
 
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.versions.json",
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.versions.json",
             cache: false,
             success : function(data) {
                 var history = $.evalJSON(data);
@@ -2080,7 +2079,7 @@ sakai.site.site_admin = function(){
         var version = select.options[select.selectedIndex].value;
 
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.version.," + version + ",.json",
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.version.," + version + ",.json",
             success : function(data) {
 
                 var content_node = $.evalJSON(data);
@@ -2099,13 +2098,13 @@ sakai.site.site_admin = function(){
                 }
 
                 // Save new version of this page
-                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"], content_node["content"], function(success, data) {
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], content_node["content"], function(success, data) {
 
                     if (success) {
 
                         // Check in the page for revision control
                         $.ajax({
-                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.save.html",
+                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
                             type: "POST"
                         });
 
@@ -2134,7 +2133,7 @@ sakai.site.site_admin = function(){
         var version = select.options[select.selectedIndex].value;
 
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + "/pageContent.version.," + version + ",.json",
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.version.," + version + ",.json",
             success : function(data) {
                 var content_node = $.evalJSON(data);
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
@@ -2387,7 +2386,7 @@ sakai.site.site_admin = function(){
 
             sakai.site.refreshSiteInfo();
 
-            $("#new_page_path").html('<div><span>Page location: </span>' + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"] + '</div>&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
+            $("#new_page_path").html('<div><span>Page location: </span>' + sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + '</div>&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
 
 
             $("#move_inside_edit").bind("click", function(ev){
@@ -2615,7 +2614,7 @@ sakai.site.site_admin = function(){
 
         // Delete autosave
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"],
+            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: 'DELETE',
             success: function(data){
 
@@ -2627,7 +2626,7 @@ sakai.site.site_admin = function(){
             },
             error: function(xhr, textStatus, thrownError) {
 
-                fluid.log("site_admin.js/deletePage(): Could not delete page node at " + sakai.site.site_info._pages[sakai.site.selectedpage]["pageURL"]);
+                fluid.log("site_admin.js/deletePage(): Could not delete page node at " + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
             }
         });
     };
