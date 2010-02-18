@@ -1390,14 +1390,14 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                             } else {
 
                                 // Check whether there is a new message for this user
-                                /*var cont = false;
+                                var cont = false;
                                 for(var n = 0; n < njson[k].messages.length; n++){
                                     if (njson[k].messages[n]["sakai:read"] === "false"){
                                         cont = true;
                                     }
-                                }*/
+                                }
 
-                                //if (cont){
+                                if (cont){
 
                                     // Add the user information to the active windows
                                     var index = activewindows.items.length;
@@ -1448,7 +1448,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                                     doWindowRender(null, newactivewindows);
                                     sakai.navigationchat.loadChatTextInitial(true, newactivewindows, true);
 
-                                //}
+                                }
                             }
                         }
                     }
