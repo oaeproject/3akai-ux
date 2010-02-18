@@ -104,7 +104,7 @@ var Config = {
         USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
-        TEMPLATES: "/_user/private/_templates/pages/",
+        TEMPLATES: "/_user/private/_templates/pages",
         TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration",
         TWITTER_GET_URL: "/var/proxy/twitter/status.json",
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"

@@ -563,7 +563,7 @@ sakai.site.site_admin = function(){
      */
     sakai.site.updatePageContent = function(url, content, callback) {
 
-        var jsonString = $.toJSON({"pageContent": { "content": content }});
+        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "acl": "parent", "_charset_":"utf-8", "content": content }});
 
         $.ajax({
             url: url,
@@ -2418,8 +2418,6 @@ sakai.site.site_admin = function(){
     // MORE: SAVE PAGE AS TEMPLATE //
     /////////////////////////////////
 
-    // TODO: Templates will need to be switched over to property based content storage
-
     /**
      * Start Save As Template
      * @param {Object} hash
@@ -2454,7 +2452,7 @@ sakai.site.site_admin = function(){
             obj.description = description;
 
             // Load template configuration file
-            sdata.preference.load(Config.URL.TEMPLATES_CONFIG, function(success, pref_data){
+            sdata.preference.load(Config.URL.TEMPLATES, function(success, pref_data){
                 if (success) {
                     updateTemplates(obj, newid, pref_data);
                 } else {
@@ -2475,15 +2473,26 @@ sakai.site.site_admin = function(){
     var updateTemplates = function(obj, newid, templates){
 
         templates[newid] = obj;
+        templates[newid]["acl"] = "parent";
+        templates[newid]["_charset_"] = "utf-8";
+        templates[newid]["sling:resourceType"] = "sakai/pagetemplate";
+        templates[newid]["pageContent"] = {};
+        templates[newid]["pageContent"]["acl"] = "parent";
+        templates[newid]["pageContent"]["_charset_"] = "utf-8";
+        templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
+        templates[newid]["pageContent"]["content"] = sakai.site.pagecontents[sakai.site.selectedpage]["content"];
 
-        sdata.preference.save(Config.URL.TEMPLATES + "configuration", templates, function(success, response) {
+        sdata.preference.save(Config.URL.TEMPLATES, templates, function(success, response) {
 
             if (success) {
-                sdata.widgets.WidgetPreference.save(Config.URL.TEMPLATES + newid, "content", sakai.site.pagecontents[sakai.site.selectedpage]["content"], function(success){
+
+                sakai.site.mytemplates = templates;
+
                 $("#save_as_template_container").jqmHide();
                 $("#template_name").val("");
                 $("#template_description").val("");
-                });
+            } else {
+                fluid.log("site_admin.js/updateTemplates(): Could not save page template!");
             }
 
         });
@@ -2505,7 +2514,7 @@ sakai.site.site_admin = function(){
         sakai.site.isShowingDropdown = false;
 
         // Load template configuration file
-        sdata.preference.load(Config.URL.TEMPLATES_CONFIG, function(success, pref_data){
+        sdata.preference.load(Config.URL.TEMPLATES, function(success, pref_data){
             if (success) {
                 renderTemplates(pref_data);
             } else {
@@ -2529,12 +2538,15 @@ sakai.site.site_admin = function(){
         var finaljson = {};
         finaljson.items = [];
 
+        // Filter valid templates data
         for (var i in templates){
-            if (i) {
+
+            if ((templates[i].name) && (templates[i]["pageContent"])) {
                 var obj = {};
                 obj.id = i;
                 obj.name = templates[i].name;
                 obj.description = templates[i].description;
+                obj.content = templates[i]["pageContent"]["content"];
                 finaljson.items[finaljson.items.length] = obj;
             }
         }
@@ -2549,43 +2561,36 @@ sakai.site.site_admin = function(){
 
         $("#list_container").show();
 
+
+        // Wire delete button
         $(".template_delete").bind("click", function(ev){
             var todelete = this.id.split("_")[2];
 
             var newobj = {};
             for (var i in sakai.site.mytemplates){
-                if (i != todelete){
+                if (i !== todelete){
                     newobj[i] = sakai.site.mytemplates[i];
                 }
             }
 
             // Save updated template preferences
-            sdata.preference.save(Config.URL.TEMPLATES+"configuration", newobj, function(success, response) {
+            sdata.preference.save(Config.URL.TEMPLATES, newobj, function(success, response) {
                 if (success) {
 
-                    // Delete template content
-                    $.ajax({
-                        url : Config.URL.TEMPLATES + todelete,
-                        type : "DELETE"
-                    });
+                } else {
+                    fluid.log("site_admin.js: Failed to delete template!");
                 }
             });
 
             renderTemplates(newobj);
         });
 
+        // Wire selection button
         $(".page_template_selection").bind("click", function(ev){
             var toload = this.id.split("_")[3];
-            $.ajax({
-                 url: Config.URL.TEMPLATES + toload + "/content",
-                cache: false,
-                success : function(data) {
-                    $("#select_template_for_page").jqmHide();
-                    createNewPage(data);
-                }
-            });
+            $("#select_template_for_page").jqmHide();
+            createNewPage(sakai.site.mytemplates[toload]["pageContent"]["content"]);
         });
-
     };
 
     // Init Template selection modal
@@ -2617,7 +2622,6 @@ sakai.site.site_admin = function(){
                 delete sakai.site.site_info._pages[sakai.site.selectedpage];
                 delete sakai.site.pagecontents[sakai.site.selectedpage];
                 sakai.site.autosavecontent = false;
-
                 document.location = "/sites/" + sakai.site.currentsite.id;
 
             },
