@@ -1,0 +1,21 @@
+<project name="Sakai 3 UX" default="all" basedir=".">
+
+    <!-- SETUP - Paths -->
+    <property name="SRC_DIR" value="dev" description="Core source folder" />
+    <property name="SRC_CSS_DIR" value="${SRC_DIR}/_css/sakai" description="CSS source folder" />
+    <property name="SRC_JS_DIR" value="${SRC_DIR}/_javascript" description="JS source folder" />
+    <property name="SRC_JS_CONFIG_DIR" value="${SRC_DIR}/_configuration" description="JS configuration folder" />
+    <property name="SRC_JS_LIB_DIR" value="${SRC_DIR}/_lib" description="JS 3rd party libraries root folder" />
+
+
+    <property name="SRC_DIR_W" value="widgets" description="Source folder for widgets" />
+
+
+
+    <!-- CORE TASKS (dev) -->
+
+    
+
+    <!-- WIDGET TASKS (dev) -->
+
+</project>
