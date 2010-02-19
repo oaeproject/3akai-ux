@@ -3,6 +3,7 @@ The following people are active contributors on Sakai 3 front-end development:
 
 Eli Cochran - eli@media.berkeley.edu
 Ray Davis - r...@media.berkeley.edu
+D. Stuart Freeman - stuart.freeman@et.gatech.edu
 Dr Wu Di - dr.wudi@googlemail.com
 Adrian Fish - a.fish@lancaster.ac.uk
 Simon Gaeremynck - sg555@cam.ac.uk
