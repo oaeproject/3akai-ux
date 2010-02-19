@@ -2,10 +2,12 @@
 "name": "Changepic",
 "description": "Changepic widget\r\n",
 "WIDGET_TITLE": "Select your profile picture",
-"GET_STATUS_FROM_TWITTER": "Get status from twitter",
-"SET_STATUS_TO_TWITTER": "Set status to twitter",
-"SCREEN_NAME": "Screen name",
-"OK": "OK",
-"PASSWORD": "Password",
-"CLOSE_DIALOG": "Close Dialog"
+"CLOSE_DIALOG": "Close Dialog",
+"SELECT_YOUR_PROFILE_PICTURE": "Select your profile picture",
+"SELECT_PICTURE": "Select Picture",
+"UPLOAD_A_NEW_PICTURE": "Upload a new picture",
+"CANCEL": "Cancel",
+"UPLOAD": "Upload",
+"SELECT_THE_AREA_YOU_WANT": "Select the area you want to use as your profile picture",
+"SAVE_NEW_SELECTION": "Save new selection"
 }

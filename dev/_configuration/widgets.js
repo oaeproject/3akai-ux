@@ -1,6 +1,6 @@
 var Widgets = {
     relationships : [
-        {name : "Classmate", definition : "is my classmate"},
+        {name : "Classmate", definition : "My Classmate"},
         {name : "Supervisor", inverse : "Supervised", definition : "is my supervisor"},
         {name : "Supervised", inverse : "Supervisor", definition : "is being supervised by me"},
         {name : "Lecturer", inverse : "Student", definition : "is my lecturer"},
@@ -13,7 +13,8 @@ var Widgets = {
         "Administrators",
         "Lecturers & Supervisors",
         "Researchers",
-        "Students"],
+        "Students"
+    ],
     layouts : {
         onecolumn : {
             name:"One column",
@@ -42,8 +43,96 @@ var Widgets = {
         }
     },
     widgets: {
-        addtocontacts: {
-            description:"Add a contact",
+        changepic :
+        {
+            description:"",
+            iframe:0,
+            url:"/devwidgets/changepic/changepic.html",
+            name:"changepic",
+            id:"changepic",
+            personalportal:0,
+            siteportal:0,
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/changepic/bundles/default.json",
+                "en_US": "/devwidgets/changepic/bundles/en_US.json",
+                "zh_CN": "/devwidgets/changepic/bundles/zh_CN.json"
+            }
+        },
+        googlemaps :
+        {
+            description:"Google maps\r\n",
+            iframe:0,
+            url:"/devwidgets/googlemaps/googlemaps.html",
+            name:"Googlemaps",
+            id:"googlemaps",
+            personalportal:0,
+            siteportal:0,
+            ca:1,
+            showinmedia:0,
+            showinsakaigoodies:1,
+            img:"/devwidgets/googlemaps/images/googlemaps.png",
+            i18n: {
+                "default": "/devwidgets/googlemaps/bundles/default.json",
+                "en_US": "/devwidgets/googlemaps/bundles/en_US.json",
+                "zh_CN": "/devwidgets/googlemaps/bundles/zh_CN.json"
+            }
+        },
+        camlib :
+        {
+            description:"Sakai Cambridge University Library access widget\r\n",
+            iframe:0,
+            url:"/devwidgets/camlib/camlib.html",
+            name:"Camlib",
+            id:"camlib",
+            personalportal:1,
+            siteportal:0,
+            hasSettings: 1,
+            img:"/dev/img/myprofile.png",
+            i18n: {
+                "default": "/devwidgets/camlib/bundles/default.json",
+                "en_US": "/devwidgets/camlib/bundles/en_US.json",
+                "zh_CN": "/devwidgets/camlib/bundles/zh_CN.json"
+            }
+        },
+        sites :
+        {
+            description:"Listing of the sites I'm a member of\r\n",
+            iframe:0,
+            url:"/devwidgets/sites/sites.html",
+            name:"My Courses & Sites",
+            id:"sites",
+            personalportal:1,
+            siteportal:0,
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/sites/bundles/default.json",
+                "en_US": "/devwidgets/sites/bundles/en_US.json",
+                "zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
+            }
+        },
+        myprofile :
+        {
+            description:"My Personal Profile\r\n",
+            iframe:0,
+            url:"/devwidgets/myprofile/myprofile.html",
+            name:"My Profile",
+            id:"myprofile",
+            personalportal:1,
+            siteportal:0,
+            img:"/dev/img/myprofile.png",
+            i18n: {
+                "default": "/devwidgets/myprofile/bundles/default.json",
+                "en_US": "/devwidgets/myprofile/bundles/en_US.json",
+                "zh_CN": "/devwidgets/myprofile/bundles/zh_CN.json"
+            }
+        },
+        addtocontacts :
+        {
+            description:"Add a contact\r\n",
+            iframe:0,
+            url:"/devwidgets/addtocontacts/addtocontacts.html",
+            name:"Add a contact",
             id:"addtocontacts",
             i18n: {
                 "default": "/devwidgets/addtocontacts/bundles/default.json",
@@ -140,6 +229,22 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/googlemaps/googlemaps.html"
         },
+        createsite :
+        {
+            description:"Create site\r\n",
+            iframe:0,
+            url:"/devwidgets/createsite/createsite.html",
+            name:"Create Site",
+            id:"createsite",
+            personalportal:0,
+            siteportal:0,
+            img:"/dev/img/sites.png",
+            i18n: {
+                "default": "/devwidgets/createsite/bundles/default.json",
+                "en_US": "/devwidgets/createsite/bundles/en_US.json",
+                "zh_CN": "/devwidgets/createsite/bundles/zh_CN.json"
+            }
+        },
         helloworld: {
             description:"Sakai Hackathon Example",
             hasSettings:true,
@@ -159,13 +264,14 @@ var Widgets = {
         },
         myfriends: {
             description:"A list of my connections",
-            i18n: {
-                "default": "/devwidgets/myfriends/bundles/default.json",
-                "zh_CN": "/devwidgets/myfriends/bundles/zh_CN.json"
-            },
             id:"myfriends",
             img:"/dev/img/myprofile.png",
             multipleinstance: false,
+            i18n: {
+                "default": "/devwidgets/myfriends/bundles/default.json",
+                "en_US": "/devwidgets/myfriends/bundles/en_US.json",
+                "zh_CN": "/devwidgets/myfriends/bundles/zh_CN.json"
+            },
             name:"My Contacts",
             personalportal:true,
             url:"/devwidgets/myfriends/myfriends.html"
