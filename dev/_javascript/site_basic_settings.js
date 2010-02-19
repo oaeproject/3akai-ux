@@ -142,7 +142,7 @@ sakai.site_basic_settings = function(){
 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                if (sakai.lib.site.authz.isUserMaintainer(siteinfo, sdata.me.user.subjects)) {
+                if (sakai.lib.site.authz.isUserMaintainer(siteinfo)) {
                     // Fill in the info.
                     $("#sitetitle").text(json.name);
                     $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
