@@ -23,12 +23,12 @@
                 {for i in pages}
 
                     {if i.selected}
-                        <li style="margin-left: ${i.level}px"><a id="navigation_page_selected" href="#${i.id}">${i.title}</a></li>
+                        <li style="margin-left: ${i.level}px"><a id="navigation_page_selected" href="#${i.url_title}">${i.title}</a></li>
                     {else}
                         {if i.rootpage}
-                            <li style="margin-left: ${i.level}px"><a class="rootpage" href="#${i.id}">${i.title}</a></li>
+                            <li style="margin-left: ${i.level}px"><a class="rootpage" href="#${i.url_title}">${i.title}</a></li>
                         {else}
-                            <li style="margin-left: ${i.level}px"><a class="subpage" href="#${i.id}">${i.title}</a></li>
+                            <li style="margin-left: ${i.level}px"><a class="subpage" href="#${i.url_title}">${i.title}</a></li>
                         {/if}
                     {/if}
 

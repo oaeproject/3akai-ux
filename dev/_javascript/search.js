@@ -305,7 +305,7 @@ sakai.search = function() {
 
             // Content & Media Search
             $.ajax({
-                url: Config.URL.SEARCH_ALL_FILES,
+                url: Config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
                     "search" : urlsearchterm,
                     "items" : cmToSearch
@@ -335,7 +335,7 @@ sakai.search = function() {
             // Sites search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE + "?page=0&items=5&q=" + urlsearchterm,
+                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
                 success: function(data) {
                     var foundSites = $.evalJSON(data);
                     renderSites(foundSites);

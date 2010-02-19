@@ -29,7 +29,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
     var rootel = $("#" + tuid);
     var currentSite = placement.split("/")[0];
-    var saveUrl = "/sites/" + currentSite + "/" + tuid;
+    var saveUrl = "/sites/" + currentSite + "/_widgets/" + tuid;
     var iframeContentWindow = {};
     var json = false;
 
