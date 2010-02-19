@@ -62,4 +62,10 @@
 
     </target>
 
+    <!-- Target: Build complete -->
+    <target name="all" depends="create_target_folders, copy_html">
+        <echo message="Sakai 3 UX Build: Build complete." />
+    </target>
+
+
 </project>
