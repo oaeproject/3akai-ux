@@ -1,20 +1,40 @@
 <project name="Sakai 3 UX" default="all" basedir=".">
 
-    <!-- SETUP - Paths -->
+    <echo message="Sakai 3 UX Build: Initialising..." />
+
+    <!-- SETUP - Source and target paths -->
     <property name="SRC_DIR" value="dev" description="Core source folder" />
+    <property name="TARGET_DIR" value="target/deploy/dev" description="Core target folder" />
+    <property name="TARGET_COMPRESSED" value="target/compressed" description="Core target compressed folder" />
+
     <property name="SRC_CSS_DIR" value="${SRC_DIR}/_css/sakai" description="CSS source folder" />
+    <property name="TARGET_CSS_DIR" value="${TARGET_DIR}/_css/sakai" description="CSS target folder" />
+
     <property name="SRC_JS_DIR" value="${SRC_DIR}/_javascript" description="JS source folder" />
-    <property name="SRC_JS_CONFIG_DIR" value="${SRC_DIR}/_configuration" description="JS configuration folder" />
-    <property name="SRC_JS_LIB_DIR" value="${SRC_DIR}/_lib" description="JS 3rd party libraries root folder" />
+    <property name="TARGET_JS_DIR" value="${TARGET_DIR}/_javascript" description="JS target folder" />
+    <property name="SRC_JS_CONFIG_DIR" value="${SRC_DIR}/_configuration" description="JS configuration source folder" />
+    <property name="TARGET_JS_CONFIG_DIR" value="${TARGET_DIR}/_configuration" description="JS configuration target folder" />
+    <property name="SRC_JS_LIB_DIR" value="${SRC_DIR}/_lib" description="JS 3rd party libraries root source folder" />
+    <property name="TARGET_JS_LIB_DIR" value="${TARGET_DIR}/_lib" description="JS 3rd party libraries root target folder" />
 
+    <property name="SRC_DIR_W" value="devwidgets" description="Source folder for widgets" />
+    <property name="TARGET_DIR_W" value="target/deploy/devwidgets" description="Target folder for widgets" />
 
-    <property name="SRC_DIR_W" value="widgets" description="Source folder for widgets" />
+    <!-- SETUP - Processed output file names -->
+    <property name="CONCAT_BASE_CSS" value="${TARGET_DIR}/_css/sakai/sakai_base.css" description="Concatenated base CSS file name" />
+    <property name="CONCAT_BASE_JS" value="${TARGET_DIR}/_javascript/sakai_base.js" description="Concatenated base JS file name" />
+    <property name="CONCAT_BASE_JS_LIB" value="${TARGET_DIR}/_lib/sakai_base_lib.js" description="Concatenated 3rd party lib JS file name" />
+    <property name="TARGET_JAR_FILE" value="${TARGET_COMPRESSED}/sakai3-ux.jar" description="Target JAR file" />
+    <property name="TARGET_ZIP_FILE" value="${TARGET_COMPRESSED}/sakai3-ux.zip" description="Target ZIP file" />
+    
+
+    <!-- SETUP - Tools -->
 
 
 
     <!-- CORE TASKS (dev) -->
 
-    
+
 
     <!-- WIDGET TASKS (dev) -->
 
