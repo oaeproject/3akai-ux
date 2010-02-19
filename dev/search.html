@@ -133,26 +133,28 @@
                         <div id="people_search_result"> </div>
                         <div id="people_search_result_template"><!--
                         {for i in items}
-                            <div class="fl-container fl-fix search_result_person">
-                                {if ! i.picture}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
-                                {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
-                                {/if}
-                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-                                {if i.extra}
-                                    <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-                                {else}
-                                    <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-                                {/if}
-                                {if ! i.isMe}
-                                    {if ! i.connected}
-                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
-                                        <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                            {if !i.isAnonymous}
+                                <div class="fl-container fl-fix search_result_person">
+                                    {if ! i.picture}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+                                    {else}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
                                     {/if}
-                                    <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
-                                {/if}
-                            </div>
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                    {if i.extra}
+                                        <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                    {/if}
+                                    {if ! i.isMe}
+                                        {if ! i.connected}
+                                            <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
+                                            <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                        {/if}
+                                        <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                    {/if}
+                                </div>
+                            {/if}
                         {forelse}
                             __MSG__NO_PEOPLE_FOUND__.
                         {/for}

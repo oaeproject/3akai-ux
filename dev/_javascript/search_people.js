@@ -308,15 +308,23 @@ sakai.search = function() {
 
             // Set off the AJAX request
 
-            // sites Search
+            // Look to in which place we are searching (is it all the contacts or only my contacts)
             var searchWhere = mainSearch.getSearchWhereUsers();
 
-            //    What are we looking for?
+            // What are we looking for?
             var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
+
+            // The search URL depends on the searchWhere variable
+            var searchURL;
+            if(searchWhere === "mycontacts") {
+                searchURL = Config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
+            }  else {
+                searchURL = Config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName";
+            }
 
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&people=" + searchWhere + "&s=sakai:firstName&s=sakai:lastName",
+                url: searchURL,
                 success: function(data) {
                     var json = $.evalJSON(data);
                     results = json;
@@ -350,7 +358,7 @@ sakai.search = function() {
     $("#create_site_these_people_link").bind("click", function(ev){
         var searchterm = $(searchConfig.global.text).val().toLowerCase();
         var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = Config.URL.SEARCH_SERVICE + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
+        var url = Config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
         $.ajax({
             cache: false,
             url: url,
