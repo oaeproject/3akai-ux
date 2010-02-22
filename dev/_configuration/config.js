@@ -20,6 +20,7 @@ var Config = {
 
     URL : {
         API_GOOGLE_CHARTS: "http://chart.apis.google.com/chart",
+        BATCH_GET: "/system/batch/get",
         BUNDLE_ROOT: "/dev/_bundle/",
         CONTENT_MEDIA_URL: "/dev/content_media.html",
         COURSES_SITES_PAGE: "/dev/courses_sites.html",

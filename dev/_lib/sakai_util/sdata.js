@@ -17,7 +17,7 @@
  */
 
 
-/*global $, jQuery, Config, fluid, TrimPath, Widgets */
+/*global $, jQuery, Config, fluid, TrimPath, Widgets, sdata, window, document */
 
 
 /*
@@ -42,15 +42,16 @@ var sakai = {};
 sdata.me = false;
 
 
-if(!Array.indexOf){
-  Array.prototype.indexOf = function(obj){
-   for(var i=0; i<this.length; i++){
-    if(this[i]==obj){
-     return i;
-    }
-   }
-   return -1;
-  };
+
+if (!Array.indexOf) {
+    Array.prototype.indexOf = function(obj){
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == obj) {
+                return i;
+            }
+        }
+        return -1;
+    };
 }
 
 ///////////////////////////
@@ -303,17 +304,17 @@ sdata.widgets.WidgetLoader = {
     loaded : [],
 
     /**
-     * Function that can be called by the container. This will looks for widget declerations
+     * Function that can be called by the container. This will looks for widget declarations
      * within the specified container and will load the widgets in the requested mode (view - settings)
      * @param {Object} id
-     *  Id of the HTML container in which we want to look for widget declerations
+     *  Id of the HTML container in which we want to look for widget declarations
      * @param {Object} showSettings
      *  true  : render the settings mode of the widget
      *  false : render the view mode of the widget
      */
     insertWidgets : function(id, showSettings, context){
         var obj = sdata.widgets.WidgetLoader.loadWidgets(id, showSettings, context);
-        sdata.widgets.WidgetLoader.loaded[sdata.widgets.WidgetLoader.loaded.length] = obj;
+        sdata.widgets.WidgetLoader.loaded.push(obj);
     },
 
     loadWidgets : function(id, showSettings, context){
@@ -323,166 +324,47 @@ sdata.widgets.WidgetLoader = {
         var widgetSelector = ".widget_inline";
 
         // Help variables
-        var widgets = {};
-        var settings = false;
+        var widgets = {}, settings = false;
 
+        /**
+         * Inform the widget that is is loaded and execute the main JavaScript function
+         * If the widget name is "createsite", then the function sakai.createsite will be executed.
+         * @param {String} widgetname The name of the widget
+         */
         var informOnLoad = function(widgetname){
-            var doDelete = false;
+            var doDelete;
+
+            // Check if the name of the widget is inside the widgets object.
             if (widgets[widgetname] && widgets[widgetname].length > 0){
+
+                // Run through all the widgets with a specific name
                 for (var i = 0, j = widgets[widgetname].length; i<j; i++){
                     widgets[widgetname][i].done++;
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
-                        var initfunction = eval(widgetNameSpace + "." + widgetname);
-                        var obj = initfunction(widgets[widgetname][i].uid, widgets[widgetname][i].placement, settings);
+                        var initfunction = window[widgetNameSpace][widgetname];
+                        initfunction(widgets[widgetname][i].uid, widgets[widgetname][i].placement, settings);
                         doDelete = true;
                     }
                 }
-            }
-            if (doDelete){
-                delete widgets[widgetname];
+
+                // Remove the widget from the widgets object (clean up)
+                if (doDelete){
+                    delete widgets[widgetname];
+                }
             }
         };
 
-        var insertWidgets = function(containerId, showSettings, context){
-
-            // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
-            var el = containerId ? document.getElementById(containerId) : $(document.body);
-
-            var divarray = $(widgetSelector, el);
-            settings = showSettings || false;
-
-            for (var i = 0, j = divarray.length; i < j; i++){
-                try {
-                    var id = divarray[i].id;
-                    var split = id.split("_");
-                    var widgetname = split[1];
-                    if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe === 1){
-
-                        var portlet = Widgets.widgets[widgetname];
-                        var html = '<div style="padding:0 0 0 0" id="widget_content_'+ split[1] + '">' +
-                                       '<iframe src="'+ portlet.url+'" ' +
-                                       'id="widget_frame_'+ split[1]+'" ' +
-                                       'name="widget_frame_'+ split[1]+'" ' +
-                                       'frameborder="0" ' +
-                                       'height="'+ portlet.height +'px" ' +
-                                       'width="100%" ' +
-                                       'scrolling="no"' +
-                                       '></iframe></div>';
-                        var iframewidgetid = "id0";
-                        if (split[2]){
-                            iframewidgetid = split[2];
-                        }
-                        $("#" + iframewidgetid + "_container").html(html);
-                        $("#" + iframewidgetid + "_container").addClass("fl-widget-content");
-                        $("#" + iframewidgetid + "_container").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
-
-                    } else if (Widgets.widgets[widgetname]){
-
-                        var widgetid = "id0";
-                        if (split[2]){
-                            widgetid = split[2];
-                        }
-
-                        //console.debug(widgetname+": "+widgetid+" "+divarray[i].id);
-
-                        var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
-
-                        var placement = "";
-                        if (split[3] !== undefined){
-                            placement = id.substring(length);
-                        } else if (context){
-                            placement = context;
-                        }
-
-                        if (! widgets[widgetname]){
-                            widgets[widgetname] = [];
-                        }
-                        var index = widgets[widgetname].length;
-                        widgets[widgetname][index] = [];
-                        widgets[widgetname][index].uid = widgetid;
-                        widgets[widgetname][index].placement = placement;
-                        widgets[widgetname][index].id = id;
-                        var floating = "inline_class_widget_nofloat";
-                        if (divarray[i].style.cssFloat) {
-                            if (divarray[i].style.cssFloat == "left") {
-                                floating = "inline_class_widget_leftfloat";
-                            }
-                            else
-                                if (divarray[i].style.cssFloat == "right") {
-                                    floating = "inline_class_widget_rightfloat";
-                                }
-                        } else {
-                            if (divarray[i].style.styleFloat == "left") {
-                                floating = "inline_class_widget_leftfloat";
-                            }
-                            else
-                                if (divarray[i].style.styleFloat == "right") {
-                                    floating = "inline_class_widget_rightfloat";
-                                }
-                        }
-                        widgets[widgetname][index].floating = floating;
-                    }
-                } catch (err){
-                    fluid.log("An error occured whilst searching for widget definitions in " + divarray[i].id);
-                }
-            }
-
-            for (i in widgets){
-                if (widgets[i]) {
-                    for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
-                        var originalEl = document.getElementById(widgets[i][ii].id);
-                        var newel = document.createElement("div");
-                        newel.id = widgets[i][ii].uid;
-                        newel.className = widgets[i][ii].floating;
-                        newel.innerHTML = "";
-                        originalEl.parentNode.replaceChild(newel, originalEl);
-                    }
-                }
-            }
-
-            for (i in widgets){
-                if (widgets[i]) {
-                    loadWidgetFiles(widgets, i);
-                }
-            }
-
-        };
-
-        var loadWidgetFiles = function(widgets,widgetname){
-            var url = Widgets.widgets[widgetname].url;
-            if (Widgets.widgets[widgetname].gwt == 1) {
-                for (var i = 0, j = widgets[widgetname].length; i < j; i++) {
-                    var iframescr = url + "?placement=" + widgets[widgetname][i].placement + "&tuid=" + widgets[widgetname][i].uid + "&showSettings=" + settings + "&sid=" + Math.random();
-                    var oiFrame = document.createElement('iframe');
-                    oiFrame.setAttribute("width", "100%");
-                    oiFrame.setAttribute("scrolling", "auto");
-                    oiFrame.setAttribute("id", "widget_gwt_" + widgets[widgetname][i].uid);
-                    oiFrame.setAttribute("frameBorder", "0");
-                    oiFrame.setAttribute("border", "0");
-                    oiFrame.setAttribute("height", "0");
-                    oiFrame.style.border = 0 + "px";
-                    oiFrame.src = iframescr;
-                    document.getElementById(widgets[widgetname][i].uid).appendChild(oiFrame);
-                }
-            } else {
-                $.ajax({
-                    url: url,
-                    success: function(response){
-                        var thisobj2 = {};
-
-                        // Do i18n on widget content
-                        var translated_content = $.i18n_widget(widgetname, response);
-
-                        sethtmlover(null, translated_content, widgets, widgetname);
-                    }
-                });
-            }
-        };
-
+        /**
+         * Locate a tag and remove it from the content
+         * @param {String} content The complete content of a file (e.g. <div>...)
+         * @param {String} tagName The name of the tag you want to remove (link/script)
+         * @param {String} URLIdentifier The part that identifies the URL (href/src)
+         */
         var locateTagAndRemove = function(content, tagName, URLIdentifier){
-            var returnObject = {};
-            returnObject.URL = [];
-            returnObject.content = content;
+            var returnObject = {
+                URL : [],
+                content : content
+            };
             var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?["|'+'\''+']([^"]*)["|'+'\''+'].*/.*?>', "gi");
             var regexp_match_result = regexp.exec(content);
             while (regexp_match_result !== null) {
@@ -493,12 +375,10 @@ sdata.widgets.WidgetLoader = {
             return returnObject;
         };
 
-        var sethtmlover = function (div,content,widgets,widgetname){
+        var sethtmlover = function(content,widgets,widgetname){
 
             var CSSTags = locateTagAndRemove(content, "link", "href");
             content = CSSTags.content;
-
-            var initfunction = eval(widgetNameSpace + "." + widgetname);
 
             for (var i = 0, j = CSSTags.URL.length; i<j; i++) {
                 $.Load.requireCSS(CSSTags.URL[i]);
@@ -522,12 +402,171 @@ sdata.widgets.WidgetLoader = {
 
         };
 
+        /**
+         * Load the files that the widget needs (HTML/CSS and JavaScript)
+         * @param {Object} widgets
+         * @param {Object} batchWidgets A list of all the widgets that need to load
+         */
+        var loadWidgetFiles = function(widgets, batchWidgets){
+            var urls = [];
+
+            for(var k in batchWidgets){
+                if(batchWidgets.hasOwnProperty(k)){
+                    urls[urls.length] = k;
+                }
+            }
+
+            if(urls.length > 0){
+                $.ajax({
+                    url: Config.URL.BATCH_GET,
+                    data: {
+                        resources: urls
+                    },
+                    success: function(data){
+                        var json = $.evalJSON(data);
+                        for (var i = 0, j = json.length; i<j; i++) {
+                                var jsonpath = json[i].path;
+                                var widgetname = batchWidgets[jsonpath];
+
+                                // Do i18n on widget content
+                                var translated_content = $.i18n_widget(widgetname, json[i].data);
+    
+                                sethtmlover(translated_content, widgets, widgetname);
+                            
+                        }
+                    }
+                });
+            }
+        };
+
+        /**
+         * Insert the widgets into the page
+         * @param {String} containerId The id of the container element
+         * @param {Boolean} showSettings Show the settings for the widget
+         * @param {String} context The context of the widget (e.g. siteid)
+         */
+        var insertWidgets = function(containerId, showSettings, context){
+
+            // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
+            var el = containerId ? document.getElementById(containerId) : $(document.body);
+
+            // Array of jQuery objects that contains all the elements in the with the widget selector class.
+            var divarray = $(widgetSelector, el);
+
+            // Check if the showSettings variable is set, if not set the settings variable to false
+            settings = showSettings || false;
+
+            // Array that will contain all the URLs + names of the widgets that need to be fetched with batch get
+            var batchWidgets = [];
+
+            // Run over all the elements and load them
+            for (var i = 0, j = divarray.length; i < j; i++){
+                var id = divarray[i].id;
+                var split = id.split("_");
+                var widgetname = split[1];
+
+                // Set the id for the container of the widget
+                var widgetid;
+                if (split[2]){
+                    widgetid = split[2];
+                } else if(widgetname) {
+                    widgetid = widgetname + "container";
+                }
+
+                // Check if the widget is an iframe or a gwt widget
+                if (Widgets.widgets[widgetname] && (Widgets.widgets[widgetname].gwt || Widgets.widgets[widgetname].iframe)){
+
+                    var gwt = Widgets.widgets[widgetname].gwt ? true : false;
+
+                    // Get the information about the widget in the widgets.js file
+                    var portlet = Widgets.widgets[widgetname];
+
+                    // Check if the scrolling property has been set to true
+                    var scrolling = portlet.scrolling ? "auto" : "no";
+
+                    var src;
+                    if(gwt){
+                        src = portlet.url + "?placement=" + portlet.placement + "&tuid=" + portlet.uid + "&showSettings=" + settings + "&sid=" + Math.random();
+                    }else {
+                        src = portlet.url;
+                    }
+
+                    // Construct the HTML for the iframe
+                    var html = '<div id="widget_content_'+ widgetname + '">' +
+                                   '<iframe src="'+ src +'" ' +
+                                   'frameborder="0" ' +
+                                   'height="'+ portlet.height +'px" ' +
+                                   'width="100%" ' +
+                                   'scrolling="' + scrolling + '"' +
+                                   '></iframe></div>';
+
+                    if(gwt){
+                        $("#" + portlet.uid).append(html);
+                    }else{
+                        // Add the HTML for to the iframe widget container
+                        $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
+                    }
+                } 
+
+                // The widget isn't a gwt or iframe widget
+                else if (Widgets.widgets[widgetname]){
+
+                    // Set the placement for the widget
+                    var placement = "";
+                    if (split[3] !== undefined){
+                        var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
+                        placement = id.substring(length);
+                    } else if (context){
+                        placement = context;
+                    }
+
+                    // Check if the widget exists
+                    if (!widgets[widgetname]){
+                        widgets[widgetname] = [];
+                    }
+
+                    // Set the initial properties for the widget
+                    var index = widgets[widgetname].length;
+                    widgets[widgetname][index] = {
+                        uid : widgetid,
+                        placement : placement,
+                        id : id
+                    };
+                    var floating = "inline_class_widget_nofloat";
+
+                    // Check if the browser supports cssFloat (other browsers) or styleFloat (IE)
+                    var styleFloat = jQuery.support.cssFloat ? "cssFloat" : "styleFloat";
+                    if (divarray[i].style[styleFloat]) {
+                        floating = divarray[i].style[styleFloat] === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                    }
+                    widgets[widgetname][index].floating = floating;
+                }
+            }
+
+            for (i in widgets){
+                if (widgets.hasOwnProperty(i)) {
+                    for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
+
+                        // Replace all the widgets with id "widget_" to widgets with new id's
+                        // and add set the appropriate float class
+                        $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
+                    }
+
+                    var url = Widgets.widgets[i].url;
+                    batchWidgets[url] = i; //i is the widgetname
+                }
+            }
+
+            // Load the HTML files for the widgets
+            loadWidgetFiles(widgets, batchWidgets);
+
+        };
+
         insertWidgets(id, showSettings, context);
 
         return {
             "informOnLoad" : informOnLoad
         };
-
     },
 
     informOnLoad : function(widgetname){
@@ -1002,7 +1041,7 @@ sdata.widgets.WidgetPreference =  {
 
         } else if (sdata.i18n.localBundle[key]) {
 
-            return sdata.i18n.localBundle[key]
+            return sdata.i18n.localBundle[key];
 
         } else if (sdata.i18n.defaultBundle[key]) {
 
