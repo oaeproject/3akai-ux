@@ -525,7 +525,7 @@ sakai.site = function(){
         if (sakai.site.selectedpage) {
             $("#revision_history_container").hide();
             $("#content_page_options").show();
-            $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["content"]);
+            $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
             sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
         }
 
@@ -626,7 +626,7 @@ sakai.site = function(){
 
                             sakai.site.pagecontents[pageUrlTitle] = $.evalJSON(data);
 
-                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["content"], true);
+                            displayDashboard(sakai.site.pagecontents[pageUrlTitle]["sakai:pagecontent"], true);
 
                             if (sakai.site.isCollaborator) {
                                 if (pageType === "dashboard") {
@@ -661,7 +661,7 @@ sakai.site = function(){
                             sakai.site.pagecontents[pageUrlTitle] = content_node;
 
                             // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
-                            displayPage(sakai.site.pagecontents[pageUrlTitle]["content"], true);
+                            displayPage(sakai.site.pagecontents[pageUrlTitle]["sakai:pagecontent"], true);
 
                             if (sakai.site.isCollaborator) {
                                 if (pageType === "dashboard") {

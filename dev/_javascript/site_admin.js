@@ -353,7 +353,7 @@ sakai.site.site_admin = function(){
         showPageLocation();
 
         // Put content in editor
-        var content = sakai.site.pagecontents[pageUrlTitle]["content"];
+        var content = sakai.site.pagecontents[pageUrlTitle]["sakai:pagecontent"];
         tinyMCE.get("elm1").setContent(content);
 
         $("#messageInformation").hide();
@@ -384,8 +384,8 @@ sakai.site.site_admin = function(){
 
                 var autosave_node = $.evalJSON(data);
 
-                if ((autosave_node["content"] !== "") && (sakai.site.pagecontents[pageUrlTitle] !== autosave_node["content"])){
-                    sakai.site.autosavecontent = autosave_node["content"];
+                if ((autosave_node["sakai:pagecontent"] !== "") && (sakai.site.pagecontents[pageUrlTitle] !== autosave_node["sakai:pagecontent"])){
+                    sakai.site.autosavecontent = autosave_node["sakai:pagecontent"];
                     $('#autosave_dialog').jqmShow();
                 } else {
                     sakai.site.timeoutid = setInterval(sakai.site.doAutosave, sakai.site.autosaveinterval);
@@ -453,7 +453,7 @@ sakai.site.site_admin = function(){
             switchToTextEditor();
 
             // Put back original content
-            $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["content"]);
+            $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
 
             if (sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"] === "webpage") {
                 $("#webpage_edit").show();
@@ -533,7 +533,7 @@ sakai.site.site_admin = function(){
             "pageContent": {
                 "sling:resourceType": "sakai/pagecontent",
                 "_charset_":"utf-8",
-                "content": content
+                "sakai:pagecontent": content
             }
         });
 
@@ -562,7 +562,7 @@ sakai.site.site_admin = function(){
      */
     sakai.site.updatePageContent = function(url, content, callback) {
 
-        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "_charset_":"utf-8", "content": content }});
+        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "_charset_":"utf-8", "sakai:pagecontent": content }});
 
         $.ajax({
             url: url,
@@ -691,10 +691,10 @@ sakai.site.site_admin = function(){
                     }
 
                     // Store page contents
-                    sakai.site.pagecontents[sakai.site.selectedpage]["content"] = getContent();
+                    sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = getContent();
 
                     // Put page contents into html
-                    $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["content"]);
+                    $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
 
                     // Switch back to view mode
                     $("#edit_view_container").hide();
@@ -704,7 +704,7 @@ sakai.site.site_admin = function(){
                     sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 
                     // Save page node
-                    sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["content"], function(success, data){
+                    sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], function(success, data){
 
                         if (success) {
                             // Save the recent activity
@@ -953,7 +953,7 @@ sakai.site.site_admin = function(){
         }
 
         // Save the data
-        var jsonString = $.toJSON({"pageContentAutoSave": { "_charset_": "utf-8", "content": tosave }});
+        var jsonString = $.toJSON({"pageContentAutoSave": { "_charset_": "utf-8", "sakai:pagecontent": tosave }});
         $.ajax({
             url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: "POST",
@@ -1841,10 +1841,10 @@ sakai.site.site_admin = function(){
 
         // Assign the empty content to the sakai.site.pagecontents array
         if (sakai.site.pagecontents[newid]) {
-            sakai.site.pagecontents[newid]["content"] = content;
+            sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
         } else {
             sakai.site.pagecontents[newid] = {};
-            sakai.site.pagecontents[newid]["content"] = content;
+            sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
         }
 
         savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + newid, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
@@ -2086,19 +2086,19 @@ sakai.site.site_admin = function(){
 
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
                 if (type === "webpage") {
-                    $("#" + sakai.site.selectedpage).html(content_node["content"]);
+                    $("#" + sakai.site.selectedpage).html(content_node["sakai:pagecontent"]);
                     sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
-                    sakai.site.pagecontents[sakai.site.selectedpage]["content"] = content_node["content"];
+                    sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = content_node["sakai:pagecontent"];
                 }
                 else if (type === "dashboard") {
                     // Remove previous dashboard
                     $("#" + sakai.site.selectedpage).remove();
                     // Render new one
-                    sakai.site._displayDashboard (content_node["content"], true);
+                    sakai.site._displayDashboard (content_node["sakai:pagecontent"], true);
                 }
 
                 // Save new version of this page
-                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], content_node["content"], function(success, data) {
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], content_node["sakai:pagecontent"], function(success, data) {
 
                     if (success) {
 
@@ -2138,11 +2138,11 @@ sakai.site.site_admin = function(){
                 var content_node = $.evalJSON(data);
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
                 if (type === "webpage") {
-                    $("#" + sakai.site.selectedpage).html(content_node["content"]);
+                    $("#" + sakai.site.selectedpage).html(content_node["sakai:pagecontent"]);
                     sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
                 } else if (type === "dashboard") {
                     $("#" + sakai.site.selectedpage).remove();
-                    sakai.site._displayDashboard(content_node["content"], true);
+                    sakai.site._displayDashboard(content_node["sakai:pagecontent"], true);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -2477,7 +2477,7 @@ sakai.site.site_admin = function(){
         templates[newid]["pageContent"] = {};
         templates[newid]["pageContent"]["_charset_"] = "utf-8";
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
-        templates[newid]["pageContent"]["content"] = sakai.site.pagecontents[sakai.site.selectedpage]["content"];
+        templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"];
 
         sdata.preference.save(Config.URL.TEMPLATES, templates, function(success, response) {
 
@@ -2543,7 +2543,7 @@ sakai.site.site_admin = function(){
                 obj.id = i;
                 obj.name = templates[i].name;
                 obj.description = templates[i].description;
-                obj.content = templates[i]["pageContent"]["content"];
+                obj.content = templates[i]["pageContent"]["sakai:pagecontent"];
                 finaljson.items[finaljson.items.length] = obj;
             }
         }
@@ -2586,7 +2586,7 @@ sakai.site.site_admin = function(){
         $(".page_template_selection").bind("click", function(ev){
             var toload = this.id.split("_")[3];
             $("#select_template_for_page").jqmHide();
-            createNewPage(sakai.site.mytemplates[toload]["pageContent"]["content"]);
+            createNewPage(sakai.site.mytemplates[toload]["pageContent"]["sakai:pagecontent"]);
         });
     };
 
