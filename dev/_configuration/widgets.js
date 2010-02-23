@@ -337,6 +337,17 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/quiz/quiz.html"
         },
+        recentmessages: {
+            description:"Your recent messages",
+            i18n: {
+                "default": "/devwidgets/recentmessages/bundles/default.json",
+                "en_US": "/devwidgets/recentmessages/bundles/en_US.json"
+            },
+            id:"recentmessages",
+            name:"Recent Messages",
+            personalportal:true,
+            url:"/devwidgets/recentmessages/recentmessages.html"
+        },
         remotecontent: {
             ca:true,
             description:"Remote Content",
