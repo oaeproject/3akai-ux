@@ -35,11 +35,21 @@ html {
     outline: 1px dotted #000;
 }
 
+/* HTML TAG OVERRIDES - on top of the FSS reset */
+
+h1 {
+    font:normal 2em Arial, Helvetica, sans-serif;
+}
+
 /* LINKS */
 
 a { 
     color: #333;
     text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 /* Hidden elements
@@ -53,8 +63,6 @@ a {
 .s3d-hidden, .i18nable {
     display: none;
 }
-
-
 
 
 /* UTILITY CLASSES */
@@ -180,6 +188,71 @@ html>body .s3d-button .s3d-button-inner {
 
 .s3d-search-button .s3d-button-icon-right {
      background-image: url("../../_images/icon-search-white.png");
+}
+
+/* ----------------------------------------------------------------------------
+ *    TOP TABS
+ * ----------------------------------------------------------------------------
+ */
+
+.primary-tabs {
+    height: 25px;
+    border: none;
+    padding: 3px 10px 0 0;
+    display: block;
+}
+
+.primary-tabs ul {
+    border: none;
+    padding: 0;
+    margin: 0;
+    float: right;
+}
+
+.primary-tabs ul.fl-tabs-left {
+    float: left; 
+}
+
+.primary-tabs ul li {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    display: block;
+    float: left;
+}
+
+.primary-tabs ul li a {
+    padding: 4px 18px 4px 13px;
+    line-height: 20px;
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    color: #000;
+    display: block;
+    float: left;
+    margin: 0;
+    position: relative;
+    bottom: 0px !important;
+}
+
+.primary-tabs ul li.fl-tabs-active {
+    background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat;
+    height: 30px;
+    padding-left: 5px;
+    position: relative;
+    bottom: 0px !important;
+}
+
+.primary-tabs ul li.fl-tabs-active a {
+    background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat;
+    height: 30px;
+    font-weight: normal;
+    border: none;
+    padding-left: 15px;
+    margin: 0;
+    position: relative;
+    bottom: 0px !important;
 }
 
 /* ----------------------------------------------------------------------------

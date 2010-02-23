@@ -36,24 +36,9 @@
 
 
 /** TABS **/
-.basic_appearance .primary-tabs
-{ background: #fff url('../../_images/site_appearance_tab_bg.gif') top left no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
-
-.basic_appearance .primary-tabs ul
-{ padding: 0; margin: 0; border-bottom: none;  }
-
-.basic_appearance .primary-tabs ul li
-{ margin: 0; padding: 0; background: transparent; border: none; display: block; float: left; }
-
-.basic_appearance .primary-tabs ul li a
-{ padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
-
-.basic_appearance .primary-tabs ul li.fl-tabs-active
-{ background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
-
-.basic_appearance .primary-tabs ul li.fl-tabs-active a
-{ background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
-
+.basic_appearance .primary-tabs {
+    background: #fff url('../../_images/site_appearance_tab_bg.gif') top left no-repeat;
+}
 
 /** TAB CONTENTS **/
 .basic_appearance .site_appearance_container
