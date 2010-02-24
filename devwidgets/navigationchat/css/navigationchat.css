@@ -20,7 +20,7 @@
  * Top Navigation Bar
  */
 
-#id0 #explore_nav_container { background-color: #454a4f; color: #fff; }
+#explore_nav_container { background-color: #454a4f; color: #fff; }
 .pipe_divider {color: #999;}
 .explore_nav { vertical-align: bottom; width: 960px; height: 32px; margin: 0 auto 12px auto; }
 .explore_nav ul { padding:0; margin:0; }

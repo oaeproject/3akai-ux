@@ -1,0 +1,7 @@
+{
+"name": "Recent messages",
+"description": "Your recent messages",
+"ALL_MESSAGES": "All messages",
+"NO_MESSAGES_AVAILABLE": "There are no recent messages available for you.",
+"NOT_CONNECTED": "The recent messages widget couldn't connect to the server."
+}

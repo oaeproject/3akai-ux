@@ -215,6 +215,15 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/pickers/folderpicker.html"
         },
+        googledocs: {
+            description: "Google docs - Show your recent google documents",
+            id:"googledocs",
+            iframe:true,
+            name:"Google docs",
+            personalportal:true,
+            scrolling: false,
+            url:"http://docs.google.com/API/IGoogle?up_numDocuments=5&browserok=true"
+        },
         googlemaps: {
             ca:true,
             description:"Google maps",
@@ -327,6 +336,17 @@ var Widgets = {
             name:"Quiz",
             showinsakaigoodies:true,
             url:"/devwidgets/quiz/quiz.html"
+        },
+        recentmessages: {
+            description:"Your recent messages",
+            i18n: {
+                "default": "/devwidgets/recentmessages/bundles/default.json",
+                "en_US": "/devwidgets/recentmessages/bundles/en_US.json"
+            },
+            id:"recentmessages",
+            name:"Recent Messages",
+            personalportal:true,
+            url:"/devwidgets/recentmessages/recentmessages.html"
         },
         remotecontent: {
             ca:true,
