@@ -275,6 +275,7 @@ $(document).ready(function(){
         // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
         // will already be loaded
         document.body.innerHTML= newstring;
+        document.title = $.i18n(document.title, localjson, defaultjson);
         finishI18N();
     };
 
