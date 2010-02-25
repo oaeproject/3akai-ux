@@ -20,6 +20,7 @@ var Config = {
 
     URL : {
         API_GOOGLE_CHARTS: "http://chart.apis.google.com/chart",
+        BATCH_GET: "/system/batch/get",
         BUNDLE_ROOT: "/dev/_bundle/",
         CONTENT_MEDIA_URL: "/dev/content_media.html",
         COURSES_SITES_PAGE: "/dev/courses_sites.html",
@@ -36,7 +37,6 @@ var Config = {
         PUBLIC_COURSES_SITES_PAGE: "/dev/public_courses_sites.html",
         PUBLIC_CONTENT_MEDIA: "/dev/public_content_media.html",
         PUBLIC_SEARCH: "/dev/public_search.html",
-        SEARCH_ALL_FILES: "/var/search/files/allfiles.json",
         SEARCH_CONTENT_URL: "/dev/search_content.html",
         SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
@@ -92,8 +92,11 @@ var Config = {
         PATCH_SERVICE: "/rest/patch",
         PRESENCE_CONTACTS_SERVICE: "/_user/presence.contacts.json",
         PROXY_SERVICE: "/var/proxy/rss.json?rss=",
-        SEARCH_SERVICE: "/var/search/users",
-        SEARCH_CONTENT_COMPREHENSIVE: "/var/search/sitecontent.json",
+        SEARCH_USERS: "/var/search/users",
+        SEARCH_USERS_ACCEPTED: "/_user/contacts/find.json?s=",
+        SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
+        SEARCH_CONTENT_SERVICE: "/var/search/content.json",
+        SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SITE_GET_SERVICE: "/_rest/site/get",
         SITE_CREATE_SERVICE: "/_rest/site/create",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
@@ -104,7 +107,7 @@ var Config = {
         USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
-        TEMPLATES: "/_user/private/_templates/pages/",
+        TEMPLATES: "/_user/private/_templates/pages",
         TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration",
         TWITTER_GET_URL: "/var/proxy/twitter/status.json",
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"

@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<project name="Sakai 3 UX" default="finish" basedir=".">
+
+    <description>Sakai 3 UX Build Script</description>
+
+    <!-- Target: Init -->
+    <target name="init">
+
+        <echo message="Sakai 3 UX Build: Initialising..." />
+
+        <!-- SETUP - Source and target paths -->
+        <property name="SRC_DIR" value="dev" description="Core source folder" />
+        <property name="TARGET" value="target" description="Core target folder" />
+        <property name="TARGET_DIR" value="${TARGET}/deploy/dev" description="Core target folder" />
+        <property name="TARGET_COMPRESSED_DIR" value="${TARGET}/compressed" description="Core compressed folder" />
+        <property name="TARGET_DOCUMENTATION_DIR" value="${TARGET}/doc" description="Core documentation folder" />
+        <property name="TARGET_REPORTS_DIR" value="${TARGET}/reports" description="Core reports folder" />
+
+        <property name="SRC_DIR_W" value="devwidgets" description="Source folder for widgets" />
+        <property name="TARGET_DIR_W" value="target/deploy/devwidgets" description="Target folder for widgets" />
+
+        <!-- SETUP - Processed output file names -->
+        <property name="TARGET_JAR_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.jar" description="Target JAR file" />
+        <property name="TARGET_ZIP_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.zip" description="Target ZIP file" />
+        <property name="TARGET_TAR_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.tar.gz" description="Target TAR file" />
+
+        <!-- SETUP - Tools -->
+        <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
+        <property name="JSLINT" value="tools/jslint/jslint4java-1.3.3.jar" description="JSLint (jslint4java - 1.3.3)" />
+        <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
+
+        <!-- Define a patternset for core JS files (from ${TARGET_DIR}) -->
+        <patternset id="js.corefiles">
+            <include name="_javascript/**/*.js"/>
+            <include name="_configuration/**/*.js"/>
+            <include name="_lib/sakai_util/**/*.js"/>
+        </patternset>
+
+        <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
+        <patternset id="js.widgetfiles">
+            <include name="**/javascript/*.js"/>
+            <exclude name="**/javascript/*.min.*"/>
+        </patternset>
+
+        <!-- Define patternset for core CSS files (from ${TARGET_DIR}) -->
+        <patternset id="css.corefiles">
+            <include name="_css/sakai/**/*.css"/>
+            <include name="_skins/**/*.css"/>
+        </patternset>
+
+        <!-- Define patternset for widget CSS files (from ${TARGET_DIR_W}) -->
+        <patternset id="css.widgetfiles">
+            <include name="**/css/*.css"/>
+        </patternset>
+
+    </target>
+
+    <!-- Target: Create target folders, set up logging -->
+    <target name="create_target_folders" description="Creating target forlders">
+
+        <echo message="Sakai 3 UX Build: Creating target folders..." />
+
+        <mkdir dir="${TARGET_DIR}"/>
+        <mkdir dir="${TARGET_DIR_W}"/>
+        <mkdir dir="${TARGET_COMPRESSED_DIR}"/>
+        <mkdir dir="${TARGET_DOCUMENTATION_DIR}"/>
+        <mkdir dir="${TARGET_REPORTS_DIR}"/>
+
+        <!-- Set up build logging -->
+        <record name="${TARGET_REPORTS_DIR}/build.log" loglevel="verbose"/>
+
+    </target>
+
+    <!-- Target: Copy source tree -->
+    <target name="copy_all" depends="create_target_folders" description="Copy source files to target folders">
+
+        <echo message="Making a copy of core source files..." />
+        <copy todir="${TARGET_DIR}">
+            <fileset dir="${SRC_DIR}" />
+        </copy>
+
+        <echo message="Making a copy of widget source files..." />
+        <copy todir="${TARGET_DIR_W}">
+            <fileset dir="${SRC_DIR_W}" />
+        </copy>
+
+    </target>
+
+    <!-- Target: Normalise permissions -->
+    <target name="permissions">
+
+        <echo message="Normalising permissions..." />
+        <chmod dir="${TARGET}" perm="744" type="both"/>
+
+    </target>
+
+    <!-- Target: Check whitespace, tabs, line ending -->
+    <target name="formatting">
+
+        <echo message="Fixing encoding, EOL, tabs and EOF..." />
+        <fixcrlf srcdir="${TARGET_DIR}" includes="*.html,*.js,*.css,*.json" outputencoding="utf-8" eol="lf" tab="remove" tablength="4" eof="remove" />
+
+    </target>
+
+    <!-- Target: Run Javascript files through JSLint -->
+    <target name="js_lint">
+
+        <echo message="Generating JSLint report for core Javascript files..." />
+        <apply executable="java" parallel="true" output="${TARGET_REPORTS_DIR}/jslint_core.txt">
+            <arg value="-jar"/>
+            <arg path="${JSLINT}"/>
+            <arg line="--browser --css --devel --evil --eqeqeq --indent=4 --predef=window,sakai,fluid,$ --undef --maxerr=1000"/>
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles"/>
+            </fileset>
+        </apply>
+
+        <echo message="Generating JSLint report for widget Javascript files..." />
+        <apply executable="java" parallel="true" output="${TARGET_REPORTS_DIR}/jslint_widgets.txt">
+            <arg value="-jar"/>
+            <arg path="${JSLINT}"/>
+            <arg line="--browser --css --devel --evil --eqeqeq --indent=4 --predef=window,sakai,fluid,$ --undef --maxerr=1000"/>
+            <fileset dir="${TARGET_DIR_W}">
+                <patternset refid="js.widgetfiles"/>
+            </fileset>
+        </apply>
+
+    </target>
+
+    <!-- Target: Minfy CSS files -->
+    <target name="minify_css">
+
+        <echo message="Minifying core CSS files..." />
+        <apply executable="java" parallel="false" dest="${TARGET_DIR}" force="true">
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="css.corefiles"/>
+            </fileset>
+            <arg value="-jar"/>
+            <arg path="${YUI_COMPRESSOR}"/>
+            <srcfile/>
+            <arg value="-o"/>
+            <mapper type="identity"/>
+            <targetfile/>
+        </apply>
+
+        <echo message="Minifying widget CSS files..." />
+        <apply executable="java" parallel="false" dest="${TARGET_DIR_W}" force="true">
+            <fileset dir="${TARGET_DIR_W}">
+                <patternset refid="css.widgetfiles"/>
+            </fileset>
+            <arg value="-jar"/>
+            <arg path="${YUI_COMPRESSOR}"/>
+            <srcfile/>
+            <arg value="-o"/>
+            <mapper type="identity"/>
+            <targetfile/>
+        </apply>
+
+    </target>
+
+    <!-- Target: Minify Javascript -->
+    <target name="minify_js">
+
+        <echo message="Minifying core Javascript files..." />
+        <apply executable="java" parallel="false" dest="${TARGET_DIR}" force="true">
+            <fileset dir="${TARGET_DIR}">
+                <patternset refid="js.corefiles"/>
+            </fileset>
+            <arg value="-jar"/>
+            <arg path="${YUI_COMPRESSOR}"/>
+            <srcfile/>
+            <arg value="-o"/>
+            <mapper type="identity"/>
+            <targetfile/>
+        </apply>
+
+        <echo message="Minifying widget Javascript files..." />
+        <apply executable="java" parallel="false" dest="${TARGET_DIR_W}" force="true">
+            <fileset dir="${TARGET_DIR_W}">
+                <patternset refid="js.widgetfiles"/>
+            </fileset>
+            <arg value="-jar"/>
+            <arg path="${YUI_COMPRESSOR}"/>
+            <srcfile/>
+            <arg value="-o"/>
+            <mapper type="identity"/>
+            <targetfile/>
+        </apply>
+
+    </target>
+
+    <!-- Target: Create archives -->
+    <target name="compress">
+
+        <echo message="Creating JAR file..." />
+        <jar destfile="${TARGET_JAR_FILE}" basedir="${TARGET}/deploy">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Implementation-Vendor" value="Sakai Foundation"/>
+                <attribute name="Implementation-Title" value="Sakai 3 UX"/>
+            </manifest>
+        </jar>
+
+        <echo message="Creating ZIP file..." />
+        <zip destfile="${TARGET_ZIP_FILE}" basedir="${TARGET}/deploy" encoding="UTF-8"/>
+
+        <echo message="Creating gzipped TAR file..." />
+        <tar destfile="${TARGET_TAR_FILE}" basedir="${TARGET}/deploy" compression="gzip"/>
+
+    </target>
+
+    <!-- Create documentation - at the moment for sdata.js which does not have proper docs, but later should be adjusted to proper JS APIs-->
+    <target name="documentation">
+
+        <echo message="Creating documentation..."/>
+        <property name="jsdoc.output" location="${TARGET_DOCUMENTATION_DIR}"/>
+        <property name="jsdoc.defaulttemplate" location="${JSDOCTOOLKIT_DIR}/templates/jsdoc"/>
+        <property name="jsdoc.logfile" location="${TARGET_REPORTS_DIR}/documentation.log"/>
+
+        <apply executable="java" parallel="false">
+            <arg value="-jar"/>
+            <arg path="${JSDOCTOOLKIT_DIR}/jsrun.jar"/>
+            <arg path="${JSDOCTOOLKIT_DIR}/app/run.js"/>
+            <arg value="-d=${jsdoc.output}"/>
+            <arg value="-t=${jsdoc.defaulttemplate}"/>
+            <arg value="-o=${jsdoc.logfile}"/>
+            <filelist dir="${TARGET_DIR}/_lib/sakai_util">
+                <file name="sdata.js" />
+            </filelist>
+        </apply>
+    </target>
+
+    <!-- Target: Build complete -->
+    <target name="finish" depends="init, create_target_folders, copy_all, permissions, formatting, js_lint, minify_css, minify_js, compress, documentation">
+        <echo message="Sakai 3 UX Build: Build complete." />
+    </target>
+
+
+</project>

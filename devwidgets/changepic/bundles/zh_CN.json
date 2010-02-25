@@ -2,5 +2,12 @@
 "name": "Changepic",
 "description": "Changepic widget\r\n",
 "WIDGET_TITLE": "Select your profile picture",
-"CLOSE_DIALOG": "关闭对话框"
+"CLOSE_DIALOG": "关闭对话框",
+"SELECT_YOUR_PROFILE_PICTURE": "设置您的照片",
+"SELECT_PICTURE": "选择照片",
+"UPLOAD_A_NEW_PICTURE": "上传新照片",
+"CANCEL": "取消",
+"UPLOAD": "上传",
+"SELECT_THE_AREA_YOU_WANT": "选择区域",
+"SAVE_NEW_SELECTION": "保存"
 }

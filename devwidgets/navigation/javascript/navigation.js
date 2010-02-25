@@ -71,17 +71,17 @@ sakai.navigation = function(tuid, placement, showSettings){
 
     /**
      * Function that is available to other functions and called by site.js
-     * It fires the event to render the naviagation
+     * It fires the event to render the navigation
      * @param {Boolean|String} selected_page_id
      *     false: if there is no page selected
      *     pageid: when you select a page
      * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
      */
 
-    sakai._navigation.renderNavigation = function(selected_page_id, site_info_object){
+    sakai._navigation.renderNavigation = function(selectedPageUrlTitle, site_info_object){
 
         // Check if the selected page is false or undefined
-        if (!selected_page_id){
+        if (!selectedPageUrlTitle){
             // Quit the function if the selected page is false or undefined
             return;
         }
@@ -90,29 +90,29 @@ sakai.navigation = function(tuid, placement, showSettings){
         var jsonNavigation = {};
         jsonNavigation.pages = [];
 
-        for (var site_id in site_info_object) {
+        for (var pageUrlTitle in site_info_object) {
 
             // Get values which are important for the renderer
             var current_page = {};
-            current_page.id = site_id;
-            current_page.title = site_info_object[site_id].title;
-            current_page.position = parseInt(site_info_object[site_id].position, 10);
+            current_page["url_title"] = pageUrlTitle;
+            current_page["title"] = site_info_object[pageUrlTitle]["pageTitle"];
+            current_page["position"] = parseInt(site_info_object[pageUrlTitle]["pagePosition"], 10);
 
             // Mark selected page (for different icon)
-            if (site_id === selected_page_id) {
-                current_page.selected = true;
+            if (pageUrlTitle === selectedPageUrlTitle) {
+                current_page["selected"] = true;
             } else {
-                current_page.selected = false;
+                current_page["selected"] = false;
             }
 
             // The level of the page is multiplied by 10 pixels, the amount of identation on the left
-            current_page.level = (getLevel(site_id) * 10);
+            current_page["level"] = (getLevel(pageUrlTitle) * 10);
 
             // Decide wether it is a root or a subpage (for icon purposes in nav)
-            if (current_page.level === 0) {
-                current_page.rootpage = true;
+            if (current_page["level"] === 0) {
+                current_page["rootpage"] = true;
             } else {
-                current_page.rootpage = false;
+                current_page["rootpage"] = false;
             }
 
             // Add current page data to the list of pages which will be displayed

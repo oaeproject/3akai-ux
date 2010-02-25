@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/site.appearance.css" />
     <link type="text/css" rel="stylesheet" href="/devwidgets/navigationchat/css/navigationchat.css" />
 
@@ -134,11 +135,11 @@
     </div>
 
     <!-- FOOTER WIDGET -->
-    <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
 
 <!-- DIALOGS -->
 
-    <div style="display:none" class="dialog" id="site_appearance_change_container">
+    <div style="display:none" class="dialog dailog_changepic" id="site_appearance_change_container">
         <div class="dialog_header">
             <div class="dialog_header_inner">
                 <h1>Select your site picture</h1>
@@ -150,7 +151,7 @@
 
         <!-- TABS -->
         <ul class="fl-tabs fl-tabs-left search_tab_nav">
-            <li id="site_appearance_change_select_tab" class="fl-tabs-active"><a href="javascript:;">Select Picture</a></li>
+            <li id="site_appearance_change_select_tab" class="fl-tabs-active search_tab_selected"><a href="javascript:;">Select Picture</a></li>
             <li id="site_appearance_change_upload_tab"><a href="javascript:;">Upload a new picture</a></li>
         </ul>
 
@@ -165,7 +166,7 @@
 
             <!-- DIALOG BUTTONS -->
             <div class="dialog_buttons">
-                <a class="button button-default" id="site_appearance_change_picture_save" href="javascript:;">Save</a>
+                <a class="button-default" id="site_appearance_change_picture_save" href="javascript:;">Save</a>
                 <a class="button jqmClose" href="javascript:;">Cancel</a>
             </div>
 
@@ -175,12 +176,15 @@
         <div id="site_appearance_change_upload_content" style="display:none;">
             <form id="site_appearance_change_upload_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai.site_appearance_change.startCallback, 'onComplete' : sakai.site_appearance_change.completeCallback});">
                 <h4>Upload new picture</h4>
-                <input type="file" name="file" id="site_appearance_change_upload_form_file" />
+                <input type="file" name="siteicon" id="siteicon" />
                 <input type="hidden" name="realname" id="realname" value="" />
+                <input type="hidden" name="siteicon@TypeHint" id="siteicon@TypeHint" value="nt:file" />
+                <div id="error_msg" class="error_msg" style="display: none;"></div>
+
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
                     <!-- We need a button here because we are doing a form upload -->
-                    <input type="submit" class="button button-default" id="profile_upload" value="Upload" href="javascript:;"/>
+                    <input type="submit" class="button-default" id="profile_upload" value="Upload" href="javascript:;"/>
                     <a class="button jqmClose" id="profile_upload_cancel" href="javascript:;">Cancel</a>
                 </div>
             </form>
@@ -195,7 +199,7 @@
     </div>
 
     <!-- Contains the new uploade picture. Will be used to check the width and height of the uploaded image -->
-    <div id="site_appearance_change_picture_measurer" style="left:-100000px; top: -100000px; position:absolute"></div>
+    <div id="site_appearance_change_picture_measurer"></div>
 
     <!-- JAVASCRIPT -->
     <script src="_javascript/site_appearance.js" type="text/javascript"></script>

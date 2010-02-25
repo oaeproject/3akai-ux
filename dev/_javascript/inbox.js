@@ -1325,7 +1325,7 @@ sakai.inbox = function() {
 
 
     var doInit = function() {
-        // Check if we are logged in our out.
+        // Check if we are logged in or out.
         var uuid = sdata.me.user.userid;
         if (!uuid || uuid === "anon") {
             redirectToLoginPage();
@@ -1336,8 +1336,21 @@ sakai.inbox = function() {
             getCount("all");
             showUnreadMessages();
 
-            // Show messages by default (as if click on "Inbox")
-            filterMessages(Config.Messages.Types.inbox, '', "all", inboxFilterInbox);
+            var qs = new Querystring();
+            var qs_messageid = qs.get("message");
+
+            if (qs_messageid) {
+
+                var callback = function(){displayMessage(qs_messageid);};
+
+                getAllMessages(callback);
+
+            }else {
+
+                // Show messages by default (as if click on "Inbox")
+                filterMessages(Config.Messages.Types.inbox, '', "all", inboxFilterInbox);
+            }
+
         }
 
     };
