@@ -1,0 +1,57 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/basiclti/css/basiclti.css"/>
+
+<!-- MAIN CONTAINER -->
+<div id="basiclti_main_container" style="display:none;" class="fl-widget-content">
+    <div id="basiclti_settings_container" style="display:none"></div>
+	<div id="basiclti_tool_container" style="display:none"></div>
+</div>
+
+<!-- TEMPLATES -->
+<div id="basiclti_thing"><!--
+${foo} - ${bar}
+--></div>
+<div id="basiclti_settings" style="display: none;"><!--
+<div class="basiclti_settings_dialog">
+<form method="post" action="#">
+<label for="ltiurl">URL: </label><input type="text" name="ltiurl" value="${ltiurl}" /><br />
+
+<label for="xml_settings">XML BLOB: </label><br />
+<textarea name="xml_settings">${xml_settings}</textarea>
+
+<label for="ltikey">Key: </label>
+<input type="text" name="ltikey" value="${ltikey}" /><br />
+
+<label for="ltisecret">Secret: </label>
+<input type="text" name="ltisecret" value="${ltisecret}" /><br />
+
+<label for="frame_height">Frame height: </label>
+<input type="text" name="frame_height" value="${frame_height}" /><br />
+
+<label for="debug">Debug: </label>
+<input type="checkbox" name="debug" {if debug}checked="checked"{/if} /><br />
+
+<label for="release_names">Release Names: </label>
+<input type="checkbox" name="release_names" {if release_names}checked="checked"{/if} /><br />
+
+<label for="release_principal_name">Release Username: </label>
+<input type="checkbox" name="release_principal_name" {if release_principal_name}checked="checked"{/if} /><br />
+
+<label for="release_email">Release Email: </label>
+<input type="checkbox" name="release_email" {if release_email}checked="checked"{/if} /><br />
+
+<label for="custom_params">Custom Params: </label><br />
+<textarea name="custom_params">${custom_params}</textarea>
+<br />
+<button name="save_settings">Save Settings</button>
+</form>
+</div>
+--></div>
+
+<!-- FOOTER LINKS -->
+<div class="fl-widget-no-options fl-fix">
+	<div class="widget-no-options-inner"><!-- --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/basiclti/javascript/basiclti.js"></script>

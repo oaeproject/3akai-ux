@@ -54,6 +54,21 @@ var Widgets = {
             id:"addtocontacts",
             url:"/devwidgets/addtocontacts/addtocontacts.html"
         },
+        basiclti :
+        {
+            description:"Basic LTI Widget\r\n",
+            iframe:0,
+            url:"/devwidgets/basiclti/basiclti.html",
+            name:"Basic LTI",
+            id:"basiclti",
+            personalportal:0,
+            siteportal:0,
+            ca:1,
+            showinmedia:0,
+            showinsakaigoodies:1,
+            //hasSettings: 1,
+            img:"/devwidgets/poll/images/poll.png"
+        },
         changepic: {
             i18n: {
                 "default": "/devwidgets/changepic/bundles/default.json",
