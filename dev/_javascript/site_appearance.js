@@ -342,8 +342,7 @@ sakai.site_appearance = function() {
             url: "/sites/" + siteId,
             type : "POST",
             data : {
-            "picture": stringtosave,
-            "_charset_":"utf-8"
+            "picture": stringtosave
         },
             success : function(data) {
 
@@ -765,7 +764,20 @@ sakai.site_appearance = function() {
  * This method gets called the second we submit the form
  */
 sakai.site_appearance_change.startCallback = function(){
-    return true;
+
+    // Check whether selected file is an image
+    // We do this in JS as the input tags accept attribute is unreliable, and modern browsers disregard it
+    var allowed_pic_extensions = ["gif","png","jpg","jpeg","bmp"];
+    var filename = $("#siteicon").val();
+    var extension = filename.substring((filename.lastIndexOf(".") + 1));
+
+    if (allowed_pic_extensions.indexOf(extension.toLowerCase()) === -1) {
+        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();;
+        return false;
+    } else {
+        $("#error_msg").html("").hide();
+        return true;
+    }
 };
 
 /**
