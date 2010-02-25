@@ -364,20 +364,21 @@ sakai.site_appearance = function() {
     var savePicture = function(){
 
         //    The parameters for the cropit service.
-        var tosave = {};
-        tosave.urlToCrop = "/sites/" + siteId + "/siteicon";
-        tosave.urlSaveIn = "/sites/" + siteId + "/";
-        tosave.x = Math.floor(userSelection.x1 * ratio);
-        tosave.y = Math.floor(userSelection.y1 * ratio);
-        tosave.height = Math.floor(userSelection.height * ratio);
-        tosave.width = Math.floor(userSelection.width * ratio);
-        tosave.dimensions = $.toJSON([{"width":200,"height":100}]);
+        var data = {
+            img: "/sites/" + siteId + "/siteicon",
+            save: "/sites/" + siteId + "/",
+            x: Math.floor(userSelection.x1 * ratio),
+            y: Math.floor(userSelection.y1 * ratio),
+            width: Math.floor(userSelection.width * ratio),
+            height: Math.floor(userSelection.height * ratio),
+            dimensions: "200x100"
+        };
 
         // Post all of this to the server
         $.ajax({
             url: Config.URL.IMAGE_SERVICE,
-            type: "GET",
-            data: tosave,
+            type: "POST",
+            data: data,
             success: function(data){
                 //if($.evalJSON(data).response === "OK"){
                     updateGroupDef();
@@ -507,7 +508,7 @@ sakai.site_appearance = function() {
             disable: false,
             keys: true,
             hide: false,
-            onSelectChange: preview,
+            onSelectEnd: preview,
             selectionColor: 'white'
         });
     };
@@ -629,7 +630,12 @@ sakai.site_appearance = function() {
     /*
      * Bind the save button on the pop-up where you can change your picture
      */
-    $(siteAppearanceChangePictureSave).click(savePicture);
+    //$(siteAppearanceChangePictureSave).click(savePicture);
+    $(siteAppearanceChangePictureSave).bind("click", function(ev){
+        if(userSelection){
+            savePicture();
+        };
+    });
 
     /*
      * Bind the general save button
