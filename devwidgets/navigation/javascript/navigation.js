@@ -59,10 +59,10 @@ sakai.navigation = function(tuid, placement, showSettings){
     // Render navigation //
     ///////////////////////
 
-    var doSort = function(a,b){
+    var sortByURL = function(a,b){
         if (a.position > b.position){
             return 1;
-        } else if (a.position < b.position){
+        } else if (a.path < b.path){
             return -1;
         } else {
             return 0;
@@ -80,50 +80,32 @@ sakai.navigation = function(tuid, placement, showSettings){
 
     sakai._navigation.renderNavigation = function(selectedPageUrlTitle, site_info_object){
 
-        // Check if the selected page is false or undefined
-        if (!selectedPageUrlTitle){
-            // Quit the function if the selected page is false or undefined
-            return;
-        }
+        // Sort pages by url
+        site_info_object = site_info_object.sort(sortByURL);
 
-        // Set variables
-        var jsonNavigation = {};
-        jsonNavigation.pages = [];
+        // Create tree object for JsTree plugin from the flat list of pages in site_info, using the urls of the pages
+        var site_tree = [];
+        var path_elements = [];
+        var level_lookup = [];
 
-        for (var pageUrlTitle in site_info_object) {
+        for (var page_info in site_info_object._pages) {
 
-            // Get values which are important for the renderer
-            var current_page = {};
-            current_page["url_title"] = pageUrlTitle;
-            current_page["title"] = site_info_object[pageUrlTitle]["pageTitle"];
-            current_page["position"] = parseInt(site_info_object[pageUrlTitle]["pagePosition"], 10);
+            path_elements = page_info.path.split("/_pages");
 
-            // Mark selected page (for different icon)
-            if (pageUrlTitle === selectedPageUrlTitle) {
-                current_page["selected"] = true;
-            } else {
-                current_page["selected"] = false;
+            for (var i=1, current_level=path_elements.length; i<level; i++) {
+
+                var current_pageurltitle = path_elements[i].substring(1);
+                var current_pageobject = {
+                    "attributes": {"id": current_pageurltitle, "href": "#"+current_pageurltitle },
+                    "data": page_info.pageTitle
+                }
+
+
             }
 
-            // The level of the page is multiplied by 10 pixels, the amount of identation on the left
-            current_page["level"] = (getLevel(pageUrlTitle) * 10);
-
-            // Decide wether it is a root or a subpage (for icon purposes in nav)
-            if (current_page["level"] === 0) {
-                current_page["rootpage"] = true;
-            } else {
-                current_page["rootpage"] = false;
-            }
-
-            // Add current page data to the list of pages which will be displayed
-            jsonNavigation.pages.push(current_page);
         }
 
-        jsonNavigation.pages.sort(doSort);
 
-
-        // Render the output template
-        $(navigationOutput,rootel).html($.Template.render(navigationOutputTemplate,jsonNavigation));
     };
 
 
