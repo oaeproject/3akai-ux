@@ -20,13 +20,6 @@
 .sakai_site .search_container .search_field
 { display: block; float: left; border: 1px solid #999999; width: 210px; height: 19px; padding: 4px 5px 0px 5px; color: #999999; margin: 0 10px 0 0; }
 
-.sakai_site .search_container .search_button
-{ background: #454a4f url('../../_images/search_button.png') top left no-repeat;border: none; color: #fff; display: block; height: 23px; padding: 0; width: 88px; float: left; }
-
-.sakai_site .search_container .search_button span
-{ position:absolute; top:-9999px; left:-9999px; }
-
-
 /** TOP RIGHT MENU **/
 .sakai_site .content_page_options
 { background: #fff url('../../_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; margin: 20px 10px 0 0; }
