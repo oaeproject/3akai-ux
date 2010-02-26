@@ -130,18 +130,6 @@
 .search_content_main .search_bar {
     width: auto;
 }
-.search_content_main .search_button {
-    background: #454a4f url('../../_images/search_button.png') top left no-repeat;
-    border: none;
-    color: #fff;
-    display: block;
-    height: 23px;
-    padding: 0;
-    width: 88px;
-    float: left;
-}
-.search_content_main .search_button span {position:absolute;top:-9999px;left:-9999px;}
-
 .search_content_main .search_results_container {
     background-color: #EEF2F5;
     padding: 0;
