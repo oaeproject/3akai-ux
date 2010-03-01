@@ -43,108 +43,21 @@ var Widgets = {
         }
     },
     widgets: {
-        changepic :
-        {
-            description:"",
-            iframe:0,
-            url:"/devwidgets/changepic/changepic.html",
-            name:"changepic",
-            id:"changepic",
-            personalportal:0,
-            siteportal:0,
-            img:"/dev/img/sites.png",
-            i18n: {
-                "default": "/devwidgets/changepic/bundles/default.json",
-                "en_US": "/devwidgets/changepic/bundles/en_US.json",
-                "zh_CN": "/devwidgets/changepic/bundles/zh_CN.json"
-            }
-        },
-        googlemaps :
-        {
-            description:"Google maps\r\n",
-            iframe:0,
-            url:"/devwidgets/googlemaps/googlemaps.html",
-            name:"Googlemaps",
-            id:"googlemaps",
-            personalportal:0,
-            siteportal:0,
-            ca:1,
-            showinmedia:0,
-            showinsakaigoodies:1,
-            img:"/devwidgets/googlemaps/images/googlemaps.png",
-            i18n: {
-                "default": "/devwidgets/googlemaps/bundles/default.json",
-                "en_US": "/devwidgets/googlemaps/bundles/en_US.json",
-                "zh_CN": "/devwidgets/googlemaps/bundles/zh_CN.json"
-            }
-        },
-        camlib :
-        {
-            description:"Sakai Cambridge University Library access widget\r\n",
-            iframe:0,
-            url:"/devwidgets/camlib/camlib.html",
-            name:"Camlib",
-            id:"camlib",
-            personalportal:1,
-            siteportal:0,
-            hasSettings: 1,
-            img:"/dev/img/myprofile.png",
-            i18n: {
-                "default": "/devwidgets/camlib/bundles/default.json",
-                "en_US": "/devwidgets/camlib/bundles/en_US.json",
-                "zh_CN": "/devwidgets/camlib/bundles/zh_CN.json"
-            }
-        },
-        sites :
-        {
-            description:"Listing of the sites I'm a member of\r\n",
-            iframe:0,
-            url:"/devwidgets/sites/sites.html",
-            name:"My Courses & Sites",
-            id:"sites",
-            personalportal:1,
-            siteportal:0,
-            img:"/dev/img/sites.png",
-            i18n: {
-                "default": "/devwidgets/sites/bundles/default.json",
-                "en_US": "/devwidgets/sites/bundles/en_US.json",
-                "zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
-            }
-        },
-        myprofile :
-        {
-            description:"My Personal Profile\r\n",
-            iframe:0,
-            url:"/devwidgets/myprofile/myprofile.html",
-            name:"My Profile",
-            id:"myprofile",
-            personalportal:1,
-            siteportal:0,
-            img:"/dev/img/myprofile.png",
-            i18n: {
-                "default": "/devwidgets/myprofile/bundles/default.json",
-                "en_US": "/devwidgets/myprofile/bundles/en_US.json",
-                "zh_CN": "/devwidgets/myprofile/bundles/zh_CN.json"
-            }
-        },
-        addtocontacts :
-        {
-            description:"Add a contact\r\n",
-            iframe:0,
-            url:"/devwidgets/addtocontacts/addtocontacts.html",
+        addtocontacts : {
+            description:"Add a contact",
             name:"Add a contact",
-            id:"addtocontacts",
             i18n: {
                 "default": "/devwidgets/addtocontacts/bundles/default.json",
                 "en_US": "/devwidgets/addtocontacts/bundles/en_US.json",
                 "zh_CN": "/devwidgets/addtocontacts/bundles/zh_CN.json"
             },
-            name:"Add a contact",
+            id:"addtocontacts",
             url:"/devwidgets/addtocontacts/addtocontacts.html"
         },
         changepic: {
             i18n: {
                 "default": "/devwidgets/changepic/bundles/default.json",
+                "en_US": "/devwidgets/changepic/bundles/en_US.json",
                 "zh_CN": "/devwidgets/changepic/bundles/zh_CN.json"
             },
             id:"changepic",
@@ -168,6 +81,7 @@ var Widgets = {
             id:"createsite",
             i18n: {
                 "default": "/devwidgets/createsite/bundles/default.json",
+                "en_US": "/devwidgets/createsite/bundles/en_US.json",
                 "zh_CN": "/devwidgets/createsite/bundles/zh_CN.json"
             },
             url:"/devwidgets/createsite/createsite.html"
@@ -234,31 +148,14 @@ var Widgets = {
             },
             id:"googlemaps",
             img:"/devwidgets/googlemaps/images/googlemaps.png",
-            name:"Googlemaps",
+            name:"Google maps",
             showinsakaigoodies:true,
             url:"/devwidgets/googlemaps/googlemaps.html"
-        },
-        createsite :
-        {
-            description:"Create site\r\n",
-            iframe:0,
-            url:"/devwidgets/createsite/createsite.html",
-            name:"Create Site",
-            id:"createsite",
-            personalportal:0,
-            siteportal:0,
-            img:"/dev/img/sites.png",
-            i18n: {
-                "default": "/devwidgets/createsite/bundles/default.json",
-                "en_US": "/devwidgets/createsite/bundles/en_US.json",
-                "zh_CN": "/devwidgets/createsite/bundles/zh_CN.json"
-            }
         },
         helloworld: {
             description:"Sakai Hackathon Example",
             hasSettings:true,
             id:"helloworld",
-            img:"/dev/img/myprofile.png",
             name:"Hello World",
             url:"/devwidgets/helloworld/helloworld.html"
         },
@@ -267,14 +164,12 @@ var Widgets = {
             gwt:true,
             hasSettings:true,
             id:"helloworldwow",
-            img:"/dev/img/myprofile.png",
             name:"Hello World GWT",
             url:"/devwidgets/helloworldwow/war/Helloworldwow.html"
         },
         myfriends: {
             description:"A list of my connections",
             id:"myfriends",
-            img:"/dev/img/myprofile.png",
             multipleinstance: false,
             i18n: {
                 "default": "/devwidgets/myfriends/bundles/default.json",
@@ -290,7 +185,6 @@ var Widgets = {
             name:"My Profile",
             id:"myprofile",
             personalportal:true,
-            img:"/dev/img/myprofile.png",
             i18n: {
                 "default": "/devwidgets/myprofile/bundles/default.json",
                 "en_US": "/devwidgets/myprofile/bundles/en_US.json",
@@ -426,13 +320,6 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/tangler/tangler.html"
         },
-        tagpicker: {
-            description:"Pick a tag.",
-            id:"tagpicker",
-            img:"/devwidgets/discussion/images/discussion.png",
-            name:"Tag",
-            url:"/devwidgets/pickers/tagpicker.html"
-        },
         twitter: {
             description:"Twitter Widget",
             hasSettings:true,
@@ -442,7 +329,6 @@ var Widgets = {
                 "zh_CN": "/devwidgets/twitter/bundles/zh_CN.json"
             },
             id:"twitter",
-            img:"/dev/img/myprofile.png",
             name:"Twitter",
             personalportal:true,
             url:"/devwidgets/twitter/twitter.html"
@@ -469,7 +355,7 @@ var Widgets = {
             ca:true,
             description:"wookieforum",
             id:"wookieforum",
-            img:"/devwidgets/wookieforum/images/wookieforum.png",
+            img:"/devwidgets/wookieforum/images/icon.png",
             name:"Wookie Forum",
             url:"/devwidgets/wookieforum/wookieforum.html"
         },

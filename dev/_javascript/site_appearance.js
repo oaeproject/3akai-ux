@@ -342,8 +342,7 @@ sakai.site_appearance = function() {
             url: "/sites/" + siteId,
             type : "POST",
             data : {
-            "picture": stringtosave,
-            "_charset_":"utf-8"
+            "picture": stringtosave
         },
             success : function(data) {
 
@@ -364,20 +363,21 @@ sakai.site_appearance = function() {
     var savePicture = function(){
 
         //    The parameters for the cropit service.
-        var tosave = {};
-        tosave.urlToCrop = "/sites/" + siteId + "/siteicon";
-        tosave.urlSaveIn = "/sites/" + siteId + "/";
-        tosave.x = Math.floor(userSelection.x1 * ratio);
-        tosave.y = Math.floor(userSelection.y1 * ratio);
-        tosave.height = Math.floor(userSelection.height * ratio);
-        tosave.width = Math.floor(userSelection.width * ratio);
-        tosave.dimensions = $.toJSON([{"width":200,"height":100}]);
+        var data = {
+            img: "/sites/" + siteId + "/siteicon",
+            save: "/sites/" + siteId + "/",
+            x: Math.floor(userSelection.x1 * ratio),
+            y: Math.floor(userSelection.y1 * ratio),
+            width: Math.floor(userSelection.width * ratio),
+            height: Math.floor(userSelection.height * ratio),
+            dimensions: "200x100"
+        };
 
         // Post all of this to the server
         $.ajax({
             url: Config.URL.IMAGE_SERVICE,
-            type: "GET",
-            data: tosave,
+            type: "POST",
+            data: data,
             success: function(data){
                 //if($.evalJSON(data).response === "OK"){
                     updateGroupDef();
@@ -507,7 +507,7 @@ sakai.site_appearance = function() {
             disable: false,
             keys: true,
             hide: false,
-            onSelectChange: preview,
+            onSelectEnd: preview,
             selectionColor: 'white'
         });
     };
@@ -629,7 +629,12 @@ sakai.site_appearance = function() {
     /*
      * Bind the save button on the pop-up where you can change your picture
      */
-    $(siteAppearanceChangePictureSave).click(savePicture);
+    //$(siteAppearanceChangePictureSave).click(savePicture);
+    $(siteAppearanceChangePictureSave).bind("click", function(ev){
+        if(userSelection){
+            savePicture();
+        };
+    });
 
     /*
      * Bind the general save button
@@ -759,7 +764,20 @@ sakai.site_appearance = function() {
  * This method gets called the second we submit the form
  */
 sakai.site_appearance_change.startCallback = function(){
-    return true;
+
+    // Check whether selected file is an image
+    // We do this in JS as the input tags accept attribute is unreliable, and modern browsers disregard it
+    var allowed_pic_extensions = ["gif","png","jpg","jpeg","bmp"];
+    var filename = $("#siteicon").val();
+    var extension = filename.substring((filename.lastIndexOf(".") + 1));
+
+    if (allowed_pic_extensions.indexOf(extension.toLowerCase()) === -1) {
+        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();;
+        return false;
+    } else {
+        $("#error_msg").html("").hide();
+        return true;
+    }
 };
 
 /**

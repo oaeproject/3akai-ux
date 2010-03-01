@@ -34,6 +34,9 @@ test('Test properties', function(){
                 "required": true,
                 "type": "string"
             }, {
+                "name": "iframe",
+                "type": "boolean"
+            }, {
                 "name": "img",
                 "type": "string"
             }, {
@@ -53,6 +56,9 @@ test('Test properties', function(){
                 "type": "boolean"
             }, {
                 "name": "showinsidebar",
+                "type": "boolean"
+            }, {
+                "name": "scrolling",
                 "type": "boolean"
             }, {
                 "name": "siteportal",
@@ -107,7 +113,7 @@ asyncTest('Test if all the URLs work', function(){
 
             for (var j = 0, k = properties.length; j < k; j++) {
 
-                if(widgetObject[properties[j]]) {
+                if(widgetObject[properties[j]] && !widgetObject.iframe) {
 
                     var subproperties = [];
 
