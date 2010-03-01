@@ -39,6 +39,9 @@ sakai.navigation = function(tuid, placement, showSettings){
     // Template
     var navigationOutputTemplate = navigationName + "_output_template";
 
+    // Hierachy
+    start_level = 2; // The URL depth where the displayed hierarchy should start (currently after "/sites")
+
 
     ///////////////////////
     // Utility functions //
@@ -60,7 +63,7 @@ sakai.navigation = function(tuid, placement, showSettings){
     ///////////////////////
 
     var sortByURL = function(a,b){
-        if (a.position > b.position){
+        if (a.path > b.path){
             return 1;
         } else if (a.path < b.path){
             return -1;
@@ -68,6 +71,88 @@ sakai.navigation = function(tuid, placement, showSettings){
             return 0;
         }
     };
+
+    // Create arrays of cleaned up URL elements
+    var cleanURLs = function(site_object) {
+
+        var cleaned_urls = [];
+
+        for (var current_url_title in site_object) {
+
+            if (site_object[current_url_title]["path"]) {
+
+                var raw_path_elements = site_object[current_url_title]["path"].split("/");
+                var path_elements = [];
+
+                // Consider only elements below the start level, and discard "_pages" or empty entries
+                for (var i=start_level, current_level = raw_path_elements.length; i<current_level; i++) {
+                    if ((raw_path_elements[i] !== "_pages") && (raw_path_elements[i] !== "")) {
+                        path_elements.push(raw_path_elements[i]);
+                    }
+                }
+
+                cleaned_urls.push(path_elements);
+            }
+        }
+        return cleaned_urls.sort();
+    };
+
+    // Converts array of URL elements to a hierarchical structure
+    var convertToHierarchy = function(url_array) {
+        var item, path;
+
+        // Discard duplicates and set up parent/child relationships
+        var children = {};
+        var hasParent = {};
+        for (var i = 0, j = url_array.length; i<j; i++) {
+            var path = url_array[i];
+            var parent = null;
+            for (var k = 0, l = path.length; k<l; k++)
+            {
+                var item = path[k];
+                if (!children[item]) {
+                    children[item] = {};
+                }
+                if (parent) {
+                    children[parent][item] = true; /* dummy value */
+                    hasParent[item] = true;
+                }
+                parent = item;
+            }
+        }
+
+        // Now build the hierarchy
+        var result = [];
+        for (item in children) {
+            if (!hasParent[item]) {
+                result.push(buildNodeRecursive(item, children));
+            }
+        }
+        return result;
+    }
+
+    // Recursive helper to create URL hierarchy
+    var buildNodeRecursive = function(url_title, children) {
+
+        // Navigation node data
+        var p_title = "";
+        if (sakai.site.site_info._pages[url_title]) {
+            p_title = sakai.site.site_info._pages[url_title]["pageTitle"];
+        } else {
+            p_title = sakai.site.currentsite.name;
+        }
+        var node = {
+            id: url_title,
+            title: p_title,
+            children:[]
+        };
+        for (var child in children[url_title]) {
+            node.children.push(buildNodeRecursive(child, children));
+        }
+        return node;
+    }
+
+
 
     /**
      * Function that is available to other functions and called by site.js
@@ -78,35 +163,27 @@ sakai.navigation = function(tuid, placement, showSettings){
      * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
      */
 
-    sakai._navigation.renderNavigation = function(selectedPageUrlTitle, site_info_object){
+    sakai._navigation.renderNavigation = function(selectedPageUrlTitle, site_info_object) {
 
-        // Sort pages by url
-        site_info_object = site_info_object.sort(sortByURL);
+        sakai.site.navigation_data = [];
 
-        // Create tree object for JsTree plugin from the flat list of pages in site_info, using the urls of the pages
-        var site_tree = [];
-        var path_elements = [];
-        var level_lookup = [];
+        // Create navigation data object
+        var cleaned_array_of_urls = cleanURLs(site_info_object);
+        var navigation_data_raw = convertToHierarchy(cleaned_array_of_urls);
+        sakai.site.navigation_data = navigation_data_raw[0];
 
-        for (var page_info in site_info_object._pages) {
-
-            path_elements = page_info.path.split("/_pages");
-
-            for (var i=1, current_level=path_elements.length; i<level; i++) {
-
-                var current_pageurltitle = path_elements[i].substring(1);
-                var current_pageobject = {
-                    "attributes": {"id": current_pageurltitle, "href": "#"+current_pageurltitle },
-                    "data": page_info.pageTitle
+        // Render navigation
+        $("#navigation").tree({
+            data: {
+                type: "json",
+                opts: {
+                    static: sakai.site.navigation_data
                 }
-
-
             }
-
-        }
-
+        });
 
     };
+
 
 
 
