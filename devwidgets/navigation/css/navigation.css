@@ -36,7 +36,7 @@
 
 /* CONTENT */
 .navigation .nav_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 5px; margin: 0; }
+{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 5px; margin: 0; overflow:auto; }
 
 /* Template - Main */
 #navigation_page_children
@@ -52,7 +52,7 @@
 { padding: 0 0 5px 0; }
 
 .navigation .nav_content ul
-{ margin: 0; padding: 0 0 0 10px; }
+{ margin: 0; }
 
 
 .navigation .nav_content .rootpage
@@ -69,6 +69,3 @@
 
 .navigation .nav_bottom_inner
 { background:transparent url(/dev/_images/content_br.png) no-repeat scroll right bottom; height: 5px; }
-
-
-

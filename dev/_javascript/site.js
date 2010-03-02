@@ -321,8 +321,7 @@ sakai.site = function(){
                     if (typeof temp[i] !== "undefined") {
                         // Save page data
                         var url_safe_title = "";
-                        var url_elements = temp[i]["path"].split("/");
-                        url_safe_title = url_elements[url_elements.length - 1];
+                        var url_safe_title = temp[i]["path"].replace(/[\/-]/g,"");
                         temp[i]["pageURLTitle"] = url_safe_title;
                         sakai.site.site_info["_pages"][url_safe_title] = temp[i];
                     }
@@ -338,7 +337,6 @@ sakai.site = function(){
                 };
 
                 // Refresh navigation
-
                 if (pageToOpen){
 
                     // Refresh navigation
@@ -423,11 +421,12 @@ sakai.site = function(){
     sakai.site.loadSiteNavigation = function() {
 
         // Load site navigation
+
         $.ajax({
-            url: sakai.site.urls.SITE_NAVIGATION_CONTENT(),
-            cache: false,
-            async: false,
-            success: function(response){
+              url: sakai.site.urls.SITE_NAVIGATION_CONTENT(),
+              cache: false,
+              async: false,
+              success: function(response){
                 response = sakai.site.ensureProperWidgetIDs(response, sakai.site.urls.SITE_NAVIGATION_CONTENT());
                 sakai.site.pagecontents._navigation = response;
                 $page_nav_content.html(response);
@@ -439,6 +438,7 @@ sakai.site = function(){
                 alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
+
     };
 
     /**
@@ -446,12 +446,7 @@ sakai.site = function(){
      * @return void
      */
     sakai.site.onNavigationLoaded = function(){
-        // Render navigation
-        try {
-            sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
-        } catch (error1){
-             alert("site.js: An error occured while trying to render the navigation widget: " + error1);
-        }
+        return;
     };
 
     /**

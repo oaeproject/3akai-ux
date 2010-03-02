@@ -40,7 +40,7 @@ sakai.navigation = function(tuid, placement, showSettings){
     var navigationOutputTemplate = navigationName + "_output_template";
 
     // Hierachy
-    start_level = 2; // The URL depth where the displayed hierarchy should start (currently after "/sites")
+    start_level = 3; // The URL depth where the displayed hierarchy should start (currently after "/sites")
 
 
     ///////////////////////
@@ -98,7 +98,7 @@ sakai.navigation = function(tuid, placement, showSettings){
     };
 
     // Converts array of URL elements to a hierarchical structure
-    var convertToHierarchy = function(url_array) {
+    var convertToHierarchy = function(url_array, selectedPageUrlTitle) {
         var item, path;
 
         // Discard duplicates and set up parent/child relationships
@@ -125,32 +125,58 @@ sakai.navigation = function(tuid, placement, showSettings){
         var result = [];
         for (item in children) {
             if (!hasParent[item]) {
-                result.push(buildNodeRecursive(item, children));
+                result.push(buildNodeRecursive(item, children, selectedPageUrlTitle));
             }
         }
         return result;
     }
 
+    // Get a page object by it's path's last element
+    var getPageInfoByLastURLElement = function(i_url_element) {
+        var return_object = {};
+        for (var i in sakai.site.site_info._pages) {
+            if (sakai.site.site_info._pages[i]["path"]) {
+                var temp = sakai.site.site_info._pages[i]["path"].split("/");
+                var last_url_element = temp[temp.length - 1];
+            } else {
+                continue;
+            }
+            if (last_url_element === i_url_element) {
+                return_object = sakai.site.site_info._pages[i];
+            }
+        }
+        return return_object;
+    };
+
     // Recursive helper to create URL hierarchy
-    var buildNodeRecursive = function(url_title, children) {
+    var buildNodeRecursive = function(url_fragment, children, selectedPageUrlTitle) {
+
+        var page_info = getPageInfoByLastURLElement(url_fragment);
 
         // Navigation node data
         var p_title = "";
-        if (sakai.site.site_info._pages[url_title]) {
-            p_title = sakai.site.site_info._pages[url_title]["pageTitle"];
-        } else {
-            p_title = sakai.site.currentsite.name;
+        var p_selected = false;
+        var p_opened = [];
+        var p_id = "";
+        if (page_info["pageTitle"]) {
+            p_title = page_info["pageTitle"];
+            p_id = page_info["pageURLTitle"];
+        }
+        if (url_fragment === selectedPageUrlTitle) {
+            p_selected = url_fragment;
+            p_opened = [url_fragment];
         }
         var node = {
-            id: url_title,
-            title: p_title,
+            attributes: { id: p_id },
+            data: {title: p_title, attributes: { "href": "" }},
+            selected: p_selected,
             children:[]
         };
-        for (var child in children[url_title]) {
+        for (var child in children[url_fragment]) {
             node.children.push(buildNodeRecursive(child, children));
         }
         return node;
-    }
+    };
 
 
 
@@ -169,18 +195,19 @@ sakai.navigation = function(tuid, placement, showSettings){
 
         // Create navigation data object
         var cleaned_array_of_urls = cleanURLs(site_info_object);
-        var navigation_data_raw = convertToHierarchy(cleaned_array_of_urls);
-        sakai.site.navigation_data = navigation_data_raw[0];
+        sakai.site.navigation_data = convertToHierarchy(cleaned_array_of_urls, selectedPageUrlTitle);
 
         // Render navigation
-        $("#navigation").tree({
-            data: {
-                type: "json",
-                opts: {
-                    static: sakai.site.navigation_data
+        $("#nav_content").tree({
+            data : {
+                type : "json",
+                opts : {
+                    static : sakai.site.navigation_data
                 }
             }
         });
+
+        console.log("Render navigation called");
 
     };
 
