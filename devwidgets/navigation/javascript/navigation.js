@@ -97,8 +97,25 @@ sakai.navigation = function(tuid, placement, showSettings){
         return cleaned_urls.sort();
     };
 
+    // Get a page object by it's path's last element
+    var getPageInfoByLastURLElement = function(i_url_element) {
+        var return_object = {};
+        for (var i in sakai.site.site_info._pages) {
+            if (sakai.site.site_info._pages[i]["path"]) {
+                var temp = sakai.site.site_info._pages[i]["path"].split("/");
+                var last_url_element = temp[temp.length - 1];
+            } else {
+                continue;
+            }
+            if (last_url_element === i_url_element) {
+                return_object = sakai.site.site_info._pages[i];
+            }
+        }
+        return return_object;
+    };
+
     // Converts array of URL elements to a hierarchical structure
-    var convertToHierarchy = function(url_array, selectedPageUrlTitle) {
+    var convertToHierarchy = function(url_array) {
         var item, path;
 
         // Discard duplicates and set up parent/child relationships
@@ -125,51 +142,28 @@ sakai.navigation = function(tuid, placement, showSettings){
         var result = [];
         for (item in children) {
             if (!hasParent[item]) {
-                result.push(buildNodeRecursive(item, children, selectedPageUrlTitle));
+                result.push(buildNodeRecursive(item, children));
             }
         }
         return result;
     }
 
-    // Get a page object by it's path's last element
-    var getPageInfoByLastURLElement = function(i_url_element) {
-        var return_object = {};
-        for (var i in sakai.site.site_info._pages) {
-            if (sakai.site.site_info._pages[i]["path"]) {
-                var temp = sakai.site.site_info._pages[i]["path"].split("/");
-                var last_url_element = temp[temp.length - 1];
-            } else {
-                continue;
-            }
-            if (last_url_element === i_url_element) {
-                return_object = sakai.site.site_info._pages[i];
-            }
-        }
-        return return_object;
-    };
-
     // Recursive helper to create URL hierarchy
-    var buildNodeRecursive = function(url_fragment, children, selectedPageUrlTitle) {
+    var buildNodeRecursive = function(url_fragment, children) {
 
         var page_info = getPageInfoByLastURLElement(url_fragment);
 
         // Navigation node data
         var p_title = "";
-        var p_selected = false;
-        var p_opened = [];
         var p_id = "";
         if (page_info["pageTitle"]) {
             p_title = page_info["pageTitle"];
-            p_id = page_info["pageURLTitle"];
+            p_id = "nav_" + page_info["pageURLTitle"];
         }
-        if (url_fragment === selectedPageUrlTitle) {
-            p_selected = url_fragment;
-            p_opened = [url_fragment];
-        }
+
         var node = {
             attributes: { id: p_id },
             data: {title: p_title, attributes: { "href": "" }},
-            selected: p_selected,
             children:[]
         };
         for (var child in children[url_fragment]) {
@@ -195,7 +189,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 
         // Create navigation data object
         var cleaned_array_of_urls = cleanURLs(site_info_object);
-        sakai.site.navigation_data = convertToHierarchy(cleaned_array_of_urls, selectedPageUrlTitle);
+        sakai.site.navigation_data = convertToHierarchy(cleaned_array_of_urls);
 
         // Render navigation
         $("#nav_content").tree({
@@ -204,11 +198,33 @@ sakai.navigation = function(tuid, placement, showSettings){
                 opts : {
                     static : sakai.site.navigation_data
                 }
+            },
+            selected: selectedPageUrlTitle,
+            opened: [selectedPageUrlTitle],
+            ui: {
+                dots: false,
+                selected_parent_close: false
+            },
+            types: {
+                "default": {
+                    renameable: false,
+                    deletable: false,
+                    creatable: false,
+                    draggable: false,
+                    icon: {image: "/dev/_images/page_18.png"}
+                }
+            },
+            callback: {
+                // Callback for selecting a node
+                onselect: function(node, tree_object) {
+                    var current_page_urlsafetitle = node.id.replace("nav_","")
+                    if (sakai.site.selectedpage !== current_page_urlsafetitle) {
+                        sakai.site.openPageH(current_page_urlsafetitle);
+                    }
+                }
             }
+
         });
-
-        console.log("Render navigation called");
-
     };
 
 

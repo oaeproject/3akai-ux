@@ -394,13 +394,13 @@ sakai.site = function(){
                 sdata.widgets.WidgetPreference.save(url.replace("/content", ""), "content", $el.html(), null);
                 for (var i = 0, j = moveWidgets.length; i < j; i++) {
                     // Move all the widgets.
-                    var url = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].from;
-                    var dest = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].to;
+                    var m_url = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].from;
+                    var m_dest = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].to;
                     $.ajax({
-                        url: url,
+                        url: m_url,
                         data: {
                             ":operation" : "move",
-                            ":dest" : dest,
+                            ":dest" : m_dest,
                             "_charset_":"utf-8"
                         },
                         cache: false,
@@ -427,7 +427,6 @@ sakai.site = function(){
               cache: false,
               async: false,
               success: function(response){
-                response = sakai.site.ensureProperWidgetIDs(response, sakai.site.urls.SITE_NAVIGATION_CONTENT());
                 sakai.site.pagecontents._navigation = response;
                 $page_nav_content.html(response);
                 sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");

@@ -61,6 +61,7 @@
 .navigation .nav_content .subpage
 { font-weight: normal; background: #FFFFFF url(/dev/_images/subpages_18.png) no-repeat scroll left top; padding: 2px 5px 0px 25px; }
 
+.navigation .nav_content a { color:#333; font-weight:normal; font-size:0.95em; }
 
 
 /* BOTTOM */
