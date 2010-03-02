@@ -199,8 +199,8 @@ sakai.navigation = function(tuid, placement, showSettings){
                     static : sakai.site.navigation_data
                 }
             },
-            selected: selectedPageUrlTitle,
-            opened: [selectedPageUrlTitle],
+            selected: "nav_"+selectedPageUrlTitle,
+            opened: ["nav_"+selectedPageUrlTitle],
             ui: {
                 dots: false,
                 selected_parent_close: false
@@ -211,13 +211,14 @@ sakai.navigation = function(tuid, placement, showSettings){
                     deletable: false,
                     creatable: false,
                     draggable: false,
-                    icon: {image: "/dev/_images/page_18.png"}
+                    icon: {image: "/dev/_images/page_18.png", position: "0 -1px"}
                 }
             },
             callback: {
                 // Callback for selecting a node
                 onselect: function(node, tree_object) {
-                    var current_page_urlsafetitle = node.id.replace("nav_","")
+                    var current_page_urlsafetitle = node.id.replace("nav_","");
+
                     if (sakai.site.selectedpage !== current_page_urlsafetitle) {
                         sakai.site.openPageH(current_page_urlsafetitle);
                     }
