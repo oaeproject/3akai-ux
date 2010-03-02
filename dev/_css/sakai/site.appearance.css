@@ -194,4 +194,6 @@
 #site_appearance_change_upload_form {padding-top:10px;}
 #site_appearance_change_upload_form .buttonBar {padding-left:0px; clear: both; margin-top:10px; }
 #profile_upload {padding:2px 8px; }
+#site_appearance_change_upload_form .error_msg { color: #880000; padding: 10px 0 0 0; }
+
 .dialog_buttons {padding-top:20px;}
