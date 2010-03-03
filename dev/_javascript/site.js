@@ -318,9 +318,13 @@ sakai.site = function(){
                 sakai.site.site_info["_pages"] = {};
                 for (var i=0, j=temp.length; i<j; i++) {
 
-                    if (typeof temp[i] !== undefined) {
+                    if (typeof temp[i] !== "undefined") {
                         // Save page data
-                        sakai.site.site_info["_pages"][temp[i]["pageURLTitle"]] = temp[i];
+                        var url_safe_title = "";
+                        var url_elements = temp[i]["path"].split("/");
+                        url_safe_title = url_elements[url_elements.length - 1];
+                        temp[i]["pageURLTitle"] = url_safe_title;
+                        sakai.site.site_info["_pages"][url_safe_title] = temp[i];
                     }
                 }
 
