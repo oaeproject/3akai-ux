@@ -1377,40 +1377,6 @@ sakai.site = function(){
         printPage();
     });
 
-    // Bind "Back to top" link click
-    $("#back_to_top").bind("click", function(){
-        window.scrollTo(0,0);
-    });
-
-
-    //////////////////
-    // SEARCH FIELD //
-    //////////////////
-
-    var selected = false;
-    $("#search_filed").bind("focus", function(ev){
-        if (!selected){
-            $("#search_filed").val("");
-            $("#search_filed").css("color","#000");
-            selected = true;
-        }
-    });
-
-    $("#search_filed_button").bind("click", function(ev){
-        doSearch();
-    });
-
-    $("#search_filed").bind("keypress", function(ev){
-        if (ev.keyCode == 13){
-            doSearch();
-        }
-    });
-
-    var doSearch = function(){
-        var search = $("#search_filed").val();
-        document.location = "/dev/search_content.html##1|" + search + "|/sites/" + sakai.site.currentsite.id;
-    };
-
 
     //////////
     // INIT //
