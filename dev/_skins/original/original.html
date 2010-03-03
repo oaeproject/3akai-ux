@@ -65,7 +65,7 @@
     <div class="fl-fix fl-centered fixed-container">
 
         <!-- MAIN PAGE -->
-        <div class="fl-fix fl-col-fixed main_container column_splitter_sites" id="show_view_container">
+        <div class="fl-fix fl-col-fixed main_container" id="show_view_container">
 
             <!-- Page Nav -->
             <div class="fl-col page_nav">
@@ -123,7 +123,7 @@
                 <!-- REVISION HISTORY -->
                 <div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
 
-                    <div class="revision_history_viewing">Viewing:</div>
+                    <label class="revision_history_viewing fl-force-left" for="revision_history_list">Viewing:</label>
 
                     <div><select id="revision_history_list"></select></div>
 
@@ -142,12 +142,6 @@
                     <a href="javascript:;" id="edit-layout">Change layout</a>
                 </div>
 
-                <div class="content_page_header" style="display:none">
-                    <img src="/dev/_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" alt="Author"/>
-                    <p><a href="#">John Doe</a></p>
-                    <p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
-                </div>
-
                 <!-- MAIN CONTENT -->
                 <div id="main-content-div">
 
@@ -163,8 +157,6 @@
                             {for c in columns}
                             ${index++|eat}
                             <div class="fl-col groupWrapper" id="column_uid_${index}">
-                                <div class="widget_spacer">
-                                </div>
                                 {for p in c.portlets}
                                 <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
                                     <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
@@ -209,7 +201,7 @@
                     <div class="dialog_content">
                         <div class="add-tools-right">
                             <h4>Select a layout for your dashboard page:</h4>
-                            <div class="elf-right-up">
+                            <div class="elf-right-up fl-fix">
                                 <div id="layouts_list"></div>
                             </div>
                         </div>
@@ -313,40 +305,6 @@
                         </table>
                     --></div>
 
-                    <div id="dashboard-container-template"><!--
-                            <div class="fl-col-flex${size}">
-                                {var index = 0}
-                                <div class="content">
-                                    {for c in columns}
-                                    ${index++|eat}
-                                    <div class="fl-col groupWrapper" id="column_uid_${index}">
-                                        <div class="widget_spacer">
-                                        </div>
-                                        {for p in c.portlets}
-                                        <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                                            <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
-                                                <div class="widget-titlebar-inner">
-                                                    <h2 class="widget_title">${p.title}</h2>
-                                                    <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="settings fl-force-right fl-icon" style="display:none">Settings</a>
-                                                </div>
-                                            </div>
-                                            {if p.display == "none"}
-                                            <div id="${p.uid}_container" style="display:none">
-                                                {else}
-                                                <div id="${p.uid}_container">
-                                                    {/if}
-                                                    <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/for}
-                                        </div>
-                                        {/for}
-                                    </div>
-                                </div>
-                        </div>
-                    --></div>
-
                 </div>
                 </div>
                 <!-- BOTTOM BORDER -->
@@ -361,7 +319,7 @@
         <div class="main_container content_container">
 
             <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
-            <div class="buttonBar">
+            <div>
                 <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
                 <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
                 <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
@@ -396,14 +354,14 @@
                     <input type="text" value="Untitled" class="title-input" id="title-input"/>
                     </div>
 
-                    <div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
-                    <div id="placeholderforeditor" class="textarea">
-
-                        <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-                        <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
-                            &nbsp;
-                        </textarea>
-                    </div>
+                    <div id="fl-tab-content-editor">
+                        <div id="placeholderforeditor" class="textarea">
+    
+                            <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+                            <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+                                &nbsp;
+                            </textarea>
+                        </div>
                     </div>
 
                     <div id="html-editor" style="display:none;">
@@ -418,7 +376,7 @@
 
                 </div>
 
-                <div class="buttonBar">
+                <div>
                     <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
                     <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
                 </div>
@@ -681,7 +639,7 @@
 
         <div class="context_menu" id="context_menu" style="display:none">
             <img src="/dev/_images/edit_icon.png" width="20px" alt="Edit Widget"/>
-            <br/>
+            <br />
             <ul>
                 <li id="context_settings"><a href="javascript:;">Settings</a></li>
                 <li id="context_remove"><a href="javascript:;">Remove</a></li>

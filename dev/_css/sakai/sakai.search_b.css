@@ -300,25 +300,6 @@ a.search_results_part_title {
     color: #333;
 }
 
-/* FOOTER */
-
-.page_footer {
-    padding: 15px 0 15px 15px;
-    border-top: 1px solid #ddd;
-    font-size: .85em;
-    color: #999;
-    margin-top:35px;
-}
-
-.page_footer a {
-    color: #3399cc;
-
-}
-
-.sakai_logo {
-    float: left;
-}
-
 #add_to_contacts_dialog {
     width:600px !important;
     margin-left:-300px !important;

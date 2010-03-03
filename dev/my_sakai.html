@@ -40,7 +40,7 @@
             <div class="dialog_content">
                 <div class="add-tools-right">
                     <h4>__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__</h4>
-                    <div class="elf-right-up">
+                    <div class="elf-right-up fl-fix">
                         <div id="layouts_list"></div>
                     </div>
                 </div>
@@ -178,11 +178,9 @@
         <div id="widgetscontainer_template"><!--
             <div class="fl-col-flex${size}">
             {var index = 0}
-            <div class="content">
             {for c in columns}
             ${index++|eat}
             <div class="fl-col groupWrapper" id="column_uid_${index}">
-            <div class="widget_spacer"></div>
             {for p in c.portlets}
             <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
             <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
@@ -203,7 +201,6 @@
             </div>
             {/for}
             </div>
-            </div>
         --></div>
 
         <div class="fl-container-flex widget-content">
@@ -214,7 +211,7 @@
         </div>
 
         <!-- Dropdown menu shown when clicking on a widget's pencil -->
-        <div class="add_new_menu" id="widget_settings_menu" style="display:none">
+        <div id="widget_settings_menu" style="display:none">
             <ul>
                 <li id="settings_remove" class="more_option"><a href="javascript:;">Remove</a></li>
                 <li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">Hide</a></li>
