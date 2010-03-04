@@ -27,7 +27,7 @@
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .navigation .nav_titlebar_inner
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:45px; }
 
 .navigation .nav_title
 { background:transparent url(/dev/_images/pages_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }

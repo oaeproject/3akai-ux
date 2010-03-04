@@ -780,7 +780,7 @@ sakai.site.site_admin = function(){
 
         while (!newid){
             var testurl = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
-            var testid = testurl.replace(/[\/-]/g,"");
+            var testid = sakai.site.createURLName(testurl);
             if (counter > 0){
                 testid += "-" + counter;
             }
@@ -823,8 +823,8 @@ sakai.site.site_admin = function(){
         var page_content = i_content || sakai.site.pagecontents[sakai.site.selectedpage];
         var page_type = i_page_type || "webpage";
         var page_title = i_page_title || sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"];
-        var src_urlsafetitle = src_url.replace(/[\/-]/g,"");
-        var tgt_urlsafetitle = tgt_url.replace(/[\/-]/g,"");
+        var src_urlsafe_name = sakai.site.createURLName(src_url);
+        var tgt_urlsafe_name = sakai.site.createURLName(tgt_url);
 
 
         // Delete current page node
@@ -835,17 +835,17 @@ sakai.site.site_admin = function(){
 
                 // Remove content html tags
                 $("#" + sakai.site.selectedpage).remove();
-                $("#" + src_urlsafetitle).remove();
+                $("#" + src_urlsafe_name).remove();
 
                 // Remove old + new from sakai.site.pagecontents array
                 delete sakai.site.pagecontents[sakai.site.selectedpage];
-                delete sakai.site.pagecontents[src_urlsafetitle];
+                delete sakai.site.pagecontents[src_urlsafe_name];
 
                 // Save the recent activity
                 var activityItem = {
                     "user_id": sdata.me.user.userid,
                     "type": "page_create",
-                    "page_id": src_urlsafetitle,
+                    "page_id": src_urlsafe_name,
                     "site_id": sakai.site.currentsite.id
                 };
                 sakai.siterecentactivity.addRecentActivity(activityItem);
@@ -856,7 +856,7 @@ sakai.site.site_admin = function(){
 
             if (success) {
                 // Refresh site info
-                sakai.site.refreshSiteInfo(tgt_urlsafetitle);
+                sakai.site.refreshSiteInfo(tgt_urlsafe_name);
 
                 // Check in new page content to revision history
                 $.ajax({

@@ -227,8 +227,8 @@ sakai.navigation = function(tuid, placement, showSettings){
                 onselect: function(node, tree_object) {
                     var current_page_urlsafetitle = node.id.replace("nav_","");
 
+                    // If page is not the current page load it
                     if (sakai.site.selectedpage !== current_page_urlsafetitle) {
-
                         sakai.site.openPageH(current_page_urlsafetitle);
                     }
                 },
@@ -255,28 +255,32 @@ sakai.navigation = function(tuid, placement, showSettings){
 
                     // Construct target URL
                     var ref_url_elements = ref_url.split("/");
-                    ref_url_elements.pop();
 
-                    // If we are moving a page inside a page which does not have child pages yet add a "_pages" element
-                    if (type === "inside") {
-                        console.dir($(ref_node.id));
-                        //ref_url_elements.push("_pages");
+                    // If we are moving a page inside a page which does not have child pages yet add a "_pages" element to the url
+                    // We check agains the number of child objects for now but probably a better solution will be needed
+                    if ((type === "inside") && ($("#"+ref_node.id).children().length < 3)) {
+                        ref_url_elements.push("_pages");
+                    } else {
+                        ref_url_elements.pop();
                     }
+
+                    // Construct target URL
                     var tgt_url = ref_url_elements.join("/") + "/" + src_url_title;
 
-                    // If there is a depth difference the move is a move within a hierarchy
-                    if ((src_url_depth !== ref_url_depth)) {
+                    // If there is a depth difference or putting a node inside another the move is a move within a hierarchy
+                    if ((src_url_depth !== ref_url_depth) || (type === "inside")) {
 
                         console.log(src_url," --> ",tgt_url);
 
                         // Move page
                         sakai.site.movePage(src_url, tgt_url, sakai.site.pagecontents[src_url_name]["sakai:pagecontent"], sakai.site.site_info._pages[src_url_name]["pageType"], sakai.site.site_info._pages[src_url_name]["pageTitle"], function(){
-                            sakai.site.refreshSiteInfo();
+                            console.log("Page moved successfuly!");
+                            console.dir(sakai.site.site_info);
                         });
 
                     } else {
-                        // The move is a reordering
-                        console.log("Reordering: ", src_url_title," --> ",ref_url_title);
+                        // The move is a jsut a reordering
+                        console.log("Reordering: ", src_url_title," --> ",ref_url_title, " - type: ", type);
                     }
 
 
