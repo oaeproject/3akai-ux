@@ -270,12 +270,9 @@ sakai.navigation = function(tuid, placement, showSettings){
                     // If there is a depth difference or putting a node inside another the move is a move within a hierarchy
                     if ((src_url_depth !== ref_url_depth) || (type === "inside")) {
 
-                        console.log(src_url," --> ",tgt_url);
-
                         // Move page
                         sakai.site.movePage(src_url, tgt_url, sakai.site.pagecontents[src_url_name]["sakai:pagecontent"], sakai.site.site_info._pages[src_url_name]["pageType"], sakai.site.site_info._pages[src_url_name]["pageTitle"], function(){
-                            console.log("Page moved successfuly!");
-                            console.dir(sakai.site.site_info);
+                            
                         });
 
                     } else {

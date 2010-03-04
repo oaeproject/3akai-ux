@@ -1614,15 +1614,20 @@ sakai.site.site_admin = function(){
         var path = "";
         if (sakai.site.selectedpage){
             if (sakai.site.createChildPageByDefault){
-                path = sakai.site.selectedpage + "/";
+                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"])) + "_pages/";
+            } else {
+                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"]));
             }
         }
 
         // Determine new page id (untitled-x)
         var newid = false;
         var counter = 0;
+        var new_page_path = "";
         while (!newid){
             var totest = path + "untitled";
+            new_page_path = totest;
+            totest = sakai.site.createURLName(totest);
             if (counter !== 0){
                 totest += "-" + counter;
             }
@@ -1645,7 +1650,7 @@ sakai.site.site_admin = function(){
             sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
         }
 
-        sakai.site.savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + newid, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
+        sakai.site.savePage(new_page_path, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
 
             if (success) {
 
