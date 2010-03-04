@@ -1375,11 +1375,9 @@ sakai.site.site_admin = function(){
      */
     var insertLink = function() {
         var chosen = false;
-        try {
-            chosen = simpleTreeCollection.get(0).getSelected().attr("id");
-        } catch (err){
-            alert("Insert Link: No chosen link.");
-        }
+
+
+
         if (!chosen){
             return false;
         }
@@ -1390,15 +1388,11 @@ sakai.site.site_admin = function(){
             editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '"  class="contauthlink">' + selection + '</a>');
         }
         else {
-            /*var pagetitle = chosen;
-            for (var i = 0, j = sakai.site.pages.items.length; i<j; i++) {
-                if (sakai.site.pages.items[i].id == chosen) {
-                    pagetitle = sakai.site.pages.items[i].title;
-                }
-            }*/
             var pagetitle = sakai.site.site_info._pages[chosen].title;
             editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '" class="contauthlink">' + pagetitle + '</a>');
         }
+
+        delete sakai.site.insertLinkSelection;
 
         $('#link_dialog').jqmHide();
 
@@ -1416,6 +1410,27 @@ sakai.site.site_admin = function(){
         modal: true,
         trigger: $('#link_dialog_trigger'),
         overlay: 20,
+        onShow: function(hash) {
+            sakai.site.insertLinkSelection = [];
+
+            var $links = $("<div></div>");
+
+            // Create clickable page links
+            for (var urlname in sakai.site.site_info._pages) {
+                var $link = $("<a>" + sakai.site.site_info._pages[urlname]["pageTitle"] + "</a>").attr("href", "/sites/" + sakai.site.currentsite.id + "#" + urlname).css({"padding-left":sakai.site.site_info._pages[urlname]["pageDepth"]+"px", "display":"block"}).toggle(function(e){
+                    sakai.site.insertLinkSelection.push($(this).href);
+                    $(this).css({"background":"#999"});
+                }, function() {
+                    sakai.site.insertLinkSelection.splice(sakai.site.insertLinkSelection.indexOf($(this).href), 1);
+                    $(this).css({"background":"none"});
+                });
+                $links.append($link);
+            }
+
+            $("#link_container").html($links);
+
+            hash.w.show();
+        },
         toTop: true
     });
 
@@ -1423,7 +1438,7 @@ sakai.site.site_admin = function(){
     // Bind Insert Link click event
     $("#more_link").bind("click", function(ev){
         var el = $("#more_menu");
-        if (el.css("display").toLowerCase() != "none") {
+        if (el.css("display").toLowerCase() !== "none") {
             el.hide();
         } else {
             var x = $("#more_link").position().left;
@@ -1705,13 +1720,47 @@ sakai.site.site_admin = function(){
 
         // Create a URL safe title string
         var pageURLTitle = sakai.site.createURLSafeTitle(title);
-        var pageURLName = sakai.site.createURLName("/sites/" + sakai.site.currentsite.id + "/_pages/" + pageURLTitle); // Make sure we save base path for each selected page in JS so that sub-pages can save properly
+
+        // Determine where to create the page (based on current selected page)
+        var path = "";
+        if (sakai.site.selectedpage){
+            if (sakai.site.createChildPageByDefault){
+                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"])) + "_pages/";
+            } else {
+                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"]));
+            }
+        }
+
+        // Determine new page id (untitled-x)
+        var newid = false;
+        var counter = 0;
+        var new_page_path = "";
+        while (!newid){
+            var totest = path + pageURLTitle;
+            new_page_path = totest;
+            totest = sakai.site.createURLName(totest);
+            if (counter !== 0){
+                totest += "-" + counter;
+            }
+            counter++;
+            var exists = false;
+            if (sakai.site.site_info._pages[totest]) {
+                exists = true;
+            }
+
+            if (!exists){
+                newid = totest;
+            }
+        }
+
+        // Create a URLname
+        var pageURLName = sakai.site.createURLName(new_page_path);
 
         // Default dasboard content
         var defaultDashboardContent = '{"columns":{"column1":[{"name":"sitemembers","visible":"block","uid":"id4548168513125"}],"column2":[]},"layout":"dev"}';
 
         // Create page node for dashboard page
-        sakai.site.savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + pageURLTitle, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
+        sakai.site.savePage(new_page_path, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
 
             // If page save was successful
             if (success) {
@@ -1727,7 +1776,7 @@ sakai.site.site_admin = function(){
 
                 // Check in new page content to revision history
                 $.ajax({
-                    url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + pageUrlTitle + "/pageContent.save.html",
+                    url: new_page_path + "/pageContent.save.html",
                     type: "POST"
                 });
 
@@ -2180,7 +2229,7 @@ sakai.site.site_admin = function(){
     ///////////////////////
 
     /**
-     * //s a page
+     * Deletes a page
      * @return void
      */
     var deletePage = function() {

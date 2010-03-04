@@ -369,12 +369,11 @@ sakai.site = function(){
                     sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
                 }
 
-                // Refresh navigation
+                // Open page if necessary
                 if (pageToOpen){
-
-                    // Open page
                     sakai.site.openPage(pageToOpen);
                 }
+                
 
             },
             error: function(xhr, textStatus, thrownError) {

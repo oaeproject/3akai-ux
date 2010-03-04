@@ -272,12 +272,12 @@ sakai.navigation = function(tuid, placement, showSettings){
 
                         // Move page
                         sakai.site.movePage(src_url, tgt_url, sakai.site.pagecontents[src_url_name]["sakai:pagecontent"], sakai.site.site_info._pages[src_url_name]["pageType"], sakai.site.site_info._pages[src_url_name]["pageTitle"], function(){
-                            
+                            // Do nothing for now
                         });
 
                     } else {
                         // The move is a jsut a reordering
-                        console.log("Reordering: ", src_url_title," --> ",ref_url_title, " - type: ", type);
+
                     }
 
 
@@ -285,7 +285,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 
                 // Callback for renaming a page node
                 onrename: function(node, ref_node, rollback) {
-                    console.log("On Rename");
+
                 }
 
             }
