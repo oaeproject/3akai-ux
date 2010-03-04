@@ -150,6 +150,7 @@ ul.fl-tabs li a{
 .management_content_main .delete_site_warning, .management_content_main .delete_site_warning strong {
     color: #D32F2F;
 }
+
 .dark-gray-button {
     background: url('../../_images/dark_button_left.png') top left no-repeat;
     height: 25px;

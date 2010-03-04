@@ -7,7 +7,6 @@
 .sakai_site .site_heading
 { color: #454a4f; padding: 0 0 10px 0; border: none; margin-top:10px }
 
-
 /** TOP RIGHT MENU **/
 .sakai_site .content_page_options
 { background: #fff url('../../_images/tab_bg_right.png') top right no-repeat; height: 25px; border: none;  padding: 0 10px 0 0; display: block; margin: 20px 10px 0 0; }
