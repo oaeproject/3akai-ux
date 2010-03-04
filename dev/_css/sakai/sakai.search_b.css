@@ -130,18 +130,6 @@
 .search_content_main .search_bar {
     width: auto;
 }
-.search_content_main .search_button {
-    background: #454a4f url('../../_images/search_button.png') top left no-repeat;
-    border: none;
-    color: #fff;
-    display: block;
-    height: 23px;
-    padding: 0;
-    width: 88px;
-    float: left;
-}
-.search_content_main .search_button span {position:absolute;top:-9999px;left:-9999px;}
-
 .search_content_main .search_results_container {
     background-color: #EEF2F5;
     padding: 0;
@@ -298,25 +286,6 @@ a.search_results_part_title {
 .search_result_course_site_excerpt strong {
     font-size: .95em;
     color: #333;
-}
-
-/* FOOTER */
-
-.page_footer {
-    padding: 15px 0 15px 15px;
-    border-top: 1px solid #ddd;
-    font-size: .85em;
-    color: #999;
-    margin-top:35px;
-}
-
-.page_footer a {
-    color: #3399cc;
-
-}
-
-.sakai_logo {
-    float: left;
 }
 
 #add_to_contacts_dialog {

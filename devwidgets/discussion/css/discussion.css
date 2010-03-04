@@ -30,7 +30,7 @@
 #discussion_widget_title { margin: 0; clear: both; }
 .discussion_view_options {  }
 .discussion_view_options a {color:#058EC4;padding-left: 5px;display:none;}
-.discussion_view_options .divider {background-image: url(../../_images/single_grey_pixel.png);background-repeat: repeat;width: 1px;height: 100%;}
+.discussion_view_options #discussion_collapse_link {border-left: 1px solid #d7d7d7}
 
 /* Container */
 #discussion_container a {color:#058Ec4;}
