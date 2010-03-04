@@ -1,5 +1,4 @@
 /** HEADER **/
-
 .account_preferences .site_heading {
     padding: 15px 0;
     border: none;
@@ -15,7 +14,7 @@
     background: #FFFFFF url(../../_images/header_l.png) no-repeat scroll left top;
 }
 .account_preferences .main-container {
-    background: #FFF;
+    background: #fff;
 }
 .account_preferences .outline-top {
     background: url('../../_images/content_tr_flip.png') top right no-repeat;
@@ -48,16 +47,32 @@
 }
 .account_preferences .password {
     margin-top: 10px;
-    border: none;
 }
-
+.account_preferences .password-preferences-input {
+    border: 1px solid #ccc;
+    height: 25px;
+    width: 300px;
+}
 .account_preferences .save-preferences {
-    margin-left: 365px;
-    background: none;
+    float: right;
     height: auto;
+    margin-right: 382px;
     margin-top:5px;
 }
-
-.account_preferences .regional .preferences-form select {
+.account_preferences .form-item {
+    margin: 0 0 15px 15px;
+}
+.account_preferences .form-item label {
+    float: left;
+    font-weight: bold;
+    margin-right: 15px;
+    text-align: right;
+    width: 155px;
+}
+.account_preferences .preferences-form {
+    margin-top: 25px;
+}
+.account_preferences .preferences-form select {
+    height: 21px;
     width: 300px;
 }
