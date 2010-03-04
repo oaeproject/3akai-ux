@@ -51,6 +51,7 @@ sakai.site_appearance = function() {
     var siteAppearancePreviewTitle = siteAppearance + "_preview_title";
     var siteAppearanceSave = siteAppearance + "_save";
     var siteAppearanceStyleContainer = siteAppearance + "_style_container";
+    var siteAppearanceTab = siteAppearance + "_tab";
     var siteAppearanceTitle = siteAppearance + "_title";
 
     var siteAppearanceChange = siteAppearance + "_change";
@@ -58,6 +59,7 @@ sakai.site_appearance = function() {
     var siteAppearanceChangeLogoTrigger = siteAppearanceChange + "_logo_trigger";
     var siteAppearanceChangePicture = siteAppearanceChange + "_picture";
     var siteAppearanceChangePictureMeasurer = siteAppearanceChangePicture + "_measurer";
+    var siteAppearanceChangePictureMeasurerImage = siteAppearanceChangePictureMeasurer + "_image";
     var siteAppearanceChangePictureFull = siteAppearanceChangePicture + "_full";
     var siteAppearanceChangePictureSave = siteAppearanceChangePicture + "_save";
     var siteAppearanceChangePictureThumbnail = siteAppearanceChangePicture + "_thumbnail";
@@ -268,7 +270,7 @@ sakai.site_appearance = function() {
 
             var json = $.evalJSON(siteInformation.picture);
             // Set the fullpath to the variable
-            json.fullName = "/sites/" + siteId + "/200x100_siteicon";
+            json.fullName = "/sites/" + siteId + "/200x100_siteicon" + "?sid=" + Math.random();
 
             // Render the image template
             $.Template.render(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
@@ -402,6 +404,7 @@ sakai.site_appearance = function() {
 
         //Remove all the classes for the current active tabs
         $("." + tabActiveClass).removeClass(tabActiveClass);
+        $(siteAppearanceTab).addClass(tabActiveClass);
 
         switch(tab){
             case "upload":
@@ -566,24 +569,19 @@ sakai.site_appearance = function() {
             // Show the edit tab.
             $(siteAppearanceChangeSelectTab).show();
 
-
-            // Set the unvisible image to the full blown image.
-            var imageMeasure = new Image();
-            var imagePath = createImagePath(picture._name);
-            imageMeasure.src = imagePath;
+            // Set the unvisible image to the full blown image. (make sure to filter the # out)
+            $(siteAppearanceChangePictureMeasurer).html("<img src='" + "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random() + "' id='" + siteAppearanceChangePictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
-            $(imageMeasure).load(function(){
-
-                $(siteAppearanceChangePictureMeasurer).append(this);
+            $(siteAppearanceChangePictureMeasurerImage).bind("load", function(ev){
 
                 // save the image size in global var.
-                realWidth = this.width;
-                realHeight = this.height;
+                realWidth = $(siteAppearanceChangePictureMeasurerImage).width();
+                realHeight = $(siteAppearanceChangePictureMeasurerImage).height();
 
                 // Set the images
-                $(siteAppearanceChangePictureFull).attr("src", imagePath);
-                $(siteAppearanceChangePictureThumbnail).attr("src", imagePath);
+                $(siteAppearanceChangePictureFull).attr("src", "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random());
+                $(siteAppearanceChangePictureThumbnail).attr("src", "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random());
 
                 // Check if the current width and height dont exceed the maximum values
                 checkSize();
@@ -629,12 +627,7 @@ sakai.site_appearance = function() {
     /*
      * Bind the save button on the pop-up where you can change your picture
      */
-    //$(siteAppearanceChangePictureSave).click(savePicture);
-    $(siteAppearanceChangePictureSave).bind("click", function(ev){
-        if(userSelection){
-            savePicture();
-        };
-    });
+    $(siteAppearanceChangePictureSave).click(savePicture);
 
     /*
      * Bind the general save button
