@@ -936,13 +936,7 @@ sakai.site.site_admin = function(){
      */
     var showPageLocation = function(){
 
-        $("#new_page_path").html("<div><span>Page location:</span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "</div>"); //&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
-
-        // Bind Move... button's click event to its functionality
-        $("#move_inside_edit").bind("click", function(ev){
-            window.scrollTo(0,0);
-            $('#move_dialog').jqmShow();
-        });
+        $("#new_page_path").html("<span>Page location: </span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
 
     };
 
@@ -1269,7 +1263,6 @@ sakai.site.site_admin = function(){
         $("#title-input").show();
         if (sakai.site.currentEditView == "preview"){
             $("#page_preview_content").hide().html("");
-            $("#tab-nav-panel").show();
             $("#new_page_path").show();
             switchtab("preview","Preview","text_editor","Text Editor");
         } else if (sakai.site.currentEditView == "html"){
@@ -1301,7 +1294,6 @@ sakai.site.site_admin = function(){
             switchtab("text_editor","Text Editor","html","HTML");
         } else if (sakai.site.currentEditView == "preview"){
             $("#page_preview_content").hide().html("");
-            $("#tab-nav-panel").show();
             $("#new_page_path").show();
             switchtab("preview","Preview","html","HTML");
         }
@@ -1321,7 +1313,6 @@ sakai.site.site_admin = function(){
     // Bind Preview tab click event
     $("#tab_preview").bind("click", function(ev){
         $("#context_menu").hide();
-        $("#tab-nav-panel").hide();
         $("#new_page_path").hide();
         $("#html-editor").hide();
         $("#title-input").hide();
@@ -1974,8 +1965,6 @@ sakai.site.site_admin = function(){
         sakai.lib.notifications.showNotification("Page move", "To move a page just drag&drop in the page navigation widget!", "normal", false, "/dev/_images/page_18.png", 500, 5000, 500);
 
     });
-
-
 
 
     //////////////////////////////////

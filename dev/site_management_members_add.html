@@ -35,26 +35,16 @@
 <div class="fl-container-flex content content-management">
     <div class="fl-fix fl-centered fixed-container">
         <div class="decor"></div>
-        <!-- TITLE BAR  -->
-        <div class="site_heading" style="padding: 20px 0 0 0; border: none;">
-            <!-- SEARCH FIELD -->
-            <div class="site_search">
-                <form method="" action="" class="search fl-force-right" style="display:none;">
-                    <input type="text" class="fl-force-left search_field" value="Search this site" name="search"/>
-                    <a href="javascript:;" class="button-default save_button search_btn">Search</a>
-                </form>
-            </div>
-            <h1 id="sitetitle" style="margin: 0pt;"></h1>
-        </div>
+        <h1 id="sitetitle"></h1>
         <!-- CONTENT -->
         <!-- SECOND HEADING -->
-        <div class="site_secondary_heading" style="padding: 15px 0px; color: #454A4F;"> Site Management <a id="back_to_site_link" href="/sites/" style="float:right; font-size: 0.6em;">&laquo; Back to Site</a> </div>
+        <div class="secondary_title"> Site Management <a id="back_to_site_link" href="/sites/">&laquo; Back to Site</a> </div>
         <!-- TAB NAVIGATION -->
         <div class="management_tab_nav">
             <div class="management_tab_nav_inner">
                 <ul class="fl-tabs fl-tabs-left">
                     <li><a href="site_management_basic_settings.html" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
-                    <li class="fl-tabs-active"><a href="javscript:;">Members</a></li>
+                    <li class="fl-tabs-active"><a href="javascript:;">Members</a></li>
                     <li><a href="site_management_appearance.html" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
                 </ul>
             </div>
@@ -91,7 +81,7 @@
                                 --></div>
                                 <!-- <strong>Tag selected people as:</strong>
                         <input type="text" class="tag-people" value="Add your tags here" /> -->
-                                <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">Add selected people</span></button>
+                                <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__ADD_SELECTED_PEOPLE__</span></button>
 
                             </form>
                             <div id="selected-people-container" class="selected_personsContainer"></div>

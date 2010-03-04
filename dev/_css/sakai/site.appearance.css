@@ -142,20 +142,6 @@
 .basic_appearance .lightgrey_button .button
 { background:transparent url(../../_images/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px; }
 
-
-
-
-/** FOOTER **/
-.basic_appearance .page_footer
-{ padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999; margin-top:35px; }
-
-.basic_appearance .page_footer a
-{ color: #3399cc; }
-
-.basic_appearance .sakai_logo
-{ float: left; }
-
-
 /* DIALOGS */
 .basic_appearance .dialog
 { width:700px !important; margin-left: -350px !important;background-color: #fff !important; }
