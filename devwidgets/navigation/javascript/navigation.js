@@ -19,10 +19,11 @@
 /*global $, sdata */
 
 var sakai = sakai || {};
-sakai._navigation = {};
+sakai.site = sakai.site || {};
+sakai.site.navigation = sakai.site.navigation || {};
+
 
 sakai.navigation = function(tuid, placement, showSettings){
-
 
     /////////////////////////////
     // Configuration variables //
@@ -158,7 +159,7 @@ sakai.navigation = function(tuid, placement, showSettings){
         var p_id = "";
         if (page_info["pageTitle"]) {
             p_title = page_info["pageTitle"];
-            p_id = "nav_" + page_info["pageURLTitle"];
+            p_id = "nav_" + page_info["pageURLName"];
         }
 
         var node = {
@@ -182,50 +183,116 @@ sakai.navigation = function(tuid, placement, showSettings){
      *     pageid: when you select a page
      * @param {Object[]} site_info_object Contains an array with all the pages, each page is an object.
      */
-
-    sakai._navigation.renderNavigation = function(selectedPageUrlTitle, site_info_object) {
-
-        sakai.site.navigation_data = [];
+    sakai.site.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
 
         // Create navigation data object
         var cleaned_array_of_urls = cleanURLs(site_info_object);
-        sakai.site.navigation_data = convertToHierarchy(cleaned_array_of_urls);
+        sakai.site.navigation.navigationData = [];
+        sakai.site.navigation.navigationData = convertToHierarchy(cleaned_array_of_urls);
 
-        // Render navigation
+        var tree_type = {
+            renameable: false,
+            deletable: false,
+            creatable: false,
+            draggable: false,
+            icon: {image: "/dev/_images/page_18.png", position: "0 -1px"}
+        };
+
+        // Enable dragging (moving) and renaming only for logged in users
+        if (sakai._isAnonymous === false) {
+            tree_type.renameable = true;
+            tree_type.draggable = true;
+        }
+
+        // Main tree navigation object
         $("#nav_content").tree({
             data : {
                 type : "json",
                 opts : {
-                    static : sakai.site.navigation_data
+                    static : sakai.site.navigation.navigationData
                 }
             },
-            selected: "nav_"+selectedPageUrlTitle,
-            opened: ["nav_"+selectedPageUrlTitle],
+            selected: "nav_"+selectedPageUrlName,
+            opened: ["nav_"+selectedPageUrlName],
             ui: {
                 dots: false,
                 selected_parent_close: false
             },
             types: {
-                "default": {
-                    renameable: false,
-                    deletable: false,
-                    creatable: false,
-                    draggable: false,
-                    icon: {image: "/dev/_images/page_18.png", position: "0 -1px"}
-                }
+                "default": tree_type
             },
             callback: {
-                // Callback for selecting a node
+
+                // Callback for selecting a page node
                 onselect: function(node, tree_object) {
                     var current_page_urlsafetitle = node.id.replace("nav_","");
 
                     if (sakai.site.selectedpage !== current_page_urlsafetitle) {
+
                         sakai.site.openPageH(current_page_urlsafetitle);
                     }
+                },
+
+                beforemove: function(node, ref_node, type, tree_object) {
+                    // Do nothing for now
+                    return true;
+                },
+
+                // Callback for moving a page node
+                onmove: function(node, ref_node, type, tree_object, rollback) {
+
+                    // Source data
+                    var src_url_name = node.id.replace("nav_","");
+                    var src_url = sakai.site.site_info._pages[src_url_name]["path"];
+                    var src_url_title = sakai.site.site_info._pages[src_url_name]["pageURLTitle"];
+                    var src_url_depth = sakai.site.site_info._pages[src_url_name]["pageDepth"];
+
+                    // Reference data (the previous or next element to the target)
+                    var ref_url_name = ref_node.id.replace("nav_","");
+                    var ref_url = sakai.site.site_info._pages[ref_url_name]["path"];
+                    var ref_url_title = sakai.site.site_info._pages[ref_url_name]["pageURLTitle"];
+                    var ref_url_depth = sakai.site.site_info._pages[ref_url_name]["pageDepth"];
+
+                    // Construct target URL
+                    var ref_url_elements = ref_url.split("/");
+                    ref_url_elements.pop();
+
+                    // If we are moving a page inside a page which does not have child pages yet add a "_pages" element
+                    if (type === "inside") {
+                        console.dir($(ref_node.id));
+                        //ref_url_elements.push("_pages");
+                    }
+                    var tgt_url = ref_url_elements.join("/") + "/" + src_url_title;
+
+                    // If there is a depth difference the move is a move within a hierarchy
+                    if ((src_url_depth !== ref_url_depth)) {
+
+                        console.log(src_url," --> ",tgt_url);
+
+                        // Move page
+                        sakai.site.movePage(src_url, tgt_url, sakai.site.pagecontents[src_url_name]["sakai:pagecontent"], sakai.site.site_info._pages[src_url_name]["pageType"], sakai.site.site_info._pages[src_url_name]["pageTitle"], function(){
+                            sakai.site.refreshSiteInfo();
+                        });
+
+                    } else {
+                        // The move is a reordering
+                        console.log("Reordering: ", src_url_title," --> ",ref_url_title);
+                    }
+
+
+                },
+
+                // Callback for renaming a page node
+                onrename: function(node, ref_node, rollback) {
+                    console.log("On Rename");
                 }
+
             }
 
         });
+
+        // Store a referecne to the tree navigation object
+        sakai.site.navigation.treeNav = $.tree.reference("#nav_content");
     };
 
 

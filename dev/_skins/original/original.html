@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.site.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.dashboard.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.notifications.css" />
 
     <script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_configuration/config.js"></script>
@@ -39,6 +40,7 @@
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/querystring.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/notifications.js"></script>
 
     </head>
 
@@ -445,6 +447,9 @@
 <!-- FOOTER WIDGET -->
 <div id="widget_footer" class="widget_inline footercontainer"></div>
 
+
+
+
 <!-- DIALOGS, MENUS, MISC STUFF -->
 
         <!-- TrimPath Templates -->
@@ -469,6 +474,7 @@
 
         --></div>
 
+        <!-- ADD NEW MENU -->
         <div class="add_new_menu" id="add_new_menu" style="display:none">
                 <ul>
                     <li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
@@ -477,9 +483,10 @@
                 </ul>
             </div>
 
+        <!-- ADD MORE MENU -->
         <div class="add_more_menu" id="more_menu" style="display:none">
             <ul>
-                <li id="more_settings" class="more_option"><a href="javascript:;">Permissions</a></li>
+                <li id="more_permissions" class="more_option"><a href="javascript:;">Permissions</a></li>
                 <li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
                 <li id="more_move" class="more_option move_dialog_trigger"><a href="javascript:;">Move</a></li>
                 <li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
@@ -487,6 +494,8 @@
             </ul>
         </div>
 
+
+        <!-- INSERT MORE MENU -->
         <div id="insert_more_menu" class="insert_more_menu" style="display:none">
             <div class="insert_more_menu_border">
                 <ul>
@@ -535,6 +544,8 @@
             </ul>
         --></div>
 
+
+        <!-- INSERT DIALOG -->
         <div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
             <!-- DIALOG HEADER -->
             <div class="dialog_header">
@@ -551,6 +562,8 @@
             </div>
         </div>
 
+
+        <!-- WRAPPING DIALOG -->
         <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -581,6 +594,7 @@
             </div>
         </div>
 
+        <!-- AUTOSAVE DIALOG -->
         <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -662,6 +676,8 @@
             </div>
         </div>
 
+
+        <!-- MOVE PAGE DIALOG -->
         <div id="move_dialog" class="dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -677,9 +693,10 @@
                 <div id="treeview_move_container" class="treeview_container">
 
                 </div>
+
                 <div class="dialog_buttons">
-                    <a href="javascript:;" id="move_page_confirm" class="button-default">Save</a>
-                    <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+                    <button class="s3d-button s3d-button-primary" id="move_page_confirm"><span class="s3d-button-inner">Save</span></button>
+                    <button class="s3d-button s3d-button jqmClose" id="wrapping_cancel"><span class="s3d-button-inner">Cancel</span></button>
                 </div>
             </div>
 
@@ -699,6 +716,8 @@
             </ul>
         </div>
 
+
+        <!-- SAVE AS TEMPLATE DIALOG -->
         <div class="dialog" id="save_as_template_container">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -729,6 +748,8 @@
             </div>
         </div>
 
+
+        <!-- PAGE TEMPLATE SELECTION DIALOG -->
         <div class="dialog" id="select_template_for_page">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
