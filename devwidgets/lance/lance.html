@@ -28,6 +28,18 @@
         </div>
         <div id="lance_settings_advanced" style="display:none;">
             <div class="lance_settings_subcontainer">
+                <label class="lance_settings_label_head">Privacy:</label><br />
+                <div class="lance_settings_block">
+                    <label for="lance_settings_release_names">Release Names:</label>
+                    <input type="checkbox" id="lance_settings_release_names" name="release_names" {if release_names}checked="checked"{/if} /><span>&nbsp;</span>
+                    <label for="lance_settings_release_principal_name">Release Username:</label>
+                    <input type="checkbox" id="lance_settings_release_principal_name" name="release_principal_name" {if release_principal_name}checked="checked"{/if} /><span>&nbsp;</span>
+                    <label for="lance_settings_release_email">Release Email Address:</label>
+                    <input type="checkbox" id="lance_settings_release_email" name="release_email" {if release_email}checked="checked"{/if} /><span>&nbsp;</span><br class="fl-push" />
+                </div>
+            </div>
+
+            <div class="lance_settings_subcontainer">
                 <label class="lance_settings_label_head">Size:</label><br />
                 <div class="lance_settings_block">
                     <label for="lance_settings_width">Width:</label>
@@ -36,8 +48,8 @@
                     <span> or </span>
                     <a href="javascript:;" id="lance_settings_width_unit_percent" class="lance_settings_width_unit {if width_unit == "%"} lance_settings_width_unit_selected{/if}"> %</a>
                     <br />
-                    <label for="lance_settings_height">Height:</label>
-                    <input type="text" id="lance_settings_height" value="${height}" /><span> px</span>
+                    <label for="lance_settings_frame_height">Height:</label>
+                    <input type="text" id="lance_settings_frame_height" value="${frame_height}" /><span> px</span>
                     <a class="button-default" href="javascript:;" id="lance_settings_reset_size">Reset to original size</a>
                     <br class="fl-push" />
                 </div>
@@ -62,7 +74,7 @@
 
 <!-- Template to show the preview of the iframe -->
 <div id="lance_settings_preview_template"><!--
-    <iframe id="lance_settings_preview_frame" style="border: ${border_size}px #${border_color} solid" src="${launchDataUrl}" width="${width}${width_unit}" height="${height}px"></iframe>
+    <iframe id="lance_settings_preview_frame" style="border: ${border_size}px #${border_color} solid" src="${launchDataUrl}" width="${width}${width_unit}" height="${frame_height}px"></iframe>
 --></div>
 
 <!-- Template for choosing the color -->

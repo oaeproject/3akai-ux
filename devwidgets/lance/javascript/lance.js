@@ -34,7 +34,7 @@ sakai.lance = function(tuid, placement, showSettings){
     // Default values
     var defaultWidth = 100;
     var defaultWidthUnit = "%";
-    var defaultHeight = 400;
+    var defaultHeight = 200;
 
     // Links and labels
     var lance = "#lance";
@@ -46,7 +46,7 @@ sakai.lance = function(tuid, placement, showSettings){
     var lanceSettingsBorders = lanceSettings + "_borders";
     var lanceSettingsCancel = lanceSettings + "_cancel";
     var lanceSettingsColorContainer = lanceSettings + "_color_container";
-    var lanceSettingsHeight = lanceSettings + "_height";
+    var lanceSettingsHeight = lanceSettings + "_frame_height";
     var lanceSettingsInsert = lanceSettings + "_insert";
     var lanceSettingsPreview = lanceSettings + "_preview";
     var lanceSettingsPreviewFrame = lanceSettingsPreview + "_frame";
@@ -54,6 +54,7 @@ sakai.lance = function(tuid, placement, showSettings){
     var lanceSettingsLtiKey = lanceSettings + "_ltikey";
     var lanceSettingsLtiSecret = lanceSettings + "_ltisecret";
     var lanceSettingsWidth = lanceSettings + "_width";
+    var lanceSettingsReleaseName = lanceSettings + "_release_names";
 
     // Containers
     var lanceMainContainer = lance + "_main_container";
@@ -174,15 +175,16 @@ sakai.lance = function(tuid, placement, showSettings){
      */
     var saveRemoteContent = function() {
         if (json.ltiurl !== "") {
-			var ltiurl = $(lanceSettingsLtiUrl).val() || "";
-			var ltikey = $(lanceSettingsLtiKey).val() || "";
-			var ltisecret = $(lanceSettingsLtiSecret).val() || "";
-			json.ltiurl = ltiurl;
-			json.ltikey = ltikey;
-			json.ltisecret = ltisecret;
-			json.launchDataUrl = ""; // does not need to be persisted
-			json["_MODIFIERS"] = ""; // what the heck is this? TrimPath? Do not persist.
-			json.defined = ""; // what the heck is this? Where does it come from?
+            json.ltiurl = $(lanceSettingsLtiUrl).val() || "";
+            json.ltikey = $(lanceSettingsLtiKey).val() || "";
+            json.ltisecret = $(lanceSettingsLtiSecret).val() || "";
+            json.debug = $('[name=debug]:checked', rootel).length == 1;
+            json.release_names = $('[name=release_names]:checked', rootel).length == 1;
+            json.release_principal_name = $('[name=release_principal_name]:checked', rootel).length == 1;
+            json.release_email = $('[name=release_email]:checked', rootel).length == 1;
+            json.launchDataUrl = ""; // does not need to be persisted
+            json["_MODIFIERS"] = ""; // what the heck is this? TrimPath? Do not persist.
+            json.defined = ""; // what the heck is this? Where does it come from?
             var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "lance");
             $.ajax({
                 type: 'POST',
@@ -323,12 +325,15 @@ sakai.lance = function(tuid, placement, showSettings){
         }else{ // use default values
             json = {
 				"sling:resourceType" : "sakai/basiclti",
-	            ltiurl: "",
-	            ltikey: "",
-	            ltisecret: "",
+                ltiurl: "",
+                ltikey: "",
+                ltisecret: "",
+                release_names : "true",
+                release_principal_name : "true",
+                release_email : "true",
                 border_size: 0,
                 border_color: "cccccc",
-                height: defaultHeight,
+                frame_height: defaultHeight,
                 width: defaultWidth,
                 width_unit: defaultWidthUnit
             };
