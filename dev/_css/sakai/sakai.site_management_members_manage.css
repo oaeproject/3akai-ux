@@ -25,7 +25,7 @@ ul.fl-tabs li a{
 
 /* HEADER */
 .content-management { padding: 12px 0 0 0; }
-.content-management a {    color: #006E96;}
+.content-management a { color: #006E96;}
 .content-management .fixed-container { background: #fff url('../../_images/header_l.png') top left no-repeat; }
 .content-management .fixed-container .decor { background: url('../../_images/header_r.png') top right no-repeat; height: 5px; margin-right: -20px; }
 .content-management #sitetitle { color: #454A4F; font-size: 1.8em; font-weight: bold; margin: 15px 0 0 0; padding: 0;}

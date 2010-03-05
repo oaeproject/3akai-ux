@@ -56,7 +56,7 @@
 
 /* TAB VARIANT */
 
-.profile_preview {
+.profile_preview .primary-tabs{
     background: #fff url('../../_images/profile_tab_bg.png') top right no-repeat;
 }
 
