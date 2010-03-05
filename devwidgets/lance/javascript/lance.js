@@ -50,7 +50,6 @@ sakai.lance = function(tuid, placement, showSettings){
     var lanceSettingsInsert = lanceSettings + "_insert";
     var lanceSettingsPreview = lanceSettings + "_preview";
     var lanceSettingsPreviewFrame = lanceSettingsPreview + "_frame";
-    var lanceSettingsUrl = lanceSettings + "_url";
     var lanceSettingsLtiUrl = lanceSettings + "_ltiurl";
     var lanceSettingsLtiKey = lanceSettings + "_ltikey";
     var lanceSettingsLtiSecret = lanceSettings + "_ltisecret";
@@ -174,10 +173,7 @@ sakai.lance = function(tuid, placement, showSettings){
      * Save the lance to the jcr
      */
     var saveRemoteContent = function() {
-        if (json.url !== "") {
-//            var str = $.toJSON(json); // Convert the posts to a JSON string
-//            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-//            sdata.widgets.WidgetPreference.save(saveUrl, "lance", str, savedDataToJCR, true, "text/plain", "sakai/basiclti");
+        if (json.ltiurl !== "") {
 			var ltiurl = $(lanceSettingsLtiUrl).val() || "";
 			var ltikey = $(lanceSettingsLtiKey).val() || "";
 			var ltisecret = $(lanceSettingsLtiSecret).val() || "";
@@ -186,6 +182,7 @@ sakai.lance = function(tuid, placement, showSettings){
 			json.ltisecret = ltisecret;
 			json.launchDataUrl = ""; // does not need to be persisted
 			json["_MODIFIERS"] = ""; // what the heck is this? TrimPath? Do not persist.
+			json.defined = ""; // what the heck is this? Where does it come from?
             var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "lance");
             $.ajax({
                 type: 'POST',
@@ -236,15 +233,14 @@ sakai.lance = function(tuid, placement, showSettings){
     var addBinding = function(){
 
         // Change the url for the iFrame
-        $(lanceSettingsUrl).change(function() {
+        $(lanceSettingsLtiUrl).change(function() {
             var urlValue = $(this).val();
             if (urlValue !== "") {
                 // Check if someone already wrote http inside the url
                 if (!isUrl(urlValue)) {
                     urlValue = 'http://' + urlValue;
                 }
-                json.url = urlValue;
-				json.ltiurl = urlValue;
+                json.ltiurl = urlValue;
                 renderIframeSettings(true);
             }
         });
@@ -322,7 +318,7 @@ sakai.lance = function(tuid, placement, showSettings){
      * @param {Boolean} exists Does there exist a previous lance
      */
     var displaySettings = function(parameters, exists) {
-        if(exists && parameters.url){
+        if(exists && parameters.ltiurl){
             json = parameters;
         }else{ // use default values
             json = {
@@ -333,7 +329,6 @@ sakai.lance = function(tuid, placement, showSettings){
                 border_size: 0,
                 border_color: "cccccc",
                 height: defaultHeight,
-                url: "",
                 width: defaultWidth,
                 width_unit: defaultWidthUnit
             };
