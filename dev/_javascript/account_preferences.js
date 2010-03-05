@@ -236,7 +236,6 @@ sakai.account_preferences = function(){
             success : function(data) {
                 // update the user of the successful regional settings change
                 showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
-                console.log(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
