@@ -198,6 +198,15 @@
 .edit_view .new_page_path
 { height: 23px; line-height:23px; margin-bottom: 20px; }
 
+/** Insert links **/
+#insert_links_availablelinks
+{ height: 400px; overflow: auto; }
+
+#insert_links_availablelinks li
+{ display: block; font-size: 11pt; color: #333; padding: 5px; cursor: pointer; font-weight: normal; }
+
+#insert_links_availablelinks li.selected
+{ color: #3399CC; font-weight: bold; }
 
 /** TAB CONTENTS **/
 .edit_view .edit_container

@@ -373,7 +373,7 @@ sakai.site = function(){
                 if (pageToOpen){
                     sakai.site.openPage(pageToOpen);
                 }
-                
+
 
             },
             error: function(xhr, textStatus, thrownError) {

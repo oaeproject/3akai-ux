@@ -1374,25 +1374,22 @@ sakai.site.site_admin = function(){
      * @return void
      */
     var insertLink = function() {
-        var chosen = false;
-
-
-
-        if (!chosen){
-            return false;
-        }
 
         var editor = tinyMCE.get("elm1");
         var selection = editor.selection.getContent();
-        if (selection) {
-            editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '"  class="contauthlink">' + selection + '</a>');
-        }
-        else {
-            var pagetitle = sakai.site.site_info._pages[chosen].title;
-            editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '" class="contauthlink">' + pagetitle + '</a>');
-        }
 
-        delete sakai.site.insertLinkSelection;
+        var $choosen_links = $("#insert_links_availablelinks li.selected");
+
+        if (selection) {
+            editor.execCommand('mceInsertContent', false, '<a href="#' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + selection + '</a>');
+        } else {
+            var toinsert = "<ul>";
+            for (var i=0, j=$choosen_links.length; i<j; i++) {
+                toinsert += '<li><a href="#' + $($choosen_links[i]).data("link") + '" class="contauthlink">' + $($choosen_links[i]).text() + '</a></li>';
+            }
+            toinsert += "</ul>";
+            editor.execCommand('mceInsertContent', false, toinsert);
+        }
 
         $('#link_dialog').jqmHide();
 
@@ -1411,23 +1408,26 @@ sakai.site.site_admin = function(){
         trigger: $('#link_dialog_trigger'),
         overlay: 20,
         onShow: function(hash) {
-            sakai.site.insertLinkSelection = [];
+            //sakai.site.insertLinkSelection = [];
 
-            var $links = $("<div></div>");
+            var $links = $('<ul id="insert_links_availablelinks"></ul>');
 
             // Create clickable page links
             for (var urlname in sakai.site.site_info._pages) {
-                var $link = $("<a>" + sakai.site.site_info._pages[urlname]["pageTitle"] + "</a>").attr("href", "/sites/" + sakai.site.currentsite.id + "#" + urlname).css({"padding-left":sakai.site.site_info._pages[urlname]["pageDepth"]+"px", "display":"block"}).toggle(function(e){
-                    sakai.site.insertLinkSelection.push($(this).href);
-                    $(this).css({"background":"#999"});
-                }, function() {
-                    sakai.site.insertLinkSelection.splice(sakai.site.insertLinkSelection.indexOf($(this).href), 1);
-                    $(this).css({"background":"none"});
-                });
+                var $link = $('<li id="linksel_'+ urlname +'">' + sakai.site.site_info._pages[urlname]["pageTitle"] + '</li>')
+                    .data("link", urlname)
+                    .css({"padding-left": ((parseInt(sakai.site.site_info._pages[urlname]["pageDepth"]) - 4) * 3) + "px"})
+                    .toggle(function(e){
+                        $(this).addClass("selected");
+                    }, function() {
+                        $(this).removeClass("selected");
+                    });
                 $links.append($link);
             }
 
             $("#link_container").html($links);
+
+            $("#insert_more_menu").hide();
 
             hash.w.show();
         },
