@@ -266,6 +266,15 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/remotecontent/remotecontent.html"
         },
+        lance: {
+            ca:true,
+            description:"Lance",
+            id:"lance",
+            img:"/devwidgets/lance/images/lance.png",
+            name:"Lance",
+            showinsakaigoodies:true,
+            url:"/devwidgets/lance/lance.html"
+        },
         rss: {
             ca:true,
             description:"RSS Feed Reader",
