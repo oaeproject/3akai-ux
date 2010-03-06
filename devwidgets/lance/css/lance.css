@@ -48,4 +48,7 @@
 
 /* Block */
 .lance_settings_block {margin-left:15px;}
-.lance_settings_block label {float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px;}
+.lance_settings_block label {float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px}
+.lance_settings_block .lance_settings_checkbox {float:left; margin:10px 20px 0 0; width:auto}
+.lance_settings_block .lance_settings_checkbox label {float: none; width: auto}
+.lance_settings_block .lance_settings_checkbox input[type="checkbox"] {margin: 0 auto}
