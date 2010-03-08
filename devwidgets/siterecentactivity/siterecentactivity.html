@@ -20,7 +20,7 @@
             <ul>
             {for i in items}
                 <li>
-                    <a href="${i.page_url}">${i.page_id}</a>
+                    <a href="${i.page_url}">${i.page_title}</a>
                     <p>
                     {if i.type === "page_edit"}
                         Page updated ${i.date_parsed}
