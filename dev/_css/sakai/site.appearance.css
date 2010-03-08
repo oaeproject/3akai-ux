@@ -143,12 +143,6 @@
 { background:transparent url(../../_images/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px; }
 
 /* DIALOGS */
-.basic_appearance .dialog
-{ width:700px !important; margin-left: -350px !important;background-color: #fff !important; }
-
-.basic_appearance .dialog_footer
-{ clear: both; padding-left: 0; }
-
 .basic_appearance .dialog_footer .button-default
 { margin-right: 10px; }
 
@@ -171,15 +165,6 @@
 #site_appearance_change_upload_form {padding-top:10px;}
 #site_appearance_change_upload_form .buttonBar {padding-left:0;clear:both;margin-top:10px;}
 #profile_upload {padding:2px 8px;}
-#site_appearance_change_select_content {padding-top:10px;padding-left:10px;}
-#site_appearance_change_select_content .buttonBar {padding-left:0px; clear: both; height: 45px; }
-#site_appearance_change_picture_measurer {left:-100000px; top: -100000px; position:absolute; }
-#site_appearance_change_picture_full {float: left; margin-right: 10px;}
-#site_appearance_change_picture_thumbnail {position:relative;}
-#site_appearance_change_upload_tabnew {padding-top:10px; padding-left:10px; }
-#site_appearance_change_upload_form {padding-top:10px;}
-#site_appearance_change_upload_form .buttonBar {padding-left:0px; clear: both; margin-top:10px; }
-#profile_upload {padding:2px 8px; }
 #site_appearance_change_upload_form .error_msg { color: #880000; padding: 10px 0 0 0; }
 
 .dialog_buttons {padding-top:20px;}
