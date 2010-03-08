@@ -198,8 +198,8 @@ sakai.navigation = function(tuid, placement, showSettings){
             icon: {image: "/dev/_images/page_18.png", position: "0 -1px"}
         };
 
-        // Enable dragging (moving) and renaming only for logged in users
-        if (sakai._isAnonymous === false) {
+        // Enable dragging (moving) and renaming only for logged in collaborators
+        if ((sakai._isAnonymous === false) && sakai.site.isCollaborator) {
             tree_type.renameable = true;
             tree_type.draggable = true;
         }

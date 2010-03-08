@@ -466,6 +466,10 @@ sakai.site = function(){
      * @return void
      */
     sakai.site.onNavigationLoaded = function(){
+        // Refresh navigation
+        if (sakai.site.navigation) {
+            sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+        }
         return;
     };
 
