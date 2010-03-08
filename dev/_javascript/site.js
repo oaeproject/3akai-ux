@@ -121,18 +121,6 @@ sakai.site = function(){
     /////////////////////////////
 
     /**
-     * Escape page ID
-     * @param {String} pageid
-     * @return {String} escaped page ID
-     */
-    sakai.site.escapePageId = function(pageid){
-        var regexp = new RegExp("[^a-z0-9_-]", "gi");
-        var escaped = pageid.replace(regexp,"_-_-_-_-_");
-
-        return escaped;
-    };
-
-    /**
      * Get document height
      * @param {Object} doc
      * @return {Int} height of supplied document
@@ -207,7 +195,23 @@ sakai.site = function(){
         url_safe_title = url_safe_title.replace(regexp,"-");
 
         return url_safe_title;
-    }
+    };
+
+    /**
+     * Creates a unique name based on a URL
+     * @param i_url {String} The URL the name is based on
+     * @returns {String} A URLsafe name string
+     */
+    sakai.site.createURLName = function(i_url) {
+        var urlName = "";
+        if ((typeof i_url === "string") & (i_url !== "")) {
+            i_url = i_url.replace(/\/_pages/g,"");
+            urlName = i_url.replace(/[\/-]/g,"");
+        }
+        return urlName;
+    };
+
+
 
     /////////////
     // LOADING //
@@ -285,20 +289,6 @@ sakai.site = function(){
         });
     };
 
-    /**
-     * Creates a unique name based on a URL
-     * @param i_url {String} The URL the name is based on
-     * @returns {String} A URLsafe name string
-     */
-    sakai.site.createURLName = function(i_url) {
-        var urlName = "";
-        if ((typeof i_url === "string") & (i_url !== "")) {
-            i_url = i_url.replace(/\/_pages/g,"");
-            urlName = i_url.replace(/[\/-]/g,"");
-        }
-        return urlName;
-    };
-
 
     /**
      * Function which (re)-loads the information available on a site (async)
@@ -349,6 +339,10 @@ sakai.site = function(){
 
                         // Page depth
                         temp[i]["pageDepth"] = url_elements.length;
+
+                        // Page base folder
+                        url_elements.pop();
+                        temp[i]["pageFolder"] = url_elements.join("/");
 
                         // Main page data
                         sakai.site.site_info["_pages"][url_safe_name] = temp[i];
@@ -1059,7 +1053,7 @@ sakai.site = function(){
                 final2.me = sdata.me;
 
                 var el = document.createElement("div");
-                el.id = sakai.site.escapePageId(sakai.site.selectedpage);
+                el.id = sakai.site.selectedpage;
                 el.className = "content";
                 el.innerHTML = $.Template.render("dashboard_container_template", final2);
 
@@ -1313,7 +1307,7 @@ sakai.site = function(){
                 {
                     // Create element
                     var el = document.createElement("div");
-                    el.id = sakai.site.selectedpage; // sakai.site.escapePageId(sakai.site.selectedpage);
+                    el.id = sakai.site.selectedpage;
                     el.className = "content";
                     el.innerHTML = response;
 
@@ -1358,8 +1352,7 @@ sakai.site = function(){
     var printPage = function(){
 
         // Save page to be printed into my personal space
-        var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
-        var content = $("#" + escaped).html();
+        var content = $("#" + sakai.site.selectedpage).html();
         content = "<div class='content'>" + content + "</div>";
 
         var arrLinks = [];

@@ -200,7 +200,7 @@
 
 /** Insert links **/
 #insert_links_availablelinks
-{ height: 400px; overflow: auto; }
+{ height: 250px; overflow: auto; }
 
 #insert_links_availablelinks li
 { display: block; font-size: 11pt; color: #333; padding: 5px; cursor: pointer; font-weight: normal; }

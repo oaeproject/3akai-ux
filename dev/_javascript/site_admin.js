@@ -62,6 +62,185 @@ sakai.site.site_admin = function(){
 
 
     /////////////////////////////
+    // PAGE UTILITY FUNCTIONS
+    /////////////////////////////
+
+    /**
+     * Create unique elements for a new page such as url safe title, name and url
+     * @param i_title {String} The title of the new page
+     * @param i_base_folder {String} The base folder of where the new page will be created
+     * @returns {Object} Returns an object with 3 properties: urlTitle, urlName, url or false otherwise
+     */
+    sakai.site.createPageUniqueElements = function(i_title, i_base_folder) {
+
+        var return_object = {};
+
+        if (!i_title) {
+            return false;
+        }
+        var title = i_title;
+        var base_folder = i_base_folder || sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"];
+
+
+        // Generate new page id
+        var new_urlsafe_name = false;
+        var urlsafe_title = sakai.site.createURLSafeTitle(title);
+        var counter = 0;
+
+        while (!new_urlsafe_name){
+            var test_url_safe_name = sakai.site.createURLName(base_folder + "/" + urlsafe_title);
+            if (counter > 0){
+                urlsafe_title += "-" + counter;
+            }
+            counter++;
+            if (!sakai.site.site_info._pages[test_url_safe_name]) {
+                new_urlsafe_name = test_url_safe_name;
+            }
+        }
+
+        return_object = {
+            "urlTitle": urlsafe_title,
+            "urlName": new_urlsafe_name,
+            "url": base_folder + "/" + urlsafe_title
+        };
+
+        return return_object;
+
+    };
+
+
+    /**
+     * Moves a page within a Sakai site
+     * @param src_url {String} The URL of the the page we want to move
+     * @param tgt_url {String} The URL of the new page location
+     * @param callback {Function} Callback function which is called when the operation is successful
+     */
+    sakai.site.movePage = function(src_url, tgt_url, callback) {
+
+        var src_urlsafe_name = sakai.site.createURLName(src_url);
+        var tgt_urlsafe_name = sakai.site.createURLName(tgt_url);
+
+        $.ajax({
+            url: src_url,
+            type: "POST",
+            data: {
+                ":operation" : "move",
+                ":dest" : tgt_url
+            },
+            success: function(data) {
+
+                // Remove content html tags
+                $("#" + sakai.site.selectedpage).remove();
+                $("#" + src_urlsafe_name).remove();
+
+                // Remove old + new from sakai.site.pagecontents array
+                delete sakai.site.pagecontents[sakai.site.selectedpage];
+                delete sakai.site.pagecontents[src_urlsafe_name];
+
+                // Save the recent activity
+                var activityItem = {
+                    "user_id": sdata.me.user.userid,
+                    "type": "page_create",
+                    "page_id": src_urlsafe_name,
+                    "site_id": sakai.site.currentsite.id
+                };
+                sakai.siterecentactivity.addRecentActivity(activityItem);
+
+                // Refresh site info
+                sakai.site.refreshSiteInfo(tgt_urlsafe_name);
+
+                // Check in new page content to revision history
+                $.ajax({
+                    url: tgt_url + "/pageContent.save.html",
+                    type: "POST"
+                });
+
+                // Call callback function
+                callback();
+            },
+            error: function(xhr, text, thrown_error) {
+                fluid.log("site_admin.js/movePage(): Failed to move page node!");
+            }
+        });
+    };
+
+    /**
+     * Save page
+     * General function which saves content and metadata of a page
+     * @param url {String} URL of the page which needs to be saved
+     * @param type {String} type of page ( "webpage", "dashboard" )
+     * @param title {String} title of the page
+     * @param content {String} content of the page
+     * @param position {Int} Position value of the page
+     * @param acl {String} Access Control ("parent" to inherit parent node's ACLs)
+     * @param callback {Function} Callback function which is executed at the end of the operation (data/xhr,true/false)
+     * @returns void
+     */
+    sakai.site.savePage = function(i_url, type, title, content, position, acl, callback) {
+
+        var site_data_string = $.toJSON({
+            "sling:resourceType": "sakai/page",
+            "pageTitle": title,
+            "pageType": type,
+            "pagePosition": position,
+            "_pages": {},
+            "pageContent": {
+                "sling:resourceType": "sakai/pagecontent",
+                "sakai:pagecontent": content
+            }
+        });
+
+        $.ajax({
+            url: i_url,
+            type: "POST",
+            data: {
+                ":operation": "createTree",
+                "tree": site_data_string,
+                ":replace": "true",
+                "_charset_":"utf-8"
+            },
+            success: function(data) {
+
+                callback(true, data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                callback(false, xhr);
+            }
+        });
+    };
+
+    /**
+     * Updates the content node of a page
+     * @param url {String} URL of the page node we are updating
+     * @param content {String} The new content
+     * @param callback {Function} Callback function which is called at the end of the operation
+     * @returns void
+     */
+    sakai.site.updatePageContent = function(url, content, callback) {
+
+        var jsonString = $.toJSON({
+            "pageContent": { "sling:resourceType": "sakai/pagecontent", "sakai:pagecontent": content }});
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                ":operation": "createTree",
+                "tree": jsonString
+            },
+            success: function(data) {
+
+                callback(true, data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                callback(false, xhr);
+            }
+        });
+    };
+
+
+
+    /////////////////////////////
     // tinyMCE FUNCTIONS
     /////////////////////////////
 
@@ -503,78 +682,6 @@ sakai.site.site_admin = function(){
         }
     };
 
-    /**
-     * Save page
-     * General function which saves content and metadata of a page
-     * @param url {String} URL of the page which needs to be saved
-     * @param type {String} type of page ( "webpage", "dashboard" )
-     * @param title {String} title of the page
-     * @param content {String} content of the page
-     * @param position {Int} Position value of the page
-     * @param acl {String} Access Control ("parent" to inherit parent node's ACLs)
-     * @param callback {Function} Callback function which is executed at the end of the operation (data/xhr,true/false)
-     * @returns void
-     */
-    sakai.site.savePage = function(url, type, title, content, position, acl, callback) {
-
-        // acl argument is not used now but will be later probably
-
-        var site_data_string = $.toJSON({
-            "sling:resourceType": "sakai/page",
-            "pageTitle": title,
-            "pageType": type,
-            "pagePosition": position,
-            "_charset_":"utf-8",
-            "pageContent": {
-                "sling:resourceType": "sakai/pagecontent",
-                "_charset_":"utf-8",
-                "sakai:pagecontent": content
-            }
-        });
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                ":operation": "createTree",
-                "tree": site_data_string
-            },
-            success: function(data) {
-                callback(true, data);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                callback(false, xhr);
-            }
-        });
-    };
-
-    /**
-     * Updates the content node of a page
-     * @param url {String} URL of the page node we are updating
-     * @param content {String} The new content
-     * @param callback {Function} Callback function which is called at the end of the operation
-     * @returns void
-     */
-    sakai.site.updatePageContent = function(url, content, callback) {
-
-        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "_charset_":"utf-8", "sakai:pagecontent": content }});
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                ":operation": "createTree",
-                "tree": jsonString
-            },
-            success: function(data) {
-                callback(true, data);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                callback(false, xhr);
-            }
-        });
-    }
-
 
     /**
      * Get the content inside the TinyMCE editor
@@ -627,102 +734,111 @@ sakai.site.site_admin = function(){
                 return;
             }
 
-            // If there is a title change
-            if (oldpagetitle !== newpagetitle) {
+            // See if we are editing a completely new page
+            if (sakai.site.isEditingNewPage) {
 
-                // Take care of title change
-                saveEdit_RegisterTitleChange(newpagetitle, content);
+                // Cretae unique elements for the new page
+                var newPageUniques = sakai.site.createPageUniqueElements(newpagetitle, sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
-            } else {
+                // Save page and content
+                sakai.site.savePage(newPageUniques.url, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
 
-                // See if we are editing a completely new page
-                if (sakai.site.isEditingNewPage) {
+                    if (success) {
 
-                    // Save page and content
-                    var newurl = sakai.site.selectedpage.split("/").join("/_pages/");
-                    sakai.site.savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + newurl, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
+                        // Remove old div + potential new one
+                        $("#" + sakai.site.selectedpage).remove();
 
-                        if (success) {
+                        // Save the recent activity
+                        var activityItem = {
+                            "user_id": sdata.me.user.userid,
+                            "type": "page_create",
+                            "page_id": sakai.site.selectedpage,
+                            "site_id": sakai.site.currentsite.id
+                        };
+                        sakai.siterecentactivity.addRecentActivity(activityItem);
 
-                            // Remove old div + potential new one
-                            $("#" + sakai.site.selectedpage).remove();
+                        // Check in new page content to revision history
+                        $.ajax({
+                            url: newPageUniques.url + "/pageContent.save.html",
+                            type: "POST"
+                        });
 
-                            // Remove old + new from sakai.site.pagecontents array
-                            sakai.site.pagecontents[sakai.site.selectedpage] = {};
+                        // Delete old Untitled-x page node
+                        if (oldpagetitle !== newpagetitle) {
+                            $.ajax({
+                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
+                                type: "DELETE",
+                                success: function(data) {
+                                    // Refresh site info
+                                    sakai.site.refreshSiteInfo(newPageUniques.urlName);
+
+                                    // Switch back to view mode
+                                    $("#edit_view_container").hide();
+                                    $("#show_view_container").show();
+                                }
+                            });
+                        } else {
+                            // Refresh site info
+                            sakai.site.refreshSiteInfo(newPageUniques.urlName);
 
                             // Switch back to view mode
                             $("#edit_view_container").hide();
                             $("#show_view_container").show();
-
-                            // Save the recent activity
-                            var activityItem = {
-                                "user_id": sdata.me.user.userid,
-                                "type": "page_create",
-                                "page_id": sakai.site.selectedpage,
-                                "site_id": sakai.site.currentsite.id
-                            };
-                            sakai.siterecentactivity.addRecentActivity(activityItem);
-
-                            // Check in new page content to revision history
-                            $.ajax({
-                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
-                                type: "POST"
-                            });
-
-                        } else {
-
-                            // Page node save wasn't successful
-                            fluid.log("site_admin.js: Failed to save page node while saving a new page!");
                         }
 
-                    });
+                    } else {
 
-                }
-                else {
-
-                    // We are editing an existing page
-                    if (sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"] === "webpage") {
-                        $("#webpage_edit").show();
+                        // Page node save wasn't successful
+                        fluid.log("site_admin.js: Failed to save page node while saving a new page!");
                     }
 
-                    // Store page contents
-                    sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = getContent();
+                });
 
-                    // Put page contents into html
-                    $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
+            }
+            else {
 
-                    // Switch back to view mode
-                    $("#edit_view_container").hide();
-                    $("#show_view_container").show();
-
-                    $("#" + sakai.site.selectedpage).show();
-                    sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
-
-                    // Save page node
-                    sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], function(success, data){
-
-                        if (success) {
-                            // Save the recent activity
-                            var activityItem = {
-                                "user_id": sdata.me.user.userid,
-                                "type": "page_edit",
-                                "page_id": sakai.site.selectedpage,
-                                "site_id": sakai.site.currentsite.id
-                            };
-                            sakai.siterecentactivity.addRecentActivity(activityItem);
-
-                            // Check in new page content to revision history
-                            $.ajax({
-                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
-                                type: "POST"
-                            });
-
-                        } else {
-                            // Page node save wasn't successful
-                            fluid.log("site_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.site.currentsite.id);
-                        }
-                    });
+                // We are editing an existing page
+                if (sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"] === "webpage") {
+                    $("#webpage_edit").show();
                 }
+
+                // Store page contents
+                sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = getContent();
+
+                // Put page contents into html
+                $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
+
+                // Switch back to view mode
+                $("#edit_view_container").hide();
+                $("#show_view_container").show();
+
+                $("#" + sakai.site.selectedpage).show();
+                sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+
+                // Save page node
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], function(success, data){
+
+                    if (success) {
+                        // Save the recent activity
+                        var activityItem = {
+                            "user_id": sdata.me.user.userid,
+                            "type": "page_edit",
+                            "page_id": sakai.site.selectedpage,
+                            "site_id": sakai.site.currentsite.id
+                        };
+                        sakai.siterecentactivity.addRecentActivity(activityItem);
+
+                        // Check in new page content to revision history
+                        $.ajax({
+                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
+                            type: "POST"
+                        });
+
+                    } else {
+                        // Page node save wasn't successful
+                        fluid.log("site_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.site.currentsite.id);
+                    }
+                });
             }
         }
 
@@ -741,8 +857,7 @@ sakai.site.site_admin = function(){
         sakai.site.pagecontents._navigation = getContent();
         $("#page_nav_content").html(sakai.site.pagecontents._navigation);
 
-        var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
-        document.getElementById(escaped).style.display = "block";
+        document.getElementById(sakai.site.selectedpage).style.display = "block";
 
         $("#edit_view_container").hide();
         $("#show_view_container").show();
@@ -751,127 +866,9 @@ sakai.site.site_admin = function(){
         sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
 
         document.getElementById(escaped).style.display = "block";
-        sdata.widgets.WidgetLoader.insertWidgets(escaped,null,sakai.site.currentsite.id + "/_widgets");
+        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 
     };
-
-
-    var saveEdit_RegisterTitleChange = function(newpagetitle, content) {
-
-        // Generate new page id
-        var newid = "";
-        var counter = 0;
-        var baseid = sakai.site.createURLSafeTitle(newpagetitle);
-        var basefolder = "";
-
-        if (sakai.site.inEditView !== false && sakai.site.inEditView !== true){
-            var abasefolder = sakai.site.inEditView.split("/");
-            for (i = 0; i < abasefolder.length - 1; i++){
-                basefolder += abasefolder[i] + "/";
-            }
-        } else {
-            var abasefolder2 = sakai.site.selectedpage.split("/");
-            for (i = 0; i < abasefolder2.length - 1; i++){
-                basefolder += abasefolder2[i] + "/";
-            }
-        }
-
-        baseid = basefolder + baseid;
-
-        while (!newid){
-            var testurl = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
-            var testid = sakai.site.createURLName(testurl);
-            if (counter > 0){
-                testid += "-" + counter;
-            }
-            counter++;
-            var exists = false;
-            if (sakai.site.site_info._pages[testid]) {
-                exists = true;
-            }
-            if (!exists){
-                newid = testid;
-            }
-        }
-
-
-        // Create new node URL
-        var newfolderpath = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
-
-        // Move page
-        sakai.site.movePage(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], newfolderpath, content, "webpage", newpagetitle, function() {
-
-            // Switch to view mode
-            $("#edit_view_container").hide();
-            $("#show_view_container").show();
-
-        });
-    };
-
-
-    /**
-     * Moves a page within a Sakai site
-     * @param src_url {String} The URL of the the page we want to move
-     * @param tgt_url {String} The URL of the new page location
-     * @param i_content {String} The content of the new page - otional - default: current page content
-     * @param i_page_type {String} The type of the page - optional - "webpage" or "dashboard" - default: "webpage"
-     * @param i_page_title {String} The title of the new page - optional - default: current page title
-     * @param callback {Function} Callback function which is called when the operation is successful
-     */
-    sakai.site.movePage = function(src_url, tgt_url, i_content, i_page_type, i_page_title, callback) {
-
-        var page_content = i_content || sakai.site.pagecontents[sakai.site.selectedpage];
-        var page_type = i_page_type || "webpage";
-        var page_title = i_page_title || sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"];
-        var src_urlsafe_name = sakai.site.createURLName(src_url);
-        var tgt_urlsafe_name = sakai.site.createURLName(tgt_url);
-
-
-        // Delete current page node
-        $.ajax({
-            url: src_url,
-            type: "DELETE",
-            success: function(data) {
-
-                // Remove content html tags
-                $("#" + sakai.site.selectedpage).remove();
-                $("#" + src_urlsafe_name).remove();
-
-                // Remove old + new from sakai.site.pagecontents array
-                delete sakai.site.pagecontents[sakai.site.selectedpage];
-                delete sakai.site.pagecontents[src_urlsafe_name];
-
-                // Save the recent activity
-                var activityItem = {
-                    "user_id": sdata.me.user.userid,
-                    "type": "page_create",
-                    "page_id": src_urlsafe_name,
-                    "site_id": sakai.site.currentsite.id
-                };
-                sakai.siterecentactivity.addRecentActivity(activityItem);
-            }
-        });
-
-        sakai.site.savePage(tgt_url, page_type, page_title, page_content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
-
-            if (success) {
-                // Refresh site info
-                sakai.site.refreshSiteInfo(tgt_urlsafe_name);
-
-                // Check in new page content to revision history
-                $.ajax({
-                    url: tgt_url + "/pageContent.save.html",
-                    type: "POST"
-                });
-
-                callback();
-
-            } else {
-                fluid.log("site_admin.js/movePage(): Failed to create new page node for moved page!");
-            }
-
-        });
-    }
 
 
     /////////////////////////////
@@ -941,15 +938,6 @@ sakai.site.site_admin = function(){
     };
 
 
-
-
-
-
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // AUTOSAVE
@@ -972,7 +960,7 @@ sakai.site.site_admin = function(){
         }
 
         // Save the data
-        var jsonString = $.toJSON({"pageContentAutoSave": { "_charset_": "utf-8", "sakai:pagecontent": tosave }});
+        var jsonString = $.toJSON({"pageContentAutoSave": { "sakai:pagecontent": tosave }});
         $.ajax({
             url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: "POST",
@@ -1352,12 +1340,6 @@ sakai.site.site_admin = function(){
     };
 
 
-
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // INSERT MORE
@@ -1380,15 +1362,21 @@ sakai.site.site_admin = function(){
 
         var $choosen_links = $("#insert_links_availablelinks li.selected");
 
+        // If user selected some text to link
         if (selection) {
+            // At the moment insert only first link, should disable multiple selection at the end
             editor.execCommand('mceInsertContent', false, '<a href="#' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + selection + '</a>');
-        } else {
+        } else if ($choosen_links.length > 1) {
+            // If we are inserting multiple links
             var toinsert = "<ul>";
             for (var i=0, j=$choosen_links.length; i<j; i++) {
                 toinsert += '<li><a href="#' + $($choosen_links[i]).data("link") + '" class="contauthlink">' + $($choosen_links[i]).text() + '</a></li>';
             }
             toinsert += "</ul>";
             editor.execCommand('mceInsertContent', false, toinsert);
+        } else {
+            // If we are insertin 1 link only, without selection
+            editor.execCommand('mceInsertContent', false, '<a href="#' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + $($choosen_links[i]).text() + '</a>');
         }
 
         $('#link_dialog').jqmHide();
@@ -1625,59 +1613,30 @@ sakai.site.site_admin = function(){
         // Set new page flag
         sakai.site.isEditingNewPage = true;
 
-        // Determine where to create the page
-        var path = "";
-        if (sakai.site.selectedpage){
-            if (sakai.site.createChildPageByDefault){
-                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"])) + "_pages/";
-            } else {
-                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"]));
-            }
-        }
-
-        // Determine new page id (untitled-x)
-        var newid = false;
-        var counter = 0;
-        var new_page_path = "";
-        while (!newid){
-            var totest = path + "untitled";
-            new_page_path = totest;
-            totest = sakai.site.createURLName(totest);
-            if (counter !== 0){
-                totest += "-" + counter;
-            }
-            counter++;
-            var exists = false;
-            if (sakai.site.site_info._pages[totest]) {
-                exists = true;
-            }
-
-            if (!exists){
-                newid = totest;
-            }
-        }
+        // Create unique page items
+        var pageUniques = sakai.site.createPageUniqueElements("untitled", sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Assign the empty content to the sakai.site.pagecontents array
-        if (sakai.site.pagecontents[newid]) {
-            sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
+        if (sakai.site.pagecontents[pageUniques.urlName]) {
+            sakai.site.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         } else {
-            sakai.site.pagecontents[newid] = {};
-            sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
+            sakai.site.pagecontents[pageUniques.urlName] = {};
+            sakai.site.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
 
-        sakai.site.savePage(new_page_path, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
+        sakai.site.savePage(pageUniques.url, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
 
             if (success) {
 
                 // Store page selected and old IDs
                 sakai.site.oldSelectedPage = sakai.site.selectedpage;
-                sakai.site.selectedpage = newid;
+                sakai.site.selectedpage = pageUniques.urlName;
 
                 // Init tinyMCE if needed
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
                     init_tinyMCE();
                 } else {
-                    editPage(newid);
+                    editPage(pageUniques.urlName);
                 }
 
             } else {
@@ -1718,65 +1677,30 @@ sakai.site.site_admin = function(){
     */
     var addDashboardPage = function(title){
 
-        // Create a URL safe title string
-        var pageURLTitle = sakai.site.createURLSafeTitle(title);
-
-        // Determine where to create the page (based on current selected page)
-        var path = "";
-        if (sakai.site.selectedpage){
-            if (sakai.site.createChildPageByDefault){
-                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"])) + "_pages/";
-            } else {
-                path = sakai.site.site_info._pages[sakai.site.selectedpage]["path"].substring(0,sakai.site.site_info._pages[sakai.site.selectedpage]["path"].lastIndexOf(sakai.site.site_info._pages[sakai.site.selectedpage]["pageURLTitle"]));
-            }
-        }
-
-        // Determine new page id (untitled-x)
-        var newid = false;
-        var counter = 0;
-        var new_page_path = "";
-        while (!newid){
-            var totest = path + pageURLTitle;
-            new_page_path = totest;
-            totest = sakai.site.createURLName(totest);
-            if (counter !== 0){
-                totest += "-" + counter;
-            }
-            counter++;
-            var exists = false;
-            if (sakai.site.site_info._pages[totest]) {
-                exists = true;
-            }
-
-            if (!exists){
-                newid = totest;
-            }
-        }
-
-        // Create a URLname
-        var pageURLName = sakai.site.createURLName(new_page_path);
+        // Create unique page elements
+        var pageUniques = sakai.site.createPageUniqueElements(title, sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Default dasboard content
         var defaultDashboardContent = '{"columns":{"column1":[{"name":"sitemembers","visible":"block","uid":"id4548168513125"}],"column2":[]},"layout":"dev"}';
 
         // Create page node for dashboard page
-        sakai.site.savePage(new_page_path, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
+        sakai.site.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
 
             // If page save was successful
             if (success) {
 
                 // Close this popup and show the new page.
-                sakai.site.selectedpage = pageURLName;
+                sakai.site.selectedpage = pageUniques.urlName;
 
                 $("#dashboard_addpage_dialog").jqmHide();
                 $("#dashboard_addpage_title").val("");
 
                 // Refresh site_info object and open page
-                sakai.site.refreshSiteInfo(pageURLName);
+                sakai.site.refreshSiteInfo(pageUniques.urlName);
 
                 // Check in new page content to revision history
                 $.ajax({
-                    url: new_page_path + "/pageContent.save.html",
+                    url: pageUniques.url + "/pageContent.save.html",
                     type: "POST"
                 });
 

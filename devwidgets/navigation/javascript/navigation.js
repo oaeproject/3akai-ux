@@ -271,7 +271,7 @@ sakai.navigation = function(tuid, placement, showSettings){
                     if ((src_url_depth !== ref_url_depth) || (type === "inside")) {
 
                         // Move page
-                        sakai.site.movePage(src_url, tgt_url, sakai.site.pagecontents[src_url_name]["sakai:pagecontent"], sakai.site.site_info._pages[src_url_name]["pageType"], sakai.site.site_info._pages[src_url_name]["pageTitle"], function(){
+                        sakai.site.movePage(src_url, tgt_url, function(){
                             // Do nothing for now
                         });
 

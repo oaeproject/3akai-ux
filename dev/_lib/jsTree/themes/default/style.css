@@ -20,7 +20,7 @@
 .tree-default li a ins.forbidden { background-position:-16px -16px; }
 .tree-default .locked li a ins { background-position:0 -45px; }
 .tree-default li span ins { background-position:-16px 0; }
-#jstree-dragged.tree-default ins { background:url("icons.png") -16px -29px no-repeat; }
+#jstree-dragged.tree-default ins { background:url("icons.png") -16px -32px no-repeat; }
 #jstree-dragged.tree-default ins.forbidden { background:url("icons.png") -16px -16px no-repeat; }
 
 /* CONTEXT MENU */
