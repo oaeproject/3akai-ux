@@ -119,16 +119,19 @@
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .site_management .sm_titlebar_inner
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:50px; }
 
 .site_management .sm_title
 { background:transparent url(/dev/_images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
 
 .site_management .sm_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 40px; margin: 0; }
+{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 20px; margin: 0; }
 
 .site_management .sm_content ul
 { margin: 0; padding: 0; }
+
+.site_management .sm_content ul li
+{ list-style-type: none; padding: 5px 0; }
 
 .site_management .sm_content ul li a
 { color: #058EC4; font-weight: bold; }

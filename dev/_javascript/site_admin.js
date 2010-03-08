@@ -595,20 +595,7 @@ sakai.site.site_admin = function(){
         // Edit page title
         document.title = document.title.replace("Page Edit", "Site View");
 
-        // Remove autosvae file
-        //removeAutoSaveFile();
-
         if (sakai.site.isEditingNewPage) {
-
-            // Delete page from site_info if exists
-            if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
-                delete sakai.site.site_info._pages[sakai.site.selectedpage];
-            }
-
-            // Delete page from pagecontents if exists
-            if (sakai.site.pagecontents[sakai.site.selectedpage]) {
-                delete sakai.site.pagecontents[sakai.site.selectedpage];
-            }
 
             // Display previous page content
             $("#" + sakai.site.selectedpage).show();
@@ -616,15 +603,34 @@ sakai.site.site_admin = function(){
             // Delete the folder that has been created for the new page
             $.ajax({
                 url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
-                type: 'DELETE'
+                type: "DELETE",
+                success: function(data) {
+                    // Delete page from site_info if exists
+                    if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
+                        delete sakai.site.site_info._pages[sakai.site.selectedpage];
+                    }
+
+                    // Delete page from pagecontents if exists
+                    if (sakai.site.pagecontents[sakai.site.selectedpage]) {
+                        delete sakai.site.pagecontents[sakai.site.selectedpage];
+                    }
+
+                    // Adjust selected page back to the old page
+                    sakai.site.selectedpage = sakai.site.oldSelectedPage;
+
+                    // Show previous content
+                    $("#" + sakai.site.selectedpage).show();
+
+                    // Re-render Site Navigation to reflect changes
+                    if (sakai.site.navigation) {
+                        sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+                    }
+
+                    // Switch back view
+                    $("#edit_view_container").hide();
+                    $("#show_view_container").show();
+                }
             });
-
-            // Adjust selected page back to the old page
-            sakai.site.selectedpage = sakai.site.oldSelectedPage;
-
-            // Switch back view
-            $("#edit_view_container").hide();
-            $("#show_view_container").show();
 
         } else {
 
