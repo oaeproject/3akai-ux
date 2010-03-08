@@ -942,22 +942,12 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      * Get the chat status for the current user
      */
     var getChatStatus = function(){
-        $.ajax({
-            url: Config.URL.ME_SERVICE,
-            success: function(data){
-                var me = $.evalJSON(data);
-                if(me.profile){
-                    currentChatStatus = parseChatStatus(me.profile.chatstatus);
-                }else{
-                    currentChatStatus = "online";
-                }
-                updateChatStatus();
-            },
-            error: function(xhr, textStatus, thrownError) {
-                currentChatStatus = "online";
-                updateChatStatus();
-            }
-        });
+        if(sdata.me.profile){
+            currentChatStatus = parseChatStatus(sdata.me.profile.chatstatus);
+        }else{
+            currentChatStatus = "online";
+        }
+        updateChatStatus();
     };
 
     /**

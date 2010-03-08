@@ -19,9 +19,17 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
     sakai.siterecentactivity.render = function(){
         if(sakai.siterecentactivity.recentactivity){
             for (i = 0, j = sakai.siterecentactivity.recentactivity.items.length; i < j; i++) {
+
                 sakai.siterecentactivity.recentactivity.items[i].page_url = "/sites/" + sakai.siterecentactivity.recentactivity.items[i].site_id + "#" + sakai.siterecentactivity.recentactivity.items[i].page_id;
 
                 sakai.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai.siterecentactivity.recentactivity.items[i].date+ "Z");
+
+                if (sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]) {
+                    sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
+                } else {
+                     sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.siterecentactivity.recentactivity.items[i].page_id;
+                }
+
             }
 
             // We reverse the array to see the most recent item on top of the list

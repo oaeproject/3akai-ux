@@ -3,31 +3,33 @@
 .siterecentactivity
 { margin:0; padding: 0 0 0 0; }
 
+
 /* TITLEBAR */
 .siterecentactivity .si_titlebar
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .siterecentactivity .si_titlebar_inner
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:50px; }
 
 .siterecentactivity .si_title
 { background:transparent url(/dev/_images/recent_activity_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
 
 
-
-
 /* CONTENT */
 .siterecentactivity .si_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 40px; margin: 0; }
+{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 20px; margin: 0; }
 
 .siterecentactivity .si_content ul
 { margin: 0; padding: 0; }
 
+.siterecentactivity .si_content ul li
+{ list-style-type: none; }
+
 .siterecentactivity .si_content ul li a
-{ color: #058EC4; }
+{ color: #058EC4; font-weight: normal; font-size: 10pt; }
 
 .siterecentactivity .si_content ul li p
-{ color: #999999; }
+{ color: #999999; font-size: 8pt; }
 
 .siterecentactivity .siterecentactivity_empty
 { color: #666}
