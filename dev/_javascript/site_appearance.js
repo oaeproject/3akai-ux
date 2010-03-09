@@ -765,7 +765,7 @@ sakai.site_appearance_change.startCallback = function(){
     var extension = filename.substring((filename.lastIndexOf(".") + 1));
 
     if (allowed_pic_extensions.indexOf(extension.toLowerCase()) === -1) {
-        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();;
+        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();
         return false;
     } else {
         $("#error_msg").html("").hide();
