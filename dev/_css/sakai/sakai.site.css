@@ -1,31 +1,11 @@
-
-
 /** CONTAINER **/
 .fixed-container
 { background: #fff; }
 
 
 /** HEADING **/
-.sakai_site .header
-{  }
-
 .sakai_site .site_heading
-{ color: #454a4f; padding: 0 0 10px 0; border: none; margin-top: -30px; }
-
-
-/** SEARCH **/
-.sakai_site .search_container
-{ display: block; height: 30px; padding: 15px 10px 0 0; }
-
-.sakai_site .search_container .search_field
-{ display: block; float: left; border: 1px solid #999999; width: 210px; height: 19px; padding: 4px 5px 0px 5px; color: #999999; margin: 0 10px 0 0; }
-
-.sakai_site .search_container .search_button
-{ background: #454a4f url('../../_images/search_button.png') top left no-repeat;border: none; color: #fff; display: block; height: 23px; padding: 0; width: 88px; float: left; }
-
-.sakai_site .search_container .search_button span
-{ position:absolute; top:-9999px; left:-9999px; }
-
+{ color: #454a4f; border: none; padding:10px 0 0; }
 
 /** TOP RIGHT MENU **/
 .sakai_site .content_page_options
@@ -42,8 +22,6 @@
 
 .sakai_site .content_page_options #print_page
 { background: transparent url(../../_images/printer_18.png) top left no-repeat; padding: 2px 15px 0 20px; border-right: 1px solid #888888; }
-
-
 
 
 /** ADD MORE MENU **/
@@ -72,7 +50,7 @@
 /** MAIN CONTENTS **/
 
 .sakai_site .main_container
-{ padding: 0; border: none; margin: 0 0 20px 0; overflow: hidden; }
+{ padding: 0; margin: 0 0 20px 0; overflow: hidden; }
 
 .sakai_site .sakai_site_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; min-height: 350px; }
@@ -89,20 +67,12 @@
 .sakai_site .content_bottom_inner
 { background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
-
-
 #revision_history_list
 { font-size:0.95em; margin-left: 5px; margin-right:15px; padding:2px; border: 1px solid #cccccc; }
-
-
-
 
 /* LEFT NAV */
 .sakai_site .page_nav
 { width: 230px; padding: 0; margin: 0; }
-
-
-
 
 /** ADD NEW MENU **/
 
@@ -124,32 +94,22 @@
 .sakai_site .add_new_menu ul li
 { padding: 5px 10px 5px 10px; list-style-type: none; }
 
-
-
 /** BUTTONS **/
-.sakai_site .buttonBar
-{ height: 23px; }
-
-.sakai_site .lightgreybutton
-{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.sakai_site .lightgreybutton a
-{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
-
-
 .sakai_site .greybutton
 { background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
 
 .sakai_site .greybutton a
 { background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
 
-
 /** REVISION HISTORY **/
 .sakai_site .revision_history
-{ background: #EEEEEE; padding: 20px 10px 20px 10px; }
+{ background: #EEEEEE; margin-bottom: 20px; padding: 20px 10px 20px 10px; }
 
 .sakai_site .revision_history div
 { float: left; }
+
+.sakai_site .revision_history_viewing
+{ color:#475358; font-weight:bold;}
 
 /* SITE MANAGEMENT NAV */
 .site_management
@@ -159,16 +119,19 @@
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .site_management .sm_titlebar_inner
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:50px; }
 
 .site_management .sm_title
 { background:transparent url(/dev/_images/site_management_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
 
 .site_management .sm_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 40px; margin: 0; }
+{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 20px; margin: 0; }
 
 .site_management .sm_content ul
 { margin: 0; padding: 0; }
+
+.site_management .sm_content ul li
+{ list-style-type: none; padding: 5px 0; }
 
 .site_management .sm_content ul li a
 { color: #058EC4; font-weight: bold; }
@@ -225,32 +188,32 @@
 { padding: 5px 0 10px 0; z-index: 1234; }
 
 .edit_view .title-input
-{ width: 882px !important; font-size: 1.5em; font-weight: bold; border: 1px solid #999999; padding: 5px; z-index: 1234; }
+{ border: 1px solid #999999; width: 882px !important; font-size: 1.5em; font-weight: bold; padding: 5px; z-index: 1234; }
 
 /** Content editors **/
-.edit_view .fl-tab-content-editor
-{ width: 882px !important; border: 1px solid #999999; padding: 5px; margin: 0; }
-
 .edit_view textarea
-{ width: 882px !important; }
+{ width: 882px !important;}
 
-.edit_view #html-editor-content
-{ width: 882px !important; border: 1px solid #999999; padding: 5px; margin: 0; }
-
-.edit_view #page_preview_content
-{ width: 882px !important; border: 1px solid #999999; padding: 5px; margin: 0 0 20px 0; }
+.edit_view #fl-tab-content-editor, .edit_view #html-editor-content, .edit_view #page_preview_content
+{ margin: 10px 0; border: 1px solid #999999; padding: 5px}
 
 /** Move **/
 .edit_view .new_page_path
-{ height: 23px; line-height:23px; margin: 10px 0 20px 0; }
+{ height: 23px; line-height:23px; margin-bottom: 20px; }
 
-.edit_view .new_page_path div
-{ float:left; margin: 0 10px 0 0; }
+/** Insert links **/
+#insert_links_availablelinks
+{ height: 250px; overflow: auto; }
 
+#insert_links_availablelinks li
+{ display: block; font-size: 11pt; color: #333; padding: 5px; cursor: pointer; font-weight: normal; }
+
+#insert_links_availablelinks li.selected
+{ color: #3399CC; font-weight: bold; }
 
 /** TAB CONTENTS **/
 .edit_view .edit_container
-{ padding: 0; margin: 0 0 20px 0; color: #454a4f; }
+{ padding: 0; margin: 0 0 20px 0 }
 
 .edit_view .edit_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 0 10px 10px 10px; }

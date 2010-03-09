@@ -65,7 +65,7 @@ sakai.lib.notifications = {
 
         var d = new Date();
         var notification_id = "notification_" + d.getTime();
-    var $containerEL = $("<div></div>").attr({id:notification_id});
+        var $containerEL = $("<div></div>").attr({id:notification_id});
 
         var iconUrl = "";
         switch (type) {

@@ -150,26 +150,7 @@ ul.fl-tabs li a{
 .management_content_main .delete_site_warning, .management_content_main .delete_site_warning strong {
     color: #D32F2F;
 }
-.content-management .search_button {
-    background: #454a4f url('../../_images/search_button.png') top left no-repeat;
-    border: none;
-    color: #fff;
-    display: block;
-    height: 23px;
-    padding: 0;
-    width: 88px;
-    float: left;
-}
-.content-management .search_field {
-    border:1px solid #999999;
-    color:#999999;
-    display:block;
-    float:left;
-    height:19px;
-    margin:0 10px 0 0;
-    padding:4px 5px 0;
-    width:210px;
-}
+
 .dark-gray-button {
     background: url('../../_images/dark_button_left.png') top left no-repeat;
     height: 25px;

@@ -88,7 +88,7 @@ sakai.dashboard = function(){
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-        var generic = "widget_" + widgetname + "_" + tuid + "__private" + sdata.me.userStoragePrefix + "p/_widgets";
+        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -413,7 +413,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "_private" + sdata.me.userStoragePrefix + "p/_widgets";
+                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -442,33 +442,37 @@ sakai.dashboard = function(){
                 }
             );
 
-            $(".settings").bind("click", function(ev){
+            $(".settings").click(function(ev){
 
-                $("#settings_settings").hide();
-
-                var splitted = this.id.split("_");
-                if (splitted[0] + "_" + splitted[1] == currentSettingsOpen){
-                    $("#widget_" + currentSettingsOpen + "_settings").hide();
-                }
-                currentSettingsOpen = splitted[0] + "_" + splitted[1];
-                var widgetId = splitted[0];
-
-                if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings){
-                    $("#settings_settings").show();
-                }
-
-                var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
-                if (el.css('display') == "none"){
-                    $("#settings_hide_link").text("Show");
+                if($("#widget_settings_menu").is(":visible")){
+                    $("#widget_settings_menu").hide();
                 } else {
-                    $("#settings_hide_link").text("Hide");
+                    var splitted = this.id.split("_");
+                    if (splitted[0] + "_" + splitted[1] == currentSettingsOpen){
+                        $("#widget_" + currentSettingsOpen + "_settings").hide();
+                    }
+                    currentSettingsOpen = splitted[0] + "_" + splitted[1];
+                    var widgetId = splitted[0];
+    
+                    if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings){
+                        $("#settings_settings").show();
+                    } else {
+                        $("#settings_settings").hide();
+                    }
+    
+                    var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
+                    if (el.is(":visible")){
+                        $("#settings_hide_link").text("Hide");
+                    } else {
+                        $("#settings_hide_link").text("Show");
+                    }
+    
+                    var x = $(this).position().left;
+                    var y = $(this).position().top;
+                    $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
+                    $("#widget_settings_menu").css("top", y + 18 + "px");
+                    $("#widget_settings_menu").show();
                 }
-
-                var x = $(this).position().left;
-                var y = $(this).position().top;
-                $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
-                $("#widget_settings_menu").css("top", y + 18 + "px");
-                $("#widget_settings_menu").show();
             });
 
             $(".more_option").hover(
@@ -480,7 +484,7 @@ sakai.dashboard = function(){
                 }
             );
 
-            $("#settings_remove").bind("mousedown", function(ev){
+            $("#settings_remove").click(function(ev){
                 var id = currentSettingsOpen;
                 var el = document.getElementById(id);
                 var parent = el.parentNode;
@@ -492,7 +496,7 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $("#settings_hide").bind("mousedown", function(ev){
+            $("#settings_hide").click(function(ev){
 
                 var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
                 if (el.css('display') == "none"){
@@ -508,8 +512,8 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $("#settings_settings").bind("mousedown", function(ev){
-                var generic = "widget_" + currentSettingsOpen + "__private" + sdata.me.userStoragePrefix + "p/_widgets";
+            $("#settings_settings").click(function(ev){
+                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
@@ -522,10 +526,19 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $(document.body).bind("mousedown", function(ev){
-                $("#widget_settings_menu").hide();
-                $("#" + currentSettingsOpen + "_settings").hide();
-                currentSettingsOpen = false;
+            /**
+             * Bind the document on click event
+             */
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+
+                // Check if one of the parents is the chatstatuscontainer
+                if(!$clicked.is(".settings")){
+                    $("#widget_settings_menu").hide();
+                    $("#" + currentSettingsOpen + "_settings").hide();
+                    currentSettingsOpen = false;
+                }
+
             });
 
             var grabHandleFinder, createAvatar, options;

@@ -5,9 +5,6 @@
 
 .groupWrapper {overflow:hidden;}
 
-#change_layout_dialog .buttonBar #select-layout-finished { float: left;}
-#change_layout_dialog .buttonBar #select-layout-cancel { margin-left: 10px;}
-
 #dashboard_addpage_dialog .buttonBar #dashboard_addpage_add { float: left;}
 #dashboard_addpage_dialog .buttonBar .jqmClose { margin-left: 10px;}
 #dashboard_addpage_dialog #dashboard_addpage_title { width:98%; margin-top:10px;}
@@ -36,5 +33,4 @@
 .layout_picker_item_unselected {width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8;}
 .layout_picker_item_column_unselected {border-right: 1px solid #dddfe1;}
 .layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
-#change_layout_dialog {width:400px; margin-left: -200px;}
 #layouts_list {display:block;}

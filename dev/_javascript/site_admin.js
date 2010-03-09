@@ -62,6 +62,185 @@ sakai.site.site_admin = function(){
 
 
     /////////////////////////////
+    // PAGE UTILITY FUNCTIONS
+    /////////////////////////////
+
+    /**
+     * Create unique elements for a new page such as url safe title, name and url
+     * @param i_title {String} The title of the new page
+     * @param i_base_folder {String} The base folder of where the new page will be created
+     * @returns {Object} Returns an object with 3 properties: urlTitle, urlName, url or false otherwise
+     */
+    sakai.site.createPageUniqueElements = function(i_title, i_base_folder) {
+
+        var return_object = {};
+
+        if (!i_title) {
+            return false;
+        }
+        var title = i_title;
+        var base_folder = i_base_folder || sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"];
+
+
+        // Generate new page id
+        var new_urlsafe_name = false;
+        var urlsafe_title = sakai.site.createURLSafeTitle(title);
+        var counter = 0;
+
+        while (!new_urlsafe_name){
+            var test_url_safe_name = sakai.site.createURLName(base_folder + "/" + urlsafe_title);
+            if (counter > 0){
+                urlsafe_title += "-" + counter;
+            }
+            counter++;
+            if (!sakai.site.site_info._pages[test_url_safe_name]) {
+                new_urlsafe_name = test_url_safe_name;
+            }
+        }
+
+        return_object = {
+            "urlTitle": urlsafe_title,
+            "urlName": new_urlsafe_name,
+            "url": base_folder + "/" + urlsafe_title
+        };
+
+        return return_object;
+
+    };
+
+
+    /**
+     * Moves a page within a Sakai site
+     * @param src_url {String} The URL of the the page we want to move
+     * @param tgt_url {String} The URL of the new page location
+     * @param callback {Function} Callback function which is called when the operation is successful
+     */
+    sakai.site.movePage = function(src_url, tgt_url, callback) {
+
+        var src_urlsafe_name = sakai.site.createURLName(src_url);
+        var tgt_urlsafe_name = sakai.site.createURLName(tgt_url);
+
+        $.ajax({
+            url: src_url,
+            type: "POST",
+            data: {
+                ":operation" : "move",
+                ":dest" : tgt_url
+            },
+            success: function(data) {
+
+                // Remove content html tags
+                $("#" + sakai.site.selectedpage).remove();
+                $("#" + src_urlsafe_name).remove();
+
+                // Remove old + new from sakai.site.pagecontents array
+                delete sakai.site.pagecontents[sakai.site.selectedpage];
+                delete sakai.site.pagecontents[src_urlsafe_name];
+
+                // Save the recent activity
+                var activityItem = {
+                    "user_id": sdata.me.user.userid,
+                    "type": "page_create",
+                    "page_id": src_urlsafe_name,
+                    "site_id": sakai.site.currentsite.id
+                };
+                sakai.siterecentactivity.addRecentActivity(activityItem);
+
+                // Refresh site info
+                sakai.site.refreshSiteInfo(tgt_urlsafe_name);
+
+                // Check in new page content to revision history
+                $.ajax({
+                    url: tgt_url + "/pageContent.save.html",
+                    type: "POST"
+                });
+
+                // Call callback function
+                callback();
+            },
+            error: function(xhr, text, thrown_error) {
+                fluid.log("site_admin.js/movePage(): Failed to move page node!");
+            }
+        });
+    };
+
+    /**
+     * Save page
+     * General function which saves content and metadata of a page
+     * @param url {String} URL of the page which needs to be saved
+     * @param type {String} type of page ( "webpage", "dashboard" )
+     * @param title {String} title of the page
+     * @param content {String} content of the page
+     * @param position {Int} Position value of the page
+     * @param acl {String} Access Control ("parent" to inherit parent node's ACLs)
+     * @param callback {Function} Callback function which is executed at the end of the operation (data/xhr,true/false)
+     * @returns void
+     */
+    sakai.site.savePage = function(i_url, type, title, content, position, acl, callback) {
+
+        var site_data_string = $.toJSON({
+            "sling:resourceType": "sakai/page",
+            "pageTitle": title,
+            "pageType": type,
+            "pagePosition": position,
+            "_pages": {},
+            "pageContent": {
+                "sling:resourceType": "sakai/pagecontent",
+                "sakai:pagecontent": content
+            }
+        });
+
+        $.ajax({
+            url: i_url,
+            type: "POST",
+            data: {
+                ":operation": "createTree",
+                "tree": site_data_string,
+                ":replace": "true",
+                "_charset_":"utf-8"
+            },
+            success: function(data) {
+
+                callback(true, data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                callback(false, xhr);
+            }
+        });
+    };
+
+    /**
+     * Updates the content node of a page
+     * @param url {String} URL of the page node we are updating
+     * @param content {String} The new content
+     * @param callback {Function} Callback function which is called at the end of the operation
+     * @returns void
+     */
+    sakai.site.updatePageContent = function(url, content, callback) {
+
+        var jsonString = $.toJSON({
+            "pageContent": { "sling:resourceType": "sakai/pagecontent", "sakai:pagecontent": content }});
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                ":operation": "createTree",
+                "tree": jsonString
+            },
+            success: function(data) {
+
+                callback(true, data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                callback(false, xhr);
+            }
+        });
+    };
+
+
+
+    /////////////////////////////
     // tinyMCE FUNCTIONS
     /////////////////////////////
 
@@ -315,7 +494,7 @@ sakai.site.site_admin = function(){
      * @param {String} pageid
      * @return void
      */
-    var editPage = function(pageUrlTitle){
+    var editPage = function(pageUrlName){
 
         // Init
         var hasopened = false;
@@ -327,11 +506,11 @@ sakai.site.site_admin = function(){
 
         // UI init
         $more_menu.hide();
-        $("#" + pageUrlTitle).html("");
+        $("#" + pageUrlName).html("");
         $main_content_div.children().css("display","none");
 
         // See if we are editing Navigation, if yes hide title bar
-        if (pageUrlTitle === "_navigation"){
+        if (pageUrlName === "_navigation"){
             $title_input_container.hide();
             sakai.site.isEditingNavigation = true;
         } else {
@@ -353,7 +532,7 @@ sakai.site.site_admin = function(){
         showPageLocation();
 
         // Put content in editor
-        var content = sakai.site.pagecontents[pageUrlTitle]["sakai:pagecontent"];
+        var content = sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"];
         tinyMCE.get("elm1").setContent(content);
 
         $("#messageInformation").hide();
@@ -384,7 +563,7 @@ sakai.site.site_admin = function(){
 
                 var autosave_node = $.evalJSON(data);
 
-                if ((autosave_node["sakai:pagecontent"] !== "") && (sakai.site.pagecontents[pageUrlTitle] !== autosave_node["sakai:pagecontent"])){
+                if ((autosave_node["sakai:pagecontent"] !== "") && (sakai.site.pagecontents[pageUrlName] !== autosave_node["sakai:pagecontent"])){
                     sakai.site.autosavecontent = autosave_node["sakai:pagecontent"];
                     $('#autosave_dialog').jqmShow();
                 } else {
@@ -416,20 +595,7 @@ sakai.site.site_admin = function(){
         // Edit page title
         document.title = document.title.replace("Page Edit", "Site View");
 
-        // Remove autosvae file
-        //removeAutoSaveFile();
-
         if (sakai.site.isEditingNewPage) {
-
-            // Delete page from site_info if exists
-            if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
-                delete sakai.site.site_info._pages[sakai.site.selectedpage];
-            }
-
-            // Delete page from pagecontents if exists
-            if (sakai.site.pagecontents[sakai.site.selectedpage]) {
-                delete sakai.site.pagecontents[sakai.site.selectedpage];
-            }
 
             // Display previous page content
             $("#" + sakai.site.selectedpage).show();
@@ -437,15 +603,34 @@ sakai.site.site_admin = function(){
             // Delete the folder that has been created for the new page
             $.ajax({
                 url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
-                type: 'DELETE'
+                type: "DELETE",
+                success: function(data) {
+                    // Delete page from site_info if exists
+                    if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
+                        delete sakai.site.site_info._pages[sakai.site.selectedpage];
+                    }
+
+                    // Delete page from pagecontents if exists
+                    if (sakai.site.pagecontents[sakai.site.selectedpage]) {
+                        delete sakai.site.pagecontents[sakai.site.selectedpage];
+                    }
+
+                    // Adjust selected page back to the old page
+                    sakai.site.selectedpage = sakai.site.oldSelectedPage;
+
+                    // Show previous content
+                    $("#" + sakai.site.selectedpage).show();
+
+                    // Re-render Site Navigation to reflect changes
+                    if (sakai.site.navigation) {
+                        sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+                    }
+
+                    // Switch back view
+                    $("#edit_view_container").hide();
+                    $("#show_view_container").show();
+                }
             });
-
-            // Adjust selected page back to the old page
-            sakai.site.selectedpage = sakai.site.oldSelectedPage;
-
-            // Switch back view
-            $("#edit_view_container").hide();
-            $("#show_view_container").show();
 
         } else {
 
@@ -503,83 +688,6 @@ sakai.site.site_admin = function(){
         }
     };
 
-    /**
-     * Save page
-     * General function which saves content and metadata of a page
-     * @param url {String} URL of the page which needs to be saved
-     * @param type {String} type of page ( "webpage", "dashboard" )
-     * @param title {String} title of the page
-     * @param content {String} content of the page
-     * @param position {Int} Position value of the page
-     * @param acl {String} Access Control ("parent" to inherit parent node's ACLs)
-     * @param callback {Function} Callback function which is executed at the end of the operation (data/xhr,true/false)
-     * @returns void
-     */
-    var savePage = function(url, type, title, content, position, acl, callback) {
-
-        // acl argument is not used now but will be later probably
-
-        var url_safe_title = "";
-        var url_elements = url.split("/");
-        url_safe_title = url_elements[url_elements.length - 1];
-
-        var site_data_string = $.toJSON({
-            "sling:resourceType": "sakai/page",
-            "pageTitle": title,
-            "pageURLTitle": url_safe_title,
-            "pageType": type,
-            "pagePosition": position,
-            "_charset_":"utf-8",
-            "pageContent": {
-                "sling:resourceType": "sakai/pagecontent",
-                "_charset_":"utf-8",
-                "sakai:pagecontent": content
-            }
-        });
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                ":operation": "createTree",
-                "tree": site_data_string
-            },
-            success: function(data) {
-                callback(true, data);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                callback(false, xhr);
-            }
-        });
-    };
-
-    /**
-     * Updates the content node of a page
-     * @param url {String} URL of the page node we are updating
-     * @param content {String} The new content
-     * @param callback {Function} Callback function which is called at the end of the operation
-     * @returns void
-     */
-    sakai.site.updatePageContent = function(url, content, callback) {
-
-        var jsonString = $.toJSON({"pageContent": { "sling:resourceType": "sakai/pagecontent", "_charset_":"utf-8", "sakai:pagecontent": content }});
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                ":operation": "createTree",
-                "tree": jsonString
-            },
-            success: function(data) {
-                callback(true, data);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                callback(false, xhr);
-            }
-        });
-    }
-
 
     /**
      * Get the content inside the TinyMCE editor
@@ -632,108 +740,117 @@ sakai.site.site_admin = function(){
                 return;
             }
 
-            // If there is a title change
-            if (oldpagetitle !== newpagetitle) {
+            // See if we are editing a completely new page
+            if (sakai.site.isEditingNewPage) {
 
-                // Take care of title change
-                saveEdit_RegisterTitleChange(newpagetitle, content);
+                // Cretae unique elements for the new page
+                var newPageUniques = sakai.site.createPageUniqueElements(newpagetitle, sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
-            } else {
+                // Save page and content
+                sakai.site.savePage(newPageUniques.url, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
 
-                // See if we are editing a completely new page
-                if (sakai.site.isEditingNewPage) {
+                    if (success) {
 
-                    // Save page and content
-                    var newurl = sakai.site.selectedpage.split("/").join("/_pages/");
-                    savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + newurl, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
+                        // Remove old div + potential new one
+                        $("#" + sakai.site.selectedpage).remove();
 
-                        if (success) {
+                        // Save the recent activity
+                        var activityItem = {
+                            "user_id": sdata.me.user.userid,
+                            "type": "page_create",
+                            "page_id": sakai.site.selectedpage,
+                            "site_id": sakai.site.currentsite.id
+                        };
+                        sakai.siterecentactivity.addRecentActivity(activityItem);
 
-                            // Remove old div + potential new one
-                            $("#" + sakai.site.selectedpage).remove();
+                        // Check in new page content to revision history
+                        $.ajax({
+                            url: newPageUniques.url + "/pageContent.save.html",
+                            type: "POST"
+                        });
 
-                            // Remove old + new from sakai.site.pagecontents array
-                            sakai.site.pagecontents[sakai.site.selectedpage] = {};
+                        // Delete old Untitled-x page node
+                        if (oldpagetitle !== newpagetitle) {
+                            $.ajax({
+                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
+                                type: "DELETE",
+                                success: function(data) {
+                                    // Refresh site info
+                                    sakai.site.refreshSiteInfo(newPageUniques.urlName);
+
+                                    // Switch back to view mode
+                                    $("#edit_view_container").hide();
+                                    $("#show_view_container").show();
+                                }
+                            });
+                        } else {
+                            // Refresh site info
+                            sakai.site.refreshSiteInfo(newPageUniques.urlName);
 
                             // Switch back to view mode
                             $("#edit_view_container").hide();
                             $("#show_view_container").show();
-
-                            // Save the recent activity
-                            var activityItem = {
-                                "user_id": sdata.me.user.userid,
-                                "type": "page_create",
-                                "page_id": sakai.site.selectedpage,
-                                "site_id": sakai.site.currentsite.id
-                            };
-                            sakai.siterecentactivity.addRecentActivity(activityItem);
-
-                            // Check in new page content to revision history
-                            $.ajax({
-                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
-                                type: "POST"
-                            });
-
-                        } else {
-
-                            // Page node save wasn't successful
-                            fluid.log("site_admin.js: Failed to save page node while saving a new page!");
                         }
 
-                    });
+                    } else {
 
-                }
-                else {
-
-                    // We are editing an existing page
-                    if (sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"] === "webpage") {
-                        $("#webpage_edit").show();
+                        // Page node save wasn't successful
+                        fluid.log("site_admin.js: Failed to save page node while saving a new page!");
                     }
 
-                    // Store page contents
-                    sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = getContent();
+                });
 
-                    // Put page contents into html
-                    $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
+            }
+            else {
 
-                    // Switch back to view mode
-                    $("#edit_view_container").hide();
-                    $("#show_view_container").show();
-
-                    $("#" + sakai.site.selectedpage).show();
-                    sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
-
-                    // Save page node
-                    sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], function(success, data){
-
-                        if (success) {
-                            // Save the recent activity
-                            var activityItem = {
-                                "user_id": sdata.me.user.userid,
-                                "type": "page_edit",
-                                "page_id": sakai.site.selectedpage,
-                                "site_id": sakai.site.currentsite.id
-                            };
-                            sakai.siterecentactivity.addRecentActivity(activityItem);
-
-                            // Check in new page content to revision history
-                            $.ajax({
-                                url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
-                                type: "POST"
-                            });
-
-                        } else {
-                            // Page node save wasn't successful
-                            fluid.log("site_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.site.currentsite.id);
-                        }
-                    });
+                // We are editing an existing page
+                if (sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"] === "webpage") {
+                    $("#webpage_edit").show();
                 }
+
+                // Store page contents
+                sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = getContent();
+
+                // Put page contents into html
+                $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
+
+                // Switch back to view mode
+                $("#edit_view_container").hide();
+                $("#show_view_container").show();
+
+                $("#" + sakai.site.selectedpage).show();
+                sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+
+                // Save page node
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], function(success, data){
+
+                    if (success) {
+                        // Save the recent activity
+                        var activityItem = {
+                            "user_id": sdata.me.user.userid,
+                            "type": "page_edit",
+                            "page_id": sakai.site.selectedpage,
+                            "site_id": sakai.site.currentsite.id
+                        };
+                        sakai.siterecentactivity.addRecentActivity(activityItem);
+
+                        // Check in new page content to revision history
+                        $.ajax({
+                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
+                            type: "POST"
+                        });
+
+                    } else {
+                        // Page node save wasn't successful
+                        fluid.log("site_admin.js/saveEdit(): Failed to update page content while saving existing page: " + sakai.site.currentsite.id);
+                    }
+                });
             }
         }
 
         // Re-render Site Navigation to reflect changes
-        if (sakai._navigation) {
-            sakai._navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+        if (sakai.site.navigation) {
+            sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
         }
 
         sakai.site.inEditView = false;
@@ -746,8 +863,7 @@ sakai.site.site_admin = function(){
         sakai.site.pagecontents._navigation = getContent();
         $("#page_nav_content").html(sakai.site.pagecontents._navigation);
 
-        var escaped = sakai.site.escapePageId(sakai.site.selectedpage);
-        document.getElementById(escaped).style.display = "block";
+        document.getElementById(sakai.site.selectedpage).style.display = "block";
 
         $("#edit_view_container").hide();
         $("#show_view_container").show();
@@ -756,98 +872,10 @@ sakai.site.site_admin = function(){
         sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
 
         document.getElementById(escaped).style.display = "block";
-        sdata.widgets.WidgetLoader.insertWidgets(escaped,null,sakai.site.currentsite.id + "/_widgets");
+        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 
     };
 
-
-    var saveEdit_RegisterTitleChange = function(newpagetitle, content) {
-
-        // Generate new page id
-        var newid = "";
-        var counter = 0;
-        var baseid = sakai.site.createURLSafeTitle(newpagetitle);
-        var basefolder = "";
-
-        if (sakai.site.inEditView !== false && sakai.site.inEditView !== true){
-            var abasefolder = sakai.site.inEditView.split("/");
-            for (i = 0; i < abasefolder.length - 1; i++){
-                basefolder += abasefolder[i] + "/";
-            }
-        } else {
-            var abasefolder2 = sakai.site.selectedpage.split("/");
-            for (i = 0; i < abasefolder2.length - 1; i++){
-                basefolder += abasefolder2[i] + "/";
-            }
-        }
-
-        baseid = basefolder + baseid;
-
-        while (!newid){
-            var testid = baseid;
-            if (counter > 0){
-                testid += "-" + counter;
-            }
-            counter++;
-            var exists = false;
-            if (sakai.site.site_info._pages[testid]) {
-                exists = true;
-            }
-            if (!exists){
-                newid = testid;
-            }
-        }
-
-        // Create new node URL
-        var newfolderpath = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
-
-        // Delete current page node
-        $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
-            type: "DELETE",
-            success: function(data) {
-                $("#" + sakai.site.selectedpage).remove();
-                $("#" + newid).remove();
-
-                // Remove old + new from sakai.site.pagecontents array
-                delete sakai.site.pagecontents[sakai.site.selectedpage];
-                delete sakai.site.pagecontents[newid];
-
-                // Save the recent activity
-                var activityItem = {
-                    "user_id": sdata.me.user.userid,
-                    "type": "page_create",
-                    "page_id": newid,
-                    "site_id": sakai.site.currentsite.id
-                };
-                sakai.siterecentactivity.addRecentActivity(activityItem);
-            }
-        });
-
-        savePage(newfolderpath, "webpage", newpagetitle, content, ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
-
-            if (success) {
-                // Refresh site info
-                sakai.site.refreshSiteInfo(newid);
-
-                // Check in new page content to revision history
-                $.ajax({
-                    url: newfolderpath + "/pageContent.save.html",
-                    type: "POST"
-                });
-
-                // Switch to view mode
-                $("#edit_view_container").hide();
-                $("#show_view_container").show();
-
-
-
-            } else {
-                fluid.log("site_admin.js/saveEdit_RegisterTitleChange(): Failed to create new page node for renamed page!");
-            }
-
-        });
-    };
 
     /////////////////////////////
     // EDIT PAGE: GENERAL
@@ -911,24 +939,9 @@ sakai.site.site_admin = function(){
      */
     var showPageLocation = function(){
 
-        $("#new_page_path").html("<div><span>Page location:</span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "</div>"); //&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
-
-        // Bind Move... button's click event to its functionality
-        $("#move_inside_edit").bind("click", function(ev){
-            window.scrollTo(0,0);
-            $('#move_dialog').jqmShow();
-        });
+        $("#new_page_path").html("<span>Page location: </span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
 
     };
-
-
-
-
-
-
-
-
-
 
 
     //--------------------------------------------------------------------------------------------------------------
@@ -953,7 +966,7 @@ sakai.site.site_admin = function(){
         }
 
         // Save the data
-        var jsonString = $.toJSON({"pageContentAutoSave": { "_charset_": "utf-8", "sakai:pagecontent": tosave }});
+        var jsonString = $.toJSON({"pageContentAutoSave": { "sakai:pagecontent": tosave }});
         $.ajax({
             url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"],
             type: "POST",
@@ -1244,7 +1257,6 @@ sakai.site.site_admin = function(){
         $("#title-input").show();
         if (sakai.site.currentEditView == "preview"){
             $("#page_preview_content").hide().html("");
-            $("#tab-nav-panel").show();
             $("#new_page_path").show();
             switchtab("preview","Preview","text_editor","Text Editor");
         } else if (sakai.site.currentEditView == "html"){
@@ -1276,7 +1288,6 @@ sakai.site.site_admin = function(){
             switchtab("text_editor","Text Editor","html","HTML");
         } else if (sakai.site.currentEditView == "preview"){
             $("#page_preview_content").hide().html("");
-            $("#tab-nav-panel").show();
             $("#new_page_path").show();
             switchtab("preview","Preview","html","HTML");
         }
@@ -1296,7 +1307,6 @@ sakai.site.site_admin = function(){
     // Bind Preview tab click event
     $("#tab_preview").bind("click", function(ev){
         $("#context_menu").hide();
-        $("#tab-nav-panel").hide();
         $("#new_page_path").hide();
         $("#html-editor").hide();
         $("#title-input").hide();
@@ -1336,12 +1346,6 @@ sakai.site.site_admin = function(){
     };
 
 
-
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------
     //
     // INSERT MORE
@@ -1358,30 +1362,27 @@ sakai.site.site_admin = function(){
      * @return void
      */
     var insertLink = function() {
-        var chosen = false;
-        try {
-            chosen = simpleTreeCollection.get(0).getSelected().attr("id");
-        } catch (err){
-            alert("Insert Link: No chosen link.");
-        }
-        if (!chosen){
-            return false;
-        }
 
         var editor = tinyMCE.get("elm1");
         var selection = editor.selection.getContent();
+
+        var $choosen_links = $("#insert_links_availablelinks li.selected");
+
+        // If user selected some text to link
         if (selection) {
-            editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '"  class="contauthlink">' + selection + '</a>');
-        }
-        else {
-            /*var pagetitle = chosen;
-            for (var i = 0, j = sakai.site.pages.items.length; i<j; i++) {
-                if (sakai.site.pages.items[i].id == chosen) {
-                    pagetitle = sakai.site.pages.items[i].title;
-                }
-            }*/
-            var pagetitle = sakai.site.site_info._pages[chosen].title;
-            editor.execCommand('mceInsertContent', false, '<a href="#' + chosen + '" class="contauthlink">' + pagetitle + '</a>');
+            // At the moment insert only first link, should disable multiple selection at the end
+            editor.execCommand('mceInsertContent', false, '<a href="#' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + selection + '</a>');
+        } else if ($choosen_links.length > 1) {
+            // If we are inserting multiple links
+            var toinsert = "<ul>";
+            for (var i=0, j=$choosen_links.length; i<j; i++) {
+                toinsert += '<li><a href="#' + $($choosen_links[i]).data("link") + '" class="contauthlink">' + $($choosen_links[i]).text() + '</a></li>';
+            }
+            toinsert += "</ul>";
+            editor.execCommand('mceInsertContent', false, toinsert);
+        } else {
+            // If we are insertin 1 link only, without selection
+            editor.execCommand('mceInsertContent', false, '<a href="#' + $($choosen_links[0]).data("link") + '"  class="contauthlink">' + $($choosen_links[0]).text() + '</a>');
         }
 
         $('#link_dialog').jqmHide();
@@ -1395,237 +1396,43 @@ sakai.site.site_admin = function(){
     });
 
 
-
-// TO DO: Page hierarchy will need to be refactored:
-// Hierearchy should be based on page URLs rather than concatenated url-safe titles (formarly IDs)
-
-    /**
-     * Create page hierarchy
-     * @param {Object} done
-     * @param {Object} object
-     * @param {Object} page
-     * return {Object} page hierarchy object
-     */
-    var createHierarchy = function(done, object, page){
-
-        fluid.log("createHierarchy - ");
-
-        var toinsert = page.pageURLTitle.substring(done.length);
-        var todo = toinsert.split("/")[0];
-        object[todo] = object[todo] || {};
-        if (toinsert.indexOf("/") != -1){
-            object[todo] = createHierarchy(done + "/" + toinsert.split("/")[0], object[todo], page);
-            return object;
-        } else {
-            object[todo]._content = page;
-            return object;
-        }
-    };
-
-    /**
-     * Create hierarchy html
-     * @param {Object} object
-     * @param {Object} key
-     * @param {Object} active
-     * @return {String} html string
-     */
-    var createHTMLHierarchy = function(object,active, html, prefix){
-
-        fluid.log("createHTMLHierarchy - ");
-
-        //var html = "<li>";
-        var level = false;
-        var isLowerLevel = false;
-        var isHigherLevel = true;
-        if (object[globalProgressTracker]){
-            var path = object[globalProgressTracker].path;
-            path = path.replace(/_pages\//g,"").split("/");
-            path.splice(0,3);
-            level = path.length;
-        }
-        do {
-            if (object[globalProgressTracker]){
-                var obj = object[globalProgressTracker];
-                if (active){
-                    //alert(obj.id);
-                    //alert(prefix + obj.id + " --- " + active + " === " + (prefix + obj.id == active));
-                    if (prefix + obj.id == active){
-                        //alert("Open");
-                        html += "<li id='" + prefix + obj.id + "' class='open'><span>" + obj.title + "</span>";
-                    } else {
-                        html += "<li id='" + prefix + obj.id + "'  class='open' rel='locked'><span>" + obj.title + "</span>";
-                    }
-                } else {
-                    html += "<li id='" + prefix + obj.id + "' class='open'><span>" + obj.title + "</span>";
-                }
-
-                // Check whether there are subpages
-                var nextlevel = false;
-                isHigherLevel = false;
-                if (object[globalProgressTracker + 1]){
-                    var npath = object[globalProgressTracker + 1].path;
-                    npath = npath.replace(/_pages\//g,"").split("/");
-                    npath.splice(0,3);
-                    var nlevel = npath.length;
-                    if (nlevel < level){
-                        isLowerLevel = true;
-                    }
-                    if (nlevel > level){
-                        isHigherLevel = true;
-                        globalProgressTracker++;
-                        html += "<ul>";
-                        var prefixtosend = obj.id + "/";
-                        if (prefix){
-                            prefixtosend = prefix + prefixtosend;
-                        }
-                        html = createHTMLHierarchy(object, active, html, prefixtosend);
-                        html += "</ul>";
-                        if (object[globalProgressTracker]){
-                            var npath = object[globalProgressTracker].path;
-                            npath = npath.replace(/_pages\//g,"").split("/");
-                            npath.splice(0,3);
-                            if (npath.length < level){
-                                isLowerLevel = true;
-                            }
-                        }
-                    }
-                }
-
-                html += "</li>";
-
-            }
-            if (!isHigherLevel) {
-                globalProgressTracker++;
-            }
-        } while (object[globalProgressTracker] && level !== false && isLowerLevel === false);
-
-        return html;
-    };
-
-
-    /**
-     * Remove page structure
-     * @param {Object} hash
-     * @return void
-     */
-    var removePageStructure = function(hash){
-        hash.w.hide();
-        hash.o.remove();
-        $("#treeview_link_container").html("");
-    };
-
-
-    var globalProgressTracker = 0;
-
-    /**
-     * Do page hierarchy
-     * @param {Object} active
-     * @return {String} page hierarchy html
-     */
-    var doPageHierarchy = function(active){
-        // Generate the structure
-        var object = {};
-        for (var pageurltitle in sakai.site.site_info._pages) {
-            object = createHierarchy("", object, sakai.site.site_info._pages[pageurltitle]);
-        }
-
-        var newobj = applyCorrectOrder([], object);
-        newobj.sort(doCorrectOrderSort);
-
-        // Generate the HTML
-        var currentId = 2;
-        var html = '<ul class="simpleTree"><li class="root" id="1"><span style="display:none">Tree Root 1</span><ul>';
-        globalProgressTracker = 0;
-        html = createHTMLHierarchy(newobj, active, html, "");
-        html += '</ul></li></ul>';
-        return html;
-    };
-
-
-    /**
-     * TODO
-     * @param {Object} newobj
-     * @param {Object} object
-     */
-    var applyCorrectOrder = function(newobj, object){
-        for (var i in object){
-            newobj[newobj.length] = object[i]._content;
-            for (var ii in object[i]){
-                if (ii !== "_content"){
-                    newobj = applyCorrectOrder(newobj, object[i][ii]);
-                }
-            }
-        }
-        return newobj;
-    };
-
-
-    /**
-     * TODO
-     * @param {Object} a
-     * @param {Object} b
-     */
-    var doCorrectOrderSort = function(a, b){
-        a = parseInt(a.position, 10);
-        b = parseInt(b.position, 10);
-        var retValue = -1;
-        a > b ? retValue = 1 : (a < b ? retValue = -1 : retValue = 0);
-        return retValue;
-    };
-
-
-    /**
-     * Render page structure
-     * @param {Object} hash
-     * @return void
-     */
-    var renderPageStructure = function(hash){
-
-        var html = doPageHierarchy();
-
-        // Add in HTML
-        $("#treeview_link_container").html(html);
-
-        simpleTreeCollection = $('.simpleTree').simpleTree({
-            autoclose: true,
-            drag: false,
-            afterClick:function(node){
-
-            },
-            afterDblClick:function(node){
-
-            },
-            afterMove:function(destination, source, pos){
-
-            },
-            afterAjax:function()
-            {
-
-            },
-            animate:true
-            //,docToFolderConvert:true
-            }
-        );
-        $insert_more_menu.hide();
-        sakai.site.showingInsertMore = false;
-        hash.w.show();
-    };
-
     // Init Insert link modal
     $('#link_dialog').jqm({
         modal: true,
         trigger: $('#link_dialog_trigger'),
         overlay: 20,
-        toTop: true,
-        onShow: renderPageStructure,
-        onHide: removePageStructure
+        onShow: function(hash) {
+            //sakai.site.insertLinkSelection = [];
+
+            var $links = $('<ul id="insert_links_availablelinks"></ul>');
+
+            // Create clickable page links
+            for (var urlname in sakai.site.site_info._pages) {
+                var $link = $('<li id="linksel_'+ urlname +'">' + sakai.site.site_info._pages[urlname]["pageTitle"] + '</li>')
+                    .data("link", urlname)
+                    .css({"padding-left": ((parseInt(sakai.site.site_info._pages[urlname]["pageDepth"]) - 4) * 3) + "px"})
+                    .toggle(function(e){
+                        $(this).addClass("selected");
+                    }, function() {
+                        $(this).removeClass("selected");
+                    });
+                $links.append($link);
+            }
+
+            $("#link_container").html($links);
+
+            $("#insert_more_menu").hide();
+
+            hash.w.show();
+        },
+        toTop: true
     });
 
 
     // Bind Insert Link click event
     $("#more_link").bind("click", function(ev){
         var el = $("#more_menu");
-        if (el.css("display").toLowerCase() != "none") {
+        if (el.css("display").toLowerCase() !== "none") {
             el.hide();
         } else {
             var x = $("#more_link").position().left;
@@ -1812,54 +1619,30 @@ sakai.site.site_admin = function(){
         // Set new page flag
         sakai.site.isEditingNewPage = true;
 
-        // Determine where to create the page
-        var path = "";
-        if (sakai.site.selectedpage){
-            if (sakai.site.createChildPageByDefault){
-                path = sakai.site.selectedpage + "/";
-            }
-        }
-
-        // Determine new page id (untitled-x)
-        var newid = false;
-        var counter = 0;
-        while (!newid){
-            var totest = path + "untitled";
-            if (counter !== 0){
-                totest += "-" + counter;
-            }
-            counter++;
-            var exists = false;
-            if (sakai.site.site_info._pages[totest]) {
-                exists = true;
-            }
-
-            if (!exists){
-                newid = totest;
-            }
-        }
+        // Create unique page items
+        var pageUniques = sakai.site.createPageUniqueElements("untitled", sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Assign the empty content to the sakai.site.pagecontents array
-        if (sakai.site.pagecontents[newid]) {
-            sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
+        if (sakai.site.pagecontents[pageUniques.urlName]) {
+            sakai.site.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         } else {
-            sakai.site.pagecontents[newid] = {};
-            sakai.site.pagecontents[newid]["sakai:pagecontent"] = content;
+            sakai.site.pagecontents[pageUniques.urlName] = {};
+            sakai.site.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
 
-        savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + newid, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
+        sakai.site.savePage(pageUniques.url, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
 
             if (success) {
 
                 // Store page selected and old IDs
                 sakai.site.oldSelectedPage = sakai.site.selectedpage;
-                sakai.site.selectedpage = newid;
+                sakai.site.selectedpage = pageUniques.urlName;
 
                 // Init tinyMCE if needed
                 if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
                     init_tinyMCE();
                 } else {
-                    editPage(newid);
+                    editPage(pageUniques.urlName);
                 }
 
             } else {
@@ -1900,30 +1683,30 @@ sakai.site.site_admin = function(){
     */
     var addDashboardPage = function(title){
 
-        // Create a URL safe title string
-        var pageUrlTitle = sakai.site.createURLSafeTitle(title);
+        // Create unique page elements
+        var pageUniques = sakai.site.createPageUniqueElements(title, sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Default dasboard content
         var defaultDashboardContent = '{"columns":{"column1":[{"name":"sitemembers","visible":"block","uid":"id4548168513125"}],"column2":[]},"layout":"dev"}';
 
         // Create page node for dashboard page
-        savePage("/sites/" + sakai.site.currentsite.id + "/_pages/" + pageUrlTitle, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
+        sakai.site.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
 
             // If page save was successful
             if (success) {
 
                 // Close this popup and show the new page.
-                sakai.site.selectedpage = pageUrlTitle;
+                sakai.site.selectedpage = pageUniques.urlName;
 
                 $("#dashboard_addpage_dialog").jqmHide();
                 $("#dashboard_addpage_title").val("");
 
                 // Refresh site_info object and open page
-                sakai.site.refreshSiteInfo(pageUrlTitle);
+                sakai.site.refreshSiteInfo(pageUniques.urlName);
 
                 // Check in new page content to revision history
                 $.ajax({
-                    url: "/sites/" + sakai.site.currentsite.id + "/_pages/" + pageUrlTitle + "/pageContent.save.html",
+                    url: pageUniques.url + "/pageContent.save.html",
                     type: "POST"
                 });
 
@@ -2002,9 +1785,12 @@ sakai.site.site_admin = function(){
     //--------------------------------------------------------------------------------------------------------------
 
     ////////////////////////////////////////
-    // MORE: SETTINGS
+    // MORE: PERMISSIONS
     ////////////////////////////////////////
-
+    $("#more_permissions").bind("click", function(e) {
+        $("#more_menu").hide();
+        sakai.lib.notifications.showNotification("Page permissions", "This feature is not implemented yet!", "error", false, "/dev/_images/page_18.png", 500, 5000, 500);
+    });
 
 
 
@@ -2157,243 +1943,11 @@ sakai.site.site_admin = function(){
     // MORE: MOVE
     /////////////////////////////
 
-    // TO DO: Switch page move to new content structure
-
-
-    /**
-     * Render Move Page structure
-     * @param {Object} hash
-     * @return void
-     */
-    var renderMovePageStructure = function(hash){
-        var html = doPageHierarchy(sakai.site.selectedpage);
-
-
-        // Add in HTML
-        $("#treeview_move_container").html(html);
-
-        simpleTreeCollection = $('.simpleTree').simpleTree({
-            autoclose: false,
-            afterClick:function(node){
-                //alert("text-"+$('span:first',node).text());
-            },
-            afterDblClick:function(node){
-                //alert("text-"+$('span:first',node).text());
-            },
-            afterMove:function(destination, source, pos){
-                //alert("destination-"+$('span:first',destination).text()+" source-"+$('span:first',source).text()+" pos-"+pos);
-            },
-            afterAjax:function()
-            {
-                //alert('Loaded');
-            },
-            animate:true,
-            docToFolderConvert:true
-            }
-        );
-
-        hash.w.show();
+    $("#more_move").bind("click", function() {
 
         $("#more_menu").hide();
-        $("#" + sakai.site.escapePageId(sakai.site.selectedpage)).find(">span").addClass("active");
-        if (sakai.site.inEditView){
-            $("#" + sakai.site.escapePageId(sakai.site.selectedpage)).find(">span").text($("#title-input").val());
-        }
-    };
+        sakai.lib.notifications.showNotification("Page move", "To move a page just drag&drop in the page navigation widget!", "normal", false, "/dev/_images/page_18.png", 500, 5000, 500);
 
-    /**
-     * Remove Move Page structure
-     * @param {Object} hash
-     * @return void
-     */
-    var removeMovePageStructure = function(hash){
-        hash.w.hide();
-        hash.o.remove();
-        $("#treeview_move_container").html("");
-    };
-
-    // Init Move Page modal
-    $('#move_dialog').jqm({
-        modal: true,
-        trigger: $('.move_dialog_trigger'),
-        overlay: 20,
-        toTop: true,
-        onShow: renderMovePageStructure,
-        onHide: removeMovePageStructure
-    });
-
-
-    // Bind Move Page click event
-    $("#move_page_confirm").bind("click", function(ev){
-
-        // Generate new ID
-        var index = 0;
-        var newid = false;
-        var pageid = "";
-        if (sakai.site.site_info._pages[sakai.site.selectedpage]) {
-            pageid = sakai.site.selectedpage;
-        }
-        pageid = pageid.split("/")[pageid.split("/").length - 1];
-
-        var b_site_info = sakai.site.clone(sakai.site.site_info);
-        delete b_site_info._pages[sakai.site.selectedpage];
-
-        var item = $("#" + sakai.site.selectedpage);
-        var parent = item.parent().parent().attr("id");
-        if (parent == "1"){
-            parent = "";
-        }
-
-        while (!newid){
-            var totest = "";
-            if (parent){
-                totest += parent + "/";
-            }
-            totest += pageid;
-            if (index !== 0){
-                totest += "-" + index;
-            }
-            var exists = false;
-            if (b_site_info._pages[sakai.site.selectedpage]) {
-                exists = true;
-            }
-            if (!exists){
-                newid = totest;
-            }
-            index++;
-        }
-
-        // Move current file (generate new page id)
-        if (!sakai.site.inEditView) {
-            var newfolderpath = "/sites/" + sakai.site.currentsite.id + "/_pages/" + newid.split("/").join("/_pages/");
-
-            var createFolderPath = "";
-            for (var i = 0, j = newfolderpath.split("/").length - 1; i < j; i++){
-                createFolderPath += "/" + newfolderpath.split("/")[i];
-            }
-            createFolderPath = createFolderPath.substring(1);
-
-            // Create parent
-             $.ajax({
-                url: createFolderPath,
-                type: 'POST',
-                data: {
-                    created : "created"
-                },
-                success: function(data){
-                    $.ajax({
-                        url: sakai.site.urls.CURRENT_SITE_PAGES(),
-                        type: 'POST',
-                        data: {
-                            ":operation":"move",
-                            ":dest":newfolderpath
-                        },
-                        success: function(data){
-
-                            // Rewrite configuration file
-                            var parentEl = $(".root");
-                            var els = $("li", parentEl);
-
-                            var previousLocation = 0;
-                            var nextLocation = determineHighestPosition() + 200000;
-
-                            var newels = [];
-                            for (i = 0, j = els.length; i < j; i++) {
-                                if (els[i] && els[i].id) {
-                                    newels[newels.length] = els[i];
-                                }
-                            }
-
-                            for (i = 0, j = newels.length; i < j; i++) {
-                                if (newels[i] && newels[i].id && newels[i].id == sakai.site.selectedpage) {
-                                    if (newels[i - 1] && newels[i - 1].id){
-                                        previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position, 10);
-                                    }
-                                    if (newels[i + 1] && newels[i + 1].id){
-                                        nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position, 10);
-                                    }
-                                }
-                            }
-
-                            var newposition = Math.round((nextLocation + previousLocation) / 2);
-
-                            $.ajax({
-                                url: newfolderpath,
-                                type: 'POST',
-                                data: {
-                                    "position": "" + newposition
-                                },
-                                success: function(data){
-                                    $(document.body).hide();
-                                    document.location = "#" + newid;
-                                    window.location.reload(true);
-                                    $('#move_dialog').jqmHide();
-                                }
-                            });
-
-                        },
-                        error: function(xhr, textStatus, thrownError) {
-
-                            // Rewrite configuration file
-                            var parentEl = $(".root");
-                            var els = $("li", parentEl);
-
-                            var previousLocation = 0;
-                            var nextLocation = determineHighestPosition() + 200000;
-
-                            var newels = [];
-                            for (i = 0, j = els.length; i < j; i++) {
-                                if (els[i] && els[i].id) {
-                                    newels[newels.length] = els[i];
-                                }
-                            }
-
-                            for (i = 0, j = newels.length; i < j; i++) {
-                                if (newels[i] && newels[i].id && newels[i].id == sakai.site.selectedpage) {
-                                    if (newels[i - 1] && newels[i - 1].id){
-                                        previousLocation = parseInt(sakai.site.site_info._pages[newels[i - 1].id].position, 10);
-                                    }
-                                    if (newels[i + 1] && newels[i + 1].id){
-                                        nextLocation = parseInt(sakai.site.site_info._pages[newels[i + 1].id].position, 10);
-                                    }
-                                }
-                            }
-
-                            var newposition = Math.round((nextLocation + previousLocation) / 2);
-
-                            $.ajax({
-                                url: newfolderpath,
-                                type: 'POST',
-                                data: {
-                                    "position": "" + newposition
-                                },
-                                success: function(data){
-                                    $(document.body).hide();
-                                    document.location = "#" + newid;
-                                    window.location.reload(true);
-                                    $('#move_dialog').jqmHide();
-                                }
-                            });
-
-                        }
-                    });
-                }
-            });
-
-        } else {
-            sakai.site.inEditView = newid;
-            $("#move_dialog").jqmHide();
-
-            sakai.site.refreshSiteInfo();
-
-            $("#new_page_path").html('<div><span>Page location: </span>' + sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + '</div>&nbsp;<div class="buttonBar"><div class="lightgreybutton"><a id="move_inside_edit" href="javascript:;" name="somename" class="button">Move...</a></div></div>');
-
-
-            $("#move_inside_edit").bind("click", function(ev){
-                window.scrollTo(0,0);
-                $('#move_dialog').jqmShow();
-            });
-        }
     });
 
 
@@ -2605,7 +2159,7 @@ sakai.site.site_admin = function(){
     ///////////////////////
 
     /**
-     * //s a page
+     * Deletes a page
      * @return void
      */
     var deletePage = function() {

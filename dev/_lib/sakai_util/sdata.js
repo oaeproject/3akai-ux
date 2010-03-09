@@ -1167,8 +1167,6 @@ sdata.container = {
 
 sdata.files = {
 
-
-
     /**
      * Gets all the files and folders under a certain path.
      * @param {String} path The absolute path where we should look for sakai/file, sakai/link and sakai/folder.
