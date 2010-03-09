@@ -212,11 +212,11 @@ sakai.site_basic_settings = function(){
             $(siteSettingsResponse).text($(siteSettingsErrorSaveSuccess).text());
         }
         else {
-            //    The user has no sufficient rights.
+            // The user has no sufficient rights.
             if (data === 401) {
                 $(siteSettingsResponse).text($(siteSettingsErrorUnauthorized).text());
             }
-            //    Show a general error message.
+            // Show a general error message.
             else {
                 $(siteSettingsResponse).text($(siteSettingsErrorSaveFail).text());
             }
@@ -298,12 +298,12 @@ sakai.site_basic_settings = function(){
 
             var language = $(siteSettingLanguageCmb + " option:selected").val();
             var tosend = {
-                'name': titleEL.val(),
-                'description': descEL.val(),
-                'status': status,
-                'access': access,
-                'language': language,
-        "_charset_":"utf-8"
+                "name": titleEL.val(),
+                "description": descEL.val(),
+                "status": status,
+                "access": access,
+                "language": language,
+                "_charset_":"utf-8"
             };
 
             //    Do a patch request to the profile info so that it gets updated with the new information.
