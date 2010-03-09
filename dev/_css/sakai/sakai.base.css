@@ -41,6 +41,7 @@ h1 {
     font:normal 2em Arial, Helvetica, sans-serif;
 }
 
+
 /* LINKS */
 
 a { 
@@ -62,6 +63,20 @@ a:hover {
 
 .s3d-hidden, .i18nable {
     display: none;
+}
+
+/* CHROME STYLES 
+ * 
+ */
+
+
+.site_heading {
+    padding: 20px 0 5px 15px;
+}
+
+.site_heading h1 {
+    margin: 0;
+    font-weight: bold;
 }
 
 
@@ -191,29 +206,30 @@ html>body .s3d-button .s3d-button-inner {
 }
 
 /* ----------------------------------------------------------------------------
- *    TOP TABS
+ *    CONTENT AREA TOP TABS
  * ----------------------------------------------------------------------------
  */
 
-.primary-tabs {
+.s3d-primary-tabs {
     height: 25px;
     border: none;
     padding: 3px 10px 0 0;
     display: block;
 }
 
-.primary-tabs ul {
+.s3d-primary-tabs ul {
     border: none;
     padding: 0;
     margin: 0;
     float: right;
 }
 
-.primary-tabs ul.fl-tabs-left {
+.s3d-primary-tabs ul.fl-tabs-left {
     float: left; 
+    padding-left: 3px;
 }
 
-.primary-tabs ul li {
+.s3d-primary-tabs ul li {
     margin: 0;
     padding: 0;
     background: transparent;
@@ -222,7 +238,7 @@ html>body .s3d-button .s3d-button-inner {
     float: left;
 }
 
-.primary-tabs ul li a {
+.s3d-primary-tabs ul li a {
     padding: 4px 18px 4px 13px;
     line-height: 20px;
     background: transparent;
@@ -236,7 +252,7 @@ html>body .s3d-button .s3d-button-inner {
     bottom: 0px !important;
 }
 
-.primary-tabs ul li.fl-tabs-active {
+.s3d-primary-tabs ul li.fl-tabs-active {
     background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat;
     height: 30px;
     padding-left: 5px;
@@ -244,7 +260,7 @@ html>body .s3d-button .s3d-button-inner {
     bottom: 0px !important;
 }
 
-.primary-tabs ul li.fl-tabs-active a {
+.s3d-primary-tabs ul li.fl-tabs-active a {
     background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat;
     height: 30px;
     font-weight: normal;
@@ -255,49 +271,40 @@ html>body .s3d-button .s3d-button-inner {
     bottom: 0px !important;
 }
 
-/** PRIMARY TABS **/
-/*  e
- */
-.content_search .search_tab_nav {
-    background: url('../../_images/search_tab_bg.png') top right no-repeat;
-    height: 25px;
-    padding: 3px 10px 0 0;
-    margin: 0;
-}
-.content_search .search_tab_nav ul {
-    padding: 0;
-    margin: 0;
-    border-bottom: none;
-    float: right;
-}
-.content_search .search_tab_nav ul li {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    border: none;
-    display: block;
-    float: left;
-}
-.content_search .search_tab_nav ul li a {
-    padding: 3px 18px 4px 13px;
-    line-height: 20px;
-    background: transparent;
-    border: none;
-    font-weight: bold;
-    color: #000;
-    display: block;
-    float: left;
-}
-.content_search .search_tab_nav ul li.fl-tabs-active {
-    background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat;
-    padding-left: 5px;
-    height: 30px;
-}
-.content_search .search_tab_nav .fl-tabs-active a {
-    background: url('../../_images/tab_corner_tr.png') top right no-repeat;
-    font-weight: normal;
+/*
+.fl-tabs {
+    border-bottom: 1px solid #ddd;
 }
 
+.fl-tabs li a {
+    background-color:#eee;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
+    color:#3399CC;
+    padding: 6px 20px 5px;
+    margin-left: -1px;
+    margin-bottom:-9px;
+}
+
+
+.fl-tabs .fl-tabs-active a {
+    background-color: #eee;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
+    color:#333333;
+    font-weight:bold;
+}
+
+*/
+
+.fl-tab-content {
+    border: none;
+    margin: 0px;
+}
 /* ----------------------------------------------------------------------------
  *    DIALOGS
  * ----------------------------------------------------------------------------
