@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, History, Querystring, sdata, sakai, tinyMCE, tinymce  */
+/*global $, Config, History, Querystring, sdata, sakai, tinyMCE, tinymce, Widgets  */
 
 sakai.site.site_admin = function(){
 
@@ -402,14 +402,14 @@ sakai.site.site_admin = function(){
         var iframeWin = window.frames[0];
         var iframeEl = document.getElementById ? document.getElementById(ifrm) : document.all ? document.all[ifrm] : null;
         if (iframeEl && iframeWin) {
-            if (BrowserDetect.browser != "Firefox") {
+            if (BrowserDetect.browser !== "Firefox") {
                 iframeEl.style.height = "auto";
             }
             var docHt = sakai.site.getDocHeight(iframeWin.document);
             if (docHt < sakai.site.minHeight) {
                 docHt = sakai.site.minHeight;
             }
-            if (docHt && sakai.site.cur != docHt) {
+            if (docHt && sakai.site.cur !== docHt) {
                 iframeEl.style.height = docHt + 30 + "px"; // add to height to be sure it will all show
                 sakai.site.cur = (docHt + 30);
                 $("#placeholderforeditor").css("height", docHt + 60 + "px");
@@ -426,7 +426,7 @@ sakai.site.site_admin = function(){
      * @return {Boolean} true to continue event
      */
     sakai.site.myHandleEvent = function(e){
-        if (e.type == "click" || e.type == "keyup" || e.type == "mouseup" || !e || !e.type) {
+        if (e.type === "click" || e.type === "keyup" || e.type === "mouseup" || !e || !e.type) {
             sakai.site.curScroll = document.body.scrollTop;
 
             if (sakai.site.curScroll === 0) {
@@ -576,7 +576,7 @@ sakai.site.site_admin = function(){
                 sakai.site.timeoutid = setInterval(sakai.site.doAutosave, sakai.site.autosaveinterval);
             }
         });
-    }
+    };
 
 
     /////////////////////////////
@@ -871,7 +871,7 @@ sakai.site.site_admin = function(){
         sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
         sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
 
-        document.getElementById(escaped).style.display = "block";
+        document.getElementById(sakai.site.selectedpage).style.display = "block";
         sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
 
     };
@@ -1061,7 +1061,7 @@ sakai.site.site_admin = function(){
         var ed = tinyMCE.get('elm1');
         var selected = ed.selection.getNode();
         $("#dialog_content").hide();
-        if (selected && selected.nodeName.toLowerCase() == "img" && selected.getAttribute("class") == "widget_inline") {
+        if (selected && selected.nodeName.toLowerCase() === "img" && selected.getAttribute("class") === "widget_inline") {
             $("#context_settings").show();
             var id = selected.getAttribute("id");
             var split = id.split("_");
@@ -1151,13 +1151,13 @@ sakai.site.site_admin = function(){
     var createNewStyle = function(toaddin){
         var ed = tinyMCE.get('elm1');
         var selected = ed.selection.getNode();
-        if (selected && selected.nodeName.toLowerCase() == "img") {
+        if (selected && selected.nodeName.toLowerCase() === "img") {
             var style = selected.getAttribute("style").replace(/ /g, "");
             var splitted = style.split(';');
             var newstyle = '';
             for (var i = 0, j = splitted.length; i < j; i++) {
                 var newsplit = splitted[i].split(":");
-                if (newsplit[0] && newsplit[0] != "display" && newsplit[0] != "float") {
+                if (newsplit[0] && newsplit[0] !== "display" && newsplit[0] !== "float") {
                     newstyle += splitted[i] + ";";
                 }
             }
@@ -1167,9 +1167,9 @@ sakai.site.site_admin = function(){
             var toinsert = '<';
             toinsert += selected.nodeName.toLowerCase();
             for (i = 0, j = selected.attributes.length; i<j; i++){
-                if (selected.attributes[i].nodeName.toLowerCase() == "style") {
+                if (selected.attributes[i].nodeName.toLowerCase() === "style") {
                     toinsert += ' ' + selected.attributes[i].nodeName.toLowerCase() + '="' + newstyle + '"';
-                } else if (selected.attributes[i].nodeName.toLowerCase() == "mce_style") {
+                } else if (selected.attributes[i].nodeName.toLowerCase() === "mce_style") {
                     toinsert += ' ' + selected.attributes[i].nodeName.toLowerCase() + '="' + newstyle + '"';
                 } else {
                     toinsert += ' ' + selected.attributes[i].nodeName.toLowerCase() + '="' + selected.attributes[i].nodeValue + '"';
@@ -1255,11 +1255,11 @@ sakai.site.site_admin = function(){
         $toolbarplaceholder.show();
         $toolbarcontainer.show();
         $("#title-input").show();
-        if (sakai.site.currentEditView == "preview"){
+        if (sakai.site.currentEditView === "preview"){
             $("#page_preview_content").hide().html("");
             $("#new_page_path").show();
             switchtab("preview","Preview","text_editor","Text Editor");
-        } else if (sakai.site.currentEditView == "html"){
+        } else if (sakai.site.currentEditView === "html"){
             var value = $("#html-editor-content").val();
             tinyMCE.get("elm1").setContent(value);
             $("#html-editor").hide();
@@ -1286,7 +1286,7 @@ sakai.site.site_admin = function(){
         $("#toolbarcontainer").hide();
         if (!sakai.site.currentEditView){
             switchtab("text_editor","Text Editor","html","HTML");
-        } else if (sakai.site.currentEditView == "preview"){
+        } else if (sakai.site.currentEditView === "preview"){
             $("#page_preview_content").hide().html("");
             $("#new_page_path").show();
             switchtab("preview","Preview","html","HTML");
@@ -1316,7 +1316,7 @@ sakai.site.site_admin = function(){
         $("#toolbarplaceholder").hide();
         if (!sakai.site.currentEditView) {
             switchtab("text_editor","Text Editor","preview","Preview");
-        } else if (sakai.site.currentEditView == "html"){
+        } else if (sakai.site.currentEditView === "html"){
             var value = $("#html-editor-content").val();
             tinyMCE.get("elm1").setContent(value);
             switchtab("html","HTML","preview","Preview");
@@ -1408,15 +1408,17 @@ sakai.site.site_admin = function(){
 
             // Create clickable page links
             for (var urlname in sakai.site.site_info._pages) {
-                var $link = $('<li id="linksel_'+ urlname +'">' + sakai.site.site_info._pages[urlname]["pageTitle"] + '</li>')
-                    .data("link", urlname)
-                    .css({"padding-left": ((parseInt(sakai.site.site_info._pages[urlname]["pageDepth"]) - 4) * 3) + "px"})
-                    .toggle(function(e){
-                        $(this).addClass("selected");
-                    }, function() {
-                        $(this).removeClass("selected");
-                    });
-                $links.append($link);
+                if (sakai.site.site_info._pages[urlname]) {
+                    var $link = $('<li id="linksel_'+ urlname +'">' + sakai.site.site_info._pages[urlname]["pageTitle"] + '</li>')
+                        .data("link", urlname)
+                        .css({"padding-left": ((parseInt(sakai.site.site_info._pages[urlname]["pageDepth"],10) - 4) * 3) + "px"})
+                        .toggle(function(e){
+                            $(this).addClass("selected");
+                        }, function() {
+                            $(this).removeClass("selected");
+                        });
+                    $links.append($link);
+                }
             }
 
             $("#link_container").html($links);
@@ -1816,22 +1818,22 @@ sakai.site.site_admin = function(){
                 $(select).unbind("change",changeVersionPreview);
 
                 select.options.length = 0;
-                for (i in history.versions){
+                for (var ver in history.versions){
 
-                    if (i !== "jcr:rootVersion") {
+                    if ((history.versions[ver]) && (ver !== "jcr:rootVersion")) {
 
-                        var name = "Version " + (i);
+                        var name = "Version " + (ver);
 
                         // Transform date
-                        var date = history.versions[i]["jcr:created"];
+                        var date = history.versions[ver]["jcr:created"];
                         var datestring = sakai.site.transformDate(parseInt(date.substring(8,10),10), parseInt(date.substring(5,7),10), parseInt(date.substring(0,4),10), parseInt(date.substring(11,13),10), parseInt(date.substring(14,16),10));
 
                         name += " - " + datestring;
 
-                        if (history.versions[i]["sakai:savedBy"]) {
-                            name += " - " + history.versions[i]["sakai:savedBy"].firstName + " " + history.versions[i]["sakai:savedBy"].lastName;
+                        if (history.versions[ver]["sakai:savedBy"]) {
+                            name += " - " + history.versions[ver]["sakai:savedBy"].firstName + " " + history.versions[ver]["sakai:savedBy"].lastName;
                         }
-                        var id = i;
+                        var id = ver;
                         var option = new Option(name, id);
                         select.options[select.options.length] = option;
 

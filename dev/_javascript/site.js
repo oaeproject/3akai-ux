@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, History, Querystring, sdata, sakai, jQuery */
+/*global $, Config, History, Querystring, sdata, jQuery, Widgets */
 var sakai = sakai || {};
 sakai.site = function(){
 
@@ -205,8 +205,8 @@ sakai.site = function(){
     sakai.site.createURLName = function(i_url) {
         var urlName = "";
         if ((typeof i_url === "string") & (i_url !== "")) {
-            i_url = i_url.replace(/\/_pages/g,"");
-            urlName = i_url.replace(/[\/-]/g,"");
+            i_url = i_url.replace(/\/_pages/g, "");
+            urlName = i_url.replace(/[\/-]/g, "");
         }
         return urlName;
     };
@@ -442,7 +442,6 @@ sakai.site = function(){
     sakai.site.loadSiteNavigation = function() {
 
         // Load site navigation
-
         $.ajax({
               url: sakai.site.urls.SITE_NAVIGATION_CONTENT(),
               cache: false,
@@ -466,7 +465,7 @@ sakai.site = function(){
      * @return void
      */
     sakai.site.onNavigationLoaded = function(){
-        // Refresh navigation
+        // Render navigation
         if (sakai.site.navigation) {
             sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
         }
@@ -508,7 +507,7 @@ sakai.site = function(){
                 //Filter out this site
                 var index = -1;
                 for (var i = 0, j = items.items.length; i<j; i++){
-                    if (items.items[i] == site){
+                    if (items.items[i] === site){
                         index = i;
                     }
                 }
@@ -1082,7 +1081,7 @@ sakai.site = function(){
                         $("#settings_settings").hide();
 
                         var splitted = this.id.split("_");
-                        if (splitted[0] + "_" + splitted[1] == currentSettingsOpen) {
+                        if (splitted[0] + "_" + splitted[1] === currentSettingsOpen) {
                             $("#widget_" + currentSettingsOpen + "_settings").hide();
                         }
                         currentSettingsOpen = splitted[0] + "_" + splitted[1];
@@ -1128,7 +1127,7 @@ sakai.site = function(){
                     $("#settings_hide").bind("mousedown", function(ev){
 
                         var el = $(dashPageID + " #" + currentSettingsOpen.split("_")[1] + "_container");
-                        if (el.css('display') == "none") {
+                        if (el.css('display') === "none") {
                             el.show();
                         }
                         else {
