@@ -461,18 +461,6 @@ sakai.site = function(){
     };
 
     /**
-     * Callback function to be executed when navigation widget is loaded
-     * @return void
-     */
-    sakai.site.onNavigationLoaded = function(){
-        // Render navigation
-        if (sakai.site.navigation) {
-            sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
-        }
-        return;
-    };
-
-    /**
      * Callback function to inform when admin part is loaded
      * @return void
      */
