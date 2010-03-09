@@ -465,11 +465,6 @@
     padding:5px;
 }
 
-/* Override Fluid */
-.fl-tab-content {
-    border: none;
-}
-
 /* Uploader */
 #uploader-contents {overflow:auto;}
 .fl-uploader{width:228px;position:relative;display:block;clear:both;}
