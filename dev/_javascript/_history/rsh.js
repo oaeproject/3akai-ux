@@ -546,7 +546,8 @@ window.historyStorage = {
         /*write a hidden form and textarea into the page; we'll stow our history stack here*/
         var formID = "rshStorageForm";
         var textareaID = "rshStorageField";
-        var formStyles = this.debugMode ? historyStorage.showStyles : historyStorage.hideStyles;
+        //var formStyles = this.debugMode ? historyStorage.showStyles : historyStorage.hideStyles;
+        var formStyles = historyStorage.showStyles; // SAKIII-219
         var textareaStyles = (historyStorage.debugMode
             ? 'width: 800px;height:80px;border:1px solid black;'
             : historyStorage.hideStyles
