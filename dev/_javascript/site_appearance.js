@@ -510,8 +510,7 @@ sakai.site_appearance = function() {
             disable: false,
             keys: true,
             hide: false,
-            onSelectEnd: preview,
-            selectionColor: 'white'
+            onSelectEnd: preview
         });
     };
 
