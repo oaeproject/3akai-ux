@@ -223,7 +223,6 @@ sakai.search = function() {
 
                 if (finaljson.items[i]["type"] === "sakai/pagecontent") {
                     page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
-
                 }
                 finaljson.items[i]["pagepath"] = page_path;
 
