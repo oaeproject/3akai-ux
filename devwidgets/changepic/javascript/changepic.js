@@ -134,8 +134,6 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         // Save the user his selection in a global variable.
         userSelection = selection;
-        
-        console.log(selection);
 
         // How much has the user scaled down the image?
         var scaleX = thumbnailWidth / selection.width;
@@ -184,11 +182,13 @@ sakai.changepic = function(tuid, placement, showSettings){
             $(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
-            $(pictureMeasurerImage).bind("load", function(ev){
+            $(pictureMeasurerImage).bind("complete", function(ev){
 
                 // save the image size in global var.
                 realw = $(pictureMeasurerImage).width();
                 realh = $(pictureMeasurerImage).height();
+                
+                console.log("realw: " + realw + " realh: " + realh);
 
                 // Set the images
                 $(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
@@ -203,12 +203,13 @@ sakai.changepic = function(tuid, placement, showSettings){
                 } else if (realw > 500 && (realh / (realw / 500) < 300)){
                     ratio = realw / 500;
                     $(fullPicture).width(500);
-                    $(fullPicture).width(Math.floor(realh * ratio));
+                    $(fullPicture).height(Math.floor(realh / ratio));
 
                 // Width < 500 ; Height > 300 => Height = 300
                 } else if (realh > 300 && (realw / (realh / 300) < 500)) {
                     ratio = realh / 300;
                     $(fullPicture).height(300);
+                    $(fullPicture).width(Math.floor(realw / ratio));
 
                 // Width > 500 ; Height > 300
                 } else if (realh > 300 && (realw / (realh / 300) > 500)) {
@@ -225,7 +226,10 @@ sakai.changepic = function(tuid, placement, showSettings){
 
                 // If the image gets loaded, make a first selection
                 var initialSelection = function(img, selection){
-                    imageareaobject.setSelection(0,0,100,100);
+                    var initialSelectionHeight = realh < 100 ? realh : 100;
+                    var initialSelectionWidth = realw < 100 ? realw : 100;
+                    console.log(initialSelectionWidth + " " + initialSelectionHeight);
+                    imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
                     imageareaobject.setOptions({ show: true });
                     imageareaobject.update();
                     selection = imageareaobject.getSelection();
@@ -243,6 +247,7 @@ sakai.changepic = function(tuid, placement, showSettings){
                 });
                 
             });
+            $(pictureMeasurerImage).unbind("complete");
 
             showSelectTab();
 
