@@ -326,7 +326,7 @@ sakai.site.site_admin = function(){
             $external_toolbar.show();
 
             // Set the iFrame height, but make sure it is there
-            setTimeout(sakai.site.setIframeHeight, 100, ['elm1_ifr']);
+            setTimeout('sakai.site.setIframeHeight("elm1_ifr")',100);
 
             // Position toolbar
             placeToolbar();
