@@ -17,7 +17,7 @@
  */
 
 
-/*global $, jQuery, Config, fluid, TrimPath, Widgets, sdata, window, document */
+/*global $, jQuery, Config, fluid, TrimPath, Widgets, window, document */
 
 
 /*
@@ -44,8 +44,8 @@ sdata.me = false;
 
 if(!Array.indexOf) {
     Array.prototype.indexOf = function(obj){
-        for(var i=0, j=this.length; i<j; i++){
-            if(this[i]==obj){
+        for(var i = 0, j = this.length; i<j; i++){
+            if(this[i] === obj){
                 return i;
             }
         }
@@ -254,28 +254,30 @@ if(!Array.indexOf) {
         resetCurrentValues(form);
 
         for (var name in json) {
-            var els = $('[name=' + name + ']', form);
-            for (var i = 0; i < els.length; i++){
-                var el = els[i];
-                var nodeName = el.nodeName.toLowerCase();
-                var type = el.type.toLowerCase() || "";
-                if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
-                    el.value = json[name];
-                } else if (nodeName === "input" && type === "radio"){
-                    if (el.value === json[name]){
-                        el.checked = true;
-                    }
-                } else if (nodeName === "input" && type === "checkbox"){
-                    for (var ii = 0; ii < json[name].length; ii++){
-                        if (el.value === json[name][ii]){
+            if (json[name]){
+                var els = $('[name=' + name + ']', form);
+                for (var i = 0; i < els.length; i++){
+                    var el = els[i];
+                    var nodeName = el.nodeName.toLowerCase();
+                    var type = el.type.toLowerCase() || "";
+                    if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
+                        el.value = json[name];
+                    } else if (nodeName === "input" && type === "radio"){
+                        if (el.value === json[name]){
                             el.checked = true;
                         }
-                    }
-                } else if (nodeName === "select"){
-                    for (var select = 0; select < json[name].length; select++){
-                        for (var iii = 0; iii < el.options.length; iii++) {
-                            if (el.options[iii].value === json[name][select]) {
-                                el.options[iii].selected = true;
+                    } else if (nodeName === "input" && type === "checkbox"){
+                        for (var ii = 0; ii < json[name].length; ii++){
+                            if (el.value === json[name][ii]){
+                                el.checked = true;
+                            }
+                        }
+                    } else if (nodeName === "select"){
+                        for (var select = 0; select < json[name].length; select++){
+                            for (var iii = 0; iii < el.options.length; iii++) {
+                                if (el.options[iii].value === json[name][select]) {
+                                    el.options[iii].selected = true;
+                                }
                             }
                         }
                     }
@@ -429,9 +431,9 @@ sdata.widgets.WidgetLoader = {
 
                                 // Do i18n on widget content
                                 var translated_content = $.i18n_widget(widgetname, json[i].data);
-    
+
                                 sethtmlover(translated_content, widgets, widgetname);
-                            
+
                         }
                     }
                 });
@@ -505,7 +507,7 @@ sdata.widgets.WidgetLoader = {
                         // Add the HTML for to the iframe widget container
                         $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
                     }
-                } 
+                }
 
                 // The widget isn't a gwt or iframe widget
                 else if (Widgets.widgets[widgetname]){
@@ -656,7 +658,7 @@ sdata.preference = {
                           removeJCRObjects(next_object);
                         }
                     }
-                }
+                };
 
                 removeJCRObjects(returned_data);
 
@@ -1254,29 +1256,29 @@ sdata.files = {
         try {
             var array = filename.split(".");
             var extention = array[array.length - 1].toLowerCase();
-            if (extention == "php" || extention == "html" || extention == "xml" || extention == "css" || extention == "js"){
+            if (extention == "php" || extention === "html" || extention === "xml" || extention === "css" || extention === "js"){
                 return "Web document";
-            } else if (extention == "doc" || extention == "docx" || extention == "rtf"){
+            } else if (extention === "doc" || extention === "docx" || extention === "rtf"){
                 return "Word file";
-            } else if (extention == "exe"){
+            } else if (extention === "exe"){
                 return "Program";
-            } else if (extention == "mov" || extention == "avi" || extention == "mp4"){
+            } else if (extention === "mov" || extention === "avi" || extention === "mp4"){
                 return "Movie";
-            } else if (extention == "fla" || extention == "as" || extention == "flv"){
+            } else if (extention === "fla" || extention === "as" || extention === "flv"){
                 return "Flash";
-            } else if (extention == "mp3" || extention == "wav" || extention == "midi" || extention == "asf"){
+            } else if (extention === "mp3" || extention === "wav" || extention === "midi" || extention === "asf"){
                 return "Audio";
-            } else if (extention == "pdf"){
+            } else if (extention === "pdf"){
                 return "PDF file";
-            } else if (extention == "png" || extention == "gif" || extention == "jpeg" || extention == "jpg" || extention == "tiff" || extention == "bmp"){
+            } else if (extention === "png" || extention === "gif" || extention === "jpeg" || extention === "jpg" || extention === "tiff" || extention === "bmp"){
                 return "Picture";
-            } else if (extention == "ppt" || extention == "pptx" || extention == "pps" || extention == "ppsx"){
+            } else if (extention === "ppt" || extention === "pptx" || extention === "pps" || extention === "ppsx"){
                 return "Powerpoint";
-            } else if (extention == "txt"){
+            } else if (extention === "txt"){
                 return "Text file";
-            } else if (extention == "xls" || extention == "xlsx"){
+            } else if (extention === "xls" || extention === "xlsx"){
                 return "Excel";
-            } else if (extention == "zip" || extention == "rar"){
+            } else if (extention === "zip" || extention === "rar"){
                 return "Archive";
             } else {
                 return "Other";
@@ -1316,11 +1318,11 @@ sdata.files = {
 sakai.sorting = {};
 sakai.sorting.human = function(a, b){
     function chunkify(t){
-        var tz = new Array();
+        var tz = [];
         var x = 0, y = -1, n = 0, i, j;
 
         while (i = (j = t.charAt(x++)).charCodeAt(0)) {
-            var m = (i == 46 || (i >= 48 && i <= 57));
+            var m = (i === 46 || (i >= 48 && i <= 57));
             if (m !== n) {
                 tz[++y] = "";
                 n = m;
@@ -1333,16 +1335,17 @@ sakai.sorting.human = function(a, b){
     var aa = chunkify(a.toLowerCase());
     var bb = chunkify(b.toLowerCase());
 
-    for (x = 0; aa[x] && bb[x]; x++) {
+    for (var x = 0; aa[x] && bb[x]; x++) {
         if (aa[x] !== bb[x]) {
             var c = Number(aa[x]), d = Number(bb[x]);
-            if (c == aa[x] && d == bb[x]) {
+            if (c === aa[x] && d === bb[x]) {
                 return c - d;
-            }
-            else
+            } else {
                 return (aa[x] > bb[x]) ? 1 : -1;
+            }
         }
     }
+
     return aa.length - bb.length;
 };
 

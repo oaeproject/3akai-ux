@@ -43,23 +43,6 @@ sakai.site_manage_members = function() {
     };
 
 
-       /**
-        * gets the sitedid from the url
-        */
-    var getSiteId = function(){
-        var qs = new Querystring();
-        selectedSite = qs.get("siteid",false);
-        $("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
-        $(".s3s-manage-members").attr("href", $(".s3s-manage-members").attr("href") + "?siteid=" + selectedSite);
-        $(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
-            appendKeyToURL(el, 'siteid', selectedSite);
-        });
-        fillBasicSiteSettings(selectedSite);
-        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
-
-    };
-
-
     /**
      * This will fill in all the field settings for the site.
      */
@@ -77,6 +60,23 @@ sakai.site_manage_members = function() {
             }
         });
     };
+
+    /**
+     * gets the sitedid from the url
+     */
+    var getSiteId = function(){
+        var qs = new Querystring();
+        selectedSite = qs.get("siteid",false);
+        $("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
+        $(".s3s-manage-members").attr("href", $(".s3s-manage-members").attr("href") + "?siteid=" + selectedSite);
+        $(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
+            appendKeyToURL(el, 'siteid', selectedSite);
+        });
+        fillBasicSiteSettings(selectedSite);
+        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
+
+    };
+
 
     getSiteId();
 
@@ -304,7 +304,7 @@ sakai.site_manage_members = function() {
         } else {
             $(".siteManage_person").show();
         }
-    }
+    };
 
     /**
      * returns a json-object containing userids and membertokens
@@ -441,7 +441,7 @@ sakai.site_manage_members = function() {
         } else {
             success();
         }
-    }
+    };
 
     $("#txt_member_search").bind("focus",
     function(e, ui) {

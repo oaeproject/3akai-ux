@@ -873,16 +873,18 @@ sakai.inbox = function() {
         var message = getMessageWithId(id);
         selectedMessage = message;
         if (typeof message !== "undefined") {
-            //    Fill in this message values.
+            // Fill in this message values.
             $(inboxSpecificMessageSubject).text(message["sakai:subject"]);
             $(inboxSpecificMessageBody).html(message["sakai:body"].replace(/\n/gi, "<br />"));
             $(inboxSpecificMessageDate).text(message.date);
-            $(inboxSpecificMessageFrom).text(message.userFrom.firstName + ' ' + message.userFrom.lastName);
-            if (message.userFrom.picture && $.evalJSON(message.userFrom.picture).name) {
-                $(inboxSpecificMessagePicture).attr('src', "/_user/public/" + message.userFrom["rep:userId"] + "/" + $.evalJSON(message.userFrom.picture).name);
-            }
-            else {
-                $(inboxSpecificMessagePicture).attr('src', Config.URL.PERSON_ICON_URL);
+            for (var i=0, j=message.userFrom.length; i<j; i++) {
+                $(inboxSpecificMessageFrom).text(message.userFrom[i]["firstName"] + ' ' + message.userFrom[i]["lastName"]);
+                if (message.userFrom.picture && $.evalJSON(message.userFrom[i].picture).name) {
+                    $(inboxSpecificMessagePicture).attr('src', "/_user/public/" + message.userFrom["rep:userId"] + "/" + $.evalJSON(message.userFrom[i].picture).name);
+                }
+                else {
+                    $(inboxSpecificMessagePicture).attr('src', Config.URL.PERSON_ICON_URL);
+                }
             }
 
             //    Reply part.
