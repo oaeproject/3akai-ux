@@ -26,6 +26,8 @@
                         Page updated ${i.date_parsed}
                     {elseif i.type === "page_create"}
                         Page created ${i.date_parsed}
+                    {elseif i.type === "page_move"}
+                        Page moved ${i.date_parsed}
                     {/if}
                     </p>
                 </li>

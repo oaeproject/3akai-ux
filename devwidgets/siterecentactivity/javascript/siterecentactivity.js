@@ -24,11 +24,11 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
 
                 sakai.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai.siterecentactivity.recentactivity.items[i].date+ "Z");
 
-                if (sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]) {
-                    sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
-                } else {
-                     sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.siterecentactivity.recentactivity.items[i].page_id;
-                }
+                //if (sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]) {
+                //    sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
+                //} else {
+                //     sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.siterecentactivity.recentactivity.items[i].page_id;
+                //}
 
             }
 

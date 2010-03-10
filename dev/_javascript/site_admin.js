@@ -137,15 +137,6 @@ sakai.site.site_admin = function(){
                 delete sakai.site.pagecontents[sakai.site.selectedpage];
                 delete sakai.site.pagecontents[src_urlsafe_name];
 
-                // Save the recent activity
-                var activityItem = {
-                    "user_id": sdata.me.user.userid,
-                    "type": "page_create",
-                    "page_id": src_urlsafe_name,
-                    "site_id": sakai.site.currentsite.id
-                };
-                sakai.siterecentactivity.addRecentActivity(activityItem);
-
                 // Refresh site info
                 sakai.site.refreshSiteInfo(tgt_urlsafe_name);
 
@@ -154,6 +145,16 @@ sakai.site.site_admin = function(){
                     url: tgt_url + "/pageContent.save.html",
                     type: "POST"
                 });
+
+                // Save the recent activity
+                var activityItem = {
+                    "user_id": sdata.me.user.userid,
+                    "type": "page_move",
+                    "page_id": tgt_urlsafe_name,
+                    "page_title": sakai.site.site_info._pages[tgt_urlsafe_name]["pageTitle"],
+                    "site_id": sakai.site.currentsite.id
+                };
+                sakai.siterecentactivity.addRecentActivity(activityItem);
 
                 // Call callback function
                 callback();
@@ -754,20 +755,21 @@ sakai.site.site_admin = function(){
                         // Remove old div + potential new one
                         $("#" + sakai.site.selectedpage).remove();
 
-                        // Save the recent activity
-                        var activityItem = {
-                            "user_id": sdata.me.user.userid,
-                            "type": "page_create",
-                            "page_id": sakai.site.selectedpage,
-                            "site_id": sakai.site.currentsite.id
-                        };
-                        sakai.siterecentactivity.addRecentActivity(activityItem);
-
                         // Check in new page content to revision history
                         $.ajax({
                             url: newPageUniques.url + "/pageContent.save.html",
                             type: "POST"
                         });
+
+                        // Save the recent activity
+                        var activityItem = {
+                            "user_id": sdata.me.user.userid,
+                            "type": "page_create",
+                            "page_id": newPageUniques.urlName,
+                            "page_title": newpagetitle,
+                            "site_id": sakai.site.currentsite.id
+                        };
+                        sakai.siterecentactivity.addRecentActivity(activityItem);
 
                         // Delete old Untitled-x page node
                         if (oldpagetitle !== newpagetitle) {
@@ -830,6 +832,7 @@ sakai.site.site_admin = function(){
                             "user_id": sdata.me.user.userid,
                             "type": "page_edit",
                             "page_id": sakai.site.selectedpage,
+                            "page_title": sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"],
                             "site_id": sakai.site.currentsite.id
                         };
                         sakai.siterecentactivity.addRecentActivity(activityItem);
