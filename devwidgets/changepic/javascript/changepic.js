@@ -182,13 +182,11 @@ sakai.changepic = function(tuid, placement, showSettings){
             $(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
-            $(pictureMeasurerImage).bind("complete", function(ev){
+            $(pictureMeasurerImage).bind("load", function(ev){
 
                 // save the image size in global var.
                 realw = $(pictureMeasurerImage).width();
                 realh = $(pictureMeasurerImage).height();
-                
-                console.log("realw: " + realw + " realh: " + realh);
 
                 // Set the images
                 $(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
@@ -228,7 +226,6 @@ sakai.changepic = function(tuid, placement, showSettings){
                 var initialSelection = function(img, selection){
                     var initialSelectionHeight = realh < 100 ? realh : 100;
                     var initialSelectionWidth = realw < 100 ? realw : 100;
-                    console.log(initialSelectionWidth + " " + initialSelectionHeight);
                     imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
                     imageareaobject.setOptions({ show: true });
                     imageareaobject.update();
@@ -240,14 +237,13 @@ sakai.changepic = function(tuid, placement, showSettings){
                 var imageareaobject = $(fullPicture).imgAreaSelect({
                     aspectRatio: "1:1",
                     disable: false,
+                    enable: true,
                     hide: false,
                     instance: true,
                     onInit: initialSelection,
                     onSelectChange: preview
                 });
-                
             });
-            $(pictureMeasurerImage).unbind("complete");
 
             showSelectTab();
 
@@ -275,6 +271,13 @@ sakai.changepic = function(tuid, placement, showSettings){
             dimensions: "256x256",
             "_charset_":"utf-8"
         };
+
+        if(data.width === 0 || data.height === 0){
+            data.width = $(fullPicture).width();
+            data.height = $(fullPicture).height();
+            data.x = 0;
+            data.y = 0;
+        }
 
         // Post all of this to the server
         $.ajax({
