@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.imgareaselect-outer {z-index:10000!important;}
-.imgareaselect-border2 {z-index:10000!important;}
-.imgareaselect-selection {z-index:10000!important;}
 #changepic_container {width:700px!important;margin-left:-350px!important;}
 #changepic_container .fl-tabs li a {bottom:3px!important;#bottom:5px!important;/* override for Microsoft Internet Explorer browsers*/ background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE #DDD;border-style:solid;border-width:1px;padding:6px 20px;}
 #changepic_container .fl-tabs .fl-tabs-active a {background-color:#FFF!important;color:#000!important;font-weight:400!important;border-color:#DDD #DDD #EEE;border-style:solid;border-width:1px;}

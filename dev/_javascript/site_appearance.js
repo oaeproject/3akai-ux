@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, sakai, sdata, Querystring, window, removeAreaSelect */
+/*global $, Config, jQuery, sdata, Querystring, window, removeAreaSelect */
 
 var sakai = sakai || {};
 
@@ -510,8 +510,7 @@ sakai.site_appearance = function() {
             disable: false,
             keys: true,
             hide: false,
-            onSelectEnd: preview,
-            selectionColor: 'white'
+            onSelectEnd: preview
         });
     };
 
@@ -765,7 +764,7 @@ sakai.site_appearance_change.startCallback = function(){
     var extension = filename.substring((filename.lastIndexOf(".") + 1));
 
     if (allowed_pic_extensions.indexOf(extension.toLowerCase()) === -1) {
-        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();;
+        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();
         return false;
     } else {
         $("#error_msg").html("").hide();

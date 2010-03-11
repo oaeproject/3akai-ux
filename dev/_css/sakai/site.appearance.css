@@ -35,25 +35,10 @@
 { background: #fff url('../../_images/arrow_left_sm2_blue.gif') center left no-repeat; padding: 0 0 0 10px; }
 
 
-/** TABS **/
-.basic_appearance .primary-tabs
-{ background: #fff url('../../_images/site_appearance_tab_bg.gif') top left no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
-
-.basic_appearance .primary-tabs ul
-{ padding: 0; margin: 0; border-bottom: none;  }
-
-.basic_appearance .primary-tabs ul li
-{ margin: 0; padding: 0; background: transparent; border: none; display: block; float: left; }
-
-.basic_appearance .primary-tabs ul li a
-{ padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
-
-.basic_appearance .primary-tabs ul li.fl-tabs-active
-{ background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important; }
-
-.basic_appearance .primary-tabs ul li.fl-tabs-active a
-{ background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
-
+/** TAB VARIANT **/
+.basic_appearance .s3d-primary-tabs {
+    background: #fff url('../../_images/site_appearance_tab_bg.gif') top left no-repeat;
+}
 
 /** TAB CONTENTS **/
 .basic_appearance .site_appearance_container
@@ -143,20 +128,11 @@
 { background:transparent url(../../_images/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 0 10px 2px; margin-right: -10px; }
 
 /* DIALOGS */
-.basic_appearance .dialog
-{ width:700px !important; margin-left: -350px !important;background-color: #fff !important; }
-
-.basic_appearance .dialog_footer
-{ clear: both; padding-left: 0; }
-
 .basic_appearance .dialog_footer .button-default
 { margin-right: 10px; }
 
 
 /* CHANGE PIC */
-.imgareaselect-outer {z-index:10000!important;}
-.imgareaselect-border2 {z-index:10000!important;}
-.imgareaselect-selection {z-index:10000!important;}
 #site_appearance_change_container {width:700px!important;margin-left:-350px!important;}
 #site_appearance_change_container .fl-tabs li a {bottom:3px!important;#bottom:5px!important;/* override for Microsoft Internet Explorer browsers*/ background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE #DDD;border-style:solid;border-width:1px;padding:6px 20px;}
 #site_appearance_change_container .fl-tabs .fl-tabs-active a {background-color:#FFF!important;color:#000!important;font-weight:400!important;border-color:#DDD #DDD #EEE;border-style:solid;border-width:1px;}
@@ -171,15 +147,6 @@
 #site_appearance_change_upload_form {padding-top:10px;}
 #site_appearance_change_upload_form .buttonBar {padding-left:0;clear:both;margin-top:10px;}
 #profile_upload {padding:2px 8px;}
-#site_appearance_change_select_content {padding-top:10px;padding-left:10px;}
-#site_appearance_change_select_content .buttonBar {padding-left:0px; clear: both; height: 45px; }
-#site_appearance_change_picture_measurer {left:-100000px; top: -100000px; position:absolute; }
-#site_appearance_change_picture_full {float: left; margin-right: 10px;}
-#site_appearance_change_picture_thumbnail {position:relative;}
-#site_appearance_change_upload_tabnew {padding-top:10px; padding-left:10px; }
-#site_appearance_change_upload_form {padding-top:10px;}
-#site_appearance_change_upload_form .buttonBar {padding-left:0px; clear: both; margin-top:10px; }
-#profile_upload {padding:2px 8px; }
 #site_appearance_change_upload_form .error_msg { color: #880000; padding: 10px 0 0 0; }
 
 .dialog_buttons {padding-top:20px;}

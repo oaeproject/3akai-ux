@@ -218,7 +218,6 @@ sakai.changepic = function(tuid, placement, showSettings){
                 }
 
                 $(fullPicture).imgAreaSelect({
-                    selectionColor: 'white',
                     aspectRatio: "1:1",
                     onSelectEnd: preview,
                     hide: false,

@@ -62,8 +62,8 @@ sakai.footer = function(tuid,placement,showSettings){
 
         // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
         var debug_text = "DEBUG:";
-        debug_text += " UX git: <a href='http://github.com/oszkarnagy/3akai-ux/tree/v_0.1.2'>v_0.1.2</a>";
-        debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/0.3-RC1' target='_blank'>0.3</a>";
+        debug_text += " UX git: <a href='http://github.com/oszkarnagy/3akai-ux/tree/v_0.2.0_release'>v_0.2.0_release</a>";
+        debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/prejr2' target='_blank'>prejr2</a>";
         debug_text += " | DOC mod date: " + document.lastModified;
         debug_text += " | PLACE: " + doc_name;
 

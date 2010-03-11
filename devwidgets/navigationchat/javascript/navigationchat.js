@@ -1317,16 +1317,16 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                     for(var i = json.results.length - 1; i >= 0; i--) {
                         var message = json.results[i];
                         var user = "";
-                        if (message.userFrom["rep:userId"] === sdata.me.user.userid){
-                            user = message.userTo["rep:userId"];
+                        if (message.userFrom[0]["userid"] === sdata.me.user.userid){
+                            user = message.userTo[0]["userid"];
                         } else {
-                            user = message.userFrom["rep:userId"];
+                            user = message.userFrom[0]["userid"];
                         }
                         var isIncluded = true;
                         if (hasNew){
                             var isIn = false;
                             for (var l = 0; l < specialjson.items.length; l++){
-                                if (specialjson.items[l].userid == user){
+                                if (specialjson.items[l].userid === user){
                                     isIn = true;
                                 }
                             }
@@ -1358,14 +1358,14 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                                 }
 
                                 var el = $(chatWith + "_" + k + "_content");
-                                var chatwithusername = parseName(k, njson[k].messages[0].userFrom.firstName, njson[k].messages[0].userFrom.lastName);
+                                var chatwithusername = parseName(k, njson[k].messages[0].userFrom[0].firstName, njson[k].messages[0].userFrom[0].lastName);
 
                                 // Create a message object
                                 var chatmessage = {};
 
                                 for(var j = 0; j < njson[k].messages.length; j++){
                                     // Check if the message is from the current user or from the friend you are talking to
-                                    if (sdata.me.user.userid == njson[k].messages[j].userFrom["rep:userId"]) {
+                                    if (sdata.me.user.userid == njson[k].messages[j].userFrom[0]["userid"]) {
                                         isMessageFromOtherUser = false;
                                     }
                                     else {
@@ -1379,24 +1379,27 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
                             } else {
 
-                                // Check whether there is a new message for this user
-                                var cont = false;
-                                for(var n = 0; n < njson[k].messages.length; n++){
-                                    if (njson[k].messages[n]["sakai:read"] === "false"){
-                                        cont = true;
-                                    }
-                                }
+                                // Disabling this check for now as othwerwise chat window doesn't pop up when a new chat message came through
+                                // This sadly will reintroduce the annoying chat window pop-up bug, but we can deal with this after 0.2
+                                // The read property of the messages will need to be set
 
-                                if (cont){
+                                // Check whether there is a new message for this user
+                                //var cont = false;
+                                //for(var n = 0, o = njson[k].messages.length; n<o; n++){
+                                //    if (njson[k].messages[n]["sakai:read"] === false){
+                                //        cont = true;
+                                //    }
+                                //}
+                                //if (cont){
 
                                     // Add the user information to the active windows
                                     var index = activewindows.items.length;
                                     activewindows.items[index] = {};
                                     activewindows.items[index].userid = k;
                                     activewindows.items[index].active = false;
-                                    var friendProfile = njson[k].messages[0].userFrom;
-                                    if (njson[k].messages[0].userFrom["rep:userId"] == sdata.me.user.userid){
-                                        friendProfile = njson[k].messages[0].userTo;
+                                    var friendProfile = njson[k].messages[0].userFrom[0];
+                                    if (njson[k].messages[0].userFrom[0]["userid"] === sdata.me.user.userid){
+                                        friendProfile = njson[k].messages[0].userTo[0];
                                     }
 
                                     // Parse the name, photo, statusmessage and chatstatus into the activewindows objects
@@ -1433,12 +1436,11 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                                         }
                                     }
 
-
                                     // Render the windows and load the initial chat text function again
                                     doWindowRender(null, newactivewindows);
                                     sakai.navigationchat.loadChatTextInitial(true, newactivewindows, true);
 
-                                }
+                                //}
                             }
                         }
                     }
