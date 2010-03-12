@@ -210,7 +210,15 @@ html>body .s3d-button .s3d-button-inner {
  * ----------------------------------------------------------------------------
  */
 
-.s3d-primary-tabs {
+/*
+ *     background-color: #D6DBDF;
+    background-image: url('../../_images/primary-tabs-sprite.png');
+    background-attachment: scroll;
+    background-position: left -80px;
+
+ */
+
+.s3d-primary-tabs, .s3d-primary-tabs-inner {
     height: 25px;
     border: none;
     padding: 3px 10px 0 0;
@@ -252,59 +260,33 @@ html>body .s3d-button .s3d-button-inner {
     bottom: 0px !important;
 }
 
-.s3d-primary-tabs ul li.fl-tabs-active {
-    background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat;
+.s3d-primary-tabs ul li.fl-tabs-active, .s3d-primary-tabs ul li.fl-tabs-active a {
+    background-color: #FFF;
+    background-image: url('../../_images/primary-tabs-sprite.png');
+    background-attachment: scroll;
     height: 30px;
-    padding-left: 5px;
-    position: relative;
     bottom: 0px !important;
+    position: relative;
+}
+
+.s3d-primary-tabs ul li.fl-tabs-active {
+    padding-left: 5px;
+    background-position: left top;
 }
 
 .s3d-primary-tabs ul li.fl-tabs-active a {
-    background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat;
-    height: 30px;
+    background-position: right -40px;
     font-weight: normal;
     border: none;
     padding-left: 15px;
     margin: 0;
-    position: relative;
-    bottom: 0px !important;
 }
-
-/*
-.fl-tabs {
-    border-bottom: 1px solid #ddd;
-}
-
-.fl-tabs li a {
-    background-color:#eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #ddd;
-    color:#3399CC;
-    padding: 6px 20px 5px;
-    margin-left: -1px;
-    margin-bottom:-9px;
-}
-
-
-.fl-tabs .fl-tabs-active a {
-    background-color: #eee;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #eee;
-    color:#333333;
-    font-weight:bold;
-}
-
-*/
 
 .fl-tab-content {
     border: none;
     margin: 0px;
 }
+
 /* ----------------------------------------------------------------------------
  *    DIALOGS
  * ----------------------------------------------------------------------------
