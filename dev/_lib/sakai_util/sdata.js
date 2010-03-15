@@ -1358,8 +1358,8 @@ sakai.sorting.human = function(a, b){
  * line. After this has been done, all calls to
  *    fluid.log(message);
  * will be logged in the most appropriate console
- *  NOTE: always disable debugging for production systems, as logging calls are quite
- *  expensive.
+ * NOTE: always disable debugging for production systems, as logging calls are quite
+ * expensive.
  */
 //fluid.setLogging(false);
 fluid.setLogging(true);
@@ -1373,8 +1373,8 @@ fluid.setLogging(true);
 
 /*
  * In order to decode or encode a URL use the following functions:
- *  $.URLDecode(string) : URL Decodes the given string
- *  $.URLEncode(string) : URL Encodes the given string
+ * $.URLDecode(string) : URL Decodes the given string
+ * $.URLEncode(string) : URL Encodes the given string
  */
 $.extend({URLEncode:function(c){var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
   while(x<c.length){var m=r.exec(c.substr(x));

@@ -16,36 +16,38 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/* global $, sdata, opensocial, Config */
+/*global sdata, opensocial, Config, window, alert, $ */
 
 var sakai = sakai || {};
 
 sakai._changepic = {};
 sakai.changepic = function(tuid, placement, showSettings){
 
-    //////////////////
-    //    Config vars    //
-    //////////////////
+
+    //////////////////////
+    // Config Variables //
+    //////////////////////
+
     var realw = 0;
     var realh = 0;
     var picture = false;
     var ratio = 1;
-    var userSelection = null;        //    The object returned by imgAreaSelect that contains the user his choice.
+    var userSelection = null; // The object returned by imgAreaSelect that contains the user his choice.
     var me = null;
 
-    //    These values are just in case there are no css values specified.
-    //    If you want to change the size of a thumbnail please do this in the CSS.
+    // These values are just in case there are no css values specified.
+    // If you want to change the size of a thumbnail please do this in the CSS.
     var thumbnailWidth = 100;
     var thumbnailHeight = 100;
 
+
     //////////////
-    //    CSS IDS    //
+    // CSS IDS    //
     //////////////
 
-    var containerTrigger = '#changepic_container_trigger';        //    This is the id that will trigger this widget.
+    var containerTrigger = '#changepic_container_trigger'; // This is the id that will trigger this widget.
 
-
-    //    tabs
+    // tabs
     var tabSelect = "#changepic_select";
     var tabUpload = "#changepic_upload";
     var tabSelectContent = "#changepic_selectpicture";
@@ -53,7 +55,7 @@ sakai.changepic = function(tuid, placement, showSettings){
     var tabActiveClass = "fl-tabs-active";
     var tabSearchSelected = "search_tab_selected";
 
-    //    others
+    // others
     var container = "#changepic_container";
     var picForm = "#changepic_form";
     var pictureMeasurer = "#picture_measurer";
@@ -63,14 +65,13 @@ sakai.changepic = function(tuid, placement, showSettings){
     var thumbnail = "#thumbnail";
     var thumbnailContainer = "#thumbnail_container";
 
-    //    An array with selectors pointing to images that need to be changed.
+    // An array with selectors pointing to images that need to be changed.
     var imagesToChange = ["#picture_holder img", "#myprofile_pic", "#chat_available_me .chat_available_image img"];
 
 
     ///////////////////
     // TAB FUNCTIONS //
     ///////////////////
-
 
     /**
      * Will set the upload a new picture as the viewable tab.
@@ -82,7 +83,6 @@ sakai.changepic = function(tuid, placement, showSettings){
             hide: true,
             disable: true
         });
-
 
         $(tabSelect).removeClass(tabActiveClass);
         $(tabSelect).removeClass(tabSearchSelected);
@@ -113,17 +113,16 @@ sakai.changepic = function(tuid, placement, showSettings){
     /**
      * Clicked on the upload tab
      */
-    $(tabUpload).bind("click", function(){
+    $(tabUpload).click(function(){
         showNewTab();
     });
 
     /**
      * Clicked on the select tab
      */
-    $(tabSelect).bind("click", function(){
+    $(tabSelect).click(function(){
         sakai._changepic.doInit();
     });
-
 
     /**
      * When the user has drawn a square this function will be called by imgAreaSelect.
@@ -132,14 +131,15 @@ sakai.changepic = function(tuid, placement, showSettings){
      * @param {Object} selection The selection object from imgAreaSelect
      */
     function preview(img, selection){
-        //    Save the user his selection in a global variable.
+
+        // Save the user his selection in a global variable.
         userSelection = selection;
 
-        //    How much has the user scaled down the image?
+        // How much has the user scaled down the image?
         var scaleX = thumbnailWidth / selection.width;
         var scaleY = thumbnailHeight / selection.height;
 
-        //    Change the thumbnail according to the user his selection via CSS.
+        // Change the thumbnail according to the user his selection via CSS.
         $(thumbnail).css({
             width: Math.round(scaleX * img.width) + 'px',
             height: Math.round(scaleY * img.height) + 'px',
@@ -150,6 +150,7 @@ sakai.changepic = function(tuid, placement, showSettings){
     }
 
     sakai._changepic.doInit = function(){
+
         // Check whether there is a base picture at all
         me = sdata.me;
         var json = me.profile;
@@ -158,10 +159,11 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         $(picForm).attr("action", Config.URL.SDATA_FETCH_PUBLIC_URL.replace(/__USERID__/,sdata.me.user.userid));
 
-        //    Get the preferred size for the thumbnail.
+        // Get the preferred size for the thumbnail.
         var prefThumbWidth = parseInt($(thumbnailContainer).css('width').replace(/px/gi,''), 10);
         var prefThumbHeight = parseInt($(thumbnailContainer).css('height').replace(/px/gi,''), 10);
-        //    Make sure we don't have 0
+
+        // Make sure we don't have 0
         thumbnailWidth  = (prefThumbWidth > 0) ? prefThumbWidth : thumbnailWidth;
         thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 
@@ -170,80 +172,95 @@ sakai.changepic = function(tuid, placement, showSettings){
         }
 
         if (picture && picture._name) {
-            //    The user has already uploaded a picture.
-            //    Show the edit tab.
-            //    Show tab in header
+            // The user has already uploaded a picture.
+            // Show the edit tab.
+            // Show tab in header
             $(tabSelect).show();
 
 
-            //    Set the unvisible image to the full blown image. (make sure to filter the # out)
+            // Set the unvisible image to the full blown image. (make sure to filter the # out)
             $(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
             $(pictureMeasurerImage).bind("load", function(ev){
 
-                //    save the image size in global var.
+                // save the image size in global var.
                 realw = $(pictureMeasurerImage).width();
                 realh = $(pictureMeasurerImage).height();
 
-                //    Set the images
+                // Set the images
                 $(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
                 $(thumbnail).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
 
+                // Width < 500 ; Height < 300 => set the original height and width
+                if (realw < 500 && realh < 300){
+                    $(fullPicture).width(realw);
+                    $(fullPicture).height(realh);
 
                 // Width > 500 ; Height < 300 => Width = 500
-
-                if (realw > 500 && (realh / (realw / 500) < 300)){
+                } else if (realw > 500 && (realh / (realw / 500) < 300)){
                     ratio = realw / 500;
-                    $(fullPicture).attr("width","500");
+                    $(fullPicture).width(500);
+                    $(fullPicture).height(Math.floor(realh / ratio));
 
                 // Width < 500 ; Height > 300 => Height = 300
-
                 } else if (realh > 300 && (realw / (realh / 300) < 500)) {
                     ratio = realh / 300;
-                    $(fullPicture).attr("height", "300");
+                    $(fullPicture).height(300);
+                    $(fullPicture).width(Math.floor(realw / ratio));
 
                 // Width > 500 ; Height > 300
-
                 } else if (realh > 300 && (realw / (realh / 300) > 500)) {
 
                     var heightonchangedwidth = realh / (realw / 500);
                     if (heightonchangedwidth > 300){
                         ratio = realh / 300;
-                        $(fullPicture).attr("height", "300");
+                        $(fullPicture).height(300);
                     } else {
                         ratio = realw / 500;
-                        $(fullPicture).attr("width", "500");
+                        $(fullPicture).width(500);
                     }
                 }
 
-                $(fullPicture).imgAreaSelect({
-                    aspectRatio: "1:1",
-                    onSelectEnd: preview,
-                    hide: false,
-                    disable: false
-                });
+                // If the image gets loaded, make a first selection
+                var initialSelection = function(img, selection){
+                    var initialSelectionHeight = realh < 100 ? realh : 100;
+                    var initialSelectionWidth = realw < 100 ? realw : 100;
+                    imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
+                    imageareaobject.setOptions({ show: true });
+                    imageareaobject.update();
+                    selection = imageareaobject.getSelection();
+                    preview(img, selection);
+                };
 
+                // Set the imgAreaSelect to a function so we can access it later on
+                var imageareaobject = $(fullPicture).imgAreaSelect({
+                    aspectRatio: "1:1",
+                    disable: false,
+                    enable: true,
+                    hide: false,
+                    instance: true,
+                    onInit: initialSelection,
+                    onSelectChange: preview
+                });
             });
 
             showSelectTab();
 
         }
         else {
-            //    The user hasn't uploaded a picture yet.
-            //    Show the upload pic tab.
+            // The user hasn't uploaded a picture yet.
+            // Show the upload pic tab.
             $(tabSelect).hide();
             showNewTab();
         }
     };
 
-    var bigSelection = false;
+    // This is the function that will be called when a user has cut out a selection
+    // and saves it.
+    $(saveNewSelection).click(function(ev){
 
-    //    This is the function that will be called when a user has cut out a selection
-    //    and saves it.
-    $(saveNewSelection).bind("click", function(ev){
-
-        //    The parameters for the cropit service.
+        // The parameters for the cropit service.
         var data = {
             img: "/_user/public/" + sdata.me.user.userStoragePrefix + picture._name,
             save: "/_user/public/" + sdata.me.user.userStoragePrefix,
@@ -254,6 +271,13 @@ sakai.changepic = function(tuid, placement, showSettings){
             dimensions: "256x256",
             "_charset_":"utf-8"
         };
+
+        if(data.width === 0 || data.height === 0){
+            data.width = $(fullPicture).width();
+            data.height = $(fullPicture).height();
+            data.x = 0;
+            data.y = 0;
+        }
 
         // Post all of this to the server
         $.ajax({
@@ -272,23 +296,22 @@ sakai.changepic = function(tuid, placement, showSettings){
 
                 sdata.me.profile.picture = stringtosave;
 
-                //    Do a patch request to the profile info so that it gets updated with the new information.
+                // Do a patch request to the profile info so that it gets updated with the new information.
                 $.ajax({
-                    //url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
                     url: "/_user/public/" + me.user.userid + "/authprofile",
                     type : "POST",
-                data : {
-                    "picture" : $.toJSON(tosave),
-                    "_charset_":"utf-8"
-                },
-                success : function(data) {
-                        //    Change the picture in the page. (This is for my_sakai.html)
-                        //    Math.random is for cache issues.
+                    data : {
+                        "picture" : $.toJSON(tosave),
+                        "_charset_":"utf-8"
+                    },
+                    success : function(data) {
+                        // Change the picture in the page. (This is for my_sakai.html)
+                        // Math.random is for cache issues.
                         for (var i = 0; i < imagesToChange.length;i++) {
                             $(imagesToChange[i]).attr("src", "/_user/public/" + me.user.userid + "/" + tosave.name + "?sid=" + Math.random());
                         }
 
-                        //    Hide the layover.
+                        // Hide the layover.
                         $(container).jqmHide();
 
                     },
@@ -304,16 +327,19 @@ sakai.changepic = function(tuid, placement, showSettings){
         });
 
     });
-    //////////////////////////////
-    //    jQuery Modal FUNCTIONS    //
-    //////////////////////////////
+
+
+    ////////////////////////////
+    // jQuery Modal functions //
+    ////////////////////////////
 
     /**
      * Hide the layover
      * @param {Object} hash the object that represents the layover
      */
     var hideArea = function(hash){
-        //    Remove the selecting of an area on an image.
+
+        // Remove the selecting of an area on an image.
         $(fullPicture).imgAreaSelect({
             hide: true,
             disable: true
@@ -332,7 +358,7 @@ sakai.changepic = function(tuid, placement, showSettings){
         hash.w.show();
     };
 
-    //    This will make the widget popup as a layover.
+    // This will make the widget popup as a layover.
     $(container).jqm({
         modal: true,
         trigger: containerTrigger,
@@ -356,34 +382,31 @@ sakai._changepic.startCallback = function(){
  * @param {Object} response
  */
 sakai._changepic.completeCallback = function(response){
-    //    We have to retrieve the me information.
-    var me = sdata.me;
 
-    //    Replace any <pre> tags the response might contain.
+    // Replace any <pre> tags the response might contain.
     response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
 
     var tosave = {
-        //"_name": $("#fullfile").val()
         "_name": "profilepicture"
     };
 
-    //    We edit the profile.json file with the new profile picture.
+    // We edit the profile.json file with the new profile picture.
     var stringtosave = $.toJSON(tosave);
 
-    //    We edit the me object in sdata.
-    //    This saves a request and will be checked in the doInit function later on.
+    // We edit the me object in sdata.
+    // This saves a request and will be checked in the doInit function later on.
     sdata.me.profile.picture = stringtosave;
 
-    //    the object we wish to insert into the profile.json file.
+    // the object we wish to insert into the profile.json file.
     var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
     $.ajax({
         url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sdata.me.user.userid) + ".update.html",
-        //url : Config.URL.PATCH_SERVICE + "/f/_private" + me.userStoragePrefix + "profile.json",
         type : "POST",
         data : data,
         success : function(data) {
-            //    we have saved the profile, now do the widgets other stuff.
+
+            // we have saved the profile, now do the widgets other stuff.
             sakai._changepic.doInit();
         },
         error: function(xhr, textStatus, thrownError) {
