@@ -56,7 +56,7 @@ sakai.twitter = function(tuid,placement,showSettings){
         switch(container){
             case "get_status":
                 currentSubContainer = "get";
-                $("#twitter_sub_container", rootel).html($.Template.render('twitter_template_get_status',json));
+                $("#twitter_sub_container", rootel).html($.Template.render($("#twitter_template_get_status"),json));
                 break;
             case "set_status":
                 currentSubContainer = "set";
