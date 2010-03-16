@@ -1,4 +1,3 @@
-
 /* Global Classes */
 .user-personal a{color: #058ec4; font-size: 12px;}
 .user-personal strong{color: #058ec4;}
@@ -27,35 +26,6 @@
 .button-lightgrey { background: transparent url(../../_images/lightgray_button_left.gif) top left no-repeat; float: left;}
 .button-lightgrey input {background: url(../../_images/lightgray_button_right.gif) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px; margin-right: -10px;}
 .button-space {margin-left: 20px}
-
-/* dialog box overlay
-.overlay{background-color: #000; opacity: 0.1; filter:alpha(opacity=10); position: absolute; top:0; left:0; width:100%; height: 100%; z-index: 100;}
-.dialogue_box{width: 520px; height: 374px; border: 3px solid #333; background: #fff; z-index: 101; position: absolute; left: 50%; margin-left: -260px; top: 50%; margin-top: -187px;}
-.dialogue_header_bg{background: #707070; height: 35px; width: 100%;}
-.dialogue_header{color: #fff; padding: 10px;  font-weight: bold; font-size: 16px;}
-.dialogue_controls {float: right;}
-.dialogue_close{display: block; width: 18px; height: 18px; background: url(../../_images/dialogue_close.gif) no-repeat center center;}
-.dialogue_body{width: 488px; height: 307px; position: relative; top: 15px; left: 15px; border:1px solid #e5e5e5; overflow: auto;}
-*/
-
-/* account_preferences.html */
-.account_preferences .preferences-option{color: #78c4ee; float: right; font-weight: bold; font-size: 14px;}
-.account_preferences .section_header{font-size: 14px;}
-.account_preferences .site_heading{padding-top: 30px; padding-bottom: 10px;}
-.account_preferences .password{margin-top: 10px;}
-.account_preferences .preferred-name{float: right;}
-.account_preferences .preferences-name{color: #ccc; margin-top: 5px;}
-.account_preferences .password-preferences-form table{margin-left: 15px;}
-.account_preferences .password-preferences-form td{margin: 0; padding: 20px 0 0 0; border: 0;}
-.account_preferences .password-preferences-form th{margin: 0; padding: 20px 20px 0 0; border: 0; text-align: right;}
-.account_preferences .password-preferences-input{width: 300px; height: 25px; border: 1px solid #ccc;}
-.account_preferences .regional-preferences-form table{margin-left: 15px;}
-.account_preferences .regional-preferences-form td{margin: 0; padding: 20px 0 0 0; border: 0;}
-.account_preferences .regional-preferences-form th{margin: 0; padding: 20px 20px 0 0; border: 0; text-align: right;}
-.account_preferences .regional-preferences-input{width: 300px; height: 25px; border: 1px solid #ccc;}
-.account_preferences .regional-preferences-form select{height: 21px; width: 280px;}
-.account_preferences .save-preferences{background: #f7f7f7; height: 43px; margin-top: 20px;}
-.account_preferences .button-preferences{width: 110px; height: 27px; margin: 8px 0 0 20px;}
 
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
@@ -120,19 +90,6 @@
 .basic_management .settings_confirm_container .save{width: 70px;}
 .basic_management .site_heading {padding: 25px 25px 25px 25px;}
 
-/* TOP NAVIGATION
-.explore_nav {background-color: #EEEEEE;    height: 22px;}
-.explore_nav .explore {padding-left: 15px;}
-.explore_nav .explore li a {color: #475358;    font-weight:bold;text-align: center;}
-.explore_nav_selected {color: #fff;background-color: #666666;padding: 2px 5px 2px 5px;display: inline-block;margin-top:-3px;outline: none;border: none;text-decoration: none;cursor: pointer;white-space: nowrap;vertical-align: middle;display: -moz-inline-box;display: inline-block;overflow: visible;}
-.explore_nav_selected span {color: #fff;}
-.explore_nav_selected_arrow {width: 9px;    height: 5px;position: relative;bottom: -11px;}
-.explore_nav .personal {padding: 0 8px 0 0;font-size: .95em;}
-.explore_nav .personal li a {color: #058ec4;}
-.explore_nav .personal li strong {color: #058ec4;}
-.captcha_container p {margin-bottom:0pt;}
-.header-smallline {padding:10px 0 0 40px;color:#D8D8D8; width:700px; font-size: 1em;} */
-
 /* GENERAL SITE MANAGEMENT */
 .basic_management .site_summary_form .summary-form-item label {color:#333333; float:left; font-weight:bold; margin-right:15px; text-align:right; width:90px;}
 .basic_management .site_summary_form .summary-form-item {margin-bottom:20px;}
@@ -140,9 +97,3 @@
 .basic_management .site_access_form .access-form-item {margin-bottom:35px;}
 .basic_management .site_access_form .site_access_label {color:#333333;float:left;font-weight:bold;height:52px;margin-right:25px;text-align:right;width:125px;}
 .basic_management .site_access_form .access-form-item .site_access_label {color:#333333;float:left;font-weight:bold;text-align:right;width:130px;}
-
-/* ACCOUNT PREFERENCES */
-.account_preferences .form-item label {float:left;font-weight:bold;margin-right:15px;text-align:right;width:155px;}
-.account_preferences .form-item {margin:0 0 15px 15px;}
-.account_preferences .regional .preferences-form select {height:21px;width:280px;}
-.account_preferences .preferences-form {margin-top:25px;}
