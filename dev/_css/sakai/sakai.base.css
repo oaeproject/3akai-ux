@@ -44,7 +44,7 @@ h1 {
 
 /* LINKS */
 
-a { 
+a {
     color: #333;
     text-decoration: none;
 }
@@ -54,19 +54,19 @@ a:hover {
 }
 
 /* Hidden elements
- ** localization: .i18nable 
+ ** localization: .i18nable
  * Hide i18nable elements by default until the messages are replaced by the translated
  * strings, and i18n will show the element. Typically this class is applied at body level
  ** functionality: .s3d-hidden
- * user for elements that will then be shown later using jQuery().show() 
+ * user for elements that will then be shown later using jQuery().show()
  */
 
 .s3d-hidden, .i18nable {
     display: none;
 }
 
-/* CHROME STYLES 
- * 
+/* CHROME STYLES
+ *
  */
 
 
@@ -86,7 +86,7 @@ a:hover {
 
 /* ----------------------------------------------------------------------------
  * PROGRAMMATICALLY SET STYLES
- * styles used to programmatically set placement of widgets on the page 
+ * styles used to programmatically set placement of widgets on the page
  * ----------------------------------------------------------------------------
  */
 
@@ -100,14 +100,14 @@ a:hover {
 }
 
 /* ----------------------------------------------------------------------------
- *    BUTTONS 
+ *    BUTTONS
  * ----------------------------------------------------------------------------
  */
 
 .s3d-button {
     display: inline-block;
     position: relative;
-    border: none; 
+    border: none;
     margin: 0 5px 5px 0;
     padding: 0 13px 0 0;
     cursor: pointer;
@@ -173,11 +173,11 @@ html>body .s3d-button .s3d-button-inner {
 }
 
 .s3d-button[disabled] .s3d-button-inner, .s3d-disabled .s3d-button-inner {
-    background-position: left -240px;    
+    background-position: left -240px;
 }
 
 , .s3d-button:hover[disabled] .s3d-button-inner, .s3d-disabled.s3d-button-hover .s3d-button-inner  {
-    background-position: left -240px;    
+    background-position: left -240px;
 }
 
 .s3d-button-icon-right, .s3d-button-icon-left {
@@ -225,7 +225,7 @@ html>body .s3d-button .s3d-button-inner {
 }
 
 .s3d-primary-tabs ul.fl-tabs-left {
-    float: left; 
+    float: left;
     padding-left: 3px;
 }
 
@@ -333,3 +333,52 @@ html>body .s3d-button .s3d-button-inner {
 /* Dialog footer */
 .dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}
 .dialog_footer_inner{background:url(/dev/_images/dialog_bl.png) top left no-repeat;height:6px;}
+
+/* ----------------------------------------------------------------------------
+ *    NOTIFICATIONS
+ * ----------------------------------------------------------------------------
+ */
+#notification_container {
+    z-index:1500;
+    position:absolute;
+    top:20px;
+    right:20px;
+    width:300px;
+}
+
+#notification_container div {
+    border:3px solid #454545;
+    background-color:#fefefe;
+    opacity:70;
+    float:left;
+    margin-top:5px;
+    width:280px;
+    padding:5px;
+    padding-bottom:12px;
+}
+
+#notification_container div img {
+    margin-left:10px;
+    margin-top:10px;
+    margin-right:15px;
+    float:left;
+}
+#notification_container div span.notification_title {
+    color:#666;
+    margin-top:10px;
+    display:inline-block;
+    font-weight:bold;
+}
+#notification_container div span.notification_message {
+    color:#222;
+    float:left;
+    margin-top:3px;
+    display:inline-block;
+    font-size: 1.1em;
+    padding: 5px 10px 5px 45px;
+}
+#notification_container div img.notification_close {
+    float:right;
+    margin-top:-3px;
+    margin-right:-3px;
+}
