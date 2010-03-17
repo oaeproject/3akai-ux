@@ -860,7 +860,7 @@ sdata.widgets.WidgetPreference =  {
             templateName = templateInstance[0].id;
         }
         else if (typeof templateInstance === "string"){
-            templateName = templateInstance.replace(/#/, "");
+            templateName = templateInstance.replace("#", "");
             templateInstance = $("#" + templateName);
         }
         else {
@@ -888,21 +888,11 @@ sdata.widgets.WidgetPreference =  {
             }
         }
 
-        // Surround the process function in a try catch in order to have better exceptions
-        var render;
+        // Run the template and feed it the given JSON object
+        var render = templateCache[templateName].process(contextObject);
 
-        try {
-
-            // Run the template and feed it the given JSON object
-            render = templateCache[templateName].process(contextObject);
-
-        } catch (e) {
-
-            throw("$.Template.render: An error occured while parsing the '" + templateName + "' template.");
-
-        }
-        
-
+        // Check it there was an output element defined
+        // If so, put the rendered template in there
         if (output) {
             output.html(render);
         }
