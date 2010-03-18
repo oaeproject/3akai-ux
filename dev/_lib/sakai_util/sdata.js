@@ -839,24 +839,42 @@ sdata.widgets.WidgetPreference =  {
     /**
      * Renders the template with the given JSON object, inserts it into a certain HTML
      * element if required, and returns the rendered HTML string
-     * @param {string} templateName
-     *  the name of the template HTML ID.
+     * @param {string|object} templateInstance
+     *  the name of the template HTML ID or a jQuery selection object.
      * @param {object} contextObject
      *  The JSON object containing the data to be rendered
      * @param {object} [optional] output
      *  The jQuery element in which the template needs to be rendered
      * @return The rendered HTML string
      */
-    $.Template.render = function(templateName, contextObject, output)  {
+    $.Template.render = function(templateInstance, contextObject, output) {
+
+        var templateName;
+
+        // The template name and the context object should be defined
+        if(!templateInstance || !contextObject){
+            throw "$.Template.render: the template name or the contextObject is not defined";
+        }
+
+        if(templateInstance instanceof jQuery && templateInstance[0]){
+            templateName = templateInstance[0].id;
+        }
+        else if (typeof templateInstance === "string"){
+            templateName = templateInstance.replace(/#/, "");
+            templateInstance = $("#" + templateName);
+        }
+        else {
+            throw "$.Template.render: The templateInstance is not in a valid format or the template couldn't be found.";
+        }
+
         if (!templateCache[templateName]) {
-            var el = $("#" + templateName);
-            if (el.get(0)) {
-                var templateNode = el.get(0);
+            if (templateInstance.get(0)) {
+                var templateNode = templateInstance.get(0);
                 var firstNode = templateNode.firstChild;
                 var template = null;
                 // Check whether the template is wrapped in <!-- -->
                 if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-                    template = templateNode.firstChild.data.toString();
+                    template = firstNode.data.toString();
                 }
                 else {
                     template = templateNode.innerHTML.toString();
@@ -866,12 +884,24 @@ sdata.widgets.WidgetPreference =  {
 
             }
             else {
-                throw "Template could not be found";
+                throw "$.Template.render: The template '" + templateName + "' could not be found";
             }
         }
 
-        // Run the template and feed it the given JSON object
-        var render = templateCache[templateName].process(contextObject);
+        // Surround the process function in a try catch in order to have better exceptions
+        var render;
+
+        try {
+
+            // Run the template and feed it the given JSON object
+            render = templateCache[templateName].process(contextObject);
+
+        } catch (e) {
+
+            throw("$.Template.render: An error occured while parsing the '" + templateName + "' template.");
+
+        }
+        
 
         if (output) {
             output.html(render);

@@ -33,10 +33,7 @@ sakai.logout = function(){
     $.ajax({
         url: Config.URL.LOGOUT_SERVICE,
         type: "POST",
-        success: function(data){
-            window.location = Config.URL.GATEWAY_URL;
-        },
-        error: function(xhr, textStatus, thrownError) {
+        complete: function(){
             window.location = Config.URL.GATEWAY_URL;
         },
         data: {"sakaiauth:logout":"1","_charset_":"utf-8"}
