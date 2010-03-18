@@ -148,7 +148,7 @@
 
 
 /** SITE EDIT
-    --------------------------------------------------------------------------------------------------- **/
+--------------------------------------------------------------------------------------------------- **/
 
 /** TABS VARIANT **/
 .edit_view .s3d-primary-tabs {
@@ -227,3 +227,49 @@
 
 .sakai_site .sakai_logo
 { float: left; }
+
+
+
+
+
+
+/** DASHBOARD PAGE
+--------------------------------------------------------------------------------------------------- **/
+
+
+/* OPTIONS */
+.dashboard_options {clear: none;text-align: right;}
+.dashboard_options .fixed-container { background-color: #fff; }
+.dashboard_options a {font-size: .9em; color: #454A4F; font-weight: bold;}
+
+.groupWrapper {overflow:hidden;}
+
+#dashboard_addpage_dialog .buttonBar #dashboard_addpage_add { float: left;}
+#dashboard_addpage_dialog .buttonBar .jqmClose { margin-left: 10px;}
+#dashboard_addpage_dialog #dashboard_addpage_title { width:98%; margin-top:10px;}
+
+/* SPECIFIC WIDGETS */
+.sitemembers .sitemembers_compact {width:auto;}
+.sitemembers #sitemembers_settings_data_container {width:100%;}
+.sitemembers .sitemembers_settings_data {width:auto;float:none;display:block;}
+.sitemembers.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/myprofile_icon.png) no-repeat scroll 17px 18px; }
+
+.folderpicker.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/folder_icon.png) no-repeat scroll 17px 18px; }
+.filepicker.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/page_18.png) no-repeat scroll 17px 18px; }
+.rss.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/rss_icon.png) no-repeat scroll 17px 18px; }
+
+/* TOOLS CONTAINER - RIGHT COLUMN */
+#toolscontainer {
+    margin-left: 20px;
+}
+
+/* Change layout */
+.layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
+.layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
+.layout_picker_item_column {border-right: 1px solid #3399CC;}
+.layout_picker_item_radio {margin-left:50px; margin-top:10px;}
+.layout_container_unselected {float:left; padding-left:25px; padding-right:13px;}
+.layout_picker_item_unselected {width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8;}
+.layout_picker_item_column_unselected {border-right: 1px solid #dddfe1;}
+.layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
+#layouts_list {display:block;}

@@ -57,6 +57,7 @@
 #user_link_menu ul {margin:0;padding:0}
 #user_link_menu li {display:block; list-style-type:none;margin:0; padding:3px 5px 6px 13px;}
 #user_link_menu li a {border:none;color:#fff;font-size: 9pt; padding:0;}
+#user_link_menu li a:hover {color: #ddd}
 .user_link_inactive li {font-size:9pt; }
 
 /* Anonymous Login */

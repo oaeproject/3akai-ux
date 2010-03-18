@@ -557,7 +557,7 @@ sakai.profile = function(){
 
         if (json.contactinfo) {
 
-            unicontactinfo = json.contactinfo;
+            unicontactinfo = $.evalJSON(json.contactinfo);
 
             if (unicontactinfo.uniphone) {
                 inunicontactinfo++;
@@ -582,7 +582,7 @@ sakai.profile = function(){
         var inhomecontactinfo = 0;
         if (json.contactinfo) {
 
-            homecontactinfo = json.contactinfo;
+            homecontactinfo = $.evalJSON(json.contactinfo);
 
             if (homecontactinfo.homeemail) {
                 inhomecontactinfo++;
@@ -612,7 +612,7 @@ sakai.profile = function(){
         var inadditional = 0;
         if (json.basic) {
 
-            additional = json.basic;
+            additional = $.evalJSON(json.basic);
 
             if (additional.awards) {
                 inadditional++;
