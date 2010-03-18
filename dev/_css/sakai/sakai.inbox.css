@@ -4,10 +4,6 @@
 .fixed-container
 { background: #fff;}
 
-/** HEADING **/
-.inbox_main .site_heading
-{ color: #454a4f; padding: 10px 0 10px 0; border: none; }
-
 /** LAYOUT **/
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }

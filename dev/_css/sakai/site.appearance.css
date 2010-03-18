@@ -23,11 +23,6 @@
 .basic_appearance .site_appereance_contents_main
 { border-left: 3px solid #D3DBDE; border-right: 3px solid #D3DBDE; margin: 0; padding: 10px; }
 
-
-/** HEADING **/
-.basic_appearance .site_heading
-{ color: #454a4f; padding: 10px 0 10px 0; border: none; }
-
 .basic_appearance .site_secondary_heading
 { color: #454a4f; padding: 10px 0 20px 0; border: none; }
 
@@ -61,11 +56,7 @@
 .basic_appearance .content_bottom_inner
 { background: url('../../_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
-
 /* PAGE CONTENTS */
-
-.basic_appearance .section_container
-{ padding: 0; }
 
 .basic_appearance .site_appereance_contents_main h4
 { padding: 5px 0 10px 0; font-weight: normal; color: #5a6a7c; }
