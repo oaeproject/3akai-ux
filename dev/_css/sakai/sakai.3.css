@@ -1,57 +1,6 @@
 
 /* Global Classes */
 
-/* refactor notes: .user-personal used in site management members for select all | select none 
- * more like "action-links" 
- */
-.user-personal a {
-    color: #058ec4;
-    font-size: 12px;
-}
-
-.user-personal strong {
-    color: #058ec4;
-}
-
-.user-personal li {
-    border-left: 1px solid #999;
-    padding: 0 0 0 5px;
-}
-
-.user-personal .first {
-    border-left: none;
-}
-
-/* refactor notes: **** next up .site_heading  
- */
-
-.site_heading {
-    padding: 25px 0px 10px 25px;
-    border-bottom: 1px solid #ebebeb;
-}
-
-.site_heading h1 {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-}
-
-.site_secondary_heading {
-    font-weight: bold;
-    font-size: 20px;
-    padding: 30px 0px 20px 25px;
-}
-
-.site_secondary_heading a {
-    color: #0c91c5;
-    font-size: 14px;
-    padding-left: 10px;
-}
-
-.section_container {
-    padding: 25px 25px 0 25px;
-}
-
 .section_header {
     font-weight: bold;
     border-bottom: 1px solid #ebebeb;
@@ -69,7 +18,9 @@
     border-right: 1px solid #e2e2e2;
 }
 
-/* Buttons */
+/* Buttons 
+ * square style buttons
+ */
 .button {
     display: block;
     float: left;
@@ -93,35 +44,6 @@
 .button-secondary {
     font-weight: normal;
 }
-
-/* dialog box overlay
-.overlay{background-color: #000; opacity: 0.1; filter:alpha(opacity=10); position: absolute; top:0; left:0; width:100%; height: 100%; z-index: 100;}
-.dialogue_box{width: 520px; height: 374px; border: 3px solid #333; background: #fff; z-index: 101; position: absolute; left: 50%; margin-left: -260px; top: 50%; margin-top: -187px;}
-.dialogue_header_bg{background: #707070; height: 35px; width: 100%;}
-.dialogue_header{color: #fff; padding: 10px;  font-weight: bold; font-size: 16px;}
-.dialogue_controls {float: right;}
-.dialogue_close{display: block; width: 18px; height: 18px; background: url(../../_images/dialogue_close.gif) no-repeat center center;}
-.dialogue_body{width: 488px; height: 307px; position: relative; top: 15px; left: 15px; border:1px solid #e5e5e5; overflow: auto;}
-*/
-
-/* account_preferences.html */
-.account_preferences .preferences-option{color: #78c4ee; float: right; font-weight: bold; font-size: 14px;}
-.account_preferences .section_header{font-size: 14px;}
-.account_preferences .site_heading{padding-top: 30px; padding-bottom: 10px;}
-.account_preferences .password{margin-top: 10px;}
-.account_preferences .preferred-name{float: right;}
-.account_preferences .preferences-name{color: #ccc; margin-top: 5px;}
-.account_preferences .password-preferences-form table{margin-left: 15px;}
-.account_preferences .password-preferences-form td{margin: 0; padding: 20px 0 0 0; border: 0;}
-.account_preferences .password-preferences-form th{margin: 0; padding: 20px 20px 0 0; border: 0; text-align: right;}
-.account_preferences .password-preferences-input{width: 300px; height: 25px; border: 1px solid #ccc;}
-.account_preferences .regional-preferences-form table{margin-left: 15px;}
-.account_preferences .regional-preferences-form td{margin: 0; padding: 20px 0 0 0; border: 0;}
-.account_preferences .regional-preferences-form th{margin: 0; padding: 20px 20px 0 0; border: 0; text-align: right;}
-.account_preferences .regional-preferences-input{width: 300px; height: 25px; border: 1px solid #ccc;}
-.account_preferences .regional-preferences-form select{height: 21px; width: 280px;}
-.account_preferences .save-preferences{background: #f7f7f7; height: 43px; margin-top: 20px;}
-.account_preferences .button-preferences{width: 110px; height: 27px; margin: 8px 0 0 20px;}
 
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}

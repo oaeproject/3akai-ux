@@ -15,15 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* Sakai Base */
-
-
 /* ----------------------------------------------------------------------------
  *    GLOBAL RULES
  * ----------------------------------------------------------------------------
  */
-
 html {
     background: #75ADD7 url('../../_images/body_bg.jpg') top left repeat-x;
     font-family: Arial, Helvetica, sans-serif;
@@ -31,20 +27,20 @@ html {
 }
 
 /* adding a visable outline on focus for accessibility */
-:focus {
+*:focus {
     outline: 1px dotted #000;
 }
 
 /* HTML TAG OVERRIDES - on top of the FSS reset */
-
 h1 {
-    font:normal 2em Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    font-family: Arial,Helvetica,sans-serif;
+    font-weight: bolder;
+    line-height: normal;
 }
 
-
 /* LINKS */
-
-a { 
+a {
     color: #333;
     text-decoration: none;
 }
@@ -54,60 +50,111 @@ a:hover {
 }
 
 /* Hidden elements
- ** localization: .i18nable 
+ ** localization: .i18nable
  * Hide i18nable elements by default until the messages are replaced by the translated
  * strings, and i18n will show the element. Typically this class is applied at body level
  ** functionality: .s3d-hidden
- * user for elements that will then be shown later using jQuery().show() 
+ * user for elements that will then be shown later using jQuery().show()
  */
-
 .s3d-hidden, .i18nable {
     display: none;
 }
 
-/* CHROME STYLES 
- * 
+/* CHROME STYLES
+ *
  */
-
-
-.site_heading {
-    padding: 20px 0 5px 15px;
-}
-
-.site_heading h1 {
-    margin: 0;
+/* HEADINGS */
+.s3d-site-heading {
+    padding: 10px 0;
     font-weight: bold;
+    color: #454A4F;
 }
 
+.people .s3d-site-heading, .account_preferences .s3d-site-heading {
+    padding: 15px 0;
+}
 
-/* UTILITY CLASSES */
+.s3d-site-heading h1 {
+    margin: 0;
+    padding: 0;
+}
 
+.site_secondary_heading {
+    font-weight: bold;
+    font-size: 20px;
+    padding: 30px 0px 20px 25px;
+}
 
+.site_secondary_heading a {
+    color: #0C91C5;
+    font-size: 14px;
+    padding-left: 10px;
+}
 
-/* ----------------------------------------------------------------------------
- * PROGRAMMATICALLY SET STYLES
- * styles used to programmatically set placement of widgets on the page 
- * ----------------------------------------------------------------------------
+.basic_appearance .site_secondary_heading {
+    color: #454A4F;
+    padding: 10px 0 20px 0;
+    border: none;
+}
+
+.basic_appearance .site_secondary_heading a {
+    background: #fff url('../../_images/arrow_left_sm2_blue.gif') center left no-repeat;
+    padding: 0 0 0 10px;
+}
+
+/* PROGRAMMATICALLY SET STYLES
+ * styles used to programmatically set placement of widgets on the page
  */
-
 .inline_class_widget_rightfloat {
-    float:right;
+    float: right;
     padding: 5px;
 }
+
 .inline_class_widget_leftfloat {
-    float:left;
+    float: left;
     padding: 5px;
 }
 
-/* ----------------------------------------------------------------------------
- *    BUTTONS 
- * ----------------------------------------------------------------------------
+/* ACTIONS
+ * links used to trigger an action
+ * default styling: bold blue link
+ * Variants:
+ * - action series: links are inside list items, each list item is separated by a divider
  */
+a.s3d-action, .s3d-actions a {
+    color: #006E96;
+    font-weight: bold;
+    font-size: 13px;
+}
 
+.s3d-action-series a {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 12px;
+}
+
+.s3d-action-series li {
+    border-left: 1px solid #CCD1D5;
+    padding: 0 0 0 5px;
+}
+
+.s3d-action-series li.first {
+    border-left: none;
+}
+
+/* LOZENGE BUTTONS
+ * links used to trigger an action
+ * Default styling: lozenge shaped buttons
+ * States: normal, hover, disabled
+ * Variants:
+ * - primary
+ * - icon-right
+ * - icon-left
+ */
 .s3d-button {
     display: inline-block;
     position: relative;
-    border: none; 
+    border: none;
     margin: 0 5px 5px 0;
     padding: 0 13px 0 0;
     cursor: pointer;
@@ -117,12 +164,12 @@ a:hover {
     font-weight: bold;
 }
 
-.s3d-button:hover, .s3d-button-hover  {
+.s3d-button:hover, .s3d-button-hover {
     background-position: right -120px;
 }
 
 .s3d-button::-moz-focus-inner {
-    border: none;  /* overrides extra padding in Firefox */
+    border: none; /* overrides extra padding in Firefox */
 }
 
 .s3d-button .s3d-button-inner {
@@ -142,11 +189,9 @@ a:hover {
     color: #FFF;
 }
 
-
-html>body .s3d-button .s3d-button-inner {
+html > body .s3d-button .s3d-button-inner {
     white-space: normal; /* only do the white-space fix on IE6 */
 }
-
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     /* Safari and Google Chrome only - fix margins */
     .s3d-button .s3d-button-inner {
@@ -211,7 +256,7 @@ html>body .s3d-button .s3d-button-inner {
  */
 
 /*
- *     background-color: #D6DBDF;
+ *  background-color: #D6DBDF;
     background-image: url('../../_images/primary-tabs-sprite.png');
     background-attachment: scroll;
     background-position: left -80px;
