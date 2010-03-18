@@ -29,7 +29,7 @@ var sdata = {};
  * Namespace that will be used for all of the widgets that are being loaded
  * into the document. Every widget will have an object called sakai.widgetid
  */
-var sakai = {};
+var sakai = sakai || {};
 
 
 //////////////////////////////
@@ -39,7 +39,7 @@ var sakai = {};
 /*
  *
  */
-sdata.me = false;
+sakai.data.me = false;
 
 
 if(!Array.indexOf) {
@@ -722,7 +722,7 @@ sdata.widgets.WidgetPreference =  {
      *
      */
     get : function(prefname, callback, requireslogin){
-        var url= Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets/" + prefname;
+        var url= Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets/" + prefname;
         var args = (requireslogin === false ? false : true);
         $.ajax ( {
             url : url,
@@ -901,7 +901,7 @@ sdata.widgets.WidgetPreference =  {
             throw("$.Template.render: An error occured while parsing the '" + templateName + "' template.");
 
         }
-        
+
 
         if (output) {
             output.html(render);
@@ -987,8 +987,8 @@ sdata.widgets.WidgetPreference =  {
 
         var translated_content = "";
         var current_locale_string = false;
-        if (typeof sdata.me.user.locale === "object") {
-          current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
+        if (typeof sakai.data.me.user.locale === "object") {
+          current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
         }
 
         // If there is no i18n defined in Widgets, run standard i18n on content

@@ -20,7 +20,7 @@
 
 sakai.account_preferences = function(){
 
-    var me = sdata.me;
+    var me = sakai.data.me;
     var languages = {};
 
 
@@ -148,7 +148,7 @@ sakai.account_preferences = function(){
             var requestbody = {"oldPwd" : pass, "newPwd" : newPass1, "newPwdConfirm" : newPass2, "_charset_": "utf-8"};
 
             $.ajax({
-                url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sdata.me.user.userid),
+                url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sakai.data.me.user.userid),
                 type : "POST",
                 data : requestbody,
                 success : function(data) {

@@ -32,7 +32,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     // Configuration variables //
     /////////////////////////////
 
-    var me = sdata.me; // Contains information about the current user
+    var me = sakai.data.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
     var editing = false; // Currently editing a post
     var currentEditId = ""; // ID of the element that is currently being edited

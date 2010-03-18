@@ -29,7 +29,7 @@ sakai.inbox = function() {
 
     var messagesPerPage = 13; // The number of messages per page.
     var allMessages = []; // Array that will hold all the messages.
-    var me = sdata.me;
+    var me = sakai.data.me;
     var generalMessageFadeOutTime = 3000; // The amount of time it takes till the general message box fades out
     var selectedMessage = {}; // The current message
     var selectedType = 'inbox';
@@ -997,7 +997,7 @@ sakai.inbox = function() {
             "sakai:sendstate": "pending",
             "sakai:messagebox": "outbox",
             "sakai:to": selectedMessage["sakai:from"],
-            "sakai:from": sdata.me.user.userid,
+            "sakai:from": sakai.data.me.user.userid,
             "sakai:subject": subject,
             "sakai:body":body,
             "sakai:category":"message",
@@ -1328,7 +1328,7 @@ sakai.inbox = function() {
 
     var doInit = function() {
         // Check if we are logged in or out.
-        var uuid = sdata.me.user.userid;
+        var uuid = sakai.data.me.user.userid;
         if (!uuid || uuid === "anon") {
             redirectToLoginPage();
         }

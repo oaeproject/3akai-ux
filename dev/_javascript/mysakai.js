@@ -88,7 +88,7 @@ sakai.dashboard = function(){
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -131,7 +131,7 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
+        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
 
     };
 
@@ -230,7 +230,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
+            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
 
         }
     });
@@ -242,7 +242,7 @@ sakai.dashboard = function(){
 
     var doInit = function (){
 
-        person = sdata.me;
+        person = sakai.data.me;
         inituser = person.user.userid;
         if (!inituser || inituser == "anon") {
             document.location = "/dev/index.html";
@@ -278,7 +278,7 @@ sakai.dashboard = function(){
 
             var jsonstring = '{"items":{"group":"' + selected + '"}}';
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","group",jsonstring, buildLayout);
+            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets","group",jsonstring, buildLayout);
 
         } else {
             alert("An error occured while saving your layout");
@@ -381,7 +381,7 @@ sakai.dashboard = function(){
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets", stateFile, jsonstring, null);
+            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets", stateFile, jsonstring, null);
 
         }
 
@@ -413,7 +413,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -513,7 +513,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
@@ -641,7 +641,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,serString, checksucceed);
+            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,serString, checksucceed);
 
         }
 
@@ -817,7 +817,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,jsonstring, finishAddWidgets);
+        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,jsonstring, finishAddWidgets);
 
     };
 

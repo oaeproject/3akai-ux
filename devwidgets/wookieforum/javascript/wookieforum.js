@@ -267,7 +267,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
     var doInit = function() {
         //    Get the current User.
-        me = sdata.me;
+        me = sakai.data.me;
         if (me.preferences.uuid === "anon" || me.preferences.uuid === undefined) {
             //    This user is not logged in
             //    Send him to the login page.

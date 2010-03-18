@@ -35,7 +35,7 @@ sakai.poll = function(tuid, placement, showSettings){
 
     var json = false;                         // Variable used to recieve information by json
     var jsonAll = false;                     // Contains all the polls
-    var me = sdata.me;                         // Contains information about the current user
+    var me = sakai.data.me;                         // Contains information about the current user
     var rootel = $("#" + tuid);             // Get the main div used by the widget
     var colors = ["663300","e07000","0070e0",
     "660000","990080","c4fc95","c4e3fc","79c365",

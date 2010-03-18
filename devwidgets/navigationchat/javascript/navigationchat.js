@@ -805,9 +805,9 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
         json.me = {};
         if (json.me) {
-            json.me.name = parseName(sdata.me.user.userid, sdata.me.profile.firstName, sdata.me.profile.lastName);
-            json.me.photo = parsePicture(sdata.me.profile.picture, sdata.me.user.userid);
-            json.me.statusmessage = parseStatusMessage(sdata.me.profile.basic);
+            json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
+            json.me.photo = parsePicture(sakai.data.me.profile.picture, sakai.data.me.user.userid);
+            json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
             json.me.chatstatus = currentChatStatus;
 
             // We render the template, add it to a temporary div element and set the html for it.
@@ -878,7 +878,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         };
 
         $.ajax({
-            url: Config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sdata.me.user.userid),
+            url: Config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sakai.data.me.user.userid),
             type: "POST",
             data: data,
             success: function(data){
@@ -894,8 +894,8 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      * Get the chat status for the current user
      */
     var getChatStatus = function(){
-        if (sdata.me.profile) {
-            currentChatStatus = parseChatStatus(sdata.me.profile.chatstatus);
+        if (sakai.data.me.profile) {
+            currentChatStatus = parseChatStatus(sakai.data.me.profile.chatstatus);
         }
         else {
             currentChatStatus = "online";
@@ -1029,7 +1029,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      */
     doWindowRender = function(clicked, special){
 
-        if (sdata.me.user.anon) {
+        if (sakai.data.me.user.anon) {
             return;
         }
 
@@ -1131,7 +1131,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                         "sakai:sendstate": "pending",
                         "sakai:messagebox": "outbox",
                         "sakai:to": "chat:" + currentuser,
-                        "sakai:from": sdata.me.user.userid,
+                        "sakai:from": sakai.data.me.user.userid,
                         "sakai:subject": "",
                         "sakai:body": text,
                         "sakai:category": "chat",
@@ -1177,7 +1177,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      * Write a cookie with the current active windows when you go to another page
      */
     $(window).bind("unload", function(ev){
-        if (sdata.me.user.anon) {
+        if (sakai.data.me.user.anon) {
             return;
         }
         else {
@@ -1239,7 +1239,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
         // Check if the current user is anonymous.
         // If this is the case, exit this function
-        if (sdata.me.user.anon) {
+        if (sakai.data.me.user.anon) {
             return;
         }
 
@@ -1281,7 +1281,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                     for (var i = json.results.length - 1; i >= 0; i--) {
                         var message = json.results[i];
                         var user = "";
-                        if (message.userFrom[0].userid === sdata.me.user.userid) {
+                        if (message.userFrom[0].userid === sakai.data.me.user.userid) {
                             user = message.userTo[0].userid;
                         }
                         else {
@@ -1330,7 +1330,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
                                 for (var j = 0; j < njson[k].messages.length; j++) {
                                     // Check if the message is from the current user or from the friend you are talking to
-                                    if (sdata.me.user.userid == njson[k].messages[j].userFrom[0].userid) {
+                                    if (sakai.data.me.user.userid == njson[k].messages[j].userFrom[0].userid) {
                                         isMessageFromOtherUser = false;
                                     }
                                     else {
@@ -1351,7 +1351,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                                 activewindows.items[index].userid = k;
                                 activewindows.items[index].active = false;
                                 var friendProfile = njson[k].messages[0].userFrom[0];
-                                if (njson[k].messages[0].userFrom[0].userid === sdata.me.user.userid) {
+                                if (njson[k].messages[0].userFrom[0].userid === sakai.data.me.user.userid) {
                                     friendProfile = njson[k].messages[0].userTo[0];
                                 }
 
@@ -1461,7 +1461,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      */
     var decideLoggedIn = function(data){
 
-        var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
+        var mejson = (data === undefined ? sakai.data.me : $.evalJSON(data));
         if (mejson.user.userid) {
 
             // We are logged in, reload page
@@ -1646,7 +1646,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      */
     var doInit = function(){
 
-        var person = sdata.me;
+        var person = sakai.data.me;
 
         $(exploreNavigationContainer).show();
         $(chatMainContainer).show();
@@ -1662,7 +1662,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         if (person.profile.picture) {
             var picture = $.evalJSON(person.profile.picture);
             if (picture.name) {
-                $(pictureHolder).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture.name);
+                $(pictureHolder).attr("src", "/_user/public/" + sakai.data.me.user.userid + "/" + picture.name);
             }
         }
 
@@ -1678,7 +1678,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         setPresence();
     };
 
-    if (sdata.me.user.anon) {
+    if (sakai.data.me.user.anon) {
 
         // If a user is not logged in -> switch to anonymous mode
         switchToAnonymousMode();

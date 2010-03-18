@@ -260,7 +260,7 @@ sakai.site = function(){
                 }
 
                 // Check user's login status
-                if (sdata.me.user.userid){
+                if (sakai.data.me.user.userid){
                     $("#loginLink").hide();
                     sakai._isAnonymous = false;
                 } else {
@@ -486,7 +486,7 @@ sakai.site = function(){
         var site = site_object.id;
 
         $.ajax({
-            url : "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
+            url : "/_user/private/" + sakai.data.me.user.userStoragePrefix + "recentsites.json",
             cache: false,
             success : function(data) {
 
@@ -506,8 +506,8 @@ sakai.site = function(){
                 items.items = items.items.splice(0,5);
 
                 // Write
-                if (sdata.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                if (sakai.data.me.user.userStoragePrefix) {
+                    sdata.widgets.WidgetPreference.save("/_user/private/" + sakai.data.me.user.userStoragePrefix.substring(0, sakai.data.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -515,8 +515,8 @@ sakai.site = function(){
                 items.items.unshift(site);
 
                 // Write
-                if (sdata.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                if (sakai.data.me.user.userStoragePrefix) {
+                    sdata.widgets.WidgetPreference.save("/_user/private/" + sakai.data.me.user.userStoragePrefix.substring(0, sakai.data.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
                 }
             }
         });
@@ -1041,7 +1041,7 @@ sakai.site = function(){
 
             if (isvalid) {
 
-                final2.me = sdata.me;
+                final2.me = sakai.data.me;
 
                 var el = document.createElement("div");
                 el.id = sakai.site.selectedpage;

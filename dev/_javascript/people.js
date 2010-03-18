@@ -19,7 +19,7 @@ sakai.search = function(){
 
     var doInit = function(){
 
-        meObj = sdata.me;
+        meObj = sakai.data.me;
         if (! meObj.user.userid){
             document.location = "/dev/index.html?url=/dev/people.html";
         }
@@ -114,7 +114,7 @@ sakai.search = function(){
                         }
                     }
                     finaljson.items[index].connected = true;
-                    if (finaljson.items[index].userid == sdata.me.user.userid){
+                    if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
                 }
@@ -194,7 +194,7 @@ sakai.search = function(){
                             finaljson.items[index].extra = basic.unidepartment;
                         }
                     }
-                    if (finaljson.items[index].userid == sdata.me.user.userid){
+                    if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
                 }
@@ -301,7 +301,7 @@ sakai.search = function(){
                             finaljson.items[index].extra = basic.unidepartment;
                         }
                     }
-                    if (finaljson.items[index].userid == sdata.me.user.userid){
+                    if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
                 }

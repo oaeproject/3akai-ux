@@ -48,7 +48,7 @@ sakai.video = function(tuid, placement, showSettings) {
     /////////////////////////////
 
     var json = false; // Variable used to recieve information by json
-    var me = sdata.me; // Contains information about the current user
+    var me = sakai.data.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
    var youtubeUrl = "www.youtube.com";
 

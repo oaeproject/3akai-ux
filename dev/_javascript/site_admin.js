@@ -148,7 +148,7 @@ sakai.site.site_admin = function(){
 
                 // Save the recent activity
                 var activityItem = {
-                    "user_id": sdata.me.user.userid,
+                    "user_id": sakai.data.me.user.userid,
                     "type": "page_move",
                     "page_id": tgt_urlsafe_name,
                     "page_title": sakai.site.site_info._pages[tgt_urlsafe_name]["pageTitle"],
@@ -763,7 +763,7 @@ sakai.site.site_admin = function(){
 
                         // Save the recent activity
                         var activityItem = {
-                            "user_id": sdata.me.user.userid,
+                            "user_id": sakai.data.me.user.userid,
                             "type": "page_create",
                             "page_id": newPageUniques.urlName,
                             "page_title": newpagetitle,
@@ -829,7 +829,7 @@ sakai.site.site_admin = function(){
                     if (success) {
                         // Save the recent activity
                         var activityItem = {
-                            "user_id": sdata.me.user.userid,
+                            "user_id": sakai.data.me.user.userid,
                             "type": "page_edit",
                             "page_id": sakai.site.selectedpage,
                             "page_title": sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"],

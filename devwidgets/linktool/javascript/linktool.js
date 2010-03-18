@@ -389,12 +389,12 @@ sakai.linktool = function(tuid, placement, showSettings){
                 uid: {
                     checked: false,
                     text: "userId",
-                    value: sdata.me.preferences.uuid
+                    value: sakai.data.me.preferences.uuid
                 },
                 uname: {
                     checked: false,
                     text: "userName",
-                    value: sdata.me.profile.firstName + " " + sdata.me.profile.lastName
+                    value: sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName
                 },
                 urole: {
                     checked: false,

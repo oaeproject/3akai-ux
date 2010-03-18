@@ -18,14 +18,18 @@
  *
  */
 
-/*global $, jQuery, fluid, TrimPath */
+/*global $, jQuery, fluid, TrimPath, window, document */
 
 /**
  * @name sakai
  * @namespace
  * Main sakai namespace
+ *
+ * @description
+ * Main sakai namespace. This is where all the initial namespaces should be defined
  */
 var sakai = {};
+sakai.data = {};
 
 /**
  * @name sakai.api
@@ -59,7 +63,6 @@ sakai.api = {
     API_VERSION_BUILD: 1
 
 };
-
 
 
 (function(){
@@ -468,6 +471,41 @@ sakai.api.Site.loadSkin = function(siteID, skinID) {
 sakai.api.User = sakai.api.User || {};
 
 
+/**
+ * Retrieves all available information about a logged in user and stores it under sakai.data.me object. When ready it will call a specified callback function
+ *
+ * @param callback {Function} A function which will be called when the information is retrieved from the server.
+ * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
+ * @returns void
+ */
+sakai.api.User.loadMeData = function(callback) {
+
+    // Get the service url from the config file
+    var data_url = Config.URL.ME_SERVICE;
+
+    // Start a request to the service
+    $.ajax({
+        url: data_url,
+        cache: false,
+        success: function(data){
+
+            sakai.data.me = $.evalJSON(data);
+
+            if (typeof callback === "function") {
+                callback(true, sakai.data.me);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+
+            fluid.log("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
+
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
+};
+
 
 
 
@@ -724,6 +762,9 @@ if(Array.hasOwnProperty("indexOf") === false){
  * @returns {Void}
  */
 sakai.api.autoStart = function() {
+
+    // Load logged in user data
+    sakai.api.User.loadMeData();
 
     // Start Widget container functions
     sakai.api.Widgets.Container.init();

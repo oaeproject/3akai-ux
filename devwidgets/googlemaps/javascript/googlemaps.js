@@ -87,7 +87,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
                     // Quick hack so that searches are more local - this will need to be done via the Google API
                     if (input.indexOf(",") === -1) {
-                        iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+                        iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
                     } else {
                         iframeContentWindow.search(input, "");
                     }
@@ -165,8 +165,8 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
                         // Quick hack so that searches are more local - this will need to be done via the Google API
                         if (input.indexOf(",") === -1) {
-                            $("#googlemaps_input_text_location", rootel).val(input + ", " + sdata.me.user.locale.displayCountry);
-                            iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+                            $("#googlemaps_input_text_location", rootel).val(input + ", " + sakai.data.me.user.locale.displayCountry);
+                            iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
                         } else {
                             iframeContentWindow.search(input, "");
                         }

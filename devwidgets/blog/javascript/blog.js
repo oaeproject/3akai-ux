@@ -20,7 +20,7 @@
 
 sakai.blog = function(tuid, placement, showSettings) {
 
-    var me = sdata.me;                    // Contains information about the current user
+    var me = sakai.data.me;                    // Contains information about the current user
     var rootel = $("#" + tuid);        // Get the main div used by the widget
     var arrSelectedTags = [];
     var sPreviousSearch = '';

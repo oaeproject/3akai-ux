@@ -37,7 +37,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
     //////////////////////
 
     var rootel = $("#" + tuid);
-    var me = sdata.me;
+    var me = sakai.data.me;
 
 
     //    CSS IDs

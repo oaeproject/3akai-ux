@@ -41,7 +41,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
 
     var widgetSettings = {};
     var rootel = $("#" + tuid); // Get the main div used by the widget
-    var me = sdata.me;
+    var me = sakai.data.me;
     var contacts = [];
     var startPos = 0;
     var nrOfItems = 4; // The amount of members we should fetch in each request.

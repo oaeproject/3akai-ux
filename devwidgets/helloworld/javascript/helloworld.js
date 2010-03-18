@@ -120,7 +120,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
             getPreferedColor(selectCurrentColor);
             $(settingsContainer, rootel).show();
         } else {
-            var me = sdata.me;
+            var me = sakai.data.me;
             $(usernameContainer, rootel).text(me.profile.firstName);
             getPreferedColor(showHelloWorld);
         }

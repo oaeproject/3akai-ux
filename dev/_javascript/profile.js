@@ -69,7 +69,7 @@ sakai.profile = function(){
 
     var doInit = function(){
 
-        me = sdata.me;
+        me = sakai.data.me;
 
 
         if (!me.user.userid && !me.user.userid) {
@@ -126,7 +126,7 @@ sakai.profile = function(){
         else if (!showEdit) {
             $("#profile_tabs").show();
             $("#link_edit_profile").show();
-            fileUrl = "/_user/presence.user.json?userid=" + sdata.me.user.userid;
+            fileUrl = "/_user/presence.user.json?userid=" + sakai.data.me.user.userid;
             $.ajax({
                 url: fileUrl,
                 cache: false,
@@ -164,12 +164,12 @@ sakai.profile = function(){
                 },
                 error: function(xhr, textStatus, thrownError) {
 
-                    // If presence request fails attempt to get profile information for logged in user from already loaded sdata.me.profile
+                    // If presence request fails attempt to get profile information for logged in user from already loaded sakai.data.me.profile
                     // and try to proceed normally
 
                     var totalprofile = {};
-                    totalprofile.profile = sdata.me.profile;
-                    totalprofile.profile["sakai:status"] = sdata.me.profile.chatstatus;
+                    totalprofile.profile = sakai.data.me.profile;
+                    totalprofile.profile["sakai:status"] = sakai.data.me.profile.chatstatus;
 
                     // Doing a rewrite of the me object, because Sling wraps arrays around
                     // the different fields in the profile object
@@ -710,7 +710,7 @@ sakai.profile = function(){
                 "sakai:sendstate": "pending",
                 "sakai:messagebox": "outbox",
                 "sakai:to": user,
-                "sakai:from": sdata.me.user.userid,
+                "sakai:from": sakai.data.me.user.userid,
                 "sakai:subject": subject,
                 "sakai:body":body,
                 "sakai:category":"message",
@@ -846,7 +846,7 @@ sakai.profile = function(){
                             "sakai:sendstate": "pending",
                             "sakai:messagebox": "outbox",
                             "sakai:to": user,
-                            "sakai:from": sdata.me.user.userid,
+                            "sakai:from": sakai.data.me.user.userid,
                             "sakai:subject": title,
                             "sakai:body":message,
                             "sakai:category":"invitation",

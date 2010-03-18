@@ -27,7 +27,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
     /////////////////////////////
 
     var rootel = $("#" + tuid);
-    var me = sdata.me;
+    var me = sakai.data.me;
     var json = me.profile;
 
 
@@ -93,14 +93,14 @@ sakai.myprofile = function (tuid, placement, showSettings) {
      */
     var changeStatus = function (status) {
         $(profileStatusContainer).toggle();
-        sdata.me.profile.chatstatus = status;
+        sakai.data.me.profile.chatstatus = status;
 
         var tosend = {
             "chatstatus" : status,
             "_charset_":"utf-8"
         };
 
-        var url = "/system/userManager/user/" + sdata.me.user.userid + ".update.html";
+        var url = "/system/userManager/user/" + sakai.data.me.user.userid + ".update.html";
         $.ajax({
               url : url,
             type : "POST",
@@ -130,7 +130,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
         if (json.picture) {
             var pict = $.evalJSON(json.picture);
             if (pict.name) {
-                $(profilePictureID, rootel).attr('src', "/_user/public/" + sdata.me.user.userid + "/" + pict.name );
+                $(profilePictureID, rootel).attr('src', "/_user/public/" + sakai.data.me.user.userid + "/" + pict.name );
             }
         }
 
