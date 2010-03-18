@@ -39,7 +39,6 @@ var sakai = sakai || {};
 /*
  *
  */
-sakai.data.me = false;
 
 
 if(!Array.indexOf) {
