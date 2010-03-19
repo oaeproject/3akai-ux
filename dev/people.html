@@ -100,9 +100,11 @@
                                 {/if}
                                 {if ! i.isMe}
                                     {if ! i.connected}
-                                    <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
-                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">Remove contact</a>
                                     {/if}
+                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                     <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
                                 {/if}
                             </div>

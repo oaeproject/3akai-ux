@@ -129,6 +129,33 @@ sakai.search = function(){
 
         $("#contacts_search_result").html($.Template.render("contacts_search_result_template", finaljson));
 
+        $(".link_remove_contact").bind("click", function(ev){
+            var user = this.id.split("_")[this.id.split("_").length - 1];
+
+            $.ajax({
+                url: "/_user/contacts/" + user + ".remove.html",
+                type: "POST",
+                data : {"_charset_":"utf-8"},
+                success: function(data){
+                    setTimeout(loadContacts,500,[1]);
+
+                    // remove from json file
+
+                    var index = -1;
+                    for (var i = 0, j = foundContacts.results.length; i<j; i++){
+                        if (foundContacts.results[i].target == user){
+                            index = i;
+                        }
+                    }
+                    foundContacts.results.splice(index,1);
+
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    alert("An error has occured");
+                }
+            });
+
+        });
     };
 
     /*
