@@ -86,6 +86,14 @@ var Widgets = {
             },
             url:"/devwidgets/createsite/createsite.html"
         },
+        delicious: {
+            description:"Delicious widget",
+            id:"delicious",
+            name:"Delicious",
+            personalportal:true,
+            showinsakaigoodies:true,
+            url:"/devwidgets/delicious/delicious.html"
+        },
         discussion: {
             ca:true,
             description:"Discussion widget",
