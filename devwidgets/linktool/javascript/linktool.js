@@ -152,7 +152,7 @@ sakai.linktool = function(tuid, placement, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(linktoolSettingsPreview).html($.Template.render(linktoolSettingsPreviewTemplate, json));
+            $(linktoolSettingsPreview).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
         }else{
             $(linktoolSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
@@ -164,7 +164,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     var renderIframe = function(){
         if(json){
             json.url = generateCompleteUrl();
-            $(linktoolMainContainer, rootel).html($.Template.render(linktoolSettingsPreviewTemplate, json));
+            $(linktoolMainContainer, rootel).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
         }
     };
 
@@ -173,7 +173,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var renderLinkToolSettings = function() {
         if(json){
-            $(linktoolSettings).html($.Template.render(linktoolSettingsTemplate, json));
+            $(linktoolSettings).html($.TemplateRenderer(linktoolSettingsTemplate, json));
         }
     };
 
@@ -182,7 +182,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var renderColorContainer = function(){
         if(json){
-            $(linktoolSettingsColorContainer).html($.Template.render(linktoolSettingsColorContainerTemplate, json));
+            $(linktoolSettingsColorContainer).html($.TemplateRenderer(linktoolSettingsColorContainerTemplate, json));
         }
     };
 
@@ -193,7 +193,7 @@ sakai.linktool = function(tuid, placement, showSettings){
         if(json){
             var jsoncomplete = {};
             jsoncomplete.url_complete_preview = generateCompleteUrl();
-            $(linktoolSettingsQuerystringPreview).html($.Template.render(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
+            $(linktoolSettingsQuerystringPreview).html($.TemplateRenderer(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
         }
     };
 

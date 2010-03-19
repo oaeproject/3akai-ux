@@ -257,7 +257,7 @@ sakai.site_appearance = function() {
         }
 
         // Render the site style template
-        $.Template.render(siteAppearanceStyleContainerTemplate, json_styles, $(siteAppearanceStyleContainer));
+        $.TemplateRenderer(siteAppearanceStyleContainerTemplate, json_styles, $(siteAppearanceStyleContainer));
     };
 
     /**
@@ -273,7 +273,7 @@ sakai.site_appearance = function() {
             json.fullName = "/sites/" + siteId + "/200x100_siteicon" + "?sid=" + Math.random();
 
             // Render the image template
-            $.Template.render(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
+            $.TemplateRenderer(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
         }
     };
 

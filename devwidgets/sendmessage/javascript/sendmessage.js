@@ -148,7 +148,7 @@ if (!sakai.sendmessage){
         var createToBox = function(name, uid){
             var json = {'name' : name, 'uid' : uid};
             //    Get the tpl
-            var box = $.Template.render(messageMultipleToBox.replace(/#/,''), json);
+            var box = $.TemplateRenderer(messageMultipleToBox.replace(/#/,''), json);
 
             //    Add it too the DOM tree.
             $(messageFieldMultipleTo).before(box);

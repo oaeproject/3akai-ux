@@ -124,7 +124,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
      * Renders the info about the selected folder.
      */
     var renderSelectedFolder = function(){
-        $(picker_selectedfolder, rootel).html($.Template.render(picker_selectedfolder_template.replace("#", ""), widgetSettings));
+        $(picker_selectedfolder, rootel).html($.TemplateRenderer(picker_selectedfolder_template.replace("#", ""), widgetSettings));
     };
 
     /**
@@ -141,7 +141,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
             'icons': icons
         };
 
-        $(picker_main, rootel).html($.Template.render(picker_main_template.replace("#", ""), json));
+        $(picker_main, rootel).html($.TemplateRenderer(picker_main_template.replace("#", ""), json));
     };
 
     /////////////////////////
@@ -198,7 +198,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
         displayBreadcrumb(breadcrumbbar, '', currentPath, breadcrumbstart);
 
         //Display files.
-        $(container, rootel).html($.Template.render(tpl.replace("#", ""), json));
+        $(container, rootel).html($.TemplateRenderer(tpl.replace("#", ""), json));
 
         $(picker_pager, rootel).pager({
             pagenumber: page,
@@ -268,7 +268,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
             'locations': breadcrumbs,
             'type': type
         };
-        $(where, rootel).html($.Template.render(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
+        $(where, rootel).html($.TemplateRenderer(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
     };
 
     /////////////////////

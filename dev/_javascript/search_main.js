@@ -63,7 +63,7 @@ sakai._search = function(config, callback) {
         // Perform a sorting on sites.
         data.items.sort(doSort);
         // render the sites
-        $(config.filters.sites.filterSites).html($.Template.render(config.filters.sites.filterSitesTemplate, data));
+        $(config.filters.sites.filterSites).html($.TemplateRenderer(config.filters.sites.filterSitesTemplate, data));
 
         // because the response of the sites service will always be lower then the page load
         // we check if we have to select a site

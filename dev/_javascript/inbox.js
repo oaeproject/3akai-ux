@@ -188,7 +188,7 @@ sakai.inbox = function() {
      * This will show the preloader.
      */
     var showLoader = function() {
-        $(inboxTable).append($.Template.render(inboxTablePreloader.substring(1), {}));
+        $(inboxTable).append($.TemplateRenderer(inboxTablePreloader.substring(1), {}));
     };
 
     /**
@@ -556,7 +556,7 @@ sakai.inbox = function() {
         removeAllMessagesOutDOM();
 
         //    Add them to the DOM
-        $(inboxTable).children('tbody').append($.Template.render(inboxTableMessagesTemplate, tplData));
+        $(inboxTable).children('tbody').append($.TemplateRenderer(inboxTableMessagesTemplate, tplData));
 
         //    do checkboxes
         tickMessages();
@@ -921,11 +921,11 @@ sakai.inbox = function() {
                 if (message["sakai:category"] === Config.Messages.Categories.chat) {
                     $(".message-options").hide();
                     $("#inbox_message_previous_messages").hide();
-                    replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplateChats, message);
+                    replieshtml += $.TemplateRenderer(inboxSpecificMessageRepliesTemplateChats, message);
                 }
                 else {
                     var json = {'message' : message};
-                    replieshtml += $.Template.render(inboxSpecificMessageRepliesTemplate, json);
+                    replieshtml += $.TemplateRenderer(inboxSpecificMessageRepliesTemplate, json);
                 }
                 $(inboxSpecificMessageReplies).html(replieshtml);
             }

@@ -127,7 +127,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
         }
         else
             if (!showSettings && endFormat === "file") {
-                $(picker_main, rootel).html($.Template.render(picker_main_template.replace("#", ""), json));
+                $(picker_main, rootel).html($.TemplateRenderer(picker_main_template.replace("#", ""), json));
             }
     }
 
@@ -170,7 +170,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
         json.results = json.results.sort(sortOnPath);
         var data = json;
         data.icons = icons;
-        $(picker_main, rootel).html($.Template.render(picker_main_template.replace("#", ""), data));
+        $(picker_main, rootel).html($.TemplateRenderer(picker_main_template.replace("#", ""), data));
 
         displayBreadcrumb(picker_folder_breadcrumb, 'folder', path, userSelection.parentFolder);
     };
@@ -198,7 +198,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
                 'results': []
             };
         }
-        $(picker_tree, rootel).html($.Template.render(picker_tree_template.replace("#", ""), json));
+        $(picker_tree, rootel).html($.TemplateRenderer(picker_tree_template.replace("#", ""), json));
 
         // Handle breadcrumbbar.
         displayBreadcrumb(picker_breadcrumb, '', currentPath, siteID);
@@ -230,7 +230,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
             'locations': breadcrumbs,
             'type': type
         };
-        $(where, rootel).html($.Template.render(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
+        $(where, rootel).html($.TemplateRenderer(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
     };
 
     /**

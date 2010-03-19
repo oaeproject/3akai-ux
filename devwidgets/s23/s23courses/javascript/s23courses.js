@@ -65,7 +65,7 @@ sakai.s23courses = function(tuid, placement, showSettings){
         };
 
         // Render the template and pass through the parseglobal object
-        $.Template.render(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
+        $.TemplateRenderer(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
 
         //
         if(parseglobal.all.length >= pageSize){

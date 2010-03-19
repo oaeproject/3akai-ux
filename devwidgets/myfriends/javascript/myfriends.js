@@ -120,7 +120,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
         }
 
         // Render the template with the friends
-        $(myfriendsList).html($.Template.render(myfriendsListTemplate, jsonFriends));
+        $(myfriendsList).html($.TemplateRenderer(myfriendsListTemplate, jsonFriends));
     };
 
 
@@ -175,7 +175,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
                 }
 
                 // Render the requests on the page
-                $(myfriendsRequests).html($.Template.render(myfriendsRequestsTemplate, jsonTotal));
+                $(myfriendsRequests).html($.TemplateRenderer(myfriendsRequestsTemplate, jsonTotal));
             }
         });
     };

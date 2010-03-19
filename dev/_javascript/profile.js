@@ -378,7 +378,7 @@ sakai.profile = function(){
         if (json[savefield]){
             toRender.items = $.evalJSON(json[savefield]);
         }
-        $("#" + field + "s_list").html($.Template.render(field + "s_list_template",toRender));
+        $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",toRender));
 
     };
 
@@ -798,7 +798,7 @@ sakai.profile = function(){
                         $("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
                     }
 
-                    $("#add_friend_types").html($.Template.render("add_friend_types_template",Widgets));
+                    $("#add_friend_types").html($.TemplateRenderer("add_friend_types_template",Widgets));
 
                 } else if (status == "INVITED"){
                     $("#accept_invitation_button").show();

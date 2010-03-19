@@ -58,7 +58,7 @@ sakai.recentmessages = function(tuid,placement,showSettings){
         } else {
 
             // Only if everything went fine, show the recent messages
-            $recentmessagesContainer.html($.Template.render(recentmessagesTemplate, response));
+            $recentmessagesContainer.html($.TemplateRenderer(recentmessagesTemplate, response));
 
             // Activate the ThreeDots plug-in
             $("#recentmessages_container ul li a", rootel).ThreeDots({max_rows:1});

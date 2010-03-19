@@ -238,7 +238,7 @@ sakai.profile = function(){
         if (json[savefield]){
             obj.items = $.evalJSON(json[savefield]);
         }
-        $("#" + field + "s_list").html($.Template.render(field + "s_list_template",obj));
+        $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",obj));
 
         $("." + field + "_record").hover(
             function(){

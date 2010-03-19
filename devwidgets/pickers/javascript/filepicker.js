@@ -156,7 +156,7 @@ sakai.filepicker = function(tuid, placement, showSettings){
         var json = {
             'selectedFiles': selectedFiles
         };
-        $(picker_selectedfiles, rootel).html($.Template.render(picker_selectedfiles_template.replace("#", ""), json));
+        $(picker_selectedfiles, rootel).html($.TemplateRenderer(picker_selectedfiles_template.replace("#", ""), json));
 
         $(picker_selectedfileClass, rootel).corners();
     };
@@ -175,7 +175,7 @@ sakai.filepicker = function(tuid, placement, showSettings){
             'icons': icons
         };
 
-        $(picker_main, rootel).html($.Template.render(picker_main_template.replace("#", ""), json));
+        $(picker_main, rootel).html($.TemplateRenderer(picker_main_template.replace("#", ""), json));
     };
 
     /////////////////////////
@@ -206,7 +206,7 @@ sakai.filepicker = function(tuid, placement, showSettings){
             'selected': userSelection,
             'icons': icons
         };
-        $(picker_tree, rootel).html($.Template.render(picker_tree_template.replace("#", ""), json));
+        $(picker_tree, rootel).html($.TemplateRenderer(picker_tree_template.replace("#", ""), json));
 
         $(picker_pager, rootel).pager({
             pagenumber: page,
@@ -269,7 +269,7 @@ sakai.filepicker = function(tuid, placement, showSettings){
             'locations': breadcrumbs,
             'type': type
         };
-        $(where, rootel).html($.Template.render(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
+        $(where, rootel).html($.TemplateRenderer(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
     };
 
     /////////////////////

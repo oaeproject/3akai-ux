@@ -262,7 +262,7 @@ sakai.search = function() {
         }
         foundPeople = finaljson.items;
         //    Render the results.
-        $(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+        $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $("#search_results_page1").show();
     };
 

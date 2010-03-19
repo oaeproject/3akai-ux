@@ -176,7 +176,7 @@ sakai.search = function() {
         }
 
         // Render the results.
-        $(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+        $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
     };
 
@@ -306,7 +306,7 @@ sakai.search = function() {
                 success: function(data){
                     var sites = {};
                     sites.sites = $.evalJSON(data);
-                    searchSiteSelect.html($.Template.render(searchSiteSelectTemplate, sites));
+                    searchSiteSelect.html($.TemplateRenderer(searchSiteSelectTemplate, sites));
 
                     // Get my sites
                     mainSearch.getMySites();

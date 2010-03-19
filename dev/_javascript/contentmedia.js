@@ -234,7 +234,7 @@ sakai.contentmedia = function(){
             jsonT.filename = basicUploadFilename;
 
             // Show a response that the upload was successful
-            $(contentmediaUploaderBasicSuccessful).html($.Template.render(contentmediaUploaderBasicSuccessfulTemplate, jsonT));
+            $(contentmediaUploaderBasicSuccessful).html($.TemplateRenderer(contentmediaUploaderBasicSuccessfulTemplate, jsonT));
         }
     };
 
@@ -246,7 +246,7 @@ sakai.contentmedia = function(){
     var showDroppedMessage = function(movedFiles, showDroppedMessageIn){
         // Render the message and add animation to show the message
         $(contentmediaDropMessage).hide();
-        $.Template.render(contentmediaDropMessageTemplate, movedFiles, $(contentmediaDropMessage));
+        $.TemplateRenderer(contentmediaDropMessageTemplate, movedFiles, $(contentmediaDropMessage));
         $(showDroppedMessageIn).append($(contentmediaDropMessage));
         $(contentmediaDropMessage).show();
         $(contentmediaDropMessage).fadeOut(2000);
@@ -410,7 +410,7 @@ sakai.contentmedia = function(){
             helper: function(event) {
 
                 return $('<div class="'+ contentmediaDragTooltipClass + '">Move ' + selectedFiles.items.length + ' files</div>');
-                //$.Template.render(contentmediaDragTooltipTemplate, selectedFiles, contentmediaDragTooltip);
+                //$.TemplateRenderer(contentmediaDragTooltipTemplate, selectedFiles, contentmediaDragTooltip);
                 //return $(contentmediaDragTooltip);
             }
         });
@@ -443,7 +443,7 @@ sakai.contentmedia = function(){
         }
 
         // Render files
-        $(contentmediaFilesContainer).html($.Template.render(contentmediaFilesContainerTemplate, data));
+        $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, data));
 
         // Render paging
         $(jqPagerClass).pager({
@@ -480,7 +480,7 @@ sakai.contentmedia = function(){
         options.site = _options.site || false;
 
         // Set the title of the file list
-        $(contentmediaListTitle).html($.Template.render(contentmediaListTitleTemplate, options));
+        $(contentmediaListTitle).html($.TemplateRenderer(contentmediaListTitleTemplate, options));
 
         var url = "";
 
@@ -751,7 +751,7 @@ sakai.contentmedia = function(){
     var renderRemove = function(hash){
 
         // Render the template with the selected files
-        $.Template.render(contentmediaDialogRemoveListTemplate, selectedFiles, $(contentmediaDialogRemoveList));
+        $.TemplateRenderer(contentmediaDialogRemoveListTemplate, selectedFiles, $(contentmediaDialogRemoveList));
 
         // Finally show the jqModal pop-up
         hash.w.show();
@@ -1421,7 +1421,7 @@ sakai.contentmedia = function(){
         jsonSites.items = sites;
 
         // Render the template with the selected files
-        $.Template.render(contentmediaAccordionListSiteTemplate, jsonSites, $(contentmediaAccordionListSite));
+        $.TemplateRenderer(contentmediaAccordionListSiteTemplate, jsonSites, $(contentmediaAccordionListSite));
     };
 
     /**

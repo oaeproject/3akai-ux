@@ -658,29 +658,101 @@ sakai.api.Widgets.renderWidget = function(widgetID) {
 
 
 
+/////////////////////////////////////
+// jQuery TrimPath Template Plugin //
+/////////////////////////////////////
 
+/*
+ * Functionality that allows you to create HTML Templates and give that template
+ * a JSON object. That template will then be rendered and all of the values from
+ * the JSON object can be used to insert values into the rendered HTML. More information
+ * and examples can be found over here:
+ *
+ * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
+ *
+ * Template should be defined like this:
+ *  <div><!--
+ *   // Template here
+ *  --></div>
+ *
+ *  IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
+ *  because that line break will be recognized as a node and the template won't show up, as
+ *  it's expecting the comments tag as the first one.
+ *
+ *  We do this because otherwise a template wouldn't validate in an HTML validator and
+ *  also so that our template isn't visible in our page.
+ */
 (function($){
 
     /**
-    * Trimpath Template Renderer. Renders a template according to a provided
-    * JSON object
+     * A cache that will keep a copy of every template we have parsed so far. Like this,
+     * we avoid having to parse the same template over and over again.
+     */
+    var templateCache = [];
+
+    /**
+    * Trimpath Template Renderer: Renders the template with the given JSON object, inserts it into a certain HTML
+    * element if required, and returns the rendered HTML string
     * @function
-    * @param templateID {String} ID of the element which contains the template
-    * @param templateData {Object} Object containing the template data
-    * @param outputID {String} (Optional)  Target element ID where the outputted
-    * HTML can go
+    * @param templateElement {String|Object} templateElement The name of the template HTML ID or a jQuery selection object.
+    * @param templateData {Object} JSON object containing the template data
+    * @param outputElement {Object} (Optional) jQuery element in which the template needs to be rendered
     */
-    $.TemplateRenderer = function (templateID, templateData, outputID) {
+    $.TemplateRenderer = function (templateElement, templateData, outputElement) {
+
+        var templateName;
+
+        // The template name and the context object should be defined
+        if(!templateElement || !templateData){
+            throw "$.TemplateRenderer: the template name or the templateData is not defined";
+        }
+
+        if(templateElement instanceof jQuery && templateElement[0]){
+            templateName = templateElement[0].id;
+        }
+        else if (typeof templateElement === "string"){
+            templateName = templateElement.replace("#", "");
+            templateElement = $("#" + templateName);
+        }
+        else {
+            throw "$.TemplateRenderer: The templateElement is not in a valid format or the template couldn't be found.";
+        }
+
+        if (!templateCache[templateName]) {
+            var templateNode = templateElement.get(0);
+            if (templateNode) {
+                var firstNode = templateNode.firstChild;
+                var template = null;
+                // Check whether the template is wrapped in <!-- -->
+                if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
+                    template = firstNode.data.toString();
+                }
+                else {
+                    template = templateNode.innerHTML.toString();
+                }
+                // Parse the template through TrimPath and add the parsed template to the template cache
+                templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
+
+            }
+            else {
+                throw "$.TemplateRenderer: The template '" + templateName + "' could not be found";
+            }
+        }
+
+        // Run the template and feed it the given JSON object
+        var render = templateCache[templateName].process(templateData);
+
+        // Check it there was an output element defined
+        // If so, put the rendered template in there
+        if (outputElement) {
+            outputElement.html(render);
+        }
+
+        return render;
 
     };
 
 })(jQuery);
-
-
-
-
-
-
 
 
 

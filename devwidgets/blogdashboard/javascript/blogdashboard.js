@@ -286,7 +286,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
         }
         newjson.entry = newjson.entry.sort(doSort);
         //    run trimpath and show the sites.
-        $(cboSite, rootel).html($.Template.render(siteTemplate.replace(/#/gi,''), newjson));
+        $(cboSite, rootel).html($.TemplateRenderer(siteTemplate.replace(/#/gi,''), newjson));
     };
 
     /**

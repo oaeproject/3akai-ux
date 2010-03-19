@@ -80,7 +80,7 @@ sakai.sites = function(tuid,placement,showSettings){
         else {
             // Sort the sites by their name
             newjson.entry = newjson.entry.sort(doSort);
-            $(sitesList, rootel).html($.Template.render(sitesListTemplate.replace(/#/,''), newjson));
+            $(sitesList, rootel).html($.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
         }
     };
 

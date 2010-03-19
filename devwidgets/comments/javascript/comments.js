@@ -285,7 +285,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 
             jsonDisplay.comments[i] = comment;
         }
-        $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonDisplay));
+        $(commentsShowComments, rootel).html($.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
     };
 
     /**

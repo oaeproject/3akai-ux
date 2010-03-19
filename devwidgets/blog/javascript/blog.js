@@ -262,7 +262,7 @@ sakai.blog = function(tuid, placement, showSettings) {
         arrTags.sort();
         var context = {'tags' : arrTags};
         //    add them to the DOM
-        $(where, rootel).html($.Template.render(template, context));
+        $(where, rootel).html($.TemplateRenderer(template, context));
     };
 
     /**
@@ -831,7 +831,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 
                     //    Render template.
                     json = {'posts' : arrPostsToDisplay};
-                    $(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
+                    $(postsContainer, rootel).html($.TemplateRenderer(postsTemplate,  json));
                 }
             });
 
@@ -928,7 +928,7 @@ sakai.blog = function(tuid, placement, showSettings) {
                 error: function(xhr, textStatus, thrownError) {
                     //    Show empty page.
                     var json = {'posts' : []};
-                    $(postsContainer, rootel).html($.Template.render(postsTemplate,  json));
+                    $(postsContainer, rootel).html($.TemplateRenderer(postsTemplate,  json));
                 }
             });
     };

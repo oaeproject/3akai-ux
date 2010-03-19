@@ -254,7 +254,7 @@ sakai.rss = function(tuid, placement, showSettings){
             }
             // if all the feed are retrieved render the rss
             else{
-                $(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
             }
         });
     };
@@ -289,7 +289,7 @@ sakai.rss = function(tuid, placement, showSettings){
         // first get the entries that need to be shown on this page
         resultJSON.shownEntries = getShownEntries(pageClicked);
         // render these entries
-        $(rssOutput, rootel).html($.Template.render(rssOutputTemplate, resultJSON));
+        $(rssOutput, rootel).html($.TemplateRenderer(rssOutputTemplate, resultJSON));
         // change the pageNumeber
         $(rssPager,rootel).pager({
             pagenumber: pageClicked,
@@ -374,11 +374,11 @@ sakai.rss = function(tuid, placement, showSettings){
         if(rssFeed !== false){
             resultJSON.feeds = resultJSON.feeds || [];
             resultJSON.feeds.push(rssFeed);
-            $(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+            $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
             $(rootel + " " + rssRemove).bind("click", function(e,ui){
                 var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                 resultJSON.feeds.splice(index,1);
-                $(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
             });
         }
     };

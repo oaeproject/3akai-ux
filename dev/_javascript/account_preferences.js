@@ -202,7 +202,7 @@ sakai.account_preferences = function(){
      * @param {Object} languages
      */
     var putLangsinCmb = function(languages){
-        $(languagesContainer).html($.Template.render(languagesTemplate, languages));
+        $(languagesContainer).html($.TemplateRenderer(languagesTemplate, languages));
         selectLanguage(me.user.locale.country, me.user.locale.language);
     };
 

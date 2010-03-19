@@ -104,7 +104,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 
             $(".description_fields").hide();
             $(".member_fields").show();
-            $("#members_to_add").html($.Template.render("members_to_add_template", members));
+            $("#members_to_add").html($.TemplateRenderer("members_to_add_template", members));
 
         } else {
             $(".description_fields").show();

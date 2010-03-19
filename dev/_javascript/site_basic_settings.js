@@ -107,7 +107,7 @@ sakai.site_basic_settings = function(){
      * @param {Object} languages
      */
     var putLangsinCmb = function(languages, json){
-        $(siteSettingLanguageCmb).html($.Template.render(siteSettingLanguageTemplate, languages));
+        $(siteSettingLanguageCmb).html($.TemplateRenderer(siteSettingLanguageTemplate, languages));
         if (json.language) {
             $(siteSettingLanguageCmb + " option[value=" + json.language + "]").attr("selected", true);
         }

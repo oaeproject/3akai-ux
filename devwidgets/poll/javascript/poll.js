@@ -226,36 +226,36 @@ sakai.poll = function(tuid, placement, showSettings){
      * Render the show question of the widget
      */
     var renderShowQuestion = function(){
-        $(pollShowQuestion, rootel).html($.Template.render(pollShowQuestionTemplate,json));
+        $(pollShowQuestion, rootel).html($.TemplateRenderer(pollShowQuestionTemplate,json));
     };
 
     /**
      * Render the show chart view of the widget
      */
     var renderShowChart = function(){
-        $(pollShowChart, rootel).html($.Template.render(pollShowChartTemplate,json));
+        $(pollShowChart, rootel).html($.TemplateRenderer(pollShowChartTemplate,json));
     };
 
     /**
      * Render the preview of the widget
      */
     var renderPreview = function(){
-        $(pollPreviewQuestion, rootel).html($.Template.render(pollPreviewQuestionTemplate,json));
-        $(pollPreviewChart, rootel).html($.Template.render(pollPreviewChartTemplate,json));
+        $(pollPreviewQuestion, rootel).html($.TemplateRenderer(pollPreviewQuestionTemplate,json));
+        $(pollPreviewChart, rootel).html($.TemplateRenderer(pollPreviewChartTemplate,json));
     };
 
     /**
      * Render the options for the poll
      */
     var renderOptions = function(){
-        $(pollOptions, rootel).html($.Template.render(pollOptionsTemplate,json));
+        $(pollOptions, rootel).html($.TemplateRenderer(pollOptionsTemplate,json));
     };
 
     /**
      * Render the settings of the widget
      */
     var renderSettings = function(){
-        $(pollSettings, rootel).html($.Template.render(pollSettingsTemplate,json));
+        $(pollSettings, rootel).html($.TemplateRenderer(pollSettingsTemplate,json));
         renderOptions();
     };
 

@@ -798,7 +798,7 @@ sakai.site = function(){
 
             // Render the list of widgets. The template will render a remove and add row for each widget, but will
             // only show one based on whether that widget is already on my dashboard
-            $(addGoodiesListContainer).html($.Template.render(addGoodiesListTemplate, addingPossible));
+            $(addGoodiesListContainer).html($.TemplateRenderer(addGoodiesListTemplate, addingPossible));
             renderGoodiesEventHandlers();
 
             // Show the modal dialog
@@ -1046,7 +1046,7 @@ sakai.site = function(){
                 var el = document.createElement("div");
                 el.id = sakai.site.selectedpage;
                 el.className = "content";
-                el.innerHTML = $.Template.render("dashboard_container_template", final2);
+                el.innerHTML = $.TemplateRenderer("dashboard_container_template", final2);
 
                 $main_content_div.append(el);
 
@@ -1237,7 +1237,7 @@ sakai.site = function(){
                 newjson.layouts = Widgets.layouts;
                 newjson.selected = selected;
                 currentselectedlayout = selected;
-                $("#layouts_list").html($.Template.render("layouts_template", newjson));
+                $("#layouts_list").html($.TemplateRenderer("layouts_template", newjson));
                 tobindtolayoutpicker();
             });
         };
@@ -1263,7 +1263,7 @@ sakai.site = function(){
             newjson.layouts = Widgets.layouts;
             newjson.selected = layout;
             currentselectedlayout = layout;
-            $("#layouts_list").html($.Template.render("layouts_template", newjson));
+            $("#layouts_list").html($.TemplateRenderer("layouts_template", newjson));
             tobindtolayoutpicker();
             hash.w.show();
         };

@@ -80,11 +80,11 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
      * It renders the contacts types and the personal note
      */
     var renderTemplates = function() {
-        $.Template.render(addToContactsFormTypeTemplate.replace(/#/gi, ''), Widgets, $(addToContactsInfoTypes));
+        $.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ''), Widgets, $(addToContactsInfoTypes));
         var json = {
             me: me
         };
-        $.Template.render(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ''), json, $(addToContactsFormPersonalNote));
+        $.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ''), json, $(addToContactsFormPersonalNote));
     };
 
     /**

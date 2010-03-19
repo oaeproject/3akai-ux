@@ -306,7 +306,7 @@ sakai.site.site_admin = function(){
             $elm1_ifr.attr({'scrolling':'no','frameborder':'0'});
 
             if (!sakai.site.toolbarSetupReady) {
-                $(".mceToolbarEnd").before($.Template.render("editor_extra_buttons", {}));
+                $(".mceToolbarEnd").before($.TemplateRenderer("editor_extra_buttons", {}));
                 $(".insert_more_dropdown_activator").bind("click", function(ev){ toggleInsertMore(); });
             }
 
@@ -1572,13 +1572,13 @@ sakai.site.site_admin = function(){
         }
 
         // Render insert more media template
-        $("#insert_more_media").html($.Template.render("insert_more_media_template",media));
+        $("#insert_more_media").html($.TemplateRenderer("insert_more_media_template",media));
 
         // Render insertmore goodies template
-        $("#insert_more_goodies").html($.Template.render("insert_more_goodies_template",goodies));
+        $("#insert_more_goodies").html($.TemplateRenderer("insert_more_goodies_template",goodies));
 
         // Render insertmore sidebar template
-        $("#insert_more_sidebar").html($.Template.render("insert_more_sidebar_template",sidebar));
+        $("#insert_more_sidebar").html($.TemplateRenderer("insert_more_sidebar_template",sidebar));
 
         // Event handler
         $('#insert_dialog').jqm({
@@ -2109,7 +2109,7 @@ sakai.site.site_admin = function(){
 
         finaljson.size = finaljson.items.length;
 
-        $("#list_container").hide().html($.Template.render("list_container_template",finaljson));
+        $("#list_container").hide().html($.TemplateRenderer("list_container_template",finaljson));
 
         if ($("#list_container").height() > 250){
             $("#list_container").css("height","250px");

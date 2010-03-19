@@ -116,7 +116,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(remotecontentSettingsPreview).html($.Template.render(remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentSettingsPreview).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
         }else{
             $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
@@ -127,7 +127,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var renderIframe = function(){
         if(json){
-            $(remotecontentMainContainer, rootel).html($.Template.render(remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentMainContainer, rootel).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
         }
     };
 
@@ -136,7 +136,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var renderRemoteContentSettings = function() {
         if(json){
-            $(remotecontentSettings).html($.Template.render(remotecontentSettingsTemplate, json));
+            $(remotecontentSettings).html($.TemplateRenderer(remotecontentSettingsTemplate, json));
         }
     };
 
@@ -145,7 +145,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var renderColorContainer = function(){
         if(json){
-            $(remotecontentSettingsColorContainer).html($.Template.render(remotecontentSettingsColorContainerTemplate, json));
+            $(remotecontentSettingsColorContainer).html($.TemplateRenderer(remotecontentSettingsColorContainerTemplate, json));
         }
     };
 

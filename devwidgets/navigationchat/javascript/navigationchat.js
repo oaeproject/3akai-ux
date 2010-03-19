@@ -817,7 +817,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                     json.items.push(json.contacts[j]);
                 }
             }
-            var renderedTemplate = $.Template.render(chatAvailableTemplate, json).replace(/\r/g, '');
+            var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
             var renderedDiv = $(document.createElement("div"));
             renderedDiv.html(renderedTemplate);
 
@@ -923,7 +923,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      * @param {Object} message Message that needs to be rendered
      */
     var renderChatMessage = function(message){
-        return $.Template.render(chatContentTemplate, message);
+        return $.TemplateRenderer(chatContentTemplate, message);
     };
 
     /**
@@ -1037,14 +1037,14 @@ sakai.navigationchat = function(tuid, placement, showSettings){
             // We only add one extra chatbox
             // This value will be used to calculate the left value for the box
             special.special = activewindows.items.length - 1;
-            $(chatWindows).append($.Template.render(chatWindowsTemplate, special));
-            $("#chat_windows_container").append($.Template.render("chat_windows_windows_template", special));
+            $(chatWindows).append($.TemplateRenderer(chatWindowsTemplate, special));
+            $("#chat_windows_container").append($.TemplateRenderer("chat_windows_windows_template", special));
         }
         else {
             // Render all the current chats.
             activewindows.special = false;
-            $(chatWindows).html($.Template.render(chatWindowsTemplate, activewindows));
-            $("#chat_windows_container").html($.Template.render("chat_windows_windows_template", activewindows));
+            $(chatWindows).html($.TemplateRenderer(chatWindowsTemplate, activewindows));
+            $("#chat_windows_container").html($.TemplateRenderer("chat_windows_windows_template", activewindows));
 
         }
 
@@ -1091,7 +1091,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
             $(chatWith + "_" + selected).remove();
 
             //hasOpenChatWindow = false;
-            //$("#chat_windows_container").html($.Template.render("chat_windows_windows_template", activewindows));
+            //$("#chat_windows_container").html($.TemplateRenderer("chat_windows_windows_template", activewindows));
 
             for (var j = 0; j < activewindows.items.length; j++) {
                 $(chatWith + "_" + activewindows.items[j].userid).css("left", "" + (j * 150) + "px");

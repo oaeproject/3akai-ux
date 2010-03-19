@@ -184,7 +184,7 @@ sakai.search = function() {
         if (foundCM && foundCM.results) {
             finaljson = mainSearch.prepareCMforRendering(foundCM.results, finaljson);
         }
-        $(searchConfig.cm.searchResult).html($.Template.render(searchConfig.cm.searchResultTemplate, finaljson));
+        $(searchConfig.cm.searchResult).html($.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
     };
 
     /**
@@ -229,7 +229,7 @@ sakai.search = function() {
             }
         }
 
-        $(searchConfig.sites.searchResult).html($.Template.render(searchConfig.sites.searchResultTemplate, finaljson));
+        $(searchConfig.sites.searchResult).html($.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
     };
 
 
@@ -260,7 +260,7 @@ sakai.search = function() {
 
         foundPeople = finaljson.items;
 
-        $(searchConfig.people.searchResult).html($.Template.render(searchConfig.people.searchResultTemplate, finaljson));
+        $(searchConfig.people.searchResult).html($.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
     };
 
 

@@ -152,7 +152,7 @@ sakai.dashboard = function(){
             newjson.layouts = Widgets.layouts;
             newjson.selected = selected;
             currentselectedlayout = selected;
-            $("#layouts_list").html($.Template.render("layouts_template",newjson));
+            $("#layouts_list").html($.TemplateRenderer("layouts_template",newjson));
             tobindtolayoutpicker();
         });
     };
@@ -427,7 +427,7 @@ sakai.dashboard = function(){
 
         if (isvalid) {
 
-            $('#widgetscontainer').html($.Template.render("widgetscontainer_template", final2));
+            $('#widgetscontainer').html($.TemplateRenderer("widgetscontainer_template", final2));
 
             $(".widget1").hover(
                 function(over){
@@ -677,7 +677,7 @@ sakai.dashboard = function(){
             }
         }
 
-        $("#addwidgetlist").html($.Template.render("addwidgetlist_template", addingPossible));
+        $("#addwidgetlist").html($.TemplateRenderer("addwidgetlist_template", addingPossible));
         currentlyopen = addingPossible.items[0].id;
 
         $("#addWidgets_selected_title").text(addingPossible.items[0].title);
@@ -843,7 +843,7 @@ sakai.dashboard = function(){
         newjson.layouts = Widgets.layouts;
         newjson.selected = myportaljson.layout;
         currentselectedlayout = myportaljson.layout;
-        $("#layouts_list").html($.Template.render("layouts_template",newjson));
+        $("#layouts_list").html($.TemplateRenderer("layouts_template",newjson));
         tobindtolayoutpicker();
         hash.w.show();
     };
@@ -925,7 +925,7 @@ sakai.dashboard = function(){
 
         // Render the list of widgets. The template will render a remove and add row for each widget, but will
         // only show one based on whether that widget is already on my dashboard
-        $(addGoodiesListContainer).html($.Template.render(addGoodiesListTemplate, addingPossible));
+        $(addGoodiesListContainer).html($.TemplateRenderer(addGoodiesListTemplate, addingPossible));
         renderGoodiesEventHandlers();
 
         // Show the modal dialog

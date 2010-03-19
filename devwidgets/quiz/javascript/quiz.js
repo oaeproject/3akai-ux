@@ -319,7 +319,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         json.values = json.values.join("|");
         json.colorsJoined = json.colors.join("|");
         // render the results
-        $(quizResultGraphContainer, rootel).html($.Template.render(quizResultGraphTemplate, json));
+        $(quizResultGraphContainer, rootel).html($.TemplateRenderer(quizResultGraphTemplate, json));
         $(quizResultGraphContainer, rootel).show();
 
     };
@@ -431,7 +431,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         // put the points in a string
         jsonAnswers.points = json.points + "/" + questionOrder.length;
         // show the ansers in a list
-        $(quizOverviewAnswersListContainer, rootel).html($.Template.render(quizOverviewAnswersListTemplate, jsonAnswers));
+        $(quizOverviewAnswersListContainer, rootel).html($.TemplateRenderer(quizOverviewAnswersListTemplate, jsonAnswers));
         renderResultHtml();
         $(quizOverviewAnswersList, rootel).show();
         $(quizShowPoints,rootel).show();
@@ -577,7 +577,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         }
         json.questions[questionOrder[index]].index = index;
         // render the question
-        $(quizSolveQuestionContainer, rootel).html($.Template.render(quizSolveQuestionTemplate, json.questions[questionOrder[index]]));
+        $(quizSolveQuestionContainer, rootel).html($.TemplateRenderer(quizSolveQuestionTemplate, json.questions[questionOrder[index]]));
         $(quizShowPoints).hide();
         $(quizSolveQuestion, rootel).show();
         // bind the show results button
@@ -608,7 +608,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             "ShowAnswer": json.showAnswers,
             "answer": correction.answer
         };
-        $(quizAnswerPopup, rootel).html($.Template.render(quizPopupTemplate, popup));
+        $(quizAnswerPopup, rootel).html($.TemplateRenderer(quizPopupTemplate, popup));
         $(quizAnswerPopup, rootel).show();
         // bind the popup click event
         // goes to the results page if this is the last question or if timedout
@@ -722,7 +722,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         // put the points to 0
         json.points = 0;
         // render the start quiz screen
-        $(quizQuizContainer, rootel).html($.Template.render(quizQuizTemplate, json));
+        $(quizQuizContainer, rootel).html($.TemplateRenderer(quizQuizTemplate, json));
         $(quizQuizContainer, rootel).show();
 
         // bind the start quiz button
@@ -801,7 +801,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         // get the next index (for the next button)
         question.Nextindex = (question.index + 1) % (questionsTemp.length);
         // render the existing question list
-        $(quizExistingQuestions, rootel).html($.Template.render(quizExistingQuestionsTemplate, question));
+        $(quizExistingQuestions, rootel).html($.TemplateRenderer(quizExistingQuestionsTemplate, question));
         $(quizExistingQuestions, rootel).show();
         // bind the next and previous buttons
         $(quizChangeQuestion).bind("click",
@@ -846,7 +846,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             "items": quizes
         };
         // render the existing quizes list
-        $(quizExistingQuizList, rootel).html($.Template.render(quizExistingQuizListTemplate, existingQuizList));
+        $(quizExistingQuizList, rootel).html($.TemplateRenderer(quizExistingQuizListTemplate, existingQuizList));
 
         $(quizExistingQuizList, rootel).show();
 
@@ -894,7 +894,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
     var renderListItems = function() {
         var question = {};
         question.answers = currentQuestion.answers;
-        $(quizMulipleAnswerListContainer, rootel).html($.Template.render(quizMulipleAnswerListTemplate, question));
+        $(quizMulipleAnswerListContainer, rootel).html($.TemplateRenderer(quizMulipleAnswerListTemplate, question));
         $(quizMulipleAnswerListContainer, rootel).show();
 
     };
@@ -1373,7 +1373,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         // and the question
         imgTaggerJson.question = question.question;
         // render that JSON-object
-        $(quizSettingsImgTagger, rootel).html($.Template.render(quizSettingsImgTaggerTemplate, imgTaggerJson));
+        $(quizSettingsImgTagger, rootel).html($.TemplateRenderer(quizSettingsImgTaggerTemplate, imgTaggerJson));
         // hide the tabs
         $(quizTabs, rootel).hide();
         $("." + quizMainTabContainer, rootel).hide();
@@ -1440,7 +1440,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
             selectedItem.answers = [];
         }
         // render the question overview list
-        $(quizListOverview, rootel).html($.Template.render(quizListOverviewTemplate, quiz));
+        $(quizListOverview, rootel).html($.TemplateRenderer(quizListOverviewTemplate, quiz));
         $(quizListOverview, rootel).show();
 
         // focus on textboxes which ar eselected
