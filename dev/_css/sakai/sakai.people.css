@@ -1,14 +1,3 @@
-.options {
-    padding:25px 25px 0pt 0pt;
-    text-align:right;
-}
-
-.options a {
-    color:#3399CC;
-    font-size:1em;
-    font-weight:bold;
-}
-
 .jq_pager ul.pages {
     margin:10px 0 0px !important;
 }
@@ -18,26 +7,19 @@
 }
 
 /** HEADER **/
-.people .find_more_people a {
-    float: right;
+
+.people .s3d-site-heading {
+    padding: 15px 0;
 }
+
 .people .find_more_people a {
     background: url(../../_images/arrow_right_sm2_blue.png) no-repeat scroll right center;
-    padding:0 10px 0 0;
-    color:#0C91C5;
-    font-size:14px;
-    padding-left:10px;
+    color: #058EC4;
+    font-size: 14px;
+    font-weight: bold;
+    padding-right: 10px;
+    margin-right: 15px;
     line-height: 2.0em;
-}
-.people .site_heading {
-    padding: 15px 0;
-    border: none;
-    margin: 0;
-}
-.people .site_heading h1 {
-    font-size: 2.0em;
-    color: #454A4F;
-    display: inline;
 }
 
 /** CONTENT **/

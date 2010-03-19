@@ -4,10 +4,6 @@
 { background: #fff; }
 
 
-
-/** HEADING **/
-.profile_preview .site_heading { color: #454a4f; padding: 10px 0 10px 0; border: none; }
-
 /** TAB CONTENTS **/
 .profile_preview .profile_container
 { padding: 0; margin: 0 0 20px 0; color: #454a4f; }
