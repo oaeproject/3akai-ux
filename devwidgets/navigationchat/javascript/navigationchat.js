@@ -135,7 +135,6 @@ sakai.flashChat = {
 
 sakai.navigationchat = function(tuid, placement, showSettings){
 
-
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////

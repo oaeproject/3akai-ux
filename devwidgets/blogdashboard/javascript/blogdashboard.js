@@ -191,7 +191,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
 
         //    save it to jcr
         var str = $.toJSON(json);
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + siteid, "_blog", str, callback);
+        sakai.api.Widgets.saveWidgetData("blog", str, tuid, placement, callback);
     };
 
 
@@ -219,18 +219,17 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
             //    If it exists we will have onSucces, if it fails we end up with an onFail.
             //    Since all the blogposts and comments are saved under one node we
             //    check this to make sure we don't overwrite any posts.
-            $.ajax({
-                url: Config.URL.SDATA_FETCH + "/" + sSiteId + "/_blog",
-                cache: false,
-                success: function(data){
-                    //    There are some posts in here. Pass them along.
+
+            sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+                if (success) {
+                    // There are some posts in here. Pass them along.
                     savePostToJCR(sSiteId, data, true, json, callback);
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    //    This is the first post.
+                } else {
+                    // This is the first post.
                     savePostToJCR(sSiteId, xhr.status, false, json, callback);
                 }
             });
+
         }
         else {
             throw "Not all fields were defined.";
@@ -241,8 +240,8 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
      * Called when a post is added.
      * Will display a message and reset the form fields.
      */
-    var addedPost = function(succes) {
-        if (succes) {
+    var addedPost = function(success) {
+        if (success) {
             showGeneralMessage('The post has been saved too the database.', false, 4000);
             resetFields();
         }

@@ -56,7 +56,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
         // Store the corresponded map data into backend server
         var str = $.toJSON(json);
-        sdata.widgets.WidgetPreference.save(saveUrl, "googlemaps", str, finish);
+        sakai.api.Widgets.saveWidgetData("googlemaps", str, tuid, placement, finish);
     };
 
     /**
@@ -135,22 +135,20 @@ sakai.googlemaps = function(tuid, placement, showSettings){
      * This is to get map zoom and center properties from backend server
      */
     var getFromJCR = function() {
-        $.ajax({
-            url: saveUrl + "/googlemaps",
-            cache: false,
-            success: function(data){
+
+        sakai.api.Widgets.loadWidgetData("googlemaps", tuid, placement, function(success, data){
+
+            if (success) {
 
                 // Get data from the backend server
-                json = $.evalJSON(data);
+                json = data;
 
                 // Set the size of the map's iframe
                 setMapSize(setMap);
 
                 // Set the initial value of search keyword input textbox
                 $("#googlemaps_input_text_location", rootel).val(json.maps[0].mapinput);
-            },
-            error: function(xhr, textStatus, thrownError) {
-
+            } else {
                 // Show the search input textfield and save, search, cancel buttons
                 $("#googlemaps_form_search", rootel).show();
                 $("#googlemaps_save_cancel_container", rootel).show();
@@ -184,6 +182,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
                     sdata.container.informCancel(tuid);
                 });
             }
+
         });
     };
 

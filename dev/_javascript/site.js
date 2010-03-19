@@ -385,6 +385,7 @@ sakai.site = function(){
      * @param {String} content The HTML to check.
      * @param {String} url The url into JCR where the content originates from.
      */
+    /*
     sakai.site.ensureProperWidgetIDs = function(content, url) {
         var adjusted = false;
         var moveWidgets = [];
@@ -438,6 +439,8 @@ sakai.site = function(){
         return $el.html();
     };
 
+    */
+
     // Load Navigation
     sakai.site.loadSiteNavigation = function() {
 
@@ -485,12 +488,11 @@ sakai.site = function(){
         var items = {};
         var site = site_object.id;
 
-        $.ajax({
-            url : "/_user/private/" + sakai.data.me.user.userStoragePrefix + "recentsites.json",
-            cache: false,
-            success : function(data) {
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", function(success, data) {
 
-                items = $.evalJSON(data);
+            if (success) {
+
+                items = data;
 
                 //Filter out this site
                 var index = -1;
@@ -507,17 +509,18 @@ sakai.site = function(){
 
                 // Write
                 if (sakai.data.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sakai.data.me.user.userStoragePrefix.substring(0, sakai.data.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", items);
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
+
                 items.items = [];
                 items.items.unshift(site);
 
                 // Write
                 if (sakai.data.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sakai.data.me.user.userStoragePrefix.substring(0, sakai.data.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", items);
                 }
+
             }
         });
     };

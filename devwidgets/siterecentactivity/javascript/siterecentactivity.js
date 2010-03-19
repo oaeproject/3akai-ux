@@ -49,17 +49,17 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
      * @param {Object} callback Callback function that will be executed
      */
     sakai.siterecentactivity.getRecentActivity = function(callback){
-        $.ajax({
-            url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
-            success: function(data){
-                sakai.siterecentactivity.recentactivity = $.evalJSON(data);
-            },
-            error: function(xhr, textStatus, thrownError) {
+
+        sakai.api.Widgets.loadWidgetData("recentactivity", tuid, placement, function(success, data){
+            if (success) {
+                sakai.siterecentactivity.recentactivity = data;
+                ;
+            } else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
                 };
-            },
-            complete: callback
+            }
+            callback(success, data);
         });
     };
 
@@ -70,9 +70,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
     var saveRecentActivity = function(){
 
         // Save the recentactivity json file
-        sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id, "recentactivity.json",
-            $.toJSON(sakai.siterecentactivity.recentactivity,
-            sakai.siterecentactivity.render()));
+        sakai.api.Widgets.saveWidgetData("recentactivity", $.toJSON(sakai.siterecentactivity.recentactivity), tuid, placement, sakai.siterecentactivity.render());
     };
 
 

@@ -52,16 +52,16 @@ sakai.dashboard = function(){
     var startSaving = true;
     var person = false;
 
-    var decideExists = function (response, exists){
+    var decideExists = function (exists, response){
         if (exists === false) {
-            if (response === 401 || response === "error"){
+            if (response.status === 401){
                 document.location = Config.URL.GATEWAY_URL;
             } else {
                 doInit();
             }
         } else {
             try {
-                myportaljson = $.evalJSON(response);
+                myportaljson = response;
                 var cleanContinue = true;
 
                 for (var c in myportaljson.columns){
@@ -131,7 +131,7 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, jsonobj, saveGroup);
 
     };
 
@@ -230,7 +230,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
     });
@@ -276,12 +276,12 @@ sakai.dashboard = function(){
 
             selected = "General";
 
-            var jsonstring = '{"items":{"group":"' + selected + '"}}';
+            var jsonobject = {"items":{"group": selected }};
 
-            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets","group",jsonstring, buildLayout);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
 
         } else {
-            alert("An error occured while saving your layout");
+            fluid.log("my_sakai.js: An error occured while saving your layout");
         }
 
     };
@@ -291,7 +291,7 @@ sakai.dashboard = function(){
         if (success){
             showMyPortal();
         } else {
-            alert("An error occured while saving your group");
+            fluid.log("my_sakai.js: An error occured while saving your group!");
         }
 
     };
@@ -381,8 +381,7 @@ sakai.dashboard = function(){
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets", stateFile, jsonstring, null);
-
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson);
         }
 
         var final2 = {};
@@ -641,7 +640,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,serString, checksucceed);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, checksucceed);
 
         }
 
@@ -649,7 +648,7 @@ sakai.dashboard = function(){
 
     var checksucceed= function (success){
         if (!success){
-            window.alert("Connection with the server was lost");
+            fluid.log("Connection with the server was lost");
         }
     };
 
@@ -817,7 +816,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,jsonstring, finishAddWidgets);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, finishAddWidgets);
 
     };
 
@@ -954,7 +953,8 @@ sakai.dashboard = function(){
     /*
      * This will try to load the dashboard state file from the SData personal space
      */
-    sdata.widgets.WidgetPreference.get(stateFile, decideExists);
+
+    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, decideExists);
 
 };
 

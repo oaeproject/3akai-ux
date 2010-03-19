@@ -872,10 +872,11 @@ sakai.site.site_admin = function(){
         $("#show_view_container").show();
 
         sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
-        sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
+
+        sakai.api.Widgets.saveWidgetData("navigation_content", sakai.site.pagecontents._navigation, "navigationwidget", sakai.site.currentsite.id);
 
         document.getElementById(sakai.site.selectedpage).style.display = "block";
-        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
 
     };
 

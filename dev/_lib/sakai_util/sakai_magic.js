@@ -445,6 +445,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
 
     $.ajax({
         url: i_url + ".infinity.json",
+        cache: false,
         success: function(data) {
 
             // Transform JSON string to an object
@@ -747,6 +748,116 @@ sakai.api.Widgets.loadWidget = function(widgetID, callback) {
 sakai.api.Widgets.renderWidget = function(widgetID) {
 
 };
+
+/**
+ * Loads a named widget preference from the user's private personal storage
+ * @param {string} prefname the preference name
+ * @param {function} callback the function to call on sucess
+ *
+ */
+sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callback, requireslogin) {
+
+    var widget_id = w_id || "";
+    var placement = w_placement  || "";
+    var args = (requireslogin === false ? false : true);
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+
+    $.ajax ( {
+        url: url,
+        cache: false,
+        success: function(response) {
+            var result = $.evalJSON(response);
+            if (typeof callback === "function") {
+                callback(true, result.data);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        },
+        sendToLoginOnFail: args
+    });
+
+};
+
+
+
+/**
+ * Save a named widget preference to the user's personal private storage
+ *
+ * @param {string} prefname the preference name
+ * @param prefcontent the content to be saved
+ * @param {function} callback, the call back to call when the save is complete
+ * @returns void
+ */
+sakai.api.Widgets.saveWidgetData = function(prefname, prefcontent, w_id, w_placement, callback, requireslogin) {
+
+    var args = (requireslogin === false ? false : true);
+    var widget_id = w_id || "";
+    var placement = w_placement  || "";
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+
+    $.ajax({
+        url:url,
+        type: "POST",
+        data: {
+            "data": prefcontent,
+            "jcr:mixinTypes": "sakai:propertiesmix",
+            "_charset_": "utf-8"
+        },
+        success : function(data) {
+
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError) {
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        },
+        sendToLoginOnFail: args
+    });
+
+};
+
+/**
+ * Delete a named widget preference from the user's personal private storage
+ *
+ * @param {string} prefname the preference name
+ * @param prefcontent the content to be saved
+ * @param {function} callback, the call back to call when the save is complete
+ * @returns void
+ */
+sakai.api.Widgets.deleteWidgetData = function(prefname, w_id, w_placement, callback, requireslogin) {
+
+    var args = (requireslogin === false ? false : true);
+    var widget_id = w_id || "";
+    var placement = w_placement  || "";
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+
+    $.ajax({
+        url:url,
+        type: "DELETE",
+        success : function(data) {
+
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError) {
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        },
+        sendToLoginOnFail: args
+    });
+
+};
+
 
 
 })();

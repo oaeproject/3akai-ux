@@ -22,7 +22,6 @@ var sakai = sakai || {};
 
 sakai.myfriends = function(tuid,placement,showSettings){
 
-
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
