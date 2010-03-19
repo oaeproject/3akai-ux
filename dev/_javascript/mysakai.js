@@ -131,7 +131,7 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
+        sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
 
     };
 
@@ -230,7 +230,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
+            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
 
         }
     });
@@ -278,7 +278,7 @@ sakai.dashboard = function(){
 
             var jsonstring = '{"items":{"group":"' + selected + '"}}';
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets","group",jsonstring, buildLayout);
+            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets","group",jsonstring, buildLayout);
 
         } else {
             alert("An error occured while saving your layout");
@@ -381,7 +381,7 @@ sakai.dashboard = function(){
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets", stateFile, jsonstring, null);
+            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets", stateFile, jsonstring, null);
 
         }
 
@@ -453,20 +453,20 @@ sakai.dashboard = function(){
                     }
                     currentSettingsOpen = splitted[0] + "_" + splitted[1];
                     var widgetId = splitted[0];
-    
+
                     if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings){
                         $("#settings_settings").show();
                     } else {
                         $("#settings_settings").hide();
                     }
-    
+
                     var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
                     if (el.is(":visible")){
                         $("#settings_hide_link").text("Hide");
                     } else {
                         $("#settings_hide_link").text("Show");
                     }
-    
+
                     var x = $(this).position().left;
                     var y = $(this).position().top;
                     $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
@@ -641,7 +641,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,serString, checksucceed);
+            sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,serString, checksucceed);
 
         }
 
@@ -817,7 +817,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sakai.data.me.user.userid) + "/widgets",stateFile,jsonstring, finishAddWidgets);
+        sdata.widgets.WidgetPreference.save("/_user" + sakai.data.me.profile.path + "/private/widgets",stateFile,jsonstring, finishAddWidgets);
 
     };
 
