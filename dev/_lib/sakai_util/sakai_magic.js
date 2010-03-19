@@ -98,7 +98,7 @@ sakai.api.Communication.sendMessageToUser = function(userID, message) {
 };
 
 /**
- * Sends a message to all memebers of a group
+ * Sends a message to all members of a group
  *
  * @param groupID {String} The user ID of the recipient
  *
@@ -107,7 +107,7 @@ sakai.api.Communication.sendMessageToUser = function(userID, message) {
  * @returns true or false depending on whether the sending was successful or not
  * @type Boolean
  */
-sakai.api.Communication.senMessageToGroup = function(groupID, message) {
+sakai.api.Communication.sendMessageToGroup = function(groupID, message) {
 
 };
 
@@ -607,7 +607,7 @@ sakai.api.User.loadMeData = function(callback) {
  * @class Util
  *
  * @description
- * General utility functions which implement commony used low level operations
+ * General utility functions which implement commonly used low level operations
  * and unifies practices across codebase.
  *
  * @namespace
@@ -660,7 +660,7 @@ sakai.api.Util.stripTags = function(s) {
  * @class Sorting
  *
  * @description
- * Sorting algorythms
+ * Sorting algorithms
  *
  * @namespace
  * Sorting functions
@@ -668,7 +668,7 @@ sakai.api.Util.stripTags = function(s) {
 sakai.api.Util.Sorting = {
 
     /**
-    * Natural Order sorting algorythm, for sorting file lists etc..
+    * Natural Order sorting algorithm, for sorting file lists etc..
     * @param {Array} unsorted array
     *
     * @returns The sorted array
@@ -772,7 +772,7 @@ sakai.api.Widgets.renderWidget = function(widgetID) {
 (function($){
 
     /**
-    * Override default jQuery error behaviour
+    * Override default jQuery error behavior
     * @function
     * @param s {String} s description
     * @param xhr {Object} xhr object
@@ -821,12 +821,12 @@ sakai.api.Widgets.renderWidget = function(widgetID) {
 if(Array.hasOwnProperty("indexOf") === false){
 
     /**
-    * Finds the first occurance of an element in an array and returns its
+    * Finds the first occurrence of an element in an array and returns its
     * position. This only kicks in when the native .indexOf method is not
     * available in the browser.
     *
     * @param obj {Object/String/Integer} The element we are looking for
-    * @param start {Integer} Where the search starts withing the array
+    * @param start {Integer} Where the search starts within the array
     *
     * @returns Returns the position of the first matched element
     * @type Integer

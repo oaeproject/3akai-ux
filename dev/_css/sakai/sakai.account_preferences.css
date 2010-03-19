@@ -1,14 +1,7 @@
 /** HEADER **/
-.account_preferences .site_heading {
+.account_preferences .s3d-site-heading {
     padding: 15px 0;
-    border: none;
 }
-.account_preferences .site_heading h1 {
-    font-size: 2.0em;
-    color: #454A4F;
-    display: inline;
-}
-
 /** MAIN CONTENT **/
 .account_preferences .header .fixed-container {
     background: #FFFFFF url(../../_images/header_l.png) no-repeat scroll left top;

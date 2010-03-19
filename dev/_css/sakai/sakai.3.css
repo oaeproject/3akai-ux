@@ -1,31 +1,48 @@
 /* Global Classes */
-.user-personal a{color: #058ec4; font-size: 12px;}
-.user-personal strong{color: #058ec4;}
-.user-personal li{border-left: 1px solid #999; padding: 0 0 0 5px;}
-.user-personal .first{border-left: none;}
-.user-name{color: #058ec4; background: url(../../_images/user_online.gif) no-repeat 5px 2px;}
-.user-name strong{padding-left: 14px;}
-.user-arrow-down{position: relative; top: -1px; padding-left: 3px;}
-.user-mail{background: url(../../_images/user_mail_icon.gif) no-repeat 6px 3px;}
-.user-mail a{color: #666; padding-left: 16px;}
-.site_heading {padding: 25px 0px 10px 25px; border-bottom: 1px solid #ebebeb;}
-.site_heading h1 {margin: 0;     padding: 0;    font-weight: bold;}
-.site_secondary_heading {font-weight: bold; font-size: 20px; padding: 30px 0px 20px 25px;}
-.site_secondary_heading a{color: #0c91c5; font-size: 14px; padding-left: 10px;}
-.section_container{padding: 25px 25px 0 25px;}
-.section_header{font-weight: bold; border-bottom: 1px solid #ebebeb; font-size: 17px; padding-bottom: 3px;}
-.text-field{ padding: 4px 4px; width: 230px; color: #222; border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2;}
 
-/* Buttons */
-.button{display: block; float: left; padding: 3px 5px; text-align: center; border: 1px solid #ccc; background: url(../../_images/button_bg.png) repeat-x bottom left; color: #333;}
-.submit-button{padding: 2px 5px; background: url(../../_images/button_bg.png) repeat-x bottom left; border: 1px solid #ccc; color: #333; text-align: center; font-size: 13px; margin:0;}
-.button-secondary{font-weight: normal;}
+.section_header {
+    font-weight: bold;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 17px;
+    padding-bottom: 3px;
+}
 
-.button-grey { background: transparent url(../../_images/gray_button_left.png) top left no-repeat; float: left;}
-.button-grey input {background: url(../../_images/gray_button_right.png) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px; margin-right: -10px;}
-.button-lightgrey { background: transparent url(../../_images/lightgray_button_left.gif) top left no-repeat; float: left;}
-.button-lightgrey input {background: url(../../_images/lightgray_button_right.gif) top right no-repeat; margin:0; padding: 0 10px 0 10px; border: none; color: #fff; font-weight: bold; cursor: pointer; height: 23px; margin-right: -10px;}
-.button-space {margin-left: 20px}
+.text-field {
+    padding: 4px 4px;
+    width: 230px;
+    color: #222;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #e2e2e2;
+    border-right: 1px solid #e2e2e2;
+}
+
+/* Buttons 
+ * square style buttons
+ */
+.button {
+    display: block;
+    float: left;
+    padding: 3px 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    background: url(../../_images/button_bg.png) repeat-x bottom left;
+    color: #333;
+}
+
+.submit-button {
+    padding: 2px 5px;
+    background: url(../../_images/button_bg.png) repeat-x bottom left;
+    border: 1px solid #ccc;
+    color: #333;
+    text-align: center;
+    font-size: 13px;
+    margin: 0;
+}
+
+.button-secondary {
+    font-weight: normal;
+}
 
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}

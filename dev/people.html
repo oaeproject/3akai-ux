@@ -45,13 +45,13 @@
     <div id="widget_navigationchat" class="widget_inline"></div>
 
     <!-- TITLE BAR  -->
-    <div class="fl-container-flex header people_header">
+    <div class="fl-container-flex header">
         <div class="fl-fix fl-centered fixed-container">
             <div class="decor"></div>
 
                 <!-- TITLE BAR  -->
-                    <div class="site_heading">
-                        <div class="fl-container options find_more_people">
+                    <div class="s3d-site-heading">
+                        <div class="fl-container options find_more_people fl-force-right">
                             <a id="edit-layout" href="search_people.html">__MSG__FIND_MORE_PEOPLE__</a>
                         </div>
                         <h1>__MSG__MY_PEOPLE__</h1>
@@ -100,9 +100,11 @@
                                 {/if}
                                 {if ! i.isMe}
                                     {if ! i.connected}
-                                    <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
-                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">Remove contact</a>
                                     {/if}
+                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                     <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
                                 {/if}
                             </div>
