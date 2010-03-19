@@ -52,16 +52,16 @@ sakai.dashboard = function(){
     var startSaving = true;
     var person = false;
 
-    var decideExists = function (response, exists){
+    var decideExists = function (exists, response){
         if (exists === false) {
-            if (response === 401 || response === "error"){
+            if (response.status === 401){
                 document.location = Config.URL.GATEWAY_URL;
             } else {
                 doInit();
             }
         } else {
             try {
-                myportaljson = $.evalJSON(response);
+                myportaljson = response;
                 var cleanContinue = true;
 
                 for (var c in myportaljson.columns){
@@ -88,7 +88,7 @@ sakai.dashboard = function(){
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -131,7 +131,7 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, jsonobj, saveGroup);
 
     };
 
@@ -230,7 +230,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
     });
@@ -242,7 +242,7 @@ sakai.dashboard = function(){
 
     var doInit = function (){
 
-        person = sdata.me;
+        person = sakai.data.me;
         inituser = person.user.userid;
         if (!inituser || inituser == "anon") {
             document.location = "/dev/index.html";
@@ -276,12 +276,12 @@ sakai.dashboard = function(){
 
             selected = "General";
 
-            var jsonstring = '{"items":{"group":"' + selected + '"}}';
+            var jsonobject = {"items":{"group": selected }};
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","group",jsonstring, buildLayout);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
 
         } else {
-            alert("An error occured while saving your layout");
+            fluid.log("my_sakai.js: An error occured while saving your layout");
         }
 
     };
@@ -291,7 +291,7 @@ sakai.dashboard = function(){
         if (success){
             showMyPortal();
         } else {
-            alert("An error occured while saving your group");
+            fluid.log("my_sakai.js: An error occured while saving your group!");
         }
 
     };
@@ -381,8 +381,7 @@ sakai.dashboard = function(){
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets", stateFile, jsonstring, null);
-
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson);
         }
 
         var final2 = {};
@@ -413,7 +412,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -453,20 +452,20 @@ sakai.dashboard = function(){
                     }
                     currentSettingsOpen = splitted[0] + "_" + splitted[1];
                     var widgetId = splitted[0];
-    
+
                     if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings){
                         $("#settings_settings").show();
                     } else {
                         $("#settings_settings").hide();
                     }
-    
+
                     var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
                     if (el.is(":visible")){
                         $("#settings_hide_link").text("Hide");
                     } else {
                         $("#settings_hide_link").text("Show");
                     }
-    
+
                     var x = $(this).position().left;
                     var y = $(this).position().top;
                     $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
@@ -513,7 +512,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
@@ -641,7 +640,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,serString, checksucceed);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, checksucceed);
 
         }
 
@@ -649,7 +648,7 @@ sakai.dashboard = function(){
 
     var checksucceed= function (success){
         if (!success){
-            window.alert("Connection with the server was lost");
+            fluid.log("Connection with the server was lost");
         }
     };
 
@@ -817,7 +816,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,jsonstring, finishAddWidgets);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, finishAddWidgets);
 
     };
 
@@ -954,7 +953,8 @@ sakai.dashboard = function(){
     /*
      * This will try to load the dashboard state file from the SData personal space
      */
-    sdata.widgets.WidgetPreference.get(stateFile, decideExists);
+
+    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, decideExists);
 
 };
 

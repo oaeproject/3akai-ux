@@ -260,7 +260,7 @@ sakai.site = function(){
                 }
 
                 // Check user's login status
-                if (sdata.me.user.userid){
+                if (sakai.data.me.user.userid){
                     $("#loginLink").hide();
                     sakai._isAnonymous = false;
                 } else {
@@ -385,6 +385,7 @@ sakai.site = function(){
      * @param {String} content The HTML to check.
      * @param {String} url The url into JCR where the content originates from.
      */
+    /*
     sakai.site.ensureProperWidgetIDs = function(content, url) {
         var adjusted = false;
         var moveWidgets = [];
@@ -438,6 +439,8 @@ sakai.site = function(){
         return $el.html();
     };
 
+    */
+
     // Load Navigation
     sakai.site.loadSiteNavigation = function() {
 
@@ -485,12 +488,11 @@ sakai.site = function(){
         var items = {};
         var site = site_object.id;
 
-        $.ajax({
-            url : "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
-            cache: false,
-            success : function(data) {
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", function(success, data) {
 
-                items = $.evalJSON(data);
+            if (success) {
+
+                items = data;
 
                 //Filter out this site
                 var index = -1;
@@ -506,18 +508,19 @@ sakai.site = function(){
                 items.items = items.items.splice(0,5);
 
                 // Write
-                if (sdata.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                if (sakai.data.me.user.userStoragePrefix) {
+                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", items);
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
+
                 items.items = [];
                 items.items.unshift(site);
 
                 // Write
-                if (sdata.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                if (sakai.data.me.user.userStoragePrefix) {
+                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", items);
                 }
+
             }
         });
     };
@@ -1041,7 +1044,7 @@ sakai.site = function(){
 
             if (isvalid) {
 
-                final2.me = sdata.me;
+                final2.me = sakai.data.me;
 
                 var el = document.createElement("div");
                 el.id = sakai.site.selectedpage;

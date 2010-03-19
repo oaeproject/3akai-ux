@@ -35,7 +35,7 @@ sakai.poll = function(tuid, placement, showSettings){
 
     var json = false;                         // Variable used to recieve information by json
     var jsonAll = false;                     // Contains all the polls
-    var me = sdata.me;                         // Contains information about the current user
+    var me = sakai.data.me;                         // Contains information about the current user
     var rootel = $("#" + tuid);             // Get the main div used by the widget
     var colors = ["663300","e07000","0070e0",
     "660000","990080","c4fc95","c4e3fc","79c365",
@@ -481,8 +481,7 @@ sakai.poll = function(tuid, placement, showSettings){
          // Clear polls array
         json.poll.polls = [];
         var jsonToString = $.toJSON(json);
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "poll", jsonToString, functionOnComplete);
+        sakai.api.Widgets.saveWidgetData("poll", jsonToString, tuid, placement, functionOnComplete);
     };
 
     /**
@@ -815,7 +814,7 @@ sakai.poll = function(tuid, placement, showSettings){
         jsonAll.polls.push(json.poll);
 
         var jsonToString = $.toJSON(jsonAll);
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/", "_poll", jsonToString, finishSettingsAfterSave);
+        sdata.widgets.WidgetPreference.save("_poll", jsonToString, tuid, placement, finishSettingsAfterSave);
     };
 
     /**
@@ -824,18 +823,17 @@ sakai.poll = function(tuid, placement, showSettings){
      * @param {Function} functionOnComplete Function to be executed on completion
      */
     var getAllPoll = function(addToAll, functionOnComplete){
-        $.ajax({
-            url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_poll",
-            cache: false,
-            success: function(data){
+
+        sakai.api.Widgets.loadWidgetData("_poll", tuid, placement, function(success, data) {
+
+            if (success) {
                 parseAllPoll(data, true);
                 if (addToAll){addCurrentToAllPoll();}
                 if (functionOnComplete !== null){
                     functionOnComplete();
                     $(pollInsertExisting, rootel).hide();
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 parseAllPoll(xhr.status, false);
                 if (addToAll) {addCurrentToAllPoll();}
                 if (functionOnComplete !== null) {
@@ -844,6 +842,7 @@ sakai.poll = function(tuid, placement, showSettings){
                 }
             }
         });
+
     };
 
     /**
@@ -1327,14 +1326,12 @@ sakai.poll = function(tuid, placement, showSettings){
      * Get the post including replies
      */
     var getPostsFromJCR = function(){
-        $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll"),
-            cache: false,
-            success: function(data){
+        sakai.api.Widgets.loadWidgetData("poll", tuid, placement, function(success, data){
+
+            if (success) {
                 showPoll(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showPoll(xhr.status, false);
+            } else {
+                showPoll(data.status, false);
             }
         });
     };
@@ -1417,16 +1414,14 @@ sakai.poll = function(tuid, placement, showSettings){
 
         showHidePreview(false);
 
-        $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll"),
-            cache: false,
-            success: function(data){
+        sakai.api.Widgets.loadWidgetData("poll", tuid, placement, function(success, data){
+            if (success) {
                 showPollSettings(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showPollSettings(xhr.status, false);
+            } else {
+                showPollSettings(data.status, false);
             }
         });
+
         $(pollShowContainer, rootel).hide();
         $(pollContainer, rootel).show();
         $(pollMainContainer, rootel).show();

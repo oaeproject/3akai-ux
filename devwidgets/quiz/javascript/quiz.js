@@ -382,9 +382,8 @@ sakai.quiz = function(tuid, placement, showSettings) {
 
         // Save the JSON-object
         var tostring = $.toJSON(jsonTemp);
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
         json = jsonTemp;
-        sdata.widgets.WidgetPreference.save(saveUrl, "quiz", tostring, renderResultHtml());
+        sakai.api.Widgets.saveWidgetData("quiz", tostring, tuid, placement, renderResultHtml);
 
     };
 
@@ -393,15 +392,11 @@ sakai.quiz = function(tuid, placement, showSettings) {
      */
     var addUserResult = function() {
         // First update the results in case someone solved the quiz while you were taking it
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "quiz");
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
-                 var jsonTemp = $.evalJSON(data);
-                addUserResultToResults(jsonTemp);
-            },
-            error: function(xhr, textStatus, thrownError) {
+
+        sakai.api.Widgets.loadWidgetData("quiz", tuid, placement, function(success, data){
+            if (success) {
+                addUserResultToResults(data);
+            } else {
                 json = {};
             }
         });
@@ -871,8 +866,7 @@ sakai.quiz = function(tuid, placement, showSettings) {
         // stringify the quizes
         var tostring = $.toJSON(quiz);
         // Save the quiz to the widget-node
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "quiz", tostring, finishNewSettings);
+        sakai.api.Widgets.saveWidgetData("quiz", tostring, tuid, placement, finishNewSettings);
         // put the most important info in a new JSON-object
         var quizTemp = {
             "questions": quiz.questions,
@@ -883,9 +877,8 @@ sakai.quiz = function(tuid, placement, showSettings) {
         quizes.push(quizTemp);
         // save that JSON object to the _quiz node in the site-node
         // this contains all quizes created in the site
-        var saveUrl2 = Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement.split("/")[0]);
         var tostring2 = $.toJSON(quizes);
-        sdata.widgets.WidgetPreference.save(saveUrl2, "_quiz", tostring2, finishNewSettings);
+        sakai.api.Widgets.saveWidgetData("_quiz", tostring2, tuid, placement, finishNewSettings);
     };
 
     /**
@@ -1732,55 +1725,43 @@ sakai.quiz = function(tuid, placement, showSettings) {
      * Initializes the quiz widget
      */
     var doInit = function(){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "quiz");
-        var urlAllQuizes = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/,  placement.split("/")[0]).replace(/__TUID__/, "_quiz");
         // show settings page
         if (showSettings) {
-        // quiz request
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
-                // load the quiz settings
-                json = $.evalJSON(data);
-                loadQuizSettings(true, json);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                loadQuizSettings(false, xhr.status);
-            }
-        });
-        // existing quizes request
-        $.ajax({
-            url: urlAllQuizes,
-            cache: false,
-            success: function(data) {
-                // load the existing quizes page
-                quizes = $.evalJSON(data);
-                loadExistingQuizes(true, quizes);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                loadExistingQuizes(false, xhr.status);
-            }
-        });
+            sakai.api.Widgets.loadWidgetData("quiz", tuid, placement, function(success, data){
+                if (success) {
+                    // load the quiz settings
+                    json = data;
+                    loadQuizSettings(true, json);
+                } else {
+                    loadQuizSettings(false, data.status);
+                }
+            });
+
+            sakai.api.Widgets.loadWidgetData("_quiz", tuid, placement, function(success, data){
+                if (success) {
+                    // load the existing quizes page
+                    quizes = data;
+                    loadExistingQuizes(true, quizes);
+                } else {
+                    loadExistingQuizes(false, data.status);
+                }
+            });
+
         } else {
             // load the output window
             $(quizSettings, rootel).hide();
             $(quizOutput, rootel).show();
 
-            // request the quiz data
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    json = $.evalJSON(data);
-                    // show the start quiz screen
-                    showQuestions();
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    alert("Could not receive quiz data.");
-                }
-            });
+            sakai.api.Widgets.loadWidgetData("quiz", tuid, placement, function(success, data){
 
+                if (success) {
+                    json = data;
+                    showQuestions();
+                } else {
+                    fluid.log("quiz.js: Could not load quiz data!");
+                }
+
+            });
         }
     };
     doInit();

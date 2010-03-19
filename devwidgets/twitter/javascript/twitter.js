@@ -43,7 +43,7 @@ sakai.twitter = function(tuid,placement,showSettings){
      * @param {Boolean} refresh Refresh the me object or not
      */
     var getMe = function(){
-        me = sdata.me;
+        me = sakai.data.me;
         me_json = me.profile;
     };
 
@@ -124,7 +124,7 @@ sakai.twitter = function(tuid,placement,showSettings){
             var data = {"basic":$.toJSON(basic),"_charset_":"utf-8"};
 
             $.ajax({
-                url :"/_user/public/" + sdata.me.user.userid + "/authprofile",
+                url :"/_user/public/" + sakai.data.me.user.userid + "/authprofile",
                 type : "POST",
                 data : data,
                 success : function(data) {

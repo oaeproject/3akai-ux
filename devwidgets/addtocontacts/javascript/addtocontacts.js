@@ -37,7 +37,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
     /////////////////////////////
 
     // Help variables
-    var me = sdata.me;
+    var me = sakai.data.me;
     var friend = false;
     var callbackWhenDone = false;
     var fadeOutTime = 1000; // The amount of time it takes to fade out the message and hide the layover.
@@ -134,7 +134,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
             "sakai:sendstate": "pending",
             "sakai:messagebox": "outbox",
             "sakai:to": userid,
-            "sakai:from": sdata.me.user.userid,
+            "sakai:from": sakai.data.me.user.userid,
             "sakai:subject": title,
             "sakai:body":message,
             "sakai:category":"invitation",
@@ -283,10 +283,10 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     if (typeof friend.firstName === "object"){
                         friend.firstName = friend.firstName[0];
                     }
-                    if (typeof sdata.me.profile.lastName === "object"){
+                    if (typeof sakai.data.me.profile.lastName === "object"){
                         friend.lastName = friend.lastName[0];
                     }
-                    if (typeof sdata.me.profile.email === "object"){
+                    if (typeof sakai.data.me.profile.email === "object"){
                         friend.email = friend.email[0];
                     }
                     // We have the data, render it.

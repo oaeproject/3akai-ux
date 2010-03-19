@@ -33,7 +33,7 @@ if (!sakai.sendmessage){
         var allowOthers = false;    //    If the user can add other receivers.
         var allFriends = [];        //    Array that will contain all the info about this users friends.
         var selectedFriendsToPostTo = [];
-        var me = sdata.me;
+        var me = sakai.data.me;
         var fadeOutTime = 1500; //    The time it takes for the lightbox to fade out (in ms).
         var layover = true;        //    Will this widget be in a popup or inside another element.
         var putContentInId = null;    //     if the widget runs in another element, this variable contains the id
@@ -389,7 +389,7 @@ if (!sakai.sendmessage){
                         "sakai:sendstate": "pending",
                         "sakai:messagebox": "outbox",
                         "sakai:to": selectedFriendsToPostTo[i],
-                        "sakai:from": sdata.me.user.userid,
+                        "sakai:from": sakai.data.me.user.userid,
                         "sakai:subject": subject,
                         "sakai:body":body,
                         "sakai:category":"message",

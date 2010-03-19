@@ -148,7 +148,7 @@ sakai.site.site_admin = function(){
 
                 // Save the recent activity
                 var activityItem = {
-                    "user_id": sdata.me.user.userid,
+                    "user_id": sakai.data.me.user.userid,
                     "type": "page_move",
                     "page_id": tgt_urlsafe_name,
                     "page_title": sakai.site.site_info._pages[tgt_urlsafe_name]["pageTitle"],
@@ -763,7 +763,7 @@ sakai.site.site_admin = function(){
 
                         // Save the recent activity
                         var activityItem = {
-                            "user_id": sdata.me.user.userid,
+                            "user_id": sakai.data.me.user.userid,
                             "type": "page_create",
                             "page_id": newPageUniques.urlName,
                             "page_title": newpagetitle,
@@ -829,7 +829,7 @@ sakai.site.site_admin = function(){
                     if (success) {
                         // Save the recent activity
                         var activityItem = {
-                            "user_id": sdata.me.user.userid,
+                            "user_id": sakai.data.me.user.userid,
                             "type": "page_edit",
                             "page_id": sakai.site.selectedpage,
                             "page_title": sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"],
@@ -872,10 +872,11 @@ sakai.site.site_admin = function(){
         $("#show_view_container").show();
 
         sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
-        sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
+
+        sakai.api.Widgets.saveWidgetData("navigation_content", sakai.site.pagecontents._navigation, "navigationwidget", sakai.site.currentsite.id);
 
         document.getElementById(sakai.site.selectedpage).style.display = "block";
-        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
 
     };
 
@@ -2010,7 +2011,7 @@ sakai.site.site_admin = function(){
             obj.description = description;
 
             // Load template configuration file
-            sdata.preference.load(Config.URL.TEMPLATES, function(success, pref_data){
+            sakai.api.Server.loadJSON(Config.URL.TEMPLATES, function(success, pref_data){
                 if (success) {
                     updateTemplates(obj, newid, pref_data);
                 } else {
@@ -2038,7 +2039,7 @@ sakai.site.site_admin = function(){
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
         templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"];
 
-        sdata.preference.save(Config.URL.TEMPLATES, templates, function(success, response) {
+        sakai.api.Server.saveJSON(Config.URL.TEMPLATES, templates, function(success, response) {
 
             if (success) {
 
@@ -2070,7 +2071,7 @@ sakai.site.site_admin = function(){
         sakai.site.isShowingDropdown = false;
 
         // Load template configuration file
-        sdata.preference.load(Config.URL.TEMPLATES, function(success, pref_data){
+        sakai.api.Server.loadJSON(Config.URL.TEMPLATES, function(success, pref_data){
             if (success) {
                 renderTemplates(pref_data);
             } else {
@@ -2130,7 +2131,7 @@ sakai.site.site_admin = function(){
             }
 
             // Save updated template preferences
-            sdata.preference.save(Config.URL.TEMPLATES, newobj, function(success, response) {
+            sakai.api.Server.saveJSON(Config.URL.TEMPLATES, newobj, function(success, response) {
                 if (success) {
 
                 } else {

@@ -18,14 +18,18 @@
  *
  */
 
-/*global $, jQuery, fluid, TrimPath */
+/*global $, jQuery, Config, fluid, TrimPath, Widgets, window, document */
 
 /**
  * @name sakai
  * @namespace
  * Main sakai namespace
+ *
+ * @description
+ * Main sakai namespace. This is where all the initial namespaces should be defined
  */
 var sakai = {};
+sakai.data = {};
 
 /**
  * @name sakai.api
@@ -59,7 +63,6 @@ sakai.api = {
     API_VERSION_BUILD: 1
 
 };
-
 
 
 (function(){
@@ -350,19 +353,58 @@ sakai.api.Server.batchPost = function() {
 };
 
 /**
- * Saves structured preference data to a specified URL
+ * Saves a specified JSON object to a specified URL in JCR. The structure of JSON data will be re-created in JCR as a node hierarchy.
  *
- * @param pref_url {String} The path to the preference where it needs to be
+ * @param i_url {String} The path to the preference where it needs to be
  * saved
- * @param pref_data {Object} A JSON object of the preference content
+ * @param i_data {Object} A JSON object whic we would like to save
  * (max 200 child object of each object)
  * @param callback {Function} A callback function which is executed at the
  * end of the operation
  *
  * @returns {Void}
  */
-sakai.api.Server.savePreference = function() {
+sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 
+    // Argument check
+    if ((!i_url) || (i_url === "") || (!i_data)) {
+        fluid.log("sakai.api.Server.saveJSON: Not enough or empty arguments!");
+        return;
+    }
+
+    // Create JSON String from supplied object
+    var data_string = $.toJSON(i_data);
+
+    // Send request
+    $.ajax({
+            url: i_url,
+            type: "POST",
+            username: "admin",
+            password: "admin",
+            data: {
+                ":operation": "createTree",
+                "tree": data_string
+        },
+
+        success: function(data) {
+
+            // If a callback function is specified in argument, call it
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+        },
+
+        error: function(xhr, status, e) {
+
+            // Log error
+            fluid.log("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
+
+            // If a callback function is specified in argument, call it
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
 };
 
 /**
@@ -374,7 +416,60 @@ sakai.api.Server.savePreference = function() {
  *
  * @returns {Void}
  */
-sakai.api.Server.loadPreference = function() {
+sakai.api.Server.loadJSON = function(i_url, callback) {
+
+    // Helper to remove JRC properties
+    var removeJCRObjects = function(current_object) {
+
+        if (current_object["jcr:primaryType"]) {
+            delete current_object["jcr:primaryType"];
+        }
+
+        if (current_object["jcr:created"]) {
+            delete current_object["jcr:created"];
+        }
+
+        if (current_object["jcr:createdBy"]) {
+            delete current_object["jcr:createdBy"];
+        }
+
+        // Loop through keys and call itself recursively for the next level if an object is found
+        for (var i in current_object) {
+            if (typeof current_object[i] === "object") {
+              var next_object = current_object[i];
+              removeJCRObjects(next_object);
+            }
+        }
+
+    };
+
+    $.ajax({
+        url: i_url + ".infinity.json",
+        cache: false,
+        success: function(data) {
+
+            // Transform JSON string to an object
+            var returned_data = $.evalJSON(data);
+
+            // Remove keys which are created by JCR or Sling
+            removeJCRObjects(returned_data);
+
+            // Call callback function if present
+            if (typeof callback === "function") {
+                callback(true, returned_data);
+            }
+        },
+        error: function(xhr, status, e) {
+
+            // Log error
+            fluid.log("sakai.api.Server.loadJSON: There was an error loading JSON data from: " + this.url);
+
+            // Call callback function if present
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
 
 };
 
@@ -467,6 +562,41 @@ sakai.api.Site.loadSkin = function(siteID, skinID) {
  */
 sakai.api.User = sakai.api.User || {};
 
+
+/**
+ * Retrieves all available information about a logged in user and stores it under sakai.data.me object. When ready it will call a specified callback function
+ *
+ * @param callback {Function} A function which will be called when the information is retrieved from the server.
+ * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
+ * @returns void
+ */
+sakai.api.User.loadMeData = function(callback) {
+
+    // Get the service url from the config file
+    var data_url = Config.URL.ME_SERVICE;
+
+    // Start a request to the service
+    $.ajax({
+        url: data_url,
+        cache: false,
+        success: function(data){
+
+            sakai.data.me = $.evalJSON(data);
+
+            if (typeof callback === "function") {
+                callback(true, sakai.data.me);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+
+            fluid.log("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
+
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
+};
 
 
 
@@ -618,6 +748,116 @@ sakai.api.Widgets.loadWidget = function(widgetID, callback) {
 sakai.api.Widgets.renderWidget = function(widgetID) {
 
 };
+
+/**
+ * Loads a named widget preference from the user's private personal storage
+ * @param {string} prefname the preference name
+ * @param {function} callback the function to call on sucess
+ *
+ */
+sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callback, requireslogin) {
+
+    var widget_id = w_id || "";
+    var placement = w_placement  || "";
+    var args = (requireslogin === false ? false : true);
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+
+    $.ajax ( {
+        url: url,
+        cache: false,
+        success: function(response) {
+            var result = $.evalJSON(response);
+            if (typeof callback === "function") {
+                callback(true, result.data);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        },
+        sendToLoginOnFail: args
+    });
+
+};
+
+
+
+/**
+ * Save a named widget preference to the user's personal private storage
+ *
+ * @param {string} prefname the preference name
+ * @param prefcontent the content to be saved
+ * @param {function} callback, the call back to call when the save is complete
+ * @returns void
+ */
+sakai.api.Widgets.saveWidgetData = function(prefname, prefcontent, w_id, w_placement, callback, requireslogin) {
+
+    var args = (requireslogin === false ? false : true);
+    var widget_id = w_id || "";
+    var placement = w_placement  || "";
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+
+    $.ajax({
+        url:url,
+        type: "POST",
+        data: {
+            "data": prefcontent,
+            "jcr:mixinTypes": "sakai:propertiesmix",
+            "_charset_": "utf-8"
+        },
+        success : function(data) {
+
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError) {
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        },
+        sendToLoginOnFail: args
+    });
+
+};
+
+/**
+ * Delete a named widget preference from the user's personal private storage
+ *
+ * @param {string} prefname the preference name
+ * @param prefcontent the content to be saved
+ * @param {function} callback, the call back to call when the save is complete
+ * @returns void
+ */
+sakai.api.Widgets.deleteWidgetData = function(prefname, w_id, w_placement, callback, requireslogin) {
+
+    var args = (requireslogin === false ? false : true);
+    var widget_id = w_id || "";
+    var placement = w_placement  || "";
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+
+    $.ajax({
+        url:url,
+        type: "DELETE",
+        success : function(data) {
+
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError) {
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        },
+        sendToLoginOnFail: args
+    });
+
+};
+
 
 
 })();
@@ -797,14 +1037,20 @@ if(Array.hasOwnProperty("indexOf") === false){
  */
 sakai.api.autoStart = function() {
 
+    // Load logged in user data
+    sakai.api.User.loadMeData(function(success, data){
+
+        // Start i18n
+        sakai.api.i18n.init();
+
+        // Start l10n
+        sakai.api.l10n.init();
+    });
+
     // Start Widget container functions
     sakai.api.Widgets.Container.init();
 
-    // Start i18n
-    sakai.api.i18n.init();
 
-    // Start l10n
-    sakai.api.l10n.init();
 
 };
 sakai.api.autoStart();

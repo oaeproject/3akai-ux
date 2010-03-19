@@ -20,7 +20,7 @@
 
 sakai.blog = function(tuid, placement, showSettings) {
 
-    var me = sdata.me;                    // Contains information about the current user
+    var me = sakai.data.me;                    // Contains information about the current user
     var rootel = $("#" + tuid);        // Get the main div used by the widget
     var arrSelectedTags = [];
     var sPreviousSearch = '';
@@ -317,9 +317,9 @@ sakai.blog = function(tuid, placement, showSettings) {
      * @param {Object} callback
      */
     var convertAndSaveToJCR = function(siteid, json, callback) {
-        //    save it to jcr
+        // save it to jcr
         var str = $.toJSON(json);
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + siteid, "_blog", str, callback);
+        sakai.api.Widgets.saveWidgetData("blog", str, tuid, placement, callback);
     };
 
 
@@ -336,8 +336,8 @@ sakai.blog = function(tuid, placement, showSettings) {
         var json = {'items' : []};
 
         if (bExists) {
-            //    there are already some posts in the database, add them so we don't overwrite them.
-            var previousPosts = $.evalJSON(sPreviousPosts);
+            // there are already some posts in the database, add them so we don't overwrite them.
+            var previousPosts = sPreviousPosts;
             json.items = previousPosts.items;
 
         }
@@ -380,15 +380,13 @@ sakai.blog = function(tuid, placement, showSettings) {
             //    If it exists we will have onSucces, if it fails we end up with an onFail.
             //    Since all the blogposts and comments are saved under one node we
             //    check this to make sure we don't overwrite any posts.
-            $.ajax({
-                url: Config.URL.SDATA_FETCH + "/" + sSiteId + "/_blog",
-                success: function(data){
-                    //    There are some posts in here. Pass them along.
+            sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+                if (success) {
+                    // There are some posts in here. Pass them along.
                     savePostToJCR(sSiteId, data, true, json, callback);
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    //    This is the first post.
-                    savePostToJCR(sSiteId, xhr.status, false, json, callback);
+                } else {
+                    // This is the first post.
+                    savePostToJCR(sSiteId, data.status, false, json, callback);
                 }
             });
         }
@@ -473,11 +471,9 @@ sakai.blog = function(tuid, placement, showSettings) {
     var deletePost = function(id) {
         //    Get all the posts
         //    We do a request to get all the posts so that we don't unintentionally delete another post.
-        $.ajax({
-            url: Config.URL.SDATA_FETCH + "/" + placement + "/_blog",
-            cache: false,
-            success: function(data){
-                var json = $.evalJSON(data);
+        sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+            if (success) {
+                var json = data;
                 var deletePost = getPostWithId(json.items, id);
                 if (deletePost !== null) {
                     //    Delete the post out of the array.
@@ -496,7 +492,7 @@ sakai.blog = function(tuid, placement, showSettings) {
 
                     json.items = editPostsIds(json.items, 0);
 
-                    //    save it to jcr
+                    // save it to jcr
                     convertAndSaveToJCR(placement, json, displayPosts);
                 }
             }
@@ -533,16 +529,14 @@ sakai.blog = function(tuid, placement, showSettings) {
         sMessage = escapeHTML(sMessage);
 
         if (sTitle !== "" && sMessage !== "") {
-            //    get all the other posts so we don't overwrite one.
-            $.ajax({
-                url: Config.URL.SDATA_FETCH + "/" + placement + "/_blog",
-                cache: false,
-                success: function(data){
-                    var json = $.evalJSON(data);
+            // get all the other posts so we don't overwrite one.
+            sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+                if (success){
+                    var json = data;
 
                     var editPost = getPostWithId(json.items, id);
                     if (editPost !== null) {
-                        //    found the post we're editing
+                        // found the post we're editing
 
                         editPost.title = sTitle;
                         editPost.message = sMessage;
@@ -654,15 +648,15 @@ sakai.blog = function(tuid, placement, showSettings) {
 
         if (sTitle !== "" && sMessage !== "") {
             if (blogSettings.allowComments) {
-                $.ajax({
-                    url: "/sdata/f/" + placement + "/_blog",
-                    cache: false,
-                    success: function(data){
-                        var json = $.evalJSON(data);
+
+                sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+                    if (success) {
+
+                        var json = data;
 
                         var replyToPost = getPostWithId(json.items, id);
                         if (replyToPost !== null) {
-                            //    found the post we're replying to
+                            // found the post we're replying to
                             var newId = replyToPost.id + '_' + replyToPost.comments.length;
 
                             var date = $.L10N.transformDate(new Date()) + "T" + $.L10N.transformTime(new Date()) + "Z";
@@ -678,8 +672,8 @@ sakai.blog = function(tuid, placement, showSettings) {
                             var addPostToArray = function(arrPosts, addPost){
                                 for (var i = 0, iMax= arrPosts.length; i < iMax; i++) {
                                     if (arrPosts[i].id == replyId) {
-                                        //    This is the post we are replying too
-                                        //    Add it too the list.
+                                        // This is the post we are replying too
+                                        // Add it too the list.
                                         arrPosts[i].comments.push(addPost);
                                         return arrPosts;
                                     }
@@ -693,21 +687,19 @@ sakai.blog = function(tuid, placement, showSettings) {
                             };
                             json.items = addPostToArray(json.items, newPost);
 
-
                             //    save it to jcr
                             var str = $.toJSON(json);
 
-                            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH + "/" + placement, "_blog", str, displayPosts);
+                            sakai.api.Widgets.saveWidgetData("blog", str, tuid, placement, displayPosts);
                         }
                     }
                 });
-            }
-            else {
+
+            } else {
                 alert("Comments are not allowed.");
             }
 
-        }
-        else {
+        } else {
             alert('Please enter a subject and a body.');
         }
     };
@@ -800,7 +792,7 @@ sakai.blog = function(tuid, placement, showSettings) {
             arrUserNames = getUserUIDSFromPosts(json.items, arrUserNames);
             var sUserNames = arrUserNames.join(',');
 
-            //    Get the usernames
+            // Get the usernames
             $.ajax({
                 url: "/rest/me/" + sUserNames,
                 success: function(userdata){
@@ -918,20 +910,21 @@ sakai.blog = function(tuid, placement, showSettings) {
      * Displays all the posts
      */
     displayPosts = function() {
-        $.ajax({
-                url: "/sdata/f/" + placement + "/_blog",
-                cache: false,
-                success: function(data){
-                    var json = $.evalJSON(data);
-                    showPosts(json, true);
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    //    Show empty page.
-                    var json = {'posts' : []};
-                    $(postsContainer, rootel).html($.TemplateRenderer(postsTemplate,  json));
-                }
-            });
+
+        sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+            if (success) {
+                // Show posts
+                var json = data;
+                showPosts(json, true);
+            } else {
+                // Show empty page.
+                var json = {"posts" : []};
+                $(postsContainer, rootel).html($.TemplateRenderer(postsTemplate,  json));
+            }
+        });
+
     };
+
     displayPosts();
     };
 
@@ -981,7 +974,7 @@ sakai.blog = function(tuid, placement, showSettings) {
         json.tags = arrSelectedTags;
         var str = $.toJSON(json);
         var url = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(url, "blog", str, callback);
+        sakai.api.Widgets.saveWidgetData("blog", str, tuid, placement, callback);
     };
 
     /**

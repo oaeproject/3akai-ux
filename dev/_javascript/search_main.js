@@ -295,7 +295,7 @@ sakai._search = function(config, callback) {
                 }
                 // Check if the user you found in the list isn't the current
                 // logged in user
-                if (user.userid === sdata.me.user.userid) {
+                if (user.userid === sakai.data.me.user.userid) {
                     user.isMe = true;
                 }
                 // Check if the user that is found isn't an annonymous user
@@ -358,7 +358,7 @@ sakai._search = function(config, callback) {
      * If he is this function will return true.
      */
     var isLoggedIn = function() {
-        var uuid = sdata.me.user.userid;
+        var uuid = sakai.data.me.user.userid;
         if (!uuid || uuid === "anon") {
             document.location = "/dev/index.html";
         }
@@ -380,7 +380,7 @@ sakai._search = function(config, callback) {
             var comment = toSend[searchConfig.addFriend.personalNote.replace(/#/gi, '')];
 
             // send message to other person
-            var userstring = sdata.me.profile.firstName + " " + sdata.me.profile.lastName;
+            var userstring = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
 
             var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
             var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);

@@ -131,7 +131,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     /**
      * Called when the data has been saved to the JCR.
      */
-    var savedDataToJCR = function() {
+    var savedDataToJCR = function(success, data) {
         sdata.container.informFinish(tuid);
     };
 
@@ -217,8 +217,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     var saveLinkTool = function() {
         if (json.url !== "") {
             var str = $.toJSON(json); // Convert the posts to a JSON string
-            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-            sdata.widgets.WidgetPreference.save(saveUrl, "linktool", str, savedDataToJCR);
+            sakai.api.Widgets.saveWidgetData("linktool", str, tuid, placement, savedDataToJCR);
         }
     };
 
@@ -389,12 +388,12 @@ sakai.linktool = function(tuid, placement, showSettings){
                 uid: {
                     checked: false,
                     text: "userId",
-                    value: sdata.me.preferences.uuid
+                    value: sakai.data.me.preferences.uuid
                 },
                 uname: {
                     checked: false,
                     text: "userName",
-                    value: sdata.me.profile.firstName + " " + sdata.me.profile.lastName
+                    value: sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName
                 },
                 urole: {
                     checked: false,

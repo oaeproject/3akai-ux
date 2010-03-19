@@ -82,17 +82,17 @@ sakai.profile = function(){
 
     var doInit = function(){
 
-        me = sdata.me;
-        me.profile = sdata.me.profile;
+        me = sakai.data.me;
+        me.profile = sakai.data.me.profile;
 
         if (!me.user.userid) {
             var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
             document.location = redirect;
         }
 
-        fileUrl = "/_user/public/" + sdata.me.user.userid + "/authprofile.json?sid=" + Math.random();
+        fileUrl = "/_user/public/" + sakai.data.me.user.userid + "/authprofile.json?sid=" + Math.random();
 
-        json = sdata.me.profile;
+        json = sakai.data.me.profile;
 
         setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
         setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
@@ -501,7 +501,7 @@ sakai.profile = function(){
 
         if (json.picture && $.evalJSON(json.picture).name){
             var picture = $.evalJSON(json.picture);
-            $("#picture_holder img").attr("src",'/_user/public/' + sdata.me.user.userid + "/" + picture.name);
+            $("#picture_holder img").attr("src",'/_user/public/' + sakai.data.me.user.userid + "/" + picture.name);
         }
 
         fillInBasic();

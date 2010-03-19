@@ -113,8 +113,7 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
      */
     var saveNewSettings = function(){
         var val = $(youtubevideoUrl ,rootel).attr("value");
-         var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "youtubeurl", val, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData("youtubeurl", val, tuid, placement, sdata.container.informFinish(tuid));
     };
     /**
      * Shows the preview of the video
@@ -157,17 +156,18 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
      * @param {Object} settings
      */
     var displayYouTubeVideo = function(settings){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "youtubeurl");
-        $.ajax({
-            url :url,
-            cache: false,
-            success : function(data) {
+
+        sakai.api.Widgets.loadWidgetData("youtubeurl", tuid, placement, function(success, data){
+
+            if (success) {
                 showVideo(data,true, youtubevideoVideo, settings);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showVideo(xhr.status,false, youtubevideoVideo, settings);
+            } else {
+                showVideo(data.status,false, youtubevideoVideo, settings);
             }
+
+
         });
+
     };
 
     if (showSettings){

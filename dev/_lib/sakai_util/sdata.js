@@ -29,7 +29,7 @@ var sdata = {};
  * Namespace that will be used for all of the widgets that are being loaded
  * into the document. Every widget will have an object called sakai.widgetid
  */
-var sakai = {};
+var sakai = sakai || {};
 
 
 //////////////////////////////
@@ -39,7 +39,6 @@ var sakai = {};
 /*
  *
  */
-sdata.me = false;
 
 
 if(!Array.indexOf) {
@@ -579,228 +578,6 @@ sdata.widgets.WidgetLoader = {
 };
 
 
-/**
- * General preference save and load functions
- * This can save and load preference trees specified as JSON Objects.
- * On each occasian a callback function is fired at the end of the operation
- * callback function has 2 arguments:
- *     - success: wether the operation was successful or not
- *     - data or xhr:     if successful the second argument is the data returnd from the server
- *             if unsuccssful the second argument is an xhr object
- */
-sdata.preference = {
-
-    /** Saves a preference data to a specified URL
-     * @param pref_url {String} The path to the preference where it needs to be saved
-     * @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
-     * @param callback {Function} A callback function which is executed at the end of the operation
-     * @returns {Void}
-     */
-    save: function(pref_url, pref_data, callback) {
-
-        // Arg check
-        if ((!pref_url) || (pref_url === "") || (!pref_data) || (!callback)) {
-            fluid.log("sdata.preference.save(): Not Enough arguments!");
-            return;
-        }
-
-        // Create JSON String
-        var pref_data_string = $.toJSON(pref_data);
-
-
-        // Send save request
-        $.ajax({
-                url: pref_url,
-                type: "POST",
-                data: {
-                    ":operation": "createTree",
-                    "tree": pref_data_string
-            },
-
-            success: function(data) {
-                callback(true, data);
-            },
-
-            error: function(xhr, status, e) {
-                fluid.log("site_admin.js: There was an error saving the template configuration file: "+this.url);
-                callback(false,xhr);
-            }
-        });
-  },
-
-    /** Loads a preference data from a specified URL
-     * @param pref_url {String} The path to the preference which needs to be loaded
-     * @param callback {Function} A callback function which is executed at the end of the operation
-     * @returns {Void}
-     */
-    load: function(pref_url, callback) {
-        $.ajax({
-            url: pref_url + ".infinity.json",
-            type: "GET",
-            success: function(data) {
-
-                var returned_data = $.evalJSON(data);
-
-                // Helper to remove JRC properties
-                var removeJCRObjects = function(current_object) {
-
-                    if (current_object["jcr:primaryType"]) {
-                        delete current_object["jcr:primaryType"];
-                    }
-
-                    if (current_object["jcr:created"]) {
-                        delete current_object["jcr:created"];
-                    }
-
-                    for (var i in current_object) {
-                        if (typeof current_object[i] === "object") {
-                          var next_object = current_object[i];
-                          removeJCRObjects(next_object);
-                        }
-                    }
-                };
-
-                removeJCRObjects(returned_data);
-
-                callback(true, returned_data);
-            },
-            error: function(xhr, status, e) {
-                fluid.log("site_admin.js: There was an error loading the template configuration file: "+this.url);
-                callback(false,xhr);
-            }
-        });
-    }
-};
-
-
-//////////////////////////////
-// Widget Utility Functions //
-//////////////////////////////
-
-/**
- * <pre>
- *    In your widget you can use the following functions to save/get widget preferences
- *
- *        * Save a preference with feedback:    var response = WidgetPreference.save(preferencename:String, preferencontent:String, myCallbackFunction);
- *
- *            This will warn the function myCallbackFunction, which should look like this:
- *
- *                function myCallbackFunction(success){
- *                    if (success) {
- *                        //Preference saved successfull
- *                        //Do something ...
- *                    } else {
- *                        //Error saving preference
- *                        //Do something ...
- *                    }
- *                }
- *
- *        * Save a preference without feedback:    var response = WidgetPreference.quicksave(preferencename:String, preferencontent:String);
- *
- *            This will not warn you when saving the preference was successfull or unsuccessfull
- *
- *        * Get the content of a preference:    var response = WidgetPreference.get(preferencename:String, myCallbackFunction);
- *
- *            This will warn the function myCallbackFunction, which should look like this:
- *
- *                function myCallbackFunction(response, exists){
- *                    if (exists) {
- *                        //Preference exists
- *                        //Do something with response ...
- *                    } else {
- *                        //Preference does not exists
- *                        //Do something ...
- *                    }
- *                }
- *     </pre>
- */
-sdata.widgets.WidgetPreference =  {
-    /**
-     * Get a preference from personal storage
-     * @param {string} prefname the preference name
-     * @param {function} callback the function to call on sucess
-     *
-     */
-    get : function(prefname, callback, requireslogin){
-        var url= Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets/" + prefname;
-        var args = (requireslogin === false ? false : true);
-        $.ajax ( {
-            url : url,
-            cache : false,
-            success : function(data) {
-                callback(data,true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                callback(xhr.status,false);
-            },
-            sendToLoginOnFail: args
-        });
-
-    },
-
-    /**
-     * Save a preference to a name
-     * @param {string} prefname the preference name
-     * @param prefcontent the content to be saved
-     * @param {function} callback, the call back to call when the save is complete
-     */
-    save : function(url, prefname, prefcontent, callback, requireslogin, contentType, resourceType){
-
-        var cb = callback || function() {};
-        var args = (requireslogin === false ? false : true);
-        var ct = contentType || "text/plain";
-        var rt = resourceType || "";
-
-        var boundaryString = "bound"+Math.floor(Math.random() * 9999999999999);
-        var boundary = '--' + boundaryString;
-
-        var outputData = boundary + '\r\n' +
-                     'Content-Disposition: form-data; name="' + prefname + '"; filename="' + prefname + '"; \r\n'+
-                     'Content-Type: '+ ct + '\r\n' +
-                     '\r\n'+
-                     prefcontent +
-                     '\r\n'+
-                     boundary + "--";
-
-        $.ajax({
-            url :url,
-            type : "POST",
-            contentType : "multipart/form-data; boundary=" + boundaryString,
-            success : function(data) {
-                // Set Sling resourceType on node if set by caller (so that search servlet finds it) - TO DO this should eventually be in a batch POST
-                // jcr:mixinTypes required to get around 500 thrown by Sling
-
-                if (rt !== "") {
-                  $.ajax({
-                    url: url+"/"+prefname,
-                    type: "POST",
-                    data: {
-                      "jcr:mixinTypes": "sakai:propertiesmix",
-                      "sling:resourceType": rt,
-                      "_charset_":"utf-8"
-                    },
-                    success: function() {
-                      cb(data,true);
-                    },
-                    error: function() {
-
-                    }
-                  });
-                } else {
-                  cb(data,true);
-                }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
-                cb(xhr.status,false);
-            },
-            data : outputData,
-            sendToLoginOnFail: args
-        });
-
-     }
-};
-
 
 ////////////////////////
 // jQuery i18n plugin //
@@ -875,8 +652,8 @@ sdata.widgets.WidgetPreference =  {
 
         var translated_content = "";
         var current_locale_string = false;
-        if (typeof sdata.me.user.locale === "object") {
-          current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
+        if (typeof sakai.data.me.user.locale === "object") {
+          current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
         }
 
         // If there is no i18n defined in Widgets, run standard i18n on content

@@ -122,14 +122,11 @@ sakai.wookieforum = function(tuid, placement, showSettings){
      */
     var showForumPage = function() {
 
-        //    Get the forum
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookieforum");
+        // Get the forum
 
-        $.ajax({
-            url: url,
-            cache: false,
-               success : function(data) {
-                var forum = $.evalJSON(data);
+        sakai.api.Widgets.loadWidgetData("wookieforum", tuid, placement, function(success, data){
+            if (success) {
+                var forum = data;
 
                 //    Construct the iframe
                 var sFrame = '<iframe style="border:0px;" border="0" width="640" height="380" src="' + forum.url;
@@ -148,13 +145,10 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
                 // show the forum window on the page.
                 $(mainContainer, rootel).append(sFrame);
-
-               },
-               error: function(xhr, textStatus, thrownError) {
-                   showGeneralMessage(mainMessagesContainer, $(error_unableforumPrefs).text(), true, 0);
-               }
-           });
-
+            } else {
+                showGeneralMessage(mainMessagesContainer, $(error_unableforumPrefs).text(), true, 0);
+            }
+        });
     };
 
 
@@ -184,7 +178,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
         //    sava data to widgets jcr
         var str = $.toJSON(forum); // Convert the posts to a JSON string
-        sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "wookieforum", str, forumSaved);
+        sakai.api.Widgets.saveWidgetData("wookieforum", str, tuid, placement, forumSaved);
     };
 
     /**
@@ -235,15 +229,12 @@ sakai.wookieforum = function(tuid, placement, showSettings){
     var doSettings = function() {
 
         // Get the chat settings
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookieforum");
+        sakai.api.Widgets.loadWidgetData("wookieforum", tuid, placement, function(success, data){
+            if (success) {
 
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
-                var forum = $.evalJSON(data);
+                var forum = data;
                 if (forum.url) {
-                    //    There is already some data so this must be an existing forum.
+                    // There is already some data so this must be an existing forum.
                     $(settingsAdd).hide();
                     $(settingsCreate).show();
                 }
@@ -251,13 +242,14 @@ sakai.wookieforum = function(tuid, placement, showSettings){
                     $(settingsCreate).hide();
                     $(settingsAdd).show();
                 }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 $(settingsCreate).hide();
                 $(settingsAdd).show();
             }
+
         });
+
+
     };
 
 
@@ -267,7 +259,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
     var doInit = function() {
         //    Get the current User.
-        me = sdata.me;
+        me = sakai.data.me;
         if (me.preferences.uuid === "anon" || me.preferences.uuid === undefined) {
             //    This user is not logged in
             //    Send him to the login page.

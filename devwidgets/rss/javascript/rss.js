@@ -169,7 +169,7 @@ sakai.rss = function(tuid, placement, showSettings){
         if (url.search("http://") === -1) {
             url = "http://" + url;
         }
-        
+
         feedUrl = url;
 
         $.ajax({
@@ -446,8 +446,7 @@ sakai.rss = function(tuid, placement, showSettings){
         var object = getSettingsObject();
         if(object !== false){
             var tostring = $.toJSON(object);
-            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-            sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, function(){
+            sakai.api.Widgets.saveWidgetData("rss", tostring, tuid, placement, function(success, data){
                 if ($(".sakai_dashboard_page").is(":visible")) {
                     showSettings = false;
                     showHideSettings(showSettings);
@@ -502,36 +501,31 @@ sakai.rss = function(tuid, placement, showSettings){
      * @param {Object} show
      */
     var showHideSettings = function(show){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "rss");
+
         if(show){
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    resultJSON = $.evalJSON(data);
+
+            sakai.api.Widgets.loadWidgetData("rss", tuid, placement, function(success, data){
+                if (success) {
+                    resultJSON = data;
                     loadSettings(true);
-                },
-                error: function(xhr, textStatus, thrownError) {
+                } else {
                     loadSettings(false);
                 }
             });
+
         }
         else{
             $(rssSettings,rootel).hide();
             $(rssOutput,rootel).show();
 
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    resultJSON = $.evalJSON(data);
+            sakai.api.Widgets.loadWidgetData("rss", tuid, placement, function(success, data){
+                if (success) {
+                    resultJSON = data;
                     resultJSON.entries = [];
                     resultJSON.feeds = [];
                     fillRssOutput();
-                },
-                error: function(xhr, textStatus, thrownError) {
+                } else {
                     $("#rss_no_feeds").show();
-
                 }
             });
         }
