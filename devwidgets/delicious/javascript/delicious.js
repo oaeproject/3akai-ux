@@ -44,7 +44,8 @@ sakai.delicious = function(tuid, placement, showSettings){
     // SETTINGS
     var $deliciousSettingsContainer = $("#delicious_settings_container", rootel);
 
-    // BUTTONS
+    // BUTTONS / HYPERLINKS
+    var $deliciousErrorSettings = $("#delicious_error_settings", rootel);
     var $deliciousSettingsButtonSave = $("#delicious_settings_button_save", rootel);
 
 
@@ -53,7 +54,15 @@ sakai.delicious = function(tuid, placement, showSettings){
     ////////////////////////
 
     /**
-     * Notify the container that it can be closed.
+     * Open the settings
+     */
+    var settingsOpen = function(){
+        showSettings = true;
+        doInit();
+    };
+
+    /**
+     * Close the settings
      */
     var settingsClose = function(){
         showSettings = false;
@@ -78,6 +87,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         }
 
         // Buttons
+        $deliciousErrorSettings.live('click', settingsOpen);
         $deliciousSettingsButtonSave.live('click', settingsClose); // TEMP: close the settings page
     };
     doInit();

@@ -2,5 +2,5 @@
 "name": "Delicious",
 "description": "Delicious widget",
 "NOT_CONNECTED": "The Delicious widget couldn't connect to the server. This is most likely due to incorrect account settings. To change them, go to the ",
-"SETTINGS": "preferences"
+"SETTINGS": "settings"
 }
