@@ -2,10 +2,13 @@
 <link type="text/css" href="/devwidgets/delicious/css/delicious.css" />
 
 <!-- ERRORS -->
+<div id="delicious_error_container" style="display:none;">
+    <div class="delicious_error" id="delicious_error_notconnected">__MSG__NOT_CONNECTED__ __MSG__SETTINGS__.</div>
+</div>
 
 <!-- CONTENT -->
 <div class="delicious_widget">
-    <div class="fl-widget-content" id="recentmessages_container">
+    <div class="fl-widget-content" id="delicious_container">
     </div>
     <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
@@ -14,5 +17,22 @@
     </div>
 </div>
 
+<!-- MAIN VIEW -->
+<div class="fl-widget-content" id="delicious_mainview_container" style="display:none;">
+    <div>
+        Main view
+    </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="fl-widget-content" id="delicious_settings_container" style="display:none;">
+    <div>
+        Settings
+    </div>
+    <div class="buttonBar delicious_settings_buttonBar_save">
+        <a class="button delicious_button" href="javascript:;" id="delicious_settings_button_save">Save</a>
+    </div>
+</div>
+
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/delicious/javascript/delicious.js"></script>
+<script type="text/javascript" src="/devwidgets/delicious/javascript/delicious.js"></script>

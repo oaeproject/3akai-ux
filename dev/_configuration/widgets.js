@@ -88,10 +88,14 @@ var Widgets = {
         },
         delicious: {
             description:"Delicious widget",
+            hasSettings:true,
             id:"delicious",
+            i18n: {
+                "default": "/devwidgets/delicious/bundles/default.json",
+                "en_US": "/devwidgets/delicious/bundles/en_US.json"
+            },
             name:"Delicious",
             personalportal:true,
-            showinsakaigoodies:true,
             url:"/devwidgets/delicious/delicious.html"
         },
         discussion: {
