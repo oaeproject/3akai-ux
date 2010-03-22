@@ -722,6 +722,26 @@ sakai.api.Util.removeJCRObjects = function(i_object) {
 };
 
 
+/**
+ * Shorten a string and add 3 dots if the string is too long
+ *
+ * @param {String} input The string you want to shorten
+ * @param {Int} maxlength Maximum length of the string
+ * @returns {String} The shortend string ith 3 dots
+ */
+sakai.api.Util.shortenString = function(input, maxlength){
+
+    var return_string = "";
+
+    if ((typeof input === "string") && (input.length > maxlength)) {
+        return_string = input.substr(0, maxlength) + "...";
+    } else {
+        return_string = input;
+    }
+
+    return return_string;
+};
+
 
 /**
  * URL encodes a given string

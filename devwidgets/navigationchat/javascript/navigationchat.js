@@ -63,7 +63,7 @@ sakai.flashChat = {
 
         var busy = false;
 
-        for (var i = 0; i < sakai.flashChat.flashing.length; i++) {
+        for (var i = 0, j = sakai.flashChat.flashing.length; i < j; i++) {
             if (sakai.flashChat.flashing[i] === uid) {
                 busy = true;
             }
@@ -151,6 +151,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         "items" : []
     };
     var allFriends = false;
+    var onlineFriends = [];
     var goBackToLogin = false;
     var online = false;
 
@@ -262,18 +263,6 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     };
 
     /**
-     * Shorten a string and add 3 dots if the string is too long
-     * @param {String} input The string you want to shorten
-     * @param {Int} maxlength Maximum length of the string
-     */
-    var shortenString = function(input, maxlength){
-        if (typeof input === "string" && input.length > maxlength) {
-            input = input.substr(0, maxlength) + "...";
-        }
-        return input;
-    };
-
-    /**
      * Parse the chatstatus for a user
      * @param {String} chatStatus The chatstatus which should be
      * online, busy or offline
@@ -294,10 +283,10 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      */
     var parseName = function(uuid, firstName, lastName){
         if (firstName && lastName) {
-            return shortenString(firstName + " " + lastName, 11);
+            return sakai.api.Util.shortenString(firstName + " " + lastName, 11);
         }
         else {
-            return shortenString(uuid, 11);
+            return sakai.api.Util.shortenString(uuid, 11);
         }
     };
 
@@ -311,7 +300,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (picture && $.evalJSON(picture).name) {
-            return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
+            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(picture).name;
         }
         else {
             return personIconUrl;
@@ -326,10 +315,10 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         if (basic) {
             var base = $.evalJSON(basic);
             if (base.status) {
-                return shortenString(base.status, 20);
+                return sakai.api.Util.shortenString(base.status, 20);
             }
         }
-        return shortenString("No status message");
+        return sakai.api.Util.shortenString("No status message");
     };
 
     /**
@@ -465,7 +454,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      */
     var showOnline = function(){
         var onlineWindow = $(showOnlineLink);
-        onlineWindow.css('bottom', 31 + onlineWindow.height() + "px");
+        onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
         $(showOnlineLink).show();
         $(onlineButton).addClass(showOnlineVisibleClass);
     };
@@ -490,7 +479,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      *  Will return null if no match is found
      */
     var getUserFromAllFriends = function(uuid){
-        for (var i = 0; i < allFriends.users.length; i++) {
+        for (var i = 0, j = allFriends.users.length; i < j; i++) {
             if (allFriends.users[i].userid === uuid) {
                 return allFriends.users[i];
             }
@@ -505,7 +494,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
      * @param {String} value Value of the item that needs to be updated
      */
     var updateActiveWindows = function(userid, item, value){
-        for (var i = 0; i < activewindows.items.length; i++) {
+        for (var i = 0, j = activewindows.items.length; i < j; i++) {
             if (activewindows.items[i].userid === userid) {
                 activewindows.items[i][item] = value;
             }
@@ -612,7 +601,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
             // Run over all the activewindows and set their active property on false
             // Only if the activewindow is from the 'selected' userid, the active property should be true
-            for (var i = 0; i < activewindows.items.length; i++) {
+            for (var i = 0, j = activewindows.items.length; i < j; i++) {
                 hideOnlineWindow($(chatWith + "_" + activewindows.items[i].userid), $(onlineButton + "_" + activewindows.items[i].userid));
                 activewindows.items[i].active = false;
                 if (activewindows.items[i].userid === selected) {
@@ -651,7 +640,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var openChat = function(clicked){
 
         // Close the other chat windows
-        for (var i = 0; i < activewindows.items.length; i++) {
+        for (var i = 0, j = activewindows.items.length; i < j; i++) {
             if (activewindows.items[i].userid === clicked) {
                 toggleChatWindow(clicked);
                 return;
@@ -730,7 +719,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var checkOnlineFriend = function(onlinefriends, userid){
         var isOnline = false;
         if (onlinefriends) {
-            for (var i = 0; i < onlinefriends.length; i++) {
+            for (var i = 0, j = onlinefriends.length; i < j; i++) {
                 if (onlinefriends[i].user === userid) {
                     isOnline = true;
                 }
@@ -775,7 +764,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         allFriends = {};
         allFriends.users = [];
         if (json.contacts !== undefined) {
-            for (var i = 0; i < json.contacts.length; i++) {
+            for (var i = 0, j = json.contacts.length; i < j; i++) {
                 if (typeof json.contacts[i].profile === "string") {
                     json.contacts[i].profile = $.evalJSON(json.contacts[i].profile);
                 }
@@ -783,6 +772,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                 /** Check if a friend is online or not */
                 if (json.contacts[i]["sakai:status"] === "online" && json.contacts[i].chatstatus !== "offline") {
                     total++;
+                    onlineFriends.push(json.contacts[i]);
                 }
 
                 json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
@@ -792,43 +782,43 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                 saveToAllFriends(json.contacts[i]);
             }
         }
+
         if (!total || total === 0) {
             json.items = [];
             json.totalitems = total;
             $(chatOnline).html("(0)");
-        }
-        else {
+        } else {
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
         }
 
         json.me = {};
         if (json.me) {
-            json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
-            json.me.photo = parsePicture(sakai.data.me.profile.picture, sakai.data.me.user.userid);
-            json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
-            json.me.chatstatus = currentChatStatus;
+        json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
+        json.me.photo = parsePicture(sakai.data.me.profile.picture, sakai.data.me.user.userid);
+        json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
+        json.me.chatstatus = currentChatStatus;
 
-            // We render the template, add it to a temporary div element and set the html for it.
-            json.items = [];
-            for (var j = 0; j < json.contacts.length; j++) {
-                if (json.contacts[j]['sakai:status'] == "online" && json.contacts[j].chatstatus != "offline") {
-                    json.items.push(json.contacts[j]);
-                }
+        // We render the template, add it to a temporary div element and set the html for it.
+        json.items = [];
+        for (var j = 0, k = json.contacts.length; j < k; j++) {
+            if (json.contacts[j]["sakai:status"] == "online" && json.contacts[j].chatstatus !== "offline") {
+                json.items.push(json.contacts[j]);
             }
-            var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
-            var renderedDiv = $(document.createElement("div"));
-            renderedDiv.html(renderedTemplate);
+        }
+        var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
+        var renderedDiv = $(document.createElement("div"));
+        renderedDiv.html(renderedTemplate);
 
-            // We only render the template when it's needed.
-            // The main reason we do this is to improve performance.
-            // It was not possible to compare the html from chatAvailable to the renderedTemplate (<br /> where replaced with <br>)
-            // so we made the temporary div, added the rendered template html for it and compared that to the html from chatAvailable
-            if ($(chatAvailable).html() !== renderedDiv.html()) {
-                $(chatAvailable).html(renderedTemplate);
-                var onlineWindow = $(showOnlineLink);
-                onlineWindow.css('bottom', 31 + onlineWindow.height() + "px");
-            }
+        // We only render the template when it's needed.
+        // The main reason we do this is to improve performance.
+        // It was not possible to compare the html from chatAvailable to the renderedTemplate (<br /> where replaced with <br>)
+        // so we made the temporary div, added the rendered template html for it and compared that to the html from chatAvailable
+        if ($(chatAvailable).html() !== renderedDiv.html()) {
+            $(chatAvailable).html(renderedTemplate);
+            var onlineWindow = $(showOnlineLink);
+            onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
+        }
         }
 
         enableDisableOnline();
@@ -1204,25 +1194,27 @@ sakai.navigationchat = function(tuid, placement, showSettings){
             data.t = time;
         }
 
-        // Send an Ajax request to check if there are any new messages
-        $.ajax({
-            url: sakai.config.URL.CHAT_UPDATE_SERVICE,
-            data: data,
-            success: function(data){
+        // Send an Ajax request to check if there are any new messages, but only if there are contacts online
+        if ((onlineFriends) && (onlineFriends.length > 0)) {
+            $.ajax({
+                url: sakai.config.URL.CHAT_UPDATE_SERVICE,
+                data: data,
+                success: function(data){
 
-                // Parse the JSON data and get the time
-                var json = $.evalJSON(data);
-                time = json.time;
-                pulltime = json.pulltime;
+                    // Parse the JSON data and get the time
+                    var json = $.evalJSON(data);
+                    time = json.time;
+                    pulltime = json.pulltime;
 
-                if (json.update) {
-                    sakai.navigationchat.loadChatTextInitial(false);
+                    if (json.update) {
+                        sakai.navigationchat.loadChatTextInitial(false);
+                    }
+                    else {
+                        setTimeout(sakai.navigationchat.checkNewMessages, 5000);
+                    }
                 }
-                else {
-                    setTimeout(sakai.navigationchat.checkNewMessages, 5000);
-                }
-            }
-        });
+            });
+        }
     };
 
     /**
