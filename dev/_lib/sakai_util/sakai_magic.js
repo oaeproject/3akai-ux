@@ -373,17 +373,15 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
     }
 
     // Create JSON String from supplied object
-    var data_string = $.toJSON(i_data);
+    var json_string = $.toJSON(i_data);
 
     // Send request
     $.ajax({
             url: i_url,
             type: "POST",
-            username: "admin",
-            password: "admin",
             data: {
                 ":operation": "createTree",
-                "tree": data_string
+                "tree": json_string
         },
 
         success: function(data) {
@@ -408,40 +406,15 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 };
 
 /**
- * Loads structured preference data from a specified URL
+ * Loads structured preference data from a specified URL (and it's node subtree)
  *
- * @param pref_url {String} The path to the preference which needs to be loaded
+ * @param i_url {String} The path to the preference which needs to be loaded
  * @param callback {Function} A callback function which is executed at the end
  * of the operation
  *
  * @returns {Void}
  */
 sakai.api.Server.loadJSON = function(i_url, callback) {
-
-    // Helper to remove JRC properties
-    var removeJCRObjects = function(current_object) {
-
-        if (current_object["jcr:primaryType"]) {
-            delete current_object["jcr:primaryType"];
-        }
-
-        if (current_object["jcr:created"]) {
-            delete current_object["jcr:created"];
-        }
-
-        if (current_object["jcr:createdBy"]) {
-            delete current_object["jcr:createdBy"];
-        }
-
-        // Loop through keys and call itself recursively for the next level if an object is found
-        for (var i in current_object) {
-            if (typeof current_object[i] === "object") {
-              var next_object = current_object[i];
-              removeJCRObjects(next_object);
-            }
-        }
-
-    };
 
     $.ajax({
         url: i_url + ".infinity.json",
@@ -452,7 +425,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
             var returned_data = $.evalJSON(data);
 
             // Remove keys which are created by JCR or Sling
-            removeJCRObjects(returned_data);
+            sakai.api.Util.removeJCRObjects(returned_data);
 
             // Call callback function if present
             if (typeof callback === "function") {
@@ -472,6 +445,104 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
     });
 
 };
+
+/**
+ * Saves any type of data into one JCR node
+ *
+ * @param i_url {String} The path to the preference which needs to be loaded
+ * @param i_data {String|Object} The data we want to save
+ * @param callback {Function} A callback function which is executed at the end
+ * of the operation
+ * @returns void
+ */
+sakai.api.Server.saveData = function(i_url, i_data, callback) {
+
+    // Argument check
+    if ((!i_url) || (i_url === "") || (!i_data)) {
+        fluid.log("sakai.api.Server.saveData: Not enough or empty arguments!");
+        return;
+    }
+
+    // Create JSON String from supplied data if it's not a string
+    var data_string = "";
+    if (typeof i_data !== "string") {
+        data_string = $.toJSON(i_data);
+    } else {
+        data_string = i_data;
+    }
+
+
+    // Send request
+    $.ajax({
+            url: i_url,
+            type: "POST",
+            data: {
+                "sakai:data": data_string
+            },
+
+        success: function(data) {
+
+            // If a callback function is specified in argument, call it
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+        },
+
+        error: function(xhr, status, e) {
+
+            // Log error
+            fluid.log("sakai.api.Server.saveData: There was an error saving data to: " + this.url);
+
+            // If a callback function is specified in argument, call it
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
+};
+
+
+/**
+ * Loads saved data from a JCR node
+ *
+ * @param i_url {String} The path to the preference which needs to be loaded
+ * @param callback {Function} A callback function which is executed at the end
+ * of the operation
+ *
+ * @returns {Void}
+ */
+sakai.api.Server.loadData = function(i_url, callback) {
+
+    $.ajax({
+        url: i_url,
+        cache: false,
+        success: function(data) {
+
+            var node_data = $.evalJSON(data);
+
+            // Call callback function if present
+            if (typeof callback === "function") {
+                callback(true, node_data["sakai:data"]);
+            }
+        },
+        error: function(xhr, status, e) {
+
+            // Log error
+            if (xhr.status === 404) {
+                fluid.log("sakai.api.Server.loadData:" + this.url + " does not exist!");
+            } else {
+                fluid.log("sakai.api.Server.loadData: There was an error loading data from: " + this.url + " Status code: " + xhr.status);
+            }
+
+            // Call callback function if present
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
+
+};
+
 
 /**
  * Loads in a CSS file at runtime from a given URL
@@ -615,6 +686,42 @@ sakai.api.User.loadMeData = function(callback) {
  * General utility functions
  */
 sakai.api.Util = sakai.api.Util || {};
+
+
+/**
+ * Removes JCR or Sling properties from a JSON object
+ *
+ */
+
+sakai.api.Util.removeJCRObjects = function(i_object) {
+
+    if (i_object["jcr:primaryType"]) {
+        delete i_object["jcr:primaryType"];
+    }
+
+    if (i_object["jcr:created"]) {
+        delete i_object["jcr:created"];
+    }
+
+    if (i_object["jcr:createdBy"]) {
+        delete i_object["jcr:createdBy"];
+    }
+
+    if (i_object["jcr:mixinTypes"]) {
+        delete i_object["jcr:mixinTypes"];
+    }
+
+
+    // Loop through keys and call itself recursively for the next level if an object is found
+    for (var i in i_object) {
+        if ((i_object.hasOwnProperty(i)) && (typeof i_object[i] === "object")) {
+          var next_object = i_object[i];
+          sakai.api.Util.removeJCRObjects(next_object);
+        }
+    }
+
+};
+
 
 
 /**
