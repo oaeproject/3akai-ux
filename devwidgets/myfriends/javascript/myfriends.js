@@ -76,7 +76,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (picture && $.evalJSON(picture).name) {
-            return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
+            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(picture).name;
         }
         return sakai.config.URL.PERSON_ICON_URL;
     };
