@@ -1412,10 +1412,10 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
         // Check if there is a cookie from a previous visit
         if (get_cookie('sakai_chat')) {
-            activewindows = $.evalJSON(get_cookie('sakai_chat'));
-            delete_cookie('sakai_chat');
+            activewindows = $.evalJSON(get_cookie("sakai_chat"));
+            delete_cookie("sakai_chat");
             var toshow = false;
-            for (var i = 0; i < activewindows.items.length; i++) {
+            for (var i = 0, j = activewindows.items.length; i < j; i++) {
                 if (activewindows.items[i].active === true) {
                     toshow = activewindows.items[i].userid;
                 }
@@ -1653,7 +1653,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         if (person.profile.picture) {
             var picture = $.evalJSON(person.profile.picture);
             if (picture.name) {
-                $(pictureHolder).attr("src", "/_user/public/" + sakai.data.me.user.userid + "/" + picture.name);
+                $(pictureHolder).attr("src", "/_user" + sakai.data.me.profile.path + "/public/" + picture.name);
             }
         }
 

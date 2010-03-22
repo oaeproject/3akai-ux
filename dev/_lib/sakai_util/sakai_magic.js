@@ -512,6 +512,13 @@ sakai.api.Server.saveData = function(i_url, i_data, callback) {
  */
 sakai.api.Server.loadData = function(i_url, callback) {
 
+
+    // Append a .json to the end of the URL if it isn't there to avoid Nakamura throwing 403
+    // Saving to a node has to be without .json - loading has to be with it...
+    if (i_url.substr(-5) !== ".json") {
+        i_url = i_url + ".json";
+    }
+
     $.ajax({
         url: i_url,
         cache: false,
@@ -1175,7 +1182,6 @@ sakai.api.autoStart = function() {
 
     // Start Widget container functions
     sakai.api.Widgets.Container.init();
-
 
 
 };

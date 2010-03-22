@@ -107,7 +107,7 @@ sakai._search = function(config, callback) {
      */
     var fetchMyFriends = function() {
         $.ajax({
-            url: "/_user/contacts/all.json?page=0&n=100",
+            url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
             success: function(data) {
                 myfriends = $.evalJSON(data);
@@ -302,7 +302,7 @@ sakai._search = function(config, callback) {
                 else if (user.userid === "anonymous"){
                     user.isAnonymous = true;
                 }
-                
+
 
                 finaljson.items.push(user);
             }
@@ -385,18 +385,12 @@ sakai._search = function(config, callback) {
             var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
             var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);
 
-            // construct openSocial message
-            var openSocialMessage = new opensocial.Message(message, {
-                "title": title,
-                "type": sakai.config.Messages.Categories.invitation
-            });
-
             var data = {
                 "friendUuid": userid,
                 "friendType": type,
                 "message": $.toJSON({
                     "title": title,
-                    "body": openSocialMessage
+                    "body": message
                 })
             };
 
@@ -408,7 +402,7 @@ sakai._search = function(config, callback) {
                     // do a request to the messaging service as well.
                     var toSend = {
                         "to": userid,
-                        "message": $.toJSON(openSocialMessage),
+                        "message": $.toJSON(message),
                         "_charset_":"utf-8"
                     };
                     $.ajax({
