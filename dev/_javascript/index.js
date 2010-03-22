@@ -29,7 +29,7 @@ sakai.index = function(){
     // Configuration variables //
     /////////////////////////////
 
-    var redirectUrl = Config.URL.MY_DASHBOARD;
+    var redirectUrl = sakai.config.URL.MY_DASHBOARD;
     var usernameField = "username";
     var passwordField = "password";
     var failMessage = "#login-failed";
@@ -73,7 +73,7 @@ sakai.index = function(){
     var checkLogInSuccess = function(){
 
         $.ajax({
-            url : Config.URL.ME_SERVICE,
+            url : sakai.config.URL.ME_SERVICE,
             cache : false,
             success : decideLoggedIn,
             error: function(xhr, textStatus, thrownError) {
@@ -109,7 +109,7 @@ sakai.index = function(){
         var data = {"sakaiauth:login" : 1, "sakaiauth:un" : values[usernameField], "sakaiauth:pw" : values[passwordField], "_charset_":"utf-8"};
 
         $.ajax({
-            url : Config.URL.LOGIN_SERVICE,
+            url : sakai.config.URL.LOGIN_SERVICE,
             type : "POST",
             success : checkLogInSuccess,
             error : checkLogInSuccess,

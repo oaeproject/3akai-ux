@@ -73,7 +73,7 @@ sakai.profile = function(){
 
 
         if (!me.user.userid && !me.user.userid) {
-            var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile.html";
+            var redirect =  sakai.config.URL.GATEWAY_URL + "?url=/dev/profile.html";
             if (user){
                 redirect += $.URLEncode("?user=" + user);
             }
@@ -826,8 +826,8 @@ sakai.profile = function(){
                 userstring = me.user.userid;
             }
 
-            var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
-            var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
+            var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 
             // construct openSocial message
             var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});

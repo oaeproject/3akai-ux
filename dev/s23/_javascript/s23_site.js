@@ -194,7 +194,7 @@ sakai.s23_site = function(){
 
         // Send an Ajax request to the sakai2 tools service
         $.ajax({
-            url: Config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
+            url: sakai.config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
             success: function(data){
 
                 // Evaluate the data to JSON

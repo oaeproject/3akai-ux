@@ -148,7 +148,7 @@ sakai.account_preferences = function(){
             var requestbody = {"oldPwd" : pass, "newPwd" : newPass1, "newPwdConfirm" : newPass2, "_charset_": "utf-8"};
 
             $.ajax({
-                url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sakai.data.me.user.userid),
+                url :sakai.config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sakai.data.me.user.userid),
                 type : "POST",
                 data : requestbody,
                 success : function(data) {
@@ -302,7 +302,7 @@ sakai.account_preferences = function(){
 
         // An anonymous user shouldn't have access to this page
         if(me.user.anon){
-            document.location = Config.URL.GATEWAY_URL;
+            document.location = sakai.config.URL.GATEWAY_URL;
         } else {
             disableElements($(saveNewPass));
             selectTimezone(me.user.locale.timezone);

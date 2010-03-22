@@ -86,7 +86,7 @@ sakai.profile = function(){
         me.profile = sakai.data.me.profile;
 
         if (!me.user.userid) {
-            var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
+            var redirect =  sakai.config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
             document.location = redirect;
         }
 

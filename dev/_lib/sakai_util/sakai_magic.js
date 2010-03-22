@@ -18,7 +18,7 @@
  *
  */
 
-/*global $, jQuery, Config, fluid, TrimPath, Widgets, window, document */
+/*global $, jQuery, fluid, TrimPath, Widgets, window, document */
 
 /**
  * @name sakai
@@ -28,7 +28,7 @@
  * @description
  * Main sakai namespace. This is where all the initial namespaces should be defined
  */
-var sakai = {};
+var sakai = sakai || {};
 sakai.data = {};
 
 /**
@@ -66,7 +66,6 @@ sakai.api = {
 
 
 (function(){
-
 
 
 /**
@@ -644,7 +643,7 @@ sakai.api.User = sakai.api.User || {};
 sakai.api.User.loadMeData = function(callback) {
 
     // Get the service url from the config file
-    var data_url = Config.URL.ME_SERVICE;
+    var data_url = sakai.config.URL.ME_SERVICE;
 
     // Start a request to the service
     $.ajax({

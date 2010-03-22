@@ -141,7 +141,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
     var currentChatStatus = "";
     var hasOpenChatWindow = false; // Does the current user has open chat windows
-    var personIconUrl = Config.URL.PERSON_ICON_URL;
+    var personIconUrl = sakai.config.URL.PERSON_ICON_URL;
     var pulltime = "2100-10-10T10:10:10.000Z";
     var time = [];
     var sendMessages = []; // Array containing the id's of all the send messages
@@ -350,7 +350,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var getCountUnreadMessages = function(){
         // We only get the number of messages in our inbox folder that we havent read yet.
         $.ajax({
-            url: Config.URL.MESSAGES_COUNT_SERVICE,
+            url: sakai.config.URL.MESSAGES_COUNT_SERVICE,
             success: function(data){
                 var json = $.evalJSON(data);
                 if (json.count) {
@@ -377,31 +377,31 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         $(nav + " " + navSelectedNavItemClass).removeClass(navSelectedNavItemClass);
 
         // My Sakai
-        if ((windowLocationPath.indexOf(Config.URL.MY_DASHBOARD) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_MY_SAKAI_PAGE) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.MY_DASHBOARD) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_MY_SAKAI_PAGE) !== -1)) {
             $(navMySakaiLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // Content & Media
-        if ((windowLocationPath.indexOf(Config.URL.CONTENT_MEDIA_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_CONTENT_MEDIA) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.CONTENT_MEDIA_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_CONTENT_MEDIA) !== -1)) {
             $(navContentMediaLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // People
-        if ((windowLocationPath.indexOf(Config.URL.PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_PEOPLE_PAGE) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_PEOPLE_PAGE) !== -1)) {
             $(navPeopleLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // Courses & Sites
-        if ((windowLocationPath.indexOf(Config.URL.COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf("/sites/") !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf("/sites/") !== -1)) {
             $(navCoursesSitesLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // Calendar
-        if ((windowLocationPath.indexOf(Config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(Config.URL.PUBLIC_SEARCH) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_SEARCH) !== -1)) {
             $(navCalendarLink).addClass(navSelectedNavItemClass);
             return;
         }
@@ -422,7 +422,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         if (tosearch) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
-            document.location = Config.URL.SEARCH_GENERAL_URL + "#1|" + tosearch;
+            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#1|" + tosearch;
         }
     };
 
@@ -877,7 +877,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         };
 
         $.ajax({
-            url: Config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sakai.data.me.user.userid),
+            url: sakai.config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sakai.data.me.user.userid),
             type: "POST",
             data: data,
             success: function(data){
@@ -1138,7 +1138,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                     };
 
                     $.ajax({
-                        url: Config.URL.MESSAGES_CREATE_SERVICE,
+                        url: sakai.config.URL.MESSAGES_CREATE_SERVICE,
                         type: "POST",
                         success: function(data){
 
@@ -1206,7 +1206,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
         // Send an Ajax request to check if there are any new messages
         $.ajax({
-            url: Config.URL.CHAT_UPDATE_SERVICE,
+            url: sakai.config.URL.CHAT_UPDATE_SERVICE,
             data: data,
             success: function(data){
 
@@ -1262,7 +1262,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
         // Send and Ajax request to get the chat messages
         $.ajax({
-            url: Config.URL.CHAT_GET_SERVICE.replace(/__KIND__/, "unread"),
+            url: sakai.config.URL.CHAT_GET_SERVICE.replace(/__KIND__/, "unread"),
             data: {
                 "_from": tosend,
                 "items": 1000,
@@ -1442,7 +1442,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
         // Receive your online friends through an Ajax request
         $.ajax({
-            url: Config.URL.PRESENCE_CONTACTS_SERVICE,
+            url: sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
             cache: false,
             success: function(data){
                 online = $.evalJSON(data);
@@ -1490,7 +1490,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var checkLogInSuccess = function(){
 
         $.ajax({
-            url: Config.URL.ME_SERVICE,
+            url: sakai.config.URL.ME_SERVICE,
             cache: false,
             success: decideLoggedIn,
             error: function(xhr, textStatus, thrownError){
@@ -1526,14 +1526,14 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         $("#login_button_container").show();
 
         // Set institutional login page link
-        $("#other_logins_container .other_logins").attr("href", Config.URL.PUBLIC_INSTITUTIONAL_LOGIN_PAGE);
+        $("#other_logins_container .other_logins").attr("href", sakai.config.URL.PUBLIC_INSTITUTIONAL_LOGIN_PAGE);
 
         // Set up public nav links
-        $("#nav_my_sakai_link a").attr("href", Config.URL.PUBLIC_MY_SAKAI_PAGE);
-        $("#nav_content_media_link a").attr("href", Config.URL.PUBLIC_CONTENT_MEDIA_PAGE);
-        $("#nav_people_link a").attr("href", Config.URL.PUBLIC_PEOPLE_PAGE);
-        $("#nav_courses_sites_link a").attr("href", Config.URL.PUBLIC_COURSES_SITES_PAGE);
-        $("#nav_search_link a").attr("href", Config.URL.PUBLIC_SEARCH_PAGE);
+        $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_SAKAI_PAGE);
+        $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_PAGE);
+        $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_PAGE);
+        $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_PAGE);
+        $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_PAGE);
 
         // Bind Log in button
         $("#login_button_container .log_in").bind("click", function(){
@@ -1581,7 +1581,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                     "_charset_": "utf-8"
                 };
                 $.ajax({
-                    url: Config.URL.LOGIN_SERVICE,
+                    url: sakai.config.URL.LOGIN_SERVICE,
                     type: "POST",
                     success: checkLogInSuccess,
                     error: checkLogInSuccess,
@@ -1625,7 +1625,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         };
 
         $.ajax({
-            url: Config.URL.PRESENCE_SERVICE,
+            url: sakai.config.URL.PRESENCE_SERVICE,
             type: "POST",
             success: function(){
                 setTimeout(setPresence, 120000);

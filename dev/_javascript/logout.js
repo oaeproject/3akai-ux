@@ -31,10 +31,10 @@ sakai.logout = function(){
      * page again without notifying the user.
      */
     $.ajax({
-        url: Config.URL.LOGOUT_SERVICE,
+        url: sakai.config.URL.LOGOUT_SERVICE,
         type: "POST",
         complete: function(){
-            window.location = Config.URL.GATEWAY_URL;
+            window.location = sakai.config.URL.GATEWAY_URL;
         },
         data: {"sakaiauth:logout":"1","_charset_":"utf-8"}
     });

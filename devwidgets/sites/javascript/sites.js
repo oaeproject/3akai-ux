@@ -113,7 +113,7 @@ sakai.sites = function(tuid,placement,showSettings){
      */
     var doInit = function() {
         $.ajax({
-            url: Config.URL.SITES_SERVICE,
+            url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
                 loadSiteList(data, true);

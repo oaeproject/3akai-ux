@@ -55,7 +55,7 @@ sakai.dashboard = function(){
     var decideExists = function (exists, response){
         if (exists === false) {
             if (response.status === 401){
-                document.location = Config.URL.GATEWAY_URL;
+                document.location = sakai.config.URL.GATEWAY_URL;
             } else {
                 doInit();
             }

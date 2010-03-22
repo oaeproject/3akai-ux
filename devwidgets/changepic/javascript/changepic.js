@@ -157,7 +157,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         picture = false;
 
-        $(picForm).attr("action", Config.URL.SDATA_FETCH_PUBLIC_URL.replace(/__USERID__/,sakai.data.me.user.userid));
+        $(picForm).attr("action", sakai.config.URL.SDATA_FETCH_PUBLIC_URL.replace(/__USERID__/,sakai.data.me.user.userid));
 
         // Get the preferred size for the thumbnail.
         var prefThumbWidth = parseInt($(thumbnailContainer).css('width').replace(/px/gi,''), 10);
@@ -281,7 +281,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         // Post all of this to the server
         $.ajax({
-            url: Config.URL.IMAGE_SERVICE,
+            url: sakai.config.URL.IMAGE_SERVICE,
             type: "POST",
             data: data,
             success: function(data){
@@ -401,7 +401,7 @@ sakai._changepic.completeCallback = function(response){
     var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
     $.ajax({
-        url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sakai.data.me.user.userid) + ".update.html",
+        url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sakai.data.me.user.userid) + ".update.html",
         type : "POST",
         data : data,
         success : function(data) {

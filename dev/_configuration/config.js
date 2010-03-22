@@ -15,7 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-var Config = {
+
+var sakai = sakai || {};
+
+sakai.config = {
 
     URL: {
         API_GOOGLE_CHARTS: "http://chart.apis.google.com/chart",
@@ -71,6 +74,8 @@ var Config = {
 
         CHAT_GET_SERVICE: "/_user/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/_user/message.chatupdate.json",
+        CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
+        CONTACTS_INVITED: "/var/contacts/invited.json",
         CREATE_USER_SERVICE: "/system/userManager/user.create.html",
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
         DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
@@ -112,11 +117,14 @@ var Config = {
         TWITTER_GET_URL: "/var/proxy/twitter/status.json",
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"
     },
+
     SakaiDomain: window.location.protocol + "//" + window.location.host,
+
     Profile: {
         // Fields that cannot be edited and so controlled by LDAP, ...
         uneditable: ["txt_firstname", "txt_lastname"]
     },
+
     Connections: {
         /*
          * Email message that will be sent when inviting someone to become a connection.
@@ -128,6 +136,7 @@ var Config = {
             body: "Hi, \n\n ${user} has invited you to become a connection. \nHe/She has also left the following message: \n\n ${comment} \n\nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team"
         }
     },
+
     Site: {
         Styles: {
             original: {
@@ -142,6 +151,7 @@ var Config = {
             }
         }
     },
+
     Messages: {
         Types: {
             inbox: "inbox",
@@ -160,6 +170,7 @@ var Config = {
         To: "to",
         read: "read"
     },
+
     L10N: {
         DateFormat: "dd/MM/yyyy",
         TimeFormat: "HH:mm:ss",
@@ -167,6 +178,7 @@ var Config = {
         DecimalPoint: ",",
         NumberSeparator: "."
     },
+
     MimeTypes: {
         "application/doc": {
             URL: "/dev/_images/mimetypes/doc.png",

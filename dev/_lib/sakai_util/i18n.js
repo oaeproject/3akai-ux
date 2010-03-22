@@ -79,11 +79,11 @@ $(document).ready(function(){
     var getSiteId = function(){
         var site = false;
         var loc = ("" + document.location);
-        var siteid = loc.indexOf(Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
+        var siteid = loc.indexOf(sakai.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
         if(siteid !== -1) {
             var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
             var uri = loc.substring(0, mark);
-            site = uri.substring(siteid, loc.length).replace(Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
+            site = uri.substring(siteid, loc.length).replace(sakai.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
             site = site.substring(0, site.indexOf("#"));
         }
         return site;
@@ -98,7 +98,7 @@ $(document).ready(function(){
      */
     var loadLocalBundle = function(langCode){
             $.ajax({
-                url: Config.URL.BUNDLE_ROOT + langCode + ".json",
+                url: sakai.config.URL.BUNDLE_ROOT + langCode + ".json",
                 success: function(data){
                     sdata.i18n.localBundle = $.evalJSON(data);
                     doI18N(sdata.i18n.localBundle, sdata.i18n.defaultBundle);
@@ -113,7 +113,7 @@ $(document).ready(function(){
 
     var loadSiteLanguage = function(site){
             $.ajax({
-                url : Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
+                url : sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
                 cache: false,
                 success : function(data) {
                     var siteJSON = $.evalJSON(data);
@@ -140,7 +140,7 @@ $(document).ready(function(){
      */
     var loadDefaultBundle = function(){
         $.ajax({
-            url : Config.URL.BUNDLE_ROOT + "default.json",
+            url : sakai.config.URL.BUNDLE_ROOT + "default.json",
             success : function(data) {
                 sdata.i18n.defaultBundle = $.evalJSON(data);
                 var site = getSiteId();
@@ -243,10 +243,10 @@ $(document).ready(function(){
      *  date string
      * @return {String}
      *  Fomatted date string, following the format as specified in
-     *  Config.L10N.DateFormat
+     *  sakai.config.L10N.DateFormat
      */
     $.L10N.transformDate = function(date){
-        var sdf = new SimpleDateFormat(Config.L10N.DateFormat);
+        var sdf = new SimpleDateFormat(sakai.config.L10N.DateFormat);
         return sdf.format(date);
     };
 
@@ -258,10 +258,10 @@ $(document).ready(function(){
      *  time string
      * @return {String}
      *  Fomatted time string, following the format as specified in
-     *  Config.L10N.TimeFormat
+     *  sakai.config.L10N.TimeFormat
      */
     $.L10N.transformTime = function(date){
-        var sdf = new SimpleDateFormat(Config.L10N.TimeFormat);
+        var sdf = new SimpleDateFormat(sakai.config.L10N.TimeFormat);
         return sdf.format(date);
     };
 
@@ -273,10 +273,10 @@ $(document).ready(function(){
      *  date and time string
      * @return {String}
      *  Fomatted date and time string, following the format as specified in
-     *  Config.L10N.DateTimeFormat
+     *  sakai.config.L10N.DateTimeFormat
      */
     $.L10N.transformDateTime = function(date){
-        var sdf = new SimpleDateFormat(Config.L10N.DateTimeFormat);
+        var sdf = new SimpleDateFormat(sakai.config.L10N.DateTimeFormat);
         return sdf.format(date);
     };
 
@@ -334,18 +334,18 @@ $(document).ready(function(){
         result += part1.substring(0, start);
         part1 = part1.substring(start);
         if (part1){
-            result += Config.L10N.NumberSeparator;
+            result += sakai.config.L10N.NumberSeparator;
         }
         while (part1){
             result += part1.substring(0,3);
             part1 = part1.substring(3);
             if (part1){
-                result += Config.L10N.NumberSeparator;
+                result += sakai.config.L10N.NumberSeparator;
             }
         }
 
         if (splitted.length > 1){
-            return result + Config.L10N.DecimalPoint + splitted[1];
+            return result + sakai.config.L10N.DecimalPoint + splitted[1];
         } else {
             return result;
         }

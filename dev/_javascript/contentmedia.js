@@ -38,11 +38,11 @@ sakai.contentmedia = function(){
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : Config.URL.SEARCH_ALL_FILES_SERVICE,
-        mybookmarks : Config.URL.SEARCH_MY_BOOKMARKS,
-        mycontacts : Config.URL.SEARCH_MY_CONTACTS,
-        myfiles : Config.URL.SEARCH_MY_FILES,
-        mysites : Config.URL.SEARCH_MY_SITES
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
+        mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
+        myfiles : sakai.config.URL.SEARCH_MY_FILES,
+        mysites : sakai.config.URL.SEARCH_MY_SITES
     };
 
 
@@ -1191,7 +1191,7 @@ sakai.contentmedia = function(){
 
                 options: {
                     // Set the uploadURL to the URL for posting files to your server.
-                    uploadURL: getServerUrl(Config.URL.UPLOAD_URL),
+                    uploadURL: getServerUrl(sakai.config.URL.UPLOAD_URL),
 
                     // This option points to the location of the SWFUpload Flash object that ships with Fluid Infusion.
                     flashURL: "/dev/_lib/Fluid/fluid-components/swfupload/swfupload.swf"
@@ -1393,11 +1393,11 @@ sakai.contentmedia = function(){
             var siteid = querystring.get("siteid");
 
             $.ajax({
-                url: Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
+                url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
                 cache: false,
                 success: function(data){
                     var parsedData = $.evalJSON(data);
-                    setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
+                    setSiteFilter(sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 
                     // Fetch the initial list of files
                     doFileSearch(options);
@@ -1429,7 +1429,7 @@ sakai.contentmedia = function(){
      */
     var initialiseSites = function(){
         $.ajax({
-            url: Config.URL.SITES_SERVICE,
+            url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
                 loadSites($.evalJSON(data));

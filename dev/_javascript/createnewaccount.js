@@ -211,7 +211,7 @@ sakai.newaccount = function(){
             ":name": values[username],
             "_charset_": "utf-8"};
         $.ajax ({
-            url : Config.URL.CREATE_USER_SERVICE,
+            url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
             data : data,
             success : function(data) {
@@ -341,7 +341,7 @@ sakai.newaccount = function(){
         // exists and a 401 if it doesn't exist yet.
         $.ajax({
             // Replace the preliminary parameter in the service URL by the real username entered
-            url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
+            url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
             cache : false,
             success: function(data){
                 setError(usernameField,usernameTaken);
@@ -379,7 +379,7 @@ sakai.newaccount = function(){
      * If the Cancel button is clicked, we redirect them back to the login page
      */
     $("#cancel_button").bind("click", function(ev){
-        document.location = Config.URL.GATEWAY_URL;
+        document.location = sakai.config.URL.GATEWAY_URL;
     });
 
     $(checkUserNameLink).bind("click", function(){

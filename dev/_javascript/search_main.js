@@ -254,10 +254,10 @@ sakai._search = function(config, callback) {
                     if (picture.name) {
                         user.picture = user.path + picture.name;
                     } else {
-                        user.picture = Config.URL.PERSON_ICON_URL;
+                        user.picture = sakai.config.URL.PERSON_ICON_URL;
                     }
                 } else {
-                    user.picture = Config.URL.PERSON_ICON_URL;
+                    user.picture = sakai.config.URL.PERSON_ICON_URL;
                 }
                 if (person.firstName && person.lastName) {
                     user.name = person.firstName + " " + person.lastName;
@@ -382,13 +382,13 @@ sakai._search = function(config, callback) {
             // send message to other person
             var userstring = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
 
-            var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
-            var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);
+            var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);
 
             // construct openSocial message
             var openSocialMessage = new opensocial.Message(message, {
                 "title": title,
-                "type": Config.Messages.Categories.invitation
+                "type": sakai.config.Messages.Categories.invitation
             });
 
             var data = {
@@ -401,7 +401,7 @@ sakai._search = function(config, callback) {
             };
 
             $.ajax({
-                url: Config.URL.FRIEND_CONNECT_SERVICE,
+                url: sakai.config.URL.FRIEND_CONNECT_SERVICE,
                 type: "POST",
                 success: function(data) {
                     // The request succeeded,
@@ -412,7 +412,7 @@ sakai._search = function(config, callback) {
                         "_charset_":"utf-8"
                     };
                     $.ajax({
-                        url: Config.URL.MESSAGES_SEND_SERVICE,
+                        url: sakai.config.URL.MESSAGES_SEND_SERVICE,
                         type: "POST",
                         success: function(data) {
                             var json = $.evalJSON(data);

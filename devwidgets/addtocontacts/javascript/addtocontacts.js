@@ -100,7 +100,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                 $(addToContactsInfoProfilePicture).attr('src', "/_user/public/" + user.uuid + "/" + $.evalJSON(user.picture).name);
             }
             else {
-                $(addToContactsInfoProfilePicture).attr('src', Config.URL.PERSON_ICON_URL);
+                $(addToContactsInfoProfilePicture).attr('src', sakai.config.URL.PERSON_ICON_URL);
             }
         }
     };
@@ -207,8 +207,8 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
             // send message to other person
             var userstring = me.profile.firstName + " " + me.profile.lastName;
 
-            var title = Config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
-            var message = Config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
+            var title = sakai.config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
 
             // Do the invite.
             $.ajax({

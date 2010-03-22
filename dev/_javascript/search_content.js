@@ -32,11 +32,11 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : Config.URL.SEARCH_ALL_FILES_SERVICE,
-        mybookmarks : Config.URL.SEARCH_MY_BOOKMARKS,
-        mycontacts : Config.URL.SEARCH_MY_CONTACTS,
-        myfiles : Config.URL.SEARCH_MY_FILES,
-        mysites : Config.URL.SEARCH_MY_SITES
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
+        mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
+        myfiles : sakai.config.URL.SEARCH_MY_FILES,
+        mysites : sakai.config.URL.SEARCH_MY_SITES
     };
 
     // CSS IDs
@@ -301,7 +301,7 @@ sakai.search = function() {
         if (mainSearch.isLoggedIn()) {
 
             $.ajax({
-                url: Config.URL.SITES_SERVICE,
+                url: sakai.config.URL.SITES_SERVICE,
                 cache: false,
                 success: function(data){
                     var sites = {};

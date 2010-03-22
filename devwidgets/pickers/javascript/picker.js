@@ -47,7 +47,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
 
 
     // URL's
-    Config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
+    sakai.config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
     var siteID = "/sites/" + placement.split("/")[0];
     var siteFiles = siteID + "/_files";
     var currentPath = siteFiles;
@@ -145,7 +145,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
         // Make sure we dont take over the item's resource type.
         data["sling:resourceType"] = "sakai/settings";
         $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker"),
+            url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker"),
             cache: false,
             success: function(data){
                 //    We successfully saved the file.
@@ -238,7 +238,7 @@ sakai.picker = function(tuid, placement, showSettings, endFormat){
      */
     var getUserSelectedPath = function(){
         $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
+            url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
             cache: false,
             success: function(data){
                 var json = $.evalJSON(data);

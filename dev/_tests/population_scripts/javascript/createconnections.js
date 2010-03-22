@@ -37,7 +37,7 @@ sakai.createconnections = function(){
 			
 			// Send a logout request
 			$.ajax({
-				url: Config.URL.LOGOUT_SERVICE,
+				url: sakai.config.URL.LOGOUT_SERVICE,
 				type: "POST",
 				data: {"sakaiauth:logout":"1"}
 			});
@@ -76,7 +76,7 @@ sakai.createconnections = function(){
 							
 							// Logout
 							$.ajax({
-								url: Config.URL.LOGOUT_SERVICE,
+								url: sakai.config.URL.LOGOUT_SERVICE,
 								type: "POST",
 								data: {"sakaiauth:logout":"1"},
 								complete: function(data){
@@ -101,7 +101,7 @@ sakai.createconnections = function(){
 													
 													// Logout
 													$.ajax({
-														url: Config.URL.LOGOUT_SERVICE,
+														url: sakai.config.URL.LOGOUT_SERVICE,
 														type: "POST",
 														data: {"sakaiauth:logout":"1"},
 														complete: function(data){
