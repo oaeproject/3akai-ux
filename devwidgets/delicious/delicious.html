@@ -9,6 +9,12 @@
 <!-- CONTENT -->
 <div class="delicious_widget">
     <div class="fl-widget-content" id="delicious_container">
+        <!-- Container for the main view -->
+        <div id="delicious_container_main">
+        </div>
+        <!-- Container that will hold all settings -->
+        <div id="delicious_container_settings">
+        </div>
     </div>
     <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
@@ -18,21 +24,27 @@
 </div>
 
 <!-- MAIN VIEW -->
-<div class="fl-widget-content" id="delicious_mainview_container" style="display:none;">
+<div id="delicious_template_main" style="display:none"><!--
     <div>
         Main view
     </div>
-</div>
+    <div>
+        <form id="delicious_form_test" method="GET" action="#">
+            <input class="delicious_input_text" id="delicious_test" type="text" value=""/>
+        </form>
+        <a href="javascript:;" id="delicious_error_settings">__MSG__SETTINGS__</a>
+    </div>
+    --></div>
 
 <!-- SETTINGS -->
-<div class="fl-widget-content" id="delicious_settings_container" style="display:none;">
+<div id="delicious_template_settings" style="display:none"><!--
     <div>
         Settings
     </div>
     <div class="buttonBar delicious_settings_buttonBar_save">
         <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_save">Save</a>
     </div>
-</div>
+    --></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/delicious/javascript/delicious.js"></script>

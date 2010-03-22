@@ -40,9 +40,12 @@ sakai.delicious = function(tuid, placement, showSettings){
 
     // CONTENT
     var $deliciousContainer = $("#delicious_container", rootel);
-
-    // SETTINGS
-    var $deliciousSettingsContainer = $("#delicious_settings_container", rootel);
+    var $deliciousContainerMain = $("#delicious_container_main", rootel);
+    var $deliciousContainerSettings = $("#delicious_container_settings", rootel);
+    
+    // TEMPLATES
+    var $deliciousTemplateMain = "delicious_template_main";
+    var $deliciousTemplateSettings = "delicious_template_settings";
 
     // BUTTONS / HYPERLINKS
     var $deliciousErrorSettings = $("#delicious_error_settings", rootel);
@@ -54,21 +57,20 @@ sakai.delicious = function(tuid, placement, showSettings){
     ////////////////////////
 
     /**
-     * Open the settings
-     */
-    var settingsOpen = function(){
-        showSettings = true;
-        doInit();
+    * Show the Main container and hide the Settings container
+    */
+    var showContainerMain = function(){
+        $deliciousContainerMain.show();
+        $deliciousContainerSettings.hide();
     };
 
     /**
-     * Close the settings
-     */
-    var settingsClose = function(){
-        showSettings = false;
-        doInit();
+    * Show the Main container and hide the Settings container
+    */
+    var showContainerSettings = function(){
+        $deliciousContainerMain.hide();
+        $deliciousContainerSettings.show();
     };
-
 
     /////////////////////////////
     // Initialisation function //
@@ -78,17 +80,20 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Switch between main view and settings
      */
     var doInit = function() {
+        $deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
+        $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
+
         if (!showSettings) {
             // Show Main View
-            document.getElementById("delicious_container").innerHTML = document.getElementById("delicious_mainview_container").innerHTML;
+            showContainerMain();
         }else{
             // Show Settings
-            document.getElementById("delicious_container").innerHTML = document.getElementById("delicious_settings_container").innerHTML;
+            showContainerSettings();
         }
 
         // Buttons
-        $deliciousErrorSettings.live('click', settingsOpen);
-        $deliciousSettingsButtonSave.live('click', settingsClose); // TEMP: close the settings page
+        $deliciousErrorSettings.live('click', showContainerSettings);
+        $deliciousSettingsButtonSave.live('click', showContainerMain); // TEMP: close the settings page
     };
     doInit();
 };
