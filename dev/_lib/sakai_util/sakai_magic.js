@@ -81,18 +81,65 @@ sakai.api = {
  */
 sakai.api.Communication = sakai.api.Communication || {};
 
-
 /**
- * Sends a message to a user
+ * Sends a Sakai message
  *
- * @param userID {String} The user ID of the recipient
+ * @param to {Array} Array with the uuids of the users to post a message to
+ * @param subject {String} The subject for this message
+ * @param body {String} The text that this message will contain
+ * @param category {String} The category for this message
+ * @param reply {String} The id of the message you are replying on
+ * @param callback {Function} A callback function which is executed at the end of the operation
  *
- * @param message {String} The text of the message
- *
- * @returns true or false depending on whether the sending was successful or not
- * @type Boolean
+ * @returns void
  */
-sakai.api.Communication.sendMessageToUser = function(userID, message) {
+sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
+
+
+    // Basic message details
+    var toSend = {
+        "sakai:type": "internal",
+        "sakai:sendstate": "pending",
+        "sakai:messagebox": "outbox",
+        "sakai:to": to,
+        "sakai:from": sakai.data.me.user.userid,
+        "sakai:subject": subject,
+        "sakai:body":body,
+        "_charset_":"utf-8"
+    };
+
+    // Message category
+    if (category) {
+        toSend["sakai:category"] = category;
+    } else {
+        toSend["sakai:category"] = "message";
+    }
+
+    // See if this is a reply or not
+    if (reply) {
+        toSend["sakai:previousmessage"] = reply;
+    }
+
+    // Send message
+    $.ajax({
+        url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
+        type: "POST",
+        data: toSend,
+        success: function(data) {
+
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+
+            fluid.log("sakai.api.Communication.sendMessage(): Could not send message to " + to);
+
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+        }
+    });
 
 };
 

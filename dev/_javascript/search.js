@@ -324,9 +324,21 @@ sakai.search = function() {
                 url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
                 cache: false,
                 success: function(data) {
-                    renderPeople($.evalJSON(data));
+
+                    var raw_results = $.evalJSON(data);
+
+                    // Store found people in data cache
+                    sakai.data.search.results_people = {};
+                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
+                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    }
+
+                    // Render results
+                    renderPeople(raw_results);
                 },
                 error: function(xhr, textStatus, thrownError) {
+
+                    sakai.data.search.results_people = {};
                     renderPeople({});
                 }
             });

@@ -32,7 +32,6 @@ sakai.search = function() {
     var foundPeople = [];
     var contactclicked = false;
     var mainSearch = false;
-    var results = false;
 
 
     //    CSS IDs
@@ -326,14 +325,20 @@ sakai.search = function() {
                 cache: false,
                 url: searchURL,
                 success: function(data) {
-                    var json = $.evalJSON(data);
-                    results = json;
-                    renderResults(json, true);
+
+                    var raw_results = $.evalJSON(data);
+
+                    // Store found people in data cache
+                    sakai.data.search.results_people = {};
+                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
+                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    }
+
+                    renderResults(raw_results, true);
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    var json = {};
-                    results = json;
-                    renderResults(json, false);
+                    sakai.data.search.results_people = {};
+                    renderResults(sakai.data.search.results_people, false);
                 }
             });
 
