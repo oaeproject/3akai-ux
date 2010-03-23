@@ -53,7 +53,6 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
         sakai.api.Widgets.loadWidgetData("recentactivity", tuid, placement, function(success, data){
             if (success) {
                 sakai.siterecentactivity.recentactivity = data;
-                ;
             } else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
@@ -79,7 +78,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
      * @param {Object} activityitem A JSON object in the following format:
      * {
      *     "user_id" : "admin",
-     *     "date" : "2009-10-12T10:25:19",
+     *     "date" : "2009-10-12T10:25:19Z",
      *     "page_id" : "test",
      *     "type" : "page_create"
      * }
@@ -87,7 +86,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
     sakai.siterecentactivity.addRecentActivity = function(activityitem){
 
         // Set the date of the activity
-        activityitem.date = $.ToJCRDate(new Date());
+        activityitem.date = sakai.api.Util.createSakaiDate();
 
         // Construct the callback function
         var callback = function(){

@@ -902,7 +902,7 @@ sdata.files = {
                             return 1
                         }
                         else {
-                            sakai.sorting.human(a.name, b.name);
+                            sakai.api.Util.Sorting.naturalSort(a.name, b.name);
                         }
                     }
                 });
@@ -988,61 +988,6 @@ sdata.files = {
 ///////////////////////
 // Utility functions //
 ///////////////////////
-
-/* alphanum.js (C) Brian Huisman
- * Based on the Alphanum Algorithm by David Koelle
- * The Alphanum Algorithm is discussed at http://www.DaveKoelle.com
- *
- * Distributed under same license as original
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
-
-sakai.sorting = {};
-sakai.sorting.human = function(a, b){
-    function chunkify(t){
-        var tz = [];
-        var x = 0, y = -1, n = 0, i, j;
-
-        while (i = (j = t.charAt(x++)).charCodeAt(0)) {
-            var m = (i === 46 || (i >= 48 && i <= 57));
-            if (m !== n) {
-                tz[++y] = "";
-                n = m;
-            }
-            tz[y] += j;
-        }
-        return tz;
-    }
-
-    var aa = chunkify(a.toLowerCase());
-    var bb = chunkify(b.toLowerCase());
-
-    for (var x = 0; aa[x] && bb[x]; x++) {
-        if (aa[x] !== bb[x]) {
-            var c = Number(aa[x]), d = Number(bb[x]);
-            if (c === aa[x] && d === bb[x]) {
-                return c - d;
-            } else {
-                return (aa[x] > bb[x]) ? 1 : -1;
-            }
-        }
-    }
-
-    return aa.length - bb.length;
-};
 
 
 /*
@@ -1133,86 +1078,6 @@ jQuery.fn.stripTags = function() {
      */
     $.Load.requireCSS = function(url) {
         insertTag("link", {"href" : url, "type" : "text/css", "rel" : "stylesheet"});
-    };
-
-})(jQuery);
-
-/*
- * Parse a JCR date to a JavaScript date object
- */
-(function($){
-
-    /**
-     * Add leading zeros to a number
-     * If you pass 10 as the number and 4 as the count, you get 0010
-     * @param {Integer} num The number where you want to add zeros to
-     * @param {Integer} count The total length of the string after it is zero padded
-     * @return {String} A string with the leading zeros
-     */
-    $.leadingZero = function(num, count) {
-        var numZeropad = num + '';
-        while (numZeropad.length < count) {
-            numZeropad = "0" + numZeropad;
-        }
-        return numZeropad;
-    }
-
-    /**
-     * Parse a JCR date (2009-10-12T10:25:19) to a JavaScript date object
-     * @param {String} The JCR date that needs to be converted to a JavaScript date object
-     * @return {Date} JavaScript date
-     */
-    $.ParseJCRDate = function(date) {
-
-        // Check with a regular expression if it is a valid JCR date
-        var regex = new RegExp('^(19|20)[0-9][0-9][-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T](20|21|22|23|[0-1]?[0-9]):[0-5]?[0-9]:[0-5]?[0-9]$', 'gi');
-        var isValid = regex.test(date);
-        if(isValid){
-            var respondDate = new Date();
-
-            // Split the date and time into 2 different pieces
-            var splitDateTime = date.split("T");
-            var splitDate = splitDateTime[0].split("-");
-            var splitTime = splitDateTime[1].split(":");
-
-            // Set the day/month and year
-            respondDate.setFullYear(parseInt(splitDate[0], 10));
-            respondDate.setMonth(parseInt(splitDate[1], 10) - 1);
-            respondDate.setDate(parseInt(splitDate[2], 10));
-
-            // Set the hours/minutes/seconds and milliseconds
-            // Since the milliseconds aren't supplied, we always set it to 0
-            respondDate.setHours(parseInt(splitTime[0], 10), parseInt(splitTime[1], 10), parseInt(splitTime[2], 10), 0);
-
-            return respondDate;
-        }else{
-
-            // Log a message if there is a bad date format
-            fluid.log("Bad JCR date format: " + date);
-            return null;
-        }
-    };
-
-    /**
-     * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
-     * @param {Object} date JavaScript date object
-     * @return {String} a JCR date string
-     */
-    $.ToJCRDate = function(date){
-
-        // Check if the date that was passed to this function is actually a JavaScript date
-        try{
-
-            // Reutn the JCR date as a string
-            return "" + date.getFullYear() + "-" + $.leadingZero((date.getMonth()+1), 2) + "-" + $.leadingZero(date.getDate(), 2) + "T"
-            +  $.leadingZero(date.getHours(), 2) + ":" +  $.leadingZero(date.getMinutes(), 2) + ":" +  $.leadingZero(date.getSeconds(), 2);
-
-        } catch(ex) {
-
-            // Log a message if there is a bad JavaScript date format
-            fluid.log("Bad JavaScript date format: " + date);
-            return null;
-        }
     };
 
 })(jQuery);

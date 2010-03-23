@@ -724,10 +724,6 @@ sakai.api.User.loadMeData = function(callback) {
 
 
 
-
-
-
-
 /**
  * @class Util
  *
@@ -742,10 +738,131 @@ sakai.api.Util = sakai.api.Util || {};
 
 
 /**
- * Removes JCR or Sling properties from a JSON object
- *
+ * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
+ * 
+ * Information: http://www.w3.org/TR/NOTE-datetime
+ * Based on: http://delete.me.uk/2005/03/iso8601.html
+ * Specification: http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end
+ * 
+ * Accepted values for the format [1-6]:
+ * 1 Year:
+ *   YYYY (eg 1997)
+ * 2 Year and month:
+ *   YYYY-MM (eg 1997-07)
+ * 3 Complete date:
+ *   YYYY-MM-DD (eg 1997-07-16)
+ * 4 Complete date plus hours and minutes:
+ *   YYYY-MM-DDThh:mmTZD (eg 1997-07-16T19:20+01:00)
+ * 5 Complete date plus hours, minutes and seconds:
+ *   YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
+ * 6 Complete date plus hours, minutes, seconds and a decimal
+ *   fraction of a second
+ *   YYYY-MM-DDThh:mm:ss.sTZD (eg 1997-07-16T19:20:30.45+01:00)
+ * 
+ * @param {Date} date
+ *     JavaScript date object.
+ *     If not set, the current date is used.
+ * @param {Integer} format
+ *     The format you want to put out
+ * @param {String} offset
+ *     Optional timezone offset +HH:MM or -HH:MM,
+ *     if not set Z(ulu) or UTC is used
+ * @return {String} a JCR date string
  */
+sakai.api.Util.createSakaiDate = function(date, format, offset) {
+    if (!format) { format = 5; }
+    if (!date) { date = new Date(); }
+    if (!offset) { 
+        offset = 'Z';
+    } else {
+        var d = offset.match(/([\-+])([0-9]{2}):([0-9]{2})/);
+        var offsetnum = (Number(d[2]) * 60) + Number(d[3]);
+        offsetnum *= ((d[1] === '-') ? -1 : 1);
+        date = new Date(Number(Number(date) + (offsetnum * 60000)));
+    }
 
+    var zeropad = function (num) { return ((num < 10) ? '0' : '') + num; };
+
+    var str = "";
+    str += date.getUTCFullYear();
+    if (format > 1) { str += "-" + zeropad(date.getUTCMonth() + 1); }
+    if (format > 2) { str += "-" + zeropad(date.getUTCDate()); }
+    if (format > 3) {
+        str += "T" + zeropad(date.getUTCHours()) +
+               ":" + zeropad(date.getUTCMinutes());
+    }
+    if (format > 4) { str += ":" + zeropad(date.getUTCSeconds()); }
+    if (format > 3) { str += offset; }
+    if (format > 5) {
+        str = date.getTime();
+    } 
+    return str;
+};
+
+
+/**
+ * Parse the following date formats into a JavaScript date object:
+ * 2010
+ * 2010-02
+ * 2010-02-18
+ * 2010-02-18T07:44Z
+ * 1997-07-16T19:20+01:00
+ * 1997-07-16T19:20:30+01:00
+ * 1269331220896
+ * 
+ * Information: http://www.w3.org/TR/NOTE-datetime
+ * Based on: http://delete.me.uk/2005/03/iso8601.html
+ * Specification: http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end
+ * 
+ * @param {String|Integer} dateInput The date that needs to be converted to a JavaScript date object
+ * @return {Date} JavaScript date
+ */
+sakai.api.Util.parseSakaiDate = function(dateInput) {
+
+    // Define the regular expressions that look for the format of
+    // the dateInput field
+    var regexpInteger = /^\d+$/;
+    var regexpISO8601 = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" +
+        "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\\.([0-9]+))?)?" +
+        "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
+
+    // Test whether the format is in milliseconds
+    if(regexpInteger.test(dateInput)) {
+       return new Date(dateInput);
+    }
+
+    // Test whether you get an ISO8601 format back
+    var d = dateInput.match(new RegExp(regexpISO8601));
+
+    var offset = 0;
+    var date = new Date(d[1], 0, 1);
+    var dateOutput = new Date();
+
+    if (d[3]) { date.setMonth(d[3] - 1); }
+    if (d[5]) { date.setDate(d[5]); }
+    if (d[7]) { date.setHours(d[7]); }
+    if (d[8]) { date.setMinutes(d[8]); }
+    if (d[10]) { date.setSeconds(d[10]); }
+    if (d[12]) { date.setMilliseconds(Number("0." + d[12]) * 1000); }
+    if (d[14]) {
+        offset = (Number(d[16]) * 60) + Number(d[17]);
+        offset *= ((d[15] === '-') ? 1 : -1);
+    }
+
+    // Set the timezone for the date object
+    offset -= date.getTimezoneOffset();
+    var time = (Number(date) + (offset * 60 * 1000));
+    dateOutput.setTime(Number(time));
+
+    // Return the date output
+    return dateOutput;
+};
+
+
+/**
+ * Removes JCR or Sling properties from a JSON object
+ * @param {Object} i_object
+ */
 sakai.api.Util.removeJCRObjects = function(i_object) {
 
     if (i_object["jcr:primaryType"]) {
@@ -849,17 +966,48 @@ sakai.api.Util.stripTags = function(s) {
 sakai.api.Util.Sorting = {
 
     /**
-    * Natural Order sorting algorithm, for sorting file lists etc..
-    * @param {Array} unsorted array
-    *
-    * @returns The sorted array
-    * @type Array
+    * Natural sorting algorithm, for sorting file lists etc.
+    * e.g.: sakai.api.Util.Sorting("z1", "z2", "z01");
+    * @param {String|Integer|Number} a The first element you want to sort
+    * @param {String|Integer|Number} b The second element you want to sort
+    * @return {Integer} [0 | 1 | -1]
+    *     -1: sort a so it has a lower index than b
+    *     0: a and b are equal
+    *     1: sort b so it has a lower index than a
     */
-   naturalOrder: function(inputArray) {
+   naturalSort: function(a, b) {
 
+        /*
+         * Natural Sort algorithm for Javascript
+         * Version 0.3
+         * Author: Jim Palmer (based on chunking idea from Dave Koelle)
+         *  optimizations and safari fix by Mike Grier (mgrier.com)
+         * Released under MIT license.
+         */
+
+        // Setup temp-scope variables for comparison evalutation
+        var re = /(-?[0-9\.]+)/g,
+            x = a.toString().toLowerCase() || '',
+            y = b.toString().toLowerCase() || '',
+            nC = String.fromCharCode(0),
+            xN = x.replace( re, nC + '$1' + nC ).split(nC),
+            yN = y.replace( re, nC + '$1' + nC ).split(nC),
+            xD = (new Date(x)).getTime(),
+            yD = xD ? (new Date(y)).getTime() : null;
+        // Natural sorting of dates
+        if (yD) {
+            if (xD < yD) { return -1; }
+            else if (xD > yD) { return 1; }
+        }
+        // Natural sorting through split numeric strings and default strings
+        for( var cLoc = 0, numS = Math.max(xN.length, yN.length); cLoc < numS; cLoc++ ) {
+            var oFxNcL = parseFloat(xN[cLoc]) || xN[cLoc];
+            var oFyNcL = parseFloat(yN[cLoc]) || yN[cLoc];
+            if (oFxNcL < oFyNcL) { return -1; }
+            else if (oFxNcL > oFyNcL) { return 1; }
+        }
+        return 0;
    }
-
-
 };
 
 
@@ -1197,7 +1345,7 @@ if(Array.hasOwnProperty("indexOf") === false){
     Array.prototype.indexOf = function(obj,start){
 
         for(var i=(start||0),j=this.length; i<j; i++){
-            if(this[i]==obj){
+            if(this[i]===obj){
                 return i;
             }
         }
