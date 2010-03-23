@@ -35,21 +35,44 @@ sakai.delicious = function(tuid, placement, showSettings){
 
     var rootel = $("#" + tuid);
 
-    // ERRORS
+    // Errors
     var $deliciousErrorNotConnected = $("#delicious_error_notconnected", rootel);
 
-    // CONTENT
+    // Content
     var $deliciousContainer = $("#delicious_container", rootel);
     var $deliciousContainerMain = $("#delicious_container_main", rootel);
     var $deliciousContainerSettings = $("#delicious_container_settings", rootel);
 
-    // TEMPLATES
+    // Templates
     var $deliciousTemplateMain = "delicious_template_main";
     var $deliciousTemplateSettings = "delicious_template_settings";
 
-    // BUTTONS / HYPERLINKS
-    var $deliciousErrorSettings = $("#delicious_error_settings", rootel);
+    // Buttons and links
+    var $deliciousSettingsLink = $("#delicious_settings_link", rootel);
     var $deliciousSettingsButtonSave = $("#delicious_settings_button_save", rootel);
+
+
+    ///////////////////////
+    // Utility functions //
+    ///////////////////////
+
+    /**
+     * Reloads this widget, with the settings open
+     */
+    var reload = function(){
+        sakai.delicious(tuid, placement, true);
+    };
+
+    /**
+     * Adds the retrieved settings to the right fields
+     * @param {Object} color
+     */
+    var fillInDeliciousSettings = function(data){
+        var settings = $.evalJSON(data);
+
+        document.getElementById('delicious_settings_input_username').value = settings.username;
+        document.getElementById('delicious_settings_input_password').value = settings.password;
+    };
 
 
     ////////////////////////
@@ -60,6 +83,23 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Get the stored widget settings
      */
     var getDeliciousSettings = function(){
+        //var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation);
+
+        // Getting the settings data
+        // There is a standard function (sdata.widgets.WidgetPreference.get) to do this,
+        // but as long as data is being stored at the modified location it can not be used.
+        $.ajax({
+            cache: false,
+            url: "/delicious/" + sdata.me.user.userid + "/delicious/delicious_settings",
+            success: function(data){
+                // Fill in the retrieved data
+                fillInDeliciousSettings(data);
+            },
+            error: function(xhr, textStatus, thrownError) {
+                // Display error message in console
+                console.log("ERROR at delicious.js, getDeliciousSettings(): " + thrownError);
+            }
+        });
     };
 
     /**
@@ -91,7 +131,8 @@ sakai.delicious = function(tuid, placement, showSettings){
             // Preference saved
             sdata.container.informFinish(tuid);
         } else {
-            // Error saving preference
+            // Log error
+            console.log("ERROR at delicious.js, savedDeliciousSettings()");
         }
     };
 
@@ -118,8 +159,10 @@ sakai.delicious = function(tuid, placement, showSettings){
         }
 
         // Buttons
-        //$deliciousErrorSettings.live('click', showContainerSettings);
+        $deliciousSettingsLink.live('click', reloadWidget);
         $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
+
+        // Render
         $deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
         $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
     };
