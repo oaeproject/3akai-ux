@@ -101,33 +101,6 @@ sakai.profile = function(){
         setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);
 
         fillInFields();
-
-        // Normal fields
-        /*fluid.inlineEdits(".profile_preview", {
-            useTooltip: true,
-            tooltipDelay : 500,
-            listeners : {
-                onFinishEdit: doHomeContact
-            },
-            defaultViewText: " ",
-            paddings: {
-                minimumView: 0
-            }
-        });*/
-
-        //Dropdowns
-        /*sakai.inlineEdits(".profile_preview", {
-            useTooltip: true,
-            finishedEditing: doHomeContact,
-            defaultViewText: " "
-        });*/
-
-        // Textareas
-        /*sakai.inlineEditsArea(".profile_preview", {
-            useTooltip: true,
-            finishedEditing: doHomeContact,
-            defaultViewText: " "
-        });*/
     };
 
     var inedit_basic = true;
@@ -536,21 +509,11 @@ sakai.profile = function(){
 
             if (about.personalinterests) {
                 inabout++;
-                /*if (typeof about.personalinterests === "object") {
-                    $("#txt_personalinterests").html("" + about.personalinterests.join("<br/>"));
-                } else {
-                    $("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
-                }*/
                 $("#txt_personalinterests").html("" + about.personalinterests);
             }
 
             if (about.academicinterests) {
                 inabout++;
-                /*if (typeof about.academicinterests === "object"){
-                    $("#txt_academicinterests").html("" + about.academicinterests.join("<br/>"));
-                } else {
-                    $("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
-                }*/
                 $("#txt_academicinterests").html("" + about.academicinterests);
             }
 
@@ -697,27 +660,25 @@ sakai.profile = function(){
             val = value;
             json.email = value;
 
-        /*} else if (ui.id === "txt_academicinterests"){
+        } else if (ui.id === "txt_academicinterests"){
 
             if (json.aboutme) {
                 aboutme = $.evalJSON(json.aboutme);
             }
-            value = value.split("\n");
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
             val = $.toJSON(aboutme);
-            json.aboutme = val;*/
+            json.aboutme = val;
 
-        /*} else if (ui.id === "txt_personalinterests"){
+        } else if (ui.id === "txt_personalinterests"){
 
             if (json.aboutme) {
                 aboutme = $.evalJSON(json.aboutme);
             }
-            value = value.split("\n");
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
             val = $.toJSON(aboutme);
-            json.aboutme = val;*/
+            json.aboutme = val;
 
         } else if (basicfields[ui.id]) {
 
@@ -800,162 +761,39 @@ sakai.profile = function(){
 
 };
 
+// Apply CSS styles to form elements
 
-///////////////////////////
-// Dropdown inline edits //
-///////////////////////////
-
-// TODO: Replace this by Fluid component
-
-sakai._inlineedits = [];
-sakai.inlineEdits = function(container, options){
-    var defaultViewText = "Click here to edit";
-    if (options.defaultViewText){
-        defaultViewText = options.defaultViewText;
-    }
-    var rootel = $(container);
-    var els = $(".inlineEditableAlt", rootel);
-    for (var i = 0; i < els.length; i++){
-        var el = $(els[i]);
-        var dropdown = $(".dropdownbox", el);
-        if (dropdown.length > 0){
-
-            if (dropdown.html() === ""){
-                dropdown.html(defaultViewText);
-            }
-
-            var tochangeTo = $(".editContainer",el);
-            var changedel = $(".options", tochangeTo);
-
-            dropdown.bind("click", function(ev){
-                var parent = $(ev.target).parent();
-                var dropdown = $(".dropdownbox",parent);
-                var tochangeTo = $(".editContainer", parent);
-
-                var value = dropdown.text();
-                $(".options" + " option[value=" + value + "]", tochangeTo).attr("selected", true);
-                if (dropdown.css("display") !== "none"){
-                    dropdown.hide();
-                    tochangeTo.show();
-                    changedel.focus();
-                    changedel.click();
-                }
-            });
-            changedel.bind("blur", function(ev){
-                var parent = $(ev.target).parent().parent();
-                var dropdown = $(".dropdownbox",parent);
-                var tochangeTo = $(".editContainer", parent);
-                var changedel = $(".options", tochangeTo);
-
-                var index = changedel[0].selectedIndex;
-                var newvalue = changedel[0].options[index].text;
-                var orig = newvalue;
-                if (newvalue === ""){
-                    newvalue = defaultViewText;
-                }
-                dropdown.html(newvalue);
-
-                if (dropdown.css("display") === "none"){
-                    tochangeTo.hide();
-                    dropdown.show();
-                }
-
-                var obj = {};
-                obj.value = orig;
-
-                if (options.finishedEditing){
-                    options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
-                }
-
-            });
-
-        }
-    }
-
-};
-
-$(".dropdownbox").live("mouseover", function(){
+$(".profile_section_editable input").live("mouseover", function(){
     $(this).addClass("fl-inlineEdit-invitation");
 });
-$(".dropdownbox").live("mouseout", function(){
+$(".profile_section_editable input").live("mouseout", function(){
     $(this).removeClass("fl-inlineEdit-invitation");
 });
-
-sakai._inlineeditsArea = [];
-sakai.inlineEditsArea = function(container, options){
-    var defaultViewText = "Click here to edit";
-    if (options.defaultViewText){
-        defaultViewText = options.defaultViewText;
-    }
-    var rootel = $(container);
-    var els = $(".inlineEditableAlt", rootel);
-    for (var i = 0; i < els.length; i++){
-        var el = $(els[i]);
-        var dropdown = $(".textarea", el);
-        if (dropdown.length > 0){
-
-            if (dropdown.html() === ""){
-                dropdown.html(defaultViewText);
-            }
-
-            var tochangeTo = $(".editContainer",el);
-            var changedel = $(".options", tochangeTo);
-
-            dropdown.bind("click", function(ev){
-                var parent = $(ev.target).parent();
-                var dropdown = $(".textarea",parent);
-                var tochangeTo = $(".editContainer", parent);
-
-                var value = dropdown.html();
-                value = value.replace(/<br\/>/ig,"\n");
-                value = value.replace(/<br>/ig,"\n");
-                $(".options", tochangeTo).val(value.replace(/<br\/>/ig,"\n"));
-                if (dropdown.css("display") !== "none"){
-                    dropdown.hide();
-                    tochangeTo.show();
-                    changedel.focus();
-                    changedel.click();
-                }
-            });
-            changedel.bind("blur", function(ev){
-                var parent = $(ev.target).parent().parent();
-                var dropdown = $(".textarea",parent);
-                var tochangeTo = $(".editContainer", parent);
-                var changedel = $(".options", tochangeTo);
-
-                var newvalue = changedel.val();
-                var orig = newvalue;
-                if (newvalue === ""){
-                    newvalue = defaultViewText;
-                }
-                dropdown.html(newvalue.replace(/\n/g,"<br/>"));
-
-                if (dropdown.css("display") === "none"){
-                    tochangeTo.hide();
-                    dropdown.show();
-                }
-
-                var obj = {};
-                obj.value = orig;
-
-                if (options.finishedEditing){
-                    options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
-                }
-
-                dropdown.removeClass("fl-inlineEdit-invitation");
-
-            });
-
-        }
-    }
-
-};
-
-$(".textarea").live("mouseover", function(){
+$(".profile_section_editable input").live("focusin", function(){
+    $(this).removeClass("fl-inlineEdit-invitation");
+    $(this).addClass("flc-inlineEdit-edit");
+});
+$(".profile_section_editable input").live("focusout", function(){
+    $(this).removeClass("flc-inlineEdit-edit");
+});
+$(".profile_section_editable select").live("focusin", function(){
+    $(this).removeClass("profile_edit_dropdown");
+});
+$(".profile_section_editable select").live("focusout", function(){
+    $(this).addClass("profile_edit_dropdown");
+});
+$(".profile_section_editable textarea").live("mouseover", function(){
     $(this).addClass("fl-inlineEdit-invitation");
 });
-$(".textarea").live("mouseout", function(){
+$(".profile_section_editable textarea").live("mouseout", function(){
     $(this).removeClass("fl-inlineEdit-invitation");
+});
+$(".profile_section_editable textarea").live("focusin", function(){
+    $(this).removeClass("fl-inlineEdit-invitation");
+    $(this).removeClass("profile_edit_textarea");
+});
+$(".profile_section_editable textarea").live("focusout", function(){
+    $(this).addClass("profile_edit_textarea");
 });
 
 sdata.container.registerForLoad("sakai.profile");

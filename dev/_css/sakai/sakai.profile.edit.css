@@ -26,7 +26,7 @@
 
 /* Entry - on click (in edit mode) */
 .profile .flc-inlineEdit-edit
-{ position: relative; bottom: 3px; border: 3px solid #333333; padding: 1px 1px 1px 2px; }
+{ background: none !important; position: relative; bottom: 3px; border: 3px solid #333333 !important; padding: 0px 0px 0px 3px; }
 
 /* Edit containers */
 .profile .flc-inlineEditable
@@ -36,10 +36,10 @@
 { cursor: default; width: 250px; }
 
 /* dropdownbox entry - default state */
-.profile .dropdownbox
+.profile .profile_edit_dropdown
 { width: 250px; min-height: 16px; padding: 2px 2px 2px 5px !important; height: auto !important; background-color: #fff; border: 1px solid #d5dbdf; position: relative; }
 
-.profile .textarea
+.profile .profile_edit_textarea
 { width: 250px; min-height: 16px; padding: 2px 2px 2px 5px !important; height: auto !important; background-color: #fff; border: 1px solid #d5dbdf; position: relative; }
 
 
