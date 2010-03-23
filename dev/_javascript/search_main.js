@@ -107,7 +107,7 @@ sakai._search = function(config, callback) {
      */
     var fetchMyFriends = function() {
         $.ajax({
-            url: "/_user/contacts/all.json?page=0&n=100",
+            url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
             success: function(data) {
                 myfriends = $.evalJSON(data);
@@ -254,10 +254,10 @@ sakai._search = function(config, callback) {
                     if (picture.name) {
                         user.picture = user.path + picture.name;
                     } else {
-                        user.picture = Config.URL.PERSON_ICON_URL;
+                        user.picture = sakai.config.URL.PERSON_ICON_URL;
                     }
                 } else {
-                    user.picture = Config.URL.PERSON_ICON_URL;
+                    user.picture = sakai.config.URL.PERSON_ICON_URL;
                 }
                 if (person.firstName && person.lastName) {
                     user.name = person.firstName + " " + person.lastName;
@@ -302,7 +302,7 @@ sakai._search = function(config, callback) {
                 else if (user.userid === "anonymous"){
                     user.isAnonymous = true;
                 }
-                
+
 
                 finaljson.items.push(user);
             }
@@ -382,37 +382,31 @@ sakai._search = function(config, callback) {
             // send message to other person
             var userstring = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
 
-            var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
-            var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);
-
-            // construct openSocial message
-            var openSocialMessage = new opensocial.Message(message, {
-                "title": title,
-                "type": Config.Messages.Categories.invitation
-            });
+            var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);
 
             var data = {
                 "friendUuid": userid,
                 "friendType": type,
                 "message": $.toJSON({
                     "title": title,
-                    "body": openSocialMessage
+                    "body": message
                 })
             };
 
             $.ajax({
-                url: Config.URL.FRIEND_CONNECT_SERVICE,
+                url: sakai.config.URL.FRIEND_CONNECT_SERVICE,
                 type: "POST",
                 success: function(data) {
                     // The request succeeded,
                     // do a request to the messaging service as well.
                     var toSend = {
                         "to": userid,
-                        "message": $.toJSON(openSocialMessage),
+                        "message": $.toJSON(message),
                         "_charset_":"utf-8"
                     };
                     $.ajax({
-                        url: Config.URL.MESSAGES_SEND_SERVICE,
+                        url: sakai.config.URL.MESSAGES_SEND_SERVICE,
                         type: "POST",
                         success: function(data) {
                             var json = $.evalJSON(data);

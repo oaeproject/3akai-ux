@@ -322,7 +322,7 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
     var doInit = function() {
         //    We do a request to get all the sites.
         $.ajax({
-            url: Config.URL.SITES_SERVICE,
+            url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
                 loadSiteList(data);

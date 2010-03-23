@@ -73,7 +73,7 @@ sakai.profile = function(){
 
 
         if (!me.user.userid && !me.user.userid) {
-            var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile.html";
+            var redirect =  sakai.config.URL.GATEWAY_URL + "?url=/dev/profile.html";
             if (user){
                 redirect += $.URLEncode("?user=" + user);
             }
@@ -703,7 +703,6 @@ sakai.profile = function(){
             return false;
         } else {
 
-            //var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
             var toSend = {
                 //"sling:resourceType": "sakai/message",
                 "sakai:type": "internal",
@@ -729,7 +728,7 @@ sakai.profile = function(){
             subjectEl.val("");
             bodyEl.val("");
 
-            $('#message_dialog').jqmHide();
+            $("#message_dialog").jqmHide();
         }
 
     });
@@ -763,7 +762,7 @@ sakai.profile = function(){
 
     var doAddButton = function(){
         $.ajax({
-            url: "/_user/contacts/all.json?page=0&items=100",
+            url: "/var/contacts/all.json?page=0&items=100",
             cache: false,
             success: function(data){
                 var resp = $.evalJSON(data);
@@ -812,7 +811,7 @@ sakai.profile = function(){
    };
 
    $("#add_friends_do_invite").bind("click", function(ev){
-           var toSend = $.FormBinder.serialize($("#add_friends_form"));
+        var toSend = $.FormBinder.serialize($("#add_friends_form"));
         if (toSend.add_friends_list_type){
 
             var type = toSend.add_friends_list_type;
@@ -826,20 +825,16 @@ sakai.profile = function(){
                 userstring = me.user.userid;
             }
 
-            var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
-            var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
-
-            // construct openSocial message
-            var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
+            var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 
             var data = { "type" : type, "_charset_":"utf-8"};
 
             $.ajax({
-                url: "/_user/contacts/" + user + ".invite.json",
+                url: "/_user" + sakai.data.me.profile.path + "/" + user + ".invite.html",
                 type: "POST",
                 success: function(data){
 
-                    //var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
                         var toSend = {
                             //"sling:resourceType": "sakai/message",
                             "sakai:type": "internal",
@@ -880,10 +875,8 @@ sakai.profile = function(){
 
    $("#accept_invitation_button").bind("click", function(ev){
 
-        var inviter = user;
-
         $.ajax({
-            url: "/_user/contacts/" + inviter + ".accept.html",
+            url: "/_user" + sakai.data.me.profile.path + "/" + user + ".accept.html",
             type: "POST",
             data : {"_charset_":"utf-8"},
             success: function(data){

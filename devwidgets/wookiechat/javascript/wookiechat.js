@@ -186,7 +186,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 
         // The request.
         $.ajax({
-            url: Config.URL.PROXY_SERVICE,
+            url: sakai.config.URL.PROXY_SERVICE,
             type: "POST",
             success: function(data) {
                 // The chat room has created on wookie's side.
@@ -242,7 +242,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
      */
     var showChatPage = function() {
         // Get the chat settings
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
+        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
 
         sakai.api.Widgets.loadWidgetData("wookiechat", tuid, placement, function(success, data){
 
@@ -262,7 +262,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
                     // avatar
                     if (me.profile.picture) {
                         var oPicture = me.profile.picture;
-                        var sAvatar = getSakaiDomain() + getSakaiPort() + Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + oPicture.name;
+                        var sAvatar = getSakaiDomain() + getSakaiPort() + sakai.config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + oPicture.name;
                         sFrame += "&avatar=" + sAvatar;
                     }
                 }
@@ -296,7 +296,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
         if (me.preferences.uuid === "anon" || me.preferences.uuid === undefined) {
             // This user is not logged in
             // Send him to the login page.
-            document.location = Config.URL.GATEWAY_URL;
+            document.location = sakai.config.URL.GATEWAY_URL;
         }
 
         if (!showSettings) {

@@ -22,7 +22,7 @@ var sakai = sakai || {};
 
 sakai.s23courses = function(tuid, placement, showSettings){
 
-    Config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
+    sakai.config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
 
 
     /////////////////////////////
@@ -131,7 +131,7 @@ sakai.s23courses = function(tuid, placement, showSettings){
      */
     var getCoursesAndProjects = function(){
         $.ajax({
-            url: Config.URL.SAKAI2_MCP_URL,
+            url: sakai.config.URL.SAKAI2_MCP_URL,
             success: function(data){
                 globalfeed = $.evalJSON(data);
             },

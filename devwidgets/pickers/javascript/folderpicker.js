@@ -51,7 +51,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
 
 
     // URL's
-    Config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
+    sakai.config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
     var siteID = "/sites/" + placement.split("/")[0];
     var siteFiles = siteID + "/_files";
     selectedFolder = siteFiles;
@@ -287,7 +287,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
         data["selectedFolder"] = selectedFolder;
 
         $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker"),
+            url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker"),
             cache: false,
             success: function(data){
                 //    We successfully saved the files.
@@ -316,7 +316,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
      */
     var getWidgetSettings = function(){
         $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
+            url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
             cache: false,
             success: function(data){
                 widgetSettings = $.evalJSON(data);

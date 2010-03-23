@@ -317,9 +317,9 @@ sakai.search = function() {
             // The search URL depends on the searchWhere variable
             var searchURL;
             if(searchWhere === "mycontacts") {
-                searchURL = Config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
+                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
             }  else {
-                searchURL = Config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName";
+                searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName";
             }
 
             $.ajax({
@@ -358,7 +358,7 @@ sakai.search = function() {
     $("#create_site_these_people_link").bind("click", function(ev){
         var searchterm = $(searchConfig.global.text).val().toLowerCase();
         var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = Config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
+        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
         $.ajax({
             cache: false,
             url: url,

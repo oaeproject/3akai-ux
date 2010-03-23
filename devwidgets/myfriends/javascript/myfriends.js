@@ -76,9 +76,9 @@ sakai.myfriends = function(tuid,placement,showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (picture && $.evalJSON(picture).name) {
-            return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
+            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(picture).name;
         }
-        return Config.URL.PERSON_ICON_URL;
+        return sakai.config.URL.PERSON_ICON_URL;
     };
 
 
@@ -99,7 +99,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
         if (friends.results) {
 
             // Run process each friend
-            for (var i = 0; i < friends.results.length; i++) {
+            for (var i = 0, j = friends.results.length; i < j; i++) {
                 if (i <= numberFriends) {
                     var friend = friends.results[i];
 
@@ -130,7 +130,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
      */
     var getFriends = function(){
         $.ajax({
-            url: "/_user/contacts/accepted.json" + "?page=0&items=6",
+            url: sakai.config.URL.CONTACTS_ACCEPTED + "?page=0&items=6",
             cache: false,
             success: function(data){
 
@@ -159,7 +159,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
      */
     var getContactRequests = function(){
         $.ajax({
-            url: "/_user/contacts/invited.json",
+            url: sakai.config.URL.CONTACTS_INVITED,
             cache: false,
             success: function(data){
                 var contactrequests = $.evalJSON(data);

@@ -181,7 +181,7 @@ sakai.inbox = function() {
      * This function will redirect the user to the login page.
      */
     var redirectToLoginPage = function() {
-        document.location = Config.URL.GATEWAY_URL;
+        document.location = sakai.config.URL.GATEWAY_URL;
     };
 
     /**
@@ -767,7 +767,7 @@ sakai.inbox = function() {
         showLoader();
 
         $.ajax({
-            //url: Config.URL.MESSAGES_COUNT_SERVICE + "?read=" + read + types + cats,
+            //url: sakai.config.URL.MESSAGES_COUNT_SERVICE + "?read=" + read + types + cats,
             url: url,
             success: function(data) {
                 var json = $.evalJSON(data);
@@ -883,7 +883,7 @@ sakai.inbox = function() {
                     $(inboxSpecificMessagePicture).attr('src', "/_user/public/" + message.userFrom["rep:userId"] + "/" + $.evalJSON(message.userFrom[i].picture).name);
                 }
                 else {
-                    $(inboxSpecificMessagePicture).attr('src', Config.URL.PERSON_ICON_URL);
+                    $(inboxSpecificMessagePicture).attr('src', sakai.config.URL.PERSON_ICON_URL);
                 }
             }
 
@@ -918,7 +918,7 @@ sakai.inbox = function() {
                 var replieshtml = "";
                 var replies = {};
                 //    We render the chat replies slightly differently.
-                if (message["sakai:category"] === Config.Messages.Categories.chat) {
+                if (message["sakai:category"] === sakai.config.Messages.Categories.chat) {
                     $(".message-options").hide();
                     $("#inbox_message_previous_messages").hide();
                     replieshtml += $.TemplateRenderer(inboxSpecificMessageRepliesTemplateChats, message);
@@ -977,7 +977,7 @@ sakai.inbox = function() {
         clearInputFields();
 
         //    Show the sent inbox pane.
-        filterMessages(Config.Messages.Types.sent, '', "all", inboxFilterSent);
+        filterMessages(sakai.config.Messages.Types.sent, '', "all", inboxFilterSent);
         $(inboxTableHeaderFromContent).text("To");
 
     };
@@ -1196,30 +1196,30 @@ sakai.inbox = function() {
     /* Filter the messages. */
 
     $(inboxFilterMessages).click(function() {
-        filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.message, "all", inboxFilterMessages);
+        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.message, "all", inboxFilterMessages);
     });
     $(inboxFilterAnnouncements).click(function() {
-        filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);
+        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.announcement, "all", inboxFilterAnnouncements);
     });
     $(inboxFilterChats).click(function() {
-        filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.chat, "all", inboxFilterChats);
+        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.chat, "all", inboxFilterChats);
     });
     $(inboxFilterInvitations).click(function() {
-        filterMessages(Config.Messages.Types.inbox, Config.Messages.Categories.invitation, "all", inboxFilterInvitations);
+        filterMessages(sakai.config.Messages.Types.inbox, sakai.config.Messages.Categories.invitation, "all", inboxFilterInvitations);
     });
     $(inboxFilterInbox).click(function() {
-        filterMessages(Config.Messages.Types.inbox, '', "all", inboxFilterInbox);
+        filterMessages(sakai.config.Messages.Types.inbox, '', "all", inboxFilterInbox);
     });
 
     $(inboxFilterSent).click(function() {
-        filterMessages(Config.Messages.Types.sent, '', "all", inboxFilterSent);
+        filterMessages(sakai.config.Messages.Types.sent, '', "all", inboxFilterSent);
 
         //    Change header to 'to' instead of 'from'
         $(inboxTableHeaderFromContent).text("To");
     });
 
     $(inboxFilterTrash).click(function() {
-        filterMessages(Config.Messages.Types.trash, '', "all", inboxFilterTrash);
+        filterMessages(sakai.config.Messages.Types.trash, '', "all", inboxFilterTrash);
         $(inboxTableHeaderFromContent).text("From/To");
     });
 
@@ -1239,7 +1239,7 @@ sakai.inbox = function() {
         });
 
         //    If we are in trash we hard delete the messages
-        deleteMessages(pathToMessages, (selectedType === Config.Messages.Types.trash));
+        deleteMessages(pathToMessages, (selectedType === sakai.config.Messages.Types.trash));
 
     });
 
@@ -1312,7 +1312,7 @@ sakai.inbox = function() {
         // we want to send a message.
         var subject = $(inboxSpecificMessageComposeSubject).val();
         var body = $(inboxSpecificMessageComposeBody).val();
-        sendMessage([selectedMessage.from], subject, body, Config.Messages.Categories.message, selectedMessage["sakai:id"]);
+        sendMessage([selectedMessage.from], subject, body, sakai.config.Messages.Categories.message, selectedMessage["sakai:id"]);
 
         //    Clear all the input fields
         clearInputFields();
@@ -1350,7 +1350,7 @@ sakai.inbox = function() {
             }else {
 
                 // Show messages by default (as if click on "Inbox")
-                filterMessages(Config.Messages.Types.inbox, '', "all", inboxFilterInbox);
+                filterMessages(sakai.config.Messages.Types.inbox, '', "all", inboxFilterInbox);
             }
 
         }

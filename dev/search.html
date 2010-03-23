@@ -101,14 +101,14 @@
                                 {var mimeType = 'folder'}
                             {/if}
                             {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
-                                {var mimeTypeDescription = Config.MimeTypes[mimeType].description}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                 <img src="${i.path}" alt="${mimeTypeDescription}" />
-                            {elseif Config.MimeTypes[mimeType]}
-                                {var mimeTypeDescription = Config.MimeTypes[mimeType].description}
-                                <img src="${Config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                            {elseif sakai.config.MimeTypes[mimeType]}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                             {else}
-                                {var mimeTypeDescription = Config.MimeTypes["other"].description}
-                                <img src="${Config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                             {/if}
                             <div class="search_result_right">
                                 <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>

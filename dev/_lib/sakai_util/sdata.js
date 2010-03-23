@@ -88,7 +88,7 @@ if(!Array.indexOf) {
                 var decideLoggedIn = function(response, exists){
                     var originalURL = document.location;
                     originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
-                    var redirecturl = Config.URL.GATEWAY_URL + "?url=" + originalURL;
+                    var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
                     if (exists) {
                         var me = $.evalJSON(response);
                         if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
@@ -98,7 +98,7 @@ if(!Array.indexOf) {
                 };
 
                 $.ajax({
-                    url: Config.URL.ME_SERVICE,
+                    url: sakai.config.URL.ME_SERVICE,
                     cache: false,
                     success: function(data){
                         decideLoggedIn(data, true);
@@ -418,7 +418,7 @@ sdata.widgets.WidgetLoader = {
 
             if(urls.length > 0){
                 $.ajax({
-                    url: Config.URL.BATCH_GET,
+                    url: sakai.config.URL.BATCH_GET,
                     data: {
                         resources: urls
                     },

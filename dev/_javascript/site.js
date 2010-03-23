@@ -70,18 +70,18 @@ sakai.site = function(){
 
     // URLs
     sakai.site.urls = {
-        CURRENT_SITE_ROOT: function() { return Config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/"; },
-        CURRENT_SITE_PAGES: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")); },
-        WEBPAGE_CONTENT: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/content"; },
-        WEBPAGE_CONTENT_AUTOSAVE_FULL: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/_content"; },
-        CURRENT_SITE_OBJECT : function() { return Config.URL.SITE_GET_SERVICE + "/sites/" + sakai.site.currentsite; },
-        PAGE_CONFIGURATION: function() { return Config.URL.SITE_PAGECONFIGURATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
-        SITE_NAVIGATION: function() { return Config.URL.SITE_NAVIGATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
-        SITE_NAVIGATION_CONTENT : function() { return Config.URL.SITE_NAVIGATION_CONTENT.replace(/__SITEID__/, sakai.site.currentsite.id); },
-        LOGIN : function() { return Config.URL.GATEWAY_URL + "?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash); },
-        PRINT_PAGE: function() { Config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
-        SITE_URL: function() { return Config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
-        PAGE_CONFIGURATION_PREFERENCE: function() { return Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); }
+        CURRENT_SITE_ROOT: function() { return sakai.config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/"; },
+        CURRENT_SITE_PAGES: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")); },
+        WEBPAGE_CONTENT: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/content"; },
+        WEBPAGE_CONTENT_AUTOSAVE_FULL: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/_content"; },
+        CURRENT_SITE_OBJECT : function() { return sakai.config.URL.SITE_GET_SERVICE + "/sites/" + sakai.site.currentsite; },
+        PAGE_CONFIGURATION: function() { return sakai.config.URL.SITE_PAGECONFIGURATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
+        SITE_NAVIGATION: function() { return sakai.config.URL.SITE_NAVIGATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
+        SITE_NAVIGATION_CONTENT : function() { return sakai.config.URL.SITE_NAVIGATION_CONTENT.replace(/__SITEID__/, sakai.site.currentsite.id); },
+        LOGIN : function() { return sakai.config.URL.GATEWAY_URL + "?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash); },
+        PRINT_PAGE: function() { sakai.config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
+        SITE_URL: function() { return sakai.config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
+        PAGE_CONFIGURATION_PREFERENCE: function() { return sakai.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); }
     };
 
 
@@ -299,7 +299,7 @@ sakai.site = function(){
 
         // Load site information
         $.ajax({
-            url: Config.URL.GENERAL_SEARCH_SERVICE,
+            url: sakai.config.URL.GENERAL_SEARCH_SERVICE,
             cache: false,
             async: false,
             data: {

@@ -278,11 +278,11 @@
                                             {var mimeType = 'folder'}
                                         {/if}
                                         {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-                                            <img src="${i.path}" alt="${Config.MimeTypes[mimeType].description}" />
-                                        {elseif Config.MimeTypes[mimeType]}
-                                            <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
+                                            <img src="${i.path}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                        {elseif sakai.config.MimeTypes[mimeType]}
+                                            <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                         {else}
-                                            <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
+                                            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                                         {/if}
                                         <div class="contentmedia_file_name">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</div>
                                         {if i.formattedFilesize}

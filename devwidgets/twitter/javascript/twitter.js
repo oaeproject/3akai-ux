@@ -217,7 +217,7 @@ sakai.twitter = function(tuid,placement,showSettings){
                 user: json.screen_name
             };
             $.ajax({
-                url : Config.URL.TWITTER_GET_URL,
+                url : sakai.config.URL.TWITTER_GET_URL,
                 success : function(data) {
                     parseTwitterStatus(data, true);
                 },
@@ -248,7 +248,7 @@ sakai.twitter = function(tuid,placement,showSettings){
                 };
 
                 $.ajax({
-                    url : Config.URL.TWITTER_POST_URL,
+                    url : sakai.config.URL.TWITTER_POST_URL,
                     type : "POST",
                     success : function(data) {
                         parseTwitterResponse(data, true);

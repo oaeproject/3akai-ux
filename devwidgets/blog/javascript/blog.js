@@ -763,7 +763,7 @@ sakai.blog = function(tuid, placement, showSettings) {
                     arrComments[i].name = users[u].profile.firstName + " " + users[u].profile.lastName;
 
                     if (users[u].profile.picture) {
-                        arrComments[i].picture = Config.URL.SDATA_FETCH_PRIVATE_URL + users[u].userStoragePrefix + users[u].profile.picture.name;
+                        arrComments[i].picture = sakai.config.URL.SDATA_FETCH_PRIVATE_URL + users[u].userStoragePrefix + users[u].profile.picture.name;
                     }
                 }
             }
@@ -973,7 +973,7 @@ sakai.blog = function(tuid, placement, showSettings) {
         json.allowComments = $(settingsAllowComments, rootel).is(":checked");
         json.tags = arrSelectedTags;
         var str = $.toJSON(json);
-        var url = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
+        var url = sakai.config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
         sakai.api.Widgets.saveWidgetData("blog", str, tuid, placement, callback);
     };
 
@@ -1059,7 +1059,7 @@ sakai.blog = function(tuid, placement, showSettings) {
      * @param {Object} callback
      */
     var getBlogSettings = function(callback) {
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "blog");
+        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "blog");
 
         $.ajax({
                 url: url,

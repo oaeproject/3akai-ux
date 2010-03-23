@@ -429,7 +429,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var getLinkTool = function() {
         $.ajax({
-            url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool"),
+            url : sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool"),
             cache: false,
                success : function(data) {
                 // Get a JSON string that contains the necessary information.

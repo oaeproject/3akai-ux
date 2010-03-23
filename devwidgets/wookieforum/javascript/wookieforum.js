@@ -210,7 +210,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
         //    The request
         $.ajax({
-            url: Config.URL.PROXY_SERVICE,
+            url: sakai.config.URL.PROXY_SERVICE,
             type : "POST",
             success : function(data) {
                 createForumFinished(data);
@@ -263,7 +263,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
         if (me.preferences.uuid === "anon" || me.preferences.uuid === undefined) {
             //    This user is not logged in
             //    Send him to the login page.
-            document.location = Config.URL.GATEWAY_URL;
+            document.location = sakai.config.URL.GATEWAY_URL;
         }
 
         if (!showSettings) {

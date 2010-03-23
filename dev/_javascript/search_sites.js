@@ -238,7 +238,7 @@ sakai.search = function() {
             }
 
             $.ajax({
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
+                url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
                 cache: false,
                 success: function(data) {
                     var json = $.evalJSON(data);

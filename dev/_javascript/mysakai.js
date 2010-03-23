@@ -28,7 +28,10 @@ sakai.dashboard = function(){
     // Configuration variables //
     /////////////////////////////
 
-    var stateFile = "devstate";
+    var stateFile = "my_sakai_state";
+
+    // Namespace of data cache for thsi page
+    sakai.data.my_sakai = sakai.data.my_sakai || {};
 
     // Add Goodies related fields
     var addGoodiesDialog = "#add_goodies_dialog";
@@ -55,20 +58,20 @@ sakai.dashboard = function(){
     var decideExists = function (exists, response){
         if (exists === false) {
             if (response.status === 401){
-                document.location = Config.URL.GATEWAY_URL;
+                document.location = sakai.config.URL.GATEWAY_URL;
             } else {
                 doInit();
             }
         } else {
             try {
-                myportaljson = response;
+                myportaljson = $.evalJSON(response);
                 var cleanContinue = true;
 
                 for (var c in myportaljson.columns){
                     if (myportaljson.columns.hasOwnProperty(c)) {
                         for (var pi in myportaljson.columns[c]) {
                             if (myportaljson.columns[c].hasOwnProperty(pi)) {
-                                if (pi != "contains") {
+                                if (pi !== "contains") {
                                     if (!myportaljson.columns[c][pi].uid) {
                                         cleanContinue = false;
                                     }
@@ -116,14 +119,14 @@ sakai.dashboard = function(){
         var jsonobj = {};
         jsonobj.columns = {};
 
-        for (var i = 0; i < columns.length; i++) {
+        for (var i = 0, j = columns.length; i < j; i++) {
             jsonobj.columns["column" + (i + 1)] = [];
-            for (var ii = 0; ii < columns[i].length; ii++) {
+            for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
                 var index = jsonobj.columns["column" + (i + 1)].length;
                 jsonobj.columns["column" + (i + 1)][index] = {};
                 jsonobj.columns["column" + (i + 1)][index].name = columns[i][ii];
                 jsonobj.columns["column" + (i + 1)][index].visible = "block";
-                jsonobj.columns["column" + (i + 1)][index].uid = 'id' + Math.round(Math.random() * 10000000000000);
+                jsonobj.columns["column" + (i + 1)][index].uid = "id" + Math.round(Math.random() * 10000000000000);
             }
         }
 
@@ -131,13 +134,13 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, jsonobj, saveGroup);
+        sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, jsonobj, saveGroup);
 
     };
 
     sakai.dashboard.minimizeWidget = function(id){
         var el = $("#" + id + "_container");
-        if (el.css('display') == "none"){
+        if (el.css("display") == "none"){
             el.show();
         } else {
             el.hide();
@@ -165,7 +168,7 @@ sakai.dashboard = function(){
 
             var selectedlayout = currentselectedlayout;
             var columns = [];
-            for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+            for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
                 columns[i] = [];
             }
 
@@ -175,7 +178,7 @@ sakai.dashboard = function(){
             var index = 0;
             for (var l in myportaljson.columns){
                 if (index < newlength){
-                    for (i = 0; i < myportaljson.columns[l].length; i++){
+                    for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                         columns[index][i] = {};
                         columns[index][i].name = myportaljson.columns[l][i].name;
                         columns[index][i].visible = myportaljson.columns[l][i].visible;
@@ -190,10 +193,10 @@ sakai.dashboard = function(){
                 if (newlength < initlength){
                     for (l in myportaljson.columns){
                         if (index >= newlength){
-                            for (i = 0; i < myportaljson.columns[l].length; i++){
+                            for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                                 var lowestnumber = -1;
                                 var lowestcolumn = -1;
-                                for (var iii = 0; iii < columns.length; iii++){
+                                for (var iii = 0, jjj = columns.length; iii < jjj; iii++){
                                     var number = columns[iii].length;
                                     if (number < lowestnumber || lowestnumber == -1){
                                         lowestnumber = number;
@@ -213,9 +216,9 @@ sakai.dashboard = function(){
             }
 
             var jsonstring = '{"columns":{';
-            for (i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+            for (i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
                 jsonstring += '"column' + (i + 1) + '":[';
-                for (var ii = 0; ii < columns[i].length; ii++){
+                for (var ii = 0, jj = columns[i].length; ii < jj; ii++){
                     jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
                     if (ii !== columns[i].length - 1){
                         jsonstring += ',';
@@ -230,7 +233,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, beforeFinishAddWidgets);
+            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
     });
@@ -278,7 +281,7 @@ sakai.dashboard = function(){
 
             var jsonobject = {"items":{"group": selected }};
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
+            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
 
         } else {
             fluid.log("my_sakai.js: An error occured while saving your layout");
@@ -299,21 +302,12 @@ sakai.dashboard = function(){
     var showMyPortal = function(){
 
         var layout = myportaljson;
+        sakai.data.my_sakai.selectedLayout = layout.layout;
 
-        if (!Widgets.layouts[layout.layout]) {
-
-            var selectedlayout = "";
-            var layoutindex = 0;
-
-            for (var l in Widgets.layouts) {
-                if (layoutindex === 0) {
-                    selectedlayout = l;
-                    layoutindex++;
-                }
-            }
+        if (!Widgets.layouts[sakai.data.my_sakai.selectedLayout]) {
 
             var columns = [];
-            for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+            for (var i = 0, j = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length; i < j; i++) {
                 columns[i] = [];
             }
 
@@ -321,12 +315,12 @@ sakai.dashboard = function(){
             for (l in myportaljson.columns) {
                 initlength++;
             }
-            var newlength = Widgets.layouts[selectedlayout].widths.length;
+            var newlength = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length;
 
             var index = 0;
             for (l in myportaljson.columns) {
                 if (index < newlength) {
-                    for (i = 0; i < myportaljson.columns[l].length; i++) {
+                    for (i = 0, j = myportaljson.columns[l].length; i < j; i++) {
                         columns[index][i] = {};
                         columns[index][i].name = myportaljson.columns[l][i].name;
                         columns[index][i].visible = myportaljson.columns[l][i].visible;
@@ -340,10 +334,10 @@ sakai.dashboard = function(){
             if (newlength < initlength) {
                 for (l in myportaljson.columns) {
                     if (index >= newlength) {
-                        for (i = 0; i < myportaljson.columns[l].length; i++) {
+                        for (i = 0, j = myportaljson.columns[l].length; i < j; i++) {
                             var lowestnumber = -1;
                             var lowestcolumn = -1;
-                            for (var iii = 0; iii < columns.length; iii++) {
+                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                 var number = columns[iii].length;
                                 if (number < lowestnumber || lowestnumber == -1) {
                                     lowestnumber = number;
@@ -362,31 +356,31 @@ sakai.dashboard = function(){
             }
 
             var jsonstring = '{"columns":{';
-            for (i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+            for (i = 0, j = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length; i < j; i++) {
                 jsonstring += '"column' + (i + 1) + '":[';
-                for (var ii = 0; ii < columns[i].length; ii++) {
+                for (var ii = 0, jj = columns[i].length; ii < jj;  ii++) {
                     jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
                     if (ii !== columns[i].length - 1) {
                         jsonstring += ',';
                     }
                 }
                 jsonstring += ']';
-                if (i !== Widgets.layouts[selectedlayout].widths.length - 1) {
+                if (i !== Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length - 1) {
                     jsonstring += ',';
                 }
             }
 
-            jsonstring += '},"layout":"' + selectedlayout + '"}';
+            jsonstring += '},"layout":"' + sakai.data.my_sakai.selectedLayout + '"}';
 
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson);
+            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
         }
 
         var final2 = {};
         final2.columns = [];
-        final2.size = Widgets.layouts[layout.layout].widths.length;
+        final2.size = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length;
         var currentindex = -1;
         var isvalid = true;
 
@@ -397,7 +391,7 @@ sakai.dashboard = function(){
                 index = final2.columns.length;
                 final2.columns[index] = {};
                 final2.columns[index].portlets = [];
-                final2.columns[index].width = Widgets.layouts[layout.layout].widths[currentindex];
+                final2.columns[index].width = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths[currentindex];
 
                 var columndef = layout.columns[c];
                 for (var pi in columndef) {
@@ -412,7 +406,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
+                        final2.columns[index].portlets[iindex].placement = "/_user" + sakai.data.me.profile.path + "/private/mysakai_widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -420,6 +414,7 @@ sakai.dashboard = function(){
 
         }
         catch (err) {
+            fluid.log(err);
             isvalid = false;
         }
 
@@ -582,14 +577,14 @@ sakai.dashboard = function(){
         if (startSaving === true){
 
             var columns = $(".groupWrapper");
-                for (var i = 0; i < columns.length; i++){
+                for (var i = 0, j = columns.length; i < j; i++){
                 if (i !== 0){
                     serString += ",";
                 }
                 serString += '"column' + (i + 1) + '":[';
                 var column = columns[i];
                 var iii = -1;
-                for (var ii = 0; ii < column.childNodes.length; ii++){
+                for (var ii = 0, jj = column.childNodes.length; ii < jj; ii++){
 
                     try {
                         var node = column.childNodes[ii];
@@ -600,7 +595,7 @@ sakai.dashboard = function(){
                             var nowAt = 0;
                             var id = node.style.display;
                             var uid = Math.round(Math.random() * 100000000000);
-                            for (var y = 0; y < node.childNodes.length; y++) {
+                            for (var y = 0, z = node.childNodes.length; y < z; y++) {
                                 if (node.childNodes[y].style) {
                                     if (nowAt == 1) {
                                         if (node.childNodes[y].style.display.toLowerCase() === "none") {
@@ -620,7 +615,7 @@ sakai.dashboard = function(){
 
                         }
                     } catch (err){
-                        alert(err);
+                        fluid.log("mysakai.js/saveState(): There was an error saving state: " + err);
                     }
 
                 }
@@ -640,7 +635,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, checksucceed);
+            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, checksucceed);
 
         }
 
@@ -662,7 +657,7 @@ sakai.dashboard = function(){
             var alreadyIn = false;
             if (! Widgets.widgets[l].multipleinstance) {
                 for (var c in myportaljson.columns) {
-                    for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
+                    for (var ii = 0, jj = myportaljson.columns[c].length; ii < jj; ii++) {
                         if (myportaljson.columns[c][ii].name === l) {
                             alreadyIn = true;
                         }
@@ -706,7 +701,7 @@ sakai.dashboard = function(){
                 var alreadyIn = false;
                 if (!Widgets.widgets[l].multipleinstance) {
                     for (var c in myportaljson.columns) {
-                        for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
+                        for (var ii = 0, jj = myportaljson.columns[c].length; ii < jj; ii++) {
                             if (myportaljson.columns[c][ii].name === l) {
                                 alreadyIn = true;
                             }
@@ -740,7 +735,7 @@ sakai.dashboard = function(){
         var selectedlayout = myportaljson.layout;
 
         var columns = [];
-        for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+        for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
             columns[i] = [];
         }
 
@@ -750,7 +745,7 @@ sakai.dashboard = function(){
         var index = 0;
         for (var l in myportaljson.columns){
             if (index < newlength){
-                for (i = 0; i < myportaljson.columns[l].length; i++){
+                for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                     columns[index][i] = myportaljson.columns[l][i];
                 }
                 index++;
@@ -762,10 +757,10 @@ sakai.dashboard = function(){
             if (newlength < initlength){
                 for (l in myportaljson.columns){
                     if (index >= newlength){
-                        for (i = 0; i < myportaljson.columns[l].length; i++){
+                        for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                             var lowestnumber = -1;
                             var lowestcolumn = -1;
-                            for (var iii = 0; iii < columns.length; iii++){
+                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++){
                                 var number = columns[iii].length;
                                 if (number < lowestnumber || lowestnumber == -1){
                                     lowestnumber = number;
@@ -785,7 +780,7 @@ sakai.dashboard = function(){
 
         var lowestnumber = -1;
         var lowestcolumn = -1;
-        for (var iii = 0; iii < columns.length; iii++){
+        for (var iii = 0, jjj = columns.length; iii < jjj; iii++){
             var number = columns[iii].length;
             if (number < lowestnumber || lowestnumber == -1){
                 lowestnumber = number;
@@ -799,9 +794,9 @@ sakai.dashboard = function(){
         columns[lowestcolumn][_i].uid = "id" + Math.round(Math.random() * 10000000000);
 
         var jsonstring = '{"columns":{';
-        for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+        for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
             jsonstring += '"column' + (i + 1) + '":[';
-            for (var ii = 0; ii < columns[i].length; ii++){
+            for (var ii = 0, jj = columns[i].length; ii < jj;  ii++){
                 jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
                 if (ii !== columns[i].length - 1){
                     jsonstring += ',';
@@ -816,7 +811,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, myportaljson, finishAddWidgets);
+        sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
     };
 
@@ -954,7 +949,7 @@ sakai.dashboard = function(){
      * This will try to load the dashboard state file from the SData personal space
      */
 
-    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/"+ stateFile, decideExists);
+    sakai.api.Server.loadData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
 
 };
 

@@ -33,7 +33,7 @@ sakai.rss = function(tuid, placement, showSettings){
     // Configuration variables //
     /////////////////////////////
 
-    Config.URL.PROXY_RSS = "/var/proxy/rss.xml?rss=";
+    sakai.config.URL.PROXY_RSS = "/var/proxy/rss.xml?rss=";
 
     var rootel = "#" + tuid;
     var resultJSON={};
@@ -173,7 +173,7 @@ sakai.rss = function(tuid, placement, showSettings){
         feedUrl = url;
 
         $.ajax({
-           url : Config.URL.PROXY_RSS +  url,
+           url : sakai.config.URL.PROXY_RSS +  url,
            type : "GET",
            success : function(data) {
                    onResponse(printFeed(data));
