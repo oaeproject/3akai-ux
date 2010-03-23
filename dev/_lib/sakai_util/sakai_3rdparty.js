@@ -51,7 +51,7 @@ if (typeof(TrimPath) == 'undefined')
 // TODO: Handle || (or) characters and backslashes.
 // TODO: Add more modifiers.
 
-(function() {               // Using a closure to keep global namespace clean.
+(function() { // Using a closure to keep global namespace clean.
     if (TrimPath.evalEx == null)
         TrimPath.evalEx = function(src) { return eval(src); };
 

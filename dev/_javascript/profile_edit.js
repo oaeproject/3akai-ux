@@ -90,7 +90,7 @@ sakai.profile = function(){
             document.location = redirect;
         }
 
-        fileUrl = "/_user/public/" + sakai.data.me.user.userid + "/authprofile.json?sid=" + Math.random();
+        fileUrl = "/_user" + sakai.data.me.profile["jcr:path"];
 
         json = sakai.data.me.profile;
 
@@ -289,7 +289,7 @@ sakai.profile = function(){
                         type : "POST",
                         data : tosend,
                         error: function(xhr, textStatus, thrownError) {
-                            alert("An error has occured while trying to post to " + fileUrl);
+                            fluid.log("profile_edit.js: An error has occured while trying to post to " + fileUrl);
                         }
                     });
 
@@ -385,9 +385,9 @@ sakai.profile = function(){
                 }
 
                 index = 0;
-                for (var i = 0; i < obj.items.length; i++) {
+                for (var i = 0, j = obj.items.length; i < j; i++) {
                     if (obj.items[i].id === id) {
-                        for (index = 0; index < fields.length; index++){
+                        for (index = 0, k = fields.length; index < k; index++){
                             obj.items[i][fields[index]] = arrayToSave[fields[index]];
                         }
                     }
@@ -406,7 +406,7 @@ sakai.profile = function(){
                     type: "POST",
                     data: tosend,
                     error: function(xhr, textStatus, thrownError) {
-                        alert("An error has occured while posting to " + fileUrl);
+                        fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
                     }
                 });
 
@@ -462,7 +462,7 @@ sakai.profile = function(){
                     type: "POST",
                     data: tosend,
                     error: function(xhr, textStatus, thrownError) {
-                        alert("An error has occured while posting to " + fileUrl);
+                        fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
                     }
                 });
 
@@ -501,7 +501,7 @@ sakai.profile = function(){
 
         if (json.picture && $.evalJSON(json.picture).name){
             var picture = $.evalJSON(json.picture);
-            $("#picture_holder img").attr("src",'/_user/public/' + sakai.data.me.user.userid + "/" + picture.name);
+            $("#picture_holder img").attr("src",'/_user' + sakai.data.me.profile.path + '/public/profile/' + picture.name);
         }
 
         fillInBasic();
@@ -751,13 +751,12 @@ sakai.profile = function(){
         var tosend = {};
         tosend[key] = val;
         tosend["_charset_"] = "utf-8";
-
         $.ajax({
             url : fileUrl,
             type : "POST",
             data : tosend,
             error: function(xhr, textStatus, thrownError) {
-                alert("An error has occured while posting to " + fileUrl);
+                fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
             }
         });
 

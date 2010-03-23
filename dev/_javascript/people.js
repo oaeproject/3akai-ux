@@ -49,7 +49,7 @@ sakai.search = function(){
         $("#contacts_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/_user/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
+            url: "/var/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
             success: function(data){
                 foundContacts = $.evalJSON(data);
                 renderContacts();
@@ -133,7 +133,7 @@ sakai.search = function(){
             var user = this.id.split("_")[this.id.split("_").length - 1];
 
             $.ajax({
-                url: "/_user/contacts/" + user + ".remove.html",
+                url: "/_user" + sakai.data.me.profile.path + "." + user + ".remove.html",
                 type: "POST",
                 data : {"_charset_":"utf-8"},
                 success: function(data){
@@ -169,7 +169,7 @@ sakai.search = function(){
         $("#invited_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/_user/contacts/invited.json?page=0&items=100",
+            url: "/var/contacts/invited.json?page=0&items=100",
             cache: false,
             success: function(data){
                 foundInvitations = $.evalJSON(data);
@@ -234,7 +234,7 @@ sakai.search = function(){
             var user = this.id.split("_")[this.id.split("_").length - 1];
 
             $.ajax({
-                url: "/_user/contacts/" + user + ".accept.html",
+                url: "/_user" + sakai.data.me.profile.path + "." + user + ".accept.html",
                 type: "POST",
                 data : {"_charset_":"utf-8"},
                 success: function(data){
@@ -276,7 +276,7 @@ sakai.search = function(){
         $("#invited_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/_user/contacts/pending.json?page=0&items=100",
+            url: "/var/contacts/pending.json?page=0&items=100",
             cache: false,
             success: function(data){
                 foundPending = $.evalJSON(data);
