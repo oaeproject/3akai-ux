@@ -42,7 +42,7 @@ sakai.delicious = function(tuid, placement, showSettings){
     var $deliciousContainer = $("#delicious_container", rootel);
     var $deliciousContainerMain = $("#delicious_container_main", rootel);
     var $deliciousContainerSettings = $("#delicious_container_settings", rootel);
-    
+
     // TEMPLATES
     var $deliciousTemplateMain = "delicious_template_main";
     var $deliciousTemplateSettings = "delicious_template_settings";
@@ -57,44 +57,73 @@ sakai.delicious = function(tuid, placement, showSettings){
     ////////////////////////
 
     /**
-    * Show the Main container and hide the Settings container
-    */
-    var showContainerMain = function(){
-        $deliciousContainerMain.show();
-        $deliciousContainerSettings.hide();
+     * Get the stored widget settings
+     */
+    var getDeliciousSettings = function(){
     };
 
     /**
-    * Show the Main container and hide the Settings container
-    */
-    var showContainerSettings = function(){
-        $deliciousContainerMain.hide();
-        $deliciousContainerSettings.show();
+     * Save the widget settings
+     */
+    var saveDeliciousSettings = function(){
+        // Concatinate the URL where the settings should be saved
+        //var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
+        var saveUrl = "/delicious/" + sdata.me.user.userid + "/delicious";
+
+        // Object to be saved at JCR
+        var delicious = {
+            "username": document.getElementById('delicious_settings_input_username').value,
+            "password": document.getElementById('delicious_settings_input_password').value
+        };
+
+        // Create JSON data to send
+        var jsonDeliciousSettings = $.toJSON(delicious);
+
+        // Sava the JSON data to the widgets JCR
+        sdata.widgets.WidgetPreference.save(saveUrl, "delicious_settings", jsonDeliciousSettings, savedDeliciousSettings);
     };
 
-    /////////////////////////////
-    // Initialisation function //
-    /////////////////////////////
+    /**
+     * Callback function. Once the settings have been saved, hide the settings page and show the main view
+     */
+    var savedDeliciousSettings = function(success){
+        if (success) {
+            // Preference saved
+            sdata.container.informFinish(tuid);
+        } else {
+            // Error saving preference
+        }
+    };
+
+
+    ////////////////////
+    // Initialisation //
+    ////////////////////
 
     /**
      * Switch between main view and settings
      */
-    var doInit = function() {
-        $deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
-        $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
+    var doInit = function(){
+        if (showSettings) {
+            // Get settings
+            getDeliciousSettings();
 
-        if (!showSettings) {
-            // Show Main View
-            showContainerMain();
-        }else{
-            // Show Settings
-            showContainerSettings();
+            // Show settings
+            $deliciousContainerMain.hide();
+            $deliciousContainerSettings.show();
+        } else {
+            // Show main view
+            $deliciousContainerMain.show();
+            $deliciousContainerSettings.hide();
         }
 
         // Buttons
-        $deliciousErrorSettings.live('click', showContainerSettings);
-        $deliciousSettingsButtonSave.live('click', showContainerMain); // TEMP: close the settings page
+        //$deliciousErrorSettings.live('click', showContainerSettings);
+        $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
+        $deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
+        $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
     };
+
     doInit();
 };
 

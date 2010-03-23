@@ -7,8 +7,8 @@
 </div>
 
 <!-- CONTENT -->
-<div class="delicious_widget">
-    <div class="fl-widget-content" id="delicious_container">
+<div id="delicious_widget">
+    <div id="delicious_container" class="fl-widget-content">
         <!-- Container for the main view -->
         <div id="delicious_container_main">
         </div>
@@ -26,9 +26,6 @@
 <!-- MAIN VIEW -->
 <div id="delicious_template_main" style="display:none"><!--
     <div>
-        Main view
-    </div>
-    <div>
         <form id="delicious_form_test" method="GET" action="#">
             <input class="delicious_input_text" id="delicious_test" type="text" value=""/>
         </form>
@@ -38,10 +35,17 @@
 
 <!-- SETTINGS -->
 <div id="delicious_template_settings" style="display:none"><!--
-    <div>
-        Settings
-    </div>
+    <form id="delicious_settings_form" action="POST">
+        <div id="settings_input">
+            <label id="delicious_settings_label_accountdetails">Account Details</label><br/>
+            <label id="delicious_settings_label_username" for"delicious_settings_input_username">Username</label>
+            <input type="text" id="delicious_settings_input_username" value=""/><br/>
+            <label id="delicious_settings_label_password" for="delicious_settings_input_password">Password</label>
+            <input type="text" id="delicious_settings_input_password" value=""/>
+        </div>
+    </form>
     <div class="buttonBar delicious_settings_buttonBar_save">
+        <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_cancel">Cancel</a>
         <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_save">Save</a>
     </div>
     --></div>
