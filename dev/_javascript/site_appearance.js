@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, sakai, sdata, Querystring, window, removeAreaSelect */
+/*global $, Config, jQuery, sdata, Querystring, window, removeAreaSelect */
 
 var sakai = sakai || {};
 
@@ -51,6 +51,7 @@ sakai.site_appearance = function() {
     var siteAppearancePreviewTitle = siteAppearance + "_preview_title";
     var siteAppearanceSave = siteAppearance + "_save";
     var siteAppearanceStyleContainer = siteAppearance + "_style_container";
+    var siteAppearanceTab = siteAppearance + "_tab";
     var siteAppearanceTitle = siteAppearance + "_title";
 
     var siteAppearanceChange = siteAppearance + "_change";
@@ -58,6 +59,7 @@ sakai.site_appearance = function() {
     var siteAppearanceChangeLogoTrigger = siteAppearanceChange + "_logo_trigger";
     var siteAppearanceChangePicture = siteAppearanceChange + "_picture";
     var siteAppearanceChangePictureMeasurer = siteAppearanceChangePicture + "_measurer";
+    var siteAppearanceChangePictureMeasurerImage = siteAppearanceChangePictureMeasurer + "_image";
     var siteAppearanceChangePictureFull = siteAppearanceChangePicture + "_full";
     var siteAppearanceChangePictureSave = siteAppearanceChangePicture + "_save";
     var siteAppearanceChangePictureThumbnail = siteAppearanceChangePicture + "_thumbnail";
@@ -268,7 +270,7 @@ sakai.site_appearance = function() {
 
             var json = $.evalJSON(siteInformation.picture);
             // Set the fullpath to the variable
-            json.fullName = "/sites/" + siteId + "/200x100_siteicon";
+            json.fullName = "/sites/" + siteId + "/200x100_siteicon" + "?sid=" + Math.random();
 
             // Render the image template
             $.Template.render(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
@@ -290,7 +292,7 @@ sakai.site_appearance = function() {
 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(siteId, sdata.me.user.subjects);
+                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(json);
                 if (isMaintainer) {
 
                     // Fill in the info.
@@ -342,8 +344,7 @@ sakai.site_appearance = function() {
             url: "/sites/" + siteId,
             type : "POST",
             data : {
-            "picture": stringtosave,
-            "_charset_":"utf-8"
+            "picture": stringtosave
         },
             success : function(data) {
 
@@ -364,20 +365,21 @@ sakai.site_appearance = function() {
     var savePicture = function(){
 
         //    The parameters for the cropit service.
-        var tosave = {};
-        tosave.urlToCrop = "/sites/" + siteId + "/siteicon";
-        tosave.urlSaveIn = "/sites/" + siteId + "/";
-        tosave.x = Math.floor(userSelection.x1 * ratio);
-        tosave.y = Math.floor(userSelection.y1 * ratio);
-        tosave.height = Math.floor(userSelection.height * ratio);
-        tosave.width = Math.floor(userSelection.width * ratio);
-        tosave.dimensions = $.toJSON([{"width":200,"height":100}]);
+        var data = {
+            img: "/sites/" + siteId + "/siteicon",
+            save: "/sites/" + siteId + "/",
+            x: Math.floor(userSelection.x1 * ratio),
+            y: Math.floor(userSelection.y1 * ratio),
+            width: Math.floor(userSelection.width * ratio),
+            height: Math.floor(userSelection.height * ratio),
+            dimensions: "200x100"
+        };
 
         // Post all of this to the server
         $.ajax({
             url: Config.URL.IMAGE_SERVICE,
-            type: "GET",
-            data: tosave,
+            type: "POST",
+            data: data,
             success: function(data){
                 //if($.evalJSON(data).response === "OK"){
                     updateGroupDef();
@@ -402,6 +404,7 @@ sakai.site_appearance = function() {
 
         //Remove all the classes for the current active tabs
         $("." + tabActiveClass).removeClass(tabActiveClass);
+        $(siteAppearanceTab).addClass(tabActiveClass);
 
         switch(tab){
             case "upload":
@@ -507,8 +510,7 @@ sakai.site_appearance = function() {
             disable: false,
             keys: true,
             hide: false,
-            onSelectChange: preview,
-            selectionColor: 'white'
+            onSelectEnd: preview
         });
     };
 
@@ -566,24 +568,19 @@ sakai.site_appearance = function() {
             // Show the edit tab.
             $(siteAppearanceChangeSelectTab).show();
 
-
-            // Set the unvisible image to the full blown image.
-            var imageMeasure = new Image();
-            var imagePath = createImagePath(picture._name);
-            imageMeasure.src = imagePath;
+            // Set the unvisible image to the full blown image. (make sure to filter the # out)
+            $(siteAppearanceChangePictureMeasurer).html("<img src='" + "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random() + "' id='" + siteAppearanceChangePictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
-            $(imageMeasure).load(function(){
-
-                $(siteAppearanceChangePictureMeasurer).append(this);
+            $(siteAppearanceChangePictureMeasurerImage).bind("load", function(ev){
 
                 // save the image size in global var.
-                realWidth = this.width;
-                realHeight = this.height;
+                realWidth = $(siteAppearanceChangePictureMeasurerImage).width();
+                realHeight = $(siteAppearanceChangePictureMeasurerImage).height();
 
                 // Set the images
-                $(siteAppearanceChangePictureFull).attr("src", imagePath);
-                $(siteAppearanceChangePictureThumbnail).attr("src", imagePath);
+                $(siteAppearanceChangePictureFull).attr("src", "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random());
+                $(siteAppearanceChangePictureThumbnail).attr("src", "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random());
 
                 // Check if the current width and height dont exceed the maximum values
                 checkSize();
@@ -759,7 +756,20 @@ sakai.site_appearance = function() {
  * This method gets called the second we submit the form
  */
 sakai.site_appearance_change.startCallback = function(){
-    return true;
+
+    // Check whether selected file is an image
+    // We do this in JS as the input tags accept attribute is unreliable, and modern browsers disregard it
+    var allowed_pic_extensions = ["gif","png","jpg","jpeg","bmp"];
+    var filename = $("#siteicon").val();
+    var extension = filename.substring((filename.lastIndexOf(".") + 1));
+
+    if (allowed_pic_extensions.indexOf(extension.toLowerCase()) === -1) {
+        $("#error_msg").html("Only image files can be uploaded! (gif, png, jpg, jpeg, bmp)").show();
+        return false;
+    } else {
+        $("#error_msg").html("").hide();
+        return true;
+    }
 };
 
 /**

@@ -11,10 +11,10 @@ var History = {
         var str = "" + document.location;
         var hashIndex = str.indexOf("#");
         var ourarg = 1;
-        if (hashIndex != -1){
+        if (hashIndex !== -1){
             var hashString = str.substring(hashIndex + 1);
-            var hashInt = parseInt(hashString);
-            if (hashString == "" || hashInt == -1){
+            var hashInt = parseInt(hashString,10);
+            if (hashString === "" || hashInt === -1){
                 hashInt = 1;
             }
             ourarg = hashInt;
@@ -25,7 +25,7 @@ var History = {
         var str = "" + document.location;
         var hashIndex = str.indexOf("#");
         var ourarg = "";
-        if (hashIndex != -1){
+        if (hashIndex !== -1){
             var hashString = str.substring(hashIndex + 1);
             ourarg = hashString;
         }
@@ -42,14 +42,14 @@ var History = {
 
     addBEvent: function(id){
 
-        var a = new Array();
+        var a = [];
         a[0] = "" + id;
         a[1] = "" + id;
         dhtmlHistory.add(a[0],a[1]);
 
     }
 
-}
+};
 
 window.dhtmlHistory.create({debugMode: false});
 

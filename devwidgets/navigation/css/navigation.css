@@ -27,7 +27,7 @@
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
 
 .navigation .nav_titlebar_inner
-{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 18px 0 0 17px; height:50px; }
+{ background:transparent url(/dev/_images/block_tl.png) no-repeat scroll left top; padding: 5px 0 0 17px; height:45px; }
 
 .navigation .nav_title
 { background:transparent url(/dev/_images/pages_icon.png) no-repeat scroll left top; color:#878A8C; font-size:1em; padding-left: 25px; }
@@ -36,7 +36,7 @@
 
 /* CONTENT */
 .navigation .nav_content
-{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 5px; margin: 0; }
+{ border-left: 3px solid #D4DADE; border-right: 3px solid #D4DADE; padding: 10px 5px 10px 5px; margin: 0; overflow:auto; }
 
 /* Template - Main */
 #navigation_page_children
@@ -52,7 +52,7 @@
 { padding: 0 0 5px 0; }
 
 .navigation .nav_content ul
-{ margin: 0; padding: 0 0 0 10px; }
+{ margin: 0; }
 
 
 .navigation .nav_content .rootpage
@@ -62,13 +62,9 @@
 { font-weight: normal; background: #FFFFFF url(/dev/_images/subpages_18.png) no-repeat scroll left top; padding: 2px 5px 0px 25px; }
 
 
-
 /* BOTTOM */
 .navigation .nav_bottom
 { background:transparent url(/dev/_images/content_bl.png) no-repeat scroll left bottom; height: 5px; padding: 0 0 0 10px; }
 
 .navigation .nav_bottom_inner
 { background:transparent url(/dev/_images/content_br.png) no-repeat scroll right bottom; height: 5px; }
-
-
-

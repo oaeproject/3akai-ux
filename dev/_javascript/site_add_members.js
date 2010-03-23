@@ -22,6 +22,8 @@
 var sakai = sakai || {};
 sakai.site_add_members = function() {
     var json = {};
+    var roleToGroup = {};
+    var siteJson = {};
     var selectedSite = "";
     var pageSize = 10;
     var selectedPeople = [];
@@ -47,12 +49,11 @@ sakai.site_add_members = function() {
         var qs = new Querystring();
         selectedSite = qs.get("siteid",false);
         $("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
-        $(".manage-members").attr("href", $(".manage-members").attr("href") + "?siteid=" + selectedSite);
+        $(".s3s-manage-members").attr("href", $(".s3s-manage-members").attr("href") + "?siteid=" + selectedSite);
         $(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
         fillBasicSiteSettings(selectedSite);
-        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : sakai.lib.site.authz.roles}));
     };
 
     /**
@@ -63,8 +64,10 @@ sakai.site_add_members = function() {
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response) {
-                var json = $.evalJSON(response);
-                $("#sitetitle").text(json.name);
+                siteJson = $.evalJSON(response);
+                roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
+                $("#sitetitle").text(siteJson.name);
+                $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
@@ -149,7 +152,7 @@ sakai.site_add_members = function() {
                 json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
             }
             if (json.members[i]["rep:userId"] == userid) {
-                return sakai.lib.site.authz.getRole(selectedSite, json.members[i]["member:groups"]);
+                return sakai.lib.site.authz.getRole(siteJson, json.members[i]["member:groups"]);
             }
         }
         return "";
@@ -340,7 +343,6 @@ sakai.site_add_members = function() {
         if(typeof json.foundPeople !== "undefined"){
             var dataTemp = getPostData(false);
             if (dataTemp.uuserid.length > 0) {
-                var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(selectedSite);
                 var group = roleToGroup[dataTemp.membertoken];
                 var newMembers = [];
                 for (var i = 0; i < dataTemp.uuserid.length; i++) {
@@ -399,7 +401,7 @@ sakai.site_add_members = function() {
            updateSelectedPersons();
        }
     });
-    $(".selected_people_addToSite").bind("click",
+    $(".s3s-selected_people_addToSite").bind("click",
     function(e, ui) {
         addSelectedPeopleToSite();
 

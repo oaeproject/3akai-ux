@@ -216,11 +216,16 @@ sakai.search = function() {
                 var full_path = finaljson.items[i]["path"];
                 var site_path = finaljson.items[i]["site"]["path"];
                 var page_path = site_path;
+                if (finaljson.items[i]["excerpt"]) {
+                    var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
+                    finaljson.items[i]["excerpt"] = stripped_excerpt;
+                }
+
                 if (finaljson.items[i]["type"] === "sakai/pagecontent") {
                     page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
-
                 }
                 finaljson.items[i]["pagepath"] = page_path;
+
             }
         }
 
@@ -299,7 +304,7 @@ sakai.search = function() {
 
             // Content & Media Search
             $.ajax({
-                url: Config.URL.SEARCH_ALL_FILES,
+                url: Config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
                     "search" : urlsearchterm,
                     "items" : cmToSearch
@@ -316,7 +321,7 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_SERVICE + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: Config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
                 cache: false,
                 success: function(data) {
                     renderPeople($.evalJSON(data));
@@ -329,7 +334,7 @@ sakai.search = function() {
             // Sites search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE + "?page=0&items=5&q=" + urlsearchterm,
+                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
                 success: function(data) {
                     var foundSites = $.evalJSON(data);
                     renderSites(foundSites);
@@ -355,7 +360,7 @@ sakai.search = function() {
     var searchPerson = function(userid) {
         var person = false;
         for (var i = 0, j = foundPeople.length; i<j; i++) {
-            if (foundPeople[i].userid[0] === userid) {
+            if (foundPeople[i].userid === userid) {
                 person = foundPeople[i];
                 break;
             }
@@ -376,7 +381,7 @@ sakai.search = function() {
         if (contactclicked) {
             $(searchConfig.global.sendmessageContainer).show();
             if (!person.uuid) {
-                person.uuid = person.userid[0];
+                person.uuid = person.userid;
             }
             if (!person.hasOwnProperty("firstName") && !person.hasOwnProperty("lastName")) {
                 person.firstName = person.uuid;

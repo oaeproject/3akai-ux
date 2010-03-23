@@ -18,21 +18,25 @@
 
 /*global $, Config, sdata */
 
-sakai.accountPreferences =function(){
+sakai.account_preferences = function(){
 
     var me = sdata.me;
     var languages = {};
+
 
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
 
-    var accountPref = "accountPref";
-    var accountPrefID = "#accountPref";
-    var accountPrefClass = ".accountPref";
+    var accountPreferences = "account_preferences";
+    var accountPreferencesID = "#account_preferences";
+    var accountPreferencesClass = ".account_preferences";
 
     // Containers
-    var passChangeContainer =  accountPrefID + "_changePassContainer";
+    var passChangeContainer =  accountPreferencesID + "_changePassContainer";
+
+    // Forms
+    var accountPreferencesPasswordChange = accountPreferencesID + "_password_change";
 
     // Textboxes
     var currentPassTxt = "#curr_pass";
@@ -40,36 +44,35 @@ sakai.accountPreferences =function(){
     var newRetypePassTxt = "#retype_pass";
 
     // Buttons
-    var saveNewPass = accountPrefID + "_saveNewPass";
-    var saveRegional = accountPrefID + "_submitRegional";
+    var saveNewPass = accountPreferencesID + "_saveNewPass";
+    var saveRegional = accountPreferencesID + "_submitRegional";
 
     // classes
-    var buttonDisabled = "button-disabled";
+    var buttonDisabled = "s3d-disabled";
 
     // messages
     var generalMessageShowTime = 3000;
-    var generalMessage = accountPrefClass + "_general_message";
-    var generalMessageReg = accountPrefID + "_general_message_regional";
-    var generalMessagePass = accountPrefID + "_general_message_pass";
-    var errorMessage = accountPref + "_error_message";
-    var normalMessage = accountPref + "_normal_message";
+    var generalMessage = accountPreferencesClass + "_general_message";
+    var generalMessageReg = accountPreferencesID + "_general_message_regional";
+    var generalMessagePass = accountPreferencesID + "_general_message_pass";
+    var errorMessage = accountPreferences + "_error_message";
+    var normalMessage = accountPreferences + "_normal_message";
 
     // messages content
-    var errorPassNotEqual = accountPrefID + "_error_passNotEqual";
-    var errorIncorrectPass = accountPrefID + "_error_incorrectPass";
-    var errorFailChangePass = accountPrefID + "_error_failChangePass";
-    var messagePassChanged = accountPrefID + "_message_passChanged";
-    var errorInvalidPass = accountPrefID + "_error_invalidPass";
-    var errorFailChangeLang = accountPrefID + "_error_failChangeLang";
-    var messageChangeLang = accountPrefID + "_message_ChangeLang";
+    var errorPassNotEqual = accountPreferencesID + "_error_passNotEqual";
+    var errorIncorrectPass = accountPreferencesID + "_error_incorrectPass";
+    var errorFailChangePass = accountPreferencesID + "_error_failChangePass";
+    var messagePassChanged = accountPreferencesID + "_message_passChanged";
+    var errorInvalidPass = accountPreferencesID + "_error_invalidPass";
+    var errorFailChangeLang = accountPreferencesID + "_error_failChangeLang";
+    var messageChangeLang = accountPreferencesID + "_message_ChangeLang";
 
     // Comboboxes
     var timezonesContainer = "#time_zone";
     var languagesContainer = "#pass_language";
 
     // templates
-    var timezonesTemplate = accountPref + "_timezonesTemplate";
-    var languagesTemplate = accountPref + "_languagesTemplate";
+    var languagesTemplate = accountPreferences + "_languagesTemplate";
 
 
     ///////////////////////
@@ -142,41 +145,26 @@ sakai.accountPreferences =function(){
              * oldPassword : the original password
              * password : the new password
              */
-            var requestbody = {"oldPwd" : pass, "newPwd" : newPass1, "newPwdConfirm" : newPass1};
+            var requestbody = {"oldPwd" : pass, "newPwd" : newPass1, "newPwdConfirm" : newPass2, "_charset_": "utf-8"};
 
             $.ajax({
                 url :Config.URL.USER_CHANGEPASS_SERVICE.replace(/__USERID__/, sdata.me.user.userid),
                 type : "POST",
-                data : {"_charset_":"utf-8"},
+                data : requestbody,
                 success : function(data) {
+
                     // update the user of the successful password change
                     showGeneralMessage($(messagePassChanged).html(), false, saveNewPass, generalMessagePass);
                     // clear all the fields
                     clearPassFields();
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    var status = xhr.status;
 
-                    // the old password was incorrect
-                    if(status === 409){
-                        showGeneralMessage($(errorIncorrectPass).html(), true, saveNewPass, generalMessagePass);
-                    }
-                    // the new password's format was incorrect
-                    else if(status === 400){
-                        showGeneralMessage($(errorInvalidPass).html(), true, saveNewPass, generalMessagePass);
-                    }
-                    // the user is logged out
-                    else if(status === 401){
-                        document.location = Config.URL.GATEWAY_URL;
-                    }
-                    // some other error
-                    else{
-                        showGeneralMessage($(errorFailChangePass).html(), true, saveNewPass, generalMessagePass);
-                    }
+                    showGeneralMessage($(errorFailChangePass).html(), true, saveNewPass, generalMessagePass);
+
                     // clear all the fields
                     clearPassFields();
-                },
-                data : requestbody
+                }
             });
         }
         else{
@@ -198,7 +186,7 @@ sakai.accountPreferences =function(){
      * @param {String} languageCode: ISO3 code of the language
      */
     var selectLanguage= function(countrycode, languageCode){
-            $(languagesContainer + " option[value=" + languageCode + "_" + countrycode + "]").attr("selected", true);
+        $(languagesContainer + " option[value=" + languageCode + "_" + countrycode + "]").attr("selected", true);
     };
 
     /**
@@ -238,30 +226,35 @@ sakai.accountPreferences =function(){
      * Saves the regional properties to JCR
      */
     var saveRegionalToMe = function(){
-        var language = $(languagesContainer + " option:selected").val();
-        var locale = {"locale" : language, "timezone" : $(timezonesContainer + " option:selected").val()};
+        var language = $(languagesContainer).val();
+        var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8"};
 
         $.ajax({
+            data : locale,
             url : "/system/userManager/user/" + me.user.userid + ".update.html",
             type : "POST",
-            data : {"_charset_":"utf-8"},
             success : function(data) {
                 // update the user of the successful regional settings change
                 showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
             },
             error: function(xhr, textStatus, thrownError) {
-                // the user is logged out
-                if(xhr.status === 401){
-                    document.location = Config.URL.GATEWAY_URL;
-                }
-                // some other error
-                else{
-
-                    //showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
-                }
-            },
-            data : locale
+                showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
+            }
         });
+    };
+    
+    /**
+     * Disable or enable elements
+     * can take a single or multivalue jQuery obj
+     */
+    var enableElements = function (jQueryObj) {
+        jQueryObj.removeAttr("disabled");
+        jQueryObj.removeClass(buttonDisabled);
+    };
+    
+    var disableElements = function (jQueryObj) {
+        jQueryObj.attr("disabled", "disabled");
+        jQueryObj.addClass(buttonDisabled);
     };
 
 
@@ -269,38 +262,32 @@ sakai.accountPreferences =function(){
     // Event Handlers //
     ////////////////////
 
-    /** Binds the save new pass button **/
-    $(saveNewPass).click(function(){
+    /** Binds the submit function on the password change form **/
+    $(accountPreferencesPasswordChange).submit(function(){
+
         // check if the user didn't just fill in some spaces
         if (checkIfInputValid()) {
-            // change the pass
+
+            // change the password
             changePass();
         }
     });
-    /** Binds all the password boxes (keypress) **/
-    $("input[type=password]", passChangeContainer).keypress(function(e){
-        // check if the user didn't just fill in some spaces
-        if(checkIfInputValid()){
-            // check if the user pressed the enter-button
-            if(e.which === 13){
-                // change the pass
-                changePass();
-            }
-        }
-    });
+
     /** Binds all the password boxes (keyup) **/
     $("input[type=password]", passChangeContainer).keyup(function(e){
+
         // If we'd use keypress for this then the input fields wouldn't be updated yet
         // check if the user didn't just fill in some spaces
         if(checkIfInputValid()){
             // enable the change pass button
-            $(saveNewPass).removeClass(buttonDisabled);
+            enableElements($(saveNewPass));
         }
         else{
             // disable the change pass button
-            $(saveNewPass).addClass(buttonDisabled);
+            disableElements($(saveNewPass));
         }
     });
+
     /** Binds the save regional button **/
     $(saveRegional).click(function(){
         saveRegionalToMe();
@@ -312,11 +299,18 @@ sakai.accountPreferences =function(){
     /////////////////////////////
 
     var doInit = function(){
-        getLanguages();
-        selectTimezone(me.user.locale.timezone);
-    };
-    doInit();
 
+        // An anonymous user shouldn't have access to this page
+        if(me.user.anon){
+            document.location = Config.URL.GATEWAY_URL;
+        } else {
+            disableElements($(saveNewPass));
+            selectTimezone(me.user.locale.timezone);
+            getLanguages();
+        }
+    };
+
+    doInit();
 };
 
-sdata.container.registerForLoad("sakai.accountPreferences");
+sdata.container.registerForLoad("sakai.account_preferences");

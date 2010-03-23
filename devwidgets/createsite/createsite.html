@@ -13,34 +13,34 @@
     <div class="dialog_content">
         <!-- COURSE -->
         <div id="createsite_coursesite_container">
-               <p>Provide the following information and click the "Create Site" button</p>
+               <p>__MSG__PROVIDE_THE_FOLLOWING_INFORMATIONS_AND_CLICK_THE_CREATE_SITE_BUTTON__</p>
 
             <div id="createsite_iscoursesite">
-                <span class="createsite_strong">Is this a course site?</span>
+                <span class="createsite_strong">__MSG__IS_THIS_A_COURSE_SITE__?</span>
                 <input type="radio" name="createsite_options" id="createsite_option_noncourse" checked="checked" />
-                <label for="createsite_option_noncourse">No</label>
+                <label for="createsite_option_noncourse">__MSG__NO__</label>
                 <input type="radio" name="createsite_options" id="createsite_option_course"/>
-                <label for="createsite_option_course">Yes</label>
+                <label for="createsite_option_course">__MSG__YES__</label>
             </div>
 
-            <div class="createsite_information"><span class="createsite_strong">*</span> = Required Information</div>
+            <div class="createsite_information"><span class="createsite_strong">*</span> = __MSG__REQUIRED_INFORMATION__</div>
         </div>
 
         <!-- NONCOURSE -->
         <div id="createsite_noncourse_container">
-            <label for="createsite_noncourse_name">* Name:</label>
+            <label for="createsite_noncourse_name">* __MSG__NAME__:</label>
             <input id="createsite_noncourse_name" type="text" value="" /><br />
 
-            <label for="createsite_noncourse_id">* Url:</label>
+            <label for="createsite_noncourse_id">* __MSG__URL__:</label>
             <span id="createsite_noncourse_url"></span>
             <input id="createsite_noncourse_id" type="text" value="" /><br />
 
-            <label>* Template:</label>
+            <label>* __MSG__TEMPLATE__:</label>
             <div id="createsite_noncourse_template_container">
                 <input checked="checked" id="createsite_noncourse_template_template" type="radio" name="createsite_noncourse_template" value="template" />
-                <label for="createsite_noncourse_template_template">Blank Site</label><br />
+                <label for="createsite_noncourse_template_template">__MSG__BLANK_SITE__</label><br />
                 <input id="createsite_noncourse_template_interdisciplinary" type="radio" name="createsite_noncourse_template" value="interdisciplinary" />
-                <label for="createsite_noncourse_template_interdisciplinary">Interdisciplinary Research Site</label><br />
+                <label for="createsite_noncourse_template_interdisciplinary">__MSG__INTERDISCIPLINARY_RESEARCH_SITE__</label><br />
             </div>
 
             <label for="createsite_noncourse_description" class="description_fields">Description:</label>
@@ -48,8 +48,8 @@
 
             <span class="createsite_maxcharacters description_fields">(Max 80 characters)</span>
 
-            <label for="createsite_noncourse_description" class="member_fields" style=" padding-bottom:10px; ">* Members:</label>
-            <div class="member_fields" style="clear:both; overflow: auto; max-height: 150px;" id="members_to_add"></div>
+            <label for="createsite_noncourse_description" class="member_fields" style=" padding-bottom:10px; ">* __MSG__MEMBERS__:</label>
+            <div class="member_fields fl-fix fl-push" style="max-height: 150px;" id="members_to_add"></div>
 
             <div id="members_to_add_template"><!--
                 <table>
@@ -76,26 +76,26 @@
             --></div>
 
             <div class="dialog_buttons">
-                <span id="createsite_noncourse_process" style="display:none">Processing ...</span>
-                <a href="javascript:;" id="createsite_noncourse_save" class="button-default">Create Site</a>
-                <a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose cancel-button">Cancel</a>
+                <span id="createsite_noncourse_process" style="display:none">__MSG__PROCESSING__ ...</span>
+                <button class="s3d-button s3d-button-primary" id="createsite_noncourse_save"><span class="s3d-button-inner">__MSG__CREATE_SITE__</span></button>
+                <button class="s3d-button s3d-button jqmClose" id="createsite_noncourse_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             </div>
+            
         </div>
 
         <div id="createsite_course_container" style="display:none">
-            <p>Please fill out all of your course's details and also tell what you would like to see initially on your course site.
-            Once we have authorized and created your site, we will get back in touch with you with more details:</p>
+            <p>__MSG__PLEASE_FILL_OUT_ALL_OF_YOUR_COURSES_AND ALSO_TELL__:</p>
 
             <textarea id="createsite_course_details" rows="3" cols="30"></textarea>
 
             <div class="dialog_buttons">
-                <a href="javascript:;" id="createsite_course_request" class="button-default">Request Site</a>
+                <a href="javascript:;" id="createsite_course_request" class="button-default">__MSG__REQUEST_SITE__</a>
             </div>
         </div>
 
         <div id="createsite_course_requested_container" style="display:none">
-            <p>Request successful</p>
-            <p>Your site has been successfully requested. We'll get in touch with you as soon as possible.</p>
+            <p>__MSG__REQUEST_SUCCESSFUL__</p>
+            <p>__MSG__YOUR_SITE_HAS_BEEN_SUCCESSFULLY_REQUESTED__.</p>
 
             <div class="dialog_buttons">
                 <a href="javascript:;" id="createsite_noncourse_cancel" class="button jqmClose">Close</a>

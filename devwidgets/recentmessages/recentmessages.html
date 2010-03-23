@@ -1,0 +1,40 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/recentmessages/css/recentmessages.css" />
+
+<!-- ERRORS -->
+<div id="recentmessages_error" style="display:none;">
+    <div id="recentmessages_error_nomessages" class="recentmessages_error">__MSG__NO_MESSAGES_AVAILABLE__</div>
+    <div id="recentmessages_error_notconnected" class="recentmessages_error">__MSG__NOT_CONNECTED__</div>
+</div>
+
+<!-- CONTENT -->
+<div class="recentmessages_widget">
+
+    <div class="fl-widget-content" id="recentmessages_container">
+    </div>
+    <div id="recentmessages_template"><!--
+        <ul>
+            {for message in results}
+                <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
+                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${message.userFrom.firstName} ${message.userFrom.lastName}">${message.userFrom.firstName}</span>
+                    |
+                    <a href="inbox.html?message=${message.id}">
+                        <span class="ellipsis_text" title="${message["sakai:subject"]}">
+                            ${message["sakai:subject"]}
+                        </span>
+                    </a>
+                </li>
+            {/for}
+        </ul>
+    --></div>
+    <div class="fl-widget-options fl-fix">
+        <div class="widget-options-inner">
+            <ul>
+                <li><a href="inbox.html">__MSG__ALL_MESSAGES__</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" language="JavaScript" src="/devwidgets/recentmessages/javascript/recentmessages.js"></script>

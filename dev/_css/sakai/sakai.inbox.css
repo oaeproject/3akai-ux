@@ -4,10 +4,6 @@
 .fixed-container
 { background: #fff;}
 
-/** HEADING **/
-.inbox_main .site_heading
-{ color: #454a4f; padding: 10px 0 10px 0; border: none; }
-
 /** LAYOUT **/
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }
@@ -16,7 +12,7 @@
 { padding: 0; }
 
 .inbox_main .col-main
-{ margin-top: 8px; margin-left: 240px; padding: 0}
+{ margin-top: 8px; margin-left: 240px; padding: 0; overflow: hidden; width: 676px; }
 
 
 /** SIDE NAV **/
@@ -298,20 +294,6 @@
 .inbox_detail #inbox_compose_replies_template_chats
 { margin: 0 0 0 38px; background: #f4f4f4; }
 
-
-
-/** FOOTER **/
-.inbox_main .page_footer
-{ padding: 15px 0 15px 15px; border-top: 1px solid #ddd; font-size: .85em; color: #999; margin-top:35px; }
-
-.inbox_main  .page_footer a
-{ color: #3399cc; }
-
-.inbox_main .sakai_logo
-{ float: left; }
-
-
-
 /** BUTTONS **/
 .inbox_main .button_container
 { height: 20px; }
@@ -403,10 +385,3 @@
 
 
 /* TABLE COLUMN WIDTHS */
-
-
-
-
-
-
-

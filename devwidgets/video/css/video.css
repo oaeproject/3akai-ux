@@ -19,7 +19,6 @@
 #video_maincontainer h3, #video_settings h3 {font-weight:normal;}
 .video_containerInTemplate {width:470px;}
 .video_containerInTemplate a {float:right;}
-.video_clear {clear:both;}
 
 /*Settings*/
 #video_settings {padding:10px;}
@@ -32,8 +31,18 @@
 #video_settings .video_containerInTemplate {width:320px;    margin-left:auto;margin-right:auto;}
 #video_txtSource {width: 250px;border-style:solid;border-width:1.5px;padding-top:5px;padding-bottom:5px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px;}
 #video_choosePlayerContainer {margin-left:auto;margin-right:auto;display:block;width:320px;}
-#video_settings .video_buttonBar .video_rightButton {margin-left:20px;margin-top:20px;float:right;}
-#video_settings .video_buttonBar .video_leftButton {margin-left:20px;margin-top:20px;float:left;}
-.video_buttonBar {overflow:auto;}
-.video_right_aligned_btn {float:right;}
+
+#video_settings .video_buttonBar .video_rightButton {
+    margin-left:20px;
+}
+
+#video_settings .video_buttonBar .video_leftButton {
+    margin-left:20px;
+}
+
+.video_buttonBar {
+    margin-top: 20px;
+}
+
+
 #video_insertPlaceHolder, #video_txtURL, #video_txtTitle, #video_source_nosource, #video_source_guessURL {margin-bottom: 10px;}

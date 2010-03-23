@@ -142,7 +142,7 @@ sakai.site_basic_settings = function(){
 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                if (sakai.lib.site.authz.isUserMaintainer(siteid, sdata.me.user.subjects)) {
+                if (sakai.lib.site.authz.isUserMaintainer(siteinfo)) {
                     // Fill in the info.
                     $("#sitetitle").text(json.name);
                     $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
@@ -212,11 +212,11 @@ sakai.site_basic_settings = function(){
             $(siteSettingsResponse).text($(siteSettingsErrorSaveSuccess).text());
         }
         else {
-            //    The user has no sufficient rights.
+            // The user has no sufficient rights.
             if (data === 401) {
                 $(siteSettingsResponse).text($(siteSettingsErrorUnauthorized).text());
             }
-            //    Show a general error message.
+            // Show a general error message.
             else {
                 $(siteSettingsResponse).text($(siteSettingsErrorSaveFail).text());
             }
@@ -263,19 +263,6 @@ sakai.site_basic_settings = function(){
     };
 
     /**
-     * This will set the permissions for this site.
-     * @param {String} status The status for this site. (online or offline)
-     * @param {String} access Who gets access to the site (public, sakaiUsers, invite)
-     */
-    var setStatusForSite = function(status, access){
-        var actions = sakai.lib.site.authz.getAccessActions(siteid, status, access);
-        if (actions) {
-            sakai.lib.batchPosts(actions);
-        }
-        saveSettingsDone(true);
-    };
-
-    /**
      * This will do a request to the site service to update this site its basic settings.
      * If this succeeds it will do a request too the JCR PERMISSIONS function to set all the permissions
      * correctly.
@@ -311,12 +298,12 @@ sakai.site_basic_settings = function(){
 
             var language = $(siteSettingLanguageCmb + " option:selected").val();
             var tosend = {
-                'name': titleEL.val(),
-                'description': descEL.val(),
-                'status': status,
-                'access': access,
-                'language': language,
-        "_charset_":"utf-8"
+                "name": titleEL.val(),
+                "description": descEL.val(),
+                "status": status,
+                "access": access,
+                "language": language,
+                "_charset_":"utf-8"
             };
 
             //    Do a patch request to the profile info so that it gets updated with the new information.
@@ -325,8 +312,7 @@ sakai.site_basic_settings = function(){
                 type: "POST",
                 data: tosend,
                 success: function(data){
-                    // If we changed the location for this site, we have to move the folder.
-                    setStatusForSite(status, access);
+                    saveSettingsDone(true);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     saveSettingsDone(false, xhr.status);
@@ -340,39 +326,20 @@ sakai.site_basic_settings = function(){
     ////////////
 
     /**
-     * This will (probably fail to) delete the site.
-     * There are a couple of things we have to do before we delete the site.
-     *  - Remove the site from JCR.
-     *  - Remove all members from all site role groups? But since we don't yet
-     *    have the membership list, we need to fetch that first (and hope no
-     *    other members get added). We also need to be able to delete
-     *    site groups even after our own membership is deleted....
-     *  - Delete the site role groups.
-     * TODO This should be an atomic server-side operation to prevent data corruption
-     * and to support role-based maintenance rights. See KERN-296 and SLING-1237.
-     * For now, I'll just consolidate this non-functioning code as a placeholder.
+     * Delete the site, after which a new site can be created at the same path.
      */
     var deleteThisSite = function(){
-        var actions = [];
-        actions.push({
-            url: "/sites/" + siteid,
-            data: {":operation" : "delete"}
-        });
-        var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteid);
-        var role, group;
-        for (role in roleToGroup) {
-            if (roleToGroup.hasOwnProperty(role)) {
-                group = roleToGroup[role];
-                actions.push({
-                    url: "/system/userManager/group/" + group + ".delete.html"
-                });
+        $.ajax({
+            url: "/sites/" + siteid + ".delete.html",
+            type: "POST",
+            success: function(data){
+                alert("Your site has been successfully deleted");
+                document.location = Config.URL.MY_DASHBOARD;
+            },
+            error: function(xhr, textStatus, thrownError) {
+                alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
             }
-        }
-        var success = function(data){
-            alert("Your site has been successfully deleted");
-            document.location = Config.URL.MY_DASHBOARD;
-        };
-        sakai.lib.batchPosts(actions, success);
+        });
     };
 
 

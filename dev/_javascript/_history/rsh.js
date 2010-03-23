@@ -60,7 +60,7 @@ window.dhtmlHistory = {
         } else if (vendor.indexOf("Apple Computer, Inc.") > -1) {
             this.isSafari = true;
             this.isSupported = (platform.indexOf("mac") > -1);
-        } else if (UA.indexOf("gecko") != -1) {
+        } else if (UA.indexOf("gecko") !== -1) {
             this.isGecko = true;
             this.isSupported = true;
         }
@@ -205,9 +205,7 @@ window.dhtmlHistory = {
                 document, then the history action gets recorded twice; throw a programmer exception if
                 there is an element with this ID*/
                 if (document.getElementById(newLocation) && that.debugMode) {
-                    var e = "Exception: History locations can not have the same value as _any_ IDs that might be in the document,"
-                    + " due to a bug in IE; please ask the developer to choose a history location that does not match any HTML"
-                    + " IDs in this document. The following ID is already taken and cannot be a location: " + newLocation;
+                    var e = "Exception: History locations can not have the same value as _any_ IDs that might be in the document, due to a bug in IE; please ask the developer to choose a history location that does not match any HTML IDs in this document. The following ID is already taken and cannot be a location: " + newLocation;
                     throw new Error(e);
                 }
 
@@ -259,10 +257,7 @@ window.dhtmlHistory = {
 
     /*Public*/
     getCurrentLocation: function() {
-        var r = (this.isSafari
-            ? this.getSafariState()
-            : this.getCurrentHash()
-        );
+        var r = (this.isSafari ? this.getSafariState() : this.getCurrentHash());
         return r;
     },
 
@@ -358,10 +353,7 @@ window.dhtmlHistory = {
             ? 'width:800px;height:20px;border:1px solid black;margin:0;padding:0;'
             : historyStorage.hideStyles
         );
-        var safariHTML = '<form id="' + formID + '" style="' + formStyles + '">'
-            + '<input type="text" style="' + inputStyles + '" id="' + stackID + '" value="[]"/>'
-            + '<input type="text" style="' + inputStyles + '" id="' + lengthID + '" value=""/>'
-        + '</form>';
+        var safariHTML = '<form id="' + formID + '" style="' + formStyles + '"><input type="text" style="' + inputStyles + '" id="' + stackID + '" value="[]"/><input type="text" style="' + inputStyles + '" id="' + lengthID + '" value=""/></form>';
         document.write(safariHTML);
         this.safariStack = document.getElementById(stackID);
         this.safariLength = document.getElementById(lengthID);
@@ -433,7 +425,7 @@ window.dhtmlHistory = {
         we can return*/
         this.ieAtomicLocationChange = true;
 
-        if (this.isIE && this.getIframeHash() != hash) {
+        if (this.isIE && this.getIframeHash() !== hash) {
             this.iframe.src = "/dev/_javascript/_history/blank.html?" + hash;
         }
         else if (this.isIE) {
@@ -454,10 +446,10 @@ window.dhtmlHistory = {
     getIframeHash: function() {
         var doc = this.iframe.contentWindow.document;
         var hash = String(doc.location.search);
-        if (hash.length == 1 && hash.charAt(0) == "?") {
+        if (hash.length === 1 && hash.charAt(0) === "?") {
             hash = "";
         }
-        else if (hash.length >= 2 && hash.charAt(0) == "?") {
+        else if (hash.length >= 2 && hash.charAt(0) === "?") {
             hash = hash.substring(1);
         }
         return hash;
@@ -472,10 +464,10 @@ window.dhtmlHistory = {
         else if (hashValue === "") {
             r = "";
         }
-        else if (hashValue.length == 1 && hashValue.charAt(0) == "#") {
+        else if (hashValue.length === 1 && hashValue.charAt(0) === "#") {
             r = "";
         }
-        else if (hashValue.length > 1 && hashValue.charAt(0) == "#") {
+        else if (hashValue.length > 1 && hashValue.charAt(0) === "#") {
             r = hashValue.substring(1);
         }
         else {
@@ -494,10 +486,10 @@ window.dhtmlHistory = {
 
         /*Get the new location*/
         var hash = String(newLocation.search);
-        if (hash.length == 1 && hash.charAt(0) == "?") {
+        if (hash.length === 1 && hash.charAt(0) === "?") {
             hash = "";
         }
-        else if (hash.length >= 2 && hash.charAt(0) == "?") {
+        else if (hash.length >= 2 && hash.charAt(0) === "?") {
             hash = hash.substring(1);
         }
         /*Keep the browser location bar in sync with the iframe hash*/
@@ -546,14 +538,13 @@ window.historyStorage = {
         /*write a hidden form and textarea into the page; we'll stow our history stack here*/
         var formID = "rshStorageForm";
         var textareaID = "rshStorageField";
-        var formStyles = this.debugMode ? historyStorage.showStyles : historyStorage.hideStyles;
+        //var formStyles = this.debugMode ? historyStorage.showStyles : historyStorage.hideStyles;
+        var formStyles = historyStorage.showStyles; // SAKIII-219
         var textareaStyles = (historyStorage.debugMode
             ? 'width: 800px;height:80px;border:1px solid black;'
             : historyStorage.hideStyles
         );
-        var textareaHTML = '<form id="' + formID + '" style="' + formStyles + '">'
-            + '<textarea id="' + textareaID + '" style="' + textareaStyles + '"></textarea>'
-        + '</form>';
+        var textareaHTML = '<form id="' + formID + '" style="' + formStyles + '"><textarea id="' + textareaID + '" style="' + textareaStyles + '"></textarea></form>';
         document.write(textareaHTML);
         this.storageField = document.getElementById(textareaID);
         if (typeof window.opera !== "undefined") {
@@ -711,4 +702,3 @@ window.historyStorage = {
         //throw new SyntaxError('parseJSON');
     }
 };
- 

@@ -5,45 +5,49 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Site View</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css"/>
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.site.css"/>
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.dashboard.css"/>
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.3.css" />
+
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.site.css"/>
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
 
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/rsh.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/site_history.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.simple.tree.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqScrollPane.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/OpenSocial/message.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/querystring.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
     <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/notifications.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/rsh.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/site_history.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqScrollPane.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+
 
     </head>
 
     <body id="root" class="fl-centered fl-container sakai_site i18nable">
 
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
+    <div id="widget_navigationchat" class="widget_inline"></div>
 
     <!-- HEADER -->
     <div class="fl-container-flex header" >
@@ -52,17 +56,8 @@
 
             <div class="decor"><!-- --></div>
 
-            <!-- SEARCH -->
-            <div class="search_container">
-                <form class="search buttonBar fl-force-right" id="search_form" action="" method="post" onsubmit="return false;">
-                    <input type="text" name="search" value="Search this site" id="search_filed" class="search_field" />
-                    <a id="search_filed_button" class="button search_button" href="javascript:;"><span>Search</span></a>
-                    <br class="clear" />
-                </form>
-            </div>
-
             <!-- TITLE BAR  -->
-            <div class="site_heading fl-force-left">
+            <div class="s3d-site-heading">
                 <h1 id="sitetitle"></h1>
             </div>
         </div>
@@ -73,7 +68,7 @@
     <div class="fl-fix fl-centered fixed-container">
 
         <!-- MAIN PAGE -->
-        <div class="fl-fix fl-col-fixed main_container column_splitter_sites" id="show_view_container">
+        <div class="fl-fix fl-col-fixed main_container" id="show_view_container">
 
             <!-- Page Nav -->
             <div class="fl-col page_nav">
@@ -97,7 +92,7 @@
                     <div class="sm_content">
                         <ul>
                             <li><a id="site_management_basic_link" href="/dev/site_management_basic_settings.html?siteid=">Site Settings</a></li>
-                            <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">Site Files</a></li>
+                            <!-- <li><a id="site_management_files_link" href="/dev/content_media.html?siteid=">Site Files</a></li> -->
                             <li><a id="site_management_members_link" href="/dev/site_management_members_manage.html?siteid=">Members</a></li>
                             <li><a id="site_management_appearance_link" href="/dev/site_management_appearance.html?siteid=">Appearance</a></li>
                             <li><a href="javascript:;" id="edit_sidebar">Edit Sidebar</a></li>
@@ -105,7 +100,7 @@
                     </div>
 
                     <div class="sm_bottom">
-                        <div class="sm_bottom_inner"></div>
+                        <div class="sm_bottom_inner"><!-- --></div>
                     </div>
                 </div>
 
@@ -124,20 +119,19 @@
             <div class="fl-col-fixed content_container">
 
                 <!-- TOP BORDER -->
-                <div class="content_top"><div class="content_top_inner"></div></div>
+                <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
 
                 <div class="sakai_site_contents_main fl-fix">
 
                 <!-- REVISION HISTORY -->
                 <div class="fl-container revision_history fl-fix" id="revision_history_container"  style="display:none">
 
-                    <div class="revision_history_viewing">Viewing:</div>
+                    <label class="revision_history_viewing fl-force-left" for="revision_history_list">Viewing:</label>
 
                     <div><select id="revision_history_list"></select></div>
 
-                    <div class="greybutton"><a href="javascript:;" class="button-default" id="revision_history_revert" >Use this Version</a></div>
-
-                    <div class="lightgreybutton"><a href="javascript:;" class="button-default" id="revision_history_cancel" >Cancel</a></div>
+                    <button id="revision_history_revert" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Use this Version</span></button>
+                    <button id="revision_history_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
 
                 </div>
 
@@ -146,15 +140,9 @@
 
                 <!-- OPTIONS FOR THE DASHBOARD -->
                 <div class="fl-container-flex dashboard_options" style="display:none;">
-                    <a href="javascript:;" id="add-goodies">__MSG__ADD_SAKAI_GOODIES__</a>
+                    <a href="javascript:;" id="add-goodies">__MSG__SAKAI_GOODIES__</a>
                     <span class="pipe_divider">|</span>
                     <a href="javascript:;" id="edit-layout">Change layout</a>
-                </div>
-
-                <div class="content_page_header" style="display:none">
-                    <img src="/dev/_images/profile_icon.png" href="#" class="fl-icon fl-force-left profile" alt="Author"/>
-                    <p><a href="#">John Doe</a></p>
-                    <p>Changed this page on 20 December, 2009 <a href="#">(View Changes)</a></p>
                 </div>
 
                 <!-- MAIN CONTENT -->
@@ -172,8 +160,6 @@
                             {for c in columns}
                             ${index++|eat}
                             <div class="fl-col groupWrapper" id="column_uid_${index}">
-                                <div class="widget_spacer">
-                                </div>
                                 {for p in c.portlets}
                                 <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
                                     <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
@@ -218,7 +204,7 @@
                     <div class="dialog_content">
                         <div class="add-tools-right">
                             <h4>Select a layout for your dashboard page:</h4>
-                            <div class="elf-right-up">
+                            <div class="elf-right-up fl-fix">
                                 <div id="layouts_list"></div>
                             </div>
                         </div>
@@ -322,44 +308,10 @@
                         </table>
                     --></div>
 
-                    <div id="dashboard-container-template"><!--
-                            <div class="fl-col-flex${size}">
-                                {var index = 0}
-                                <div class="content">
-                                    {for c in columns}
-                                    ${index++|eat}
-                                    <div class="fl-col groupWrapper" id="column_uid_${index}">
-                                        <div class="widget_spacer">
-                                        </div>
-                                        {for p in c.portlets}
-                                        <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                                            <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
-                                                <div class="widget-titlebar-inner">
-                                                    <h2 class="widget_title">${p.title}</h2>
-                                                    <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="settings fl-force-right fl-icon" style="display:none">Settings</a>
-                                                </div>
-                                            </div>
-                                            {if p.display == "none"}
-                                            <div id="${p.uid}_container" style="display:none">
-                                                {else}
-                                                <div id="${p.uid}_container">
-                                                    {/if}
-                                                    <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/for}
-                                        </div>
-                                        {/for}
-                                    </div>
-                                </div>
-                        </div>
-                    --></div>
-
                 </div>
                 </div>
                 <!-- BOTTOM BORDER -->
-                <div class="content_bottom"><div class="content_bottom_inner"></div></div>
+                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
 
             </div>
 
@@ -370,16 +322,16 @@
         <div class="main_container content_container">
 
             <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
-            <div class="buttonBar">
-                <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
-                <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
+            <div>
+                <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
+                <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
                 <span class="messageInformation" id="messageInformation" style="display:none">Auto saved at <span id="realtime"></span></span>
             </div>
 
             <!-- TAB NAVIGATION -->
-            <div class="primary-tabs">
+            <div class="s3d-primary-tabs">
                 <ul class="fl-tabs fl-tabs-right">
-                    <li class="fl-tabs-active" id="tab_text_editor"><a>Text Editor</a></li>
+                    <li class="fl-tabs-active" id="tab_text_editor"><a href="javascript">Text Editor</a></li>
                     <li id="tab_html"><a href="javascript:;">HTML</a></li>
                     <li id="tab_preview"><a href="javascript:;">Preview</a></li>
                 </ul>
@@ -389,13 +341,13 @@
             <div class="fl-centered fl-container fl-tab-content edit_container">
 
                 <!-- TOP BORDER -->
-                <div class="content_top"><div class="content_top_inner"></div></div>
+                <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
 
                 <!-- TOOLBAR -->
                 <div class="toolbar toolbar-placeholder" id="toolbarplaceholder"></div>
 
                     <div class="toolbar" id="toolbarcontainer">
-                    <div class="mceToolbarExternal mceEditor defaultSkin"></div>
+                    <div class="mceToolbarExternal mceEditor defaultSkin"><!-- --></div>
                 </div>
 
                 <!-- EDIT CONTENTS -->
@@ -405,14 +357,14 @@
                     <input type="text" value="Untitled" class="title-input" id="title-input"/>
                     </div>
 
-                    <div class="fl-tab-content-border fl-tab-content-editor" id="fl-tab-content-editor">
-                    <div id="placeholderforeditor" class="textarea">
+                    <div id="fl-tab-content-editor">
+                        <div id="placeholderforeditor" class="textarea">
 
-                        <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-                        <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
-                            &nbsp;
-                        </textarea>
-                    </div>
+                            <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+                            <textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">
+                                &nbsp;
+                            </textarea>
+                        </div>
                     </div>
 
                     <div id="html-editor" style="display:none;">
@@ -427,14 +379,14 @@
 
                 </div>
 
-                <div class="buttonBar">
-                    <div class="greybutton"><a href="javascript:;" class="button-default save_button">Save</a></div>
-                    <div class="lightgreybutton"><a href="javascript:;" class="button cancel-button">Cancel</a></div>
+                <div>
+                    <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">Save</span></button>
+                    <button class="s3d-button cancel-button"><span class="s3d-button-inner">Cancel</span></button>
                 </div>
 
                 </div>
 
-                <div class="content_bottom"><div class="content_bottom_inner"></div></div>
+                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
 
             </div>
         </div>
@@ -442,7 +394,10 @@
     </div>
 
 <!-- FOOTER WIDGET -->
-<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+<div id="widget_footer" class="widget_inline footercontainer"></div>
+
+
+
 
 <!-- DIALOGS, MENUS, MISC STUFF -->
 
@@ -468,6 +423,7 @@
 
         --></div>
 
+        <!-- ADD NEW MENU -->
         <div class="add_new_menu" id="add_new_menu" style="display:none">
                 <ul>
                     <li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
@@ -476,9 +432,10 @@
                 </ul>
             </div>
 
+        <!-- ADD MORE MENU -->
         <div class="add_more_menu" id="more_menu" style="display:none">
             <ul>
-                <li id="more_settings" class="more_option"><a href="javascript:;">Permissions</a></li>
+                <li id="more_permissions" class="more_option"><a href="javascript:;">Permissions</a></li>
                 <li id="more_revision_history" class="more_option" style="border-bottom:1px solid #CCCCCC"><a href="javascript:;">Revision History</a></li>
                 <li id="more_move" class="more_option move_dialog_trigger"><a href="javascript:;">Move</a></li>
                 <li id="more_save_as_template" class="more_option"><a href="javascript:;">Save as Template</a></li>
@@ -486,6 +443,8 @@
             </ul>
         </div>
 
+
+        <!-- INSERT MORE MENU -->
         <div id="insert_more_menu" class="insert_more_menu" style="display:none">
             <div class="insert_more_menu_border">
                 <ul>
@@ -534,6 +493,8 @@
             </ul>
         --></div>
 
+
+        <!-- INSERT DIALOG -->
         <div id="insert_dialog" class="dialog" style="width:650px; margin-left: -325px">
             <!-- DIALOG HEADER -->
             <div class="dialog_header">
@@ -550,6 +511,8 @@
             </div>
         </div>
 
+
+        <!-- WRAPPING DIALOG -->
         <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -580,6 +543,7 @@
             </div>
         </div>
 
+        <!-- AUTOSAVE DIALOG -->
         <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -644,7 +608,7 @@
 
                 <h3 style="margin-top:0px">To insert a page link, select the right page and hit Insert</h3>
 
-                <div id="treeview_link_container" class="treeview_container">
+                <div id="link_container" class="link_container">
 
                 </div>
 
@@ -661,36 +625,9 @@
             </div>
         </div>
 
-        <div id="move_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>Move Page</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
-                <h4>To shuffle things around, just drag 'n drop!</h4>
-
-                <div id="treeview_move_container" class="treeview_container">
-
-                </div>
-                <div class="dialog_buttons">
-                    <a href="javascript:;" id="move_page_confirm" class="button-default">Save</a>
-                    <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
-                </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-        </div>
-
         <div class="context_menu" id="context_menu" style="display:none">
             <img src="/dev/_images/edit_icon.png" width="20px" alt="Edit Widget"/>
-            <br/>
+            <br />
             <ul>
                 <li id="context_settings"><a href="javascript:;">Settings</a></li>
                 <li id="context_remove"><a href="javascript:;">Remove</a></li>
@@ -698,6 +635,8 @@
             </ul>
         </div>
 
+
+        <!-- SAVE AS TEMPLATE DIALOG -->
         <div class="dialog" id="save_as_template_container">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -728,6 +667,8 @@
             </div>
         </div>
 
+
+        <!-- PAGE TEMPLATE SELECTION DIALOG -->
         <div class="dialog" id="select_template_for_page">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -798,7 +739,7 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="/dev/_javascript/site.js"></script>
-
+        <script type="text/javascript" language="JavaScript" src="/dev/_javascript/site.js"></script>
+        <script type="text/javascript" language="JavaScript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
     </body>
 </html>

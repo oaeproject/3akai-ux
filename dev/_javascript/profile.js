@@ -161,6 +161,42 @@ sakai.profile = function(){
 
                     fillInFields();
 
+                },
+                error: function(xhr, textStatus, thrownError) {
+
+                    // If presence request fails attempt to get profile information for logged in user from already loaded sdata.me.profile
+                    // and try to proceed normally
+
+                    var totalprofile = {};
+                    totalprofile.profile = sdata.me.profile;
+                    totalprofile.profile["sakai:status"] = sdata.me.profile.chatstatus;
+
+                    // Doing a rewrite of the me object, because Sling wraps arrays around
+                    // the different fields in the profile object
+                    if (typeof totalprofile.profile.firstName === "object"){
+                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
+                    }
+                    if (typeof totalprofile.profile.lastName === "object"){
+                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
+                    }
+                    if (typeof totalprofile.profile.email === "object"){
+                        totalprofile.profile.email = totalprofile.profile.email[0];
+                    }
+
+                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
+                        totalprofile.profile._status = totalprofile.profile.chatstatus;
+                    }
+                    else {
+                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
+                    }
+                    json = totalprofile.profile;
+
+                    if (user && user != me.user.userid) {
+                        doAddButton();
+                    }
+
+                    fillInFields();
+
                 }
             });
         }

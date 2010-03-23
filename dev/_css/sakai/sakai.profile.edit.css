@@ -7,14 +7,12 @@
 { cursor: pointer; background:transparent url(/dev/_images/add-icon-profile.png) no-repeat; height: 14px; line-height: 14px; padding: 0px 0px 0px 20px;  float: right; font-weight: bold !important; font-size: 12px !important; color: #006e96;}
 
 /** BUTTONS **/
-.profile .lightgrey_button
-{ background:transparent url(../../_images/lightgray_button_left.gif) no-repeat scroll left top; float: left; margin: 0 0 0 120px; position:relative; top: -62px; }
-
-.profile .lightgrey_button .button
-{ background:transparent url(../../_images/lightgray_button_right.gif) no-repeat scroll right top; border:medium none; color:#FFFFFF; cursor:pointer; font-weight:bold; height:23px; margin:0; padding: 3px 0; margin-right: -10px; }
-
-
-
+.profile .s3d-button {
+    float: left;
+    margin: 0 0 0 120px;
+    position:relative;
+    top: -62px;
+}
 
 /** INLINE EDIT **/
 
@@ -88,49 +86,3 @@ position:relative;}
 .overlay-lightbox-fixed
 { display: block; height: 1000px; left: 0%; position: fixed; top: 0%; width: 100%; z-index: 2001; }
 
-
-
-/**
-
-This is for IE:
-.fl-tabs li a {
-    position:relative;
-    bottom:1px !important;
-    #bottom:0px !important;
-}
-
-Removed:
-.field {
-    padding: 2px;
-    height: 20px;
-    display: none;
-    height: 16px;
-    width: 250px;
-}
-
-.fieldtitle {
-    color: #808080;
-    width: 125px;
-    vertical-align: top;
-    height: 20px;
-}
-
-td {
-    vertical-align: top;
-}
-
-.refreshDiv {
-    color: #FF0000;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 1100000;
-    height: 100%;
-    width: 100%;
-    opacity: 0.01;
-    -moz-opacity: 0.01;
-    display: none;
-    filter: alpha(opacity = 60);
-    }
-
-**/

@@ -14,7 +14,7 @@
                 <input type="text" id="remotecontent_settings_url" value="${url}" /><br />
             </p>
             <p>
-                <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="remotecontent_clear" />
+                <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
             </p>
             <div id="remotecontent_settings_preview">
 
@@ -34,7 +34,7 @@
                     <label for="remotecontent_settings_height">Height:</label>
                     <input type="text" id="remotecontent_settings_height" value="${height}" /><span> px</span>
                     <a class="button-default" href="javascript:;" id="remotecontent_settings_reset_size">Reset to original size</a>
-                    <br class="remotecontent_clear" />
+                    <br class="fl-push" />
                 </div>
             </div>
 
@@ -42,16 +42,16 @@
                 <label class="remotecontent_settings_label_head">Border:</label><br />
                 <div class="remotecontent_settings_block">
                     <label for="remotecontent_settings_borders">Width:</label>
-                    <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="remotecontent_clear" />
+                    <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
                     <div id="remotecontent_settings_color_container">
                     </div>
                 </div>
             </div>
         </div>
 
-        <a class="button-default" href="javascript:;" id="remotecontent_settings_cancel">Cancel</a>
-        <a class="button-default" href="javascript:;" id="remotecontent_settings_insert">Save</a>
-        <br class="remotecontent_clear" />
+        <a class="button-default fl-force-left" href="javascript:;" id="remotecontent_settings_cancel">Cancel</a>
+        <a class="button-default fl-force-right" href="javascript:;" id="remotecontent_settings_insert">Save</a>
+        <br class="fl-push" />
     </form>
 --></div>
 
@@ -68,7 +68,7 @@
     <a id="remotecontent_settings_color_ff0000" class="remotecontent_settings_color {if border_color == "ff0000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
     <a id="remotecontent_settings_color_008000" class="remotecontent_settings_color {if border_color == "008000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
     <a id="remotecontent_settings_color_0000ff" class="remotecontent_settings_color {if border_color == "0000ff"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
-    <br class="remotecontent_clear" />
+    <br class="fl-push" />
 --></div>
 
 <!-- MAIN CONTAINER -->

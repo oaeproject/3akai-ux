@@ -1,19 +1,18 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css"/>
 <link rel="stylesheet" type="text/css" href="/devwidgets/addtocontacts/css/addtocontacts.css"/>
 
 <!-- ERROR MESSAGES -->
-<span id="addtocontacts_error_message" style="display:none;">Failed to send the message.</span>
-<span id="addtocontacts_error_request" style="display:none;">Failed to invite this user.</span>
-<span id="addtocontacts_error_noTypeSelected" style="display:none;">Please select how you are connected to this  user.</span>
+<span id="addtocontacts_error_message" style="display:none;">__MSG__FAILED_TO_SEND_THE_MESSAGE__.</span>
+<span id="addtocontacts_error_request" style="display:none;">__MSG__FAILED_TO_INVITE_THIS_USER__.</span>
+<span id="addtocontacts_error_noTypeSelected" style="display:none;">__MSG__PLEASE_SELECT_HOW_YOU_ARE_CONNECTED_TO_THIS_USER__.</span>
 
 <!-- DIALOG -->
 <div class="dialog" id="addtocontacts_dialog">
     <!-- HEADER -->
     <div class="dialog_header">
     <div class="dialog_header_inner">
-        <h1>Add to Contacts</h1>
-        <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+        <h1>__MSG__ADD_TO_CONTACTS__</h1>
+        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
     </div>
     </div>
 
@@ -22,7 +21,7 @@
         <div class="dialog_content">
             <form id="addtocontacts_form" method="post" action="javascript:;">
                 <!-- All the elements with the addtocontacts_displayname class will contain the username of the user -->
-                <h4>Invite <span class="addtocontacts_displayname addtocontacts_bold" /> to connect through Sakai</h4>
+                <h4>__MSG__INVITE__ <span class="addtocontacts_displayname addtocontacts_bold" /> __MSG__TO_CONNECT_THROUGH_SAKAI__</h4>
                 <span class="addtocontacts_displayname addtocontacts_bold" />
                 <table class="addcontact" summary="Profile picture">
                     <tr>
@@ -33,7 +32,7 @@
                         <td id="addtocontacts_types"></td>
                        </tr>
                 </table>
-                <label for="addtocontacts_form_personalnote">Add a personal note to the invitation:</label>
+                <label for="addtocontacts_form_personalnote">__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__:</label>
                 <textarea cols="75" rows="3" id="addtocontacts_form_personalnote" name="addtocontacts_form_personalnote"></textarea>
             </form>
 
@@ -41,15 +40,15 @@
 
             <!-- DIALOG BUTTONS -->
             <div class="dialog_buttons">
-                <a href="javascript:;" class="button-default addtocontacts_bold" id="addtocontacts_form_invite">Invite</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+                <a href="javascript:;" class="button-default addtocontacts_bold" id="addtocontacts_form_invite">__MSG__INVITE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
             </div>
         </div>
     </div>
 
     <div id="addtocontacts_done_container" class="dialog_content" style="display:none;">
         <div id="addtocontacts_done">
-            <span class="addtocontacts_displayname" /> has been added to your contact list.
+            <span class="addtocontacts_displayname" /> __MSG__HAS_BEEN_ADDED_TO_YOUR_CONTACTS_LIST__.
         </div>
     </div>
 
@@ -61,7 +60,7 @@
 
 <!-- PERSONAL NOTE TEMPLATE -->
 <div id="addtocontacts_form_personalnote_template" style="display:none;"><!--
-I would like to invite you to become a member of my network on Sakai.
+__MSG__I_WOULD_LIKE_TO_INVITE_YOU_TO_BECOME_A_MEMBER_OF_MY_NETWORKS_ON_SAKAI__.
 
 - ${me.user.properties.firstName}
 --></div>

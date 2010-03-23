@@ -71,51 +71,6 @@ strong {
 }
 */
 
-.site_heading {
-    padding: 20px 0 5px 15px;
-}
-
-.site_heading h1 {
-    margin: 0;
-    font-weight: bold;
-}
-
-
-
-/* TABS */
-
-.fl-tabs {
-    border-bottom: 1px solid #ddd;
-}
-
-.fl-tabs li a {
-    background-color:#eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #ddd;
-    color:#3399CC;
-    padding: 6px 20px 5px;
-    margin-left: -1px;
-    margin-bottom:-9px;
-}
-
-
-.fl-tabs .fl-tabs-active a {
-    background-color: #eee;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #eee;
-    color:#333333;
-    font-weight:bold;
-}
-
-.fl-tab-content {
-    border: none;
-    margin: 0px;
-}
-
 .search_tab_content {
     background-image: url(../../_images/body_bg2.png);
     background-repeat: repeat-x;

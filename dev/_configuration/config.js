@@ -15,23 +15,29 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 var Config = {
 
-    URL : {
+    URL: {
         API_GOOGLE_CHARTS: "http://chart.apis.google.com/chart",
-        BUNDLE_ROOT : "/dev/_bundle/",
-        CONTENT_MEDIA_URL : "/dev/content_media.html",
+        BATCH_GET: "/system/batch/get",
+        BUNDLE_ROOT: "/dev/_bundle/",
+        CONTENT_MEDIA_URL: "/dev/content_media.html",
+        COURSES_SITES_PAGE: "/dev/courses_sites.html",
         GENERAL_SEARCH_SERVICE: "/var/search/page.json",
-        GATEWAY_URL : "/dev/index.html",
-        LOGOUT_URL : "/dev/logout.html",
+        GATEWAY_URL: "/dev/index.html",
+        LOGOUT_URL: "/dev/logout.html",
         MY_DASHBOARD: "/dev/my_sakai.html",
         PATCH_PROFILE_URL: "/_user/public/__USERID__/authprofile",
         PEOPLE_URL: "/dev/people.html",
         PROFILE_URL: "/dev/profile.html",
-        SEARCH_ALL_FILES: "/var/search/files/allfiles.json",
-        SEARCH_CONTENT_URL: "search_content.html",
-        SEARCH_GENERAL_URL: "search.html",
+        PUBLIC_INSTITUTIONAL_LOGIN_PAGE: "/dev/i_index.html",
+        PUBLIC_MY_SAKAI_PAGE: "/dev/public_my_sakai.html",
+        PUBLIC_PEOPLE_PAGE: "/dev/public_people.html",
+        PUBLIC_COURSES_SITES_PAGE: "/dev/public_courses_sites.html",
+        PUBLIC_CONTENT_MEDIA: "/dev/public_content_media.html",
+        PUBLIC_SEARCH: "/dev/public_search.html",
+        SEARCH_CONTENT_URL: "/dev/search_content.html",
+        SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
         SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
         SEARCH_MY_FILES: "/var/search/files/myfiles.json",
@@ -39,7 +45,7 @@ var Config = {
         SEARCH_PEOPLE_URL: "search_people.html",
         SEARCH_SITES_URL: "search_sites.html",
         PERSON_ICON_URL: "/dev/_images/person_icon.jpg",
-        POLL_DROPDOWN_ICON_URL : "/devwidgets/poll/images/poll_drop_down.gif",
+        POLL_DROPDOWN_ICON_URL: "/devwidgets/poll/images/poll_drop_down.gif",
         RECENT_SITES_URL: "/_user/private/__USERSTORAGEPREFIX__recentsites.json",
         SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
         SDATA_FETCH: "/",
@@ -73,7 +79,7 @@ var Config = {
         FRIEND_ACCEPTED_SERVICE: "/_user/contacts/accepted.json",
         IMAGE_SERVICE: "/var/image/cropit",
         LOGIN_SERVICE: "/system/sling/formlogin",
-        LOGOUT_SERVICE : "/system/sling/formlogin",
+        LOGOUT_SERVICE: "/system/sling/formlogin",
         ME_SERVICE: "/system/me",
         ME_SERVICE_USERS: "/rest/me/__USERS__",
         MESSAGES_CREATE_SERVICE: "/_user/message.create.html",
@@ -81,12 +87,16 @@ var Config = {
         MESSAGES_GET_SERVICE: "/_user/message/__ID__",
         MESSAGES_SEND_SERVICE: "/_rest/messages/send",
         MESSAGES_MESSAGES_SERVICE: "/_rest/messages/messages",
-        MESSAGES_DELETE_SERVICE : "/_rest/messages/delete",
+        MESSAGES_DELETE_SERVICE: "/_rest/messages/delete",
         PATCH_SERVICE: "/rest/patch",
         PRESENCE_CONTACTS_SERVICE: "/_user/presence.contacts.json",
+        PRESENCE_SERVICE: "/_user/presence.json",
         PROXY_SERVICE: "/var/proxy/rss.json?rss=",
-        SEARCH_SERVICE: "/var/search/users",
-        SEARCH_CONTENT_COMPREHENSIVE: "/var/search/sitecontent.json",
+        SEARCH_USERS: "/var/search/users",
+        SEARCH_USERS_ACCEPTED: "/_user/contacts/find.json?s=",
+        SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
+        SEARCH_CONTENT_SERVICE: "/var/search/content.json",
+        SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SITE_GET_SERVICE: "/_rest/site/get",
         SITE_CREATE_SERVICE: "/_rest/site/create",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
@@ -97,64 +107,59 @@ var Config = {
         USER_EXISTENCE_SERVICE: "/system/userManager/user/__USERID__.json",
         USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
-        TEMPLATES: "/_user/private/_templates/pages/",
+        TEMPLATES: "/_user/private/_templates/pages",
         TEMPLATES_CONFIG: "/_user/private/_templates/pages/configuration",
         TWITTER_GET_URL: "/var/proxy/twitter/status.json",
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json"
     },
-
-    SakaiDomain : window.location.protocol + "//" + window.location.host,
-    Profile : {
+    SakaiDomain: window.location.protocol + "//" + window.location.host,
+    Profile: {
         // Fields that cannot be edited and so controlled by LDAP, ...
-           uneditable : ["txt_firstname","txt_lastname"]
+        uneditable: ["txt_firstname", "txt_lastname"]
     },
-
-    Connections : {
+    Connections: {
         /*
          * Email message that will be sent when inviting someone to become a connection.
          * ${user} will be replaced by the name of the current user and ${comment} will
          * be replaced by the personal message left by the inviter.
          */
-        Invitation : {
-            title : "${user} has invited you to become a connection",
-            body : "Hi, \n\n ${user} has invited you to become a connection. \nHe/She has also left the following message: \n\n ${comment} \n\nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team"
+        Invitation: {
+            title: "${user} has invited you to become a connection",
+            body: "Hi, \n\n ${user} has invited you to become a connection. \nHe/She has also left the following message: \n\n ${comment} \n\nTo accept this invitation, please click on the accept button. \n\nKind regards,\n\nThe Sakai Team"
         }
     },
-
-    Site : {
-        Styles : {
-            original : {
-                name : "Original sakai theme",
-                image : "_images/sakai_grey.png",
-                URL : "/dev/_skins/original/original.html"
+    Site: {
+        Styles: {
+            original: {
+                name: "Original sakai theme",
+                image: "_images/sakai_grey.png",
+                URL: "/dev/_skins/original/original.html"
             },
-            camuniversity : {
-                name : "Cambridge University theme",
-                image : "/dev/_skins/camuniversity/images/camuniversity.png",
-                URL : "/dev/_skins/camuniversity/camuniversity.html"
+            camuniversity: {
+                name: "Cambridge University theme",
+                image: "/dev/_skins/camuniversity/images/camuniversity.png",
+                URL: "/dev/_skins/camuniversity/camuniversity.html"
             }
         }
     },
-
-    Messages : {
-        Types : {
-            inbox : "inbox",
-            sent : "sent",
-            trash : "trash"
+    Messages: {
+        Types: {
+            inbox: "inbox",
+            sent: "sent",
+            trash: "trash"
         },
-        Categories : {
+        Categories: {
             message: 'Message',
             announcement: 'Announcement',
             chat: 'Chat',
             invitation: 'Invitation'
         },
-        Subject : "subject",
-        Type : "type",
-        Body : "body",
-        To : "to",
-        read : "read"
+        Subject: "subject",
+        Type: "type",
+        Body: "body",
+        To: "to",
+        read: "read"
     },
-
     L10N: {
         DateFormat: "dd/MM/yyyy",
         TimeFormat: "HH:mm:ss",
@@ -162,39 +167,38 @@ var Config = {
         DecimalPoint: ",",
         NumberSeparator: "."
     },
-
-    MimeTypes : {
-        "application/doc" : {
-            URL : "/dev/_images/mimetypes/doc.png",
-            description : "Word document"
+    MimeTypes: {
+        "application/doc": {
+            URL: "/dev/_images/mimetypes/doc.png",
+            description: "Word document"
         },
-        "application/pdf" : {
-            URL : "/dev/_images/mimetypes/pdf.png",
-            description : "PDF document"
+        "application/pdf": {
+            URL: "/dev/_images/mimetypes/pdf.png",
+            description: "PDF document"
         },
-        "text/plain" : {
-            URL : "/dev/_images/mimetypes/txt.png",
-            description : "Text document"
+        "text/plain": {
+            URL: "/dev/_images/mimetypes/txt.png",
+            description: "Text document"
         },
-        "image/png" : {
-            URL : "/dev/_images/mimetypes/images.png",
-            description : "Png image"
+        "image/png": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Png image"
         },
-        "image/gif" : {
-            URL : "/dev/_images/mimetypes/images.png",
-            description : "Gif image"
+        "image/gif": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Gif image"
         },
-        "image/jpeg" : {
-            URL : "/dev/_images/mimetypes/images.png",
-            description : "Jpg image"
+        "image/jpeg": {
+            URL: "/dev/_images/mimetypes/images.png",
+            description: "Jpg image"
         },
-        folder : {
-            URL : "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
-            description : "Folder"
+        folder: {
+            URL: "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
+            description: "Folder"
         },
-        other : {
-            URL : "/dev/_images/mimetypes/unknown.png",
-            description : "Other document"
+        other: {
+            URL: "/dev/_images/mimetypes/unknown.png",
+            description: "Other document"
         }
     },
 

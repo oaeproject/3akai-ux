@@ -193,75 +193,26 @@ sakai.createsite = function(tuid,placement,showSettings){
      * Sends information to the server about the site you are making.
      */
     var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
-        var actions = [];
-        var defaultProperties = sakai.lib.site.authz.defaultProperties;
-        var roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteid);
-
-        // Create a site node based on the template.
-        // Note that the template needs to be specified again to be stored as
-        // a property of the new site.
-        actions.push({
+    // Create a site node based on the template.
+        $.ajax({
             url: "/sites.createsite.json",
             data: {
+                "_charset_":"utf-8",
                 ":sitepath": "/" + siteid,
-                "sakai:site-template" : "/templates/" + sitetemplate
-            }
-        });
-
-        // Create site role holders.
-        var data;
-        var authorizables = [];
-        for (var i = 0, j = sakai.lib.site.authz.roles.length; i < j; i++) {
-            var role = sakai.lib.site.authz.roles[i];
-            var group = roleToGroup[role];
-            data = {
-                ":name" : group,
-                "sakai:site" : "/sites/" + siteid,
-                name : role
-            };
-            if (role === sakai.lib.site.authz.maintenanceRole) {
-                data[":member"] = "../../user/" + sdata.me.user.userid;
-            }
-            actions.push({
-                url: "/system/userManager/group.create.html",
-                data: data
-            });
-            authorizables.push(group);
-        }
-
-        // Set initial site properties.
-        data = $.extend({
                 "name" : sitetitle,
                 "description" : sitedescription,
                 "id" : siteid,
-                "sakai:skin" : "/dev/_skins/original/original.html",
-                "sakai:site-template" : "/templates/" + sitetemplate,
-                "sakai:authorizables" : authorizables
-        }, defaultProperties);
-        actions.push({
-            url: "/sites/" + siteid,
-            data: data
-        });
-
-        // Skip the old call to WidgetPreference.save for _widgets/created,
-        // since it should have been copied from the template.
-
-        // There's an old call to _widgets.modifyAce to give everyone (including
-        // anonymous users) all privileges. Let's skip that for now and see what
-        // happens with normal ACL inheritance...
-
-        actions = actions.concat(sakai.lib.site.authz.getStandardAccessActions(siteid));
-        actions = actions.concat(sakai.lib.site.authz.getAccessActions(siteid, defaultProperties.status, defaultProperties.access));
-        if (actions) {
-            var success = function(data) {
+                "sakai:site-template" : "/templates/" + sitetemplate
+            },
+            type: "POST",
+            success: function(data, textStatus){
                 document.location = "/sites/" + siteid;
-            };
-            var error = function(request) {
-                showProcess(false);
-                alert("An error has occurred: " + request.status + " " + request.statusText);
-            };
-            sakai.lib.batchPosts(actions, success, error);
-        }
+            },
+            // error: error,
+            error: function(xhr, textStatus, thrownError){
+                alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+            }
+        });
     };
 
     var saveSite = function(){

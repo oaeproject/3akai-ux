@@ -5,47 +5,47 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - My Messages</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.inbox.css" />
+
+    <!-- 3rd party CSS -->
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
 
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.notifications.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.save_as_template.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.modal_dialog.page_from_template.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.inbox.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
-
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src='_lib/AutoComplete/jquery.bgiframe.min.js'></script>
-    <script type="text/javascript" language="JavaScript" src='_lib/AutoComplete/jquery.ajaxQueue.js'></script>
-    <script type="text/javascript" language="JavaScript" src='_lib/AutoComplete/thickbox-compressed.js'></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/BrowserDetect.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/notifications.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.bgiframe.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.ajaxQueue.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/thickbox-compressed.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/BrowserDetect.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+
 
 </head>
 
-<body class="fl-centered inbox_main inbox_detail">
+<body class="fl-centered inbox_main inbox_detail i18nable">
 
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
+    <div id="widget_navigationchat" class="widget_inline"></div>
 
     <!-- HEADER -->
     <div class="fl-container-flex header">
@@ -53,8 +53,8 @@
             <div class="decor"></div>
 
             <!-- TITLE BAR  -->
-            <div class="site_heading">
-                <h1 id="sitetitle">My Messages</h1>
+            <div class="s3d-site-heading">
+                <h1 id="sitetitle">__MSG__MY_MESSAGES__</h1>
             </div>
         </div>
     </div>
@@ -70,11 +70,11 @@
 
                 <!-- DROP DOWN -->
                 <div class="drop-menu" id="inbox_compose_new">
-                    <a class="compose_new_link" href="javascript:;">Compose a new ...</a>
+                    <a class="compose_new_link" href="javascript:;">__MSG__COMPOSE_A_NEW__ ...</a>
                     <div class="drop-box" id="inbox_compose_new_panel" style="display:none;">
                         <ul>
-                            <li id="inbox_compose_message"><a href="javascript:;">Message</a></li>
-                            <li id="inbox_compose_announcement"><a href="javascript:;">Announcement</a></li>
+                            <li id="inbox_compose_message"><a href="javascript:;">__MSG__MESSAGE__</a></li>
+                            <li id="inbox_compose_announcement"><a href="javascript:;">__MSG__ANNOUNCEMENT__</a></li>
                     </ul>
                     </div>
                 </div>
@@ -84,22 +84,22 @@
                 <div class="inbox-folders" id="inbox_folders">
 
                     <div class="if_titlebar">
-                        <div class="if_titlebar_inner"><h2 class="if_title">Inbox</h2></div>
+                        <div class="if_titlebar_inner"><h2 class="if_title">__MSG__INBOX__</h2></div>
                     </div>
                     <div class="if_content">
 
-                        <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox">Inbox</a></div></div>
+                        <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_inbox">__MSG__INBOX__</a></div></div>
 
                         <ul>
-                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">Messages</a> <span id="inbox_unread_nr_messages"></span></li>
-                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">Announcements</a> <span id="inbox_unread_nr_announcements"></span></li>
-                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">Chats</a> <span id="inbox_unread_nr_chats"></span></li>
-                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">Invitations</a> <span id="inbox_unread_nr_invitations"></span></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_messages">__MSG__MESSAGE__</a> <span id="inbox_unread_nr_messages"></span></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_announcements">__MSG__ANNOUNCEMENTS__</a> <span id="inbox_unread_nr_announcements"></span></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_chats">__MSG__CHATS__</a> <span id="inbox_unread_nr_chats"></span></li>
+                            <li><a href="javascript:;" class="inbox_filter" id="inbox_filter_invitations">__MSG__INVITATIONS__</a> <span id="inbox_unread_nr_invitations"></span></li>
                         </ul>
 
-                        <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent">Sent</a></div></div>
+                        <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_sent">__MSG__SENT__</a></div></div>
 
-                        <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_trash">Trash</a></div></div>
+                        <div class="tab"><div><a href="javascript:;" class="inbox_filter" id="inbox_filter_trash">__MSG__TRASH__</a></div></div>
 
                     </div>
                     <div class="if_bottom">
@@ -126,14 +126,14 @@
                             </span>
 
                             <!-- Delete-->
-                            <a class="inbox_inbox_delete" href="javascript:;" id="inbox_inbox_delete">Delete</a>
+                            <a class="inbox_inbox_delete" href="javascript:;" id="inbox_inbox_delete">__MSG__DELETE__</a>
                         </div>
 
                         <div class="top_decor">
                             <!-- Header -->
-                            <div class="inbox-heading inbox_inbox_header" id="inbox_inbox">Inbox</div>
-                            <div class="inbox-heading inbox_inbox_header" id="inbox_sent" style="display:none;">Sent messages</div>
-                            <div class="inbox-heading inbox_inbox_header" id="inbox_trash" style="display:none;">Trash</div>
+                            <div class="inbox-heading inbox_inbox_header" id="inbox_inbox">__MSG__INBOX__</div>
+                            <div class="inbox-heading inbox_inbox_header" id="inbox_sent" style="display:none;">__MSG__SENT_MESSAGES__</div>
+                            <div class="inbox-heading inbox_inbox_header" id="inbox_trash" style="display:none;">__MSG__TRASH__</div>
                         </div>
 
                         <!-- Inbox -->
@@ -141,10 +141,10 @@
                             <table class="inbox-table" id="inbox_table" summary="All your messages.">
                                 <tr class="different">
                                     <th class="inbox-checkbox" id="inbox_tableHeader_chk"><input type="checkbox" id="inbox_inbox_checkAll" /></th>
-                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_from"><span>From</span></th>
-                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_subject"><span>Subject</span></th>
-                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_type"><span>Type</span></th>
-                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_date"><span>Date Arrived</span></th>
+                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_from"><span>__MSG__FROM__</span></th>
+                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_subject"><span>__MSG__SUBJECT__</span></th>
+                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_type"><span>__MSG__TYPE__</span></th>
+                                    <th class="inbox_inbox_table_header_sort" id="inbox_table_header_date"><span>__MSG__DATE_ARRIVED__</span></th>
                                 </tr>
                             </table>
                         </div>
@@ -164,13 +164,21 @@
                             <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" /></td>
                                 {if m.messagebox === "outbox"}
                                     {if m.userTo}
-                                        <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${m.userTo.firstName} ${m.userTo.lastName}</a></td>
+                                        <td>
+                                        {for toUser in m.userFrom}
+                                            <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${toUser.firstName} ${toUser.lastName}</a>
+                                        {/for}
+                                        </td>
                                     {else}
                                         <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
                                     {/if}
                                 {else}
                                     {if m.userFrom}
-                                        <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.userFrom.firstName} ${m.userFrom.lastName}</a></td>
+                                        <td>
+                                        {for fromUser in m.userFrom}
+                                            <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${fromUser.firstName} ${fromUser.lastName}</a></td>
+                                        {/for}
+                                        </td>
                                     {else}
                                         <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
                                     {/if}
@@ -182,7 +190,7 @@
                             </tr>
                         {forelse}
                             <tr class="inbox_message">
-                                <td colspan="5" class="inbox_message_none">No messages found.</td>
+                                <td colspan="5" class="inbox_message_none">__MSG__NO_MESSAGES_FOUND__.</td>
                             </tr>
                         {/for}
                         --></div>
@@ -213,7 +221,7 @@
                     </div>
 
                     <div class="top_decor">
-                        <div class="inbox-heading">Message</div>
+                        <div class="inbox-heading">__MSG__MESSAGE__</div>
                     </div>
 
                     <div class="main_content_container">
@@ -259,13 +267,15 @@
                             <span style="float:left;">
                                 <a href="javascript:;">
                                 {if r.userFrom.picture}
-                                                <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" class="sender-picture" id="inbox_message_picture" />
-                                            {else}
-                                                <img src="/dev/_images/person_icon.jpg" class="sender-picture" id="inbox_message_picture" />
-                                            {/if}
+                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" class="sender-picture" id="inbox_message_picture" />
+                                {else}
+                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" id="inbox_message_picture" />
+                                {/if}
                             </span>
                             <div class="inbox_message_user">
-                                <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${r.userFrom.firstName} ${r.userFrom.lastName}</a><br />
+                                {for fromUser in r.userFrom}
+                                    <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ||  ${fromUser.lastName}</a><br />
+                                {/for}
                                 <div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
                             </div>
                         </div>
@@ -295,7 +305,11 @@
 
                         <div id="inbox_compose_replies_template_chats"><!--
                             {for r in replies}
-                                ${r.date} - ${r.userFrom.profile.firstName} ${r.userFrom.profile.lastName} : ${r.bodyText}<br />
+                                ${r.date} -
+                                {for fromUser in r.userFrom}
+                                    ${fromUser.profile.firstName} ${fromUser.profile.lastName}
+                                {/for}
+                                : ${r.bodyText}<br />
                             {/for}
                         --></div>
 
@@ -303,17 +317,17 @@
                         <div class="compose-message" id="inbox_message_compose" style="display:none;">
                             <form class="compose-form" method="post" action="">
                                 <div>
-                                    <label for="inbox_message_compose_subject">Subject</label><br />
+                                    <label for="inbox_message_compose_subject">__MSG__SUBJECT__</label><br />
                                     <input type="text" class="compose-subject" id="inbox_message_compose_subject" />
                                 </div>
                                 <div>
-                                    <label for="inbox_message_compose_body">Body</label><br />
+                                    <label for="inbox_message_compose_body">__MSG__BODY__</label><br />
                                     <textarea class="compose-body" id="inbox_message_compose_body" rows="0" cols="0"></textarea>
                                 </div>
 
                                 <div class="button_container">
-                                    <div class="greybutton"><a class="button-default submit_button inbox_bold" href="javascript:;" id="inbox_message_compose_send">Send Message</a></div>
-                                    <div class="lightgreybutton"><a class="button-default cancel-button" href="javascript:;" id="inbox_message_compose_cancel">Cancel</a></div>
+                                    <div class="greybutton"><a class="button-default submit_button inbox_bold" href="javascript:;" id="inbox_message_compose_send">__MSG__SEND_MESSAGE__</a></div>
+                                    <div class="lightgreybutton"><a class="button-default cancel-button" href="javascript:;" id="inbox_message_compose_cancel">__MSG__CANCEL__</a></div>
                                 </div>
 
                             </form>
@@ -329,7 +343,7 @@
 
                     <div class="top_decor">
                         <!-- Header -->
-                        <div class="inbox-heading">Compose a New Message</div>
+                        <div class="inbox-heading">__MSG__COMPOSE_A_NEW_MESSAGE__</div>
                     </div>
 
                     <!-- Compose message -->
@@ -354,17 +368,17 @@
     </div>
 
     <!-- FOOTER WIDGET -->
-    <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
 
     <!-- ERRORS AND MESSAGES -->
-    <div id="inbox_generalmessages_error_general" style="display:none;"><b>An error has occurred.</b> Please try again later.</div>
-    <span id="inbox_generalmessages_error_read_fail" style="display:none;">Failed to mark this message as read.</span>
-    <span id="inbox_generalmessages_error_send_fail" style="display:none;">Unable to send your message.</span>
-    <span id="inbox_generalmessages_deleted_1" style="display:none;">The message has been deleted.</span>
-    <span id="inbox_generalmessages_deleted_x" style="display:none;"> messages have been deleted.</span>
-    <span id="inbox_generalmessages_deleted_failed" style="display:none;">Unable to delete message(s).</span>
+    <div id="inbox_generalmessages_error_general" style="display:none;"><b>__MSG__AN_ERROR_HAS_OCCURRED__.</b> Please try again later.</div>
+    <span id="inbox_generalmessages_error_read_fail" style="display:none;">__MSG__FAILED_TO_MARK_THIS_MESSAGE_AS_READ__.</span>
+    <span id="inbox_generalmessages_error_send_fail" style="display:none;">__MSG__UNABLE_TO_SEND_YOUR_MESSAGE__.</span>
+    <span id="inbox_generalmessages_deleted_1" style="display:none;">__MSG__THE_MESSAGE_HAS_BEEN_DELETED__.</span>
+    <span id="inbox_generalmessages_deleted_x" style="display:none;"> __MSG__MESSAGES_HAVE_BEEN_DELETED__.</span>
+    <span id="inbox_generalmessages_deleted_failed" style="display:none;">__MSG__UNABLE_TO_DELETE_MESSAGES__.</span>
     <div id="inbox_generalmessages_nr_new_messages" style="display:none;"> <span class="inbox_bold inbox_filter_nrMessages">(__NR__)</span></div>
-    <span id="inbox_generalmessages_sent" style="display:none;">Your message has been sent.</span>
+    <span id="inbox_generalmessages_sent" style="display:none;">__MSG__YOUR_MESSAGE_HAS_BEEN_SENT__.</span>
 
     <script type="text/javascript" language="JavaScript" src="_javascript/inbox.js"></script>
 

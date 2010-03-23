@@ -208,7 +208,7 @@ sakai._search = function(config, callback) {
      * @param {Object} finaljson The object where the rendered results shall come in. (results come in .items)
      */
     var prepareCMforRendering = function(results, finaljson, searchterm) {
-        for (var i = 0; i < results.length; i++) {
+        for (var i = 0, j = results.length; i<j; i++) {
 
             // Set the item object in finaljson equal to the object in results
             finaljson.items[i] = results[i];
@@ -217,18 +217,18 @@ sakai._search = function(config, callback) {
             if (finaljson.items[i]["sakai:description"]) {
 
                 // Strip HTML from the description
-                var content = finaljson.items[i]["sakai:description"].replace(/<\/?[^>]+(>|$)/g, " ");
+                var content = finaljson.items[i]["excerpt"].replace(/<\/?[^>]+(>|$)/g, " ");
 
                 // Check if the search term occures in the description of the file
-                finaljson.items[i]["sakai:description"] = convertTermToBold(finaljson.items[i]["sakai:description"], searchterm);
+                finaljson.items[i]["excerpt"] = convertTermToBold(finaljson.items[i]["sakai:description"], searchterm);
             }
             // Modify the tags if there are any
             if(finaljson.items[i]["sakai:tags"]){
 
-                for(var j = 0; j < finaljson.items[i]["sakai:tags"].length; j++){
+                for(var k = 0, l = finaljson.items[i]["sakai:tags"].length; k < l; k++){
 
                     // If the searchterm occures in the tags, make it bold
-                    finaljson.items[i]["sakai:tags"][j] = convertTermToBold(finaljson.items[i]["sakai:tags"][j], searchterm);
+                    finaljson.items[i]["sakai:tags"][k] = convertTermToBold(finaljson.items[i]["sakai:tags"][k], searchterm);
                 }
             }
         }
@@ -241,7 +241,7 @@ sakai._search = function(config, callback) {
      * @param {Object} finaljson The object where the rendered results shall come in. (results come in .items)
      */
     var preparePeopleForRender = function(results, finaljson) {
-        for (var i = 0; i < results.length; i++) {
+        for (var i = 0, j = results.length; i<j; i++) {
             var item = results[i];
             if (item) {
                 var user = {};
@@ -286,16 +286,23 @@ sakai._search = function(config, callback) {
                 // Check if this user is a friend of us already.
 
                 if (getMyFriends().results) {
-                    for (var ii = 0; ii < getMyFriends().results.length; ii++) {
+                    for (var ii = 0, jj = getMyFriends().results.length; ii<jj; ii++) {
                         var friend = getMyFriends().results[ii];
-                        if (friend.target === user.userid[0]) {
+                        if (friend.target === user.userid) {
                             user.connected = true;
                         }
                     }
                 }
-                if (user.userid[0] === sdata.me.user.userid) {
+                // Check if the user you found in the list isn't the current
+                // logged in user
+                if (user.userid === sdata.me.user.userid) {
                     user.isMe = true;
                 }
+                // Check if the user that is found isn't an annonymous user
+                else if (user.userid === "anonymous"){
+                    user.isAnonymous = true;
+                }
+                
 
                 finaljson.items.push(user);
             }

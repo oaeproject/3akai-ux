@@ -5,37 +5,39 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Profile</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/SHA.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
 
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+
 </head>
 
-<body class="fl-centered profile_preview">
+<body class="fl-centered profile_preview i18nable">
 
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
+    <div id="widget_navigationchat" class="widget_inline"></div>
 
     <!-- HEADER -->
     <div class="fl-container-flex header">
@@ -43,7 +45,7 @@
             <div class="decor"></div>
 
             <!-- TITLE BAR  -->
-            <div class="site_heading" fl-force-left">
+            <div class="s3d-site-heading fl-force-left">
                 <h1 id="sitetitle">Profile</h1>
             </div>
         </div>
@@ -55,10 +57,10 @@
         <div class="fl-fix fl-centered fixed-container">
 
             <!-- TAB NAVIGATION -->
-            <div class="primary-tabs" id="profile_tabs" style="display:none;">
+            <div class="s3d-primary-tabs i18nable" id="profile_tabs">
                 <ul class="fl-tabs fl-tabs-right" id="myprofile_tabs">
-                    <li><a href="profile_edit.html">Edit</a></li>
-                    <li class="fl-tabs-active"><a href="javascript:;">Preview</a></li>
+                    <li><a href="profile_edit.html">__MSG__EDIT__</a></li>
+                    <li class="fl-tabs-active"><a href="javascript:;">__MSG__PREVIEW__</a></li>
                 </ul>
                 <div id="myprofile_placeholder"></div>
             </div>
@@ -93,21 +95,21 @@
 
                         <div id="txt_status" class="profile_user_headline"></div>
 
-                        <div id="profile_user_status_online" class="profile_user_status_online">Online</div>
-                        <div id="profile_user_status_busy" class="profile_user_status_busy">Busy</div>
-                        <div id="profile_user_status_offline" class="profile_user_status_offline">Offline</div>
+                        <div id="profile_user_status_online" class="profile_user_status_online">__MSG__ONLINE__</div>
+                        <div id="profile_user_status_busy" class="profile_user_status_busy">__MSG__BUSY__</div>
+                        <div id="profile_user_status_offline" class="profile_user_status_offline">__MSG__OFFLINE__</div>
                     </div>
 
                     <!-- Basic Info -->
                     <div class="fl-fix profile_section" id="basic_information">
 
-                        <h4 class="profile_section_header">Basic Info</h4>
+                        <h4 class="profile_section_header">__MSG__BASIC_INFO__</h4>
 
                         <div class="profile_section_body">
 
                             <table>
                                 <tr>
-                                    <th class="entry_label">Name:</th>
+                                    <th class="entry_label">__MSG__NAME__:</th>
                                     <td><span id="txt_firstname"></span>&nbsp;<span id="txt_lastname"></span></td>
                                 </tr>
                                 <tr id="unirole">
@@ -133,7 +135,7 @@
                     <!-- About Me -->
                     <div class="fl-fix profile_section" id="about" style="display:none">
 
-                        <h4 class="profile_section_header">About Me</h4>
+                        <h4 class="profile_section_header">__MSG__ABOUT_ME__</h4>
 
                         <div class="profile_section_body">
                             <table>
@@ -142,15 +144,15 @@
                                     <td id="txt_aboutme"></td>
                                 </tr>
                                 <tr id="academicinterests">
-                                    <th class="entry_label">Academic interests:</th>
+                                    <th class="entry_label">__MSG__ACADEMIC_INTERESTS__:</th>
                                     <td id="txt_academicinterests"></td>
                                 </tr>
                                 <tr id="personalinterests">
-                                    <th class="entry_label">Personal interests:</th>
+                                    <th class="entry_label">__MSG__PERSONAL_INTERESTS__:</th>
                                     <td id="txt_personalinterests"></td>
                                 </tr>
                                 <tr id="hobbies">
-                                    <th class="entry_label">Hobbies:</th>
+                                    <th class="entry_label">__MSG__HOBBIES__:</th>
                                     <td id="txt_hobbies"></td>
                                 </tr>
                             </table>
@@ -443,12 +445,12 @@
                     <!-- University contact info -->
                     <div class="fl-fix profile_section" id="unicontactinfo" style="display:none">
 
-                        <h4 class="profile_section_header">University Contact Info</h4>
+                        <h4 class="profile_section_header">__MSG__UNIVERSITY_CONTACT_INFO__</h4>
 
                         <div class="profile_section_body">
                             <table>
                                 <tr id="uniemail">
-                                    <th class="entry_label">Email Address:</th>
+                                    <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
                                     <td id="txt_uniemail"></td>
                                 </tr>
                                 <tr id="uniphone">
@@ -475,7 +477,7 @@
                         <div class="profile_section_body">
                             <table>
                                 <tr id="homeemail">
-                                    <th class="entry_label">Email Address:</th>
+                                    <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
                                     <td id="txt_homeemail"></td>
                                 </tr>
                                 <tr id="homephone">
@@ -505,7 +507,7 @@
     </div>
 
     <!-- FOOTER WIDGET -->
-    <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
 
 <!-- DIALOGS -->
 
@@ -513,7 +515,7 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
                 <h1>Send Message</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 

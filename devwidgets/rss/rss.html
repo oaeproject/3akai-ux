@@ -26,7 +26,7 @@
             <div class="rss_settings_rssFeedListItem">
                 <span class="rss_bold rss_setting_listLeft">${i.title}</span>
                 <a href="javascript:;" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight"><img src="/dev/_images/close_icon_small.png" alt="X"></img></a>
-                <div class="rss_clear"></div>
+                <div class="fl-push"></div>
                 <span>
                     ${i.items.length}
                     {if i.items.length == 1}
@@ -40,13 +40,13 @@
         --></div>
         <p>
             <br />
-            <span>Show the latest </span><input type="text" id="rss_settings_numEntries"/><span> entries.</span<br />
+            <span>Show the latest </span><input type="text" id="rss_settings_numEntries"/><span> entries.</span><br />
             <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">Display source</label><br />
             <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">Display headlines only</label><br />
         </p>
         <div class="rss_settings_buttonbar">
-            <a class="button-default rss_left"  id="rss_setting_cancel" href="javascript:;">Cancel</a>
-            <a class="button-default rss_right" id="rss_setting_finish" href="javascript:;">Finish</a>
+            <a class="button-default fl-force-left"  id="rss_setting_cancel" href="javascript:;">Cancel</a>
+            <a class="button-default fl-force-right" id="rss_setting_finish" href="javascript:;">Finish</a>
         </div>
     </form>
 </div>
@@ -64,33 +64,33 @@
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
             <h1>${title}</h1>
-            <a class="button-default rss_output_order rss_right" id="rss_output_order_date" href="javascript:;">sort by date</a>
-            <a class="button-default rss_output_order rss_right" id="rss_output_order_source" href="javascript:;">sort by source</a>
+            <a class="button-default rss_output_order fl-force-right" id="rss_output_order_date" href="javascript:;">sort by date</a>
+            <a class="button-default rss_output_order fl-force-right" id="rss_output_order_source" href="javascript:;">sort by source</a>
         </div>
 
         {for i in shownEntries}
             <div class="rss_output_entry">
                 {if !displayHeadlines}
-                    <h2 class="rss_left">${i.title}</h2>
-                    <span class="rss_title rss_right" >${i.parsedDate}</span>
-                    <div class="rss_clear"></div>
+                    <h2 class="fl-force-left">${i.title}</h2>
+                    <span class="rss_title fl-force-right" >${i.parsedDate}</span>
+                    <div class="fl-push"></div>
                     <p>${i.description}
                         {if i.link != ""}
                             <a href="${i.link}" target="_blank">read more</a>
                         {/if}
                     </p>
                 {else}
-                    <a href="${i.link}"><h2 class="rss_left">${i.title}</h2></a>
-                    <span class="rss_title rss_right" >${i.parsedDate}</span>
-                    <div class="rss_clear"></div>
+                    <a href="${i.link}"><h2 class="fl-force-left">${i.title}</h2></a>
+                    <span class="rss_title fl-force-right" >${i.parsedDate}</span>
+                    <div class="fl-push"></div>
                     {if displaySource}
                         <br />
                     {/if}
                 {/if}
                 {if displaySource}
-                    <span class="rss_left"><span class="rss_title">Source: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
+                    <span class="fl-force-left"><span class="rss_title">Source: </span><a href="${i.feed.id}">${i.feed.title}</a></span>
                 {/if}
-                <a class="rss_sendToFriend rss_right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">Send article to a friend</a>
+                <a class="rss_sendToFriend fl-force-right" id="rss_sendToFriend${shownEntries.indexOf(i)}" href="javascript:;">Send article to a friend</a>
 
             </div>
         {/for}

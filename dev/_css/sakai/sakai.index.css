@@ -23,7 +23,7 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 
 /* Log-in container */
 .login-container {padding: 0; float: left;}
-.login-container-button {margin: 25px 0 60px 0; float: none; border: 1px solid #fff;}
+.login-container-button {margin: 25px 0 35px 0; float: none; border: 1px solid #fff;}
 .login-container-textfield {border: 1px solid #888; height: 18px; margin-bottom:15px; padding: 3px 0 0 3px; width:200px !important;}
 
 /* Register here */

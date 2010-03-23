@@ -17,7 +17,7 @@
  */
 
 
-/*global $, jQuery, Config, fluid, TrimPath, Widgets */
+/*global $, jQuery, Config, fluid, TrimPath, Widgets, window, document */
 
 
 /*
@@ -42,15 +42,15 @@ var sakai = {};
 sdata.me = false;
 
 
-if(!Array.indexOf){
-  Array.prototype.indexOf = function(obj){
-   for(var i=0; i<this.length; i++){
-    if(this[i]==obj){
-     return i;
-    }
-   }
-   return -1;
-  };
+if(!Array.indexOf) {
+    Array.prototype.indexOf = function(obj){
+        for(var i = 0, j = this.length; i<j; i++){
+            if(this[i] === obj){
+                return i;
+            }
+        }
+        return -1;
+    };
 }
 
 ///////////////////////////
@@ -93,7 +93,7 @@ if(!Array.indexOf){
                     if (exists) {
                         var me = $.evalJSON(response);
                         if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
-                            document.location = redirecturl;
+                            //document.location = redirecturl;
                         }
                     }
                 };
@@ -254,28 +254,30 @@ if(!Array.indexOf){
         resetCurrentValues(form);
 
         for (var name in json) {
-            var els = $('[name=' + name + ']', form);
-            for (var i = 0; i < els.length; i++){
-                var el = els[i];
-                var nodeName = el.nodeName.toLowerCase();
-                var type = el.type.toLowerCase() || "";
-                if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
-                    el.value = json[name];
-                } else if (nodeName === "input" && type === "radio"){
-                    if (el.value === json[name]){
-                        el.checked = true;
-                    }
-                } else if (nodeName === "input" && type === "checkbox"){
-                    for (var ii = 0; ii < json[name].length; ii++){
-                        if (el.value === json[name][ii]){
+            if (json[name]){
+                var els = $('[name=' + name + ']', form);
+                for (var i = 0; i < els.length; i++){
+                    var el = els[i];
+                    var nodeName = el.nodeName.toLowerCase();
+                    var type = el.type.toLowerCase() || "";
+                    if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
+                        el.value = json[name];
+                    } else if (nodeName === "input" && type === "radio"){
+                        if (el.value === json[name]){
                             el.checked = true;
                         }
-                    }
-                } else if (nodeName === "select"){
-                    for (var select = 0; select < json[name].length; select++){
-                        for (var iii = 0; iii < el.options.length; iii++) {
-                            if (el.options[iii].value === json[name][select]) {
-                                el.options[iii].selected = true;
+                    } else if (nodeName === "input" && type === "checkbox"){
+                        for (var ii = 0; ii < json[name].length; ii++){
+                            if (el.value === json[name][ii]){
+                                el.checked = true;
+                            }
+                        }
+                    } else if (nodeName === "select"){
+                        for (var select = 0; select < json[name].length; select++){
+                            for (var iii = 0; iii < el.options.length; iii++) {
+                                if (el.options[iii].value === json[name][select]) {
+                                    el.options[iii].selected = true;
+                                }
                             }
                         }
                     }
@@ -303,17 +305,17 @@ sdata.widgets.WidgetLoader = {
     loaded : [],
 
     /**
-     * Function that can be called by the container. This will looks for widget declerations
+     * Function that can be called by the container. This will looks for widget declarations
      * within the specified container and will load the widgets in the requested mode (view - settings)
      * @param {Object} id
-     *  Id of the HTML container in which we want to look for widget declerations
+     *  Id of the HTML container in which we want to look for widget declarations
      * @param {Object} showSettings
      *  true  : render the settings mode of the widget
      *  false : render the view mode of the widget
      */
     insertWidgets : function(id, showSettings, context){
         var obj = sdata.widgets.WidgetLoader.loadWidgets(id, showSettings, context);
-        sdata.widgets.WidgetLoader.loaded[sdata.widgets.WidgetLoader.loaded.length] = obj;
+        sdata.widgets.WidgetLoader.loaded.push(obj);
     },
 
     loadWidgets : function(id, showSettings, context){
@@ -323,166 +325,47 @@ sdata.widgets.WidgetLoader = {
         var widgetSelector = ".widget_inline";
 
         // Help variables
-        var widgets = {};
-        var settings = false;
+        var widgets = {}, settings = false;
 
+        /**
+         * Inform the widget that is is loaded and execute the main JavaScript function
+         * If the widget name is "createsite", then the function sakai.createsite will be executed.
+         * @param {String} widgetname The name of the widget
+         */
         var informOnLoad = function(widgetname){
-            var doDelete = false;
+            var doDelete;
+
+            // Check if the name of the widget is inside the widgets object.
             if (widgets[widgetname] && widgets[widgetname].length > 0){
-                for (var i = 0; i < widgets[widgetname].length; i++){
+
+                // Run through all the widgets with a specific name
+                for (var i = 0, j = widgets[widgetname].length; i<j; i++){
                     widgets[widgetname][i].done++;
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
-                        var initfunction = eval(widgetNameSpace + "." + widgetname);
-                        var obj = initfunction(widgets[widgetname][i].uid, widgets[widgetname][i].placement, settings);
+                        var initfunction = window[widgetNameSpace][widgetname];
+                        initfunction(widgets[widgetname][i].uid, widgets[widgetname][i].placement, settings);
                         doDelete = true;
                     }
                 }
-            }
-            if (doDelete){
-                delete widgets[widgetname];
+
+                // Remove the widget from the widgets object (clean up)
+                if (doDelete){
+                    delete widgets[widgetname];
+                }
             }
         };
 
-        var insertWidgets = function(containerId, showSettings, context){
-
-            // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
-            var el = containerId ? document.getElementById(containerId) : $(document.body);
-
-            var divarray = $(widgetSelector, el);
-            settings = showSettings || false;
-
-            for (var i = 0, j = divarray.length; i < j; i++){
-                try {
-                    var id = divarray[i].id;
-                    var split = id.split("_");
-                    var widgetname = split[1];
-                    if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe === 1){
-
-                        var portlet = Widgets.widgets[widgetname];
-                        var html = '<div style="padding:0 0 0 0" id="widget_content_'+ split[1] + '">' +
-                                       '<iframe src="'+ portlet.url+'" ' +
-                                       'id="widget_frame_'+ split[1]+'" ' +
-                                       'name="widget_frame_'+ split[1]+'" ' +
-                                       'frameborder="0" ' +
-                                       'height="'+ portlet.height +'px" ' +
-                                       'width="100%" ' +
-                                       'scrolling="no"' +
-                                       '></iframe></div>';
-                        var iframewidgetid = "id0";
-                        if (split[2]){
-                            iframewidgetid = split[2];
-                        }
-                        $("#" + iframewidgetid + "_container").html(html);
-                        $("#" + iframewidgetid + "_container").addClass("fl-widget-content");
-                        $("#" + iframewidgetid + "_container").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
-
-                    } else if (Widgets.widgets[widgetname]){
-
-                        var widgetid = "id0";
-                        if (split[2]){
-                            widgetid = split[2];
-                        }
-
-                        //console.debug(widgetname+": "+widgetid+" "+divarray[i].id);
-
-                        var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
-
-                        var placement = "";
-                        if (split[3] !== undefined){
-                            placement = id.substring(length);
-                        } else if (context){
-                            placement = context;
-                        }
-
-                        if (! widgets[widgetname]){
-                            widgets[widgetname] = [];
-                        }
-                        var index = widgets[widgetname].length;
-                        widgets[widgetname][index] = [];
-                        widgets[widgetname][index].uid = widgetid;
-                        widgets[widgetname][index].placement = placement;
-                        widgets[widgetname][index].id = id;
-                        var floating = "inline_class_widget_nofloat";
-                        if (divarray[i].style.cssFloat) {
-                            if (divarray[i].style.cssFloat == "left") {
-                                floating = "inline_class_widget_leftfloat";
-                            }
-                            else
-                                if (divarray[i].style.cssFloat == "right") {
-                                    floating = "inline_class_widget_rightfloat";
-                                }
-                        } else {
-                            if (divarray[i].style.styleFloat == "left") {
-                                floating = "inline_class_widget_leftfloat";
-                            }
-                            else
-                                if (divarray[i].style.styleFloat == "right") {
-                                    floating = "inline_class_widget_rightfloat";
-                                }
-                        }
-                        widgets[widgetname][index].floating = floating;
-                    }
-                } catch (err){
-                    fluid.log("An error occured whilst searching for widget definitions in " + divarray[i].id);
-                }
-            }
-
-            for (i in widgets){
-                if (widgets[i]) {
-                    for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
-                        var originalEl = document.getElementById(widgets[i][ii].id);
-                        var newel = document.createElement("div");
-                        newel.id = widgets[i][ii].uid;
-                        newel.className = widgets[i][ii].floating;
-                        newel.innerHTML = "";
-                        originalEl.parentNode.replaceChild(newel, originalEl);
-                    }
-                }
-            }
-
-            for (i in widgets){
-                if (widgets[i]) {
-                    loadWidgetFiles(widgets, i);
-                }
-            }
-
-        };
-
-        var loadWidgetFiles = function(widgets,widgetname){
-            var url = Widgets.widgets[widgetname].url;
-            if (Widgets.widgets[widgetname].gwt == 1) {
-                for (var i = 0, j = widgets[widgetname].length; i < j; i++) {
-                    var iframescr = url + "?placement=" + widgets[widgetname][i].placement + "&tuid=" + widgets[widgetname][i].uid + "&showSettings=" + settings + "&sid=" + Math.random();
-                    var oiFrame = document.createElement('iframe');
-                    oiFrame.setAttribute("width", "100%");
-                    oiFrame.setAttribute("scrolling", "auto");
-                    oiFrame.setAttribute("id", "widget_gwt_" + widgets[widgetname][i].uid);
-                    oiFrame.setAttribute("frameBorder", "0");
-                    oiFrame.setAttribute("border", "0");
-                    oiFrame.setAttribute("height", "0");
-                    oiFrame.style.border = 0 + "px";
-                    oiFrame.src = iframescr;
-                    document.getElementById(widgets[widgetname][i].uid).appendChild(oiFrame);
-                }
-            } else {
-                $.ajax({
-                    url: url,
-                    success: function(response){
-                        var thisobj2 = {};
-
-                        // Do i18n on widget content
-                        var translated_content = $.i18n_widget(widgetname, response);
-
-                        sethtmlover(null, translated_content, widgets, widgetname);
-                    }
-                });
-            }
-        };
-
+        /**
+         * Locate a tag and remove it from the content
+         * @param {String} content The complete content of a file (e.g. <div>...)
+         * @param {String} tagName The name of the tag you want to remove (link/script)
+         * @param {String} URLIdentifier The part that identifies the URL (href/src)
+         */
         var locateTagAndRemove = function(content, tagName, URLIdentifier){
-            var returnObject = {};
-            returnObject.URL = [];
-            returnObject.content = content;
+            var returnObject = {
+                URL : [],
+                content : content
+            };
             var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?["|'+'\''+']([^"]*)["|'+'\''+'].*/.*?>', "gi");
             var regexp_match_result = regexp.exec(content);
             while (regexp_match_result !== null) {
@@ -493,12 +376,10 @@ sdata.widgets.WidgetLoader = {
             return returnObject;
         };
 
-        var sethtmlover = function (div,content,widgets,widgetname){
+        var sethtmlover = function(content,widgets,widgetname){
 
             var CSSTags = locateTagAndRemove(content, "link", "href");
             content = CSSTags.content;
-
-            var initfunction = eval(widgetNameSpace + "." + widgetname);
 
             for (var i = 0, j = CSSTags.URL.length; i<j; i++) {
                 $.Load.requireCSS(CSSTags.URL[i]);
@@ -522,12 +403,171 @@ sdata.widgets.WidgetLoader = {
 
         };
 
+        /**
+         * Load the files that the widget needs (HTML/CSS and JavaScript)
+         * @param {Object} widgets
+         * @param {Object} batchWidgets A list of all the widgets that need to load
+         */
+        var loadWidgetFiles = function(widgets, batchWidgets){
+            var urls = [];
+
+            for(var k in batchWidgets){
+                if(batchWidgets.hasOwnProperty(k)){
+                    urls[urls.length] = k;
+                }
+            }
+
+            if(urls.length > 0){
+                $.ajax({
+                    url: Config.URL.BATCH_GET,
+                    data: {
+                        resources: urls
+                    },
+                    success: function(data){
+                        var json = $.evalJSON(data);
+                        for (var i = 0, j = json.length; i<j; i++) {
+                                var jsonpath = json[i].path;
+                                var widgetname = batchWidgets[jsonpath];
+
+                                // Do i18n on widget content
+                                var translated_content = $.i18n_widget(widgetname, json[i].data);
+
+                                sethtmlover(translated_content, widgets, widgetname);
+
+                        }
+                    }
+                });
+            }
+        };
+
+        /**
+         * Insert the widgets into the page
+         * @param {String} containerId The id of the container element
+         * @param {Boolean} showSettings Show the settings for the widget
+         * @param {String} context The context of the widget (e.g. siteid)
+         */
+        var insertWidgets = function(containerId, showSettings, context){
+
+            // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
+            var el = containerId ? document.getElementById(containerId) : $(document.body);
+
+            // Array of jQuery objects that contains all the elements in the with the widget selector class.
+            var divarray = $(widgetSelector, el);
+
+            // Check if the showSettings variable is set, if not set the settings variable to false
+            settings = showSettings || false;
+
+            // Array that will contain all the URLs + names of the widgets that need to be fetched with batch get
+            var batchWidgets = [];
+
+            // Run over all the elements and load them
+            for (var i = 0, j = divarray.length; i < j; i++){
+                var id = divarray[i].id;
+                var split = id.split("_");
+                var widgetname = split[1];
+
+                // Set the id for the container of the widget
+                var widgetid;
+                if (split[2]){
+                    widgetid = split[2];
+                } else if(widgetname) {
+                    widgetid = widgetname + "container";
+                }
+
+                // Check if the widget is an iframe or a gwt widget
+                if (Widgets.widgets[widgetname] && (Widgets.widgets[widgetname].gwt || Widgets.widgets[widgetname].iframe)){
+
+                    var gwt = Widgets.widgets[widgetname].gwt ? true : false;
+
+                    // Get the information about the widget in the widgets.js file
+                    var portlet = Widgets.widgets[widgetname];
+
+                    // Check if the scrolling property has been set to true
+                    var scrolling = portlet.scrolling ? "auto" : "no";
+
+                    var src;
+                    if(gwt){
+                        src = portlet.url + "?placement=" + portlet.placement + "&tuid=" + portlet.uid + "&showSettings=" + settings + "&sid=" + Math.random();
+                    }else {
+                        src = portlet.url;
+                    }
+
+                    // Construct the HTML for the iframe
+                    var html = '<div id="widget_content_'+ widgetname + '">' +
+                                   '<iframe src="'+ src +'" ' +
+                                   'frameborder="0" ' +
+                                   'height="'+ portlet.height +'px" ' +
+                                   'width="100%" ' +
+                                   'scrolling="' + scrolling + '"' +
+                                   '></iframe></div>';
+
+                    if(gwt){
+                        $("#" + portlet.uid).append(html);
+                    }else{
+                        // Add the HTML for to the iframe widget container
+                        $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
+                    }
+                }
+
+                // The widget isn't a gwt or iframe widget
+                else if (Widgets.widgets[widgetname]){
+
+                    // Set the placement for the widget
+                    var placement = "";
+                    if (split[3] !== undefined){
+                        var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
+                        placement = id.substring(length);
+                    } else if (context){
+                        placement = context;
+                    }
+
+                    // Check if the widget exists
+                    if (!widgets[widgetname]){
+                        widgets[widgetname] = [];
+                    }
+
+                    // Set the initial properties for the widget
+                    var index = widgets[widgetname].length;
+                    widgets[widgetname][index] = {
+                        uid : widgetid,
+                        placement : placement,
+                        id : id
+                    };
+                    var floating = "inline_class_widget_nofloat";
+
+                    // Check if the browser supports cssFloat (other browsers) or styleFloat (IE)
+                    var styleFloat = jQuery.support.cssFloat ? "cssFloat" : "styleFloat";
+                    if (divarray[i].style[styleFloat]) {
+                        floating = divarray[i].style[styleFloat] === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                    }
+                    widgets[widgetname][index].floating = floating;
+                }
+            }
+
+            for (i in widgets){
+                if (widgets.hasOwnProperty(i)) {
+                    for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
+
+                        // Replace all the widgets with id "widget_" to widgets with new id's
+                        // and add set the appropriate float class
+                        $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
+                    }
+
+                    var url = Widgets.widgets[i].url;
+                    batchWidgets[url] = i; //i is the widgetname
+                }
+            }
+
+            // Load the HTML files for the widgets
+            loadWidgetFiles(widgets, batchWidgets);
+
+        };
+
         insertWidgets(id, showSettings, context);
 
         return {
             "informOnLoad" : informOnLoad
         };
-
     },
 
     informOnLoad : function(widgetname){
@@ -550,88 +590,86 @@ sdata.widgets.WidgetLoader = {
  */
 sdata.preference = {
 
-  /** Saves a preference data to a specified URL
-   * @param pref_url {String} The path to the preference where it needs to be saved
-   * @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
-   * @param callback {Function} A callback function which is executed at the end of the operation
-   * @returns {Void}
-   */
-  save: function(pref_url, pref_data, callback) {
+    /** Saves a preference data to a specified URL
+     * @param pref_url {String} The path to the preference where it needs to be saved
+     * @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
+     * @param callback {Function} A callback function which is executed at the end of the operation
+     * @returns {Void}
+     */
+    save: function(pref_url, pref_data, callback) {
 
-      // Arg check
-      if ((!pref_url) || (pref_url === "") || (!pref_data) || (!callback)) {
-    fluid.log("sdata.preference.save(): Not Enough arguments!");
-    return;
-      }
+        // Arg check
+        if ((!pref_url) || (pref_url === "") || (!pref_data) || (!callback)) {
+            fluid.log("sdata.preference.save(): Not Enough arguments!");
+            return;
+        }
 
-      // Create JSON String
-      var pref_data_string = $.toJSON(pref_data);
+        // Create JSON String
+        var pref_data_string = $.toJSON(pref_data);
 
-      // Send save request
-      $.ajax({
-    url: pref_url,
-    type: "POST",
-    data: {
-        ":operation": "createTree",
-        "tree": pref_data_string
-    },
 
-    success: function(data) {
-      callback(true, data);
-    },
+        // Send save request
+        $.ajax({
+                url: pref_url,
+                type: "POST",
+                data: {
+                    ":operation": "createTree",
+                    "tree": pref_data_string
+            },
 
-    error: function(xhr, status, e) {
-      fluid.log("site_admin.js: There was an error saving the template configuration file: "+this.url);
-      callback(false,xhr);
-    }
-      });
+            success: function(data) {
+                callback(true, data);
+            },
+
+            error: function(xhr, status, e) {
+                fluid.log("site_admin.js: There was an error saving the template configuration file: "+this.url);
+                callback(false,xhr);
+            }
+        });
   },
 
-  /** Loads a preference data from a specified URL
-   * @param pref_url {String} The path to the preference which needs to be loaded
-   * @param callback {Function} A callback function which is executed at the end of the operation
-   * @returns {Void}
-   */
-  load: function(pref_url, callback) {
-    $.ajax({
-      url: pref_url + ".infinity.json",
-      type: "GET",
+    /** Loads a preference data from a specified URL
+     * @param pref_url {String} The path to the preference which needs to be loaded
+     * @param callback {Function} A callback function which is executed at the end of the operation
+     * @returns {Void}
+     */
+    load: function(pref_url, callback) {
+        $.ajax({
+            url: pref_url + ".infinity.json",
+            type: "GET",
+            success: function(data) {
 
-      success: function(data) {
+                var returned_data = $.evalJSON(data);
 
-    var returned_data = $.evalJSON(data);
+                // Helper to remove JRC properties
+                var removeJCRObjects = function(current_object) {
 
-    // Helper to remove JRC properties
-    var removeJCRObjects = function(current_object) {
+                    if (current_object["jcr:primaryType"]) {
+                        delete current_object["jcr:primaryType"];
+                    }
 
-      if (current_object["jcr:primaryType"]) {
-        delete current_object["jcr:primaryType"];
-      }
+                    if (current_object["jcr:created"]) {
+                        delete current_object["jcr:created"];
+                    }
 
-      if (current_object["jcr:created"]) {
-        delete current_object["jcr:created"];
-      }
+                    for (var i in current_object) {
+                        if (typeof current_object[i] === "object") {
+                          var next_object = current_object[i];
+                          removeJCRObjects(next_object);
+                        }
+                    }
+                };
 
-      for (var i in current_object) {
-        if (typeof current_object[i] === "object") {
-          var next_object = current_object[i];
-          removeJCRObjects(next_object);
-        }
-      }
+                removeJCRObjects(returned_data);
+
+                callback(true, returned_data);
+            },
+            error: function(xhr, status, e) {
+                fluid.log("site_admin.js: There was an error loading the template configuration file: "+this.url);
+                callback(false,xhr);
+            }
+        });
     }
-
-    removeJCRObjects(returned_data);
-
-    callback(true, returned_data);
-      },
-
-      error: function(xhr, status, e) {
-    fluid.log("site_admin.js: There was an error loading the template configuration file: "+this.url);
-    callback(false,xhr);
-      }
-
-      });
-  }
 };
 
 
@@ -801,24 +839,42 @@ sdata.widgets.WidgetPreference =  {
     /**
      * Renders the template with the given JSON object, inserts it into a certain HTML
      * element if required, and returns the rendered HTML string
-     * @param {string} templateName
-     *  the name of the template HTML ID.
+     * @param {string|object} templateInstance
+     *  the name of the template HTML ID or a jQuery selection object.
      * @param {object} contextObject
      *  The JSON object containing the data to be rendered
      * @param {object} [optional] output
      *  The jQuery element in which the template needs to be rendered
      * @return The rendered HTML string
      */
-    $.Template.render = function(templateName, contextObject, output)  {
+    $.Template.render = function(templateInstance, contextObject, output) {
+
+        var templateName;
+
+        // The template name and the context object should be defined
+        if(!templateInstance || !contextObject){
+            throw "$.Template.render: the template name or the contextObject is not defined";
+        }
+
+        if(templateInstance instanceof jQuery && templateInstance[0]){
+            templateName = templateInstance[0].id;
+        }
+        else if (typeof templateInstance === "string"){
+            templateName = templateInstance.replace("#", "");
+            templateInstance = $("#" + templateName);
+        }
+        else {
+            throw "$.Template.render: The templateInstance is not in a valid format or the template couldn't be found.";
+        }
+
         if (!templateCache[templateName]) {
-            var el = $("#" + templateName);
-            if (el.get(0)) {
-                var templateNode = el.get(0);
+            if (templateInstance.get(0)) {
+                var templateNode = templateInstance.get(0);
                 var firstNode = templateNode.firstChild;
                 var template = null;
                 // Check whether the template is wrapped in <!-- -->
                 if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-                    template = templateNode.firstChild.data.toString();
+                    template = firstNode.data.toString();
                 }
                 else {
                     template = templateNode.innerHTML.toString();
@@ -828,13 +884,15 @@ sdata.widgets.WidgetPreference =  {
 
             }
             else {
-                throw "Template could not be found";
+                throw "$.Template.render: The template '" + templateName + "' could not be found";
             }
         }
 
         // Run the template and feed it the given JSON object
         var render = templateCache[templateName].process(contextObject);
 
+        // Check it there was an output element defined
+        // If so, put the rendered template in there
         if (output) {
             output.html(render);
         }
@@ -893,7 +951,7 @@ sdata.widgets.WidgetPreference =  {
                     throw "Not in default file";
                 }
             } catch (notInDefaultFile){
-                fluid.log("i18n key " + key + " was not found in any bundle");
+                //fluid.log("i18n key " + key + " was not found in any bundle");
             }
         }
     };
@@ -917,97 +975,96 @@ sdata.widgets.WidgetPreference =  {
 
     $.i18n_widget = function(widgetname, widget_html_content) {
 
-      var translated_content = "";
-      var current_locale_string = false;
-      if (typeof sdata.me.user.locale === "object") {
-        current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
-      }
+        var translated_content = "";
+        var current_locale_string = false;
+        if (typeof sdata.me.user.locale === "object") {
+          current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
+        }
 
-      // If there is no i18n defined in Widgets, run standard i18n on content
-      if (typeof Widgets.widgets[widgetname].i18n !== "object") {
-        translated_content = $.i18n(widget_html_content, sdata.i18n.localBundle, sdata.i18n.defaultBundle)
+        // If there is no i18n defined in Widgets, run standard i18n on content
+        if (typeof Widgets.widgets[widgetname].i18n !== "object") {
+          translated_content = $.i18n(widget_html_content, sdata.i18n.localBundle, sdata.i18n.defaultBundle)
+          return translated_content;
+        }
+
+        // Load default language bundle for the widget if exists
+        if (Widgets.widgets[widgetname]["i18n"]["default"]) {
+
+          $.ajax({
+              url: Widgets.widgets[widgetname]["i18n"]["default"],
+              async: false,
+              success: function(messages_raw) {
+
+                  sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
+                  sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
+
+              },
+              error: function(xhr, textStatus, thrownError) {
+                  //alert("Could not load default language bundle for widget: " + widgetname);
+              }
+          });
+
+        }
+
+        // Load current language bundle for the widget if exists
+        if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
+
+            $.ajax({
+                url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
+                async: false,
+                success: function(messages_raw) {
+
+                    sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
+                    sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
+                }
+            });
+        }
+
+        // Translate widget name and description
+        if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["name"] === "string")) {
+            Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
+        }
+        if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["description"] === "string")) {
+            Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
+        }
+
+
+        // Change messages
+        var expression = new RegExp("__MSG__(.*?)__", "gm");
+        var lastend = 0;
+        while(expression.test(widget_html_content)) {
+            var replace = RegExp.lastMatch;
+            var lastParen = RegExp.lastParen;
+            var toreplace = $.i18n.widgets_getValueForKey(widgetname, current_locale_string, lastParen);
+            translated_content += widget_html_content.substring(lastend,expression.lastIndex-replace.length) + toreplace;
+            lastend = expression.lastIndex;
+        }
+        translated_content += widget_html_content.substring(lastend);
+
         return translated_content;
-      }
-
-      // Load default language bundle for the widget if exists
-      if (Widgets.widgets[widgetname]["i18n"]["default"]) {
-
-        $.ajax({
-          url: Widgets.widgets[widgetname]["i18n"]["default"],
-          async: false,
-          success: function(messages_raw) {
-
-        sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
-        sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
-
-          },
-          error: function(xhr, textStatus, thrownError) {
-        alert("Could not load default language bundle for widget: " + widgetname);
-          }
-        });
-
-      }
-
-      // Load current language bundle for the widget if exists
-      if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
-
-        $.ajax({
-          url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
-          async: false,
-          success: function(messages_raw) {
-
-        sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
-        sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
-
-          },
-          error: function(xhr, textStatus, thrownError) {
-        alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
-          }
-        });
-      }
-
-      // Translate widget name and description
-      if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["name"] === "string")) {
-        Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
-      }
-      if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["description"] === "string")) {
-        Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
-      }
-
-
-      // Change messages
-      var expression = new RegExp("__MSG__(.*?)__", "gm");
-      var lastend = 0;
-      while(expression.test(widget_html_content)) {
-        var replace = RegExp.lastMatch;
-        var lastParen = RegExp.lastParen;
-        var toreplace = $.i18n.widgets_getValueForKey(widgetname, current_locale_string, lastParen);
-        translated_content += widget_html_content.substring(lastend,expression.lastIndex-replace.length) + toreplace;
-        lastend = expression.lastIndex;
-      }
-      translated_content += widget_html_content.substring(lastend);
-
-      return translated_content;
     };
 
     // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
     $.i18n.widgets_getValueForKey = function(widgetname, locale, key){
 
-      if ((typeof sdata.i18n.widgets[widgetname][locale] === "object") && (typeof sdata.i18n.widgets[widgetname][locale][key] === "string")){
+        if ((typeof sdata.i18n.widgets[widgetname][locale] === "object") && (typeof sdata.i18n.widgets[widgetname][locale][key] === "string")){
 
-          return sdata.i18n.widgets[widgetname][locale][key];
+            return sdata.i18n.widgets[widgetname][locale][key];
 
         } else if ((typeof sdata.i18n.widgets[widgetname]["default"][key] === "string") && (typeof sdata.i18n.widgets[widgetname]["default"] === "object")) {
 
-          return sdata.i18n.widgets[widgetname]["default"][key];
+            return sdata.i18n.widgets[widgetname]["default"][key];
 
         } else if (sdata.i18n.localBundle[key]) {
 
-          return sdata.i18n.localBundle[key]
+            return sdata.i18n.localBundle[key];
 
         } else if (sdata.i18n.defaultBundle[key]) {
 
-          return sdata.i18n.defaultBundle[key];
+            return sdata.i18n.defaultBundle[key];
 
         }
     };
@@ -1105,7 +1162,7 @@ sdata.container = {
     },
 
     performLoad : function(){
-        for (var i = 0; i < sdata.container.toLoad.length; i++){
+        for (var i = 0, j = sdata.container.toLoad.length; i<j; i++){
             var fct = eval(sdata.container.toLoad[i]);
             try {
                 fct();
@@ -1131,8 +1188,6 @@ sdata.container = {
 ////////////////////////////////
 
 sdata.files = {
-
-
 
     /**
      * Gets all the files and folders under a certain path.
@@ -1221,29 +1276,29 @@ sdata.files = {
         try {
             var array = filename.split(".");
             var extention = array[array.length - 1].toLowerCase();
-            if (extention == "php" || extention == "html" || extention == "xml" || extention == "css" || extention == "js"){
+            if (extention == "php" || extention === "html" || extention === "xml" || extention === "css" || extention === "js"){
                 return "Web document";
-            } else if (extention == "doc" || extention == "docx" || extention == "rtf"){
+            } else if (extention === "doc" || extention === "docx" || extention === "rtf"){
                 return "Word file";
-            } else if (extention == "exe"){
+            } else if (extention === "exe"){
                 return "Program";
-            } else if (extention == "mov" || extention == "avi" || extention == "mp4"){
+            } else if (extention === "mov" || extention === "avi" || extention === "mp4"){
                 return "Movie";
-            } else if (extention == "fla" || extention == "as" || extention == "flv"){
+            } else if (extention === "fla" || extention === "as" || extention === "flv"){
                 return "Flash";
-            } else if (extention == "mp3" || extention == "wav" || extention == "midi" || extention == "asf"){
+            } else if (extention === "mp3" || extention === "wav" || extention === "midi" || extention === "asf"){
                 return "Audio";
-            } else if (extention == "pdf"){
+            } else if (extention === "pdf"){
                 return "PDF file";
-            } else if (extention == "png" || extention == "gif" || extention == "jpeg" || extention == "jpg" || extention == "tiff" || extention == "bmp"){
+            } else if (extention === "png" || extention === "gif" || extention === "jpeg" || extention === "jpg" || extention === "tiff" || extention === "bmp"){
                 return "Picture";
-            } else if (extention == "ppt" || extention == "pptx" || extention == "pps" || extention == "ppsx"){
+            } else if (extention === "ppt" || extention === "pptx" || extention === "pps" || extention === "ppsx"){
                 return "Powerpoint";
-            } else if (extention == "txt"){
+            } else if (extention === "txt"){
                 return "Text file";
-            } else if (extention == "xls" || extention == "xlsx"){
+            } else if (extention === "xls" || extention === "xlsx"){
                 return "Excel";
-            } else if (extention == "zip" || extention == "rar"){
+            } else if (extention === "zip" || extention === "rar"){
                 return "Archive";
             } else {
                 return "Other";
@@ -1283,11 +1338,11 @@ sdata.files = {
 sakai.sorting = {};
 sakai.sorting.human = function(a, b){
     function chunkify(t){
-        var tz = new Array();
+        var tz = [];
         var x = 0, y = -1, n = 0, i, j;
 
         while (i = (j = t.charAt(x++)).charCodeAt(0)) {
-            var m = (i == 46 || (i >= 48 && i <= 57));
+            var m = (i === 46 || (i >= 48 && i <= 57));
             if (m !== n) {
                 tz[++y] = "";
                 n = m;
@@ -1300,16 +1355,17 @@ sakai.sorting.human = function(a, b){
     var aa = chunkify(a.toLowerCase());
     var bb = chunkify(b.toLowerCase());
 
-    for (x = 0; aa[x] && bb[x]; x++) {
+    for (var x = 0; aa[x] && bb[x]; x++) {
         if (aa[x] !== bb[x]) {
             var c = Number(aa[x]), d = Number(bb[x]);
-            if (c == aa[x] && d == bb[x]) {
+            if (c === aa[x] && d === bb[x]) {
                 return c - d;
-            }
-            else
+            } else {
                 return (aa[x] > bb[x]) ? 1 : -1;
+            }
         }
     }
+
     return aa.length - bb.length;
 };
 
@@ -1322,8 +1378,8 @@ sakai.sorting.human = function(a, b){
  * line. After this has been done, all calls to
  *    fluid.log(message);
  * will be logged in the most appropriate console
- *  NOTE: always disable debugging for production systems, as logging calls are quite
- *  expensive.
+ * NOTE: always disable debugging for production systems, as logging calls are quite
+ * expensive.
  */
 //fluid.setLogging(false);
 fluid.setLogging(true);
@@ -1337,8 +1393,8 @@ fluid.setLogging(true);
 
 /*
  * In order to decode or encode a URL use the following functions:
- *  $.URLDecode(string) : URL Decodes the given string
- *  $.URLEncode(string) : URL Encodes the given string
+ * $.URLDecode(string) : URL Decodes the given string
+ * $.URLEncode(string) : URL Encodes the given string
  */
 $.extend({URLEncode:function(c){var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
   while(x<c.length){var m=r.exec(c.substr(x));

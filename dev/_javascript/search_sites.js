@@ -156,6 +156,10 @@ sakai.search = function() {
                     var full_path = finaljson.items[i]["path"];
                     var site_path = finaljson.items[i]["site"]["path"];
                     var page_path = site_path;
+                    if (finaljson.items[i]["excerpt"]) {
+                        var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
+                        finaljson.items[i]["excerpt"] = stripped_excerpt;
+                    }
                     if (finaljson.items[i]["type"] === "sakai/pagecontent") {
                         page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
 
@@ -234,7 +238,7 @@ sakai.search = function() {
             }
 
             $.ajax({
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
+                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
                 cache: false,
                 success: function(data) {
                     var json = $.evalJSON(data);

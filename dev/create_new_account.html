@@ -4,18 +4,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Create a new account</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css"/>
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+
+    <!-- Sakai Page CSS -->
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.create_new_account.css" />
 
+    <!-- 3rd party CSS -->
+
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jcap/jcap.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jcap/md5.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/Jcap/jcap.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jcap/md5.js"></script>
 
 </head>
 
@@ -96,7 +110,9 @@
                         <tr>
                             <td class="label_container"><label id="username_label" for="username">Username:</label></td>
                             <td><input type="text" id="username" name="username" class="create_account_input" /></td>
-                            <td><div class="button-lightgrey" id="checkUserName"><input type="button" id="check_username_availibility" value="Check if username is available" /></div></td>
+                            <td>
+                                <button id="checkUserName" class="s3d-button"><span class="s3d-button-inner">Check if username is available</span></button>
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -157,12 +173,8 @@
                             <td></td>
                             <td>
                                 <div>
-                                    <div class="button-grey">
-                                        <input id="save_account" type="submit" value="Create account" />
-                                    </div>
-                                    <div class="button-lightgrey button-space">
-                                        <input id="cancel_button" type="button" value="Cancel" />
-                                    </div>
+                                    <button id="save_account" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Create account</span></button>
+                                    <button id="cancel_button" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
                                 </div>
                             </td>
                         </tr>
@@ -183,7 +195,7 @@
     </div>
 
     <!-- FOOTER WIDGET -->
-    <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
 
     <script type="text/javascript" language="JavaScript" src="_javascript/createnewaccount.js"></script>
 </body>

@@ -165,17 +165,23 @@ sakai.rss = function(tuid, placement, showSettings){
     var getFeed = function(url, onResponse){
         // put the url to a module variable
         // later on this will also be added to the json-object
+        // See if we have http:// in url
+        if (url.search("http://") === -1) {
+            url = "http://" + url;
+        }
+        
         feedUrl = url;
-         $.ajax({
-            url : Config.URL.PROXY_RSS + "http://" +  url,
-            type : "GET",
-            success : function(data) {
-                    onResponse(printFeed(data));
-            },
-            error: function(xhr, textStatus, thrownError) {
-                    alert("Unable to connect to the rss feed.");
-            }
-         });
+
+        $.ajax({
+           url : Config.URL.PROXY_RSS +  url,
+           type : "GET",
+           success : function(data) {
+                   onResponse(printFeed(data));
+           },
+           error: function(xhr, textStatus, thrownError) {
+                   alert("Unable to connect to the rss feed.");
+           }
+        });
     };
 
     /**

@@ -3,46 +3,47 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3  R&amp;D - Account Preferences</title>
+
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.account_preferences.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
 
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.account_preferences.css" />
+
+    <!-- 3rd party CSS -->
+
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/modal_dialog.js"></script>
-    <script type="text/javascript" language="JavaScript" src="jscripts/jquery-1.3.2.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="jscripts/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="jscripts/search.js"></script>
 
-</head>
-
-<body class="fl-centered account_preferences">
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
 
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+</head>
+
+<body class="fl-centered account_preferences i18nable">
+
      <!-- ERRORS AND MESSAGES -->
-    <span id="accountPref_error_passNotEqual" style="display:none;">New passwords aren't equal.</span>
-    <span id="accountPref_error_incorrectPass" style="display:none;">You filled in an incorrect password.</span>
-    <span id="accountPref_error_failChangePass" style="display:none;">Changing password failed.</span>
-    <span id="accountPref_message_passChanged" style="display:none;">Password changed.</span>
-    <span id="accountPref_error_invalidPass" style="display:none;">Password should be at least 5 characters long.</span>
-    <span id="accountPref_error_failChangeLang" style="display:none;">Changing regional settings failed.</span>
-    <span id="accountPref_message_ChangeLang" style="display:none;">Regional settings changed.</span>
+    <span id="account_preferences_error_passNotEqual" style="display:none;">__MSG__NEW_PASSWORDS_ARENT_EQUAL__.</span>
+    <span id="account_preferences_error_incorrectPass" style="display:none;">__MSG__YOU_FILLED_IN_AN_INCORRECT_PASSWORD__.</span>
+    <span id="account_preferences_error_failChangePass" style="display:none;">__MSG__CHANGING_PASSWORD_FAILED__.</span>
+    <span id="account_preferences_message_passChanged" style="display:none;">__MSG__PASSWORD_CHANGED__.</span>
+    <span id="account_preferences_error_invalidPass" style="display:none;">__MSG__PASSWORD_SHOULD_BE_AT_LEAST_FIVE_CHARACTERS_LONG__.</span>
+    <span id="account_preferences_error_failChangeLang" style="display:none;">__MSG__CHANGING_REGIONAL_SETTINGS_FAILED__.</span>
+    <span id="account_preferences_message_ChangeLang" style="display:none;">__MSG__REGIONAL_SETTINGS_CHANGED__.</span>
 
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
+    <div id="widget_navigationchat" class="widget_inline"></div>
 
     <!-- HEADER -->
     <div class="fl-container-flex header">
@@ -50,8 +51,8 @@
             <div class="decor"></div>
 
                 <!-- TITLE BAR  -->
-                    <div class="site_heading">
-                        <h1>Set your account details</h1>
+                    <div class="s3d-site-heading">
+                        <h1>__MSG__SET_YOUR_ACCOUNT_DETAILS__</h1>
                     </div>
 
         </div>
@@ -64,36 +65,36 @@
     <div class="outline">
 
     <!-- CONTENT -->
-    <div class="preferences-container password" id="accountPref_changePassContainer">
+    <div class="fl-push password" id="account_preferences_changePassContainer">
         <h4 class="section_header">
-            Password:
+            __MSG__PASSWORD__:
         </h4>
-        <form class="preferences-form" method="" action="">
+        <form id="account_preferences_password_change" class="preferences-form" method="POST" action="javascript:;">
             <div class="form-item">
-                    <label for="curr_pass">Current Password:</label>
+                    <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
                     <input type="password" id="curr_pass" class="password-preferences-input" />
             </div>
             <div class="form-item">
-                    <label for="new_pass">New Password:</label>
+                    <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
                     <input type="password" id="new_pass" class="password-preferences-input" />
             </div>
             <div class="form-item">
-                    <label for="retype_pass">Re-Type New Password:</label>
+                    <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
                     <input type="password" id="retype_pass" class="password-preferences-input" />
             </div>
             <div class="save-preferences">
-                <input type="image" id="accountPref_saveNewPass" src="_images/save_changes.png" class="button submit button-disabled button-preferences" value="Save Changes" />
-                <div class="accountPref_general_message" id="accountPref_general_message_pass"></div>
+                <button id="account_preferences_saveNewPass" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
+                <div class="account_preferences_general_message" id="account_preferences_general_message_pass"></div>
             </div>
         </form>
     </div>
-    <div class="preferences-container regional">
+    <div class="fl-push regional">
         <h4 class="section_header">
-            Regional Settings:
+            __MSG__REGIONAL_SETTINGS__:
         </h4>
-        <form class="preferences-form" method="get" action="" >
+        <form class="preferences-form" method="POST" action="javascript:;">
             <div class="form-item">
-                    <label for="time_zone">Time Zone:</label>
+                    <label for="time_zone">__MSG__TIME_ZONE__:</label>
                     <select id="time_zone" name="time-zone">
                               <option value="AET">AET</option>
                             <option value="AGT">AGT</option>
@@ -689,33 +690,32 @@
                     </select>
              </div>
              <div class="form-item">
-                    <label for="pass_language">Language:</label>
+                    <label for="pass_language">__MSG__LANGUAGE__:</label>
                     <select id="pass_language" name="language">
 
                     </select>
             </div>
             <div class="save-preferences">
-                <input type="image" id="accountPref_submitRegional" src="_images/save_changes.png" class="button submit button-primary button-preferences" value="Save Changes" />
-                <div class="accountPref_general_message" id="accountPref_general_message_regional"></div>
+                <button id="account_preferences_submitRegional" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
+                <div class="account_preferences_general_message" id="account_preferences_general_message_regional"></div>
             </div>
         </form>
     </div>
-    <div id="accountPref_languagesTemplate" style="display:none"><!--
+    <div id="account_preferences_languagesTemplate" style="display:none"><!--
     {for i in languages}
         <option value="${i.language}_${i.country}">${i.displayName}</option>
     {/for}
     --></div>
 
-    <div class="clearboth"></div>
+    <div class="fl-push"></div>
     </div>
     <div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
     </div>
     </div>
 
     <!-- FOOTER WIDGET -->
-    <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
 
     <script type="text/javascript" language="JavaScript" src="_javascript/account_preferences.js"></script>
 </body>
 </html>
-

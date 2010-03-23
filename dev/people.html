@@ -6,51 +6,55 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - My Contacts</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/SHA.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
     <script type="text/javascript" language="JavaScript" src="_javascript/_history/rsh.js"></script>
     <script type="text/javascript" language="JavaScript" src="_javascript/_history/search_history.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery//modal_dialog.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
 
 </head>
 
-<body id="root" class="fl-centered fl-container people">
-
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+<body id="root" class="fl-centered fl-container people i18nable">
 
     <!-- EXPLORE BAR -->
-    <div id="widget_chat" class="widget_inline"></div>
+    <div id="widget_navigationchat" class="widget_inline"></div>
 
     <!-- TITLE BAR  -->
-    <div class="fl-container-flex header people_header">
+    <div class="fl-container-flex header">
         <div class="fl-fix fl-centered fixed-container">
             <div class="decor"></div>
 
                 <!-- TITLE BAR  -->
-                    <div class="site_heading">
-                        <div class="fl-container options find_more_people">
-                            <a id="edit-layout" href="search_people.html">Find more people</a>
+                    <div class="s3d-site-heading">
+                        <div class="fl-container options find_more_people fl-force-right">
+                            <a id="edit-layout" href="search_people.html">__MSG__FIND_MORE_PEOPLE__</a>
                         </div>
-                        <h1>My People</h1>
+                        <h1>__MSG__MY_PEOPLE__</h1>
                     </div>
 
         </div>
@@ -73,7 +77,7 @@
                 <div class="fl-container fl-fix search_results_part">
 
                     <div class="fl-container fl-fix search_results_part_header">
-                        <a href="#" class="search_results_part_title">My Contacts</a>
+                        <a href="#" class="search_results_part_title">__MSG__MY_CONTACTS__</a>
                     </div>
 
                     <div id="contacts_search_result">
@@ -96,14 +100,16 @@
                                 {/if}
                                 {if ! i.isMe}
                                     {if ! i.connected}
-                                    <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
-                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">Remove contact</a>
                                     {/if}
+                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                     <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
                                 {/if}
                             </div>
                         {forelse}
-                            No contacts found
+                            __MSG__NO_CONTACTS_FOUND__
                         {/for}
                     --></div>
 
@@ -122,7 +128,7 @@
                 <div class="fl-container fl-fix search_results_part">
 
                     <div class="fl-container fl-fix search_results_part_header">
-                        <a href="javascript:;" class="search_results_part_title">My Contact Invitations</a>
+                        <a href="javascript:;" class="search_results_part_title">__MSG__MY_CONTACTS_INVITATIONS__</a>
                     </div>
 
                     <div id="invited_search_result">
@@ -150,7 +156,7 @@
                                 {/if}
                             </div>
                         {forelse}
-                            No invitations found
+                            __MSG__NO_INVITATIONS_FOUND__
                         {/for}
                     --></div>
 
@@ -165,7 +171,7 @@
                 <div class="fl-container fl-fix search_results_part">
 
                     <div class="fl-container fl-fix search_results_part_header">
-                        <a href="#" class="search_results_part_title">Pending Invitations</a>
+                        <a href="#" class="search_results_part_title">__MSG__PENDING_INVITATIONS__</a>
                     </div>
 
                     <div id="pending_search_result">
@@ -191,7 +197,7 @@
                                 {/if}
                             </div>
                         {forelse}
-                            No pending contacts found
+                            __MSG__NO_PENDING_CONTACTS_FOUND__
                         {/for}
                     --></div>
 
@@ -209,7 +215,7 @@
     </div>
 
     <!-- FOOTER WIDGET -->
-    <div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
 
     <div id="sendmessagecontainer" style="display:none; width:100%">
         <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>

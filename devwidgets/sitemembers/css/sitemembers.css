@@ -89,8 +89,6 @@
     color:#5A6A7C;
 }
 
-.sitemembers_clearer { clear:both; }
-
 #sitemembers_settings input[type="radio"], #sitemembers_settings input[type="checkbox"] {
     margin-left:3px;
     margin-right:8px;

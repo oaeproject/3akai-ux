@@ -4,68 +4,64 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Manage Members</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.site_management_members_manage.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/chat/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.site_management_members_manage.css" />
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+
+
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
 
 </head>
 <body id="root" class="fl-centered fl-container i18nable add-members">
-<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
-<script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
+
 <!-- EXPLORE BAR -->
-<div id="widget_chat" class="widget_inline"></div>
+<div id="widget_navigationchat" class="widget_inline"></div>
 <div class="fl-container-flex content content-management">
     <div class="fl-fix fl-centered fixed-container">
         <div class="decor"></div>
         <!-- TITLE BAR  -->
-        <div>
-            <!-- SEARCH FIELD -->
-            <div class="site_search">
-                <form method="" action="" class="search fl-force-right" style="display:none;">
-                    <input type="text" class="fl-force-left search_field" value="Search this site" name="search"/>
-                    <a href="javascript:;" class="button-default save_button search_btn">Search</a>
-                    <!-- <input type="submit" name="submit_search" value="search" class="fl-force-left fl-icon search_button" /> -->
-                </form>
-            </div>
-            <h1 id="sitetitle"></h1>
-        </div>
+        <h1 id="sitetitle"></h1>
         <!-- CONTENT -->
         <!-- SECOND HEADING -->
         <div class="secondary_title"> Site Management <a id="back_to_site_link" href="/sites/">&laquo; Back to Site</a> </div>
         <!-- TAB NAVIGATION -->
-        <div class="management_tab_nav">
-            <div class="management_tab_nav_inner">
-                <ul class="fl-tabs fl-tabs-left">
-                    <li><a href="site_management_basic_settings.html?siteid=" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
-                    <li class="fl-tabs-active"><a href="javscript:;">Members</a></li>
-                    <li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
-                </ul>
-            </div>
+        <div class="s3d-primary-tabs i18nable">
+            <ul class="fl-tabs fl-tabs-left">
+                <li><a href="site_management_basic_settings.html?siteid=" class="siteSettings_appendSiteIDtoURL">Basic Settings</a></li>
+                <li class="fl-tabs-active"><a href="javascript:;">Members</a></li>
+                <li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">Appearance</a></li>
+            </ul>
         </div>
         <div class="management_content_wrapper">
             <div class="management_tab_content_top">
                 <div class="management_tab_content_top_inner"></div>
             </div>
             <div class="management_content_main">
-                <div class="fl-force-right"><span class="dark-gray-button"><a class="manage-members" href="site_management_members_add.html">Add people to my site</a></span> </div>
+                <div class="fl-force-right">
+                    <a class="s3d-button s3d-button-primary s3s-manage-members" href="site_management_members_add.html"><span class="s3d-button-inner">Add people to my site</span></a>
+                </div>
                 <!-- CURRENT MEMBERS -->
                 <div class="manage_member_title"> Manage current members (<span id="manage_members_count">0</span>) </div>
                 <!-- MIXED COLUMN -->
@@ -101,8 +97,8 @@
                                             Suspended </li>
                                     </ul>
                                 </div>
-                                <input type="image" src="_images/update_selected_people.png" class="button button-primary update-people selected_people_addToSite" value="Update selected people"/>
-                                <input type="image" src="_images/remove_selected_people.png" class="button button-secondary remove-people" id="selected_members_delete" value="Remove selected people" />
+                                <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__UPDATE_SELECTED_PEOPLE__</span></button>
+                                <button id="selected_members_delete" class="s3d-button"><span class="s3d-button-inner">__MSG__REMOVE_SELECTED_PEOPLE__</span></button>
                             </form>
                             <div id="selected-members-container"  class="selected_personsContainer"></div>
                             <div style="display:none" id="selected-people-template"><!--
@@ -122,7 +118,7 @@
                     {/for}
                     </table>
                     --></div>
-                            <div class="clearboth"></div>
+                            <div class="fl-push"></div>
                         </div>
                         <div class="leftCol_content_bottom">
                             <div class="leftCol_content_bottom_inner"></div>
@@ -132,15 +128,14 @@
                     <div class="fl-col-flex">
                         <div class="flex-container">
                             <div class="explore_nav">
-                                <ul class="user-personal fl-force-left">
+                                <ul class="s3d-action-series s3d-actions fl-force-left">
                                     <!-- <li class="first"><a href="#">Current members</a></li> -->
                                     <li class="first"><a href="javascript:;" id="btn_members_selectAll">Select all</a></li>
                                     <li class="last"><a href="javascript:;" id="btn_members_selectNone">Select none</a></li>
                                     <!-- <li class="last"><a href="#" >Select from CSV file</a></li> -->
                                 </ul>
                                 <div class="fl-force-right" style="margin-top:2px;">
-                                    <a href="javascript:;" id="btn_members_filter" style="font-weight: bold">Filter</a>
-                                    <!-- <input type="image" class="submit-button" id="btn_members_search" value="Search" src="_images/search_for_people.png" /> -->
+                                    <a href="javascript:;" id="btn_members_filter" class="s3d-action">Filter</a>
                                 </div>
                                 <div class="member-search fl-force-right">
                                     <input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, ..." />
@@ -172,14 +167,14 @@
                         </li>
                     {/for}
                     </ul>
-                        <div class="clearboth"></div>
+                        <div class="fl-push"></div>
                     </div>
                     --></div>
                             <div class="sakai_pager"></div>
                         </div>
                     </div>
                 </div>
-                <div class="clearboth"></div>
+                <div class="fl-push"></div>
             </div>
         </div>
         <div class="management_tab_content_bottom">
@@ -211,8 +206,9 @@
 </div>
 
 <!-- FOOTER WIDGET -->
-<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+<div id="widget_footer" class="widget_inline footercontainer"></div>
 
+<!-- Sakai page JS -->
 <script type="text/javascript" language="JavaScript" src="_javascript/site_manage_members.js"></script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+{
+"name": "Createsite",
+"description": "Createsite widget\r\n",
+"WIDGET_TITLE": "Create a new site",
+"PROVIDE_THE_FOLLOWING_INFORMATIONS_AND_CLICK_THE_CREATE_SITE_BUTTON": "Provide the following information and click the \"Create Site\" button",
+"IS_THIS_A_COURSE_SITE": "Is this a course site",
+"YES": "Yes",
+"NO": "No",
+"REQUIRED_INFORMATION": "Required Information",
+"NAME": "Name",
+"URL": "Url",
+"TEMPLATE": "Template",
+"BLANK_SITE": "Blank Site",
+"INTERDISCIPLINARY_RESEARCH_SITE": "Interdisciplinary Research Site",
+"MEMBERS": "Members",
+"CREATE_SITE": "Create Site",
+"CANCEL": "Cancel",
+"PROCESSING": "Processing",
+"REQUEST_SUCCESSFUL": "Request successful",
+"YOUR_SITE_HAS_BEEN_SUCCESSFULLY_REQUESTED": "Your site has been successfully requested. We'll get in touch with you as soon as possible",
+"PLEASE_FILL_OUT_ALL_OF_YOUR_COURSES_AND ALSO_TELL": "Please fill out all of your course's details and also tell what you would like to see initially on your course site. Once we have authorized and created your site, we will get back in touch with you with more details",
+"REQUEST_SITE": "Request Site"
+}

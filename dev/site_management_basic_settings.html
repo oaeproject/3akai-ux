@@ -4,56 +4,51 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Site settings</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/site.management.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.treeview.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/site.managment.css" />
-    <link type="text/css" rel="stylesheet" href="/devwidgets/chat/css/chat.css" />
 
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/site.management.css" />
+
+    <!-- 3rd party CSS -->
+
+
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/SHA.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.simpletip-1.3.1.min.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+
 
 </head>
 <body id="root" class="fl-centered fl-container i18nable basic_management">
 <!-- MESSAGES -->
 <span id="siteSettings_error_unauthorized" style="display:none;">You are not allowed to change this site. Are you still logged in?</span> <span id="siteSettings_error_saveFail" style="display:none;">Failed to save the site settings.</span> <span id="siteSettings_error_saveSuccess" style="display:none;">Updated the site settings.</span>
 <!-- EXPLORE BAR -->
-<div id="widget_chat" class="widget_inline"></div>
+<div id="widget_navigationchat" class="widget_inline"></div>
 <div class="fl-container-flex content content-management">
     <div class="fl-fix fl-centered fixed-container">
         <div class="decor"></div>
         <!-- TITLE BAR  -->
-        <div>
-            <!-- class="site_heading" -->
-            <!-- SEARCH FIELD -->
-            <div class="site_search">
-                <form class="fl-force-right search_form" id="search_form" action="#" method="post" style="display:none;">
-                    <input type="text" class="text-field search_field" value="Search this site" />
-                    <input type="submit" value="Search" class="button search_button" />
-                </form>
-            </div>
-            <h1 id="sitetitle">John's New Site</h1>
-        </div>
+        <h1 id="sitetitle">John's New Site</h1>
         <!-- CONTENT -->
         <!-- SECOND HEADING -->
         <div class="secondary_title"> Site Management <a href="/sites/" class="siteSettings_appendSiteIDtoURL">&laquo; Back to Sites</a> </div>
         <!-- TAB NAVIGATION -->
-        <div class="management_tab_nav">
+        <div class="s3d-primary-tabs">
             <ul class="fl-tabs fl-tabs-left">
                 <li class="fl-tabs-active"><a href="javascript:;">Basic Settings</a></li>
                 <li><a href="site_management_members_manage.html?siteid=" class="siteSettings_appendSiteIDtoURL">Members</a></li>
@@ -66,7 +61,8 @@
             </div>
             <div class="management_content_main">
                 <!-- DELETE SITE -->
-                <div id="siteSettings_delete_button_container"> <span class="dark-gray-button"><a href="javascript:;" id="siteSettings_delete_button"><span>Delete this Site</span></a></span>
+                <div id="siteSettings_delete_button_container">
+                    <button id="siteSettings_delete_button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Delete this Site</span></button>
                 </div>
                 <div class="basic_title">Basic Settings</div>
                 <div class="section_container">
@@ -126,10 +122,14 @@
                             <input type="radio" id="siteSettings_access_invite" class="siteSetting_access site_private" name="privacy" />
                             <label for="allow_invite"> Only people I invite</label>
                         </div>
-                        <div id="siteSettings_confirm" class="settings_confirm_container"><span class="dark-gray-button"><a href="javascript:;" class="button-primary" id="siteSettings_save">Save</a></span> <span class="light-gray-button"><a href="javascript:;" class="button-secondary" id="siteSettings_cancel">Cancel</a></span> </div>
-                        <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
+                        <div id="siteSettings_confirm" class="settings_confirm_container">
+                            <button id="siteSettings_save" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Save</span></button>
+                            <button id="siteSettings_cancel" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+                        </div>
+                         <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
                     </form>
                 </div>
+                <!-- Dialog: Site Settings Delete Container -->
                 <div class="dialog" id="siteSettings_delete_container">
                     <div class="dialog_header">
                         <div class="dialog_header_inner">
@@ -164,8 +164,9 @@
 </div>
 
 <!-- FOOTER WIDGET -->
-<div id="widget_footer_footercontainer" class="widget_inline footercontainer"></div>
+<div id="widget_footer" class="widget_inline footercontainer"></div>
 
+<!-- Sakai page JS -->
 <script type="text/javascript" src="_javascript/site_basic_settings.js"></script>
 </body>
 </html>
