@@ -438,7 +438,7 @@ sakai.contentmedia = function(){
         for(var i = 0; i < globaldata.results.length; i++){
             if(globaldata.results[i].filesize){
                 globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i].filesize);
-                globaldata.results[i].formattedDateModified = dateFormat($.ParseJCRDate(globaldata.results[i]["jcr:lastModified"]));
+                globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["jcr:lastModified"]));
             }
         }
 
