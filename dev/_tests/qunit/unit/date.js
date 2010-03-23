@@ -42,8 +42,7 @@ test("Date format: YYYY-MM-DDThh:mm:ssTZD", function(){
     equals(date.getFullYear(), "1997", "The year is correct");
     equals(date.getMonth(), "6", "The month is correct");
     equals(date.getDate(), "16", "The day is correct");
-    // The hour will be 20 and not 19 because of the time format.
-    equals(date.getHours(), "20", "The hour is correct");
+    equals(date.getHours(), "19", "The hour is correct");
     equals(date.getMinutes(), "20", "The minutes are correct");
     equals(date.getSeconds(), "30", "The seconds are correct");
 });

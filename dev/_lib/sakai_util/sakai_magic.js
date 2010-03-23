@@ -728,9 +728,9 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
     if (!offset) { 
         offset = 'Z';
     } else {
-        var d = offset.match(/([-+])([0-9]{2}):([0-9]{2})/);
+        var d = offset.match(/([\-+])([0-9]{2}):([0-9]{2})/);
         var offsetnum = (Number(d[2]) * 60) + Number(d[3]);
-        offsetnum *= ((d[1] == '-') ? -1 : 1);
+        offsetnum *= ((d[1] === '-') ? -1 : 1);
         date = new Date(Number(Number(date) + (offsetnum * 60000)));
     }
 
@@ -776,7 +776,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
     // the dateInput field
     var regexpInteger = /^\d+$/;
     var regexpISO8601 = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" +
-        "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" +
+        "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\\.([0-9]+))?)?" +
         "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
 
     // Test whether the format is in milliseconds
@@ -799,12 +799,12 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
     if (d[12]) { date.setMilliseconds(Number("0." + d[12]) * 1000); }
     if (d[14]) {
         offset = (Number(d[16]) * 60) + Number(d[17]);
-        offset *= ((d[15] == '-') ? 1 : -1);
+        offset *= ((d[15] === '-') ? 1 : -1);
     }
 
     // Set the timezone for the date object
     offset -= date.getTimezoneOffset();
-    time = (Number(date) + (offset * 60 * 1000));
+    var time = (Number(date) + (offset * 60 * 1000));
     dateOutput.setTime(Number(time));
 
     // Return the date output
@@ -919,17 +919,48 @@ sakai.api.Util.stripTags = function(s) {
 sakai.api.Util.Sorting = {
 
     /**
-    * Natural Order sorting algorithm, for sorting file lists etc..
-    * @param {Array} unsorted array
-    *
-    * @returns The sorted array
-    * @type Array
+    * Natural sorting algorithm, for sorting file lists etc.
+    * e.g.: sakai.api.Util.Sorting("z1", "z2", "z01");
+    * @param {String|Integer|Number} a The first element you want to sort
+    * @param {String|Integer|Number} b The second element you want to sort
+    * @return {Integer} [0 | 1 | -1]
+    *     -1: sort a so it has a lower index than b
+    *     0: a and b are equal
+    *     1: sort b so it has a lower index than a
     */
-   naturalOrder: function(inputArray) {
+   naturalSort: function(a, b) {
 
+        /*
+         * Natural Sort algorithm for Javascript
+         * Version 0.3
+         * Author: Jim Palmer (based on chunking idea from Dave Koelle)
+         *  optimizations and safari fix by Mike Grier (mgrier.com)
+         * Released under MIT license.
+         */
+
+        // Setup temp-scope variables for comparison evalutation
+        var re = /(-?[0-9\.]+)/g,
+            x = a.toString().toLowerCase() || '',
+            y = b.toString().toLowerCase() || '',
+            nC = String.fromCharCode(0),
+            xN = x.replace( re, nC + '$1' + nC ).split(nC),
+            yN = y.replace( re, nC + '$1' + nC ).split(nC),
+            xD = (new Date(x)).getTime(),
+            yD = xD ? (new Date(y)).getTime() : null;
+        // Natural sorting of dates
+        if (yD) {
+            if (xD < yD) { return -1; }
+            else if (xD > yD) { return 1; }
+        }
+        // Natural sorting through split numeric strings and default strings
+        for( var cLoc = 0, numS = Math.max(xN.length, yN.length); cLoc < numS; cLoc++ ) {
+            var oFxNcL = parseFloat(xN[cLoc]) || xN[cLoc];
+            var oFyNcL = parseFloat(yN[cLoc]) || yN[cLoc];
+            if (oFxNcL < oFyNcL) { return -1; }
+            else if (oFxNcL > oFyNcL) { return 1; }
+        }
+        return 0;
    }
-
-
 };
 
 
@@ -1267,7 +1298,7 @@ if(Array.hasOwnProperty("indexOf") === false){
     Array.prototype.indexOf = function(obj,start){
 
         for(var i=(start||0),j=this.length; i<j; i++){
-            if(this[i]==obj){
+            if(this[i]===obj){
                 return i;
             }
         }
