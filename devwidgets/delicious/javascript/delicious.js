@@ -22,9 +22,9 @@ var sakai = sakai || {};
 
 /**
  * Initialize the Delicious widget
- * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not
+ * @param {String} tuid: unique id of the widget
+ * @param {String} placement: the place of the widget
+ * @param {Boolean} showSettings: show the settings of the widget or not
  */
 sakai.delicious = function(tuid, placement, showSettings){
 
@@ -57,15 +57,8 @@ sakai.delicious = function(tuid, placement, showSettings){
     ///////////////////////
 
     /**
-     * Reloads this widget, with the settings open
-     */
-    var reload = function(){
-        sakai.delicious(tuid, placement, true);
-    };
-
-    /**
      * Adds the retrieved settings to the right fields
-     * @param {Object} color
+     * @param {Object} data: retrieved data
      */
     var fillInDeliciousSettings = function(data){
         var settings = $.evalJSON(data);
@@ -83,44 +76,23 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Get the stored widget settings
      */
     var getDeliciousSettings = function(){
-        //var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation);
+        var url = "/delicious/" + sdata.me.user.userid + "/delicious/delicious_settings.json";
 
         // Getting the settings data
         // There is a standard function (sdata.widgets.WidgetPreference.get) to do this,
         // but as long as data is being stored at the modified location it can not be used.
         $.ajax({
             cache: false,
-            url: "/delicious/" + sdata.me.user.userid + "/delicious/delicious_settings",
+            url: url,
             success: function(data){
                 // Fill in the retrieved data
                 fillInDeliciousSettings(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 // Display error message in console
-                console.log("ERROR at delicious.js, getDeliciousSettings(): " + thrownError);
+                console.log("ERROR at delicious.js, getDeliciousSettings: " + thrownError);
             }
         });
-    };
-
-    /**
-     * Save the widget settings
-     */
-    var saveDeliciousSettings = function(){
-        // Concatinate the URL where the settings should be saved
-        //var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        var saveUrl = "/delicious/" + sdata.me.user.userid + "/delicious";
-
-        // Object to be saved at JCR
-        var delicious = {
-            "username": document.getElementById('delicious_settings_input_username').value,
-            "password": document.getElementById('delicious_settings_input_password').value
-        };
-
-        // Create JSON data to send
-        var jsonDeliciousSettings = $.toJSON(delicious);
-
-        // Sava the JSON data to the widgets JCR
-        sdata.widgets.WidgetPreference.save(saveUrl, "delicious_settings", jsonDeliciousSettings, savedDeliciousSettings);
     };
 
     /**
@@ -129,11 +101,39 @@ sakai.delicious = function(tuid, placement, showSettings){
     var savedDeliciousSettings = function(success){
         if (success) {
             // Preference saved
-            sdata.container.informFinish(tuid);
+
+            // FIXME
+            // Multiple instances of this widget are showing up
+            // sdata.container.informFinish(tuid,"delicious");
+
+            // This is a temporary solution
+            $deliciousContainerMain.show();
+            $deliciousContainerSettings.hide();
         } else {
             // Log error
-            console.log("ERROR at delicious.js, savedDeliciousSettings()");
+            console.log("ERROR at delicious.js, savedDeliciousSettings");
         }
+    };
+
+    /**
+     * Save the widget settings
+     */
+    var saveDeliciousSettings = function(){
+        // Concatinate the URL where the settings should be saved
+        var saveUrl = "/delicious/" + sdata.me.user.userid + "/delicious";
+
+        // Object to be saved at JCR
+        var deliciousSettings = {
+            "username" : $("#delicious_settings_input_username", rootel).val(),
+            "password" : $("#delicious_settings_input_password", rootel).val()
+        };
+
+        // Create JSON data to send
+        var jsonDeliciousSettings = "";
+        jsonDeliciousSettings = $.toJSON(deliciousSettings);
+
+        // Sava the JSON data to the widgets JCR
+        sdata.widgets.WidgetPreference.save(saveUrl, "delicious_settings.json", jsonDeliciousSettings, savedDeliciousSettings);
     };
 
 
@@ -159,7 +159,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         }
 
         // Buttons
-        $deliciousSettingsLink.live('click', reloadWidget);
+        //$deliciousSettingsLink.live('click', reloadWidget);
         $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
 
         // Render
