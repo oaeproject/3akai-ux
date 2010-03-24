@@ -308,7 +308,7 @@ sakai.api.i18n.i18nWidgets = function() {
  * related to a single area/page
  *
  * @namespace
- * Internationalisation
+ * Language localisation
  */
 sakai.api.l10n = sakai.api.l10n || {};
 
@@ -751,25 +751,25 @@ sakai.api.Util = sakai.api.Util || {};
 /**
  * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
  *
- * Information: http://www.w3.org/TR/NOTE-datetime
- * Based on: http://delete.me.uk/2005/03/iso8601.html
- * Specification: http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end
- *
- * Accepted values for the format [1-6]:
- * 1 Year:
- *   YYYY (eg 1997)
- * 2 Year and month:
- *   YYYY-MM (eg 1997-07)
- * 3 Complete date:
- *   YYYY-MM-DD (eg 1997-07-16)
- * 4 Complete date plus hours and minutes:
- *   YYYY-MM-DDThh:mmTZD (eg 1997-07-16T19:20+01:00)
- * 5 Complete date plus hours, minutes and seconds:
- *   YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
- * 6 Complete date plus hours, minutes, seconds and a decimal
- *   fraction of a second
- *   YYYY-MM-DDThh:mm:ss.sTZD (eg 1997-07-16T19:20:30.45+01:00)
- *
+ * <p>
+ *     Accepted values for the format [1-6]:
+ *     <ol>
+ *         <li>Year: YYYY (eg 1997)</li>
+ *         <li>Year and month: YYYY-MM <br /> (eg 1997-07)</li>
+ *         <li>Complete date: YYYY-MM-DD <br /> (eg 1997-07-16)</li>
+ *         <li>Complete date plus hours and minutes: YYYY-MM-DDThh:mmTZD <br /> (eg 1997-07-16T19:20+01:00)</li>
+ *         <li>Complete date plus hours, minutes and seconds: YYYY-MM-DDThh:mm:ssTZD <br /> (eg 1997-07-16T19:20:30+01:00)</li>
+ *         <li>Complete date plus hours, minutes, seconds and a decimal fraction of a second YYYY-MM-DDThh:mm:ss.sTZD <br /> (eg 1997-07-16T19:20:30.45+01:00)</li>
+ *     </ol>
+ * </p>
+ * <p>
+ *     External links:
+ *     <ul>
+ *         <li><a href="http://www.w3.org/TR/NOTE-datetime">W3C datetime documentation</a></li>
+ *         <li><a href="http://delete.me.uk/2005/03/iso8601.html">ISO8601 JavaScript function</a></li>
+ *         <li><a href="http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end">Specification</a></li>
+ *     </ul>
+ * </p>
  * @param {Date} date
  *     JavaScript date object.
  *     If not set, the current date is used.
@@ -812,18 +812,29 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
 
 
 /**
- * Parse the following date formats into a JavaScript date object:
- * 2010
- * 2010-02
- * 2010-02-18
- * 2010-02-18T07:44Z
- * 1997-07-16T19:20+01:00
- * 1997-07-16T19:20:30+01:00
- * 1269331220896
+ * Parse a ISO8601 date into a JavaScript date object.
  *
- * Information: http://www.w3.org/TR/NOTE-datetime
- * Based on: http://delete.me.uk/2005/03/iso8601.html
- * Specification: http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end
+ * <p>
+ *     Supported date formats:
+ *     <ul>
+ *         <li>2010</li>
+ *         <li>2010-02</li>
+ *         <li>2010-02-18</li>
+ *         <li>2010-02-18T07:44Z</li>
+ *         <li>1997-07-16T19:20+01:00</li>
+ *         <li>1997-07-16T19:20:30+01:00</li>
+ *         <li>1269331220896</li>
+ *     </ul>
+ * </p>
+ *
+ * <p>
+ *     External links:
+ *     <ul>
+ *         <li><a href="http://www.w3.org/TR/NOTE-datetime">W3C datetime documentation</a></li>
+ *         <li><a href="http://delete.me.uk/2005/03/iso8601.html">ISO8601 JavaScript function</a></li>
+ *         <li><a href="http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end">Specification</a></li>
+ *     </ul>
+ * </p>
  *
  * @param {String|Integer} dateInput The date that needs to be converted to a JavaScript date object
  * @return {Date} JavaScript date
@@ -872,7 +883,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
 
 /**
  * Removes JCR or Sling properties from a JSON object
- * @param {Object} i_object
+ * @param {Object} i_object The JSON object you want to remove the JCR object from
  */
 sakai.api.Util.removeJCRObjects = function(i_object) {
 
@@ -909,7 +920,7 @@ sakai.api.Util.removeJCRObjects = function(i_object) {
  *
  * @param {String} input The string you want to shorten
  * @param {Int} maxlength Maximum length of the string
- * @returns {String} The shortend string ith 3 dots
+ * @returns {String} The shortened string with 3 dots
  */
 sakai.api.Util.shortenString = function(input, maxlength){
 
@@ -978,13 +989,15 @@ sakai.api.Util.Sorting = {
 
     /**
     * Natural sorting algorithm, for sorting file lists etc.
-    * e.g.: sakai.api.Util.Sorting("z1", "z2", "z01");
+    * @example sakai.api.Util.Sorting("z1", "z2", "z01");
     * @param {String|Integer|Number} a The first element you want to sort
     * @param {String|Integer|Number} b The second element you want to sort
     * @return {Integer} [0 | 1 | -1]
-    *     -1: sort a so it has a lower index than b
-    *     0: a and b are equal
-    *     1: sort b so it has a lower index than a
+    *     <ul>
+    *         <li>-1: sort a so it has a lower index than b</li>
+    *         <li>0: a and b are equal</li>
+    *         <li>1: sort b so it has a lower index than a</li>
+    *     </ul>
     */
    naturalSort: function(a, b) {
 
@@ -994,6 +1007,7 @@ sakai.api.Util.Sorting = {
          * Author: Jim Palmer (based on chunking idea from Dave Koelle)
          *  optimizations and safari fix by Mike Grier (mgrier.com)
          * Released under MIT license.
+         * http://code.google.com/p/js-naturalsort/source/browse/trunk/naturalSort.js
          */
 
         // Setup temp-scope variables for comparison evalutation
