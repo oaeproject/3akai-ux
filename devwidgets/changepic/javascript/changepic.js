@@ -157,11 +157,11 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         picture = false;
 
-        $(picForm).attr("action", sakai.config.URL.SDATA_FETCH_PUBLIC_URL.replace(/__USERID__/,sakai.data.me.user.userid));
+        $(picForm).attr("action", "/_user"+sakai.data.me.profile.path+"/public/profile/");
 
         // Get the preferred size for the thumbnail.
-        var prefThumbWidth = parseInt($(thumbnailContainer).css('width').replace(/px/gi,''), 10);
-        var prefThumbHeight = parseInt($(thumbnailContainer).css('height').replace(/px/gi,''), 10);
+        var prefThumbWidth = parseInt($(thumbnailContainer).css("width").replace(/px/gi,""), 10);
+        var prefThumbHeight = parseInt($(thumbnailContainer).css("height").replace(/px/gi,""), 10);
 
         // Make sure we don't have 0
         thumbnailWidth  = (prefThumbWidth > 0) ? prefThumbWidth : thumbnailWidth;

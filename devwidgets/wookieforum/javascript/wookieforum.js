@@ -210,7 +210,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
         //    The request
         $.ajax({
-            url: sakai.config.URL.PROXY_SERVICE,
+            url: sakai.config.URL.PROXY_RSS_SERVICE,
             type : "POST",
             success : function(data) {
                 createForumFinished(data);

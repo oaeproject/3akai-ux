@@ -94,7 +94,7 @@ sakai.createsite = function(tuid,placement,showSettings){
             var item = {};
             item.name = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
             item.userid = sakai.data.me.user.userid;
-            item.picture = sakai.config.URL.PERSON_ICON_URL;
+            item.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
             if (sakai.data.me.profile.picture && $.evalJSON(sakai.data.me.profile.picture).name){
                 item.picture = "/_user/public/" + sakai.data.me.user.userid + "/" + $.evalJSON(sakai.data.me.profile.picture).name;
             }

@@ -100,7 +100,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                 $(addToContactsInfoProfilePicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(user.picture).name);
             }
             else {
-                $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.PERSON_ICON_URL);
+                $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
             }
         }
     };

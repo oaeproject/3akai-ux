@@ -866,7 +866,7 @@ sakai.inbox = function() {
                     $(inboxSpecificMessagePicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(message.userFrom[i].picture).name);
                 }
                 else {
-                    $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.PERSON_ICON_URL);
+                    $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
                 }
             }
 

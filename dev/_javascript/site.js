@@ -74,7 +74,6 @@ sakai.site = function(){
         CURRENT_SITE_PAGES: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")); },
         WEBPAGE_CONTENT: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/content"; },
         WEBPAGE_CONTENT_AUTOSAVE_FULL: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/_content"; },
-        CURRENT_SITE_OBJECT : function() { return sakai.config.URL.SITE_GET_SERVICE + "/sites/" + sakai.site.currentsite; },
         PAGE_CONFIGURATION: function() { return sakai.config.URL.SITE_PAGECONFIGURATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
         SITE_NAVIGATION: function() { return sakai.config.URL.SITE_NAVIGATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
         SITE_NAVIGATION_CONTENT : function() { return sakai.config.URL.SITE_NAVIGATION_CONTENT.replace(/__SITEID__/, sakai.site.currentsite.id); },
@@ -299,7 +298,7 @@ sakai.site = function(){
 
         // Load site information
         $.ajax({
-            url: sakai.config.URL.GENERAL_SEARCH_SERVICE,
+            url: sakai.config.URL.SEARCH_PAGES,
             cache: false,
             async: false,
             data: {

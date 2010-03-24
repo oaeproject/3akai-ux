@@ -141,7 +141,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
 
     var currentChatStatus = "";
     var hasOpenChatWindow = false; // Does the current user has open chat windows
-    var personIconUrl = sakai.config.URL.PERSON_ICON_URL;
+    var personIconUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
     var pulltime = "2100-10-10T10:10:10.000Z";
     var time = [];
     var sendMessages = []; // Array containing the id's of all the send messages
@@ -366,31 +366,31 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         $(nav + " " + navSelectedNavItemClass).removeClass(navSelectedNavItemClass);
 
         // My Sakai
-        if ((windowLocationPath.indexOf(sakai.config.URL.MY_DASHBOARD) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_MY_SAKAI_PAGE) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.MY_DASHBOARD_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_MY_DASHBOARD_URL) !== -1)) {
             $(navMySakaiLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // Content & Media
-        if ((windowLocationPath.indexOf(sakai.config.URL.CONTENT_MEDIA_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_CONTENT_MEDIA) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.CONTENT_MEDIA_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL) !== -1)) {
             $(navContentMediaLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // People
-        if ((windowLocationPath.indexOf(sakai.config.URL.PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_PEOPLE_PAGE) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_PEOPLE_URL) !== -1)) {
             $(navPeopleLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // Courses & Sites
-        if ((windowLocationPath.indexOf(sakai.config.URL.COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_COURSES_SITES_PAGE) !== -1) || (windowLocationPath.indexOf("/sites/") !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.COURSES_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_COURSES_SITES_URL) !== -1) || (windowLocationPath.indexOf("/sites/") !== -1)) {
             $(navCoursesSitesLink).addClass(navSelectedNavItemClass);
             return;
         }
 
         // Calendar
-        if ((windowLocationPath.indexOf(sakai.config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_SEARCH) !== -1)) {
+        if ((windowLocationPath.indexOf(sakai.config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_SEARCH_URL) !== -1)) {
             $(navCalendarLink).addClass(navSelectedNavItemClass);
             return;
         }
@@ -867,7 +867,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         };
 
         $.ajax({
-            url: sakai.config.URL.PATCH_PROFILE_URL.replace(/__USERID__/, sakai.data.me.user.userid),
+            url: sakai.data.me.profile["jcr:path"],
             type: "POST",
             data: data,
             success: function(data){
@@ -1518,14 +1518,14 @@ sakai.navigationchat = function(tuid, placement, showSettings){
         $("#login_button_container").show();
 
         // Set institutional login page link
-        $("#other_logins_container .other_logins").attr("href", sakai.config.URL.PUBLIC_INSTITUTIONAL_LOGIN_PAGE);
+        $("#other_logins_container .other_logins").attr("href", sakai.config.URL.PUBLIC_INSTITUTIONAL_LOGIN_URL);
 
         // Set up public nav links
-        $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_SAKAI_PAGE);
-        $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_PAGE);
-        $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_PAGE);
-        $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_PAGE);
-        $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_PAGE);
+        $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
+        $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
+        $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
+        $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
+        $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
         // Bind Log in button
         $("#login_button_container .log_in").bind("click", function(){

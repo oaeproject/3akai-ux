@@ -378,13 +378,13 @@ sakai.poll = function(tuid, placement, showSettings){
                 processPoll(preview);
                 switch(json.poll.poll_type){
                     case 0:
-                        json.poll.image = sakai.config.URL.API_GOOGLE_CHARTS + "?cht=bvs&chs=310x180&chd=t:27,18,7,12,37&chxt=x&chxl=0:|27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bvs&chs=310x180&chd=t:27,18,7,12,37&chxt=x&chxl=0:|27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
                     break;
                     case 1:
-                        json.poll.image = sakai.config.URL.API_GOOGLE_CHARTS + "?cht=bhs&chs=310x170&chd=t:27,18,7,12,37&chxt=y&chxl=0:|37%|12%|7%|18%|27%&chco=663300|e07000|0070e0|660000|990080";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bhs&chs=310x170&chd=t:27,18,7,12,37&chxt=y&chxl=0:|37%|12%|7%|18%|27%&chco=663300|e07000|0070e0|660000|990080";
                     break;
                     case 2:
-                        json.poll.image = sakai.config.URL.API_GOOGLE_CHARTS + "?cht=p&chs=310x250&chd=t:27,18,7,12,37&chl=27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=p&chs=310x250&chd=t:27,18,7,12,37&chl=27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
                     break;
                     case 3:
                         for(var i = 0; i < json.poll.temp.processedVotes.length; i++){
@@ -409,7 +409,7 @@ sakai.poll = function(tuid, placement, showSettings){
                         {
                             width = 310;
                         }
-                        json.poll.image = sakai.config.URL.API_GOOGLE_CHARTS + "?cht=bvs&chs=" + width + "x180";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bvs&chs=" + width + "x180";
 
                         renderPoll_addData();
 
@@ -423,7 +423,7 @@ sakai.poll = function(tuid, placement, showSettings){
                         //http://chart.apis.google.com/chart?cht=bhs&chs=310x250&chd=t:1,12,4,7,76&chxt=x,y&chxl=1:|1%20%|12%20%|4%20%|7%20%|76%20%
                         var height = 20 + (json.poll.processedVotes.length*30);
 
-                        json.poll.image = sakai.config.URL.API_GOOGLE_CHARTS + "?cht=bhs&chs=310x" + height;
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bhs&chs=310x" + height;
 
                         renderPoll_addData();
 
@@ -434,7 +434,7 @@ sakai.poll = function(tuid, placement, showSettings){
                         renderPoll_addColors();
                     break;
                     case 2:
-                        json.poll.image = sakai.config.URL.API_GOOGLE_CHARTS + "?cht=p&chs=310x250";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=p&chs=310x250";
 
                         renderPoll_addData();
 
@@ -1152,7 +1152,7 @@ sakai.poll = function(tuid, placement, showSettings){
         $(pollStartdate, rootel).datepicker({
             showOn: 'both',
             showAnim: 'slideDown',
-            buttonImage: sakai.config.URL.POLL_DROPDOWN_ICON_URL,
+            buttonImage: "/devwidgets/poll/images/poll_drop_down.gif",
             buttonImageOnly: true,
             buttonText: "Please select a start date",
             dateFormat: 'dd/mm/yy',
@@ -1163,7 +1163,7 @@ sakai.poll = function(tuid, placement, showSettings){
         $(pollStopdate, rootel).datepicker({
             showOn: 'both',
             showAnim: 'slideDown',
-            buttonImage: sakai.config.URL.POLL_DROPDOWN_ICON_URL,
+            buttonImage: "/devwidgets/poll/images/poll_drop_down.gif",
             buttonImageOnly: true,
             buttonText: "Please select a stop date",
             dateFormat: 'dd/mm/yy',

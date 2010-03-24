@@ -260,7 +260,7 @@ sakai.comments = function(tuid, placement, showSettings) {
                     fullName += " " + profile.lastName;
                 }
                 user.fullName = fullName;
-                user.picture = sakai.config.URL.PERSON_ICON_URL;
+                user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
                 if (profile.picture && $.evalJSON(profile.picture).name) {
                     user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;

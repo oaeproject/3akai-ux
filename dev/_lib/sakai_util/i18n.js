@@ -98,7 +98,7 @@ $(document).ready(function(){
      */
     var loadLocalBundle = function(langCode){
             $.ajax({
-                url: sakai.config.URL.BUNDLE_ROOT + langCode + ".json",
+                url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
                 success: function(data){
                     sdata.i18n.localBundle = $.evalJSON(data);
                     doI18N(sdata.i18n.localBundle, sdata.i18n.defaultBundle);
@@ -140,7 +140,7 @@ $(document).ready(function(){
      */
     var loadDefaultBundle = function(){
         $.ajax({
-            url : sakai.config.URL.BUNDLE_ROOT + "default.json",
+            url : sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
             success : function(data) {
                 sdata.i18n.defaultBundle = $.evalJSON(data);
                 var site = getSiteId();

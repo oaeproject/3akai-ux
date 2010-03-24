@@ -2011,7 +2011,7 @@ sakai.site.site_admin = function(){
             obj.description = description;
 
             // Load template configuration file
-            sakai.api.Server.loadJSON(sakai.config.URL.TEMPLATES, function(success, pref_data){
+            sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/templates", function(success, pref_data){
                 if (success) {
                     updateTemplates(obj, newid, pref_data);
                 } else {
@@ -2039,7 +2039,7 @@ sakai.site.site_admin = function(){
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
         templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"];
 
-        sakai.api.Server.saveJSON(sakai.config.URL.TEMPLATES, templates, function(success, response) {
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/templates", templates, function(success, response) {
 
             if (success) {
 
@@ -2071,7 +2071,7 @@ sakai.site.site_admin = function(){
         sakai.site.isShowingDropdown = false;
 
         // Load template configuration file
-        sakai.api.Server.loadJSON(sakai.config.URL.TEMPLATES, function(success, pref_data){
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/templates", function(success, pref_data){
             if (success) {
                 renderTemplates(pref_data);
             } else {
@@ -2131,7 +2131,7 @@ sakai.site.site_admin = function(){
             }
 
             // Save updated template preferences
-            sakai.api.Server.saveJSON(sakai.config.URL.TEMPLATES, newobj, function(success, response) {
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/templates", newobj, function(success, response) {
                 if (success) {
 
                 } else {

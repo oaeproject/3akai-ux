@@ -29,7 +29,7 @@ sakai.index = function(){
     // Configuration variables //
     /////////////////////////////
 
-    var redirectUrl = sakai.config.URL.MY_DASHBOARD;
+    var redirectUrl = sakai.config.URL.MY_DASHBOARD_URL;
     var usernameField = "username";
     var passwordField = "password";
     var failMessage = "#login-failed";

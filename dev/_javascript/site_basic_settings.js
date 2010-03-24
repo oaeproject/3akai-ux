@@ -334,7 +334,7 @@ sakai.site_basic_settings = function(){
             type: "POST",
             success: function(data){
                 alert("Your site has been successfully deleted");
-                document.location = sakai.config.URL.MY_DASHBOARD;
+                document.location = sakai.config.URL.MY_DASHBOARD_URL;
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occurred: " + xhr.status + " " + xhr.statusText);

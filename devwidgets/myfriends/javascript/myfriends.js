@@ -78,7 +78,7 @@ sakai.myfriends = function(tuid,placement,showSettings){
         if (picture && $.evalJSON(picture).name) {
             return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(picture).name;
         }
-        return sakai.config.URL.PERSON_ICON_URL;
+        return sakai.config.URL.USER_DEFAULT_ICON_URL;
     };
 
 

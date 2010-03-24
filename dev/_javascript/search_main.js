@@ -257,10 +257,10 @@ sakai._search = function(config, callback) {
                     if (picture.name) {
                         user.picture = user.path + picture.name;
                     } else {
-                        user.picture = sakai.config.URL.PERSON_ICON_URL;
+                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }
                 } else {
-                    user.picture = sakai.config.URL.PERSON_ICON_URL;
+                    user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
                 if (person.firstName && person.lastName) {
                     user.name = person.firstName + " " + person.lastName;

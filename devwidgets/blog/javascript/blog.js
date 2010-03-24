@@ -763,7 +763,7 @@ sakai.blog = function(tuid, placement, showSettings) {
                     arrComments[i].name = users[u].profile.firstName + " " + users[u].profile.lastName;
 
                     if (users[u].profile.picture) {
-                        arrComments[i].picture = sakai.config.URL.SDATA_FETCH_PRIVATE_URL + users[u].userStoragePrefix + users[u].profile.picture.name;
+                        arrComments[i].picture = "/_user" + users[u].profile.path + "/public/profile/" + users[u].profile.picture.name;
                     }
                 }
             }

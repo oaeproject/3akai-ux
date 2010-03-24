@@ -224,7 +224,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
         if (picture && $.evalJSON(picture).name) {
             return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
         }
-        return sakai.config.URL.PERSON_ICON_URL;
+        return sakai.config.URL.USER_DEFAULT_ICON_URL;
     };
 
 

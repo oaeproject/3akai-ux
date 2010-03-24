@@ -186,7 +186,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 
         // The request.
         $.ajax({
-            url: sakai.config.URL.PROXY_SERVICE,
+            url: sakai.config.URL.PROXY_RSS_SERVICE,
             type: "POST",
             success: function(data) {
                 // The chat room has created on wookie's side.
@@ -262,7 +262,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
                     // avatar
                     if (me.profile.picture) {
                         var oPicture = me.profile.picture;
-                        var sAvatar = getSakaiDomain() + getSakaiPort() + sakai.config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + oPicture.name;
+                        var sAvatar = "/_user" + me.profile.path + "/public/profile/" + oPicture.name;
                         sFrame += "&avatar=" + sAvatar;
                     }
                 }
