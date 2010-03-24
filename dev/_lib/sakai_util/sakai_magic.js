@@ -739,7 +739,7 @@ sakai.api.Util = sakai.api.Util || {};
 
 /**
  * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
- * 
+ *
  * <p>
  *     Accepted values for the format [1-6]:
  *     <ol>
@@ -772,7 +772,7 @@ sakai.api.Util = sakai.api.Util || {};
 sakai.api.Util.createSakaiDate = function(date, format, offset) {
     if (!format) { format = 5; }
     if (!date) { date = new Date(); }
-    if (!offset) { 
+    if (!offset) {
         offset = 'Z';
     } else {
         var d = offset.match(/([\-+])([0-9]{2}):([0-9]{2})/);
@@ -795,14 +795,14 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
     if (format > 3) { str += offset; }
     if (format > 5) {
         str = date.getTime();
-    } 
+    }
     return str;
 };
 
 
 /**
  * Parse a ISO8601 date into a JavaScript date object.
- * 
+ *
  * <p>
  *     Supported date formats:
  *     <ul>
@@ -815,7 +815,7 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  *         <li>1269331220896</li>
  *     </ul>
  * </p>
- * 
+ *
  * <p>
  *     External links:
  *     <ul>
@@ -824,7 +824,7 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  *         <li><a href="http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end">Specification</a></li>
  *     </ul>
  * </p>
- * 
+ *
  * @param {String|Integer} dateInput The date that needs to be converted to a JavaScript date object
  * @return {Date} JavaScript date
  */
