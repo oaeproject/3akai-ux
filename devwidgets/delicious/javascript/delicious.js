@@ -43,6 +43,10 @@ sakai.delicious = function(tuid, placement, showSettings){
     var $deliciousContainerMain = $("#delicious_container_main", rootel);
     var $deliciousContainerSettings = $("#delicious_container_settings", rootel);
 
+    // Settings
+    //var $deliciousSettingsInputUsername = $("#delicious_settings_input_username", rootel);
+    //var $deliciousSettingsInputPassword = $("#delicious_settings_input_password", rootel);
+
     // Templates
     var $deliciousTemplateMain = "delicious_template_main";
     var $deliciousTemplateSettings = "delicious_template_settings";
@@ -50,6 +54,116 @@ sakai.delicious = function(tuid, placement, showSettings){
     // Buttons and links
     var $deliciousSettingsLink = $("#delicious_settings_link", rootel);
     var $deliciousSettingsButtonSave = $("#delicious_settings_button_save", rootel);
+
+    // Paging
+    var $deliciousPaging = $("#delicious_paging", rootel);
+
+    var pageCurrent = 0;
+    var pageSize = 5; // Number of items to show at one page
+    var jqPagerClass = ".jq_pager";
+    var parseBookmarksGlobal = [];
+
+
+    /////////////////////
+    // Parse functions //
+    /////////////////////
+
+    /**
+     * Parse the twitter status object
+     * @param {String} response: JSON response
+     * @param {Boolean} exists: check if the data exists
+     */
+    var parseDeliciousRecentBookmarks = function(response, exists){
+        parseBookmarksGlobal = {
+            all: $.evalJSON(response)
+        };
+
+        if(exists && response.length > 0){
+            // Display every bookmark
+            renderBookmarks();
+        }else{
+            // Display error message
+            fluid.log("ERROR at delicious.js, parseDeliciousRecentBookmarks: " + thrownError);
+        }
+    };
+
+
+    //////////////////////
+    // Render functions //
+    //////////////////////
+
+    /**
+     * Render all bookmarks
+     */
+    var renderBookmarks = function(){
+        // Array needed for slicing (paging)
+        parseBookmarksArray = [];
+
+        // Filling the array, excluding all irrelevant JSON objects
+        for (var b in parseBookmarksGlobal.all) {
+            if (parseBookmarksGlobal.all.hasOwnProperty(b)) {
+                if (typeof(parseBookmarksGlobal.all[b]) === "object") {
+                    parseBookmarksArray.push(parseBookmarksGlobal.all[b]);
+                }
+            }
+        }
+
+        var pagingArray = {
+            all: parseBookmarksArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
+        };
+
+        // Rendering the list
+        $deliciousContainerMain.html($.Template.render($deliciousTemplateMain,pagingArray));
+
+        if (parseBookmarksArray.length > pageSize) {
+            document.getElementById('delicious_paging').style.visibility = "visible";
+            renderPaging(parseBookmarksArray.length);
+        }else{
+            document.getElementById('delicious_paging').style.visibility = "hidden";
+            if(parseBookmarksArray.length === 0){
+                // display 'no items' message
+            }
+        }
+    };
+
+    /**
+     * Render paging
+     * @param {Object} arraylength: the number of items
+     */
+    var renderPaging = function(arraylength){
+        $(jqPagerClass).pager({
+            pagenumber: pageCurrent + 1,
+            pagecount: Math.ceil(arraylength / pageSize),
+            buttonClickCallback: doPaging
+        });
+    };
+
+
+    //////////////////////////
+    // Connection functions //
+    //////////////////////////
+
+    /**
+     * Get the most recent Delicious bookmarks (public feed)
+     */
+    var getDeliciousRecentBookmarks = function(){
+        // Selecting the format (json/xml)
+        var postData = {
+            format: "json"
+        };
+
+        // Getting the public data
+        $.ajax({
+            url: "/var/proxy/delicious/recent.json",
+            success: function(data){
+                parseDeliciousRecentBookmarks(data, true);
+            },
+            error: function(xhr, textStatus, thrownError){
+                parseDeliciousRecentBookmarks(xhr.status, false);
+            },
+            data: postData
+        });
+    };
 
 
     ///////////////////////
@@ -63,8 +177,23 @@ sakai.delicious = function(tuid, placement, showSettings){
     var fillInDeliciousSettings = function(data){
         var settings = $.evalJSON(data);
 
-        document.getElementById('delicious_settings_input_username').value = settings.username;
-        document.getElementById('delicious_settings_input_password').value = settings.password;
+        // GLOBAL VAR DOESN'T WORK
+        $("#delicious_settings_input_username", rootel).val(settings.username);
+        $("#delicious_settings_input_password", rootel).val(settings.password);
+    };
+
+
+    //////////////////////
+    // Paging functions //
+    //////////////////////
+
+    /**
+     * Initializes the change of page
+     * @param {Integer} clickedPage: the page which has been clicked and should be displayed
+     */
+    var doPaging = function(clickedPage){
+        pageCurrent = clickedPage - 1;
+        renderBookmarks();
     };
 
 
@@ -89,8 +218,8 @@ sakai.delicious = function(tuid, placement, showSettings){
                 fillInDeliciousSettings(data);
             },
             error: function(xhr, textStatus, thrownError) {
-                // Display error message in console
-                console.log("ERROR at delicious.js, getDeliciousSettings: " + thrownError);
+                // Display error message
+                fluid.log("ERROR at delicious.js, getDeliciousSettings: " + thrownError);
             }
         });
     };
@@ -103,15 +232,16 @@ sakai.delicious = function(tuid, placement, showSettings){
             // Preference saved
 
             // FIXME
-            // Multiple instances of this widget are showing up
             // sdata.container.informFinish(tuid,"delicious");
+            // Problem: multiple instances of this widget show up
 
             // This is a temporary solution
             $deliciousContainerMain.show();
+            $deliciousPaging.show();
             $deliciousContainerSettings.hide();
         } else {
-            // Log error
-            console.log("ERROR at delicious.js, savedDeliciousSettings");
+            // Display error message
+            fluid.log("ERROR at delicious.js, savedDeliciousSettings");
         }
     };
 
@@ -151,10 +281,12 @@ sakai.delicious = function(tuid, placement, showSettings){
 
             // Show settings
             $deliciousContainerMain.hide();
+            $deliciousPaging.hide();
             $deliciousContainerSettings.show();
         } else {
             // Show main view
             $deliciousContainerMain.show();
+            $deliciousPaging.show();
             $deliciousContainerSettings.hide();
         }
 
@@ -163,8 +295,11 @@ sakai.delicious = function(tuid, placement, showSettings){
         $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
 
         // Render
-        $deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
+        //$deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
         $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
+
+        // Get most recent bookmarks
+        getDeliciousRecentBookmarks();
     };
 
     doInit();

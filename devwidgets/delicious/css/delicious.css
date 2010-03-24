@@ -22,3 +22,24 @@
 #delicious_widget #delicious_container {
     padding: 15px;
 }
+
+
+/* DELICIOUS PAGER */
+
+#delicious_widget .sakai_pager li {
+    background: transparent !important;
+}
+
+#delicious_widget .sakai_pager li > span {
+    background: none !important;
+}
+
+#delicious_widget .sakai_pager li.dots {
+    clear: none;
+}
+
+#delicious_widget .fl-widget .fl-widget-options #todo_paging {
+    color:#666666;
+    font-size:0.85em;
+    font-weight:bold;
+}

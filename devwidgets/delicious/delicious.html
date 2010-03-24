@@ -18,7 +18,7 @@
     </div>
     <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
-            <!-- -->
+            <div id="delicious_paging" class="jq_pager"/>
         </div>
     </div>
 </div>
@@ -26,10 +26,9 @@
 <!-- MAIN VIEW -->
 <div id="delicious_template_main"><!--
     <div>
-        <form id="delicious_form_test" method="GET" action="#">
-            <input class="delicious_input_text" id="delicious_test" type="text" value=""/>
-        </form>
-        <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS__</a>
+        {for bookmark in all}
+            <p><a href="${bookmark.u}" target="_blank">${bookmark.d}</a></p>
+        {/for}
     </div>
     --></div>
 
@@ -38,7 +37,7 @@
     <form id="delicious_settings_form" action="POST">
         <div id="settings_input">
             <label id="delicious_settings_label_accountdetails">Account Details</label><br/>
-            <label id="delicious_settings_label_username" for"delicious_settings_input_username">Username</label>
+            <label id="delicious_settings_label_username" for="delicious_settings_input_username">Username</label>
             <input type="text" id="delicious_settings_input_username" value=""/><br/>
             <label id="delicious_settings_label_password" for="delicious_settings_input_password">Password</label>
             <input type="password" id="delicious_settings_input_password" value=""/>
