@@ -94,61 +94,50 @@ sakai.profile = function(){
 
                     var user_data = $.evalJSON(raw_userdata).results[0];
 
-                    // Get user's authprofile
-                    $.ajax({
-                        url: user_data["jcr:path"] + ".json",
-                        cache: false,
-                        success: function(raw_authprofile) {
+                    totalprofile = {};
+                    totalprofile.profile = user_data;
+                    totalprofile.profile["sakai:status"] = user_data["sakai:status"];
 
-                            var user_authprofile = $.evalJSON(raw_authprofile);
-                            totalprofile = {};
-                            totalprofile.profile = user_authprofile;
-                            /*
-                            totalprofile = {};
-                            totalprofile.profile = $.evalJSON(data).profile;
-                            totalprofile.profile["sakai:status"] = $.evalJSON(data)["sakai:status"];
+                    // Doing a rewrite of the me object, because Sling wraps arrays around
+                    // the different fields in the profile object
+                    if (typeof totalprofile.profile.firstName === "object"){
+                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
+                    }
+                    if (typeof totalprofile.profile.lastName === "object"){
+                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
+                    }
+                    if (typeof totalprofile.profile.email === "object"){
+                        totalprofile.profile.email = totalprofile.profile.email[0];
+                    }
 
-                            // Doing a rewrite of the me object, because Sling wraps arrays around
-                            // the different fields in the profile object
-                            if (typeof totalprofile.profile.firstName === "object"){
-                                totalprofile.profile.firstName = totalprofile.profile.firstName[0];
-                            }
-                            if (typeof totalprofile.profile.lastName === "object"){
-                                totalprofile.profile.lastName = totalprofile.profile.lastName[0];
-                            }
-                            if (typeof totalprofile.profile.email === "object"){
-                                totalprofile.profile.email = totalprofile.profile.email[0];
-                            }
-
-                            if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
-                                totalprofile.profile._status = totalprofile.profile.chatstatus;
-                            }
-                            else {
-                                totalprofile.profile._status = totalprofile.profile["sakai:status"];
-                            }
-                            json = totalprofile.profile;
-                            */
-                            if (user && user != me.user.userid) {
-                                doAddButton();
-                            }
-
-                            fillInFields();
+                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
+                        totalprofile.profile._status = totalprofile.profile.chatstatus;
+                    }
+                    else {
+                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
+                    }
+                    json = totalprofile.profile;
 
 
-                        },
-                        error: function(xhr, status, thrown) {
-                            fluid.log("profile.js/doInit(): Could not get authprofile for " + user);
-                        }
+                    if (user && user != me.user.userid) {
+                        doAddButton();
+                    }
 
-                    });
+                    fillInFields();
 
+
+                },
+                error: function(xhr, status, thrown) {
+                    fluid.log("profile.js/doInit(): Could not get user data for " + user);
                 }
             });
+
+        // If we are looking at the logged in user's own profile
         } else if (!showEdit) {
             $("#profile_tabs").show();
             $("#link_edit_profile").show();
 
-            var totalprofile = {};
+                    //var totalprofile = {};
                     totalprofile.profile = sakai.data.me.profile;
                     totalprofile.profile["sakai:status"] = sakai.data.me.profile.chatstatus;
 
@@ -177,82 +166,6 @@ sakai.profile = function(){
                     }
 
                     fillInFields();
-
-            /*
-            fileUrl = "/_user/presence.user.json?userid=" + sakai.data.me.user.userid;
-            $.ajax({
-                url: fileUrl,
-                cache: false,
-                success: function(data){
-                    var totalprofile = {};
-                    totalprofile.profile = $.evalJSON(data).profile;
-                    totalprofile.profile["sakai:status"] = $.evalJSON(data)["sakai:status"];
-
-                    // Doing a rewrite of the me object, because Sling wraps arrays around
-                    // the different fields in the profile object
-                    if (typeof totalprofile.profile.firstName === "object"){
-                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
-                    }
-                    if (typeof totalprofile.profile.lastName === "object"){
-                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
-                    }
-                    if (typeof totalprofile.profile.email === "object"){
-                        totalprofile.profile.email = totalprofile.profile.email[0];
-                    }
-
-                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
-                        totalprofile.profile._status = totalprofile.profile.chatstatus;
-                    }
-                    else {
-                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
-                    }
-                    json = totalprofile.profile;
-
-                    if (user && user != me.user.userid) {
-                        doAddButton();
-                    }
-
-                    fillInFields();
-
-                },
-                error: function(xhr, textStatus, thrownError) {
-
-                    // If presence request fails attempt to get profile information for logged in user from already loaded sakai.data.me.profile
-                    // and try to proceed normally
-
-                    var totalprofile = {};
-                    totalprofile.profile = sakai.data.me.profile;
-                    totalprofile.profile["sakai:status"] = sakai.data.me.profile.chatstatus;
-
-                    // Doing a rewrite of the me object, because Sling wraps arrays around
-                    // the different fields in the profile object
-                    if (typeof totalprofile.profile.firstName === "object"){
-                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
-                    }
-                    if (typeof totalprofile.profile.lastName === "object"){
-                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
-                    }
-                    if (typeof totalprofile.profile.email === "object"){
-                        totalprofile.profile.email = totalprofile.profile.email[0];
-                    }
-
-                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
-                        totalprofile.profile._status = totalprofile.profile.chatstatus;
-                    }
-                    else {
-                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
-                    }
-                    json = totalprofile.profile;
-
-                    if (user && user != me.user.userid) {
-                        doAddButton();
-                    }
-
-                    fillInFields();
-
-                }
-            });
-            */
 
         }
 
@@ -455,9 +368,9 @@ sakai.profile = function(){
    //////////////////////////
 
    var fillInFields = function(){
-           //    status
+        // status
         $("#profile_user_status").text(totalprofile._status);
-        //    status picture
+        // status picture
         updateChatStatusElement($("#profile_user_status"), totalprofile._status);
 
 
@@ -465,7 +378,7 @@ sakai.profile = function(){
 
         if (json.picture && $.evalJSON(json.picture).name){
             var picture = $.evalJSON(json.picture);
-            $("#picture_holder img").attr("src",'/_user' + sakai.data.me.profile.path +'/public/profile/' + picture.name);
+            $("#picture_holder img").attr("src","/_user" + sakai.data.me.profile.path + "/public/profile/" + picture.name);
         }
 
         fillInBasic();
@@ -721,7 +634,7 @@ sakai.profile = function(){
     * Sending a message
     */
 
-    $('#message_dialog').jqm({
+    $("#message_dialog").jqm({
         modal: true,
         trigger: $('#send_message_button'),
         overlay: 20,

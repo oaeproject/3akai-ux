@@ -90,7 +90,7 @@ sakai.profile = function(){
             document.location = redirect;
         }
 
-        fileUrl = "/_user" + sakai.data.me.profile["jcr:path"];
+        fileUrl = sakai.data.me.profile["jcr:path"];
 
         json = sakai.data.me.profile;
 
@@ -751,6 +751,9 @@ sakai.profile = function(){
         var tosend = {};
         tosend[key] = val;
         tosend["_charset_"] = "utf-8";
+
+        // This eventually should switch to a sakai.api.Server.saveJSON operation, putting each category as a separate node (ore even each entry as a separate node),
+        // so that permission can be set on each element.
         $.ajax({
             url : fileUrl,
             type : "POST",
