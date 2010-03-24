@@ -755,21 +755,19 @@ sakai.inbox = function() {
             url: url,
             success: function(data) {
                 var json = $.evalJSON(data);
-                //if (json.response === "OK") {
-                    messagesForTypeCat = json.total;
-                    if (json.total === 0) {
+                messagesForTypeCat = json.total;
+                if (json.total === 0) {
 
-                        json.messages = [];
-                        renderMessages(json);
+                    json.messages = [];
+                    renderMessages(json);
 
-                        // Set the pager to page 1. The pager will be disabled because there is no data to page..
-                        pageMessages(1);
-                    }
-                    else {
-                        currentPage = 0;
-                        showPage(currentPage + 1);
-                    }
-                //}
+                    // Set the pager to page 1. The pager will be disabled because there is no data to page..
+                    pageMessages(1);
+                }
+                else {
+                    currentPage = 0;
+                    showPage(currentPage + 1);
+                }
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
@@ -958,6 +956,7 @@ sakai.inbox = function() {
      * @param {Object} data A JSON object that contains the response from the server.
      */
     var sendMessageFinished = function(success, data) {
+
         showGeneralMessage($(inboxGeneralMessagesSent).text(), false, 5000);
         clearInputFields();
 

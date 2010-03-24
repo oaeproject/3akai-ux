@@ -387,7 +387,7 @@ sakai.rss = function(tuid, placement, showSettings){
      * adds a feed to the widget
      */
     var addRssFeed = function(){
-        var rssURL = $(rssTxtUrl,rootel).val().replace('http://','');
+        var rssURL = $(rssTxtUrl,rootel).val().replace("http://","");
         if(!checkIfRssAlreadyAdded(rssURL)){
             getFeed(rssURL, getFeedResponse);
         }
@@ -506,7 +506,7 @@ sakai.rss = function(tuid, placement, showSettings){
 
             sakai.api.Widgets.loadWidgetData("rss", tuid, placement, function(success, data){
                 if (success) {
-                    resultJSON = data;
+                    resultJSON = $.evalJSON(data);
                     loadSettings(true);
                 } else {
                     loadSettings(false);
@@ -520,7 +520,7 @@ sakai.rss = function(tuid, placement, showSettings){
 
             sakai.api.Widgets.loadWidgetData("rss", tuid, placement, function(success, data){
                 if (success) {
-                    resultJSON = data;
+                    resultJSON = $.evalJSON(data);
                     resultJSON.entries = [];
                     resultJSON.feeds = [];
                     fillRssOutput();

@@ -50,9 +50,9 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
      */
     sakai.siterecentactivity.getRecentActivity = function(callback){
 
-        sakai.api.Widgets.loadWidgetData("recentactivity", tuid, placement, function(success, data){
+        sakai.api.Server.loadData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
             if (success) {
-                sakai.siterecentactivity.recentactivity = data;
+                sakai.siterecentactivity.recentactivity = $.evalJSON(data);
             } else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
@@ -69,7 +69,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
     var saveRecentActivity = function(){
 
         // Save the recentactivity json file
-        sakai.api.Widgets.saveWidgetData("recentactivity", $.toJSON(sakai.siterecentactivity.recentactivity), tuid, placement, sakai.siterecentactivity.render());
+        sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", $.toJSON(sakai.siterecentactivity.recentactivity), sakai.siterecentactivity.render());
     };
 
 
@@ -193,7 +193,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
         return date_str;
     };
 
-    if(typeof jQuery != 'undefined') {
+    if(typeof jQuery != "undefined") {
         jQuery.fn.humane_dates = function(){
             return this.each(function(){
                 var date = humane_date(this.title);

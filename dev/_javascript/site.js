@@ -488,11 +488,11 @@ sakai.site = function(){
         var items = {};
         var site = site_object.id;
 
-        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", function(success, data) {
+        sakai.api.Server.loadData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
 
             if (success) {
 
-                items = data;
+                items = $.evalJSON(data);
 
                 //Filter out this site
                 var index = -1;
@@ -509,7 +509,7 @@ sakai.site = function(){
 
                 // Write
                 if (sakai.data.me.user.userStoragePrefix) {
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", items);
+                    sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
                 }
             } else {
 
@@ -518,7 +518,7 @@ sakai.site = function(){
 
                 // Write
                 if (sakai.data.me.user.userStoragePrefix) {
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentsites", items);
+                    sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
                 }
 
             }

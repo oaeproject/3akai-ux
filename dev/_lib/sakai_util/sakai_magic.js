@@ -739,11 +739,11 @@ sakai.api.Util = sakai.api.Util || {};
 
 /**
  * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
- * 
+ *
  * Information: http://www.w3.org/TR/NOTE-datetime
  * Based on: http://delete.me.uk/2005/03/iso8601.html
  * Specification: http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end
- * 
+ *
  * Accepted values for the format [1-6]:
  * 1 Year:
  *   YYYY (eg 1997)
@@ -758,7 +758,7 @@ sakai.api.Util = sakai.api.Util || {};
  * 6 Complete date plus hours, minutes, seconds and a decimal
  *   fraction of a second
  *   YYYY-MM-DDThh:mm:ss.sTZD (eg 1997-07-16T19:20:30.45+01:00)
- * 
+ *
  * @param {Date} date
  *     JavaScript date object.
  *     If not set, the current date is used.
@@ -772,7 +772,7 @@ sakai.api.Util = sakai.api.Util || {};
 sakai.api.Util.createSakaiDate = function(date, format, offset) {
     if (!format) { format = 5; }
     if (!date) { date = new Date(); }
-    if (!offset) { 
+    if (!offset) {
         offset = 'Z';
     } else {
         var d = offset.match(/([\-+])([0-9]{2}):([0-9]{2})/);
@@ -795,7 +795,7 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
     if (format > 3) { str += offset; }
     if (format > 5) {
         str = date.getTime();
-    } 
+    }
     return str;
 };
 
@@ -809,11 +809,11 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  * 1997-07-16T19:20+01:00
  * 1997-07-16T19:20:30+01:00
  * 1269331220896
- * 
+ *
  * Information: http://www.w3.org/TR/NOTE-datetime
  * Based on: http://delete.me.uk/2005/03/iso8601.html
  * Specification: http://confluence.sakaiproject.org/display/KERNDOC/KERN-643+Multiple+date+formats+in+the+back-end
- * 
+ *
  * @param {String|Integer} dateInput The date that needs to be converted to a JavaScript date object
  * @return {Date} JavaScript date
  */
@@ -1088,7 +1088,7 @@ sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callbac
     var widget_id = w_id || "";
     var placement = w_placement  || "";
     var args = (requireslogin === false ? false : true);
-    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + widget_id + "/" + prefname + ".json";
 
     $.ajax ( {
         url: url,
@@ -1096,7 +1096,7 @@ sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callbac
         success: function(response) {
             var result = $.evalJSON(response);
             if (typeof callback === "function") {
-                callback(true, result.data);
+                callback(true, result["sakai:data"]);
             }
         },
         error: function(xhr, textStatus, thrownError) {
@@ -1124,14 +1124,13 @@ sakai.api.Widgets.saveWidgetData = function(prefname, prefcontent, w_id, w_place
     var args = (requireslogin === false ? false : true);
     var widget_id = w_id || "";
     var placement = w_placement  || "";
-    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + widget_id + "/" + prefname;
 
     $.ajax({
         url:url,
         type: "POST",
         data: {
-            "data": prefcontent,
-            "jcr:mixinTypes": "sakai:propertiesmix",
+            "sakai:data": prefcontent,
             "_charset_": "utf-8"
         },
         success : function(data) {
@@ -1164,7 +1163,7 @@ sakai.api.Widgets.deleteWidgetData = function(prefname, w_id, w_placement, callb
     var args = (requireslogin === false ? false : true);
     var widget_id = w_id || "";
     var placement = w_placement  || "";
-    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + prefname + "_" + placement + "_" + widget_id;
+    var url= "/_user" + sakai.data.me.profile.path + "/private/widgets/" + widget_id + "/" + prefname;
 
     $.ajax({
         url:url,
