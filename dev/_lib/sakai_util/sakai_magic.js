@@ -707,14 +707,25 @@ sakai.api.User.loadMeData = function(callback) {
 
             sakai.data.me = $.evalJSON(data);
 
+            // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
+            if (!sakai.data.me.profile.firstName) {
+                sakai.data.me.profile.firstName = sakai.data.me.profile["rep:userId"];
+            }
+            if (!sakai.data.me.profile.lastName) {
+                sakai.data.me.profile.lastName = sakai.data.me.profile["rep:userId"];
+            }
+
+            // Call callback function if set
             if (typeof callback === "function") {
                 callback(true, sakai.data.me);
             }
         },
         error: function(xhr, textStatus, thrownError) {
 
+            // Log error
             fluid.log("sakai.api.User.loadMeData: Could not load logged in user data from the me service!");
 
+            // Call callback function if set
             if (typeof callback === "function") {
                 callback(false, xhr);
             }
