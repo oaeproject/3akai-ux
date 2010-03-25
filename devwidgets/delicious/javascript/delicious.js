@@ -52,8 +52,14 @@ sakai.delicious = function(tuid, placement, showSettings){
     var $deliciousTemplateSettings = "delicious_template_settings";
 
     // Buttons and links
+    var $deliciousMostRecentLink = $("#delicious_most_recent_link", rootel);
+    var $deliciousNetworkLink = $("#delicious_network_link", rootel);
+    var $deliciousPopularLink = $("#delicious_popular_link", rootel);
+    var $deliciousRefreshLink = $("#delicious_refresh_link", rootel);
     var $deliciousSettingsLink = $("#delicious_settings_link", rootel);
     var $deliciousSettingsButtonSave = $("#delicious_settings_button_save", rootel);
+    var $deliciousSubscriptionsLink = $("#delicious_subscriptions_link", rootel);
+    var $deliciousUserLink = $("#delicious_user_link", rootel);
 
     // Paging
     var $deliciousPaging = $("#delicious_paging", rootel);
@@ -62,6 +68,9 @@ sakai.delicious = function(tuid, placement, showSettings){
     var pageSize = 5; // Number of items to show at one page
     var jqPagerClass = ".jq_pager";
     var parseBookmarksGlobal = [];
+
+    // Current bookmark mode (mostrecent / popular / user / network / subscriptions)
+    var bookmarkMode = "mostrecent";
 
 
     /////////////////////
@@ -99,7 +108,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         // Array needed for slicing (paging)
         parseBookmarksArray = [];
 
-        // Filling the array, excluding all irrelevant JSON objects
+        // Fill the array, excluding all irrelevant JSON objects
         for (var b in parseBookmarksGlobal.all) {
             if (parseBookmarksGlobal.all.hasOwnProperty(b)) {
                 if (typeof(parseBookmarksGlobal.all[b]) === "object") {
@@ -112,7 +121,7 @@ sakai.delicious = function(tuid, placement, showSettings){
             all: parseBookmarksArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
         };
 
-        // Rendering the list
+        // Render the list
         $deliciousContainerMain.html($.Template.render($deliciousTemplateMain,pagingArray));
 
         if (parseBookmarksArray.length > pageSize) {
@@ -144,17 +153,34 @@ sakai.delicious = function(tuid, placement, showSettings){
     //////////////////////////
 
     /**
-     * Get the most recent Delicious bookmarks (public feed)
+     * Get the Delicious bookmarks (public feed)
      */
-    var getDeliciousRecentBookmarks = function(){
-        // Selecting the format (json/xml)
+    var getDeliciousBookmarks = function(){
+        // Select the correct feed URL
+        var feedURL;
+
+        if (bookmarkMode === "mostrecent") {
+            feedURL = "http://feeds.delicious.com/v2/json/recent";
+        } else if (bookmarkMode === "user") {
+            feedURL = "http://feeds.delicious.com/v2/json/reizorlove";
+        } else if (bookmarkMode === "popular") {
+            feedURL = "http://feeds.delicious.com/v2/json/popular";
+        } else if (bookmarkMode === "network") {
+            feedURL = "http://feeds.delicious.com/v2/json/network/reizorlove";
+        } else if (bookmarkMode === "subscriptions") {
+            feedURL = "http://feeds.delicious.com/v2/json/subscriptions/maxime_debosschere";
+        } else {
+            // Default: most recent
+            feedURL = "http://feeds.delicious.com/v2/json/recent";
+        }
+
         var postData = {
-            format: "json"
+            proxyEndpoint: feedURL + "?count=20"
         };
 
-        // Getting the public data
+        // Get the public data
         $.ajax({
-            url: "/var/proxy/delicious/recent.json",
+            url: "/var/proxy/delicious/bookmarks.json",
             success: function(data){
                 parseDeliciousRecentBookmarks(data, true);
             },
@@ -163,6 +189,46 @@ sakai.delicious = function(tuid, placement, showSettings){
             },
             data: postData
         });
+    };
+
+    /**
+     * Set bookmarkMode to "mostrecent" and fetch bookmarks
+     */
+    var getDeliciousMostRecentBookmarks = function(){
+        bookmarkMode = "mostrecent";
+        getDeliciousBookmarks();
+    };
+
+    /**
+     * Set bookmarkMode to "popular" and fetch bookmarks
+     */
+    var getDeliciousPopularBookmarks = function(){
+        bookmarkMode = "popular";
+        getDeliciousBookmarks();
+    };
+
+    /**
+     * Set bookmarkMode to "user" and fetch bookmarks
+     */
+    var getDeliciousUserBookmarks = function(){
+        bookmarkMode = "user";
+        getDeliciousBookmarks();
+    };
+
+    /**
+     * Set bookmarkMode to "network" and fetch bookmarks
+     */
+    var getDeliciousNetworkBookmarks = function(){
+        bookmarkMode = "network";
+        getDeliciousBookmarks();
+    };
+
+    /**
+     * Set bookmarkMode to "subscriptions" and fetch bookmarks
+     */
+    var getDeliciousSubscriptionsBookmarks = function(){
+        bookmarkMode = "subscriptions";
+        getDeliciousBookmarks();
     };
 
 
@@ -207,7 +273,7 @@ sakai.delicious = function(tuid, placement, showSettings){
     var getDeliciousSettings = function(){
         var url = "/delicious/" + sdata.me.user.userid + "/delicious/delicious_settings.json";
 
-        // Getting the settings data
+        // Get the settings data
         // There is a standard function (sdata.widgets.WidgetPreference.get) to do this,
         // but as long as data is being stored at the modified location it can not be used.
         $.ajax({
@@ -259,8 +325,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         };
 
         // Create JSON data to send
-        var jsonDeliciousSettings = "";
-        jsonDeliciousSettings = $.toJSON(deliciousSettings);
+        var jsonDeliciousSettings = $.toJSON(deliciousSettings);
 
         // Sava the JSON data to the widgets JCR
         sdata.widgets.WidgetPreference.save(saveUrl, "delicious_settings.json", jsonDeliciousSettings, savedDeliciousSettings);
@@ -291,6 +356,13 @@ sakai.delicious = function(tuid, placement, showSettings){
         }
 
         // Buttons
+        $deliciousMostRecentLink.live('click', getDeliciousMostRecentBookmarks);
+        $deliciousNetworkLink.live('click', getDeliciousNetworkBookmarks);
+        $deliciousPopularLink.live('click', getDeliciousPopularBookmarks);
+        $deliciousRefreshLink.live('click', getDeliciousBookmarks);
+        $deliciousSubscriptionsLink.live('click', getDeliciousSubscriptionsBookmarks);
+        $deliciousUserLink.live('click', getDeliciousUserBookmarks);
+
         //$deliciousSettingsLink.live('click', reloadWidget);
         $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
 
@@ -298,8 +370,8 @@ sakai.delicious = function(tuid, placement, showSettings){
         //$deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
         $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
 
-        // Get most recent bookmarks
-        getDeliciousRecentBookmarks();
+        // Get the bookmarks
+        getDeliciousBookmarks();
     };
 
     doInit();

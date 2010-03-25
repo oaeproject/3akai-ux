@@ -26,9 +26,19 @@
 <!-- MAIN VIEW -->
 <div id="delicious_template_main"><!--
     <div>
-        {for bookmark in all}
-            <p><a href="${bookmark.u}" target="_blank">${bookmark.d}</a></p>
-        {/for}
+        <div id="delicious_main_menu">
+            <a href="javascript:;" id="delicious_most_recent_link">Fresh</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_popular_link">Hotlist</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_user_link">Personal</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_network_link">Network</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_subscriptions_link">Subscriptions</a>
+            <a href="javascript:;" id="delicious_refresh_link"><img src="/devwidgets/delicious/images/refresh.gif" alt="Refresh delicious widget"></a>
+        </div>
+        <div id="delicious_main_bookmarks">
+            {for bookmark in all}
+                <p><a href="${bookmark.u}" target="_blank">${bookmark.d}</a></p>
+            {/for}
+        </div>
     </div>
     --></div>
 

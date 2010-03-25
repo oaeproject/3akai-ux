@@ -24,6 +24,25 @@
 }
 
 
+/* DELICIOUS MAIN BOOKMARKS */
+
+#delicious_widget #delicious_main_bookmarks {
+    padding-top: 25px;
+}
+
+
+/* DELICIOUS MAIN MENU */
+
+#delicious_widget #delicious_main_menu {
+    padding-bottom: 5px;
+    border-bottom: 3px solid #DDDDDD;
+}
+
+#delicious_widget #delicious_main_menu #delicious_refresh_link {
+    float: right;
+}
+
+
 /* DELICIOUS PAGER */
 
 #delicious_widget .sakai_pager li {
@@ -39,7 +58,16 @@
 }
 
 #delicious_widget .fl-widget .fl-widget-options #todo_paging {
-    color:#666666;
-    font-size:0.85em;
-    font-weight:bold;
+    color: #666666;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+
+/* GENERAL MARKUP */
+
+#delicious_widget .delicious_pipe_divider {
+    color: #999999;
+    font-size: 0.85em;
+    padding: 0 6px 0 6px;
 }
