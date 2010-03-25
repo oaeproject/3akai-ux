@@ -199,15 +199,7 @@ sakai.profile = function(){
 
     // Save input fields on change
 
-    $(".profile_section_editable input").change(function(ev) {
-        doHomeContact(this.value, "", null, this);
-    });
-
-    $(".profile_section_editable select").change(function(ev) {
-        doHomeContact(this.value, "", null, this);
-    });
-
-    $(".profile_section_editable textarea").change(function(ev) {
+    $(".profile_section_editable input, .profile_section_editable select, .profile_section_editable textarea").change(function(ev) {
         doHomeContact(this.value, "", null, this);
     });
 
@@ -739,7 +731,7 @@ sakai.profile = function(){
             }
         });
 
-        fillInFields();
+        //fillInFields(); // causing issues with IE7 textarea line breaks
 
     };
 
@@ -760,40 +752,5 @@ sakai.profile = function(){
     doInit();
 
 };
-
-// Apply CSS styles to form elements
-
-$(".profile_section_editable input").live("mouseover", function(){
-    $(this).addClass("fl-inlineEdit-invitation");
-});
-$(".profile_section_editable input").live("mouseout", function(){
-    $(this).removeClass("fl-inlineEdit-invitation");
-});
-$(".profile_section_editable input").live("focusin", function(){
-    $(this).removeClass("fl-inlineEdit-invitation");
-    $(this).addClass("flc-inlineEdit-edit");
-});
-$(".profile_section_editable input").live("focusout", function(){
-    $(this).removeClass("flc-inlineEdit-edit");
-});
-$(".profile_section_editable select").live("focusin", function(){
-    $(this).removeClass("profile_edit_dropdown");
-});
-$(".profile_section_editable select").live("focusout", function(){
-    $(this).addClass("profile_edit_dropdown");
-});
-$(".profile_section_editable textarea").live("mouseover", function(){
-    $(this).addClass("fl-inlineEdit-invitation");
-});
-$(".profile_section_editable textarea").live("mouseout", function(){
-    $(this).removeClass("fl-inlineEdit-invitation");
-});
-$(".profile_section_editable textarea").live("focusin", function(){
-    $(this).removeClass("fl-inlineEdit-invitation");
-    $(this).removeClass("profile_edit_textarea");
-});
-$(".profile_section_editable textarea").live("focusout", function(){
-    $(this).addClass("profile_edit_textarea");
-});
 
 sdata.container.registerForLoad("sakai.profile");
