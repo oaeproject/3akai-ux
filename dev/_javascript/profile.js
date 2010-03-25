@@ -846,7 +846,7 @@ sakai.profile = function(){
    };
 
    $("#add_friends_do_invite").bind("click", function(ev){
-        var toSend = $.FormBinder.serialize($("#add_friends_form"));
+        var toSend = sakai.api.UI.Forms.form2json($("#add_friends_form"));
         if (toSend.add_friends_list_type){
 
             var type = toSend.add_friends_list_type;

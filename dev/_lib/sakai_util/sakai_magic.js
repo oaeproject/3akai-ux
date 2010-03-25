@@ -84,14 +84,14 @@ sakai.api.Communication = sakai.api.Communication || {};
 /**
  * Sends a Sakai message
  *
- * @param to {Array} Array with the uuids of the users to post a message to
- * @param subject {String} The subject for this message
- * @param body {String} The text that this message will contain
- * @param category {String} The category for this message
- * @param reply {String} The id of the message you are replying on
- * @param callback {Function} A callback function which is executed at the end of the operation
+ * @param {Array} to Array with the uuids of the users to post a message to
+ * @param {String} subject The subject for this message
+ * @param {String} body The text that this message will contain
+ * @param {String} category The category for this message
+ * @param {String} reply The id of the message you are replying on
+ * @param {Function} callback A callback function which is executed at the end of the operation
  *
- * @returns void
+ * @return {Void}
  */
 sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
 
@@ -146,12 +146,9 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
 /**
  * Sends a message to all members of a group
  *
- * @param groupID {String} The user ID of the recipient
- *
- * @param message {String} The text of the message
- *
- * @returns true or false depending on whether the sending was successful or not
- * @type Boolean
+ * @param {String} groupID The user ID of the recipient
+ * @param {String} message The text of the message
+ * @return {Boolean} true or false depending on whether the sending was successful or not
  */
 sakai.api.Communication.sendMessageToGroup = function(groupID, message) {
 
@@ -160,12 +157,9 @@ sakai.api.Communication.sendMessageToGroup = function(groupID, message) {
 /**
  * Invites a user to become a contact of the logged in user
  *
- * @param groupID {String} The user ID of the recipient
- *
- * @param message {String} The text of the message
- *
- * @returns true or false depending on whether the sending was successful or not
- * @type Boolean
+ * @param {String} groupID The user ID of the recipient
+ * @param {String} message The text of the message
+ * @return {Boolean} true or false depending on whether the sending was successful or not
  */
 sakai.api.Communication.inviteUser = function(userID) {
 
@@ -211,9 +205,9 @@ sakai.api.Groups = sakai.api.Groups || {};
 /**
  * Adds logged in user to a specified group
  *
- * @param groupID {String} The ID of the group we would like the user to become
+ * @param {String} groupID The ID of the group we would like the user to become
  * a member of
- * @param callback {Function} Callback function executed at the end of the
+ * @param {Function} callback Callback function executed at the end of the
  * operation
  * @returns true or false
  * @type Boolean
@@ -226,9 +220,9 @@ sakai.api.Groups.addToGroup = function(groupID, callback) {
 /**
  * Removes logged in user from a specified group
  *
- * @param groupID {String} The ID of the group we would like the user to be
+ * @param {String} groupID The ID of the group we would like the user to be
  * removed from
- * @param callback {Function} Callback function executed at the end of the
+ * @param {Function} callback Callback function executed at the end of the
  * operation
  *
  * @returns true or false
@@ -241,9 +235,9 @@ sakai.api.Groups.removeFromGroup = function(groupID, callback) {
 /**
  * Returns all the users who are member of a certain group
  *
- * @param groupID {String} The ID of the group we would like to get the members
+ * @param {String} groupID The ID of the group we would like to get the members
  * of
- * @param callback {Function} Callback function executed at the end of the
+ * @param {Function} callback Callback function executed at the end of the
  * operation, containing the member user's data
  *
  * @returns true or false
@@ -322,8 +316,7 @@ sakai.api.l10n.init = function() {
 /**
  * Get the current logged in user's locale
  *
- * @returns The user's locale string in XXX format
- * @type String
+ * @return {String} The user's locale string in XXX format
  */
 sakai.api.l10n.getUserLocale = function() {
 
@@ -332,8 +325,7 @@ sakai.api.l10n.getUserLocale = function() {
 /**
  * Get a site's locale
  *
- * @returns The site's locale string in XXX format
- * @type String
+ * @returns {String} The site's locale string in XXX format
  */
 sakai.api.l10n.getSiteLocale = function() {
 
@@ -401,11 +393,11 @@ sakai.api.Server.batchPost = function() {
 /**
  * Saves a specified JSON object to a specified URL in JCR. The structure of JSON data will be re-created in JCR as a node hierarchy.
  *
- * @param i_url {String} The path to the preference where it needs to be
+ * @param {String} i_url The path to the preference where it needs to be
  * saved
- * @param i_data {Object} A JSON object whic we would like to save
+ * @param {Object} i_data A JSON object whic we would like to save
  * (max 200 child object of each object)
- * @param callback {Function} A callback function which is executed at the
+ * @param {Function} callback A callback function which is executed at the
  * end of the operation
  *
  * @returns {Void}
@@ -454,8 +446,8 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 /**
  * Loads structured preference data from a specified URL (and it's node subtree)
  *
- * @param i_url {String} The path to the preference which needs to be loaded
- * @param callback {Function} A callback function which is executed at the end
+ * @param {String} i_url The path to the preference which needs to be loaded
+ * @param {Function} callback A callback function which is executed at the end
  * of the operation
  *
  * @returns {Void}
@@ -495,11 +487,11 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
 /**
  * Saves any type of data into one JCR node
  *
- * @param i_url {String} The path to the preference which needs to be loaded
- * @param i_data {String|Object} The data we want to save
- * @param callback {Function} A callback function which is executed at the end
+ * @param {String} i_url The path to the preference which needs to be loaded
+ * @param {String|Object} i_data The data we want to save
+ * @param {Function} callback A callback function which is executed at the end
  * of the operation
- * @returns void
+ * @return {Void}
  */
 sakai.api.Server.saveData = function(i_url, i_data, callback) {
 
@@ -551,8 +543,8 @@ sakai.api.Server.saveData = function(i_url, i_data, callback) {
 /**
  * Loads saved data from a JCR node
  *
- * @param i_url {String} The path to the preference which needs to be loaded
- * @param callback {Function} A callback function which is executed at the end
+ * @param {String} i_url The path to the preference which needs to be loaded
+ * @param {Function} callback A callback function which is executed at the end
  * of the operation
  *
  * @returns {Void}
@@ -600,10 +592,7 @@ sakai.api.Server.loadData = function(i_url, callback) {
 /**
  * Loads in a CSS file at runtime from a given URL
  *
- * @param url {String} The URL pointing to the required CSS file
- *
- * @returns true or false
- * @type Boolean
+ * @param {String} url The URL pointing to the required CSS file
  */
 sakai.api.Server.requireCSS = function(url) {
 
@@ -612,10 +601,7 @@ sakai.api.Server.requireCSS = function(url) {
 /**
  * Loads in a JS file at runtime from a given URL
  *
- * @param url {String} The URL pointing to the required JS file
- *
- * @returns true or false
- * @type Boolean
+ * @param {String} url The URL pointing to the required JS file
  */
 sakai.api.Server.requireJS = function(url) {
 
@@ -667,8 +653,183 @@ sakai.api.Site.loadSkin = function(siteID, skinID) {
 };
 
 
+/**
+ * @class UI
+ *
+ * @description
+ * User interface elements within Sakai 3 which require JS to work.
+ * All UI element init functions should be defined here.
+ *
+ * @namespace
+ * Standard Sakai 3 UI elements
+ */
+sakai.api.UI = sakai.api.UI || {};
+
+/**
+ * @class Forms
+ *
+ * @description
+ * Form related functionality speeding up data retrieval, filling in initial
+ * values or resetting a form.
+ *
+ * @namespace
+ * UI Form related functions
+ */
+sakai.api.UI.Forms = {
+
+    /**
+     * Retrieves all data from a form and constructs a JSON object containing
+     * all values.
+     * <p>This function will look for input fields, selects and textareas and will get all of the values
+     * out and store them in a JSON object. The keys for this object are the names (name attribute) of
+     * the form fields. This function is useful as it saves you to do a .val() on every form field.
+     * Form fields without a name attribute will be ignored. </p>
+     *
+     * @param {Object} formElement The jQuery object of the form we would like to
+     * extract the data from
+     *
+     * @return {Object} <p>A JSON object containing name: value pair of form data.
+     * The object that's returned will look like this:</p>
+     * <pre><code>{
+     *     inputBoxName : "Value 1",
+     *     radioButtonGroup : "value2",
+     *     checkBoxGroup : ["option1","option2"],
+     *     selectElement : ["UK"],
+     *     textAreaName : "This is some random text"
+     * }</code></pre>
+     */
+    form2json: function(formElement){
+
+        var finalFields = {};
+        var fields = $("input, textarea, select", formElement);
+
+        for(var i = 0, il = fields.length; i < il; i++) {
+
+            var el = fields[i];
+            var name = el.name;
+            var nodeName = el.nodeName.toLowerCase();
+            var type = el.type.toLowerCase() || "";
+
+            if (name){
+                if (nodeName === "input" || nodeName === "textarea") {
+                    // Text fields and textareas
+                    if (nodeName === "textarea" || (type === "text" || type === "password")) {
+                        finalFields[name] = el.value;
+                    // Checkboxes
+                    } else if (type === "checkbox") {
+                        finalFields[name] = finalFields[name] || [];
+                        if (el.checked) {
+                            finalFields[name][finalFields[name].length] = el.value;
+                        }
+                    // Radiobuttons
+                    } else if (type === "radio" && el.checked) {
+                        finalFields[name] = el.value;
+                    }
+                // Select dropdowns
+                } else if (nodeName === "select"){
+                    // An array as they have possibly multiple selected items
+                    finalFields[name] = [];
+                    for (var j = 0, jl = el.options.length; j < jl; j++) {
+                        if (el.options[j].selected) {
+                            finalFields[name] = el.options[j].value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return finalFields;
+    },
 
 
+    /**
+     * Function that will take in a JSON object and a container and will try to attempt to fill out
+     * all form fields according to what's in the JSON object. A useful usecase for this would be to
+     * have a user fill out a form, and store the serialization of it directly on the server. When the
+     * user then comes back, we can get this value from the server and give that value to this function.
+     * This will create the same form state as when it was saved by the user.
+     *
+     * @param {Object} formElement JQuery element that represents the container in which we are
+     *  filling out the values
+     * @param {Object} formDataJson JSON object that contains the names of the fields we want to populate (name attribute)
+     *  as keys and the actual value (text for input text fields and textareas, and values for
+     *  checkboxes, radio buttons and select dropdowns)
+     *  <pre><code>{
+     *     inputBoxName : "Value 1",
+     *     radioButtonGroup : "value2",
+     *     checkBoxGroup : ["option1","option2"],
+     *     selectElement : ["UK"],
+     *     textAreaName : "This is some random text"
+     *  }</code></pre>
+     *
+     * @return {Boolean} true or false depending on the success of the operation
+     */
+    json2form: function(formElement, formDataJson){
+
+        sakai.api.UI.Forms.resetForm(formElement);
+
+        for (var name in formDataJson) {
+            if (formDataJson[name]){
+                var els = $('[name=' + name + ']', form);
+                for (var i = 0, il = els.length; i < il; i++){
+                    var el = els[i];
+                    var nodeName = el.nodeName.toLowerCase();
+                    var type = el.type.toLowerCase() || "";
+                    if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
+                        el.value = formDataJson[name];
+                    } else if (nodeName === "input" && type === "radio"){
+                        if (el.value === formDataJson[name]){
+                            el.checked = true;
+                        }
+                    } else if (nodeName === "input" && type === "checkbox"){
+                        for (var j = 0, jl = formDataJson[name].length; j < jl; j++){
+                            if (el.value === formDataJson[name][j]){
+                                el.checked = true;
+                            }
+                        }
+                    } else if (nodeName === "select"){
+                        for (var select = 0; select < formDataJson[name].length; select++){
+                            for (var k = 0, kl = el.options.length; k < kl; k++) {
+                                if (el.options[k].value === formDataJson[name][select]) {
+                                    el.options[k].selected = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    },
+
+    /**
+     * Resets all the values of a given form . If it's an input textbox or a textarea, the value will
+     * become an empty string. If it's a radio button or a checkbox, all will be unchecked.
+     * If it's a select dropdown, then the first element will be selected
+     * @param {Object} formElement JQuery element that represents the container in which we are
+     *  resetting the form fields
+     *
+     * @return {Boolean} true or false depending on the success of the operation
+     */
+    resetForm: function(formElement){
+
+        var fields = $("input, textarea, select", formElement);
+        for (var i = 0, il = fields.length; i < il; i++){
+            var el = fields[i];
+            var nodeName = el.nodeName.toLowerCase();
+            var type = el.type.toLowerCase() || "";
+            if ((nodeName === "input" && (type === "text" || type === "password")) || nodeName === "textarea"){
+                el.value = "";
+            } else if (nodeName === "input"){
+                el.checked = false;
+            } else if (nodeName === "select"){
+                el.selectedIndex = 0;
+            }
+        }
+
+    }
+
+};
 
 
 /**
@@ -690,9 +851,9 @@ sakai.api.User = sakai.api.User || {};
 /**
  * Retrieves all available information about a logged in user and stores it under sakai.data.me object. When ready it will call a specified callback function
  *
- * @param callback {Function} A function which will be called when the information is retrieved from the server.
+ * @param {Function} callback A function which will be called when the information is retrieved from the server.
  * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
- * @returns void
+ * @return {Void}
  */
 sakai.api.User.loadMeData = function(callback) {
 
@@ -928,7 +1089,7 @@ sakai.api.Util.shortenString = function(input, maxlength){
 /**
  * URL encodes a given string
  *
- * @param s {String} The string we would like to URL encode
+ * @param {String} s The string we would like to URL encode
  *
  * @returns Returns the URL encoded string
  * @type String
@@ -941,7 +1102,7 @@ sakai.api.Util.URLEncode = function(s) {
 /**
  * URL decodes a given URL encoded string
  *
- * @param s {String} The string we would like to decode
+ * @param {String} s The string we would like to decode
  *
  * @returns Returns the decoded string
  * @type String
@@ -954,7 +1115,7 @@ sakai.api.Util.URLDecode = function(s) {
 /**
  * Strip all HTML tags from a given string
  *
- * @param s {String} The string we would like to strip all tags from
+ * @param {String} s The string we would like to strip all tags from
  *
  * @returns Returns the input string without tags
  * @type String
@@ -1069,8 +1230,8 @@ sakai.api.Widgets.Container = {
 /**
  * Loads an instance of a widget
  *
- * @param widgetID {String} The ID of a Widget which needs to be loaded
- * @param callback {Function} The callback function which is called when the
+ * @param {String} widgetID The ID of a Widget which needs to be loaded
+ * @param {Function} callback The callback function which is called when the
  * loading is complete.
  *
  * @returns true if successful, false if there was an error
@@ -1083,9 +1244,7 @@ sakai.api.Widgets.loadWidget = function(widgetID, callback) {
 /**
  * Renders an instance of a widget
  *
- * @param widgetID {String} The ID of a Widget which needs to be rendered
- * @returns true if successful, false if there was an error
- * @type Boolean
+ * @param {String} widgetID The ID of a Widget which needs to be rendered
  */
 sakai.api.Widgets.renderWidget = function(widgetID) {
 
@@ -1093,9 +1252,11 @@ sakai.api.Widgets.renderWidget = function(widgetID) {
 
 /**
  * Loads a named widget preference from the user's private personal storage
- * @param {string} prefname the preference name
- * @param {function} callback the function to call on sucess
- *
+ * @param {String} prefname the preference name
+ * @param {Object} w_id
+ * @param {Object} w_placement
+ * @param {Function} callback the function to call on sucess
+ * @param {Object} requireslogin
  */
 sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callback, requireslogin) {
 
@@ -1128,10 +1289,10 @@ sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callbac
 /**
  * Save a named widget preference to the user's personal private storage
  *
- * @param {string} prefname the preference name
+ * @param {String} prefname the preference name
  * @param prefcontent the content to be saved
- * @param {function} callback, the call back to call when the save is complete
- * @returns void
+ * @param {Function} callback, the call back to call when the save is complete
+ * @return {Void}
  */
 sakai.api.Widgets.saveWidgetData = function(prefname, prefcontent, w_id, w_placement, callback, requireslogin) {
 
@@ -1168,10 +1329,10 @@ sakai.api.Widgets.saveWidgetData = function(prefname, prefcontent, w_id, w_place
 /**
  * Delete a named widget preference from the user's personal private storage
  *
- * @param {string} prefname the preference name
- * @param prefcontent the content to be saved
- * @param {function} callback, the call back to call when the save is complete
- * @returns void
+ * @param {String} prefname the preference name
+ * @param {Object|String} prefcontent the content to be saved
+ * @param {Function} callback, the call back to call when the save is complete
+ * @return {Void}
  */
 sakai.api.Widgets.deleteWidgetData = function(prefname, w_id, w_placement, callback, requireslogin) {
 
@@ -1220,17 +1381,15 @@ sakai.api.Widgets.deleteWidgetData = function(prefname, w_id, w_placement, callb
  * @namespace
  * jQuery Plugins and overrides for Sakai.
  */
-
-
 (function($){
 
     /**
     * Override default jQuery error behavior
     * @function
-    * @param s {String} s description
-    * @param xhr {Object} xhr object
-    * @param status {String} Status message
-    * @param e {Object} Thrown error
+    * @param {String} s description
+    * @param {Object} xhr xhr object
+    * @param {String} status Status message
+    * @param {Object} e Thrown error
     */
     $.handleError = function (s, xhr, status, e) {
 
@@ -1276,9 +1435,9 @@ sakai.api.Widgets.deleteWidgetData = function(prefname, w_id, w_placement, callb
     * Trimpath Template Renderer: Renders the template with the given JSON object, inserts it into a certain HTML
     * element if required, and returns the rendered HTML string
     * @function
-    * @param templateElement {String|Object} templateElement The name of the template HTML ID or a jQuery selection object.
-    * @param templateData {Object} JSON object containing the template data
-    * @param outputElement {Object} (Optional) jQuery element in which the template needs to be rendered
+    * @param {String|Object} templateElement The name of the template HTML ID or a jQuery selection object.
+    * @param {Object} templateData JSON object containing the template data
+    * @param {Object} outputElement (Optional) jQuery element in which the template needs to be rendered
     */
     $.TemplateRenderer = function (templateElement, templateData, outputElement) {
 
@@ -1350,8 +1509,8 @@ if(Array.hasOwnProperty("indexOf") === false){
     * position. This only kicks in when the native .indexOf method is not
     * available in the browser.
     *
-    * @param obj {Object/String/Integer} The element we are looking for
-    * @param start {Integer} Where the search starts within the array
+    * @param {Object/String/Integer} obj The element we are looking for
+    * @param {Integer} start Where the search starts within the array
     *
     * @returns Returns the position of the first matched element
     * @type Integer

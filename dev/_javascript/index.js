@@ -92,7 +92,7 @@ sakai.index = function(){
      */
     var performLogIn = function(){
 
-        var values = $.FormBinder.serialize($(loginForm));
+        var values = sakai.api.UI.Forms.form2json($(loginForm));
 
         $(failMessage).hide();
         $(loginButton).hide();
