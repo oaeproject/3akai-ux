@@ -27,12 +27,21 @@
 <div id="delicious_template_main"><!--
     <div>
         <div id="delicious_main_menu">
-            <a href="javascript:;" id="delicious_most_recent_link">Fresh</a><span class="delicious_pipe_divider">|</span>
-            <a href="javascript:;" id="delicious_popular_link">Hotlist</a><span class="delicious_pipe_divider">|</span>
-            <a href="javascript:;" id="delicious_user_link">Personal</a><span class="delicious_pipe_divider">|</span>
-            <a href="javascript:;" id="delicious_network_link">Network</a><span class="delicious_pipe_divider">|</span>
-            <a href="javascript:;" id="delicious_subscriptions_link">Subscriptions</a>
-            <a href="javascript:;" id="delicious_refresh_link"><img src="/devwidgets/delicious/images/refresh.gif" alt="Refresh delicious widget"></a>
+            <a href="javascript:;" id="delicious_most_recent_link" class="menu_link">Fresh</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_popular_link" class="menu_link">Hotlist</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_user_link" class="menu_link">Personal</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_network_link" class="menu_link">Network</a><span class="delicious_pipe_divider">|</span>
+            <a href="javascript:;" id="delicious_subscriptions_link" class="menu_link">Subscriptions</a>
+            <a href="javascript:;" id="delicious_refresh_link" class="menu_link"><img src="/devwidgets/delicious/images/refresh.gif" alt="Refresh delicious widget"></a>
+        </div>
+        <div id="delicious_main_filter">
+            <form id="delicious_filter_form" action="POST">
+                <div id="delicious_filter_user">
+                    <label id="delicious_filter_label_user" for="delicious_filter_input_user">User:</label>
+                    <input type="text" id="delicious_filter_input_user" class="delicious_input" value=""/>
+                    <a href="javascript:;" id="delicious_filter_ok">ok</a>
+                </div>
+            </form>
         </div>
         <div id="delicious_main_bookmarks">
             {for bookmark in all}
