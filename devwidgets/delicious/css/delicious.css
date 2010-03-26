@@ -27,6 +27,7 @@
 /* DELICIOUS MAIN MENU */
 
 #delicious_widget #delicious_main_menu {
+<<<<<<< HEAD
     border-bottom:3px solid #ddd;
     padding-bottom:5px;
 }
@@ -43,6 +44,17 @@
 }
 
 
+=======
+    padding-bottom:5px;
+    border-bottom:3px solid #ddd;
+}
+
+#delicious_widget #delicious_main_menu #delicious_refresh_link {
+    float:right;
+}
+
+
+>>>>>>> f8aee0c1d064009d646cdf534b6099d216dd24e3
 /* DELICIOUS MAIN BOOKMARKS */
 
 #delicious_widget #delicious_main_bookmarks {
@@ -72,10 +84,17 @@
 }
 
 #delicious_widget .fl-widget .fl-widget-options #delicious_paging {
+<<<<<<< HEAD
     color:#666666;
     font-size:0.85em;
     font-weight:bold;
     padding:3px 0 3px 3px;
+=======
+    padding:3px 0 3px 3px;
+    color:#666666;
+    font-size:0.85em;
+    font-weight:bold;
+>>>>>>> f8aee0c1d064009d646cdf534b6099d216dd24e3
 }
 
 
@@ -89,5 +108,10 @@
 
 #delicious_widget .delicious_input {
     border:1px solid #dddddd;
+<<<<<<< HEAD
     padding:3px 0 0 3px;
+=======
+    padding-left:3px;
+    padding-top:3px;
+>>>>>>> f8aee0c1d064009d646cdf534b6099d216dd24e3
 }
