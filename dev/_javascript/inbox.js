@@ -513,9 +513,13 @@ sakai.inbox = function() {
      * @param {Object} The JSON response from the server. Make sure it has a .message array in it.
      */
     var renderMessages = function(response) {
+
         for (var i = 0, k = response.results.length; i < k; i++) {
+
             if (box === "inbox" && cats === "" && response.results[i]["sakai:category"] === "chat") {
                 response.results.splice(i, 1);
+                // We are modifying the array we are iterating. We need to adjust the length otherwise we end up with undefined array elements
+                k--;
             }
         }
 
@@ -540,7 +544,7 @@ sakai.inbox = function() {
         removeAllMessagesOutDOM();
 
         // Add them to the DOM
-        $(inboxTable).children('tbody').append($.TemplateRenderer(inboxTableMessagesTemplate, tplData));
+        $(inboxTable).children("tbody").append($.TemplateRenderer(inboxTableMessagesTemplate, tplData));
 
         // do checkboxes
         tickMessages();
@@ -934,9 +938,9 @@ sakai.inbox = function() {
     $("#inbox_message_accept_invitation").live("click", function(ev){
         var accepting = selectedMessage["sakai:from"];
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "." + accepting + ".accept.html",
+            url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
             type: "POST",
-            data : {"_charset_":"utf-8"},
+            data : {"targetUserId":accepting},
             success: function(data){
                 $("#inbox-invitation-accept").hide();
                 $("#inbox-invitation-already").show();

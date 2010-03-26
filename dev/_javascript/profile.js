@@ -776,12 +776,13 @@ sakai.profile = function(){
             var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
             var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 
-            var data = { "type" : type, "_charset_":"utf-8"};
-
             $.ajax({
-                url: "/_user" + sakai.data.me.profile.path + "/" + user + ".invite.html",
+                url: "/_user" + sakai.data.me.profile.path + "/contacts.invite.html",
                 type: "POST",
-                data: data,
+                data: {
+                    "type": type,
+                    "targetUserId": user
+                },
                 success: function(data){
 
                     // Send an invitation message
@@ -804,9 +805,9 @@ sakai.profile = function(){
    $("#accept_invitation_button").bind("click", function(ev){
 
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "/" + user + ".accept.html",
+            url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
             type: "POST",
-            data : {"_charset_":"utf-8"},
+            data : {"targetUserId":user},
             success: function(data){
                 $("#accept_invitation_button").hide();
             },

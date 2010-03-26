@@ -28,7 +28,7 @@ if (!sakai.sendmessage){
 
         var rootel = $(tuid);
 
-        var user = false;     //    user object that contains the information for the
+        var user = false;     // user object that contains the information for the
                             //    user that should be posted to.
         var allowOthers = false;    //    If the user can add other receivers.
         var allFriends = [];        //    Array that will contain all the info about this users friends.
@@ -106,7 +106,7 @@ if (!sakai.sendmessage){
 
 
         //////////////////////////
-        // Autocomplete friends    //
+        // Autocomplete friends //
         //////////////////////////
 
         /**
@@ -124,7 +124,7 @@ if (!sakai.sendmessage){
                 matchContains: true,
                 multiple: true,
                 width: 490,
-                bindTo: bindSearchTo,    //    THIS REQUIRES A MODIFIED VERSION OF AUTOCOMPLETE!
+                bindTo: bindSearchTo,    // THIS REQUIRES A MODIFIED VERSION OF AUTOCOMPLETE!
 
                 formatMatch: function(row){
                     return row.profile.firstName + ' ' + row.profile.lastName;
@@ -147,19 +147,16 @@ if (!sakai.sendmessage){
          */
         var createToBox = function(name, uid){
             var json = {"name" : name, "uid" : uid};
-            //    Get the tpl
+            // Get the tpl
             var box = $.TemplateRenderer(messageMultipleToBox.replace(/#/,""), json);
 
-            //    Add it too the DOM tree.
+            // Add it too the DOM tree.
             $(messageFieldMultipleTo).before(box);
 
-            //    Add some nice corners
-            $(messageMultipleToBoxResult).corners();
-
-            //    Clear the input box
+            // Clear the input box
             $(messageFieldMultipleTo).val("");
 
-            //    add it too the selected list.
+            // add it too the selected list.
             selectedFriendsToPostTo.push(uid);
         };
 
@@ -193,7 +190,7 @@ if (!sakai.sendmessage){
 
 
         ///////////////////////////////
-        //         Aid functions         //
+        // Aid functions             //
         ///////////////////////////////
 
         /**
@@ -541,7 +538,7 @@ if (!sakai.sendmessage){
             if ($.inArray(data.target, selectedFriendsToPostTo) === -1) {
                 createToBox(data.profile.firstName + ' ' + data.profile.lastName, data.target);
             }
-            $(this).val('');
+            $(this).val("");
         });
 
 

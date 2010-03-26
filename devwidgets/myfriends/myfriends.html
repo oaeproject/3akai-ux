@@ -23,7 +23,7 @@
 -->
 
     <div id="myfriends_requests_template"><!--
-        {if total > 0}
+        {if ((total > 0) && (total < 1000))}
             <span>
                 ${total}
                 {if total == 1}

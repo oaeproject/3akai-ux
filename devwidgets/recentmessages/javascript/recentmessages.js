@@ -67,8 +67,8 @@ sakai.recentmessages = function(tuid,placement,showSettings){
 
     /**
      * Load the recent messages for the current user
-     * @param {Object|Boolean} response 
-     *     The response that the server has send. 
+     * @param {Object|Boolean} response
+     *     The response that the server has send.
      *     If the response is false, it means we were not able to connect to the server
      */
     var loadRecentMessages = function(response){

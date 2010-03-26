@@ -234,9 +234,9 @@ sakai.search = function(){
             var user = this.id.split("_")[this.id.split("_").length - 1];
 
             $.ajax({
-                url: "/_user" + sakai.data.me.profile.path + "." + user + ".accept.html",
+                url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
                 type: "POST",
-                data : {"_charset_":"utf-8"},
+                data : {"targetUserId": user},
                 success: function(data){
                     setTimeout(loadContacts,500,[1]);
 

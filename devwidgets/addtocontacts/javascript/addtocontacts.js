@@ -158,11 +158,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     toRelationships.push(type);
                 }
             }
-            var toSend = {
-                "fromRelationships" : fromRelationships,
-                "toRelationships" : toRelationships,
-                "_charset_":"utf-8"
-            }
+
             var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 
             // send message to other person
@@ -173,9 +169,13 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 
             // Do the invite and send a message
             $.ajax({
-                url: "/_user" + sakai.data.me.profile.path + "." + userid + ".invite.html",
+                url: "/_user" + sakai.data.me.profile.path + "/contacts.invite.html",
                 type: "POST",
-                data: toSend,
+                data: {
+                    "fromRelationships": fromRelationships,
+                    "toRelationships": toRelationships,
+                    "targetUserId": userid
+                },
                 success: function(data) {
                     sakai.api.Communication.sendMessage(userid, title, message, "invitation", null, contactAdded);
                 },
