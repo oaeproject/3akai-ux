@@ -64,7 +64,7 @@ sakai.delicious = function(tuid, placement, showSettings){
 
     // Buttons and links
     var $deliciousFilterOK = $("#delicious_filter_ok", rootel);
-    var $deliciousMostRecentLink = $("#delicious_most_recent_link", rootel);
+    var $deliciousMostRecentLink = $("#delicious_mostrecent_link", rootel);
     var $deliciousNetworkLink = $("#delicious_network_link", rootel);
     var $deliciousPopularLink = $("#delicious_popular_link", rootel);
     var $deliciousRefreshLink = $("#delicious_refresh_link", rootel);
@@ -72,6 +72,7 @@ sakai.delicious = function(tuid, placement, showSettings){
     var $deliciousSettingsButtonSave = $("#delicious_settings_button_save", rootel);
     var $deliciousSubscriptionsLink = $("#delicious_subscriptions_link", rootel);
     var $deliciousUserLink = $("#delicious_user_link", rootel);
+    var deliciousButtonsArray = [$deliciousMostRecentLink,$deliciousNetworkLink,$deliciousPopularLink,$deliciousSubscriptionsLink,$deliciousUserLink];
 
     // Paging
     var $deliciousPaging = $("#delicious_paging", rootel);
@@ -224,46 +225,6 @@ sakai.delicious = function(tuid, placement, showSettings){
         });
     };
 
-    /**
-     * Set bookmarkMode to "mostrecent" and fetch bookmarks
-     */
-    var getDeliciousMostRecentBookmarks = function(){
-        bookmarkMode = "mostrecent";
-        getDeliciousBookmarks();
-    };
-
-    /**
-     * Set bookmarkMode to "popular" and fetch bookmarks
-     */
-    var getDeliciousPopularBookmarks = function(){
-        bookmarkMode = "popular";
-        getDeliciousBookmarks();
-    };
-
-    /**
-     * Set bookmarkMode to "user" and fetch bookmarks
-     */
-    var getDeliciousUserBookmarks = function(){
-        bookmarkMode = "user";
-        getDeliciousBookmarks();
-    };
-
-    /**
-     * Set bookmarkMode to "network" and fetch bookmarks
-     */
-    var getDeliciousNetworkBookmarks = function(){
-        bookmarkMode = "network";
-        getDeliciousBookmarks();
-    };
-
-    /**
-     * Set bookmarkMode to "subscriptions" and fetch bookmarks
-     */
-    var getDeliciousSubscriptionsBookmarks = function(){
-        bookmarkMode = "subscriptions";
-        getDeliciousBookmarks();
-    };
-
 
     ///////////////////////
     // Utility functions //
@@ -400,28 +361,18 @@ sakai.delicious = function(tuid, placement, showSettings){
         }
 
         // Buttons
-        $deliciousMostRecentLink.live('click', getDeliciousMostRecentBookmarks);
-        $deliciousNetworkLink.live('click', getDeliciousNetworkBookmarks);
-        $deliciousPopularLink.live('click', getDeliciousPopularBookmarks);
-        $deliciousRefreshLink.live('click', getDeliciousBookmarks);
-        $deliciousSubscriptionsLink.live('click', getDeliciousSubscriptionsBookmarks);
-        $deliciousUserLink.live('click', getDeliciousUserBookmarks);
+        var deliciousButtonsArrayLength = deliciousButtonsArray.length;
+        for (var i = 0; i < deliciousButtonsArrayLength; i++) {
+            deliciousButtonsArray[i].live('click', function(){
+                bookmarkMode = $(this).attr("id").split("_")[1];
+                getDeliciousBookmarks();
+            });
+        }
         $deliciousFilterOK.live('click', updateDeliciousFilter);
-
-        // TEMPORARY PERSONAL COMMENT
-        // This will return the ID of every link in the menu
-        // Something like this can be used to replace the entire block of code above this comment with just a few lines of code
-        // It will also bypass the ugly code between lines 227 - 257.
-        // Maybe add multiple classes or id's?
-        //$(".menu_link", rootel).live('click', function(){
-        //    alert($(this).attr("id"));
-        //});
-
         //$deliciousSettingsLink.live('click', reloadWidget);
         $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
 
         // Render
-        //$deliciousContainerMain.html($.Template.render($deliciousTemplateMain));
         $deliciousContainerSettings.html($.Template.render($deliciousTemplateSettings));
 
         // Get the bookmarks
