@@ -27,12 +27,19 @@
 /* DELICIOUS MAIN MENU */
 
 #delicious_widget #delicious_main_menu {
-    padding-bottom:5px;
     border-bottom:3px solid #ddd;
+    padding-bottom:5px;
 }
 
 #delicious_widget #delicious_main_menu #delicious_refresh_link {
+    background:url('/devwidgets/delicious/images/refresh.jpg');
     float:right;
+    height:15px;
+    width:15px;
+}
+
+#delicious_widget #delicious_main_menu #delicious_refresh_link:hover {
+    background-position:-15px 0;
 }
 
 
@@ -65,10 +72,10 @@
 }
 
 #delicious_widget .fl-widget .fl-widget-options #delicious_paging {
-    padding:3px 0 3px 3px;
     color:#666666;
     font-size:0.85em;
     font-weight:bold;
+    padding:3px 0 3px 3px;
 }
 
 
@@ -82,6 +89,5 @@
 
 #delicious_widget .delicious_input {
     border:1px solid #dddddd;
-    padding-left:3px;
-    padding-top:3px;
+    padding:3px 0 0 3px;
 }
