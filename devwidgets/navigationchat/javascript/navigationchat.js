@@ -339,12 +339,23 @@ sakai.navigationchat = function(tuid, placement, showSettings){
     var getCountUnreadMessages = function(){
         // We only get the number of messages in our inbox folder that we havent read yet.
         $.ajax({
-            url: sakai.config.URL.MESSAGES_COUNT_SERVICE,
+            url: "/_user/message/box.json?box=inbox",
             success: function(data){
                 var json = $.evalJSON(data);
-                if (json.count) {
-                    $(chatUnreadMessages).text(json.count);
+
+                // Count unread messages
+                var unread_message_count = 0;
+                for (var i = 0; i < json.total; i++) {
+                    if (json.results[i]["sakai:read"] === false) {
+                        unread_message_count++;
+                    }
                 }
+
+                // Update display
+                $(chatUnreadMessages).text(unread_message_count);
+            },
+            error: function(xhr, status, thrown) {
+
             }
         });
     };
@@ -1128,7 +1139,7 @@ sakai.navigationchat = function(tuid, placement, showSettings){
                     };
 
                     $.ajax({
-                        url: sakai.config.URL.MESSAGES_CREATE_SERVICE,
+                        url: "/_user/message.create.html",
                         type: "POST",
                         success: function(data){
 

@@ -755,7 +755,6 @@ sakai.inbox = function() {
         showLoader();
 
         $.ajax({
-            //url: sakai.config.URL.MESSAGES_COUNT_SERVICE + "?read=" + read + types + cats,
             url: url,
             success: function(data) {
                 var json = $.evalJSON(data);
@@ -804,18 +803,15 @@ sakai.inbox = function() {
      */
     var markMessageRead = function(message, id) {
         var postParameters = {
-            "sakai:read": true,
-            "sling:resourceType": "sakai/message",
-            "_charset_": "utf-8"
+            "sakai:read": "true"
         };
-        // To mark a message as read we do a request to the sdata functions.
-        // We use the Properties function to change the messageRead variable.
+
         $.ajax({
             type: "POST",
-            url: "/_user" + sakai.data.me.profile.path + "/message/" + message.id,
+            url: message["jcr:path"] + ".json",
             data: postParameters,
             success: function(userdata) {
-                for (var i = 0, j = allMessages.length; i<j; i++){
+                for (var i = 0, j = allMessages.length; i < j; i++){
                     if (allMessages[i].id === message.id){
                         allMessages[i]["sakai:read"] = true;
                         break;
@@ -834,6 +830,9 @@ sakai.inbox = function() {
                 }
 
                 updateUnreadNumbers();
+
+                // Mark message in navigationchat as read
+                $(chatUnreadMessages).html((parseInt($(chatUnreadMessages).text(),10) - 1));
 
             },
             error: function(xhr, textStatus, thrownError) {
@@ -921,7 +920,7 @@ sakai.inbox = function() {
                 $(inboxSpecificMessagePreviousMessages).hide();
             }
 
-            if (message["sakai:read"] === "false") {
+            if (message["sakai:read"] === false) {
                 // We haven't read this message yet. Mark it as read.
                 markMessageRead(message, id);
             }
@@ -1220,10 +1219,10 @@ sakai.inbox = function() {
      */
 
     $(inboxSpecificMessageBackToInbox).click(function() {
-        //    Show the inbox.
+        // Show the inbox.
         showPane(inboxPaneInbox);
 
-        //    Clear all the input fields
+        // Clear all the input fields
         clearInputFields();
     });
 
