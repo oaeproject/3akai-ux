@@ -95,6 +95,18 @@ sakai.delicious = function(tuid, placement, showSettings){
     //////////////////////
 
     /**
+     * Render paging
+     * @param {Object} arraylength: the number of items
+     */
+    var renderPaging = function(arraylength){
+        $(jqPagerClass).pager({
+            pagenumber: pageCurrent + 1,
+            pagecount: Math.ceil(arraylength / pageSize),
+            buttonClickCallback: doPaging
+        });
+    };
+
+    /**
      * Render all bookmarks
      */
     var renderBookmarks = function(){
@@ -114,41 +126,28 @@ sakai.delicious = function(tuid, placement, showSettings){
             all: parseBookmarksArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
         };
 
-        // Render the list
+        // Render the main template
         $deliciousContainerMain.html($.Template.render($deliciousTemplateMain,pagingArray));
-
 
         if (parseBookmarksArray.length > pageSize) {
             $deliciousPaging.show();
             renderPaging(parseBookmarksArray.length);
-        }else{
+        } else {
             $deliciousPaging.hide();
-            if(parseBookmarksArray.length === 0){
+            if (parseBookmarksArray.length === 0) {
                 // display 'no items' message
             }
         }
 
-        // Hide the filter whenever irrelevant
-        if(bookmarkMode == "mostrecent" || bookmarkMode == "popular"){
+        // Hide the filter when irrelevant
+        if (bookmarkMode == "mostrecent" || bookmarkMode == "popular") {
             $deliciousMainFilter = $("#delicious_main_filter", rootel);
             $deliciousMainFilter.hide();
-        }else{
+        } else {
             // Otherwise fill in the correct username
             $deliciousFilterInputUser = $("#delicious_filter_input_user", rootel);
             $deliciousFilterInputUser.val(filterUser);
         }
-    };
-
-    /**
-     * Render paging
-     * @param {Object} arraylength: the number of items
-     */
-    var renderPaging = function(arraylength){
-        $(jqPagerClass).pager({
-            pagenumber: pageCurrent + 1,
-            pagecount: Math.ceil(arraylength / pageSize),
-            buttonClickCallback: doPaging
-        });
     };
 
 
@@ -166,10 +165,10 @@ sakai.delicious = function(tuid, placement, showSettings){
             all: $.evalJSON(response)
         };
 
-        if(exists && response.length > 0){
+        if (exists && response.length > 0) {
             // Display every bookmark
             renderBookmarks();
-        }else{
+        } else {
             // Display error message
             fluid.log("ERROR at delicious.js, parseDeliciousBookmarks: " + thrownError);
         }
@@ -367,7 +366,9 @@ sakai.delicious = function(tuid, placement, showSettings){
                 bookmarkMode = $(this).attr("id").split("_")[1];
                 getDeliciousBookmarks();
             });
+            //deliciousButtonsArray[i].addClass('deliciousActiveMenuItem');
         }
+        $deliciousRefreshLink.live('click', getDeliciousBookmarks);
         $deliciousFilterOK.live('click', updateDeliciousFilter);
         //$deliciousSettingsLink.live('click', reloadWidget);
         $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
