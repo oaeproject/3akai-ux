@@ -152,12 +152,12 @@ sakai.newaccount = function(){
     };
 
     /**
-     * Uses the FormBinder to get all of the values out of the form fields. This will return
+     * Get all of the values out of the form fields. This will return
      * a JSON object where the keys are the names of all of the form fields, and the values are
      * the values entered by the user in those fields.
      */
     var getFormValues = function(){
-        return $.FormBinder.serialize($(formContainer));
+        return sakai.api.UI.Forms.form2json($(formContainer));
     };
 
 

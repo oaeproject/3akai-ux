@@ -142,7 +142,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
      * @param {String} userid
      */
     var doInvite = function(userid) {
-        var formValues = $.FormBinder.serialize($(addToContactsForm));
+        var formValues = sakai.api.UI.Forms.form2json($(addToContactsForm));
         var types = formValues[addToContactsFormType.replace(/#/gi, "")];
         $(addToContactsResponse).text("");
         if (types.length) {
