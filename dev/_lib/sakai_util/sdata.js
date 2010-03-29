@@ -188,13 +188,16 @@ sdata.widgets.WidgetLoader = {
                 for (var i = 0, j = widgets[widgetname].length; i<j; i++){
                     widgets[widgetname][i].done++;
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
-                        var initfunction = window[widgetNameSpace][widgetname];
-                        initfunction(widgets[widgetname][i].uid, widgets[widgetname][i].placement, settings);
+
+                         // Save the placement in the widgets variable
                         sdata.widgets.WidgetLoader.widgets[widgets[widgetname][i].uid] = {
                             "placement": widgets[widgetname][i].placement + widgets[widgetname][i].uid + "/" + widgetname,
                             "name" : widgetname
                         };
-                        console.log(sdata.widgets.WidgetLoader.widgets);
+
+                        var initfunction = window[widgetNameSpace][widgetname];
+                        initfunction(widgets[widgetname][i].uid, settings);
+
                         doDelete = true;
                     }
                 }

@@ -163,7 +163,7 @@ sakai.tangler = function(tuid, placement, showSettings){
 
         if (!val || val.replace(/ /g, "%20") === "") {
 
-            sakai.api.Widgets.deleteWidgetData("tangler", tuid, placement, finishNewSettings);
+            sakai.api.Widgets.removeWidgetData("tangler", tuid, placement, finishNewSettings);
 
         }
         else {

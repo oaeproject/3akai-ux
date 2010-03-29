@@ -1490,11 +1490,12 @@ sakai.site.site_admin = function(){
             hash.w.show();
 
             sakai.site.newwidget_id = widgetid;
-            var id = "widget_" + widgetid + "_id" + Math.round(Math.random() * 1000000000);
+            var tuid = "id" + Math.round(Math.random() * 1000000000);
+            var id = "widget_" + widgetid + "_" + tuid;
             sakai.site.newwidget_uid = id;
             $dialog_content.html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
             $("#dialog_title").text(Widgets.widgets[widgetid].name);
-            sdata.widgets.WidgetLoader.insertWidgets("dialog_content",true,sakai.site.currentsite.id + "/_widgets/");
+            sdata.widgets.WidgetLoader.insertWidgets(tuid,true,sakai.site.currentsite.id + "/_widgets/");
             $dialog_content.show();
             window.scrollTo(0,0);
         } else if (!widgetid){

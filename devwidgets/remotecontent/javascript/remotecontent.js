@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.remotecontent = function(tuid, placement, showSettings){
+sakai.remotecontent = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -169,7 +169,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     var saveRemoteContent = function() {
         if (json.url !== "") {
             var str = $.toJSON(json); // Convert the posts to a JSON string
-            sakai.api.Widgets.saveWidgetData("remotecontent", str, tuid, placement, savedDataToJCR);
+            sakai.api.Widgets.saveWidgetData(tuid, str, savedDataToJCR);
         } else {
             alert("Please specify a URL");
         }
@@ -335,7 +335,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var getRemoteContent = function() {
 
-        sakai.api.Widgets.loadWidgetData("remotecontent", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 // Get a JSON string that contains the necessary information.
