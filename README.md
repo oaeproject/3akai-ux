@@ -1,7 +1,7 @@
 3akai-ux - Sakai 3 UX/UI development
 ====================================
 
-
+***
 
 Essential Information
 ---------------------
@@ -39,26 +39,26 @@ First make sure you have all the following installed on your machine:
 Then you can set up an instance with the following Terminal commands on a Unix/Mac:
 
 1. Create a "sakai3" folder in your home folder:
-'mkdir ~/sakai3'
-'cd ~/sakai3'
+`mkdir ~/sakai3`
+`cd ~/sakai3`
 
 2. Check which stable tags are available:
-'git tag'
+`git tag`
 
 3. Check out and switch to the latest stable tag (0.4 in this case):
-'git co 0.4'
-'git co -b 0.4'
+`git co 0.4`
+`git co -b 0.4`
 
 4. Check out the latest Nakamura code. This will create an "open-experiments" folder
-'git clone git://github.com/ieb/open-experiments.git'
-'cd open-experiments/slingtests/osgikernel'
+`git clone git://github.com/ieb/open-experiments.git`
+`cd open-experiments/slingtests/osgikernel`
 
 
 5. Build the kernel:
-'mvn clean install'
+`mvn clean install`
 
 6. Start the kernel:
-'tools/clean_restart.sh'
+`tools/clean_restart.sh`
 
 7. Open a browser and type "http://localhost:8080/dev" into the address bar
 
@@ -68,19 +68,19 @@ Done. Now you have a the latest stable kernel with latest UX code running on you
 If you would like to do UI/UX development you will need to additionally to the following:
 
 1 Switch to the previously created "sakai3" folder in your home folder
-'cd ~/sakai3'
+`cd ~/sakai3`
 
 2. Check out the UX code from Github, this will create a "3akai-ux" folder:
-'git clone git@github.com:oszkarnagy/3akai-ux.git'
+`git clone git@github.com:oszkarnagy/3akai-ux.git`
 
-3. Go to the kernel's Felix console by typing the following address into the browsers address bar:
+3. Go to the kernel's Felix console by typing the following address into the browser's address bar:
 "http://localhost:8080/system/console"
 
 4. Log in using "admin" for username and password
 
 5. Select the "Configuration" tab on the top part of the console
 
-6. Open up the "Apache Sling Filesystem Resource Provider" module's window (towards bottom of page)
+6. Open up the "Apache Sling Filesystem Resource Provider" module`s window (towards bottom of page)
 
 7. Enter "/dev" in Provider Root field, enter the path to the "dev" folder in you checked out UX code to "Filesystem Root" field , and click "Save"
 
@@ -88,7 +88,7 @@ If you would like to do UI/UX development you will need to additionally to the f
 
 10. Enter "/devwidgets" in Provider Root field, enter the path to the "devwidgets" folder in you checked out UX code to "Filesystem Root" field , and click "Save"
 
-Done. Now if you go to "http://localhost:8080/dev" the kernel should load the files from your local machine, from the paths you've specified earlier.
+Done. Now if you go to "http://localhost:8080/dev" the kernel should load the files from your local machine, from the paths you`ve specified earlier.
 You should be able to start modifying files and see changes in browser.
 
 
