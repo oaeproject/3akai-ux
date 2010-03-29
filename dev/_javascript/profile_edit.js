@@ -197,8 +197,12 @@ sakai.profile = function(){
 
     };
 
-    // Save input fields on change
+    // Used to display feedback to user when saving fields
+    $('<img src="/dev/_images/ajax-loader-gray.gif" id="profile_spinner" />').css('position','absolute').hide().appendTo('body');
+    $('<p id="profile_saving">Saving...</p>').css('position','absolute').hide().appendTo('body');
+    $('<p id="profile_saved">Saved!</p>').css('position','absolute').hide().appendTo('body');
 
+    // Save input fields on change
     $(".profile_section_editable input, .profile_section_editable select, .profile_section_editable textarea").change(function(ev) {
         doHomeContact(this.value, "", null, this);
     });
@@ -605,6 +609,9 @@ sakai.profile = function(){
    };
 
    var doHomeContact = function(newvalue, oldvalue, ev, ui){
+        var position = $(ui).offset();
+        $('#profile_spinner').css({ top: position.top, left: position.left + $(ui).width() + 30 }).show();
+        $('#profile_saving').css({ top: position.top, left: position.left + $(ui).width() + 50 }).show();
 
         var basicfields = {"txt_status":"status","txt_middlename":"middlename","txt_gender":"gender","txt_unidepartment":"unidepartment","txt_unicollege":"unicollege","txt_unirole":"unirole","txt_birthday":"birthday","txt_awards":"awards","txt_clubs":"clubs","txt_societies":"societies"};
         var aboutmefields = {"txt_aboutme":"aboutme","txt_relationstatus":"relationstatus","txt_personalinterests":"personalinterests", "txt_academicinterests":"academicinterests","txt_hobbies":"hobbies"};
@@ -730,6 +737,13 @@ sakai.profile = function(){
             data : tosend,
             error: function(xhr, textStatus, thrownError) {
                 fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
+                $('#profile_spinner').hide();
+                $('#profile_saving').hide();
+           },
+            success: function() {
+                $('#profile_spinner').fadeOut();
+                $('#profile_saving').hide();
+                $('#profile_saved').css({ top: position.top, left: position.left + $(ui).width() + 50, "color": "green" }).show().fadeTo(1000, 1).fadeOut();
             }
         });
 
