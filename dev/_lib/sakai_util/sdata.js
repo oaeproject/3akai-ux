@@ -147,6 +147,7 @@ sdata.widgets = {};
 sdata.widgets.WidgetLoader = {
 
     loaded : [],
+    widgets : [],
 
     /**
      * Function that can be called by the container. This will looks for widget declarations
@@ -177,6 +178,7 @@ sdata.widgets.WidgetLoader = {
          * @param {String} widgetname The name of the widget
          */
         var informOnLoad = function(widgetname){
+
             var doDelete;
 
             // Check if the name of the widget is inside the widgets object.
@@ -188,6 +190,11 @@ sdata.widgets.WidgetLoader = {
                     if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
                         var initfunction = window[widgetNameSpace][widgetname];
                         initfunction(widgets[widgetname][i].uid, widgets[widgetname][i].placement, settings);
+                        sdata.widgets.WidgetLoader.widgets[widgets[widgetname][i].uid] = {
+                            "placement": widgets[widgetname][i].placement + widgets[widgetname][i].uid + "/" + widgetname,
+                            "name" : widgetname
+                        };
+                        console.log(sdata.widgets.WidgetLoader.widgets);
                         doDelete = true;
                     }
                 }

@@ -1305,7 +1305,7 @@ sakai.api.Widgets.loadWidgetData = function(prefname, w_id, w_placement, callbac
  * @param {Function} callback, the call back to call when the save is complete
  * @return {Void}
  */
-sakai.api.Widgets.saveWidgetData = function(prefname, prefcontent, w_id, w_placement, callback, requireslogin) {
+sakai.api.Widgets.saveWidgetData = function(widget_id, requireslogin, callback) {
 
     var args = (requireslogin === false ? false : true);
     var widget_id = w_id || "";

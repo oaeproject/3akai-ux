@@ -91,7 +91,7 @@ sakai.dashboard = function(){
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
+        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sakai.data.me.user.userStoragePrefix + "widgets/" + tuid + "/" + widgetname;
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -406,7 +406,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "/_user" + sakai.data.me.profile.path + "/private/mysakai_widgets/";
+                        final2.columns[index].portlets[iindex].placement = "/_user" + sakai.data.me.profile.path + "/private/widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -507,7 +507,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "mysakai_widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
