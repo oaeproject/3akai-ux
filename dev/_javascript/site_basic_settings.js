@@ -277,12 +277,13 @@ sakai.site_basic_settings = function(){
             var siteLocEL = $(siteSettingsInfoSitePartEditInput);
 
             var loc = siteinfo.location;
+
             // If the user edited the location we have to be sure that it is a valid one.
             if (editloc) {
                 loc = replaceCharacters(siteLocEL.val());
-                //    Make sure there is a /
-                if (loc.substr(0, 1) !== '/') {
-                    loc = '/' + loc;
+                // Make sure there is a /
+                if (loc.substr(0, 1) !== "/") {
+                    loc = "/" + loc;
                 }
             }
             // Get the status and access options.
@@ -306,7 +307,7 @@ sakai.site_basic_settings = function(){
                 "_charset_":"utf-8"
             };
 
-            //    Do a patch request to the profile info so that it gets updated with the new information.
+            // Do a patch request to the profile info so that it gets updated with the new information.
             $.ajax({
                 url: "/sites/" + siteinfo.id,
                 type: "POST",
@@ -353,17 +354,18 @@ sakai.site_basic_settings = function(){
      * The user wants to edit the location for a site.
      * We will swap the text with an input box.
      */
-    $(siteSettingsInfoSitePartTextEdit).bind('click', function(){
+    $(siteSettingsInfoSitePartTextEdit).bind("click", function(){
         editloc = true;
         $(siteSettingsInfoSitePartEditInput).val(siteinfo.location);
         $(siteSettingsInfoSitePartText).hide();
-        $(siteSettingsInfoSitePartEdit).css('display', 'inline');
+        $(siteSettingsInfoSitePartEdit).css("display", "inline");
     });
+
     /** The user cancelled the editing part of the location. */
-    $(siteSettingsInfoSitePartEditCancel).bind('click', function(){
+    $(siteSettingsInfoSitePartEditCancel).bind("click", function(){
         editloc = false;
         $(siteSettingsInfoSitePartEdit).hide();
-        $(siteSettingsInfoSitePartText).css('display', 'inline');
+        $(siteSettingsInfoSitePartText).css("display", "inline");
     });
 
 
@@ -372,9 +374,9 @@ sakai.site_basic_settings = function(){
      */
     $(siteSettingsInfoSitePartEditInput).focus(function(){
         var offset = $(siteSettingsInfoSitePartEditInput).offset();
-        $(siteSettingsInfoSitePartEditInputTooltip).css('position', 'absolute');
-        $(siteSettingsInfoSitePartEditInputTooltip).css('left', offset.left);
-        $(siteSettingsInfoSitePartEditInputTooltip).css('top', offset.top + 28);
+        $(siteSettingsInfoSitePartEditInputTooltip).css("position", "absolute");
+        $(siteSettingsInfoSitePartEditInputTooltip).css("left", offset.left);
+        $(siteSettingsInfoSitePartEditInputTooltip).css("top", offset.top + 28);
 
         $(siteSettingsInfoSitePartEditInputTooltip).fadeIn("normal");
     });
