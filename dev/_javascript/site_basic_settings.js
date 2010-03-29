@@ -145,34 +145,33 @@ sakai.site_basic_settings = function(){
                 if (sakai.lib.site.authz.isUserMaintainer(siteinfo)) {
                     // Fill in the info.
                     $("#sitetitle").text(json.name);
-                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
+                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + sakai.config.URL.SITE_ROOT);
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
-                    $(siteSettingsInfoSitePart).text(sakai.config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
                     $(siteSettingsInfoSitePartTextLocation).text(json.id);
                     getLanguages(json);
 
                     // Status
-                    if (json.status && json.status === 'offline') {
-                        $(siteSettingsStatusOff).attr('checked', 'checked');
-                        //    Hide the other part.
+                    if (json.status && json.status === "offline") {
+                        $(siteSettingsStatusOff).attr("checked", "checked");
+                        //  Hide the other part.
                         $(siteSettingsAccess).hide();
                     }
                     else {
-                        $(siteSettingsStatusOn).attr('checked', 'checked');
+                        $(siteSettingsStatusOn).attr("checked", "checked");
                     }
 
                     // Access
-                    if (json.access && json.access.toLowerCase() === 'sakaiusers') {
-                        $(siteSettingsAccessSakaiUsers).attr('checked', 'checked');
+                    if (json.access && json.access.toLowerCase() === "sakaiusers") {
+                        $(siteSettingsAccessSakaiUsers).attr("checked", "checked");
                     }
                     else
-                        if (json.access && json.access.toLowerCase() === 'invite') {
-                            $(siteSettingsAccessInvite).attr('checked', 'checked');
+                        if (json.access && json.access.toLowerCase() === "invite") {
+                            $(siteSettingsAccessInvite).attr("checked", "checked");
                         }
                         else {
-                            $(siteSettingsAccessPublic).attr('checked', 'checked');
+                            $(siteSettingsAccessPublic).attr("checked", "checked");
                         }
                 }
                 else {
@@ -276,16 +275,6 @@ sakai.site_basic_settings = function(){
             var titleEL = $(siteSettingsInfoTitle);
             var siteLocEL = $(siteSettingsInfoSitePartEditInput);
 
-            var loc = siteinfo.location;
-
-            // If the user edited the location we have to be sure that it is a valid one.
-            if (editloc) {
-                loc = replaceCharacters(siteLocEL.val());
-                // Make sure there is a /
-                if (loc.substr(0, 1) !== "/") {
-                    loc = "/" + loc;
-                }
-            }
             // Get the status and access options.
             var status = ($(siteSettingsStatusOn + "[type=radio]").is(":checked")) ? "online" : "offline";
             var access = "everyone";
@@ -307,13 +296,50 @@ sakai.site_basic_settings = function(){
                 "_charset_":"utf-8"
             };
 
+            // If the user edited the location we have to be sure that it is a valid one and adjust sent data accordingly
+            var new_loc = "";
+            if (editloc) {
+                var new_site_id = replaceCharacters(siteLocEL.val());
+
+                // Set up new location string
+                new_loc = sakai.config.URL.SITE_ROOT + "/" + new_site_id;
+
+                // Send adjusted ID to site node
+                //tosend["id"] = new_site_id; -- TO BE ENABLED FOR SAKIII-33
+            }
+
             // Do a patch request to the profile info so that it gets updated with the new information.
             $.ajax({
-                url: "/sites/" + siteinfo.id,
+                url: siteinfo["jcr:path"],
                 type: "POST",
                 data: tosend,
                 success: function(data){
-                    saveSettingsDone(true);
+
+                    // Register URL location change
+                    if (editloc) {
+
+                        /* -- TO BE ENABLED FOR SAKIII-33
+                        $.ajax({
+                            url: siteinfo["jcr:path"],
+                            type: "POST",
+                            data: {
+                                ":operation": "move",
+                                ":dest": new_loc
+                            },
+                            success: function(data) {
+                                saveSettingsDone(true);
+                            },
+                            error: function(xhr, status, thrown) {
+                                saveSettingsDone(false, xhr.status);
+                            }
+                        });
+                        */
+
+                    } else {
+                        saveSettingsDone(true);
+                    }
+
+
                 },
                 error: function(xhr, textStatus, thrownError) {
                     saveSettingsDone(false, xhr.status);

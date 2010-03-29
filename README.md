@@ -1,7 +1,6 @@
 3akai-ux - Sakai 3 UX/UI development
 ====================================
 
-***
 
 Essential Information
 ---------------------
@@ -25,16 +24,15 @@ General information about Sakai:
 If you would like to contribute to this project, feel free to fork this git repository, push your changes and send a pull request.
 
 
-
 Quickstart
 ----------
 
 To get a Sakai 3 development instance up and running on your cmputer quickly follow these steps:  
 
 First make sure you have all the following installed on your machine:  
-* [Git version control system](http://git-scm.com/)
-* [Java JDK 1.5 or newer](http://java.sun.com/javase/downloads/index.jsp)
-* [Maven build system](http://maven.apache.org/)
+[Git version control system](http://git-scm.com/)  
+[Java JDK 1.5 or newer](http://java.sun.com/javase/downloads/index.jsp)  
+[Maven build system](http://maven.apache.org/)  
 
 Then you can set up an instance with the following Terminal commands on a Unix/Mac:  
 
@@ -92,7 +90,6 @@ Done. Now if you go to "http://localhost:8080/dev" the kernel should load the fi
 You should be able to start modifying files and see changes in browser.
 
 
-
 Development Guidelines
 ----------------------
 
@@ -101,7 +98,6 @@ You can find our guidelines and more information about the project on our Conflu
 
 Getting started guide:  
 [http://confluence.sakaiproject.org/display/3AK/Sakai+3+UX+Prototype+development](http://confluence.sakaiproject.org/display/3AK/Sakai+3+UX+Prototype+development)
-
 
 
 Demo Servers
@@ -115,7 +111,6 @@ Unstable nightly server:
 
 Prototype server:  
 [http://sakai3sam.caret.cam.ac.uk/dev/index.html](http://sakai3sam.caret.cam.ac.uk/dev/index.html)
-
 
 
 Nakamura: Sakai 3 kernel
