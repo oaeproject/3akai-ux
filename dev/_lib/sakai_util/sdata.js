@@ -29,7 +29,7 @@ var sdata = {};
  * Namespace that will be used for all of the widgets that are being loaded
  * into the document. Every widget will have an object called sakai.widgetid
  */
-var sakai = {};
+var sakai = sakai || {};
 
 
 //////////////////////////////
@@ -39,7 +39,6 @@ var sakai = {};
 /*
  *
  */
-sdata.me = false;
 
 
 if(!Array.indexOf) {
@@ -89,7 +88,7 @@ if(!Array.indexOf) {
                 var decideLoggedIn = function(response, exists){
                     var originalURL = document.location;
                     originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
-                    var redirecturl = Config.URL.GATEWAY_URL + "?url=" + originalURL;
+                    var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
                     if (exists) {
                         var me = $.evalJSON(response);
                         if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
@@ -99,7 +98,7 @@ if(!Array.indexOf) {
                 };
 
                 $.ajax({
-                    url: Config.URL.ME_SERVICE,
+                    url: sakai.config.URL.ME_SERVICE,
                     cache: false,
                     success: function(data){
                         decideLoggedIn(data, true);
@@ -129,161 +128,6 @@ if(!Array.indexOf) {
           jQuery.event.trigger("ajaxError", [xhr, status, e]);
         }
           }
-
-    };
-
-})(jQuery);
-
-
-///////////////////////////////
-// Form serialization plugin //
-///////////////////////////////
-
-(function($){
-
-    $.FormBinder = {};
-
-    /**
-     * This function will look for input fields, selects and textareas and will get all of the values
-     * out and store them in a JSON object. The keys for this object are the names (name attribute) of
-     * the form fields. This function is useful as it saves you to do a .val() on every form field.
-     * Form fields without a name attribute will be ignored.
-     * The object that's returned will looks like this:
-     *   {
-     *     inputBoxName : "Value 1",
-     *     radioButtonGroup : "value2",
-     *     checkBoxGroup : ["option1","option2"],
-     *     selectElement : ["UK"],
-     *     textAreaName : "This is some random text"
-     *   }
-     * @param {Object} form
-     *  This is a jQuery element that represents the container (form, div, ...) in which we want
-     *  to serialize all of the filled out values.
-     */
-    $.FormBinder.serialize = function(form){
-
-        var finalFields = {};
-        var fields = $("input, textarea, select", form);
-
-        for (var i = 0; i < fields.length; i++){
-
-            var el = fields[i];
-            var name = el.name;
-            var nodeName = el.nodeName.toLowerCase();
-            var type = el.type.toLowerCase() || "";
-
-            if (name){
-                if (nodeName === "input" || nodeName === "textarea") {
-                    // Text fields and textareas
-                    if (nodeName === "textarea" || (type === "text" || type === "password")) {
-                        finalFields[name] = el.value;
-                    // Checkboxes
-                    } else if (type === "checkbox") {
-                        finalFields[name] = finalFields[name] || [];
-                        if (el.checked) {
-                            finalFields[name][finalFields[name].length] = el.value;
-                        }
-                    // Radiobuttons
-                    } else if (type === "radio" && el.checked) {
-                        finalFields[el.name] = el.value;
-                    }
-                // Select dropdowns
-                } else if (nodeName === "select"){
-                    // An array as they have possibly mutliple selected items
-                    finalFields[name] = [];
-                    for (var ii = 0; ii < el.options.length; ii++) {
-                        if (el.options[ii].selected) {
-                            finalFields[name] = el.options[ii].value;
-                        }
-                    }
-                }
-            }
-        }
-
-        return finalFields;
-    };
-
-    /**
-     * This function will find all of the form elements in a given container and will
-     * reset all of their values. If it's an input textbox or a textarea, the value will
-     * become an empty string. If it's a radio button or a checkbox, all will be unchecked.
-     * If it's a select dropdown, then the first element will be selected
-     * @param {Object} form
-     *  JQuery element that represents the container in which we are
-     *  resetting the form fields
-     */
-    var resetCurrentValues = function(form){
-        var fields = $("input, textarea, select", form);
-        for (var i = 0; i < fields.length; i++){
-            var el = fields[i];
-            var nodeName = el.nodeName.toLowerCase();
-            var type = el.type.toLowerCase() || "";
-            if ((nodeName === "input" && (type === "text" || type === "password")) || nodeName === "textarea"){
-                el.value = "";
-            } else if (nodeName === "input"){
-                el.checked = false;
-            } else if (nodeName === "select"){
-                el.selectedIndex = 0;
-            }
-        }
-    };
-
-    /**
-     * Function that will take in a JSON object and a container and will try to attempt to fill out
-     * all form fields according to what's in the JSON object. A useful usecase for this would be to
-     * have a user fill out a form, and store the serialization of it directly on the server. When the
-     * user then comes back, we can get this value from the server and give that value to this function.
-     * This will create the same form state as when it was saved by the user.
-     * @param {Object} form
-     *  JQuery element that represents the container in which we are
-     *  filling out our values
-     * @param {Object} json
-     *  a JSON object that contains the names of the fields we want to populate (name attribute)
-     *  as keys and the actual value (text for input text fields and textareas, and values for
-     *  checkboxes, radio buttons and select dropdowns)
-     *   {
-     *     inputBoxName : "Value 1",
-     *     radioButtonGroup : "value2",
-     *     checkBoxGroup : ["option1","option2"],
-     *     selectElement : ["UK"],
-     *     textAreaName : "This is some random text"
-     *   }
-     */
-    $.FormBinder.deserialize = function(form, json){
-
-        resetCurrentValues(form);
-
-        for (var name in json) {
-            if (json[name]){
-                var els = $('[name=' + name + ']', form);
-                for (var i = 0; i < els.length; i++){
-                    var el = els[i];
-                    var nodeName = el.nodeName.toLowerCase();
-                    var type = el.type.toLowerCase() || "";
-                    if (nodeName === "textarea" || (nodeName === "input" && (type === "text" || type === "password"))){
-                        el.value = json[name];
-                    } else if (nodeName === "input" && type === "radio"){
-                        if (el.value === json[name]){
-                            el.checked = true;
-                        }
-                    } else if (nodeName === "input" && type === "checkbox"){
-                        for (var ii = 0; ii < json[name].length; ii++){
-                            if (el.value === json[name][ii]){
-                                el.checked = true;
-                            }
-                        }
-                    } else if (nodeName === "select"){
-                        for (var select = 0; select < json[name].length; select++){
-                            for (var iii = 0; iii < el.options.length; iii++) {
-                                if (el.options[iii].value === json[name][select]) {
-                                    el.options[iii].selected = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
     };
 
@@ -419,7 +263,7 @@ sdata.widgets.WidgetLoader = {
 
             if(urls.length > 0){
                 $.ajax({
-                    url: Config.URL.BATCH_GET,
+                    url: sakai.config.URL.BATCH_GET,
                     data: {
                         resources: urls
                     },
@@ -579,330 +423,6 @@ sdata.widgets.WidgetLoader = {
 };
 
 
-/**
- * General preference save and load functions
- * This can save and load preference trees specified as JSON Objects.
- * On each occasian a callback function is fired at the end of the operation
- * callback function has 2 arguments:
- *     - success: wether the operation was successful or not
- *     - data or xhr:     if successful the second argument is the data returnd from the server
- *             if unsuccssful the second argument is an xhr object
- */
-sdata.preference = {
-
-    /** Saves a preference data to a specified URL
-     * @param pref_url {String} The path to the preference where it needs to be saved
-     * @param pref_data {Object} A JSON object of the preference content (max 200 child object of each object)
-     * @param callback {Function} A callback function which is executed at the end of the operation
-     * @returns {Void}
-     */
-    save: function(pref_url, pref_data, callback) {
-
-        // Arg check
-        if ((!pref_url) || (pref_url === "") || (!pref_data) || (!callback)) {
-            fluid.log("sdata.preference.save(): Not Enough arguments!");
-            return;
-        }
-
-        // Create JSON String
-        var pref_data_string = $.toJSON(pref_data);
-
-
-        // Send save request
-        $.ajax({
-                url: pref_url,
-                type: "POST",
-                data: {
-                    ":operation": "createTree",
-                    "tree": pref_data_string
-            },
-
-            success: function(data) {
-                callback(true, data);
-            },
-
-            error: function(xhr, status, e) {
-                fluid.log("site_admin.js: There was an error saving the template configuration file: "+this.url);
-                callback(false,xhr);
-            }
-        });
-  },
-
-    /** Loads a preference data from a specified URL
-     * @param pref_url {String} The path to the preference which needs to be loaded
-     * @param callback {Function} A callback function which is executed at the end of the operation
-     * @returns {Void}
-     */
-    load: function(pref_url, callback) {
-        $.ajax({
-            url: pref_url + ".infinity.json",
-            type: "GET",
-            success: function(data) {
-
-                var returned_data = $.evalJSON(data);
-
-                // Helper to remove JRC properties
-                var removeJCRObjects = function(current_object) {
-
-                    if (current_object["jcr:primaryType"]) {
-                        delete current_object["jcr:primaryType"];
-                    }
-
-                    if (current_object["jcr:created"]) {
-                        delete current_object["jcr:created"];
-                    }
-
-                    for (var i in current_object) {
-                        if (typeof current_object[i] === "object") {
-                          var next_object = current_object[i];
-                          removeJCRObjects(next_object);
-                        }
-                    }
-                };
-
-                removeJCRObjects(returned_data);
-
-                callback(true, returned_data);
-            },
-            error: function(xhr, status, e) {
-                fluid.log("site_admin.js: There was an error loading the template configuration file: "+this.url);
-                callback(false,xhr);
-            }
-        });
-    }
-};
-
-
-//////////////////////////////
-// Widget Utility Functions //
-//////////////////////////////
-
-/**
- * <pre>
- *    In your widget you can use the following functions to save/get widget preferences
- *
- *        * Save a preference with feedback:    var response = WidgetPreference.save(preferencename:String, preferencontent:String, myCallbackFunction);
- *
- *            This will warn the function myCallbackFunction, which should look like this:
- *
- *                function myCallbackFunction(success){
- *                    if (success) {
- *                        //Preference saved successfull
- *                        //Do something ...
- *                    } else {
- *                        //Error saving preference
- *                        //Do something ...
- *                    }
- *                }
- *
- *        * Save a preference without feedback:    var response = WidgetPreference.quicksave(preferencename:String, preferencontent:String);
- *
- *            This will not warn you when saving the preference was successfull or unsuccessfull
- *
- *        * Get the content of a preference:    var response = WidgetPreference.get(preferencename:String, myCallbackFunction);
- *
- *            This will warn the function myCallbackFunction, which should look like this:
- *
- *                function myCallbackFunction(response, exists){
- *                    if (exists) {
- *                        //Preference exists
- *                        //Do something with response ...
- *                    } else {
- *                        //Preference does not exists
- *                        //Do something ...
- *                    }
- *                }
- *     </pre>
- */
-sdata.widgets.WidgetPreference =  {
-    /**
-     * Get a preference from personal storage
-     * @param {string} prefname the preference name
-     * @param {function} callback the function to call on sucess
-     *
-     */
-    get : function(prefname, callback, requireslogin){
-        var url= Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets/" + prefname;
-        var args = (requireslogin === false ? false : true);
-        $.ajax ( {
-            url : url,
-            cache : false,
-            success : function(data) {
-                callback(data,true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                callback(xhr.status,false);
-            },
-            sendToLoginOnFail: args
-        });
-
-    },
-
-    /**
-     * Save a preference to a name
-     * @param {string} prefname the preference name
-     * @param prefcontent the content to be saved
-     * @param {function} callback, the call back to call when the save is complete
-     */
-    save : function(url, prefname, prefcontent, callback, requireslogin, contentType, resourceType){
-
-        var cb = callback || function() {};
-        var args = (requireslogin === false ? false : true);
-        var ct = contentType || "text/plain";
-        var rt = resourceType || "";
-
-        var boundaryString = "bound"+Math.floor(Math.random() * 9999999999999);
-        var boundary = '--' + boundaryString;
-
-        var outputData = boundary + '\r\n' +
-                     'Content-Disposition: form-data; name="' + prefname + '"; filename="' + prefname + '"; \r\n'+
-                     'Content-Type: '+ ct + '\r\n' +
-                     '\r\n'+
-                     prefcontent +
-                     '\r\n'+
-                     boundary + "--";
-
-        $.ajax({
-            url :url,
-            type : "POST",
-            contentType : "multipart/form-data; boundary=" + boundaryString,
-            success : function(data) {
-                // Set Sling resourceType on node if set by caller (so that search servlet finds it) - TO DO this should eventually be in a batch POST
-                // jcr:mixinTypes required to get around 500 thrown by Sling
-
-                if (rt !== "") {
-                  $.ajax({
-                    url: url+"/"+prefname,
-                    type: "POST",
-                    data: {
-                      "jcr:mixinTypes": "sakai:propertiesmix",
-                      "sling:resourceType": rt,
-                      "_charset_":"utf-8"
-                    },
-                    success: function() {
-                      cb(data,true);
-                    },
-                    error: function() {
-
-                    }
-                  });
-                } else {
-                  cb(data,true);
-                }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
-                cb(xhr.status,false);
-            },
-            data : outputData,
-            sendToLoginOnFail: args
-        });
-
-     }
-};
-
-
-/////////////////////////////////////
-// jQuery TrimPath Template Plugin //
-/////////////////////////////////////
-
-/*
- * Functionality that allows you to create HTML Templates and give that template
- * a JSON object. That template will then be rendered and all of the values from
- * the JSON object can be used to insert values into the rendered HTML. More information
- * and examples can be found over here:
- *
- * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
- *
- * Template should be defined like this:
- *  <div><!--
- *   // Template here
- *  --></div>
- *
- *  IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
- *  because that line break will be recognized as a node and the template won't show up, as
- *  it's expecting the comments tag as the first one.
- *
- *  We do this because otherwise a template wouldn't validate in an HTML validator and
- *  also so that our template isn't visible in our page.
- */
-(function($){
-
-    $.Template = {};
-
-    /**
-     * A cache that will keep a copy of every template we have parsed so far. Like this,
-     * we avoid having to parse the same template over and over again.
-     */
-    var templateCache = [];
-
-    /**
-     * Renders the template with the given JSON object, inserts it into a certain HTML
-     * element if required, and returns the rendered HTML string
-     * @param {string|object} templateInstance
-     *  the name of the template HTML ID or a jQuery selection object.
-     * @param {object} contextObject
-     *  The JSON object containing the data to be rendered
-     * @param {object} [optional] output
-     *  The jQuery element in which the template needs to be rendered
-     * @return The rendered HTML string
-     */
-    $.Template.render = function(templateInstance, contextObject, output) {
-
-        var templateName;
-
-        // The template name and the context object should be defined
-        if(!templateInstance || !contextObject){
-            throw "$.Template.render: the template name or the contextObject is not defined";
-        }
-
-        if(templateInstance instanceof jQuery && templateInstance[0]){
-            templateName = templateInstance[0].id;
-        }
-        else if (typeof templateInstance === "string"){
-            templateName = templateInstance.replace("#", "");
-            templateInstance = $("#" + templateName);
-        }
-        else {
-            throw "$.Template.render: The templateInstance is not in a valid format or the template couldn't be found.";
-        }
-
-        if (!templateCache[templateName]) {
-            if (templateInstance.get(0)) {
-                var templateNode = templateInstance.get(0);
-                var firstNode = templateNode.firstChild;
-                var template = null;
-                // Check whether the template is wrapped in <!-- -->
-                if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-                    template = firstNode.data.toString();
-                }
-                else {
-                    template = templateNode.innerHTML.toString();
-                }
-                // Parse the template through TrimPath and add the parsed template to the template cache
-                templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
-
-            }
-            else {
-                throw "$.Template.render: The template '" + templateName + "' could not be found";
-            }
-        }
-
-        // Run the template and feed it the given JSON object
-        var render = templateCache[templateName].process(contextObject);
-
-        // Check it there was an output element defined
-        // If so, put the rendered template in there
-        if (output) {
-            output.html(render);
-        }
-
-        return render;
-
-    };
-
-})(jQuery);
-
 
 ////////////////////////
 // jQuery i18n plugin //
@@ -977,8 +497,8 @@ sdata.widgets.WidgetPreference =  {
 
         var translated_content = "";
         var current_locale_string = false;
-        if (typeof sdata.me.user.locale === "object") {
-          current_locale_string = sdata.me.user.locale.language + "_" + sdata.me.user.locale.country;
+        if (typeof sakai.data.me.user.locale === "object") {
+          current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
         }
 
         // If there is no i18n defined in Widgets, run standard i18n on content
@@ -1227,7 +747,7 @@ sdata.files = {
                             return 1
                         }
                         else {
-                            sakai.sorting.human(a.name, b.name);
+                            sakai.api.Util.Sorting.naturalSort(a.name, b.name);
                         }
                     }
                 });
@@ -1313,61 +833,6 @@ sdata.files = {
 ///////////////////////
 // Utility functions //
 ///////////////////////
-
-/* alphanum.js (C) Brian Huisman
- * Based on the Alphanum Algorithm by David Koelle
- * The Alphanum Algorithm is discussed at http://www.DaveKoelle.com
- *
- * Distributed under same license as original
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
-
-sakai.sorting = {};
-sakai.sorting.human = function(a, b){
-    function chunkify(t){
-        var tz = [];
-        var x = 0, y = -1, n = 0, i, j;
-
-        while (i = (j = t.charAt(x++)).charCodeAt(0)) {
-            var m = (i === 46 || (i >= 48 && i <= 57));
-            if (m !== n) {
-                tz[++y] = "";
-                n = m;
-            }
-            tz[y] += j;
-        }
-        return tz;
-    }
-
-    var aa = chunkify(a.toLowerCase());
-    var bb = chunkify(b.toLowerCase());
-
-    for (var x = 0; aa[x] && bb[x]; x++) {
-        if (aa[x] !== bb[x]) {
-            var c = Number(aa[x]), d = Number(bb[x]);
-            if (c === aa[x] && d === bb[x]) {
-                return c - d;
-            } else {
-                return (aa[x] > bb[x]) ? 1 : -1;
-            }
-        }
-    }
-
-    return aa.length - bb.length;
-};
 
 
 /*
@@ -1458,86 +923,6 @@ jQuery.fn.stripTags = function() {
      */
     $.Load.requireCSS = function(url) {
         insertTag("link", {"href" : url, "type" : "text/css", "rel" : "stylesheet"});
-    };
-
-})(jQuery);
-
-/*
- * Parse a JCR date to a JavaScript date object
- */
-(function($){
-
-    /**
-     * Add leading zeros to a number
-     * If you pass 10 as the number and 4 as the count, you get 0010
-     * @param {Integer} num The number where you want to add zeros to
-     * @param {Integer} count The total length of the string after it is zero padded
-     * @return {String} A string with the leading zeros
-     */
-    $.leadingZero = function(num, count) {
-        var numZeropad = num + '';
-        while (numZeropad.length < count) {
-            numZeropad = "0" + numZeropad;
-        }
-        return numZeropad;
-    }
-
-    /**
-     * Parse a JCR date (2009-10-12T10:25:19) to a JavaScript date object
-     * @param {String} The JCR date that needs to be converted to a JavaScript date object
-     * @return {Date} JavaScript date
-     */
-    $.ParseJCRDate = function(date) {
-
-        // Check with a regular expression if it is a valid JCR date
-        var regex = new RegExp('^(19|20)[0-9][0-9][-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T](20|21|22|23|[0-1]?[0-9]):[0-5]?[0-9]:[0-5]?[0-9]$', 'gi');
-        var isValid = regex.test(date);
-        if(isValid){
-            var respondDate = new Date();
-
-            // Split the date and time into 2 different pieces
-            var splitDateTime = date.split("T");
-            var splitDate = splitDateTime[0].split("-");
-            var splitTime = splitDateTime[1].split(":");
-
-            // Set the day/month and year
-            respondDate.setFullYear(parseInt(splitDate[0], 10));
-            respondDate.setMonth(parseInt(splitDate[1], 10) - 1);
-            respondDate.setDate(parseInt(splitDate[2], 10));
-
-            // Set the hours/minutes/seconds and milliseconds
-            // Since the milliseconds aren't supplied, we always set it to 0
-            respondDate.setHours(parseInt(splitTime[0], 10), parseInt(splitTime[1], 10), parseInt(splitTime[2], 10), 0);
-
-            return respondDate;
-        }else{
-
-            // Log a message if there is a bad date format
-            fluid.log("Bad JCR date format: " + date);
-            return null;
-        }
-    };
-
-    /**
-     * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
-     * @param {Object} date JavaScript date object
-     * @return {String} a JCR date string
-     */
-    $.ToJCRDate = function(date){
-
-        // Check if the date that was passed to this function is actually a JavaScript date
-        try{
-
-            // Reutn the JCR date as a string
-            return "" + date.getFullYear() + "-" + $.leadingZero((date.getMonth()+1), 2) + "-" + $.leadingZero(date.getDate(), 2) + "T"
-            +  $.leadingZero(date.getHours(), 2) + ":" +  $.leadingZero(date.getMinutes(), 2) + ":" +  $.leadingZero(date.getSeconds(), 2);
-
-        } catch(ex) {
-
-            // Log a message if there is a bad JavaScript date format
-            fluid.log("Bad JavaScript date format: " + date);
-            return null;
-        }
     };
 
 })(jQuery);

@@ -131,7 +131,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     /**
      * Called when the data has been saved to the JCR.
      */
-    var savedDataToJCR = function() {
+    var savedDataToJCR = function(success, data) {
         sdata.container.informFinish(tuid);
     };
 
@@ -152,7 +152,7 @@ sakai.linktool = function(tuid, placement, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(linktoolSettingsPreview).html($.Template.render(linktoolSettingsPreviewTemplate, json));
+            $(linktoolSettingsPreview).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
         }else{
             $(linktoolSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
@@ -164,7 +164,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     var renderIframe = function(){
         if(json){
             json.url = generateCompleteUrl();
-            $(linktoolMainContainer, rootel).html($.Template.render(linktoolSettingsPreviewTemplate, json));
+            $(linktoolMainContainer, rootel).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
         }
     };
 
@@ -173,7 +173,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var renderLinkToolSettings = function() {
         if(json){
-            $(linktoolSettings).html($.Template.render(linktoolSettingsTemplate, json));
+            $(linktoolSettings).html($.TemplateRenderer(linktoolSettingsTemplate, json));
         }
     };
 
@@ -182,7 +182,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var renderColorContainer = function(){
         if(json){
-            $(linktoolSettingsColorContainer).html($.Template.render(linktoolSettingsColorContainerTemplate, json));
+            $(linktoolSettingsColorContainer).html($.TemplateRenderer(linktoolSettingsColorContainerTemplate, json));
         }
     };
 
@@ -193,7 +193,7 @@ sakai.linktool = function(tuid, placement, showSettings){
         if(json){
             var jsoncomplete = {};
             jsoncomplete.url_complete_preview = generateCompleteUrl();
-            $(linktoolSettingsQuerystringPreview).html($.Template.render(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
+            $(linktoolSettingsQuerystringPreview).html($.TemplateRenderer(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
         }
     };
 
@@ -217,8 +217,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     var saveLinkTool = function() {
         if (json.url !== "") {
             var str = $.toJSON(json); // Convert the posts to a JSON string
-            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-            sdata.widgets.WidgetPreference.save(saveUrl, "linktool", str, savedDataToJCR);
+            sakai.api.Widgets.saveWidgetData("linktool", str, tuid, placement, savedDataToJCR);
         }
     };
 
@@ -389,12 +388,12 @@ sakai.linktool = function(tuid, placement, showSettings){
                 uid: {
                     checked: false,
                     text: "userId",
-                    value: sdata.me.preferences.uuid
+                    value: sakai.data.me.preferences.uuid
                 },
                 uname: {
                     checked: false,
                     text: "userName",
-                    value: sdata.me.profile.firstName + " " + sdata.me.profile.lastName
+                    value: sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName
                 },
                 urole: {
                     checked: false,
@@ -430,7 +429,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var getLinkTool = function() {
         $.ajax({
-            url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool"),
+            url : sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool"),
             cache: false,
                success : function(data) {
                 // Get a JSON string that contains the necessary information.

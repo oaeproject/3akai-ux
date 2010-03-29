@@ -82,17 +82,17 @@ sakai.profile = function(){
 
     var doInit = function(){
 
-        me = sdata.me;
-        me.profile = sdata.me.profile;
+        me = sakai.data.me;
+        me.profile = sakai.data.me.profile;
 
         if (!me.user.userid) {
-            var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
+            var redirect =  sakai.config.URL.GATEWAY_URL + "?url=/dev/profile_edit.html";
             document.location = redirect;
         }
 
-        fileUrl = "/_user/public/" + sdata.me.user.userid + "/authprofile.json?sid=" + Math.random();
+        fileUrl = sakai.data.me.profile["jcr:path"];
 
-        json = sdata.me.profile;
+        json = sakai.data.me.profile;
 
         setFunctions(paperfield, papersavefield, papersavestring, paperfields, paperrequired);
         setFunctions(talkfield, talksavefield, talksavestring, talkfields, talkrequired);
@@ -101,38 +101,11 @@ sakai.profile = function(){
         setFunctions(websitefield, websitesavefield, websitesavestring, websitefields, websiterequired);
 
         fillInFields();
-
-        // Normal fields
-        fluid.inlineEdits(".profile_preview", {
-            useTooltip: true,
-            tooltipDelay : 500,
-            listeners : {
-                onFinishEdit: doHomeContact
-            },
-            defaultViewText: " ",
-            paddings: {
-                minimumView: 0
-            }
-        });
-
-        //Dropdowns
-        sakai.inlineEdits(".profile_preview", {
-            useTooltip: true,
-            finishedEditing: doHomeContact,
-            defaultViewText: " "
-        });
-
-        // Textareas
-        sakai.inlineEditsArea(".profile_preview", {
-            useTooltip: true,
-            finishedEditing: doHomeContact,
-            defaultViewText: " "
-        });
     };
 
-   var inedit_basic = true;
+    var inedit_basic = true;
 
-   var fillInBasic = function(){
+    var fillInBasic = function(){
 
         var inbasic = 0;
         var basic = false;
@@ -143,7 +116,7 @@ sakai.profile = function(){
             basic = $.evalJSON(json.basic);
             if (basic.status){
                 inbasic++;
-                $("#txt_status").html(basic.status);
+                $("#txt_status").val(basic.status);
             }
         }
 
@@ -152,13 +125,13 @@ sakai.profile = function(){
         if (json.firstName){
             inbasic++;
             str = json.firstName;
-            $("#txt_firstname").text("" + str);
+            $("#txt_firstname").val("" + str);
         }
 
         if (json.lastName){
             inbasic++;
             str = json.lastName;
-            $("#txt_lastname").text("" + str);
+            $("#txt_lastname").val("" + str);
         }
 
         if (json.basic){
@@ -168,30 +141,30 @@ sakai.profile = function(){
             if (basic.middlename){
                 inbasic++;
                 str = basic.middlename;
-                $("#txt_middlename").text("" + str);
+                $("#txt_middlename").val("" + str);
             }
 
             if (basic.birthday){
                 inbasic++;
-                $("#txt_birthday").text(basic.birthday);
+                $("#txt_birthday").val(basic.birthday);
             }
 
             if (basic.unirole){
                 inbasic++;
                 str = basic.unirole;
-                $("#txt_unirole").text("" + str);
+                $("#txt_unirole").val("" + str);
             }
 
             if (basic.unidepartment){
                 inbasic++;
                 str = basic.unidepartment;
-                $("#txt_unidepartment").text("" + str);
+                $("#txt_unidepartment").val("" + str);
             }
 
             if (basic.unicollege){
                 inbasic++;
                 str = basic.unicollege;
-                $("#txt_unicollege").text("" + str);
+                $("#txt_unicollege").val("" + str);
             }
 
         }
@@ -222,7 +195,14 @@ sakai.profile = function(){
             }
         }
 
-   };
+    };
+
+    // Save input fields on change
+
+    $(".profile_section_editable input, .profile_section_editable select, .profile_section_editable textarea").change(function(ev) {
+        doHomeContact(this.value, "", null, this);
+    });
+
 
    //////////////////////////
    // General Popup Fields //
@@ -238,7 +218,7 @@ sakai.profile = function(){
         if (json[savefield]){
             obj.items = $.evalJSON(json[savefield]);
         }
-        $("#" + field + "s_list").html($.Template.render(field + "s_list_template",obj));
+        $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",obj));
 
         $("." + field + "_record").hover(
             function(){
@@ -289,7 +269,7 @@ sakai.profile = function(){
                         type : "POST",
                         data : tosend,
                         error: function(xhr, textStatus, thrownError) {
-                            alert("An error has occured while trying to post to " + fileUrl);
+                            fluid.log("profile_edit.js: An error has occured while trying to post to " + fileUrl);
                         }
                     });
 
@@ -385,9 +365,9 @@ sakai.profile = function(){
                 }
 
                 index = 0;
-                for (var i = 0; i < obj.items.length; i++) {
+                for (var i = 0, j = obj.items.length; i < j; i++) {
                     if (obj.items[i].id === id) {
-                        for (index = 0; index < fields.length; index++){
+                        for (index = 0, k = fields.length; index < k; index++){
                             obj.items[i][fields[index]] = arrayToSave[fields[index]];
                         }
                     }
@@ -406,7 +386,7 @@ sakai.profile = function(){
                     type: "POST",
                     data: tosend,
                     error: function(xhr, textStatus, thrownError) {
-                        alert("An error has occured while posting to " + fileUrl);
+                        fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
                     }
                 });
 
@@ -462,7 +442,7 @@ sakai.profile = function(){
                     type: "POST",
                     data: tosend,
                     error: function(xhr, textStatus, thrownError) {
-                        alert("An error has occured while posting to " + fileUrl);
+                        fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
                     }
                 });
 
@@ -501,7 +481,7 @@ sakai.profile = function(){
 
         if (json.picture && $.evalJSON(json.picture).name){
             var picture = $.evalJSON(json.picture);
-            $("#picture_holder img").attr("src",'/_user/public/' + sdata.me.user.userid + "/" + picture.name);
+            $("#picture_holder img").attr("src",'/_user' + sakai.data.me.profile.path + '/public/profile/' + picture.name);
         }
 
         fillInBasic();
@@ -516,30 +496,22 @@ sakai.profile = function(){
 
             if (about.aboutme){
                 inabout++;
-                $("#txt_aboutme").html("" + about.aboutme.replace(/\n/g, "<br/>"));
+                $("#txt_aboutme").val("" + about.aboutme.replace(/\n/g, "<br/>"));
             }
 
             if (about.personalinterests) {
                 inabout++;
-                if (typeof about.personalinterests === "object") {
-                    $("#txt_personalinterests").html("" + about.personalinterests.join("<br/>"));
-                } else {
-                    $("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
-                }
+                $("#txt_personalinterests").html("" + about.personalinterests);
             }
 
             if (about.academicinterests) {
                 inabout++;
-                if (typeof about.academicinterests === "object"){
-                    $("#txt_academicinterests").html("" + about.academicinterests.join("<br/>"));
-                } else {
-                    $("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
-                }
+                $("#txt_academicinterests").html("" + about.academicinterests);
             }
 
             if (about.hobbies) {
                 inabout++;
-                $("#txt_hobbies").html("" + about.hobbies.replace(/\n/g, "<br/>"));
+                $("#txt_hobbies").val("" + about.hobbies.replace(/\n/g, "<br/>"));
             }
 
 
@@ -552,7 +524,7 @@ sakai.profile = function(){
 
         if (json.email){
             inunicontactinfo++;
-            $("#txt_uniemail").text(json.email);
+            $("#txt_uniemail").val(json.email);
         }
 
         if (json.contactinfo) {
@@ -561,17 +533,17 @@ sakai.profile = function(){
 
             if (unicontactinfo.uniphone) {
                 inunicontactinfo++;
-                $("#txt_uniphone").text("" + unicontactinfo.uniphone);
+                $("#txt_uniphone").val("" + unicontactinfo.uniphone);
             }
 
             if (unicontactinfo.unimobile) {
                 inunicontactinfo++;
-                $("#txt_unimobile").text("" + unicontactinfo.unimobile);
+                $("#txt_unimobile").val("" + unicontactinfo.unimobile);
             }
 
             if (unicontactinfo.uniaddress) {
                 inunicontactinfo++;
-                $("#txt_uniaddress").html("" + unicontactinfo.uniaddress.replace(/\n/g, "<br/>"));
+                $("#txt_uniaddress").val("" + unicontactinfo.uniaddress.replace(/\n/g, "<br/>"));
             }
 
         }
@@ -586,22 +558,22 @@ sakai.profile = function(){
 
             if (homecontactinfo.homeemail) {
                 inhomecontactinfo++;
-                $("#txt_homeemail").text("" + homecontactinfo.homeemail);
+                $("#txt_homeemail").val("" + homecontactinfo.homeemail);
             }
 
             if (homecontactinfo.homephone) {
                 inhomecontactinfo++;
-                $("#txt_homephone").text("" + homecontactinfo.homephone);
+                $("#txt_homephone").val("" + homecontactinfo.homephone);
             }
 
             if (homecontactinfo.homemobile) {
                 inhomecontactinfo++;
-                $("#txt_homemobile").text("" + homecontactinfo.homemobile);
+                $("#txt_homemobile").val("" + homecontactinfo.homemobile);
             }
 
             if (homecontactinfo.homeaddress) {
                 inhomecontactinfo++;
-                $("#txt_homeaddress").html("" + homecontactinfo.homeaddress.replace(/\n/g, "<br/>"));
+                $("#txt_homeaddress").val("" + homecontactinfo.homeaddress.replace(/\n/g, "<br/>"));
             }
 
         }
@@ -616,17 +588,17 @@ sakai.profile = function(){
 
             if (additional.awards) {
                 inadditional++;
-                $("#txt_awards").html("" + additional.awards.replace(/\n/g, "<br/>"));
+                $("#txt_awards").val("" + additional.awards.replace(/\n/g, "<br/>"));
             }
 
             if (additional.clubs) {
                 inadditional++;
-                $("#txt_clubs").html("" + additional.clubs.replace(/\n/g, "<br/>"));
+                $("#txt_clubs").val("" + additional.clubs.replace(/\n/g, "<br/>"));
             }
 
             if (additional.societies) {
                 inadditional++;
-                $("#txt_societies").html("" + additional.societies.replace(/\n/g, "<br/>"));
+                $("#txt_societies").val("" + additional.societies.replace(/\n/g, "<br/>"));
             }
         }
 
@@ -685,7 +657,6 @@ sakai.profile = function(){
             if (json.aboutme) {
                 aboutme = $.evalJSON(json.aboutme);
             }
-            value = value.split("\n");
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
             val = $.toJSON(aboutme);
@@ -696,7 +667,6 @@ sakai.profile = function(){
             if (json.aboutme) {
                 aboutme = $.evalJSON(json.aboutme);
             }
-            value = value.split("\n");
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
             val = $.toJSON(aboutme);
@@ -752,16 +722,18 @@ sakai.profile = function(){
         tosend[key] = val;
         tosend["_charset_"] = "utf-8";
 
+        // This eventually should switch to a sakai.api.Server.saveJSON operation, putting each category as a separate node (ore even each entry as a separate node),
+        // so that permission can be set on each element.
         $.ajax({
             url : fileUrl,
             type : "POST",
             data : tosend,
             error: function(xhr, textStatus, thrownError) {
-                alert("An error has occured while posting to " + fileUrl);
+                fluid.log("profile_edit.js: An error has occured while posting to " + fileUrl);
             }
         });
 
-        fillInFields();
+        //fillInFields(); // causing issues with IE7 textarea line breaks
 
     };
 
@@ -782,163 +754,5 @@ sakai.profile = function(){
     doInit();
 
 };
-
-
-///////////////////////////
-// Dropdown inline edits //
-///////////////////////////
-
-// TODO: Replace this by Fluid component
-
-sakai._inlineedits = [];
-sakai.inlineEdits = function(container, options){
-    var defaultViewText = "Click here to edit";
-    if (options.defaultViewText){
-        defaultViewText = options.defaultViewText;
-    }
-    var rootel = $(container);
-    var els = $(".inlineEditableAlt", rootel);
-    for (var i = 0; i < els.length; i++){
-        var el = $(els[i]);
-        var dropdown = $(".dropdownbox", el);
-        if (dropdown.length > 0){
-
-            if (dropdown.html() === ""){
-                dropdown.html(defaultViewText);
-            }
-
-            var tochangeTo = $(".editContainer",el);
-            var changedel = $(".options", tochangeTo);
-
-            dropdown.bind("click", function(ev){
-                var parent = $(ev.target).parent();
-                var dropdown = $(".dropdownbox",parent);
-                var tochangeTo = $(".editContainer", parent);
-
-                var value = dropdown.text();
-                $(".options" + " option[value=" + value + "]", tochangeTo).attr("selected", true);
-                if (dropdown.css("display") !== "none"){
-                    dropdown.hide();
-                    tochangeTo.show();
-                    changedel.focus();
-                    changedel.click();
-                }
-            });
-            changedel.bind("blur", function(ev){
-                var parent = $(ev.target).parent().parent();
-                var dropdown = $(".dropdownbox",parent);
-                var tochangeTo = $(".editContainer", parent);
-                var changedel = $(".options", tochangeTo);
-
-                var index = changedel[0].selectedIndex;
-                var newvalue = changedel[0].options[index].text;
-                var orig = newvalue;
-                if (newvalue === ""){
-                    newvalue = defaultViewText;
-                }
-                dropdown.html(newvalue);
-
-                if (dropdown.css("display") === "none"){
-                    tochangeTo.hide();
-                    dropdown.show();
-                }
-
-                var obj = {};
-                obj.value = orig;
-
-                if (options.finishedEditing){
-                    options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
-                }
-
-            });
-
-        }
-    }
-
-};
-
-$(".dropdownbox").live("mouseover", function(){
-    $(this).addClass("fl-inlineEdit-invitation");
-});
-$(".dropdownbox").live("mouseout", function(){
-    $(this).removeClass("fl-inlineEdit-invitation");
-});
-
-sakai._inlineeditsArea = [];
-sakai.inlineEditsArea = function(container, options){
-    var defaultViewText = "Click here to edit";
-    if (options.defaultViewText){
-        defaultViewText = options.defaultViewText;
-    }
-    var rootel = $(container);
-    var els = $(".inlineEditableAlt", rootel);
-    for (var i = 0; i < els.length; i++){
-        var el = $(els[i]);
-        var dropdown = $(".textarea", el);
-        if (dropdown.length > 0){
-
-            if (dropdown.html() === ""){
-                dropdown.html(defaultViewText);
-            }
-
-            var tochangeTo = $(".editContainer",el);
-            var changedel = $(".options", tochangeTo);
-
-            dropdown.bind("click", function(ev){
-                var parent = $(ev.target).parent();
-                var dropdown = $(".textarea",parent);
-                var tochangeTo = $(".editContainer", parent);
-
-                var value = dropdown.html();
-                value = value.replace(/<br\/>/ig,"\n");
-                value = value.replace(/<br>/ig,"\n");
-                $(".options", tochangeTo).val(value.replace(/<br\/>/ig,"\n"));
-                if (dropdown.css("display") !== "none"){
-                    dropdown.hide();
-                    tochangeTo.show();
-                    changedel.focus();
-                    changedel.click();
-                }
-            });
-            changedel.bind("blur", function(ev){
-                var parent = $(ev.target).parent().parent();
-                var dropdown = $(".textarea",parent);
-                var tochangeTo = $(".editContainer", parent);
-                var changedel = $(".options", tochangeTo);
-
-                var newvalue = changedel.val();
-                var orig = newvalue;
-                if (newvalue === ""){
-                    newvalue = defaultViewText;
-                }
-                dropdown.html(newvalue.replace(/\n/g,"<br/>"));
-
-                if (dropdown.css("display") === "none"){
-                    tochangeTo.hide();
-                    dropdown.show();
-                }
-
-                var obj = {};
-                obj.value = orig;
-
-                if (options.finishedEditing){
-                    options.finishedEditing(newvalue, newvalue, dropdown[0], dropdown[0]);
-                }
-
-                dropdown.removeClass("fl-inlineEdit-invitation");
-
-            });
-
-        }
-    }
-
-};
-
-$(".textarea").live("mouseover", function(){
-    $(this).addClass("fl-inlineEdit-invitation");
-});
-$(".textarea").live("mouseout", function(){
-    $(this).removeClass("fl-inlineEdit-invitation");
-});
 
 sdata.container.registerForLoad("sakai.profile");

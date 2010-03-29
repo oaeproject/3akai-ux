@@ -148,7 +148,7 @@ sakai.site.site_admin = function(){
 
                 // Save the recent activity
                 var activityItem = {
-                    "user_id": sdata.me.user.userid,
+                    "user_id": sakai.data.me.user.userid,
                     "type": "page_move",
                     "page_id": tgt_urlsafe_name,
                     "page_title": sakai.site.site_info._pages[tgt_urlsafe_name]["pageTitle"],
@@ -273,7 +273,7 @@ sakai.site.site_admin = function(){
             init_instance_callback: "sakai.site.startEditPage",
 
             // Example content CSS (should be your site CSS)
-            content_css: Config.URL.TINY_MCE_CONTENT_CSS,
+            content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS,
 
             // Drop lists for link/image/media/template dialogs
             template_external_list_url: "lists/template_list.js",
@@ -306,7 +306,7 @@ sakai.site.site_admin = function(){
             $elm1_ifr.attr({'scrolling':'no','frameborder':'0'});
 
             if (!sakai.site.toolbarSetupReady) {
-                $(".mceToolbarEnd").before($.Template.render("editor_extra_buttons", {}));
+                $(".mceToolbarEnd").before($.TemplateRenderer("editor_extra_buttons", {}));
                 $(".insert_more_dropdown_activator").bind("click", function(ev){ toggleInsertMore(); });
             }
 
@@ -763,7 +763,7 @@ sakai.site.site_admin = function(){
 
                         // Save the recent activity
                         var activityItem = {
-                            "user_id": sdata.me.user.userid,
+                            "user_id": sakai.data.me.user.userid,
                             "type": "page_create",
                             "page_id": newPageUniques.urlName,
                             "page_title": newpagetitle,
@@ -829,7 +829,7 @@ sakai.site.site_admin = function(){
                     if (success) {
                         // Save the recent activity
                         var activityItem = {
-                            "user_id": sdata.me.user.userid,
+                            "user_id": sakai.data.me.user.userid,
                             "type": "page_edit",
                             "page_id": sakai.site.selectedpage,
                             "page_title": sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"],
@@ -872,10 +872,11 @@ sakai.site.site_admin = function(){
         $("#show_view_container").show();
 
         sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
-        sdata.widgets.WidgetPreference.save(sakai.site.urls.SITE_NAVIGATION(), "content", sakai.site.pagecontents._navigation, function(){});
+
+        sakai.api.Widgets.saveWidgetData("navigation_content", sakai.site.pagecontents._navigation, "navigationwidget", sakai.site.currentsite.id);
 
         document.getElementById(sakai.site.selectedpage).style.display = "block";
-        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
 
     };
 
@@ -1572,13 +1573,13 @@ sakai.site.site_admin = function(){
         }
 
         // Render insert more media template
-        $("#insert_more_media").html($.Template.render("insert_more_media_template",media));
+        $("#insert_more_media").html($.TemplateRenderer("insert_more_media_template",media));
 
         // Render insertmore goodies template
-        $("#insert_more_goodies").html($.Template.render("insert_more_goodies_template",goodies));
+        $("#insert_more_goodies").html($.TemplateRenderer("insert_more_goodies_template",goodies));
 
         // Render insertmore sidebar template
-        $("#insert_more_sidebar").html($.Template.render("insert_more_sidebar_template",sidebar));
+        $("#insert_more_sidebar").html($.TemplateRenderer("insert_more_sidebar_template",sidebar));
 
         // Event handler
         $('#insert_dialog').jqm({
@@ -2010,7 +2011,7 @@ sakai.site.site_admin = function(){
             obj.description = description;
 
             // Load template configuration file
-            sdata.preference.load(Config.URL.TEMPLATES, function(success, pref_data){
+            sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/templates", function(success, pref_data){
                 if (success) {
                     updateTemplates(obj, newid, pref_data);
                 } else {
@@ -2038,7 +2039,7 @@ sakai.site.site_admin = function(){
         templates[newid]["pageContent"]["sling:resourceType"] = "sakai/pagetemplatecontent";
         templates[newid]["pageContent"]["sakai:pagecontent"] = sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"];
 
-        sdata.preference.save(Config.URL.TEMPLATES, templates, function(success, response) {
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/templates", templates, function(success, response) {
 
             if (success) {
 
@@ -2070,7 +2071,7 @@ sakai.site.site_admin = function(){
         sakai.site.isShowingDropdown = false;
 
         // Load template configuration file
-        sdata.preference.load(Config.URL.TEMPLATES, function(success, pref_data){
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/templates", function(success, pref_data){
             if (success) {
                 renderTemplates(pref_data);
             } else {
@@ -2109,7 +2110,7 @@ sakai.site.site_admin = function(){
 
         finaljson.size = finaljson.items.length;
 
-        $("#list_container").hide().html($.Template.render("list_container_template",finaljson));
+        $("#list_container").hide().html($.TemplateRenderer("list_container_template",finaljson));
 
         if ($("#list_container").height() > 250){
             $("#list_container").css("height","250px");
@@ -2130,7 +2131,7 @@ sakai.site.site_admin = function(){
             }
 
             // Save updated template preferences
-            sdata.preference.save(Config.URL.TEMPLATES, newobj, function(success, response) {
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/templates", newobj, function(success, response) {
                 if (success) {
 
                 } else {

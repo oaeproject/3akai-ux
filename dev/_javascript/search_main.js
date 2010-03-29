@@ -23,6 +23,9 @@
  * ex: fetching my sites
  */
 var sakai = sakai || {};
+sakai.data.search = sakai.data.search || {};
+
+
 sakai._search = function(config, callback) {
 
     var searchConfig = config;
@@ -63,7 +66,7 @@ sakai._search = function(config, callback) {
         // Perform a sorting on sites.
         data.items.sort(doSort);
         // render the sites
-        $(config.filters.sites.filterSites).html($.Template.render(config.filters.sites.filterSitesTemplate, data));
+        $(config.filters.sites.filterSites).html($.TemplateRenderer(config.filters.sites.filterSitesTemplate, data));
 
         // because the response of the sites service will always be lower then the page load
         // we check if we have to select a site
@@ -107,7 +110,7 @@ sakai._search = function(config, callback) {
      */
     var fetchMyFriends = function() {
         $.ajax({
-            url: "/_user/contacts/all.json?page=0&n=100",
+            url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
             success: function(data) {
                 myfriends = $.evalJSON(data);
@@ -189,10 +192,10 @@ sakai._search = function(config, callback) {
         if (searchwhere) {
             searchSubset = searchwhere;
             // The subset to search in has been provided.
-            if (searchwhere === '*') {
+            if (searchwhere === "*") {
                 $(searchConfig.filters.sites.ids.entireCommunity).attr("selected", "selected");
             }
-            else if (searchwhere === 'mysites') {
+            else if (searchwhere === "mysites") {
                 $(searchConfig.filters.sites.ids.allMySites).attr("selected", "selected");
             }
             else {
@@ -208,7 +211,7 @@ sakai._search = function(config, callback) {
      * @param {Object} finaljson The object where the rendered results shall come in. (results come in .items)
      */
     var prepareCMforRendering = function(results, finaljson, searchterm) {
-        for (var i = 0, j = results.length; i<j; i++) {
+        for (var i = 0, j = results.length; i < j; i++) {
 
             // Set the item object in finaljson equal to the object in results
             finaljson.items[i] = results[i];
@@ -254,16 +257,14 @@ sakai._search = function(config, callback) {
                     if (picture.name) {
                         user.picture = user.path + picture.name;
                     } else {
-                        user.picture = Config.URL.PERSON_ICON_URL;
+                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }
                 } else {
-                    user.picture = Config.URL.PERSON_ICON_URL;
+                    user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
                 if (person.firstName && person.lastName) {
                     user.name = person.firstName + " " + person.lastName;
-                    if (user.name.length > usernameLengthStrip) {
-                        user.name = user.name.substring(0, usernameLengthStrip) + "...";
-                    }
+                    user.name = sakai.api.Util.shortenString(user.name, usernameLengthStrip);
                     user.firstName = person.firstName;
                     user.lastName = person.lastName;
                 }
@@ -295,14 +296,14 @@ sakai._search = function(config, callback) {
                 }
                 // Check if the user you found in the list isn't the current
                 // logged in user
-                if (user.userid === sdata.me.user.userid) {
+                if (user.userid === sakai.data.me.user.userid) {
                     user.isMe = true;
                 }
                 // Check if the user that is found isn't an annonymous user
                 else if (user.userid === "anonymous"){
                     user.isAnonymous = true;
                 }
-                
+
 
                 finaljson.items.push(user);
             }
@@ -316,13 +317,13 @@ sakai._search = function(config, callback) {
      * It will return * for everything, mysites for the user his sites or the location of the specific site.
      */
     var getSearchWhereSites = function() {
-        var searchFilter = $(searchConfig.filters.filter + ' option:selected').val();
-        var searchWhere = '*';
-        if (searchFilter === 'entire_community') {
-            searchWhere = '*';
+        var searchFilter = $(searchConfig.filters.filter + " option:selected").val();
+        var searchWhere = "*";
+        if (searchFilter === "entire_community") {
+            searchWhere = "*";
         }
-        else if (searchFilter === 'all_my_sites') {
-            searchWhere = 'mysites';
+        else if (searchFilter === "all_my_sites") {
+            searchWhere = "mysites";
         }
         else {
             // Specific site add the location.
@@ -358,94 +359,15 @@ sakai._search = function(config, callback) {
      * If he is this function will return true.
      */
     var isLoggedIn = function() {
-        var uuid = sdata.me.user.userid;
+        var uuid = sakai.data.me.user.userid;
         if (!uuid || uuid === "anon") {
             document.location = "/dev/index.html";
+            return false;
         }
         else {
             return true;
         }
     };
-
-    /**
-     * Does the invitation stuff. Will send a request for an invitation and a message to the user.
-     * @param {String} userid
-     */
-    var doInvite = function(userid) {
-        var toSend = $.FormBinder.serialize($(searchConfig.addFriend.form));
-        $(searchConfig.addFriend.response).text("");
-        if (toSend[searchConfig.addFriend.typesList]) {
-
-            var type = toSend[searchConfig.addFriend.typesList];
-            var comment = toSend[searchConfig.addFriend.personalNote.replace(/#/gi, '')];
-
-            // send message to other person
-            var userstring = sdata.me.profile.firstName + " " + sdata.me.profile.lastName;
-
-            var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g, userstring);
-            var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g, userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g, comment);
-
-            // construct openSocial message
-            var openSocialMessage = new opensocial.Message(message, {
-                "title": title,
-                "type": Config.Messages.Categories.invitation
-            });
-
-            var data = {
-                "friendUuid": userid,
-                "friendType": type,
-                "message": $.toJSON({
-                    "title": title,
-                    "body": openSocialMessage
-                })
-            };
-
-            $.ajax({
-                url: Config.URL.FRIEND_CONNECT_SERVICE,
-                type: "POST",
-                success: function(data) {
-                    // The request succeeded,
-                    // do a request to the messaging service as well.
-                    var toSend = {
-                        "to": userid,
-                        "message": $.toJSON(openSocialMessage),
-                        "_charset_":"utf-8"
-                    };
-                    $.ajax({
-                        url: Config.URL.MESSAGES_SEND_SERVICE,
-                        type: "POST",
-                        success: function(data) {
-                            var json = $.evalJSON(data);
-                            if (json.response === "OK") {
-                                // Everything went OK, hide the "Add to contacts" link.
-                                $(searchConfig.addFriend.addToContacts.replace(/\{USERID\}/gi, userid)).hide();
-                                $(searchConfig.addFriend.addToContactsDivider.replace(/\{USERID\}/gi, userid)).hide();
-
-                                // Hide the layover
-                                $(searchConfig.global.addToContactsDialog).jqmHide();
-                            }
-                            else {
-                                $(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.message).text());
-                            }
-                        },
-                        error: function(xhr, textStatus, thrownError) {
-                            $(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.message).text());
-                        },
-                        data: toSend
-                    });
-
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    $(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.request).text());
-                },
-                data: data
-            });
-        }
-        else {
-            $(searchConfig.addFriend.response).text($(searchConfig.addFriend.errors.noTypeSelected).text());
-        }
-    };
-
 
     /**
      * Removes the seperated and the add contacts link

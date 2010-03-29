@@ -216,7 +216,7 @@ sakai.site_appearance = function() {
     var saveSiteStyle = function(style){
 
         // Set the global style object to the style the use has selected
-        appearance.style = Config.Site.Styles[style];
+        appearance.style = sakai.config.Site.Styles[style];
         appearance.style.id = style;
 
         // Update the site style
@@ -233,15 +233,15 @@ sakai.site_appearance = function() {
         var styles = [];
 
         // Get all the styles from the config file and add them to a global variable
-        for (var i in Config.Site.Styles){
+        for (var i in sakai.config.Site.Styles){
 
             // We need to use hasOwnProperty when we use for ... in to parse with JSLint
             // More information: http://ajaxian.com/archives/fun-with-browsers-for-in-loop
-            if(Config.Site.Styles.hasOwnProperty(i)){
+            if(sakai.config.Site.Styles.hasOwnProperty(i)){
                 var style = {};
                 style.id = i;
-                style.name = Config.Site.Styles[i].name;
-                style.image = Config.Site.Styles[i].image;
+                style.name = sakai.config.Site.Styles[i].name;
+                style.image = sakai.config.Site.Styles[i].image;
                 styles.push(style);
             }
         }
@@ -257,7 +257,7 @@ sakai.site_appearance = function() {
         }
 
         // Render the site style template
-        $.Template.render(siteAppearanceStyleContainerTemplate, json_styles, $(siteAppearanceStyleContainer));
+        $.TemplateRenderer(siteAppearanceStyleContainerTemplate, json_styles, $(siteAppearanceStyleContainer));
     };
 
     /**
@@ -273,7 +273,7 @@ sakai.site_appearance = function() {
             json.fullName = "/sites/" + siteId + "/200x100_siteicon" + "?sid=" + Math.random();
 
             // Render the image template
-            $.Template.render(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
+            $.TemplateRenderer(siteAppearanceLogoTemplate, json, $(siteAppearanceLogo));
         }
     };
 
@@ -317,7 +317,7 @@ sakai.site_appearance = function() {
 
                 // If we don't find or we are not able to get information about the current site id,
                 // we redirect the user to the gateway url.
-                document.location = Config.URL.GATEWAY_URL;
+                document.location = sakai.config.URL.GATEWAY_URL;
             }
         });
     };
@@ -377,7 +377,7 @@ sakai.site_appearance = function() {
 
         // Post all of this to the server
         $.ajax({
-            url: Config.URL.IMAGE_SERVICE,
+            url: sakai.config.URL.IMAGE_SERVICE,
             type: "POST",
             data: data,
             success: function(data){

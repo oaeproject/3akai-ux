@@ -152,12 +152,12 @@ sakai.newaccount = function(){
     };
 
     /**
-     * Uses the FormBinder to get all of the values out of the form fields. This will return
+     * Get all of the values out of the form fields. This will return
      * a JSON object where the keys are the names of all of the form fields, and the values are
      * the values entered by the user in those fields.
      */
     var getFormValues = function(){
-        return $.FormBinder.serialize($(formContainer));
+        return sakai.api.UI.Forms.form2json($(formContainer));
     };
 
 
@@ -211,7 +211,7 @@ sakai.newaccount = function(){
             ":name": values[username],
             "_charset_": "utf-8"};
         $.ajax ({
-            url : Config.URL.CREATE_USER_SERVICE,
+            url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
             data : data,
             success : function(data) {
@@ -341,7 +341,7 @@ sakai.newaccount = function(){
         // exists and a 401 if it doesn't exist yet.
         $.ajax({
             // Replace the preliminary parameter in the service URL by the real username entered
-            url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
+            url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
             cache : false,
             success: function(data){
                 setError(usernameField,usernameTaken);
@@ -379,7 +379,7 @@ sakai.newaccount = function(){
      * If the Cancel button is clicked, we redirect them back to the login page
      */
     $("#cancel_button").bind("click", function(ev){
-        document.location = Config.URL.GATEWAY_URL;
+        document.location = sakai.config.URL.GATEWAY_URL;
     });
 
     $(checkUserNameLink).bind("click", function(){

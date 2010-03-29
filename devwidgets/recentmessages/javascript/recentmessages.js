@@ -58,7 +58,7 @@ sakai.recentmessages = function(tuid,placement,showSettings){
         } else {
 
             // Only if everything went fine, show the recent messages
-            $recentmessagesContainer.html($.Template.render(recentmessagesTemplate, response));
+            $recentmessagesContainer.html($.TemplateRenderer(recentmessagesTemplate, response));
 
             // Activate the ThreeDots plug-in
             $("#recentmessages_container ul li a", rootel).ThreeDots({max_rows:1});
@@ -67,8 +67,8 @@ sakai.recentmessages = function(tuid,placement,showSettings){
 
     /**
      * Load the recent messages for the current user
-     * @param {Object|Boolean} response 
-     *     The response that the server has send. 
+     * @param {Object|Boolean} response
+     *     The response that the server has send.
      *     If the response is false, it means we were not able to connect to the server
      */
     var loadRecentMessages = function(response){

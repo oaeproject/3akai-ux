@@ -116,7 +116,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(remotecontentSettingsPreview).html($.Template.render(remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentSettingsPreview).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
         }else{
             $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
@@ -127,7 +127,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var renderIframe = function(){
         if(json){
-            $(remotecontentMainContainer, rootel).html($.Template.render(remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentMainContainer, rootel).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
         }
     };
 
@@ -136,7 +136,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var renderRemoteContentSettings = function() {
         if(json){
-            $(remotecontentSettings).html($.Template.render(remotecontentSettingsTemplate, json));
+            $(remotecontentSettings).html($.TemplateRenderer(remotecontentSettingsTemplate, json));
         }
     };
 
@@ -145,7 +145,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      */
     var renderColorContainer = function(){
         if(json){
-            $(remotecontentSettingsColorContainer).html($.Template.render(remotecontentSettingsColorContainerTemplate, json));
+            $(remotecontentSettingsColorContainer).html($.TemplateRenderer(remotecontentSettingsColorContainerTemplate, json));
         }
     };
 
@@ -169,8 +169,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     var saveRemoteContent = function() {
         if (json.url !== "") {
             var str = $.toJSON(json); // Convert the posts to a JSON string
-            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-            sdata.widgets.WidgetPreference.save(saveUrl, "remotecontent", str, savedDataToJCR);
+            sakai.api.Widgets.saveWidgetData("remotecontent", str, tuid, placement, savedDataToJCR);
         } else {
             alert("Please specify a URL");
         }
@@ -335,12 +334,12 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * view we are in, fill in the settings or display an iframe.
      */
     var getRemoteContent = function() {
-        $.ajax({
-            url : Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "remotecontent"),
-            cache: false,
-               success : function(data) {
+
+        sakai.api.Widgets.loadWidgetData("remotecontent", tuid, placement, function(success, data){
+
+            if (success) {
                 // Get a JSON string that contains the necessary information.
-                var parameters = $.evalJSON(data);
+                var parameters = data;
 
                 if (showSettings) {
                     displaySettings(parameters, true); // Fill in the settings page.
@@ -348,8 +347,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
                 else {
                     displayRemoteContent(parameters); // Show the frame
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 // When the request isn't successful, it means that  there was no existing remotecontent
                 // so we show the basic settings.
                 displaySettings(null, false);

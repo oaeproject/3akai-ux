@@ -69,9 +69,9 @@
 			<div id="s23_site_page_container_${xid}" class="s23_site_page_container">
 				{for tool in tools}
 					<div class="s23_site_iframe_title">
-						<a class="s23_site_iframe_title_reset" title="Reset" target="Main${tool.xid}" href="${Config.SakaiDomain}/portal/tool-reset/${tool.url}?panel=Main"><span>Reset</span></a><h2>${tool.title}</h2>
+						<a class="s23_site_iframe_title_reset" title="Reset" target="Main${tool.xid}" href="${sakai.config.SakaiDomain}/portal/tool-reset/${tool.url}?panel=Main"><span>Reset</span></a><h2>${tool.title}</h2>
 					</div>
-					<iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${Config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
+					<iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${sakai.config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
 				{/for}
 			</div>
 		--></div>

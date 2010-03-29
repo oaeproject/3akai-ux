@@ -107,7 +107,7 @@ sakai.site_basic_settings = function(){
      * @param {Object} languages
      */
     var putLangsinCmb = function(languages, json){
-        $(siteSettingLanguageCmb).html($.Template.render(siteSettingLanguageTemplate, languages));
+        $(siteSettingLanguageCmb).html($.TemplateRenderer(siteSettingLanguageTemplate, languages));
         if (json.language) {
             $(siteSettingLanguageCmb + " option[value=" + json.language + "]").attr("selected", true);
         }
@@ -149,7 +149,7 @@ sakai.site_basic_settings = function(){
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
-                    $(siteSettingsInfoSitePart).text(Config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
+                    $(siteSettingsInfoSitePart).text(sakai.config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
                     $(siteSettingsInfoSitePartTextLocation).text(json.id);
                     getLanguages(json);
 
@@ -177,7 +177,7 @@ sakai.site_basic_settings = function(){
                 }
                 else {
                     // The user is not an owner for this site. we redirect him/her to the site page.
-                    //document.location = Config.URL.SITE_URL_SITEID.replace(/__SITEID__/gi, siteid);
+                    //document.location = sakai.config.URL.SITE_URL_SITEID.replace(/__SITEID__/gi, siteid);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -334,7 +334,7 @@ sakai.site_basic_settings = function(){
             type: "POST",
             success: function(data){
                 alert("Your site has been successfully deleted");
-                document.location = Config.URL.MY_DASHBOARD;
+                document.location = sakai.config.URL.MY_DASHBOARD_URL;
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occurred: " + xhr.status + " " + xhr.statusText);

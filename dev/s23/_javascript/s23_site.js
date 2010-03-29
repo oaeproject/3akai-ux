@@ -95,7 +95,7 @@ sakai.s23_site = function(){
             }else{
 
                 // Render the tools of the site and add them to the page container
-                s23SiteIframeContainer.append($.Template.render(s23SiteIframeContainerTemplate, page));
+                s23SiteIframeContainer.append($.TemplateRenderer(s23SiteIframeContainerTemplate, page));
             }
         }
     };
@@ -170,7 +170,7 @@ sakai.s23_site = function(){
             s23SiteTitle.text(completeJSON.site.title);
 
             // Render the menu of the workspace
-            s23SiteMenuContainer.html($.Template.render(s23SiteMenuContainerTemplate, completeJSON));
+            s23SiteMenuContainer.html($.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
 
             // Create xid's
             createxids();
@@ -194,7 +194,7 @@ sakai.s23_site = function(){
 
         // Send an Ajax request to the sakai2 tools service
         $.ajax({
-            url: Config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
+            url: sakai.config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
             success: function(data){
 
                 // Evaluate the data to JSON

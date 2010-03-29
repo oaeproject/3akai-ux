@@ -35,7 +35,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 
     var json = false; // Variable used to recieve information by json
     var widgetSettings = {}; // Will hold the widget settings.
-    var me = sdata.me; // Contains information about the current user
+    var me = sakai.data.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
     var jsonDisplay = {};
     var start = 0; // Start fetching from the first comment.
@@ -260,13 +260,13 @@ sakai.comments = function(tuid, placement, showSettings) {
                     fullName += " " + profile.lastName;
                 }
                 user.fullName = fullName;
-                user.picture = Config.URL.PERSON_ICON_URL;
+                user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
                 if (profile.picture && $.evalJSON(profile.picture).name) {
                     user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;
                 }
                 user.uid = profile["rep:userId"][0];
-                user.profile = Config.URL.PROFILE_URL + "?user=" + user.uid;
+                user.profile = sakai.config.URL.PROFILE_URL + "?user=" + user.uid;
             }
             else {
                 // This is an anonymous user.
@@ -285,7 +285,7 @@ sakai.comments = function(tuid, placement, showSettings) {
 
             jsonDisplay.comments[i] = comment;
         }
-        $(commentsShowComments, rootel).html($.Template.render(commentsShowCommentsTemplate, jsonDisplay));
+        $(commentsShowComments, rootel).html($.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
     };
 
     /**
@@ -558,7 +558,7 @@ sakai.comments = function(tuid, placement, showSettings) {
      * Gets the widget settings and shows the appropriate view.
      */
     var getWidgetSettings = function() {
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
         $.ajax({
             url: url,
             cache: false,
@@ -619,7 +619,7 @@ sakai.comments = function(tuid, placement, showSettings) {
         var settings = getCommentsSettings();
         if (settings) {
             settings["_charset_"] = "utf-8";
-        var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
+        var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
             // gets the JSON-settings-object and converts it to a string
 
             $.ajax({

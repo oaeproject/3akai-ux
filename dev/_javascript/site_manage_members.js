@@ -73,7 +73,7 @@ sakai.site_manage_members = function() {
             appendKeyToURL(el, 'siteid', selectedSite);
         });
         fillBasicSiteSettings(selectedSite);
-        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
+        $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
 
     };
 
@@ -114,7 +114,7 @@ sakai.site_manage_members = function() {
         if (typeof json.results === "undefined") {
             json.results = [];
         }
-        $("#selected-members-container").html($.Template.render("selected-people-template", {"selectedPeople" :selectedPeople}));
+        $("#selected-members-container").html($.TemplateRenderer("selected-people-template", {"selectedPeople" :selectedPeople}));
 
         $(".selected-person-remove").bind("click",
         function(e, ui) {
@@ -185,7 +185,7 @@ sakai.site_manage_members = function() {
             }
             var toRender = {};
             toRender.users = results;
-            $("#siteManage_members").html($.Template.render("siteManage_people_template", toRender));
+            $("#siteManage_members").html($.TemplateRenderer("siteManage_people_template", toRender));
              $("#manage_members_count").html(getNumMembers(json.total));
             $(".siteManage_person").bind("click",
             function(e, ui) {

@@ -35,7 +35,7 @@ sakai.poll = function(tuid, placement, showSettings){
 
     var json = false;                         // Variable used to recieve information by json
     var jsonAll = false;                     // Contains all the polls
-    var me = sdata.me;                         // Contains information about the current user
+    var me = sakai.data.me;                         // Contains information about the current user
     var rootel = $("#" + tuid);             // Get the main div used by the widget
     var colors = ["663300","e07000","0070e0",
     "660000","990080","c4fc95","c4e3fc","79c365",
@@ -226,36 +226,36 @@ sakai.poll = function(tuid, placement, showSettings){
      * Render the show question of the widget
      */
     var renderShowQuestion = function(){
-        $(pollShowQuestion, rootel).html($.Template.render(pollShowQuestionTemplate,json));
+        $(pollShowQuestion, rootel).html($.TemplateRenderer(pollShowQuestionTemplate,json));
     };
 
     /**
      * Render the show chart view of the widget
      */
     var renderShowChart = function(){
-        $(pollShowChart, rootel).html($.Template.render(pollShowChartTemplate,json));
+        $(pollShowChart, rootel).html($.TemplateRenderer(pollShowChartTemplate,json));
     };
 
     /**
      * Render the preview of the widget
      */
     var renderPreview = function(){
-        $(pollPreviewQuestion, rootel).html($.Template.render(pollPreviewQuestionTemplate,json));
-        $(pollPreviewChart, rootel).html($.Template.render(pollPreviewChartTemplate,json));
+        $(pollPreviewQuestion, rootel).html($.TemplateRenderer(pollPreviewQuestionTemplate,json));
+        $(pollPreviewChart, rootel).html($.TemplateRenderer(pollPreviewChartTemplate,json));
     };
 
     /**
      * Render the options for the poll
      */
     var renderOptions = function(){
-        $(pollOptions, rootel).html($.Template.render(pollOptionsTemplate,json));
+        $(pollOptions, rootel).html($.TemplateRenderer(pollOptionsTemplate,json));
     };
 
     /**
      * Render the settings of the widget
      */
     var renderSettings = function(){
-        $(pollSettings, rootel).html($.Template.render(pollSettingsTemplate,json));
+        $(pollSettings, rootel).html($.TemplateRenderer(pollSettingsTemplate,json));
         renderOptions();
     };
 
@@ -378,13 +378,13 @@ sakai.poll = function(tuid, placement, showSettings){
                 processPoll(preview);
                 switch(json.poll.poll_type){
                     case 0:
-                        json.poll.image = Config.URL.API_GOOGLE_CHARTS + "?cht=bvs&chs=310x180&chd=t:27,18,7,12,37&chxt=x&chxl=0:|27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bvs&chs=310x180&chd=t:27,18,7,12,37&chxt=x&chxl=0:|27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
                     break;
                     case 1:
-                        json.poll.image = Config.URL.API_GOOGLE_CHARTS + "?cht=bhs&chs=310x170&chd=t:27,18,7,12,37&chxt=y&chxl=0:|37%|12%|7%|18%|27%&chco=663300|e07000|0070e0|660000|990080";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bhs&chs=310x170&chd=t:27,18,7,12,37&chxt=y&chxl=0:|37%|12%|7%|18%|27%&chco=663300|e07000|0070e0|660000|990080";
                     break;
                     case 2:
-                        json.poll.image = Config.URL.API_GOOGLE_CHARTS + "?cht=p&chs=310x250&chd=t:27,18,7,12,37&chl=27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=p&chs=310x250&chd=t:27,18,7,12,37&chl=27%|18%|7%|12%|37%&chco=663300|e07000|0070e0|660000|990080";
                     break;
                     case 3:
                         for(var i = 0; i < json.poll.temp.processedVotes.length; i++){
@@ -409,7 +409,7 @@ sakai.poll = function(tuid, placement, showSettings){
                         {
                             width = 310;
                         }
-                        json.poll.image = Config.URL.API_GOOGLE_CHARTS + "?cht=bvs&chs=" + width + "x180";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bvs&chs=" + width + "x180";
 
                         renderPoll_addData();
 
@@ -423,7 +423,7 @@ sakai.poll = function(tuid, placement, showSettings){
                         //http://chart.apis.google.com/chart?cht=bhs&chs=310x250&chd=t:1,12,4,7,76&chxt=x,y&chxl=1:|1%20%|12%20%|4%20%|7%20%|76%20%
                         var height = 20 + (json.poll.processedVotes.length*30);
 
-                        json.poll.image = Config.URL.API_GOOGLE_CHARTS + "?cht=bhs&chs=310x" + height;
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=bhs&chs=310x" + height;
 
                         renderPoll_addData();
 
@@ -434,7 +434,7 @@ sakai.poll = function(tuid, placement, showSettings){
                         renderPoll_addColors();
                     break;
                     case 2:
-                        json.poll.image = Config.URL.API_GOOGLE_CHARTS + "?cht=p&chs=310x250";
+                        json.poll.image = sakai.config.URL.GOOGLE_CHARTS_API + "?cht=p&chs=310x250";
 
                         renderPoll_addData();
 
@@ -481,8 +481,7 @@ sakai.poll = function(tuid, placement, showSettings){
          // Clear polls array
         json.poll.polls = [];
         var jsonToString = $.toJSON(json);
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "poll", jsonToString, functionOnComplete);
+        sakai.api.Widgets.saveWidgetData("poll", jsonToString, tuid, placement, functionOnComplete);
     };
 
     /**
@@ -815,7 +814,7 @@ sakai.poll = function(tuid, placement, showSettings){
         jsonAll.polls.push(json.poll);
 
         var jsonToString = $.toJSON(jsonAll);
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/", "_poll", jsonToString, finishSettingsAfterSave);
+        sdata.widgets.WidgetPreference.save("_poll", jsonToString, tuid, placement, finishSettingsAfterSave);
     };
 
     /**
@@ -824,18 +823,17 @@ sakai.poll = function(tuid, placement, showSettings){
      * @param {Function} functionOnComplete Function to be executed on completion
      */
     var getAllPoll = function(addToAll, functionOnComplete){
-        $.ajax({
-            url: Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, placement) + "/_poll",
-            cache: false,
-            success: function(data){
+
+        sakai.api.Widgets.loadWidgetData("_poll", tuid, placement, function(success, data) {
+
+            if (success) {
                 parseAllPoll(data, true);
                 if (addToAll){addCurrentToAllPoll();}
                 if (functionOnComplete !== null){
                     functionOnComplete();
                     $(pollInsertExisting, rootel).hide();
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 parseAllPoll(xhr.status, false);
                 if (addToAll) {addCurrentToAllPoll();}
                 if (functionOnComplete !== null) {
@@ -844,6 +842,7 @@ sakai.poll = function(tuid, placement, showSettings){
                 }
             }
         });
+
     };
 
     /**
@@ -1153,7 +1152,7 @@ sakai.poll = function(tuid, placement, showSettings){
         $(pollStartdate, rootel).datepicker({
             showOn: 'both',
             showAnim: 'slideDown',
-            buttonImage: Config.URL.POLL_DROPDOWN_ICON_URL,
+            buttonImage: "/devwidgets/poll/images/poll_drop_down.gif",
             buttonImageOnly: true,
             buttonText: "Please select a start date",
             dateFormat: 'dd/mm/yy',
@@ -1164,7 +1163,7 @@ sakai.poll = function(tuid, placement, showSettings){
         $(pollStopdate, rootel).datepicker({
             showOn: 'both',
             showAnim: 'slideDown',
-            buttonImage: Config.URL.POLL_DROPDOWN_ICON_URL,
+            buttonImage: "/devwidgets/poll/images/poll_drop_down.gif",
             buttonImageOnly: true,
             buttonText: "Please select a stop date",
             dateFormat: 'dd/mm/yy',
@@ -1327,14 +1326,12 @@ sakai.poll = function(tuid, placement, showSettings){
      * Get the post including replies
      */
     var getPostsFromJCR = function(){
-        $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll"),
-            cache: false,
-            success: function(data){
+        sakai.api.Widgets.loadWidgetData("poll", tuid, placement, function(success, data){
+
+            if (success) {
                 showPoll(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showPoll(xhr.status, false);
+            } else {
+                showPoll(data.status, false);
             }
         });
     };
@@ -1417,16 +1414,14 @@ sakai.poll = function(tuid, placement, showSettings){
 
         showHidePreview(false);
 
-        $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "poll"),
-            cache: false,
-            success: function(data){
+        sakai.api.Widgets.loadWidgetData("poll", tuid, placement, function(success, data){
+            if (success) {
                 showPollSettings(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showPollSettings(xhr.status, false);
+            } else {
+                showPollSettings(data.status, false);
             }
         });
+
         $(pollShowContainer, rootel).hide();
         $(pollContainer, rootel).show();
         $(pollMainContainer, rootel).show();

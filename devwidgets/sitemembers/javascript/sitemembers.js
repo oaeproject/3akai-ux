@@ -41,7 +41,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
 
     var widgetSettings = {};
     var rootel = $("#" + tuid); // Get the main div used by the widget
-    var me = sdata.me;
+    var me = sakai.data.me;
     var contacts = [];
     var startPos = 0;
     var nrOfItems = 4; // The amount of members we should fetch in each request.
@@ -131,7 +131,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                 'degrees': user.education
             };
         }
-        return $.Template.render(sitemembers_normal_data_degrees.replace("#", ''), json);
+        return $.TemplateRenderer(sitemembers_normal_data_degrees.replace("#", ''), json);
     };
 
     /**
@@ -147,7 +147,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                 'talks': user.talks
             };
         }
-        return $.Template.render(sitemembers_normal_data_talks.replace("#", ''), json);
+        return $.TemplateRenderer(sitemembers_normal_data_talks.replace("#", ''), json);
     };
 
 
@@ -164,7 +164,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                 'publications': user.academic
             };
         }
-        return $.Template.render(sitemembers_normal_data_publications.replace("#", ''), json);
+        return $.TemplateRenderer(sitemembers_normal_data_publications.replace("#", ''), json);
     };
 
     /**
@@ -180,7 +180,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                 'jobs': user.job
             };
         }
-        return $.Template.render(sitemembers_normal_data_profexperience.replace("#", ''), json);
+        return $.TemplateRenderer(sitemembers_normal_data_profexperience.replace("#", ''), json);
     };
 
     /**
@@ -213,7 +213,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                         }
         }
 
-        return $.Template.render(template.replace("#", ''), json);
+        return $.TemplateRenderer(template.replace("#", ''), json);
     };
 
     ////////////////////
@@ -333,7 +333,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         // Add it too the global var.
         displayMembers = displayMembers.concat(members);
         // Render template.
-        $(sitemembers_normal_container, rootel).append($.Template.render(sitemembers_normal_results_template.replace(/#/, ''), json));
+        $(sitemembers_normal_container, rootel).append($.TemplateRenderer(sitemembers_normal_results_template.replace(/#/, ''), json));
         // Add rounded corners to results (Not fully working)
         // $(sitemembers_normal_result, rootel).corners();
     };
@@ -454,7 +454,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
         // Show a prelaoder.
         loader(true);
         // Get a list of all the members.
-        var url = Config.URL.SITE_GET_MEMBERS_SERVICE.replace("__SITE__", siteid) + "?items=" + nrOfItems + "&sort=" + sortOn + "," + sortOrder + "&start=" + startPos;
+        var url = sakai.config.URL.SITE_GET_MEMBERS_SERVICE.replace("__SITE__", siteid) + "?items=" + nrOfItems + "&sort=" + sortOn + "," + sortOrder + "&start=" + startPos;
         $.ajax({
             url: url,
             success: function(data){
@@ -500,7 +500,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
      */
     var getContacts = function(){
         $.ajax({
-            url: Config.URL.FRIEND_ACCEPTED_SERVICE,
+            url: sakai.config.URL.FRIEND_ACCEPTED_SERVICE,
             success: function(data){
                 data = $.evalJSON(data);
                 if (data.results) {
@@ -554,7 +554,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
      * Retrieves the settings object from JCR.
      */
     var getSiteMembersSettingsFromJCR = function(){
-        var url = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid) + ".json";
+        var url = sakai.config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid) + ".json";
         $.ajax({
             url: url,
             type: "GET",
@@ -623,7 +623,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
      * Start the process to save all the settings for the site members widget to JCR.
      */
     var saveSettings = function(){
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
+        var saveUrl = sakai.config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
         // gets the JSON-settings-object and converts it to a string
         var settings = createSiteMembersSettings();
         var toSend = {

@@ -43,7 +43,7 @@ sakai.twitter = function(tuid,placement,showSettings){
      * @param {Boolean} refresh Refresh the me object or not
      */
     var getMe = function(){
-        me = sdata.me;
+        me = sakai.data.me;
         me_json = me.profile;
     };
 
@@ -56,14 +56,14 @@ sakai.twitter = function(tuid,placement,showSettings){
         switch(container){
             case "get_status":
                 currentSubContainer = "get";
-                $("#twitter_sub_container", rootel).html($.Template.render($("#twitter_template_get_status"),json));
+                $("#twitter_sub_container", rootel).html($.TemplateRenderer($("#twitter_template_get_status"),json));
                 break;
             case "set_status":
                 currentSubContainer = "set";
-                $("#twitter_sub_container", rootel).html($.Template.render('twitter_template_set_status',json));
+                $("#twitter_sub_container", rootel).html($.TemplateRenderer('twitter_template_set_status',json));
                 break;
             case "message":
-                $("#twitter_message_container", rootel).html($.Template.render('twitter_template_message',json));
+                $("#twitter_message_container", rootel).html($.TemplateRenderer('twitter_template_message',json));
                 break;
         }
     };
@@ -124,7 +124,7 @@ sakai.twitter = function(tuid,placement,showSettings){
             var data = {"basic":$.toJSON(basic),"_charset_":"utf-8"};
 
             $.ajax({
-                url :"/_user/public/" + sdata.me.user.userid + "/authprofile",
+                url :"/_user/public/" + sakai.data.me.user.userid + "/authprofile",
                 type : "POST",
                 data : data,
                 success : function(data) {
@@ -217,7 +217,7 @@ sakai.twitter = function(tuid,placement,showSettings){
                 user: json.screen_name
             };
             $.ajax({
-                url : Config.URL.TWITTER_GET_URL,
+                url : sakai.config.URL.TWITTER_GET_URL,
                 success : function(data) {
                     parseTwitterStatus(data, true);
                 },
@@ -248,7 +248,7 @@ sakai.twitter = function(tuid,placement,showSettings){
                 };
 
                 $.ajax({
-                    url : Config.URL.TWITTER_POST_URL,
+                    url : sakai.config.URL.TWITTER_POST_URL,
                     type : "POST",
                     success : function(data) {
                         parseTwitterResponse(data, true);

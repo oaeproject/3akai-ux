@@ -96,7 +96,7 @@ sakai.footer = function(tuid,placement,showSettings){
     var doInit = function(){
 
         // Display debug info if set in config
-        if (Config.displayDebugInfo === true) {
+        if (sakai.config.displayDebugInfo === true) {
             // Make space for debug info
             footer_root.height("65px");
 

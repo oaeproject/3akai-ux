@@ -37,7 +37,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
     /////////////////////////////
 
     // Help variables
-    var me = sdata.me;
+    var me = sakai.data.me;
     var friend = false;
     var callbackWhenDone = false;
     var fadeOutTime = 1000; // The amount of time it takes to fade out the message and hide the layover.
@@ -80,11 +80,11 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
      * It renders the contacts types and the personal note
      */
     var renderTemplates = function() {
-        $.Template.render(addToContactsFormTypeTemplate.replace(/#/gi, ''), Widgets, $(addToContactsInfoTypes));
+        $.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), Widgets, $(addToContactsInfoTypes));
         var json = {
             me: me
         };
-        $.Template.render(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ''), json, $(addToContactsFormPersonalNote));
+        $.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
     };
 
     /**
@@ -97,10 +97,10 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 
             // Check for picture
             if (user.picture && $.evalJSON(user.picture).name) {
-                $(addToContactsInfoProfilePicture).attr('src', "/_user/public/" + user.uuid + "/" + $.evalJSON(user.picture).name);
+                $(addToContactsInfoProfilePicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(user.picture).name);
             }
             else {
-                $(addToContactsInfoProfilePicture).attr('src', Config.URL.PERSON_ICON_URL);
+                $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
             }
         }
     };
@@ -124,50 +124,11 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
     };
 
     /**
-     * This will send a message to the specified user that he has received an invitation.
-     * @param {string} userid The userid to send the message to.
-     * @param {string} toSend The message that needs to be send to the friend.
-     */
-    var sendMessage = function(userid, message, title) {
-        var toSend = {
-            "sakai:type": "internal",
-            "sakai:sendstate": "pending",
-            "sakai:messagebox": "outbox",
-            "sakai:to": userid,
-            "sakai:from": sdata.me.user.userid,
-            "sakai:subject": title,
-            "sakai:body":message,
-            "sakai:category":"invitation",
-            "_charset_":"utf-8"
-        };
-
-        $.ajax({
-            url: "/_user/message.create.html",
-            type: "POST",
-            success: function(data) {
-                //var json = $.evalJSON(data);
-                //if (json.response === "OK") {
-                    // Everything went OK
-                    contactAdded();
-                //}
-                //else {
-                //    $(addToContactsResponse).text($(addToContactsErrorMessage).text());
-                //}
-            },
-            error: function(xhr, textStatus, thrownError) {
-
-            },
-            data: toSend
-        });
-    };
-
-
-    /**
      * This function looks up and retrieves relationship information from a set of pre-defined relationships
      * @param {String} relationshipName
      */
     var getDefinedRelationship = function(relationshipName) {
-        for (var i = 0, j = Widgets.relationships.length; i<j; i++) {
+        for (var i = 0, j = Widgets.relationships.length; i < j; i++) {
             var definedRelationship = Widgets.relationships[i];
             if (definedRelationship.name === relationshipName) {
                 return definedRelationship;
@@ -181,13 +142,13 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
      * @param {String} userid
      */
     var doInvite = function(userid) {
-        var formValues = $.FormBinder.serialize($(addToContactsForm));
-        var types = formValues[addToContactsFormType.replace(/#/gi, '')];
+        var formValues = sakai.api.UI.Forms.form2json($(addToContactsForm));
+        var types = formValues[addToContactsFormType.replace(/#/gi, "")];
         $(addToContactsResponse).text("");
         if (types.length) {
             var fromRelationships = [];
             var toRelationships = [];
-            for (var i = 0; i < types.length; i++) {
+            for (var i = 0, j = types.length; i < j; i++) {
                 var type = types[i];
                 fromRelationships.push(type);
                 var definedRelationship = getDefinedRelationship(type);
@@ -197,30 +158,30 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
                     toRelationships.push(type);
                 }
             }
-            var toSend = {
-                "fromRelationships" : fromRelationships,
-                "toRelationships" : toRelationships,
-                "_charset_":"utf-8"
-            }
+
             var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 
             // send message to other person
             var userstring = me.profile.firstName + " " + me.profile.lastName;
 
-            var title = Config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
-            var message = Config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
+            var title = sakai.config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
 
-            // Do the invite.
+            // Do the invite and send a message
             $.ajax({
-                url: "/_user/contacts/" + userid + ".invite.html",
+                url: "/_user" + sakai.data.me.profile.path + "/contacts.invite.html",
                 type: "POST",
+                data: {
+                    "fromRelationships": fromRelationships,
+                    "toRelationships": toRelationships,
+                    "targetUserId": userid
+                },
                 success: function(data) {
-                    sendMessage(userid, message, title);
+                    sakai.api.Communication.sendMessage(userid, title, message, "invitation", null, contactAdded);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     $(addToContactsResponse).text($(addToContactsErrorRequest).text());
-                },
-                data: toSend
+                }
             });
 
         }
@@ -274,21 +235,24 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
         if (!user.preferences) {
             // This is a uuid. Fetch the info from /rest/me
             $.ajax({
-                url: "/_user/public/" + user + "/authprofile.json",
+                url: sakai.data.search.results_people[user]["jcr:path"]+".json",
                 success: function(data) {
+
                     friend = $.evalJSON(data);
                     friend.uuid = user;
+
                     // Doing a rewrite of the me object, because Sling wraps arrays around
                     // the different fields in the profile object
                     if (typeof friend.firstName === "object"){
                         friend.firstName = friend.firstName[0];
                     }
-                    if (typeof sdata.me.profile.lastName === "object"){
+                    if (typeof sakai.data.me.profile.lastName === "object"){
                         friend.lastName = friend.lastName[0];
                     }
-                    if (typeof sdata.me.profile.email === "object"){
+                    if (typeof sakai.data.me.profile.email === "object"){
                         friend.email = friend.email[0];
                     }
+
                     // We have the data, render it.
                     fillInUserInfo(friend);
                 }
@@ -308,7 +272,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
 
         // Give the user options to manipulate this widget.
         return {
-            'setPersonalNote': setPersonalNote
+            "setPersonalNote": setPersonalNote
         };
     };
 
@@ -317,7 +281,7 @@ sakai.addtocontacts = function(tuid, placement, showSettings) {
     /////////////////////
 
     // Bind the invite button
-    $(addToContactsFormButtonInvite).bind('click', function() {
+    $(addToContactsFormButtonInvite).bind("click", function() {
         // Invite this person.
         doInvite(friend.uuid);
     });

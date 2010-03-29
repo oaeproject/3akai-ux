@@ -29,7 +29,7 @@ sakai.index = function(){
     // Configuration variables //
     /////////////////////////////
 
-    var redirectUrl = Config.URL.MY_DASHBOARD;
+    var redirectUrl = sakai.config.URL.MY_DASHBOARD_URL;
     var usernameField = "username";
     var passwordField = "password";
     var failMessage = "#login-failed";
@@ -49,7 +49,7 @@ sakai.index = function(){
      */
     var decideLoggedIn = function(data){
 
-        var mejson = (data === undefined ? sdata.me : $.evalJSON(data));
+        var mejson = (data === undefined ? sakai.data.me : $.evalJSON(data));
         if (mejson.user.userid) {
             document.location = redirectUrl;
         } else {
@@ -73,7 +73,7 @@ sakai.index = function(){
     var checkLogInSuccess = function(){
 
         $.ajax({
-            url : Config.URL.ME_SERVICE,
+            url : sakai.config.URL.ME_SERVICE,
             cache : false,
             success : decideLoggedIn,
             error: function(xhr, textStatus, thrownError) {
@@ -92,7 +92,7 @@ sakai.index = function(){
      */
     var performLogIn = function(){
 
-        var values = $.FormBinder.serialize($(loginForm));
+        var values = sakai.api.UI.Forms.form2json($(loginForm));
 
         $(failMessage).hide();
         $(loginButton).hide();
@@ -109,7 +109,7 @@ sakai.index = function(){
         var data = {"sakaiauth:login" : 1, "sakaiauth:un" : values[usernameField], "sakaiauth:pw" : values[passwordField], "_charset_":"utf-8"};
 
         $.ajax({
-            url : Config.URL.LOGIN_SERVICE,
+            url : sakai.config.URL.LOGIN_SERVICE,
             type : "POST",
             success : checkLogInSuccess,
             error : checkLogInSuccess,

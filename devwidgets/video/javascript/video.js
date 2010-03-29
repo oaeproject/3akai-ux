@@ -48,7 +48,7 @@ sakai.video = function(tuid, placement, showSettings) {
     /////////////////////////////
 
     var json = false; // Variable used to recieve information by json
-    var me = sdata.me; // Contains information about the current user
+    var me = sakai.data.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
    var youtubeUrl = "www.youtube.com";
 
@@ -124,7 +124,7 @@ sakai.video = function(tuid, placement, showSettings) {
             // This is needed as a parameter for the sakai-player
             //var isTouTube = (video.URL.search(youtubeUrl) !== -1);
             // Renders the video-template (title, source and conatiner to place flash-player in)
-            //$(container, rootel).html($.Template.render(videoTemplate, video));
+            //$(container, rootel).html($.TemplateRenderer(videoTemplate, video));
             // some more parameters needed for the sakai-videoplayer
             //var flashvars = {
             //    videoURL: video.URL,
@@ -154,7 +154,7 @@ sakai.video = function(tuid, placement, showSettings) {
             //}
 
               video.videoContainer = tuid + "_video_container";
-              $(container, rootel).html($.Template.render(videoTemplate, video));
+              $(container, rootel).html($.TemplateRenderer(videoTemplate, video));
 
               var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply','470','320','9','#ffffff');
               so.addParam('allowfullscreen','true');
@@ -197,7 +197,7 @@ sakai.video = function(tuid, placement, showSettings) {
     var showSettingsScreen = function(response, exists) {
         if (exists) {
             // Fill in the info
-            json = $.evalJSON(response);
+            json = response;
             $(videoTitle, rootel).val(json.title);
             $(videoUrl, rootel).val(json.URL);
             $("input[name=" + videoSourceRbt + "][value=" + json.selectedvalue + "]", rootel).attr("checked", true);
@@ -260,8 +260,7 @@ sakai.video = function(tuid, placement, showSettings) {
      */
     var addVideo = function(video) {
         var tostring = $.toJSON(video);
-         var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "video", tostring, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData("video", tostring, tuid, placement, sdata.container.informFinish(tuid));
     };
 
 
@@ -277,7 +276,7 @@ sakai.video = function(tuid, placement, showSettings) {
     var showVideos = function(response, exists) {
         if (exists) {
             try {
-                var video = $.evalJSON(response);
+                var video = response;
                 // Show the video in the right player
                 showVideo(video, videoShowMain, video.isSakaiVideoPlayer);
             }
@@ -374,33 +373,30 @@ sakai.video = function(tuid, placement, showSettings) {
      * Switch between main and settings page
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "video");
     if (showSettings) {
-        /** Check if it is an edit or a new video */
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
+
+        sakai.api.Widgets.loadWidgetData("video", tuid, placement, function(success, data){
+
+            if (success) {
                 showSettingsScreen(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showSettingsScreen(xhr.status, false);
+            } else {
+                showSettingsScreen(data.status, false);
             }
+
         });
 
     } else {
         $(videoSettings, rootel).hide();
         $(videoOutput, rootel).show();
 
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
+        sakai.api.Widgets.loadWidgetData("video", tuid, placement, function(success, data){
+
+            if (success) {
                 showVideos(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showVideos(xhr.status, false);
+            } else {
+                showVideos(data.status, false);
             }
+
         });
     }
 
