@@ -42,15 +42,39 @@
     background-position:-15px 0;
 }
 
-.deliciousActiveMenuItem {
-    color:#ff0000;
+#delicious_widget .activeMenuItem {
+    color:#006e96;
 }
 
 
 /* DELICIOUS MAIN BOOKMARKS */
 
 #delicious_widget #delicious_main_bookmarks {
-    padding-top:35px;
+    padding:30px 0 10px 0;
+}
+
+#delicious_widget #delicious_main_bookmarks a {
+    display:block;
+    padding:2px 0 2px 0;
+}
+
+#delicious_widget #delicious_main_bookmarks a:hover {
+    background-color:#e5f8ff;
+}
+
+#delicious_widget #delicious_main_bookmarks #delicious_main_bookmark {
+    padding:0 15px 10px 0;
+}
+
+#delicious_widget #delicious_main_bookmark_info_link {
+    background:url('/devwidgets/delicious/images/arrow_down.jpg');
+    float:right;
+    height:15px;
+    width:15px;
+}
+
+#delicious_widget #delicious_main_bookmarks #delicious_main_bookmark #delicious_main_bookmark_info {
+    padding:0 15px 0 15px;
 }
 
 

@@ -95,8 +95,41 @@ sakai.delicious = function(tuid, placement, showSettings){
     //////////////////////
 
     /**
+     * Highlight the mode that is currently being used.
+     */
+    var highlightActiveMode = function(){
+        // There is no need to remove all classes before adding a new one
+        // The template render has done this al ready
+        // The downside of this: link re-initializations are a necessity
+
+        switch (bookmarkMode) {
+            case "mostrecent":
+                $deliciousMostRecentLink = $("#delicious_mostrecent_link", rootel);
+                $deliciousMostRecentLink.addClass("activeMenuItem");
+                break;
+            case "user":
+                $deliciousUserLink = $("#delicious_user_link", rootel);
+                $deliciousUserLink.addClass("activeMenuItem");
+                break;
+            case "popular":
+                $deliciousPopularLink = $("#delicious_popular_link", rootel);
+                $deliciousPopularLink.addClass("activeMenuItem");
+                break;
+            case "network":
+                $deliciousNetworkLink = $("#delicious_network_link", rootel);
+                $deliciousNetworkLink.addClass("activeMenuItem");
+                break;
+            case "subscriptions":
+                $deliciousSubscriptionsLink = $("#delicious_subscriptions_link", rootel);
+                $deliciousSubscriptionsLink.addClass("activeMenuItem");
+                break;
+            default:
+        }
+    };
+
+    /**
      * Render paging
-     * @param {Object} arraylength: the number of items
+     * @param {Object} arraylength: the total number of items
      */
     var renderPaging = function(arraylength){
         $(jqPagerClass).pager({
@@ -148,6 +181,9 @@ sakai.delicious = function(tuid, placement, showSettings){
             $deliciousFilterInputUser = $("#delicious_filter_input_user", rootel);
             $deliciousFilterInputUser.val(filterUser);
         }
+
+        // Highlight the mode currently is being used
+        highlightActiveMode();
     };
 
 
@@ -359,14 +395,14 @@ sakai.delicious = function(tuid, placement, showSettings){
             $deliciousContainerSettings.hide();
         }
 
-        // Buttons
+        // Add click event to buttons
         var deliciousButtonsArrayLength = deliciousButtonsArray.length;
         for (var i = 0; i < deliciousButtonsArrayLength; i++) {
             deliciousButtonsArray[i].live('click', function(){
                 bookmarkMode = $(this).attr("id").split("_")[1];
+                pageCurrent = 0; // go to first page
                 getDeliciousBookmarks();
             });
-            //deliciousButtonsArray[i].addClass('deliciousActiveMenuItem');
         }
         $deliciousRefreshLink.live('click', getDeliciousBookmarks);
         $deliciousFilterOK.live('click', updateDeliciousFilter);
@@ -384,3 +420,5 @@ sakai.delicious = function(tuid, placement, showSettings){
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("delicious");
+
+//{"u":"http:\/\/www.zazzle.com\/","d":"Zazzle | Custom T-Shirts, Personalized Gifts, Posters, Art, and more","t":["custom","t-shirts"],"dt":"2010-03-29T10:30:25Z","n":"","a":"emmfoster"},{"u":"http:\/\/larienelengasse.livejournal.com\/789969.html","d":"Twice or Thrice Had I Loved Thee","t":["supernatural","wincest","bottom!sam","underage"],"dt":"2010-03-29T10:30:23Z","n":"","a":"tempest_tempestuous"},{"u":"http:\/\/secrettibet.rsfblog.org\/","d":"The Secret Tibet (The Forbidden world)","t":["blogs","tibet","activism"],"dt":"2010-03-29T10:30:22Z","n":"","a":"sduba2271"},{"u":"http:\/\/www.youtube.com\/watch?v=0-X3yXOknJQ","d":"YouTube - Wrestler interrupted by a fan 4GIFs.com","t":["via:packrati.us"],"dt":"2010-03-29T10:30:22Z","n":"","a":"codepo8"},{"u":"http:\/\/www.gloriad.org\/gloriaddrupal\/","d":"Global Ring Network for Advanced Application Development (GLORIAD)","t":["GSR","collaboration"],"dt":"2010-03-29T10:30:22Z","n":"","a":"sciencepolicycentre"},{"u":"http:\/\/vietnamcentrepoint.edu.vn\/nus\/","d":"Th\u00f4ng tin c\u1eed nh\u00e2n NUS","t":["nus"],"dt":"2010-03-29T10:30:22Z","n":"","a":"nhanitvn"},{"u":"http:\/\/trailheadapp.com\/","d":"Welcome to Trailhead!","t":["design"],"dt":"2010-03-29T10:30:22Z","n":"","a":"byaco"},{"u":"http:\/\/nlp.stanford.edu\/IR-book\/html\/htmledition\/support-vector-machines-and-machine-learning-on-documents-1.html","d":"Support vector machines and machine learning on documents","t":["SVM","machine","learning"],"dt":"2010-03-29T10:30:20Z","n":"","a":"capslockwizard"},{"u":"http:\/\/mashable.com\/2008\/07\/10\/how-to-develop-a-social-media-plan\/","d":"How to Develop a Social Media Plan for Your Business in 5 Steps","t":[],"dt":"2010-03-29T10:30:20Z","n":"","a":"goncalves.monique"},{"u":"http:\/\/www.eonet.ne.jp\/~senyou-mondai\/","d":"\u5973\u6027\u5c02\u7528\u8eca\u4e21\u306b\u53cd\u5bfe\u3059\u308b\u4f1a","t":["politics","life"],"dt":"2010-03-29T10:30:20Z","n":"","a":"Kintahakoneyama"},{"u":"http:\/\/www.bgfl.org\/bgfl\/custom\/resources_ftp\/client_ftp\/ks2\/maths\/fractions\/index.htm","d":"Fractions \u2013 A Booster Activity","t":["maths2:","topic","3,","fractions"],"dt":"2010-03-29T10:30:19Z","n":"","a":"xanny"},{"u":"http:\/\/www.webdesigncore.com\/2010\/03\/27\/22-most-unusal-google-earth-photos\/","d":"twenty two Most Uncommon Yahoo and google Earth Photos","t":["unusual","pictures","photos","Earth","world"],"dt":"2010-03-29T10:30:19Z","n":"","a":"BeachBum22"},{"u":"http:\/\/www.youtube.com\/","d":"YouTube","t":[],"dt":"2010-03-29T10:30:19Z","n":"","a":"yentldewolf"},{"u":"http:\/\/www.japantrends.com\/","d":"JAPAN TRENDS \u2013 LIVE FROM TOKYO | Marketing, Lifestyle, Fashion, Gadgets and Product Innovations","t":["japan","trends","blog"],"dt":"2010-03-29T10:30:19Z","n":"","a":"andrewjohn73"},{"u":"http:\/\/sixrevisions.com\/tutorials\/web-development-tutorials\/code-clean-professional-web-design\/","d":"Coding a Clean and Professional Web Design","t":["webdesign","tutorials"],"dt":"2010-03-29T10:30:18Z","n":"","a":"datzer0x"}

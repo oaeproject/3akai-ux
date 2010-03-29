@@ -35,17 +35,29 @@
             <a href="javascript:;" id="delicious_refresh_link"></a>
         </div>
         <div id="delicious_main_filter">
-            <form id="delicious_filter_form" action="POST">
+            <form id="delicious_filter_form" action="javascript:;">
                 <div id="delicious_filter_user">
                     <label id="delicious_filter_label_user" for="delicious_filter_input_user">User:</label>
                     <input type="text" id="delicious_filter_input_user" class="delicious_input" value=""/>
-                    <a href="javascript:;" id="delicious_filter_ok">ok</a>
+                    <button type="submit" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_filter_ok">
+                        <span class="s3d-button-inner">
+                            <span class="s3d-button-icon-right">Show</span>
+                        </span>
+                    </button>
                 </div>
             </form>
         </div>
         <div id="delicious_main_bookmarks">
             {for bookmark in all}
-                <p><a href="${bookmark.u}" target="_blank">${bookmark.d}</a></p>
+                <a href="javascript:;" id="delicious_main_bookmark_info_link"></a>
+                <div id="delicious_main_bookmark">
+                    <a href="${bookmark.u}" target="_blank">${bookmark.d}</a>
+                    <div id="delicious_main_bookmark_info" style="display:none;">
+                        User: ${bookmark.a}<br/>
+                        Date: ${bookmark.dt}<br/>
+                        Tags: ${bookmark.t}
+                    </div>
+                </div>
             {/for}
         </div>
     </div>
