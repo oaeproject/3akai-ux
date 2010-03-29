@@ -48,11 +48,12 @@
             </form>
         </div>
         <div id="delicious_main_bookmarks">
+            {var count = 0}
             {for bookmark in all}
-                <a href="javascript:;" id="delicious_main_bookmark_info_link"></a>
-                <div id="delicious_main_bookmark">
+                <a href="javascript:;" class="delicious_main_bookmark_info_link" id="bookmark_${count = count+1}"></a>
+                <div class="delicious_main_bookmark">
                     <a href="${bookmark.u}" target="_blank">${bookmark.d}</a>
-                    <div id="delicious_main_bookmark_info" style="display:none;">
+                    <div class="delicious_main_bookmark_info" id="bookmark_${count}info" style="display:none;">
                         User: ${bookmark.a}<br/>
                         Date: ${bookmark.dt}<br/>
                         Tags: ${bookmark.t}

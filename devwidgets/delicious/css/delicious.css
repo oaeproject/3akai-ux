@@ -62,18 +62,18 @@
     background-color:#e5f8ff;
 }
 
-#delicious_widget #delicious_main_bookmarks #delicious_main_bookmark {
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark {
     padding:0 15px 10px 0;
 }
 
-#delicious_widget #delicious_main_bookmark_info_link {
+#delicious_widget .delicious_main_bookmark_info_link {
     background:url('/devwidgets/delicious/images/arrow_down.jpg');
     float:right;
     height:15px;
     width:15px;
 }
 
-#delicious_widget #delicious_main_bookmarks #delicious_main_bookmark #delicious_main_bookmark_info {
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info {
     padding:0 15px 0 15px;
 }
 

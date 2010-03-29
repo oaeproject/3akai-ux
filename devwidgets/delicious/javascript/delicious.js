@@ -90,6 +90,38 @@ sakai.delicious = function(tuid, placement, showSettings){
     var filterUser = "maxime_debosschere";
 
 
+    ///////////////////////
+    // Binding functions //
+    ///////////////////////
+
+    /**
+     * Show or hide additional bookmark information.
+     */
+    var showHideBookmarkInfo = function(){
+        // Gather all infolinks
+        var infolinks = $(".delicious_main_bookmark_info_link", rootel);
+        var infolinksLength = infolinks.length;
+
+        for (var i = 0; i < infolinksLength; i++) {
+            // Bind a function to the click event of every link
+            $(infolinks[i]).bind('click', function(){
+                // Define unique info ID, based on link ID
+                var elementId = '#' + $(this).attr("id") + 'info';
+
+                // If visible: hide information and swap image
+                // Else: show information and swap image
+                if ($(elementId).is(':visible')){
+                    $(elementId, rootel).hide();
+                    $('#' + $(this).attr("id"), rootel).css("background-image", "url('/devwidgets/delicious/images/arrow_down.jpg')");
+                } else {
+                    $(elementId, rootel).show();
+                    $('#' + $(this).attr("id"), rootel).css("background-image", "url('/devwidgets/delicious/images/arrow_left.jpg')");
+                }
+            });
+        }
+    };
+
+
     //////////////////////
     // Render functions //
     //////////////////////
@@ -184,6 +216,9 @@ sakai.delicious = function(tuid, placement, showSettings){
 
         // Highlight the mode currently is being used
         highlightActiveMode();
+
+        // Show or hide the additional bookmark info
+        showHideBookmarkInfo();
     };
 
 
