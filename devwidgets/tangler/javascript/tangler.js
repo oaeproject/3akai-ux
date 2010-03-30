@@ -219,7 +219,7 @@ sakai.tangler = function(tuid, placement, showSettings){
             } else {
                 // Only execute the function if you aren't in settings mode.
                 if(!showSettings){
-                    showForum(xhr.status,false);
+                    showForum(data,false);
                 }
             }
         });

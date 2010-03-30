@@ -1321,8 +1321,6 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
 
 };
 
-
-
 /**
  * Save the preference settings or data for a widget
  *
