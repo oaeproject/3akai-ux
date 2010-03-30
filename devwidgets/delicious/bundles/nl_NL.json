@@ -1,0 +1,18 @@
+{
+"name": "Delicious",
+"description": "Delicious widget",
+"CANCEL": "Annuleren",
+"DATE": "Datum",
+"FRESH": "Nieuw",
+"HOTLIST": "Populair",
+"NETWORK": "Netwerk",
+"NOT_CONNECTED": "The Delicious widget couldn't connect to the server. This is most likely due to incorrect account settings. To change them, go to the ",
+"PERSONAL": "Persoonlijk",
+"SETTINGS": "instellingen",
+"SAVE": "Opslaan",
+"SHOW": "Tonen",
+"SUBSCRIPTIONS": "Volglijst",
+"TAGS": "Sleutelwoorden",
+"USER": "Gebruiker",
+"USERNAME": "Gebruikersnaam"
+}

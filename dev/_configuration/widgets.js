@@ -92,7 +92,8 @@ var Widgets = {
             id:"delicious",
             i18n: {
                 "default": "/devwidgets/delicious/bundles/default.json",
-                "en_US": "/devwidgets/delicious/bundles/en_US.json"
+                "en_US": "/devwidgets/delicious/bundles/en_US.json",
+                "nl_NL": "/devwidgets/delicious/bundles/nl_NL.json"
             },
             name:"Delicious",
             personalportal:true,

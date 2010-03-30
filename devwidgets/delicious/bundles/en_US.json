@@ -1,6 +1,18 @@
 {
 "name": "Delicious",
 "description": "Delicious widget",
+"CANCEL": "Cancel",
+"DATE": "Date",
+"FRESH": "Fresh",
+"HOTLIST": "Hotlist",
+"NETWORK": "Network",
 "NOT_CONNECTED": "The Delicious widget couldn't connect to the server. This is most likely due to incorrect account settings. To change them, go to the ",
-"SETTINGS": "settings page"
+"PERSONAL": "Personal",
+"SETTINGS": "settings page",
+"SAVE": "Save",
+"SHOW": "Show",
+"SUBSCRIPTIONS": "Subscriptions",
+"TAGS": "Tags",
+"USER": "User",
+"USERNAME": "Username"
 }

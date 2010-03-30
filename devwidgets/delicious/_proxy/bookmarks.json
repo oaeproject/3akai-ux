@@ -1,0 +1,7 @@
+{
+    "sling:resourceType": "sakai/proxy",
+    "sakai:request-proxy-endpoint": "${proxyEndpoint}",
+    "sakai:request-proxy-method": "GET",
+    "sakai:title" : "Delicious GET Bookmarks",
+    "sakai:description" : ["Proxies Get Bookmarks to the Delicious API as GET http://localhost:8080/var/proxy/delicious/bookmarks"]
+}

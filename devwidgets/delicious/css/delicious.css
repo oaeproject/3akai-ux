@@ -43,7 +43,7 @@
 }
 
 #delicious_widget .activeMenuItem {
-    color:#006e96;
+    font-weight:bold;
 }
 
 
@@ -55,26 +55,37 @@
 
 #delicious_widget #delicious_main_bookmarks a {
     display:block;
-    padding:2px 0 2px 0;
-}
-
-#delicious_widget #delicious_main_bookmarks a:hover {
-    background-color:#e5f8ff;
+    padding:2px 0;
 }
 
 #delicious_widget #delicious_main_bookmarks .delicious_main_bookmark {
-    padding:0 15px 10px 0;
+    padding:0 20px 10px 0;
 }
 
+
+/* DELICIOUS MAIN BOOKMARKS INFO */
+
 #delicious_widget .delicious_main_bookmark_info_link {
-    background:url('/devwidgets/delicious/images/arrow_down.jpg');
+    background:url('/devwidgets/delicious/images/arrow.jpg');
     float:right;
-    height:15px;
-    width:15px;
+    height:10px;
+    width:10px;
+}
+
+#delicious_widget .showArrowLeft{
+    background-position:0 -15px;
+}
+
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark ul a {
+    display:inline;
 }
 
 #delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info {
-    padding:0 15px 0 15px;
+    padding:0 15px;
+}
+
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info li {
+    list-style:none;
 }
 
 
@@ -117,5 +128,9 @@
 
 #delicious_widget .delicious_input {
     border:1px solid #dddddd;
-    padding:3px 0 0 3px;
+    padding:3px;
+}
+
+#delicious_widget .s3d-button-inner{
+    padding-right:3px;
 }
