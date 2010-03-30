@@ -91,6 +91,7 @@ sakai.config = {
         SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
         SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
+        SITE_ROOT: "/sites",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
         SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
         SITES_SERVICE: "/system/sling/membership",
