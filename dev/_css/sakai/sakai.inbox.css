@@ -41,7 +41,7 @@
 /** Folders **/
 
 .inbox_main .inbox-folders
-{ width: 230px; margin:0; padding: 0; }
+{ width: 230px; margin:0; padding: 0; overflow: hidden; }
 
 .inbox_main .inbox-folders .if_titlebar
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }
