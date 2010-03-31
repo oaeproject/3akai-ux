@@ -29,7 +29,7 @@
 
 /* Main container */
 .comments_commentMessage p.comments_infoDeleted { font-size:0.9em;text-align:right;}
-.comments_nextButtons {overflow:auto;width:auto;}
+.comments_nextButtons {overflow:hidden;width:auto;}
 #comments_titlebar {overflow:auto;width:auto;height:20px;border-bottom-style:solid;border-bottom-width:1px;color:#BBB;border-color:#DEDEDE;}
 #comments_titlebar .comments_titleLeft {float:left;font-size:1.25em;font-weight:700;color:#333;}
 #comments_titlebar .comments_titleRight {float:right;}
