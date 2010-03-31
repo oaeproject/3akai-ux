@@ -257,7 +257,7 @@ sakai.dashboard = function(){
             if (person.profile.picture){
                 var picture = $.evalJSON(person.profile.picture);
                 if (picture.name) {
-                    $("#picture_holder").html("<img src='/_user/public/" + person.user.userid + "/" + picture.name + "'/>");
+                    $("#picture_holder").html("<img src='/_user" + person.profile.path + "/public/profile/" + picture.name + "'/>");
                 }
             }
 

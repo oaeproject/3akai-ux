@@ -401,7 +401,7 @@ sakai._changepic.completeCallback = function(response){
     var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
     $.ajax({
-        url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sakai.data.me.user.userid) + ".update.html",
+        url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
         type : "POST",
         data : data,
         success : function(data) {
