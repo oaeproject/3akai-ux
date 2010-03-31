@@ -339,7 +339,7 @@ sakai.navigationchat = function(tuid, showSettings){
     var getCountUnreadMessages = function(){
         // We only get the number of messages in our inbox folder that we havent read yet.
         $.ajax({
-            url: "/_user/message/box.json?box=inbox",
+            url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=inbox",
             success: function(data){
                 var json = $.evalJSON(data);
 
@@ -1139,7 +1139,7 @@ sakai.navigationchat = function(tuid, showSettings){
                     };
 
                     $.ajax({
-                        url: "/_user/message.create.html",
+                        url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
                         type: "POST",
                         success: function(data){
 
@@ -1340,7 +1340,7 @@ sakai.navigationchat = function(tuid, showSettings){
                                     }
 
                                     // Create a chat message and add it
-                                    chatmessage = createChatMessage(isMessageFromOtherUser, chatwithusername, njson[k].messages[j]["sakai:body"], njson[k].messages[j]["jcr:created"]);
+                                    chatmessage = createChatMessage(isMessageFromOtherUser, chatwithusername, njson[k].messages[j]["sakai:body"], njson[k].messages[j]["sakai:created"]);
                                     addChatMessage(el, chatmessage);
                                 }
 

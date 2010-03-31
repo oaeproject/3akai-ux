@@ -604,7 +604,6 @@ sakai.discussion = function(tuid, placement, showSettings) {
         widgetSettings['sakai:marker'] = tuid;
 
         // JCR properties are not necessary.
-        delete data["jcr:created"];
         delete data["jcr:primaryType"];
         $.ajax({
             cache: false,
@@ -629,7 +628,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     var createInitialPost = function(post) {
         // Use the local store for creating the initial posts.
         $.ajax({
-            url: "/_user/message.create.html",
+            url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
             cache: false,
             type: 'POST',
             success: function(data) {

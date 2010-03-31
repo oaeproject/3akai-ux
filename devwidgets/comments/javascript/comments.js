@@ -413,11 +413,11 @@ sakai.comments = function(tuid, showSettings){
                 "sakai:body": body,
                 "sakai:messagebox": "outbox",
                 "sakai:sendstate": "pending",
-                "_charset_": "utf-8"
+                "_charset_":"utf-8"
             };
 
 
-            var url = "/_user/message.create.html";
+            var url = "/_user" + sakai.data.me.profile.path + "/message.create.html";
             $.ajax({
                 url: url,
                 type: "POST",

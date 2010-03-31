@@ -192,6 +192,21 @@ sakai.createsite = function(tuid, showSettings){
      * Create the actual site.
      * Sends information to the server about the site you are making.
      */
+
+    var doCheckSite = function(siteid){
+    // Check if the site exists.
+        var siteExists = false;
+        $.ajax({
+            url: "/sites/" + siteid + ".json",
+            type: "GET",
+            async: false,
+            success: function(data, textStatus){
+                siteExists = true;
+            }
+        });
+        return siteExists;
+    };
+
     var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
     // Create a site node based on the template.
         $.ajax({
@@ -210,7 +225,13 @@ sakai.createsite = function(tuid, showSettings){
             },
             // error: error,
             error: function(xhr, textStatus, thrownError){
-                alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                var siteCheck = doCheckSite(siteid);
+                if (siteCheck){
+                    alert("The site Url you specified is not available, please choose another.");
+                } else {
+                    alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                }
+                showProcess(false);
             }
         });
     };
