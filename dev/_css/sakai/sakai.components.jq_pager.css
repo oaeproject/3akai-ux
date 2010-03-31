@@ -5,7 +5,7 @@
 .sakai_pager li.hidden { display:none; }
 .sakai_pager li { float: left; display:inline-block; list-style:none; font-size:0.95em; height:18px; background: transparent url(../../_images/pager-left.png) top left no-repeat; margin:0px 5px;} .sakai_pager li > span {display:inline-block;background: url(../../_images/pager-right.png) top right no-repeat; margin:0;  border: none; font-weight: bold; cursor: pointer; height: 18px; margin-right: -5px;padding:1px 10px 0px 10px;color:#006e96;}
 .sakai_pager li.pgCurrent, .sakai_pager li.pgCurrent > span, .sakai_pager li.dots {background:none;color:#454a4f;}
-.sakai_pager li.dots {margin-left:10px; clear:both;}
+.sakai_pager li.dots {margin-left:10px; }
 .sakai_pager li.pgNext, .sakai_pager li.pgPrev {margin:0px 10px;}
 .sakai_pager li.pgPrev img {margin-top:1px;}
 .sakai_pager li.pgNext img {margin-top:1px;}
