@@ -42,7 +42,7 @@
     background-position:-15px 0;
 }
 
-#delicious_widget .activeMenuItem {
+#delicious_widget .delicious_activeMenuItem {
     font-weight:bold;
 }
 
@@ -69,10 +69,11 @@
     background:url('/devwidgets/delicious/images/arrow.jpg');
     float:right;
     height:10px;
-    width:10px;
+    margin-top:4px;
+    width:13px;
 }
 
-#delicious_widget .showArrowLeft{
+#delicious_widget .delicious_showArrowLeft{
     background-position:0 -15px;
 }
 
@@ -93,6 +94,13 @@
 
 #delicious_widget #delicious_main_filter {
     padding-top:8px;
+}
+
+
+/* DELICIOUS SETTINGS */
+
+#delicious_widget .settings_input {
+    padding:5px 0 25px 25px;
 }
 
 

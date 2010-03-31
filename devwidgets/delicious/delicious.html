@@ -3,7 +3,7 @@
 
 <!-- ERRORS -->
 <div id="delicious_error_container" style="display:none;">
-    <div class="delicious_error" id="delicious_error_notconnected">__MSG__NOT_CONNECTED__ <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS__</a>.</div>
+    <div class="delicious_error" id="delicious_error_notconnected">__MSG__NOT_CONNECTED__ <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS_PAGE__</a>.</div>
 </div>
 
 <!-- CONTENT -->
@@ -48,29 +48,51 @@
         <!-- Container that will hold all settings -->
         <div id="delicious_container_settings">
             <!-- Settings form -->
-            <form id="delicious_settings_form" action="POST">
-                <div id="settings_input">
-                    <label id="delicious_settings_label_accountdetails">
-                        Account Details
-                    </label>
-                    <br/>
+            <form id="delicious_settings_form" action="javascript:;">
+                <h4>__MSG__ACCOUNT__</h4>
+
+                <div class="settings_input">
                     <label id="delicious_settings_label_username" for="delicious_settings_input_username">
-                        __MSG__USERNAME__
+                        __MSG__USERNAME__:
                     </label>
                     <input type="text" id="delicious_settings_input_username" value=""/>
-                    <br/>
-                    <label id="delicious_settings_label_password" for="delicious_settings_input_password">
-                        __MSG__PASSWORD__
+                </div>
+
+                <h4>Display</h4>
+
+                <div class="settings_input">
+                    <label id="delicious_settings_label_bookmarksPerPage" for="delicious_settings_select_bookmarksPerPage">
+                        __MSG__BOOKMARKS_PER_PAGE__:
                     </label>
-                    <input type="password" id="delicious_settings_input_password" value=""/>
+                    <select id="delicious_settings_select_bookmarksPerPage">
+                        <option>3</option>
+                        <option selected="selected">5</option>
+                        <option>10</option>
+                        <option>15</option>
+                        <option>20</option>
+                    </select><br/>
+                    <label id="delicious_settings_label_bookmarksInTotal" for="delicious_settings_select_bookmarksInTotal">
+                        __MSG__BOOKMARKS_IN_TOTAL__:
+                    </label>
+                    <select id="delicious_settings_select_bookmarksInTotal">
+                        <option>5</option>
+                        <option selected="selected">15</option>
+                        <option>30</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                </div>
+
+                <!-- Settings buttons -->
+                <div class="buttonBar delicious_settings_buttonBar_save">
+                    <button type="submit" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_settings_cancel">
+                        <span class="s3d-button-inner">__MSG__CANCEL__</span>
+                    </button>
+                    <button type="submit" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_settings_save">
+                        <span class="s3d-button-inner">__MSG__SAVE__</span>
+                    </button>
                 </div>
             </form>
-
-            <!-- Settings buttons -->
-            <div class="buttonBar delicious_settings_buttonBar_save">
-                <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_cancel">__MSG__CANCEL__</a>
-                <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_save">__MSG__SAVE__</a>
-            </div>
         </div>
     </div>
     <div class="fl-widget-options fl-fix">
@@ -88,7 +110,7 @@
             <a href="${bookmark.u}" target="_blank">${bookmark.d}</a>
             <div class="delicious_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
                 <ul id="delicious_main_bookmark_ul_${bookmark_index}">
-                    <li id="delicious_main_bookmark_${bookmark_index}_li_user">__MSG__USER__: <a href="http://www.delicious.com/${bookmark.a}" target="_blank"><img src="/devwidgets/delicious/images/user.png" alt="User icon"/></a> <a href="javascript:;" class="delicious_main_bookmark_user_link" id="${bookmark.a}">${bookmark.a}</a></li>
+                    <li id="delicious_main_bookmark_${bookmark_index}_li_user">__MSG__USER__: <a href="javascript:;" class="delicious_main_bookmark_user_link" id="${bookmark.a}">${bookmark.a}</a> <a href="http://www.delicious.com/${bookmark.a}" target="_blank"><img src="/devwidgets/delicious/images/user.png" alt="User icon"/></a></li>
                     <li id="delicious_main_bookmark_${bookmark_index}_li_date">__MSG__DATE__: ${bookmark.dt}</li>
                     <li id="delicious_main_bookmark_${bookmark_index}_li_tags">__MSG__TAGS__: ${bookmark.t}</li>
                 </ul>
@@ -98,21 +120,7 @@
     --></div>
 
 <!-- SETTINGS -->
-<div id="delicious_template_settings"><!--
-    <form id="delicious_settings_form" action="POST">
-        <div id="settings_input">
-            <label id="delicious_settings_label_accountdetails">Account Details</label><br/>
-            <label id="delicious_settings_label_username" for="delicious_settings_input_username">__MSG__USERNAME__</label>
-            <input type="text" id="delicious_settings_input_username" value=""/><br/>
-            <label id="delicious_settings_label_password" for="delicious_settings_input_password">__MSG__PASSWORD__</label>
-            <input type="password" id="delicious_settings_input_password" value=""/>
-        </div>
-    </form>
-    <div class="buttonBar delicious_settings_buttonBar_save">
-        <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_cancel">__MSG__CANCEL__</a>
-        <a href="javascript:;" class="button delicious_button" id="delicious_settings_button_save">__MSG__SAVE__</a>
-    </div>
-    --></div>
+<div id="delicious_template_settings"></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/delicious/javascript/delicious.js"></script>

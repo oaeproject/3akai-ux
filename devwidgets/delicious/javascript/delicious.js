@@ -37,11 +37,6 @@ sakai.delicious = function(tuid, placement, showSettings){
 
     // URLs
     Config.URL.DELICIOUS_PROXY = "/var/proxy/delicious/bookmarks.json";
-    Config.URL.DELICIOUS_PROXY_NETWORK = "http://feeds.delicious.com/v2/json/network/";
-    Config.URL.DELICIOUS_PROXY_POPULAR = "http://feeds.delicious.com/v2/json/popular";
-    Config.URL.DELICIOUS_PROXY_RECENT = "http://feeds.delicious.com/v2/json/recent";
-    Config.URL.DELICIOUS_PROXY_SUBSCRIPTIONS = "http://feeds.delicious.com/v2/json/subscriptions/";
-    Config.URL.DELICIOUS_PROXY_USER = "http://feeds.delicious.com/v2/json/";
     var deliciousSettingsReadURL = "/delicious/" + sdata.me.user.userid + "/delicious/delicious_settings.json";
     var deliciousSettingsSaveURL = "/delicious/" + sdata.me.user.userid + "/delicious";
 
@@ -53,44 +48,48 @@ sakai.delicious = function(tuid, placement, showSettings){
     // Errors
     var $deliciousErrorNotConnected = $("#delicious_error_notconnected", rootel);
 
-    // Main view
-    var $deliciousMainBookmarks = $("#delicious_main_bookmarks", rootel);
-
     // Settings
+    var $deliciousSettingsSelectBookmarksInTotal = $("#delicious_settings_select_bookmarksInTotal", rootel);
+    var $deliciousSettingsSelectBookmarksPerPage = $("#delicious_settings_select_bookmarksPerPage", rootel);
+    var $deliciousSettingsCancel = $("#delicious_settings_cancel", rootel);
     var $deliciousSettingsInputUsername = $("#delicious_settings_input_username", rootel);
-    var $deliciousSettingsInputPassword = $("#delicious_settings_input_password", rootel);
+    var $deliciousSettingsLink = $("#delicious_settings_link", rootel);
+    var $deliciousSettingsSave = $("#delicious_settings_save", rootel);
 
     // Templates
     var $deliciousTemplateMainBookmarks = "delicious_template_main_bookmarks";
     var $deliciousTemplateSettings = "delicious_template_settings";
 
-    // Buttons and links
-    var $deliciousFilterShow = $("#delicious_filter_show", rootel);
-    var $deliciousMainBookmarkInfoLink = $(".delicious_main_bookmark_info_link", rootel);
-    var $deliciousMainBookmarkUserLink = $(".delicious_main_bookmark_user_link", rootel);
+    // Main menu
     var $deliciousMainMenuLink = $(".delicious_main_menu_link", rootel);
     var $deliciousRefreshLink = $("#delicious_refresh_link", rootel);
-    var $deliciousSettingsLink = $("#delicious_settings_link", rootel);
-    var $deliciousSettingsButtonSave = $("#delicious_settings_button_save", rootel);
 
     // Paging
     var $deliciousPaging = $("#delicious_paging", rootel);
+    var jqPagerClass = ".jq_pager";
     var pageCurrent = 0;
     var pageSize = 5; // Number of items to show at one page
-    var jqPagerClass = ".jq_pager";
     var parseBookmarksGlobal = [];
 
     // Filtering
     var $deliciousMainFilter = $("#delicious_main_filter", rootel);
     var $deliciousFilterInputUser = $("#delicious_filter_input_user", rootel);
-    var filterUser = "maxime_debosschere";
+    var $deliciousFilterShow = $("#delicious_filter_show", rootel);
+    var filterUser = "";
 
-    // Bookmark mode
+    // Bookmarks
+    var $deliciousMainBookmarks = $("#delicious_main_bookmarks", rootel);
+    var $deliciousMainBookmarkInfoLink = $(".delicious_main_bookmark_info_link", rootel);
+    var $deliciousMainBookmarkUserLink = $(".delicious_main_bookmark_user_link", rootel);
     var bookmarkMode = 0;
+    var bookmarkTotal = 15;
 
-    // URL Array
-    var feedURLarray = [Config.URL.DELICIOUS_PROXY_RECENT, Config.URL.DELICIOUS_PROXY_POPULAR, Config.URL.DELICIOUS_PROXY_USER, Config.URL.DELICIOUS_PROXY_NETWORK, Config.URL.DELICIOUS_PROXY_SUBSCRIPTIONS];
-
+    // Mode Array
+    // This array is for completing the correct URL in the proxy:
+    // http://feeds.delicious.com/v2/json/${mode}?count=${count}"
+    // The bookmarkMode serves as index
+    var modeArray = ["recent", "popular", "", "network/", "subscriptions/"];
+    
 
     /////////////
     // Display //
@@ -101,10 +100,10 @@ sakai.delicious = function(tuid, placement, showSettings){
      */
     var highlightActiveMode = function(){
         // Remove the activeMenuItem CSS class of each link
-        $deliciousMainMenuLink.removeClass("activeMenuItem");
+        $deliciousMainMenuLink.removeClass("delicious_activeMenuItem");
 
         // Add the class to the active link
-        $($deliciousMainMenuLink[bookmarkMode]).addClass("activeMenuItem");
+        $($deliciousMainMenuLink[bookmarkMode]).addClass("delicious_activeMenuItem");
     };
 
 
@@ -140,7 +139,7 @@ sakai.delicious = function(tuid, placement, showSettings){
             }
         }
 
-        // Slice the items to be shown
+        // Slice the items to show
         var pagingArray = {
             all: parseBookmarksArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
         };
@@ -185,7 +184,6 @@ sakai.delicious = function(tuid, placement, showSettings){
         parseBookmarksGlobal = {
             all: $.evalJSON(response)
         };
-
         if (exists && response.length > 0) {
             // Render the bookmarks
             renderBookmarks();
@@ -204,18 +202,18 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Fetch the Delicious bookmarks (public feed)
      */
     var fetchDeliciousBookmarks = function(){
-        // Retrieve the URL from the global array
-        var endpointURL = feedURLarray[bookmarkMode];
+        // Retrieve the correct mode from the global array
+        var mode = modeArray[bookmarkMode];
 
-        // When needed, concatinate the user to filter and the URL
+        // When needed, add the username (= the name to filter) to the mode
         if (bookmarkMode === 2 || bookmarkMode === 3 || bookmarkMode === 4) {
-             endpointURL += filterUser;
+             mode += filterUser;
         }
 
         // Fill in the PostData
         var postData = {
-            proxyEndpoint: endpointURL,
-            count: 15
+            "mode": mode,
+            "count": bookmarkTotal
         };
 
         // Get the public data
@@ -271,7 +269,8 @@ sakai.delicious = function(tuid, placement, showSettings){
         // Object to be saved at JCR
         var deliciousSettings = {
             "username" : $deliciousSettingsInputUsername.val(),
-            "password" : $deliciousSettingsInputPassword.val()
+            "bookmarksInTotal" : $deliciousSettingsSelectBookmarksInTotal.val(),
+            "bookmarksPerPage" : $deliciousSettingsSelectBookmarksPerPage.val()
         };
 
         // Create JSON data to send
@@ -289,7 +288,12 @@ sakai.delicious = function(tuid, placement, showSettings){
         var settings = $.evalJSON(data);
 
         $deliciousSettingsInputUsername.val(settings.username);
-        $deliciousSettingsInputPassword.val(settings.password);
+        $deliciousSettingsSelectBookmarksInTotal.val(settings.bookmarksInTotal);
+        $deliciousSettingsSelectBookmarksPerPage.val(settings.bookmarksPerPage);
+
+        filterUser = settings.username;
+        bookmarkTotal = parseInt(settings.bookmarksInTotal,10);
+        pageSize = parseInt(settings.bookmarksPerPage,10);
     };
 
     /**
@@ -317,7 +321,7 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Show or hide the settings view
      * @param {Object} show: boolean
      */
-    var showHideSettings = function(show){
+    var showHideDeliciousSettings = function(show){
         if (show) {
             // Show settings
             $deliciousContainerMain.hide();
@@ -349,7 +353,7 @@ sakai.delicious = function(tuid, placement, showSettings){
             // Problem: multiple instances of this widget show up
 
             // This is a temporary solution
-            showHideSettings(false);
+            showHideDeliciousSettings(false);
         } else {
             // Display error message
             fluid.log("ERROR at delicious.js, savedDeliciousSettings");
@@ -364,7 +368,7 @@ sakai.delicious = function(tuid, placement, showSettings){
     /**
      * Show or hide additional bookmark information.
      */
-    var showHideBookmarkInfo = function(){
+    var showHideDeliciousBookmarkInfo = function(){
         // Re-initialization
         $deliciousMainBookmarkInfoLink = $(".delicious_main_bookmark_info_link", rootel);
 
@@ -376,16 +380,16 @@ sakai.delicious = function(tuid, placement, showSettings){
             var elementID = '#' + $(this).attr("id") + '_info';
 
             // If visible: hide information and swap image
-            if ($(elementID, rootel).is(':visible'))
+            if ($(this, rootel).hasClass("delicious_showArrowLeft"))
             {
                 $(elementID, rootel).hide();
-                $('#' + $(this).attr("id"), rootel).removeClass("showArrowLeft");
+                $(this, rootel).removeClass("delicious_showArrowLeft");
             }
             // Else: show information and swap image
             else
             {
                 $(elementID, rootel).show();
-                $('#' + $(this).attr("id"), rootel).addClass("showArrowLeft");
+                $(this, rootel).addClass("delicious_showArrowLeft");
             }
         });
     };
@@ -404,7 +408,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         highlightActiveMode();
 
         // Show or hide the additional bookmark info
-        showHideBookmarkInfo();
+        showHideDeliciousBookmarkInfo();
     };
 
 
@@ -416,37 +420,46 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Add click events to all buttons and links
      */
     var addClickEvents = function(){
-        // Menu
+        // Clicking on a menu item will change the bookmarkMode and fetch the correct bookmarks
         $deliciousRefreshLink.live('click', getDeliciousBookmarks);
         $deliciousMainMenuLink.live('click', function(){
             bookmarkMode = parseInt($(this).attr("id").split("_")[1],10);
             getDeliciousBookmarks();
         });
 
-        // User link in bookmark info
+        // Clicking a username in the info of a bookmark will show his personal bookmarks
         $deliciousMainBookmarkUserLink.live('click', function(){
             bookmarkMode = 2;
             filterUser = $(this).attr("id");
             getDeliciousBookmarks();
         });
 
-        // Filter
+        // Button to filter by username, this will show all results by the given username
         $deliciousFilterShow.live('click', updateDeliciousFilter);
 
-        // Settings
-        $deliciousSettingsButtonSave.live('click', saveDeliciousSettings);
+        // The cancel button from the settings screen shows the main view while hiding the settings
+        // Clicking the save button will write the input to the server
+        $deliciousSettingsCancel.live('click', function(){
+            showHideDeliciousSettings(false);
+        });
+        $deliciousSettingsSave.live('click', saveDeliciousSettings);
     };
 
     /**
      * Switch between main view and settings
      */
     var doInit = function(){
+        // Add every required event
         addClickEvents();
 
+        // Get the settings from the server
+        getDeliciousSettings();
+
+        // Hide or show the settings view
         if (showSettings){
-            showHideSettings(true);
+            showHideDeliciousSettings(true);
         }else{
-            showHideSettings(false);
+            showHideDeliciousSettings(false);
         }
     };
 
