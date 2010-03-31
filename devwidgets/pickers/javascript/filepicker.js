@@ -22,7 +22,7 @@ var sakai = sakai ||
 sakai.picker = sakai.picker ||
 {};
 
-sakai.filepicker = function(tuid, placement, showSettings){
+sakai.filepicker = function(tuid, showSettings){
     // General variables
     var rootel = $("#" + tuid);
 

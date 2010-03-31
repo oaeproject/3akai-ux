@@ -19,7 +19,7 @@
 
 var sakai = sakai || {};
 
-sakai.myprofile = function (tuid, placement, showSettings) {
+sakai.myprofile = function (tuid, showSettings) {
 
 
     /////////////////////////////

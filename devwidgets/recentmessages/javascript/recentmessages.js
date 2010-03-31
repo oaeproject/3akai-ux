@@ -18,7 +18,7 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
-sakai.recentmessages = function(tuid,placement,showSettings){
+sakai.recentmessages = function(tuid, showSettings){
 
 
     /////////////////////////////

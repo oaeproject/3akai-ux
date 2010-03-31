@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.createsite = function(tuid,placement,showSettings){
+sakai.createsite = function(tuid, showSettings){
 
     /////////////////////////////
     // Configuration variables //

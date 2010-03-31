@@ -24,10 +24,9 @@ var sakai = sakai || {};
 /**
  * Initialize the video widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement Widget place
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.video = function(tuid, placement, showSettings) {
+sakai.video = function(tuid, showSettings) {
 
     var FlashPlayerParams = {
         menu: "false",
@@ -260,7 +259,7 @@ sakai.video = function(tuid, placement, showSettings) {
      */
     var addVideo = function(video) {
         var tostring = $.toJSON(video);
-        sakai.api.Widgets.saveWidgetData("video", tostring, tuid, placement, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, tostring, sdata.container.informFinish(tuid));
     };
 
 
@@ -375,7 +374,7 @@ sakai.video = function(tuid, placement, showSettings) {
      */
     if (showSettings) {
 
-        sakai.api.Widgets.loadWidgetData("video", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 showSettingsScreen(data, true);
@@ -389,7 +388,7 @@ sakai.video = function(tuid, placement, showSettings) {
         $(videoSettings, rootel).hide();
         $(videoOutput, rootel).show();
 
-        sakai.api.Widgets.loadWidgetData("video", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 showVideos(data, true);
