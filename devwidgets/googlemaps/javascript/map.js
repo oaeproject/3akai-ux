@@ -40,16 +40,12 @@ var infoWindow = new google.maps.InfoWindow({
 
 // Init a json object which inlcudes the basic properties of the google map
 var json = {
-    "maps": [{
-        "mapcenter": {
-            "lat": map.getCenter().lat(),
-            "lng": map.getCenter().lng()
-        },
-        "mapzoom": map.getZoom(),
-        "mapinput": "",
-        "mapsize": "",
-        "maphtml": "Cambridge, UK"
-    }]
+    "lat": map.getCenter().lat(),
+    "lng": map.getCenter().lng(),
+    "mapzoom": map.getZoom(),
+    "mapinput": "",
+    "mapsize": "",
+    "maphtml": "Cambridge, UK"
 };
 
 /**
@@ -60,7 +56,7 @@ function updateInfoWindow(html) {
         infoWindow.close();
     }
 
-    json.maps[0].maphtml = html;
+    json.maphtml = html;
     infoWindow = new google.maps.InfoWindow({
         content: "<h4>" + html + "</h4>"
     });
@@ -117,9 +113,9 @@ function geocodeAddress(address) {
  * Get the json object
  */
 var getJSON = function() {
-    json.maps[0].mapcenter.lat = map.getCenter().lat();
-    json.maps[0].mapcenter.lng = map.getCenter().lng();
-    json.maps[0].mapzoom = map.getZoom();
+    json.lat = map.getCenter().lat();
+    json.lng = map.getCenter().lng();
+    json.mapzoom = map.getZoom();
     return json;
 };
 
@@ -134,10 +130,10 @@ function search(keyword, region) {
     // TO DO: This later will need to be moved to the Google API
     if (region !== "") {
         geocodeAddress(keyword+", "+region);
-        json.maps[0].mapinput = keyword+", "+region;
+        json.mapinput = keyword+", "+region;
     } else {
         geocodeAddress(keyword);
-        json.maps[0].mapinput = keyword;
+        json.mapinput = keyword;
     }
 }
 
@@ -148,14 +144,14 @@ function search(keyword, region) {
 function setMap(jsonTarget) {
     json = jsonTarget;
 
-    var latLng = new google.maps.LatLng(json.maps[0].mapcenter.lat, json.maps[0].mapcenter.lng);
+    var latLng = new google.maps.LatLng(json.lat, json.lng);
     map.setCenter(latLng);
-    map.setZoom(json.maps[0].mapzoom);
+    map.setZoom(json.mapzoom);
     marker.setPosition(latLng);
 
     // Init the infoWindow object and decide to open it or not
-    if (json.maps[0].maphtml) {
-        updateInfoWindow(json.maps[0].maphtml);
+    if (json.maphtml) {
+        updateInfoWindow(json.maphtml);
     }
 }
 

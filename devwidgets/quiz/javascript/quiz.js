@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the quiz widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement Widget place
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.quiz = function(tuid, placement, showSettings) {
+sakai.quiz = function(tuid, showSettings) {
 
 
     /////////////////////////////

@@ -29,7 +29,7 @@
  *  You can also set the personal note by using the setPersonalNote() method
  *  and select the type by using the setTypes().
  */
-sakai.addtocontacts = function(tuid, placement, showSettings) {
+sakai.addtocontacts = function(tuid, showSettings) {
 
 
     /////////////////////////////

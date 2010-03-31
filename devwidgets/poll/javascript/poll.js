@@ -26,35 +26,22 @@ var sakai = sakai || {};
  * @param {String} placement Place where the widget is located in the jcr system
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.poll = function(tuid, placement, showSettings){
+sakai.poll = function(tuid, showSettings){
 
 
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
 
-    var json = false;                         // Variable used to recieve information by json
-    var jsonAll = false;                     // Contains all the polls
-    var me = sakai.data.me;                         // Contains information about the current user
-    var rootel = $("#" + tuid);             // Get the main div used by the widget
-    var colors = ["663300","e07000","0070e0",
-    "660000","990080","c4fc95","c4e3fc","79c365",
-    "5ba940","f5f4bf","f1eca1","c3e2fc","f2eda2",
-    "8ad769","ac9d7d","79ccff","00a4e4","ac9c7d",
-    "9f8c60","abe652","f6b5b5","cd9c9c","ad8181",
-    "ee5858","ce1616"];
-    var isAdvancedSettingsVisible = false;     // Are the advanced settings visible
-    var addNewOptionOnEnter = true;         // Add a new option when pressing enter
-    var saveAllToDatabase = false;             // Save the poll to the list of polls
+    var json = false; // Variable used to recieve information by json
+    var me = sakai.data.me; // Contains information about the current user
+    var rootel = $("#" + tuid); // Get the main div used by the widget
+    var colors = ["663300", "e07000", "0070e0", "660000", "990080", "c4fc95", "c4e3fc", "79c365", "5ba940", "f5f4bf", "f1eca1", "c3e2fc", "f2eda2", "8ad769", "ac9d7d", "79ccff", "00a4e4", "ac9c7d", "9f8c60", "abe652", "f6b5b5", "cd9c9c", "ad8181", "ee5858", "ce1616"];
+    var isAdvancedSettingsVisible = false; // Are the advanced settings visible
+    var addNewOptionOnEnter = true; // Add a new option when pressing enter
 
     // Temporary variables used for preview
-    previewOptions = [
-        {answer: "Option 1"},
-        {answer: "Option 2"},
-        {answer: "Option 3"},
-        {answer: "Option 4"},
-        {answer: "Option 5"}
-    ];
+    previewOptions = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
     previewQuestion = "How is the weather in England?";
     previewVotes = [180,124,45,78,250];
 
@@ -73,11 +60,6 @@ sakai.poll = function(tuid, placement, showSettings){
 
     // Cancel
     var pollCancel = poll + "_cancel";
-    var pollCancelExisting = pollCancel + "_existing";
-
-    // Class
-    var pollInsertExistingItemClass = "poll_insert_existing_item";
-    var pollInsertExistingSelectedClass = "poll_insert_existing_selected";
 
     var pollPolltypeClass = "poll_polltype";
     var pollPolltypeActiveClass = pollPolltypeClass + "_active";
@@ -111,13 +93,6 @@ sakai.poll = function(tuid, placement, showSettings){
     var pollCreateNew = pollCreate + "_new";
     var pollCreateNewTab = pollCreateNew + "_tab";
     var pollCreatePlaceholder = pollCreate + "_placeholder";
-
-    // Insert
-    var pollInsert = poll + "_insert";
-    var pollInsertExisting = pollInsert + "_existing";
-    var pollInsertExistingItem = pollInsertExisting + "_item";
-    var pollInsertExistingItems = pollInsertExisting + "_items";
-    var pollInsertExistingTab = pollInsertExisting + "_tab";
 
     // Preview
     var pollPreview = poll + "_preview";
@@ -281,7 +256,7 @@ sakai.poll = function(tuid, placement, showSettings){
             totalvotes = json.poll.temp.votes.length;
             totalvotescount = 0;
             for(var i = 0; i < json.poll.temp.votes.length; i++){
-                totalvotescount += json.poll.temp.votes[i];
+                totalvotescount += parseInt(json.poll.temp.votes[i], 10);
                 json.poll.temp.options[i].color = colors[i];
             }
 
@@ -298,7 +273,7 @@ sakai.poll = function(tuid, placement, showSettings){
             totalvotes = json.poll.votes.length;
             totalvotescount = 0;
             for(var m = 0; m < json.poll.votes.length; m++){
-                totalvotescount += json.poll.votes[m];
+                totalvotescount += parseInt(json.poll.votes[m], 10);
             }
             json.poll.processedVotes = [];
 
@@ -314,6 +289,13 @@ sakai.poll = function(tuid, placement, showSettings){
                     json.poll.processedVotes[l] = {};
                     json.poll.processedVotes[l].percentage = Math.round(json.poll.votes[l] / totalvotescount * 100);
                 }
+            }
+        }
+        for(var n = 0, nl = json.poll.options.length; n < nl; n++){
+            if(typeof json.poll.options[n] === "string"){
+                json.poll.options[n] = {
+                    "answer": json.poll.options[n]
+                };
             }
         }
     };
@@ -477,11 +459,10 @@ sakai.poll = function(tuid, placement, showSettings){
      * @param {Boolean} saveAll Save all the posts
      */
     var savePollToDatabase = function(functionOnComplete, saveAll){
-        saveAllToDatabase = saveAll;
          // Clear polls array
         json.poll.polls = [];
         var jsonToString = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData("poll", jsonToString, tuid, placement, functionOnComplete);
+        sakai.api.Widgets.saveWidgetData(tuid, jsonToString, functionOnComplete);
     };
 
     /**
@@ -524,17 +505,11 @@ sakai.poll = function(tuid, placement, showSettings){
                 if($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 0){
                     alert("Please select at least one option.");
 
-                // If the user selected one option
-                }else if ($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 1){
-                    json.poll.votes[parseInt($('input[name=' + pollQuestionViewOptionsClass + ']:checked').val(), 10)] +=1;
-
-                    json.poll.users.push(me.user.userid);
-                    savePollToDatabase(finishVoting, false);
-
-                // If the user selected multiple options
+                // If the user selected one or multiple options
                 }else{
                     for(var i = 0; i < $('input[name=' + pollQuestionViewOptionsClass + ']:checked').length; i++){
-                        json.poll.votes[parseInt($("#" + $('input[name=' + pollQuestionViewOptionsClass + ']:checked')[i].id).val(), 10)] += 1;
+                        var pollIndex = parseInt($("#" + $('input[name=' + pollQuestionViewOptionsClass + ']:checked')[i].id).val(), 10);
+                        json.poll.votes[pollIndex] = parseInt(json.poll.votes[pollIndex], 10) + 1 + "";
                     }
 
                     json.poll.users.push(me.user.userid);
@@ -626,7 +601,7 @@ sakai.poll = function(tuid, placement, showSettings){
         if (exists){
             if(me){
                 try {
-                    json = $.evalJSON(response);
+                    json = response;
 
                     json.poll.temp = {};
 
@@ -758,36 +733,6 @@ sakai.poll = function(tuid, placement, showSettings){
     };
 
     /**
-     * Add to all the polls
-     * @param {String} response Json response with the poll
-     * @param {Boolean} exists Check if the poll exists
-     */
-    var parseAllPoll = function(response, exists){
-        if (exists) {
-            if (me) {
-                try {
-                    jsonAll = $.evalJSON(response);
-                    if(jsonAll && jsonAll.polls.length > 0){
-                        json.poll.polls = jsonAll.polls;
-                    }else{
-                        json.poll.polls = [];
-                    }
-                }
-                catch (err) {
-                    alert(err);
-                }
-            }
-            else {
-                parseAllPoll(response, exists);
-            }
-        }
-        else {
-            jsonAll = {};
-            jsonAll.polls = [];
-        }
-    };
-
-    /**
      * Function that will be executed after the save to the database
      */
     var finishSettingsAfterSave = function(){
@@ -797,63 +742,10 @@ sakai.poll = function(tuid, placement, showSettings){
     };
 
     /**
-     * Add the current item to the list of polls
-     */
-    var addCurrentToAllPoll = function(){
-        // Remove from all the polls
-        for(var i = 0; i < jsonAll.polls.length; i++){
-            if(jsonAll.polls[i].tuid === tuid){
-                jsonAll.polls.splice(i,1);
-            }
-        }
-
-        // Add the tuid of the poll
-        json.poll.tuid = tuid;
-        json.poll.polls = [];
-        json.poll.temp = {};
-        jsonAll.polls.push(json.poll);
-
-        var jsonToString = $.toJSON(jsonAll);
-        sdata.widgets.WidgetPreference.save("_poll", jsonToString, tuid, placement, finishSettingsAfterSave);
-    };
-
-    /**
-     * Get all the polls from the current site
-     * @param {Boolean} addToAll Add to all the polls
-     * @param {Function} functionOnComplete Function to be executed on completion
-     */
-    var getAllPoll = function(addToAll, functionOnComplete){
-
-        sakai.api.Widgets.loadWidgetData("_poll", tuid, placement, function(success, data) {
-
-            if (success) {
-                parseAllPoll(data, true);
-                if (addToAll){addCurrentToAllPoll();}
-                if (functionOnComplete !== null){
-                    functionOnComplete();
-                    $(pollInsertExisting, rootel).hide();
-                }
-            } else {
-                parseAllPoll(xhr.status, false);
-                if (addToAll) {addCurrentToAllPoll();}
-                if (functionOnComplete !== null) {
-                    functionOnComplete();
-                    $(pollInsertExisting, rootel).hide();
-                }
-            }
-        });
-
-    };
-
-    /**
      * Executed after clicking on the save button
      */
     var finishNewSettings = function(){
-        if(saveAllToDatabase){
-            getAllPoll(true, null);
-        }else{
-            sdata.container.informFinish(tuid);
-        }
+        sdata.container.informFinish(tuid);
     };
 
     /**
@@ -883,7 +775,7 @@ sakai.poll = function(tuid, placement, showSettings){
             var pollOptionItem = $(pollQuestionInput+i, rootel).val();
 
             // Add that value to the array
-            pollOptionsArray.push({answer: pollOptionItem});
+            pollOptionsArray.push(pollOptionItem);
         }
 
         // Set the poll option to the array containing all the options
@@ -913,7 +805,7 @@ sakai.poll = function(tuid, placement, showSettings){
             saveOptions();
 
             // Add an empty answer to the options list (will result in an empty input field)
-            json.poll.options.push({answer: ""});
+            json.poll.options.push("");
 
             // Render the option fields
             renderOptions();
@@ -1049,7 +941,7 @@ sakai.poll = function(tuid, placement, showSettings){
         // Remove all the votes that were made before
         json.poll.votes =[];
         for(var i = 0; i<json.poll.options.length; i++){
-            json.poll.votes.push(0);
+            json.poll.votes.push("0");
         }
     };
 
@@ -1058,30 +950,10 @@ sakai.poll = function(tuid, placement, showSettings){
      */
     var addTabBinding = function(){
         $(pollCreateNewTab, rootel).bind("click",function(e,ui){
-            $(pollInsertExisting, rootel).hide();
             $("." + pollSelectedTabClass).removeClass(pollSelectedTabClass);
             $(pollCreateNewTab).addClass(pollSelectedTabClass);
             $(pollCreateNew, rootel).show();
         });
-        $(pollInsertExistingTab, rootel).bind("click",function(e,ui){
-            $(pollCreateNew, rootel).hide();
-            $("." + pollSelectedTabClass).removeClass(pollSelectedTabClass);
-            $(pollInsertExistingTab).addClass(pollSelectedTabClass);
-            $(pollInsertExisting, rootel).show();
-        });
-    };
-
-    /**
-     * Get the element that needs to be inserted
-     * @param {String} id Id of the element
-     */
-    var getInsertElement = function(id){
-        for(var i = 0; i < jsonAll.polls.length; i++){
-            if(id === jsonAll.polls[i].tuid){
-                return jsonAll.polls[i];
-            }
-        }
-        return false;
     };
 
     /**
@@ -1185,13 +1057,6 @@ sakai.poll = function(tuid, placement, showSettings){
             sdata.container.informCancel(tuid);
         });
 
-        // Bind the settings cancel button on the existing tab
-        $(pollCancelExisting, rootel).bind("click",function(e,ui){
-            // Informs the sdata container that you pressed cancel and
-            // this will close the pop up
-            sdata.container.informCancel(tuid);
-        });
-
         // Bind the preview button
         //$(pollPreviewButton, rootel).bind("click",function(e,ui){
         $(pollPreviewInsert, rootel).bind("click",function(e,ui){
@@ -1228,65 +1093,6 @@ sakai.poll = function(tuid, placement, showSettings){
             }
         });
 
-        // Add binding to the insert button on the insert existing tab screen
-        $(pollWidgetInsert, rootel).bind("click",function(e,ui){
-
-            // Get the id of the element that is selected
-            var id = $("." + pollInsertExistingSelectedClass, rootel)[0].id;
-
-            // Check if there is an element selected
-            if(id !== undefined){
-
-                // Get first part of the id
-                id = id.replace(pollInsertExistingItemClass, "");
-
-                // Get the poll element from the id you just parsed
-                var pollElement = getInsertElement(id);
-
-                // Check if that element exists
-                if(pollElement){
-
-                    // Reset some properties of that pollwow
-                    pollElement.votes =[];
-                    for(var i = 0; i<pollElement.options.length; i++){
-                        pollElement.votes.push(0);
-                    }
-                    pollElement.tuid = tuid;
-                    pollElement.polls = [];
-                    pollElement.temp = {};
-                    pollElement.users = [];
-                    json.poll = pollElement;
-
-                    // Save that poll to the database
-                    savePollToDatabase(finishNewSettings, true);
-                }else {
-                    alert("Could not recieve the id of the element");
-                }
-            }else{
-                alert("Could not recieve the selected element.");
-            }
-        });
-
-
-        if(jsonAll && jsonAll.polls.length > 0){
-
-            // Bind the insert existing items
-            $(pollInsertExistingItems + " a", rootel).bind("click",function(e,ui){
-
-                // Remove all the selected classes from all the elements
-                $(pollInsertExistingItems + " a", rootel).removeClass(pollInsertExistingSelectedClass);
-
-                // Get the id of the element the user clicked on
-                var id = e.target.id;
-
-                // Add the selected class to that element
-                $("#"+id, rootel).addClass(pollInsertExistingSelectedClass);
-            });
-
-            // The first time when this script is loaded, it automatically selects the first item in the existing list
-            $(pollInsertExistingItem + jsonAll.polls[0].tuid, rootel).addClass(pollInsertExistingSelectedClass);
-        }
-
         // Bind the preview back button
         $(pollPreviewBack, rootel).bind("click",function(e,ui){
 
@@ -1300,7 +1106,6 @@ sakai.poll = function(tuid, placement, showSettings){
             addBinding();
 
             // Hide/show the appropriate divs and make sure the correct tab is selected
-            $(pollInsertExisting, rootel).hide();
             $("." + pollSelectedTabClass).removeClass(pollSelectedTabClass);
             $(pollCreateNewTab).addClass(pollSelectedTabClass);
             $(pollCreateNew, rootel).show();
@@ -1326,7 +1131,7 @@ sakai.poll = function(tuid, placement, showSettings){
      * Get the post including replies
      */
     var getPostsFromJCR = function(){
-        sakai.api.Widgets.loadWidgetData("poll", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 showPoll(data, true);
@@ -1353,7 +1158,7 @@ sakai.poll = function(tuid, placement, showSettings){
         json.poll.stophour = extractToTwo(d.getHours());
         json.poll.stopmin = extractToTwo(d.getMinutes());
 
-        getAllPoll(false, renderAndBindSettings);
+        renderAndBindSettings();
     };
 
     /**
@@ -1366,27 +1171,22 @@ sakai.poll = function(tuid, placement, showSettings){
         // Check if a poll exists
         if (exists) {
 
-            // Parse the response to a json object
-            json = $.evalJSON(response);
+            // Set the response to a JSON object
+            json = response;
 
             // Render and bind the settings
             renderAndBindSettings();
 
-            // Hide the insert existing container
-            $(pollInsertExisting, rootel).hide();
         }
         else {
-            // Initialize poll obj
+            // Initialize poll object
             var jsonPoll = {
                 allow_multiple : 0,
                 allow_see_results : 0,
                 stopdate: "",
                 stophour: "",
                 stopmin: "",
-                options : [
-                {answer: ""},
-                {answer: ""}
-                ],
+                options : ["", ""],
                 placeholder: 0,
                 poll_type: 0,
                 question : "",
@@ -1414,7 +1214,7 @@ sakai.poll = function(tuid, placement, showSettings){
 
         showHidePreview(false);
 
-        sakai.api.Widgets.loadWidgetData("poll", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
                 showPollSettings(data, true);
             } else {

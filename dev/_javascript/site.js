@@ -451,7 +451,7 @@ sakai.site = function(){
               success: function(response){
                 sakai.site.pagecontents._navigation = response;
                 $page_nav_content.html(response);
-                sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
+                sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
                 History.history_change();
             },
             error: function(xhr, textStatus, thrownError) {
@@ -538,7 +538,7 @@ sakai.site = function(){
             $("#revision_history_container").hide();
             $("#content_page_options").show();
             $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
+            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
         }
 
     };
@@ -1030,7 +1030,7 @@ sakai.site = function(){
                             final2.columns[index].portlets[iindex].title = widget.name;
                             final2.columns[index].portlets[iindex].display = portaldef.visible;
                             final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                            final2.columns[index].portlets[iindex].placement = sakai.site.currentsite.id + "/_widgets";
+                            final2.columns[index].portlets[iindex].placement = sakai.site.currentsite.id + "/_widgets/";
                             final2.columns[index].portlets[iindex].height = widget.height;
                         }
                     }
@@ -1132,7 +1132,7 @@ sakai.site = function(){
                     });
 
                     $("#settings_settings").bind("mousedown", function(ev){
-                        var generic = "widget_" + currentSettingsOpen + "_" + sakai.site.currentsite.id + "/_widgets";
+                        var generic = "widget_" + currentSettingsOpen + "_" + sakai.site.currentsite.id + "/_widgets/";
                         var id = currentSettingsOpen.split("_")[1];
                         var old = document.getElementById(id);
                         var newel = document.createElement("div");
@@ -1309,7 +1309,7 @@ sakai.site = function(){
                 }
 
             // Insert widgets
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
 
             // (Re)-Render Navigation widget
             if (sakai.site.navigation) {

@@ -19,7 +19,7 @@
 /*global Config, $, sdata, window */
 
 var sakai = sakai || {};
-sakai.tangler = function(tuid, placement, showSettings){
+sakai.tangler = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -163,11 +163,11 @@ sakai.tangler = function(tuid, placement, showSettings){
 
         if (!val || val.replace(/ /g, "%20") === "") {
 
-            sakai.api.Widgets.deleteWidgetData("tangler", tuid, placement, finishNewSettings);
+            sakai.api.Widgets.removeWidgetData(tuid, finishNewSettings);
 
         }
         else {
-            sakai.api.Widgets.saveWidgetData("tangler", val, tuid, placement, finishNewSettings);
+            sakai.api.Widgets.saveWidgetData(tuid, val, finishNewSettings);
         }
     };
 
@@ -206,7 +206,7 @@ sakai.tangler = function(tuid, placement, showSettings){
      * That is the reason why we combined both functionalities in this one method
      */
     var fillInUniqueId = function(){
-        sakai.api.Widgets.loadWidgetData("tangler", tuid, placement, function(success, data) {
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
 
             if (success) {
                 if(showSettings){
@@ -219,11 +219,11 @@ sakai.tangler = function(tuid, placement, showSettings){
             } else {
                 // Only execute the function if you aren't in settings mode.
                 if(!showSettings){
-                    showForum(xhr.status,false);
+                    showForum(data,false);
                 }
             }
         });
-        
+
     };
 
     /**

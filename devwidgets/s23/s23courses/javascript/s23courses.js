@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.s23courses = function(tuid, placement, showSettings){
+sakai.s23courses = function(tuid, showSettings){
 
     sakai.config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
 

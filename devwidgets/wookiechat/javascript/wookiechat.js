@@ -19,7 +19,7 @@
 /*global $, Config, sdata, window */
 
 var sakai = sakai || {};
-sakai.wookiechat = function(tuid, placement, showSettings) {
+sakai.wookiechat = function(tuid, showSettings) {
 
 
     /////////////////////////////
@@ -149,7 +149,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 
         // sava data to widgets jcr
         var str = $.toJSON(chat);
-        sakai.api.Widgets.saveWidgetData("wookiechat", str, tuid, placement, chatRoomSaved);
+        sakai.api.Widgets.saveWidgetData(tuid, str, chatRoomSaved);
     };
 
     /**
@@ -208,7 +208,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
     var doSettings = function() {
 
         // Get the chat settings
-        sakai.api.Widgets.loadWidgetData("wookiechat", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 var chat = data;
@@ -242,9 +242,8 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
      */
     var showChatPage = function() {
         // Get the chat settings
-        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
 
-        sakai.api.Widgets.loadWidgetData("wookiechat", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 var chat = data;

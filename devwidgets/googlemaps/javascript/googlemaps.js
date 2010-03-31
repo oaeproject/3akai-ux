@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.googlemaps = function(tuid, placement, showSettings){
+sakai.googlemaps = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -28,8 +28,6 @@ sakai.googlemaps = function(tuid, placement, showSettings){
     /////////////////////////////
 
     var rootel = $("#" + tuid);
-    var currentSite = placement.split("/")[0];
-    var saveUrl = "/sites/" + currentSite + "/_widgets/" + tuid;
     var iframeContentWindow = {};
     var json = false;
 
@@ -48,15 +46,15 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
         // Set the value of mapsize according to the radio button selection status
         if ($("#googlemaps_radio_large", rootel).is(":checked")) {
-            json.maps[0].mapsize = "LARGE";
+            json.mapsize = "LARGE";
         }
         else {
-            json.maps[0].mapsize = "SMALL";
+            json.mapsize = "SMALL";
         }
 
         // Store the corresponded map data into backend server
         var str = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData("googlemaps", str, tuid, placement, finish);
+        sakai.api.Widgets.saveWidgetData(tuid, str, finish);
     };
 
     /**
@@ -64,11 +62,11 @@ sakai.googlemaps = function(tuid, placement, showSettings){
      */
     var setMapSize = function(callback) {
         if(!showSettings) {
-            if (json && json.maps[0].mapsize == "SMALL") {
+            if (json && json.mapsize == "SMALL") {
 
                 // Set the size of map according to the data stored on the backend server
                 $("#googlemaps_iframe_map", rootel).width("50%");
-                $("#googlemaps_iframe_map", rootel).css({float: "right"});
+                $("#googlemaps_iframe_map", rootel).css({"float": "right"});
             }
             else {
                 $("#googlemaps_iframe_map", rootel).width("95%");
@@ -106,12 +104,12 @@ sakai.googlemaps = function(tuid, placement, showSettings){
             });
 
             if (json) {
-                if (json.maps[0].mapsize == "SMALL") {
+                if (json.mapsize == "SMALL") {
 
                     // If the reserved mapsize is "SMALL", the "small" radio button should be checked
                     $("#googlemaps_radio_small", rootel).attr("checked", "checked");
                 }
-                else if (json.maps[0].mapsize == "LARGE") {
+                else if (json.mapsize == "LARGE") {
 
                     // If the reserved mapsize is "LARGE", the "large" radio button should be checked
                     $("#googlemaps_radio_large", rootel).attr("checked", "checked");
@@ -136,7 +134,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
      */
     var getFromJCR = function() {
 
-        sakai.api.Widgets.loadWidgetData("googlemaps", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
 
@@ -147,7 +145,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
                 setMapSize(setMap);
 
                 // Set the initial value of search keyword input textbox
-                $("#googlemaps_input_text_location", rootel).val(json.maps[0].mapinput);
+                $("#googlemaps_input_text_location", rootel).val(json.mapinput);
             } else {
                 // Show the search input textfield and save, search, cancel buttons
                 $("#googlemaps_form_search", rootel).show();

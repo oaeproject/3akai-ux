@@ -19,7 +19,7 @@
 
 var sakai = sakai || {};
 
-sakai.myprofile = function (tuid, placement, showSettings) {
+sakai.myprofile = function (tuid, showSettings) {
 
 
     /////////////////////////////
@@ -130,7 +130,7 @@ sakai.myprofile = function (tuid, placement, showSettings) {
         if (json.picture) {
             var pict = $.evalJSON(json.picture);
             if (pict.name) {
-                $(profilePictureID, rootel).attr('src', "/_user/public/" + sakai.data.me.user.userid + "/" + pict.name );
+                $(profilePictureID, rootel).attr('src', "/_user" + sakai.data.me.profile.path + "/public/profile/" + pict.name );
             }
         }
 

@@ -21,7 +21,7 @@
 var sakai = sakai || {};
 
 sakai._changepic = {};
-sakai.changepic = function(tuid, placement, showSettings){
+sakai.changepic = function(tuid, showSettings){
 
 
     //////////////////////
@@ -157,7 +157,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         picture = false;
 
-        $(picForm).attr("action", "/_user"+sakai.data.me.profile.path+"/public/profile/");
+        $(picForm).attr("action", "/_user"+sakai.data.me.profile.path+"/public/profile");
 
         // Get the preferred size for the thumbnail.
         var prefThumbWidth = parseInt($(thumbnailContainer).css("width").replace(/px/gi,""), 10);
@@ -263,7 +263,7 @@ sakai.changepic = function(tuid, placement, showSettings){
         // The parameters for the cropit service.
         var data = {
             img: "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name,
-            save: "/_user" + sakai.data.me.profile.path + "/public/profile/",
+            save: "/_user" + sakai.data.me.profile.path + "/public/profile",
             x: Math.floor(userSelection.x1 * ratio),
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
@@ -401,7 +401,7 @@ sakai._changepic.completeCallback = function(response){
     var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
     $.ajax({
-        url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sakai.data.me.user.userid) + ".update.html",
+        url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
         type : "POST",
         data : data,
         success : function(data) {

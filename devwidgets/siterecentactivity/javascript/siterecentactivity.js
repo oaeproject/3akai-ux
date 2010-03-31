@@ -1,6 +1,6 @@
 var sakai = sakai || {};
 
-sakai.siterecentactivity = function(tuid, placement, showSettings){
+sakai.siterecentactivity = function(tuid, showSettings){
 
     var count = 5;
     var rootel = $("#" + tuid);
