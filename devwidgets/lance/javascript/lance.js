@@ -113,14 +113,7 @@ sakai.lance = function(tuid, placement, showSettings){
      */
     var renderIframeSettings = function(complete){
         if(complete){
-            // We create this object to render the iframe with the default height, width and widthunit
-//            var jsonDefaultSize = {};
-//            jsonDefaultSize = json;
-//            jsonDefaultSize.width = defaultWidth;
-//            jsonDefaultSize.width_unit = defaultWidthUnit;
-//            jsonDefaultSize.height = defaultHeight;
-            var launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "lance") + '.launch.html';
-            json.launchDataUrl = launchDataUrl;
+            json.launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "lance") + '.launch.html';
             $(lanceSettingsPreview).html($.Template.render(lanceSettingsPreviewTemplate, json));
         }else{
             $(lanceSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -243,7 +236,7 @@ sakai.lance = function(tuid, placement, showSettings){
                     urlValue = 'http://' + urlValue;
                 }
                 json.ltiurl = urlValue;
-                renderIframeSettings(true);
+                //renderIframeSettings(true); // LDS disabled preview
             }
         });
 
@@ -339,7 +332,7 @@ sakai.lance = function(tuid, placement, showSettings){
             };
         }
         renderRemoteContentSettings();
-        renderIframeSettings(true);
+        //renderIframeSettings(true); // LDS disabled preview
         renderColorContainer();
         addBinding(); // Add binding to the various elements
         changeAdvancedSettingsArrow();
