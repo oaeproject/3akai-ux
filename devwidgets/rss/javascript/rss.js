@@ -444,8 +444,7 @@ sakai.rss = function(tuid, showSettings){
     $(rssSubmit, rootel).bind("click",function(e,ui){
         var object = getSettingsObject();
         if(object !== false){
-            var tostring = $.toJSON(object);
-            sakai.api.Widgets.saveWidgetData(tuid, tostring, function(success, data){
+            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 if ($(".sakai_dashboard_page").is(":visible")) {
                     showSettings = false;
                     showHideSettings(showSettings);

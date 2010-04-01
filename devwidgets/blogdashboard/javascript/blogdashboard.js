@@ -190,9 +190,8 @@ sakai.blogdashboard = function(tuid, showSettings){
         //    add our post to the list
         json.items.push(post);
 
-        //    save it to jcr
-        var str = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData(tuid, str, callback);
+        // Save it to jcr
+        sakai.api.Widgets.saveWidgetData(tuid, json, callback);
     };
 
 

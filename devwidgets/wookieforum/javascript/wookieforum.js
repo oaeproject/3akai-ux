@@ -176,9 +176,8 @@ sakai.wookieforum = function(tuid, showSettings){
 
         var forum = {"url" : url, "width" : width, "height" : height, "maximze" : maximize};
 
-        //    sava data to widgets jcr
-        var str = $.toJSON(forum); // Convert the posts to a JSON string
-        sakai.api.Widgets.saveWidgetData(tuid, str, forumSaved);
+        // Save data to widgets jcr
+        sakai.api.Widgets.saveWidgetData(tuid, forum, forumSaved);
     };
 
     /**

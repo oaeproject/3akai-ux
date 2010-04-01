@@ -33,7 +33,6 @@ sakai.helloworld = function(tuid,showSettings){
     /////////////////////////////
 
     var defaultColor = "#000000";
-    var saveLocation = "color.txt";
 
     // Dom identifiers
     var rootel = $("#" + tuid);

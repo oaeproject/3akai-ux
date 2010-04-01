@@ -630,7 +630,7 @@ sakai.sitemembers = function(tuid, showSettings){
             "_charset_": "utf-8"
         };
 
-        sakai.api.Widgets.saveWidgetData(tuid, $.toJSON(toSend), function(success, data){
+        sakai.api.Widgets.saveWidgetData(tuid, toSend, function(success, data){
 
             if (success) {
                 closeSettings();

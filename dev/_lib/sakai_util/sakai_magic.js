@@ -416,7 +416,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             type: "POST",
             data: {
                 ":operation": "createTree",
-                "tree": i_data
+                "tree": $.toJSON(i_data)
         },
 
         success: function(data) {

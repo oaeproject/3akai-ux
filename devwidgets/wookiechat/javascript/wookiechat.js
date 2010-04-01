@@ -148,8 +148,7 @@ sakai.wookiechat = function(tuid, showSettings) {
         };
 
         // sava data to widgets jcr
-        var str = $.toJSON(chat);
-        sakai.api.Widgets.saveWidgetData(tuid, str, chatRoomSaved);
+        sakai.api.Widgets.saveWidgetData(tuid, chat, chatRoomSaved);
     };
 
     /**

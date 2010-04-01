@@ -23,7 +23,6 @@ var sakai = sakai || {};
 /**
  * Initialize the poll widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement Place where the widget is located in the jcr system
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.poll = function(tuid, showSettings){
@@ -461,8 +460,7 @@ sakai.poll = function(tuid, showSettings){
     var savePollToDatabase = function(functionOnComplete, saveAll){
          // Clear polls array
         json.poll.polls = [];
-        var jsonToString = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData(tuid, jsonToString, functionOnComplete);
+        sakai.api.Widgets.saveWidgetData(tuid, json, functionOnComplete);
     };
 
     /**

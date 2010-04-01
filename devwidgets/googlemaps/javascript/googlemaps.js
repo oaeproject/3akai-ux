@@ -53,8 +53,7 @@ sakai.googlemaps = function(tuid, showSettings){
         }
 
         // Store the corresponded map data into backend server
-        var str = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData(tuid, str, finish);
+        sakai.api.Widgets.saveWidgetData(tuid, json, finish);
     };
 
     /**

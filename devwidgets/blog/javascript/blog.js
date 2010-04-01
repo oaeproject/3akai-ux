@@ -686,10 +686,8 @@ sakai.blog = function(tuid, showSettings) {
                             };
                             json.items = addPostToArray(json.items, newPost);
 
-                            //    save it to jcr
-                            var str = $.toJSON(json);
-
-                            sakai.api.Widgets.saveWidgetData(tuid, str, displayPosts);
+                            // Save it to jcr
+                            sakai.api.Widgets.saveWidgetData(tuid, json, displayPosts);
                         }
                     }
                 });
@@ -972,8 +970,7 @@ sakai.blog = function(tuid, showSettings) {
         var json = {};
         json.allowComments = $(settingsAllowComments, rootel).is(":checked");
         json.tags = arrSelectedTags;
-        var str = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData(tuid, str, callback);
+        sakai.api.Widgets.saveWidgetData(tuid, json, callback);
     };
 
     /**

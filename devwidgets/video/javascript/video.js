@@ -258,8 +258,7 @@ sakai.video = function(tuid, showSettings) {
      * @param {Object} video
      */
     var addVideo = function(video) {
-        var tostring = $.toJSON(video);
-        sakai.api.Widgets.saveWidgetData(tuid, tostring, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, video, sdata.container.informFinish(tuid));
     };
 
 

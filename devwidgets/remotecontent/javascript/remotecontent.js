@@ -168,8 +168,7 @@ sakai.remotecontent = function(tuid, showSettings){
      */
     var saveRemoteContent = function(){
         if (json.url !== "") {
-            var str = $.toJSON(json); // Convert the posts to a JSON string
-            sakai.api.Widgets.saveWidgetData(tuid, str, savedDataToJCR);
+            sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
         }
         else {
             alert("Please specify a URL");

@@ -613,7 +613,7 @@ sakai.comments = function(tuid, showSettings){
         if (settings) {
             settings["_charset_"] = "utf-8";
 
-            sakai.api.Widgets.saveWidgetData(tuid, $.toJSON(settings), function(success){
+            sakai.api.Widgets.saveWidgetData(tuid, settings, function(success){
                 if (success) {
                     finishNewSettings();
                 }
