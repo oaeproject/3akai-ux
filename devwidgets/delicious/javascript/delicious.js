@@ -87,7 +87,7 @@ sakai.delicious = function(tuid, placement, showSettings){
     var $deliciousMainBookmarkInfoLink = $(".delicious_main_bookmark_info_link", rootel);
     var $deliciousMainBookmarkUserLink = $(".delicious_main_bookmark_user_link", rootel);
     var bookmarkMode = 0;
-    var bookmarkTotal = 11;
+    var bookmarkTotal = 15;
 
     // Mode Array
     // This array is for completing the correct URL in the proxy:
