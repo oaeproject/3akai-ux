@@ -16,27 +16,39 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/* Twitter CSS */
-/* Main Container */
-#twitter_main_container {padding:10px;}
-#twitter_main_container label {padding:2px 0;margin-bottom:2px;}
-#twitter_main_container input[type=radio] {clear:left;float:left;margin-top:5px;}
-.twitter_radiocheck_label {float:left;margin:4px 0 0 5px;padding:1px !important;}
+/* Global */
 
-/* Sub Container */
-#twitter_sub_container {clear:both;margin-top:30px;}
-.twitter_input_label {display:block;clear:both;}
+/* Settings */
+#basiclti_settings {padding-bottom:10px;}
+#basiclti_settings input[type="text"] {background-color:#f1f1f1;border:1px solid #d6d6d6;margin-top:3px;padding:3px;width:99%;}
+.basiclti_settings_error {color:red;}
+.basiclti_settings_label_head {font-weight:bold;}
+#basiclti_settings_reset_size {margin-left:15px;}
+.basiclti_settings_subcontainer {border-bottom:1px solid #dddddd;margin-bottom:15px;padding-bottom:10px;}
+.basiclti_settings_width_unit_selected {font-weight:bold;text-decoration:underline;}
 
-/* Message Container */
-#twitter_message_container {clear:both;}
-.twitter_error {color:#ff0000 !important;}
-.twitter_info {color:#4aa02c !important;}
-.twitter_input_text {border:1px solid #dddddd;height:19px;padding-left:3px;padding-top:3px;float:left;}
+/* Preview */
+#basiclti_settings_preview {text-align:center;}
+#basiclti_settings_preview_frame {border-style:solid;margin-bottom:50px;}
 
-/* Buttons */
-.twitter_buttonBar {float:left;margin-top:2px;}
-.twitter_button {float:left;margin-top:-2px !important;}
+/* Color */
+#basiclti_settings_color_container {margin-top:9px;}
+.basiclti_settings_color {border:1px solid #eeeeee;cursor:pointer;display:block;float:left;height:26px;margin-right:9px;text-decoration:none;width:26px;}
+.basiclti_settings_color:hover {border:1px solid #cccccc;text-decoration:none;}
+.basiclti_settings_color_selected, .basiclti_settings_color_selected:hover {border:1px solid #000000;}
+#basiclti_settings_color_000000 {background-color:#000000;}
+#basiclti_settings_color_cccccc {background-color:#cccccc;}
+#basiclti_settings_color_ff0000 {background-color:#ff0000;}
+#basiclti_settings_color_008000 {background-color:#008000;}
+#basiclti_settings_color_0000ff {background-color:#0000ff;}
 
+/* Advanced */
+#basiclti_settings_advanced_toggle_settings {margin-top:-30px;float:right;}
+#basiclti_settings_advanced input[type="text"] {width:65px;}
 
-.basiclti_settings_dialog label { display: inline-block; width: 200px; }
-.
+/* Block */
+.basiclti_settings_block {margin-left:15px;}
+.basiclti_settings_block label {float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px}
+.basiclti_settings_block .basiclti_settings_checkbox {float:left; margin:10px 20px 0 0; width:auto}
+.basiclti_settings_block .basiclti_settings_checkbox label {float: none; width: auto}
+.basiclti_settings_block .basiclti_settings_checkbox input[type="checkbox"] {margin: 0 auto}

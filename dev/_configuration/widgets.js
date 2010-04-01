@@ -54,20 +54,14 @@ var Widgets = {
             id:"addtocontacts",
             url:"/devwidgets/addtocontacts/addtocontacts.html"
         },
-        basiclti :
-        {
-            description:"Basic LTI Widget\r\n",
-            iframe:0,
-            url:"/devwidgets/basiclti/basiclti.html",
-            name:"Basic LTI",
+        basiclti : {
+            ca:true,
+            description:"Basic LTI Widget",
             id:"basiclti",
-            personalportal:0,
-            siteportal:0,
-            ca:1,
-            showinmedia:0,
-            showinsakaigoodies:1,
-            //hasSettings: 1,
-            img:"/devwidgets/poll/images/poll.png"
+            img:"/devwidgets/basiclti/images/basiclti.png",
+            name:"Basic LTI",
+            showinsakaigoodies:true,
+            url:"/devwidgets/basiclti/basiclti.html"
         },
         changepic: {
             i18n: {
@@ -265,15 +259,6 @@ var Widgets = {
             name:"Remote Content",
             showinsakaigoodies:true,
             url:"/devwidgets/remotecontent/remotecontent.html"
-        },
-        lance: {
-            ca:true,
-            description:"Lance",
-            id:"lance",
-            img:"/devwidgets/lance/images/lance.png",
-            name:"Lance",
-            showinsakaigoodies:true,
-            url:"/devwidgets/lance/lance.html"
         },
         rss: {
             ca:true,

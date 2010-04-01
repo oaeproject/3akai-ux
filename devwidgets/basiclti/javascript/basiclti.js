@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -15,162 +15,394 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-/*global $, sdata, Config, addBinding */
+/*global $, sdata, get_cookie, Config */
 
 var sakai = sakai || {};
 
-sakai.basiclti = function(tuid,placement,showSettings){
-	var currentSubContainer = ""; // The current subcontainer (get/set)
-	var json = false; // json object
-	var me; // me object
-	var me_json; // json me object
-	var rootel = $("#" + tuid);
+sakai.basiclti = function(tuid, placement, showSettings){
 
-    var settingsTemplate = "basiclti_settings";
 
-    var toolContainer = '#basiclti_tool_container';
-	
-	/**
-	 * Reset the values of the json object
-	 */
-	var resetValues = function(){
-		json = {};
-	};
-	
-	/**
-	 * Get the me object
-	 * @param {Boolean} refresh Refresh the me object or not
-	 */
-	var getMe = function(){
-		me = sdata.me;
-		me_json = me.profile;	
-	};
-	
-		
-	/**
-	 * Render the template of a container
-	 * @param {String} container Container that will be rendered
-	 */
-	var renderTemplate = function(container){
-        if (showSettings) {
-            $('#basiclti_settings_container', rootel).html($.Template.render(settingsTemplate, json)).show();
-            $('button[name=save_settings]', rootel).click(function(e) {
-                var settings = {
-                    ltiurl: $('[name=ltiurl]', rootel).val(),
-                    ltikey: $('[name=ltikey]', rootel).val(),
-                    ltisecret: $('[name=ltisecret]', rootel).val(),
-                    frame_height: $('[name=frame_height]', rootel).val(),
-                    debug: $('[name=debug]:checked', rootel).length == 1,
-                    release_names: $('[name=release_names]:checked', rootel).length == 1,
-                    release_principal_name: $('[name=release_principal_name]:checked', rootel).length == 1,
-                    release_email: $('[name=release_email]:checked', rootel).length == 1,
-                    custom_params: $('[name=custom_params]', rootel).val(),
-                    xml_settings: $('[name=xml_settings]', rootel).val()
-                };
-                settings['sling:resourceType'] = 'sakai/basiclti';
-                var settingsJson = $.toJSON(settings);
-                var saveComplete = function() { sdata.container.informFinish(tuid); };
-
-                // normal widget properties URL for sdata.WidgetPreference.save technique
-                //var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-                //sdata.widgets.WidgetPreference.save(saveUrl, "basiclti", settingsJson, saveComplete);
-
-                // we're posting directly to avoid the nt:file from using sdata save (for now)
-                var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
-                $.ajax({
-                    type: 'POST',
-                    url: saveUrl,
-                    data: settings,
-                    dataType: 'html',
-                    success: function(data) {
-                        sdata.container.informFinish(tuid);
-                    }
-                });
-                e.preventDefault();
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
+    
+    var rootel = $("#" + tuid);
+    var json = false;
+    var isAdvancedSettingsVisible = false;
+    
+    // Default values
+    var defaultWidth = 100;
+    var defaultWidthUnit = "%";
+    var defaultHeight = 200;
+    
+    // Links and labels
+    var basiclti = "#basiclti";
+    var basicltiSettings = basiclti + "_settings";
+    var basicltiSettingsAdvanced = basicltiSettings + "_advanced";
+    var basicltiSettingsAdvancedDown = basicltiSettingsAdvanced + "_down";
+    var basicltiSettingsAdvancedToggleSettings = basicltiSettingsAdvanced + "_toggle_settings";
+    var basicltiSettingsAdvancedUp = basicltiSettingsAdvanced + "_up";
+    var basicltiSettingsBorders = basicltiSettings + "_borders";
+    var basicltiSettingsCancel = basicltiSettings + "_cancel";
+    var basicltiSettingsColorContainer = basicltiSettings + "_color_container";
+    var basicltiSettingsHeight = basicltiSettings + "_frame_height";
+    var basicltiSettingsInsert = basicltiSettings + "_insert";
+    var basicltiSettingsPreview = basicltiSettings + "_preview";
+    var basicltiSettingsPreviewFrame = basicltiSettingsPreview + "_frame";
+    var basicltiSettingsLtiUrl = basicltiSettings + "_ltiurl";
+    var basicltiSettingsLtiKey = basicltiSettings + "_ltikey";
+    var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
+    var basicltiSettingsWidth = basicltiSettings + "_width";
+    var basicltiSettingsReleaseName = basicltiSettings + "_release_names";
+    
+    // Containers
+    var basicltiMainContainer = basiclti + "_main_container";
+    
+    // Classes
+    var basicltiSettingsWidthUnitClass = ".basiclti_settings_width_unit";
+    var basicltiSettingsWidthUnitSelectedClass = "basiclti_settings_width_unit_selected";
+    
+    // Templates
+    var basicltiSettingsColorContainerTemplate = "basiclti_settings_color_container_template";
+    var basicltiSettingsTemplate = "basiclti_settings_template";
+    var basicltiSettingsPreviewTemplate = "basiclti_settings_preview_template";
+    
+    
+    ///////////////////////
+    // Utility functions //
+    ///////////////////////
+    
+    /**
+     * Check if the value is a decimal or not
+     * @param {Object} value Value that needs to be checked
+     * @return {Boolean}
+     *     true: is a decimal
+     *     false: is not a decimal
+     */
+    var isDecimal = function(value){
+        return (/^\d+$/).test(value);
+    };
+    
+    /**
+     * Check if the input url is in fact an url or not
+     * @param {String} url Url that needs to be tested
+     * @return {Boolean}
+     *     true: is an url
+     *     false: is not an url
+     */
+    var isUrl = function(url){
+        return (/^http\:\/\/|^https\:\/\//i).test(url);
+    };
+    
+    /**
+     * Called when the data has been saved to the JCR.
+     */
+    var savedDataToJCR = function(){
+        sdata.container.informFinish(tuid);
+    };
+    
+    
+    //////////////////////
+    // Render functions //
+    //////////////////////
+    
+    /**
+     * Render the iframe for the widget in settings mode
+     * @param {Boolean} complete Render the preview completely or only adjust values
+     */
+    var renderIframeSettings = function(complete){
+        if (complete) {
+            json.launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            $(basicltiSettingsPreview).html($.Template.render(basicltiSettingsPreviewTemplate, json));
+        }
+        else {
+            $(basicltiSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
+        }
+    };
+    
+    /**
+     * Render the iframe for the widget
+     */
+    var renderIframe = function(){
+        if (json) {
+            var launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            json.launchDataUrl = launchDataUrl;
+            $(basicltiMainContainer, rootel).html($.Template.render(basicltiSettingsPreviewTemplate, json));
+        }
+    };
+    
+    /**
+     * Render the html of the basicltisettings
+     */
+    var renderRemoteContentSettings = function(){
+        if (json) {
+            $(basicltiSettings).html($.Template.render(basicltiSettingsTemplate, json));
+        }
+    };
+    
+    /**
+     * Render the color container
+     */
+    var renderColorContainer = function(){
+        if (json) {
+            $(basicltiSettingsColorContainer).html($.Template.render(basicltiSettingsColorContainerTemplate, json));
+        }
+    };
+    
+    
+    //////////////////////
+    // Global functions //
+    //////////////////////
+    
+    /**
+     * Display the iframe in normal mode
+     * @param {Object} parameters JSON object that contains the necessary information for the iframe
+     */
+    var displayRemoteContent = function(parameters){
+        // default to some reasonable vaules if the settings node does not have them (maybe a legacy node)
+        if (parameters.border_size == null) {
+            parameters.border_size = 0;
+        }
+        if (parameters.border_color == null) {
+            parameters.border_color = "cccccc";
+        }
+        if (parameters.width == null) {
+            parameters.width = defaultWidth;
+        }
+        if (parameters.width_unit == null) {
+            parameters.width_unit = defaultWidthUnit;
+        }
+        if (parameters.frame_height == null) {
+            parameters.frame_height = defaultHeight;
+        }
+        json = parameters;
+        renderIframe();
+    };
+    
+    /**
+     * Save the basiclti to the jcr
+     */
+    var saveRemoteContent = function(){
+        if (json.ltiurl !== "") {
+            json.ltiurl = $(basicltiSettingsLtiUrl).val() || "";
+            json.ltikey = $(basicltiSettingsLtiKey).val() || "";
+            json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
+            json["debug@TypeHint"] = "Boolean";
+            json.debug = $('#basiclti_settings_debug:checked').val() != null;
+            json["release_names@TypeHint"] = "Boolean";
+            json.release_names = $('#basiclti_settings_release_names:checked').val() != null;
+            json["release_principal_name@TypeHint"] = "Boolean";
+            json.release_principal_name = $('#basiclti_settings_release_principal_name:checked').val() != null;
+            json["release_email@TypeHint"] = "Boolean";
+            json.release_email = $('#basiclti_settings_release_email:checked').val() != null;
+            json.launchDataUrl = ""; // does not need to be persisted
+            json["_MODIFIERS"] = ""; // what the heck is this? TrimPath? Do not persist.
+            json.defined = ""; // what the heck is this? Where does it come from?
+            var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
+            $.ajax({
+                type: 'POST',
+                url: saveUrl,
+                data: json,
+                dataType: 'html',
+                success: savedDataToJCR
             });
         }
         else {
-
-            // The sakai/basiclti nodes can be requested with .html or .json extensions.
-            // The json rendering returns data that can be used to assemble a form as in the comment below.
-            // We are currently using the .html rendering, which includes the auto-posting form, generated by the server
-
-            var launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
-            var fr = $('<iframe src="' + launchDataUrl + '" id="basiclti_launch_frame" height="' + json.frame_height + '" style="border: 0; width: 100%;"></iframe>');
-            $(toolContainer).append(fr);
-            $(toolContainer).show();
-
-            // JSON launch form creation
-            /*
-            var launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.json';
-            $.getJSON(launchDataUrl, function(data) {
-                var url = data.launchURL;
-                var html = '<form id="basiclti_launch" method="post" action="' + url  + '">';
-                var pd = data.postData;
-                //pd.basiclti_submit = json.basiclti_submit;
-                for (k in pd) {
-                    if (k != 'basiclti_submit')
-                        //html += '<input type="hidden" name="' + k + '" value="' + pd[k] + '" />';
-                        html += '<input type="text" name="' + k + '" value="' + pd[k] + '" />';
-                }
-                html += '<input type="submit" id="basiclti_submit" name="' + 'basiclti_submit' + '" value="' + pd['basiclti_submit'] + '" />';
-                html += '</form>';
-                html += '<script type="text/javascript">document.getElementById("basiclti_submit").style.display="none";';
-                html += 'document.basiclti_launch.submit();</script>';
-
-                switch (container) {
-                    case "main":
-                        var fr = $('<iframe src="/devwidgets/basiclti/basicltiform.html" id="basiclti_launch_frame" height="800" width="640" border="0"></iframe>');
-                        $(fr).bind('load', function(evt) {
-                            $('#launch_form', evt.target.contentWindow.document).append(html);
-                        });
-                        $(toolContainer).append(fr);
-                        $(toolContainer).show();
-                        break;
-                }
-            });
-            */
+            alert("Please specify a URL");
         }
-	};
-
-	/**
-	 * Function that will be launched if the widget is loaded
-	 */
-	var init = function(){
-		getMe();
-		resetValues();
-        var s = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.json';
-        json = {
-            ltiurl: '',
-            ltikey: '',
-            ltisecret: '',
-            frame_height: 200,
-            //launch_presentation_height: 800,
-            debug: false,
-            release_names: false,
-            release_principal_name: false,
-            release_email: false,
-            xml_settings: '',
-            custom_params: ''
-        };
-        $.ajax({
-            url: s,
-            cache: false,
-            success: function(data){
-                $.extend(json, $.evalJSON(data));
-            },
-            error: function(xhr, textStatus, thrownError) {
-                //first pass, we don't have settings, so ignore
-            },
-            complete: function(xhr, textStatus) {
-                json.foo = 'bar';
-                renderTemplate("main");
-                $("#basiclti_main_container").show();
+    };
+    
+    /**
+     * Change the direction (up/down) of the arrow for the advanced settings
+     */
+    var changeAdvancedSettingsArrow = function(){
+        if (isAdvancedSettingsVisible) {
+            $(basicltiSettingsAdvancedDown, rootel).hide();
+            $(basicltiSettingsAdvancedUp, rootel).show();
+        }
+        else {
+            $(basicltiSettingsAdvancedUp, rootel).hide();
+            $(basicltiSettingsAdvancedDown, rootel).show();
+        }
+    };
+    
+    
+    //////////////
+    // Bindings //
+    //////////////
+    
+    /*
+     * Add binding to the color boxes
+     */
+    var addColorBinding = function(){
+        $(".basiclti_settings_color").click(function(){
+            json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            renderIframeSettings(false);
+            renderColorContainer();
+            addColorBinding();
+        });
+    };
+    
+    /*
+     * Add binding to all the elements
+     */
+    var addBinding = function(){
+    
+        // Change the url for the iFrame
+        $(basicltiSettingsLtiUrl).change(function(){
+            var urlValue = $(this).val();
+            if (urlValue !== "") {
+                // Check if someone already wrote http inside the url
+                if (!isUrl(urlValue)) {
+                    urlValue = 'http://' + urlValue;
+                }
+                json.ltiurl = urlValue;
+                //renderIframeSettings(true); // LDS disabled preview
             }
         });
-	};
-	init();
+        
+        // Change the iframe width
+        $(basicltiSettingsWidth).change(function(){
+            var widthValue = $(basicltiSettingsWidth).val();
+            
+            if (isDecimal(widthValue)) {
+                json.width = widthValue;
+            }
+            renderIframeSettings(false);
+        });
+        
+        // Change the iframe height
+        $(basicltiSettingsHeight).change(function(){
+            var heightValue = $(basicltiSettingsHeight).val();
+            
+            if (isDecimal(heightValue)) {
+                json.frame_height = heightValue;
+            }
+            renderIframeSettings(false);
+        });
+        
+        // Change the border width
+        $(basicltiSettingsBorders).change(function(){
+            var borderValue = $(basicltiSettingsBorders).val();
+            if (isDecimal(borderValue)) {
+                json.border_size = borderValue;
+                renderIframeSettings(false);
+            }
+        });
+        
+        // Toggle the advanced view
+        $(basicltiSettingsAdvancedToggleSettings).click(function(){
+            $("#basiclti_settings_advanced", rootel).toggle();
+            isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
+            changeAdvancedSettingsArrow();
+        });
+        
+        // When you click on one of the width units (px or percentage)
+        $(basicltiSettingsWidthUnitClass).click(function(){
+            var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            if (widthUnitValue === "px") {
+                json.width_unit = widthUnitValue;
+            }
+            else {
+                json.width_unit = "%";
+            }
+            $(basicltiSettingsWidthUnitClass).removeClass(basicltiSettingsWidthUnitSelectedClass);
+            $(this).addClass(basicltiSettingsWidthUnitSelectedClass);
+            renderIframeSettings(false);
+        });
+        
+        // When you push the save button..
+        $(basicltiSettingsInsert).click(function(){
+            saveRemoteContent();
+        });
+        
+        // Cancel it
+        $(basicltiSettingsCancel).click(function(){
+            sdata.container.informCancel(tuid);
+        });
+        
+        addColorBinding();
+    };
+    
+    
+    ///////////////////////
+    // Initial functions //
+    ///////////////////////
+    
+    /**
+     * Function that fills in the input fields in the settings tab.
+     * @param {Object} parameters A JSON object that contains the necessary information.
+     * @param {Boolean} exists Does there exist a previous basiclti
+     */
+    var displaySettings = function(parameters, exists){
+        if (exists && parameters.ltiurl) {
+            json = parameters;
+        }
+        else { // use default values
+            json = {
+                "sling:resourceType": "sakai/basiclti",
+                ltiurl: "",
+                ltikey: "",
+                ltisecret: "",
+                release_names: true,
+                release_principal_name: true,
+                release_email: true,
+                border_size: 0,
+                border_color: "cccccc",
+                frame_height: defaultHeight,
+                width: defaultWidth,
+                width_unit: defaultWidthUnit
+            };
+        }
+        renderRemoteContentSettings();
+        //renderIframeSettings(true); // LDS disabled preview
+        renderColorContainer();
+        addBinding(); // Add binding to the various elements
+        changeAdvancedSettingsArrow();
+        $(basicltiSettings).show(); // Show the basiclti settings
+    };
+    
+    /*
+     * Is the widget in settings mode or not
+     */
+    if (showSettings) {
+        $(basicltiMainContainer).hide();
+        $(basicltiSettings).show();
+    }
+    else {
+        $(basicltiSettings).hide();
+        $(basicltiMainContainer).show();
+    }
+    
+    /**
+     * Will fetch the URL and other parameters from the JCR and according to which
+     * view we are in, fill in the settings or display an iframe.
+     */
+    var getRemoteContent = function(){
+        var settingsUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
+        $.ajax({
+            url: settingsUrl,
+            cache: false,
+            success: function(data){
+                // Get a JSON string that contains the necessary information.
+                var parameters = $.evalJSON(data);
+                
+                if (showSettings) {
+                    displaySettings(parameters, true); // Fill in the settings page.
+                }
+                else {
+                    displayRemoteContent(parameters); // Show the frame
+                }
+            },
+            error: function(xhr, textStatus, thrownError){
+                // When the request isn't successful, it means that  there was no existing basiclti
+                // so we show the basic settings.
+                displaySettings(null, false);
+            }
+        });
+    };
+    
+    getRemoteContent();
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("basiclti");
