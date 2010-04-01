@@ -171,10 +171,14 @@ sakai.lance = function(tuid, placement, showSettings){
             json.ltiurl = $(lanceSettingsLtiUrl).val() || "";
             json.ltikey = $(lanceSettingsLtiKey).val() || "";
             json.ltisecret = $(lanceSettingsLtiSecret).val() || "";
-            json.debug = $('[name=debug]:checked', rootel).length == 1;
-            json.release_names = $('[name=release_names]:checked', rootel).length == 1;
-            json.release_principal_name = $('[name=release_principal_name]:checked', rootel).length == 1;
-            json.release_email = $('[name=release_email]:checked', rootel).length == 1;
+            json["debug@TypeHint"] = "Boolean";
+            json.debug = $('#lance_settings_debug:checked').val() != null;
+            json["release_names@TypeHint"] = "Boolean";
+            json.release_names = $('#lance_settings_release_names:checked').val() != null;
+            json["release_principal_name@TypeHint"] = "Boolean";
+            json.release_principal_name = $('#lance_settings_release_principal_name:checked').val() != null;
+            json["release_email@TypeHint"] = "Boolean";
+            json.release_email = $('#lance_settings_release_email:checked').val() != null;
             json.launchDataUrl = ""; // does not need to be persisted
             json["_MODIFIERS"] = ""; // what the heck is this? TrimPath? Do not persist.
             json.defined = ""; // what the heck is this? Where does it come from?
@@ -321,9 +325,9 @@ sakai.lance = function(tuid, placement, showSettings){
                 ltiurl: "",
                 ltikey: "",
                 ltisecret: "",
-                release_names : "true",
-                release_principal_name : "true",
-                release_email : "true",
+                release_names : true,
+                release_principal_name : true,
+                release_email : true,
                 border_size: 0,
                 border_color: "cccccc",
                 frame_height: defaultHeight,
