@@ -21,7 +21,7 @@
 var sakai = sakai || {};
 
 sakai._changepic = {};
-sakai.changepic = function(tuid, placement, showSettings){
+sakai.changepic = function(tuid, showSettings){
 
 
     //////////////////////
@@ -152,16 +152,16 @@ sakai.changepic = function(tuid, placement, showSettings){
     sakai._changepic.doInit = function(){
 
         // Check whether there is a base picture at all
-        me = sdata.me;
+        me = sakai.data.me;
         var json = me.profile;
 
         picture = false;
 
-        $(picForm).attr("action", Config.URL.SDATA_FETCH_PUBLIC_URL.replace(/__USERID__/,sdata.me.user.userid));
+        $(picForm).attr("action", "/_user"+sakai.data.me.profile.path+"/public/profile");
 
         // Get the preferred size for the thumbnail.
-        var prefThumbWidth = parseInt($(thumbnailContainer).css('width').replace(/px/gi,''), 10);
-        var prefThumbHeight = parseInt($(thumbnailContainer).css('height').replace(/px/gi,''), 10);
+        var prefThumbWidth = parseInt($(thumbnailContainer).css("width").replace(/px/gi,""), 10);
+        var prefThumbHeight = parseInt($(thumbnailContainer).css("height").replace(/px/gi,""), 10);
 
         // Make sure we don't have 0
         thumbnailWidth  = (prefThumbWidth > 0) ? prefThumbWidth : thumbnailWidth;
@@ -179,7 +179,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 
 
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
-            $(pictureMeasurer).html("<img src='" + "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
+            $(pictureMeasurer).html("<img src='" + "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
             $(pictureMeasurerImage).bind("load", function(ev){
@@ -189,8 +189,8 @@ sakai.changepic = function(tuid, placement, showSettings){
                 realh = $(pictureMeasurerImage).height();
 
                 // Set the images
-                $(fullPicture).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
-                $(thumbnail).attr("src", "/_user/public/" + sdata.me.user.userid + "/" + picture._name + "?sid=" + Math.random());
+                $(fullPicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                $(thumbnail).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name + "?sid=" + Math.random());
 
                 // Width < 500 ; Height < 300 => set the original height and width
                 if (realw < 500 && realh < 300){
@@ -262,8 +262,8 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         // The parameters for the cropit service.
         var data = {
-            img: "/_user/public/" + sdata.me.user.userStoragePrefix + picture._name,
-            save: "/_user/public/" + sdata.me.user.userStoragePrefix,
+            img: "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name,
+            save: "/_user" + sakai.data.me.profile.path + "/public/profile",
             x: Math.floor(userSelection.x1 * ratio),
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
@@ -281,7 +281,7 @@ sakai.changepic = function(tuid, placement, showSettings){
 
         // Post all of this to the server
         $.ajax({
-            url: Config.URL.IMAGE_SERVICE,
+            url: sakai.config.URL.IMAGE_SERVICE,
             type: "POST",
             data: data,
             success: function(data){
@@ -294,11 +294,11 @@ sakai.changepic = function(tuid, placement, showSettings){
 
                 var stringtosave = $.toJSON(tosave);
 
-                sdata.me.profile.picture = stringtosave;
+                sakai.data.me.profile.picture = stringtosave;
 
                 // Do a patch request to the profile info so that it gets updated with the new information.
                 $.ajax({
-                    url: "/_user/public/" + me.user.userid + "/authprofile",
+                    url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
                     type : "POST",
                     data : {
                         "picture" : $.toJSON(tosave),
@@ -308,7 +308,7 @@ sakai.changepic = function(tuid, placement, showSettings){
                         // Change the picture in the page. (This is for my_sakai.html)
                         // Math.random is for cache issues.
                         for (var i = 0; i < imagesToChange.length;i++) {
-                            $(imagesToChange[i]).attr("src", "/_user/public/" + me.user.userid + "/" + tosave.name + "?sid=" + Math.random());
+                            $(imagesToChange[i]).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                         }
 
                         // Hide the layover.
@@ -395,13 +395,13 @@ sakai._changepic.completeCallback = function(response){
 
     // We edit the me object in sdata.
     // This saves a request and will be checked in the doInit function later on.
-    sdata.me.profile.picture = stringtosave;
+    sakai.data.me.profile.picture = stringtosave;
 
     // the object we wish to insert into the profile.json file.
     var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
     $.ajax({
-        url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__.json/,sdata.me.user.userid) + ".update.html",
+        url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
         type : "POST",
         data : data,
         success : function(data) {

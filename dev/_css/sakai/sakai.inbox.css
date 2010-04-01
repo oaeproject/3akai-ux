@@ -4,10 +4,6 @@
 .fixed-container
 { background: #fff;}
 
-/** HEADING **/
-.inbox_main .site_heading
-{ color: #454a4f; padding: 10px 0 10px 0; border: none; }
-
 /** LAYOUT **/
 .inbox_main .main_container
 { border:medium none; margin:0 0 20px; padding:0; }
@@ -45,7 +41,7 @@
 /** Folders **/
 
 .inbox_main .inbox-folders
-{ width: 230px; margin:0; padding: 0; }
+{ width: 230px; margin:0; padding: 0; overflow: hidden; }
 
 .inbox_main .inbox-folders .if_titlebar
 { background:transparent url(/dev/_images/block_tr.png) no-repeat scroll right top; padding: 0 10px 0 0; height:50px; }

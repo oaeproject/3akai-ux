@@ -18,7 +18,7 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
-sakai.sites = function(tuid,placement,showSettings){
+sakai.sites = function(tuid,showSettings){
 
 
     /////////////////////////////
@@ -80,7 +80,7 @@ sakai.sites = function(tuid,placement,showSettings){
         else {
             // Sort the sites by their name
             newjson.entry = newjson.entry.sort(doSort);
-            $(sitesList, rootel).html($.Template.render(sitesListTemplate.replace(/#/,''), newjson));
+            $(sitesList, rootel).html($.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
         }
     };
 
@@ -113,7 +113,7 @@ sakai.sites = function(tuid,placement,showSettings){
      */
     var doInit = function() {
         $.ajax({
-            url: Config.URL.SITES_SERVICE,
+            url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
                 loadSiteList(data, true);

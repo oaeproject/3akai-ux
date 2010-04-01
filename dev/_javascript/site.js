@@ -70,18 +70,17 @@ sakai.site = function(){
 
     // URLs
     sakai.site.urls = {
-        CURRENT_SITE_ROOT: function() { return Config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/"; },
-        CURRENT_SITE_PAGES: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")); },
-        WEBPAGE_CONTENT: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/content"; },
-        WEBPAGE_CONTENT_AUTOSAVE_FULL: function() { return Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/_content"; },
-        CURRENT_SITE_OBJECT : function() { return Config.URL.SITE_GET_SERVICE + "/sites/" + sakai.site.currentsite; },
-        PAGE_CONFIGURATION: function() { return Config.URL.SITE_PAGECONFIGURATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
-        SITE_NAVIGATION: function() { return Config.URL.SITE_NAVIGATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
-        SITE_NAVIGATION_CONTENT : function() { return Config.URL.SITE_NAVIGATION_CONTENT.replace(/__SITEID__/, sakai.site.currentsite.id); },
-        LOGIN : function() { return Config.URL.GATEWAY_URL + "?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash); },
-        PRINT_PAGE: function() { Config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
-        SITE_URL: function() { return Config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
-        PAGE_CONFIGURATION_PREFERENCE: function() { return Config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); }
+        CURRENT_SITE_ROOT: function() { return sakai.config.URL.SDATA_FETCH + "/sites/" + sakai.site.currentsite.id + "/"; },
+        CURRENT_SITE_PAGES: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")); },
+        WEBPAGE_CONTENT: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/content"; },
+        WEBPAGE_CONTENT_AUTOSAVE_FULL: function() { return sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_pages/" + sakai.site.selectedpage.split("/").join("/_pages/")) + "/_content"; },
+        PAGE_CONFIGURATION: function() { return sakai.config.URL.SITE_PAGECONFIGURATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
+        SITE_NAVIGATION: function() { return sakai.config.URL.SITE_NAVIGATION.replace(/__SITEID__/, sakai.site.currentsite.id); },
+        SITE_NAVIGATION_CONTENT : function() { return sakai.config.URL.SITE_NAVIGATION_CONTENT.replace(/__SITEID__/, sakai.site.currentsite.id); },
+        LOGIN : function() { return sakai.config.URL.GATEWAY_URL + "?url=" + $.URLEncode(document.location.pathname + document.location.search + document.location.hash); },
+        PRINT_PAGE: function() { sakai.config.URL.SITE_PRINT_URL.replace(/__CURRENTSITENAME__/, sakai.site.currentsite.name); },
+        SITE_URL: function() { return sakai.config.URL.SITE_URL_SITEID.replace(/__SITEID__/,sakai.site.currentsite.id); },
+        PAGE_CONFIGURATION_PREFERENCE: function() { return sakai.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, sakai.site.currentsite.id); }
     };
 
 
@@ -260,7 +259,7 @@ sakai.site = function(){
                 }
 
                 // Check user's login status
-                if (sdata.me.user.userid){
+                if (sakai.data.me.user.userid){
                     $("#loginLink").hide();
                     sakai._isAnonymous = false;
                 } else {
@@ -299,7 +298,7 @@ sakai.site = function(){
 
         // Load site information
         $.ajax({
-            url: Config.URL.GENERAL_SEARCH_SERVICE,
+            url: sakai.config.URL.SEARCH_PAGES,
             cache: false,
             async: false,
             data: {
@@ -385,6 +384,7 @@ sakai.site = function(){
      * @param {String} content The HTML to check.
      * @param {String} url The url into JCR where the content originates from.
      */
+    /*
     sakai.site.ensureProperWidgetIDs = function(content, url) {
         var adjusted = false;
         var moveWidgets = [];
@@ -438,6 +438,8 @@ sakai.site = function(){
         return $el.html();
     };
 
+    */
+
     // Load Navigation
     sakai.site.loadSiteNavigation = function() {
 
@@ -449,7 +451,7 @@ sakai.site = function(){
               success: function(response){
                 sakai.site.pagecontents._navigation = response;
                 $page_nav_content.html(response);
-                sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets");
+                sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
                 History.history_change();
             },
             error: function(xhr, textStatus, thrownError) {
@@ -485,10 +487,9 @@ sakai.site = function(){
         var items = {};
         var site = site_object.id;
 
-        $.ajax({
-            url : "/_user/private/" + sdata.me.user.userStoragePrefix + "recentsites.json",
-            cache: false,
-            success : function(data) {
+        sakai.api.Server.loadData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
+
+            if (success) {
 
                 items = $.evalJSON(data);
 
@@ -506,18 +507,19 @@ sakai.site = function(){
                 items.items = items.items.splice(0,5);
 
                 // Write
-                if (sdata.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                if (sakai.data.me.user.userStoragePrefix) {
+                    sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
+
                 items.items = [];
                 items.items.unshift(site);
 
                 // Write
-                if (sdata.me.user.userStoragePrefix) {
-                    sdata.widgets.WidgetPreference.save("/_user/private/" + sdata.me.user.userStoragePrefix.substring(0, sdata.me.user.userStoragePrefix.length - 1), "recentsites.json", $.toJSON(items), function(success){});
+                if (sakai.data.me.user.userStoragePrefix) {
+                    sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
                 }
+
             }
         });
     };
@@ -536,7 +538,7 @@ sakai.site = function(){
             $("#revision_history_container").hide();
             $("#content_page_options").show();
             $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets");
+            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
         }
 
     };
@@ -798,7 +800,7 @@ sakai.site = function(){
 
             // Render the list of widgets. The template will render a remove and add row for each widget, but will
             // only show one based on whether that widget is already on my dashboard
-            $(addGoodiesListContainer).html($.Template.render(addGoodiesListTemplate, addingPossible));
+            $(addGoodiesListContainer).html($.TemplateRenderer(addGoodiesListTemplate, addingPossible));
             renderGoodiesEventHandlers();
 
             // Show the modal dialog
@@ -1028,7 +1030,7 @@ sakai.site = function(){
                             final2.columns[index].portlets[iindex].title = widget.name;
                             final2.columns[index].portlets[iindex].display = portaldef.visible;
                             final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                            final2.columns[index].portlets[iindex].placement = sakai.site.currentsite.id + "/_widgets";
+                            final2.columns[index].portlets[iindex].placement = sakai.site.currentsite.id + "/_widgets/";
                             final2.columns[index].portlets[iindex].height = widget.height;
                         }
                     }
@@ -1041,12 +1043,12 @@ sakai.site = function(){
 
             if (isvalid) {
 
-                final2.me = sdata.me;
+                final2.me = sakai.data.me;
 
                 var el = document.createElement("div");
                 el.id = sakai.site.selectedpage;
                 el.className = "content";
-                el.innerHTML = $.Template.render("dashboard_container_template", final2);
+                el.innerHTML = $.TemplateRenderer("dashboard_container_template", final2);
 
                 $main_content_div.append(el);
 
@@ -1130,7 +1132,7 @@ sakai.site = function(){
                     });
 
                     $("#settings_settings").bind("mousedown", function(ev){
-                        var generic = "widget_" + currentSettingsOpen + "_" + sakai.site.currentsite.id + "/_widgets";
+                        var generic = "widget_" + currentSettingsOpen + "_" + sakai.site.currentsite.id + "/_widgets/";
                         var id = currentSettingsOpen.split("_")[1];
                         var old = document.getElementById(id);
                         var newel = document.createElement("div");
@@ -1237,7 +1239,7 @@ sakai.site = function(){
                 newjson.layouts = Widgets.layouts;
                 newjson.selected = selected;
                 currentselectedlayout = selected;
-                $("#layouts_list").html($.Template.render("layouts_template", newjson));
+                $("#layouts_list").html($.TemplateRenderer("layouts_template", newjson));
                 tobindtolayoutpicker();
             });
         };
@@ -1263,7 +1265,7 @@ sakai.site = function(){
             newjson.layouts = Widgets.layouts;
             newjson.selected = layout;
             currentselectedlayout = layout;
-            $("#layouts_list").html($.Template.render("layouts_template", newjson));
+            $("#layouts_list").html($.TemplateRenderer("layouts_template", newjson));
             tobindtolayoutpicker();
             hash.w.show();
         };
@@ -1307,7 +1309,7 @@ sakai.site = function(){
                 }
 
             // Insert widgets
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets");
+            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
 
             // (Re)-Render Navigation widget
             if (sakai.site.navigation) {

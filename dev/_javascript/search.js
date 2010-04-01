@@ -184,7 +184,7 @@ sakai.search = function() {
         if (foundCM && foundCM.results) {
             finaljson = mainSearch.prepareCMforRendering(foundCM.results, finaljson);
         }
-        $(searchConfig.cm.searchResult).html($.Template.render(searchConfig.cm.searchResultTemplate, finaljson));
+        $(searchConfig.cm.searchResult).html($.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
     };
 
     /**
@@ -229,7 +229,7 @@ sakai.search = function() {
             }
         }
 
-        $(searchConfig.sites.searchResult).html($.Template.render(searchConfig.sites.searchResultTemplate, finaljson));
+        $(searchConfig.sites.searchResult).html($.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
     };
 
 
@@ -260,7 +260,7 @@ sakai.search = function() {
 
         foundPeople = finaljson.items;
 
-        $(searchConfig.people.searchResult).html($.Template.render(searchConfig.people.searchResultTemplate, finaljson));
+        $(searchConfig.people.searchResult).html($.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
     };
 
 
@@ -304,7 +304,7 @@ sakai.search = function() {
 
             // Content & Media Search
             $.ajax({
-                url: Config.URL.SEARCH_ALL_FILES_SERVICE,
+                url: sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
                     "search" : urlsearchterm,
                     "items" : cmToSearch
@@ -321,12 +321,24 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
                 cache: false,
                 success: function(data) {
-                    renderPeople($.evalJSON(data));
+
+                    var raw_results = $.evalJSON(data);
+
+                    // Store found people in data cache
+                    sakai.data.search.results_people = {};
+                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
+                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    }
+
+                    // Render results
+                    renderPeople(raw_results);
                 },
                 error: function(xhr, textStatus, thrownError) {
+
+                    sakai.data.search.results_people = {};
                     renderPeople({});
                 }
             });
@@ -334,7 +346,7 @@ sakai.search = function() {
             // Sites search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
+                url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
                 success: function(data) {
                     var foundSites = $.evalJSON(data);
                     renderSites(foundSites);

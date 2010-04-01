@@ -20,9 +20,9 @@
 
 var sakai = sakai || {};
 
-sakai.s23courses = function(tuid, placement, showSettings){
+sakai.s23courses = function(tuid, showSettings){
 
-    Config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
+    sakai.config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
 
 
     /////////////////////////////
@@ -65,7 +65,7 @@ sakai.s23courses = function(tuid, placement, showSettings){
         };
 
         // Render the template and pass through the parseglobal object
-        $.Template.render(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
+        $.TemplateRenderer(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
 
         //
         if(parseglobal.all.length >= pageSize){
@@ -131,7 +131,7 @@ sakai.s23courses = function(tuid, placement, showSettings){
      */
     var getCoursesAndProjects = function(){
         $.ajax({
-            url: Config.URL.SAKAI2_MCP_URL,
+            url: sakai.config.URL.SAKAI2_MCP_URL,
             success: function(data){
                 globalfeed = $.evalJSON(data);
             },

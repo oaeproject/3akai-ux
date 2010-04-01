@@ -32,7 +32,6 @@ sakai.search = function() {
     var foundPeople = [];
     var contactclicked = false;
     var mainSearch = false;
-    var results = false;
 
 
     //    CSS IDs
@@ -262,7 +261,7 @@ sakai.search = function() {
         }
         foundPeople = finaljson.items;
         //    Render the results.
-        $(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+        $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $("#search_results_page1").show();
     };
 
@@ -317,23 +316,29 @@ sakai.search = function() {
             // The search URL depends on the searchWhere variable
             var searchURL;
             if(searchWhere === "mycontacts") {
-                searchURL = Config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
+                searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
             }  else {
-                searchURL = Config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName";
+                searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName";
             }
 
             $.ajax({
                 cache: false,
                 url: searchURL,
                 success: function(data) {
-                    var json = $.evalJSON(data);
-                    results = json;
-                    renderResults(json, true);
+
+                    var raw_results = $.evalJSON(data);
+
+                    // Store found people in data cache
+                    sakai.data.search.results_people = {};
+                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
+                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    }
+
+                    renderResults(raw_results, true);
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    var json = {};
-                    results = json;
-                    renderResults(json, false);
+                    sakai.data.search.results_people = {};
+                    renderResults(sakai.data.search.results_people, false);
                 }
             });
 
@@ -358,7 +363,7 @@ sakai.search = function() {
     $("#create_site_these_people_link").bind("click", function(ev){
         var searchterm = $(searchConfig.global.text).val().toLowerCase();
         var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = Config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
+        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
         $.ajax({
             cache: false,
             url: url,

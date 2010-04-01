@@ -32,7 +32,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     // Configuration variables //
     /////////////////////////////
 
-    var me = sdata.me; // Contains information about the current user
+    var me = sakai.data.me; // Contains information about the current user
     var rootel = $("#" + tuid); // Get the main div used by the widget
     var editing = false; // Currently editing a post
     var currentEditId = ""; // ID of the element that is currently being edited
@@ -224,7 +224,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
         if (picture && $.evalJSON(picture).name) {
             return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
         }
-        return Config.URL.PERSON_ICON_URL;
+        return sakai.config.URL.USER_DEFAULT_ICON_URL;
     };
 
 
@@ -375,7 +375,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     if(currentDisplayMode === 'full') {
 
         // Render the compact view template
-        $(discussionContainer, rootel).html($.Template.render(discussionCompactContainerTemplate, event.data));
+        $(discussionContainer, rootel).html($.TemplateRenderer(discussionCompactContainerTemplate, event.data));
         $('#discussion_post' + event.data.posts[0].post["sakai:id"]).show();
 
     }
@@ -398,7 +398,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
         jsonPosts.curr = me;
 
         // Render the posts with the template engine
-        $(discussionContainer, rootel).html($.Template.render(discussionContainerTemplate, jsonPosts));
+        $(discussionContainer, rootel).html($.TemplateRenderer(discussionContainerTemplate, jsonPosts));
 
         currentDisplayMode = 'full';
     };
@@ -574,7 +574,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
      */
     var getPostsFromJCR = function() {
         var s = store.substring(0, store.length - 1);
-        var url = Config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
+        var url = sakai.config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
         $.ajax({
             url: url,
             cache: false,
@@ -597,14 +597,13 @@ sakai.discussion = function(tuid, placement, showSettings) {
      * @param {Object} callback a function that can be called when the settings were succesfully saved.
      */
     var saveWidgetSettings = function(callback) {
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
+        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
         var data = widgetSettings;
 
         widgetSettings['sling:resourceType'] = 'sakai/settings';
         widgetSettings['sakai:marker'] = tuid;
 
         // JCR properties are not necessary.
-        delete data["jcr:created"];
         delete data["jcr:primaryType"];
         $.ajax({
             cache: false,
@@ -629,7 +628,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     var createInitialPost = function(post) {
         // Use the local store for creating the initial posts.
         $.ajax({
-            url: "/_user/message.create.html",
+            url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
             cache: false,
             type: 'POST',
             success: function(data) {
@@ -862,7 +861,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
      * Gets all the existing discussions for the current site
      */
     var getExistingDiscussions = function(){
-        var url = Config.URL.DISCUSSION_INITIALPOSTS_SERVICE.replace(/__PATH__/, Config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, currentSite));
+        var url = sakai.config.URL.DISCUSSION_INITIALPOSTS_SERVICE.replace(/__PATH__/, sakai.config.URL.SDATA_FETCH_PLACEMENT_URL.replace(/__PLACEMENT__/, currentSite));
         url = url.replace(/__ITEMS__/, 1000).replace(/__PAGE__/, 0);
         $.ajax({
             cache: false,
@@ -887,7 +886,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
                         }
                     }
 
-                    $(discussionSettingsExistingContainer, rootel).html($.Template.render(discussionSettingsExistingContainerTemplate, json));
+                    $(discussionSettingsExistingContainer, rootel).html($.TemplateRenderer(discussionSettingsExistingContainerTemplate, json));
                 }
                 else {
                     // No discussions available.
@@ -969,7 +968,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
      * Fetches the widget settings and places it in the widgetSettings var.
      */
     var getWidgetSettings = function() {
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
 
         $.ajax({
             url: url,
@@ -1016,7 +1015,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
      * Fetches the widget settings and places it in the widgetSettings var.
      */
     var getWidgetSettings = function(){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
 
         $.ajax({
             url: url,

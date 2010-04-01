@@ -5,32 +5,35 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Edit Profile</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+    <!-- Sakai Page CSS -->
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.edit.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css"/>
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
     <link rel="stylesheet" type="text/css" href="_lib/Jquery/imgareaselect/imgareaselect-default.css" />
 
+    <!-- Sakai Config JS -->
     <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/SHA.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/imgareaselect/jquery.imgareaselect.pack.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/imgareaselect/jquery.imgareaselect.pack.js"></script>
 
 </head>
 
@@ -44,7 +47,7 @@
             <div class="decor"></div>
 
             <!-- TITLE BAR  -->
-            <div class="site_heading fl-force-left">
+            <div class="s3d-site-heading fl-force-left">
                 <h1 id="sitetitle">__MSG__EDIT_MY_PROFILE__</h1>
             </div>
         </div>
@@ -80,7 +83,7 @@
                     </div>
 
                     <!-- BASIC INFORMATION -->
-                    <div class="fl-fix profile_section" id="basic_information">
+                    <div class="fl-fix profile_section profile_section_editable" id="basic_information">
 
                         <h4 class="profile_section_header">__MSG__BASIC_INFO__</h4>
 
@@ -90,76 +93,59 @@
                                 <tr id="status">
                                     <th class="entry_label">__MSG__STATUS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_status" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_status" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="firstname">
                                     <th class="entry_label">__MSG__FIRSTNAME__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_firstname" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_firstname" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="lastname">
                                     <th class="entry_label">__MSG__LASTNAME__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_lastname" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_lastname" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="unirole">
                                     <th class="entry_label">__MSG__ROLE_POSITION__:</th>
                                     <td>
-                                        <div class="inlineEditableAlt">
-                                            <div id="txt_unirole" class="dropdownbox"></div>
-                                            <div class="editContainer">
-                                                <select class="options">
-                                                    <option></option>
-                                                    <option value="Undergraduate Student">Undergraduate Student</option>
-                                                    <option value="Graduate Student">Graduate Student</option>
-                                                    <option value="Postgraduate Student">Postgraduate Student</option>
-                                                    <option value="Academic Staff">Academic Staff</option>
-                                                    <option value="Academic Related Staff">Academic Related Staff</option>
-                                                    <option value="Non-academic Staff">Non-academic Staff</option>
-                                                    <option value="Assistant Staff">Assistant Staff</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <select id="txt_unirole" class="profile_edit_dropdown">
+                                            <option></option>
+                                            <option value="Undergraduate Student">Undergraduate Student</option>
+                                            <option value="Graduate Student">Graduate Student</option>
+                                            <option value="Postgraduate Student">Postgraduate Student</option>
+                                            <option value="Academic Staff">Academic Staff</option>
+                                            <option value="Academic Related Staff">Academic Related Staff</option>
+                                            <option value="Non-academic Staff">Non-academic Staff</option>
+                                            <option value="Assistant Staff">Assistant Staff</option>
+                                            <option value="Other">Other</option>
+                                        </select>
                                     </td>
                                 </tr>
 
                                 <tr id="unidepartment">
                                     <th class="entry_label">__MSG__DEPARTMENT__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_unidepartment" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_unidepartment" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="unicollege">
                                     <th class="entry_label">__MSG__COLLEGE__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_unicollege" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_unicollege" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="birthday">
                                     <th class="entry_label">__MSG__DATE_OF_BIRTH__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_birthday" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_birthday" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
                             </table>
@@ -167,7 +153,7 @@
                     </div>
 
                     <!-- ABOUT ME -->
-                    <div class="fl-fix profile_section" id="about">
+                    <div class="fl-fix profile_section profile_section_editable" id="about">
                         <div class="profile_section_header">
                             __MSG__ABOUT_ME__
                         </div>
@@ -178,42 +164,28 @@
                                 <tr id="aboutme">
                                     <th class="entry_label">__MSG__ABOUT_ME__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_aboutme" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_aboutme" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="academicinterests">
                                     <th class="entry_label">__MSG__ACADEMIC_INTERESTS__:</th>
                                     <td>
-                                        <div class="inlineEditableAlt">
-                                            <div id="txt_academicinterests" class="textarea"></div>
-                                            <div class="editContainer">
-                                                <textarea rows="3" class="options edit"></textarea>
-                                            </div>
-                                        </div>
+                                        <textarea id="txt_academicinterests" rows="3" class="edit profile_edit_textarea"></textarea>
                                     </td>
                                 </tr>
 
                                 <tr id="personalinterests">
                                     <th class="entry_label">__MSG__PERSONAL_INTERESTS__:</th>
                                     <td>
-                                        <div class="inlineEditableAlt">
-                                            <div id="txt_personalinterests" class="textarea"></div>
-                                            <div class="editContainer">
-                                                <textarea rows="3" class="options edit"></textarea>
-                                            </div>
-                                        </div>
+                                        <textarea id="txt_personalinterests" rows="3" class="edit profile_edit_textarea"></textarea>
                                     </td>
                                 </tr>
 
                                 <tr id="hobbies">
                                     <th class="entry_label">__MSG__HOBBIES__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_hobbies" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_hobbies" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
                             </table>
@@ -450,7 +422,7 @@
                     </div>
 
                     <!-- ADDITIONAL INFO -->
-                    <div class="fl-fix profile_section" id="additional">
+                    <div class="fl-fix profile_section profile_section_editable" id="additional">
 
                         <div class="profile_section_header">__MSG__ADDITIONAL_INFORMATION__</div>
 
@@ -459,27 +431,21 @@
                                 <tr id="awards">
                                     <th class="entry_label">__MSG__AWARDS_AND_HONORS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_awards" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_awards" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="clubs">
                                     <th class="entry_label">__MSG__CLUBS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_clubs" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_clubs" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="societies">
                                     <th class="entry_label">__MSG__SOCIETIES__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_societies" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_societies" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
                             </table>
@@ -532,7 +498,7 @@
                     </div>
 
                     <!-- UNI CONTACT INFO -->
-                    <div class="fl-fix profile_section" id="unicontactinfo">
+                    <div class="fl-fix profile_section profile_section_editable" id="unicontactinfo">
 
                         <div class="profile_section_header">__MSG__UNIVERSITY_CONTACT_INFO__</div>
 
@@ -541,36 +507,28 @@
                                 <tr id="uniemail">
                                     <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_uniemail" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_uniemail" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="uniphone">
                                     <th class="entry_label">__MSG__PHONE__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_uniphone" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_uniphone" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="unimobile">
                                     <th class="entry_label">__MSG__MOBILE__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_unimobile" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_unimobile" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="uniaddress">
                                     <th class="entry_label">__MSG__ADDRESS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_uniaddress" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_uniaddress" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
                             </table>
@@ -578,7 +536,7 @@
                     </div>
 
                     <!-- HOME CONTACT -->
-                    <div class="fl-fix profile_section" id="homecontactinfo">
+                    <div class="fl-fix profile_section profile_section_editable" id="homecontactinfo">
 
                         <div class="profile_section_header">__MSG__HOME_CONTACT_INFO__</div>
 
@@ -587,36 +545,28 @@
                                 <tr id="homeemail">
                                     <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_homeemail" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_homeemail" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="homephone">
                                     <th class="entry_label">__MSG__PHONE__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_homephone" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_homephone" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="homemobile">
                                     <th class="entry_label">__MSG__MOBILE__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_homemobile" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_homemobile" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
 
                                 <tr id="homeaddress">
                                     <th class="entry_label">__MSG__ADDRESS__:</th>
                                     <td>
-                                        <div class="flc-inlineEditable">
-                                            <div id="txt_homeaddress" class="flc-inlineEdit-text"></div>
-                                        </div>
+                                        <input id="txt_homeaddress" class="flc-inlineEdit-text" type="text">
                                     </td>
                                 </tr>
                             </table>

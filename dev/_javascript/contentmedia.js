@@ -38,11 +38,11 @@ sakai.contentmedia = function(){
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : Config.URL.SEARCH_ALL_FILES_SERVICE,
-        mybookmarks : Config.URL.SEARCH_MY_BOOKMARKS,
-        mycontacts : Config.URL.SEARCH_MY_CONTACTS,
-        myfiles : Config.URL.SEARCH_MY_FILES,
-        mysites : Config.URL.SEARCH_MY_SITES
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
+        mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
+        myfiles : sakai.config.URL.SEARCH_MY_FILES,
+        mysites : sakai.config.URL.SEARCH_MY_SITES
     };
 
 
@@ -234,7 +234,7 @@ sakai.contentmedia = function(){
             jsonT.filename = basicUploadFilename;
 
             // Show a response that the upload was successful
-            $(contentmediaUploaderBasicSuccessful).html($.Template.render(contentmediaUploaderBasicSuccessfulTemplate, jsonT));
+            $(contentmediaUploaderBasicSuccessful).html($.TemplateRenderer(contentmediaUploaderBasicSuccessfulTemplate, jsonT));
         }
     };
 
@@ -246,7 +246,7 @@ sakai.contentmedia = function(){
     var showDroppedMessage = function(movedFiles, showDroppedMessageIn){
         // Render the message and add animation to show the message
         $(contentmediaDropMessage).hide();
-        $.Template.render(contentmediaDropMessageTemplate, movedFiles, $(contentmediaDropMessage));
+        $.TemplateRenderer(contentmediaDropMessageTemplate, movedFiles, $(contentmediaDropMessage));
         $(showDroppedMessageIn).append($(contentmediaDropMessage));
         $(contentmediaDropMessage).show();
         $(contentmediaDropMessage).fadeOut(2000);
@@ -410,7 +410,7 @@ sakai.contentmedia = function(){
             helper: function(event) {
 
                 return $('<div class="'+ contentmediaDragTooltipClass + '">Move ' + selectedFiles.items.length + ' files</div>');
-                //$.Template.render(contentmediaDragTooltipTemplate, selectedFiles, contentmediaDragTooltip);
+                //$.TemplateRenderer(contentmediaDragTooltipTemplate, selectedFiles, contentmediaDragTooltip);
                 //return $(contentmediaDragTooltip);
             }
         });
@@ -438,12 +438,12 @@ sakai.contentmedia = function(){
         for(var i = 0; i < globaldata.results.length; i++){
             if(globaldata.results[i].filesize){
                 globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i].filesize);
-                globaldata.results[i].formattedDateModified = dateFormat($.ParseJCRDate(globaldata.results[i]["jcr:lastModified"]));
+                globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["jcr:lastModified"]));
             }
         }
 
         // Render files
-        $(contentmediaFilesContainer).html($.Template.render(contentmediaFilesContainerTemplate, data));
+        $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, data));
 
         // Render paging
         $(jqPagerClass).pager({
@@ -480,7 +480,7 @@ sakai.contentmedia = function(){
         options.site = _options.site || false;
 
         // Set the title of the file list
-        $(contentmediaListTitle).html($.Template.render(contentmediaListTitleTemplate, options));
+        $(contentmediaListTitle).html($.TemplateRenderer(contentmediaListTitleTemplate, options));
 
         var url = "";
 
@@ -751,7 +751,7 @@ sakai.contentmedia = function(){
     var renderRemove = function(hash){
 
         // Render the template with the selected files
-        $.Template.render(contentmediaDialogRemoveListTemplate, selectedFiles, $(contentmediaDialogRemoveList));
+        $.TemplateRenderer(contentmediaDialogRemoveListTemplate, selectedFiles, $(contentmediaDialogRemoveList));
 
         // Finally show the jqModal pop-up
         hash.w.show();
@@ -1191,7 +1191,7 @@ sakai.contentmedia = function(){
 
                 options: {
                     // Set the uploadURL to the URL for posting files to your server.
-                    uploadURL: getServerUrl(Config.URL.UPLOAD_URL),
+                    uploadURL: getServerUrl("/_user" + sakai.data.me.profile.path + sakai.config.URL.USER_DEFAULT_UPLOAD_FOLDER),
 
                     // This option points to the location of the SWFUpload Flash object that ships with Fluid Infusion.
                     flashURL: "/dev/_lib/Fluid/fluid-components/swfupload/swfupload.swf"
@@ -1393,11 +1393,11 @@ sakai.contentmedia = function(){
             var siteid = querystring.get("siteid");
 
             $.ajax({
-                url: Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
+                url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
                 cache: false,
                 success: function(data){
                     var parsedData = $.evalJSON(data);
-                    setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
+                    setSiteFilter(sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 
                     // Fetch the initial list of files
                     doFileSearch(options);
@@ -1421,7 +1421,7 @@ sakai.contentmedia = function(){
         jsonSites.items = sites;
 
         // Render the template with the selected files
-        $.Template.render(contentmediaAccordionListSiteTemplate, jsonSites, $(contentmediaAccordionListSite));
+        $.TemplateRenderer(contentmediaAccordionListSiteTemplate, jsonSites, $(contentmediaAccordionListSite));
     };
 
     /**
@@ -1429,7 +1429,7 @@ sakai.contentmedia = function(){
      */
     var initialiseSites = function(){
         $.ajax({
-            url: Config.URL.SITES_SERVICE,
+            url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
                 loadSites($.evalJSON(data));

@@ -209,23 +209,23 @@
 
     </target>
 
-    <!-- Create documentation - at the moment for sdata.js which does not have proper docs, but later should be adjusted to proper JS APIs-->
-    <target name="documentation">
+    <!-- Create documentation -->
+    <target name="documentation" depends="init">
 
         <echo message="Creating documentation..."/>
         <property name="jsdoc.output" location="${TARGET_DOCUMENTATION_DIR}"/>
         <property name="jsdoc.defaulttemplate" location="${JSDOCTOOLKIT_DIR}/templates/jsdoc"/>
         <property name="jsdoc.logfile" location="${TARGET_REPORTS_DIR}/documentation.log"/>
 
-        <apply executable="java" parallel="false">
+        <apply executable="java" parallel="true">
             <arg value="-jar"/>
             <arg path="${JSDOCTOOLKIT_DIR}/jsrun.jar"/>
             <arg path="${JSDOCTOOLKIT_DIR}/app/run.js"/>
             <arg value="-d=${jsdoc.output}"/>
             <arg value="-t=${jsdoc.defaulttemplate}"/>
             <arg value="-o=${jsdoc.logfile}"/>
-            <filelist dir="${TARGET_DIR}/_lib/sakai_util">
-                <file name="sdata.js" />
+            <filelist dir="${SRC_DIR}/_lib/sakai_util">
+                <file name="sakai_magic.js" />
             </filelist>
         </apply>
     </target>

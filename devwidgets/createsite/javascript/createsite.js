@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.createsite = function(tuid,placement,showSettings){
+sakai.createsite = function(tuid, showSettings){
 
     /////////////////////////////
     // Configuration variables //
@@ -82,7 +82,7 @@ sakai.createsite = function(tuid,placement,showSettings){
             // Filter out myself
             var todelete = -1;
             for (var i = 0; i < members.items.length; i++){
-                if (members.items[i].userid == sdata.me.user.userid){
+                if (members.items[i].userid == sakai.data.me.user.userid){
                     todelete = i;
                 }
             }
@@ -92,11 +92,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 
             // Put me in as first element
             var item = {};
-            item.name = sdata.me.profile.firstName + " " + sdata.me.profile.lastName;
-            item.userid = sdata.me.user.userid;
-            item.picture = Config.URL.PERSON_ICON_URL;
-            if (sdata.me.profile.picture && $.evalJSON(sdata.me.profile.picture).name){
-                item.picture = "/_user/public/" + sdata.me.user.userid + "/" + $.evalJSON(sdata.me.profile.picture).name;
+            item.name = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
+            item.userid = sakai.data.me.user.userid;
+            item.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
+            if (sakai.data.me.profile.picture && $.evalJSON(sakai.data.me.profile.picture).name){
+                item.picture = "/_user/public/" + sakai.data.me.user.userid + "/" + $.evalJSON(sakai.data.me.profile.picture).name;
             }
             members.items.unshift(item);
 
@@ -104,7 +104,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 
             $(".description_fields").hide();
             $(".member_fields").show();
-            $("#members_to_add").html($.Template.render("members_to_add_template", members));
+            $("#members_to_add").html($.TemplateRenderer("members_to_add_template", members));
 
         } else {
             $(".description_fields").show();
@@ -192,6 +192,21 @@ sakai.createsite = function(tuid,placement,showSettings){
      * Create the actual site.
      * Sends information to the server about the site you are making.
      */
+
+    var doCheckSite = function(siteid){
+    // Check if the site exists.
+        var siteExists = false;
+        $.ajax({
+            url: "/sites/" + siteid + ".json",
+            type: "GET",
+            async: false,
+            success: function(data, textStatus){
+                siteExists = true;
+            }
+        });
+        return siteExists;
+    };
+
     var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
     // Create a site node based on the template.
         $.ajax({
@@ -210,7 +225,13 @@ sakai.createsite = function(tuid,placement,showSettings){
             },
             // error: error,
             error: function(xhr, textStatus, thrownError){
-                alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                var siteCheck = doCheckSite(siteid);
+                if (siteCheck){
+                    alert("The site Url you specified is not available, please choose another.");
+                } else {
+                    alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                }
+                showProcess(false);
             }
         });
     };

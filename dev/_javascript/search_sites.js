@@ -182,7 +182,7 @@ sakai.search = function() {
         }
 
         // Render the results.
-        $(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+        $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
     };
 
@@ -238,7 +238,7 @@ sakai.search = function() {
             }
 
             $.ajax({
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
+                url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
                 cache: false,
                 success: function(data) {
                     var json = $.evalJSON(data);
