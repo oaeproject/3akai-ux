@@ -3,7 +3,11 @@
 
 <!-- ERRORS -->
 <div id="delicious_error_container" style="display:none;">
-    <div class="delicious_error" id="delicious_error_notconnected">__MSG__NOT_CONNECTED__ <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS_PAGE__</a>.</div>
+    <span class="delicious_error" id="delicious_error_noitems">__MSG__NO_ITEMS__</span>
+    <span class="delicious_error" id="delicious_error_nopersonalbookmarks">__MSG__NO_PERSONAL_BOOKMARKS__</span>
+    <span class="delicious_error" id="delicious_error_nopersonalnetworks">__MSG__NO_PERSONAL_NETWORKS__</span>
+    <span class="delicious_error" id="delicious_error_nopersonalsubscriptions">__MSG__NO_PERSONAL_SUBSCRIPTIONS__</span>
+    <span class="delicious_error" id="delicious_error_nouser">__MSG__ENTER_USERNAME__ <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS_PAGE__</a>.</span>
 </div>
 
 <!-- CONTENT -->
@@ -13,20 +17,20 @@
         <div id="delicious_container_main">
             <!-- Main view menu -->
             <div id="delicious_main_menu">
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_0_link">__MSG__FRESH__</a>
+                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_0">__MSG__FRESH__</a>
                 <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_1_link">__MSG__HOTLIST__</a>
+                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_1">__MSG__HOTLIST__</a>
                 <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_2_link">__MSG__PERSONAL__</a>
+                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_2">__MSG__PERSONAL__</a>
                 <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_3_link">__MSG__NETWORK__</a>
+                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_3">__MSG__NETWORK__</a>
                 <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_4_link">__MSG__SUBSCRIPTIONS__</a>
+                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_4">__MSG__SUBSCRIPTIONS__</a>
                 <a href="javascript:;" id="delicious_refresh_link"></a>
             </div>
 
             <!-- Main view filter -->
-            <div id="delicious_main_filter">
+            <div id="delicious_main_filter" style="display:none;">
                 <form id="delicious_filter_form" action="javascript:;">
                     <div id="delicious_filter_user">
                         <label id="delicious_filter_label_user" for="delicious_filter_input_user">
@@ -42,11 +46,12 @@
 
             <!-- Main view bookmarks -->
             <div id="delicious_main_bookmarks">
+                <!-- -->
             </div>
         </div>
 
         <!-- Container that will hold all settings -->
-        <div id="delicious_container_settings">
+        <div id="delicious_container_settings" style="display:none;">
             <!-- Settings form -->
             <form id="delicious_settings_form" action="javascript:;">
                 <h4>__MSG__ACCOUNT__</h4>
@@ -58,7 +63,7 @@
                     <input type="text" id="delicious_settings_input_username" value=""/>
                 </div>
 
-                <h4>Display</h4>
+                <h4>__MSG__DISPLAY__</h4>
 
                 <div class="settings_input">
                     <label id="delicious_settings_label_bookmarksPerPage" for="delicious_settings_select_bookmarksPerPage">
@@ -85,7 +90,7 @@
 
                 <!-- Settings buttons -->
                 <div class="buttonBar delicious_settings_buttonBar_save">
-                    <button type="submit" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_settings_cancel">
+                    <button type="button" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_settings_cancel">
                         <span class="s3d-button-inner">__MSG__CANCEL__</span>
                     </button>
                     <button type="submit" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_settings_save">
@@ -103,24 +108,29 @@
 </div>
 
 <!-- MAIN VIEW: BOOKMARKS -->
-<div id="delicious_template_main_bookmarks"><!--
+<div id="delicious_main_bookmarks_template"><!--
     {for bookmark in all}
         <a href="javascript:;" class="delicious_main_bookmark_info_link" id="bookmark_${bookmark_index}"></a>
         <div class="delicious_main_bookmark">
             <a href="${bookmark.u}" target="_blank">${bookmark.d}</a>
             <div class="delicious_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
                 <ul id="delicious_main_bookmark_ul_${bookmark_index}">
-                    <li id="delicious_main_bookmark_${bookmark_index}_li_user">__MSG__USER__: <a href="javascript:;" class="delicious_main_bookmark_user_link" id="${bookmark.a}">${bookmark.a}</a> <a href="http://www.delicious.com/${bookmark.a}" target="_blank"><img src="/devwidgets/delicious/images/user.png" alt="User icon"/></a></li>
+                    {if bookmark.a}
+                    <li id="delicious_main_bookmark_${bookmark_index}_li_user">__MSG__USER__: <a href="javascript:;" class="delicious_main_bookmark_user_link" id="${bookmark.a}">${bookmark.a}</a> <a href="http://delicious.com/${bookmark.a}" target="_blank"><img src="/devwidgets/delicious/images/user.png" alt="User icon"/></a></li>
+                    {/if}
                     <li id="delicious_main_bookmark_${bookmark_index}_li_date">__MSG__DATE__: ${bookmark.dt}</li>
-                    <li id="delicious_main_bookmark_${bookmark_index}_li_tags">__MSG__TAGS__: ${bookmark.t}</li>
+                    {if bookmark.t.length}
+                    <li id="delicious_main_bookmark_${bookmark_index}_li_tags">__MSG__TAGS__:
+                        {for tag in bookmark.t}
+                            <a href="http://delicious.com/tag/${tag}" target="_blank">${tag}</a>
+                        {/for}
+                    </li>
+                    {/if}
                 </ul>
             </div>
         </div>
     {/for}
     --></div>
-
-<!-- SETTINGS -->
-<div id="delicious_template_settings"></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/delicious/javascript/delicious.js"></script>

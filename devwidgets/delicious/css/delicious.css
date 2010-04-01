@@ -82,7 +82,9 @@
 }
 
 #delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info {
-    padding:0 15px;
+    margin:0 15px;
+    padding:0 5px;
+    border-left:2px solid #ddd;
 }
 
 #delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info li {
@@ -128,10 +130,10 @@
 
 /* GENERAL MARKUP */
 
-#delicious_widget .delicious_pipe_divider {
-    color:#999999;
-    font-size:0.85em;
-    padding:0 6px 0 10px;
+#delicious_widget .delicious_error a {
+    display:inline !important;
+    padding:0 !important;
+    text-decoration:underline;
 }
 
 #delicious_widget .delicious_input {
@@ -139,6 +141,16 @@
     padding:3px;
 }
 
-#delicious_widget .s3d-button-inner{
+#delicious_widget .delicious_pipe_divider {
+    color:#999999;
+    font-size:0.85em;
+    padding:0 6px 0 10px;
+}
+
+#delicious_widget .s3d-button-inner {
     padding-right:3px;
+}
+
+.delicious .widget_title {
+background:url("/devwidgets/delicious/images/delicious_icon.png") no-repeat scroll 17px 18px transparent;
 }
