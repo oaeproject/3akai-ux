@@ -193,15 +193,6 @@
     <!-- Target: Create archives -->
     <target name="compress">
 
-        <echo message="Creating JAR file..." />
-        <jar destfile="${TARGET_JAR_FILE}" basedir="${TARGET_RESOURCES}">
-            <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
-                <attribute name="Implementation-Vendor" value="Sakai Foundation"/>
-                <attribute name="Implementation-Title" value="Sakai 3 UX"/>
-            </manifest>
-        </jar>
-
         <echo message="Creating ZIP file..." />
         <zip destfile="${TARGET_ZIP_FILE}" basedir="${TARGET_RESOURCES}" encoding="UTF-8"/>
 
