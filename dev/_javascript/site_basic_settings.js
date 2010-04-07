@@ -206,9 +206,13 @@ sakai.site_basic_settings = function(){
     ////////////////////////
 
 
-    var saveSettingsDone = function(success, data){
+    var saveSettingsDone = function(success, data, redirect_url){
         if (success) {
             $(siteSettingsResponse).text($(siteSettingsErrorSaveSuccess).text());
+
+            // Go back to site
+            document.location = sakai.config.URL.SITE_ROOT + redirect_url;
+
         }
         else {
             // The user has no sufficient rights.
@@ -301,14 +305,11 @@ sakai.site_basic_settings = function(){
             if (editloc) {
                 var new_site_id = replaceCharacters(siteLocEL.val());
 
-                // Set up new location string
-                new_loc = sakai.config.URL.SITE_ROOT + "/" + new_site_id;
-
-                // Send adjusted ID to site node
-                //tosend["id"] = new_site_id; -- TO BE ENABLED FOR SAKIII-33
+                // Include adjusted ID in the data we send to the site node
+                tosend["id"] = new_site_id;
             }
 
-            // Do a patch request to the profile info so that it gets updated with the new information.
+            // Do a request to the profile info so that it gets updated with the new information.
             $.ajax({
                 url: siteinfo["jcr:path"],
                 type: "POST",
@@ -318,25 +319,23 @@ sakai.site_basic_settings = function(){
                     // Register URL location change
                     if (editloc) {
 
-                        /* -- TO BE ENABLED FOR SAKIII-33
                         $.ajax({
-                            url: siteinfo["jcr:path"],
+                            url: sakai.config.URL.SITE_CREATE_SERVICE,
                             type: "POST",
                             data: {
-                                ":operation": "move",
-                                ":dest": new_loc
+                                ":sitepath": "/" + new_site_id,
+                                ":moveFrom": siteinfo["jcr:path"]
                             },
                             success: function(data) {
-                                saveSettingsDone(true);
+                                saveSettingsDone(true, data,"/" + new_site_id);
                             },
                             error: function(xhr, status, thrown) {
                                 saveSettingsDone(false, xhr.status);
                             }
                         });
-                        */
 
                     } else {
-                        saveSettingsDone(true);
+                        saveSettingsDone(true, data, "/" + siteinfo.id);
                     }
 
 
@@ -417,24 +416,24 @@ sakai.site_basic_settings = function(){
     /*
      * The user wants the site offline, disable the other options
      */
-    $(siteSettingsStatusOff).bind('click', function(){
+    $(siteSettingsStatusOff).bind("click", function(){
         $(siteSettingsAccess).hide();
     });
-    $(siteSettingsStatusOn).bind('click', function(){
+    $(siteSettingsStatusOn).bind("click", function(){
         $(siteSettingsAccess).show();
     });
 
     /*
      * Save all the settings
      */
-    $(siteSettingsSave).bind('click', function(){
+    $(siteSettingsSave).bind("click", function(){
         saveSettings();
     });
 
     /*
      * Delete this site
      */
-    $(siteSettingsDeleteButton).bind('click', function(){
+    $(siteSettingsDeleteButton).bind("click", function(){
         // Show the overlay.
         $(siteSettingsDeleteContainer).jqmShow();
     });

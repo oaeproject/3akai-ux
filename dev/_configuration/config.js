@@ -84,7 +84,7 @@ sakai.config = {
         SEARCH_USERS: "/var/search/users",
         SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",
         SITE_CONFIGFOLDER: "/sites/__SITEID__",
-        SITE_CREATE_SERVICE: "/_rest/site/create",
+        SITE_CREATE_SERVICE: "/sites.createsite.json",
         SITE_FILES_URL: "/sites/__SITEID__/_files",
         SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
         SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",

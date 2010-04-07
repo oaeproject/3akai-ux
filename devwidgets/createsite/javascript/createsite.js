@@ -210,7 +210,7 @@ sakai.createsite = function(tuid, showSettings){
     var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
     // Create a site node based on the template.
         $.ajax({
-            url: "/sites.createsite.json",
+            url: sakai.config.URL.SITE_CREATE_SERVICE,
             data: {
                 "_charset_":"utf-8",
                 ":sitepath": "/" + siteid,
