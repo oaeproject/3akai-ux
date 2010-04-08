@@ -1274,8 +1274,9 @@ sakai.inbox = function() {
 
     var doInit = function() {
         // Check if we are logged in or out.
-        var uuid = sakai.data.me.user.userid;
-        if (!uuid || uuid === "anon") {
+        var person = sakai.data.me;
+        var uuid = person.user.userid;
+        if (!uuid || person.user.anon) {
             redirectToLoginPage();
         }
         else {
