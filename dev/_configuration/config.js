@@ -105,6 +105,10 @@ sakai.config = {
 
     },
 
+    Search: {
+        MAX_CORRECT_SEARCH_RESULT_COUNT: 100
+    },
+
     SakaiDomain: window.location.protocol + "//" + window.location.host,
 
     Profile: {
