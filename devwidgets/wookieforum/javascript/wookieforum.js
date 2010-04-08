@@ -259,7 +259,7 @@ sakai.wookieforum = function(tuid, showSettings){
     var doInit = function() {
         //    Get the current User.
         me = sakai.data.me;
-        if (me.preferences.uuid === "anon" || me.preferences.uuid === undefined) {
+        if (me.user.anon || me.preferences.uuid === undefined) {
             //    This user is not logged in
             //    Send him to the login page.
             document.location = sakai.config.URL.GATEWAY_URL;
