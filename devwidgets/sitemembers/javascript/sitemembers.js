@@ -19,7 +19,7 @@
 
 var sakai = sakai ||
 {};
-sakai.sitemembers = function(tuid, placement, showSettings){
+sakai.sitemembers = function(tuid, showSettings){
 
 
     ///////////////
@@ -35,7 +35,7 @@ sakai.sitemembers = function(tuid, placement, showSettings){
     // This determines if we are in 'all' mode or in 'contacts' mode.
     var viewMode = "all";
     // This site's id
-    var siteid = placement.split("/")[0];
+    var siteid = sakai.site.currentsite.id;
     // The total amount of memebrs
     var totalMembers = 1;
 
@@ -554,12 +554,9 @@ sakai.sitemembers = function(tuid, placement, showSettings){
      * Retrieves the settings object from JCR.
      */
     var getSiteMembersSettingsFromJCR = function(){
-        var url = sakai.config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid) + ".json";
-        $.ajax({
-            url: url,
-            type: "GET",
-            success: function(data){
-                widgetSettings = $.evalJSON(data);
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+            if (success) {
+                widgetSettings = data;
                 widgetSettings.data = $.evalJSON(widgetSettings.data);
                 if (showSettings) {
                     displaySettings(widgetSettings);
@@ -568,8 +565,8 @@ sakai.sitemembers = function(tuid, placement, showSettings){
                     getTotalAmountOfMembers();
                     doPageView();
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+            }
+            else {
                 widgetSettings.data = [];
                 widgetSettings.display = "compact";
                 widgetSettings.sort = "lastname";
@@ -623,26 +620,27 @@ sakai.sitemembers = function(tuid, placement, showSettings){
      * Start the process to save all the settings for the site members widget to JCR.
      */
     var saveSettings = function(){
-        var saveUrl = sakai.config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
         // gets the JSON-settings-object and converts it to a string
         var settings = createSiteMembersSettings();
+
         var toSend = {
             "sort": settings.sort,
             "display": settings.display,
             "data": $.toJSON(settings.data),
-            "_charset_":"utf-8"
+            "_charset_": "utf-8"
         };
-        $.ajax({
-            url: saveUrl,
-            type: "POST",
-            success: function(data){
+
+        sakai.api.Widgets.saveWidgetData(tuid, toSend, function(success, data){
+
+            if (success) {
                 closeSettings();
-            },
-            error: function(xhr, textStatus, thrownError) {
+            }
+            else {
                 alert("Failed to save settings");
-            },
-            data: toSend
+            }
+
         });
+
     };
 
     ////////////////////

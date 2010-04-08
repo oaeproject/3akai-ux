@@ -461,7 +461,8 @@ sakai.inbox = function() {
         if (typeof message === "string"){
             message = $.evalJSON(message);
         }
-        var dateString = message["jcr:created"];
+
+        var dateString = message["sakai:created"];
         var d = new Date();
         d.setFullYear(parseInt(dateString.substring(0,4),10));
         d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
@@ -604,7 +605,7 @@ sakai.inbox = function() {
             box = "trash";
         }
 
-        var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
+        var url = sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
 
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
@@ -625,7 +626,7 @@ sakai.inbox = function() {
             } else if (selectedCategory === "Chat"){
                 cats = "chat";
             }
-            url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
+            url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "&page=" + currentPage;
         }
 
         $.ajax({
@@ -656,7 +657,7 @@ sakai.inbox = function() {
     var showUnreadMessages = function() {
 
         $.ajax({
-            url: "/_user/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
+            url: "/_user" + sakai.data.me.profile.path + "/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
             cache: false,
             success: function(data) {
                 var json = $.evalJSON(data);
@@ -724,7 +725,7 @@ sakai.inbox = function() {
             box = "trash";
         }
 
-        var url = "/_user/message/box.json?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
+        var url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
 
         var types = "&types=" + selectedType;
         if (typeof selectedType === "undefined" || selectedType === "") {
@@ -745,7 +746,7 @@ sakai.inbox = function() {
             } else if (selectedCategory === "Chat"){
                 cats = "chat";
             }
-            url = "/_user/message/boxcategory.json?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "0&page=" + currentPage;
+            url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "0&page=" + currentPage;
         }
 
         // Remove previous messages

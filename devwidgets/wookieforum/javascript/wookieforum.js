@@ -19,7 +19,7 @@
 /*global Config, $, sdata, window */
 
 var sakai = sakai || {};
-sakai.wookieforum = function(tuid, placement, showSettings){
+sakai.wookieforum = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -124,7 +124,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
         // Get the forum
 
-        sakai.api.Widgets.loadWidgetData("wookieforum", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
                 var forum = data;
 
@@ -176,9 +176,8 @@ sakai.wookieforum = function(tuid, placement, showSettings){
 
         var forum = {"url" : url, "width" : width, "height" : height, "maximze" : maximize};
 
-        //    sava data to widgets jcr
-        var str = $.toJSON(forum); // Convert the posts to a JSON string
-        sakai.api.Widgets.saveWidgetData("wookieforum", str, tuid, placement, forumSaved);
+        // Save data to widgets jcr
+        sakai.api.Widgets.saveWidgetData(tuid, forum, forumSaved);
     };
 
     /**
@@ -229,7 +228,7 @@ sakai.wookieforum = function(tuid, placement, showSettings){
     var doSettings = function() {
 
         // Get the chat settings
-        sakai.api.Widgets.loadWidgetData("wookieforum", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
 
                 var forum = data;

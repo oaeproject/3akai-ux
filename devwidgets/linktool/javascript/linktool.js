@@ -15,12 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*global $, sdata, get_cookie, Querystring, Config */
 
 var sakai = sakai || {};
 
-sakai.linktool = function(tuid, placement, showSettings){
+sakai.linktool = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -103,22 +102,23 @@ sakai.linktool = function(tuid, placement, showSettings){
      */
     var generateCompleteUrl = function(){
         var completeUrl = "";
-        if(json){
+        if (json) {
             var containsQuestionMark = false;
             // Check if the url contains a ?
-            if(json.url.indexOf("?") !== -1){
+            if (json.url.indexOf("?") !== -1) {
                 containsQuestionMark = true;
             }
 
             completeUrl += json.url;
 
-            for(var i in json.querystring){
+            for (var i in json.querystring) {
                 // Only add to the querystring if the checkbox is checked
-                if(json.querystring.hasOwnProperty(i) && json.querystring[i].checked){
+                if (json.querystring.hasOwnProperty(i) && json.querystring[i].checked) {
                     var querystringPart = json.querystring[i].text + "=" + json.querystring[i].value;
-                    if(containsQuestionMark){
+                    if (containsQuestionMark) {
                         completeUrl += "&" + querystringPart;
-                    }else{
+                    }
+                    else {
                         completeUrl += "?" + querystringPart;
                         containsQuestionMark = true;
                     }
@@ -131,7 +131,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     /**
      * Called when the data has been saved to the JCR.
      */
-    var savedDataToJCR = function(success, data) {
+    var savedDataToJCR = function(success, data){
         sdata.container.informFinish(tuid);
     };
 
@@ -145,7 +145,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      * @param {Boolean} complete Render the preview completely or only adjust values
      */
     var renderIframeSettings = function(complete){
-        if(complete){
+        if (complete) {
             // We create this object to render the iframe with the default height, width and widthunit
             var jsonDefaultSize = {};
             jsonDefaultSize = json;
@@ -153,7 +153,8 @@ sakai.linktool = function(tuid, placement, showSettings){
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
             $(linktoolSettingsPreview).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
-        }else{
+        }
+        else {
             $(linktoolSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
     };
@@ -162,7 +163,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Render the iframe for the widget
      */
     var renderIframe = function(){
-        if(json){
+        if (json) {
             json.url = generateCompleteUrl();
             $(linktoolMainContainer, rootel).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
         }
@@ -171,8 +172,8 @@ sakai.linktool = function(tuid, placement, showSettings){
     /**
      * Render the html of the linktoolsettings
      */
-    var renderLinkToolSettings = function() {
-        if(json){
+    var renderLinkToolSettings = function(){
+        if (json) {
             $(linktoolSettings).html($.TemplateRenderer(linktoolSettingsTemplate, json));
         }
     };
@@ -181,7 +182,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Render the color container
      */
     var renderColorContainer = function(){
-        if(json){
+        if (json) {
             $(linktoolSettingsColorContainer).html($.TemplateRenderer(linktoolSettingsColorContainerTemplate, json));
         }
     };
@@ -190,7 +191,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Render the querystring preview
      */
     var renderQuerystringPreview = function(){
-        if(json){
+        if (json) {
             var jsoncomplete = {};
             jsoncomplete.url_complete_preview = generateCompleteUrl();
             $(linktoolSettingsQuerystringPreview).html($.TemplateRenderer(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
@@ -206,7 +207,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Display the iframe in normal mode
      * @param {Object} parameters JSON object that contains the necessary information for the iframe
      */
-    var displayLinkTool = function(parameters) {
+    var displayLinkTool = function(parameters){
         json = parameters;
         renderIframe();
     };
@@ -214,10 +215,9 @@ sakai.linktool = function(tuid, placement, showSettings){
     /**
      * Save the linktool to the jcr
      */
-    var saveLinkTool = function() {
+    var saveLinkTool = function(){
         if (json.url !== "") {
-            var str = $.toJSON(json); // Convert the posts to a JSON string
-            sakai.api.Widgets.saveWidgetData("linktool", str, tuid, placement, savedDataToJCR);
+            sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
         }
     };
 
@@ -244,13 +244,13 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Add binding to the querystring elements
      */
     var addQuerystringBinding = function(){
-        $(linktoolSettingsQuerystringCheckboxClass).click(function() {
+        $(linktoolSettingsQuerystringCheckboxClass).click(function(){
             var checkId = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 2];
             json.querystring[checkId].checked = $(this).attr("checked");
             renderQuerystringPreview();
         });
 
-        $(linktoolSettingsQuerystringTextClass).change(function() {
+        $(linktoolSettingsQuerystringTextClass).change(function(){
             var textId = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 2];
             json.querystring[textId].text = $(this).val();
             renderQuerystringPreview();
@@ -261,7 +261,7 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Add binding to the color boxes
      */
     var addColorBinding = function(){
-        $(".linktool_settings_color").click(function() {
+        $(".linktool_settings_color").click(function(){
             json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
             renderIframeSettings(false);
             renderColorContainer();
@@ -275,7 +275,7 @@ sakai.linktool = function(tuid, placement, showSettings){
     var addBinding = function(){
 
         // Change the url for the iFrame
-        $(linktoolSettingsUrl).change(function() {
+        $(linktoolSettingsUrl).change(function(){
             var urlValue = $(this).val();
             if (urlValue !== "") {
                 // Check if someone already wrote http inside the url
@@ -289,29 +289,29 @@ sakai.linktool = function(tuid, placement, showSettings){
         });
 
         // Change the iframe width
-        $(linktoolSettingsWidth).change(function() {
+        $(linktoolSettingsWidth).change(function(){
             var widthValue = $(linktoolSettingsWidth).val();
 
-            if(isDecimal(widthValue)){
+            if (isDecimal(widthValue)) {
                 json.width = widthValue;
             }
             renderIframeSettings(false);
         });
 
         // Change the iframe height
-        $(linktoolSettingsHeight).change(function() {
+        $(linktoolSettingsHeight).change(function(){
             var heightValue = $(linktoolSettingsHeight).val();
 
-            if(isDecimal(heightValue)){
+            if (isDecimal(heightValue)) {
                 json.height = heightValue;
             }
             renderIframeSettings(false);
         });
 
         // Change the border width
-        $(linktoolSettingsBorders).change(function() {
+        $(linktoolSettingsBorders).change(function(){
             var borderValue = $(linktoolSettingsBorders).val();
-            if(isDecimal(borderValue)){
+            if (isDecimal(borderValue)) {
                 json.border_size = borderValue;
                 renderIframeSettings(false);
             }
@@ -325,25 +325,26 @@ sakai.linktool = function(tuid, placement, showSettings){
         });
 
         // When you click on one of the width units (px or percentage)
-        $(linktoolSettingsWidthUnitClass).click(function()  {
-             var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
-             if(widthUnitValue === "px"){
-                 json.width_unit = widthUnitValue;
-             }else{
-                 json.width_unit = "%";
-             }
-             $(linktoolSettingsWidthUnitClass).removeClass(linktoolSettingsWidthUnitSelectedClass);
-             $(this).addClass(linktoolSettingsWidthUnitSelectedClass);
-             renderIframeSettings(false);
+        $(linktoolSettingsWidthUnitClass).click(function(){
+            var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            if (widthUnitValue === "px") {
+                json.width_unit = widthUnitValue;
+            }
+            else {
+                json.width_unit = "%";
+            }
+            $(linktoolSettingsWidthUnitClass).removeClass(linktoolSettingsWidthUnitSelectedClass);
+            $(this).addClass(linktoolSettingsWidthUnitSelectedClass);
+            renderIframeSettings(false);
         });
 
         // When you push the save button..
-        $(linktoolSettingsInsert).click(function()  {
+        $(linktoolSettingsInsert).click(function(){
             saveLinkTool();
         });
 
         // Cancel it
-        $(linktoolSettingsCancel).click(function()  {
+        $(linktoolSettingsCancel).click(function(){
             sdata.container.informCancel(tuid);
         });
 
@@ -361,10 +362,11 @@ sakai.linktool = function(tuid, placement, showSettings){
      * @param {Object} parameters A JSON object that contains the necessary information.
      * @param {Boolean} exists Does there exist a previous linktool
      */
-    var displaySettings = function(parameters, exists) {
-        if(exists && parameters.url){
+    var displaySettings = function(parameters, exists){
+        if (exists && parameters.url) {
             json = parameters;
-        }else{
+        }
+        else {
             var qs = new Querystring();
             json = {
                 border_size: 0,
@@ -388,7 +390,7 @@ sakai.linktool = function(tuid, placement, showSettings){
                 uid: {
                     checked: false,
                     text: "userId",
-                    value: sakai.data.me.preferences.uuid
+                    value: sakai.data.me.user.userid
                 },
                 uname: {
                     checked: false,
@@ -427,23 +429,23 @@ sakai.linktool = function(tuid, placement, showSettings){
      * Will fetch the URL and other parameters from the JCR and according to which
      * view we are in, fill in the settings or display an iframe.
      */
-    var getLinkTool = function() {
-        $.ajax({
-            url : sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "linktool"),
-            cache: false,
-               success : function(data) {
+    var getLinkTool = function(){
+
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
                 // Get a JSON string that contains the necessary information.
-                var parameters = $.evalJSON(data);
+                var parameters = data;
 
                 if (showSettings) {
                     displaySettings(parameters, true); // Fill in the settings page.
                 }
                 else {
-                    displayLinkTool(parameters); // Show the frame
+                    displayLinktool(parameters); // Show the frame
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
-                // When the request isn't successful, it means that  there was no existing linktool
+            }
+            else {
+                // When the request isn't successful, it means that  there was no existing linktools
                 // so we show the basic settings.
                 displaySettings(null, false);
             }

@@ -18,7 +18,7 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
-sakai.recentmessages = function(tuid,placement,showSettings){
+sakai.recentmessages = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -99,7 +99,7 @@ sakai.recentmessages = function(tuid,placement,showSettings){
 
         // Fire an Ajax request to get the recent messages for the current user
         $.ajax({
-            url: "/_user/message/boxcategory.json?" + params,
+            url: MESSAGE_BOXCATEGORY_SERVICE + "?" + params,
             cache: false,
             success: function(data){
                 loadRecentMessages(data);

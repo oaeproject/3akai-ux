@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the rss widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement Widget place
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.rss = function(tuid, placement, showSettings){
+sakai.rss = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -445,8 +444,7 @@ sakai.rss = function(tuid, placement, showSettings){
     $(rssSubmit, rootel).bind("click",function(e,ui){
         var object = getSettingsObject();
         if(object !== false){
-            var tostring = $.toJSON(object);
-            sakai.api.Widgets.saveWidgetData("rss", tostring, tuid, placement, function(success, data){
+            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 if ($(".sakai_dashboard_page").is(":visible")) {
                     showSettings = false;
                     showHideSettings(showSettings);
@@ -504,9 +502,9 @@ sakai.rss = function(tuid, placement, showSettings){
 
         if(show){
 
-            sakai.api.Widgets.loadWidgetData("rss", tuid, placement, function(success, data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                 if (success) {
-                    resultJSON = $.evalJSON(data);
+                    resultJSON = data;
                     loadSettings(true);
                 } else {
                     loadSettings(false);
@@ -518,9 +516,9 @@ sakai.rss = function(tuid, placement, showSettings){
             $(rssSettings,rootel).hide();
             $(rssOutput,rootel).show();
 
-            sakai.api.Widgets.loadWidgetData("rss", tuid, placement, function(success, data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                 if (success) {
-                    resultJSON = $.evalJSON(data);
+                    resultJSON = data;
                     resultJSON.entries = [];
                     resultJSON.feeds = [];
                     fillRssOutput();

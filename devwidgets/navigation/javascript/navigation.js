@@ -23,7 +23,7 @@ sakai.site = sakai.site || {};
 sakai.site.navigation = sakai.site.navigation || {};
 
 
-sakai.navigation = function(tuid, placement, showSettings){
+sakai.navigation = function(tuid, showSettings){
 
     /////////////////////////////
     // Configuration variables //
@@ -209,7 +209,7 @@ sakai.navigation = function(tuid, placement, showSettings){
             data : {
                 type : "json",
                 opts : {
-                    static : sakai.site.navigation.navigationData
+                    "static" : sakai.site.navigation.navigationData
                 }
             },
             selected: "nav_"+selectedPageUrlName,

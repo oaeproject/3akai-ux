@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the helloworld widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.footer = function(tuid,placement,showSettings){
+sakai.footer = function(tuid,showSettings){
 
     //////////////////////
     // Helper functions //

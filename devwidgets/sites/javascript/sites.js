@@ -18,7 +18,7 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
-sakai.sites = function(tuid,placement,showSettings){
+sakai.sites = function(tuid,showSettings){
 
 
     /////////////////////////////

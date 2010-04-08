@@ -28,10 +28,11 @@ var sakai = sakai || {};
  * It allows the user to make a post to a blog he has on a website.
  * If there is no blog found on the website, one will be created.
  * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not (this widget has none)
  */
-sakai.blogdashboard = function(tuid, placement, showSettings){
+sakai.blogdashboard = function(tuid, showSettings){
+
+
     //////////////////////
     // Config variables //
     //////////////////////
@@ -189,9 +190,8 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
         //    add our post to the list
         json.items.push(post);
 
-        //    save it to jcr
-        var str = $.toJSON(json);
-        sakai.api.Widgets.saveWidgetData("blog", str, tuid, placement, callback);
+        // Save it to jcr
+        sakai.api.Widgets.saveWidgetData(tuid, json, callback);
     };
 
 
@@ -220,13 +220,13 @@ sakai.blogdashboard = function(tuid, placement, showSettings){
             //    Since all the blogposts and comments are saved under one node we
             //    check this to make sure we don't overwrite any posts.
 
-            sakai.api.Widgets.loadWidgetData("blog", tuid, placement, function(success, data) {
+            sakai.api.Widgets.loadWidgetData(tuid,function(success, data) {
                 if (success) {
                     // There are some posts in here. Pass them along.
                     savePostToJCR(sSiteId, data, true, json, callback);
                 } else {
                     // This is the first post.
-                    savePostToJCR(sSiteId, xhr.status, false, json, callback);
+                    savePostToJCR(sSiteId, data, false, json, callback);
                 }
             });
 

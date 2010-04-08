@@ -68,15 +68,16 @@ sakai.search = function(){
         var finaljson = {};
         finaljson.items = [];
 
-        _currentTotal = foundContacts.total;
+        _currentTotal = foundContacts.results.length;
 
         // Pager Init
-
         $(".jq_pager").pager({ pagenumber: currentpage, pagecount: Math.ceil(_currentTotal/peopleToSearch), buttonClickCallback: pager_click_handler });
 
         if (foundContacts.results) {
-            for (var i = 0; i < foundContacts.results.length; i++) {
+            for (var i = 0, j = foundContacts.results.length; i < j; i++) {
+
                 var item = foundContacts.results[i];
+                console.dir(item);
                 var person = item.profile;
                 var connection = item.details;
                 profiles[item.target] = item;

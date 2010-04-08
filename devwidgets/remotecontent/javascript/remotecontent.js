@@ -15,12 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*global $, sdata, get_cookie, Config */
 
 var sakai = sakai || {};
 
-sakai.remotecontent = function(tuid, placement, showSettings){
+sakai.remotecontent = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -95,7 +94,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     /**
      * Called when the data has been saved to the JCR.
      */
-    var savedDataToJCR = function() {
+    var savedDataToJCR = function(){
         sdata.container.informFinish(tuid);
     };
 
@@ -109,7 +108,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * @param {Boolean} complete Render the preview completely or only adjust values
      */
     var renderIframeSettings = function(complete){
-        if(complete){
+        if (complete) {
             // We create this object to render the iframe with the default height, width and widthunit
             var jsonDefaultSize = {};
             jsonDefaultSize = json;
@@ -117,7 +116,8 @@ sakai.remotecontent = function(tuid, placement, showSettings){
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
             $(remotecontentSettingsPreview).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
-        }else{
+        }
+        else {
             $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
     };
@@ -126,7 +126,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * Render the iframe for the widget
      */
     var renderIframe = function(){
-        if(json){
+        if (json) {
             $(remotecontentMainContainer, rootel).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
         }
     };
@@ -134,8 +134,8 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     /**
      * Render the html of the remotecontentsettings
      */
-    var renderRemoteContentSettings = function() {
-        if(json){
+    var renderRemoteContentSettings = function(){
+        if (json) {
             $(remotecontentSettings).html($.TemplateRenderer(remotecontentSettingsTemplate, json));
         }
     };
@@ -144,7 +144,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * Render the color container
      */
     var renderColorContainer = function(){
-        if(json){
+        if (json) {
             $(remotecontentSettingsColorContainer).html($.TemplateRenderer(remotecontentSettingsColorContainerTemplate, json));
         }
     };
@@ -158,7 +158,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * Display the iframe in normal mode
      * @param {Object} parameters JSON object that contains the necessary information for the iframe
      */
-    var displayRemoteContent = function(parameters) {
+    var displayRemoteContent = function(parameters){
         json = parameters;
         renderIframe();
     };
@@ -166,11 +166,11 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     /**
      * Save the remotecontent to the jcr
      */
-    var saveRemoteContent = function() {
+    var saveRemoteContent = function(){
         if (json.url !== "") {
-            var str = $.toJSON(json); // Convert the posts to a JSON string
-            sakai.api.Widgets.saveWidgetData("remotecontent", str, tuid, placement, savedDataToJCR);
-        } else {
+            sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
+        }
+        else {
             alert("Please specify a URL");
         }
     };
@@ -198,7 +198,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * Add binding to the color boxes
      */
     var addColorBinding = function(){
-        $(".remotecontent_settings_color").click(function() {
+        $(".remotecontent_settings_color").click(function(){
             json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
             renderIframeSettings(false);
             renderColorContainer();
@@ -212,7 +212,7 @@ sakai.remotecontent = function(tuid, placement, showSettings){
     var addBinding = function(){
 
         // Change the url for the iFrame
-        $(remotecontentSettingsUrl).change(function() {
+        $(remotecontentSettingsUrl).change(function(){
             var urlValue = $(this).val();
             if (urlValue !== "") {
                 // Check if someone already wrote http inside the url
@@ -225,29 +225,29 @@ sakai.remotecontent = function(tuid, placement, showSettings){
         });
 
         // Change the iframe width
-        $(remotecontentSettingsWidth).change(function() {
+        $(remotecontentSettingsWidth).change(function(){
             var widthValue = $(remotecontentSettingsWidth).val();
 
-            if(isDecimal(widthValue)){
+            if (isDecimal(widthValue)) {
                 json.width = widthValue;
             }
             renderIframeSettings(false);
         });
 
         // Change the iframe height
-        $(remotecontentSettingsHeight).change(function() {
+        $(remotecontentSettingsHeight).change(function(){
             var heightValue = $(remotecontentSettingsHeight).val();
 
-            if(isDecimal(heightValue)){
+            if (isDecimal(heightValue)) {
                 json.height = heightValue;
             }
             renderIframeSettings(false);
         });
 
         // Change the border width
-        $(remotecontentSettingsBorders).change(function() {
+        $(remotecontentSettingsBorders).change(function(){
             var borderValue = $(remotecontentSettingsBorders).val();
-            if(isDecimal(borderValue)){
+            if (isDecimal(borderValue)) {
                 json.border_size = borderValue;
                 renderIframeSettings(false);
             }
@@ -261,25 +261,26 @@ sakai.remotecontent = function(tuid, placement, showSettings){
         });
 
         // When you click on one of the width units (px or percentage)
-        $(remotecontentSettingsWidthUnitClass).click(function()  {
-             var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
-             if(widthUnitValue === "px"){
-                 json.width_unit = widthUnitValue;
-             }else{
-                 json.width_unit = "%";
-             }
-             $(remotecontentSettingsWidthUnitClass).removeClass(remotecontentSettingsWidthUnitSelectedClass);
-             $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
-             renderIframeSettings(false);
+        $(remotecontentSettingsWidthUnitClass).click(function(){
+            var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            if (widthUnitValue === "px") {
+                json.width_unit = widthUnitValue;
+            }
+            else {
+                json.width_unit = "%";
+            }
+            $(remotecontentSettingsWidthUnitClass).removeClass(remotecontentSettingsWidthUnitSelectedClass);
+            $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
+            renderIframeSettings(false);
         });
 
         // When you push the save button..
-        $(remotecontentSettingsInsert).click(function()  {
+        $(remotecontentSettingsInsert).click(function(){
             saveRemoteContent();
         });
 
         // Cancel it
-        $(remotecontentSettingsCancel).click(function()  {
+        $(remotecontentSettingsCancel).click(function(){
             sdata.container.informCancel(tuid);
         });
 
@@ -296,10 +297,11 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * @param {Object} parameters A JSON object that contains the necessary information.
      * @param {Boolean} exists Does there exist a previous remotecontent
      */
-    var displaySettings = function(parameters, exists) {
-        if(exists && parameters.url){
+    var displaySettings = function(parameters, exists){
+        if (exists && parameters.url) {
             json = parameters;
-        }else{
+        }
+        else {
             json = {
                 border_size: 0,
                 border_color: "cccccc",
@@ -333,9 +335,9 @@ sakai.remotecontent = function(tuid, placement, showSettings){
      * Will fetch the URL and other parameters from the JCR and according to which
      * view we are in, fill in the settings or display an iframe.
      */
-    var getRemoteContent = function() {
+    var getRemoteContent = function(){
 
-        sakai.api.Widgets.loadWidgetData("remotecontent", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
             if (success) {
                 // Get a JSON string that contains the necessary information.
@@ -347,7 +349,8 @@ sakai.remotecontent = function(tuid, placement, showSettings){
                 else {
                     displayRemoteContent(parameters); // Show the frame
                 }
-            } else {
+            }
+            else {
                 // When the request isn't successful, it means that  there was no existing remotecontent
                 // so we show the basic settings.
                 displaySettings(null, false);

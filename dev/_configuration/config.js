@@ -47,8 +47,8 @@ sakai.config = {
 
         // Services
         BATCH_GET: "/system/batch/get",
-        CHAT_GET_SERVICE: "/_user/message/chat/__KIND__.json",
-        CHAT_UPDATE_SERVICE: "/_user/message.chatupdate.json",
+        CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
+        CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
         CONTACTS_INVITED: "/var/contacts/invited.json",
         CREATE_USER_SERVICE: "/system/userManager/user.create.html",
@@ -60,8 +60,10 @@ sakai.config = {
         LOGIN_SERVICE: "/system/sling/formlogin",
         LOGOUT_SERVICE: "/system/sling/formlogin",
         ME_SERVICE: "/system/me",
-        PRESENCE_CONTACTS_SERVICE: "/_user/presence.contacts.json",
-        PRESENCE_SERVICE: "/_user/presence.json",
+        MESSAGE_BOX_SERVICE: "/var/message/box.json",
+        MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+        PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
+        PRESENCE_SERVICE: "/var/presence.json",
         PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
         SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
         // Replace these in widgets with proper widgetsave functions from magic
@@ -91,6 +93,7 @@ sakai.config = {
         SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
         SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
+        SITE_ROOT: "/sites",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
         SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
         SITES_SERVICE: "/system/sling/membership",

@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.myfriends = function(tuid,placement,showSettings){
+sakai.myfriends = function(tuid,showSettings){
 
     /////////////////////////////
     // Configuration variables //

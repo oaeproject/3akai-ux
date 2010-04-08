@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the helloworld widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.helloworld = function(tuid,placement,showSettings){
+sakai.helloworld = function(tuid,showSettings){
 
 
     /////////////////////////////
@@ -34,7 +33,6 @@ sakai.helloworld = function(tuid,placement,showSettings){
     /////////////////////////////
 
     var defaultColor = "#000000";
-    var saveLocation = "color.txt";
 
     // Dom identifiers
     var rootel = $("#" + tuid);
@@ -86,7 +84,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
     $(seaveHelloworld).bind("click", function(ev){
         var select = $(colorPicker, rootel).get(0);
         var selected = select.options[select.selectedIndex].value;
-        sakai.api.Widgets.saveWidgetData("helloworld", selected, tuid, placement, function(success, data){
+        sakai.api.Widgets.saveWidgetData(tuid, selected, function(success, data){
             sdata.container.informFinish(tuid, "helloworld");
         });
     });
@@ -102,7 +100,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
      */
     var getPreferedColor = function(callback){
 
-        sakai.api.Widgets.saveWidgetData("helloworld", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
                 callback(data);
             } else {

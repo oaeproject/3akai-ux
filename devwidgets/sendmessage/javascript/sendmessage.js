@@ -20,16 +20,16 @@
 
 var sakai = sakai || {};
 if (!sakai.sendmessage){
-    sakai.sendmessage = function(tuid, placement, showSettings) {
+    sakai.sendmessage = function(tuid, showSettings) {
 
-        //////////////////////////////
-        // Configuration variables     //
-        //////////////////////////////
+
+        /////////////////////////////
+        // Configuration variables //
+        /////////////////////////////
 
         var rootel = $(tuid);
 
-        var user = false;     // user object that contains the information for the
-                            //    user that should be posted to.
+        var user = false; // user object that contains the information for the user that should be posted to.
         var allowOthers = false;    //    If the user can add other receivers.
         var allFriends = [];        //    Array that will contain all the info about this users friends.
         var selectedFriendsToPostTo = [];
