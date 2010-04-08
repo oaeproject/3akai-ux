@@ -730,8 +730,13 @@ sakai.site.site_admin = function(){
                 return;
             }
 
-            // Check whether the pagetitle has changed
+            // Check whether the pagetitle has changed and update cached info
             var oldpagetitle = sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"];
+
+            if (newpagetitle !== oldpagetitle) {
+                sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"] = newpagetitle;
+            }
+
 
             // Get the content from tinyMCE
             var content = getContent();
@@ -786,6 +791,7 @@ sakai.site.site_admin = function(){
                                 }
                             });
                         } else {
+
                             // Refresh site info
                             sakai.site.refreshSiteInfo(newPageUniques.urlName);
 
@@ -824,9 +830,13 @@ sakai.site.site_admin = function(){
                 sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
 
                 // Save page node
-                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], function(success, data){
+                sakai.site.savePage(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"], sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
 
                     if (success) {
+
+                        //Update title in HTML
+                        $("#pagetitle").html(sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"]);
+
                         // Save the recent activity
                         var activityItem = {
                             "user_id": sakai.data.me.user.userid,
