@@ -30,10 +30,13 @@
         <div id="createsite_noncourse_container">
             <label for="createsite_noncourse_name">* __MSG__NAME__:</label>
             <input id="createsite_noncourse_name" type="text" value="" /><br />
+            <div id="createsite_noncourse_name_empty" class="create_site_error_msg">Please enter the site name!</div>
 
             <label for="createsite_noncourse_id">* __MSG__URL__:</label>
             <span id="createsite_noncourse_url"></span>
             <input id="createsite_noncourse_id" type="text" value="" /><br />
+            <div id="createsite_noncourse_id_taken" class="create_site_error_msg">This URL is not available, please choose another.</div>
+            <div id="createsite_noncourse_id_empty" class="create_site_error_msg">Please enter the site URL!</div>
 
             <label>* __MSG__TEMPLATE__:</label>
             <div id="createsite_noncourse_template_container">
