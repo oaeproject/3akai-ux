@@ -205,7 +205,7 @@ sakai.site = function(){
         var urlName = "";
         if ((typeof i_url === "string") & (i_url !== "")) {
             i_url = i_url.replace(/\/_pages/g, "");
-            urlName = i_url.replace(/[\/-]/g, "");
+            urlName = i_url.replace(/[\/]/g, "");
         }
         return urlName;
     };

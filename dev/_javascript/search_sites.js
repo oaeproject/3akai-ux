@@ -168,7 +168,10 @@ sakai.search = function() {
                         finaljson.items[i]["excerpt"] = stripped_excerpt;
                     }
                     if (finaljson.items[i]["type"] === "sakai/pagecontent") {
-                        page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
+                        page_path = full_path.replace(/\/_pages/g, "");
+                        page_path = page_path.replace(/\/pageContent/g, "");
+                        page_path = page_path.replace(/\//g,"");
+                        page_path = site_path + "#" + page_path;
 
                     }
                     finaljson.items[i]["pagepath"] = page_path;
