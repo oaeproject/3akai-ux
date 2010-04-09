@@ -267,23 +267,362 @@ sakai.api.Groups.getMembers = function(groupID, callback) {
 sakai.api.i18n = sakai.api.i18n || {};
 
 /**
- * Start general i18n process
+ * <p>Main i18n process</p>
+ * <p>This function will be executed once the entire DOM has been loaded. The function will take
+ * the HTML that's inside the body of the page, and load the default and user specific language
+ * bundle. We then look for i18n keys inside the HTML, and replace with the values from the
+ * language bundles. We always first check whether the key is available in the user specific
+ * bundle and only if that one doesn't exist, we will take the value out of the default bundle.</p>
  */
 sakai.api.i18n.init = function() {
 
+
+    /////////////////////////////
+    // CONFIGURATION VARIABLES //
+    /////////////////////////////
+
+    // Initialise the sakai.data.18n variable
+    sakai.data.i18n = {};
+
+    // Will contain all of the values for the default bundle
+    sakai.data.i18n.defaultBundle = false;
+
+    // Will contain all of the values for the bundle of the language chosen by the user
+    sakai.data.i18n.localBundle = false;
+
+    // Will contain all the i18n for widgets
+    sakai.data.i18n.widgets = sakai.data.i18n.widgets || {}; 
+
+
+    ////////////////////
+    // HELP VARIABLES //
+    ////////////////////
+
+    /*
+     * We take the HTML that is inside the body tag. We will use this to find string we want to
+     * translate into the language chosen by the user
+     */
+    var tostring = $(document.body).html();
+
+
+    ////////////////////////////
+    // LANGUAGE BUNDLE LOADER //
+    ////////////////////////////
+
+    /**
+     * Gets the site id if the user is currently on a site
+     * if the user is on any other page then false is returned
+     *
+     * Proposed addin: Check to see if there is a siteid querystring parameter.
+     * This will then i18n pages like site settings as well.
+     */
+    var getSiteId = function(){
+        var site = false;
+        var loc = ("" + document.location);
+        var siteid = loc.indexOf(sakai.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
+        if (siteid !== -1) {
+            var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
+            var uri = loc.substring(0, mark);
+            site = uri.substring(siteid, loc.length).replace(sakai.config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
+            site = site.substring(0, site.indexOf("#"));
+        }
+        return site;
+    };
+
+    /**
+     * This function will load the general language bundle specific to the language chosen by
+     * the user and will store it in a global variable. This language will either be the prefered
+     * user language or the prefered server language. The language will be available in the me feed
+     * and we'll use the global sakai.data.me object to extract it from. If there is no prefered langauge,
+     * we'll use the default bundle to translate everything.
+     */
+    var loadLocalBundle = function(langCode){
+        $.ajax({
+            url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
+            success: function(data){
+                sakai.data.i18n.defaultBundle = $.evalJSON(data);
+                doI18N(sakai.data.i18n.defaultBundle, sakai.data.i18n.defaultBundle);
+            },
+            error: function(xhr, textStatus, thrownError){
+                // There is no language file for the language chosen by the user. We'll switch to using the
+                // default bundle only
+                doI18N(null, sakai.data.i18n.defaultBundle);
+            }
+        });
+    };
+
+    var loadSiteLanguage = function(site){
+        $.ajax({
+            url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
+            cache: false,
+            success: function(data){
+                var siteJSON = $.evalJSON(data);
+                if (siteJSON.language && siteJSON.language !== "default_default") {
+                    loadLocalBundle(siteJSON.language);
+                }
+                else
+                    if (sakai.data.me.user.locale) {
+                        loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
+                    }
+                    else {
+                        // There is no locale set for the current user. We'll switch to using the default bundle only
+                        doI18N(null, sakai.data.i18n.defaultBundle);
+                    }
+            },
+            error: function(xhr, textStatus, thrownError){
+                loadLocalBundle();
+            }
+        });
+    };
+
+    /**
+     * This will load the default language bundle and will store it in a global variable. This default bundle
+     * will be saved in a file called _bundle/default.properties.
+     */
+    var loadDefaultBundle = function(){
+        $.ajax({
+            url : sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
+            success : function(data) {
+                sakai.data.i18n.defaultBundle = $.evalJSON(data);
+                var site = getSiteId();
+                if (!site) {
+                    if(sakai.data.me.user.locale){
+                        loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
+                    }
+                    else {
+                        // There is no locale set for the current user. We'll switch to using the default bundle only
+                        doI18N(null, sakai.data.i18n.defaultBundle);
+                    }
+                }
+                else{
+                    loadSiteLanguage(site);
+                }
+            },
+            error: function(xhr, textStatus, thrownError) {
+                // There is no default bundle, so we'll just show the interface without doing any translations
+                finishI18N();
+            }
+        });
+    };
+
+
+    ////////////////////
+    // I18N FUNCTIONS //
+    ////////////////////
+
+    /**
+     * Once all of the i18n strings have been replaced, we will finish the i18n step.
+     * The content of the body tag is hidden by default, in
+     * order not to show the non-translated string before they are translated. When i18n has
+     * finished, we can show the body again.
+     * We then tell the container that pre-loading of the page has finished and that widgets are
+     * now ready to be loaded. This will mostly mean that now the general page/container code
+     * will be executed.
+     * Finally, we will look for the definition of widgets inside the HTML code, which should look
+     * like this:
+     *  - Single instance: <div id="widget_WIDGETNAME" class="widget_inline"></div>
+     *  - Multiple instance support: <div id="widget_WIDGETNAME_UID_PLACEMENT" class="widget_inline"></div>
+     * and load them into the document
+     */
+    var finishI18N = function(){
+        $(document.body).show();
+        sdata.container.setReadyToLoad(true);
+        sdata.widgets.WidgetLoader.insertWidgets(null, false);
+    };
+
+    /**
+     * This will give the body's HTML string, the local bundle (if present) and the default bundle to the
+     * general i18n function. This will come back with an HTML string where all of the i18n strings will
+     * be replaced. We then change the HTML of the body tag to this new HTML string.
+     * @param {Object} localjson
+     *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
+     * @param {Object} defaultjson
+     *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
+     *  in the default language
+     */
+    var doI18N = function(localjson, defaultjson){
+        var newstring = sakai.api.i18n.i18nGeneral.process(tostring, localjson, defaultjson);
+        // We actually use the old innerHTML function here because the jQuery.html() function will
+        // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
+        // will already be loaded
+        document.body.innerHTML = newstring;
+        document.title = sakai.api.i18n.i18nGeneral.process(document.title, localjson, defaultjson);
+        finishI18N();
+    };
+
+
+    /////////////////////////////
+    // INITIALIZATION FUNCTION //
+    /////////////////////////////
+
+    loadDefaultBundle();
 };
 
 /**
- * Page UI and content related i18n process
+ * @class i18nGeneral
+ *
+ * @description
+ * Internationalisation related functions for general page content and UI elements
+ *
+ * @namespace
+ * Internationalisation
  */
-sakai.api.i18n.i18nGeneral = function() {
+sakai.api.i18n.i18nGeneral = sakai.api.i18n.i18nGeneral || {};
 
+/**
+ * @param {String} toprocess
+ *  HTML string in which we want to replace messages. These will have the following
+ *  format: __MSG__KEY__
+ * @param {Object} localbundle
+ *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
+ * @param {Object} defaultbundle
+ *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
+ *  in the default language
+ */
+sakai.api.i18n.i18nGeneral.process = function(toprocess, localbundle, defaultbundle) {
+    var expression = new RegExp("__MSG__(.*?)__", "gm");
+    var processed = "";
+    var lastend = 0;
+    while(expression.test(toprocess)) {
+        var replace = RegExp.lastMatch;
+        var lastParen = RegExp.lastParen;
+        var toreplace = sakai.api.i18n.i18nGeneral.getValueForKey(lastParen);
+        processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
+        lastend = expression.lastIndex;
+    }
+    processed += toprocess.substring(lastend);
+    return processed;
+};
+
+/**
+ * Get the internationalised value for a specific key.
+ * We expose this function so people can also do internationalisation within JavaScript
+ * @param {String} key The key that will be used to get the internationalised value
+ */
+sakai.api.i18n.i18nGeneral.getValueForKey = function(key) {
+    if (sakai.data.i18n.localBundle[key]) {
+        return sakai.data.i18n.localBundle[key];
+    }
+    else if (sakai.data.i18n.defaultBundle[key]) {
+        return sakai.data.i18n.defaultBundle[key];
+    }
+    else {
+        throw "i18n: Not in default file";
+    }
+};
+
+
+/**
+ * @class i18nWidgets
+ *
+ * @description
+ * Holds functions for internationalisation in widgets.
+ *
+ * @namespace
+ * Holds functions for internationalisation in widgets.
+ */
+sakai.api.i18n.i18nWidgets = sakai.api.i18n.i18nWidgets || {};
+
+/**
+* Loads up language bundle for the widget, and exchanges messages found in content.
+* If no language bundle found, it attempts to load the default language bundle for the widget, and use that for i18n
+* @param widget_id {String} The ID of the widget
+* @param content {String} The content html of the widget which contains the messages
+* @returns {String} The translated content html
+*/
+sakai.api.i18n.i18nWidgets.process = function(widgetname, widget_html_content) {
+
+    var translated_content = "";
+    var current_locale_string = false;
+    if (typeof sakai.data.me.user.locale === "object") {
+        current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
+    }
+
+    // If there is no i18n defined in Widgets, run standard i18n on content
+    if (typeof Widgets.widgets[widgetname].i18n !== "object") {
+        translated_content = sakai.api.i18n.i18nGeneral.process(widget_html_content, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+        return translated_content;
+    }
+
+    // Load default language bundle for the widget if exists
+    if (Widgets.widgets[widgetname]["i18n"]["default"]) {
+
+        $.ajax({
+            url: Widgets.widgets[widgetname]["i18n"]["default"],
+            async: false,
+            success: function(messages_raw){
+
+                sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
+                sakai.data.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
+
+            },
+            error: function(xhr, textStatus, thrownError){
+                //alert("Could not load default language bundle for widget: " + widgetname);
+            }
+        });
+
+    }
+
+    // Load current language bundle for the widget if exists
+    if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
+
+        $.ajax({
+            url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
+            async: false,
+            success: function(messages_raw){
+
+                sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
+                sakai.data.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
+            },
+            error: function(xhr, textStatus, thrownError){
+                //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
+            }
+        });
+    }
+
+    // Translate widget name and description
+    if ((typeof sakai.data.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sakai.data.i18n.widgets[widgetname][current_locale_string].name === "string")) {
+        Widgets.widgets[widgetname].name = sakai.data.i18n.widgets[widgetname][current_locale_string].name;
+    }
+    if ((typeof sakai.data.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sakai.data.i18n.widgets[widgetname][current_locale_string].description === "string")) {
+        Widgets.widgets[widgetname].name = sakai.data.i18n.widgets[widgetname][current_locale_string].description;
+    }
+
+
+    // Change messages
+    var expression = new RegExp("__MSG__(.*?)__", "gm");
+    var lastend = 0;
+    while (expression.test(widget_html_content)) {
+        var replace = RegExp.lastMatch;
+        var lastParen = RegExp.lastParen;
+        var toreplace = sakai.api.i18n.i18nWidgets.getValueForKey(widgetname, current_locale_string, lastParen);
+        translated_content += widget_html_content.substring(lastend, expression.lastIndex - replace.length) + toreplace;
+        lastend = expression.lastIndex;
+    }
+    translated_content += widget_html_content.substring(lastend);
+
+    return translated_content;
 };
 
 /**
  * Widget related i18n process
  */
-sakai.api.i18n.i18nWidgets = function() {
+sakai.api.i18n.i18nWidgets.getValueForKey = function(widgetname, locale, key) {
+
+    // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
+    if ((typeof sakai.data.i18n.widgets[widgetname][locale] === "object") && (typeof sakai.data.i18n.widgets[widgetname][locale][key] === "string")){
+        return sakai.data.i18n.widgets[widgetname][locale][key];
+
+    } else if ((typeof sakai.data.i18n.widgets[widgetname]["default"][key] === "string") && (typeof sakai.data.i18n.widgets[widgetname]["default"] === "object")) {
+        return sakai.data.i18n.widgets[widgetname]["default"][key];
+
+    } else if (sakai.data.i18n.localBundle[key]) {
+        return sakai.data.i18n.localBundle[key];
+
+    } else if (sakai.data.i18n.defaultBundle[key]) {
+        return sakai.data.i18n.defaultBundle[key];
+
+    }
 
 };
 
@@ -1393,7 +1732,6 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 })(jQuery);
 
 
-
 /////////////////////////////////////
 // jQuery TrimPath Template Plugin //
 /////////////////////////////////////
@@ -1533,19 +1871,21 @@ if(Array.hasOwnProperty("indexOf") === false){
  */
 sakai.api.autoStart = function() {
 
-    // Load logged in user data
-    sakai.api.User.loadMeData(function(success, data){
+    $(document).ready(function(){
 
-        // Start i18n
-        sakai.api.i18n.init();
+        // Load logged in user data
+        sakai.api.User.loadMeData(function(success, data){
 
-        // Start l10n
-        sakai.api.l10n.init();
+            // Start i18n
+            sakai.api.i18n.init();
+
+            // Start l10n
+            sakai.api.l10n.init();
+        });
+
+        // Start Widget container functions
+        sakai.api.Widgets.Container.init();
+
     });
-
-    // Start Widget container functions
-    sakai.api.Widgets.Container.init();
-
-
 };
 sakai.api.autoStart();

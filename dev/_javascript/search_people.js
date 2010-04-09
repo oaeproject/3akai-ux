@@ -375,7 +375,7 @@ sakai.search = function() {
                 sakai.createsite.initialise(finaljson);
             },
             error: function(xhr, textStatus, thrownError) {
-                alert($.i18n.getValueForKey("__MSG__AN_ERROR_HAS_OCCURED__"));
+                alert(sakai.api.i18n.i18nWidgets.getValueForKey("__MSG__AN_ERROR_HAS_OCCURED__"));
             }
         });
     });
