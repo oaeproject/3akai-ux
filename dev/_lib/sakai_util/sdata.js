@@ -32,26 +32,6 @@ var sdata = {};
 var sakai = sakai || {};
 
 
-//////////////////////////////
-// Global utility functions //
-//////////////////////////////
-
-/*
- *
- */
-
-
-if(!Array.indexOf) {
-    Array.prototype.indexOf = function(obj){
-        for(var i = 0, j = this.length; i<j; i++){
-            if(this[i] === obj){
-                return i;
-            }
-        }
-        return -1;
-    };
-}
-
 ///////////////////////////
 // jQuery AJAX extention //
 ///////////////////////////
@@ -284,7 +264,7 @@ sdata.widgets.WidgetLoader = {
                                 var widgetname = batchWidgets[jsonpath];
 
                                 // Do i18n on widget content
-                                var translated_content = $.i18n_widget(widgetname, json[i].data);
+                                var translated_content = sakai.api.i18n.Widgets.process(widgetname, json[i].data);
 
                                 sethtmlover(translated_content, widgets, widgetname);
 
@@ -431,176 +411,6 @@ sdata.widgets.WidgetLoader = {
     }
 
 };
-
-
-
-////////////////////////
-// jQuery i18n plugin //
-////////////////////////
-
-(function($){
-
-    /**
-     *
-     * @param {Object} toprocess
-     *  HTML string in which we want to replace messages. These will have the following
-     *  format: __MSG__KEY__
-     * @param {Object} localbundle
-     *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
-     * @param {Object} defaultbundle
-     *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
-     *  in the default language
-     */
-    $.i18n = function(toprocess, localbundle, defaultbundle) {
-        var expression = new RegExp("__MSG__(.*?)__", "gm");
-        var processed = "";
-        var lastend = 0;
-        while(expression.test(toprocess)) {
-            var replace = RegExp.lastMatch;
-            var lastParen = RegExp.lastParen;
-            var toreplace = $.i18n.getValueForKey(lastParen);
-            processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
-            lastend = expression.lastIndex;
-        }
-        processed += toprocess.substring(lastend);
-        return processed;
-    };
-
-    $.i18n.getValueForKey = function(key){
-        try {
-            if (sdata.i18n.localBundle[key]){
-                return sdata.i18n.localBundle[key];
-            } else {
-                throw "Not in local file";
-            }
-        } catch (notInLocalFile){
-            try {
-                if (sdata.i18n.defaultBundle[key]){
-                    return sdata.i18n.defaultBundle[key];
-                } else {
-                    throw "Not in default file";
-                }
-            } catch (notInDefaultFile){
-                //fluid.log("i18n key " + key + " was not found in any bundle");
-            }
-        }
-    };
-
-})(jQuery);
-
-
-/////////////////////////////////////
-// jQuery i18n plugin for widgets  //
-/////////////////////////////////////
-
-(function($){
-
-    /*
-    * Loads up language bundle for the widget, and exchanges messages found in content.
-    * If no language bundle found, it attempts to load the default language bundle for the widget, and use that for i18n
-    * @param widget_id {String} The ID of the widget
-    * @param content {String} The content html of the widget which contains the messages
-    * @returns {String} The translated content html
-    */
-
-    $.i18n_widget = function(widgetname, widget_html_content) {
-
-        var translated_content = "";
-        var current_locale_string = false;
-        if (typeof sakai.data.me.user.locale === "object") {
-          current_locale_string = sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country;
-        }
-
-        // If there is no i18n defined in Widgets, run standard i18n on content
-        if (typeof Widgets.widgets[widgetname].i18n !== "object") {
-          translated_content = $.i18n(widget_html_content, sdata.i18n.localBundle, sdata.i18n.defaultBundle)
-          return translated_content;
-        }
-
-        // Load default language bundle for the widget if exists
-        if (Widgets.widgets[widgetname]["i18n"]["default"]) {
-
-          $.ajax({
-              url: Widgets.widgets[widgetname]["i18n"]["default"],
-              async: false,
-              success: function(messages_raw) {
-
-                  sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
-                  sdata.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
-
-              },
-              error: function(xhr, textStatus, thrownError) {
-                  //alert("Could not load default language bundle for widget: " + widgetname);
-              }
-          });
-
-        }
-
-        // Load current language bundle for the widget if exists
-        if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
-
-            $.ajax({
-                url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
-                async: false,
-                success: function(messages_raw) {
-
-                    sdata.i18n.widgets[widgetname] = sdata.i18n.widgets[widgetname] || {};
-                    sdata.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
-                }
-            });
-        }
-
-        // Translate widget name and description
-        if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "object") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["name"] === "string")) {
-            Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["name"];
-        }
-        if ((typeof sdata.i18n.widgets[widgetname][current_locale_string] === "String") && (typeof sdata.i18n.widgets[widgetname][current_locale_string]["description"] === "string")) {
-            Widgets.widgets[widgetname]["name"] = sdata.i18n.widgets[widgetname][current_locale_string]["description"];
-        }
-
-
-        // Change messages
-        var expression = new RegExp("__MSG__(.*?)__", "gm");
-        var lastend = 0;
-        while(expression.test(widget_html_content)) {
-            var replace = RegExp.lastMatch;
-            var lastParen = RegExp.lastParen;
-            var toreplace = $.i18n.widgets_getValueForKey(widgetname, current_locale_string, lastParen);
-            translated_content += widget_html_content.substring(lastend,expression.lastIndex-replace.length) + toreplace;
-            lastend = expression.lastIndex;
-        }
-        translated_content += widget_html_content.substring(lastend);
-
-        return translated_content;
-    };
-
-    // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
-    $.i18n.widgets_getValueForKey = function(widgetname, locale, key){
-
-        if ((typeof sdata.i18n.widgets[widgetname][locale] === "object") && (typeof sdata.i18n.widgets[widgetname][locale][key] === "string")){
-
-            return sdata.i18n.widgets[widgetname][locale][key];
-
-        } else if ((typeof sdata.i18n.widgets[widgetname]["default"][key] === "string") && (typeof sdata.i18n.widgets[widgetname]["default"] === "object")) {
-
-            return sdata.i18n.widgets[widgetname]["default"][key];
-
-        } else if (sdata.i18n.localBundle[key]) {
-
-            return sdata.i18n.localBundle[key];
-
-        } else if (sdata.i18n.defaultBundle[key]) {
-
-            return sdata.i18n.defaultBundle[key];
-
-        }
-    };
-
-})(jQuery);
-
 
 
 /////////////////////////////////
