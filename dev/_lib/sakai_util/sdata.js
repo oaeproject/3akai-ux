@@ -264,7 +264,7 @@ sdata.widgets.WidgetLoader = {
                                 var widgetname = batchWidgets[jsonpath];
 
                                 // Do i18n on widget content
-                                var translated_content = sakai.api.i18n.i18nWidgets.process(widgetname, json[i].data);
+                                var translated_content = sakai.api.i18n.Widgets.process(widgetname, json[i].data);
 
                                 sethtmlover(translated_content, widgets, widgetname);
 

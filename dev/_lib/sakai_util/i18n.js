@@ -229,13 +229,13 @@ var SimpleDateFormat;
     var DEFAULT_MINIMAL_DAYS_IN_FIRST_WEEK = 1;
 
     var i18nMonthsAndDays = function(){
-        monthNames = [sakai.api.i18n.i18nWidgets.getValueForKey("JANUARY"), sakai.api.i18n.i18nWidgets.getValueForKey("FEBRUARY"), sakai.api.i18n.i18nWidgets.getValueForKey("MARCH"),
-        sakai.api.i18n.i18nWidgets.getValueForKey("APRIL"), sakai.api.i18n.i18nWidgets.getValueForKey("MAY"), sakai.api.i18n.i18nWidgets.getValueForKey("JUNE"),
-        sakai.api.i18n.i18nWidgets.getValueForKey("JULY"), sakai.api.i18n.i18nWidgets.getValueForKey("AUGUST"), sakai.api.i18n.i18nWidgets.getValueForKey("SEPTEMBER"),
-        sakai.api.i18n.i18nWidgets.getValueForKey("OCTOBER"), sakai.api.i18n.i18nWidgets.getValueForKey("NOVEMBER"), sakai.api.i18n.i18nWidgets.getValueForKey("DECEMBER")];
-        dayNames = [sakai.api.i18n.i18nWidgets.getValueForKey("SUNDAY"), sakai.api.i18n.i18nWidgets.getValueForKey("MONDAY"), sakai.api.i18n.i18nWidgets.getValueForKey("TUESDAY"),
-        sakai.api.i18n.i18nWidgets.getValueForKey("WEDNESDAY"), sakai.api.i18n.i18nWidgets.getValueForKey("THURSDAY"), sakai.api.i18n.i18nWidgets.getValueForKey("FRIDAY"),
-        sakai.api.i18n.i18nWidgets.getValueForKey("SATURDAY")];
+        monthNames = [sakai.api.i18n.Widgets.getValueForKey("JANUARY"), sakai.api.i18n.Widgets.getValueForKey("FEBRUARY"), sakai.api.i18n.Widgets.getValueForKey("MARCH"),
+        sakai.api.i18n.Widgets.getValueForKey("APRIL"), sakai.api.i18n.Widgets.getValueForKey("MAY"), sakai.api.i18n.Widgets.getValueForKey("JUNE"),
+        sakai.api.i18n.Widgets.getValueForKey("JULY"), sakai.api.i18n.Widgets.getValueForKey("AUGUST"), sakai.api.i18n.Widgets.getValueForKey("SEPTEMBER"),
+        sakai.api.i18n.Widgets.getValueForKey("OCTOBER"), sakai.api.i18n.Widgets.getValueForKey("NOVEMBER"), sakai.api.i18n.Widgets.getValueForKey("DECEMBER")];
+        dayNames = [sakai.api.i18n.Widgets.getValueForKey("SUNDAY"), sakai.api.i18n.Widgets.getValueForKey("MONDAY"), sakai.api.i18n.Widgets.getValueForKey("TUESDAY"),
+        sakai.api.i18n.Widgets.getValueForKey("WEDNESDAY"), sakai.api.i18n.Widgets.getValueForKey("THURSDAY"), sakai.api.i18n.Widgets.getValueForKey("FRIDAY"),
+        sakai.api.i18n.Widgets.getValueForKey("SATURDAY")];
     };
 
     var newDateAtMidnight = function(year, month, day) {

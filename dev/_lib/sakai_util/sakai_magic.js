@@ -18,7 +18,7 @@
  *
  */
 
-/*global $, jQuery, fluid, TrimPath, Widgets, window, document */
+/*global $, jQuery, fluid, TrimPath, Widgets, window, document, sdata */
 
 /**
  * @name sakai
@@ -256,10 +256,10 @@ sakai.api.Groups.getMembers = function(groupID, callback) {
  * @class i18n
  *
  * @description
- * Internationalisation related functions for general page content, widget
- * content and UI elements This should only hold functions
- * which are used across multiple pages, and does not constitute functionality
- * related to a single area/page
+ * <p>Internationalisation related functions for general page content, widget
+ * content and UI elements.</p>
+ * <p>This should only hold functions which are used across
+ * multiple pages, and does not constitute functionality related to a single area/page.</p>
  *
  * @namespace
  * Internationalisation
@@ -274,7 +274,7 @@ sakai.api.i18n = sakai.api.i18n || {};
  * language bundles. We always first check whether the key is available in the user specific
  * bundle and only if that one doesn't exist, we will take the value out of the default bundle.</p>
  */
-sakai.api.i18n.init = function() {
+sakai.api.i18n.init = function(){
 
 
     /////////////////////////////
@@ -291,7 +291,7 @@ sakai.api.i18n.init = function() {
     sakai.data.i18n.localBundle = false;
 
     // Will contain all the i18n for widgets
-    sakai.data.i18n.widgets = sakai.data.i18n.widgets || {}; 
+    sakai.data.i18n.widgets = sakai.data.i18n.widgets || {};
 
 
     ////////////////////
@@ -327,82 +327,6 @@ sakai.api.i18n.init = function() {
             site = site.substring(0, site.indexOf("#"));
         }
         return site;
-    };
-
-    /**
-     * This function will load the general language bundle specific to the language chosen by
-     * the user and will store it in a global variable. This language will either be the prefered
-     * user language or the prefered server language. The language will be available in the me feed
-     * and we'll use the global sakai.data.me object to extract it from. If there is no prefered langauge,
-     * we'll use the default bundle to translate everything.
-     */
-    var loadLocalBundle = function(langCode){
-        $.ajax({
-            url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
-            success: function(data){
-                sakai.data.i18n.defaultBundle = $.evalJSON(data);
-                doI18N(sakai.data.i18n.defaultBundle, sakai.data.i18n.defaultBundle);
-            },
-            error: function(xhr, textStatus, thrownError){
-                // There is no language file for the language chosen by the user. We'll switch to using the
-                // default bundle only
-                doI18N(null, sakai.data.i18n.defaultBundle);
-            }
-        });
-    };
-
-    var loadSiteLanguage = function(site){
-        $.ajax({
-            url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
-            cache: false,
-            success: function(data){
-                var siteJSON = $.evalJSON(data);
-                if (siteJSON.language && siteJSON.language !== "default_default") {
-                    loadLocalBundle(siteJSON.language);
-                }
-                else
-                    if (sakai.data.me.user.locale) {
-                        loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
-                    }
-                    else {
-                        // There is no locale set for the current user. We'll switch to using the default bundle only
-                        doI18N(null, sakai.data.i18n.defaultBundle);
-                    }
-            },
-            error: function(xhr, textStatus, thrownError){
-                loadLocalBundle();
-            }
-        });
-    };
-
-    /**
-     * This will load the default language bundle and will store it in a global variable. This default bundle
-     * will be saved in a file called _bundle/default.properties.
-     */
-    var loadDefaultBundle = function(){
-        $.ajax({
-            url : sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
-            success : function(data) {
-                sakai.data.i18n.defaultBundle = $.evalJSON(data);
-                var site = getSiteId();
-                if (!site) {
-                    if(sakai.data.me.user.locale){
-                        loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
-                    }
-                    else {
-                        // There is no locale set for the current user. We'll switch to using the default bundle only
-                        doI18N(null, sakai.data.i18n.defaultBundle);
-                    }
-                }
-                else{
-                    loadSiteLanguage(site);
-                }
-            },
-            error: function(xhr, textStatus, thrownError) {
-                // There is no default bundle, so we'll just show the interface without doing any translations
-                finishI18N();
-            }
-        });
     };
 
 
@@ -441,13 +365,92 @@ sakai.api.i18n.init = function() {
      *  in the default language
      */
     var doI18N = function(localjson, defaultjson){
-        var newstring = sakai.api.i18n.i18nGeneral.process(tostring, localjson, defaultjson);
+        var newstring = sakai.api.i18n.General.process(tostring, localjson, defaultjson);
         // We actually use the old innerHTML function here because the jQuery.html() function will
         // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
         // will already be loaded
         document.body.innerHTML = newstring;
-        document.title = sakai.api.i18n.i18nGeneral.process(document.title, localjson, defaultjson);
+        document.title = sakai.api.i18n.General.process(document.title, localjson, defaultjson);
         finishI18N();
+    };
+
+    /**
+     * This function will load the general language bundle specific to the language chosen by
+     * the user and will store it in a global variable. This language will either be the prefered
+     * user language or the prefered server language. The language will be available in the me feed
+     * and we'll use the global sakai.data.me object to extract it from. If there is no prefered langauge,
+     * we'll use the default bundle to translate everything.
+     */
+    var loadLocalBundle = function(langCode){
+        $.ajax({
+            url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
+            success: function(data){
+                sakai.data.i18n.defaultBundle = $.evalJSON(data);
+                doI18N(sakai.data.i18n.defaultBundle, sakai.data.i18n.defaultBundle);
+            },
+            error: function(xhr, textStatus, thrownError){
+                // There is no language file for the language chosen by the user
+                // We'll switch to using the default bundle only
+                doI18N(null, sakai.data.i18n.defaultBundle);
+            }
+        });
+    };
+
+    /**
+     * Load the language for a specific site
+     * @param {String} site The id of the site you want to load the language for
+     */
+    var loadSiteLanguage = function(site){
+        $.ajax({
+            url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
+            cache: false,
+            success: function(data){
+                var siteJSON = $.evalJSON(data);
+                if (siteJSON.language && siteJSON.language !== "default_default") {
+                    loadLocalBundle(siteJSON.language);
+                }
+                else if (sakai.data.me.user.locale) {
+                    loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
+                }
+                else {
+                    // There is no locale set for the current user. We'll switch to using the default bundle only
+                    doI18N(null, sakai.data.i18n.defaultBundle);
+                }
+            },
+            error: function(xhr, textStatus, thrownError){
+                loadLocalBundle();
+            }
+        });
+    };
+
+    /**
+     * This will load the default language bundle and will store it in a global variable. This default bundle
+     * will be saved in a file called _bundle/default.properties.
+     */
+    var loadDefaultBundle = function(){
+        $.ajax({
+            url: sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
+            success: function(data){
+                sakai.data.i18n.defaultBundle = $.evalJSON(data);
+                var site = getSiteId();
+                if (!site) {
+                    if (sakai.data.me.user.locale) {
+                        loadLocalBundle(sakai.data.me.user.locale.language + "_" + sakai.data.me.user.locale.country);
+                    }
+                    else {
+                        // There is no locale set for the current user. We'll switch to using the default bundle only
+                        doI18N(null, sakai.data.i18n.defaultBundle);
+                    }
+                }
+                else {
+                    loadSiteLanguage(site);
+                }
+            },
+            error: function(xhr, textStatus, thrownError){
+                // There is no default bundle, so we'll just show the interface without doing any translations
+                finishI18N();
+            }
+        });
     };
 
 
@@ -465,50 +468,64 @@ sakai.api.i18n.init = function() {
  * Internationalisation related functions for general page content and UI elements
  *
  * @namespace
- * Internationalisation
+ * General internationalisation functions
  */
-sakai.api.i18n.i18nGeneral = sakai.api.i18n.i18nGeneral || {};
+sakai.api.i18n.General = sakai.api.i18n.General || {};
 
 /**
+ * General process functions that will replace all the messages in a string with their corresponding translation.
+ * @example sakai.api.i18n.General.process(
+ *     "&lt;h1&gt;__MSG__CHANGE_LAYOUT__&lt;/h1&gt",
+ *     {"__MSG__CHANGE_LAYOUT__" : "verander layout"},
+ *     {"__MSG__CHANGE_LAYOUT__" : "change layout"}
+ * );
  * @param {String} toprocess
- *  HTML string in which we want to replace messages. These will have the following
+ *  HTML string in which we want to replace messages. Messages have the following
  *  format: __MSG__KEY__
  * @param {Object} localbundle
  *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
  * @param {Object} defaultbundle
  *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
  *  in the default language
+ * @return {String} A processed string where all the messages are replaced with values from the language bundles
  */
-sakai.api.i18n.i18nGeneral.process = function(toprocess, localbundle, defaultbundle) {
-    var expression = new RegExp("__MSG__(.*?)__", "gm");
-    var processed = "";
-    var lastend = 0;
+sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle) {
+
+    var expression = new RegExp("__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
     while(expression.test(toprocess)) {
         var replace = RegExp.lastMatch;
         var lastParen = RegExp.lastParen;
-        var toreplace = sakai.api.i18n.i18nGeneral.getValueForKey(lastParen);
+        var toreplace = sakai.api.i18n.General.getValueForKey(lastParen);
         processed += toprocess.substring(lastend,expression.lastIndex-replace.length) + toreplace;
         lastend = expression.lastIndex;
     }
     processed += toprocess.substring(lastend);
     return processed;
+
 };
 
 /**
  * Get the internationalised value for a specific key.
- * We expose this function so people can also do internationalisation within JavaScript
+ * We expose this function so you can do internationalisation within JavaScript.
+ * @example sakai.api.i18n.General.getValueForKey("__MSG__CHANGE_LAYOUT__");
  * @param {String} key The key that will be used to get the internationalised value
+ * @return {String} The translated value for the provided key
  */
-sakai.api.i18n.i18nGeneral.getValueForKey = function(key) {
+sakai.api.i18n.General.getValueForKey = function(key) {
+
+    // First check if the key can be found in the locale bundle
     if (sakai.data.i18n.localBundle[key]) {
         return sakai.data.i18n.localBundle[key];
     }
+    // If the key wasn't found in the localbundle, search in the default bundle
     else if (sakai.data.i18n.defaultBundle[key]) {
         return sakai.data.i18n.defaultBundle[key];
     }
+    // If none of the about found something, log an error message
     else {
-        throw "i18n: Not in default file";
+        fluid.log("sakai.api.i18n.General.getValueForKey: Not in local & default file. Key: " + key);
     }
+
 };
 
 
@@ -516,21 +533,25 @@ sakai.api.i18n.i18nGeneral.getValueForKey = function(key) {
  * @class i18nWidgets
  *
  * @description
- * Holds functions for internationalisation in widgets.
+ * Internationalisation in widgets
  *
  * @namespace
- * Holds functions for internationalisation in widgets.
+ * Internationalisation in widgets
  */
-sakai.api.i18n.i18nWidgets = sakai.api.i18n.i18nWidgets || {};
+sakai.api.i18n.Widgets = sakai.api.i18n.Widgets || {};
 
 /**
-* Loads up language bundle for the widget, and exchanges messages found in content.
-* If no language bundle found, it attempts to load the default language bundle for the widget, and use that for i18n
-* @param widget_id {String} The ID of the widget
-* @param content {String} The content html of the widget which contains the messages
-* @returns {String} The translated content html
-*/
-sakai.api.i18n.i18nWidgets.process = function(widgetname, widget_html_content) {
+ * Loads up language bundle for the widget, and exchanges messages found in content.
+ * If no language bundle found, it attempts to load the default language bundle for the widget, and use that for i18n
+ * @example sakai.api.i18n.Widgets.process(
+ *     "myfriends",
+ *     "&lt;div&gt;__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__&lt;/div&gt;"
+ * );
+ * @param widgetname {String} The name of the widget
+ * @param widget_html_content {String} The content html of the widget which contains the messages
+ * @returns {String} The translated content html
+ */
+sakai.api.i18n.Widgets.process = function(widgetname, widget_html_content) {
 
     var translated_content = "";
     var current_locale_string = false;
@@ -540,15 +561,15 @@ sakai.api.i18n.i18nWidgets.process = function(widgetname, widget_html_content) {
 
     // If there is no i18n defined in Widgets, run standard i18n on content
     if (typeof Widgets.widgets[widgetname].i18n !== "object") {
-        translated_content = sakai.api.i18n.i18nGeneral.process(widget_html_content, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
+        translated_content = sakai.api.i18n.General.process(widget_html_content, sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
         return translated_content;
     }
 
     // Load default language bundle for the widget if exists
-    if (Widgets.widgets[widgetname]["i18n"]["default"]) {
+    if (Widgets.widgets[widgetname].i18n["default"]) {
 
         $.ajax({
-            url: Widgets.widgets[widgetname]["i18n"]["default"],
+            url: Widgets.widgets[widgetname].i18n["default"],
             async: false,
             success: function(messages_raw){
 
@@ -564,10 +585,10 @@ sakai.api.i18n.i18nWidgets.process = function(widgetname, widget_html_content) {
     }
 
     // Load current language bundle for the widget if exists
-    if (Widgets.widgets[widgetname]["i18n"][current_locale_string]) {
+    if (Widgets.widgets[widgetname].i18n[current_locale_string]) {
 
         $.ajax({
-            url: Widgets.widgets[widgetname]["i18n"][current_locale_string],
+            url: Widgets.widgets[widgetname].i18n[current_locale_string],
             async: false,
             success: function(messages_raw){
 
@@ -588,14 +609,13 @@ sakai.api.i18n.i18nWidgets.process = function(widgetname, widget_html_content) {
         Widgets.widgets[widgetname].name = sakai.data.i18n.widgets[widgetname][current_locale_string].description;
     }
 
-
     // Change messages
     var expression = new RegExp("__MSG__(.*?)__", "gm");
     var lastend = 0;
     while (expression.test(widget_html_content)) {
         var replace = RegExp.lastMatch;
         var lastParen = RegExp.lastParen;
-        var toreplace = sakai.api.i18n.i18nWidgets.getValueForKey(widgetname, current_locale_string, lastParen);
+        var toreplace = sakai.api.i18n.Widgets.getValueForKey(widgetname, current_locale_string, lastParen);
         translated_content += widget_html_content.substring(lastend, expression.lastIndex - replace.length) + toreplace;
         lastend = expression.lastIndex;
     }
@@ -605,9 +625,14 @@ sakai.api.i18n.i18nWidgets.process = function(widgetname, widget_html_content) {
 };
 
 /**
- * Widget related i18n process
+ * Get the value for a specific key in a specific widget.
+ * @example sakai.api.i18n.Widgets.getValueForKey("myprofile", "en_US", "PREVIEW_PROFILE");
+ * @param {String} widgetname The name of the widget
+ * @param {String} locale The locale for the getting the value
+ * @param {String} key The key which you want to be translated
+ * @return {String} The value you wanted to translate for a specific widget
  */
-sakai.api.i18n.i18nWidgets.getValueForKey = function(widgetname, locale, key) {
+sakai.api.i18n.Widgets.getValueForKey = function(widgetname, locale, key) {
 
     // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
     if ((typeof sakai.data.i18n.widgets[widgetname][locale] === "object") && (typeof sakai.data.i18n.widgets[widgetname][locale][key] === "string")){
@@ -1154,7 +1179,7 @@ sakai.api.UI.Forms = {
 
         for (var name in formDataJson) {
             if (formDataJson[name]){
-                var els = $('[name=' + name + ']', form);
+                var els = $('[name=' + name + ']', formElement);
                 for (var i = 0, il = els.length; i < il; i++){
                     var el = els[i];
                     var nodeName = el.nodeName.toLowerCase();
