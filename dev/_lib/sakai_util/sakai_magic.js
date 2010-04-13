@@ -774,16 +774,76 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         return;
     }
 
+    /**
+     * <p>Convert all the arrays in an object to an object with a unique key</p>
+     * <code>
+     * {
+     *     "boolean": true,
+     *     "array_object": [
+     *         {
+     *             "key1": "value1",
+     *             "key2": "value2"
+     *        }
+     *     ]
+     * }
+     * </code>
+     * to
+     * <code>
+     * {
+     *     "boolean": true,
+     *     "array_object": {
+     *         "__array__0__": {
+     *             "key1": "value1",
+     *             "key2": "value2"
+     *         }
+     *     }
+     * }
+     * </code>
+     * @param {Object} obj The Object that you want to use to convert all the arrays to objects
+     * @return {Object} An object where all the arrays are converted into objects
+     */
+    var convertArrayToObject = function(obj) {
+
+        // Since the native createTree method doesn't support an array of objects natively,
+        // we need to write extra functionality for this.
+        for(var i in obj){
+
+            // Check if the element is an array, whether it is empty and if it contains any elements
+            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length>0 && $.isObject(obj[i][0])){
+
+                // Deep copy the array
+                var arrayCopy = $.extend(true, [], obj[i]);
+
+                // Set the original array to an empty object
+                obj[i] = {};
+
+                // Add all the elements that were in the original array to the object with a unique id
+                for(var j = 0, jl = arrayCopy.length; j < jl ; j++){
+
+                    // Run recursively over all the objects in the main object
+                    convertArrayToObject(arrayCopy[j]);
+
+                    // Copy each object from the array and add it to the object
+                    obj[i]["__array__" + j + "__"] = arrayCopy[j];
+                }
+            }
+        }
+
+        return obj;
+    };
+
+    i_data = convertArrayToObject(i_data);
+
     // Send request
     $.ajax({
-            url: i_url,
-            type: "POST",
-            data: {
-                ":operation": "createTree",
-                "tree": $.toJSON(i_data)
+        url: i_url,
+        type: "POST",
+        data: {
+            ":operation": "createTree",
+            "tree": $.toJSON(i_data)
         },
 
-        success: function(data) {
+        success: function(data){
 
             // If a callback function is specified in argument, call it
             if (typeof callback === "function") {
@@ -791,7 +851,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             }
         },
 
-        error: function(xhr, status, e) {
+        error: function(xhr, status, e){
 
             // Log error
             fluid.log("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
@@ -802,6 +862,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             }
         }
     });
+
 };
 
 /**
@@ -821,6 +882,62 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
         return;
     }
 
+    /**
+     * <p>Convert all the objects with format __array__?__ in an object to an array</p>
+     * <code>
+     * {
+     *     "boolean": true,
+     *     "array_object": {
+     *         "__array__0__": {
+     *             "key1": "value1",
+     *             "key2": "value2"
+     *         }
+     *     }
+     * }
+     * </code>
+     * to
+     * <code>
+     * {
+     *     "boolean": true,
+     *     "array_object": [
+     *         {
+     *             "key1": "value1",
+     *             "key2": "value2"
+     *        }
+     *     ]
+     * }
+     * </code>
+     * @param {Object} specficObj The Object that you want to use to convert all the objects with the special format to arrays
+     * @param {Object} [globalObj] The parent object, we need this to run over the elements recursively
+     * @param {Object} [objIndex] The index of the parent object
+     * @return {Object} An object where all the objects with the special format are converted into arrays
+     */
+    var convertObjectToArray = function(specficObj, globalObj, objIndex){
+
+        // Define the regural expression
+        var expression = new RegExp("__array__(.*?)__", "gm");
+
+        // Run over all the items in the object
+        for (var i in specficObj) {
+
+            if (specficObj.hasOwnProperty(i) && $.isObject(specficObj[i])) {
+                var expressionExecute = expression.test(i);
+                if (expressionExecute) {
+                    var arr = [];
+                    for (var j in specficObj) {
+                        if (specficObj.hasOwnProperty(j)) {
+                            arr[arr.length] = specficObj[j];
+                        }
+                    }
+                    globalObj[objIndex] = arr;
+                }
+                convertObjectToArray(specficObj[i], specficObj, i);
+            }
+
+        }
+        return specficObj;
+    };
+
     $.ajax({
         url: i_url + ".infinity.json",
         cache: false,
@@ -831,6 +948,9 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
 
             // Remove keys which are created by JCR or Sling
             sakai.api.Util.removeJCRObjects(returned_data);
+
+            // Convert the special objects to arrays
+            returned_data = convertObjectToArray(returned_data, null, null);
 
             // Call callback function if present
             if (typeof callback === "function") {
@@ -871,7 +991,13 @@ sakai.api.Server.removeJSON = function(i_url, callback){
     // Send request
     $.ajax({
         url: i_url,
-        type: "DELETE",
+        // Note that the type DELETE doesn't work with sling if you do /test.json
+        // You can only perform a DELETE on /test (without extension)
+        // http://sling.apache.org/site/manipulating-content-the-slingpostservlet-servletspost.html
+        type: "POST",
+        data: {
+            ":operation" : "delete"
+        },
         success: function(data){
 
             // If a callback function is specified in argument, call it
@@ -1885,6 +2011,29 @@ if(Array.hasOwnProperty("indexOf") === false){
     };
 }
 
+
+
+// TODO remove and replace with &.isPlainObject as soon as we use jQuery1.4!
+(function(jQuery){
+
+    var toString = Object.prototype.toString, hasOwnProp = Object.prototype.hasOwnProperty;
+
+    jQuery.isObject = function(obj){
+        if (toString.call(obj) !== "[object Object]") {
+            return false;
+        }
+
+        //own properties are iterated firstly,
+        //so to speed up, we can test last one if it is not own
+
+        var key;
+        for (key in obj) {
+        }
+
+        return !key || hasOwnProp.call(obj, key);
+    };
+
+})(jQuery);
 
 
 
