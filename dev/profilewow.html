@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sakai 3 R&amp;D - Profile</title>
+
+    <!-- Sakai Core CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profilewow.css" />
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+
+    <!-- Sakai Config JS -->
+    <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+
+</head>
+<body class="fl-centered profilewow i18nable">
+
+    <!-- EXPLORE BAR -->
+    <div id="widget_navigationchat" class="widget_inline"></div>
+
+    <!-- HEADER -->
+    <div class="fl-container-flex header">
+        <div class="fl-fix fl-centered fixed-container">
+            <div class="decor"><!-- --></div>
+
+            <!-- TITLE BAR  -->
+            <div id="profilewow_heading" class="s3d-site-heading fl-force-left"><!-- --></div>
+        </div>
+    </div>
+
+    <!-- HEADER TEMPLATE -->
+    <div id="profilewow_heading_template"><!--
+        {if mode.value==="view"}
+            <h1>__MSG__VIEW_PROFILE__</h1>
+        {elseif mode.value==="viewmy"}
+            <h1>__MSG__VIEW_MY_PROFILE__</h1>
+        {elseif mode.value==="viewas"}
+            <h1>__MSG__VIEW_MY_PROFILE_AS__</h1>
+            <select>
+                <option{if acls.value==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                <option{if acls.value==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
+                <option{if acls.value==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
+                <option{if acls.value==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
+            </select>
+        {elseif mode.value==="edit"}
+            <h1>__MSG__EDIT_MY_PROFILE__</h1>
+        {/if}
+    --></div>
+
+    <div class="fl-container-flex">
+
+        <div class="fl-fix fl-centered fixed-container">
+
+            <!-- USERINFO -->
+            <div id="profilewow_userinfo"><!-- --></div>
+
+            <!-- USERINFO TEMPLATE -->
+            <div id="profilewow_userinfo_template"><!--
+                <div id="profilewow_userinfo_picture_container" class="fl-force-left">
+                    {if picture}
+                        <img id="profilewow_userinfo_picture" src="${picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.basic.elements.displayname.value}" />
+                    {else}
+                        <img id="profilewow_userinfo_picture" src="/dev/_images/default_profile_picture_shadow_110.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${data.basic.elements.displayname.value}" />
+                    {/if}
+                    <br />
+                    {if mode.value==="viewmy" || mode.value==="edit"}
+                        <a href="javascript:;" class="profilewow_link">__MSG__CHANGE_PHOTO__</a>
+                    {/if}
+                </div>
+            --></div>
+
+        </div>
+
+    </div>
+
+    <div id="profilewow_view_template"><!--
+
+    --></div>
+
+    <!-- FOOTER WIDGET -->
+    <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+    <!-- PROFILEWOW JS -->
+    <script type="text/javascript" src="_javascript/profilewow.js"></script>
+</body>
+</html>
