@@ -97,7 +97,7 @@ sakai.basiclti = function(tuid, placement, showSettings){
     /**
      * Called when the data has been saved to the JCR.
      */
-    var savedDataToJCR = function(){
+    var savedDataToJCR = function(data, textStatus, XMLHttpRequest){
         sdata.container.informFinish(tuid);
     };
     
@@ -184,6 +184,8 @@ sakai.basiclti = function(tuid, placement, showSettings){
      */
     var saveRemoteContent = function(){
         if (json.ltiurl !== "") {
+            json[":operation"] = "basiclti";
+            json["sling:resourceType"] = "sakai/basiclti";
             json.ltiurl = $(basicltiSettingsLtiUrl).val() || "";
             json.ltikey = $(basicltiSettingsLtiKey).val() || "";
             json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
@@ -203,7 +205,6 @@ sakai.basiclti = function(tuid, placement, showSettings){
                 type: 'POST',
                 url: saveUrl,
                 data: json,
-                dataType: 'html',
                 success: savedDataToJCR
             });
         }
@@ -340,7 +341,6 @@ sakai.basiclti = function(tuid, placement, showSettings){
         }
         else { // use default values
             json = {
-                "sling:resourceType": "sakai/basiclti",
                 ltiurl: "",
                 ltikey: "",
                 ltisecret: "",
