@@ -486,7 +486,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
         var jsonPosts = {};
         jsonPosts.posts = arrPosts;
 
-        if (me.user.userid === "anon") {
+        if (me.user.anon) {
             jsonPosts.loggedIn = false;
         }
         else {

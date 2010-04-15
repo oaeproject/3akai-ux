@@ -21,7 +21,7 @@
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
-  <version>0.3.0-SNAPSHOT</version>
+  <version>0.3.0</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
   <url>http://confluence.sakaiproject.org/display/3AK</url>
@@ -47,41 +47,23 @@
       <url>https://source.sakaiproject.org/maven2/</url>
     </repository>
   </repositories>
+  <properties>
+    <ant.target>copy_all</ant.target>
+  </properties>
   <profiles>
     <profile>
       <id>sakai-release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>process-resources</id>
-                <phase>process-resources</phase>
-                <configuration>
-                  <tasks>
-                    <ant target="finish" inheritRefs="true" antfile="./build.xml" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <!-- Begin workaround for maven-bundle-plugin 2.0.1 ignoring processed resources. -->
+      <properties>
+        <ant.target>finish</ant.target>
+      </properties>
     </profile>
   </profiles>
   <build>
     <resources>
       <resource>
-        <directory>dev</directory>
-        <targetPath>SLING-INF/content/dev</targetPath>
-      </resource>
-      <resource>
-        <directory>devwidgets</directory>
-        <targetPath>SLING-INF/content/devwidgets</targetPath>
+        <directory>target/processed-resources</directory>
+        <targetPath>SLING-INF/content</targetPath>
       </resource>
     </resources>
     <plugins>
@@ -103,6 +85,21 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.3</version>
+        <executions>
+          <execution>
+            <!-- Should be process-resources but that is blocked by the maven-bundle-plugin bug. -->
+            <id>generate-resources</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <tasks>
+                <ant target="${ant.target}" inheritRefs="true" antfile="./build.xml" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

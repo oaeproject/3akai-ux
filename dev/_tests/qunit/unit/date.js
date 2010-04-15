@@ -76,7 +76,7 @@ test("Date format: YYYY-MM-DDThh:mm:ssTZD", function(){
     equals(dateEquals.getFullYear(), date.substr(0,4), "The year is correct");
     equals(dateEquals.getMonth() + 1, date.substr(5,2), "The month is correct");
     equals(dateEquals.getDate(), date.substr(8,2), "The month is correct");
-    equals(dateEquals.getHours(), date.substr(11,2), "The hour is correct");
+    equals(dateEquals.getHours() - 1, date.substr(11,2), "The hour is correct");
     equals(dateEquals.getMinutes(), date.substr(14,2), "The minutes are correct");
     equals(dateEquals.getSeconds(), date.substr(17,2), "The seconds are correct");
 });

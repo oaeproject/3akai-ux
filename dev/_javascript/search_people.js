@@ -226,10 +226,18 @@ sakai.search = function() {
         var finaljson = {};
         finaljson.items = [];
         if (success) {
-            //    Adjust the number of people we have found.
-            $(searchConfig.global.numberFound).text(results.total);
 
-            //    Reset the pager.
+            // Adjust display global total
+            // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
+            if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
+                $(searchConfig.global.numberFound).text(""+results.total);
+            } else if (results.results.length <= 0) {
+                $(searchConfig.global.numberFound).text(0);
+            } else {
+                $(searchConfig.global.numberFound).text("thousands");
+            }
+
+            // Reset the pager.
             $(searchConfig.global.pagerClass).pager({
                 pagenumber: currentpage,
                 pagecount: Math.ceil(results.total / resultsToDisplay),
@@ -240,18 +248,14 @@ sakai.search = function() {
                 finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
             }
 
-            //    If we don't have any results or they are less then the number we should display
-            //    we hide the pager
-            if (results.total < resultsToDisplay) {
+            // If we don't have any results or they are less then the number we should display
+            // we hide the pager
+            if ((results.total < resultsToDisplay) || (results.results.length <= 0)) {
                 $(searchConfig.global.pagerClass).hide();
+                $("#create_site_these_people").hide();
             }
             else {
                 $(searchConfig.global.pagerClass).show();
-            }
-
-            if (results.total == 0){
-                $("#create_site_these_people").hide();
-            } else {
                 $("#create_site_these_people").show();
             }
 
@@ -375,7 +379,7 @@ sakai.search = function() {
                 sakai.createsite.initialise(finaljson);
             },
             error: function(xhr, textStatus, thrownError) {
-                alert($.i18n.getValueForKey("__MSG__AN_ERROR_HAS_OCCURED__"));
+                alert(sakai.api.i18n.Widgets.getValueForKey("__MSG__AN_ERROR_HAS_OCCURED__"));
             }
         });
     });

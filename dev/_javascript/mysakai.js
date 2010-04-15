@@ -247,7 +247,7 @@ sakai.dashboard = function(){
 
         person = sakai.data.me;
         inituser = person.user.userid;
-        if (!inituser || inituser == "anon") {
+        if (!inituser || person.user.anon) {
             document.location = "/dev/index.html";
         }
         else {

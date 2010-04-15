@@ -359,8 +359,9 @@ sakai._search = function(config, callback) {
      * If he is this function will return true.
      */
     var isLoggedIn = function() {
-        var uuid = sakai.data.me.user.userid;
-        if (!uuid || uuid === "anon") {
+        var person = sakai.data.me;
+        var uuid = person.user.userid;
+        if (!uuid || person.user.anon) {
             document.location = "/dev/index.html";
             return false;
         }

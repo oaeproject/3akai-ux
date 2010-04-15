@@ -1208,7 +1208,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // Send an Ajax request to check if there are any new messages, but only if there are contacts online
         if ((onlineFriends) && (onlineFriends.length > 0)) {
             $.ajax({
-                url: sakai.config.URL.CHAT_UPDATE_SERVICE,
+                url: "/_user" + sakai.data.me.profile.path + "/message.chatupdate.json",
                 data: data,
                 success: function(data){
 

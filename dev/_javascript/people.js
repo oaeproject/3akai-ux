@@ -77,7 +77,6 @@ sakai.search = function(){
             for (var i = 0, j = foundContacts.results.length; i < j; i++) {
 
                 var item = foundContacts.results[i];
-                console.dir(item);
                 var person = item.profile;
                 var connection = item.details;
                 profiles[item.target] = item;
