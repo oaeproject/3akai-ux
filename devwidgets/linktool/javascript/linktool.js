@@ -64,10 +64,10 @@ sakai.linktool = function(tuid, showSettings){
     var linktoolSettingsWidthUnitSelectedClass = "linktool_settings_width_unit_selected";
 
     // Templates
-    var linktoolSettingsColorContainerTemplate = "linktool_settings_color_container_template";
-    var linktoolSettingsTemplate = "linktool_settings_template";
-    var linktoolSettingsPreviewTemplate = "linktool_settings_preview_template";
-    var linktoolSettingsQuerystringPreviewTemplate = "linktool_settings_querystring_preview_template";
+    var $linktoolSettingsColorContainerTemplate = $("#linktool_settings_color_container_template", rootel);
+    var $linktoolSettingsTemplate = $("#linktool_settings_template", rootel);
+    var $linktoolSettingsPreviewTemplate = $("#linktool_settings_preview_template", rootel);
+    var $linktoolSettingsQuerystringPreviewTemplate = $("#linktool_settings_querystring_preview_template", rootel);
 
 
     ///////////////////////
@@ -152,7 +152,7 @@ sakai.linktool = function(tuid, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(linktoolSettingsPreview).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
+            $(linktoolSettingsPreview).html($.TemplateRenderer($linktoolSettingsPreviewTemplate, json));
         }
         else {
             $(linktoolSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -165,7 +165,8 @@ sakai.linktool = function(tuid, showSettings){
     var renderIframe = function(){
         if (json) {
             json.url = generateCompleteUrl();
-            $(linktoolMainContainer, rootel).html($.TemplateRenderer(linktoolSettingsPreviewTemplate, json));
+            $(linktoolMainContainer, rootel).html($.TemplateRenderer($linktoolSettingsPreviewTemplate, json));
+            $(linktoolMainContainer, rootel).show();
         }
     };
 
@@ -174,7 +175,7 @@ sakai.linktool = function(tuid, showSettings){
      */
     var renderLinkToolSettings = function(){
         if (json) {
-            $(linktoolSettings).html($.TemplateRenderer(linktoolSettingsTemplate, json));
+            $(linktoolSettings).html($.TemplateRenderer($linktoolSettingsTemplate, json));
         }
     };
 
@@ -183,7 +184,7 @@ sakai.linktool = function(tuid, showSettings){
      */
     var renderColorContainer = function(){
         if (json) {
-            $(linktoolSettingsColorContainer).html($.TemplateRenderer(linktoolSettingsColorContainerTemplate, json));
+            $(linktoolSettingsColorContainer).html($.TemplateRenderer($linktoolSettingsColorContainerTemplate, json));
         }
     };
 
@@ -194,7 +195,7 @@ sakai.linktool = function(tuid, showSettings){
         if (json) {
             var jsoncomplete = {};
             jsoncomplete.url_complete_preview = generateCompleteUrl();
-            $(linktoolSettingsQuerystringPreview).html($.TemplateRenderer(linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
+            $(linktoolSettingsQuerystringPreview).html($.TemplateRenderer($linktoolSettingsQuerystringPreviewTemplate, jsoncomplete));
         }
     };
 
