@@ -15,11 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, sdata, get_cookie, Config */
 
 var sakai = sakai || {};
 
-sakai.basiclti = function(tuid, placement, showSettings){
+sakai.basiclti = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -63,9 +62,9 @@ sakai.basiclti = function(tuid, placement, showSettings){
     var basicltiSettingsWidthUnitSelectedClass = "basiclti_settings_width_unit_selected";
     
     // Templates
-    var basicltiSettingsColorContainerTemplate = "basiclti_settings_color_container_template";
-    var basicltiSettingsTemplate = "basiclti_settings_template";
-    var basicltiSettingsPreviewTemplate = "basiclti_settings_preview_template";
+    var $basicltiSettingsColorContainerTemplate = $("#basiclti_settings_color_container_template", rootel);
+    var $basicltiSettingsTemplate = $("#basiclti_settings_template", rootel);
+    var $basicltiSettingsPreviewTemplate = $("#basiclti_settings_preview_template", rootel);
     
     
     ///////////////////////
@@ -112,8 +111,8 @@ sakai.basiclti = function(tuid, placement, showSettings){
      */
     var renderIframeSettings = function(complete){
         if (complete) {
-            json.launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
-            $(basicltiSettingsPreview).html($.Template.render(basicltiSettingsPreviewTemplate, json));
+            json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            $(basicltiSettingsPreview).html($.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
         }
         else {
             $(basicltiSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -125,9 +124,11 @@ sakai.basiclti = function(tuid, placement, showSettings){
      */
     var renderIframe = function(){
         if (json) {
-            var launchDataUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
-            json.launchDataUrl = launchDataUrl;
-            $(basicltiMainContainer, rootel).html($.Template.render(basicltiSettingsPreviewTemplate, json));
+            json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            $(basicltiMainContainer, rootel).html($.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+
+            // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
+            $(basicltiMainContainer, rootel).show();
         }
     };
     
@@ -136,7 +137,7 @@ sakai.basiclti = function(tuid, placement, showSettings){
      */
     var renderRemoteContentSettings = function(){
         if (json) {
-            $(basicltiSettings).html($.Template.render(basicltiSettingsTemplate, json));
+            $(basicltiSettings).html($.TemplateRenderer($basicltiSettingsTemplate, json));
         }
     };
     
@@ -145,7 +146,7 @@ sakai.basiclti = function(tuid, placement, showSettings){
      */
     var renderColorContainer = function(){
         if (json) {
-            $(basicltiSettingsColorContainer).html($.Template.render(basicltiSettingsColorContainerTemplate, json));
+            $(basicltiSettingsColorContainer).html($.TemplateRenderer($basicltiSettingsColorContainerTemplate, json));
         }
     };
     
@@ -198,9 +199,8 @@ sakai.basiclti = function(tuid, placement, showSettings){
             json["release_email@TypeHint"] = "Boolean";
             json.release_email = $('#basiclti_settings_release_email:checked').val() != null;
             json.launchDataUrl = ""; // does not need to be persisted
-            json["_MODIFIERS"] = ""; // what the heck is this? TrimPath? Do not persist.
             json.defined = ""; // what the heck is this? Where does it come from?
-            var saveUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
+            var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
             $.ajax({
                 type: 'POST',
                 url: saveUrl,
@@ -379,7 +379,7 @@ sakai.basiclti = function(tuid, placement, showSettings){
      * view we are in, fill in the settings or display an iframe.
      */
     var getRemoteContent = function(){
-        var settingsUrl = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
+        var settingsUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
         $.ajax({
             url: settingsUrl,
             cache: false,

@@ -29,7 +29,7 @@
 
 /* Preview */
 #basiclti_settings_preview {text-align:center;}
-#basiclti_settings_preview_frame {border-style:solid;margin-bottom:50px;}
+#basiclti_settings_preview_frame {border-style:solid;margin-bottom:1px;}
 
 /* Color */
 #basiclti_settings_color_container {margin-top:9px;}
