@@ -13,6 +13,13 @@
  * It is also influenced heavily by MochiKit's serializeJSON, which is 
  * copyrighted 2005 by Bob Ippolito.
  */
+
+/*
+ * 2010-04-15 - Eli Cochran
+ * This file has been modified from the origial in $.evalJSON()
+ * to only parse the JSON if it is text. If it is already an object
+ * it gets passed back as-is.
+ */
  
 (function($) {
     /** jQuery.toJSON( json-serializble )
@@ -114,6 +121,8 @@
      **/
     $.evalJSON = function(src)
     {
+        // added for backwards compatibility with jQuery 1.4.2
+        // see SAKIII-268 for a description of this hack
         if (typeof(src) == 'object') {
             return src;
         }
