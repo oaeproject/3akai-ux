@@ -254,6 +254,7 @@ sdata.widgets.WidgetLoader = {
             if(urls.length > 0){
                 $.ajax({
                     url: sakai.config.URL.BATCH_GET,
+                    traditional: true,
                     data: {
                         resources: urls
                     },
