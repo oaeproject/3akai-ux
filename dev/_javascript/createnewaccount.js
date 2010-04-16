@@ -324,14 +324,14 @@ sakai.newaccount = function(){
         }
 
         // Check whether the username contains spaces
-        if (username.indexOf(" ") !== -1){
+        if (usernameEntered.indexOf(" ") !== -1){
             setError(usernameField,usernameSpaces);
             return false;
         }
 
         // Check whether the length of the username is at least 3, which is the minimum length
         // required by the backend
-        if (username.length < 3){
+        if (usernameEntered.length < 3){
             setError(usernameField,usernameShort);
             return false;
         }
