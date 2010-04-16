@@ -369,10 +369,10 @@ sakai.newaccount = function(){
      * Once the user is trying to submit the form, we check whether all the fields have valid
      * input and try to create the new account
      */
-    //$("#save_account").bind("click", function(ev) {
-    //        validateFields();
-    //    });
-    $("#create_account_form").submit(validateFields);
+    $("#save_account").bind("click", function(ev) {
+        validateFields();
+    });
+    //$("#create_account_form").submit(validateFields);
 
 
     /*
