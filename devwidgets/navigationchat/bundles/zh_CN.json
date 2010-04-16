@@ -1,6 +1,4 @@
 {
-"AVAILABLE": "空闲",
-"BUSY": "繁忙",
 "CALENDAR": "日历",
 "CHAT_STATUS": "聊天状态",
 "CONTENT_AND_MEDIA": "内容 &amp; 媒体",
@@ -16,7 +14,6 @@
 "name": "navigationchat",
 "NO_ONLINE_CONNECTIONS_FOUND": "未发现在线联系人",
 "NO_RECENT_SITES_FOUND": "未发现近期访问站点",
-"OFFLINE": "离线",
 "PEOPLE": "人员",
 "PROFILE": "个人信息",
 "RECENT_SITES": "近期访问站点",
