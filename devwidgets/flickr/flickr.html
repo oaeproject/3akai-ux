@@ -1,0 +1,90 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/flickr/css/flickr.css" />
+
+<!-- SETTINGS VIEW -->
+<div id="flickr_settings" style="display:none">
+
+    <!--ACCORDION-->
+    <div id="flickr_accordion"  >
+
+        <!--FIRST ACCODRION ITEM -->
+        <a class="flickr_accordeon_header" id="flickr_first_header" href="javascript:;">__MSG__ADD_OWN_PICTURES__</a>
+        <div class = "flickr_inner_accordeon" id="flickr_first_accordeon">
+            <p class ="flickr_text" > __MSG__SEARCH_FOR_PHOTOS__</p>
+            <form method="GET" action="javascript:;">
+                <p>
+                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_person_input" class="changeColorNormal" />
+                </p>
+                <button class="s3d-button flickr_search" id="flickr_seach_people_button">
+                    <span class="s3d-button-inner" >__MSG__SEARCH__</span>
+                </button>
+                <img src="/devwidgets/flickr/images/ajax-loader-gray.gif" alt="__MSG__LOADING_IMAGE__" id="flickr_loading_person_img" />
+            </form>
+            <div id="flickr_input_person_error">__MSG__INPUT_ERROR__</div>
+            <div id="flickr_input_same_person_error">__MSG__INPUT_SAME_ERROR__</div>
+            <div id="flickr_no_person_error">__MSG__NO_USER__</div>
+            <div id="flickr_key_person_gallery" ></div>
+            <div id="flickr_person_pagging" ></div>
+        </div>
+
+        <!--SECOND ARROCRDION ITEM -->
+        <a class="flickr_accordeon_header" id="flickr_second_header" href="javascript:;">__MSG__SEARCH_FOR_PHOTOS__</a>
+        <div>
+            <p class ="flickr_text" > __MSG__SEARCH_FOR_PHOTOS__</p>
+            <form method="GET" action="javascript:;">
+                <p>
+                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_input" class="changeColorNormal" />
+                </p>
+                <button class="s3d-button flickr_search" id="flickr_seach_button">
+                    <span class="s3d-button-inner" >__MSG__SEARCH__</span>
+                </button>
+                <img src="/devwidgets/flickr/images/ajax-loader-gray.gif" alt="__MSG__LOADING_IMAGE__" id="flickr_loading_img" />
+            </form>
+            <div id="flickr_input_error">__MSG__INPUT_ERROR__</div>
+            <div id="flickr_input_same_error">__MSG__INPUT_SAME_ERROR__</div>
+            <div id="flickr_key_gallery" ></div>
+        </div>
+    </div>
+
+    <!--SLIDING SIDEBAR -->
+    <div id="flickr_sidebar" class="jcarousel-skin-tango">
+        <ul>
+             <li><img src="/devwidgets/flickr/images/drop-image.png" alt="__MSG__DROP_HERE__" class="flick_drop_here"></li>
+        </ul>
+    </div>
+
+    <!--CANCEL/SUBMIT -->
+    <div class="dialog_buttons">
+        <a class="button-default submit_button" href="javascript:;" id="flickr_settings_submit">Submit</a>
+        <a class="button cancel-button" href="javascript:;" id="flickr_settings_cancel">Cancel</a>
+    </div>
+
+    <!--HIDDEN CONTENT-->
+    <p id="flickr_tooltip_text">__MSG__TOOLTIP_TEXT__</p>
+</div>
+
+<!-- TEMPLATES -->
+<div id="flickr_key_gallery_template"><!--
+    <ul id="flickr_key_ul">
+        {for pic in all}
+            <li><img  src="${pic}"/></li>
+        {/for}
+    </ul>
+--></div>
+
+<div id="flickr_person_gallery_pagging_template"><!--
+    <a href="javascript:;" id="flickr_person_prev_pagging">
+    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
+    </a>
+    <input type="text" id="flickr_pagging_input" class="changeColorNormal" />
+    <span> / </span>
+    <span class="flickr_pages">${pages}</span>
+    <a href="javascript:;">
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__" id="flickr_person_next_pagging" />
+    </a>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/flickr/javascript/flickr.js"></script>
+<script type="text/javascript" src="/devwidgets/flickr/lib/sortable.js"></script>
+<script type="text/javascript" src="/devwidgets/flickr/lib/easyTooltip.js"></script>

@@ -1,0 +1,15 @@
+{
+    "sling:resourceType": "sakai/proxy",
+    "sakai:request-proxy-endpoint": "http://api.flickr.com/services/rest/?method=flickr.auth.getToken&api_key=${key}&api_sig=${sig}&frob=${frob}",
+    "sakai:request-proxy-method": "GET",
+    "sakai:title": "flickr",
+    "sakai:shortDescription": "Convert frob to token",
+    "sakai:description": [
+        "This proxy is desgined to convert a frob into a token"
+    ],
+     "sakai:parameters" : [
+        "{\"name\" : \"key\", \"description\" : \"(Required)The api key\"}",
+        "{\"name\" : \"frob\", \"description\" : \"(Required)Frobs\"}",
+        "{\"name\" : \"sig\", \"description\" : \"(Required)The signature\"}",
+    ]
+}

@@ -1,0 +1,13 @@
+{
+"ADD_OWN_PICTURES": "Zoek foto's van een persoon",
+"SEARCH_FOR_PHOTOS": "Zoek naar foto's",
+"SEARCH": "Zoeken",
+"TOOLTIP_TEXT": "Dit kan je verslepen",
+"INPUT_ERROR": "Gelieve het textvakje in te vullen",
+"LOADING_IMAGE" : "Images zijn aan het laden",
+"DROP_HERE" : "Laat je image hier los",
+"INPUT_SAME_ERROR": "Gelieve uw zoekterm te veranderen",
+"NO_USER" : "De gebruiker kan niet gevonden worden",
+"PREV" : "Terug",
+"NEXT" : "Volgende"
+}

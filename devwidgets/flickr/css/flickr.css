@@ -1,0 +1,147 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+
+/* General widget settings */
+#flickr_settings li{
+    list-style-type:none;
+}
+
+/* Accordeon container */
+#flickr_accordion {width:500px; float:left; margin-bottom:20px;}
+#flickr_accordion .flickr_accordeon_header {display:block; background-color:#454A4F; color:#fff;padding:60px 0 20px 20px;}
+#flickr_accordion .flickr_accordeon_header:hover{background-color:#006E96;text-decoration: none;}
+
+/* Sidebar */
+#flickr_sidebar{height:434px; background-color:#454A4F; float:left; width:100px; border-left: 2px solid #fff; padding: 0px 0px 20px 0px; overflow:hidden;}
+#flickr_sidebar ul{height:350px!important; clear:both; width:100px; margin:10px 0px 0px 8px !important;}
+#flickr_sidebar ul li img {border:5px solid #006E96;}
+#flickr_sidebar ul li {margin:0px 0px 5px 0px; padding:0px 0px 5px 0px; }
+
+/* Text */
+.flickr_text{margin:20px 0px 0px 30px;}
+
+/* When hovering over an image list ,change the cursor */
+ul img:hover {
+    cursor:pointer;
+}
+
+/* The tooltip that is shown when the user hovers over an image */
+#flickr_tooltip{
+    padding:5px 10px;
+    background-color:#006E96;
+    color:#fff;
+    z-index:9999;
+}
+
+
+/* The search inputbox */
+#flickr_key_input, #flickr_key_person_input{
+    float:left;
+    border:1px solid #777777;
+    font-size:1em;
+    height:20px;
+    margin:10px 14px 0 30px ;
+    padding:1px 5px ;
+    width:10em;
+}
+
+/*Ajax loader */
+#flickr_loading_img, #flickr_loading_person_img{
+    float:right;
+    margin-right:25px;
+}
+
+/* the flickr search button */
+.flickr_search{
+    margin:15px 0px 0px 30px;
+}
+
+/*Image gallery in the Second accordion div */
+#flickr_key_gallery, #flickr_key_person_gallery{
+    margin-top:42px;
+}
+
+#flickr_key_ul{
+    height:87px;
+}
+
+/*Ul of images */
+#flickr_key_ul li, #flickr_image_slider_ul li{
+    display:inline;
+    padding-left:2px;
+    margin-bottom:10px;
+}
+
+
+/*All the images should have a 5px blue border */
+#flickr_key_ul li img, #flickr_image_slider_ul li img{
+    border:5px solid #006E96;
+}
+
+/*Make sure the login button and text are hidden at the start */
+#flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error {
+    display:none;
+}
+
+/*error messages */
+#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error{
+    color:#ff0000;
+    margin:10px 0px 0px 30px;
+}
+
+/*These classes can be added to a textbox to change the textcolor */
+.changeColorBlack{
+    color:#000000;
+}
+
+/*These classes can be added to a textbox to change the textcolor */
+.changeColorNormal{
+    color:#AAAAAA;
+}
+
+/* Paging */
+
+/* The paging textbox */
+#flickr_pagging_input{
+    width:15px;
+    border:1px solid #777777;
+    font-size:1em;
+    height:20px;
+    margin:0px 0px 10px 15px ;
+    padding:1px 5px ;
+}
+
+/* the right arrow */
+.flickr_pages{
+    margin-right:15px; 
+}
+
+/* the arrows */
+#flickr_person_pagging img {
+    cursor:hand;
+}
+
+/* the whole paging div */
+#flickr_person_pagging{
+    margin-left:200px;
+}
+
+ .setInvisable{
+     opacity:0;
+ }
