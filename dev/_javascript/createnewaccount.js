@@ -376,11 +376,7 @@ sakai.newaccount = function(){
      * Once the user is trying to submit the form, we check whether all the fields have valid
      * input and try to create the new account
      */
-    //$("#save_account").bind("click", function(ev) {
-    //        validateFields();
-    //    });
     $("#create_account_form").submit(validateFields);
-
 
     /*
      * If the Cancel button is clicked, we redirect them back to the login page
@@ -393,7 +389,6 @@ sakai.newaccount = function(){
         resetErrorFields();
         checkUserName(true);
     });
-
 
     // Hide error fields at start
     $(errorFields).hide();
