@@ -20,7 +20,10 @@
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
 
     <!-- Sakai Core JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -111,7 +114,7 @@
                             <td class="label_container"><label id="username_label" for="username">Username:</label></td>
                             <td><input type="text" id="username" name="username" class="create_account_input" /></td>
                             <td>
-                                <button id="checkUserName" class="s3d-button"><span class="s3d-button-inner">Check if username is available</span></button>
+                                <button type="button" id="checkUserName" class="s3d-button"><span class="s3d-button-inner">Check if username is available</span></button>
                             </td>
                         </tr>
                         <tr>
@@ -119,6 +122,7 @@
                             <td>
                                 <div id="username_taken" class="create_account_error_msg">This username has already been taken!</div>
                                 <div id="username_spaces" class="create_account_error_msg">The username shouldn't contain spaces!</div>
+                                <div id="username_invalid" class="create_account_error_msg">The username contains invalid characters!</div>
                                 <div id="username_short" class="create_account_error_msg">The username should be at least 3 characters long!</div>
                                 <div id="username_empty" class="create_account_error_msg">Please enter your username!</div>
                                 <div id="username_available" class="username_available">This username is available</div>
@@ -173,8 +177,8 @@
                             <td></td>
                             <td>
                                 <div>
-                                    <button id="save_account" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Create account</span></button>
-                                    <button id="cancel_button" class="s3d-button"><span class="s3d-button-inner">Cancel</span></button>
+                                    <button id="save_account" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">Create account</span></button>
+                                    <button id="cancel_button" class="s3d-button" type="reset"><span class="s3d-button-inner">Cancel</span></button>
                                 </div>
                             </td>
                         </tr>
