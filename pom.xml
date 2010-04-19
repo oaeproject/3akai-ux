@@ -16,15 +16,15 @@
   <parent>
     <groupId>org.sakaiproject.nakamura</groupId>
     <artifactId>base</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
   </parent>
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
-  <version>0.3.0</version>
+  <version>0.4.0_snapshot</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
-  <url>http://confluence.sakaiproject.org/display/3AK</url>
+  <url>http://github.com/oszkarnagy/3akai-ux</url>
   <scm>
     <connection>scm:git:git://github.com/oszkarnagy/3akai-ux.git</connection>
     <developerConnection>scm:git:git://git@github.com/oszkarnagy/3akai-ux.git</developerConnection>
