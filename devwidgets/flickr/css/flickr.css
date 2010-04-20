@@ -84,7 +84,6 @@ ul img:hover {
 /*Ul of images */
 #flickr_key_ul li, #flickr_image_slider_ul li{
     display:inline;
-    padding-left:2px;
     margin-bottom:10px;
 }
 
@@ -145,3 +144,23 @@ ul img:hover {
  .setInvisable{
      opacity:0;
  }
+
+#flickr_person_next_pagging,#flickr_person_prev_pagging{
+    padding:10px;
+}
+
+.showImage{
+    display:inline;
+}
+
+.hiddenImage{
+    display:none;
+}
+
+.hideArrow{
+    opacity:0;
+}
+
+.showArrow{
+    opacity:1;
+}

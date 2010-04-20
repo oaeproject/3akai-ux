@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/flickr/css/flickr.css" />
 
 <!-- SETTINGS VIEW -->
-<div id="flickr_settings" style="display:none">
+<div id="flickr_settings" style="display:none" >
 
     <!--ACCORDION-->
     <div id="flickr_accordion"  >
@@ -23,7 +23,7 @@
             <div id="flickr_input_person_error">__MSG__INPUT_ERROR__</div>
             <div id="flickr_input_same_person_error">__MSG__INPUT_SAME_ERROR__</div>
             <div id="flickr_no_person_error">__MSG__NO_USER__</div>
-            <div id="flickr_key_person_gallery" ></div>
+            <div id="flickr_key_person_gallery" ><ul id="flickr_key_ul"></ul></div>
             <div id="flickr_person_pagging" ></div>
         </div>
 
@@ -42,7 +42,7 @@
             </form>
             <div id="flickr_input_error">__MSG__INPUT_ERROR__</div>
             <div id="flickr_input_same_error">__MSG__INPUT_SAME_ERROR__</div>
-            <div id="flickr_key_gallery" ></div>
+            <div id="flickr_key_gallery" ><ul id="flickr_key_ul"><ul></div>
         </div>
     </div>
 
@@ -67,7 +67,7 @@
 <div id="flickr_key_gallery_template"><!--
     <ul id="flickr_key_ul">
         {for pic in all}
-            <li><img  src="${pic}"/></li>
+            <li><img  src="${pic.url}" alt="${alt.title}" title=${alt.title}/></li>
         {/for}
     </ul>
 --></div>
@@ -76,15 +76,16 @@
     <a href="javascript:;" id="flickr_person_prev_pagging">
     <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
     </a>
-    <input type="text" id="flickr_pagging_input" class="changeColorNormal" />
+    <input type="text" value="1" id="flickr_pagging_input" class="changeColorNormal" />
     <span> / </span>
     <span class="flickr_pages">${pages}</span>
-    <a href="javascript:;">
-        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__" id="flickr_person_next_pagging" />
+    <a href="javascript:;" id="flickr_person_next_pagging">
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
     </a>
 --></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/flickr/javascript/flickr.js"></script>
+<script type="text/javascript" src="/devwidgets/flickr/lib/ui.accordion.min.js"></script>
 <script type="text/javascript" src="/devwidgets/flickr/lib/sortable.js"></script>
 <script type="text/javascript" src="/devwidgets/flickr/lib/easyTooltip.js"></script>
