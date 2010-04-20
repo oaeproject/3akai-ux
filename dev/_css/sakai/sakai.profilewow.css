@@ -25,8 +25,8 @@
 #profilewow_userinfo {
     margin-top: 30px;
 }
-#profilewow_userinfo div {
-    margin-bottom: 5px;
+#profilewow_userinfo #profilewow_userinfo_picture_container {
+    margin-bottom: 25px;
 }
 #profilewow_userinfo form button{
     margin-left: 10px;
@@ -44,7 +44,38 @@
 }
 
 /* General info */
+#profilewow_generalinfo .profilewow_generalinfo_header {
+    border-top:1px solid #ccc;
+    margin:15px 0;
+    overflow:hidden;
+    padding-top:20px;
+}
+#profilewow_generalinfo .profilewow_generalinfo_header_first {
+    border: none;
+    padding-top: 0;
+}
 #profilewow_generalinfo h3 {
     color:#5A6A7C;
-    margin:0;
+    font-size:120%;
+    font-weight:normal;
+    margin: 0;
+    padding-right: 5px;
+    width: 400px;
+}
+
+#profilewow_generalinfo .profilewow_generalinfo_subcontainer {
+    clear: both;
+    margin:8px 0;
+    overflow: auto;
+}
+#profilewow_generalinfo .profilewow_generalinfo_label, .profilewow_generalinfo label {
+    display: block;
+    float: left;
+    width: 140px;
+}
+
+/* Footer */
+#profilewow_footer {
+    margin: 30px 0 15px 0;
+    overflow: hidden;
 }

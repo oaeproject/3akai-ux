@@ -21,7 +21,10 @@
     <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
 
     <!-- Sakai Core JS -->
     <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -121,8 +124,30 @@
 
             <!-- GENERAL INFO TEMPLATE -->
             <div id="profilewow_generalinfo_template"><!--
+                {var i_count = 0}
                 {for i in config}
-                    <h3>${i.label}</h3>
+                    <div class="profilewow_generalinfo_header{if i_count === 0} profilewow_generalinfo_header_first{/if}">
+                        <h3 class="fl-force-left">${i.label}</h3>
+
+                        {if mode.value === "viewmy" || mode.value === "edit"}
+                            {var _access = sakai.profilewow.profile.data[i_index].access}
+                            <div class="profilewow_generalinfo_acl fl-force-right">
+                                {if mode.value === "viewmy"}
+                                    <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
+                                    <a href="profilewow.html?mode=edit">_access</a>
+                                {else}
+                                    <label for="profilewow_generalinfo_access_${i_index}">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
+                                    <select id="profilewow_generalinfo_access_${i_index}">
+                                        <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                                        <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
+                                        <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
+                                        <option{if _access==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
+                                    </select>
+                                {/if}
+                            </div>
+                        {/if}
+
+                    </div>
 
                     {for element in i.elements}
 
@@ -130,10 +155,59 @@
                         {var _element = _elements[element_index]}
                         {var isarray = $.isArray(_elements)}
 
-                        ${element.label}: {if !isarray} ${_element.value} {/if}<br />
+                        <div class="profilewow_generalinfo_subcontainer">
+                            <span class="profilewow_generalinfo_label">${element.label}:</span>
+                            <div class="profilewow_generalinfo_content">
+                                {if !isarray}
+                                    ${_element.value}
+                                {else}
+                                    {for _subelement in _elements}
+                                        ${_subelement[element_index]}
+                                    {/for}
+                                {/if}
+                            </div>
+                        </div>
                     {/for}
-
+                    ${i_count++ |eat}
                 {/for}
+            --></div>
+
+            <!-- FOOTER -->
+            <div id="profilewow_footer" class="fl-push"><!-- --></div>
+
+            <!-- FOOTER TEMPLATE -->
+            <div id="profilewow_footer_template"><!--
+                <div class="fl-force-left">
+                    {if mode.value === "edit"}
+                        <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                        </button>
+                    {else}
+                        <button id="profilewow_footer_button_goback" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__GO_BACK__</span>
+                        </button>
+                    {/if}
+                </div>
+                <div class="fl-force-right">
+                    {if mode.value === "edit"}
+                        <button id="profilewow_footer_button_update" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
+                        </button>
+                    {elseif mode.value === "viewmy" || mode.value === "viewas"}
+                        <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
+                        </button>
+                    {/if}
+                    {if mode.value !== "view"}
+                        <select>
+                            <option class="profilewow_nonselectable" selected="selected">__MSG__PREVIEW_AS__</option>
+                            <option>__MSG__PUBLIC__</option>
+                            <option>__MSG__INSTITUTION__</option>
+                            <option>__MSG__CONTACTS__</option>
+                            <option>__MSG__NO_ONE__</option>
+                        </select>
+                    {/if}
+                </div>
             --></div>
 
         </div>

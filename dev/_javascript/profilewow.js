@@ -87,6 +87,18 @@ sakai.profilewow = function(){
                     "source": "local",
                     "editable": true,
                     "access": "institution"
+                },
+                "personalinterests": {
+                    "value": "",
+                    "source": "local",
+                    "editable": true,
+                    "access": "institution"
+                },
+                "hobbies": {
+                    "value": "",
+                    "source": "local",
+                    "editable": true,
+                    "access": "institution"
                 }
             }
         },
@@ -172,6 +184,24 @@ sakai.profilewow = function(){
                     "required": false,
                     "display": true,
                     "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__"
+                },
+                "academicinterests": {
+                    "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "example": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_EXAMPLE__"
+                },
+                "personalinterests": {
+                    "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "example": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_EXAMPLE__"
+                },
+                "hobbies": {
+                    "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "example": "__MSG__PROFILE_ABOUTME_HOBBIES_EXAMPLE__"
                 }
             }
         },
@@ -221,6 +251,8 @@ sakai.profilewow = function(){
     ///////////////////
 
     var profilewow_class = ".profilewow";
+    var $profilewow_footer = $("#profilewow_footer", profilewow_class);
+    var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
     var $profilewow_generalinfo = $("#profilewow_generalinfo", profilewow_class);
     var $profilewow_generalinfo_template = $("#profilewow_generalinfo_template", profilewow_class);
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
@@ -300,8 +332,8 @@ sakai.profilewow = function(){
      */
     var constructProfilePicture = function(profile){
 
-        if (sakai.profilewow.profile.picture && sakai.profilewow.profile.path) {
-            return "/_user" + sakai.profilewow.profile.path + "/public/profile/" + $.evalJSON(sakai.profilewow.profile.picture).name;
+        if (profile.picture && profile.path) {
+            return "/_user" + profile.path + "/public/profile/" + $.evalJSON(profile.picture).name;
         }
         else {
             return "";
@@ -490,6 +522,16 @@ sakai.profilewow = function(){
     };
 
     /**
+     * Render the footer for profilewow
+     */
+    var renderTemplateFooter = function(){
+
+        // Render the profilewow footer
+        $profilewow_footer.html($.TemplateRenderer($profilewow_footer_template, sakai.profilewow.profile));
+
+    };
+
+    /**
      * Parse and render all the templates on the page
      */
     var renderTemplates = function(){
@@ -502,6 +544,9 @@ sakai.profilewow = function(){
 
         // Render the general info
         renderTemplateGeneralInfo();
+
+        // Render the footer buttons
+        renderTemplateFooter();
 
     };
 
