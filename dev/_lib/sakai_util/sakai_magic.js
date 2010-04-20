@@ -809,7 +809,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         for(var i in obj){
 
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length>0 && $.isObject(obj[i][0])){
+            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0){
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -820,12 +820,17 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
                 // Add all the elements that were in the original array to the object with a unique id
                 for(var j = 0, jl = arrayCopy.length; j < jl ; j++){
 
-                    // Run recursively over all the objects in the main object
-                    convertArrayToObject(arrayCopy[j]);
-
                     // Copy each object from the array and add it to the object
                     obj[i]["__array__" + j + "__"] = arrayCopy[j];
+
+                    // Run recursively
+                    if ($.isArray(arrayCopy[j]) && arrayCopy[j].length > 0) {
+                        convertArrayToObject(arrayCopy[j]);
+                    }
                 }
+            // If there are array elements inside
+            } else if ($.isObject(obj[i])) {
+                convertArrayToObject(obj[i]);
             }
         }
 
@@ -914,19 +919,20 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
      */
     var convertObjectToArray = function(specficObj, globalObj, objIndex){
 
-        // Define the regural expression
-        var expression = new RegExp("__array__(.*?)__", "gm");
-
         // Run over all the items in the object
         for (var i in specficObj) {
 
+            // If exists and it's an object recurse
             if (specficObj.hasOwnProperty(i) && $.isObject(specficObj[i])) {
-                var expressionExecute = expression.test(i);
-                if (expressionExecute) {
+
+                // If it's a non-empty array-object it will have a first element with the key "__array__0__"
+                if (i === "__array__0__") {
+
+                    // Construct array of objects
                     var arr = [];
                     for (var j in specficObj) {
                         if (specficObj.hasOwnProperty(j)) {
-                            arr[arr.length] = specficObj[j];
+                            arr.push(specficObj[j]);
                         }
                     }
                     globalObj[objIndex] = arr;
@@ -2055,6 +2061,7 @@ sakai.api.autoStart = function() {
 
             // Start l10n
             sakai.api.l10n.init();
+
         });
 
         // Start Widget container functions
