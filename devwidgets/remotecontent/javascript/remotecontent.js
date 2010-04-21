@@ -60,9 +60,9 @@ sakai.remotecontent = function(tuid, showSettings){
     var remotecontentSettingsWidthUnitSelectedClass = "remotecontent_settings_width_unit_selected";
 
     // Templates
-    var remotecontentSettingsColorContainerTemplate = "remotecontent_settings_color_container_template";
-    var remotecontentSettingsTemplate = "remotecontent_settings_template";
-    var remotecontentSettingsPreviewTemplate = "remotecontent_settings_preview_template";
+    var $remotecontentSettingsColorContainerTemplate = $("#remotecontent_settings_color_container_template", rootel);
+    var $remotecontentSettingsTemplate = $("#remotecontent_settings_template", rootel);
+    var $remotecontentSettingsPreviewTemplate = $("#remotecontent_settings_preview_template", rootel);
 
 
     ///////////////////////
@@ -115,7 +115,7 @@ sakai.remotecontent = function(tuid, showSettings){
             jsonDefaultSize.width = defaultWidth;
             jsonDefaultSize.width_unit = defaultWidthUnit;
             jsonDefaultSize.height = defaultHeight;
-            $(remotecontentSettingsPreview).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentSettingsPreview).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json));
         }
         else {
             $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
@@ -127,7 +127,10 @@ sakai.remotecontent = function(tuid, showSettings){
      */
     var renderIframe = function(){
         if (json) {
-            $(remotecontentMainContainer, rootel).html($.TemplateRenderer(remotecontentSettingsPreviewTemplate, json));
+            $(remotecontentMainContainer, rootel).html($.TemplateRenderer($remotecontentSettingsPreviewTemplate, json));
+
+            // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
+            $(remotecontentMainContainer, rootel).show();
         }
     };
 
@@ -136,7 +139,7 @@ sakai.remotecontent = function(tuid, showSettings){
      */
     var renderRemoteContentSettings = function(){
         if (json) {
-            $(remotecontentSettings).html($.TemplateRenderer(remotecontentSettingsTemplate, json));
+            $(remotecontentSettings).html($.TemplateRenderer($remotecontentSettingsTemplate, json));
         }
     };
 
@@ -145,7 +148,7 @@ sakai.remotecontent = function(tuid, showSettings){
      */
     var renderColorContainer = function(){
         if (json) {
-            $(remotecontentSettingsColorContainer).html($.TemplateRenderer(remotecontentSettingsColorContainerTemplate, json));
+            $(remotecontentSettingsColorContainer).html($.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
         }
     };
 

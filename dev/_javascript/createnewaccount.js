@@ -58,6 +58,7 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
+    var usernameInvalid = usernameField + "_invalid";
     var usernameEmpty = usernameField + "_empty";
     var firstnameEmpty = firstnameField + "_empty";
     var lastnameEmpty = lastnameField + "_empty";
@@ -324,15 +325,21 @@ sakai.newaccount = function(){
         }
 
         // Check whether the username contains spaces
-        if (username.indexOf(" ") !== -1){
+        if (usernameEntered.indexOf(" ") !== -1){
             setError(usernameField,usernameSpaces);
             return false;
         }
 
         // Check whether the length of the username is at least 3, which is the minimum length
         // required by the backend
-        if (username.length < 3){
+        if (usernameEntered.length < 3){
             setError(usernameField,usernameShort);
+            return false;
+        }
+
+        // Check whether the username contains illegal characters
+        if (!usernameEntered.match(/^([a-zA-Z0-9\_\-]+)$/) || (usernameEntered.substr(0,2) === 'g-')){
+            setError(usernameField,usernameInvalid);
             return false;
         }
 
@@ -369,11 +376,7 @@ sakai.newaccount = function(){
      * Once the user is trying to submit the form, we check whether all the fields have valid
      * input and try to create the new account
      */
-    //$("#save_account").bind("click", function(ev) {
-    //        validateFields();
-    //    });
     $("#create_account_form").submit(validateFields);
-
 
     /*
      * If the Cancel button is clicked, we redirect them back to the login page
@@ -386,7 +389,6 @@ sakai.newaccount = function(){
         resetErrorFields();
         checkUserName(true);
     });
-
 
     // Hide error fields at start
     $(errorFields).hide();

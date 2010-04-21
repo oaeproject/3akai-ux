@@ -385,8 +385,8 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
             success: function(data){
-                sakai.data.i18n.defaultBundle = $.evalJSON(data);
-                doI18N(sakai.data.i18n.defaultBundle, sakai.data.i18n.defaultBundle);
+                sakai.data.i18n.localBundle = $.evalJSON(data);
+                doI18N(sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
             },
             error: function(xhr, textStatus, thrownError){
                 // There is no language file for the language chosen by the user
