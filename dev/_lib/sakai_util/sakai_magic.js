@@ -1962,4 +1962,4 @@ sakai.api.autoStart = function() {
 
     });
 };
-//sakai.api.autoStart();
+sakai.api.autoStart();
