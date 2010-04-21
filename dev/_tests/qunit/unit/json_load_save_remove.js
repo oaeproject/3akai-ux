@@ -5,6 +5,7 @@ var testJSON = {
     "integer": 1,
     "string": "value",
     "array_empty": [],
+    "array_singlestring": {"items":["asdasd"]},
     "array_object": [{
         "key1": "value1",
         "key2": "value2",
@@ -32,15 +33,24 @@ var testJSON = {
     }],
     "array_string": ["value1", "value2", "value3", "value4", "value5"],
     "array_int": [1, 2, 3, 4, 5],
-    "array_boolean": [true, false, true, true, false]
+    "array_boolean": [true, false, true, true, false],
+    "array_mixed": [{
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+        },
+        "teststring",
+        42,
+        true
+    ]
 };
-var testURL = "/_user/a/ad/admin/public/test.json";
+var testURL = "/_user/a/ad/admin/public/test";
 
-asyncTest("Save a JSON file", function(){
+test("Save a JSON file", function(){
 
+    // Callback after saving a JSON
     var saveCallback = function(){
         ok(true);
-        start();
     };
 
     // Login
@@ -54,21 +64,24 @@ asyncTest("Save a JSON file", function(){
             "_charset_": "utf-8"
         },
         success: function(){
+
             // We need to copy the testJSON in order to make sure we don't modify it inside this function
             sakai.api.Server.saveJSON(testURL, $.extend("true", [], testJSON), saveCallback);
+            stop();
+
         },
         error: function(){
             ok(false);
-            start();
         }
     });
+
 });
 
-asyncTest("Load a JSON file", function(){
+test("Load a JSON file", function(){
 
+    // Callback after loading a JSON
     var loadCallback = function(success, data){
         same(data, testJSON, "The saved JSON is the same as the loaded JSON");
-        start();
     };
 
     // Login
@@ -83,20 +96,24 @@ asyncTest("Load a JSON file", function(){
         },
         success: function(){
             sakai.api.Server.loadJSON(testURL, loadCallback);
+            stop();
         },
         error: function(){
             ok(false);
-            start();
         }
     });
+
+
 });
 
-asyncTest("Remove a JSON file", function(){
+test("Remove a JSON file", function(){
 
     var removeCallback = function(success, data){
-        //same(data, testJSON, "The saved JSON is the same as the loaded JSON");
-        ok(true);
-        start();
+        if (success) {
+            ok(true,"Successfuly deleted JSON object");
+        } else {
+            ok(false, "Could not delete the JSON object")
+        }
     };
 
     // Login
@@ -117,4 +134,6 @@ asyncTest("Remove a JSON file", function(){
             start();
         }
     });
+
+
 });
