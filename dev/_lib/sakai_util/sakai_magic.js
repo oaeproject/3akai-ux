@@ -299,10 +299,18 @@ sakai.api.i18n.init = function(){
     ////////////////////
 
     /*
+     * Cache the jQuery i18nable element. This makes sure that only pages with
+     * the class i18nable on the body element get i18n translations and won't do
+     * it on other pages.
+     * <body class="i18nable">
+     */
+    var $i18nable = $("body.i18nable");
+
+    /*
      * We take the HTML that is inside the body tag. We will use this to find string we want to
      * translate into the language chosen by the user
      */
-    var tostring = $(document.body).html();
+    var tostring = $i18nable.html();
 
 
     ////////////////////////////
@@ -349,7 +357,7 @@ sakai.api.i18n.init = function(){
      * and load them into the document
      */
     var finishI18N = function(){
-        $(document.body).show();
+        $i18nable.show();
         sdata.container.setReadyToLoad(true);
         sdata.widgets.WidgetLoader.insertWidgets(null, false);
     };
@@ -369,7 +377,7 @@ sakai.api.i18n.init = function(){
         // We actually use the old innerHTML function here because the jQuery.html() function will
         // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
         // will already be loaded
-        document.body.innerHTML = newstring;
+        $i18nable[0].innerHTML = newstring;
         document.title = sakai.api.i18n.General.process(document.title, localjson, defaultjson);
         finishI18N();
     };
