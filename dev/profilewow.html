@@ -134,7 +134,13 @@
                             <div class="profilewow_generalinfo_acl fl-force-right">
                                 {if mode.value === "viewmy"}
                                     <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
-                                    <a href="profilewow.html?mode=edit">_access</a>
+                                    <a href="profilewow.html?mode=edit">
+                                        {if _access==="public"}__MSG__PUBLIC__
+                                        {elseif _access==="institution"}__MSG__INSTITUTION__
+                                        {elseif _access==="contacts"}__MSG__CONTACTS__
+                                        {elseif _access==="noone"}__MSG__NO_ONE__
+                                        {/if}
+                                    </a>
                                 {else}
                                     <label for="profilewow_generalinfo_access_${i_index}">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
                                     <select id="profilewow_generalinfo_access_${i_index}">
@@ -182,8 +188,8 @@
                         <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button s3d-button-primary">
                             <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
                         </button>
-                    {else}
-                        <button id="profilewow_footer_button_goback" type="button" class="s3d-button s3d-button-primary">
+                    {elseif history.length > 1}
+                        <button id="profilewow_footer_button_back" type="button" class="s3d-button s3d-button-primary">
                             <span class="s3d-button-inner">__MSG__GO_BACK__</span>
                         </button>
                     {/if}

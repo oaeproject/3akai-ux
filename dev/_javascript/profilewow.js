@@ -38,7 +38,7 @@ sakai.profilewow = function(){
     var profile_data = {
 
         "basic": {
-            "access": "mixed",
+            "access": "public",
             "elements": {
                 "firstname": {
                     "value": "Oszkar",
@@ -103,7 +103,7 @@ sakai.profilewow = function(){
             }
         },
         "publications": {
-            "access": "mixed",
+            "access": "public",
             "elements": [{
                 "title": "Measuring quantum gravity on two legged mice",
                 "authors": ["Jack Moorhen", "Nancy Fruit", "Ivan Behmetov"],
@@ -227,7 +227,7 @@ sakai.profilewow = function(){
     };
 
     sakai.profilewow.profile = {
-        chatstatus : "",
+        chatstatus: "",
         config: profile_config,
         data: profile_data,
         isme: false,
@@ -245,13 +245,15 @@ sakai.profilewow = function(){
 
     var querystring; // Variable that will contain the querystring object of the page
     var userinfo_dummy_status; // Contains the dummy status for a user
-
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
 
     var profilewow_class = ".profilewow";
     var $profilewow_footer = $("#profilewow_footer", profilewow_class);
+    var $profilewow_footer_button_back;
+    var $profilewow_footer_button_dontupdate;
+    var $profilewow_footer_button_edit;
     var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
     var $profilewow_generalinfo = $("#profilewow_generalinfo", profilewow_class);
     var $profilewow_generalinfo_template = $("#profilewow_generalinfo_template", profilewow_class);
@@ -305,6 +307,24 @@ sakai.profilewow = function(){
         return false;
 
     };
+
+    /**
+     * Change the profile mode
+     * This will fire a redirect
+     * @param {String} mode The mode you want to change to
+     */
+    var changeProfileMode = function(mode){
+
+         // Check the mode parameter
+        if ($.inArray(mode, sakai.profilewow.profile.mode.options) !== -1) {
+
+            // Perform the redirect
+            window.location = window.location.pathname + "?" + mode;
+
+        }
+
+    };
+
 
     /**
      * Check whether the user is editing/looking at it's own profile or not
@@ -442,7 +462,7 @@ sakai.profilewow = function(){
         $profilewow_userinfo_status_input.bind("blur", function(){
 
             // Check if it still has a dummy
-            if(!$profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) && $.trim($profilewow_userinfo_status_input.val()) === ""){
+            if (!$profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) && $.trim($profilewow_userinfo_status_input.val()) === "") {
 
                 // Add the dummy class
                 $profilewow_userinfo_status_input.addClass(profilewow_userinfo_status_input_dummy);
@@ -475,11 +495,60 @@ sakai.profilewow = function(){
                     $("button", $profilewow_userinfo_status).show();
                 },
                 error: function(){
-                    
+
                 }
             });
 
         });
+
+    };
+
+    /**
+     * Add binding to the footer elements
+     */
+    var addBindingFooter = function(){
+
+        // Reinitialise jQuery objects
+        $profilewow_footer_button_back = $("#profilewow_footer_button_back", profilewow_class);
+        $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
+        $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
+
+        // Bind the back button
+        $profilewow_footer_button_back.bind("click", function(){
+
+            // Go to the previous page
+            history.go(-1);
+
+        });
+
+        // Bind the don't update
+        $profilewow_footer_button_dontupdate.bind("click", function(){
+
+            // Change the profile mode
+            changeProfileMode("viewmy");
+
+        });
+
+        // Bind the edit button
+        $profilewow_footer_button_edit.bind("click", function(){
+
+            // Change the profile mode
+            changeProfileMode("edit");
+
+        });
+
+    };
+
+    /**
+     * Add binding to all the elements on the page
+     */
+    var addBinding = function(){
+
+        // Add binding to the user info
+        addBindingUserInfo();
+
+        // Add binding to footer elements
+        addBindingFooter();
 
     };
 
@@ -505,9 +574,6 @@ sakai.profilewow = function(){
 
         // Render the user info
         $.TemplateRenderer($profilewow_userinfo_template, sakai.profilewow.profile, $profilewow_userinfo);
-
-        // Add binding to the user info
-        addBindingUserInfo();
 
     };
 
@@ -577,6 +643,10 @@ sakai.profilewow = function(){
 
             // Render all the templates
             renderTemplates();
+
+            // Add binding to all the elements
+            addBinding();
+
         });
 
     };

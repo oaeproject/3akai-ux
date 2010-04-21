@@ -7,7 +7,7 @@
     border: 1px solid #ddd;
     padding: 3px;
 }
-.profilewow_link {
+#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
     color: #3399CC;
     font-weight: bold;
 }
@@ -61,6 +61,9 @@
     margin: 0;
     padding-right: 5px;
     width: 400px;
+}
+#profilewow_generalinfo .profilewow_generalinfo_acl {
+    
 }
 
 #profilewow_generalinfo .profilewow_generalinfo_subcontainer {
