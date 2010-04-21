@@ -816,7 +816,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         for(var i in obj){
 
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0){
+            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])){
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -831,13 +831,8 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
                     obj[i]["__array__" + j + "__"] = arrayCopy[j];
 
                     // Run recursively
-                    if ($.isArray(arrayCopy[j]) && arrayCopy[j].length > 0) {
-                        convertArrayToObject(arrayCopy[j]);
-                    }
+                    convertArrayToObject(arrayCopy[j]);
                 }
-            // If there are array elements inside
-            } else if ($.isObject(obj[i])) {
-                convertArrayToObject(obj[i]);
             }
         }
 
@@ -935,17 +930,24 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
                 // If it's a non-empty array-object it will have a first element with the key "__array__0__"
                 if (i === "__array__0__") {
 
-                    // Construct array of objects
+                    // We need to get the number of items in the object
                     var arr = [];
+                    var count = 0;
                     for (var j in specficObj) {
                         if (specficObj.hasOwnProperty(j)) {
-                            arr.push(specficObj[j]);
+                            count++;
                         }
                     }
+
+                    // Construct array of objects
+                    for(var k = 0, kl = count; k < kl; k ++){
+                        arr.push(specficObj["__array__"+k+"__"]);
+                    }
+
                     globalObj[objIndex] = arr;
                 }
 
-                if ($.isObject(specficObj[i])) {
+                if ($.isPlainObject(specficObj[i])) {
                     convertObjectToArray(specficObj[i], specficObj, i);
                 }
             }
@@ -1516,7 +1518,7 @@ sakai.api.Util.removeJCRObjects = function(i_object) {
 
     // Loop through keys and call itself recursively for the next level if an object is found
     for (var i in i_object) {
-        if (i_object.hasOwnProperty(i) && $.isObject(i_object[i])) {
+        if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
           sakai.api.Util.removeJCRObjects(i_object[i]);
         }
     }
@@ -1923,31 +1925,6 @@ if(Array.hasOwnProperty("indexOf") === false){
 
     };
 }
-
-
-
-// TODO remove and replace with &.isPlainObject as soon as we use jQuery1.4!
-(function(jQuery){
-
-    var toString = Object.prototype.toString, hasOwnProp = Object.prototype.hasOwnProperty;
-
-    jQuery.isObject = function(obj){
-        if (toString.call(obj) !== "[object Object]") {
-            return false;
-        }
-
-        //own properties are iterated firstly,
-        //so to speed up, we can test last one if it is not own
-
-        var key;
-        for (key in obj) {
-        }
-
-        return !key || hasOwnProp.call(obj, key);
-    };
-
-})(jQuery);
-
 
 
 /**

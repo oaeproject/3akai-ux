@@ -5,7 +5,9 @@ var testJSON = {
     "integer": 1,
     "string": "value",
     "array_empty": [],
-    "array_singlestring": {"items":["asdasd"]},
+    "array_singlestring": {
+        "items": ["asdasd"]
+    },
     "array_object": [{
         "key1": "value1",
         "key2": "value2",
@@ -35,14 +37,10 @@ var testJSON = {
     "array_int": [1, 2, 3, 4, 5],
     "array_boolean": [true, false, true, true, false],
     "array_mixed": [{
-            "key1": "value1",
-            "key2": "value2",
-            "key3": "value3"
-        },
-        "teststring",
-        42,
-        true
-    ]
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3"
+    }, "teststring", 42, true]
 };
 var testURL = "/_user/a/ad/admin/public/test.json";
 
@@ -65,7 +63,7 @@ asyncTest("Save a JSON file", function(){
         },
         success: function(){
             // We need to copy the testJSON in order to make sure we don't modify it inside this function
-            sakai.api.Server.saveJSON(testURL, $.extend("true", [], testJSON), saveCallback);
+            sakai.api.Server.saveJSON(testURL, $.extend(true, {}, testJSON), saveCallback);
         },
         error: function(){
             ok(false);
