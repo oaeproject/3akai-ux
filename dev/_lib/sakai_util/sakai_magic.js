@@ -779,12 +779,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
      * <code>
      * {
      *     "boolean": true,
-     *     "array_object": [
-     *         {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *        }
-     *     ]
+     *     "array_object": [{ "key1": "value1", "key2": "value2"}, { "key1": "value1", "key2": "value2"}]
      * }
      * </code>
      * to
@@ -792,10 +787,8 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
      * {
      *     "boolean": true,
      *     "array_object": {
-     *         "__array__0__": {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *         }
+     *         "__array__0__": { "key1": "value1", "key2": "value2"},
+     *         "__array__1__": { "key1": "value1", "key2": "value2"}
      *     }
      * }
      * </code>
