@@ -227,9 +227,9 @@
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
-	<!-- Target: Remove the build folder -->
-	<target name="clean" depends="init" description="Remove the build folder">
-		<delete dir="${TARGET}" includeemptydirs="true" />
-	</target>
+    <!-- Target: Remove the build folder -->
+    <target name="clean" depends="init" description="Remove the build folder">
+        <delete dir="${TARGET}" includeemptydirs="true" />
+    </target>
 
 </project>

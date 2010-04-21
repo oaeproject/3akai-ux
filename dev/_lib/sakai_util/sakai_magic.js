@@ -779,12 +779,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
      * <code>
      * {
      *     "boolean": true,
-     *     "array_object": [
-     *         {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *        }
-     *     ]
+     *     "array_object": [{ "key1": "value1", "key2": "value2"}, { "key1": "value1", "key2": "value2"}]
      * }
      * </code>
      * to
@@ -792,10 +787,8 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
      * {
      *     "boolean": true,
      *     "array_object": {
-     *         "__array__0__": {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *         }
+     *         "__array__0__": { "key1": "value1", "key2": "value2"},
+     *         "__array__1__": { "key1": "value1", "key2": "value2"}
      *     }
      * }
      * </code>
@@ -809,7 +802,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         for(var i in obj){
 
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length>0 && $.isObject(obj[i][0])){
+            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0){
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -820,12 +813,17 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
                 // Add all the elements that were in the original array to the object with a unique id
                 for(var j = 0, jl = arrayCopy.length; j < jl ; j++){
 
-                    // Run recursively over all the objects in the main object
-                    convertArrayToObject(arrayCopy[j]);
-
                     // Copy each object from the array and add it to the object
                     obj[i]["__array__" + j + "__"] = arrayCopy[j];
+
+                    // Run recursively
+                    if ($.isArray(arrayCopy[j]) && arrayCopy[j].length > 0) {
+                        convertArrayToObject(arrayCopy[j]);
+                    }
                 }
+            // If there are array elements inside
+            } else if ($.isObject(obj[i])) {
+                convertArrayToObject(obj[i]);
             }
         }
 
@@ -914,24 +912,28 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
      */
     var convertObjectToArray = function(specficObj, globalObj, objIndex){
 
-        // Define the regural expression
-        var expression = new RegExp("__array__(.*?)__", "gm");
-
         // Run over all the items in the object
         for (var i in specficObj) {
 
-            if (specficObj.hasOwnProperty(i) && $.isObject(specficObj[i])) {
-                var expressionExecute = expression.test(i);
-                if (expressionExecute) {
+            // If exists and it's an object recurse
+            if (specficObj.hasOwnProperty(i)) {
+
+                // If it's a non-empty array-object it will have a first element with the key "__array__0__"
+                if (i === "__array__0__") {
+
+                    // Construct array of objects
                     var arr = [];
                     for (var j in specficObj) {
                         if (specficObj.hasOwnProperty(j)) {
-                            arr[arr.length] = specficObj[j];
+                            arr.push(specficObj[j]);
                         }
                     }
                     globalObj[objIndex] = arr;
                 }
-                convertObjectToArray(specficObj[i], specficObj, i);
+
+                if ($.isObject(specficObj[i])) {
+                    convertObjectToArray(specficObj[i], specficObj, i);
+                }
             }
 
         }
@@ -1017,110 +1019,6 @@ sakai.api.Server.removeJSON = function(i_url, callback){
             }
         }
     });
-};
-
-/**
- * Saves any type of data into one JCR node
- *
- * @param {String} i_url The path to the preference which needs to be loaded
- * @param {String|Object} i_data The data we want to save
- * @param {Function} callback A callback function which is executed at the end
- * of the operation
- * @return {Void}
- */
-sakai.api.Server.saveData = function(i_url, i_data, callback) {
-
-    // Argument check
-    if ((!i_url) || (i_url === "") || (!i_data)) {
-        fluid.log("sakai.api.Server.saveData: Not enough or empty arguments!");
-        return;
-    }
-
-    // Create JSON String from supplied data if it's not a string
-    var data_string = "";
-    if (typeof i_data !== "string") {
-        data_string = $.toJSON(i_data);
-    } else {
-        data_string = i_data;
-    }
-
-
-    // Send request
-    $.ajax({
-            url: i_url,
-            type: "POST",
-            data: {
-                "sakai:data": data_string
-            },
-
-        success: function(data) {
-
-            // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
-                callback(true, data);
-            }
-        },
-
-        error: function(xhr, status, e) {
-
-            // Log error
-            fluid.log("sakai.api.Server.saveData: There was an error saving data to: " + this.url);
-
-            // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
-                callback(false, xhr);
-            }
-        }
-    });
-};
-
-
-/**
- * Loads saved data from a JCR node
- *
- * @param {String} i_url The path to the preference which needs to be loaded
- * @param {Function} callback A callback function which is executed at the end
- * of the operation
- *
- * @returns {Void}
- */
-sakai.api.Server.loadData = function(i_url, callback) {
-
-
-    // Append a .json to the end of the URL if it isn't there to avoid Nakamura throwing 403
-    // Saving to a node has to be without .json - loading has to be with it...
-    if (i_url.substr(-5) !== ".json") {
-        i_url = i_url + ".json";
-    }
-
-    $.ajax({
-        url: i_url,
-        cache: false,
-        success: function(data) {
-
-            var node_data = $.evalJSON(data);
-
-            // Call callback function if present
-            if (typeof callback === "function") {
-                callback(true, node_data["sakai:data"]);
-            }
-        },
-        error: function(xhr, status, e) {
-
-            // Log error
-            if (xhr.status === 404) {
-                fluid.log("sakai.api.Server.loadData:" + this.url + " does not exist!");
-            } else {
-                fluid.log("sakai.api.Server.loadData: There was an error loading data from: " + this.url + " Status code: " + xhr.status);
-            }
-
-            // Call callback function if present
-            if (typeof callback === "function") {
-                callback(false, xhr);
-            }
-        }
-    });
-
 };
 
 
@@ -1580,6 +1478,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
 /**
  * Removes JCR or Sling properties from a JSON object
  * @param {Object} i_object The JSON object you want to remove the JCR object from
+ * @returns void
  */
 sakai.api.Util.removeJCRObjects = function(i_object) {
 
@@ -1599,12 +1498,10 @@ sakai.api.Util.removeJCRObjects = function(i_object) {
         delete i_object["jcr:mixinTypes"];
     }
 
-
     // Loop through keys and call itself recursively for the next level if an object is found
     for (var i in i_object) {
-        if ((i_object.hasOwnProperty(i)) && (typeof i_object[i] === "object")) {
-          var next_object = i_object[i];
-          sakai.api.Util.removeJCRObjects(next_object);
+        if (i_object.hasOwnProperty(i) && $.isObject(i_object[i])) {
+          sakai.api.Util.removeJCRObjects(i_object[i]);
         }
     }
 
@@ -2055,6 +1952,7 @@ sakai.api.autoStart = function() {
 
             // Start l10n
             sakai.api.l10n.init();
+
         });
 
         // Start Widget container functions
