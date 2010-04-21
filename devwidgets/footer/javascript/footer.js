@@ -54,7 +54,6 @@ sakai.footer = function(tuid,showSettings){
     var $debug_info = $("#debug_info");
     var $footer_date_end = $("#footer_date_end");
     var $footer_root = $("#footer_main");
-    
 
 
     ////////////////////
