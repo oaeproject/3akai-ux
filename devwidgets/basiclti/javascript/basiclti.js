@@ -240,6 +240,7 @@ sakai.basiclti = function(tuid, showSettings){
             json.launchDataUrl = ""; // does not need to be persisted
             json.tuidFrame = ""; // does not need to be persisted
             json.defined = ""; // what the heck is this? Where does it come from?
+            json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
             var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
             $.ajax({
                 type: 'POST',
