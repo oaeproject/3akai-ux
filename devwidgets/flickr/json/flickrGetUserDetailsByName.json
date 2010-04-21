@@ -1,6 +1,6 @@
 {
     "sling:resourceType": "sakai/proxy",
-    "sakai:request-proxy-endpoint": 'http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=${api_key}&username=${name}&format=json',
+    "sakai:request-proxy-endpoint": 'http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=${api_key}&username=${name}&format=json&nojsoncallback=1',
     "sakai:request-proxy-method": "GET",
     "sakai:title": "flickr- Get user-id by name",
     "sakai:shortDescription": "Get the user details based on the name",

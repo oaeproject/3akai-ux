@@ -9,5 +9,6 @@
 "INPUT_SAME_ERROR": "Gelieve uw zoekterm te veranderen",
 "NO_USER" : "De gebruiker kan niet gevonden worden",
 "PREV" : "Terug",
-"NEXT" : "Volgende"
+"NEXT" : "Volgende",
+"NO_PUBLIC" : "Deze gebruiker heeft geen publieke foto's "
 }

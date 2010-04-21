@@ -1,6 +1,6 @@
 {
     "sling:resourceType": "sakai/proxy",
-    "sakai:request-proxy-endpoint": 'http://api.flickr.com/services/rest/?method=flickr.people.findByEmail&api_key=${api_key}&find_email=${email}&format=json',
+    "sakai:request-proxy-endpoint": 'http://api.flickr.com/services/rest/?method=flickr.people.findByEmail&api_key=${api_key}&find_email=${email}&format=json&nojsoncallback=1',
     "sakai:request-proxy-method": "GET",
     "sakai:title": "flickr- Get user-id by e-mail",
     "sakai:shortDescription": "Get the user details based on the name",

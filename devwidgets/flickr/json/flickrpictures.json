@@ -1,6 +1,6 @@
 {
     "sling:resourceType": "sakai/proxy",
-    "sakai:request-proxy-endpoint": "http://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=${api_key}&user_id=${user_id}&auth_token=${auth_token}&api_sig=${api_sig}&format=json&tags=${tags}",
+    "sakai:request-proxy-endpoint": "http://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=${api_key}&user_id=${user_id}&auth_token=${auth_token}&api_sig=${api_sig}&format=json&tags=${tags}&nojsoncallback=1",
     "sakai:request-proxy-method": "GET",
     "sakai:title": "flickr",
     "sakai:shortDescription": "Get pictures from a person",

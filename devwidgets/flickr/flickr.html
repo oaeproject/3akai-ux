@@ -1,3 +1,4 @@
+
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/flickr/css/flickr.css" />
 
@@ -13,7 +14,7 @@
             <p class ="flickr_text" > __MSG__SEARCH_FOR_PHOTOS__</p>
             <form method="GET" action="javascript:;">
                 <p>
-                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_person_input" class="changeColorNormal" />
+                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_person_input" class="flickr_changeColorNormal" />
                 </p>
                 <button class="s3d-button flickr_search" id="flickr_seach_people_button">
                     <span class="s3d-button-inner" >__MSG__SEARCH__</span>
@@ -23,6 +24,7 @@
             <div id="flickr_input_person_error">__MSG__INPUT_ERROR__</div>
             <div id="flickr_input_same_person_error">__MSG__INPUT_SAME_ERROR__</div>
             <div id="flickr_no_person_error">__MSG__NO_USER__</div>
+            <div id="flickr_no_public">__MSG__NO_PUBLIC__</div>
             <div id="flickr_key_person_gallery" ><ul id="flickr_key_ul"></ul></div>
             <div id="flickr_person_pagging" ></div>
         </div>
@@ -33,7 +35,7 @@
             <p class ="flickr_text" > __MSG__SEARCH_FOR_PHOTOS__</p>
             <form method="GET" action="javascript:;">
                 <p>
-                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_input" class="changeColorNormal" />
+                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_input" class="flickr_changeColorNormal" />
                 </p>
                 <button class="s3d-button flickr_search" id="flickr_seach_button">
                     <span class="s3d-button-inner" >__MSG__SEARCH__</span>
@@ -67,12 +69,18 @@
     <a href="javascript:;" id="flickr_person_prev_pagging">
     <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
     </a>
-    <input type="text" value="1" id="flickr_pagging_input" class="changeColorNormal" />
+    <input type="text" value="1" id="flickr_pagging_input" class="flickr_changeColorNormal" />
     <span> / </span>
-    <span class="flickr_pages">${pages}</span>
+    <span class="flickr_pages" id="flickr_page">${pages}</span>
     <a href="javascript:;" id="flickr_person_next_pagging">
         <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
     </a>
+--></div>
+
+<div id="flickr_image_gallery_template"><!--
+    {for pic in all}
+        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" /></li>
+    {/for}
 --></div>
 
 <!-- JAVASCRIPT -->

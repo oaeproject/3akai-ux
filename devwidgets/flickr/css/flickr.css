@@ -37,7 +37,7 @@
 .flickr_text{margin:20px 0px 0px 30px;}
 
 /* When hovering over an image list ,change the cursor */
-ul img:hover {
+#flickr_settings ul li img:hover {
     cursor:pointer;
 }
 
@@ -84,9 +84,9 @@ ul img:hover {
 /*Ul of images */
 #flickr_key_ul li, #flickr_image_slider_ul li{
     display:inline;
-    margin-bottom:10px;
+    margin: 0 3px 10px 0;
+    
 }
-
 
 /*All the images should have a 5px blue border */
 #flickr_key_ul li img, #flickr_image_slider_ul li img{
@@ -94,23 +94,23 @@ ul img:hover {
 }
 
 /*Make sure the login button and text are hidden at the start */
-#flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error {
+#flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,.flickr_hiddenImage,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error, #flickr_no_public {
     display:none;
 }
 
 /*error messages */
-#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error{
+#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error, #flickr_no_public{
     color:#ff0000;
     margin:10px 0px 0px 30px;
 }
 
 /*These classes can be added to a textbox to change the textcolor */
-.changeColorBlack{
+.flickr_changeColorBlack{
     color:#000000;
 }
 
 /*These classes can be added to a textbox to change the textcolor */
-.changeColorNormal{
+.flickr_changeColorNormal{
     color:#AAAAAA;
 }
 
@@ -141,26 +141,21 @@ ul img:hover {
     margin-left:200px;
 }
 
- .setInvisable{
-     opacity:0;
- }
-
-#flickr_person_next_pagging,#flickr_person_prev_pagging{
-    padding:10px;
+/* The flickr previous and next arrow images */
+#flickr_person_next_pagging img,#flickr_person_prev_pagging img{
+    padding:0 10px;
 }
 
-.showImage{
+/* flickr paging arrows */
+.flick_showImage{
     display:inline;
 }
 
-.hiddenImage{
-    display:none;
+/* flickr paging arrows */
+.flickr_hideArrow {
+    visibility:hidden;
 }
 
-.hideArrow{
-    opacity:0;
-}
-
-.showArrow{
-    opacity:1;
+.flickr_showArrow{
+    visibility:visible;
 }
