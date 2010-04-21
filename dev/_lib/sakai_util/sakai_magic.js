@@ -377,7 +377,9 @@ sakai.api.i18n.init = function(){
         // We actually use the old innerHTML function here because the jQuery.html() function will
         // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
         // will already be loaded
-        $i18nable[0].innerHTML = newstring;
+        if($i18nable.length > 0){
+            $i18nable[0].innerHTML = newstring;
+        }
         document.title = sakai.api.i18n.General.process(document.title, localjson, defaultjson);
         finishI18N();
     };
@@ -498,6 +500,10 @@ sakai.api.i18n.General = sakai.api.i18n.General || {};
  * @return {String} A processed string where all the messages are replaced with values from the language bundles
  */
 sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle) {
+
+    if(!toprocess){
+        return "";
+    }
 
     var expression = new RegExp("__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
     while(expression.test(toprocess)) {
