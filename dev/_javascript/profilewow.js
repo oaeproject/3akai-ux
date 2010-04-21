@@ -38,7 +38,7 @@ sakai.profilewow = function(){
     var profile_data = {
 
         "basic": {
-            "access": "mixed",
+            "access": "public",
             "elements": {
                 "firstname": {
                     "value": "Oszkar",
@@ -87,11 +87,23 @@ sakai.profilewow = function(){
                     "source": "local",
                     "editable": true,
                     "access": "institution"
+                },
+                "personalinterests": {
+                    "value": "",
+                    "source": "local",
+                    "editable": true,
+                    "access": "institution"
+                },
+                "hobbies": {
+                    "value": "",
+                    "source": "local",
+                    "editable": true,
+                    "access": "institution"
                 }
             }
         },
         "publications": {
-            "access": "mixed",
+            "access": "public",
             "elements": [{
                 "title": "Measuring quantum gravity on two legged mice",
                 "authors": ["Jack Moorhen", "Nancy Fruit", "Ivan Behmetov"],
@@ -172,6 +184,24 @@ sakai.profilewow = function(){
                     "required": false,
                     "display": true,
                     "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__"
+                },
+                "academicinterests": {
+                    "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "example": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_EXAMPLE__"
+                },
+                "personalinterests": {
+                    "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "example": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_EXAMPLE__"
+                },
+                "hobbies": {
+                    "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
+                    "required": false,
+                    "display": true,
+                    "example": "__MSG__PROFILE_ABOUTME_HOBBIES_EXAMPLE__"
                 }
             }
         },
@@ -197,7 +227,7 @@ sakai.profilewow = function(){
     };
 
     sakai.profilewow.profile = {
-        chatstatus : "",
+        chatstatus: "",
         config: profile_config,
         data: profile_data,
         isme: false,
@@ -209,17 +239,22 @@ sakai.profilewow = function(){
             options: ["public", "institution", "contacts", "noone"],
             value: "public"
         },
-        picture: ""
+        picture: "",
+        status: ""
     };
 
     var querystring; // Variable that will contain the querystring object of the page
     var userinfo_dummy_status; // Contains the dummy status for a user
-
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
 
     var profilewow_class = ".profilewow";
+    var $profilewow_footer = $("#profilewow_footer", profilewow_class);
+    var $profilewow_footer_button_back;
+    var $profilewow_footer_button_dontupdate;
+    var $profilewow_footer_button_edit;
+    var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
     var $profilewow_generalinfo = $("#profilewow_generalinfo", profilewow_class);
     var $profilewow_generalinfo_template = $("#profilewow_generalinfo_template", profilewow_class);
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
@@ -228,6 +263,7 @@ sakai.profilewow = function(){
     var $profilewow_userinfo_status;
     var $profilewow_userinfo_status_input;
     var profilewow_userinfo_status_input_dummy = "profilewow_userinfo_status_input_dummy";
+    var $profilewow_userinfo_status_input_dummy;
     var $profilewow_userinfo_template = $("#profilewow_userinfo_template", profilewow_class);
 
 
@@ -273,6 +309,24 @@ sakai.profilewow = function(){
     };
 
     /**
+     * Change the profile mode
+     * This will fire a redirect
+     * @param {String} mode The mode you want to change to
+     */
+    var changeProfileMode = function(mode){
+
+         // Check the mode parameter
+        if ($.inArray(mode, sakai.profilewow.profile.mode.options) !== -1) {
+
+            // Perform the redirect
+            window.location = window.location.pathname + "?" + mode;
+
+        }
+
+    };
+
+
+    /**
      * Check whether the user is editing/looking at it's own profile or not
      * We do this because if it is the current user, we don't need to perform an extra search
      */
@@ -298,8 +352,8 @@ sakai.profilewow = function(){
      */
     var constructProfilePicture = function(profile){
 
-        if (sakai.profilewow.profile.picture && sakai.profilewow.profile.path) {
-            return "/_user" + sakai.profilewow.profile.path + "/public/profile/" + $.evalJSON(sakai.profilewow.profile.picture).name;
+        if (profile.picture && profile.path) {
+            return "/_user" + profile.path + "/public/profile/" + $.evalJSON(profile.picture).name;
         }
         else {
             return "";
@@ -308,16 +362,19 @@ sakai.profilewow = function(){
     };
 
     /**
-     * Set the profile picture for the user you are looking at
-     * /_user/a/ad/admin/public/profile/256x256_profilepicture
+     * Set the profile data for the user such as the status and profile picture
      */
-    var setProfilePicture = function(callback){
+    var setProfileData = function(callback){
 
         // Check whether the user is looking/editing it's own profile
         if (sakai.profilewow.profile.isme) {
 
-            // Set the profile picture
+            // Set the profile picture for the user you are looking at
+            // /_user/a/ad/admin/public/profile/256x256_profilepicture
             sakai.profilewow.profile.picture = constructProfilePicture(sakai.data.me.profile);
+
+            // Set the status for the user you want the information from
+            sakai.profilewow.profile.status = $.evalJSON(sakai.data.me.profile.basic).status;
 
             // Execute the callback function
             if (callback && typeof callback === "function") {
@@ -327,15 +384,12 @@ sakai.profilewow = function(){
         }
         else {
 
-            // We need to fire an Ajax GET request to get the picture for the user
+            // We need to fire an Ajax GET request to get the profile data for the user
             $.ajax({
                 data: {
                     "username": querystring.get("user")
                 },
                 url: sakai.config.URL.SEARCH_USERS,
-                error: function(){
-                    fluid.log("setProfilePicture: Could not find the user");
-                },
                 success: function(data){
 
                     // Set the JSON response
@@ -344,6 +398,12 @@ sakai.profilewow = function(){
                     // Set the profile picture
                     sakai.profilewow.profile.picture = constructProfilePicture(jsonResponse.results[0]);
 
+                    // Set the status for the user you want the information from
+                    sakai.profilewow.profile.status = $.evalJSON(sakai.data.me.profile.basic).status;
+
+                },
+                error: function(){
+                    fluid.log("setProfilePicture: Could not find the user");
                 },
                 complete: function(data){
 
@@ -372,15 +432,16 @@ sakai.profilewow = function(){
         // We need to reinitialise the jQuery objects after the rendering
         $profilewow_userinfo_status = $("#profilewow_userinfo_status", profilewow_class);
         $profilewow_userinfo_status_input = $("#profilewow_userinfo_status_input", profilewow_class);
+        $profilewow_userinfo_status_input_dummy = $("#profilewow_userinfo_status_input_dummy", profilewow_class);
 
         // Add the focus event to the userinfo status
         $profilewow_userinfo_status_input.bind("focus", function(){
 
             // Check wether the status field has the dummy class
-            if($profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy)){
+            if ($profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy)) {
 
                 // If we don't have the dummy status (e.g. What are you doing) variable set yet, set it now.
-                if(!userinfo_dummy_status){
+                if (!userinfo_dummy_status) {
                     userinfo_dummy_status = $profilewow_userinfo_status_input.val();
                 }
 
@@ -388,13 +449,20 @@ sakai.profilewow = function(){
                 $profilewow_userinfo_status_input.val("");
                 $profilewow_userinfo_status_input.removeClass(profilewow_userinfo_status_input_dummy);
             }
+            else {
+
+                // If we don't have the dummy status (e.g. What are you doing) variable set yet, set it now.
+                if (!userinfo_dummy_status) {
+                    userinfo_dummy_status = $profilewow_userinfo_status_input_dummy.text();
+                }
+            }
         });
 
         // Add the blur event to the userinfo status
         $profilewow_userinfo_status_input.bind("blur", function(){
 
             // Check if it still has a dummy
-            if(!$profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) && $.trim($profilewow_userinfo_status_input.val()) === ""){
+            if (!$profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) && $.trim($profilewow_userinfo_status_input.val()) === "") {
 
                 // Add the dummy class
                 $profilewow_userinfo_status_input.addClass(profilewow_userinfo_status_input_dummy);
@@ -408,22 +476,79 @@ sakai.profilewow = function(){
         // Add the submit event to the status form
         $profilewow_userinfo_status.bind("submit", function(){
 
-            var inputValue = $.trim($profilewow_userinfo_status_input.val());
+            $("button", $profilewow_userinfo_status).hide();
+            $("img", $profilewow_userinfo_status).show();
 
-            if(inputValue && !$profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy)){
-                $.ajax({
-                    url: sakai.data.me.profile["jcr:path"],
-                    data: {
-                        "_charset_": "utf-8",
-                        "basic": $.toJSON({
-                            "status": inputValue
-                        })
-                    },
-                    type : "POST"
-                });
-            }
+            var inputValue = $profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) ? "" : $.trim($profilewow_userinfo_status_input.val());
+
+            $.ajax({
+                url: sakai.data.me.profile["jcr:path"],
+                data: {
+                    "_charset_": "utf-8",
+                    "basic": $.toJSON({
+                        "status": inputValue
+                    })
+                },
+                type: "POST",
+                success: function(){
+                    $("img", $profilewow_userinfo_status).hide();
+                    $("button", $profilewow_userinfo_status).show();
+                },
+                error: function(){
+
+                }
+            });
 
         });
+
+    };
+
+    /**
+     * Add binding to the footer elements
+     */
+    var addBindingFooter = function(){
+
+        // Reinitialise jQuery objects
+        $profilewow_footer_button_back = $("#profilewow_footer_button_back", profilewow_class);
+        $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
+        $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
+
+        // Bind the back button
+        $profilewow_footer_button_back.bind("click", function(){
+
+            // Go to the previous page
+            history.go(-1);
+
+        });
+
+        // Bind the don't update
+        $profilewow_footer_button_dontupdate.bind("click", function(){
+
+            // Change the profile mode
+            changeProfileMode("viewmy");
+
+        });
+
+        // Bind the edit button
+        $profilewow_footer_button_edit.bind("click", function(){
+
+            // Change the profile mode
+            changeProfileMode("edit");
+
+        });
+
+    };
+
+    /**
+     * Add binding to all the elements on the page
+     */
+    var addBinding = function(){
+
+        // Add binding to the user info
+        addBindingUserInfo();
+
+        // Add binding to footer elements
+        addBindingFooter();
 
     };
 
@@ -450,9 +575,6 @@ sakai.profilewow = function(){
         // Render the user info
         $.TemplateRenderer($profilewow_userinfo_template, sakai.profilewow.profile, $profilewow_userinfo);
 
-        // Add binding to the user info
-        addBindingUserInfo();
-
     };
 
     /**
@@ -462,6 +584,16 @@ sakai.profilewow = function(){
 
         // Render the General info
         $profilewow_generalinfo.html(sakai.api.i18n.General.process($.TemplateRenderer($profilewow_generalinfo_template, sakai.profilewow.profile), null, null));
+
+    };
+
+    /**
+     * Render the footer for profilewow
+     */
+    var renderTemplateFooter = function(){
+
+        // Render the profilewow footer
+        $profilewow_footer.html($.TemplateRenderer($profilewow_footer_template, sakai.profilewow.profile));
 
     };
 
@@ -478,6 +610,9 @@ sakai.profilewow = function(){
 
         // Render the general info
         renderTemplateGeneralInfo();
+
+        // Render the footer buttons
+        renderTemplateFooter();
 
     };
 
@@ -503,11 +638,15 @@ sakai.profilewow = function(){
         // Check if you are looking at the logged-in user
         setIsMe();
 
-        // Set the profile picture (if there is any)
-        setProfilePicture(function(){
+        // Set the profile data
+        setProfileData(function(){
 
             // Render all the templates
             renderTemplates();
+
+            // Add binding to all the elements
+            addBinding();
+
         });
 
     };

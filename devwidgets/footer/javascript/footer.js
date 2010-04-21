@@ -21,11 +21,12 @@
 var sakai = sakai || {};
 
 /**
- * Initialize the helloworld widget
+ * Initialize the footer widget
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.footer = function(tuid,showSettings){
+
 
     //////////////////////
     // Helper functions //
@@ -48,15 +49,17 @@ sakai.footer = function(tuid,showSettings){
     // Configuration variables //
     /////////////////////////////
 
-    var footer_root = $("#footer_main");
-    var debug_info = $("#debug_info");
-    var back_to_top_link = $("#footer_main .back-top");
     var doc_name = getDocName();
+    var $back_to_top_link = $("#footer_main .back-top");
+    var $debug_info = $("#debug_info");
+    var $footer_date_end = $("#footer_date_end");
+    var $footer_root = $("#footer_main");
 
 
     ////////////////////
     // Main functions //
     ////////////////////
+
     var showDebugInfo = function(container) {
 
         // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
@@ -73,10 +76,6 @@ sakai.footer = function(tuid,showSettings){
         container.show();
     };
 
-
-
-
-
     /*
      * This event handler will make sure that the Top link
      * that's available in every page footer will scroll back
@@ -91,26 +90,36 @@ sakai.footer = function(tuid,showSettings){
     // Initialisation function //
     /////////////////////////////
 
-
     var doInit = function(){
 
         // Display debug info if set in config
         if (sakai.config.displayDebugInfo === true) {
+
             // Make space for debug info
-            footer_root.height("65px");
+            $footer_root.height("65px");
 
             // Show the debug info
-            showDebugInfo(debug_info);
+            showDebugInfo($debug_info);
+
         } else {
-            footer_root.height("45px");
+
+            // Set the height of the footer
+            $footer_root.height("45px");
+
         }
 
         // index.html mods
         if ((doc_name === "index.html") || (doc_name === "")) {
-            back_to_top_link.hide();
-            footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
+            $back_to_top_link.hide();
+            $footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
         }
+
+        // Set the end year of the copyright notice
+        var d = new Date();
+        $footer_date_end.text(d.getFullYear());
+
     };
+
     doInit();
 
 };
