@@ -1430,8 +1430,10 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  *     </ul>
  * </p>
  *
- * @param {String|Integer} dateInput The date that needs to be converted to a JavaScript date object
- * @return {Date} JavaScript date
+ * @param {String|Integer} dateInput
+ *     The date that needs to be converted to a JavaScript date object.
+ *     If the format is in milliseconds, you need to provide an integer, otherwise a string
+ * @return {Date} JavaScript date object
  */
 sakai.api.Util.parseSakaiDate = function(dateInput) {
 
@@ -1443,7 +1445,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
         "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
 
     // Test whether the format is in milliseconds
-    if(regexpInteger.test(dateInput)) {
+    if(regexpInteger.test(dateInput) && typeof dateInput !== "string") {
        return new Date(dateInput);
     }
 
@@ -1960,4 +1962,4 @@ sakai.api.autoStart = function() {
 
     });
 };
-sakai.api.autoStart();
+//sakai.api.autoStart();
