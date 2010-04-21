@@ -64,7 +64,7 @@ sakai.dashboard = function(){
             }
         } else {
             try {
-                myportaljson = $.evalJSON(response);
+                myportaljson = response;
                 var cleanContinue = true;
 
                 for (var c in myportaljson.columns){
@@ -954,7 +954,7 @@ sakai.dashboard = function(){
      * This will try to load the dashboard state file from the SData personal space
      */
 
-    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile + ".json", decideExists);
+    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
 
 };
 

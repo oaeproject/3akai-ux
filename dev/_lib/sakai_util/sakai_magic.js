@@ -916,7 +916,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
         for (var i in specficObj) {
 
             // If exists and it's an object recurse
-            if (specficObj.hasOwnProperty(i) && $.isObject(specficObj[i])) {
+            if (specficObj.hasOwnProperty(i)) {
 
                 // If it's a non-empty array-object it will have a first element with the key "__array__0__"
                 if (i === "__array__0__") {
@@ -930,7 +930,10 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
                     }
                     globalObj[objIndex] = arr;
                 }
-                convertObjectToArray(specficObj[i], specficObj, i);
+
+                if ($.isObject(specficObj[i])) {
+                    convertObjectToArray(specficObj[i], specficObj, i);
+                }
             }
 
         }
@@ -1579,6 +1582,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
 /**
  * Removes JCR or Sling properties from a JSON object
  * @param {Object} i_object The JSON object you want to remove the JCR object from
+ * @returns void
  */
 sakai.api.Util.removeJCRObjects = function(i_object) {
 
@@ -1598,12 +1602,10 @@ sakai.api.Util.removeJCRObjects = function(i_object) {
         delete i_object["jcr:mixinTypes"];
     }
 
-
     // Loop through keys and call itself recursively for the next level if an object is found
     for (var i in i_object) {
-        if ((i_object.hasOwnProperty(i)) && (typeof i_object[i] === "object")) {
-          var next_object = i_object[i];
-          sakai.api.Util.removeJCRObjects(next_object);
+        if (i_object.hasOwnProperty(i) && $.isObject(i_object[i])) {
+          sakai.api.Util.removeJCRObjects(i_object[i]);
         }
     }
 

@@ -50,9 +50,9 @@ sakai.siterecentactivity = function(tuid, showSettings){
      */
     sakai.siterecentactivity.getRecentActivity = function(callback){
 
-        sakai.api.Server.loadData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
             if (success) {
-                sakai.siterecentactivity.recentactivity = $.evalJSON(data);
+                sakai.siterecentactivity.recentactivity = data;
             } else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
@@ -69,7 +69,7 @@ sakai.siterecentactivity = function(tuid, showSettings){
     var saveRecentActivity = function(){
 
         // Save the recentactivity json file
-        sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/recentactivity", $.toJSON(sakai.siterecentactivity.recentactivity), sakai.siterecentactivity.render());
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", sakai.siterecentactivity.recentactivity, sakai.siterecentactivity.render());
     };
 
 
