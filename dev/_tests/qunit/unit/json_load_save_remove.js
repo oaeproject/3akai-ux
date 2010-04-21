@@ -44,13 +44,13 @@ var testJSON = {
         true
     ]
 };
-var testURL = "/_user/a/ad/admin/public/test";
+var testURL = "/_user/a/ad/admin/public/test.json";
 
-test("Save a JSON file", function(){
+asyncTest("Save a JSON file", function(){
 
-    // Callback after saving a JSON
     var saveCallback = function(){
         ok(true);
+        start();
     };
 
     // Login
@@ -64,24 +64,21 @@ test("Save a JSON file", function(){
             "_charset_": "utf-8"
         },
         success: function(){
-
             // We need to copy the testJSON in order to make sure we don't modify it inside this function
             sakai.api.Server.saveJSON(testURL, $.extend("true", [], testJSON), saveCallback);
-            stop();
-
         },
         error: function(){
             ok(false);
+            start();
         }
     });
-
 });
 
-test("Load a JSON file", function(){
+asyncTest("Load a JSON file", function(){
 
-    // Callback after loading a JSON
     var loadCallback = function(success, data){
         same(data, testJSON, "The saved JSON is the same as the loaded JSON");
+        start();
     };
 
     // Login
@@ -96,24 +93,25 @@ test("Load a JSON file", function(){
         },
         success: function(){
             sakai.api.Server.loadJSON(testURL, loadCallback);
-            stop();
         },
         error: function(){
             ok(false);
+            start();
         }
     });
-
-
 });
 
-test("Remove a JSON file", function(){
+asyncTest("Remove a JSON file", function(){
 
     var removeCallback = function(success, data){
+        //same(data, testJSON, "The saved JSON is the same as the loaded JSON");
         if (success) {
-            ok(true,"Successfuly deleted JSON object");
-        } else {
-            ok(false, "Could not delete the JSON object")
+            ok(true, "Successfuly deleted JSON object");
         }
+        else {
+            ok(false, "Could not delete the JSON object");
+        }
+        start();
     };
 
     // Login
@@ -134,6 +132,4 @@ test("Remove a JSON file", function(){
             start();
         }
     });
-
-
 });
