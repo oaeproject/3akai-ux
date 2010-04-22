@@ -64,7 +64,7 @@ sakai.dashboard = function(){
             }
         } else {
             try {
-                myportaljson = $.evalJSON(response);
+                myportaljson = response;
                 var cleanContinue = true;
 
                 for (var c in myportaljson.columns){
@@ -134,7 +134,8 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, jsonobj, saveGroup);
+        sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, jsonobj, saveGroup);
 
     };
 
@@ -233,7 +234,8 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
+            sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
     });
@@ -281,7 +283,7 @@ sakai.dashboard = function(){
 
             var jsonobject = {"items":{"group": selected }};
 
-            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
 
         } else {
             fluid.log("my_sakai.js: An error occured while saving your layout");
@@ -375,7 +377,8 @@ sakai.dashboard = function(){
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
+            sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
         }
 
         var final2 = {};
@@ -635,7 +638,8 @@ sakai.dashboard = function(){
                 }
             }
 
-            sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, checksucceed);
+            sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, checksucceed);
 
         }
 
@@ -811,7 +815,8 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sakai.api.Server.saveData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
+        sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
     };
 
@@ -949,7 +954,7 @@ sakai.dashboard = function(){
      * This will try to load the dashboard state file from the SData personal space
      */
 
-    sakai.api.Server.loadData("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
 
 };
 

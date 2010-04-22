@@ -47,7 +47,8 @@ sakai.basiclti = function(tuid, showSettings){
     var basicltiSettingsHeight = basicltiSettings + "_frame_height";
     var basicltiSettingsInsert = basicltiSettings + "_insert";
     var basicltiSettingsPreview = basicltiSettings + "_preview";
-    var basicltiSettingsPreviewFrame = basicltiSettingsPreview + "_frame";
+    var basicltiSettingsPreviewId = tuid + "_frame";
+    var basicltiSettingsPreviewFrame = "#" + basicltiSettingsPreviewId;
     var basicltiSettingsLtiUrl = basicltiSettings + "_ltiurl";
     var basicltiSettingsLtiKey = basicltiSettings + "_ltikey";
     var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
@@ -66,6 +67,8 @@ sakai.basiclti = function(tuid, showSettings){
     var $basicltiSettingsTemplate = $("#basiclti_settings_template", rootel);
     var $basicltiSettingsPreviewTemplate = $("#basiclti_settings_preview_template", rootel);
     
+    // see: http://www.ietf.org/rfc/rfc2396.txt Appendix B
+    var urlRegExp = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
     
     ///////////////////////
     // Utility functions //
@@ -90,8 +93,37 @@ sakai.basiclti = function(tuid, showSettings){
      *     false: is not an url
      */
     var isUrl = function(url){
-        return (/^http\:\/\/|^https\:\/\//i).test(url);
+        var matches = urlRegExp.exec(url);
+        // e.g. if("http:" && "localhost")
+        if(matches[1] && matches[4]) {
+            return true;
+        } else {
+            return false;
+        }
     };
+    
+    /**
+     * Check to see if both URLs are in the same origin. See: http://en.wikipedia.org/wiki/Same_origin_policy.
+     * @param {String} url1
+     * @param {String} url2
+     * @return {Boolean}
+     *     true: in the same origin policy
+     *     false: NOT in the same origin policy
+     */
+    var isSameOriginPolicy = function(url1, url2){
+        if(url1 == url2) {
+            return true;
+        }
+        // console.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
+        // console.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
+        // i.e. protocol, domain (and optional port numbers) must match
+        if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) && 
+           (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
+            return true;
+        } else {
+            return false;
+        }
+    }
     
     /**
      * Called when the data has been saved to the JCR.
@@ -125,7 +157,14 @@ sakai.basiclti = function(tuid, showSettings){
     var renderIframe = function(){
         if (json) {
             json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            json.tuidFrame = basicltiSettingsPreviewId;
             $(basicltiMainContainer, rootel).html($.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+            // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
+            if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
+                $(basicltiSettingsPreviewFrame).load(function() {
+                    $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
+                });
+            }
 
             // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
             $(basicltiMainContainer, rootel).show();
@@ -199,7 +238,9 @@ sakai.basiclti = function(tuid, showSettings){
             json["release_email@TypeHint"] = "Boolean";
             json.release_email = $('#basiclti_settings_release_email:checked').val() != null;
             json.launchDataUrl = ""; // does not need to be persisted
+            json.tuidFrame = ""; // does not need to be persisted
             json.defined = ""; // what the heck is this? Where does it come from?
+            json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
             var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
             $.ajax({
                 type: 'POST',

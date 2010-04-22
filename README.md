@@ -40,19 +40,19 @@ Then you can set up an instance with the following Terminal commands on a Unix/M
 `mkdir ~/sakai3`
 `cd ~/sakai3`
 
-2. Check which stable tags are available:  
-`git tag`
-
-3. Check out and switch to the latest stable tag (0.4 in this case):  
-`git co 0.4`
-`git co -b 0.4`
-
-4. Check out the latest Nakamura code. This will create an "open-experiments" folder  
+2. Check out the latest Nakamura code. This will create an "open-experiments" folder  
 `git clone git://github.com/ieb/open-experiments.git`
 `cd open-experiments/slingtests/osgikernel`
 
+3. Check which stable tags are available:  
+`git tag`
 
-5. Build the kernel:  
+4. Check out and switch to the latest stable tag (0.4 in this case):  
+`git co -b 0.4`
+This is not required, you can also stay at bleeding edge by omitting this step.
+
+5. Open up the "slingtests/osgikernel" folder and build the kernel:  
+`cd slingtests/osgikernel`
 `mvn clean install`
 
 6. Start the kernel:  
@@ -60,7 +60,7 @@ Then you can set up an instance with the following Terminal commands on a Unix/M
 
 7. Open a browser and type "http://localhost:8080/dev" into the address bar  
 
-Done. Now you have a the latest stable kernel with latest UX code running on your local machine.
+Done. Now you have a the latest stable kernel with latest stable UX code (from Maven repo) running on your local machine.
 
 
 If you would like to do UI/UX development you will need to additionally to the following:
@@ -71,7 +71,7 @@ If you would like to do UI/UX development you will need to additionally to the f
 2. Check out the UX code from Github, this will create a "3akai-ux" folder:  
 `git clone git@github.com:oszkarnagy/3akai-ux.git`
 
-3. Go to the kernel's Felix console by typing the following address into the browser's address bar:  
+3. Go to the kernel's Felix console by typing the following address into the browser's address bar (preferably with an alternative browser from the one you are using from development):  
 "http://localhost:8080/system/console"
 
 4. Log in using "admin" for username and password
