@@ -146,16 +146,16 @@ sakai.addtocontacts = function(tuid, showSettings) {
         var types = formValues[addToContactsFormType.replace(/#/gi, "")];
         $(addToContactsResponse).text("");
         if (types.length) {
-            var fromRelationships = [];
-            var toRelationships = [];
+            var fromRelationshipsToSend = [];
+            var toRelationshipsToSend = [];
             for (var i = 0, j = types.length; i < j; i++) {
                 var type = types[i];
-                fromRelationships.push(type);
-                var definedRelationship = getDefinedRelationship(type);
-                if (definedRelationship && definedRelationship.inverse) {
-                    toRelationships.push(definedRelationship.inverse);
+                fromRelationshipsToSend.push(type);
+                var definedRelationshipToSend = getDefinedRelationship(type);
+                if (definedRelationshipToSend && definedRelationshipToSend.inverse) {
+                    toRelationshipsToSend.push(definedRelationshipToSend.inverse);
                 } else {
-                    toRelationships.push(type);
+                    toRelationshipsToSend.push(type);
                 }
             }
 
@@ -171,9 +171,10 @@ sakai.addtocontacts = function(tuid, showSettings) {
             $.ajax({
                 url: "/_user" + sakai.data.me.profile.path + "/contacts.invite.html",
                 type: "POST",
+                traditional: true,
                 data: {
-                    "fromRelationships": fromRelationships,
-                    "toRelationships": toRelationships,
+                    "fromRelationships": fromRelationshipsToSend,
+                    "toRelationships": toRelationshipsToSend,
                     "targetUserId": userid
                 },
                 success: function(data) {
