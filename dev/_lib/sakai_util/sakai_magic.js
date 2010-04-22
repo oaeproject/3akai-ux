@@ -815,8 +815,9 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         // we need to write extra functionality for this.
         for(var i in obj){
 
+
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])){
+            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -825,7 +826,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
                 obj[i] = {};
 
                 // Add all the elements that were in the original array to the object with a unique id
-                for(var j = 0, jl = arrayCopy.length; j < jl ; j++){
+                for (var j = 0, jl = arrayCopy.length; j < jl; j++) {
 
                     // Copy each object from the array and add it to the object
                     obj[i]["__array__" + j + "__"] = arrayCopy[j];
@@ -834,6 +835,12 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
                     convertArrayToObject(arrayCopy[j]);
                 }
             }
+
+            // If there are array elements inside
+            else if ($.isPlainObject(obj[i])) {
+                convertArrayToObject(obj[i]);
+            }
+
         }
 
         return obj;
