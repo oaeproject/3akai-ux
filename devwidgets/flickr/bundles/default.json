@@ -10,5 +10,7 @@
 "NO_USER" : "User can't be found",
 "PREV" : "Previous",
 "NEXT" : "Next",
-"NO_PUBLIC" : "This user hasn't got any public pictures "
+"NO_PUBLIC" : "This user hasn't got any public pictures ",
+"SUBMIT" : "Submit",
+"CANCEL" : "Cancel"
 }

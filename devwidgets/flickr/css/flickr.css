@@ -63,8 +63,8 @@
 
 /*Ajax loader */
 #flickr_loading_img, #flickr_loading_person_img{
-    float:right;
-    margin-right:25px;
+    margin-left:120px;
+    display:none;
 }
 
 /* the flickr search button */
@@ -84,8 +84,7 @@
 /*Ul of images */
 #flickr_key_ul li, #flickr_image_slider_ul li{
     display:inline;
-    margin: 0 3px 10px 0;
-    
+    margin: 0 0px 10px 0;
 }
 
 /*All the images should have a 5px blue border */
@@ -117,7 +116,7 @@
 /* Paging */
 
 /* The paging textbox */
-#flickr_pagging_input{
+#flickr_pagging_input,#flickr_key_pagging_input{
     width:15px;
     border:1px solid #777777;
     font-size:1em;
@@ -132,17 +131,17 @@
 }
 
 /* the arrows */
-#flickr_person_pagging img {
-    cursor:hand;
+#flickr_person_pagging img, #flickr_key_pagging img {
+    cursor:pointer;
 }
 
 /* the whole paging div */
-#flickr_person_pagging{
+#flickr_person_pagging, #flickr_key_pagging{
     margin-left:200px;
 }
 
 /* The flickr previous and next arrow images */
-#flickr_person_next_pagging img,#flickr_person_prev_pagging img{
+#flickr_person_next_pagging img,#flickr_person_prev_pagging img, #flickr_key_pagging img{
     padding:0 10px;
 }
 
@@ -158,4 +157,10 @@
 
 .flickr_showArrow{
     visibility:visible;
+}
+
+/* The refresh button */
+#flickr_refresh_button_person, #flickr_refresh_key_button{
+    float:right;
+    margin:15px 30px 0px 0px;
 }

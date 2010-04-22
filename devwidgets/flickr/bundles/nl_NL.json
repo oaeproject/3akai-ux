@@ -10,5 +10,7 @@
 "NO_USER" : "De gebruiker kan niet gevonden worden",
 "PREV" : "Terug",
 "NEXT" : "Volgende",
-"NO_PUBLIC" : "Deze gebruiker heeft geen publieke foto's "
+"NO_PUBLIC" : "Deze gebruiker heeft geen publieke foto's ",
+"SUBMIT" : "Bevestigen",
+"CANCEL" : "Annuleren"
 }

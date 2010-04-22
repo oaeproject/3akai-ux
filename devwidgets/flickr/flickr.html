@@ -20,6 +20,9 @@
                     <span class="s3d-button-inner" >__MSG__SEARCH__</span>
                 </button>
                 <img src="/devwidgets/flickr/images/ajax-loader-gray.gif" alt="__MSG__LOADING_IMAGE__" id="flickr_loading_person_img" />
+                <a href="javascript:;" id="flickr_refresh_button_person">
+                    <img src="/dev/_images/recent_activity_icon.png" alt="refresh" title='refresh' />
+                </a>
             </form>
             <div id="flickr_input_person_error">__MSG__INPUT_ERROR__</div>
             <div id="flickr_input_same_person_error">__MSG__INPUT_SAME_ERROR__</div>
@@ -41,10 +44,12 @@
                     <span class="s3d-button-inner" >__MSG__SEARCH__</span>
                 </button>
                 <img src="/devwidgets/flickr/images/ajax-loader-gray.gif" alt="__MSG__LOADING_IMAGE__" id="flickr_loading_img" />
+                <a href="javascript:;" id="flickr_refresh_key_button"><img src="/dev/_images/recent_activity_icon.png" alt="refresh" title='refresh' /></a>
             </form>
             <div id="flickr_input_error">__MSG__INPUT_ERROR__</div>
             <div id="flickr_input_same_error">__MSG__INPUT_SAME_ERROR__</div>
-            <div id="flickr_key_gallery" ><ul id="flickr_key_ul"><ul></div>
+            <div id="flickr_key_gallery" ><ul id="flickr_key_ul"></ul></div>
+            <div id="flickr_key_pagging" ></div>
         </div>
     </div>
 
@@ -57,8 +62,8 @@
 
     <!--CANCEL/SUBMIT -->
     <div class="dialog_buttons">
-        <a class="button-default submit_button" href="javascript:;" id="flickr_settings_submit">Submit</a>
-        <a class="button cancel-button" href="javascript:;" id="flickr_settings_cancel">Cancel</a>
+        <a class="button-default submit_button" href="javascript:;" id="flickr_settings_submit">__MSG__SUBMIT__</a>
+        <a class="button cancel-button" href="javascript:;" id="flickr_settings_cancel">__MSG__CANCEL__</a>
     </div>
 
     <!--HIDDEN CONTENT-->
@@ -77,11 +82,27 @@
     </a>
 --></div>
 
+<div id="flickr_key_gallery_pagging_template"><!--
+    <a href="javascript:;" id="flickr_person_prev_key_pagging">
+    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
+    </a>
+    <input type="text" value="1" id="flickr_key_pagging_input" class="flickr_changeColorNormal" />
+    <span> / </span>
+    <span class="flickr_key_pages" id="flickr_key_page">${pages}</span>
+    <a href="javascript:;" id="flickr_person_key_next_pagging">
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
+    </a>
+--></div>
+
 <div id="flickr_image_gallery_template"><!--
     {for pic in all}
         <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" /></li>
     {/for}
 --></div>
+
+<div id="flickr_reset_gallery_template"><!--
+    <ul id='flickr_key_ul'></ul>
+--></div
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/flickr/javascript/flickr.js"></script>
