@@ -1,6 +1,7 @@
 
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/flickr/css/flickr.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/flickr/css/galleria.css" />
 
 <!-- SETTINGS VIEW -->
 <div id="flickr_settings" style="display:none" >
@@ -69,7 +70,11 @@
     <!--HIDDEN CONTENT-->
     <p id="flickr_tooltip_text">__MSG__TOOLTIP_TEXT__</p>
 </div>
-
+<div class="flickr_preview_container" style="display : none;">
+    <div id="flickr_displayed_image"></div>
+    <div class ="flick_gallery"><ul id="flickr_key_ul_preview"></div>
+    <div id="flickr_preview_pagging" ></div>
+</div>
 <div id="flickr_person_gallery_pagging_template"><!--
     <a href="javascript:;" id="flickr_person_prev_pagging">
     <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
@@ -94,7 +99,26 @@
     </a>
 --></div>
 
+<div id="flickr_preview_gallery_pagging_template"><!--
+    <a href="javascript:;" id="flickr_person_prev_preview_pagging">
+    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
+    </a>
+    <input type="text" value="1" id="flickr_preview_pagging_input" class="flickr_changeColorNormal" />
+    <span> / </span>
+    <span class="flickr_key_pages" id="flickr_preview_page">${pages}</span>
+    <a href="javascript:;" id="flickr_person_preview_next_pagging">
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
+    </a>
+--></div>
+
+
 <div id="flickr_image_gallery_template"><!--
+    {for pic in all}
+        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" /></li>
+    {/for}
+--></div>
+
+<div id="flickr_image_gallery_preview_template"><!--
     {for pic in all}
         <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" /></li>
     {/for}
@@ -105,6 +129,8 @@
 --></div
 
 <!-- JAVASCRIPT -->
+
+<script type="text/javascript" src="/devwidgets/flickr/lib/jquery.galleria.js"></script>
 <script type="text/javascript" src="/devwidgets/flickr/javascript/flickr.js"></script>
 <script type="text/javascript" src="/devwidgets/flickr/lib/ui.accordion.min.js"></script>
 <script type="text/javascript" src="/devwidgets/flickr/lib/sortable.js"></script>

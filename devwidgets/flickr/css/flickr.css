@@ -82,13 +82,13 @@
 }
 
 /*Ul of images */
-#flickr_key_ul li, #flickr_image_slider_ul li{
+#flickr_key_ul li, #flickr_image_slider_ul li {
     display:inline;
     margin: 0 0px 10px 0;
 }
 
 /*All the images should have a 5px blue border */
-#flickr_key_ul li img, #flickr_image_slider_ul li img{
+#flickr_key_ul li img, #flickr_image_slider_ul li img {
     border:5px solid #006E96;
 }
 
@@ -116,7 +116,7 @@
 /* Paging */
 
 /* The paging textbox */
-#flickr_pagging_input,#flickr_key_pagging_input{
+#flickr_pagging_input,#flickr_key_pagging_input,#flickr_preview_pagging_input{
     width:15px;
     border:1px solid #777777;
     font-size:1em;
@@ -131,13 +131,18 @@
 }
 
 /* the arrows */
-#flickr_person_pagging img, #flickr_key_pagging img {
+#flickr_person_pagging img, #flickr_key_pagging img, #flickr_preview_pagging img {
     cursor:pointer;
 }
 
 /* the whole paging div */
 #flickr_person_pagging, #flickr_key_pagging{
     margin-left:200px;
+}
+
+#flickr_preview_pagging {
+    margin-left: 300px;
+    clear:both;
 }
 
 /* The flickr previous and next arrow images */
@@ -163,4 +168,8 @@
 #flickr_refresh_button_person, #flickr_refresh_key_button{
     float:right;
     margin:15px 30px 0px 0px;
+}
+
+#flickr_displayed_image{
+    height:300px;
 }

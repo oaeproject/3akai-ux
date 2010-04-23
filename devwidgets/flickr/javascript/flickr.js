@@ -37,6 +37,9 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrAccordion = $("#flickr_accordion",rootel); // The Main accordion div
     var $flickrTooltipText = $("#flickr_tooltip_text",rootel); // This is the text that will be displayed in the tooltip
     var $flickrDropHereImage = $(".flick_drop_here",rootel); // The drop here image
+    var $flickrfinishSettings = $("#flickr_settings_submit",rootel); //The finish button
+    var $flickrPreviewContainer = $(".flickr_preview_container",rootel); //The preview view
+    var $flickrPreviewGallery = $('.flick_gallery',rootel);
 
     /* First Accordeon */
     var $flickrSearchPersonInput = $("#flickr_key_person_input",rootel); //The inputbox in the first accordeon div
@@ -57,6 +60,12 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrNextPaggingKey = $("#flickr_person_key_next_pagging",rootel);
     var $flickrKeyPaggingInput = $('#flickr_key_pagging_input',rootel);
     var $flickrRefreshKeyButton = $("#flickr_refresh_key_button",rootel);
+
+    /* Preview elenemets */
+    var $flickrPreviewPagging = $("#flickr_preview_pagging",rootel);
+    var $flickrPersonPreviewNextPagging = $("#flickr_person_preview_next_pagging",rootel);
+    var $flickrPersonPreviewPrevPagging = $("#flickr_person_prev_preview_pagging",rootel);
+    var $flickrPreviewPaggingInput = $('#flickr_preview_pagging_input',rootel);
 
     var bindPaging;
 
@@ -96,6 +105,8 @@ sakai.flickr = function(tuid, showSettings){
     var newPage = currentPage + 3; //To request a new page, this will start at 3, since page 1 and 2 are allready loaded at the start
     var totalPages; //The total amount of page (this doesn't change)
     var dragged = 0; //How many images that have been dragged
+    var loadedImages;
+    var curP = 0;
 
     //Global variables of the 2nd accordeon
     var userDetailGlob;//A global variable that contains the user details
@@ -112,6 +123,8 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrImageGalleryTemplate = $('#flickr_image_gallery_template');
     var $flickrResetTemplate = $('#flickr_reset_gallery_template',rootel);
     var $flickrKeyGalleryPaggingTemplate = $("#flickr_key_gallery_pagging_template");
+    var $flickrImageGalleryPreviewTemplate = $('#flickr_image_gallery_preview_template',rootel);
+    var $flickrPreviewGalleryPaggingTemplate = $('#flickr_preview_gallery_pagging_template',rootel);
 
     //Config urls
     sakai.config.URL.flickrGetPhotosBySearchTerm = "/var/proxy/flickr/flickrKeyPictures.json";
@@ -153,7 +166,6 @@ sakai.flickr = function(tuid, showSettings){
      var finishSettingsContainer = function() {
         sdata.container.informCancel(tuid);
      };
-
 
     /**
      * This is on the blur of the inputbox
@@ -1191,6 +1203,41 @@ sakai.flickr = function(tuid, showSettings){
     };
 
     /**
+     * This function will be executed after the data is saved
+     */
+    var closeContainer = function(){
+         sdata.container.informFinish(tuid);
+    };
+
+    /**
+     * This function will save the pictures to jcr
+     */
+    var savePictures = function(json){
+        sakai.api.Widgets.saveWidgetData(tuid, json, closeContainer);
+    };
+
+    /**
+     * This function is called when the user clicks on finish
+     */
+    var submitData =function(){
+        var picturesObject = {};
+
+        // Get all images from the sidebar
+        $("img",$flickSidebar).each(function(){
+            var pictureObject = {
+                "url": '',
+                "title": ''
+            };
+            pictureObject.url = $(this).attr('src');
+            pictureObject.title = $(this).attr('title');
+            picturesObject[$(this).attr('title')]=pictureObject;
+        });
+
+        //Save the object
+        savePictures(picturesObject);
+    };
+
+    /**
      * This function will bind the focus,blur and click events on the init of the widget for the second accordeon div
      */
     var bindEventsFirstAccordeon = function(){
@@ -1210,6 +1257,8 @@ sakai.flickr = function(tuid, showSettings){
 
         //The click functionality so that the user can refresh the gallery
         $flickrRefreshImages.click(refreshGallery);
+
+        $flickrfinishSettings.click(submitData);
     };
 
     /**
@@ -1237,37 +1286,264 @@ sakai.flickr = function(tuid, showSettings){
     };
 
     /**
+     * 
+     * @param {Object} data This is the response from the ajax call, to get the images
+     */
+    var appendToSideBar = function(data){
+
+        //Convert the data to an object
+        var imgObject = $.evalJSON(data);
+
+        //Give the object a key to render it
+        var pictures = {
+            "all":imgObject
+        };
+
+        //Render the images in the sidebar
+        $("ul", $flickSidebar).append($.TemplateRenderer($flickrImageGalleryPreviewTemplate, pictures));
+    };
+
+    /**
+     * This function will get the images for in the sidebar
+     */
+    var getPreviousImage = function(){
+
+        //Get the saved images
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
+                appendToSideBar(data);
+            }
+            else {
+                fluid.log('Error retrieving flickr data for the sidebar');
+            }
+        });
+    };
+
+    /**
+     * This function will initialize the settingscontainer
+     */
+    var showSettingsContainer = function(){
+
+            $flickrRefreshImages.hide();
+            $flickrRefreshKeyButton.hide();
+            
+            //Show the entire flickr container
+            $flickrContainer.show();
+            
+            // Hide the ajax loader
+            $flickrLoadingImage.hide();
+            
+            //Initialize the sidebar
+            initializeSideBar();
+            
+            //Get the default value of the inputbox
+            defaultvalue = $flickrSearchInput.val();
+            
+            //Bind the click,blur and focus events
+            bindEventsFirstAccordeon();
+            
+            //Bind the click,blur and focus events
+            bindEventsSecondAccordeon();
+            
+            //Appy the accordion plugin on the page
+            $flickrAccordion.accordion({
+                clearStyle: true,
+                alwaysOpen: false,
+                active: true
+            });
+
+            //Get the saved images if there are any
+            getPreviousImage();
+    };
+    /**
+     * Check If the Previous arrow in the preview should be hidden
+     * @param {Object} pages
+     */
+    var checkPreviousArrowPreview = function(){
+
+        //Check if the current page is smaller or equal to 1, if it is bigger or equal to 1 hide it
+        if (curP <= 1) {
+            $flickrPersonPreviewPrevPagging.attr('class', 'flickr_hideArrow');
+        }
+
+        //Show the Next arrow
+         $flickrPersonPreviewNextPagging.attr('class','flickr_showArrow');
+    };
+
+    var checkBothArrowsPreview = function(pages){
+
+        //Check if there is only 1 page, if there's only 1 page, hide both arrows
+        if (curP <= 1) {
+            $flickrPersonPreviewPrevPagging.attr('class', 'flickr_hideArrow');
+        }
+        if (curP >= pages.pages) {
+            $flickrPersonPreviewNextPagging.attr('class', 'flickr_hideArrow');
+        }
+    };
+
+    /**
+     * Check if the Next arrow should be hidden in the preview view
+     */
+    var checkNextArrowPreview = function(pages){
+
+        //Check if the currentpage is equal or bigger than the total amount of pages, if it is  then hide the next arrow
+        if (curP >= pages.pages) {
+            $flickrPersonPreviewNextPagging.attr('class', 'flickr_hideArrow');
+        }
+
+        //Show the previous arrow
+        $flickrPersonPreviewPrevPagging.attr('class','flickr_showArrow');
+    };
+
+    /**
+     * This function will be executed when the user clicks on the next arrow in the preview view
+     */
+    var nextPreview = function(gallery,pages){
+
+        // Hide the current image
+        $("li",gallery).slice((curP - 1) * 6, (curP * 6)).hide();
+
+        //Show the next 5 images
+        $("li",gallery).slice((curP * 6), ((curP + 1) * 6)).fadeIn('slow');
+
+        curP = curP + 1;
+
+        //Set the Currenpage
+        $flickrPreviewPaggingInput.val(curP);
+
+        //Check if the next arrow should be hidden
+        checkNextArrowPreview(pages);
+    };
+
+    /**
+     * This function will be executed when the user clicks on the prev arrow in the preview view
+     */
+    var prevPreview = function(gallery,pages){
+
+        //Hide the images that were just shown
+        $('li',gallery).slice(((curP - 1) * 6), ((curP ) * 5)).hide();
+
+        //Show the next 5 images
+        $('li',gallery).slice(((curP - 2) * 6), ((curP - 1) * 6)).fadeIn('slow');
+
+        curP = curP - 1;
+
+        //Set the currentpage
+        $flickrPreviewPaggingInput.val(curP, pages);
+
+        //Check if the previous arrow should be shown
+        checkPreviousArrowPreview();
+    };
+
+    /**
+     * This function will calculate the correct total page.
+     * @param {Object} pages The total amount of images
+     */
+    var getPages = function(pages){
+
+        return Math.round(pages/5);
+    };
+
+    /**
+     * This function will render the image gallery
+     * @param {Object} data, the response from the ajax call
+     */
+    var makePreviewImageGallery = function(data){
+
+        //Convert the data to an object
+        var imagesObject = $.evalJSON(data);
+        imageArray = [];
+
+        // Convert the object to an array
+        for (var c in imagesObject) {
+            if (imagesObject.hasOwnProperty(c)) {
+                if (typeof(imagesObject[c]) === "object") {
+                    imageArray.push(imagesObject[c]);
+                }
+            }
+        }
+
+        //Change the url for the images so a medium image will be displayed instead of a small one
+        $(imageArray).each(function(){
+          $(this)[0].url =  $(this)[0].url.replace('_s','_m');
+        });
+
+
+        var pictures = {
+            "all": imageArray
+        };
+
+        // Get a JSON string that contains the necessary information.
+        $("ul", $flickrPreviewGallery).append($.TemplateRenderer($flickrImageGalleryPreviewTemplate, pictures));
+
+        curP = 1;
+
+        //Hide the last 5 images
+        $('li', $flickrPreviewGallery).hide();
+
+        //Show the first 5 images
+        $('li', $flickrPreviewGallery).slice((curP - 1) * imgPerPage, (curP * 6)).fadeIn('slow');
+
+        var pages = {
+            "pages": getPages(imageArray.length)
+        };
+
+        //Render the paging
+        $flickrPreviewPagging.html($.TemplateRenderer($flickrPreviewGalleryPaggingTemplate,pages));
+
+        // Recash the variables
+        $flickrPersonPreviewNextPagging = $("#flickr_person_preview_next_pagging",rootel);
+        $flickrPersonPreviewPrevPagging = $("#flickr_person_prev_preview_pagging",rootel);
+        $flickrPreviewPaggingInput = $('#flickr_preview_pagging_input',rootel);
+
+        //Bind the click events
+        $flickrPersonPreviewNextPagging.click( function(){
+            nextPreview($flickrPreviewGallery,pages);
+        });
+        $flickrPersonPreviewPrevPagging.click(function(){
+            prevPreview($flickrPreviewGallery,pages);
+        });
+
+        //Check if the arrows should be shown
+        checkPreviousArrowPreview();
+        checkBothArrowsPreview(pages);
+
+        //Add the galleria plugin
+        $("#flickr_key_ul_preview",rootel).galleria({
+            insert : '#flickr_displayed_image', //The div where the image will be appended to
+            history   : false //Setting this to false will prevent the gallery from showing the image in the url
+        });
+
+    };
+
+    var showPreview = function(){
+
+        //Show the site view
+        $flickrPreviewContainer.show();
+
+        //Load the images
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
+                makePreviewImageGallery(data);
+            }
+            else {
+                fluid.log('Error retrieving flickr data');
+            }
+        });
+    };
+
+    /**
      * This function is the first function that will be executed on the page
      */
     var init = function(){
 
-        $flickrRefreshImages.hide();
-        $flickrRefreshKeyButton.hide();
-
-        //Show the entire flickr container
-        $flickrContainer.show();
-
-        // Hide the ajax loader
-        $flickrLoadingImage.hide();
-
-        //Initialize the sidebar
-        initializeSideBar();
-
-        //Get the default value of the inputbox
-        defaultvalue = $flickrSearchInput.val();
-
-        //Bind the click,blur and focus events
-        bindEventsFirstAccordeon();
-
-        //Bind the click,blur and focus events
-        bindEventsSecondAccordeon();
-
-        //Appy the accordion plugin on the page
-        $flickrAccordion.accordion({
-            clearStyle : true,
-            alwaysOpen: false,
-            active: true
-        });
+        if(showSettings){
+            showSettingsContainer();
+        }else{
+            showPreview();
+        }
     };
     init();
 };
