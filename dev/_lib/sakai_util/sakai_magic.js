@@ -857,6 +857,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             "tree": $.toJSON(i_data),
             "delete": 1
         },
+        dataType: "json",
 
         success: function(data){
 
@@ -967,6 +968,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
     $.ajax({
         url: i_url + ".infinity.json",
         cache: false,
+        dataType: "json",
         success: function(data) {
 
             // Transform JSON string to an object
