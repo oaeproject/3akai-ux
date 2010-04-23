@@ -66,7 +66,7 @@ var save = function(url, json){
         },
         success: function(){
             // We need to copy the testJSON in order to make sure we don't modify it inside this function
-            sakai.api.Server.saveJSON(url, $.extend(true, {}, json), saveCallback);
+            sakai.api.Server.saveJSON(url, json, saveCallback);
         },
         error: function(){
             ok(false);

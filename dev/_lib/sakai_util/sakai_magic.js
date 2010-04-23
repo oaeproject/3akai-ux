@@ -846,7 +846,9 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         return obj;
     };
 
-    i_data = convertArrayToObject(i_data);
+    // Convert the array of objects to only objects
+    // We also need to deep copy the object so we don't modify the input parameter
+    i_data = convertArrayToObject($.extend(true, {}, i_data));
 
     // Send request
     $.ajax({
