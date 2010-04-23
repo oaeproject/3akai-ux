@@ -231,7 +231,7 @@
                         <!-- Sender details -->
                         <div class="sender_details">
                             <div class="sender_picture_container">
-                                <a href="javascript:;"><img src="/dev/_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="Senders profile pic" /></a>
+                                <a href="javascript:;" title="To see the sender's profile"><img src="/dev/_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="Sender's profile pic" /></a>
                             </div>
                             <div class="inbox_message_user">
                                 <a href="javascript:;" class="sender-name" id="inbox_message_from"></a>
@@ -268,11 +268,11 @@
                         {macro showReply(r)}
                         <div style="padding: 10px 0px;">
                             <span style="float:left;">
-                                <a href="javascript:;">
+                                <a href="javascript:;" title="To see the person profile">
                                 {if r.userFrom.picture}
-                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" class="sender-picture" id="inbox_message_picture" />
+                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="" class="sender-picture" id="inbox_message_picture" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" id="inbox_message_picture" />
+                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="" id="inbox_message_picture" />
                                 {/if}
                             </span>
                             <div class="inbox_message_user">
