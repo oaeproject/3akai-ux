@@ -56,6 +56,7 @@
 
     <!--SLIDING SIDEBAR -->
     <div id="flickr_sidebar" class="jcarousel-skin-tango">
+        <div id="flickr_side_paging"></div>
         <ul>
              <li><img src="/devwidgets/flickr/images/drop-image.png" alt="__MSG__DROP_HERE__" class="flick_drop_here"></li>
         </ul>
@@ -111,6 +112,17 @@
     </a>
 --></div>
 
+<div id="flickr_side_gallery_pagging_template"><!--
+    <a href="javascript:;" id="flickr_side_prev_pagging">
+    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
+    </a>
+    <p id="flickr_side_pagging">${page}</p>
+    <span> / </span>
+    <span id="flickr_side_pages">${pages}</span>
+    <a href="javascript:;" id="flickr_side_next_pagging">
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
+    </a>
+--></div>
 
 <div id="flickr_image_gallery_template"><!--
     {for pic in all}
@@ -120,13 +132,21 @@
 
 <div id="flickr_image_gallery_preview_template"><!--
     {for pic in all}
-        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" /></li>
+        <li> <img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" class="flickr_preview_thumb" /></li>
     {/for}
 --></div>
 
 <div id="flickr_reset_gallery_template"><!--
     <ul id='flickr_key_ul'></ul>
 --></div
+
+<div id="flickr_slideshow_icon_template"><!--
+<ul id="flickr_slideshow_images">
+    {for pic in all}
+        <li><a href="http://flickr.com/photo.gne?id=${pic.photoid}"><img src ='/devwidgets/flickr/images/flickr_slideshow.png' alt="__MSG__SLIDESHOW__" title="__MSG__SLIDESHOW__" id="flickr_slideshow_icon" /></a></li>
+    {/for}
+</ul>
+--></div>
 
 <!-- JAVASCRIPT -->
 

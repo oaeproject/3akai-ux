@@ -28,8 +28,8 @@
 #flickr_accordion .flickr_accordeon_header:hover{background-color:#006E96;text-decoration: none;}
 
 /* Sidebar */
-#flickr_sidebar{height:434px; background-color:#454A4F; float:left; width:100px; border-left: 2px solid #fff; padding: 0px 0px 20px 0px; overflow:hidden;}
-#flickr_sidebar ul{height:350px!important; clear:both; width:100px; margin:10px 0px 0px 8px !important;}
+#flickr_sidebar{height:434px; background-color:#454A4F; float:left; width:100px; border-left: 2px solid #fff; padding: 0px 0px 20px 0px;}
+#flickr_sidebar ul{height:350px!important; clear:both; width:100px; margin:30px 0px 0px 8px !important;}
 #flickr_sidebar ul li img {border:5px solid #006E96;}
 #flickr_sidebar ul li {margin:0px 0px 5px 0px; padding:0px 0px 5px 0px; }
 
@@ -82,14 +82,18 @@
 }
 
 /*Ul of images */
-#flickr_key_ul li, #flickr_image_slider_ul li {
+#flickr_key_ul li, #flickr_image_slider_ul li,#flickr_key_ul_preview li {
     display:inline;
     margin: 0 0px 10px 0;
 }
 
 /*All the images should have a 5px blue border */
-#flickr_key_ul li img, #flickr_image_slider_ul li img {
+#flickr_key_ul li img, #flickr_image_slider_ul li img{
     border:5px solid #006E96;
+}
+
+#flickr_key_ul_preview .flickr_preview_thumb {
+    width:75px;
 }
 
 /*Make sure the login button and text are hidden at the start */
@@ -146,7 +150,7 @@
 }
 
 /* The flickr previous and next arrow images */
-#flickr_person_next_pagging img,#flickr_person_prev_pagging img, #flickr_key_pagging img{
+#flickr_person_next_pagging img,#flickr_person_prev_pagging img, #flickr_key_pagging img, #flickr_side_prev_pagging img , flickr_side_next_pagging img{
     padding:0 10px;
 }
 
@@ -172,4 +176,21 @@
 
 #flickr_displayed_image{
     height:300px;
+}
+
+#flickr_slideshow_images li{
+    display:inline;
+    margin: 0 39px;
+}
+
+#flickr_side_paging p ,#flickr_side_paging span {
+    color:#fff;
+}
+
+#flickr_side_paging p{
+    display:inline;
+}
+
+#flickr_side_next_pagging{
+    margin-left:10px;
 }
