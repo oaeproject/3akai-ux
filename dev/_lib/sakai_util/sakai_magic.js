@@ -1867,7 +1867,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
             templateElement = $("#" + templateName);
         }
         else {
-            throw "$.TemplateRenderer: The templateElement is not in a valid format or the template couldn't be found.";
+            throw "$.TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
         }
 
         if (!templateCache[templateName]) {

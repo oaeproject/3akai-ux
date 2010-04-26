@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+
+    <!-- Sakai Page CSS -->
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profilewow.css" />
 
     <!-- 3rd party CSS -->
@@ -21,8 +23,8 @@
     <script type="text/javascript" src="_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" src="_lib/jquery/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery-ui-1.8.custom.min.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
     <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
     <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
 
@@ -177,6 +179,27 @@
                     ${i_count++ |eat}
                 {/for}
             --></div>
+
+            <!-- SECTION TEMPLATES -->
+
+            <!-- FIELD TEMPLATES -->
+            <div id="profilewow_field_default_template"><!--
+                {if data.value && config.display}
+                    <div class="profilewow_generalinfo_subcontainer">
+                        <span class="profilewow_generalinfo_label">${config.label}:</span>
+                        <div class="profilewow_generalinfo_content">${data.value}</div>
+                    </div>
+                {/if}
+            --></div>
+            <div id="profilewow_field_textarea_template"><!--
+                {if data.value && config.display}
+                    <div class="profilewow_generalinfo_subcontainer">
+                        <span class="profilewow_generalinfo_label">${config.label}:</span>
+                        <div class="profilewow_generalinfo_content">${data.value}</div>
+                    </div>
+                {/if}
+            --></div>
+            
 
             <!-- FOOTER -->
             <div id="profilewow_footer" class="fl-push"><!-- --></div>

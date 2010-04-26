@@ -183,7 +183,8 @@ sakai.profilewow = function(){
                     "label": "__MSG__PROFILE_ABOUTME_LABEL__",
                     "required": false,
                     "display": true,
-                    "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__"
+                    "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__",
+                    "template": "profilewow_field_textarea_template"
                 },
                 "academicinterests": {
                     "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
@@ -209,6 +210,7 @@ sakai.profilewow = function(){
             "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
             "required": false,
             "display": true,
+            "template": "profilewow_section_publications_template",
             "elements": {
                 "title": {
                     "label": "__MSG__PROFILE_PUBLICATIONS_TITLE__",
@@ -245,11 +247,14 @@ sakai.profilewow = function(){
 
     var querystring; // Variable that will contain the querystring object of the page
     var userinfo_dummy_status; // Contains the dummy status for a user
+
+
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
 
     var profilewow_class = ".profilewow";
+    var $profilewow_field_default_template = $("#profilewow_field_default_template", profilewow_class);
     var $profilewow_footer = $("#profilewow_footer", profilewow_class);
     var $profilewow_footer_button_back;
     var $profilewow_footer_button_dontupdate;
@@ -257,8 +262,10 @@ sakai.profilewow = function(){
     var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
     var $profilewow_generalinfo = $("#profilewow_generalinfo", profilewow_class);
     var $profilewow_generalinfo_template = $("#profilewow_generalinfo_template", profilewow_class);
+    var profilewow_generalinfo_template_container = "";
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
     var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
+    var $profilewow_section_default_template = $("#profilewow_section_default_template", profilewow_class);
     var $profilewow_userinfo = $("#profilewow_userinfo", profilewow_class);
     var $profilewow_userinfo_status;
     var $profilewow_userinfo_status_input;
@@ -374,7 +381,9 @@ sakai.profilewow = function(){
             sakai.profilewow.profile.picture = constructProfilePicture(sakai.data.me.profile);
 
             // Set the status for the user you want the information from
-            sakai.profilewow.profile.status = $.evalJSON(sakai.data.me.profile.basic).status;
+            if(sakai.data.me.profile.basic){
+                sakai.profilewow.profile.status = $.parseJSON(sakai.data.me.profile.basic).status;
+            }
 
             // Execute the callback function
             if (callback && typeof callback === "function") {
@@ -578,12 +587,69 @@ sakai.profilewow = function(){
     };
 
     /**
+     * Render the template for the field
+     * @param {Object} fieldTemplate
+     * @param {Object} sectionName
+     * @param {Object} fieldObject
+     * @param {Object} fieldName
+     */
+    var renderTemplateField = function(fieldTemplate, sectionName, fieldObject, fieldName){
+
+        var config = {
+            "data": sakai.profilewow.profile.data[sectionName].elements[fieldName],
+            "config": sakai.profilewow.profile.config[sectionName].elements[fieldName]
+        };
+        return $.TemplateRenderer(fieldTemplate, config);
+
+    };
+
+    /**
+     * Render the template for the sectino
+     * @param {Object} sectionTemplate jQuery object that contains the template you want to render for the section
+     * @param {Object} sectionObject The object you need to pass into the template
+     * @param {String} sectionName The name of the sectionObject (e.g. basic)
+     */
+    var renderTemplateSection = function(sectionTemplate, sectionObject, sectionName){
+
+        var sections = "";
+
+        for(var i in sectionObject.elements){
+            if(sectionObject.elements.hasOwnProperty(i)){
+
+                // Set the field template, if there is no template defined, use the default one
+                var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, profilewow_class) : $profilewow_field_default_template;
+
+                // Render the template field
+                sections += renderTemplateField(fieldTemplate, sectionName, sectionObject.elements[i], i);
+
+            }
+        }
+
+        return sections;
+
+    };
+
+    /**
      * Render the general information (firstname/lastname/about me/...)
      */
     var renderTemplateGeneralInfo = function(){
 
+        var generalinfo = "";
+
+        for(var i in sakai.profilewow.profile.config){
+            if(sakai.profilewow.profile.config.hasOwnProperty(i)){
+
+                // Set the section template, if there is no template defined, user the default one
+                var sectionTemplate = sakai.profilewow.profile.config[i].template ? $("#" + sakai.profilewow.profile.config[i].template, profilewow_class) : $profilewow_section_default_template;
+
+                // Render the template section
+                generalinfo += profilewow_generalinfo_template_container += renderTemplateSection(sectionTemplate, sakai.profilewow.profile.config[i], i);
+
+            }
+        }
+
         // Render the General info
-        $profilewow_generalinfo.html(sakai.api.i18n.General.process($.TemplateRenderer($profilewow_generalinfo_template, sakai.profilewow.profile), null, null));
+        $profilewow_generalinfo.html(sakai.api.i18n.General.process(generalinfo, null, null));
 
     };
 
