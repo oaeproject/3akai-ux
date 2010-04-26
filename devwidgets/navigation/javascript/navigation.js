@@ -23,7 +23,7 @@ sakai.site = sakai.site || {};
 sakai.site.navigation = sakai.site.navigation || {};
 
 
-sakai.navigation = function(tuid, placement, showSettings){
+sakai.navigation = function(tuid, showSettings){
 
     /////////////////////////////
     // Configuration variables //
@@ -209,7 +209,7 @@ sakai.navigation = function(tuid, placement, showSettings){
             data : {
                 type : "json",
                 opts : {
-                    static : sakai.site.navigation.navigationData
+                    "static" : sakai.site.navigation.navigationData
                 }
             },
             selected: "nav_"+selectedPageUrlName,
@@ -292,7 +292,7 @@ sakai.navigation = function(tuid, placement, showSettings){
 
         });
 
-        // Store a referecne to the tree navigation object
+        // Store a reference to the tree navigation object
         sakai.site.navigation.treeNav = $.tree.reference("#nav_content");
     };
 
@@ -319,7 +319,10 @@ sakai.navigation = function(tuid, placement, showSettings){
         $(navigationOutput,rootel).show();
     }
 
-    sakai.site.onNavigationLoaded();
+    // Render navigation when navigation widget is loaded
+    if (sakai.site.navigation) {
+        sakai.site.navigation.renderNavigation(sakai.site.selectedpage, sakai.site.site_info._pages);
+    }
 };
 
 sdata.widgets.WidgetLoader.informOnLoad("navigation");

@@ -19,7 +19,7 @@ sakai.search = function(){
 
     var doInit = function(){
 
-        meObj = sdata.me;
+        meObj = sakai.data.me;
         if (! meObj.user.userid){
             document.location = "/dev/index.html?url=/dev/people.html";
         }
@@ -49,7 +49,7 @@ sakai.search = function(){
         $("#contacts_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/_user/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
+            url: "/var/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
             success: function(data){
                 foundContacts = $.evalJSON(data);
                 renderContacts();
@@ -68,14 +68,14 @@ sakai.search = function(){
         var finaljson = {};
         finaljson.items = [];
 
-        _currentTotal = foundContacts.total;
+        _currentTotal = foundContacts.results.length;
 
         // Pager Init
-
         $(".jq_pager").pager({ pagenumber: currentpage, pagecount: Math.ceil(_currentTotal/peopleToSearch), buttonClickCallback: pager_click_handler });
 
         if (foundContacts.results) {
-            for (var i = 0; i < foundContacts.results.length; i++) {
+            for (var i = 0, j = foundContacts.results.length; i < j; i++) {
+
                 var item = foundContacts.results[i];
                 var person = item.profile;
                 var connection = item.details;
@@ -114,7 +114,7 @@ sakai.search = function(){
                         }
                     }
                     finaljson.items[index].connected = true;
-                    if (finaljson.items[index].userid == sdata.me.user.userid){
+                    if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
                 }
@@ -127,8 +127,35 @@ sakai.search = function(){
             $(".jq_pager").show();
         }
 
-        $("#contacts_search_result").html($.Template.render("contacts_search_result_template", finaljson));
+        $("#contacts_search_result").html($.TemplateRenderer("contacts_search_result_template", finaljson));
 
+        $(".link_remove_contact").bind("click", function(ev){
+            var user = this.id.split("_")[this.id.split("_").length - 1];
+
+            $.ajax({
+                url: "/_user" + sakai.data.me.profile.path + "." + user + ".remove.html",
+                type: "POST",
+                data : {"_charset_":"utf-8"},
+                success: function(data){
+                    setTimeout(loadContacts,500,[1]);
+
+                    // remove from json file
+
+                    var index = -1;
+                    for (var i = 0, j = foundContacts.results.length; i<j; i++){
+                        if (foundContacts.results[i].target == user){
+                            index = i;
+                        }
+                    }
+                    foundContacts.results.splice(index,1);
+
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    alert("An error has occured");
+                }
+            });
+
+        });
     };
 
     /*
@@ -142,7 +169,7 @@ sakai.search = function(){
         $("#invited_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/_user/contacts/invited.json?page=0&items=100",
+            url: "/var/contacts/invited.json?page=0&items=100",
             cache: false,
             success: function(data){
                 foundInvitations = $.evalJSON(data);
@@ -194,22 +221,22 @@ sakai.search = function(){
                             finaljson.items[index].extra = basic.unidepartment;
                         }
                     }
-                    if (finaljson.items[index].userid == sdata.me.user.userid){
+                    if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
                 }
             }
         }
 
-        $("#invited_search_result").html($.Template.render("invited_search_result_template", finaljson));
+        $("#invited_search_result").html($.TemplateRenderer("invited_search_result_template", finaljson));
 
         $(".link_accept_contact").bind("click", function(ev){
             var user = this.id.split("_")[this.id.split("_").length - 1];
 
             $.ajax({
-                url: "/_user/contacts/" + user + ".accept.html",
+                url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
                 type: "POST",
-                data : {"_charset_":"utf-8"},
+                data : {"targetUserId": user},
                 success: function(data){
                     setTimeout(loadContacts,500,[1]);
 
@@ -249,7 +276,7 @@ sakai.search = function(){
         $("#invited_search_result").html("<b>Loading ...</b>");
 
         $.ajax({
-            url: "/_user/contacts/pending.json?page=0&items=100",
+            url: "/var/contacts/pending.json?page=0&items=100",
             cache: false,
             success: function(data){
                 foundPending = $.evalJSON(data);
@@ -301,14 +328,14 @@ sakai.search = function(){
                             finaljson.items[index].extra = basic.unidepartment;
                         }
                     }
-                    if (finaljson.items[index].userid == sdata.me.user.userid){
+                    if (finaljson.items[index].userid == sakai.data.me.user.userid){
                         finaljson.items[index].isMe = true;
                     }
                 }
             }
         }
 
-        $("#pending_search_result").html($.Template.render("pending_search_result_template", finaljson));
+        $("#pending_search_result").html($.TemplateRenderer("pending_search_result_template", finaljson));
 
     };
 

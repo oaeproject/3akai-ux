@@ -58,12 +58,13 @@ sakai.newaccount = function(){
     var usernameTaken = usernameField + "_taken";
     var usernameShort = usernameField + "_short";
     var usernameSpaces = usernameField + "_spaces";
+    var usernameInvalid = usernameField + "_invalid";
     var usernameEmpty = usernameField + "_empty";
     var firstnameEmpty = firstnameField + "_empty";
     var lastnameEmpty = lastnameField + "_empty";
     var emailEmpty = emailField + "_empty";
     var emailInvalid = emailField + "_invalid";
-    var passwordEmpty = emailField + "_empty";
+    var passwordEmpty = passwordField + "_empty";
     var passwordShort = passwordField + "_short";
     var passwordRepeatEmpty = passwordRepeatField + "_empty";
     var passwordRepeatNoMatch = passwordRepeatField + "_nomatch";
@@ -152,12 +153,12 @@ sakai.newaccount = function(){
     };
 
     /**
-     * Uses the FormBinder to get all of the values out of the form fields. This will return
+     * Get all of the values out of the form fields. This will return
      * a JSON object where the keys are the names of all of the form fields, and the values are
      * the values entered by the user in those fields.
      */
     var getFormValues = function(){
-        return $.FormBinder.serialize($(formContainer));
+        return sakai.api.UI.Forms.form2json($(formContainer));
     };
 
 
@@ -211,7 +212,7 @@ sakai.newaccount = function(){
             ":name": values[username],
             "_charset_": "utf-8"};
         $.ajax ({
-            url : Config.URL.CREATE_USER_SERVICE,
+            url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
             data : data,
             success : function(data) {
@@ -324,15 +325,21 @@ sakai.newaccount = function(){
         }
 
         // Check whether the username contains spaces
-        if (username.indexOf(" ") !== -1){
+        if (usernameEntered.indexOf(" ") !== -1){
             setError(usernameField,usernameSpaces);
             return false;
         }
 
         // Check whether the length of the username is at least 3, which is the minimum length
         // required by the backend
-        if (username.length < 3){
+        if (usernameEntered.length < 3){
             setError(usernameField,usernameShort);
+            return false;
+        }
+
+        // Check whether the username contains illegal characters
+        if (!usernameEntered.match(/^([a-zA-Z0-9\_\-]+)$/) || (usernameEntered.substr(0,2) === 'g-')){
+            setError(usernameField,usernameInvalid);
             return false;
         }
 
@@ -341,7 +348,7 @@ sakai.newaccount = function(){
         // exists and a 401 if it doesn't exist yet.
         $.ajax({
             // Replace the preliminary parameter in the service URL by the real username entered
-            url: Config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
+            url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g,values[username]),
             cache : false,
             success: function(data){
                 setError(usernameField,usernameTaken);
@@ -369,24 +376,19 @@ sakai.newaccount = function(){
      * Once the user is trying to submit the form, we check whether all the fields have valid
      * input and try to create the new account
      */
-    //$("#save_account").bind("click", function(ev) {
-    //        validateFields();
-    //    });
     $("#create_account_form").submit(validateFields);
-
 
     /*
      * If the Cancel button is clicked, we redirect them back to the login page
      */
     $("#cancel_button").bind("click", function(ev){
-        document.location = Config.URL.GATEWAY_URL;
+        document.location = sakai.config.URL.GATEWAY_URL;
     });
 
     $(checkUserNameLink).bind("click", function(){
         resetErrorFields();
         checkUserName(true);
     });
-
 
     // Hide error fields at start
     $(errorFields).hide();

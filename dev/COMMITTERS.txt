@@ -1,6 +1,7 @@
 The following people are active contributors on Sakai 3 front-end development:
 (alphabetic order)
 
+Noah Botimer - botimer@umich.edu
 Eli Cochran - eli@media.berkeley.edu
 Ray Davis - r...@media.berkeley.edu
 D. Stuart Freeman - stuart.freeman@et.gatech.edu

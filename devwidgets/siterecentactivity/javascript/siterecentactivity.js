@@ -1,6 +1,6 @@
 var sakai = sakai || {};
 
-sakai.siterecentactivity = function(tuid, placement, showSettings){
+sakai.siterecentactivity = function(tuid, showSettings){
 
     var count = 5;
     var rootel = $("#" + tuid);
@@ -24,11 +24,11 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
 
                 sakai.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai.siterecentactivity.recentactivity.items[i].date+ "Z");
 
-                if (sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]) {
-                    sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
-                } else {
-                     sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.siterecentactivity.recentactivity.items[i].page_id;
-                }
+                //if (sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]) {
+                //    sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.site.site_info._pages[sakai.siterecentactivity.recentactivity.items[i].page_id]["pageTitle"];
+                //} else {
+                //     sakai.siterecentactivity.recentactivity.items[i].page_title = sakai.siterecentactivity.recentactivity.items[i].page_id;
+                //}
 
             }
 
@@ -38,7 +38,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
             };
 
             // Render the recent sites
-            $(siterecentactivityContainer).html($.Template.render(siterecentactivityContainerTemplate, reversedItems));
+            $(siterecentactivityContainer).html($.TemplateRenderer(siterecentactivityContainerTemplate, reversedItems));
         }else{
             sakai.siterecentactivity.getRecentActivity(sakai.siterecentactivity.render);
         }
@@ -49,17 +49,16 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
      * @param {Object} callback Callback function that will be executed
      */
     sakai.siterecentactivity.getRecentActivity = function(callback){
-        $.ajax({
-            url: "/sites/" + sakai.site.currentsite.id + "/recentactivity.json",
-            success: function(data){
-                sakai.siterecentactivity.recentactivity = $.evalJSON(data);
-            },
-            error: function(xhr, textStatus, thrownError) {
+
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
+            if (success) {
+                sakai.siterecentactivity.recentactivity = data;
+            } else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
                 };
-            },
-            complete: callback
+            }
+            callback(success, data);
         });
     };
 
@@ -70,9 +69,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
     var saveRecentActivity = function(){
 
         // Save the recentactivity json file
-        sdata.widgets.WidgetPreference.save("/sites/" + sakai.site.currentsite.id, "recentactivity.json",
-            $.toJSON(sakai.siterecentactivity.recentactivity,
-            sakai.siterecentactivity.render()));
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", sakai.siterecentactivity.recentactivity, sakai.siterecentactivity.render());
     };
 
 
@@ -81,7 +78,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
      * @param {Object} activityitem A JSON object in the following format:
      * {
      *     "user_id" : "admin",
-     *     "date" : "2009-10-12T10:25:19",
+     *     "date" : "2009-10-12T10:25:19Z",
      *     "page_id" : "test",
      *     "type" : "page_create"
      * }
@@ -89,7 +86,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
     sakai.siterecentactivity.addRecentActivity = function(activityitem){
 
         // Set the date of the activity
-        activityitem.date = $.ToJCRDate(new Date());
+        activityitem.date = sakai.api.Util.createSakaiDate();
 
         // Construct the callback function
         var callback = function(){
@@ -196,7 +193,7 @@ sakai.siterecentactivity = function(tuid, placement, showSettings){
         return date_str;
     };
 
-    if(typeof jQuery != 'undefined') {
+    if(typeof jQuery != "undefined") {
         jQuery.fn.humane_dates = function(){
             return this.each(function(){
                 var date = humane_date(this.title);

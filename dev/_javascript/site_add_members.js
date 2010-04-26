@@ -67,7 +67,7 @@ sakai.site_add_members = function() {
                 siteJson = $.evalJSON(response);
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
-                $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
+                $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
@@ -110,7 +110,7 @@ sakai.site_add_members = function() {
                 'results': []
             };
         }
-        $("#selected-people-container").html($.Template.render("selected-people-template", {"selectedPeople" : selectedPeople}));
+        $("#selected-people-container").html($.TemplateRenderer("selected-people-template", {"selectedPeople" : selectedPeople}));
         $("#selected-people-container").show();
         $(".selected-person-remove").bind("click",
         function(e, ui) {
@@ -180,7 +180,7 @@ sakai.site_add_members = function() {
                     people.results[i].role = existingRole;
                 }
             }
-            $("#siteManage_people").html($.Template.render("siteManage_people_template", people));
+            $("#siteManage_people").html($.TemplateRenderer("siteManage_people_template", people));
             updateSelectedPersons();
 
             $(".siteManage_person").bind("click",

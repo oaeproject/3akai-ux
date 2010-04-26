@@ -4,27 +4,42 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sakai 3 R&amp;D - __MSG__MY_SAKAI__</title>
 
+        <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-        <link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
-        <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/GWT/gwt_caller.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/ui.droppable.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.threedots.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
+        <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.my_sakai.css" />
+
+        <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/jquery/imgareaselect/imgareaselect-default.css" />
+
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
+
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
+
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
+
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+        <script type="text/javascript" src="_lib/GWT/gwt_caller.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery.threedots.min.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
+        <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+        <script type="text/javascript" src="_lib/jquery/imgareaselect/jquery.imgareaselect.pack.js"></script>
 
     </head>
 
@@ -93,7 +108,7 @@
             <!-- DIALOG HEADER -->
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                    <h1>__MSG__ADD_SAKAI_GOODIES__</h1>
+                    <h1>__MSG__SAKAI_GOODIES__</h1>
                     <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
@@ -165,7 +180,7 @@
 
                     <!-- OPTIONS -->
                     <div class="fl-container options">
-                        <a href="javascript:;" id="add-goodies">__MSG__ADD_SAKAI_GOODIES__</a>
+                        <a href="javascript:;" id="add-goodies">__MSG__SAKAI_GOODIES__</a>
                         <span class="pipe_divider">|</span>
                         <a href="javascript:;" id="edit-layout">__MSG__CHANGE_LAYOUT__</a>
                     </div>
@@ -204,9 +219,8 @@
         --></div>
 
         <div class="fl-container-flex widget-content">
-            <div class="fl-fix fl-centered fixed-container" id="widgetscontainer">
 
-            </div>
+            <div class="fl-fix fl-centered fixed-container" id="widgetscontainer"></div>
 
         </div>
 
@@ -225,12 +239,7 @@
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-        <script type="text/javascript" language="JavaScript" src="_javascript/mysakai.js"></script>
-
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.imgareaselect-0.8.min.js"></script>
+        <script type="text/javascript" src="_javascript/mysakai.js"></script>
 
     </body>
 </html>

@@ -69,11 +69,10 @@ sakai.profile = function(){
 
     var doInit = function(){
 
-        me = sdata.me;
+        me = sakai.data.me;
 
-
-        if (!me.user.userid && !me.user.userid) {
-            var redirect =  Config.URL.GATEWAY_URL + "?url=/dev/profile.html";
+        if (!me.user.userid) {
+            var redirect =  sakai.config.URL.GATEWAY_URL + "?url=/dev/profile.html";
             if (user){
                 redirect += $.URLEncode("?user=" + user);
             }
@@ -83,16 +82,21 @@ sakai.profile = function(){
         totalprofile = me;
         fillInvitePopup();
 
-        if (user && user != me.user.userid) {
+        // If we are looking at another user's profile
+        if ((user) && (user !== me.user.userid)) {
+
             myprofile = false;
-            fileUrl = "/_user/presence.user.json?userid=" + user;
+
             $.ajax({
-                url: fileUrl,
+                url: "/var/search/users.json?username=" + user,
                 cache: false,
-                success: function(data){
+                success: function(raw_userdata){
+
+                    var user_data = $.evalJSON(raw_userdata).results[0];
+
                     totalprofile = {};
-                    totalprofile.profile = $.evalJSON(data).profile;
-                    totalprofile.profile["sakai:status"] = $.evalJSON(data)["sakai:status"];
+                    totalprofile.profile = user_data;
+                    totalprofile.profile["sakai:status"] = user_data["sakai:status"];
 
                     // Doing a rewrite of the me object, because Sling wraps arrays around
                     // the different fields in the profile object
@@ -114,62 +118,28 @@ sakai.profile = function(){
                     }
                     json = totalprofile.profile;
 
-                    if (user && user != me.user.userid) {
-                        doAddButton();
-                    }
-
-                    fillInFields();
-
-                }
-            });
-        }
-        else if (!showEdit) {
-            $("#profile_tabs").show();
-            $("#link_edit_profile").show();
-            fileUrl = "/_user/presence.user.json?userid=" + sdata.me.user.userid;
-            $.ajax({
-                url: fileUrl,
-                cache: false,
-                success: function(data){
-                    var totalprofile = {};
-                    totalprofile.profile = $.evalJSON(data).profile;
-                    totalprofile.profile["sakai:status"] = $.evalJSON(data)["sakai:status"];
-
-                    // Doing a rewrite of the me object, because Sling wraps arrays around
-                    // the different fields in the profile object
-                    if (typeof totalprofile.profile.firstName === "object"){
-                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
-                    }
-                    if (typeof totalprofile.profile.lastName === "object"){
-                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
-                    }
-                    if (typeof totalprofile.profile.email === "object"){
-                        totalprofile.profile.email = totalprofile.profile.email[0];
-                    }
-
-                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
-                        totalprofile.profile._status = totalprofile.profile.chatstatus;
-                    }
-                    else {
-                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
-                    }
-                    json = totalprofile.profile;
 
                     if (user && user != me.user.userid) {
                         doAddButton();
                     }
 
                     fillInFields();
+
 
                 },
-                error: function(xhr, textStatus, thrownError) {
+                error: function(xhr, status, thrown) {
+                    fluid.log("profile.js/doInit(): Could not get user data for " + user);
+                }
+            });
 
-                    // If presence request fails attempt to get profile information for logged in user from already loaded sdata.me.profile
-                    // and try to proceed normally
+        // If we are looking at the logged in user's own profile
+        } else if (!showEdit) {
+            $("#profile_tabs").show();
+            $("#link_edit_profile").show();
 
-                    var totalprofile = {};
-                    totalprofile.profile = sdata.me.profile;
-                    totalprofile.profile["sakai:status"] = sdata.me.profile.chatstatus;
+                    //var totalprofile = {};
+                    totalprofile.profile = sakai.data.me.profile;
+                    totalprofile.profile["sakai:status"] = sakai.data.me.profile.chatstatus;
 
                     // Doing a rewrite of the me object, because Sling wraps arrays around
                     // the different fields in the profile object
@@ -197,8 +167,6 @@ sakai.profile = function(){
 
                     fillInFields();
 
-                }
-            });
         }
 
         if (myprofile) {
@@ -378,7 +346,7 @@ sakai.profile = function(){
         if (json[savefield]){
             toRender.items = $.evalJSON(json[savefield]);
         }
-        $("#" + field + "s_list").html($.Template.render(field + "s_list_template",toRender));
+        $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",toRender));
 
     };
 
@@ -400,9 +368,9 @@ sakai.profile = function(){
    //////////////////////////
 
    var fillInFields = function(){
-           //    status
+        // status
         $("#profile_user_status").text(totalprofile._status);
-        //    status picture
+        // status picture
         updateChatStatusElement($("#profile_user_status"), totalprofile._status);
 
 
@@ -410,7 +378,7 @@ sakai.profile = function(){
 
         if (json.picture && $.evalJSON(json.picture).name){
             var picture = $.evalJSON(json.picture);
-            $("#picture_holder img").attr("src",'/_user/public/' + json["rep:userId"] + "/" + picture.name);
+            $("#picture_holder img").attr("src","/_user" + sakai.data.me.profile.path + "/public/profile/" + picture.name);
         }
 
         fillInBasic();
@@ -666,7 +634,7 @@ sakai.profile = function(){
     * Sending a message
     */
 
-    $('#message_dialog').jqm({
+    $("#message_dialog").jqm({
         modal: true,
         trigger: $('#send_message_button'),
         overlay: 20,
@@ -703,33 +671,12 @@ sakai.profile = function(){
             return false;
         } else {
 
-            //var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
-            var toSend = {
-                //"sling:resourceType": "sakai/message",
-                "sakai:type": "internal",
-                "sakai:sendstate": "pending",
-                "sakai:messagebox": "outbox",
-                "sakai:to": user,
-                "sakai:from": sdata.me.user.userid,
-                "sakai:subject": subject,
-                "sakai:body":body,
-                "sakai:category":"message",
-                "_charset_":"utf-8"
-            };
-
-            $.ajax({
-                url: "/_user/message.create.html",
-                type: "POST",
-                error: function(xhr, textStatus, thrownError) {
-                    alert("An error has occured whilst sending the messages");
-                },
-                data: toSend
-            });
+            sakai.api.Communication.sendMessage(user, subject, body);
 
             subjectEl.val("");
             bodyEl.val("");
 
-            $('#message_dialog').jqmHide();
+            $("#message_dialog").jqmHide();
         }
 
     });
@@ -739,9 +686,9 @@ sakai.profile = function(){
      * Add to contacts
      */
 
-    $('#add_to_contacts_dialog').jqm({
+    $("#add_to_contacts_dialog").jqm({
         modal: true,
-        trigger: $('#add_to_contacts_button'),
+        trigger: $("#add_to_contacts_button"),
         overlay: 20,
         toTop: true
     });
@@ -763,7 +710,7 @@ sakai.profile = function(){
 
     var doAddButton = function(){
         $.ajax({
-            url: "/_user/contacts/all.json?page=0&items=100",
+            url: "/var/contacts/all.json?page=0&items=100",
             cache: false,
             success: function(data){
                 var resp = $.evalJSON(data);
@@ -793,12 +740,12 @@ sakai.profile = function(){
                     }
 
                     if (totalprofile.profile.picture && $.evalJSON(totalprofile.profile.picture).name){
-                        $("#add_friend_profilepicture").html("<img src='/_user/public/" + totalprofile.user.userid + "/" + $.evalJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
+                        $("#add_friend_profilepicture").html("<img src='/_user"+sakai.data.me.profile.path+"/public/profile/" + $.evalJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
                     } else {
                         $("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
                     }
 
-                    $("#add_friend_types").html($.Template.render("add_friend_types_template",Widgets));
+                    $("#add_friend_types").html($.TemplateRenderer("add_friend_types_template",Widgets));
 
                 } else if (status == "INVITED"){
                     $("#accept_invitation_button").show();
@@ -812,7 +759,7 @@ sakai.profile = function(){
    };
 
    $("#add_friends_do_invite").bind("click", function(ev){
-           var toSend = $.FormBinder.serialize($("#add_friends_form"));
+        var toSend = sakai.api.UI.Forms.form2json($("#add_friends_form"));
         if (toSend.add_friends_list_type){
 
             var type = toSend.add_friends_list_type;
@@ -826,53 +773,30 @@ sakai.profile = function(){
                 userstring = me.user.userid;
             }
 
-            var title = Config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
-            var message = Config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
-
-            // construct openSocial message
-            var openSocialMessage = new opensocial.Message(message,{"TITLE":title,"TYPE":"INVITATION"});
-
-            var data = { "type" : type, "_charset_":"utf-8"};
+            var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
+            var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 
             $.ajax({
-                url: "/_user/contacts/" + user + ".invite.json",
+                url: "/_user" + sakai.data.me.profile.path + "/contacts.invite.html",
                 type: "POST",
+                data: {
+                    "type": type,
+                    "targetUserId": user
+                },
                 success: function(data){
 
-                    //var openSocialMessage = new opensocial.Message(body,{"TITLE":subject,"TYPE":"MESSAGE"});
-                        var toSend = {
-                            //"sling:resourceType": "sakai/message",
-                            "sakai:type": "internal",
-                            "sakai:sendstate": "pending",
-                            "sakai:messagebox": "outbox",
-                            "sakai:to": user,
-                            "sakai:from": sdata.me.user.userid,
-                            "sakai:subject": title,
-                            "sakai:body":message,
-                            "sakai:category":"invitation",
-                            "_charset_":"utf-8"
-                        };
-
-                        $.ajax({
-                            url: "/_user/message.create.html",
-                            type: "POST",
-                            success: function(data){
-                                $('#add_to_contacts_dialog').jqmHide();
-                                $("#add_to_contacts_button").hide();
-                            },
-                            error: function(xhr, textStatus, thrownError) {
-                                alert("An error has occured whilst sending the messages");
-                            },
-                            data: toSend
-                        });
-
-
-
+                    // Send an invitation message
+                    sakai.api.Communication.sendMessage(user,title,message,"invitation",null,function(success, data){
+                        if (success) {
+                            $("#add_to_contacts_dialog").jqmHide();
+                            $("#add_to_contacts_button").hide();
+                        }
+                    });
                 },
+
                 error: function(xhr, textStatus, thrownError) {
-                    alert("An error has occured");
-                },
-                data: data
+                    fluid.log("profile.js/#add_friends_do_invite.click: Could not invite " + user);
+                }
             });
 
         }
@@ -880,12 +804,10 @@ sakai.profile = function(){
 
    $("#accept_invitation_button").bind("click", function(ev){
 
-        var inviter = user;
-
         $.ajax({
-            url: "/_user/contacts/" + inviter + ".accept.html",
+            url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
             type: "POST",
-            data : {"_charset_":"utf-8"},
+            data : {"targetUserId":user},
             success: function(data){
                 $("#accept_invitation_button").hide();
             },

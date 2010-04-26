@@ -21,12 +21,15 @@
 { width: 250px; min-height: 16px; border: 1px solid #d5dbdf; padding: 2px 2px 2px 5px; position: relative; bottom: 3px; }
 
 /* Entry - on mouse over */
-.profile .fl-inlineEdit-invitation
+.profile_section_editable input:hover, .profile_section_editable textarea:hover, .profile_section_editable select:hover
 { background-color: #dceffd !important; border: 1px solid #454a4f !important; cursor: pointer; }
 
 /* Entry - on click (in edit mode) */
-.profile .flc-inlineEdit-edit
-{ position: relative; bottom: 3px; border: 3px solid #333333; padding: 1px 1px 1px 2px; }
+.profile_section_editable input:focus, .profile_section_editable textarea:focus, .profile_section_editable select:focus
+{ background: none !important; position: relative; bottom: 3px; border: 3px solid #333333 !important; padding: 0px 0px 0px 3px !important; cursor: default; }
+
+.profile_section_editable textarea:focus, .profile_section_editable select:focus
+{ padding: 0px 0px 0px 1px !important; }
 
 /* Edit containers */
 .profile .flc-inlineEditable
@@ -36,21 +39,15 @@
 { cursor: default; width: 250px; }
 
 /* dropdownbox entry - default state */
-.profile .dropdownbox
-{ width: 250px; min-height: 16px; padding: 2px 2px 2px 5px !important; height: auto !important; background-color: #fff; border: 1px solid #d5dbdf; position: relative; }
+.profile .profile_edit_dropdown, .profile .profile_edit_textarea
+{ text-align:left !important; width: 252px; min-height: 16px; bottom: 3px; padding: 2px 2px 2px 3px; height: auto !important; background-color: #fff; border: 1px solid #d5dbdf; position: relative; }
 
-.profile .textarea
-{ width: 250px; min-height: 16px; padding: 2px 2px 2px 5px !important; height: auto !important; background-color: #fff; border: 1px solid #d5dbdf; position: relative; }
-
+.profile .profile_edit_dropdown
+{ width: 259px; }
 
 /* dropdownbox entry - in edit mode select element */
 .profile .editContainer
 { display: none; }
-
-.profile .options
-{ padding: 0px; text-align:left !important; width: 250px;
-padding:1px 1px 1px 2px;
-position:relative;}
 
 /* Multiline fields */
 .profile .multifield_over {
@@ -86,49 +83,3 @@ position:relative;}
 .overlay-lightbox-fixed
 { display: block; height: 1000px; left: 0%; position: fixed; top: 0%; width: 100%; z-index: 2001; }
 
-
-
-/**
-
-This is for IE:
-.fl-tabs li a {
-    position:relative;
-    bottom:1px !important;
-    #bottom:0px !important;
-}
-
-Removed:
-.field {
-    padding: 2px;
-    height: 20px;
-    display: none;
-    height: 16px;
-    width: 250px;
-}
-
-.fieldtitle {
-    color: #808080;
-    width: 125px;
-    vertical-align: top;
-    height: 20px;
-}
-
-td {
-    vertical-align: top;
-}
-
-.refreshDiv {
-    color: #FF0000;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 1100000;
-    height: 100%;
-    width: 100%;
-    opacity: 0.01;
-    -moz-opacity: 0.01;
-    display: none;
-    filter: alpha(opacity = 60);
-    }
-
-**/

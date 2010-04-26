@@ -23,17 +23,16 @@ var sakai = sakai || {};
 /**
  * Initialize the rss widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement Widget place
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.rss = function(tuid, placement, showSettings){
+sakai.rss = function(tuid, showSettings){
 
 
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
 
-    Config.URL.PROXY_RSS = "/var/proxy/rss.xml?rss=";
+    sakai.config.URL.PROXY_RSS = "/var/proxy/rss.xml?rss=";
 
     var rootel = "#" + tuid;
     var resultJSON={};
@@ -169,11 +168,11 @@ sakai.rss = function(tuid, placement, showSettings){
         if (url.search("http://") === -1) {
             url = "http://" + url;
         }
-        
+
         feedUrl = url;
 
         $.ajax({
-           url : Config.URL.PROXY_RSS +  url,
+           url : sakai.config.URL.PROXY_RSS +  url,
            type : "GET",
            success : function(data) {
                    onResponse(printFeed(data));
@@ -254,7 +253,7 @@ sakai.rss = function(tuid, placement, showSettings){
             }
             // if all the feed are retrieved render the rss
             else{
-                $(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
             }
         });
     };
@@ -289,7 +288,7 @@ sakai.rss = function(tuid, placement, showSettings){
         // first get the entries that need to be shown on this page
         resultJSON.shownEntries = getShownEntries(pageClicked);
         // render these entries
-        $(rssOutput, rootel).html($.Template.render(rssOutputTemplate, resultJSON));
+        $(rssOutput, rootel).html($.TemplateRenderer(rssOutputTemplate, resultJSON));
         // change the pageNumeber
         $(rssPager,rootel).pager({
             pagenumber: pageClicked,
@@ -374,11 +373,11 @@ sakai.rss = function(tuid, placement, showSettings){
         if(rssFeed !== false){
             resultJSON.feeds = resultJSON.feeds || [];
             resultJSON.feeds.push(rssFeed);
-            $(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+            $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
             $(rootel + " " + rssRemove).bind("click", function(e,ui){
                 var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
                 resultJSON.feeds.splice(index,1);
-                $(rssFeedListContainer, rootel).html($.Template.render(rssFeedListTemplate, resultJSON));
+                $(rssFeedListContainer, rootel).html($.TemplateRenderer(rssFeedListTemplate, resultJSON));
             });
         }
     };
@@ -387,7 +386,7 @@ sakai.rss = function(tuid, placement, showSettings){
      * adds a feed to the widget
      */
     var addRssFeed = function(){
-        var rssURL = $(rssTxtUrl,rootel).val().replace('http://','');
+        var rssURL = $(rssTxtUrl,rootel).val().replace("http://","");
         if(!checkIfRssAlreadyAdded(rssURL)){
             getFeed(rssURL, getFeedResponse);
         }
@@ -445,9 +444,7 @@ sakai.rss = function(tuid, placement, showSettings){
     $(rssSubmit, rootel).bind("click",function(e,ui){
         var object = getSettingsObject();
         if(object !== false){
-            var tostring = $.toJSON(object);
-            var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-            sdata.widgets.WidgetPreference.save(saveUrl, "rss", tostring, function(){
+            sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
                 if ($(".sakai_dashboard_page").is(":visible")) {
                     showSettings = false;
                     showHideSettings(showSettings);
@@ -502,36 +499,31 @@ sakai.rss = function(tuid, placement, showSettings){
      * @param {Object} show
      */
     var showHideSettings = function(show){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "rss");
+
         if(show){
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    resultJSON = $.evalJSON(data);
+
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                if (success) {
+                    resultJSON = data;
                     loadSettings(true);
-                },
-                error: function(xhr, textStatus, thrownError) {
+                } else {
                     loadSettings(false);
                 }
             });
+
         }
         else{
             $(rssSettings,rootel).hide();
             $(rssOutput,rootel).show();
 
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data) {
-                    resultJSON = $.evalJSON(data);
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                if (success) {
+                    resultJSON = data;
                     resultJSON.entries = [];
                     resultJSON.feeds = [];
                     fillRssOutput();
-                },
-                error: function(xhr, textStatus, thrownError) {
+                } else {
                     $("#rss_no_feeds").show();
-
                 }
             });
         }

@@ -150,7 +150,7 @@ sakai.lib.notifications = {
         }
 
         // Fade out notification and clear
-        $("#" + notification_id).corners().bind("mouseenter", function() {
+        $("#" + notification_id).bind("mouseenter", function() {
 
         // hovering over the notifcation shows the close icon.
          $(".notification_close", this).show();

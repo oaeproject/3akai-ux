@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the helloworld widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.helloworld = function(tuid,placement,showSettings){
+sakai.helloworld = function(tuid,showSettings){
 
 
     /////////////////////////////
@@ -34,7 +33,6 @@ sakai.helloworld = function(tuid,placement,showSettings){
     /////////////////////////////
 
     var defaultColor = "#000000";
-    var saveLocation = "color.txt";
 
     // Dom identifiers
     var rootel = $("#" + tuid);
@@ -86,8 +84,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
     $(seaveHelloworld).bind("click", function(ev){
         var select = $(colorPicker, rootel).get(0);
         var selected = select.options[select.selectedIndex].value;
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, saveLocation, selected, function(){
+        sakai.api.Widgets.saveWidgetData(tuid, selected, function(success, data){
             sdata.container.informFinish(tuid, "helloworld");
         });
     });
@@ -102,17 +99,15 @@ sakai.helloworld = function(tuid,placement,showSettings){
      * @param {Object} callback
      */
     var getPreferedColor = function(callback){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, saveLocation);
-        $.ajax({
-            cache: false,
-            url: url,
-            success: function(data){
+
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+            if (success) {
                 callback(data);
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 callback(defaultColor);
             }
         });
+
     };
 
     var doInit = function(){
@@ -120,7 +115,7 @@ sakai.helloworld = function(tuid,placement,showSettings){
             getPreferedColor(selectCurrentColor);
             $(settingsContainer, rootel).show();
         } else {
-            var me = sdata.me;
+            var me = sakai.data.me;
             $(usernameContainer, rootel).text(me.profile.firstName);
             getPreferedColor(showHelloWorld);
         }

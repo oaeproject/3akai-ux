@@ -28,7 +28,10 @@ sakai.dashboard = function(){
     // Configuration variables //
     /////////////////////////////
 
-    var stateFile = "devstate";
+    var stateFile = "my_sakai_state";
+
+    // Namespace of data cache for thsi page
+    sakai.data.my_sakai = sakai.data.my_sakai || {};
 
     // Add Goodies related fields
     var addGoodiesDialog = "#add_goodies_dialog";
@@ -52,23 +55,23 @@ sakai.dashboard = function(){
     var startSaving = true;
     var person = false;
 
-    var decideExists = function (response, exists){
+    var decideExists = function (exists, response){
         if (exists === false) {
-            if (response === 401 || response === "error"){
-                document.location = Config.URL.GATEWAY_URL;
+            if (response.status === 401){
+                document.location = sakai.config.URL.GATEWAY_URL;
             } else {
                 doInit();
             }
         } else {
             try {
-                myportaljson = $.evalJSON(response);
+                myportaljson = response;
                 var cleanContinue = true;
 
                 for (var c in myportaljson.columns){
                     if (myportaljson.columns.hasOwnProperty(c)) {
                         for (var pi in myportaljson.columns[c]) {
                             if (myportaljson.columns[c].hasOwnProperty(pi)) {
-                                if (pi != "contains") {
+                                if (pi !== "contains") {
                                     if (!myportaljson.columns[c][pi].uid) {
                                         cleanContinue = false;
                                     }
@@ -88,7 +91,7 @@ sakai.dashboard = function(){
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sakai.data.me.user.userStoragePrefix + "widgets/" + tuid + "/" + widgetname;
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -116,14 +119,14 @@ sakai.dashboard = function(){
         var jsonobj = {};
         jsonobj.columns = {};
 
-        for (var i = 0; i < columns.length; i++) {
+        for (var i = 0, j = columns.length; i < j; i++) {
             jsonobj.columns["column" + (i + 1)] = [];
-            for (var ii = 0; ii < columns[i].length; ii++) {
+            for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
                 var index = jsonobj.columns["column" + (i + 1)].length;
                 jsonobj.columns["column" + (i + 1)][index] = {};
                 jsonobj.columns["column" + (i + 1)][index].name = columns[i][ii];
                 jsonobj.columns["column" + (i + 1)][index].visible = "block";
-                jsonobj.columns["column" + (i + 1)][index].uid = 'id' + Math.round(Math.random() * 10000000000000);
+                jsonobj.columns["column" + (i + 1)][index].uid = "id" + Math.round(Math.random() * 10000000000000);
             }
         }
 
@@ -131,13 +134,13 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,$.toJSON(jsonobj), saveGroup);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, jsonobj, saveGroup);
 
     };
 
     sakai.dashboard.minimizeWidget = function(id){
         var el = $("#" + id + "_container");
-        if (el.css('display') == "none"){
+        if (el.css("display") == "none"){
             el.show();
         } else {
             el.hide();
@@ -152,7 +155,7 @@ sakai.dashboard = function(){
             newjson.layouts = Widgets.layouts;
             newjson.selected = selected;
             currentselectedlayout = selected;
-            $("#layouts_list").html($.Template.render("layouts_template",newjson));
+            $("#layouts_list").html($.TemplateRenderer("layouts_template",newjson));
             tobindtolayoutpicker();
         });
     };
@@ -165,7 +168,7 @@ sakai.dashboard = function(){
 
             var selectedlayout = currentselectedlayout;
             var columns = [];
-            for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+            for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
                 columns[i] = [];
             }
 
@@ -175,7 +178,7 @@ sakai.dashboard = function(){
             var index = 0;
             for (var l in myportaljson.columns){
                 if (index < newlength){
-                    for (i = 0; i < myportaljson.columns[l].length; i++){
+                    for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                         columns[index][i] = {};
                         columns[index][i].name = myportaljson.columns[l][i].name;
                         columns[index][i].visible = myportaljson.columns[l][i].visible;
@@ -190,10 +193,10 @@ sakai.dashboard = function(){
                 if (newlength < initlength){
                     for (l in myportaljson.columns){
                         if (index >= newlength){
-                            for (i = 0; i < myportaljson.columns[l].length; i++){
+                            for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                                 var lowestnumber = -1;
                                 var lowestcolumn = -1;
-                                for (var iii = 0; iii < columns.length; iii++){
+                                for (var iii = 0, jjj = columns.length; iii < jjj; iii++){
                                     var number = columns[iii].length;
                                     if (number < lowestnumber || lowestnumber == -1){
                                         lowestnumber = number;
@@ -213,9 +216,9 @@ sakai.dashboard = function(){
             }
 
             var jsonstring = '{"columns":{';
-            for (i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+            for (i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
                 jsonstring += '"column' + (i + 1) + '":[';
-                for (var ii = 0; ii < columns[i].length; ii++){
+                for (var ii = 0, jj = columns[i].length; ii < jj; ii++){
                     jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
                     if (ii !== columns[i].length - 1){
                         jsonstring += ',';
@@ -230,7 +233,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,jsonstring, beforeFinishAddWidgets);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
     });
@@ -242,9 +245,9 @@ sakai.dashboard = function(){
 
     var doInit = function (){
 
-        person = sdata.me;
+        person = sakai.data.me;
         inituser = person.user.userid;
-        if (!inituser || inituser == "anon") {
+        if (!inituser || person.user.anon) {
             document.location = "/dev/index.html";
         }
         else {
@@ -254,7 +257,7 @@ sakai.dashboard = function(){
             if (person.profile.picture){
                 var picture = $.evalJSON(person.profile.picture);
                 if (picture.name) {
-                    $("#picture_holder").html("<img src='/_user/public/" + person.user.userid + "/" + picture.name + "'/>");
+                    $("#picture_holder").html("<img src='/_user" + person.profile.path + "/public/profile/" + picture.name + "'/>");
                 }
             }
 
@@ -276,12 +279,12 @@ sakai.dashboard = function(){
 
             selected = "General";
 
-            var jsonstring = '{"items":{"group":"' + selected + '"}}';
+            var jsonobject = {"items":{"group": selected }};
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets","group",jsonstring, buildLayout);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
 
         } else {
-            alert("An error occured while saving your layout");
+            fluid.log("my_sakai.js: An error occured while saving your layout");
         }
 
     };
@@ -291,7 +294,7 @@ sakai.dashboard = function(){
         if (success){
             showMyPortal();
         } else {
-            alert("An error occured while saving your group");
+            fluid.log("my_sakai.js: An error occured while saving your group!");
         }
 
     };
@@ -299,21 +302,12 @@ sakai.dashboard = function(){
     var showMyPortal = function(){
 
         var layout = myportaljson;
+        sakai.data.my_sakai.selectedLayout = layout.layout;
 
-        if (!Widgets.layouts[layout.layout]) {
-
-            var selectedlayout = "";
-            var layoutindex = 0;
-
-            for (var l in Widgets.layouts) {
-                if (layoutindex === 0) {
-                    selectedlayout = l;
-                    layoutindex++;
-                }
-            }
+        if (!Widgets.layouts[sakai.data.my_sakai.selectedLayout]) {
 
             var columns = [];
-            for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+            for (var i = 0, j = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length; i < j; i++) {
                 columns[i] = [];
             }
 
@@ -321,12 +315,12 @@ sakai.dashboard = function(){
             for (l in myportaljson.columns) {
                 initlength++;
             }
-            var newlength = Widgets.layouts[selectedlayout].widths.length;
+            var newlength = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length;
 
             var index = 0;
             for (l in myportaljson.columns) {
                 if (index < newlength) {
-                    for (i = 0; i < myportaljson.columns[l].length; i++) {
+                    for (i = 0, j = myportaljson.columns[l].length; i < j; i++) {
                         columns[index][i] = {};
                         columns[index][i].name = myportaljson.columns[l][i].name;
                         columns[index][i].visible = myportaljson.columns[l][i].visible;
@@ -340,10 +334,10 @@ sakai.dashboard = function(){
             if (newlength < initlength) {
                 for (l in myportaljson.columns) {
                     if (index >= newlength) {
-                        for (i = 0; i < myportaljson.columns[l].length; i++) {
+                        for (i = 0, j = myportaljson.columns[l].length; i < j; i++) {
                             var lowestnumber = -1;
                             var lowestcolumn = -1;
-                            for (var iii = 0; iii < columns.length; iii++) {
+                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                 var number = columns[iii].length;
                                 if (number < lowestnumber || lowestnumber == -1) {
                                     lowestnumber = number;
@@ -362,32 +356,31 @@ sakai.dashboard = function(){
             }
 
             var jsonstring = '{"columns":{';
-            for (i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++) {
+            for (i = 0, j = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length; i < j; i++) {
                 jsonstring += '"column' + (i + 1) + '":[';
-                for (var ii = 0; ii < columns[i].length; ii++) {
+                for (var ii = 0, jj = columns[i].length; ii < jj;  ii++) {
                     jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
                     if (ii !== columns[i].length - 1) {
                         jsonstring += ',';
                     }
                 }
                 jsonstring += ']';
-                if (i !== Widgets.layouts[selectedlayout].widths.length - 1) {
+                if (i !== Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length - 1) {
                     jsonstring += ',';
                 }
             }
 
-            jsonstring += '},"layout":"' + selectedlayout + '"}';
+            jsonstring += '},"layout":"' + sakai.data.my_sakai.selectedLayout + '"}';
 
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets", stateFile, jsonstring, null);
-
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
         }
 
         var final2 = {};
         final2.columns = [];
-        final2.size = Widgets.layouts[layout.layout].widths.length;
+        final2.size = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths.length;
         var currentindex = -1;
         var isvalid = true;
 
@@ -398,7 +391,7 @@ sakai.dashboard = function(){
                 index = final2.columns.length;
                 final2.columns[index] = {};
                 final2.columns[index].portlets = [];
-                final2.columns[index].width = Widgets.layouts[layout.layout].widths[currentindex];
+                final2.columns[index].width = Widgets.layouts[sakai.data.my_sakai.selectedLayout].widths[currentindex];
 
                 var columndef = layout.columns[c];
                 for (var pi in columndef) {
@@ -413,7 +406,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+                        final2.columns[index].portlets[iindex].placement = "/_user" + sakai.data.me.profile.path + "/private/widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -421,13 +414,14 @@ sakai.dashboard = function(){
 
         }
         catch (err) {
+            fluid.log(err);
             isvalid = false;
         }
 
 
         if (isvalid) {
 
-            $('#widgetscontainer').html($.Template.render("widgetscontainer_template", final2));
+            $('#widgetscontainer').html($.TemplateRenderer("widgetscontainer_template", final2));
 
             $(".widget1").hover(
                 function(over){
@@ -453,20 +447,20 @@ sakai.dashboard = function(){
                     }
                     currentSettingsOpen = splitted[0] + "_" + splitted[1];
                     var widgetId = splitted[0];
-    
+
                     if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings){
                         $("#settings_settings").show();
                     } else {
                         $("#settings_settings").hide();
                     }
-    
+
                     var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
                     if (el.is(":visible")){
                         $("#settings_hide_link").text("Hide");
                     } else {
                         $("#settings_hide_link").text("Show");
                     }
-    
+
                     var x = $(this).position().left;
                     var y = $(this).position().top;
                     $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
@@ -513,7 +507,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sdata.me.user.userStoragePrefix + "mysakai_widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
@@ -583,14 +577,14 @@ sakai.dashboard = function(){
         if (startSaving === true){
 
             var columns = $(".groupWrapper");
-                for (var i = 0; i < columns.length; i++){
+                for (var i = 0, j = columns.length; i < j; i++){
                 if (i !== 0){
                     serString += ",";
                 }
                 serString += '"column' + (i + 1) + '":[';
                 var column = columns[i];
                 var iii = -1;
-                for (var ii = 0; ii < column.childNodes.length; ii++){
+                for (var ii = 0, jj = column.childNodes.length; ii < jj; ii++){
 
                     try {
                         var node = column.childNodes[ii];
@@ -601,7 +595,7 @@ sakai.dashboard = function(){
                             var nowAt = 0;
                             var id = node.style.display;
                             var uid = Math.round(Math.random() * 100000000000);
-                            for (var y = 0; y < node.childNodes.length; y++) {
+                            for (var y = 0, z = node.childNodes.length; y < z; y++) {
                                 if (node.childNodes[y].style) {
                                     if (nowAt == 1) {
                                         if (node.childNodes[y].style.display.toLowerCase() === "none") {
@@ -621,7 +615,7 @@ sakai.dashboard = function(){
 
                         }
                     } catch (err){
-                        alert(err);
+                        fluid.log("mysakai.js/saveState(): There was an error saving state: " + err);
                     }
 
                 }
@@ -641,7 +635,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,serString, checksucceed);
+            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, checksucceed);
 
         }
 
@@ -649,7 +643,7 @@ sakai.dashboard = function(){
 
     var checksucceed= function (success){
         if (!success){
-            window.alert("Connection with the server was lost");
+            fluid.log("Connection with the server was lost");
         }
     };
 
@@ -663,7 +657,7 @@ sakai.dashboard = function(){
             var alreadyIn = false;
             if (! Widgets.widgets[l].multipleinstance) {
                 for (var c in myportaljson.columns) {
-                    for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
+                    for (var ii = 0, jj = myportaljson.columns[c].length; ii < jj; ii++) {
                         if (myportaljson.columns[c][ii].name === l) {
                             alreadyIn = true;
                         }
@@ -677,7 +671,7 @@ sakai.dashboard = function(){
             }
         }
 
-        $("#addwidgetlist").html($.Template.render("addwidgetlist_template", addingPossible));
+        $("#addwidgetlist").html($.TemplateRenderer("addwidgetlist_template", addingPossible));
         currentlyopen = addingPossible.items[0].id;
 
         $("#addWidgets_selected_title").text(addingPossible.items[0].title);
@@ -707,7 +701,7 @@ sakai.dashboard = function(){
                 var alreadyIn = false;
                 if (!Widgets.widgets[l].multipleinstance) {
                     for (var c in myportaljson.columns) {
-                        for (var ii = 0; ii < myportaljson.columns[c].length; ii++) {
+                        for (var ii = 0, jj = myportaljson.columns[c].length; ii < jj; ii++) {
                             if (myportaljson.columns[c][ii].name === l) {
                                 alreadyIn = true;
                             }
@@ -741,7 +735,7 @@ sakai.dashboard = function(){
         var selectedlayout = myportaljson.layout;
 
         var columns = [];
-        for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+        for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
             columns[i] = [];
         }
 
@@ -751,7 +745,7 @@ sakai.dashboard = function(){
         var index = 0;
         for (var l in myportaljson.columns){
             if (index < newlength){
-                for (i = 0; i < myportaljson.columns[l].length; i++){
+                for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                     columns[index][i] = myportaljson.columns[l][i];
                 }
                 index++;
@@ -763,10 +757,10 @@ sakai.dashboard = function(){
             if (newlength < initlength){
                 for (l in myportaljson.columns){
                     if (index >= newlength){
-                        for (i = 0; i < myportaljson.columns[l].length; i++){
+                        for (i = 0, j = myportaljson.columns[l].length; i < j; i++){
                             var lowestnumber = -1;
                             var lowestcolumn = -1;
-                            for (var iii = 0; iii < columns.length; iii++){
+                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++){
                                 var number = columns[iii].length;
                                 if (number < lowestnumber || lowestnumber == -1){
                                     lowestnumber = number;
@@ -786,7 +780,7 @@ sakai.dashboard = function(){
 
         var lowestnumber = -1;
         var lowestcolumn = -1;
-        for (var iii = 0; iii < columns.length; iii++){
+        for (var iii = 0, jjj = columns.length; iii < jjj; iii++){
             var number = columns[iii].length;
             if (number < lowestnumber || lowestnumber == -1){
                 lowestnumber = number;
@@ -800,9 +794,9 @@ sakai.dashboard = function(){
         columns[lowestcolumn][_i].uid = "id" + Math.round(Math.random() * 10000000000);
 
         var jsonstring = '{"columns":{';
-        for (var i = 0; i < Widgets.layouts[selectedlayout].widths.length; i++){
+        for (var i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++){
             jsonstring += '"column' + (i + 1) + '":[';
-            for (var ii = 0; ii < columns[i].length; ii++){
+            for (var ii = 0, jj = columns[i].length; ii < jj;  ii++){
                 jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
                 if (ii !== columns[i].length - 1){
                     jsonstring += ',';
@@ -817,7 +811,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sdata.widgets.WidgetPreference.save(Config.URL.SDATA_FETCH_PRIVATE_URL.replace(/__USERID__/, sdata.me.user.userid) + "/widgets",stateFile,jsonstring, finishAddWidgets);
+        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
     };
 
@@ -843,7 +837,7 @@ sakai.dashboard = function(){
         newjson.layouts = Widgets.layouts;
         newjson.selected = myportaljson.layout;
         currentselectedlayout = myportaljson.layout;
-        $("#layouts_list").html($.Template.render("layouts_template",newjson));
+        $("#layouts_list").html($.TemplateRenderer("layouts_template",newjson));
         tobindtolayoutpicker();
         hash.w.show();
     };
@@ -925,7 +919,7 @@ sakai.dashboard = function(){
 
         // Render the list of widgets. The template will render a remove and add row for each widget, but will
         // only show one based on whether that widget is already on my dashboard
-        $(addGoodiesListContainer).html($.Template.render(addGoodiesListTemplate, addingPossible));
+        $(addGoodiesListContainer).html($.TemplateRenderer(addGoodiesListTemplate, addingPossible));
         renderGoodiesEventHandlers();
 
         // Show the modal dialog
@@ -954,7 +948,8 @@ sakai.dashboard = function(){
     /*
      * This will try to load the dashboard state file from the SData personal space
      */
-    sdata.widgets.WidgetPreference.get(stateFile, decideExists);
+
+    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
 
 };
 

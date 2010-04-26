@@ -14,14 +14,26 @@
 		<link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css" />
 		<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css" />
 
-		<script type="text/javascript" src="/dev/_configuration/widgets.js"></script>
-		<script type="text/javascript" src="/dev/_configuration/config.js"></script>
-		<script type="text/javascript" src="/dev/_lib/Fluid/InfusionAll.js"></script>
-		<script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.js"></script>
-		<script type="text/javascript" src="/dev/_lib/Jquery/jquery.cookie.js"></script>
-		<script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-		<script type="text/javascript" src="/dev/_lib/sakai_util/sdata.js"></script>
-		<script type="text/javascript" src="/dev/_lib/sakai_util/i18n.js"></script>
+<<<<<<< HEAD
+    <!-- Sakai Config JS -->
+    <script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jQuery/jquery.js"></script>        
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jQuery/jquery-ui.custom.js"></script>        
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>        
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.json-2.2.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sakai_3rdparty.js"></script>
+
+		<!-- to support sakai2 legacy frame resizing -->
 		<script type="text/javascript" src="/library/js/headscripts.js"></script>
 
 	</head>
@@ -69,9 +81,9 @@
 			<div id="s23_site_page_container_${xid}" class="s23_site_page_container">
 				{for tool in tools}
 					<div class="s23_site_iframe_title">
-						<a class="s23_site_iframe_title_reset" title="Reset" target="Main${tool.xid}" href="${Config.SakaiDomain}/portal/tool-reset/${tool.url}?panel=Main"><span>Reset</span></a><h2>${tool.title}</h2>
+						<a class="s23_site_iframe_title_reset" title="Reset" target="Main${tool.xid}" href="${sakai.config.SakaiDomain}/portal/tool-reset/${tool.url}?panel=Main"><span>Reset</span></a><h2>${tool.title}</h2>
 					</div>
-					<iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${Config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
+					<iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${sakai.config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
 				{/for}
 			</div>
 		--></div>

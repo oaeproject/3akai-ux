@@ -1,6 +1,20 @@
 /**
- * TrimPath Template. Release 1.0.38.
- * Copyright (C) 2004, 2005 Metaha.
+ * This file contains common Javascript libraries used throughout Sakai 3:
+ *
+ * Trimpath 1.1.2
+ * Querystring 1.3
+ * jqModal 07.06.2008 r13
+ * jquery.cookie ?
+ * jquery.pager 1.0
+ * openSocial
+ *
+ */
+
+
+
+/**
+ * TrimPath Template. Release 1.1.2.
+ * Copyright (C) 2004 - 2007 TrimPath.
  *
  * TrimPath Template is licensed under the GNU General Public License
  * and the Apache License, Version 2.0, as follows:
@@ -30,15 +44,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var TrimPath;
+if (typeof(TrimPath) == 'undefined')
+    TrimPath = {};
 
 // TODO: Debugging mode vs stop-on-error mode - runtime flag.
 // TODO: Handle || (or) characters and backslashes.
 // TODO: Add more modifiers.
 
-(function() {               // Using a closure to keep global namespace clean.
-    if (TrimPath == null)
-        TrimPath = new Object();
+(function() { // Using a closure to keep global namespace clean.
     if (TrimPath.evalEx == null)
         TrimPath.evalEx = function(src) { return eval(src); };
 
@@ -62,6 +75,16 @@ var TrimPath;
         if (func != null)
             return new optEtc.Template(optTmplName, tmplContent, funcSrc, func, optEtc);
         return null;
+    }
+
+    var exceptionDetails = function(e) {
+        return (e.toString()) + ";\n " +
+               (e.message) + ";\n " +
+               (e.name) + ";\n " +
+               (e.stack       || 'no stack trace') + ";\n " +
+               (e.description || 'no further description') + ";\n " +
+               (e.fileName    || 'no file name') + ";\n " +
+               (e.lineNumber  || 'no line number');
     }
 
     try {
@@ -141,7 +164,8 @@ var TrimPath;
             } catch (e) {
                 if (flags.throwExceptions == true)
                     throw e;
-                var result = new String(resultArr.join("") + "[ERROR: " + e.toString() + (e.message ? '; ' + e.message : '') + "]");
+                var result = new String(resultArr.join("") +
+                    "[ERROR: template: <pre>" + exceptionDetails(e) + "</pre>]");
                 result["exception"] = e;
                 return result;
             }
@@ -279,7 +303,7 @@ var TrimPath;
             funcText.push('if (_FLAGS.keepWhitespace == true) _OUT.write("');
             var s = text.substring(0, nlPrefix).replace('\n', '\\n'); // A macro IE fix from BJessen.
             if (s.charAt(s.length - 1) == '\n')
-                s = s.substring(0, s.length - 1);
+            	s = s.substring(0, s.length - 1);
             funcText.push(s);
             funcText.push('");');
         }
@@ -293,7 +317,7 @@ var TrimPath;
             funcText.push('if (_FLAGS.keepWhitespace == true) _OUT.write("');
             var s = text.substring(nlSuffix + 1).replace('\n', '\\n');
             if (s.charAt(s.length - 1) == '\n')
-                s = s.substring(0, s.length - 1);
+            	s = s.substring(0, s.length - 1);
             funcText.push(s);
             funcText.push('");');
         }
@@ -395,3 +419,338 @@ var TrimPath;
         return TrimPath.parseDOMTemplate(elementId, optDocument, optEtc).process(context, optFlags);
     }
 }) ();
+
+
+
+/* ---------------------------------------------------------------------------*/
+
+
+
+/* Client-side access to querystring name=value pairs
+    Version 1.3
+    28 May 2008
+
+    License (Simplified BSD):
+    http://adamv.com/dev/javascript/qslicense.txt
+*/
+function Querystring(qs) { // optionally pass a querystring to parse
+    this.params = {};
+
+    if (qs == null) qs = location.search.substring(1, location.search.length);
+    if (qs.length == 0) return;
+
+// Turn <plus> back to <space>
+// See: http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.4.1
+    qs = qs.replace(/\+/g, ' ');
+    var args = qs.split('&'); // parse out name/value pairs separated via &
+
+// split out each name=value pair
+    for (var i = 0; i < args.length; i++) {
+        var pair = args[i].split('=');
+        var name = decodeURIComponent(pair[0]);
+
+        var value = (pair.length==2)
+            ? decodeURIComponent(pair[1])
+            : name;
+
+        this.params[name] = value;
+    }
+}
+
+Querystring.prototype.get = function(key, default_) {
+    var value = this.params[key];
+    return (value != null) ? value : default_;
+};
+
+Querystring.prototype.contains = function(key) {
+    var value = this.params[key];
+    return (value != null);
+};
+
+
+
+/* ---------------------------------------------------------------------------*/
+
+
+
+/*
+ * jqModal - Minimalist Modaling with jQuery
+ *   (http://dev.iceburg.net/jquery/jqModal/)
+ *
+ * Copyright (c) 2007,2008 Brice Burgess <bhb@iceburg.net>
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
+ * $Version: 07/06/2008 +r13
+ */
+(function($) {
+$.fn.jqm=function(o){
+var p={
+overlay: 50,
+overlayClass: 'jqmOverlay',
+closeClass: 'jqmClose',
+trigger: '.jqModal',
+ajax: F,
+ajaxText: '',
+target: F,
+modal: F,
+toTop: F,
+onShow: F,
+onHide: F,
+onLoad: F
+};
+return this.each(function(){if(this._jqm)return H[this._jqm].c=$.extend({},H[this._jqm].c,o);s++;this._jqm=s;
+H[s]={c:$.extend(p,$.jqm.params,o),a:F,w:$(this).addClass('jqmID'+s),s:s};
+if(p.trigger)$(this).jqmAddTrigger(p.trigger);
+});};
+
+$.fn.jqmAddClose=function(e){return hs(this,e,'jqmHide');};
+$.fn.jqmAddTrigger=function(e){return hs(this,e,'jqmShow');};
+$.fn.jqmShow=function(t){return this.each(function(){$.jqm.open(this._jqm,t);});};
+$.fn.jqmHide=function(t){return this.each(function(){$.jqm.close(this._jqm,t)});};
+
+$.jqm = {
+hash:{},
+open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(parseInt(h.w.css('z-index'))),z=(z>0)?z:3000,o=$('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:c.overlay/100});if(h.a)return F;h.t=t;h.a=true;h.w.css('z-index',z);
+ if(c.modal) {if(!A[0])L('bind');A.push(s);}
+ else if(c.overlay > 0)h.w.jqmAddClose(o);
+ else o=F;
+
+ h.o=(o)?o.addClass(c.overlayClass).prependTo('body'):F;
+ if(ie6){$('html,body').css({height:'100%',width:'100%'});if(o){o=o.css({position:'absolute'})[0];for(var y in {Top:1,Left:1})o.style.setExpression(y.toLowerCase(),"(_=(document.documentElement.scroll"+y+" || document.body.scroll"+y+"))+'px'");}}
+
+ if(c.ajax) {var r=c.target||h.w,u=c.ajax,r=(typeof r == 'string')?$(r,h.w):$(r),u=(u.substr(0,1) == '@')?$(t).attr(u.substring(1)):u;
+  r.html(c.ajaxText).load(u,function(){if(c.onLoad)c.onLoad.call(this,h);if(cc)h.w.jqmAddClose($(cc,h.w));e(h);});}
+ else if(cc)h.w.jqmAddClose($(cc,h.w));
+
+ if(c.toTop&&h.o)h.w.before('<span id="jqmP'+h.w[0]._jqm+'"></span>').insertAfter(h.o);
+ (c.onShow)?c.onShow(h):h.w.show();e(h);return F;
+},
+close:function(s){var h=H[s];if(!h.a)return F;h.a=F;
+ if(A[0]){A.pop();if(!A[0])L('unbind');}
+ if(h.c.toTop&&h.o)$('#jqmP'+h.w[0]._jqm).after(h.w).remove();
+ if(h.c.onHide)h.c.onHide(h);else{h.w.hide();if(h.o)h.o.remove();} return F;
+},
+params:{}};
+var s=0,H=$.jqm.hash,A=[],ie6=$.browser.msie&&($.browser.version == "6.0"),F=false,
+i=$('<iframe src="javascript:false;document.write(\'\');" class="jqm"></iframe>').css({opacity:0}),
+e=function(h){if(ie6)if(h.o)h.o.html('<p style="width:100%;height:100%"/>').prepend(i);else if(!$('iframe.jqm',h.w)[0])h.w.prepend(i); f(h);},
+f=function(h){try{$(':input:visible',h.w)[0].focus();}catch(_){}},
+L=function(t){$()[t]("keypress",m)[t]("keydown",m)[t]("mousedown",m);},
+m=function(e){var h=H[A[A.length-1]],r=(!$(e.target).parents('.jqmID'+h.s)[0]);if(r)f(h);return !r;},
+hs=function(w,t,c){return w.each(function(){var s=this._jqm;$(t).each(function() {
+ if(!this[c]){this[c]=[];$(this).click(function(){for(var i in {jqmShow:1,jqmHide:1})for(var s in this[i])if(H[this[i][s]])H[this[i][s]].w[i](this);return F;});}this[c].push(s);});});};
+})(jQuery);
+
+
+
+/* ---------------------------------------------------------------------------*/
+
+
+
+function set_cookie( name, value, exp_y, exp_m, exp_d, path, domain, secure ) {
+  var cookie_string = name + "=" + escape ( value );
+
+  if ( exp_y )
+  {
+    var expires = new Date ( exp_y, exp_m, exp_d );
+    cookie_string += "; expires=" + expires.toGMTString();
+  }
+
+  if ( path )
+        cookie_string += "; path=" + escape ( path );
+
+  if ( domain )
+        cookie_string += "; domain=" + escape ( domain );
+
+  if ( secure )
+        cookie_string += "; secure";
+
+  document.cookie = cookie_string;
+}
+
+function delete_cookie( cookie_name ) {
+  var cookie_date = new Date ( );  // current date & time
+  cookie_date.setTime ( cookie_date.getTime() - 1 );
+  document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+}
+
+function get_cookie( cookie_name ) {
+  var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
+
+  if ( results )
+    return ( unescape ( results[2] ) );
+  else
+    return null;
+}
+
+
+/* ---------------------------------------------------------------------------*/
+
+
+/*
+* jQuery pager plugin
+* Version 1.0 (12/22/2008)
+* @requires jQuery v1.2.6 or later
+*
+* Example at: http://jonpauldavies.github.com/JQuery/Pager/PagerDemo.html
+*
+* Copyright (c) 2008-2009 Jon Paul Davies
+* Dual licensed under the MIT and GPL licenses:
+* http://www.opensource.org/licenses/mit-license.php
+* http://www.gnu.org/licenses/gpl.html
+*
+* Read the related blog post and contact the author at http://www.j-dee.com/2008/12/22/jquery-pager-plugin/
+*
+* This version is far from perfect and doesn't manage it's own state, therefore contributions are more than welcome!
+*
+* Usage: .pager({ pagenumber: 1, pagecount: 15, buttonClickCallback: PagerClickTest });
+*
+* Where pagenumber is the visible page number
+*       pagecount is the total number of pages to display
+*       buttonClickCallback is the method to fire when a pager button is clicked.
+*
+* buttonClickCallback signiture is PagerClickTest = function(pageclickednumber)
+* Where pageclickednumber is the number of the page clicked in the control.
+*
+* The included Pager.CSS file is a dependancy but can obviously tweaked to your wishes
+* Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
+*
+* modified by Oszkar Nagy (oszkar@caret.cam.ac.uk) for Sakai
+* modified by Simon Gaeremynck (sg555@caret.cam.ac.uk) for Sakai
+*/
+(function($) {
+
+    $.fn.pager = function(options){
+
+        var opts = $.extend({}, $.fn.pager.defaults, options);
+
+        return this.each(function(){
+
+            // empty out the destination element and then render out the pager with the supplied options
+            var htmlparts = {};
+            if (typeof options.htmlparts === "undefined") {
+                htmlparts = $.fn.pager.defaults.htmlparts;
+            }
+            $(this).empty().append(renderpager(parseInt(options.pagenumber, 10), parseInt(options.pagecount, 10), options.buttonClickCallback, htmlparts));
+
+        });
+    };
+
+    // render and return the pager with the supplied options
+    function renderpager(pagenumber, pagecount, buttonClickCallback, htmlparts) {
+
+        // setup $pager to hold render
+        var $pager = $('<ul class="sakai_pager"></ul>');
+
+        // add in the previous and next buttons
+        //$pager.append(renderButton('First', pagenumber, pagecount, buttonClickCallback)).append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback));
+
+    // Without 'First' button
+    $pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts));
+
+        // pager currently only handles 10 viewable pages ( could be easily parameterized, maybe in next version ) so handle edge cases
+        var startPoint = 1;
+        var endPoint = 5;
+
+        if (pagenumber > 3) {
+            startPoint = pagenumber - 2;
+            endPoint = pagenumber + 2;
+        }
+
+        if (endPoint > pagecount) {
+            startPoint = pagecount - 3;
+            endPoint = pagecount;
+        }
+
+        if (startPoint < 1) {
+            startPoint = 1;
+        }
+
+        // Add 3 dots divider
+        var $divider_begin = $('<li id="jq_pager_three_dots_begin" class="dots hidden">...</li>');
+        $pager.append($divider_begin);
+
+        // loop thru visible pages and render buttons
+        for (var page = startPoint; page <= endPoint; page++) {
+
+            var currentButton = $('<li class="page-number"><span>' + (page) + '</span></li>');
+
+            page == pagenumber ? currentButton.addClass('pgCurrent') : currentButton.click(function() { buttonClickCallback(this.firstChild.firstChild.data); });
+            currentButton.appendTo($pager);
+        }
+
+        // render in the next and last buttons before returning the whole rendered control back.
+        //$pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback)).append(renderButton('Last', pagenumber, pagecount, buttonClickCallback));
+
+        // Add 3 dots divider
+        var $divider_end = $('<li id="jq_pager_three_dots_end" class="dots hidden">...</li>');
+        $pager.append($divider_end);
+
+        // without 'Last' button:
+        $pager.append(renderButton('next', pagenumber, pagecount, buttonClickCallback, htmlparts));
+
+        if (startPoint > 1)
+            {
+                $divider_begin.removeClass('hidden');
+            }
+
+        if (pagecount > endPoint)
+            {
+                $divider_end.removeClass('hidden');
+            }
+
+        return $pager;
+    }
+
+    // renders and returns a 'specialized' button, ie 'next', 'previous' etc. rather than a page number button
+    function renderButton(part, pagenumber, pagecount, buttonClickCallback, htmlparts) {
+
+        var buttonLabel = htmlparts[part];
+
+        var $Button = $('<li class="pgNext">' + buttonLabel + '</li>');
+
+        var destPage = 1;
+
+        // work out destination page for required button type
+        switch (part) {
+            case "first":
+                destPage = 1;
+                break;
+            case "prev":
+                destPage = pagenumber - 1;
+                $Button = $('<li class="pgPrev">' + buttonLabel + '</li>');
+                break;
+            case "next":
+                destPage = pagenumber + 1;
+                break;
+            case "last":
+                destPage = pagecount;
+                break;
+        }
+
+        // disable and 'grey' out buttons if not needed.
+        if (part === "first" || part === "prev") {
+            pagenumber <= 1 ? $Button.addClass('pgEmpty') : $Button.click(function() { buttonClickCallback(destPage); });
+        }
+        else {
+            pagenumber >= pagecount ? $Button.addClass('pgEmpty') : $Button.click(function() { buttonClickCallback(destPage); });
+        }
+
+        return $Button;
+    }
+
+    // pager defaults. hardly worth bothering with in this case but used as placeholder for expansion in the next version
+    $.fn.pager.defaults = {
+        pagenumber: 1,
+        pagecount: 1,
+        htmlparts : {
+            "first" : "first",
+            "last" : "last",
+            "prev" : "<span><img src=\"/dev/_images/pager_next_left.png\" alt=\"\" /> <span class=\"t\">Prev</span></span>",
+            "next" : "<span><span class=\"t\">Next</span> <img src=\"/dev/_images/pager_next_right.png\" alt=\"\" /></span>"
+        }
+    };
+
+})(jQuery);

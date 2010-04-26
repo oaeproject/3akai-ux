@@ -22,7 +22,7 @@ var sakai = sakai ||
 sakai.picker = sakai.picker ||
 {};
 
-sakai.folderpicker = function(tuid, placement, showSettings){
+sakai.folderpicker = function(tuid, showSettings){
     // General variables
     var rootel = $("#" + tuid);
 
@@ -51,7 +51,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
 
 
     // URL's
-    Config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
+    sakai.config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
     var siteID = "/sites/" + placement.split("/")[0];
     var siteFiles = siteID + "/_files";
     selectedFolder = siteFiles;
@@ -124,7 +124,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
      * Renders the info about the selected folder.
      */
     var renderSelectedFolder = function(){
-        $(picker_selectedfolder, rootel).html($.Template.render(picker_selectedfolder_template.replace("#", ""), widgetSettings));
+        $(picker_selectedfolder, rootel).html($.TemplateRenderer(picker_selectedfolder_template.replace("#", ""), widgetSettings));
     };
 
     /**
@@ -141,7 +141,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
             'icons': icons
         };
 
-        $(picker_main, rootel).html($.Template.render(picker_main_template.replace("#", ""), json));
+        $(picker_main, rootel).html($.TemplateRenderer(picker_main_template.replace("#", ""), json));
     };
 
     /////////////////////////
@@ -198,7 +198,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
         displayBreadcrumb(breadcrumbbar, '', currentPath, breadcrumbstart);
 
         //Display files.
-        $(container, rootel).html($.Template.render(tpl.replace("#", ""), json));
+        $(container, rootel).html($.TemplateRenderer(tpl.replace("#", ""), json));
 
         $(picker_pager, rootel).pager({
             pagenumber: page,
@@ -268,7 +268,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
             'locations': breadcrumbs,
             'type': type
         };
-        $(where, rootel).html($.Template.render(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
+        $(where, rootel).html($.TemplateRenderer(picker_breadcrumb_template.replace("#", ""), breadcrumbJson));
     };
 
     /////////////////////
@@ -287,7 +287,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
         data["selectedFolder"] = selectedFolder;
 
         $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker"),
+            url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker"),
             cache: false,
             success: function(data){
                 //    We successfully saved the files.
@@ -316,7 +316,7 @@ sakai.folderpicker = function(tuid, placement, showSettings){
      */
     var getWidgetSettings = function(){
         $.ajax({
-            url: Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
+            url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
             cache: false,
             success: function(data){
                 widgetSettings = $.evalJSON(data);

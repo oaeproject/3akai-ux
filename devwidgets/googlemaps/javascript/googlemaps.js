@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.googlemaps = function(tuid, placement, showSettings){
+sakai.googlemaps = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -28,8 +28,6 @@ sakai.googlemaps = function(tuid, placement, showSettings){
     /////////////////////////////
 
     var rootel = $("#" + tuid);
-    var currentSite = placement.split("/")[0];
-    var saveUrl = "/sites/" + currentSite + "/_widgets/" + tuid;
     var iframeContentWindow = {};
     var json = false;
 
@@ -48,15 +46,14 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
         // Set the value of mapsize according to the radio button selection status
         if ($("#googlemaps_radio_large", rootel).is(":checked")) {
-            json.maps[0].mapsize = "LARGE";
+            json.mapsize = "LARGE";
         }
         else {
-            json.maps[0].mapsize = "SMALL";
+            json.mapsize = "SMALL";
         }
 
         // Store the corresponded map data into backend server
-        var str = $.toJSON(json);
-        sdata.widgets.WidgetPreference.save(saveUrl, "googlemaps", str, finish);
+        sakai.api.Widgets.saveWidgetData(tuid, json, finish);
     };
 
     /**
@@ -64,11 +61,11 @@ sakai.googlemaps = function(tuid, placement, showSettings){
      */
     var setMapSize = function(callback) {
         if(!showSettings) {
-            if (json && json.maps[0].mapsize == "SMALL") {
+            if (json && json.mapsize == "SMALL") {
 
                 // Set the size of map according to the data stored on the backend server
                 $("#googlemaps_iframe_map", rootel).width("50%");
-                $("#googlemaps_iframe_map", rootel).css({float: "right"});
+                $("#googlemaps_iframe_map", rootel).css({"float": "right"});
             }
             else {
                 $("#googlemaps_iframe_map", rootel).width("95%");
@@ -87,7 +84,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
                     // Quick hack so that searches are more local - this will need to be done via the Google API
                     if (input.indexOf(",") === -1) {
-                        iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+                        iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
                     } else {
                         iframeContentWindow.search(input, "");
                     }
@@ -106,12 +103,12 @@ sakai.googlemaps = function(tuid, placement, showSettings){
             });
 
             if (json) {
-                if (json.maps[0].mapsize == "SMALL") {
+                if (json.mapsize == "SMALL") {
 
                     // If the reserved mapsize is "SMALL", the "small" radio button should be checked
                     $("#googlemaps_radio_small", rootel).attr("checked", "checked");
                 }
-                else if (json.maps[0].mapsize == "LARGE") {
+                else if (json.mapsize == "LARGE") {
 
                     // If the reserved mapsize is "LARGE", the "large" radio button should be checked
                     $("#googlemaps_radio_large", rootel).attr("checked", "checked");
@@ -135,22 +132,20 @@ sakai.googlemaps = function(tuid, placement, showSettings){
      * This is to get map zoom and center properties from backend server
      */
     var getFromJCR = function() {
-        $.ajax({
-            url: saveUrl + "/googlemaps",
-            cache: false,
-            success: function(data){
+
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
 
                 // Get data from the backend server
-                json = $.evalJSON(data);
+                json = data;
 
                 // Set the size of the map's iframe
                 setMapSize(setMap);
 
                 // Set the initial value of search keyword input textbox
-                $("#googlemaps_input_text_location", rootel).val(json.maps[0].mapinput);
-            },
-            error: function(xhr, textStatus, thrownError) {
-
+                $("#googlemaps_input_text_location", rootel).val(json.mapinput);
+            } else {
                 // Show the search input textfield and save, search, cancel buttons
                 $("#googlemaps_form_search", rootel).show();
                 $("#googlemaps_save_cancel_container", rootel).show();
@@ -165,8 +160,8 @@ sakai.googlemaps = function(tuid, placement, showSettings){
 
                         // Quick hack so that searches are more local - this will need to be done via the Google API
                         if (input.indexOf(",") === -1) {
-                            $("#googlemaps_input_text_location", rootel).val(input + ", " + sdata.me.user.locale.displayCountry);
-                            iframeContentWindow.search(input, sdata.me.user.locale.displayCountry);
+                            $("#googlemaps_input_text_location", rootel).val(input + ", " + sakai.data.me.user.locale.displayCountry);
+                            iframeContentWindow.search(input, sakai.data.me.user.locale.displayCountry);
                         } else {
                             iframeContentWindow.search(input, "");
                         }
@@ -184,6 +179,7 @@ sakai.googlemaps = function(tuid, placement, showSettings){
                     sdata.container.informCancel(tuid);
                 });
             }
+
         });
     };
 

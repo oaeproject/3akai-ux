@@ -37,6 +37,8 @@ sakai.search = function() {
     var foundPeople = false;
     var searchterm = "";
 
+    var totalItemsFound = 0;
+
 
     /////////////
     // CSS IDs //
@@ -161,6 +163,28 @@ sakai.search = function() {
         History.addBEvent("1|" + encodeURIComponent($(searchConfig.global.text).val()));
     };
 
+    /**
+     * Updates the total number of search hits, and displays it
+     * @param: {Int} hitcount The number of elements found by a particular search
+     * @returns void
+     */
+    var updateTotalHitCount = function(hitcount) {
+
+        // Adjust total search result count
+        if (hitcount > 0) {
+            totalItemsFound += hitcount;
+        }
+
+        // Adjust display global total
+        // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
+        if (totalItemsFound <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) {
+            $(searchConfig.global.numberFound).text(""+totalItemsFound);
+        } else {
+            $(searchConfig.global.numberFound).text("thousands of");
+        }
+
+    };
+
 
     /**
      * This will render the results for the found content and media. It will add the nr of results to the total
@@ -171,20 +195,21 @@ sakai.search = function() {
         var finaljson = {};
         finaljson.items = [];
 
-        var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
-        currentTotal += foundCM.total;
-        $(searchConfig.global.numberFound).text(currentTotal);
+        // Adjust total search result count
+        updateTotalHitCount(foundCM.results.length);
+
 
         if (foundCM.total > cmToSearch) {
             $(searchConfig.cm.displayMore).show();
             $(searchConfig.cm.displayMore).attr("href", "search_content.html#1|" + searchterm);
-            $(searchConfig.cm.displayMoreNumber).text(foundCM.total);
         }
 
         if (foundCM && foundCM.results) {
+
             finaljson = mainSearch.prepareCMforRendering(foundCM.results, finaljson);
+
         }
-        $(searchConfig.cm.searchResult).html($.Template.render(searchConfig.cm.searchResultTemplate, finaljson));
+        $(searchConfig.cm.searchResult).html($.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
     };
 
     /**
@@ -197,14 +222,12 @@ sakai.search = function() {
         var finaljson = {};
         finaljson.items = [];
 
-        var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
-        currentTotal += foundSites.total;
-        $(searchConfig.global.numberFound).text(currentTotal);
+        // Adjust total search result count
+        updateTotalHitCount(foundSites.results.length);
 
         if (foundSites.total > sitesToSearch) {
             $(searchConfig.sites.displayMore).show();
             $(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
-            $(searchConfig.sites.displayMoreNumber).text(foundSites.total);
         }
 
         if (foundSites && foundSites.results) {
@@ -222,15 +245,17 @@ sakai.search = function() {
                 }
 
                 if (finaljson.items[i]["type"] === "sakai/pagecontent") {
-                    page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
-
+                    page_path = full_path.replace(/\/_pages/g, "");
+                    page_path = page_path.replace(/\/pageContent/g, "");
+                    page_path = page_path.replace(/\//g,"");
+                    page_path = site_path + "#" + page_path;
                 }
                 finaljson.items[i]["pagepath"] = page_path;
 
             }
         }
 
-        $(searchConfig.sites.searchResult).html($.Template.render(searchConfig.sites.searchResultTemplate, finaljson));
+        $(searchConfig.sites.searchResult).html($.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
     };
 
 
@@ -244,14 +269,11 @@ sakai.search = function() {
         var finaljson = {};
         finaljson.items = [];
 
-        var currentTotal = parseInt($(searchConfig.global.numberFound).text(), 10);
-        currentTotal += results.total;
-        $(searchConfig.global.numberFound).text(currentTotal);
+        // Adjust total search result count
+        updateTotalHitCount(results.results.length);
 
-        if (results.total > peopleToSearch) {
-            $(searchConfig.people.displayMore).show();
-            $(searchConfig.people.displayMore).attr("href", "search_people.html#1|" + searchterm);
-            $(searchConfig.people.displayMoreNumber).text(results.total);
+        if ((results.total > peopleToSearch) && (results.results.length > 0)) {
+            $(searchConfig.people.displayMore).attr("href", "search_people.html#1|" + searchterm).show();
         }
 
         if (results && results.results) {
@@ -261,7 +283,7 @@ sakai.search = function() {
 
         foundPeople = finaljson.items;
 
-        $(searchConfig.people.searchResult).html($.Template.render(searchConfig.people.searchResultTemplate, finaljson));
+        $(searchConfig.people.searchResult).html($.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
     };
 
 
@@ -305,7 +327,7 @@ sakai.search = function() {
 
             // Content & Media Search
             $.ajax({
-                url: Config.URL.SEARCH_ALL_FILES_SERVICE,
+                url: sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
                     "search" : urlsearchterm,
                     "items" : cmToSearch
@@ -322,12 +344,24 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
                 cache: false,
                 success: function(data) {
-                    renderPeople($.evalJSON(data));
+
+                    var raw_results = $.evalJSON(data);
+
+                    // Store found people in data cache
+                    sakai.data.search.results_people = {};
+                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
+                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    }
+
+                    // Render results
+                    renderPeople(raw_results);
                 },
                 error: function(xhr, textStatus, thrownError) {
+
+                    sakai.data.search.results_people = {};
                     renderPeople({});
                 }
             });
@@ -335,7 +369,7 @@ sakai.search = function() {
             // Sites search
             $.ajax({
                 cache: false,
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
+                url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
                 success: function(data) {
                     var foundSites = $.evalJSON(data);
                     renderSites(foundSites);

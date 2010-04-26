@@ -32,11 +32,11 @@ sakai.search = function() {
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : Config.URL.SEARCH_ALL_FILES_SERVICE,
-        mybookmarks : Config.URL.SEARCH_MY_BOOKMARKS,
-        mycontacts : Config.URL.SEARCH_MY_CONTACTS,
-        myfiles : Config.URL.SEARCH_MY_FILES,
-        mysites : Config.URL.SEARCH_MY_SITES
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
+        mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
+        myfiles : sakai.config.URL.SEARCH_MY_FILES,
+        mysites : sakai.config.URL.SEARCH_MY_SITES
     };
 
     // CSS IDs
@@ -147,8 +147,15 @@ sakai.search = function() {
         finaljson.items = [];
         if (success) {
 
-            // Adjust the number of sites we have found.
-            $(searchConfig.global.numberFound).text(results.total);
+            // Adjust display global total
+            // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
+            if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
+                $(searchConfig.global.numberFound).text(""+results.total);
+            } else if (results.results.length <= 0) {
+                $(searchConfig.global.numberFound).text(0);
+            } else {
+                $(searchConfig.global.numberFound).text("thousands");
+            }
 
             // Reset the pager.
             $(searchConfig.global.pagerClass).pager({
@@ -176,7 +183,7 @@ sakai.search = function() {
         }
 
         // Render the results.
-        $(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+        $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
     };
 
@@ -301,12 +308,12 @@ sakai.search = function() {
         if (mainSearch.isLoggedIn()) {
 
             $.ajax({
-                url: Config.URL.SITES_SERVICE,
+                url: sakai.config.URL.SITES_SERVICE,
                 cache: false,
                 success: function(data){
                     var sites = {};
                     sites.sites = $.evalJSON(data);
-                    searchSiteSelect.html($.Template.render(searchSiteSelectTemplate, sites));
+                    searchSiteSelect.html($.TemplateRenderer(searchSiteSelectTemplate, sites));
 
                     // Get my sites
                     mainSearch.getMySites();

@@ -5,30 +5,35 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Profile</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.people.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css"/>
 
-    <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/SHA.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/OpenSocial/message.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+    <!-- Sakai Page CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
+
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+
+    <!-- Sakai Config JS -->
+    <script type="text/javascript" src="_configuration/widgets.js"></script>
+    <script type="text/javascript" src="_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
+    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
 
 </head>
 
@@ -43,7 +48,7 @@
             <div class="decor"></div>
 
             <!-- TITLE BAR  -->
-            <div class="site_heading" fl-force-left">
+            <div class="s3d-site-heading fl-force-left">
                 <h1 id="sitetitle">Profile</h1>
             </div>
         </div>
@@ -55,7 +60,7 @@
         <div class="fl-fix fl-centered fixed-container">
 
             <!-- TAB NAVIGATION -->
-            <div class="primary-tabs" id="profile_tabs" style="display:none;">
+            <div class="s3d-primary-tabs i18nable" id="profile_tabs">
                 <ul class="fl-tabs fl-tabs-right" id="myprofile_tabs">
                     <li><a href="profile_edit.html">__MSG__EDIT__</a></li>
                     <li class="fl-tabs-active"><a href="javascript:;">__MSG__PREVIEW__</a></li>
@@ -87,7 +92,7 @@
                             </div>
                         </div>
 
-                        <a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" /></a>
+                        <a href="javascript:;" id="picture_holder" title="To change the personal image"><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" alt="" /></a>
 
                         <div id="profile_user_name" class="profile_user_name"></div>
 
@@ -188,7 +193,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="Remove the degree record" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -248,12 +253,12 @@
                                         (<span class="overalltitle">${i.ovtitle}</span>
                                         <span class="number">${i.number}</span>)
                                         {if i.url}
-                                            <a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
+                                            <a href="${i.url}" target="_blank" title="To see the paper record"><img alt="" src="_images/link_icon.gif" border="0"></a>
                                         {/if}
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="Remove the paper record" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -293,7 +298,7 @@
                                         <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
                                         <b>${i.title}</b>
                                         {if i.url}
-                                            <a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
+                                            <a href="${i.url}" target="_blank" title="To see the talk record"><img src="_images/link_icon.gif" border="0" alt=""></a>
                                         {/if}
                                         <br/>
                                         {if i.coauth}
@@ -305,7 +310,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="Remove the talk record" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -357,7 +362,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="Remove the job record" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -422,7 +427,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px; padding-bottom:0px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="Remove the website record" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -607,7 +612,7 @@
         {/for}
     --></div>
 
-    <script type="text/javascript" language="JavaScript" src="_javascript/profile.js"></script>
+    <script type="text/javascript" src="_javascript/profile.js"></script>
 
 </body>
 </html>

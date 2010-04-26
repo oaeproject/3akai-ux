@@ -107,7 +107,7 @@ sakai.site_basic_settings = function(){
      * @param {Object} languages
      */
     var putLangsinCmb = function(languages, json){
-        $(siteSettingLanguageCmb).html($.Template.render(siteSettingLanguageTemplate, languages));
+        $(siteSettingLanguageCmb).html($.TemplateRenderer(siteSettingLanguageTemplate, languages));
         if (json.language) {
             $(siteSettingLanguageCmb + " option[value=" + json.language + "]").attr("selected", true);
         }
@@ -145,39 +145,38 @@ sakai.site_basic_settings = function(){
                 if (sakai.lib.site.authz.isUserMaintainer(siteinfo)) {
                     // Fill in the info.
                     $("#sitetitle").text(json.name);
-                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + "/sites");
+                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + sakai.config.URL.SITE_ROOT);
                     $(siteSettingsInfoDescription).val(json.description);
                     $(siteSettingsInfoTitle).val(json.name);
                     $(siteSettingsTitleClass).text(json.name);
-                    $(siteSettingsInfoSitePart).text(Config.URL.SITE_URL_SITEID.replace(/__SITEID__/, ''));
                     $(siteSettingsInfoSitePartTextLocation).text(json.id);
                     getLanguages(json);
 
                     // Status
-                    if (json.status && json.status === 'offline') {
-                        $(siteSettingsStatusOff).attr('checked', 'checked');
-                        //    Hide the other part.
+                    if (json.status && json.status === "offline") {
+                        $(siteSettingsStatusOff).attr("checked", "checked");
+                        //  Hide the other part.
                         $(siteSettingsAccess).hide();
                     }
                     else {
-                        $(siteSettingsStatusOn).attr('checked', 'checked');
+                        $(siteSettingsStatusOn).attr("checked", "checked");
                     }
 
                     // Access
-                    if (json.access && json.access.toLowerCase() === 'sakaiusers') {
-                        $(siteSettingsAccessSakaiUsers).attr('checked', 'checked');
+                    if (json.access && json.access.toLowerCase() === "sakaiusers") {
+                        $(siteSettingsAccessSakaiUsers).attr("checked", "checked");
                     }
                     else
-                        if (json.access && json.access.toLowerCase() === 'invite') {
-                            $(siteSettingsAccessInvite).attr('checked', 'checked');
+                        if (json.access && json.access.toLowerCase() === "invite") {
+                            $(siteSettingsAccessInvite).attr("checked", "checked");
                         }
                         else {
-                            $(siteSettingsAccessPublic).attr('checked', 'checked');
+                            $(siteSettingsAccessPublic).attr("checked", "checked");
                         }
                 }
                 else {
                     // The user is not an owner for this site. we redirect him/her to the site page.
-                    //document.location = Config.URL.SITE_URL_SITEID.replace(/__SITEID__/gi, siteid);
+                    //document.location = sakai.config.URL.SITE_URL_SITEID.replace(/__SITEID__/gi, siteid);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -207,16 +206,20 @@ sakai.site_basic_settings = function(){
     ////////////////////////
 
 
-    var saveSettingsDone = function(success, data){
+    var saveSettingsDone = function(success, data, redirect_url){
         if (success) {
             $(siteSettingsResponse).text($(siteSettingsErrorSaveSuccess).text());
+
+            // Go back to site
+            document.location = sakai.config.URL.SITE_ROOT + redirect_url;
+
         }
         else {
-            //    The user has no sufficient rights.
+            // The user has no sufficient rights.
             if (data === 401) {
                 $(siteSettingsResponse).text($(siteSettingsErrorUnauthorized).text());
             }
-            //    Show a general error message.
+            // Show a general error message.
             else {
                 $(siteSettingsResponse).text($(siteSettingsErrorSaveFail).text());
             }
@@ -276,15 +279,6 @@ sakai.site_basic_settings = function(){
             var titleEL = $(siteSettingsInfoTitle);
             var siteLocEL = $(siteSettingsInfoSitePartEditInput);
 
-            var loc = siteinfo.location;
-            // If the user edited the location we have to be sure that it is a valid one.
-            if (editloc) {
-                loc = replaceCharacters(siteLocEL.val());
-                //    Make sure there is a /
-                if (loc.substr(0, 1) !== '/') {
-                    loc = '/' + loc;
-                }
-            }
             // Get the status and access options.
             var status = ($(siteSettingsStatusOn + "[type=radio]").is(":checked")) ? "online" : "offline";
             var access = "everyone";
@@ -298,21 +292,53 @@ sakai.site_basic_settings = function(){
 
             var language = $(siteSettingLanguageCmb + " option:selected").val();
             var tosend = {
-                'name': titleEL.val(),
-                'description': descEL.val(),
-                'status': status,
-                'access': access,
-                'language': language,
-        "_charset_":"utf-8"
+                "name": titleEL.val(),
+                "description": descEL.val(),
+                "status": status,
+                "access": access,
+                "language": language,
+                "_charset_":"utf-8"
             };
 
-            //    Do a patch request to the profile info so that it gets updated with the new information.
+            // If the user edited the location we have to be sure that it is a valid one and adjust sent data accordingly
+            var new_loc = "";
+            if (editloc) {
+                var new_site_id = replaceCharacters(siteLocEL.val());
+
+                // Include adjusted ID in the data we send to the site node
+                tosend["id"] = new_site_id;
+            }
+
+            // Do a request to the profile info so that it gets updated with the new information.
             $.ajax({
-                url: "/sites/" + siteinfo.id,
+                url: siteinfo["jcr:path"],
                 type: "POST",
                 data: tosend,
                 success: function(data){
-                    saveSettingsDone(true);
+
+                    // Register URL location change
+                    if (editloc) {
+
+                        $.ajax({
+                            url: sakai.config.URL.SITE_CREATE_SERVICE,
+                            type: "POST",
+                            data: {
+                                ":sitepath": "/" + new_site_id,
+                                ":moveFrom": siteinfo["jcr:path"]
+                            },
+                            success: function(data) {
+                                saveSettingsDone(true, data,"/" + new_site_id);
+                            },
+                            error: function(xhr, status, thrown) {
+                                saveSettingsDone(false, xhr.status);
+                            }
+                        });
+
+                    } else {
+                        saveSettingsDone(true, data, "/" + siteinfo.id);
+                    }
+
+
                 },
                 error: function(xhr, textStatus, thrownError) {
                     saveSettingsDone(false, xhr.status);
@@ -334,7 +360,7 @@ sakai.site_basic_settings = function(){
             type: "POST",
             success: function(data){
                 alert("Your site has been successfully deleted");
-                document.location = Config.URL.MY_DASHBOARD;
+                document.location = sakai.config.URL.MY_DASHBOARD_URL;
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
@@ -353,17 +379,18 @@ sakai.site_basic_settings = function(){
      * The user wants to edit the location for a site.
      * We will swap the text with an input box.
      */
-    $(siteSettingsInfoSitePartTextEdit).bind('click', function(){
+    $(siteSettingsInfoSitePartTextEdit).bind("click", function(){
         editloc = true;
         $(siteSettingsInfoSitePartEditInput).val(siteinfo.location);
         $(siteSettingsInfoSitePartText).hide();
-        $(siteSettingsInfoSitePartEdit).css('display', 'inline');
+        $(siteSettingsInfoSitePartEdit).css("display", "inline");
     });
+
     /** The user cancelled the editing part of the location. */
-    $(siteSettingsInfoSitePartEditCancel).bind('click', function(){
+    $(siteSettingsInfoSitePartEditCancel).bind("click", function(){
         editloc = false;
         $(siteSettingsInfoSitePartEdit).hide();
-        $(siteSettingsInfoSitePartText).css('display', 'inline');
+        $(siteSettingsInfoSitePartText).css("display", "inline");
     });
 
 
@@ -372,9 +399,9 @@ sakai.site_basic_settings = function(){
      */
     $(siteSettingsInfoSitePartEditInput).focus(function(){
         var offset = $(siteSettingsInfoSitePartEditInput).offset();
-        $(siteSettingsInfoSitePartEditInputTooltip).css('position', 'absolute');
-        $(siteSettingsInfoSitePartEditInputTooltip).css('left', offset.left);
-        $(siteSettingsInfoSitePartEditInputTooltip).css('top', offset.top + 28);
+        $(siteSettingsInfoSitePartEditInputTooltip).css("position", "absolute");
+        $(siteSettingsInfoSitePartEditInputTooltip).css("left", offset.left);
+        $(siteSettingsInfoSitePartEditInputTooltip).css("top", offset.top + 28);
 
         $(siteSettingsInfoSitePartEditInputTooltip).fadeIn("normal");
     });
@@ -389,24 +416,24 @@ sakai.site_basic_settings = function(){
     /*
      * The user wants the site offline, disable the other options
      */
-    $(siteSettingsStatusOff).bind('click', function(){
+    $(siteSettingsStatusOff).bind("click", function(){
         $(siteSettingsAccess).hide();
     });
-    $(siteSettingsStatusOn).bind('click', function(){
+    $(siteSettingsStatusOn).bind("click", function(){
         $(siteSettingsAccess).show();
     });
 
     /*
      * Save all the settings
      */
-    $(siteSettingsSave).bind('click', function(){
+    $(siteSettingsSave).bind("click", function(){
         saveSettings();
     });
 
     /*
      * Delete this site
      */
-    $(siteSettingsDeleteButton).bind('click', function(){
+    $(siteSettingsDeleteButton).bind("click", function(){
         // Show the overlay.
         $(siteSettingsDeleteContainer).jqmShow();
     });

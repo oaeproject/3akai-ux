@@ -19,7 +19,7 @@
 /*global Config, $, sdata, window */
 
 var sakai = sakai || {};
-sakai.tangler = function(tuid, placement, showSettings){
+sakai.tangler = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -135,7 +135,7 @@ sakai.tangler = function(tuid, placement, showSettings){
                 if( !isIE )
                 {
                     var a = document.createElement("a");
-                    a.href = Config.SakaiDomain + '/forum/id-' + gid + '/topic/' + id;
+                    a.href = sakai.config.SakaiDomain + '/forum/id-' + gid + '/topic/' + id;
                     a.target = "_blank";
                     a.appendChild(document.createTextNode("Join this disucssion"));
                     iframe.appendChild(a);
@@ -160,16 +160,14 @@ sakai.tangler = function(tuid, placement, showSettings){
         // To check if the textarea contains anything, we use regular expressions.
         // The reason we don't use the length method for the string is that a space " "
         // is in fact also a character. More validation happens when the string is parsed
+
         if (!val || val.replace(/ /g, "%20") === "") {
-            $.ajax({
-                url: "/sdata/f/" + placement + "/" + tuid + "/tangler",
-                type: "DELETE",
-                success: finishNewSettings,
-                error: finishNewSettings
-            });
+
+            sakai.api.Widgets.removeWidgetData(tuid, finishNewSettings);
+
         }
         else {
-            sdata.widgets.WidgetPreference.save("/sdata/f/" + placement + "/" + tuid, "tangler", val, finishNewSettings);
+            sakai.api.Widgets.saveWidgetData(tuid, val, finishNewSettings);
         }
     };
 
@@ -208,31 +206,24 @@ sakai.tangler = function(tuid, placement, showSettings){
      * That is the reason why we combined both functionalities in this one method
      */
     var fillInUniqueId = function(){
-        $.ajax({
-            url :"/sdata/f/" + placement + "/" + tuid + "/tangler",
-            cache: false,
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
 
-            // The GET request will be succesful if you are editing a tangler forum
-            // that is already on the page
-            success : function(data) {
+            if (success) {
                 if(showSettings){
                     // Fill in the textarea that contains the tangler code you have to
                     // get from the tangler website
                     $(tanglerCode,rootel).val(data);
-                }else{
+                } else {
                     showForum(data,true);
                 }
-            },
-
-            // This will fail when it is not possible to connect to the server
-            // and when you are creating a completely new tangler forum
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 // Only execute the function if you aren't in settings mode.
                 if(!showSettings){
-                    showForum(xhr.status,false);
+                    showForum(data,false);
                 }
             }
         });
+
     };
 
     /**

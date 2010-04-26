@@ -19,7 +19,7 @@
 /*global $, Config, sdata, window */
 
 var sakai = sakai || {};
-sakai.wookiechat = function(tuid, placement, showSettings) {
+sakai.wookiechat = function(tuid, showSettings) {
 
 
     /////////////////////////////
@@ -148,9 +148,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
         };
 
         // sava data to widgets jcr
-        var str = $.toJSON(chat);
-        var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "wookiechat", str, chatRoomSaved);
+        sakai.api.Widgets.saveWidgetData(tuid, chat, chatRoomSaved);
     };
 
     /**
@@ -187,7 +185,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 
         // The request.
         $.ajax({
-            url: Config.URL.PROXY_SERVICE,
+            url: sakai.config.URL.PROXY_RSS_SERVICE,
             type: "POST",
             success: function(data) {
                 // The chat room has created on wookie's side.
@@ -207,14 +205,12 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
      * If this is an existing chatbox we provide the option to create a fresh chatbox.
      */
     var doSettings = function() {
-        // Get the chat settings
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
 
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
-                var chat = $.evalJSON(data);
+        // Get the chat settings
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
+                var chat = data;
                 if (chat.url) {
                     // There is already some data here ..
                     // This must be an existing chatbox.
@@ -225,12 +221,11 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
                     $(settingsCreate).hide();
                     $(settingsAdd).show();
                 }
-
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 $(settingsCreate).hide();
                 $(settingsAdd).show();
             }
+
         });
     };
 
@@ -246,13 +241,11 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
      */
     var showChatPage = function() {
         // Get the chat settings
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "wookiechat");
 
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
-                var chat = $.evalJSON(data);
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
+                var chat = data;
 
                 // Construct the iframe
                 // The wookie chat box always has a fixed size.
@@ -267,7 +260,7 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
                     // avatar
                     if (me.profile.picture) {
                         var oPicture = me.profile.picture;
-                        var sAvatar = getSakaiDomain() + getSakaiPort() + Config.URL.SDATA_FETCH_PRIVATE_URL + me.userStoragePrefix + oPicture.name;
+                        var sAvatar = "/_user" + me.profile.path + "/public/profile/" + oPicture.name;
                         sFrame += "&avatar=" + sAvatar;
                     }
                 }
@@ -275,13 +268,10 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 
                 // show the chat window on the page.
                 $(mainContainer, rootel).append(sFrame);
-
-            },
-            error: function(xhr, textStatus, thrownError) {
+            } else {
                 showGeneralMessage(mainMessagesContainer,$(error_unableChatPrefs).text(), true, 0);
             }
         });
-
     };
 
 
@@ -300,11 +290,11 @@ sakai.wookiechat = function(tuid, placement, showSettings) {
 
     var doInit = function() {
         // Get the current User.
-        me = sdata.me;
-        if (me.preferences.uuid === "anon" || me.preferences.uuid === undefined) {
+        me = sakai.data.me;
+        if (me.user.anon || me.preferences.uuid === undefined) {
             // This user is not logged in
             // Send him to the login page.
-            document.location = Config.URL.GATEWAY_URL;
+            document.location = sakai.config.URL.GATEWAY_URL;
         }
 
         if (!showSettings) {

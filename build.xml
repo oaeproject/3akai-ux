@@ -11,13 +11,14 @@
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
         <property name="TARGET" value="target" description="Core target folder" />
-        <property name="TARGET_DIR" value="${TARGET}/deploy/dev" description="Core target folder" />
+        <property name="TARGET_RESOURCES" value="${TARGET}/processed-resources" description="Top directory for JARs, archives" />
+        <property name="TARGET_DIR" value="${TARGET_RESOURCES}/dev" description="Core target folder" />
         <property name="TARGET_COMPRESSED_DIR" value="${TARGET}/compressed" description="Core compressed folder" />
         <property name="TARGET_DOCUMENTATION_DIR" value="${TARGET}/doc" description="Core documentation folder" />
         <property name="TARGET_REPORTS_DIR" value="${TARGET}/reports" description="Core reports folder" />
 
         <property name="SRC_DIR_W" value="devwidgets" description="Source folder for widgets" />
-        <property name="TARGET_DIR_W" value="target/deploy/devwidgets" description="Target folder for widgets" />
+        <property name="TARGET_DIR_W" value="${TARGET_RESOURCES}/devwidgets" description="Target folder for widgets" />
 
         <!-- SETUP - Processed output file names -->
         <property name="TARGET_JAR_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.jar" description="Target JAR file" />
@@ -56,7 +57,7 @@
     </target>
 
     <!-- Target: Create target folders, set up logging -->
-    <target name="create_target_folders" description="Creating target forlders">
+    <target name="create_target_folders" depends="init" description="Creating target forlders">
 
         <echo message="Sakai 3 UX Build: Creating target folders..." />
 
@@ -192,40 +193,31 @@
     <!-- Target: Create archives -->
     <target name="compress">
 
-        <echo message="Creating JAR file..." />
-        <jar destfile="${TARGET_JAR_FILE}" basedir="${TARGET}/deploy">
-            <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
-                <attribute name="Implementation-Vendor" value="Sakai Foundation"/>
-                <attribute name="Implementation-Title" value="Sakai 3 UX"/>
-            </manifest>
-        </jar>
-
         <echo message="Creating ZIP file..." />
-        <zip destfile="${TARGET_ZIP_FILE}" basedir="${TARGET}/deploy" encoding="UTF-8"/>
+        <zip destfile="${TARGET_ZIP_FILE}" basedir="${TARGET_RESOURCES}" encoding="UTF-8"/>
 
         <echo message="Creating gzipped TAR file..." />
-        <tar destfile="${TARGET_TAR_FILE}" basedir="${TARGET}/deploy" compression="gzip"/>
+        <tar destfile="${TARGET_TAR_FILE}" basedir="${TARGET_RESOURCES}" compression="gzip"/>
 
     </target>
 
-    <!-- Create documentation - at the moment for sdata.js which does not have proper docs, but later should be adjusted to proper JS APIs-->
-    <target name="documentation">
+    <!-- Create documentation -->
+    <target name="documentation" depends="init">
 
         <echo message="Creating documentation..."/>
         <property name="jsdoc.output" location="${TARGET_DOCUMENTATION_DIR}"/>
         <property name="jsdoc.defaulttemplate" location="${JSDOCTOOLKIT_DIR}/templates/jsdoc"/>
         <property name="jsdoc.logfile" location="${TARGET_REPORTS_DIR}/documentation.log"/>
 
-        <apply executable="java" parallel="false">
+        <apply executable="java" parallel="true">
             <arg value="-jar"/>
             <arg path="${JSDOCTOOLKIT_DIR}/jsrun.jar"/>
             <arg path="${JSDOCTOOLKIT_DIR}/app/run.js"/>
             <arg value="-d=${jsdoc.output}"/>
             <arg value="-t=${jsdoc.defaulttemplate}"/>
             <arg value="-o=${jsdoc.logfile}"/>
-            <filelist dir="${TARGET_DIR}/_lib/sakai_util">
-                <file name="sdata.js" />
+            <filelist dir="${SRC_DIR}/_lib/sakai_util">
+                <file name="sakai_magic.js" />
             </filelist>
         </apply>
     </target>
@@ -235,9 +227,9 @@
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
-	<!-- Target: Remove the build folder -->
-	<target name="clean" depends="init" description="Remove the build folder">
-		<delete dir="${TARGET}" includeemptydirs="true" />
-	</target>
+    <!-- Target: Remove the build folder -->
+    <target name="clean" depends="init" description="Remove the build folder">
+        <delete dir="${TARGET}" includeemptydirs="true" />
+    </target>
 
 </project>

@@ -23,7 +23,7 @@
 -->
 
     <div id="myfriends_requests_template"><!--
-        {if total > 0}
+        {if ((total > 0) && (total < 1000))}
             <span>
                 ${total}
                 {if total == 1}
@@ -53,4 +53,4 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/myfriends/javascript/myfriends.js"></script>
+<script type="text/javascript" src="/devwidgets/myfriends/javascript/myfriends.js"></script>

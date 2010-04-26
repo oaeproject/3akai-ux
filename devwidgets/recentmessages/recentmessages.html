@@ -16,8 +16,8 @@
         <ul>
             {for message in results}
                 <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
-                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${message.userFrom.firstName} ${message.userFrom.lastName}">${message.userFrom.firstName}</span>
-                    |
+                    <span {if message["sakai:read"]==="false"} class="recentmessages_notread" {/if} title="${message.userFrom[0].firstName} ${message.userFrom[0].lastName}">${message.userFrom[0].firstName} {if message.userFrom.length > 1} and others...{/if}:</span>
+                    
                     <a href="inbox.html?message=${message.id}">
                         <span class="ellipsis_text" title="${message["sakai:subject"]}">
                             ${message["sakai:subject"]}
@@ -37,4 +37,4 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/recentmessages/javascript/recentmessages.js"></script>
+<script type="text/javascript" src="/devwidgets/recentmessages/javascript/recentmessages.js"></script>

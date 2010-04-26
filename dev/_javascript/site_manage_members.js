@@ -43,23 +43,6 @@ sakai.site_manage_members = function() {
     };
 
 
-       /**
-        * gets the sitedid from the url
-        */
-    var getSiteId = function(){
-        var qs = new Querystring();
-        selectedSite = qs.get("siteid",false);
-        $("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
-        $(".s3s-manage-members").attr("href", $(".s3s-manage-members").attr("href") + "?siteid=" + selectedSite);
-        $(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
-            appendKeyToURL(el, 'siteid', selectedSite);
-        });
-        fillBasicSiteSettings(selectedSite);
-        $("#manage_members_role_rbts").html($.Template.render("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
-
-    };
-
-
     /**
      * This will fill in all the field settings for the site.
      */
@@ -77,6 +60,23 @@ sakai.site_manage_members = function() {
             }
         });
     };
+
+    /**
+     * gets the sitedid from the url
+     */
+    var getSiteId = function(){
+        var qs = new Querystring();
+        selectedSite = qs.get("siteid",false);
+        $("#back_to_site_link").attr("href", $("#back_to_site_link").attr("href") + selectedSite);
+        $(".s3s-manage-members").attr("href", $(".s3s-manage-members").attr("href") + "?siteid=" + selectedSite);
+        $(".siteSettings_appendSiteIDtoURL").each(function(i, el) {
+            appendKeyToURL(el, 'siteid', selectedSite);
+        });
+        fillBasicSiteSettings(selectedSite);
+        $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
+
+    };
+
 
     getSiteId();
 
@@ -114,7 +114,7 @@ sakai.site_manage_members = function() {
         if (typeof json.results === "undefined") {
             json.results = [];
         }
-        $("#selected-members-container").html($.Template.render("selected-people-template", {"selectedPeople" :selectedPeople}));
+        $("#selected-members-container").html($.TemplateRenderer("selected-people-template", {"selectedPeople" :selectedPeople}));
 
         $(".selected-person-remove").bind("click",
         function(e, ui) {
@@ -185,7 +185,7 @@ sakai.site_manage_members = function() {
             }
             var toRender = {};
             toRender.users = results;
-            $("#siteManage_members").html($.Template.render("siteManage_people_template", toRender));
+            $("#siteManage_members").html($.TemplateRenderer("siteManage_people_template", toRender));
              $("#manage_members_count").html(getNumMembers(json.total));
             $(".siteManage_person").bind("click",
             function(e, ui) {
@@ -304,7 +304,7 @@ sakai.site_manage_members = function() {
         } else {
             $(".siteManage_person").show();
         }
-    }
+    };
 
     /**
      * returns a json-object containing userids and membertokens
@@ -441,7 +441,7 @@ sakai.site_manage_members = function() {
         } else {
             success();
         }
-    }
+    };
 
     $("#txt_member_search").bind("focus",
     function(e, ui) {

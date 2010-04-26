@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the youtubevideo widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.youtubevideo = function(tuid, placement, showSettings){
+sakai.youtubevideo = function(tuid, showSettings){
 
 
     var embedYouTube = '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/__ID__&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/__ID__&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed></object>';
@@ -113,8 +112,7 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
      */
     var saveNewSettings = function(){
         var val = $(youtubevideoUrl ,rootel).attr("value");
-         var saveUrl = Config.URL.SDATA_FETCH_BASIC_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid);
-        sdata.widgets.WidgetPreference.save(saveUrl, "youtubeurl", val, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, val, sdata.container.informFinish(tuid));
     };
     /**
      * Shows the preview of the video
@@ -157,17 +155,18 @@ sakai.youtubevideo = function(tuid, placement, showSettings){
      * @param {Object} settings
      */
     var displayYouTubeVideo = function(settings){
-        var url = Config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "youtubeurl");
-        $.ajax({
-            url :url,
-            cache: false,
-            success : function(data) {
+
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
                 showVideo(data,true, youtubevideoVideo, settings);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showVideo(xhr.status,false, youtubevideoVideo, settings);
+            } else {
+                showVideo(data.status,false, youtubevideoVideo, settings);
             }
+
+
         });
+
     };
 
     if (showSettings){

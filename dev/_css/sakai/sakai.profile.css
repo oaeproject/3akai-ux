@@ -4,33 +4,6 @@
 { background: #fff; }
 
 
-
-/** HEADING **/
-.profile_preview .site_heading { color: #454a4f; padding: 10px 0 10px 0; border: none; }
-
-
-
-/** TABS **/
-.profile_preview .primary-tabs
-{ background: #fff url('../../_images/profile_tab_bg.png') top right no-repeat; height: 25px; border: none;  padding: 3px 10px 0 0; display: block; }
-
-.profile_preview .primary-tabs ul
-{ padding: 0; margin: 0; border-bottom: none; float: right; }
-
-.profile_preview .primary-tabs ul li
-{ margin: 0; padding: 0; background: transparent; border: none; display: block; float: left; }
-
-.profile_preview .primary-tabs ul li a
-{ padding: 4px 18px 4px 13px; line-height: 20px; background: transparent; border: none; font-weight: bold; color: #000; display: block; float: left; margin: 0; position: relative; bottom: 0px !important; }
-
-
-.profile_preview .primary-tabs ul li.fl-tabs-active
-{ background: #FFF url('../../_images/tab_corner_tl.png') top left no-repeat; height: 30px; padding-left: 5px; position: relative; bottom: 0px !important;  }
-
-.profile_preview .primary-tabs ul li.fl-tabs-active a
-{ background: #FFF url('../../_images/tab_corner_tr.png') top right no-repeat; height: 30px; font-weight: normal; padding-left: 15px; margin: 0; position: relative; bottom: 0px !important; }
-
-
 /** TAB CONTENTS **/
 .profile_preview .profile_container
 { padding: 0; margin: 0 0 20px 0; color: #454a4f; }
@@ -77,7 +50,11 @@
 .profile_preview .profile_user_status_offline
 {background: url(/devwidgets/navigationchat/images/chat_status_offline.png) no-repeat left; width: 64px; height: 15px; position: relative; margin-left: 120px; top: -53px; padding: 2px 0 0 18px; display:none;}
 
+/* TAB VARIANT */
 
+.profile_preview .s3d-primary-tabs{
+    background: #fff url('../../_images/profile_tab_bg.png') top right no-repeat;
+}
 
 
 /** GENERAL USER INFO RULES **/

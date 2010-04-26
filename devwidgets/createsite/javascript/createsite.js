@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.createsite = function(tuid,placement,showSettings){
+sakai.createsite = function(tuid, showSettings){
 
     /////////////////////////////
     // Configuration variables //
@@ -64,6 +64,14 @@ sakai.createsite = function(tuid,placement,showSettings){
     var createSiteOptionCourse = createSiteOption + "_course";
     var createSiteOptionNoncourse = createSiteOption + "_noncourse";
 
+    // Error fields
+    var createSiteNoncourseNameEmpty = createSiteNoncourseName + "_empty";
+    var createSiteNoncourseIdEmpty = createSiteNoncourseId + "_empty";
+    var createSiteNoncourseIdTaken = createSiteNoncourseId + "_taken";
+    var errorFields = ".create_site_error_msg";
+
+    // CSS Classes
+    var invalidFieldClass = "invalid";
 
     ///////////////////////
     // Utility functions //
@@ -82,7 +90,7 @@ sakai.createsite = function(tuid,placement,showSettings){
             // Filter out myself
             var todelete = -1;
             for (var i = 0; i < members.items.length; i++){
-                if (members.items[i].userid == sdata.me.user.userid){
+                if (members.items[i].userid == sakai.data.me.user.userid){
                     todelete = i;
                 }
             }
@@ -92,11 +100,11 @@ sakai.createsite = function(tuid,placement,showSettings){
 
             // Put me in as first element
             var item = {};
-            item.name = sdata.me.profile.firstName + " " + sdata.me.profile.lastName;
-            item.userid = sdata.me.user.userid;
-            item.picture = Config.URL.PERSON_ICON_URL;
-            if (sdata.me.profile.picture && $.evalJSON(sdata.me.profile.picture).name){
-                item.picture = "/_user/public/" + sdata.me.user.userid + "/" + $.evalJSON(sdata.me.profile.picture).name;
+            item.name = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
+            item.userid = sakai.data.me.user.userid;
+            item.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
+            if (sakai.data.me.profile.picture && $.evalJSON(sakai.data.me.profile.picture).name){
+                item.picture = "/_user/public/" + sakai.data.me.user.userid + "/" + $.evalJSON(sakai.data.me.profile.picture).name;
             }
             members.items.unshift(item);
 
@@ -104,7 +112,7 @@ sakai.createsite = function(tuid,placement,showSettings){
 
             $(".description_fields").hide();
             $(".member_fields").show();
-            $("#members_to_add").html($.Template.render("members_to_add_template", members));
+            $("#members_to_add").html($.TemplateRenderer("members_to_add_template", members));
 
         } else {
             $(".description_fields").show();
@@ -169,7 +177,6 @@ sakai.createsite = function(tuid,placement,showSettings){
         return input;
     };
 
-
     ////////////////////
     // Request a site //
     ////////////////////
@@ -184,6 +191,40 @@ sakai.createsite = function(tuid,placement,showSettings){
     };
 
 
+    ////////////////////
+    // Error handling //
+    ////////////////////
+
+    var resetErrorFields = function(){
+        $("input").removeClass(invalidFieldClass);
+        $(errorFields).hide();
+    };
+
+    /**
+     * Function that will visually mark a form field as an
+     * invalid field.
+     * @param String field
+     *  JQuery selector of the input box we want to show as invalid
+     * @param String errorField
+     *  JQuery selector of the error message that needs to be shown.
+     * @param boolean noReset
+     *  Parameter that specifies whether we need to make all of the
+     *  fiels valid again first
+     */
+    var setError = function(field,errorField, noReset){
+        if (!noReset) {
+            resetErrorFields();
+        }
+        $(field).addClass(invalidFieldClass);
+        $(errorField).show();
+    };
+
+    var myClose = function(hash) {
+        resetErrorFields();
+        hash.o.remove();
+        hash.w.hide();
+    };
+
     ///////////////////
     // Create a site //
     ///////////////////
@@ -192,10 +233,25 @@ sakai.createsite = function(tuid,placement,showSettings){
      * Create the actual site.
      * Sends information to the server about the site you are making.
      */
+
+    var doCheckSite = function(siteid){
+    // Check if the site exists.
+        var siteExists = false;
+        $.ajax({
+            url: "/sites/" + siteid + ".json",
+            type: "GET",
+            async: false,
+            success: function(data, textStatus){
+                siteExists = true;
+            }
+        });
+        return siteExists;
+    };
+
     var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
     // Create a site node based on the template.
         $.ajax({
-            url: "/sites.createsite.json",
+            url: sakai.config.URL.SITE_CREATE_SERVICE,
             data: {
                 "_charset_":"utf-8",
                 ":sitepath": "/" + siteid,
@@ -210,33 +266,53 @@ sakai.createsite = function(tuid,placement,showSettings){
             },
             // error: error,
             error: function(xhr, textStatus, thrownError){
-                alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                var siteCheck = doCheckSite(siteid);
+                if (siteCheck){
+                    setError(createSiteNoncourseId,createSiteNoncourseIdTaken,true);
+                } else {
+                    alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                }
+                showProcess(false);
             }
         });
     };
 
     var saveSite = function(){
+        resetErrorFields();
 
         // Get the values from the input text and radio fields
         var sitetitle = $(createSiteNoncourseName).val() || "";
         var sitedescription = $(createSiteNoncourseDescription).val() || "";
         var siteid = replaceCharacters($(createSiteNoncourseId).val());
+        var inputError = false;
 
         // Check if there is a site id or site title defined
-        if (!siteid || sitetitle === "")
+        if (sitetitle === "")
         {
-            alert("Please specify a id and title.");
-            return;
+            setError(createSiteNoncourseName,createSiteNoncourseNameEmpty,true);
+            inputError = true;
+        }
+        if (!siteid)
+        {
+            setError(createSiteNoncourseId,createSiteNoncourseIdEmpty,true);
+            inputError = true;
         }
 
-        // Add the correct params send to the create site request
-        // Site type is course/project or default
+        if (inputError)
+        {
+            return;
+        }
+        else
+        {
+            // Add the correct params send to the create site request
+            // Site type is course/project or default
 
-        var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
+            var sitetemplate = $('input[name=' + createSiteNoncourseTemplateClass + ']:checked').val();
 
-        // Hide the buttons and show the process status
-        showProcess(true);
-        doSaveSite(siteid, sitetitle, sitedescription, sitetemplate);
+            // Hide the buttons and show the process status
+            showProcess(true);
+            doSaveSite(siteid, sitetitle, sitedescription, sitetemplate);
+        }
     };
 
     ////////////////////
@@ -251,7 +327,8 @@ sakai.createsite = function(tuid,placement,showSettings){
     $(createSiteContainer).jqm({
         modal: true,
         overlay: 20,
-        toTop: true
+        toTop: true,
+        onHide: myClose
     });
 
     /*
@@ -298,6 +375,9 @@ sakai.createsite = function(tuid,placement,showSettings){
     /////////////////////////////
 
     var doInit = function(){
+
+        // Hide error fields at start
+        $(errorFields).hide();
 
         // Set the text of the span containing the url of the current site
         // e.g. http://celestine.caret.local:8080/site/

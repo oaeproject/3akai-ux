@@ -2,16 +2,6 @@
     display: block !important;
 }
 
-h1 {
-    font:normal 2em Arial, Helvetica, sans-serif;
-}
-a {
-    text-decoration: none;
-    color:#333;
-}
-a:hover {
-    text-decoration: underline;
-}
 .fixed-container {
     padding: 0 20px;
     width: 920px;
@@ -111,6 +101,58 @@ a:hover {
     height: 250px;
     overflow: auto;
     padding: 5px 10px;
+}
+
+/********************************************/
+/* Site Nav Menu */
+.site_nav {
+    color:#333;
+    background-color:#f9f9f9;
+    padding:5px;
+    margin:-10px -10px 0;
+    overflow-x:hidden;
+    border-bottom:1px solid #ccc;
+    font-size:0.9em;
+}
+.site_nav ul {
+    padding:0;
+    margin:0;
+}
+.site_nav li {
+    float:left;
+    display:inline;
+    list-style-type:none;
+}
+
+.site_nav .page_options_extra, .site_nav .page_options {
+    text-transform:capitalize;
+    display:inline;
+}
+.site_nav .page_options_extra li, .site_nav .page_options li {
+    border: 1px solid #CCC;
+    border-top:none;
+    border-bottom:none;
+    padding:0 7px;
+}
+
+.site_nav .page_options {
+    font-weight:bold;
+    margin-left:-10px;
+    padding-left:4px;
+}
+
+.site_nav .page_options li{
+    border-right:none;
+}
+
+.site_nav .page_options_extra {
+    margin-right:-10px;
+    padding-right:4px;
+}
+.site_nav .page_options_extra li {
+    border-left:none;
+}
+>>>>>>> unified all simple tabs using primary-tab
 
 }
 
@@ -125,6 +167,27 @@ a:hover {
 /********************************************/
 /* Content  */
 /********************************************/
+
+.content_container {
+}
+.content_page_header{
+    color:#999;
+    padding: 14px 0 14px 0;
+}
+.content_container .content_page_header p {
+    color: #999;
+    margin: 0;
+    font-size: .95em;
+    padding-bottom: 0px;
+}
+.content_container .content_page_header a {
+    font-size: .95em;
+}
+.content_container .profile {
+    width:32px;
+    height:32px;
+    float: left;
+}
 
 .content_container h1 {
     font-size: 1.6em;
@@ -141,7 +204,6 @@ a:hover {
     list-style-type:none;
 }
 .content_page_options li a {
-    color: #333;
     padding: 0 0px 0 5px;
     font-size:0.95em;
 }
@@ -177,11 +239,6 @@ a:hover {
     color:#222;
 }
 
-.fl-tab-content {
-    padding:5px 5px 0px 5px;
-    border: 1px dotted #CCCCCC;
-    margin-top: 10px;
-}
 .messageInformation{
     color:#666;
     font-size:0.85em

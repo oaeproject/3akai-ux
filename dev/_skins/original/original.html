@@ -5,42 +5,45 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sakai 3 R&amp;D - Site View</title>
 
+    <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css"/>
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.3.css" />
 
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.search_b.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
-    <link rel="stylesheet" type="text/css" href="/devwidgets/navigationchat/css/navigationchat.css"/>
+    <!-- Sakai Page CSS -->
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.site.css"/>
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.dashboard.css"/>
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.notifications.css" />
 
-    <script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_configuration/config.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/InfusionAll.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/rsh.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/site_history.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/trimpath.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.corners.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqScrollPane.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqModal.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.pager.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/OpenSocial/message.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/site_authz.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/notifications.js"></script>
+    <!-- 3rd party CSS -->
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.treeview.css" />
+    <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
+
+    <!-- Sakai Config JS -->
+    <script type="text/javascript" src="/dev/_configuration/widgets.js"></script>
+    <script type="text/javascript" src="/dev/_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery.json-2.2.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/notifications.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_javascript/_history/rsh.js"></script>
+    <script type="text/javascript" src="/dev/_javascript/_history/site_history.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jqScrollPane.js"></script>
+    <script type="text/javascript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+
 
     </head>
 
@@ -57,7 +60,7 @@
             <div class="decor"><!-- --></div>
 
             <!-- TITLE BAR  -->
-            <div class="site_heading">
+            <div class="s3d-site-heading">
                 <h1 id="sitetitle"></h1>
             </div>
         </div>
@@ -140,7 +143,7 @@
 
                 <!-- OPTIONS FOR THE DASHBOARD -->
                 <div class="fl-container-flex dashboard_options" style="display:none;">
-                    <a href="javascript:;" id="add-goodies">__MSG__ADD_SAKAI_GOODIES__</a>
+                    <a href="javascript:;" id="add-goodies">__MSG__SAKAI_GOODIES__</a>
                     <span class="pipe_divider">|</span>
                     <a href="javascript:;" id="edit-layout">Change layout</a>
                 </div>
@@ -329,7 +332,7 @@
             </div>
 
             <!-- TAB NAVIGATION -->
-            <div class="primary-tabs">
+            <div class="s3d-primary-tabs">
                 <ul class="fl-tabs fl-tabs-right">
                     <li class="fl-tabs-active" id="tab_text_editor"><a href="javascript">Text Editor</a></li>
                     <li id="tab_html"><a href="javascript:;">HTML</a></li>
@@ -533,7 +536,7 @@
 
                 <div class="dialog_buttons">
                     <!--<a href="javascript:;" class="button-default">Save</a>-->
-                    <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+                    <a href="javascript:;" class="button jqmClose">Cancel</a>
                  </div>
             </div>
 
@@ -560,7 +563,7 @@
 
                 <div class="dialog_buttons">
                     <a href="javascript:;" id="autosave_revert" class="button-default">Yes</a>
-                    <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+                    <a href="javascript:;" class="button jqmClose">No</a>
                 </div>
             </div>
 
@@ -586,7 +589,7 @@
 
                 <div class="dialog_buttons">
                     <a href="javascript:;" id="delete_confirm" class="button-default">Yes</a>
-                    <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">No</a>
+                    <a href="javascript:;" class="button jqmClose">No</a>
                 </div>
             </div>
 
@@ -614,7 +617,7 @@
 
                 <div class="dialog_buttons">
                     <a href="javascript:;" id="insert_link_confirm" class="button-default">Insert</a>
-                    <a href="javascript:;" id="wrapping_cancel" class="button jqmClose">Cancel</a>
+                    <a href="javascript:;" class="button jqmClose">Cancel</a>
                 </div>
 
             </div>
@@ -740,6 +743,6 @@
         </div>
 
         <script type="text/javascript" src="/dev/_javascript/site.js"></script>
-
+        <script type="text/javascript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
     </body>
 </html>

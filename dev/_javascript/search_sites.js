@@ -137,8 +137,15 @@ sakai.search = function() {
         finaljson.items = [];
             if (success) {
 
-            // Adjust the number of sites we have found.
-            $(searchConfig.global.numberFound).text(results.total);
+            // Adjust display global total
+            // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
+            if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
+                $(searchConfig.global.numberFound).text(""+results.total);
+            } else if (results.results.length <= 0) {
+                $(searchConfig.global.numberFound).text(0);
+            } else {
+                $(searchConfig.global.numberFound).text("thousands");
+            }
 
             // Reset the pager.
             $(searchConfig.global.pagerClass).pager({
@@ -161,7 +168,10 @@ sakai.search = function() {
                         finaljson.items[i]["excerpt"] = stripped_excerpt;
                     }
                     if (finaljson.items[i]["type"] === "sakai/pagecontent") {
-                        page_path = site_path + "#" + full_path.substring((full_path.indexOf("/_pages/") + 8),full_path.lastIndexOf("/content"));
+                        page_path = full_path.replace(/\/_pages/g, "");
+                        page_path = page_path.replace(/\/pageContent/g, "");
+                        page_path = page_path.replace(/\//g,"");
+                        page_path = site_path + "#" + page_path;
 
                     }
                     finaljson.items[i]["pagepath"] = page_path;
@@ -170,7 +180,7 @@ sakai.search = function() {
 
             // If we don't have any results or they are less then the number we should display
             // we hide the pager
-            if (results.size < resultsToDisplay) {
+            if ((results.total < resultsToDisplay) || (results.results.length <= 0)) {
                 $(searchConfig.global.pagerClass).hide();
             }
             else {
@@ -182,7 +192,7 @@ sakai.search = function() {
         }
 
         // Render the results.
-        $(searchConfig.results.container).html($.Template.render(searchConfig.results.template, finaljson));
+        $(searchConfig.results.container).html($.TemplateRenderer(searchConfig.results.template, finaljson));
         $(".search_results_container").show();
     };
 
@@ -238,7 +248,7 @@ sakai.search = function() {
             }
 
             $.ajax({
-                url: Config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
+                url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
                 cache: false,
                 success: function(data) {
                     var json = $.evalJSON(data);
