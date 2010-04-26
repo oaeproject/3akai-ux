@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#resourcelink_dlg.title}</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../../Fluid/InfusionAll.js"></script>
+	<script type="text/javascript" src="../../../Jquery/jquery.validate.min.js"></script>
+
+  	<script type="text/javascript" src="js/resourcelink.js"></script>
+	<link rel="stylesheet" href="css/resourcelink.css" type="text/css" media="screen" title="no title" charset="utf-8">
+</head>
+<body>
+<form onsubmit="ResourceLinkDialog.insert();return false;" action="#">
+	<h6>{#resourcelink_dlg.linktext}</h6>
+	<p>{#resourcelink_dlg.linktext_dsc}</p>
+	<p><input id="linktext" name="linktext" type="text" class="text" size="60" /></p>
+	<h6>{#resourcelink_dlg.loc}</h6>
+	<p><input type="radio" name="link_to" val="link_to_res" id="link_to_res" checked="checked" onchange="ResourceLinkDialog.change_location();"/><label for="link_to_res">{#resourcelink_dlg.link_to_res}</label></p>
+	<p><input type="button" id="browse" name="Browse" value="{#resourcelink_dlg.browse_btn}" onclick="ResourceLinkDialog.browse();" /><span id="resource_filename"></span><input type="hidden" name="resource_url" id="resource_url"/></p>
+	<p><input type="radio" name="link_to" val="link_to_web" id="link_to_web" onchange="ResourceLinkDialog.change_location();"/><label for="link_to_web">{#resourcelink_dlg.link_to_web}</label></p>
+	<p><input type="text" name="link_url" value="url" id="link_url" disabled="disabled" size="56"></p>	
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+		<div style="float: right">
+		  <input type="button" id="insert" name="insert" value="{#insert}" onclick="ResourceLinkDialog.insert();" disabled="disabled" />
+		</div>
+	</div>
+</form>
+</body>
+</html>

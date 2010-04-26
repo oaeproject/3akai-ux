@@ -1,0 +1,77 @@
+{
+  "rooms": [
+    {
+      "id": "112",
+      "position": "1",
+      "title": "room 1",
+      "image": "http://www.google.com/intl/en_ALL/images/logo.gif",
+      "description": "room 1 description",
+      "categories": [
+        {
+          "name": "Cat 1",
+          "id": "cat1id", 
+          "position": "1",
+          "items": []
+        },
+        {
+          "name": "Cat 2",
+          "id": "cat2id", 
+          "position": "2",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "223",
+      "position": "2",      
+      "title": "room 2",
+      "description": "room 2 description",
+      "categories": [
+        {
+          "name": "Cat 1",
+          "id": "cat1id",
+          "position": "1",
+          "items": [
+            {
+              "id" :"myitem12346325234",
+              "title": "my item",
+              "url": "http://www.google.com/myitem.jpg",
+              "mimetype": "image/jpeg",
+              "synopsis": "<p>testtest</p>"
+            }
+          ]
+        },
+        {
+          "name": "Cat 3",
+          "id": "cat3id",
+          "position": "2",
+          "items": []
+        }
+      ]
+    },
+    {
+      "position": "3"
+    },
+    {
+      "position": "4"
+    },
+    {
+      "position": "5"
+    },
+    {
+      "position": "6"
+    },
+    {
+      "position": "7"
+    },
+    {
+      "position": "8"
+    },
+    {
+      "position": "9"
+    },
+    {
+      "position": "10"
+    }
+  ]
+}

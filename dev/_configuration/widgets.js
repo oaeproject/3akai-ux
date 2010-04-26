@@ -176,6 +176,16 @@ var Widgets = {
             name:"Hello World GWT",
             url:"/devwidgets/helloworldwow/war/Helloworldwow.html"
         },
+        memorypalace: {
+          description:"Portfolio",
+          ca:true,
+          hasSettings:true,
+          showinsakaigoodies:true,
+          id:"memorypalace",
+          img:"/devwidgets/memorypalace/images/portfolio.png",
+          name:"Portfolio",
+          url:"/devwidgets/memorypalace/memorypalace.html"
+        },
         myfriends: {
             description:"A list of my connections",
             id:"myfriends",

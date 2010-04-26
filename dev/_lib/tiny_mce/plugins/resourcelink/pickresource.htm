@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      {#resourcelink_dlg.pickresource_title}
+    </title>
+    <link rel="stylesheet" href="/dev/_lib/tiny_mce/themes/advanced/skins/default/dialog.css">
+    <link rel="stylesheet" href="/dev/_css/sakai/sakai.base.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+    <link rel="stylesheet" href="css/pickresource.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+    
+    <!-- Sakai Config JS -->
+    <script type="text/javascript" src="/dev/_configuration/widgets.js"></script>
+    <script type="text/javascript" src="/dev/_configuration/config.js"></script>
+
+    <!-- Core 3rd-party JS -->
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery-ui.custom.full.js"></script>    
+    <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery.json-2.2.js"></script>
+
+    <!-- Sakai Core JS -->
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/notifications.js"></script>
+
+    <!-- 3rd party JS -->
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_javascript/_history/rsh.js"></script>
+    <script type="text/javascript" src="/dev/_javascript/_history/site_history.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jqScrollPane.js"></script>
+    <script type="text/javascript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+
+    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script type="text/javascript">
+    tinyMCEPopup.features.popup_css = false;
+    </script>
+    <script type="text/javascript" charset="utf-8" src="js/contentmedia_pickresource.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/pickresource.js"></script>
+  </head>
+  <body>
+      <!-- CONTENT -->
+      <div id="pickresource_heading">
+        <h3>Locate a resource to link to:</h3>
+        <span id="filters_header" class="panel_header">Search &amp; Filters</span>
+        <span id="repo_header" class="panel_header">Repository Contents</span>
+        <span id="details_header" class="panel_header">Resource Details</span>                    
+      </div>
+      <div class="contentmedia_content_main">
+
+          <div id="pickresource_filters" class="pickresource_panel">
+            <!-- Accordion -->
+            <div id="contentmedia_accordion">
+              <a href="javascript:;" title="Search for files">Search</a>
+              <div id="contentmedia_search">
+                <form>
+                  <input type="text" value="Search for files ..." class="input" id="search_text" /> <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">Search</span></span></button>
+                </form>
+              </div><a href="javascript:;" title="Browse by folders" id="contentmedia_folders_trigger" name="contentmedia_folders_trigger">Browse by folders</a>
+              <div id="contentmedia_folders"></div><a href="javascript:;" title="Filter by tag">Filter by tag</a>
+              <div id="contentmedia_accordion_list_tag">
+                <div class="contentmedia_accordion_list">
+                </div>
+              </div><a href="javascript:;" title="Filter by site">Filter by site</a>
+              <div id="contentmedia_accordion_list_site"></div>
+            </div>
+
+          </div>
+          <div id="pickresource_files" class="pickresource_panel">
+              <div id="contentmedia_files_container"></div>
+              <div id="contentmedia_files_container_template"><!--
+                          {for i in results}
+                                <div class="contentmedia_file {if i_index % 2 == 1} odd {/if}" id="contentmedia_filename_${i_index}">
+                                    {if i['Content-Type']}
+                                        {var mimeType = i['Content-Type']}
+                                    {elseif i.file && i.file['sakai:mimeType']}
+                                        {var mimeType = i.file['sakai:mimeType']}
+                                    {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                        {var mimeType = 'folder'}
+                                    {/if}
+                                    {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
+                                        <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                    {elseif sakai.config.MimeTypes[mimeType]}
+                                        <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                    {else}
+                                        <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                                    {/if}
+                                    <div class="contentmedia_file_name">${i.properties.filename}</div>
+                                
+                                  <div class="contentmedia_hidden">
+                                      {if i["uri"]}${i["uri"]}{else}
+                                      {if i.path}
+                                          ${i.path}
+                                      {/if}
+                                      {/if}
+                                  </div>
+                                </div>
+                            {/for}
+                        -->
+                    </div>
+                  </div>
+                  
+                  <div id="pickresource_selecteddetails" class="pickresource_panel">
+                    <div id="resource_details_container"></div>
+                    <div id="resource_details_container_template"><!--
+                          {for i in results}
+                            <div class="contentmedia_fileinfo" id="contentmedia_fileinfo_${i_index}">
+                                {if i['Content-Type']}
+                                    {var mimeType = i['Content-Type']}
+                                {elseif i.file && i.file['sakai:mimeType']}
+                                    {var mimeType = i.file['sakai:mimeType']}
+                                {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                    {var mimeType = 'folder'}
+                                {/if}
+                                {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
+                                    <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                {elseif sakai.config.MimeTypes[mimeType]}
+                                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                {else}
+                                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                                {/if}
+                                <p><strong>Description:</strong></p>
+                                <p>
+                                    {if i["sakai:description"]}
+                                        ${i["sakai:description"]}
+                                    {else}
+                                        (no description available)
+                                    {/if}
+                                </p>
+                                <p><strong>Tags:</strong></p>
+                                <p>
+                                    {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{forelse}
+                                        (no tags available)
+                                    {/for}
+                                </p>
+                                <p><strong>Used In:</strong></p>
+                                <p>
+                                    {if i.usedIn && i.usedIn.sites && i.usedIn.total > 0}
+                                        {for u in i.usedIn.sites}
+                                            {if u_index > 0},{/if} ${u.name}
+                                        {/for}
+                                    {else}
+                                        (not used anywhere)
+                                    {/if}
+                                </p>
+                            </div>
+
+                        {/for}
+                    -->
+                    </div>
+                  </div>
+        </div>
+        <div class="mceActionPanel">
+      		<div style="float: left">
+      			<input type="button" id="cancel" name="cancel" value="Cancel" onclick="tinyMCEPopup.close();" />
+      		</div>
+      		<div style="float: right">
+      		  <input type="button" id="insert" name="insert" value="Use File" onclick="PickResourceDialog.insert();" disabled="disabled" />
+      		</div>
+      	</div>
+        
+  </body>
+</html>
