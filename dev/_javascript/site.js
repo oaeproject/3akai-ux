@@ -328,12 +328,12 @@ sakai.site = function(){
 
                         // URL safe title
                         var url_safe_title = "";
-                        var url_elements = temp[i]["path"].split("/");
+                        var url_elements = temp[i]["jcr:path"].split("/");
                         url_safe_title = url_elements[url_elements.length - 1];
                         temp[i]["pageURLTitle"] = url_safe_title;
 
                         // URL safe name
-                        var url_safe_name = sakai.site.createURLName(temp[i]["path"]);
+                        var url_safe_name = sakai.site.createURLName(temp[i]["jcr:path"]);
                         temp[i]["pageURLName"] = url_safe_name;
 
                         // Page depth
@@ -632,7 +632,7 @@ sakai.site = function(){
 
                     // Load content of the dashboard page
                     $.ajax({
-                        url: sakai.site.site_info._pages[pageUrlName]["path"] + "/pageContent.infinity.json",
+                        url: sakai.site.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
                         type: "GET",
                         success: function(data) {
 
@@ -665,7 +665,7 @@ sakai.site = function(){
 
                     // Load contents of a webpage
                     $.ajax({
-                        url: sakai.site.site_info._pages[pageUrlName]["path"] + "/pageContent.infinity.json",
+                        url: sakai.site.site_info._pages[pageUrlName]["jcr:path"] + "/pageContent.infinity.json",
                         type: "GET",
                         success: function(data) {
 
@@ -885,19 +885,19 @@ sakai.site = function(){
                 //Save the prefs.
                 var dashboard_content = $.toJSON(o);
 
-                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["path"], dashboard_content, function(success, data){
+                sakai.site.updatePageContent(sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"], dashboard_content, function(success, data){
                     if (success) {
 
                         // Check in page to version history
                         $.ajax({
-                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["path"] + "/pageContent.save.html",
+                            url: sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"] + "/pageContent.save.html",
                             type: 'POST',
                             error: function(xhr, textStatus, thrownError) {
-                                fluid.log("site.js/saveState(): Could not check in dashboard page at " + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
+                                fluid.log("site.js/saveState(): Could not check in dashboard page at " + sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"]);
                             }
                         });
                     } else {
-                        fluid.log("site.js/saveState(): Could not update dashboard page content at " + sakai.site.site_info._pages[sakai.site.selectedpage]["path"]);
+                        fluid.log("site.js/saveState(): Could not update dashboard page content at " + sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"]);
                     }
                 });
 
