@@ -4,6 +4,7 @@ The following people are active contributors on Sakai 3 front-end development:
 Noah Botimer - botimer@umich.edu
 Eli Cochran - eli@media.berkeley.edu
 Ray Davis - r...@media.berkeley.edu
+Maxim Debosschere - md538@caret.cam.ac.uk
 D. Stuart Freeman - stuart.freeman@et.gatech.edu
 Dr Wu Di - dr.wudi@googlemail.com
 Adrian Fish - a.fish@lancaster.ac.uk
@@ -11,6 +12,7 @@ Simon Gaeremynck - sg555@cam.ac.uk
 Oszkar Nagy - oszkar@caret.cam.ac.uk
 James Sloane - jsloane@csu.edu.au
 Christian Vuerings - cv268@cam.ac.uk
+
 
 
 
