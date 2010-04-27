@@ -13,5 +13,6 @@
 "NO_PUBLIC" : "This user hasn't got any public pictures ",
 "SUBMIT" : "Submit",
 "CANCEL" : "Cancel",
-"SLIDESHOW" : "Go to the slideshow"
+"SLIDESHOW" : "Go to flickr for more information",
+"DELETE" : "Delete"
 }

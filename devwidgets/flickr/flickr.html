@@ -73,7 +73,7 @@
 </div>
 <div class="flickr_preview_container" style="display : none;">
     <div id="flickr_displayed_image"></div>
-    <div class ="flick_gallery"><ul id="flickr_key_ul_preview"></div>
+    <div class ="flick_gallery"><ul id="flickr_key_ul_preview"></ul></div>
     <div id="flickr_preview_pagging" ></div>
 </div>
 <div id="flickr_person_gallery_pagging_template"><!--
@@ -102,37 +102,37 @@
 
 <div id="flickr_preview_gallery_pagging_template"><!--
     <a href="javascript:;" id="flickr_person_prev_preview_pagging">
-    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
+    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__" title="__MSG__PREV__" />
     </a>
     <input type="text" value="1" id="flickr_preview_pagging_input" class="flickr_changeColorNormal" />
     <span> / </span>
     <span class="flickr_key_pages" id="flickr_preview_page">${pages}</span>
     <a href="javascript:;" id="flickr_person_preview_next_pagging">
-        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__" title="__MSG__NEXT__"/>
     </a>
 --></div>
 
 <div id="flickr_side_gallery_pagging_template"><!--
     <a href="javascript:;" id="flickr_side_prev_pagging">
-    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__"  />
+    <img src="/dev/_images/arrow_left_sm2_blue.gif" alt="__MSG__PREV__" title="__MSG__PREV__" />
     </a>
     <p id="flickr_side_pagging">${page}</p>
     <span> / </span>
     <span id="flickr_side_pages">${pages}</span>
     <a href="javascript:;" id="flickr_side_next_pagging">
-        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__"  />
+        <img src="/dev/_images/arrow_right_sm2_blue.png" alt="__MSG__NEXT__" title="__MSG__NEXT__" />
     </a>
 --></div>
 
 <div id="flickr_image_gallery_template"><!--
     {for pic in all}
-        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" /></li>
+        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" class="flickr_image" /></li>
     {/for}
 --></div>
 
 <div id="flickr_image_gallery_preview_template"><!--
     {for pic in all}
-        <li> <img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" class="flickr_preview_thumb" /></li>
+        <li> <img src="${pic.url}" class="flickr_image" alt="${pic.title}" title ="${pic.title}" class="flickr_preview_thumb"  /></li>
     {/for}
 --></div>
 
@@ -143,11 +143,14 @@
 <div id="flickr_slideshow_icon_template"><!--
 <ul id="flickr_slideshow_images">
     {for pic in all}
-        <li><a href="http://flickr.com/photo.gne?id=${pic.photoid}"><img src ='/devwidgets/flickr/images/flickr_slideshow.png' alt="__MSG__SLIDESHOW__" title="__MSG__SLIDESHOW__" id="flickr_slideshow_icon" /></a></li>
+        <li><a href="http://flickr.com/photo.gne?id=${pic.photoid}"><img src ='/devwidgets/flickr/images/external_link.gif' alt="__MSG__SLIDESHOW__" title="__MSG__SLIDESHOW__" id="flickr_slideshow_icon" /></a></li>
     {/for}
 </ul>
 --></div>
 
+<div id="flickr_delete_button"><!--
+    <img src="/dev/_images/close_dialog.png" alt="__MSG__DELETE__" title="__MSG__DELETE__" id="flickr_delete_button"/>
+--></div>
 <!-- JAVASCRIPT -->
 
 <script type="text/javascript" src="/devwidgets/flickr/lib/jquery.galleria.js"></script>

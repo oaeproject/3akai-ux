@@ -18,83 +18,41 @@
 
 
 /* General widget settings */
-#flickr_settings li{
-    list-style-type:none;
-}
+#flickr_settings li{ list-style-type:none;}
 
 /* Accordeon container */
 #flickr_accordion {width:500px; float:left; margin-bottom:20px;}
 #flickr_accordion .flickr_accordeon_header {display:block; background-color:#454A4F; color:#fff;padding:60px 0 20px 20px;}
 #flickr_accordion .flickr_accordeon_header:hover{background-color:#006E96;text-decoration: none;}
 
-/* Sidebar */
-#flickr_sidebar{height:434px; background-color:#454A4F; float:left; width:100px; border-left: 2px solid #fff; padding: 0px 0px 20px 0px;}
-#flickr_sidebar ul{height:350px!important; clear:both; width:100px; margin:30px 0px 0px 8px !important;}
-#flickr_sidebar ul li img {border:5px solid #006E96;}
-#flickr_sidebar ul li {margin:0px 0px 5px 0px; padding:0px 0px 5px 0px; }
-
 /* Text */
 .flickr_text{margin:20px 0px 0px 30px;}
 
 /* When hovering over an image list ,change the cursor */
-#flickr_settings ul li img:hover {
-    cursor:pointer;
-}
+#flickr_settings ul li img:hover { cursor:pointer;}
 
 /* The tooltip that is shown when the user hovers over an image */
-#flickr_tooltip{
-    padding:5px 10px;
-    background-color:#006E96;
-    color:#fff;
-    z-index:9999;
-}
+#flickr_tooltip{ padding:5px 10px; background-color:#006E96; color:#fff; z-index:9999;}
 
 
 /* The search inputbox */
-#flickr_key_input, #flickr_key_person_input{
-    float:left;
-    border:1px solid #777777;
-    font-size:1em;
-    height:20px;
-    margin:10px 14px 0 30px ;
-    padding:1px 5px ;
-    width:10em;
-}
+#flickr_key_input, #flickr_key_person_input{ float:left; border:1px solid #777777; font-size:1em; height:20px; margin:10px 14px 0 30px ; padding:1px 5px ; width:10em;}
 
 /*Ajax loader */
-#flickr_loading_img, #flickr_loading_person_img{
-    margin-left:120px;
-    display:none;
-}
+#flickr_loading_img, #flickr_loading_person_img{  margin-left:120px; display:none;}
 
 /* the flickr search button */
-.flickr_search{
-    margin:15px 0px 0px 30px;
-}
+.flickr_search{ margin:15px 0px 0px 30px;}
 
 /*Image gallery in the Second accordion div */
-#flickr_key_gallery, #flickr_key_person_gallery{
-    margin-top:42px;
-}
+#flickr_key_gallery, #flickr_key_person_gallery{ margin-top:42px;}
 
-#flickr_key_ul{
-    height:87px;
-}
+#flickr_key_ul{ height:87px;}
 
 /*Ul of images */
-#flickr_key_ul li, #flickr_image_slider_ul li,#flickr_key_ul_preview li {
-    display:inline;
-    margin: 0 0px 10px 0;
-}
+#flickr_key_ul li, #flickr_image_slider_ul li,#flickr_key_ul_preview li { display:inline; margin: 0 0px 10px 0;}
 
-/*All the images should have a 5px blue border */
-#flickr_key_ul li img, #flickr_image_slider_ul li img{
-    border:5px solid #006E96;
-}
-
-#flickr_key_ul_preview .flickr_preview_thumb {
-    width:75px;
-}
+#flickr_key_ul_preview .flickr_preview_thumb { width:75px;}
 
 /*Make sure the login button and text are hidden at the start */
 #flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,.flickr_hiddenImage,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error, #flickr_no_public {
@@ -102,95 +60,64 @@
 }
 
 /*error messages */
-#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error, #flickr_no_public{
-    color:#ff0000;
-    margin:10px 0px 0px 30px;
-}
+#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error, #flickr_no_public{ color:#ff0000; margin:10px 0px 0px 30px;}
 
 /*These classes can be added to a textbox to change the textcolor */
-.flickr_changeColorBlack{
-    color:#000000;
-}
+.flickr_changeColorBlack{ color:#000000;}
 
 /*These classes can be added to a textbox to change the textcolor */
-.flickr_changeColorNormal{
-    color:#AAAAAA;
-}
+.flickr_changeColorNormal{ color:#AAAAAA;}
 
 /* Paging */
 
 /* The paging textbox */
-#flickr_pagging_input,#flickr_key_pagging_input,#flickr_preview_pagging_input{
-    width:15px;
-    border:1px solid #777777;
-    font-size:1em;
-    height:20px;
-    margin:0px 0px 10px 15px ;
-    padding:1px 5px ;
-}
+#flickr_pagging_input,#flickr_key_pagging_input,#flickr_preview_pagging_input{ width:15px; border:1px solid #777777; font-size:1em; height:20px; margin:0px 0px 10px 15px ; padding:1px 5px ;}
 
 /* the right arrow */
-.flickr_pages{
-    margin-right:15px; 
-}
+.flickr_pages{ margin-right:15px;}
 
 /* the arrows */
-#flickr_person_pagging img, #flickr_key_pagging img, #flickr_preview_pagging img {
-    cursor:pointer;
-}
+#flickr_person_pagging img, #flickr_key_pagging img, #flickr_preview_pagging img { cursor:pointer;}
 
 /* the whole paging div */
-#flickr_person_pagging, #flickr_key_pagging{
-    margin-left:200px;
-}
+#flickr_person_pagging, #flickr_key_pagging{ margin-left:200px;}
 
-#flickr_preview_pagging {
-    margin-left: 300px;
-    clear:both;
-}
+#flickr_preview_pagging { margin-left: 300px; clear:both;}
 
 /* The flickr previous and next arrow images */
-#flickr_person_next_pagging img,#flickr_person_prev_pagging img, #flickr_key_pagging img, #flickr_side_prev_pagging img , flickr_side_next_pagging img{
-    padding:0 10px;
-}
+#flickr_person_next_pagging img,#flickr_person_prev_pagging img, #flickr_key_pagging img, #flickr_side_prev_pagging img , flickr_side_next_pagging img{padding:0 10px;}
 
 /* flickr paging arrows */
-.flick_showImage{
-    display:inline;
-}
+.flick_showImage{ display:inline;}
 
 /* flickr paging arrows */
-.flickr_hideArrow {
-    visibility:hidden;
-}
+.flickr_hideArrow {visibility:hidden;}
 
-.flickr_showArrow{
-    visibility:visible;
-}
+.flickr_showArrow{visibility:visible;}
 
 /* The refresh button */
-#flickr_refresh_button_person, #flickr_refresh_key_button{
-    float:right;
-    margin:15px 30px 0px 0px;
-}
+#flickr_refresh_button_person, #flickr_refresh_key_button{float:right; margin:15px 30px 0px 0px;}
 
-#flickr_displayed_image{
-    height:300px;
-}
+#flickr_displayed_image{height:300px;}
 
-#flickr_slideshow_images li{
-    display:inline;
-    margin: 0 39px;
-}
+/* The images in the preview gallery*/
+#flickr_slideshow_images li{display:inline; margin: 0 39px;}
 
-#flickr_side_paging p ,#flickr_side_paging span {
-    color:#fff;
-}
+/* THE SIDEBAR */
 
-#flickr_side_paging p{
-    display:inline;
-}
+/* The text in the paging of the sidebar gallery */
+#flickr_side_paging p ,#flickr_side_paging span {color:#fff;}
 
-#flickr_side_next_pagging{
-    margin-left:10px;
-}
+/* the p tags in the paging of the sidebar gallery */
+#flickr_side_paging p{display:inline;}
+
+/* the next arrow in the paging of the sidebar gallery */
+#flickr_side_next_pagging{margin-left:10px;}
+
+/* the Sidebar gallery paging */
+#flickr_side_paging{margin:10px 0 0 10px;}
+#flickr_sidebar{height:434px; background-color:#454A4F; float:left; width:100px; border-left: 2px solid #fff; padding: 0px 0px 20px 0px; overflow:hidden;}
+#flickr_sidebar ul{height:350px!important; clear:both; width:100px; margin:30px 0px 0px 8px !important;}
+#flickr_sidebar ul li {margin:0px 0px 5px 0px; padding:0px 0px 5px 0px; width:90px; }
+#flickr_delete_button {position:absolute; margin:5px 0px 0 -20px; cursor:pointer;}
+.flickr_image{border:5px solid #006E96;}

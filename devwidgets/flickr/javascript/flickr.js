@@ -78,6 +78,7 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrSidePagging = $('#flickr_side_pagging',rootel);
     var $flickrSideNextPagging = $('#flickr_side_next_pagging',rootel);
     var $flickrSidePrevPagging = $('#flickr_side_prev_pagging',rootel);
+    var $flickrDeleteButton = $('#flickr_delete_button',rootel);
 
     //Global variables
     var key = "93a86c06dc382a19bff0d4d24872ecab"; // An api key required fron flickr when registering the widget
@@ -102,6 +103,51 @@ sakai.flickr = function(tuid, showSettings){
         }
     };
 
+    var galleriaObject = {
+            insert : '#flickr_displayed_image', //The div where the image will be appended to
+            history   : false, //Setting this to false will prevent the gallery from showing the image in the url
+            onImage   : function(image,caption,thumb) { // let's add some image effects for demonstration purposes
+
+                // fade in the image & caption
+                if(! ($.browser.mozilla && navigator.appVersion.indexOf("Win")!==-1) ) { // FF/Win fades large images terribly slow
+                    image.css('display','none').fadeIn(500);
+                }
+                caption.css('display','none').fadeIn(500);
+
+                // fetch the thumbnail container
+                var li = thumb.parents('li');
+
+                // fade out inactive thumbnail
+                li.siblings().children('img.selected').fadeTo(500,0.6);
+
+                // fade in active thumbnail
+                thumb.fadeTo('fast',1).addClass('selected');
+
+
+            },
+            onThumb: function(thumb){ // thumbnail effects goes here
+                // fetch the thumbnail container
+                var li = thumb.parents('li');
+
+                // if thumbnail is active, fade all the way.
+                var fadeTo = li.is('.active') ? '1' : '0.6';
+
+                // fade in the thumbnail when finnished loading
+                thumb.css({
+                    display: 'none',
+                    opacity: fadeTo
+                }).fadeIn(500);
+
+                // hover effects
+                thumb.hover(function(){
+                    thumb.fadeTo('fast', 1);
+                }, function(){
+                    li.not('.active').children('img').fadeTo('fast', 0.6);
+                } // don't fade out if the parent is active
+                );
+            }
+        };
+
     var changeColorBlack = "flickr_changeColorBlack"; // Css class to change the textcolour
     var changeColorNormal = "flickr_changeColorNormal"; // Css class to change the textcolour
     var userId; //When the first call is done to get the user id this variabel gets a value
@@ -124,6 +170,11 @@ sakai.flickr = function(tuid, showSettings){
     var totalKeyPages;
     var imageGalleryObject;
 
+    //Global variables of the sidebar
+    var cp = 1;
+    var tp = 1;
+    var firstdrop = true;
+
     //Template
     var $flickrPersonGalleryPaggingTemplate = $("#flickr_person_gallery_pagging_template");
     var $flickrImageGalleryTemplate = $('#flickr_image_gallery_template');
@@ -134,7 +185,6 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrSlideshowIconTemplate = $('#flickr_slideshow_icon_template',rootel);
     var $flickrSideGalleryPaggingTemplate = $("#flickr_side_gallery_pagging_template",rootel);
 
-
     //Config urls
     sakai.config.URL.flickrGetPhotosBySearchTerm = "/var/proxy/flickr/flickrKeyPictures.json";
     sakai.config.URL.flickrGetUserDetailsByEMail = "/var/proxy/flickr/flickrGetUserDetailsByEMail.json";
@@ -143,13 +193,16 @@ sakai.flickr = function(tuid, showSettings){
     sakai.config.URL.flickrGetPicturesByUserIdStart = "/var/proxy/flickr/flickrGetPicturesByUserIdStart.json";
     sakai.config.URL.flickrStaticImageUrl = "http://farm3.static.flickr.com/";
 
-    //Error messages
+    // Error messages
     var $flickrInputError = $("#flickr_input_error",rootel);
     var $flickrInputSameError = $("#flickr_input_same_error",rootel);
     var $flickrInputPersonError = $("#flickr_input_person_error",rootel);
     var $flickrInputPersonSameError = $("#flickr_input_same_person_error",rootel);
     var $flickrNoPersonError = $("#flickr_no_person_error",rootel);
     var $flickrNoPublic = $("#flickr_no_public",rootel);
+
+    // Functions
+    var addDelBtn;
 
     //////////////
     // SETTINGS //
@@ -298,6 +351,19 @@ sakai.flickr = function(tuid, showSettings){
         }
     };
 
+    /**
+     * This function will calculate the correct total page.
+     * @param {Integer} pages The total amount of images
+     * @param {Integer} total The number everything is compared to
+     */
+    var getPagesCorrect = function(pages,total){
+
+        if (Math.round(pages / total) < pages / total) {
+            return Math.round(pages / total) + 1;
+        }else{
+            return Math.round(pages/total);
+        }
+    };
 
     /**
      *  This function will be executed when an image is dropped
@@ -322,7 +388,7 @@ sakai.flickr = function(tuid, showSettings){
                 $('li', imageGallery).slice((currentPage * 5) - 1, (currentPage * 5)).find("img").fadeIn(1500);
 
                 //New total pages is calculated and displayed in the html
-                totalPages = Math.round(((totalImages - dragged) / 5));
+                totalPages = getPagesCorrect((totalImages - dragged),5);
 
                 // If the user is on page 0 he should be on page 1
                 totalPages = (totalPages === 0) ? 1 : totalPages;
@@ -340,6 +406,9 @@ sakai.flickr = function(tuid, showSettings){
         }
     };
 
+    /**
+     * This function will check if the previous arrow should be hidden of the paging in the sidebar
+     */
     var checkArrowSidePrev = function(){
         if (cp === 1) {
             $flickrSidePrevPagging.attr("class", 'flickr_hideArrow');
@@ -347,15 +416,27 @@ sakai.flickr = function(tuid, showSettings){
         $flickrSideNextPagging.attr("class", "flickr_showArrow");
     };
 
+
+     /**
+     * This function will check if the previous and next arrows should be hidden of the paging in the sidebar
+     */
     var checkBothArrowsSide = function(){
         if (cp === 1) {
             $flickrSidePrevPagging.attr("class", 'flickr_hideArrow');
+        }else{
+            $flickrSidePrevPagging.attr("class", 'flickr_showArrow');
         }
         if (cp === tp) {
             $flickrSideNextPagging.attr("class", 'flickr_hideArrow');
+        }else{
+            $flickrSideNextPagging.attr("class", 'flickr_showArrow');
         }
+        
     };
 
+     /**
+     * This function will check if the next arrow should be hiden of the paging in the sidebar
+     */
     var checkArrowSideNext = function(){
         if (cp === tp) {
             $flickrSideNextPagging.attr("class", 'flickr_hideArrow');
@@ -363,6 +444,9 @@ sakai.flickr = function(tuid, showSettings){
         $flickrSidePrevPagging.attr("class", "flickr_showArrow");
     };
 
+    /**
+     * This function will hide the current images and show the next 4
+     */
     var nextImagesSide = function(){
         $('li', $flickSidebar).slice((cp - 1) * 4, ((cp * 4))).hide();
         $('li', $flickSidebar).slice(cp * 4, (((cp + 1) * 4))).show();
@@ -371,6 +455,9 @@ sakai.flickr = function(tuid, showSettings){
         checkArrowSideNext();
     };
 
+    /**
+     * This function will hide the current images and show the previous 4
+     */
     var prevImagesSide = function(){
         $('li', $flickSidebar).slice((cp - 1) * 4, ((cp * 4))).hide();
         $('li', $flickSidebar).slice((cp - 2) * 4, (((cp -1) * 4))).show();
@@ -380,36 +467,49 @@ sakai.flickr = function(tuid, showSettings){
     };
  
 
-    var cp = 1;
-    var tp = 1;
-    var firstdrop = true;
+
     /**
      * This function will check if more than 5 images are dropped
      * If there are more than 5 images dropped, they only the last 5 will be shown
      */
     var checkAmountImages = function(){
     var shownImages = 0;
-    var lastitem;
+    var $lastitem;
+    
+        //Check if there are more than 4 ,8 , 12, 16 etc images
         if (($("li", $flickSidebar).length > ((cp * 4)))) {
+
+            //Check if the user is dropping images on the last page
             if (cp === tp) {
+
+                //Since the user is on the last page and it has 4 images, the images should be hidden
                 $('li', $flickSidebar).slice((cp - 1) * 4, ((cp * 4))).hide();
 
+                //Make an object with the totalamount of pages and the current page torender in the html
                 var pageObject = {
                     'page': "",
                     'pages': ""
                 };
 
+                //Check if it's the first time the user drops something, so at this point the user is on the last page so 1/1 and 4 images have been dropped
                 if (firstdrop) {
+
+                    //set the current & totalpage
                     pageObject.page = cp;
                     pageObject.pages = tp + 1;
                     $flickrSidePaging.append($.TemplateRenderer($flickrSideGalleryPaggingTemplate, pageObject));
                     $flickrSideNextPagging = $('#flickr_side_next_pagging', rootel);
                     $flickrSidePrevPagging = $('#flickr_side_prev_pagging', rootel);
+
+                    //Bind the clicks
                     $flickrSideNextPagging.click(nextImagesSide);
                     $flickrSidePrevPagging.click(prevImagesSide);
                     firstdrop = false;
+                }else{
+                    $flickrSidePaging.show();
                 }
-                
+
+                //Increment the total pages and currentpage,since 4 images have been dropped
                 $flickrSidePages = $("#flickr_side_pages", rootel);
                 $flickrSidePagging = $('#flickr_side_pagging', rootel);
                 cp = cp + 1;
@@ -417,19 +517,120 @@ sakai.flickr = function(tuid, showSettings){
                 $flickrSidePages.html(tp);
                 $flickrSidePagging.html(cp);
                 checkBothArrowsSide();
+
+            //If the user isn't on the last page
             }else{
+
+                //Loop over all the images and check which are hidden
                 $('li', $flickSidebar).each(function(){
                     if($(this).css("display") !== "none"){
+
+                        //Check how many images are shown
                         shownImages = shownImages  + 1;
+
+                        //Save the last item
                         $lastitem = $(this);
                     }
                 });
+
+                //If 4 images are dropped, not on the last page , the last item should be hidden
                 if((shownImages-1) %4 ===0){
-                    //$('li', $flickSidebar).slice((cp - 1) * 4, ((cp * 4))).hide();
                     $lastitem.hide();
+                    if($('li', $flickSidebar).length % 4 === 1){
+                        tp = tp + 1;
+                        $flickrSidePages.html(tp);
+                    }
                 }
             }
         }
+    };
+
+    /**
+     * This function will delete the image from the server
+     * @param {Object} image the image that will be deleted
+     */
+    var removeSavedData = function(image){
+
+        //Get the image id from the url
+        var urlArr = image.attr("src").split("/")[4].split('_');
+        var imageId = urlArr[0] + "_" + urlArr[1];
+        $.ajax({
+            url: "http://localhost:8080/sites/flickrsite/_widgets/"+tuid+ "/flickr/" +imageId,
+            type: "POST",
+            data: {
+                ":operation": "delete"
+            },
+            success: function(data){
+                fluid.log('Flickr - Image deleted');
+            },
+            error: function(xhr, status, e){
+                fluid.log('Flickr - Error deleting image');
+            }
+        });
+    };
+
+    /**
+     * This function will delete the image and show the next hidden image
+     */
+    var deleteImage = function(){
+        var visibleItems = 0;
+        var $lsttitem;
+
+        // Remove from sling
+        removeSavedData($(".flickr_image",$(this).parent()));
+
+        // Delete the image
+        $(this).parent().remove();
+
+        //Get the last visible item
+        $('li', $flickSidebar).each(function(){
+            if ($(this).css("display") !== "none") {
+                //Save the last item
+                visibleItems = visibleItems + 1;
+                $lsttitem = $(this);
+            }
+        });
+
+        if (visibleItems  !== 0) {
+            //Show the image that is just after the last shown image
+            $('li', $flickSidebar).slice($('li', $flickSidebar).index($lsttitem) + 1, $('li', $flickSidebar).index($lsttitem) + 2).show();
+        }else{
+            $('li', $flickSidebar).slice((cp - 2) * 4, (((cp - 1) * 4))).fadeIn(2000);
+            cp = cp ===1 ?1: cp -1;
+            $flickrSidePagging.html(cp);
+        }
+
+        tp = Math.round($('li', $flickSidebar).length/4) === 0 ? 1:getPagesCorrect($('li', $flickSidebar).length,4);
+        if(!$('li', $flickSidebar).length){
+            $flickrSidePaging.hide();
+        }
+        $flickrSidePages.html(tp);
+        checkBothArrowsSide();
+    };
+
+    /**
+     * This function will remove the delete button if it exists>
+     * This function is executed on the mouseout
+     */
+    var removeDeleteButton = function(){
+        $(this).unbind('mouseout');
+        $flickrDeleteButton = $('#flickr_delete_button',rootel);
+        if ($($flickrDeleteButton, $(this))) {
+            $($flickrDeleteButton, $(this)).remove();
+        }
+        $(this).mouseover(addDelBtn);
+    };
+
+    /**
+     * This function is executed on the mouseover of an image in the sidebar 
+     */
+     addDelBtn = function(){
+        $(this).unbind('mouseover');
+        var emptyObject = {};
+        $(this).append($.TemplateRenderer($flickrDeleteButton,emptyObject));
+        $flickrDeleteButton = $('#flickr_delete_button',rootel);
+        $($flickrDeleteButton,this).click(deleteImage);
+        $(this).mouseout(removeDeleteButton);
     };
 
     /**
@@ -439,7 +640,7 @@ sakai.flickr = function(tuid, showSettings){
     var addPluginsToGallery = function(imageGallery){
 
         // Get the current amount of pages, this is calculated by getting the previous totalImages - the amount of images that have been dragged and dropped, devided by 5
-         totalPages = Math.round((((totalImages - dragged)+ 2) / 5));
+         totalPages = getPagesCorrect((totalImages - dragged),5);
 
         // Display a tooltip when the user goes over the images
         $("li",imageGallery).easyTooltip({
@@ -454,6 +655,7 @@ sakai.flickr = function(tuid, showSettings){
          $('ul',imageGallery).bind("sortremove", function(event, ui){
              droppedImage(event,ui,imageGallery);
              checkAmountImages();
+             $(ui.item).mouseover(addDelBtn);
         });
     };
 
@@ -641,16 +843,16 @@ sakai.flickr = function(tuid, showSettings){
             if ($('li', $flickrKeyGallery).slice((currentPageKey * 5) - 1, (currentPageKey * 5)).find("img").length) {
             
                 // The new image is displayed
-                $('li', $flickrKeyGallery).slice((currentPageKey * 5) - 1, (currentPageKey * 5)).find("img").show();
-                
+                $('li', $flickrKeyGallery).slice((currentPageKey * 5) - 1, (currentPageKey * 5)).find("img").fadeIn(1000);
+
                 //New total pages is calculated and displayed in the html
-                totalKeyPages = Math.round(((totalImagesKey - draggedKey) / 5));
-                
+                totalKeyPages = Math.round(getPagesCorrect(totalImagesKey - draggedKey),5);
+
                 // If the user is on page 0 he should be on page 1
                 totalKeyPages = (totalKeyPages === 0) ? 1 : totalKeyPages;
                 $flickrPage = $("#flickr_page", rootel);
                 $flickrPage.html(totalPages);
-                
+
                 // If there is no image to add, a new request should be done
             }
             else {
@@ -712,6 +914,7 @@ sakai.flickr = function(tuid, showSettings){
             removeDropNowImage();
             shiftImageKey();
             checkAmountImages();
+            $(ui.item).mouseover(addDelBtn);
         });
 
          //Recash the divsm since they've just been rendered
@@ -1325,7 +1528,7 @@ sakai.flickr = function(tuid, showSettings){
         var picturesObject = {};
 
         // Get all images from the sidebar
-        $("img",$flickSidebar).each(function(){
+        $("img",$('ul',$flickSidebar)).each(function(){
             var pictureObject = {
                 "url": '',
                 "title": '',
@@ -1390,26 +1593,62 @@ sakai.flickr = function(tuid, showSettings){
     };
 
     /**
-     * 
+     * This function will add an image button to an image when the user does a mouseover
+     */
+    var addDeleteButtons = function(){
+
+        $("li",$flickSidebar).mouseover(addDelBtn);
+    };
+
+    /**
+     * This function will fill in the sidebar and add paging to it
      * @param {Object} data This is the response from the ajax call, to get the images
      */
     var appendToSideBar = function(data){
+
+        $($flickrDropHereImage.parent(), $flickSidebar).remove();
 
         //Convert the data to an object
         var imgObject = $.evalJSON(data);
 
         //Give the object a key to render it
         var pictures = {
-            "all":imgObject
+            "all": imgObject
         };
-
-        //remove the drop now image
-        $($flickrDropHereImage,$flickSidebar).remove();
 
         //Render the images in the sidebar
         $("ul", $flickSidebar).append($.TemplateRenderer($flickrImageGalleryPreviewTemplate, pictures));
-        $("ul", $flickSidebar).hide();
-        $("ul", $flickSidebar).fadeIn(2000);
+        $("li", $flickSidebar).hide();
+ 
+        var pageObject = {
+            'page': "",
+            'pages': ""
+        };
+
+        //set the current & totalpage
+        pageObject.page = 1;
+        pageObject.pages = getPagesCorrect(($("img",$("ul",$flickSidebar)).length),4);
+        cp = pageObject.page;
+        tp = pageObject.pages;
+
+        $flickrSidePaging.append($.TemplateRenderer($flickrSideGalleryPaggingTemplate, pageObject));
+        $flickrSideNextPagging = $('#flickr_side_next_pagging', rootel);
+        $flickrSidePrevPagging = $('#flickr_side_prev_pagging', rootel);
+
+        $('li', $flickSidebar).slice((cp - 1) * 4, ((cp * 4))).fadeIn(2000);
+
+        $flickrSidePages = $("#flickr_side_pages", rootel);
+        $flickrSidePagging = $('#flickr_side_pagging', rootel);
+
+        //Bind the clicks
+        $flickrSideNextPagging.click(nextImagesSide);
+        $flickrSidePrevPagging.click(prevImagesSide);
+        firstdrop = false;
+
+        addDeleteButtons();
+
+        checkBothArrowsSide();
+        checkArrowSidePrev();
     };
 
     /**
@@ -1537,13 +1776,13 @@ sakai.flickr = function(tuid, showSettings){
     var prevPreview = function(gallery,pages,icons){
 
         //Hide the images that were just shown
-        $('li',gallery).slice(((curP - 1) * 6), ((curP ) * 5)).hide();
+        $('li',gallery).slice(((curP - 1) * 6), ((curP ) * 6)).hide();
 
         //Show the next 5 images
         $('li',gallery).slice(((curP - 2) * 6), ((curP - 1) * 6)).fadeIn('slow');
 
         //Hide the images that were just shown
-        $('li',icons).slice(((curP - 1) * 6), ((curP ) * 5)).hide();
+        $('li',icons).slice(((curP - 1) * 6), ((curP ) * 6)).hide();
 
         //Show the next 5 images
         $('li',icons).slice(((curP - 2) * 6), ((curP - 1) * 6)).fadeIn('slow');
@@ -1558,19 +1797,11 @@ sakai.flickr = function(tuid, showSettings){
     };
 
     /**
-     * This function will calculate the correct total page.
-     * @param {Object} pages The total amount of images
+     * This function will transform the response into an image gallery with medium sized images
+     * @param {Object} data, this is the response from the ajax call
+     * @return An Array of pictures
      */
-    var getPages = function(pages){
-
-        return Math.round(pages/5);
-    };
-
-    /**
-     * This function will render the image gallery
-     * @param {Object} data, the response from the ajax call
-     */
-    var makePreviewImageGallery = function(data){
+    var makeMediumGallery = function (data){
 
         //Convert the data to an object
         var imagesObject = $.evalJSON(data);
@@ -1587,16 +1818,29 @@ sakai.flickr = function(tuid, showSettings){
 
         //Change the url for the images so a medium image will be displayed instead of a small one
         $(imageArray).each(function(){
-          $(this)[0].url =  $(this)[0].url.replace('_s','_m');
-        });
 
+            //Change the _s to _m
+            var urlArr = $(this)[0].url.split($(this)[0].url.slice($(this)[0].url.length - 6, $(this)[0].url.length - 4));
+            $(this)[0].url = urlArr[0] + "_m" + urlArr[1];
+        });
 
         var pictures = {
             "all": imageArray
         };
 
+        return pictures;
+    };
+
+    /**
+     * This function will render the image gallery
+     * @param {Object} data, the response from the ajax call
+     */
+    var makePreviewImageGallery = function(data){
+
+        var pictures = makeMediumGallery(data);
+
         // Get a JSON string that contains the necessary information.
-        $("ul", $flickrPreviewGallery).append($.TemplateRenderer($flickrImageGalleryPreviewTemplate, pictures));
+        $("ul", $flickrPreviewGallery).append($.TemplateRenderer($flickrImageGalleryPreviewTemplate,pictures));
 
         //Render the extra info icons underneath the images
         $flickrPreviewGallery.append($.TemplateRenderer($flickrSlideshowIconTemplate, pictures));
@@ -1606,7 +1850,7 @@ sakai.flickr = function(tuid, showSettings){
         $flickrKeyUlPreview = $("#flickr_key_ul_preview",rootel);
         $flickrSlideshowImages = $("#flickr_slideshow_images",rootel);
 
-        //Hide the last 5 images
+        //Hide all the images
         $('li', $flickrKeyUlPreview).hide();
         $('li', $flickrSlideshowImages).hide();
 
@@ -1615,7 +1859,7 @@ sakai.flickr = function(tuid, showSettings){
         $('li', $flickrSlideshowImages).slice((curP - 1) * imgPerPage, (curP * 6)).fadeIn('slow');
 
         var pages = {
-            "pages": getPages(imageArray.length)
+            "pages": getPagesCorrect(pictures.all.length,6)
         };
 
         //Render the paging
@@ -1639,50 +1883,7 @@ sakai.flickr = function(tuid, showSettings){
         checkBothArrowsPreview(pages);
 
         //Add the galleria plugin
-        $("#flickr_key_ul_preview",rootel).galleria({
-            insert : '#flickr_displayed_image', //The div where the image will be appended to
-            history   : false, //Setting this to false will prevent the gallery from showing the image in the url
-            onImage   : function(image,caption,thumb) { // let's add some image effects for demonstration purposes
-
-                // fade in the image & caption
-                if(! ($.browser.mozilla && navigator.appVersion.indexOf("Win")!==-1) ) { // FF/Win fades large images terribly slow
-                    image.css('display','none').fadeIn(500);
-                }
-                caption.css('display','none').fadeIn(500);
-
-                // fetch the thumbnail container
-                var li = thumb.parents('li');
-
-                // fade out inactive thumbnail
-                li.siblings().children('img.selected').fadeTo(500,0.6);
-
-                // fade in active thumbnail
-                thumb.fadeTo('fast',1).addClass('selected');
-
-
-            },
-            onThumb: function(thumb){ // thumbnail effects goes here
-                // fetch the thumbnail container
-                var li = thumb.parents('li');
-
-                // if thumbnail is active, fade all the way.
-                var fadeTo = li.is('.active') ? '1' : '0.6';
-
-                // fade in the thumbnail when finnished loading
-                thumb.css({
-                    display: 'none',
-                    opacity: fadeTo
-                }).fadeIn(500);
-
-                // hover effects
-                thumb.hover(function(){
-                    thumb.fadeTo('fast', 1);
-                }, function(){
-                    li.not('.active').children('img').fadeTo('fast', 0.6);
-                } // don't fade out if the parent is active
-                );
-            }
-        });
+        $("#flickr_key_ul_preview",rootel).galleria(galleriaObject);
 
         //Set an image active, so it'll be shown big
         $($flickrKeyUlPreview.children()[0]).addClass('active');
