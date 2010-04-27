@@ -23,7 +23,7 @@
 { width: 230px; margin:0; padding: 0; }
 
 .inbox_main .drop-menu
-{ padding: 0 0 5px 15px; position: relative; z-index: 20000; }
+{ padding: 0 0 5px 15px; position: relative; z-index: 20000; width: 210px;}
 
 .inbox_main .drop-menu .compose_new_link
 { background: transparent url(../../_images/create_dropdown_bg.png) no-repeat scroll left 0; color:#FFFFFF; display:block; font-weight:bold; height:20px; padding:3px 0 0 19px; }

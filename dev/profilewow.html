@@ -95,7 +95,7 @@
                     {if mode.value==="edit" || mode.value==="viewmy"}
                         <form id="profilewow_userinfo_status" method="POST" action="javascript:;">
                             <div>
-                                <input id="profilewow_userinfo_status_input" type="text" {if !status}class="profilewow_userinfo_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${status}"{/if} />
+                                <input id="profilewow_userinfo_status_input" maxlength="255" type="text" {if !status}class="profilewow_userinfo_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${status}"{/if} />
                                 <img src="/dev/_images/ajax-loader-gray.gif" alt="Saving..." style="display:none" />
                                 <span id="profilewow_userinfo_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
                                 <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
