@@ -23,10 +23,9 @@ var sakai = sakai || {};
 /**
  * Initialize the Delicious widget
  * @param {String} tuid: unique id of the widget
- * @param {String} placement: the place of the widget
  * @param {Boolean} showSettings: show the settings of the widget or not
  */
-sakai.delicious = function(tuid, placement, showSettings){
+sakai.delicious = function(tuid, showSettings){
 
 
     /////////////////////////////
@@ -36,10 +35,7 @@ sakai.delicious = function(tuid, placement, showSettings){
     var rootel = $("#" + tuid);
 
     // URLs
-    Config.URL.DELICIOUS_PROXY = "/var/proxy/delicious/bookmarks.json";
-    // FIXME: this will be changed at the next 3akai edition
-    var deliciousSettingsReadURL = "/delicious/" + sdata.me.user.userid + "/delicious/delicious_settings.json";
-    var deliciousSettingsSaveURL = "/delicious/" + sdata.me.user.userid + "/delicious";
+    sakai.config.URL.DELICIOUS_PROXY = "/var/proxy/delicious/bookmarks.json";
 
     // Containers
     var $deliciousContainer = $("#delicious_container", rootel);
@@ -194,7 +190,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         };
 
         // Render the main bookmarks template
-        $deliciousMainBookmarks.html($.Template.render($deliciousMainBookmarksTemplate,pagingArray));
+        $deliciousMainBookmarks.html($.TemplateRenderer($deliciousMainBookmarksTemplate,pagingArray));
 
         // Show or hide paging
         if (parseBookmarksArray.length > pageSize) {
@@ -275,7 +271,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         // Get the public data
         $.ajax({
             cache: false,
-            url: Config.URL.DELICIOUS_PROXY,
+            url: sakai.config.URL.DELICIOUS_PROXY,
             success: function(data){
                 parseDeliciousBookmarks(data, true);
             },
@@ -424,11 +420,25 @@ sakai.delicious = function(tuid, placement, showSettings){
             "bookmarksPerPage" : $deliciousSettingsSelectBookmarksPerPage.val()
         };
 
-        // Create JSON data to send
-        var jsonDeliciousSettings = $.toJSON(deliciousSettings);
+        sakai.api.Widgets.saveWidgetData(tuid, deliciousSettings, function(success, data){
 
-        // Sava the JSON data to the widgets JCR
-        sdata.widgets.WidgetPreference.save(deliciousSettingsSaveURL, "delicious_settings.json", jsonDeliciousSettings, savedDeliciousSettings);
+            if (success) {
+
+                // FIXME
+                // sdata.container.informFinish(tuid,"delicious");
+                // Problem: multiple instances of this widget show up
+
+                // Get the settings from the server
+                // This will also get and show the bookmarks
+                getDeliciousSettings();
+
+                // Show the main view
+                showHideDeliciousSettings(false);
+            } else {
+                alert("Failed to save settings");
+            }
+
+        });
     };
 
     /**
@@ -457,20 +467,12 @@ sakai.delicious = function(tuid, placement, showSettings){
      * Get the stored widget settings
      */
     var getDeliciousSettings = function(){
-
-        // Get the settings data
-        // There is a standard function (sdata.widgets.WidgetPreference.get) to do this,
-        // but as long as data is being stored at the modified location it can not be used.
-        $.ajax({
-            cache: false,
-            url: deliciousSettingsReadURL,
-            success: function(data){
-
-                // Fill in the retrieved data
+        
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+            if (success) {
                 fillInDeliciousSettings(data);
-            },
-            error: function(xhr, textStatus, thrownError) {
-
+            } else {
+ 
                 // Display error message
                 fluid.log("ERROR at delicious.js, getDeliciousSettings: " + thrownError);
             }
@@ -496,30 +498,6 @@ sakai.delicious = function(tuid, placement, showSettings){
             $deliciousContainerMain.show();
             $deliciousContainerSettings.hide();
             $deliciousPaging.show();
-        }
-    };
-
-    /**
-     * Callback function. Once the settings have been saved, hide the settings page and show the main view
-     * @param {Boolean} success: Settings have been successfully changed or not.
-     */
-    var savedDeliciousSettings = function(success){
-        if (success) {
-
-            // FIXME
-            // sdata.container.informFinish(tuid,"delicious");
-            // Problem: multiple instances of this widget show up
-
-            // TEMPORARY
-            // Get the settings from the server
-            // This will also get and show the bookmarks
-            getDeliciousSettings();
-            // Show the main view
-            showHideDeliciousSettings(false);
-        } else {
-
-            // Display error message
-            fluid.log("ERROR at delicious.js, savedDeliciousSettings");
         }
     };
 
@@ -586,7 +564,7 @@ sakai.delicious = function(tuid, placement, showSettings){
         // Get the settings from the server
         // If the mainview is shown, this will also get and show the bookmarks
         getDeliciousSettings();
-
+        
         // Hide or show the settings view
         if (showSettings){
             showHideDeliciousSettings(true);
