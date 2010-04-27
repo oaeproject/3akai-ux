@@ -181,18 +181,64 @@
             --></div>
 
             <!-- SECTION TEMPLATES -->
+            <div id="profilewow_section_default_template"><!--
+                {var mode = sakai.profilewow.profile.mode}
+                {if fields}
+                    {if config && config.label && data}
+                        <div class="profilewow_generalinfo_header">
+                            <h3 class="fl-force-left">${config.label}</h3>
+
+                            {if mode.value === "viewmy" || mode.value === "edit"}
+                                {var _access = data.access}
+                                <div class="profilewow_generalinfo_acl fl-force-right">
+                                    {if mode.value === "viewmy"}
+                                        <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
+                                        <a href="profilewow.html?mode=edit">
+                                            {if _access==="public"}__MSG__PUBLIC__
+                                            {elseif _access==="institution"}__MSG__INSTITUTION__
+                                            {elseif _access==="contacts"}__MSG__CONTACTS__
+                                            {elseif _access==="noone"}__MSG__NO_ONE__
+                                            {/if}
+                                        </a>
+                                    {else}
+                                        <label for="profilewow_generalinfo_access">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
+                                        <select id="profilewow_generalinfo_access">
+                                            <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                                            <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
+                                            <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
+                                            <option{if _access==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
+                                        </select>
+                                    {/if}
+                                </div>
+                            {/if}
+                        </div>
+                    {/if}
+
+                    ${fields}
+                {/if}
+            --></div>
 
             <!-- FIELD TEMPLATES -->
             <div id="profilewow_field_default_template"><!--
-                {if data.value && config.display}
-                    <div class="profilewow_generalinfo_subcontainer">
-                        <span class="profilewow_generalinfo_label">${config.label}:</span>
-                        <div class="profilewow_generalinfo_content">${data.value}</div>
-                    </div>
+                {var mode = sakai.profilewow.profile.mode}
+                {if mode.value === "edit"}
+                    {if data && config.display}
+                        <div class="profilewow_generalinfo_subcontainer">
+                            <label class="profilewow_generalinfo_label">${config.label}:</label>
+                            <input type="text" class="profilewow_generalinfo_content" value="${data.value}">
+                        </div>
+                    {/if}
+                {else}
+                    {if data && data.value && config.display}
+                        <div class="profilewow_generalinfo_subcontainer">
+                            <span class="profilewow_generalinfo_label">${config.label}:</span>
+                            <div class="profilewow_generalinfo_content">${data.value}</div>
+                        </div>
+                    {/if}
                 {/if}
             --></div>
             <div id="profilewow_field_textarea_template"><!--
-                {if data.value && config.display}
+                {if data && data.value && config.display}
                     <div class="profilewow_generalinfo_subcontainer">
                         <span class="profilewow_generalinfo_label">${config.label}:</span>
                         <div class="profilewow_generalinfo_content">${data.value}</div>

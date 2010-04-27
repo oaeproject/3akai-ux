@@ -41,26 +41,26 @@ sakai.profilewow = function(){
             "access": "public",
             "elements": {
                 "firstname": {
-                    "value": "Oszkar",
+                    "value": "Christian",
                     "source": "external",
                     "editable": false,
                     "access": "public"
                 },
                 "lastname": {
-                    "value": "Nagy",
+                    "value": "Vuerings",
                     "source": "external",
                     "editable": false,
                     "changeurl": "http://university.org/raven",
                     "access": "public"
                 },
                 "displayname": {
-                    "value": "Nagy Oszkar",
+                    "value": "Christian Vuerings",
                     "source": "external",
                     "editable": false,
                     "access": "public"
                 },
                 "preferredname": {
-                    "value": "Lightnin' Hopkins",
+                    "value": "denbuzze",
                     "source": "local",
                     "editable": true,
                     "access": "contacts"
@@ -210,7 +210,7 @@ sakai.profilewow = function(){
             "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
             "required": false,
             "display": true,
-            "template": "profilewow_section_publications_template",
+            //"template": "profilewow_section_publications_template",
             "elements": {
                 "title": {
                     "label": "__MSG__PROFILE_PUBLICATIONS_TITLE__",
@@ -326,7 +326,7 @@ sakai.profilewow = function(){
         if ($.inArray(mode, sakai.profilewow.profile.mode.options) !== -1) {
 
             // Perform the redirect
-            window.location = window.location.pathname + "?" + mode;
+            window.location = window.location.pathname + "?mode=" + mode;
 
         }
 
@@ -446,7 +446,7 @@ sakai.profilewow = function(){
         // Add the focus event to the userinfo status
         $profilewow_userinfo_status_input.bind("focus", function(){
 
-            // Check wether the status field has the dummy class
+            // Check whether the status field has the dummy class
             if ($profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy)) {
 
                 // If we don't have the dummy status (e.g. What are you doing) variable set yet, set it now.
@@ -595,11 +595,12 @@ sakai.profilewow = function(){
      */
     var renderTemplateField = function(fieldTemplate, sectionName, fieldObject, fieldName){
 
-        var config = {
+        var json_config = {
             "data": sakai.profilewow.profile.data[sectionName].elements[fieldName],
             "config": sakai.profilewow.profile.config[sectionName].elements[fieldName]
         };
-        return $.TemplateRenderer(fieldTemplate, config);
+
+        return $.TemplateRenderer(fieldTemplate, json_config);
 
     };
 
@@ -625,7 +626,14 @@ sakai.profilewow = function(){
             }
         }
 
-        return sections;
+        var json_config = {
+            "data" : sakai.profilewow.profile.data[sectionName],
+            "config" : sakai.profilewow.profile.config[sectionName],
+            "fields" : $.trim(sections)
+        };
+        console.log(json_config.fields);
+
+        return $.TemplateRenderer(sectionTemplate, json_config);
 
     };
 
@@ -643,7 +651,7 @@ sakai.profilewow = function(){
                 var sectionTemplate = sakai.profilewow.profile.config[i].template ? $("#" + sakai.profilewow.profile.config[i].template, profilewow_class) : $profilewow_section_default_template;
 
                 // Render the template section
-                generalinfo += profilewow_generalinfo_template_container += renderTemplateSection(sectionTemplate, sakai.profilewow.profile.config[i], i);
+                generalinfo += renderTemplateSection(sectionTemplate, sakai.profilewow.profile.config[i], i);
 
             }
         }
