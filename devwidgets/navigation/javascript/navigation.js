@@ -80,9 +80,9 @@ sakai.navigation = function(tuid, showSettings){
 
         for (var current_url_title in site_object) {
 
-            if (site_object[current_url_title]["path"]) {
+            if (site_object[current_url_title]["jcr:path"]) {
 
-                var raw_path_elements = site_object[current_url_title]["path"].split("/");
+                var raw_path_elements = site_object[current_url_title]["jcr:path"].split("/");
                 var path_elements = [];
 
                 // Consider only elements below the start level, and discard "_pages" or empty entries
@@ -102,8 +102,8 @@ sakai.navigation = function(tuid, showSettings){
     var getPageInfoByLastURLElement = function(i_url_element) {
         var return_object = {};
         for (var i in sakai.site.site_info._pages) {
-            if (sakai.site.site_info._pages[i]["path"]) {
-                var temp = sakai.site.site_info._pages[i]["path"].split("/");
+            if (sakai.site.site_info._pages[i]["jcr:path"]) {
+                var temp = sakai.site.site_info._pages[i]["jcr:path"].split("/");
                 var last_url_element = temp[temp.length - 1];
             } else {
                 continue;
@@ -243,13 +243,13 @@ sakai.navigation = function(tuid, showSettings){
 
                     // Source data
                     var src_url_name = node.id.replace("nav_","");
-                    var src_url = sakai.site.site_info._pages[src_url_name]["path"];
+                    var src_url = sakai.site.site_info._pages[src_url_name]["jcr:path"];
                     var src_url_title = sakai.site.site_info._pages[src_url_name]["pageURLTitle"];
                     var src_url_depth = sakai.site.site_info._pages[src_url_name]["pageDepth"];
 
                     // Reference data (the previous or next element to the target)
                     var ref_url_name = ref_node.id.replace("nav_","");
-                    var ref_url = sakai.site.site_info._pages[ref_url_name]["path"];
+                    var ref_url = sakai.site.site_info._pages[ref_url_name]["jcr:path"];
                     var ref_url_title = sakai.site.site_info._pages[ref_url_name]["pageURLTitle"];
                     var ref_url_depth = sakai.site.site_info._pages[ref_url_name]["pageDepth"];
 
