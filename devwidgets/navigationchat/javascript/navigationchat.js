@@ -1181,7 +1181,7 @@ sakai.navigationchat = function(tuid, showSettings){
             return;
         }
         else {
-            set_cookie('sakai_chat', $.toJSON(activewindows), null, null, null, "/", null, null);
+            $.cookie('sakai_chat', $.toJSON(activewindows));
         }
     });
 
@@ -1422,9 +1422,9 @@ sakai.navigationchat = function(tuid, showSettings){
     var loadChatWindows = function(){
 
         // Check if there is a cookie from a previous visit
-        if (get_cookie('sakai_chat')) {
-            activewindows = $.evalJSON(get_cookie("sakai_chat"));
-            delete_cookie("sakai_chat");
+        if ($.cookie('sakai_chat')) {
+            activewindows = $.evalJSON($.cookie("sakai_chat"));
+            $.cookie("sakai_chat", null);
             var toshow = false;
             for (var i = 0, j = activewindows.items.length; i < j; i++) {
                 if (activewindows.items[i].active === true) {

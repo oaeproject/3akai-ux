@@ -1,3 +1,5 @@
+/* NOTE: Despite the version in the header saying 2.1, this is the 2.2 version */
+
 /*
  * jQuery JSON Plugin
  * version: 2.1 (2009-08-14)

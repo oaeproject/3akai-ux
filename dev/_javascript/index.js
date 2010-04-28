@@ -131,7 +131,7 @@ sakai.index = function(){
      * all of the pages. When we have reached this page, it means that our
      * session has ended and we can remove this cookie.
      */
-    set_cookie('sakai_chat','', null, null, null, "/", null, null );
+    $.cookie('sakai_chat','');
 
 
     ////////////////////
