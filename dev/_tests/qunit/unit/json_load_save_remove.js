@@ -43,8 +43,8 @@ var testJSON = {
     }, "teststring", 42, true]
 };
 var testJSON2 = {"columns":{"column1":[{"name":"myfriends","visible":"block","uid":"id4299438144022"}],"column2":[{"name":"myprofile","visible":"block","uid":"id8955496030554"},{"name":"sites","visible":"block","uid":"id4199484876783"}]},"layout":"dev"};
-var testURL = "/_user/a/ad/admin/public/test.json";
-var testURL2 = "/_user/a/ad/admin/public/test2.json";
+var testURL = "/_user/a/ad/admin/public/test";
+var testURL2 = "/_user/a/ad/admin/public/test2";
 
 
 var save = function(url, json){
@@ -66,7 +66,7 @@ var save = function(url, json){
         },
         success: function(){
             // We need to copy the testJSON in order to make sure we don't modify it inside this function
-            sakai.api.Server.saveJSON(url, $.extend(true, {}, json), saveCallback);
+            sakai.api.Server.saveJSON(url, json, saveCallback);
         },
         error: function(){
             ok(false);

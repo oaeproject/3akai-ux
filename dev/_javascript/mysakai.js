@@ -134,7 +134,6 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
         sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, jsonobj, saveGroup);
 
     };
@@ -234,7 +233,6 @@ sakai.dashboard = function(){
 
             myportaljson = $.evalJSON(jsonstring);
 
-            sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
@@ -377,7 +375,6 @@ sakai.dashboard = function(){
             myportaljson = $.evalJSON(jsonstring);
             layout = myportaljson;
 
-            sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
         }
 
@@ -510,7 +507,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/_user" + sakai.data.me.profile.path + "/private/widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
@@ -638,7 +635,6 @@ sakai.dashboard = function(){
                 }
             }
 
-            sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, checksucceed);
 
         }
@@ -815,7 +811,6 @@ sakai.dashboard = function(){
 
         myportaljson = $.evalJSON(jsonstring);
 
-        sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile);
         sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
     };

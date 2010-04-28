@@ -846,7 +846,9 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         return obj;
     };
 
-    i_data = convertArrayToObject(i_data);
+    // Convert the array of objects to only objects
+    // We also need to deep copy the object so we don't modify the input parameter
+    i_data = convertArrayToObject($.extend(true, {}, i_data));
 
     // Send request
     $.ajax({
@@ -854,8 +856,10 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         type: "POST",
         data: {
             ":operation": "createTree",
-            "tree": $.toJSON(i_data)
+            "tree": $.toJSON(i_data),
+            "delete": 1
         },
+        dataType: "json",
 
         success: function(data){
 
@@ -966,6 +970,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
     $.ajax({
         url: i_url + ".infinity.json",
         cache: false,
+        dataType: "json",
         success: function(data) {
 
             // Transform JSON string to an object
@@ -1862,7 +1867,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
             templateElement = $("#" + templateName);
         }
         else {
-            throw "$.TemplateRenderer: The templateElement is not in a valid format or the template couldn't be found.";
+            throw "$.TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
         }
 
         if (!templateCache[templateName]) {

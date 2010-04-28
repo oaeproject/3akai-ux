@@ -99,7 +99,7 @@ sakai.recentmessages = function(tuid, showSettings){
 
         // Fire an Ajax request to get the recent messages for the current user
         $.ajax({
-            url: MESSAGE_BOXCATEGORY_SERVICE + "?" + params,
+            url: sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?" + params,
             cache: false,
             success: function(data){
                 loadRecentMessages(data);

@@ -127,7 +127,7 @@ sakai.twitter = function(tuid, showSettings){
             };
 
             $.ajax({
-                url: "/_user/public/" + sakai.data.me.user.userid + "/authprofile",
+                url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
                 type: "POST",
                 data: data,
                 success: function(data){
