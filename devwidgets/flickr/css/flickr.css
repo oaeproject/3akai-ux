@@ -55,12 +55,12 @@
 #flickr_key_ul_preview .flickr_preview_thumb { width:75px;}
 
 /*Make sure the login button and text are hidden at the start */
-#flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,.flickr_hiddenImage,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error, #flickr_no_public {
+#flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,.flickr_hiddenImage,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error, #flickr_no_public, #flickr_input_page_error {
     display:none;
 }
 
 /*error messages */
-#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error, #flickr_no_public{ color:#ff0000; margin:10px 0px 0px 30px;}
+#flickr_input_error , #flickr_input_same_error,#flickr_input_person_error , #flickr_input_same_person_error,#flickr_no_person_error, #flickr_no_public, #flickr_input_page_error{ color:#ff0000; margin:10px 0px 0px 30px;}
 
 /*These classes can be added to a textbox to change the textcolor */
 .flickr_changeColorBlack{ color:#000000;}

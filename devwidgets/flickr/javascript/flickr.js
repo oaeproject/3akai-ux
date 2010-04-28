@@ -186,6 +186,7 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrInputPersonSameError = $("#flickr_input_same_person_error",rootel);
     var $flickrNoPersonError = $("#flickr_no_person_error",rootel);
     var $flickrNoPublic = $("#flickr_no_public",rootel);
+    var $flickrInputPageError = $("#flickr_input_page_error",rootel);
 
     // Functions
     var addDelBtn;
@@ -297,6 +298,22 @@ sakai.flickr = function(tuid, showSettings){
     };
 
     /**
+     * This function will append the just rendered images to the gallery
+     * @param {Object} data
+     */
+    var addPicturesToPersonGalFromPaging = function(data,requestedPage){
+
+        console.log(requestedPage);
+
+        //Render the image gallery
+        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
+
+        //This function will display the requested page and hide the previously shown page, e.g reqpage: 2 and the previously shown page is 1
+        shiftToRequestedPage(requestedPage);
+
+    };
+
+    /**
      * This will get 5 new images when there are no images left after the user drags and drops images
      */
     var requestNewImagesPerson = function(){
@@ -320,6 +337,37 @@ sakai.flickr = function(tuid, showSettings){
         });
         
     };
+
+    /**
+     * This function will do an ajax call and then on succes it will execute the given callback function
+     * This callback function can either be a function to render something or eventually trigger this function again with another callback function
+     * @param {Integer} pageNr , the page that will be requested from the flickr api e.g this is page 2 if the user requests page 3
+     * @param {Integer} requestedPage this is the page the user requested
+     * @param {Function} callbackFunction this is the function that has to be executed when the call is complete
+     * @example getRequestedPage(3,2,addPicturesToPersonGalFromPaging)
+     */
+    var getRequestedPage = function(){
+
+        params = arguments;
+        // Ajax call to get the user details
+        $.ajax({
+            url: sakai.config.URL.flickrGetPicturesByUserId ,
+            success: function(data){
+                params[2](data,params[1],params[3],params[4]);
+                currentPage = params[1];
+            },
+            error: function(xhr, textStatus, thrownError){
+                fluid.log("Error at the request for new images after the drag and drop");
+            },
+            data: {
+                "userid": userId,
+                "api_key":key,
+                "page":params[0]
+            }
+        });
+        
+    };
+
 
     /**
      * This function will check if both arrows have to be hidden
@@ -564,7 +612,7 @@ sakai.flickr = function(tuid, showSettings){
         var $lsttitem;
 
         // Remove from sling
-        //removeSavedData($(".flickr_image",$(this).parent()));
+        removeSavedData($(".flickr_image",$(this).parent()));
 
         // Delete the image
         $(this).parent().remove();
@@ -1042,13 +1090,128 @@ sakai.flickr = function(tuid, showSettings){
     };
 
     /**
+     * This function will display the requestedpage
+     * @param {Integer} pageToShow
+     * @example shiftToRequestedPage(2)
+     */
+    var shiftToRequestedPage = function(pageToShow){
+        $('img',$flickrKeyPersonGallery).hide();
+        $('img',$flickrKeyPersonGallery).slice(((pageToShow - 1) * 5), (pageToShow * 5)).show();
+    };
+
+
+    /**
+     * This function will append the new images to the gallery and display those which are requested
+     * @param {Object} data, response from the ajax call
+     * @param {Integer} requestedPage the page that the user requested
+     */
+    var renderLastPage = function(data,requestedPage){
+
+        //Render the image gallery
+        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
+        $('img', $flickrKeyPersonGallery).hide();
+        $('img',$flickrKeyPersonGallery).slice(((requestedPage - 4) * 5), ((requestedPage -3) * 5)).show();
+    };
+
+
+    /**
+     * This function will append the new images to the gallery and display those which are requested
+     * @param {Object} data, response from the ajax call
+     * @param {Integer} requestedPage the page that the user requested
+     */
+    var renderSecondPage = function(data,requestedPage){
+
+        //Render the image gallery
+        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
+        $('img', $flickrKeyPersonGallery).hide();
+        $('img',$flickrKeyPersonGallery).slice(((requestedPage - 2) * 5), ((requestedPage -1) * 5)).show();
+    };
+
+
+    /**
+     * This function will render the new images in the gallery and start an new ajax call, that will executed the next callback function on succes
+     * @param {Object} data the response gotten form the ajax call
+     * @param {Integer} requestedPage the page the user requested
+     * @param {Object} callbackFunction a function that has to be executed after the ajax call
+     * @param {Object} secondCallbackFunction a function that has to be executed after the 2nd ajax call
+     */
+    var renderfirstPage = function(data,requestedPage,callbackFunction,secondCallbackFunction){
+
+        //Render the image gallery
+        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
+
+        $('img', $flickrKeyPersonGallery).hide();
+
+        requestedPage = requestedPage + 1;
+
+        getRequestedPage(requestedPage,requestedPage, callbackFunction,secondCallbackFunction);
+
+    };
+
+    /**
+     * This function will check if the page should be requested, or just displayed
+     * @param {Object} requestedPage, The number the user entered in the inputbox
+     * @example checkWhichPagesToRequest(3);
+     */
+    var checkWhichPagesToRequest = function(requestedPage){
+
+        // Check if the user is requesting the totalamount of loaded images 
+        // e.g the user is on page 1, so page 2 is allready loaded, the user requests page 2, so page 2 should be shown and page 3 requested
+        if(requestedPage === getPagesCorrect($("li", $flickrKeyPersonGallery).length,5)+ dragged + draggedKey){ // 2 === 2 , because the user requests page 2 and 2 pages are loaded
+            if(requestedPage !== totalPages ){ // Check if the user isn't on page 10, because then no new call should be done
+                console.log(requestedPage +1);
+                var toHidePage = currentPage;
+
+                //Get the new images,
+                getRequestedPage(requestedPage + 1,requestedPage,addPicturesToPersonGalFromPaging);
+
+                console.log("case 1");
+            }
+        }
+         // check if the requested page is smaller than the total mount of loaded images
+         // e.g the user is on page 1 and all the pages are loaded so he can navigate to all pages
+         // the case of if the user is on page 1 and requests page 2 the total amount of pages is 2 is allready solved 
+          else if(getPagesCorrect($("li", $flickrKeyPersonGallery).length ,5)+ dragged + draggedKey >= requestedPage){
+            $("img",$("li",$flickrKeyPersonGallery)).hide();
+            $("img",$("li",$flickrKeyPersonGallery)).slice(((requestedPage - 1)*5),requestedPage * 5).show();
+
+        }else if(requestedPage === totalPages){
+            //Check if the the last page -1 is loaded, if it is, only request page the lastpage, else request the lastpage -1 and the lastpage
+            if(requestedPage -1 === getPagesCorrect($("li", $flickrKeyPersonGallery).length ,5)){ //e.g the requested page is 10 (so 9 should be loaded too), so see how many are loaded
+                console.log("last page requested");
+                getRequestedPage(requestedPage,requestedPage,addPicturesToPersonGalFromPaging);
+            }else{
+                console.log('Requested lastpage and the page before the last page');
+                getRequestedPage(requestedPage-1, requestedPage-1, renderfirstPage,addPicturesToPersonGalFromPaging);
+            }
+          // Check if the requested page + 1 is bigger than the amount of loaded images
+          // e.g the user is on page 1 and page 1 & 2 are loaded, but the user requests page 3, this means page 3 & 4 should be requested
+          // so 3-1 === 2, this means that page 3 & 4 should be loaded
+        }else if(requestedPage - 1 === getPagesCorrect($("li", $flickrKeyPersonGallery).length ,5)+ dragged + draggedKey ){
+            console.log('requesting page ' + requestedPage +" and "+ requestedPage + 1);
+            getRequestedPage(requestedPage, requestedPage, renderfirstPage,renderSecondPage);
+
+            console.log("case 2");
+
+            //Check if the requested page is equal to the total amount of page
+            //e.g the user is page 1 and has requested page 10, so page 10 should be requested
+        }else{
+            //Last case e.g : the user is on page 1 so page 1 & 2 are loaded, the user requests page 4, so 3 4 5 should be requested
+                getRequestedPage(requestedPage -1,requestedPage -1,renderfirstPage,renderfirstPage,renderLastPage);
+        }
+    };
+
+    /**
      * This function is called on a keypress
      * @param {Object} event, the event itself to check which key is pressed
      */
     var checkValueInputPerson = function(event){
         if(event.keyCode === 13){
-           if($flickrPaggingInput.val()> totalPages){
-               //display error
+           $flickrInputPageError.hide();
+           if(($flickrPaggingInput.val()> totalPages)||($flickrPaggingInput.val()< 1)){
+               $flickrInputPageError.show();
+           }else{
+               checkWhichPagesToRequest(parseInt($flickrPaggingInput.val(),10));
            }
         }
     };
