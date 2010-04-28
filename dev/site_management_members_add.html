@@ -18,23 +18,27 @@
 
 
     <!-- Sakai Config JS -->
-    <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+    <script type="text/javascript" src="_configuration/widgets.js"></script>
+    <script type="text/javascript" src="_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
 </head>
 <body id="root" class="fl-centered fl-container i18nable add-members">
@@ -86,7 +90,7 @@
                                     {/for}
                                 --></div>
                                 <!-- <strong>Tag selected people as:</strong>
-                        <input type="text" class="tag-people" value="Add your tags here" /> -->
+                        <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
                                 <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__ADD_SELECTED_PEOPLE__</span></button>
 
                             </form>
@@ -118,7 +122,7 @@
                     <div class="fl-col-flex">
                         <div class="flex-container">
                             <div class="member-search">
-                                <input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, or comma separated lists" />
+                                <input type="text" maxlength="255" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, or comma separated lists" />
                                 <input type="submit" value="Search" id="btn_members_search" class="submit-button" />
                             </div>
                             <div class="explore_nav" style="margin-top: -45px;">

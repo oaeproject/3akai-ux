@@ -18,23 +18,27 @@
 
 
     <!-- Sakai Config JS -->
-    <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+    <script type="text/javascript" src="_configuration/widgets.js"></script>
+    <script type="text/javascript" src="_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>        
-    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>        
-    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
 </head>
 <body id="root" class="fl-centered fl-container i18nable add-members">
@@ -88,7 +92,7 @@
                             {/for}
                             --></div>
                                 <!-- <strong>Tag selected people as:</strong>
-                        <input type="text" class="tag-people" value="Add your tags here" /> -->
+                        <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
                                 <div id="membership-status-settings" style="display:none">
                                     <div class="status"><span class="section">Membership status:</span></div>
                                     <ul>
@@ -141,7 +145,7 @@
                                     <a href="javascript:;" id="btn_members_filter" class="s3d-action">Filter</a>
                                 </div>
                                 <div class="member-search fl-force-right">
-                                    <input type="text" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, ..." />
+                                    <input type="text" maxlength="255" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="Enter names, emails, ..." />
                                 </div>
                             </div>
 
@@ -212,6 +216,6 @@
 <div id="widget_footer" class="widget_inline footercontainer"></div>
 
 <!-- Sakai page JS -->
-<script type="text/javascript" language="JavaScript" src="_javascript/site_manage_members.js"></script>
+<script type="text/javascript" src="_javascript/site_manage_members.js"></script>
 </body>
 </html>

@@ -299,10 +299,18 @@ sakai.api.i18n.init = function(){
     ////////////////////
 
     /*
+     * Cache the jQuery i18nable element. This makes sure that only pages with
+     * the class i18nable on the body element get i18n translations and won't do
+     * it on other pages.
+     * <body class="i18nable">
+     */
+    var $i18nable = $("body.i18nable");
+
+    /*
      * We take the HTML that is inside the body tag. We will use this to find string we want to
      * translate into the language chosen by the user
      */
-    var tostring = $(document.body).html();
+    var tostring = $i18nable.html();
 
 
     ////////////////////////////
@@ -349,7 +357,7 @@ sakai.api.i18n.init = function(){
      * and load them into the document
      */
     var finishI18N = function(){
-        $(document.body).show();
+        $i18nable.show();
         sdata.container.setReadyToLoad(true);
         sdata.widgets.WidgetLoader.insertWidgets(null, false);
     };
@@ -369,7 +377,9 @@ sakai.api.i18n.init = function(){
         // We actually use the old innerHTML function here because the jQuery.html() function will
         // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
         // will already be loaded
-        document.body.innerHTML = newstring;
+        if($i18nable.length > 0){
+            $i18nable[0].innerHTML = newstring;
+        }
         document.title = sakai.api.i18n.General.process(document.title, localjson, defaultjson);
         finishI18N();
     };
@@ -490,6 +500,10 @@ sakai.api.i18n.General = sakai.api.i18n.General || {};
  * @return {String} A processed string where all the messages are replaced with values from the language bundles
  */
 sakai.api.i18n.General.process = function(toprocess, localbundle, defaultbundle) {
+
+    if(!toprocess){
+        return "";
+    }
 
     var expression = new RegExp("__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
     while(expression.test(toprocess)) {
@@ -779,12 +793,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
      * <code>
      * {
      *     "boolean": true,
-     *     "array_object": [
-     *         {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *        }
-     *     ]
+     *     "array_object": [{ "key1": "value1", "key2": "value2"}, { "key1": "value1", "key2": "value2"}]
      * }
      * </code>
      * to
@@ -792,10 +801,8 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
      * {
      *     "boolean": true,
      *     "array_object": {
-     *         "__array__0__": {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *         }
+     *         "__array__0__": { "key1": "value1", "key2": "value2"},
+     *         "__array__1__": { "key1": "value1", "key2": "value2"}
      *     }
      * }
      * </code>
@@ -808,8 +815,9 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         // we need to write extra functionality for this.
         for(var i in obj){
 
+
             // Check if the element is an array, whether it is empty and if it contains any elements
-            if(obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length>0 && $.isObject(obj[i][0])){
+            if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
 
                 // Deep copy the array
                 var arrayCopy = $.extend(true, [], obj[i]);
@@ -818,21 +826,29 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
                 obj[i] = {};
 
                 // Add all the elements that were in the original array to the object with a unique id
-                for(var j = 0, jl = arrayCopy.length; j < jl ; j++){
-
-                    // Run recursively over all the objects in the main object
-                    convertArrayToObject(arrayCopy[j]);
+                for (var j = 0, jl = arrayCopy.length; j < jl; j++) {
 
                     // Copy each object from the array and add it to the object
                     obj[i]["__array__" + j + "__"] = arrayCopy[j];
+
+                    // Run recursively
+                    convertArrayToObject(arrayCopy[j]);
                 }
             }
+
+            // If there are array elements inside
+            else if ($.isPlainObject(obj[i])) {
+                convertArrayToObject(obj[i]);
+            }
+
         }
 
         return obj;
     };
 
-    i_data = convertArrayToObject(i_data);
+    // Convert the array of objects to only objects
+    // We also need to deep copy the object so we don't modify the input parameter
+    i_data = convertArrayToObject($.extend(true, {}, i_data));
 
     // Send request
     $.ajax({
@@ -840,8 +856,10 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         type: "POST",
         data: {
             ":operation": "createTree",
-            "tree": $.toJSON(i_data)
+            "tree": $.toJSON(i_data),
+            "delete": 1
         },
+        dataType: "json",
 
         success: function(data){
 
@@ -914,24 +932,35 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
      */
     var convertObjectToArray = function(specficObj, globalObj, objIndex){
 
-        // Define the regural expression
-        var expression = new RegExp("__array__(.*?)__", "gm");
-
         // Run over all the items in the object
         for (var i in specficObj) {
 
-            if (specficObj.hasOwnProperty(i) && $.isObject(specficObj[i])) {
-                var expressionExecute = expression.test(i);
-                if (expressionExecute) {
+            // If exists and it's an object recurse
+            if (specficObj.hasOwnProperty(i)) {
+
+                // If it's a non-empty array-object it will have a first element with the key "__array__0__"
+                if (i === "__array__0__") {
+
+                    // We need to get the number of items in the object
                     var arr = [];
+                    var count = 0;
                     for (var j in specficObj) {
                         if (specficObj.hasOwnProperty(j)) {
-                            arr[arr.length] = specficObj[j];
+                            count++;
                         }
                     }
+
+                    // Construct array of objects
+                    for(var k = 0, kl = count; k < kl; k ++){
+                        arr.push(specficObj["__array__"+k+"__"]);
+                    }
+
                     globalObj[objIndex] = arr;
                 }
-                convertObjectToArray(specficObj[i], specficObj, i);
+
+                if ($.isPlainObject(specficObj[i])) {
+                    convertObjectToArray(specficObj[i], specficObj, i);
+                }
             }
 
         }
@@ -941,6 +970,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
     $.ajax({
         url: i_url + ".infinity.json",
         cache: false,
+        dataType: "json",
         success: function(data) {
 
             // Transform JSON string to an object
@@ -1017,110 +1047,6 @@ sakai.api.Server.removeJSON = function(i_url, callback){
             }
         }
     });
-};
-
-/**
- * Saves any type of data into one JCR node
- *
- * @param {String} i_url The path to the preference which needs to be loaded
- * @param {String|Object} i_data The data we want to save
- * @param {Function} callback A callback function which is executed at the end
- * of the operation
- * @return {Void}
- */
-sakai.api.Server.saveData = function(i_url, i_data, callback) {
-
-    // Argument check
-    if ((!i_url) || (i_url === "") || (!i_data)) {
-        fluid.log("sakai.api.Server.saveData: Not enough or empty arguments!");
-        return;
-    }
-
-    // Create JSON String from supplied data if it's not a string
-    var data_string = "";
-    if (typeof i_data !== "string") {
-        data_string = $.toJSON(i_data);
-    } else {
-        data_string = i_data;
-    }
-
-
-    // Send request
-    $.ajax({
-            url: i_url,
-            type: "POST",
-            data: {
-                "sakai:data": data_string
-            },
-
-        success: function(data) {
-
-            // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
-                callback(true, data);
-            }
-        },
-
-        error: function(xhr, status, e) {
-
-            // Log error
-            fluid.log("sakai.api.Server.saveData: There was an error saving data to: " + this.url);
-
-            // If a callback function is specified in argument, call it
-            if (typeof callback === "function") {
-                callback(false, xhr);
-            }
-        }
-    });
-};
-
-
-/**
- * Loads saved data from a JCR node
- *
- * @param {String} i_url The path to the preference which needs to be loaded
- * @param {Function} callback A callback function which is executed at the end
- * of the operation
- *
- * @returns {Void}
- */
-sakai.api.Server.loadData = function(i_url, callback) {
-
-
-    // Append a .json to the end of the URL if it isn't there to avoid Nakamura throwing 403
-    // Saving to a node has to be without .json - loading has to be with it...
-    if (i_url.substr(-5) !== ".json") {
-        i_url = i_url + ".json";
-    }
-
-    $.ajax({
-        url: i_url,
-        cache: false,
-        success: function(data) {
-
-            var node_data = $.evalJSON(data);
-
-            // Call callback function if present
-            if (typeof callback === "function") {
-                callback(true, node_data["sakai:data"]);
-            }
-        },
-        error: function(xhr, status, e) {
-
-            // Log error
-            if (xhr.status === 404) {
-                fluid.log("sakai.api.Server.loadData:" + this.url + " does not exist!");
-            } else {
-                fluid.log("sakai.api.Server.loadData: There was an error loading data from: " + this.url + " Status code: " + xhr.status);
-            }
-
-            // Call callback function if present
-            if (typeof callback === "function") {
-                callback(false, xhr);
-            }
-        }
-    });
-
 };
 
 
@@ -1532,8 +1458,10 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
  *     </ul>
  * </p>
  *
- * @param {String|Integer} dateInput The date that needs to be converted to a JavaScript date object
- * @return {Date} JavaScript date
+ * @param {String|Integer} dateInput
+ *     The date that needs to be converted to a JavaScript date object.
+ *     If the format is in milliseconds, you need to provide an integer, otherwise a string
+ * @return {Date} JavaScript date object
  */
 sakai.api.Util.parseSakaiDate = function(dateInput) {
 
@@ -1545,7 +1473,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
         "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
 
     // Test whether the format is in milliseconds
-    if(regexpInteger.test(dateInput)) {
+    if(regexpInteger.test(dateInput) && typeof dateInput !== "string") {
        return new Date(dateInput);
     }
 
@@ -1580,6 +1508,7 @@ sakai.api.Util.parseSakaiDate = function(dateInput) {
 /**
  * Removes JCR or Sling properties from a JSON object
  * @param {Object} i_object The JSON object you want to remove the JCR object from
+ * @returns void
  */
 sakai.api.Util.removeJCRObjects = function(i_object) {
 
@@ -1599,12 +1528,10 @@ sakai.api.Util.removeJCRObjects = function(i_object) {
         delete i_object["jcr:mixinTypes"];
     }
 
-
     // Loop through keys and call itself recursively for the next level if an object is found
     for (var i in i_object) {
-        if ((i_object.hasOwnProperty(i)) && (typeof i_object[i] === "object")) {
-          var next_object = i_object[i];
-          sakai.api.Util.removeJCRObjects(next_object);
+        if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
+          sakai.api.Util.removeJCRObjects(i_object[i]);
         }
     }
 
@@ -1940,7 +1867,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
             templateElement = $("#" + templateName);
         }
         else {
-            throw "$.TemplateRenderer: The templateElement is not in a valid format or the template couldn't be found.";
+            throw "$.TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
         }
 
         if (!templateCache[templateName]) {
@@ -2012,31 +1939,6 @@ if(Array.hasOwnProperty("indexOf") === false){
 }
 
 
-
-// TODO remove and replace with &.isPlainObject as soon as we use jQuery1.4!
-(function(jQuery){
-
-    var toString = Object.prototype.toString, hasOwnProp = Object.prototype.hasOwnProperty;
-
-    jQuery.isObject = function(obj){
-        if (toString.call(obj) !== "[object Object]") {
-            return false;
-        }
-
-        //own properties are iterated firstly,
-        //so to speed up, we can test last one if it is not own
-
-        var key;
-        for (key in obj) {
-        }
-
-        return !key || hasOwnProp.call(obj, key);
-    };
-
-})(jQuery);
-
-
-
 /**
  * Entry point for functions which needs to automatically start on each page
  * load.
@@ -2055,6 +1957,7 @@ sakai.api.autoStart = function() {
 
             // Start l10n
             sakai.api.l10n.init();
+
         });
 
         // Start Widget container functions

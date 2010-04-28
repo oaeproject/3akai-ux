@@ -19,30 +19,34 @@
     <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
 
     <!-- Sakai Config JS -->
-    <script type="text/javascript" language="JavaScript" src="/dev/_configuration/widgets.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_configuration/config.js"></script>
+    <script type="text/javascript" src="/dev/_configuration/widgets.js"></script>
+    <script type="text/javascript" src="/dev/_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jQuery/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="/dev/_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/i18n.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/site_authz.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/notifications.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/site_authz.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/notifications.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/sakai_3rdparty.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/rsh.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_javascript/_history/site_history.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/Jquery/jqScrollPane.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+    <script type="text/javascript" src="/dev/_javascript/_history/rsh.js"></script>
+    <script type="text/javascript" src="/dev/_javascript/_history/site_history.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jsTree/jquery.tree.min.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/BrowserDetect.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqScrollPane.js"></script>
+    <script type="text/javascript" src="/dev/_lib/AutoComplete/jquery.autocomplete.min.js"></script>
 
 
     </head>
@@ -357,7 +361,7 @@
                 <div class="edit_contents_main">
 
                     <div class="title_input_container" id="title-input-container">
-                    <input type="text" value="Untitled" class="title-input" id="title-input"/>
+                    <input type="text" value="Untitled" maxlength="255" class="title-input" id="title-input"/>
                     </div>
 
                     <div id="fl-tab-content-editor">
@@ -726,7 +730,7 @@
             <div class="dialog_content">
                 <form>
                 <label for="dashboard_addpage_title">What is the title for your new dashboard page.</label><br />
-                <input type="text" id="dashboard_addpage_title" />
+                <input type="text" maxlength="255" id="dashboard_addpage_title" />
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
@@ -742,7 +746,7 @@
             </div>
         </div>
 
-        <script type="text/javascript" language="JavaScript" src="/dev/_javascript/site.js"></script>
-        <script type="text/javascript" language="JavaScript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
+        <script type="text/javascript" src="/dev/_javascript/site.js"></script>
+        <script type="text/javascript" src="/dev/_lib/tiny_mce/tiny_mce.js"></script>
     </body>
 </html>

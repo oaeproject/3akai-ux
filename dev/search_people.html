@@ -19,25 +19,29 @@
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
 
         <!-- Sakai Config JS -->
-        <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
 
         <!-- Core 3rd-party JS -->
-        <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_javascript/_history/rsh.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_javascript/_history/search_history.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_javascript/_history/rsh.js"></script>
+        <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
     </head>
 
     <body id="root" class="fl-centered fl-container i18nable search-container">
@@ -77,7 +81,7 @@
                                     <option value="my_contacts" id="search_filter_my_contacts">__MSG__MY_CONTACTS__</option>
                                 </select>
 
-                                <input type="text" id="search_text" class="input" value="__MSG__ENTER_A_SEARCH_TERM__" />
+                                <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCH_TERM__" />
                                 <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
                         </div>
@@ -107,9 +111,9 @@
                                 {for i in items}
                                 <div class="fl-container fl-fix search_result_person">
                                 {if ! i.picture}
-                                <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+                                <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="To see the person profile"></a>
                                 {else}
-                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
+                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="To see the person profile"><img alt="" src="${i.picture}" width="60px" height="60px"/></a>
                                 {/if}
                                 <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
                                 {if i.extra}
@@ -156,7 +160,7 @@
 
         <div id="widget_createsite" class="widget_inline"></div>
 
-        <script type="text/javascript" language="JavaScript" src="_javascript/search_main.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_javascript/search_people.js"></script>
+        <script type="text/javascript" src="_javascript/search_main.js"></script>
+        <script type="text/javascript" src="_javascript/search_people.js"></script>
     </body>
 </html>

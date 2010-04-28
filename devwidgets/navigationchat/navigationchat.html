@@ -98,9 +98,9 @@
                 {if me}
                 <td class="chat_available_image">
                     {if me.photo}
-                        <img src="${me.photo}"/>
+                        <img src="${me.photo}" alt="" />
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" />
+                        <img src="/dev/_images/person_icon.jpg" alt="" />
                     {/if}
                 </td>
                 <td>
@@ -119,9 +119,9 @@
                         <tr class="chat_available_friend">
                             <td class="chat_available_image">
                                 {if i.photo}
-                                    <img src="${i.photo}" />
+                                    <img src="${i.photo}" alt="" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" />
+                                    <img src="/dev/_images/person_icon.jpg" alt="" />
                                 {/if}
                             </td>
                             <td>
@@ -185,9 +185,9 @@
                     <tr class="chat_top_container">
                         <td class="chat_available_image">
                             {if i.photo}
-                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" />
+                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="" />
                             {else}
-                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
+                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="" />
                             {/if}
                         </td>
                         <td>
@@ -243,4 +243,4 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" language="JavaScript" src="/devwidgets/navigationchat/javascript/navigationchat.js"></script>
+<script type="text/javascript" src="/devwidgets/navigationchat/javascript/navigationchat.js"></script>

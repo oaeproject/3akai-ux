@@ -15,31 +15,35 @@
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-        <link rel="stylesheet" type="text/css" href="_lib/Jquery/imgareaselect/imgareaselect-default.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
 
         <!-- Sakai Config JS -->
-        <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
 
         <!-- Core 3rd-party JS -->
-        <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/site_authz.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/GWT/gwt_caller.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.threedots.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
-        <script type="text/javascript" language="JavaScript" src="_lib/Jquery/imgareaselect/jquery.imgareaselect.pack.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_lib/GWT/gwt_caller.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.threedots.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
+        <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
 
     </head>
 
@@ -168,7 +172,7 @@
                 <div class="decor"><!-- --></div>
                 <!-- GREETING -->
                 <div class="fl-col fl-container-500 greeting">
-                    <a class="greeting_picture" id="picture_holder"><img alt="My avatar" src="/dev/_images/person_icon.jpg" /></a>
+                    <a class="greeting_picture" id="picture_holder"><img alt="__MSG__MY_AVATOR__" src="/dev/_images/person_icon.jpg" /></a>
                     <span class="greeting_text">__MSG__HI__ <span id="hispan"></span>!</span>
                     <a class="greeting_links" href="javascript:;" id="changepic_container_trigger">__MSG__CHANGE_PHOTO__</a>
                     <span class="pipe_divider">|</span>
@@ -239,7 +243,7 @@
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-        <script type="text/javascript" language="JavaScript" src="_javascript/mysakai.js"></script>
+        <script type="text/javascript" src="_javascript/mysakai.js"></script>
 
     </body>
 </html>

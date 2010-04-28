@@ -16,22 +16,26 @@
     <!-- 3rd party CSS -->
 
     <!-- Sakai Config JS -->
-    <script type="text/javascript" language="JavaScript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_configuration/config.js"></script>
+    <script type="text/javascript" src="_configuration/widgets.js"></script>
+    <script type="text/javascript" src="_configuration/config.js"></script>
 
     <!-- Core 3rd-party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-1.4.2.min.js"></script>        
-    <script type="text/javascript" language="JavaScript" src="_lib/jQuery/jquery-ui-1.8.custom.min.js"></script>        
-    <script type="text/javascript" language="JavaScript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/Jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/i18n.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" language="JavaScript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 </head>
 
 <body class="fl-centered account_preferences i18nable">
@@ -75,15 +79,15 @@
         <form id="account_preferences_password_change" class="preferences-form" method="POST" action="javascript:;">
             <div class="form-item">
                     <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
-                    <input type="password" id="curr_pass" class="password-preferences-input" />
+                    <input maxlength="255" type="password" id="curr_pass" class="password-preferences-input" />
             </div>
             <div class="form-item">
                     <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
-                    <input type="password" id="new_pass" class="password-preferences-input" />
+                    <input maxlength="255" type="password" id="new_pass" class="password-preferences-input" />
             </div>
             <div class="form-item">
                     <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
-                    <input type="password" id="retype_pass" class="password-preferences-input" />
+                    <input maxlength="255" type="password" id="retype_pass" class="password-preferences-input" />
             </div>
             <div class="save-preferences">
                 <button id="account_preferences_saveNewPass" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">__MSG__SAVE_CHANGES__</span></button>
@@ -719,6 +723,6 @@
     <!-- FOOTER WIDGET -->
     <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-    <script type="text/javascript" language="JavaScript" src="_javascript/account_preferences.js"></script>
+    <script type="text/javascript" src="_javascript/account_preferences.js"></script>
 </body>
 </html>
