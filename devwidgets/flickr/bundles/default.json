@@ -14,5 +14,6 @@
 "SUBMIT" : "Submit",
 "CANCEL" : "Cancel",
 "SLIDESHOW" : "Go to flickr for more information",
-"DELETE" : "Delete"
+"DELETE" : "Delete",
+"INPUT_PAGGING":""
 }
