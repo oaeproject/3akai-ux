@@ -62,14 +62,11 @@
     padding-right: 5px;
     width: 400px;
 }
-#profilewow_generalinfo .profilewow_generalinfo_acl {
-    
-}
-
 #profilewow_generalinfo .profilewow_generalinfo_subcontainer {
     clear: both;
-    margin:8px 0;
+    margin: 7px 0;
     overflow: auto;
+    padding: 1px 0;
 }
 #profilewow_generalinfo .profilewow_generalinfo_label, .profilewow_generalinfo label {
     display: block;

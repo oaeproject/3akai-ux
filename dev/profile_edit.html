@@ -80,7 +80,7 @@
                 <div class="profile_contents_main">
 
                     <div class="fl-fix profile_user_info">
-                        <a href="javascript:;" id='picture_holder'><img class="profile_user_pic" alt="User Picture" src="_images/default_profile_picture_shadow_110.png" /></a>
+                        <a href="javascript:;" id="picture_holder" title="__MSG__USER_PICTURE__"><img class="profile_user_pic" alt="__MSG__USER_PICTURE__" src="_images/default_profile_picture_shadow_110.png" /></a>
 
                         <div id="profile_user_name" class="profile_user_name"></div>
 
@@ -234,7 +234,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="width:15px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="Remove the degree" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                    <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -297,12 +297,12 @@
                                                     (<span class="overalltitle">${i.ovtitle}</span>
                                                     <span class="number">${i.number}</span>)
                                                     {if i.url}
-                                                        <a href="${i.url}" target="_blank" title="Link to the paper"><img src="_images/link_icon.gif" border="0" alt=""></a>
+                                                        <a href="${i.url}" target="_blank" title="__MSG__LINK_TO_THE_PAPER__"><img src="_images/link_icon.gif" border="0" alt=""></a>
                                                     {/if}
                                                 </div>
                                             </td>
                                             <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="Remove the paper record" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -345,7 +345,7 @@
                                                 <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
                                                     <b>${i.title}</b>
                                                     {if i.url}
-                                                        <a href="${i.url}" target="_blank" title="To see the talk record content"><img src="_images/link_icon.gif" alt="" border="0"></a>
+                                                        <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD_CONTENT__"><img src="_images/link_icon.gif" alt="" border="0"></a>
                                                     {/if}
                                                     <br/>
                                                     {if i.coauth}
@@ -357,7 +357,7 @@
                                                 </div>
                                             </td>
                                             <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="Remove the talk record" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -410,7 +410,7 @@
                                                 </div>
                                             </td>
                                             <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="Remove the job record" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -486,7 +486,7 @@
                                                 </div>
                                             </td>
                                             <td style="width:15px; padding-bottom:0px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="Remove the website record" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_WEBSITE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -601,8 +601,8 @@
 
         <div class="dialog_header">
             <div class="dialog_header_inner">
-                <h1>Degrees</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                <h1>__MSG__DEGREES__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
         <!-- /lightbox-header -->
@@ -668,38 +668,39 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Degrees</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__DEGREES__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE__DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
        <div class="dialog_content">
             <h4 style="color:#333333; float: left">Edit a degree from your list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="edit_degrees_form">
             <input type="hidden" id="edit_degree_id"/>
             <table summary="Edit Degree">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_country"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> School:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SCHOOL__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_school"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Degree:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DEGREE__:</td>
                     <td><input  maxlength="255" type="text" style="width:50px" id="edit_degree_degree"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. BEng, MPhil, PhD, ...</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Field of study:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__FIELD_OF_STUDY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_field"/>
+
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Philosophy, Computer Science, ...</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                     <td>
                         <select id="edit_degree_from">
                             <option></option>
@@ -713,7 +714,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px">Additional Notes:</td>
+                    <td style="width: 100px">__MSG__ADDITIONAL_NOTES__:</td>
                     <td><textarea style="width:250px; height:75px" id="edit_degree_notes"></textarea></td>
                 </tr>
             </table>
@@ -721,8 +722,8 @@
 
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">Update</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -748,24 +749,24 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Publications</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__PUBLICATIONS__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
 
         <!-- /lightbox-header -->
         <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Add a publication to your publication list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <h4 style="color:#333333; float: left">__MSG__ADD_A_PUBLICATION_TO_YOUR_PUBLICATION_LIST__</h4>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="add_paper_form">
             <table summary="New Publication">
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main Title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main author:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_auth"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
                 </tr>
@@ -775,7 +776,7 @@
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Year of appearance:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__YEAR_OF_APPEARANCE__:</td>
                     <td>
                         <select id="new_paper_year">
                             <option></option>
@@ -783,25 +784,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume information:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_vol"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_voltitle"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">Edition information:</td>
+                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_edition"/>
                     <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Place of publication:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Publisher:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_publisher"/></td>
                 </tr>
                 <tr>
@@ -809,11 +810,11 @@
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_ovtitle"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Number:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_number"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">URL:</td>
+                    <td style="width: 130px">__MSG__URL__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_paper_url"/></td>
                 </tr>
             </table>
@@ -821,8 +822,8 @@
 
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">Save</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">__MSG__SAVE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -836,24 +837,24 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Publications</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__PUBLICATIONS__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
         <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Edit a publication from your list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <h4 style="color:#333333; float: left">__MSG__EDIT_A_PUBLICATION_FROM_YOUR_LIST__</h4>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="edit_papers_form">
             <input type="hidden" id="edit_paper_id"/>
             <table summary="Edit Publication">
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main Title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main author:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_auth"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
                 </tr>
@@ -863,7 +864,7 @@
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Year of appearance:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__YEAR_OF_APPEARANCE__:</td>
                     <td>
                         <select id="edit_paper_year">
                             <option></option>
@@ -871,25 +872,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume information:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_vol"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_voltitle"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">Edition information:</td>
+                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_edition"/>
                     <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Place of publication:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Publisher:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_publisher"/></td>
                 </tr>
                 <tr>
@@ -897,19 +898,19 @@
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_ovtitle"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Number:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_number"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">URL:</td>
+                    <td style="width: 130px">__MSG__URL__:</td>
                     <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="edit_paper_url"/></td>
                 </tr>
             </table>
            </form>
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">Update</a>
-            <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">__MSG__UPDATE__</a>
+            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -935,33 +936,33 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Talks</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__TALKS__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
         <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Add a talk to your talk list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <h4 style="color:#333333; float: left">__MSG__ADD_A_TALK_TO_YOUR_TALK_LIST__</h4>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="add_talk_form">
             <table summary="New Talk">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Place:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_date"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px">Co-author(s):</td>
+                    <td style="width: 100px">__MSG__CO_AUTHORS__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_coauth"/>
-                    <br/><span style="color:#666666; font-size:0.9em">Separated by commas</span></td>
+                    <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
                 </tr>
                 <tr>
                     <td style="width: 100px">URL:</td>
@@ -972,8 +973,8 @@
 
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">Save</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">__MSG__SAVE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -987,46 +988,46 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Talks</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__TALKS__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
         <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Edit a talk from your list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <h4 style="color:#333333; float: left">__MSG__EDIT_A_TALK_FROM_YOUR_LIST__</h4>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="edit_talks_form">
             <input type="hidden" id="edit_talk_id"/>
             <table summary="Edit Talk">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Place:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_date"/></td>
                 </tr>
                 <tr>
                     <td style="width: 100px">Co-author(s):</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_coauth"/>
-                    <br/><span style="color:#666666; font-size:0.9em">Separated by commas</span></td>
+                    <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px">URL:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_talk_url"/></td>
+                    <td style="width: 100px">__MSG__URL__:</td>
+                    <td><input type="text" style="width:250px" class="url_field" id="edit_talk_url"/></td>
                 </tr>
             </table>
            </form>
 
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">Update</a>
-            <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">__MSG__UPATE__</a>
+            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -1052,32 +1053,32 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Professional Experience</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__PROFESSIONAL_EXPERIENCE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE__DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
         <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Add a position to your job list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <h4 style="color:#333333; float: left">__MSG__ADD_A_POSITION_TO_YOUR_JOB_LIST__</h4>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="add_job_form">
             <table summary="New Job">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_job_role"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_job_country"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Company:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_job_company"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                     <td>
                         <select id="new_job_from">
                             <option></option>
@@ -1089,7 +1090,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px">Description:</td>
+                    <td style="width: 100px">__MSG__DESCRIPTION__:</td>
                     <td><textarea style="width:250px; height:75px" id="new_job_description"></textarea></td>
                 </tr>
             </table>
@@ -1097,8 +1098,8 @@
 
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">Save</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">__MSG__SAVE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -1113,33 +1114,33 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Professional Experience</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__PROFESSIONAL_EXPERIENCE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
         <div class="dialog_content">
             <h4 style="color:#333333; float: left">Edit a position from your list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="edit_jobs_form">
             <input type="hidden" id="edit_job_id"/>
             <table summary="Edit Job">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_job_role"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_job_country"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Company:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_job_company"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG_DATE__:</td>
                     <td>
                         <select id="edit_job_from">
                             <option></option>
@@ -1151,15 +1152,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px">Description:</td>
-                    <td><textarea style="width:250px; height:75px" id="edit_job_description"></textarea></td>
+                    <td style="width: 100px">__MSG__DESCRIPTION__:</td>
+                    <td><textarea maxlength="1000" style="width:250px; height:75px" id="edit_job_description"></textarea></td>
                 </tr>
             </table>
            </form>
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">Update</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 
@@ -1186,30 +1187,30 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Website</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__WEBSITE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
         <!-- /lightbox-header -->
         <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Add a website to your site list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+            <h4 style="color:#333333; float: left">__MSG__ADD_A_WEBSITE_TO_YOUR_SITE_LIST__</h4>
+            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
             <br/><br/>
             <form id="add_website_form">
             <table summary="Add Website">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_website_title"/></td>
                 </tr>
                 <tr>
-                    <td><strong class="fs13 cCC0000">*</strong> URL:</td>
+                    <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_website_url"/></td>
                 </tr>
             </table>
            </form>
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">Save</a>
+            <a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">__MSG__SAVE__</a>
             <a href="javascript:;" class="button jqmClose">Cancel</a>
         </div>
         </div>
@@ -1225,15 +1226,15 @@
 
         <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Website</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+            <h1>__MSG__WEBSITE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
 
     <!-- /lightbox-header -->
         <div class="dialog_content">
-        <h4 style="color:#333333; float: left">Edit a website from your list</h4>
-        <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = Required Information</span>
+        <h4 style="color:#333333; float: left">__MSG__EDIT_A_WEBSITE_FROM_YOUR_LIST__</h4>
+        <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
         <br/><br/>
 
         <form id="edit_website_form">
@@ -1242,11 +1243,11 @@
 
         <table summary="Edit Website">
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_website_title"/></td>
                 </tr>
                 <tr>
-                    <td><strong class="fs13 cCC0000">*</strong> URL:</td>
+                    <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_website_url"/></td>
                 </tr>
             </table>
@@ -1254,8 +1255,8 @@
 
         <!-- DIALOG BUTTONS -->
         <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">Update</a>
-                <a href="javascript:;" class="button jqmClose">Cancel</a>
+            <a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
         </div>
         </div>
 

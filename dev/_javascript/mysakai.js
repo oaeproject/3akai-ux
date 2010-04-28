@@ -507,7 +507,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user/private/" + sakai.data.me.user.userStoragePrefix + "widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/_user" + sakai.data.me.profile.path + "/private/widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
