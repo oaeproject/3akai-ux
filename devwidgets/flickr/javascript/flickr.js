@@ -50,6 +50,12 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrPage = $("#flickr_page",rootel);
     var $flickrRefreshImages = $("#flickr_refresh_button_person",rootel);
     var $flickrPaggingInput = $('#flickr_pagging_input', rootel);
+    var $flickrContacts = $("#flickr_contacts",rootel);
+    var $flickrTagCloud = $("#flickr_contacts_cloud",rootel);
+    var $flickrTagCloudBox = $('#flickr_tag_cloud',rootel);
+    var $flickrUserDetails = $('#flickr_user_details',rootel);
+    var $flickrText = $('.flickr_txt',rootel);
+    var $flickrTxtPrev = $(".flickr_txt_prev",rootel);
 
     /*Second Accordeon */
     var $flickrSearchInput = $("#flickr_key_input",rootel); // Input box
@@ -62,7 +68,7 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrKeyPaggingInput = $('#flickr_key_pagging_input',rootel);
     var $flickrRefreshKeyButton = $("#flickr_refresh_key_button",rootel);
 
-    /* Preview elenemets */
+    /* Preview elements */
     var $flickrPreviewPagging = $("#flickr_preview_pagging",rootel);
     var $flickrPersonPreviewNextPagging = $("#flickr_person_preview_next_pagging",rootel);
     var $flickrPersonPreviewPrevPagging = $("#flickr_person_prev_preview_pagging",rootel);
@@ -106,8 +112,8 @@ sakai.flickr = function(tuid, showSettings){
 
     var galleriaObject = {
         insert: '#flickr_displayed_image', //The div where the image will be appended to
-        history: false, //Setting this to false will prevent the gallery from showing the image in the url
-        onImage: function(image, caption, thumb){ // let's add some image effects for demonstration purposes
+        history: false //Setting this to false will prevent the gallery from showing the image in the url
+       /* onImage: function(image, caption, thumb){ // let's add some image effects for demonstration purposes
             // fade in the image & caption
             if (!($.browser.mozilla && navigator.appVersion.indexOf("Win") !== -1)) { // FF/Win fades large images terribly slow
                 image.css('display', 'none').fadeIn(500);
@@ -130,8 +136,8 @@ sakai.flickr = function(tuid, showSettings){
             }, function(){
                 li.not('.active').children('img').fadeTo('fast', 0.6);
             } // don't fade out if the parent is active
-    );
-        }
+    );*/
+
     };
 
     var changeColorBlack = "flickr_changeColorBlack"; // Css class to change the textcolour
@@ -145,6 +151,14 @@ sakai.flickr = function(tuid, showSettings){
     var totalPages; //The total amount of page (this doesn't change)
     var dragged = 0; //How many images that have been dragged
     var curP = 0;
+    var RequestedPages = [];
+    var userDetail;
+    var previousUser;
+    var previousUser = {
+        'username': "",
+        'userid': ""
+    };
+
 
     // Global variables of the 2nd accordeon
     var userDetailGlob;//A global variable that contains the user details
@@ -170,6 +184,9 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrPreviewGalleryPaggingTemplate = $('#flickr_preview_gallery_pagging_template',rootel);
     var $flickrSlideshowIconTemplate = $('#flickr_slideshow_icon_template',rootel);
     var $flickrSideGalleryPaggingTemplate = $("#flickr_side_gallery_pagging_template",rootel);
+    var $flickrContactsTemplate = $('#flickr_contacts_template',rootel);
+    var $flickrTagCloudTemplate = $('#flickr_tag_cloud_template',rootel);
+    var $flickrDetailButtonTemplate = $('#flickr_detail_button_template',rootel);
 
     // Config urls
     sakai.config.URL.flickrGetPhotosBySearchTerm = "/var/proxy/flickr/flickrKeyPictures.json";
@@ -177,6 +194,7 @@ sakai.flickr = function(tuid, showSettings){
     sakai.config.URL.flickrGetUserDetailsByName = "/var/proxy/flickr/flickrGetUserDetailsByName.json";
     sakai.config.URL.flickrGetPicturesByUserId = "/var/proxy/flickr/flickrGetPicturesByUserId.json";
     sakai.config.URL.flickrGetPicturesByUserIdStart = "/var/proxy/flickr/flickrGetPicturesByUserIdStart.json";
+    sakai.config.URL.flickrGetFriendsFromUser = "/var/proxy/flickr/flickrGetFriendsFromUser.json";
     sakai.config.URL.flickrStaticImageUrl = "http://farm3.static.flickr.com/";
 
     // Error messages
@@ -284,6 +302,72 @@ sakai.flickr = function(tuid, showSettings){
         return picz;
     };
 
+    var getPicturesFormContact = function(){
+
+        $flickrText = $('.flickr_txt',rootel);
+        previousUser = {
+            'username': $('span', $flickrText).html(),
+            'userid': $flickrText.attr('id')
+        };
+
+        userDetail = {
+            'username' : $('a',this).html(),
+            'userid' : $(this).attr("id")
+        } ;
+        getPicturesFromPerson(userDetail.userid);
+
+    };
+
+    /**
+     * This function will display the requested contacts form a person
+     * @param {Object} data the response gotten form the ajax call
+     */
+    var displayContacts = function(data){
+        var contacts = $.evalJSON(data);
+        if (!userDetail) {
+            var currentUserObject = $.evalJSON(userDetailGlob);
+            contacts['user'] = currentUserObject.user.username._content;
+            contacts['userid'] = currentUserObject.user.nsid;
+            contacts['prevusr'] = previousUser;
+        }
+        else {
+            contacts['user'] = userDetail.username;
+            contacts['userid'] = userDetail.userid;
+            contacts['prevusr'] = previousUser;
+        }
+        $flickrContacts.html($.TemplateRenderer($flickrContactsTemplate, contacts));
+        $flickrTagCloudBox.html($.TemplateRenderer($flickrTagCloudTemplate, contacts));
+        $flickrUserDetails = $('#flickr_user_details',rootel);
+        $flickrTagCloud = $("#flickr_contacts_cloud", rootel);
+
+        $flickrTxtPrev = $('.flickr_txt_prev', rootel);
+        $('a', $flickrTxtPrev).click(getPicturesFormContact);
+        $('span', $flickrTagCloud).click(getPicturesFormContact);
+        
+    };
+
+    /**
+     * This function will request all the contacts from a user
+     * @param {Object} userId
+     */
+    var requestContactFomUsers = function(usrId){
+        userId = usrId;
+        // Ajax call to get the user's contacts
+        $.ajax({
+            url: sakai.config.URL.flickrGetFriendsFromUser ,
+            success: function(data){
+                  displayContacts(data);
+            },
+            error: function(xhr, textStatus, thrownError){
+                fluid.log("Error at the request for contacts");
+            },
+            data: {
+                "userid": userId,
+                "api_key":key
+            }
+        });
+    };
+
     /**
      * This function will add 5 new pictures to the gallery, this is executed after the drag and drop when there are no images left
      * @param {Object} data , response of the ajax call
@@ -335,39 +419,7 @@ sakai.flickr = function(tuid, showSettings){
                 "page":newPage
             }
         });
-        
     };
-
-    /**
-     * This function will do an ajax call and then on succes it will execute the given callback function
-     * This callback function can either be a function to render something or eventually trigger this function again with another callback function
-     * @param {Integer} pageNr , the page that will be requested from the flickr api e.g this is page 2 if the user requests page 3
-     * @param {Integer} requestedPage this is the page the user requested
-     * @param {Function} callbackFunction this is the function that has to be executed when the call is complete
-     * @example getRequestedPage(3,2,addPicturesToPersonGalFromPaging)
-     */
-    var getRequestedPage = function(){
-
-        params = arguments;
-        // Ajax call to get the user details
-        $.ajax({
-            url: sakai.config.URL.flickrGetPicturesByUserId ,
-            success: function(data){
-                params[2](data,params[1],params[3],params[4]);
-                currentPage = params[1];
-            },
-            error: function(xhr, textStatus, thrownError){
-                fluid.log("Error at the request for new images after the drag and drop");
-            },
-            data: {
-                "userid": userId,
-                "api_key":key,
-                "page":params[0]
-            }
-        });
-        
-    };
-
 
     /**
      * This function will check if both arrows have to be hidden
@@ -395,7 +447,12 @@ sakai.flickr = function(tuid, showSettings){
     var getPagesCorrect = function(pages,total){
 
         if (Math.round(pages / total) < pages / total) {
-            return Math.round(pages / total) + 1;
+            if (Math.round(pages / total) === 1) {
+                return 1;
+            }
+            else {
+                return Math.round(pages / total) + 1;
+            }
         }else{
             return Math.round(pages/total);
         }
@@ -1089,132 +1146,6 @@ sakai.flickr = function(tuid, showSettings){
         checkArrowPrev();
     };
 
-    /**
-     * This function will display the requestedpage
-     * @param {Integer} pageToShow
-     * @example shiftToRequestedPage(2)
-     */
-    var shiftToRequestedPage = function(pageToShow){
-        $('img',$flickrKeyPersonGallery).hide();
-        $('img',$flickrKeyPersonGallery).slice(((pageToShow - 1) * 5), (pageToShow * 5)).show();
-    };
-
-
-    /**
-     * This function will append the new images to the gallery and display those which are requested
-     * @param {Object} data, response from the ajax call
-     * @param {Integer} requestedPage the page that the user requested
-     */
-    var renderLastPage = function(data,requestedPage){
-
-        //Render the image gallery
-        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
-        $('img', $flickrKeyPersonGallery).hide();
-        $('img',$flickrKeyPersonGallery).slice(((requestedPage - 4) * 5), ((requestedPage -3) * 5)).show();
-    };
-
-
-    /**
-     * This function will append the new images to the gallery and display those which are requested
-     * @param {Object} data, response from the ajax call
-     * @param {Integer} requestedPage the page that the user requested
-     */
-    var renderSecondPage = function(data,requestedPage){
-
-        //Render the image gallery
-        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
-        $('img', $flickrKeyPersonGallery).hide();
-        $('img',$flickrKeyPersonGallery).slice(((requestedPage - 2) * 5), ((requestedPage -1) * 5)).show();
-    };
-
-
-    /**
-     * This function will render the new images in the gallery and start an new ajax call, that will executed the next callback function on succes
-     * @param {Object} data the response gotten form the ajax call
-     * @param {Integer} requestedPage the page the user requested
-     * @param {Object} callbackFunction a function that has to be executed after the ajax call
-     * @param {Object} secondCallbackFunction a function that has to be executed after the 2nd ajax call
-     */
-    var renderfirstPage = function(data,requestedPage,callbackFunction,secondCallbackFunction){
-
-        //Render the image gallery
-        $('ul', $flickrKeyPersonGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
-
-        $('img', $flickrKeyPersonGallery).hide();
-
-        requestedPage = requestedPage + 1;
-
-        getRequestedPage(requestedPage,requestedPage, callbackFunction,secondCallbackFunction);
-
-    };
-
-    /**
-     * This function will check if the page should be requested, or just displayed
-     * @param {Object} requestedPage, The number the user entered in the inputbox
-     * @example checkWhichPagesToRequest(3);
-     */
-    var checkWhichPagesToRequest = function(requestedPage){
-
-        // Check if the user is requesting the totalamount of loaded images 
-        // e.g the user is on page 1, so page 2 is allready loaded, the user requests page 2, so page 2 should be shown and page 3 requested
-        if(requestedPage === getPagesCorrect($("li", $flickrKeyPersonGallery).length,5)+ dragged + draggedKey){ // 2 === 2 , because the user requests page 2 and 2 pages are loaded
-            if(requestedPage !== totalPages ){ // Check if the user isn't on page 10, because then no new call should be done
-                console.log(requestedPage +1);
-                var toHidePage = currentPage;
-
-                //Get the new images,
-                getRequestedPage(requestedPage + 1,requestedPage,addPicturesToPersonGalFromPaging);
-
-                console.log("case 1");
-            }
-        }
-         // check if the requested page is smaller than the total mount of loaded images
-         // e.g the user is on page 1 and all the pages are loaded so he can navigate to all pages
-         // the case of if the user is on page 1 and requests page 2 the total amount of pages is 2 is allready solved 
-          else if(getPagesCorrect($("li", $flickrKeyPersonGallery).length ,5)+ dragged + draggedKey >= requestedPage){
-            $("img",$("li",$flickrKeyPersonGallery)).hide();
-            $("img",$("li",$flickrKeyPersonGallery)).slice(((requestedPage - 1)*5),requestedPage * 5).show();
-
-        }else if(requestedPage === totalPages){
-            //Check if the the last page -1 is loaded, if it is, only request page the lastpage, else request the lastpage -1 and the lastpage
-            if(requestedPage -1 === getPagesCorrect($("li", $flickrKeyPersonGallery).length ,5)){ //e.g the requested page is 10 (so 9 should be loaded too), so see how many are loaded
-                console.log("last page requested");
-                getRequestedPage(requestedPage,requestedPage,addPicturesToPersonGalFromPaging);
-            }else{
-                console.log('Requested lastpage and the page before the last page');
-                getRequestedPage(requestedPage-1, requestedPage-1, renderfirstPage,addPicturesToPersonGalFromPaging);
-            }
-          // Check if the requested page + 1 is bigger than the amount of loaded images
-          // e.g the user is on page 1 and page 1 & 2 are loaded, but the user requests page 3, this means page 3 & 4 should be requested
-          // so 3-1 === 2, this means that page 3 & 4 should be loaded
-        }else if(requestedPage - 1 === getPagesCorrect($("li", $flickrKeyPersonGallery).length ,5)+ dragged + draggedKey ){
-            console.log('requesting page ' + requestedPage +" and "+ requestedPage + 1);
-            getRequestedPage(requestedPage, requestedPage, renderfirstPage,renderSecondPage);
-
-            console.log("case 2");
-
-            //Check if the requested page is equal to the total amount of page
-            //e.g the user is page 1 and has requested page 10, so page 10 should be requested
-        }else{
-            //Last case e.g : the user is on page 1 so page 1 & 2 are loaded, the user requests page 4, so 3 4 5 should be requested
-                getRequestedPage(requestedPage -1,requestedPage -1,renderfirstPage,renderfirstPage,renderLastPage);
-        }
-    };
-
-    /**
-     * This function is called on a keypress
-     * @param {Object} event, the event itself to check which key is pressed
-     */
-    var checkValueInputPerson = function(event){
-        if(event.keyCode === 13){
-           $flickrInputPageError.hide();
-           if(($flickrPaggingInput.val()> totalPages)||($flickrPaggingInput.val()< 1)){
-               $flickrInputPageError.show();
-           }else{
-               checkWhichPagesToRequest(parseInt($flickrPaggingInput.val(),10));
-           }
-        }
-    };
 
     /**
      * This function is will display the image gallery the first time, this is done with 10 pictures
@@ -1239,7 +1170,7 @@ sakai.flickr = function(tuid, showSettings){
 
         //Get the totaal amount of pages
         var pages = {
-            "pages": imageGalleryObject.photos.pages * 2 
+            "pages": imageGalleryObject.photos.pages === 1? 1: imageGalleryObject.photos.pages * 2 
         };
 
          //Get the total amount of images from the response
@@ -1266,7 +1197,6 @@ sakai.flickr = function(tuid, showSettings){
             $('img',$flickrKeyPersonGallery).slice((currentPage - 1) * imgPerPage, (currentPage * imgPerPage)).fadeIn(1500);
 
             $flickrPaggingInput =  $('#flickr_pagging_input', rootel);
-            $flickrPaggingInput.keyup(checkValueInputPerson);
         }
         else {
             $flickrNoPublic.show();
@@ -1332,6 +1262,8 @@ sakai.flickr = function(tuid, showSettings){
      */
      bindPaging = function(page,pages){
 
+        console.log('bind paging');
+
         // Set a global variable pages, so it can be used everywhere
         allPages = pages;
 
@@ -1342,6 +1274,8 @@ sakai.flickr = function(tuid, showSettings){
 
         // Binding of the next arrow
         $('#flickr_person_next_pagging',rootel).click(function(){
+
+            console.log('next');
 
             // Check if the user is currently on a page that has 2 pages in front of it or on the last page
             if ((($('img',$flickrKeyPersonGallery).slice(((currentPage + 1)*5), ((currentPage + 2)*5)).length)&&(($('img',$flickrKeyPersonGallery).slice(((currentPage) * 5), ((currentPage + 1) * 5))).length))||(currentPage + 1 === totalPages)){
@@ -1425,34 +1359,17 @@ sakai.flickr = function(tuid, showSettings){
      * This function will get the pictures from the user stored in the user details
      * @param {Object} userDetails, an object that contains all the userdetails
      */
-    var getPicturesFromPerson = function(userDetails){
+    var getPicturesFromPerson = function(userId){
 
-        //Save the data in a global variable since it has to be re-used later
-        userDetailGlob = userDetails;
-
-        //Reset the image gallery
-        resetGallery($flickrKeyPersonGallery,$flickrPersonPagging);
-
-        // Convert the userDetails to an object
-        var userObject = $.evalJSON(userDetails);
-
-        //Check if the user has been found, if not and error will be shown else the pictures will be shown
-        if (userObject.stat === "fail") {
-
-            //Hide the image loader since there's an error
-            $flickrLoadingPersonImage.hide();
-
-            //Show the error
-            $flickrNoPersonError.show();
-        }
-        else {
-
-            //Store the value of the userid in a global variable so when paging it hasn't got to be requested again
-            userId = userObject.user.id;
+            //Reset the image gallery
+            resetGallery($flickrKeyPersonGallery,$flickrPersonPagging);
 
             // Get the pictures of the user
             getPicturesByUserIdStart(userId, 1);
-        }
+
+            $flickrText = $('.flickr_txt',rootel);
+
+            requestContactFomUsers(userId);
     };
 
     /**
@@ -1466,16 +1383,28 @@ sakai.flickr = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.flickrGetUserDetailsByName,
             success: function(data){
-
+            
                 // Get the pictures based on the userid
-                getPicturesFromPerson(data);
+                userDetailGlob = data;
+                var userDetailsObject = $.evalJSON(data);
+                //Check if the user has been found, if not and error will be shown else the pictures will be shown
+                if (userDetailsObject.stat === "fail") {
+
+                    //Hide the image loader since there's an error
+                    $flickrLoadingPersonImage.hide();
+                    //Show the error
+                    $flickrNoPersonError.show();
+                }
+                else {
+                    getPicturesFromPerson(userDetailsObject.user.nsid);
+                }
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("Error at getting the userdetails");
             },
             data: {
                 "api_key": key,
-                "name":name
+                "name": name
             }
         });
     };
@@ -1985,6 +1914,31 @@ sakai.flickr = function(tuid, showSettings){
         return pictures;
     };
 
+    
+    /**
+     * This function will remove the delete button if it exists>
+     * This function is executed on the mouseout
+     */
+
+    var removeExternalButton = function(){
+        $(this).unbind('mouseout');
+        $flickrDetailButton = $('#flickr_detail_button',rootel);
+        if ($($flickrDetailButton, $(this))) {
+            $($flickrDetailButton, $(this)).remove();
+        }
+        $(this).mouseover(addDelBtn);
+    };
+
+
+    var addExternalImage = function(){
+               $(this).unbind('mouseover');
+        var emptyObject = {};
+        $(this).append($.TemplateRenderer($flickrDetailButtonTemplate,emptyObject));
+        $flickrDetailButton = $('#flickr_detail_button',rootel);
+       // $($flickrDeleteButton,this).click(deleteImage);
+        $(this).mouseout(removeExternalButton);
+    };
+
     /**
      * This function will render the image gallery
      * @param {Object} data, the response from the ajax call
@@ -2038,6 +1992,8 @@ sakai.flickr = function(tuid, showSettings){
 
         //Add the galleria plugin
         $("#flickr_key_ul_preview",rootel).galleria(galleriaObject);
+
+        $("li",$flickrKeyUlPreview).mouseover(addExternalImage);
 
         //Set an image active, so it'll be shown big
         $($flickrKeyUlPreview.children()[0]).addClass('active');

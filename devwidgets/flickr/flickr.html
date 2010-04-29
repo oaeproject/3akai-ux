@@ -12,11 +12,10 @@
         <!--FIRST ACCODRION ITEM -->
         <a class="flickr_accordeon_header" id="flickr_first_header" href="javascript:;">__MSG__ADD_OWN_PICTURES__</a>
         <div class = "flickr_inner_accordeon" id="flickr_first_accordeon">
-            <p class ="flickr_text" > __MSG__SEARCH_FOR_PHOTOS__</p>
+            <div id="flickr_contacts"></div>
             <form method="GET" action="javascript:;">
-                <p>
-                    <input type="text" value="__MSG__SEARCH__" id="flickr_key_person_input" class="flickr_changeColorNormal" />
-                </p>
+                <p class ="flickr_text" > __MSG__SEARCH_FOR_PHOTOS__</p>
+                <input type="text" value="__MSG__SEARCH__" id="flickr_key_person_input" class="flickr_changeColorNormal" />
                 <button class="s3d-button flickr_search" id="flickr_seach_people_button">
                     <span class="s3d-button-inner" >__MSG__SEARCH__</span>
                 </button>
@@ -30,6 +29,7 @@
             <div id="flickr_input_same_person_error">__MSG__INPUT_SAME_ERROR__</div>
             <div id="flickr_no_person_error">__MSG__NO_USER__</div>
             <div id="flickr_no_public">__MSG__NO_PUBLIC__</div>
+            <div id="flickr_tag_cloud"></div>
             <div id="flickr_key_person_gallery" ><ul id="flickr_key_ul"></ul></div>
             <div id="flickr_person_pagging" ></div>
         </div>
@@ -134,7 +134,7 @@
 
 <div id="flickr_image_gallery_preview_template"><!--
     {for pic in all}
-        <li> <img src="${pic.url}" class="flickr_image" alt="${pic.title}" title ="${pic.title}" class="flickr_preview_thumb"  /></li>
+        <li class="flickr_preview"> <img src="${pic.url}" class="flickr_image" alt="${pic.title}" title ="${pic.title}" class="flickr_preview_thumb"  /></li>
     {/for}
 --></div>
 
@@ -150,8 +150,26 @@
 </ul>
 --></div>
 
+<div id="flickr_contacts_template"><!--
+    <div id="flickr_user_details">
+        <p class="flickr_txt" id="${userid}"> Pictures from: <span>${user}</span></p>
+    </div>
+--></div>
+
+<div id="flickr_tag_cloud_template"><!--
+        <div id="flickr_contacts_cloud">
+        {for contact in contacts.contact}
+            <span id="${contact.nsid}"><a href="javascript:;">${contact.username}</a></span>
+        {/for}
+    </div>
+--></div>
+
 <div id="flickr_delete_button"><!--
     <img src="/dev/_images/close_dialog.png" alt="__MSG__DELETE__" title="__MSG__DELETE__" id="flickr_delete_button"/>
+--></div>
+
+<div id="flickr_detail_button_template"><!--
+    <img id="flickr_detail_button" src="/devwidgets/flickr/images/external_link.gif" alt="__MSG__DELETE__" title="__MSG__DELETE__" />
 --></div>
 <!-- JAVASCRIPT -->
 
