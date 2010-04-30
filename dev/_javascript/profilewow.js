@@ -631,7 +631,6 @@ sakai.profilewow = function(){
             "config" : sakai.profilewow.profile.config[sectionName],
             "fields" : $.trim(sections)
         };
-        console.log(json_config.fields);
 
         return $.TemplateRenderer(sectionTemplate, json_config);
 
