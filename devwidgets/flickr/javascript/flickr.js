@@ -51,7 +51,7 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrRefreshImages = $("#flickr_refresh_button_person",rootel);
     var $flickrPaggingInput = $('#flickr_pagging_input', rootel);
     var $flickrContacts = $("#flickr_contacts",rootel);
-    var $flickrTagCloud = $("#flickr_contacts_cloud",rootel);
+    var $flickrTagCloud = $(".flickr_contacts_cloud",rootel);
     var $flickrTagCloudBox = $('#flickr_tag_cloud',rootel);
     var $flickrUserDetails = $('#flickr_user_details',rootel);
     var $flickrText = $('.flickr_txt',rootel);
@@ -175,6 +175,11 @@ sakai.flickr = function(tuid, showSettings){
     var tp = 1;
     var firstdrop = true;
 
+    //CSS classes
+
+    var flickrInvisible = ".flickr_hideArrow";
+    var flickrVisible = ".flickr_showArrow";
+
     // Template
     var $flickrPersonGalleryPaggingTemplate = $("#flickr_person_gallery_pagging_template");
     var $flickrImageGalleryTemplate = $('#flickr_image_gallery_template');
@@ -187,6 +192,7 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrContactsTemplate = $('#flickr_contacts_template',rootel);
     var $flickrTagCloudTemplate = $('#flickr_tag_cloud_template',rootel);
     var $flickrDetailButtonTemplate = $('#flickr_detail_button_template',rootel);
+    var $flickrDetailButton = $('#flickr_detail_button',rootel);
 
     // Config urls
     sakai.config.URL.flickrGetPhotosBySearchTerm = "/var/proxy/flickr/flickrKeyPictures.json";
@@ -336,13 +342,41 @@ sakai.flickr = function(tuid, showSettings){
             contacts['prevusr'] = previousUser;
         }
         $flickrContacts.html($.TemplateRenderer($flickrContactsTemplate, contacts));
-        $flickrTagCloudBox.html($.TemplateRenderer($flickrTagCloudTemplate, contacts));
+
+        var contactsArr = [];
+        var uls = '';
+        $(contacts.contacts.contact).each(function(index){
+            contactsArr.push(contacts.contacts.contact[index]);
+        });
+        var ul = [];
+        ul[0] = [];
+        ul[1] = [];
+        ul[2] = [];
+        while (contactsArr.length > 5) {
+            for (var i = 0, il = Math.ceil(contactsArr.length / 5); i < il; i++) {
+                for (var j = 0, jl = contactsArr.length; j < jl; j++) {
+                    if (j < 5) {
+                        ul[i][j] = (contactsArr.shift());
+                    }
+                }
+            }
+        }
+
+        $(ul).each(function(index){
+            var test = {
+                "all" : ul[index]
+            };
+
+            uls += $.TemplateRenderer($flickrTagCloudTemplate, test);
+        });
+
+        $flickrTagCloudBox.html(uls);
         $flickrUserDetails = $('#flickr_user_details',rootel);
-        $flickrTagCloud = $("#flickr_contacts_cloud", rootel);
+        $flickrTagCloud = $(".flickr_contacts_cloud", rootel);
 
         $flickrTxtPrev = $('.flickr_txt_prev', rootel);
-        $('a', $flickrTxtPrev).click(getPicturesFormContact);
-        $('span', $flickrTagCloud).click(getPicturesFormContact);
+
+        $('li', $flickrTagCloud).click(getPicturesFormContact);
         
     };
 
@@ -1919,24 +1953,26 @@ sakai.flickr = function(tuid, showSettings){
      * This function will remove the delete button if it exists>
      * This function is executed on the mouseout
      */
-
     var removeExternalButton = function(){
-        $(this).unbind('mouseout');
-        $flickrDetailButton = $('#flickr_detail_button',rootel);
-        if ($($flickrDetailButton, $(this))) {
-            $($flickrDetailButton, $(this)).remove();
-        }
-        $(this).mouseover(addDelBtn);
+
+        //Hide the icon
+        $flickrDetailButton.css("visibility","hidden");
+        console.log('mouseout');
     };
 
-
+    /**
+     *  This funciton is executed on the mouseover
+     */
     var addExternalImage = function(){
-               $(this).unbind('mouseover');
-        var emptyObject = {};
-        $(this).append($.TemplateRenderer($flickrDetailButtonTemplate,emptyObject));
-        $flickrDetailButton = $('#flickr_detail_button',rootel);
-       // $($flickrDeleteButton,this).click(deleteImage);
-        $(this).mouseout(removeExternalButton);
+
+        //Get the offset of the image the user is hovering over
+        var offset = $(this).offset();
+
+        //Set The offset of the icon, so that it appears on top of the image
+        offset.top = offset.top + 20;
+        offset.left = offset.left + 20;
+        $flickrDetailButton.offset(offset);
+        $flickrDetailButton.css("visibility","visible");
     };
 
     /**
@@ -1993,7 +2029,15 @@ sakai.flickr = function(tuid, showSettings){
         //Add the galleria plugin
         $("#flickr_key_ul_preview",rootel).galleria(galleriaObject);
 
+        // Add the mouseover to the li's of the image gallery
         $("li",$flickrKeyUlPreview).mouseover(addExternalImage);
+
+        // Add the mouseout to the li's of the image gallery
+        $("li",$flickrKeyUlPreview).mouseout(removeExternalButton);
+
+        $flickrDetailButton = $('#flickr_detail_button',rootel);
+
+        $flickrDetailButton.css("visibility","hidden");
 
         //Set an image active, so it'll be shown big
         $($flickrKeyUlPreview.children()[0]).addClass('active');

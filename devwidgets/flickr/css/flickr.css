@@ -51,7 +51,7 @@
 .flickr_search{ margin:12px 0px 0px 12px;}
 
 /*Image gallery in the Second accordion div */
-#flickr_key_gallery, #flickr_key_person_gallery{ margin-top:42px;}
+#flickr_key_gallery, #flickr_key_person_gallery{ margin-top:42px; clear:both;}
 
 #flickr_key_ul{ height:87px;}
 
@@ -141,12 +141,26 @@
     display:inline;
 }
 
-#flickr_contacts_cloud{
+.flickr_contacts_cloud{
     margin:20px 0 0 10px;
+    float:left;
 }
 
-#flickr_contacts_cloud span {
-    display:inline;
+
+#flickr_detail_button {display:block; position:absolute;z-index:9999;}
+
+z-index:9999;}
+
+#flickr_tag_cloud a:hover{
+    color:#006E96;
+     text-decoration:none;
 }
 
-#flickr_detail_button {margin:-300px 0 0 0 ;}
+#flickr_tag_cloud{
+    padding-bottom:30px;
+    height: 60px;
+}
+
+.flickr_preview{
+    position:relative;;
+}

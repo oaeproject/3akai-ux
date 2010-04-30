@@ -133,6 +133,7 @@
 --></div>
 
 <div id="flickr_image_gallery_preview_template"><!--
+    <img id="flickr_detail_button" src="/devwidgets/flickr/images/external_link.gif" alt="__MSG__DELETE__" title="__MSG__DELETE__" />
     {for pic in all}
         <li class="flickr_preview"> <img src="${pic.url}" class="flickr_image" alt="${pic.title}" title ="${pic.title}" class="flickr_preview_thumb"  /></li>
     {/for}
@@ -157,11 +158,11 @@
 --></div>
 
 <div id="flickr_tag_cloud_template"><!--
-        <div id="flickr_contacts_cloud">
-        {for contact in contacts.contact}
-            <span id="${contact.nsid}"><a href="javascript:;">${contact.username}</a></span>
+        <ul class="flickr_contacts_cloud">
+        {for contact in all}
+            <li id="${contact.nsid}"><a href="javascript:;">${contact.username}</a></li>
         {/for}
-    </div>
+    </ul>
 --></div>
 
 <div id="flickr_delete_button"><!--
