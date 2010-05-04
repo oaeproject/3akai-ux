@@ -205,7 +205,7 @@
             <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
             <div class="widget-titlebar-inner">
             <h2 class="widget_title">${p.title}</h2>
-            <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">Settings</a>
+            <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
             </div>
             </div>
             {if p.display == "none"}
@@ -231,9 +231,9 @@
         <!-- Dropdown menu shown when clicking on a widget's pencil -->
         <div id="widget_settings_menu" style="display:none">
             <ul>
-                <li id="settings_remove" class="more_option"><a href="javascript:;">Remove</a></li>
-                <li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">Hide</a></li>
-                <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">Settings</a></li>
+                <li id="settings_remove" class="more_option"><a href="javascript:;">__MSG__REMOVE__</a></li>
+                <li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">__MSG__HIDE__</a></li>
+                <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">__MSG__SETTINGS__</a></li>
             </ul>
         </div>
 
