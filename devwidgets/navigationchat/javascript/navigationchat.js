@@ -369,6 +369,7 @@ sakai.navigationchat = function(tuid, showSettings){
      * Keep focus above chat panel for keyboard navigation
      */
     $("a, input, select, textarea").focus(function(ev) {
+        var chatHeight = $(".chat_main_container").height();
         //var scrOfY = $(window).scrollTop(); // broken in IE
         var scrOfY = 0;
         if( typeof( window.pageYOffset ) === 'number' ) {
@@ -382,7 +383,7 @@ sakai.navigationchat = function(tuid, showSettings){
             scrOfY = document.documentElement.scrollTop;
         }
 
-        if ((this.offsetTop + $(this).height() + 30) > (scrOfY + $(window).height())){
+        if ((this.offsetTop + $(this).height() + chatHeight) > (scrOfY + $(window).height())){
             window.scrollBy(0,100);
         }
     });
