@@ -366,6 +366,28 @@ sakai.navigationchat = function(tuid, showSettings){
     ///////////////
 
     /**
+     * Keep focus above chat panel for keyboard navigation
+     */
+    $("a, input, select, textarea").focus(function(ev) {
+        //var scrOfY = $(window).scrollTop(); // broken in IE
+        var scrOfY = 0;
+        if( typeof( window.pageYOffset ) == 'number' ) {
+            //Mozilla compliant
+            scrOfY = window.pageYOffset;
+        } else if( document.body && ( document.body.scrollTop ) ) {
+            //DOM compliant
+            scrOfY = document.body.scrollTop;
+        } else if( document.documentElement && ( document.documentElement.scrollTop ) ) {
+            //IE6 standards compliant mode
+            scrOfY = document.documentElement.scrollTop;
+        }
+
+        if ((this.offsetTop + $(this).height() + 30) > (scrOfY + $(window).height())){
+            window.scrollBy(0,100);
+        }
+    });
+
+    /**
      * Select the page in the top navigation where you are currently on.
      * This will apply a class to the selected navigation item based on the current URL
      * @returns void;
