@@ -22,7 +22,7 @@
 
 /* Accordeon container */
 #flickr_accordion {width:500px; float:left; margin-bottom:20px;}
-#flickr_accordion .flickr_accordeon_header {display:block; background-color:#454A4F; color:#fff;padding:60px 0 20px 15px;}
+#flickr_accordion .flickr_accordeon_header {display:block; background-color:#454A4F; color:#fff;padding:20px 0 20px 15px;}
 #flickr_accordion .flickr_accordeon_header:hover{background-color:#006E96;text-decoration: none;}
 
 /* Text */
@@ -30,7 +30,11 @@
 
 .flickr_txt_prev {margin: 0 0 0 30px;}
 
-.flickr_txt { padding-left:15px;color:#fff;background-color:#666A6E;}
+.flickr_txt {color:#fff;background-color:#666A6E; padding:5px 0 5px 15px;}
+
+.flickr_txt a {color:#ccc; padding-left:30px;}
+
+.flickr_seperation {padding-left:30px;}
 
 .flickr_txt_prev span { font-size:10px;!important}
 
@@ -53,10 +57,10 @@
 /*Image gallery in the Second accordion div */
 #flickr_key_gallery, #flickr_key_person_gallery{ margin-top:42px; clear:both;}
 
-#flickr_key_ul{ height:87px;}
+.flickr_key_ul{ height:87px;}
 
 /*Ul of images */
-#flickr_key_ul li, #flickr_image_slider_ul li,#flickr_key_ul_preview li { display:inline; margin: 0 0px 10px 0;}
+.flickr_key_ul li, #flickr_image_slider_ul li,#flickr_key_ul_preview li { display:inline; margin: 0 0px 10px 0;}
 
 #flickr_key_ul_preview .flickr_preview_thumb { width:75px;}
 
@@ -79,7 +83,7 @@
 /* Paging */
 
 /* The paging textbox */
-#flickr_pagging_input,#flickr_key_pagging_input,#flickr_preview_pagging_input{ width:15px; border:1px solid #777777; font-size:1em; height:20px; margin:0px 0px 10px 15px ; padding:1px 5px ;}
+#flickr_pagging_input,#flickr_key_pagging_input,#flickr_preview_pagging_input{}
 
 /* the right arrow */
 .flickr_pages{ margin-right:15px;}
@@ -88,7 +92,7 @@
 #flickr_person_pagging img, #flickr_key_pagging img, #flickr_preview_pagging img { cursor:pointer;}
 
 /* the whole paging div */
-#flickr_person_pagging, #flickr_key_pagging{ margin-left:200px;}
+#flickr_person_pagging, #flickr_key_pagging{ margin-left:200px; padding-bottom:10px}
 
 #flickr_preview_pagging { margin-left: 300px; clear:both;}
 
@@ -142,14 +146,12 @@
 }
 
 .flickr_contacts_cloud{
-    margin:20px 0 0 10px;
+    margin:20px 40px 0 13px;
     float:left;
 }
 
 
-#flickr_detail_button {display:block; position:absolute;z-index:9999;}
-
-z-index:9999;}
+#flickr_detail_button {display:block; position:absolute;z-index:9999; top:5px;left:60px; cursor:pointer; }
 
 #flickr_tag_cloud a:hover{
     color:#006E96;
