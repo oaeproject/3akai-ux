@@ -371,7 +371,7 @@ sakai.navigationchat = function(tuid, showSettings){
     $("a, input, select, textarea").focus(function(ev) {
         //var scrOfY = $(window).scrollTop(); // broken in IE
         var scrOfY = 0;
-        if( typeof( window.pageYOffset ) == 'number' ) {
+        if( typeof( window.pageYOffset ) === 'number' ) {
             //Mozilla compliant
             scrOfY = window.pageYOffset;
         } else if( document.body && ( document.body.scrollTop ) ) {
