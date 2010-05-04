@@ -258,7 +258,7 @@ sakai.createsite = function(tuid, showSettings){
                 "name" : sitetitle,
                 "description" : sitedescription,
                 "id" : siteid,
-                "sakai:site-template" : "/templates/" + sitetemplate
+                "sakai:site-template" : sakai.config.URL.SITE_TEMPLATE.replace("__TEMPLATE__",sitetemplate)
             },
             type: "POST",
             success: function(data, textStatus){

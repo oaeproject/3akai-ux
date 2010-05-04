@@ -77,7 +77,11 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Sling-Initial-Content>SLING-INF/content;ignoreImportProviders:="xml,json";overwrite:=true</Sling-Initial-Content>
+            <Sling-Initial-Content>
+                SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
+                SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
+                SLING-INF/content/var;path:=/var
+            </Sling-Initial-Content>
           </instructions>
         </configuration>
       </plugin>

@@ -1,0 +1,6 @@
+{
+	"jcr:primaryType": "nt:folder",
+	"jcr:mixinTypes" : ["sakai:propertiesmix"],
+	"sling:resourceType": "sakai/pagecontent",
+	"sakai:pagecontent": "<p><img id=\"widget_rss_id767036439\" class=\"widget_inline\" style=\"display:block; padding: 10px; margin: 4px\" src=\"/devwidgets/rss/images/rss.png\" border=\"1\" alt=\"\" /></p>"
+}
