@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
     <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
     <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -33,7 +33,11 @@
     <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
 </head>
 
@@ -49,7 +53,7 @@
 
             <!-- TITLE BAR  -->
             <div class="s3d-site-heading fl-force-left">
-                <h1 id="sitetitle">Profile</h1>
+                <h1 id="sitetitle">__MSG__PROFILE__</h1>
             </div>
         </div>
     </div>
@@ -82,17 +86,17 @@
                         <div class="fl-force-right profile_user_buttons">
                             <!-- button-disabled -->
                             <div class="grey_button">
-                                <a href="javascript:;" style="display: none;" id="add_to_contacts_button" class="button add_con_btn">Add to Contacts</a>
+                                <a href="javascript:;" style="display: none;" id="add_to_contacts_button" class="button add_con_btn">__MSG__ADD_TO_CONTACTS__</a>
                             </div>
                             <div class="grey_button">
-                                <a href="javascript:;" style="display: none;" id="accept_invitation_button" class="button add_con_btn">Accept Invitation</a>
+                                <a href="javascript:;" style="display: none;" id="accept_invitation_button" class="button add_con_btn">__MSG__ACCEPT_INVITATION__</a>
                             </div>
                             <div class="grey_button">
-                                <a href="javascript:;" style="display: none;" id="send_message_button" class="button send_msg_btn">Send Message</a>
+                                <a href="javascript:;" style="display: none;" id="send_message_button" class="button send_msg_btn">__MSG__SEND_MESSAGE__</a>
                             </div>
                         </div>
 
-                        <a href="javascript:;" id='picture_holder'><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" /></a>
+                        <a href="javascript:;" id="picture_holder" title="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__"><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" alt="" /></a>
 
                         <div id="profile_user_name" class="profile_user_name"></div>
 
@@ -116,19 +120,19 @@
                                     <td><span id="txt_firstname"></span>&nbsp;<span id="txt_lastname"></span></td>
                                 </tr>
                                 <tr id="unirole">
-                                    <th class="entry_label">Role/Position:</th>
+                                    <th class="entry_label">__MSG__ROLE_POSITION__:</th>
                                     <td id="txt_unirole"></td>
                                 </tr>
                                 <tr id="unidepartment">
-                                    <th class="entry_label">Department:</th>
+                                    <th class="entry_label">__MSG__DEPARTMENT__:</th>
                                     <td id="txt_unidepartment"></td>
                                 </tr>
                                 <tr id="unicollege">
-                                    <th class="entry_label">College:</th>
+                                    <th class="entry_label">__MSG__COLLEGE__:</th>
                                     <td id="txt_unicollege"></td>
                                 </tr>
                                 <tr id="birthday">
-                                    <th class="entry_label">Date of birth:</th>
+                                    <th class="entry_label">__MSG__DATE_OF_BIRTH__:</th>
                                     <td id="txt_birthday"></td>
                                 </tr>
                             </table>
@@ -143,7 +147,7 @@
                         <div class="profile_section_body">
                             <table>
                                 <tr id="aboutme">
-                                    <th class="entry_label">About me:</th>
+                                    <th class="entry_label">__MSG__ABOUT_ME__:</th>
                                     <td id="txt_aboutme"></td>
                                 </tr>
                                 <tr id="academicinterests">
@@ -165,12 +169,12 @@
                     <!-- Degrees -->
                     <div class="fl-fix profile_section" id="degrees" style="display:none">
 
-                        <h4 class="profile_section_header">Degrees</h4>
+                        <h4 class="profile_section_header">__MSG__DEGREES__</h4>
 
                         <div class="profile_section_body" id="degrees_list">
                             <table>
                             <tr id="no_degrees">
-                                <td><span>No degrees added yet</span></td>
+                                <td><span>__MSG__NO_DEGREES_ADDED_YET__</span></td>
                             </tr>
                             </table>
                         </div>
@@ -193,7 +197,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE_RECORD__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -203,7 +207,7 @@
                                 <table>
                                 <tr id="no_degrees">
                                     <td colspan="2">
-                                    <span>No degrees added yet</span>
+                                    <span>__MSG__NO_DEGREES_ADDED_YET__</span>
                                     </td>
                                 </tr>
                                 </table>
@@ -214,12 +218,12 @@
                     <!-- Papers -->
                     <div class="fl-fix profile_section" id="papers" style="display:none">
 
-                        <h4 class="profile_section_header">Publications</h4>
+                        <h4 class="profile_section_header">__MSG__PUBLICATIONS__</h4>
 
                         <div class="profile_section_body" id="papers_list">
                             <table>
                                 <tr id="no_papers">
-                                    <td><span>No publications added yet</span></td>
+                                    <td><span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -253,12 +257,12 @@
                                         (<span class="overalltitle">${i.ovtitle}</span>
                                         <span class="number">${i.number}</span>)
                                         {if i.url}
-                                            <a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
+                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_PAPER_RECORD__"><img alt="" src="_images/link_icon.gif" border="0"></a>
                                         {/if}
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -268,7 +272,7 @@
                                 <table style="width:100%">
                                     <tr>
                                     <td colspan="2">
-                                        <span>No publications added yet</span>
+                                        <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
                                     </td>
                                     </tr>
                                 </table>
@@ -279,12 +283,12 @@
                     <!-- Talks -->
                     <div class="fl-fix profile_section" id="talks" style="display:none">
 
-                        <h4 class="profile_section_header">Talks</h4>
+                        <h4 class="profile_section_header">__MSG__TALKS__</h4>
 
                         <div class="profile_section_body" id="talks_list">
                             <table>
                                 <tr id="no_talks">
-                                    <td><span>No talks added yet</span></td>
+                                    <td><span>__MSG__NO_TALKS_ADDED_YET__</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -298,7 +302,7 @@
                                         <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
                                         <b>${i.title}</b>
                                         {if i.url}
-                                            <a href="${i.url}" target="_blank"><img src="_images/link_icon.gif" border="0"></a>
+                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD__"><img src="_images/link_icon.gif" border="0" alt=""></a>
                                         {/if}
                                         <br/>
                                         {if i.coauth}
@@ -310,7 +314,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -320,7 +324,7 @@
                                 <table>
                                 <tr>
                                     <td>
-                                    <span>No talks added yet</span>
+                                    <span>__MSG__NO_TALKS_ADDED_YET__</span>
                                     </td>
                                 </tr>
                                 </table>
@@ -331,13 +335,13 @@
                     <!-- Jobs -->
                     <div class="fl-fix profile_section" id="jobs" style="display:none">
 
-                        <h4 class="profile_section_header">Professional Experience</h4>
+                        <h4 class="profile_section_header">__MSG__PROFESSIONAL_EXPERIENCE__</h4>
 
                         <div class="profile_section_body" id="jobs_list">
                             <table>
                                 <tr id="no_jobs" style="display:block">
                                 <td>
-                                    <span>No positions added yet</span>
+                                    <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
                                 </td>
                                 </tr>
                             </table>
@@ -362,7 +366,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -372,7 +376,7 @@
                                 <table>
                                 <tr>
                                     <td colspan="2">
-                                    <span>No positions added yet</span>
+                                    <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
                                     </td>
                                 </tr>
                                 </table>
@@ -383,20 +387,20 @@
                     <!-- Additional Information -->
                     <div class="fl-fix profile_section" id="additional" style="display:none">
 
-                        <h4 class="profile_section_header">Additional Information</h4>
+                        <h4 class="profile_section_header">__MSG__ADDITIONAL_INFORMATION__</h4>
 
                         <div class="profile_section_body">
                             <table>
                                 <tr id="awards">
-                                    <th class="entry_label">Awards &amp; Honors:</th>
+                                    <th class="entry_label">__MSG__AWARDS_AND_HONORS__:</th>
                                     <td id="txt_awards"></td>
                                 </tr>
                                 <tr id="clubs">
-                                    <th class="entry_label">Clubs:</th>
+                                    <th class="entry_label">__MSG__CLUBS__:</th>
                                     <td id="txt_clubs"></td>
                                 </tr>
                                 <tr id="societies">
-                                    <th class="entry_label">Societies:</th>
+                                    <th class="entry_label">__MSG__SOCIETIES__:</th>
                                     <td id="txt_societies"></td>
                                 </tr>
                             </table>
@@ -406,12 +410,12 @@
                     <!-- Websites -->
                     <div class="fl-fix profile_section" id="websites" style="display:none">
 
-                        <h4 class="profile_section_header">Websites</h4>
+                        <h4 class="profile_section_header">__MSG__WEBSITES__</h4>
 
                         <div class="profile_section_body" id="websites_list">
                             <table>
                                 <tr id="no_websites">
-                                    <td><span>No websites added yet</span></td>
+                                    <td><span>__MSG__NO_WEBSITES_ADDED_YET__</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -427,7 +431,7 @@
                                         </div>
                                     </td>
                                     <td style="width:15px; padding-bottom:0px" class="centertd">
-                                        <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                        <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_WEBSITE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                     </td>
                                     </tr>
                                 </table>
@@ -436,7 +440,7 @@
                                 <table>
                                 <tr>
                                     <td colspan="2" style="padding-bottom:0px; padding-left:0px">
-                                    <span>No websites added yet</span>
+                                    <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
                                     </td>
                                 </tr>
                                 </table>
@@ -457,15 +461,15 @@
                                     <td id="txt_uniemail"></td>
                                 </tr>
                                 <tr id="uniphone">
-                                    <th class="entry_label">Phone:</th>
+                                    <th class="entry_label">__MSG__PHONE__:</th>
                                     <td id="txt_uniphone"></td>
                                 </tr>
                                 <tr id="unimobile">
-                                    <th class="entry_label">Mobile:</th>
+                                    <th class="entry_label">__MSG__MOBILE__:</th>
                                     <td id="txt_unimobile"></td>
                                 </tr>
                                 <tr id="uniaddress">
-                                    <th class="entry_label">Address:</th>
+                                    <th class="entry_label">__MSG__ADDRESS__:</th>
                                     <td id="txt_uniaddress"></td>
                                 </tr>
                             </table>
@@ -475,7 +479,7 @@
                     <!-- Home Contact -->
                     <div class="fl-fix profile_section" id="homecontactinfo" style="display:none">
 
-                        <h4 class="profile_section_header">Home Contact Info</h4>
+                        <h4 class="profile_section_header">__MSG__HOME_CONTACT_INFO__</h4>
 
                         <div class="profile_section_body">
                             <table>
@@ -484,15 +488,15 @@
                                     <td id="txt_homeemail"></td>
                                 </tr>
                                 <tr id="homephone">
-                                    <th class="entry_label">Phone:</th>
+                                    <th class="entry_label">__MSG__PHONE__:</th>
                                     <td id="txt_homephone"></td>
                                 </tr>
                                 <tr id="homemobile">
-                                    <th class="entry_label">Mobile:</th>
+                                    <th class="entry_label">__MSG__MOBILE__:</th>
                                     <td id="txt_homemobile"></td>
                                 </tr>
                                 <tr id="homeaddress">
-                                    <th class="entry_label">Address:</th>
+                                    <th class="entry_label">__MSG__ADDRESS__:</th>
                                     <td id="txt_homeaddress"></td>
                                 </tr>
                             </table>
@@ -517,8 +521,8 @@
     <div class="dialog" id="message_dialog">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-                <h1>Send Message</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+                <h1>__MSG__SEND_MESSAGE__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
@@ -526,26 +530,26 @@
         <div class="send_message dialogue_box fl-centered">
             <div class="compose-form" action="" method="" style="padding-bottom:10px">
 
-                <div>From: <span id="message_from"></span></div>
+                <div>__MSG__FROM__: <span id="message_from"></span></div>
 
-                <div>To: <span id="message_to"></span></div>
+                <div>__MSG__TO__: <span id="message_to"></span></div>
 
                 <div>
-                    <label for="comp-subject">Subject</label>
+                    <label for="comp-subject">__MSG__SUBJECT__</label>
                     <br />
-                    <input type="text" class="text-field compose-subject" id="comp-subject" />
+                    <input type="text" maxlength="255" class="text-field compose-subject" id="comp-subject" />
                 </div>
 
                 <div>
-                    <label for="comp-body">Body</label>
+                    <label for="comp-body">__MSG__BODY__</label>
                     <br />
                     <textarea class="text-field compose-body" id="comp-body"></textarea>
                 </div>
             </div>
 
             <div class="dialog_buttons">
-                <a href="javascript:;" class="button-default" id="save_as_page_template_button" style="font-weight:bold">Send Message</a>
-                <a href="javascript:;" class="button jqmClose" style="float:none;display:inline;">Cancel</a>
+                <a href="javascript:;" class="button-default" id="save_as_page_template_button" style="font-weight:bold">__MSG__SEND_MESSAGE__</a>
+                <a href="javascript:;" class="button jqmClose" style="float:none;display:inline;">__MSG__CANCEL__</a>
             </div>
         </div>
 
@@ -563,8 +567,8 @@
 
         <div class="dialog_header">
             <div class="dialog_header_inner">
-                <h1>Add to Contacts</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                <h1>__MSG__ADD_TO_CONTACTS__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
 
@@ -572,7 +576,7 @@
 
             <form id="add_friends_form">
 
-                    <h4>Invite <span id="add_friend_displayname" style="font-weight:bold"></span> to connect through Sakai</h4>
+                    <h4>__MSG__INVITE__ <span id="add_friend_displayname" style="font-weight:bold"></span> __MSG__TO_CONNECT_THROUGH_SAKAI__</h4>
 
                     <table style="width:100%; border:0px">
                         <tr>
@@ -585,15 +589,15 @@
                         </tr>
                     </table>
 
-                    <h4>Add a personal note to the invitation:</h4>
+                    <h4>__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__:</h4>
 
                     <textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note" style="padding:4px"></textarea>
 
             </form>
 
              <div class="dialog_buttons">
-                <a href="javascript:;" class="button-default" id="add_friends_do_invite" style="font-weight:bold">Invite</a>
-                <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">Cancel</a>
+                <a href="javascript:;" class="button-default" id="add_friends_do_invite" style="font-weight:bold">__MSG__INVITE__</a>
+                <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">__MSG__CANCEL__</a>
             </div>
 
         </div>

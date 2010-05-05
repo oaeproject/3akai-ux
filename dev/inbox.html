@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
     <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
     <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -34,7 +34,11 @@
     <script type="text/javascript" src="_lib/sakai_util/notifications.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
     <script type="text/javascript" src="_lib/AutoComplete/jquery.bgiframe.min.js"></script>
     <script type="text/javascript" src="_lib/AutoComplete/jquery.ajaxQueue.js"></script>
     <script type="text/javascript" src="_lib/AutoComplete/thickbox-compressed.js"></script>
@@ -154,8 +158,8 @@
 
                         <div class="bottom_decor"></div>
 
-                        <div id="inbox_inbox_sort_up" style="display:none;"><img src="_images/arrow_up_inbox.png" alt="UP" class="inbox_arrow" /></div>
-                        <div id="inbox_inbox_sort_down" style="display:none;"><img src="_images/arrow_down_inbox.png" alt="DOWN" class="inbox_arrow" /></div>
+                        <div id="inbox_inbox_sort_up" style="display:none;"><img src="_images/arrow_up_inbox.png" alt="__MSG__UP__" class="inbox_arrow" /></div>
+                        <div id="inbox_inbox_sort_down" style="display:none;"><img src="_images/arrow_down_inbox.png" alt="__MSG__DOWN__" class="inbox_arrow" /></div>
 
                         <div id="inbox_inbox_messages_template"><!--
                         {for m in messages}
@@ -200,7 +204,7 @@
 
                         <div id="inbox_table_preloader"><!--
                             <tr class="inbox_message">
-                            <td colspan="5" class="inbox_message_none"><img src="/dev/_images/ajax-loader-gray.gif" alt="Loading, please hold on." /></td>
+                            <td colspan="5" class="inbox_message_none"><img src="/dev/_images/ajax-loader-gray.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></td>
                             </tr>
                         --></div>
 
@@ -231,7 +235,7 @@
                         <!-- Sender details -->
                         <div class="sender_details">
                             <div class="sender_picture_container">
-                                <a href="javascript:;"><img src="/dev/_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="Senders profile pic" /></a>
+                                <a href="javascript:;" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__"><img src="/dev/_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__" /></a>
                             </div>
                             <div class="inbox_message_user">
                                 <a href="javascript:;" class="sender-name" id="inbox_message_from"></a>
@@ -268,11 +272,11 @@
                         {macro showReply(r)}
                         <div style="padding: 10px 0px;">
                             <span style="float:left;">
-                                <a href="javascript:;">
+                                <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                 {if r.userFrom.picture}
-                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" class="sender-picture" id="inbox_message_picture" />
+                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="" class="sender-picture" id="inbox_message_picture" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" id="inbox_message_picture" />
+                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="" id="inbox_message_picture" />
                                 {/if}
                             </span>
                             <div class="inbox_message_user">
@@ -321,7 +325,7 @@
                             <form class="compose-form" method="post" action="">
                                 <div>
                                     <label for="inbox_message_compose_subject">__MSG__SUBJECT__</label><br />
-                                    <input type="text" class="compose-subject" id="inbox_message_compose_subject" />
+                                    <input type="text" maxlength="255" class="compose-subject" id="inbox_message_compose_subject" />
                                 </div>
                                 <div>
                                     <label for="inbox_message_compose_body">__MSG__BODY__</label><br />

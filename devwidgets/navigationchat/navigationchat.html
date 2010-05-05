@@ -89,18 +89,20 @@
 </div>
 
 <div id="chat_available_template" style="display:none"><!--
-    <a href="javascript:;" id="chat_available_minimize">
-        <img class="chat_button_image" src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
-    </a>
+    <span class="chat_button_image">
+        <a href="javascript:;" id="chat_available_minimize">
+            <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
+        </a>
+    </span>
     <table>
         <tbody>
             <tr id="chat_available_me" class="chat_top_container">
                 {if me}
                 <td class="chat_available_image">
                     {if me.photo}
-                        <img src="${me.photo}"/>
+                        <img src="${me.photo}" alt="" />
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" />
+                        <img src="/dev/_images/person_icon.jpg" alt="" />
                     {/if}
                 </td>
                 <td>
@@ -119,13 +121,13 @@
                         <tr class="chat_available_friend">
                             <td class="chat_available_image">
                                 {if i.photo}
-                                    <img src="${i.photo}" />
+                                    <img src="${i.photo}" alt="" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" />
+                                    <img src="/dev/_images/person_icon.jpg" alt="" />
                                 {/if}
                             </td>
                             <td>
-                                <span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</span><br />
+                                <a href="javascript:;" class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</a><br />
                                 <span class="chat_available_statusmessage">${i.statusmessage}</span>
                             </td>
                         </tr>
@@ -162,7 +164,7 @@
             {/if}
             <span id="online_button_${i.userid}" class="user_chat">
         {/if}
-        <a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+        <a href="javascript:;" id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
         </span>
         </span>
 
@@ -185,18 +187,20 @@
                     <tr class="chat_top_container">
                         <td class="chat_available_image">
                             {if i.photo}
-                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" />
+                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="" />
                             {else}
-                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" />
+                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="" />
                             {/if}
                         </td>
                         <td>
-                            <a href="javascript:;">
-                                <img id="chat_close_${i.userid}" class="chat_user_button_image chat_close" src="/devwidgets/navigationchat/images/chat_close.png" alt="" />
-                            </a>
-                            <a href="javascript:;">
-                                <img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
-                            </a>
+                            <span class="chat_user_button_image">
+                                <a href="javascript:;" id="chat_minimize_${i.userid}" class="chat_minimize">
+                                    <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
+                                </a>
+                                <a href="javascript:;" id="chat_close_${i.userid}" class="chat_close">
+                                    <img src="/devwidgets/navigationchat/images/chat_close.png" alt="" />
+                                </a>
+                            </span>
                             <span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
                             <span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
                         </td>
@@ -227,7 +231,7 @@
                 <td id="chat_online_connections_link">
                     <span id="online_button">
                         <img src="/devwidgets/navigationchat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
-                        <a class="chat_straight_link" id="chat_online"></a>
+                        <a href="javascript:;" class="chat_straight_link" id="chat_online"></a>
 
                         <!-- SHOW ONLINE FRIENDS -->
                         <div id="show_online" style="display:none">

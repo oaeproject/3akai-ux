@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
     <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
     <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -33,7 +33,11 @@
     <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
     <script type="text/javascript" src="_javascript/_history/rsh.js"></script>
     <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
     <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
@@ -75,11 +79,11 @@
                     </div>
                     <div id="search_form" >
                         <!-- <select class="skinned_select">
-                        <option value="entire_community">Entire Sakai Network</option>
-                        <option value="friends">Friends</option>
+                        <option value="entire_community">__MSG__ENTIRE_SAKAI_NETWORK__</option>
+                        <option value="friends">__MSG__FRIENDS__</option>
                     </select> -->
 
-                        <input type="text" id="search_text" class="input" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
+                        <input type="text" id="search_text" maxlength="255" class="input" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
                         <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                     </div>
                 </div>
@@ -91,7 +95,7 @@
                 <div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
                 <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                 <div class="fl-container fl-fix search_results_part">
-                    <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View more Content &amp; Media results &raquo;</small></a> </div>
+                    <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>__MSG__VIEW_MORE_CONTENT_AND_MEDIA_RESULTS__ &raquo;</small></a> </div>
                     <div id="cm_search_result"></div>
                     <div id="cm_search_result_template"><!--
                     {for i in items}
@@ -117,7 +121,7 @@
                                 <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
                                 {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
                                 {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                                    <div class="search_result_tags">Tags:
+                                    <div class="search_result_tags">__MSG__TAGS__:
                                         {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
                                     </div>
                                 {/if}
@@ -143,9 +147,9 @@
                             {if !i.isAnonymous}
                                 <div class="fl-container fl-fix search_result_person">
                                     {if ! i.picture}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture"></a>
+                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                     {else}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture"><img src="${i.picture}" width="60px" height="60px"/></a>
+                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
                                     {/if}
                                     <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
                                     {if i.extra}
@@ -173,7 +177,7 @@
                 <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
                     <div class="fl-container fl-fix search_results_part">
-                        <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View more Courses &amp; Sites results &raquo;</small></a> </div>
+                        <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_COURSES_AND_SITES_RESULT__ &raquo;</small></a> </div>
                         <div id="sites_search_result"> </div>
                         <div id="sites_search_result_template"><!--
                             {for i in items}

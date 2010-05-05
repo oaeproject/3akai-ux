@@ -216,6 +216,7 @@ var Widgets = {
             i18n: {
                 "default": "/devwidgets/navigationchat/bundles/default.json",
                 "en_US": "/devwidgets/navigationchat/bundles/en_US.json",
+                "nl_NL": "/devwidgets/navigationchat/bundles/nl_NL.json",
                 "zh_CN": "/devwidgets/navigationchat/bundles/zh_CN.json"
             },
             id:"navigationchat",

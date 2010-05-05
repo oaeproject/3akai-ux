@@ -277,7 +277,7 @@ sakai.sitemembers = function(tuid, showSettings){
         $.ajax({
             url: "/var/search/sites.json?q=" + siteid,
             success: function(data){
-                var json = $.evalJSON(data);
+                var json = data;
                 if (json.results.length === 1) {
                     totalMembers = json.results[0]["member-count"];
                     $(sitemembers_normal_count, rootel).text(totalMembers);
@@ -365,7 +365,7 @@ sakai.sitemembers = function(tuid, showSettings){
 
             // Check if we are this user.
             user.isMe = false;
-            if (user.userid === me.user.userid) {
+            if (user["rep:userId"] === me.user.userid) {
                 user.isMe = true;
             }
             // Check to see if this user is a contact of us.
@@ -374,12 +374,12 @@ sakai.sitemembers = function(tuid, showSettings){
             // The fullname for this user. (User for filtering)
             user.fullname = user.firstName + " " + user.lastName;
 
-            user.basic = $.evalJSON(user.basic);
-            user.aboutme = $.evalJSON(user.aboutme);
-            user.education = $.evalJSON(user.education);
-            user.talks = $.evalJSON(user.talks);
-            user.academic = $.evalJSON(user.academic);
-            user.job = $.evalJSON(user.job);
+            user.basic = user.basic ? $.evalJSON(user.basic) : "";
+            user.aboutme = user.aboutme ? $.evalJSON(user.aboutme) : "";
+            user.education = user.education ? $.evalJSON(user.education) : "";
+            user.talks = user.talks ? $.evalJSON(user.talks) : "";
+            user.academic = user.academic ? $.evalJSON(user.academic) : "";
+            user.job = user.job ? $.evalJSON(user.job) : "";
 
 
             // the information the admin wants displayed.

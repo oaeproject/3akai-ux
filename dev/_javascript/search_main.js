@@ -140,8 +140,8 @@ sakai._search = function(config, callback) {
                 if (searchwhere) {
                     url += "|" + searchwhere;
                 }
+                $(this).attr("href", url);
             }
-            $(this).attr("href", url);
             return true;
         });
 
