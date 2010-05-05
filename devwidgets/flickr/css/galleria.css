@@ -1,4 +1,4 @@
-#flickr_key_ul_preview li{display:inline-block;height:90px;overflow:hidden;margin:0 5px 10px 0;}
+#flickr_key_ul_preview li{display:inline-block;height:120px;overflow:hidden;margin:0 5px 10px 0;}
 #flickr_key_ul_preview li a{display:none}
 #flickr_key_ul_preview li div{position:absolute;display:none;top:0;left:180px}
 #flickr_key_ul_preview li div img{cursor:pointer}

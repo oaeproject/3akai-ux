@@ -94,20 +94,20 @@ sakai.flickr = function(tuid, showSettings){
     var defaultvalue; // The default value of the input box
     var sortableObject = {
         horizontal: {
-            //helper: "clone", // Instead of dragging the real image a copy will be dragged
+            helper: "clone", // Instead of dragging the real image a copy will be dragged
             connectWith: ["#flickr_sidebar ul"], // To be able to drag and drop an image to another image gallery they need to be connected
             cursor: 'pointer', //change the cursor when dragging
             opacity: 0.50, //Change the opacity while dragging
-            appendTo: $("#flickr_sidebar"), //When dropped the images need to be appended to the image gallery where they are dropped
+            appendTo: 'body', //When dropped the images need to be appended to the image gallery where they are dropped
             containment: rootel, //Make sure the user can't drag the images outside the widget
             revert: true, // if the user releases the image ouside the dropbox it'll return to it's original position
             zIndex: 9999
         },
         vertical: {
-            appendTo: $("#flickr_sidebar"), //When dropped the images need to be appended to the image gallery where they are dropped
+            appendTo: 'body', //When dropped the images need to be appended to the image gallery where they are dropped
             cursor: 'pointer', //Change the cursor
             opacity: 0.50, //When dragging change the opacity
-            //helper: 'clone', //Instead of dragging the original image, drag a copy
+            helper: 'clone', //Instead of dragging the original image, drag a copy
             containment: $("#flickr_sidebar"), //The dragged image can't get out of the widget
             connectWith: ["#flickr_image_slider_ul"], // To be able to drag and drop an image to another image gallery they need to be connected
             zIndex: 9999
@@ -570,10 +570,10 @@ sakai.flickr = function(tuid, showSettings){
          totalPages = getPagesCorrect((totalImages - dragged),5);
 
         // Display a tooltip when the user goes over the images
-        $("li",imageGallery).easyTooltip({
+       /* $("li",imageGallery).easyTooltip({
             tooltipId: "flickr_tooltip",
             content: $flickrTooltipText.html()
-        });
+        }); */
 
         // This enables the user to drag an image from the image gallery to the sidebar
         $('ul',imageGallery).sortable(sortableObject.horizontal);
@@ -1119,10 +1119,10 @@ sakai.flickr = function(tuid, showSettings){
     var bindPluginsKey = function(page,pages){
 
         // Display a tooltip when the user goes over the images
-        $('li', $flickrKeyGallery).easyTooltip({
+        /*$('li', $flickrKeyGallery).easyTooltip({
             tooltipId: "flickr_tooltip",
             content: $flickrTooltipText.html()
-        });
+        });*/
 
         // This enables the user to drag an image from the image gallery to the sidebar
         $("ul", $flickrKeyGallery).sortable(sortableObject.horizontal);
@@ -1960,7 +1960,7 @@ sakai.flickr = function(tuid, showSettings){
         $('li', $flickrKeyUlPreview).hide();
 
         //Show the first 5 images
-        $('li', $flickrKeyUlPreview).slice((curP - 1) * imgPerPage, (curP * 6)).fadeIn('slow');
+        $('li', $flickrKeyUlPreview).slice((curP - 1) * 6, ((curP * 6))).show();
 
         var pages = {
             "pages": getPagesCorrect(pictures.all.length,6)

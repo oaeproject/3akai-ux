@@ -19,6 +19,7 @@
 
 /* General widget settings */
 #flickr_settings li{ list-style-type:none;}
+#flickr_settings img {z-index:999;}
 
 /* Accordeon container */
 #flickr_accordion {width:500px; float:left; margin-bottom:20px;}
@@ -147,3 +148,4 @@
 #flickr_tag_cloud{padding-bottom:30px;height: 60px;}
 
 .flickr_preview{ position:relative;}
+.flickr_key_ul li img {z-index:9999; position:relative;}
