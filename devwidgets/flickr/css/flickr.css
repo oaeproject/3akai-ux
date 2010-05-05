@@ -62,7 +62,7 @@
 /*Ul of images */
 .flickr_key_ul li, #flickr_image_slider_ul li,#flickr_key_ul_preview li { display:inline; margin: 0 0px 10px 0;}
 
-#flickr_key_ul_preview .flickr_preview_thumb { width:75px;}
+#flickr_key_ul_preview .flickr_preview_thumb { width:80px;border:5px solid #006E96;}
 
 /*Make sure the login button and text are hidden at the start */
 #flickr_input_error,#flickr_tooltip_text, #flickr_input_same_error,#flickr_input_person_error,.flickr_hiddenImage,#flickr_input_same_person_error,#flickr_loading_person_img,#flickr_no_person_error, #flickr_no_public, #flickr_input_page_error {
@@ -135,34 +135,15 @@
 .flickr_image{border:5px solid #006E96;}
 
 /* Contacts part */
+#flickr_contacts a:hover{color:#006E96; text-decoration:none;}
+#flickr_contacts ul span{ display:inline;}
+.flickr_contacts_cloud{margin:20px 40px 0 13px;float:left;}
 
-#flickr_contacts a:hover{
-    color:#006E96;
-     text-decoration:none;
-}
-
-#flickr_contacts ul span{
-    display:inline;
-}
-
-.flickr_contacts_cloud{
-    margin:20px 40px 0 13px;
-    float:left;
-}
-
-
+/*The detail button */
 #flickr_detail_button {display:block; position:absolute;z-index:9999; top:5px;left:60px; cursor:pointer; }
 
-#flickr_tag_cloud a:hover{
-    color:#006E96;
-     text-decoration:none;
-}
+/* The friends part */
+#flickr_tag_cloud a:hover{color:#006E96;text-decoration:none;}
+#flickr_tag_cloud{padding-bottom:30px;height: 60px;}
 
-#flickr_tag_cloud{
-    padding-bottom:30px;
-    height: 60px;
-}
-
-.flickr_preview{
-    position:relative;;
-}
+.flickr_preview{ position:relative;}
