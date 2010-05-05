@@ -131,7 +131,7 @@
 
 <div id="flickr_image_gallery_template"><!--
     {for pic in all}
-        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" class="flickr_image" /></li>
+        <li><img src="${pic.url}" alt="${pic.title}" title ="${pic.title}" class="flickr_image"/></li>
     {/for}
 --></div>
 
@@ -153,14 +153,15 @@
 
 <div id="flickr_contacts_template"><!--
     <div class="flickr_user_details">
-        <p class="flickr_txt" id="${userid}"> Pictures from: <span id="flickr_current_user">${user}</span> <span class="flickr_seperation">||</span><a href="javascript:;" id="flickr_previous_user">Prev user</a></p>
+        <p class="flickr_txt" id="id${userid}"> Pictures from: <span id="flickr_current_user">${user}</span> <span class="flickr_seperation">||</span><a href="javascript:;" id="flickr_previous_user">Prev user</a></p>
     </div>
 --></div>
 
 <div id="flickr_tag_cloud_template"><!--
         <ul class="flickr_contacts_cloud">
+        <li></li>
         {for contact in all}
-            <li id="${contact.nsid}"><a href="javascript:;">${contact.username}</a></li>
+            <li id="id${contact.nsid}"><a href="javascript:;">${contact.username}</a></li>
         {/for}
     </ul>
 --></div>

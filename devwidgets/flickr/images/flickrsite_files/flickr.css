@@ -58,10 +58,6 @@
 /*Image gallery in the Second accordion div */
 #flickr_key_gallery, #flickr_key_person_gallery{ margin-top:42px; clear:both;}
 
-#flickr_key_person_gallery li {
-    height:90px;
-}
-
 .flickr_key_ul{ height:87px;}
 
 /*Ul of images */
@@ -152,4 +148,4 @@
 #flickr_tag_cloud{padding-bottom:30px;height: 60px;}
 
 .flickr_preview{ position:relative;}
-
+.flickr_key_ul li img {z-index:9999; position:relative;}

@@ -97,6 +97,7 @@ sakai.flickr = function(tuid, showSettings){
             helper: "clone", // Instead of dragging the real image a copy will be dragged
             connectWith: ["#flickr_sidebar ul"], // To be able to drag and drop an image to another image gallery they need to be connected
             cursor: 'pointer', //change the cursor when dragging
+            opacity: 0.50, //Change the opacity while dragging
             appendTo: 'body', //When dropped the images need to be appended to the image gallery where they are dropped
             containment: rootel, //Make sure the user can't drag the images outside the widget
             revert: true, // if the user releases the image ouside the dropbox it'll return to it's original position
@@ -105,10 +106,42 @@ sakai.flickr = function(tuid, showSettings){
         vertical: {
             appendTo: 'body', //When dropped the images need to be appended to the image gallery where they are dropped
             cursor: 'pointer', //Change the cursor
+            opacity: 0.50, //When dragging change the opacity
             helper: 'clone', //Instead of dragging the original image, drag a copy
-            containment: rootel, //The dragged image can't get out of the widget
+            containment: $("#flickr_sidebar"), //The dragged image can't get out of the widget
             connectWith: ["#flickr_image_slider_ul"], // To be able to drag and drop an image to another image gallery they need to be connected
             zIndex: 9999
+        }
+    };
+
+      var galleriaObject = {
+        insert: '#flickr_displayed_image', //The div where the image will be appended to
+        history: false, //Setting this to false will prevent the gallery from showing the image in the url
+        onImage: function(image, caption, thumb){ // let's add some image effects for demonstration purposes
+            // fade in the image & caption
+            if (!($.browser.mozilla && navigator.appVersion.indexOf("Win") !== -1)) { // FF/Win fades large images terribly slow
+                image.css('display', 'none').fadeIn(500);
+            }
+            caption.css('display', 'none').fadeIn(500);
+            var li = thumb.parents('li'); // fetch the thumbnail container
+            li.siblings().children('img.selected').fadeTo(500, 0.6); // fade out inactive thumbnail
+            thumb.fadeTo('fast', 1).addClass('selected'); // fade in active thumbnail
+        },
+        onThumb: function(thumb){ // thumbnail effects goes here
+            var li = thumb.parents('li'); // fetch the thumbnail container
+            var fadeTo = li.is('.active') ? '1' : '0.6'; // if thumbnail is active, fade all the way.
+            thumb.css({
+                display: 'none',
+                opacity: fadeTo
+            }).fadeIn(500); // fade in the thumbnail when finnished loading
+            // hover effects
+            thumb.hover(function(){
+                thumb.fadeTo('fast', 1);
+            }, function(){
+                li.not('.active').children('img').fadeTo('fast', 0.6);
+            } // don't fade out if the parent is active
+            );
+            
         }
     };
 
@@ -568,7 +601,7 @@ sakai.flickr = function(tuid, showSettings){
          totalPages = getPagesCorrect((totalImages - dragged),5);
 
         // Display a tooltip when the user goes over the images
-        /*$("li",imageGallery).easyTooltip({
+       /* $("li",imageGallery).easyTooltip({
             tooltipId: "flickr_tooltip",
             content: $flickrTooltipText.html()
         }); */
@@ -735,7 +768,7 @@ sakai.flickr = function(tuid, showSettings){
         $flickrText = $('.flickr_txt',rootel);
         previousUser = {
             'username': $('span', $flickrText).html(),
-            'userid': $flickrText.attr('id').split('id')[1].replace('X','@')
+            'userid': $flickrText.attr('id')
         };
 
         //Put the previous user in an array
@@ -747,7 +780,7 @@ sakai.flickr = function(tuid, showSettings){
         //Get the current user
         userDetail = {
             'username' : $('a',this).html(),
-            'userid' : $(this).attr("id").split('id')[1].replace('X','@')
+            'userid' : $(this).attr("id")
         };
 
         //Get the pictures from the current user
@@ -765,28 +798,24 @@ sakai.flickr = function(tuid, showSettings){
         //Set an object that will be used to rendered the template
          contacts = $.evalJSON(data);
 
-        $(contacts.contacts.contact).each(function(){
-            $(this)[0].nsid = $(this)[0].nsid.replace('@','X');
-        });
-
         //Check if the user clicked on previous user
         if(previousCheck === true){
 
             //Fill in the necessairy data
             contacts.user = prevcontactsArr[contactsCounter].username;
-            contacts.userid = prevcontactsArr[contactsCounter].userid.replace('@','X');;
+            contacts.userid = prevcontactsArr[contactsCounter].userid;
             contacts.prevusr = previousUser;
 
         //check if userDetail is empty (in this object you can find the current user details)
         }else if (!userDetail) {
             var currentUserObject = $.evalJSON(userDetailGlob);
             contacts.user = currentUserObject.user.username._content;
-            contacts.userid = currentUserObject.user.nsid.replace('@','X');
+            contacts.userid = currentUserObject.user.nsid;
             contacts.prevusr = previousUser;
         }
         else {
             contacts.user = userDetail.username;
-            contacts.userid = userDetail.userid.replace('@','X');;
+            contacts.userid = userDetail.userid;
             contacts.prevusr = previousUser;
         }
         $flickrContacts.html($.TemplateRenderer($flickrContactsTemplate, contacts));
@@ -1989,7 +2018,7 @@ sakai.flickr = function(tuid, showSettings){
         checkBothArrowsPreview(pages);
 
         //Add the galleria plugin
-        //$("#flickr_key_ul_preview",rootel).galleria(galleriaObject);
+        $("#flickr_key_ul_preview",rootel).galleria();
 
         $("li",$flickrKeyUlPreview).hover(addExternalImage, removeExternalButton);
 
@@ -1998,8 +2027,6 @@ sakai.flickr = function(tuid, showSettings){
 
         //Set an image active, so it'll be shown big
         $($flickrKeyUlPreview.children()[1]).addClass('active');
-
-        $('#flickr_key_ul_preview',rootel).sortable();
 
     };
 
