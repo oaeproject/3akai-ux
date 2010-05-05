@@ -3,11 +3,11 @@
 
 <!-- ERRORS -->
 <div id="delicious_error_container" style="display:none;">
-    <span class="delicious_error" id="delicious_error_noitems">__MSG__NO_ITEMS__</span>
-    <span class="delicious_error" id="delicious_error_nopersonalbookmarks">__MSG__NO_PERSONAL_BOOKMARKS__</span>
-    <span class="delicious_error" id="delicious_error_nopersonalnetworks">__MSG__NO_PERSONAL_NETWORKS__</span>
-    <span class="delicious_error" id="delicious_error_nopersonalsubscriptions">__MSG__NO_PERSONAL_SUBSCRIPTIONS__</span>
-    <span class="delicious_error" id="delicious_error_nouser">__MSG__ENTER_USERNAME__ <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS_PAGE__</a>.</span>
+    <span id="delicious_error_noitems">__MSG__NO_ITEMS__</span>
+    <span id="delicious_error_nopersonalbookmarks">__MSG__NO_PERSONAL_BOOKMARKS__</span>
+    <span id="delicious_error_nopersonalnetworks">__MSG__NO_PERSONAL_NETWORKS__</span>
+    <span id="delicious_error_nopersonalsubscriptions">__MSG__NO_PERSONAL_SUBSCRIPTIONS__</span>
+    <span id="delicious_error_nouser">__MSG__ENTER_USERNAME__ <a href="javascript:;" id="delicious_settings_link">__MSG__SETTINGS_PAGE__</a>.</span>
 </div>
 
 <!-- CONTENT -->
@@ -17,16 +17,20 @@
         <div id="delicious_container_main">
             <!-- Main view menu -->
             <div id="delicious_main_menu">
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_0">__MSG__FRESH__</a>
-                <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_1">__MSG__HOTLIST__</a>
-                <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_2">__MSG__PERSONAL__</a>
-                <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_3">__MSG__NETWORK__</a>
-                <span class="delicious_pipe_divider">|</span>
-                <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_4">__MSG__SUBSCRIPTIONS__</a>
-                <a href="javascript:;" id="delicious_refresh_link"></a>
+                <div id="delicious_main_menu_links">
+                    <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_0">__MSG__FRESH__</a>
+                    <span class="delicious_pipe_divider">|</span>
+                    <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_1">__MSG__HOTLIST__</a>
+                    <span class="delicious_pipe_divider">|</span>
+                    <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_2">__MSG__PERSONAL__</a>
+                    <span class="delicious_pipe_divider">|</span>
+                    <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_3">__MSG__NETWORK__</a>
+                    <span class="delicious_pipe_divider">|</span>
+                    <a href="javascript:;" class="delicious_main_menu_link" id="delicious_link_4">__MSG__SUBSCRIPTIONS__</a>
+                </div>
+                <div id="delicious_main_menu_refresh">
+                    <a href="javascript:;" id="delicious_refresh_link"></a>
+                </div>
             </div>
 
             <!-- Main view filter -->
@@ -36,7 +40,7 @@
                         <label id="delicious_filter_label_user" for="delicious_filter_input_user">
                             __MSG__USER__:
                         </label>
-                        <input type="text" id="delicious_filter_input_user" class="delicious_input" value=""/>
+                        <input type="text" id="delicious_filter_input_user" class="delicious_input" value="" />
                         <button type="submit" class="s3d-search-button s3d-button s3d-button-primary" id="delicious_filter_show">
                             <span class="s3d-button-inner">__MSG__SHOW__</span>
                         </button>
@@ -60,7 +64,7 @@
                     <label id="delicious_settings_label_username" for="delicious_settings_input_username">
                         __MSG__USERNAME__:
                     </label>
-                    <input type="text" id="delicious_settings_input_username" value=""/>
+                    <input type="text" id="delicious_settings_input_username" value="" />
                 </div>
 
                 <h4>__MSG__DISPLAY__</h4>
@@ -75,7 +79,7 @@
                         <option>10</option>
                         <option>15</option>
                         <option>20</option>
-                    </select><br/>
+                    </select><br />
                     <label id="delicious_settings_label_bookmarksInTotal" for="delicious_settings_select_bookmarksInTotal">
                         __MSG__BOOKMARKS_IN_TOTAL__:
                     </label>
@@ -102,7 +106,7 @@
     </div>
     <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
-            <div id="delicious_paging" class="jq_pager"/>
+            <div id="delicious_paging" class="jq_pager" />
         </div>
     </div>
 </div>
@@ -116,7 +120,7 @@
             <div class="delicious_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
                 <ul id="delicious_main_bookmark_ul_${bookmark_index}">
                     {if bookmark.a}
-                    <li id="delicious_main_bookmark_${bookmark_index}_li_user">__MSG__USER__: <a href="javascript:;" class="delicious_main_bookmark_user_link" id="${bookmark.a}">${bookmark.a}</a> <a href="http://delicious.com/${bookmark.a}" target="_blank"><img src="/devwidgets/delicious/images/user.png" alt="User icon"/></a></li>
+                    <li id="delicious_main_bookmark_${bookmark_index}_li_user">__MSG__USER__: <a href="javascript:;" class="delicious_main_bookmark_user_link" id="${bookmark.a}">${bookmark.a}</a> <a href="http://delicious.com/${bookmark.a}" target="_blank"><img src="/devwidgets/delicious/images/user.png" alt="User icon" /></a></li>
                     {/if}
                     <li id="delicious_main_bookmark_${bookmark_index}_li_date">__MSG__DATE__: ${bookmark.dt}</li>
                     {if bookmark.t.length}

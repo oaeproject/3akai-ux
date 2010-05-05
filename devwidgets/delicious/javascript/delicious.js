@@ -16,16 +16,16 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, Config, fluid*/
+/*global $, sdata, fluid, doPaging, saveDeliciousSettings */
 
 var sakai = sakai || {};
 
 /**
  * Initialize the Delicious widget
- * @param {String} tuid: unique id of the widget
- * @param {Boolean} showSettings: show the settings of the widget or not
+ * @param {String} tuid unique id of the widget
+ * @param {Boolean} showSettings show the settings of the widget or not
  */
-sakai.delicious = function(tuid, showSettings){
+sakai.delicious = function(tuid, showSettings) {
 
 
     /////////////////////////////
@@ -38,7 +38,6 @@ sakai.delicious = function(tuid, showSettings){
     sakai.config.URL.DELICIOUS_PROXY = "/var/proxy/delicious/bookmarks.json";
 
     // Containers
-    var $deliciousContainer = $("#delicious_container", rootel);
     var $deliciousContainerMain = $("#delicious_container_main", rootel);
     var $deliciousContainerSettings = $("#delicious_container_settings", rootel);
 
@@ -100,7 +99,7 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Highlight the mode that is currently being used.
      */
-    var highlightActiveMode = function(){
+    var highlightActiveMode = function() {
 
         // Remove the activeMenuItem CSS class of each link
         $deliciousMainMenuLink.removeClass("delicious_activeMenuItem");
@@ -111,9 +110,9 @@ sakai.delicious = function(tuid, showSettings){
 
     /**
      * This will clean the date (for example 2010-03-29T10:30:25Z to 2010-03-29 10:30:25)
-     * @param {Array} bookmark: The bookmark of which the date has to be cleaned.
+     * @param {Array} bookmark The bookmark of which the date has to be cleaned.
      */
-    var cleanBookmarkDate = function(bookmark){
+    var cleanBookmarkDate = function(bookmark) {
 
         // Transform the date into the desired format
         bookmark.dt = bookmark.dt.replace("T"," ").replace("Z","");
@@ -122,11 +121,11 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Display the correct error message, depending on the bookmarkMode.
      */
-    var displayError = function(){
+    var displayError = function() {
         var errorMessage;
 
-        if ($deliciousFilterInputUser.val().trim()) {
-            switch (bookmarkMode) {
+        if ($deliciousFilterInputUser.val.trim){
+            switch (bookmarkMode){
                 case 0 || 1:
                     errorMessage = $deliciousErrorNoItems;
                     break;
@@ -156,9 +155,9 @@ sakai.delicious = function(tuid, showSettings){
 
     /**
      * Render paging
-     * @param {Integer} arraylength: the total number of items
+     * @param {Integer} arraylength the total number of items
      */
-    var renderPaging = function(arraylength){
+    var renderPaging = function(arraylength) {
         $(jqPagerClass).pager({
             pagenumber: pageCurrent + 1,
             pagecount: Math.ceil(arraylength / pageSize),
@@ -169,14 +168,14 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Render bookmarks
      */
-    var renderBookmarks = function(){
+    var renderBookmarks = function() {
 
         // Array needed for slicing (paging)
-        parseBookmarksArray = [];
+        var parseBookmarksArray = [];
 
         // Fill the array, excluding all irrelevant JSON objects
         for (var b in parseBookmarksGlobal.all) {
-            if (parseBookmarksGlobal.all.hasOwnProperty(b)) {
+            if (parseBookmarksGlobal.all.hasOwnProperty(b)){
                 if (typeof(parseBookmarksGlobal.all[b]) === "object") {
                     cleanBookmarkDate(parseBookmarksGlobal.all[b]);
                     parseBookmarksArray.push(parseBookmarksGlobal.all[b]);
@@ -192,6 +191,18 @@ sakai.delicious = function(tuid, showSettings){
         // Render the main bookmarks template
         $deliciousMainBookmarks.html($.TemplateRenderer($deliciousMainBookmarksTemplate,pagingArray));
 
+        // Hide filtering options if irrelevant
+        if (bookmarkMode === 0 || bookmarkMode === 1) {
+            $deliciousMainFilter = $("#delicious_main_filter", rootel);
+            $deliciousMainFilter.hide();
+        } else {
+
+            // Otherwise fill in the correct username
+            $deliciousFilterInputUser = $("#delicious_filter_input_user", rootel);
+            $deliciousFilterInputUser.val(filterUser);
+            $deliciousMainFilter.show();
+        }
+
         // Show or hide paging
         if (parseBookmarksArray.length > pageSize) {
             $deliciousPaging.show();
@@ -205,18 +216,6 @@ sakai.delicious = function(tuid, showSettings){
                 displayError();
             }
         }
-
-        // Hide filtering options if irrelevant
-        if (bookmarkMode === 0 || bookmarkMode === 1) {
-            $deliciousMainFilter = $("#delicious_main_filter", rootel);
-            $deliciousMainFilter.hide();
-        } else {
-
-            // Otherwise fill in the correct username
-            $deliciousFilterInputUser = $("#delicious_filter_input_user", rootel);
-            $deliciousFilterInputUser.val(filterUser);
-            $deliciousMainFilter.show();
-        }
     };
 
 
@@ -226,14 +225,15 @@ sakai.delicious = function(tuid, showSettings){
 
     /**
      * Parse the Delicious bookmarks
-     * @param {String} response: JSON response
-     * @param {Boolean} exists: check if the data exists
+     * @param {String} response JSON response
+     * @param {Boolean} exists check if the data exists
      */
-    var parseDeliciousBookmarks = function(response, exists){
-        parseBookmarksGlobal = {
-            all: $.evalJSON(response)
-        };
-        if (exists && response.length > 0) {
+    var parseDeliciousBookmarks = function(response, exists) {
+
+        if (exists) {
+            parseBookmarksGlobal = {
+                all: response
+            };
 
             // Render the bookmarks
             renderBookmarks();
@@ -241,6 +241,7 @@ sakai.delicious = function(tuid, showSettings){
 
             // Display error message
             fluid.log("ERROR at delicious.js, parseDeliciousBookmarks");
+            displayError();
         }
     };
 
@@ -252,7 +253,7 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Fetch the Delicious bookmarks (public feed)
      */
-    var fetchDeliciousBookmarks = function(){
+    var fetchDeliciousBookmarks = function() {
 
         // Retrieve the correct mode from the global array
         var mode = modeArray[bookmarkMode];
@@ -275,7 +276,7 @@ sakai.delicious = function(tuid, showSettings){
             success: function(data){
                 parseDeliciousBookmarks(data, true);
             },
-            error: function(xhr, textStatus, thrownError){
+            error: function(xhr, textStatus, thrownError) {
                 parseDeliciousBookmarks(xhr.status, false);
             },
             data: postData
@@ -289,9 +290,9 @@ sakai.delicious = function(tuid, showSettings){
 
     /**
      * Initializes the change of page
-     * @param {Integer} clickedPage: the page which has been clicked and should be displayed
+     * @param {Integer} clickedPage the page which has been clicked and should be displayed
      */
-    var doPaging = function(clickedPage){
+    var doPaging = function(clickedPage) {
 
         // Adjust pageCurrent (pageCurrent is zero-based)
         pageCurrent = clickedPage - 1;
@@ -307,14 +308,14 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Set global filter variable
      */
-    var updateDeliciousFilter = function(){
+    var updateDeliciousFilter = function() {
         filterUser = $deliciousFilterInputUser.val().trim();
     };
 
     /**
      * Returns Boolean: the username in the filter is valid (true) or invalid (false)
      */
-    var isValidUser = function(){
+    var isValidUser = function() {
 
         // If the username is empty
         if (!filterUser) {
@@ -341,7 +342,7 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Show or hide additional bookmark information.
      */
-    var showHideDeliciousBookmarkInfo = function(){
+    var showHideDeliciousBookmarkInfo = function() {
 
         // Re-initialization
         $deliciousMainBookmarkInfoLink = $(".delicious_main_bookmark_info_link", rootel);
@@ -349,7 +350,7 @@ sakai.delicious = function(tuid, showSettings){
         // Kill previous live events to prevent adding dupes
         $deliciousMainBookmarkInfoLink.die();
 
-        $deliciousMainBookmarkInfoLink.live('click', function(){
+        $deliciousMainBookmarkInfoLink.live('click', function() {
 
             // Define unique info ID, based on link ID
             var elementID = '#' + $(this).attr("id") + '_info';
@@ -357,14 +358,14 @@ sakai.delicious = function(tuid, showSettings){
             // If visible: hide information and swap image
             if ($(this, rootel).hasClass("delicious_showArrowLeft"))
             {
-                $(elementID, rootel).hide();
+                $(elementID, rootel).slideUp(150);
                 $(this, rootel).removeClass("delicious_showArrowLeft");
             }
 
             // Else: show information and swap image
             else
             {
-                $(elementID, rootel).show();
+                $(elementID, rootel).slideDown(150);
                 $(this, rootel).addClass("delicious_showArrowLeft");
             }
         });
@@ -373,7 +374,7 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Get the Delicious bookmarks
      */
-    var getDeliciousBookmarks = function(){
+    var getDeliciousBookmarks = function() {
 
         // Set paging at first page
         pageCurrent = 0;
@@ -409,43 +410,10 @@ sakai.delicious = function(tuid, showSettings){
     //////////////
 
     /**
-     * Save the widget settings
-     */
-    var saveDeliciousSettings = function(){
-
-        // Object to be saved at JCR
-        var deliciousSettings = {
-            "username" : $deliciousSettingsInputUsername.val(),
-            "bookmarksInTotal" : $deliciousSettingsSelectBookmarksInTotal.val(),
-            "bookmarksPerPage" : $deliciousSettingsSelectBookmarksPerPage.val()
-        };
-
-        sakai.api.Widgets.saveWidgetData(tuid, deliciousSettings, function(success, data){
-
-            if (success) {
-
-                // FIXME
-                // sdata.container.informFinish(tuid,"delicious");
-                // Problem: multiple instances of this widget show up
-
-                // Get the settings from the server
-                // This will also get and show the bookmarks
-                getDeliciousSettings();
-
-                // Show the main view
-                showHideDeliciousSettings(false);
-            } else {
-                alert("Failed to save settings");
-            }
-
-        });
-    };
-
-    /**
      * Adds the retrieved settings to the right fields
-     * @param {Object} data: retrieved data
+     * @param {Object} data retrieved data
      */
-    var fillInDeliciousSettings = function(data){
+    var fillInDeliciousSettings = function(data) {
         var settings = $.evalJSON(data);
 
         $deliciousSettingsInputUsername.val(settings.username);
@@ -464,26 +432,10 @@ sakai.delicious = function(tuid, showSettings){
     };
 
     /**
-     * Get the stored widget settings
-     */
-    var getDeliciousSettings = function(){
-        
-        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-            if (success) {
-                fillInDeliciousSettings(data);
-            } else {
- 
-                // Display error message
-                fluid.log("ERROR at delicious.js, getDeliciousSettings: " + thrownError);
-            }
-        });
-    };
-
-    /**
      * Show or hide the settings view
-     * @param {Boolean} show: Show or hide the settings view
+     * @param {Boolean} show Show or hide the settings view
      */
-    var showHideDeliciousSettings = function(show){
+    var showHideDeliciousSettings = function(show) {
         if (show) {
 
             // Show settings
@@ -501,6 +453,57 @@ sakai.delicious = function(tuid, showSettings){
         }
     };
 
+    /**
+     * Get the stored widget settings
+     */
+    var getDeliciousSettings = function() {
+
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
+            if (success) {
+                fillInDeliciousSettings(data);
+            } else {
+
+                // Save default settings so the error message wont appear again.
+                saveDeliciousSettings();
+
+                // Show error message
+                fluid.log("sakai.delicious.getDeliciousSettings: Failed to load settings because no settings file was found. This occurs the first time the widget loads. Default settings have been saved and are now in usage.");
+            }
+        });
+    };
+
+    /**
+     * Save the widget settings
+     */
+    var saveDeliciousSettings = function() {
+
+        // Object to be saved at JCR
+        var deliciousSettings = {
+            "username" : $deliciousSettingsInputUsername.val(),
+            "bookmarksInTotal" : $deliciousSettingsSelectBookmarksInTotal.val(),
+            "bookmarksPerPage" : $deliciousSettingsSelectBookmarksPerPage.val()
+        };
+
+        sakai.api.Widgets.saveWidgetData(tuid, deliciousSettings, function(success, data) {
+            if (success){
+
+                // FIXME
+                // sdata.container.informFinish(tuid,"delicious");
+                // Problem: multiple instances of this widget show up
+
+                // Get the settings from the server
+                // This will also get and show the bookmarks
+                getDeliciousSettings();
+
+                // Show the main view
+                showHideDeliciousSettings(false);
+            } else {
+                fluid.log("sakai.delicious.saveDeliciousSettings: Failed to save settings.");
+            }
+
+        });
+    };
+
 
     ////////////////////
     // Initialization //
@@ -509,7 +512,7 @@ sakai.delicious = function(tuid, showSettings){
     /**
      * Add click events to all buttons and links
      */
-    var addClickEvents = function(){
+    var addClickEvents = function() {
 
         // TEMPORARY solution to prevent multiple click events
         $deliciousRefreshLink.die();
@@ -522,34 +525,37 @@ sakai.delicious = function(tuid, showSettings){
 
         // Clicking on a menu item will change the bookmarkMode and fetch the correct bookmarks
         $deliciousRefreshLink.live('click', getDeliciousBookmarks);
-        $deliciousMainMenuLink.live('click', function(){
+        $deliciousMainMenuLink.live('click', function() {
             bookmarkMode = parseInt($(this).attr("id").split("_")[2],10);
             getDeliciousBookmarks();
         });
 
         // Clicking a username in the info of a bookmark will show his personal bookmarks
-        $deliciousMainBookmarkUserLink.live('click', function(){
+        $deliciousMainBookmarkUserLink.live('click', function() {
             bookmarkMode = 2;
             filterUser = $(this).attr("id");
             getDeliciousBookmarks();
         });
 
         // Button to filter by username, this will show all results by the given username
-        $deliciousFilterShow.live('click', function(){
+        $deliciousFilterShow.live('click', function() {
             updateDeliciousFilter();
             getDeliciousBookmarks();
         });
 
         // The cancel button from the settings screen shows the main view while hiding the settings
         // Clicking the save button will write the input to the server
-        $deliciousSettingsCancel.live('click', function(){
-            getDeliciousBookmarks();
+        $deliciousSettingsCancel.live('click', function() {
             showHideDeliciousSettings(false);
+            getDeliciousBookmarks();
         });
+
         $deliciousSettingsSave.live('click', saveDeliciousSettings);
 
-        $deliciousSettingsLink.live('click', function(){
+        // Clicking the settings link will reload the widget using the same tuid and with the showSettings parameter set to true
+        $deliciousSettingsLink.live('click', function() {
             showHideDeliciousSettings(true);
+            getDeliciousSettings();
         });
     };
 
@@ -562,9 +568,8 @@ sakai.delicious = function(tuid, showSettings){
         addClickEvents();
 
         // Get the settings from the server
-        // If the mainview is shown, this will also get and show the bookmarks
         getDeliciousSettings();
-        
+
         // Hide or show the settings view
         if (showSettings){
             showHideDeliciousSettings(true);

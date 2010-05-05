@@ -26,9 +26,19 @@
 
 /* DELICIOUS MAIN MENU */
 
-#delicious_widget #delicious_main_menu {
-    border-bottom:3px solid #ddd;
+#delicious_main_menu {
     padding-bottom:5px;
+    border-bottom:3px solid #ddd;
+}
+
+#delicious_main_menu_links {
+    margin-right:25px;
+}
+
+#delicious_main_menu_refresh {
+    width:15px;
+    float:right;
+    margin:-17px 0 0 0;
 }
 
 #delicious_widget #delicious_main_menu #delicious_refresh_link {
@@ -73,7 +83,7 @@
     width:13px;
 }
 
-#delicious_widget .delicious_showArrowLeft{
+#delicious_widget .delicious_showArrowLeft {
     background-position:0 -15px;
 }
 
@@ -108,29 +118,58 @@
 
 /* DELICIOUS PAGER */
 
+#delicious_widget .fl-fix {
+    overflow:hidden;
+}
+
+#delicious_widget .fl-widget .fl-widget-options .widget-options-inner {
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+}
+
+#delicious_widget .fl-widget .fl-widget-options ul li {
+    float:left;
+    margin:0;
+    padding:16px 3px 0;
+}
+
+#delicious_widget .fl-widget-options #delicious_paging .page-number {
+    padding-left:0;
+    padding-right:0;
+}
+
+#delicious_widget .fl-widget-options .jq_pager {
+    padding-left:7px;
+}
+
+#delicious_widget .fl-widget-options #delicious_paging {
+    color:#666666;
+    font-size:0.85em;
+    font-weight:bold;
+}
+
 #delicious_widget .sakai_pager li {
     background:transparent !important;
 }
 
 #delicious_widget .sakai_pager li > span {
     background:none !important;
+    margin-left:0;
+    margin-right:0;
+    padding-left:3px;
+    padding-right:3px;
 }
 
 #delicious_widget .sakai_pager li.dots {
     clear:none;
 }
 
-#delicious_widget .fl-widget .fl-widget-options #delicious_paging {
-    color:#666666;
-    font-size:0.85em;
-    font-weight:bold;
-    padding:3px 0 3px 3px;
-}
-
 
 /* GENERAL MARKUP */
 
-#delicious_widget .delicious_error a {
+#delicious_widget #delicious_error_nouser a {
     display:inline !important;
     padding:0 !important;
     text-decoration:underline;
@@ -141,10 +180,13 @@
     padding:3px;
 }
 
+#delicious_widget .delicious_main_menu_link {
+    padding:0 6px;
+}
+
 #delicious_widget .delicious_pipe_divider {
     color:#999999;
     font-size:0.85em;
-    padding:0 6px 0 10px;
 }
 
 #delicious_widget .s3d-button-inner {
@@ -152,5 +194,5 @@
 }
 
 .delicious .widget_title {
-background:url("/devwidgets/delicious/images/delicious_icon.png") no-repeat scroll 17px 18px transparent;
+    background:url("/devwidgets/delicious/images/delicious_icon.png") no-repeat scroll 17px 18px transparent;
 }
