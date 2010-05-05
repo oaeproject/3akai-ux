@@ -95,6 +95,19 @@ var Widgets = {
             },
             url:"/devwidgets/createsite/createsite.html"
         },
+        delicious: {
+            description:"Delicious widget",
+            hasSettings:true,
+            id:"delicious",
+            i18n: {
+                "default": "/devwidgets/delicious/bundles/default.json",
+                "en_US": "/devwidgets/delicious/bundles/en_US.json",
+                "nl_NL": "/devwidgets/delicious/bundles/nl_NL.json"
+            },
+            name:"Delicious",
+            personalportal:true,
+            url:"/devwidgets/delicious/delicious.html"
+        },
         discussion: {
             ca:true,
             description:"Discussion widget",
