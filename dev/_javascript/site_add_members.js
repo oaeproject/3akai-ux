@@ -352,16 +352,17 @@ sakai.site_add_members = function() {
                 $.ajax({
                     url: "/system/userManager/group/" + group + ".update.html",
                     type: "POST",
+                    data: {
+                        ":member": newMembers,
+                        "_charset_":"utf-8"
+                    },
+                    traditional: true,
                     success: function(data){
                             updateSiteMembers(dataTemp);
                             selectNone();
                     },
                     error: function(xhr, textStatus, thrownError) {
                         alert("Failed to add these members.");
-                    },
-                    data: {
-                        ":member": newMembers,
-                        "_charset_":"utf-8"
                     }
                 });
             }
