@@ -124,8 +124,8 @@ sakai.delicious = function(tuid, showSettings) {
     var displayError = function() {
         var errorMessage;
 
-        if ($deliciousFilterInputUser.val.trim){
-            switch (bookmarkMode){
+        if ($deliciousFilterInputUser.val.trim) {
+            switch (bookmarkMode) {
                 case 0 || 1:
                     errorMessage = $deliciousErrorNoItems;
                     break;
@@ -552,7 +552,7 @@ sakai.delicious = function(tuid, showSettings) {
 
         $deliciousSettingsSave.live('click', saveDeliciousSettings);
 
-        // Clicking the settings link will reload the widget using the same tuid and with the showSettings parameter set to true
+        // Clicking the settings link will show and reload the widget settings
         $deliciousSettingsLink.live('click', function() {
             showHideDeliciousSettings(true);
             getDeliciousSettings();
