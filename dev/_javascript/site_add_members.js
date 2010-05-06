@@ -168,8 +168,10 @@ sakai.site_add_members = function() {
         }
 
             for (var i = 0; i < people.results.length; i++) {
-                if (typeof people.results[i].picture !== "undefined" && typeof people.results[i].picture == "string") {
-                    people.results[i].picture = $.evalJSON(people.results[i].picture);
+                if (typeof people.results[i].picture !== "undefined") {
+                  if (typeof people.results[i].picture == "string") {
+                    people.results[i].picture = $.evalJSON(people.results[i].picture);                 
+                  }
                 } else {
                     people.results[i].picture = {};
                 }
