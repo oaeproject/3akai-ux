@@ -533,7 +533,12 @@ sakai.site.site_admin = function(){
         showPageLocation();
 
         // Put content in editor
-        var content = sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"];
+        if (pageUrlName == "_navigation") {
+          var content = sakai.site.pagecontents[pageUrlName];
+        } else {
+          var content = sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"];
+        }
+        
         tinyMCE.get("elm1").setContent(content);
 
         $("#messageInformation").hide();
