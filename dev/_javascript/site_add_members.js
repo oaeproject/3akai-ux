@@ -156,7 +156,7 @@ sakai.site_add_members = function() {
             }
         }
         return "";
-    }
+    };
 
     /**
      * renders a list of members
@@ -349,7 +349,7 @@ sakai.site_add_members = function() {
                 var group = roleToGroup[dataTemp.membertoken];
                 var newMembers = [];
                 for (var i = 0; i < dataTemp.uuserid.length; i++) {
-                    var userid = "../../user/" + dataTemp.uuserid[i];
+                    var userid = dataTemp.uuserid[i];
                     newMembers.push(userid);
                 }
                 $.ajax({
