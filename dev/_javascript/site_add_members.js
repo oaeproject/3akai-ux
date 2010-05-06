@@ -156,7 +156,7 @@ sakai.site_add_members = function() {
             }
         }
         return "";
-    }
+    };
 
     /**
      * renders a list of members
@@ -346,22 +346,23 @@ sakai.site_add_members = function() {
                 var group = roleToGroup[dataTemp.membertoken];
                 var newMembers = [];
                 for (var i = 0; i < dataTemp.uuserid.length; i++) {
-                    var userid = "../../user/" + dataTemp.uuserid[i];
+                    var userid = dataTemp.uuserid[i];
                     newMembers.push(userid);
                 }
                 $.ajax({
                     url: "/system/userManager/group/" + group + ".update.html",
                     type: "POST",
+                    data: {
+                        ":member": newMembers,
+                        "_charset_":"utf-8"
+                    },
+                    traditional: true,
                     success: function(data){
                             updateSiteMembers(dataTemp);
                             selectNone();
                     },
                     error: function(xhr, textStatus, thrownError) {
                         alert("Failed to add these members.");
-                    },
-                    data: {
-                        ":member": newMembers,
-                        "_charset_":"utf-8"
                     }
                 });
             }

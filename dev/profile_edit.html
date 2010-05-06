@@ -17,7 +17,7 @@
 
     <!-- 3rd party CSS -->
     <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_lib/jquery/imgareaselect/imgareaselect-default.css" />
+    <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
 
     <!-- Sakai Config JS -->
     <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
     <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery.json-2.2.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
     <!-- Sakai Core JS -->
     <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
@@ -35,8 +35,12 @@
     <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
     <!-- 3rd party JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_3rdparty.js"></script>
-    <script type="text/javascript" src="_lib/jquery/imgareaselect/jquery.imgareaselect.pack.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+    <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
 
 </head>
 
@@ -119,14 +123,14 @@
                                     <td>
                                         <select id="txt_unirole" class="profile_edit_dropdown">
                                             <option></option>
-                                            <option value="Undergraduate Student">Undergraduate Student</option>
-                                            <option value="Graduate Student">Graduate Student</option>
-                                            <option value="Postgraduate Student">Postgraduate Student</option>
-                                            <option value="Academic Staff">Academic Staff</option>
-                                            <option value="Academic Related Staff">Academic Related Staff</option>
-                                            <option value="Non-academic Staff">Non-academic Staff</option>
-                                            <option value="Assistant Staff">Assistant Staff</option>
-                                            <option value="Other">Other</option>
+                                            <option value="Undergraduate Student">__MSG__UNDERGRADUATE_STUDENT__</option>
+                                            <option value="Graduate Student">__MSG__GRADUATE_STUDENT__</option>
+                                            <option value="Postgraduate Student">__MSG__POSTGRADUATE_STUDENT__</option>
+                                            <option value="Academic Staff">__MSG__ACADEMIC_STAFF__</option>
+                                            <option value="Academic Related Staff">__MSG__ACADEMIC_RELATED_STAFF__</option>
+                                            <option value="Non-academic Staff">__MSG__NON_ACADEMIC_STAFF__</option>
+                                            <option value="Assistant Staff">__MSG__ASSISTANT_STAFF__</option>
+                                            <option value="Other">__MSG__OTHER__</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -758,21 +762,12 @@
             <form id="add_paper_form">
             <table summary="New Publication">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main Title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main author:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_auth"/>
-=======
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_title"/></td>
-                </tr>
-                <tr>
                     <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_auth"/>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_auth"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
                 </tr>
                 <tr>
@@ -789,70 +784,38 @@
                     </td>
                 </tr>
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume information:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_vol"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_voltitle"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">Edition information:</td>
+                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_edition"/>
                     <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Place of publication:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Publisher:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_publisher"/></td>
-=======
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_vol"/>
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_voltitle"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_edition"/>
-                    <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_place"/></td>
-                </tr>
-                <tr>
                     <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_publisher"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_publisher"/></td>
                 </tr>
                 <tr>
                     <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Overal/Series Title:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_ovtitle"/></td>
                 </tr>
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Number:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_paper_number"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">URL:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_paper_url"/></td>
-=======
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
-                    <td><input type="text" style="width:250px" id="new_paper_number"/></td>
-                </tr>
-                <tr>
                     <td style="width: 130px">__MSG__URL__:</td>
-                    <td><input type="text" style="width:250px" class="url_field" id="new_paper_url"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_paper_url"/></td>
                 </tr>
             </table>
            </form>
@@ -887,21 +850,12 @@
             <input type="hidden" id="edit_paper_id"/>
             <table summary="Edit Publication">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main Title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Main author:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_auth"/>
-=======
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_title"/></td>
-                </tr>
-                <tr>
                     <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_auth"/>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_auth"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
                 </tr>
                 <tr>
@@ -918,70 +872,38 @@
                     </td>
                 </tr>
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume information:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_vol"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Volume title:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_voltitle"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">Edition information:</td>
+                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_edition"/>
                     <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Place of publication:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Publisher:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_publisher"/></td>
-=======
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_vol"/>
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_voltitle"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_edition"/>
-                    <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_place"/></td>
-                </tr>
-                <tr>
                     <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_publisher"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_publisher"/></td>
                 </tr>
                 <tr>
                     <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Overal/Series Title:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_ovtitle"/></td>
                 </tr>
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> Number:</td>
+                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_number"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 130px">URL:</td>
-                    <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="edit_paper_url"/></td>
-=======
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
-                    <td><input type="text" style="width:250px" id="edit_paper_number"/></td>
-                </tr>
-                <tr>
                     <td style="width: 130px">__MSG__URL__:</td>
-                    <td><input type="text" style="width:250px"  class="url_field" id="edit_paper_url"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="edit_paper_url"/></td>
                 </tr>
             </table>
            </form>
@@ -1026,39 +948,21 @@
             <form id="add_talk_form">
             <table summary="New Talk">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Place:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_talk_date"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px">Co-author(s):</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_talk_coauth"/>
-                    <br/><span style="color:#666666; font-size:0.9em">Separated by commas</span></td>
-=======
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="new_talk_title"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
-                    <td><input type="text" style="width:250px" id="new_talk_place"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td><input type="text" style="width:250px" id="new_talk_date"/></td>
-                </tr>
-                <tr>
                     <td style="width: 100px">__MSG__CO_AUTHORS__:</td>
-                    <td><input type="text" style="width:250px" id="new_talk_coauth"/>
+                    <td><input maxlength="255" type="text" style="width:250px" id="new_talk_coauth"/>
                     <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
                 </tr>
                 <tr>
                     <td style="width: 100px">URL:</td>
@@ -1097,47 +1001,25 @@
             <input type="hidden" id="edit_talk_id"/>
             <table summary="Edit Talk">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_title"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Place:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_place"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Date:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_date"/></td>
                 </tr>
                 <tr>
                     <td style="width: 100px">Co-author(s):</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_coauth"/>
-                    <br/><span style="color:#666666; font-size:0.9em">Separated by commas</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">URL:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_talk_url"/></td>
-=======
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_talk_title"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_talk_place"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_talk_date"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">Co-author(s):</td>
-                    <td><input type="text" style="width:250px" id="edit_talk_coauth"/>
                     <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
                 </tr>
                 <tr>
                     <td style="width: 100px">__MSG__URL__:</td>
                     <td><input type="text" style="width:250px" class="url_field" id="edit_talk_url"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
                 </tr>
             </table>
            </form>
@@ -1183,31 +1065,17 @@
             <form id="add_job_form">
             <table summary="New Job">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_job_role"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_job_country"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Company:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_job_company"/></td>
-=======
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
-                    <td><input type="text" style="width:250px" id="new_job_role"/>
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
-                    <td><input type="text" style="width:250px" id="new_job_country"/></td>
-                </tr>
-                <tr>
                     <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
-                    <td><input type="text" style="width:250px" id="new_job_company"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" id="new_job_company"/></td>
                 </tr>
                 <tr>
                     <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
@@ -1259,31 +1127,17 @@
             <input type="hidden" id="edit_job_id"/>
             <table summary="Edit Job">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Role:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_job_role"/>
                     <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Country:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_job_country"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Company:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_job_company"/></td>
-=======
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_job_role"/>
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
-                    <td><input type="text" style="width:250px" id="edit_job_country"/></td>
-                </tr>
-                <tr>
                     <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
-                    <td><input type="text" style="width:250px" id="edit_job_company"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" id="edit_job_company"/></td>
                 </tr>
                 <tr>
                     <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG_DATE__:</td>
@@ -1299,7 +1153,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px">__MSG__DESCRIPTION__:</td>
-                    <td><textarea style="width:250px; height:75px" id="edit_job_description"></textarea></td>
+                    <td><textarea maxlength="1000" style="width:250px; height:75px" id="edit_job_description"></textarea></td>
                 </tr>
             </table>
            </form>
@@ -1345,21 +1199,12 @@
             <form id="add_website_form">
             <table summary="Add Website">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="new_website_title"/></td>
                 </tr>
                 <tr>
-                    <td><strong class="fs13 cCC0000">*</strong> URL:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_website_url"/></td>
-=======
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="new_website_title"/></td>
-                </tr>
-                <tr>
                     <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
-                    <td><input type="text" style="width:250px" class="url_field" id="new_website_url"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_website_url"/></td>
                 </tr>
             </table>
            </form>
@@ -1398,21 +1243,12 @@
 
         <table summary="Edit Website">
                 <tr>
-<<<<<<< HEAD
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> Site Title:</td>
+                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
                     <td><input maxlength="255" type="text" style="width:250px" id="edit_website_title"/></td>
                 </tr>
                 <tr>
-                    <td><strong class="fs13 cCC0000">*</strong> URL:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_website_url"/></td>
-=======
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
-                    <td><input type="text" style="width:250px" id="edit_website_title"/></td>
-                </tr>
-                <tr>
                     <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
-                    <td><input type="text" style="width:250px" class="url_field" id="edit_website_url"/></td>
->>>>>>> 0a5a91b0ebe96b5ad3cb6ba3ac63caa9f4780479
+                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_website_url"/></td>
                 </tr>
             </table>
            </form>

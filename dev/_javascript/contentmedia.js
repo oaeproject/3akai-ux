@@ -188,7 +188,7 @@ sakai.contentmedia = function(){
      * @param {String} url The url where you want to add the session to
      */
     var getServerUrl = function(url){
-        return url + ";jsessionid=" + encodeURIComponent(get_cookie("JSESSIONID"));
+        return url + ";jsessionid=" + encodeURIComponent($.cookie('JSESSIONID'));
     };
 
     /**

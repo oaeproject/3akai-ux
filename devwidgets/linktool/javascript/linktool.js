@@ -386,7 +386,7 @@ sakai.linktool = function(tuid, showSettings){
                 sessionid: {
                     checked: false,
                     text: "sessionId",
-                    value: get_cookie('SAKAIID')
+                    value: $.cookie('SAKAIID')
                 },
                 uid: {
                     checked: false,

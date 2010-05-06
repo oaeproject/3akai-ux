@@ -366,6 +366,29 @@ sakai.navigationchat = function(tuid, showSettings){
     ///////////////
 
     /**
+     * Keep focus above chat panel for keyboard navigation
+     */
+    $("a, input, select, textarea").focus(function(ev) {
+        var chatHeight = $(".chat_main_container").height();
+        //var scrOfY = $(window).scrollTop(); // broken in IE
+        var scrOfY = 0;
+        if( typeof( window.pageYOffset ) === 'number' ) {
+            //Mozilla compliant
+            scrOfY = window.pageYOffset;
+        } else if( document.body && ( document.body.scrollTop ) ) {
+            //DOM compliant
+            scrOfY = document.body.scrollTop;
+        } else if( document.documentElement && ( document.documentElement.scrollTop ) ) {
+            //IE6 standards compliant mode
+            scrOfY = document.documentElement.scrollTop;
+        }
+
+        if ((this.offsetTop + $(this).height() + chatHeight) > (scrOfY + $(window).height())){
+            window.scrollBy(0,100);
+        }
+    });
+
+    /**
      * Select the page in the top navigation where you are currently on.
      * This will apply a class to the selected navigation item based on the current URL
      * @returns void;
@@ -1181,7 +1204,7 @@ sakai.navigationchat = function(tuid, showSettings){
             return;
         }
         else {
-            set_cookie('sakai_chat', $.toJSON(activewindows), null, null, null, "/", null, null);
+            $.cookie('sakai_chat', $.toJSON(activewindows));
         }
     });
 
@@ -1422,9 +1445,9 @@ sakai.navigationchat = function(tuid, showSettings){
     var loadChatWindows = function(){
 
         // Check if there is a cookie from a previous visit
-        if (get_cookie('sakai_chat')) {
-            activewindows = $.evalJSON(get_cookie("sakai_chat"));
-            delete_cookie("sakai_chat");
+        if ($.cookie('sakai_chat')) {
+            activewindows = $.evalJSON($.cookie("sakai_chat"));
+            $.cookie("sakai_chat", null);
             var toshow = false;
             for (var i = 0, j = activewindows.items.length; i < j; i++) {
                 if (activewindows.items[i].active === true) {
