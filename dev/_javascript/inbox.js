@@ -1012,9 +1012,6 @@ sakai.inbox = function() {
      * @param {int} index The index of the array that needs to be deleted.
      */
     var hardDeleteMessage = function(pathToMessages) {
-        for (var i = 0, j = pathToMessages.length; i < j; i++) {
-            pathToMessages[i] = "/_user" + sakai.data.me.profile.path + "/message/" + pathToMessages[i];
-        }
         $.ajax({
             url: "/system/batch/delete",
             type: "POST",
@@ -1075,7 +1072,7 @@ sakai.inbox = function() {
 
             for (var d = 0, e = pathToMessages.length; d < e; d++) {
                 $.ajax({
-                    url: "/_user" + sakai.data.me.profile.path + "/message/" + pathToMessages[d],
+                    url: pathToMessages[d],
                     type: "POST",
                     success: function(data){
                         deleted++;
