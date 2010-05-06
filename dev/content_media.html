@@ -95,7 +95,7 @@
                             <a href="javascript:;" title="Search for files">Search</a>
                             <div id="contentmedia_search">
                                 <form>
-                                    <input type="text" value="Search for files ..." class="input" id="search_text"/>
+                                    <input type="text" value="Search for files ..." class="input" id="search_text" title="Search for files ..." />
                                     <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                 </form>
                             </div>
@@ -139,8 +139,8 @@
                                 <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
                                 <form method="post" enctype="multipart/form-data" class="fl-uploader fl-progEnhance-basic">
                                     <p>Browse to upload a file.</p>
-                                    <input name="fileData" type="file" />
-                                    <div><input type="submit" value="Save"/></div>
+                                    <input name="fileData" type="file" title="Browse to upload a file" />
+                                    <div><input type="submit" value="Save" title="Select the file"/></div>
                                 </form>
 
                                 <!-- This is the markup for the Fluid Uploader component itself. -->
@@ -257,7 +257,7 @@
                                     {/if}
 
                                     {if site.length > 0 || context != "myfiles"}
-                                    <a href="javascript:;" id="contentmedia_remove_filter_context"><img src="/devwidgets/filemanager/images/remove_filter.png" alt=""/></a>
+                                    <a href="javascript:;" id="contentmedia_remove_filter_context" title="Remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="Remove the tag filter(s)"/></a>
                                     {/if}
                                 </div>
                                 {if tag && tag.length > 0}
@@ -271,12 +271,12 @@
                                         {/if}
                                         "${t}"
                                     {/for}
-                                    <a href="javascript:;" id="contentmedia_remove_filter_tag" title="remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt=""/></a>
+                                    <a href="javascript:;" id="contentmedia_remove_filter_tag" title="Remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="Remove the tag filter(s)"/></a>
                                 </div>
                                 {/if}
                                 {if search && search !== "*"}
                                 <div class="contentmedia_list_heading">
-                                    Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt=""/></a>
+                                    Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="Remove the tag filter(s)"/></a>
                                 </div>
                                 {/if}
                             --></div>
@@ -397,7 +397,7 @@
                     <input type="radio" value="sharepeople" id="contentmedia_dialog_permissions_sharepeople" name="contentmedia_dialog_permissions_options" />
                     <label for="contentmedia_dialog_permissions_sharepeople">Visible to people I share with</label><br />
 
-                    <input type="button" value="Set permissions" />
+                    <input type="button" value="Set permissions" title="Set permissions" />
                 </form>
             </div>
 
@@ -432,7 +432,7 @@
                     </select>
                 </div>
 
-                <input type="button" value="Set associations" class="fl-push"/>
+                <input type="button" value="Set associations" class="fl-push" title="Set associations" />
             </div>
         </div>
     <div class="dialog_footer">
