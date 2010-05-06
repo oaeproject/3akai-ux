@@ -1,0 +1,19 @@
+{
+"GET_YOU_IMAGES": "Search pictures of a person",
+"SEARCH_FOR_PHOTOS": "Search for photos",
+"SEARCH": "Search",
+"TOOLTIP_TEXT": "You can drag and drop this",
+"INPUT_ERROR": "Input can't be empty",
+"LOADING_IMAGE" : "loading image",
+"DROP_HERE" : "Drop your image here",
+"INPUT_SAME_ERROR": "Please change your searchterm",
+"NO_USER" : "User can't be found",
+"PREV" : "Previous",
+"NEXT" : "Next",
+"NO_PUBLIC" : "This user hasn't got any public pictures ",
+"SUBMIT" : "Submit",
+"CANCEL" : "Cancel",
+"SLIDESHOW" : "Go to flickr for more information",
+"DELETE" : "Delete",
+"INPUT_PAGGING":"You can't request this page"
+}
