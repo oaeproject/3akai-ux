@@ -134,17 +134,17 @@ var Widgets = {
             url:"/devwidgets/footer/footer.html"
         },
         flickr: {
-            ca:true,
-            description:"flickr widget",
+            ca: false,
+            description: "flickr widget",
             i18n: {
                 "default": "/devwidgets/flickr/bundles/default.json",
                 "en_US": "/devwidgets/flickr/bundles/en_US.json",
                 "nl_NL": "/devwidgets/flickr/bundles/nl_NL.json"
             },
-            id:"flickr",
-            img:"/devwidgets/flickr/images/flickr.png",
-            name:"flickr",
-            showinsakaigoodies:true,
+            id: "flickr",
+            img: "/devwidgets/flickr/images/flickr.png",
+            name: "flickr",
+            showinsakaigoodies: false,
             url:"/devwidgets/flickr/flickr.html"
         },
         filepicker: {
