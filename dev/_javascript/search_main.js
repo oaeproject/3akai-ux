@@ -255,7 +255,7 @@ sakai._search = function(config, callback) {
                 if (person.picture) {
                     var picture = $.evalJSON(person.picture);
                     if (picture.name) {
-                        user.picture = user.path + picture.name;
+                        user.picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     } else {
                         user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }

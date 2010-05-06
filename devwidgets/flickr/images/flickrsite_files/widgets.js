@@ -95,19 +95,6 @@ var Widgets = {
             },
             url:"/devwidgets/createsite/createsite.html"
         },
-        delicious: {
-            description:"Delicious widget",
-            hasSettings:true,
-            id:"delicious",
-            i18n: {
-                "default": "/devwidgets/delicious/bundles/default.json",
-                "en_US": "/devwidgets/delicious/bundles/en_US.json",
-                "nl_NL": "/devwidgets/delicious/bundles/nl_NL.json"
-            },
-            name:"Delicious",
-            personalportal:false,
-            url:"/devwidgets/delicious/delicious.html"
-        },
         discussion: {
             ca:true,
             description:"Discussion widget",
@@ -134,17 +121,17 @@ var Widgets = {
             url:"/devwidgets/footer/footer.html"
         },
         flickr: {
-            ca: false,
-            description: "flickr widget",
+            ca:true,
+            description:"flickr widget",
             i18n: {
                 "default": "/devwidgets/flickr/bundles/default.json",
                 "en_US": "/devwidgets/flickr/bundles/en_US.json",
                 "nl_NL": "/devwidgets/flickr/bundles/nl_NL.json"
             },
-            id: "flickr",
-            img: "/devwidgets/flickr/images/flickr.png",
-            name: "flickr",
-            showinsakaigoodies: false,
+            id:"flickr",
+            img:"/devwidgets/flickr/images/flickr.png",
+            name:"flickr",
+            showinsakaigoodies:true,
             url:"/devwidgets/flickr/flickr.html"
         },
         filepicker: {
@@ -202,16 +189,6 @@ var Widgets = {
             id:"helloworldwow",
             name:"Hello World GWT",
             url:"/devwidgets/helloworldwow/war/Helloworldwow.html"
-        },
-        memorypalace: {
-          description:"Portfolio",
-          ca:true,
-          hasSettings:true,
-          showinsakaigoodies:true,
-          id:"memorypalace",
-          img:"/devwidgets/memorypalace/images/portfolio.png",
-          name:"Portfolio",
-          url:"/devwidgets/memorypalace/memorypalace.html"
         },
         myfriends: {
             description:"A list of my connections",

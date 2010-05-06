@@ -346,7 +346,7 @@ sakai.site_add_members = function() {
         if(typeof json.foundPeople !== "undefined"){
             var dataTemp = getPostData(false);
             if (dataTemp.uuserid.length > 0) {
-                var group = roleToGroup[dataTemp.membertoken];
+                var group = roleToGroup[dataTemp.membertoken[0]];
                 var newMembers = [];
                 for (var i = 0; i < dataTemp.uuserid.length; i++) {
                     var userid = dataTemp.uuserid[i];

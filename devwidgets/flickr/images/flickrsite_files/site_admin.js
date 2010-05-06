@@ -259,10 +259,10 @@ sakai.site.site_admin = function(){
             elements : "elm1",
             theme: "advanced",
             // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
-            plugins: "embedresource,resourcelink,safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
+            plugins: "safari,advhr,advimage,advlink,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
 
-            // Context Menu
-            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,image,resourcelink",
+            //Context Menu
+            theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,spellchecker,|,image,link",
             theme_advanced_toolbar_location: "external",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "none",
@@ -533,12 +533,7 @@ sakai.site.site_admin = function(){
         showPageLocation();
 
         // Put content in editor
-        if (pageUrlName == "_navigation") {
-          var content = sakai.site.pagecontents[pageUrlName];
-        } else {
-          var content = sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"];
-        }
-        
+        var content = sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"];
         tinyMCE.get("elm1").setContent(content);
 
         $("#messageInformation").hide();
@@ -901,7 +896,6 @@ sakai.site.site_admin = function(){
     // EDIT PAGE: GENERAL
     /////////////////////////////
 
-    var didInit = false;
     // Bind Edit page link click event
     $("#edit_page").bind("click", function(ev){
         sakai.site.isEditingNewPage = false;
@@ -911,12 +905,6 @@ sakai.site.site_admin = function(){
         if (tinyMCE.activeEditor === null) {
             init_tinyMCE();
         } else {
-            if (tinyMCE.activeEditor.id != "elm1" && didInit == false) {
-              tinyMCE.remove(tinyMCE.activeEditor.id);
-              init_tinyMCE();
-              didInit = true;
-            }
-            tinyMCE.get("elm1").focus(true);
             editPage(sakai.site.selectedpage);
         }
 
