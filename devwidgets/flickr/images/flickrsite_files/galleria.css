@@ -1,0 +1,14 @@
+#flickr_key_ul_preview li{display:inline-block;height:120px;overflow:hidden;margin:0 5px 10px 0;}
+#flickr_key_ul_preview li a{display:none}
+#flickr_key_ul_preview li div{position:absolute;display:none;top:0;left:180px}
+#flickr_key_ul_preview li div img{cursor:pointer}
+#flickr_key_ul_preview li.active div img,.galleria li.active div{display:block}
+#flickr_key_ul_preview li img.thumb{cursor:pointer;top:auto;left:auto;display:block;width:auto;height:auto;}
+#flickr_key_ul_preview li .caption{display:block;padding-top:.5em}
+.galleria_wrapper img{border:5px solid #006E96; margin-left:auto;margin-right:auto;}
+.galleria_wrapper{text-align:center;}
+.caption{
+    text-align:center;
+    display:block;
+}
+* html .galleria li div span{width:400px} /* MSIE bug */
