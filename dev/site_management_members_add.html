@@ -148,7 +148,7 @@
                                         {if typeof i.picture.name == "undefined"}
                                         <img src="_images/member_thumb_unselected.png" alt="" />
                                         {else}
-                                        <img src="/_user/public/${i['rep:userId']}/${i.picture.name}" alt="" />
+                                        <img src="${i.picture.picPath}" alt="" />
                                         {/if}
                                         <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                         <span>${i.role}</span><div class="member-title"></div>
@@ -159,7 +159,7 @@
                                         {if typeof i.picture.name == "undefined"}
                                         <img src="_images/member_thumb_unselected.png" alt="" />
                                         {else}
-                                        <img src="/_user/public/${i['rep:userId']}/${i.picture.name}" alt="" />
+                                        <img src="${i.picture.picPath}" alt="" />
                                         {/if}
                                         </a>
 
