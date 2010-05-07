@@ -75,7 +75,7 @@ sakai.myfriends = function(tuid,showSettings){
         // Check if the picture is undefined or not
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
-        if (profile && $.evalJSON(profile.picture).name) {
+        if (profile && profile.picture && $.evalJSON(profile.picture).name) {
             return "/_user" + profile.path + "/public/profile/" + $.evalJSON(profile.picture).name;
         }
         return sakai.config.URL.USER_DEFAULT_ICON_URL;
@@ -97,12 +97,11 @@ sakai.myfriends = function(tuid,showSettings){
         jsonFriends.items = [];
 
         if (friends.results) {
-
             // Run process each friend
             for (var i = 0, j = friends.results.length; i < j; i++) {
                 if (i <= numberFriends) {
                     var friend = friends.results[i];
-
+                    
                     // Set the id of the friend
                     friend.id = friend.target;
 
@@ -111,13 +110,13 @@ sakai.myfriends = function(tuid,showSettings){
 
                     // Parse the picture of the friend
                     friend.photo = parsePicture(friend.profile, friend.target);
-
+                    
                     // Add the friend to the array
                     jsonFriends.items.push(friend);
                 }
             }
         }
-
+        console.log(jsonFriends);
         // Render the template with the friends
         $(myfriendsList).html($.TemplateRenderer(myfriendsListTemplate, jsonFriends));
     };
@@ -134,11 +133,8 @@ sakai.myfriends = function(tuid,showSettings){
             cache: false,
             success: function(data){
 
-                // Parse the data into a JSON object
-                var friends = $.evalJSON(data);
-
                 // Process the friends: username, picture, ...
-                doProcessing(friends);
+                doProcessing(data);
             },
             error: function(xhr, textStatus, thrownError) {
 
