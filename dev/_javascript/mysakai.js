@@ -423,7 +423,9 @@ sakai.dashboard = function(){
 
             $('#widgetscontainer').html($.TemplateRenderer("widgetscontainer_template", final2));
 
-            $(".widget1").hover(
+            // .hover is shorthand for .bind('mouseenter mouseleave')
+            // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
+            $(".widget1").unbind('mouseenter mouseleave').hover(
                 function(over){
                     var id = this.id + "_settings";
                     $("#" + id).show();
@@ -436,7 +438,7 @@ sakai.dashboard = function(){
                 }
             );
 
-            $(".settings").click(function(ev){
+            $(".settings").unbind('click').click(function(ev){
 
                 if($("#widget_settings_menu").is(":visible")){
                     $("#widget_settings_menu").hide();
@@ -469,7 +471,9 @@ sakai.dashboard = function(){
                 }
             });
 
-            $(".more_option").hover(
+            // .hover is shorthand for .bind('mouseenter mouseleave')
+            // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
+            $(".more_option").unbind('mouseenter mouseleave').hover(
                 function(over){
                     $(this).addClass("selected_option");
                 },
@@ -478,7 +482,7 @@ sakai.dashboard = function(){
                 }
             );
 
-            $("#settings_remove").click(function(ev){
+            $("#settings_remove").unbind('click').click(function(ev){
                 var id = currentSettingsOpen;
                 var el = document.getElementById(id);
                 var parent = el.parentNode;
@@ -490,7 +494,7 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $("#settings_hide").click(function(ev){
+            $("#settings_hide").unbind('click').click(function(ev){
 
                 var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
                 if (el.css('display') == "none"){
@@ -506,7 +510,7 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $("#settings_settings").click(function(ev){
+            $("#settings_settings").unbind('click').click(function(ev){
                 var generic = "widget_" + currentSettingsOpen + "_/_user" + sakai.data.me.profile.path + "/private/widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
@@ -523,7 +527,7 @@ sakai.dashboard = function(){
             /**
              * Bind the document on click event
              */
-            $(document).click(function(e){
+            $(document).unbind('click').click(function(e){
                 var $clicked = $(e.target);
 
                 // Check if one of the parents is the chatstatuscontainer
