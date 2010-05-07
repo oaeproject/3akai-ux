@@ -151,7 +151,7 @@ sakai.site_add_members = function() {
             if (typeof json.members[i]["rep:userId"] === "object") {
                 json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
             }
-            if (json.members[i]["rep:userId"] == userid) {
+            if (json.members[i]["rep:userId"] === userid) {
                 return sakai.lib.site.authz.getRole(siteJson, json.members[i]["member:groups"]);
             }
         }
@@ -169,7 +169,7 @@ sakai.site_add_members = function() {
 
         for (var i = 0; i < people.results.length; i++) {
             if (typeof people.results[i].picture !== "undefined") {
-                if (typeof people.results[i].picture == "string") {
+                if (typeof people.results[i].picture === "string") {
                     people.results[i].picture = $.evalJSON(people.results[i].picture);
                     people.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
                 }
