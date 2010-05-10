@@ -1,9 +1,0 @@
-{
-    "sling:resourceType": "sakai/proxy",
-    "sakai:request-proxy-endpoint": "http://twitter.com/statuses/user_timeline/${user}.json?page=1",
-    "sakai:request-proxy-method": "GET",
-    "sakai:title" : "Twitter GET Status",
-    "sakai:description" : ["Proxies Get status to the twitter API as GET http://localhost:8080/var/proxy/twitter/status.json?user=_ieb_"]
-}
-
-
