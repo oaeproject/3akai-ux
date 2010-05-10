@@ -451,8 +451,8 @@ sakai.site.site_admin = function(){
         var ed = tinyMCE.get('elm1');
         $context_menu.hide();
         var selected = ed.selection.getNode();
-        if (selected && selected.nodeName.toLowerCase() == "img") {
-            if (selected.getAttribute("class") == "widget_inline"){
+        if (selected && selected.nodeName.toLowerCase() === "img") {
+            if (selected.getAttribute("class") === "widget_inline"){
                 $context_settings.show();
             } else {
                 $context_settings.hide();
@@ -533,7 +533,7 @@ sakai.site.site_admin = function(){
         showPageLocation();
 
         // Put content in editor
-        if (pageUrlName == "_navigation") {
+        if (pageUrlName === "_navigation") {
           var content = sakai.site.pagecontents[pageUrlName];
         } else {
           var content = sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"];
