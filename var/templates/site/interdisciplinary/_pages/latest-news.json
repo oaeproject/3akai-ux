@@ -1,0 +1,7 @@
+{
+	"sling:resourceType": "sakai/page",
+	"pageTitle": "Latest News",
+	"pageType": "webpage",
+	"pagePosition": 400000,
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}

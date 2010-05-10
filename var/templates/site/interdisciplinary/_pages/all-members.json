@@ -1,0 +1,7 @@
+{
+	"sling:resourceType": "sakai/page",
+	"pageTitle": "All members",
+	"pageType": "webpage", 
+	"pagePosition": 300000,
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}
