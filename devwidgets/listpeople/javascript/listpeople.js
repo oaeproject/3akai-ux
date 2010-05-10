@@ -57,13 +57,17 @@ sakai.api.UI.listPeople.reset = function(tuid) {
  * Renders the people lister with a specified set of data. Usually this data is
  * a result JSON coming from a search servlet.
  * @param tuid {String} Unique id of the widget
- * @param iData {Array} An array of objects, containing the to be dsplayed user's
- * name, picture etc...
+ * @param iData {Array} An array of objects, containing the to be displayed
+ * user's name, picture etc...
  * @returns void
  */
 sakai.api.UI.listPeople.render = function(tuid, iData) {
 
 };
+
+
+
+
 
 
 
