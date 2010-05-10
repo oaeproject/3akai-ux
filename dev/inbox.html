@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
@@ -161,18 +161,14 @@
                         <div id="inbox_inbox_sort_up" style="display:none;"><img src="_images/arrow_up_inbox.png" alt="__MSG__UP__" class="inbox_arrow" /></div>
                         <div id="inbox_inbox_sort_down" style="display:none;"><img src="_images/arrow_down_inbox.png" alt="__MSG__DOWN__" class="inbox_arrow" /></div>
 
-                        <div id="inbox_inbox_messages_template"><!--
+                        <div id="inbox_inbox_messages_template" title=""><!--
                         {for m in messages}
                             {var readClass="inbox-subject-unread"}
                             {if m.read}
                                 {var readClass="inbox-subject-read"}
                             {/if}
                             <tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
-<<<<<<< HEAD
-                                <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" title="uncheck" /></td>
-=======
-                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" /></td>
->>>>>>> oszkarnagy/master
+                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="Checkbox __MSG__DELETE__" ></input></td>
                                 {if m.messagebox === "outbox"}
                                     {if m.userTo}
                                         <td>
