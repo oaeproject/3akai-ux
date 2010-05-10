@@ -101,7 +101,7 @@ sakai.myfriends = function(tuid,showSettings){
             for (var i = 0, j = friends.results.length; i < j; i++) {
                 if (i <= numberFriends) {
                     var friend = friends.results[i];
-                    
+
                     // Set the id of the friend
                     friend.id = friend.target;
 
@@ -110,13 +110,13 @@ sakai.myfriends = function(tuid,showSettings){
 
                     // Parse the picture of the friend
                     friend.photo = parsePicture(friend.profile, friend.target);
-                    
+
                     // Add the friend to the array
                     jsonFriends.items.push(friend);
                 }
             }
         }
-        console.log(jsonFriends);
+
         // Render the template with the friends
         $(myfriendsList).html($.TemplateRenderer(myfriendsListTemplate, jsonFriends));
     };
