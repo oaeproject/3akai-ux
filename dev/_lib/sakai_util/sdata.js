@@ -247,28 +247,30 @@ sdata.widgets.WidgetLoader = {
 
             for(var k in batchWidgets){
                 if(batchWidgets.hasOwnProperty(k)){
-                    urls[urls.length] = k;
+                    var item = {
+                        "url" : k,
+                        "method" : "GET"
+                    }
+                    urls[urls.length] = item;
                 }
             }
 
             if(urls.length > 0){
                 $.ajax({
-                    url: sakai.config.URL.BATCH_GET,
+                    url: sakai.config.URL.BATCH,
                     traditional: true,
                     data: {
-                        resources: urls
+                        requests: $.toJSON(urls)
                     },
                     success: function(data){
-                        var json = $.evalJSON(data);
-                        for (var i = 0, j = json.length; i<j; i++) {
-                                var jsonpath = json[i].path;
-                                var widgetname = batchWidgets[jsonpath];
+                        for (var i = 0, j = data.length; i<j; i++) {
+                            var jsonpath = data[i].url;
+                            var widgetname = batchWidgets[jsonpath];
 
-                                // Do i18n on widget content
-                                var translated_content = sakai.api.i18n.Widgets.process(widgetname, json[i].data);
+                            // Do i18n on widget content
+                            var translated_content = sakai.api.i18n.Widgets.process(widgetname, data[i].body);
 
-                                sethtmlover(translated_content, widgets, widgetname);
-
+                            sethtmlover(translated_content, widgets, widgetname);
                         }
                     }
                 });
