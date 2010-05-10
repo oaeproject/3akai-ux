@@ -358,6 +358,8 @@ sakai.sitemembers = function(tuid, showSettings){
             }
             if (typeof user.picture === "object") {
                 user.picture = user.picture[0];
+            } else if (user.picture && $.evalJSON(user.picture).name) {
+                user.picture = "/_user" + user.path + "/public/profile/" + $.evalJSON(user.picture).name;
             }
             if (typeof user["rep:userId"] === "object") {
                 user.userid = user["rep:userId"][0];
