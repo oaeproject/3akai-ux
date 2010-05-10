@@ -73,6 +73,7 @@
                 <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
+
         <!-- Change layout -->
         <div id="layouts_template" style="display:none;"><!--
             {for i in layouts}
@@ -87,7 +88,7 @@
                                     {/for}
                                 </tr>
                             </table>
-                        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio" checked="true"/>
+                        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio" checked="true" title="__MSG__SELECT_THIS_LAYOUT__" />
                     </div>
                 {else}
                     <div class="layout_container_unselected">
@@ -100,7 +101,7 @@
                                 {/for}
                             </tr>
                         </table>
-                        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio_unselected"/>
+                        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio_unselected" title="__MSG__SELECT_THIS_LAYOUT__" />
                     </div>
                 {/if}
             {/for}
@@ -172,9 +173,9 @@
                 <div class="decor"><!-- --></div>
                 <!-- GREETING -->
                 <div class="fl-col fl-container-500 greeting">
-                    <a class="greeting_picture" id="picture_holder"><img alt="__MSG__MY_AVATOR__" src="/dev/_images/person_icon.jpg" /></a>
+                    <a class="greeting_picture" id="picture_holder" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__MY_AVATOR__" src="/dev/_images/person_icon.jpg" /></a>
                     <span class="greeting_text">__MSG__HI__ <span id="hispan"></span>!</span>
-                    <a class="greeting_links" href="javascript:;" id="changepic_container_trigger">__MSG__CHANGE_PHOTO__</a>
+                    <a class="greeting_links" href="javascript:;" id="changepic_container_trigger" title="__MSG__CHANGE_PHOTO__">__MSG__CHANGE_PHOTO__</a>
                     <span class="pipe_divider">|</span>
                     <a class="greeting_links" href="profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 </div>

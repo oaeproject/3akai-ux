@@ -4,7 +4,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - My Contacts</title>
+        <title>Sakai 3 R&amp;D - __MSG__MY_CONTACTS__</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
@@ -96,7 +96,7 @@
                                 {if ! i.picture}
                                     <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                 {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                 {/if}
                                 <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
                                 {if i.extra}
@@ -106,12 +106,12 @@
                                 {/if}
                                 {if ! i.isMe}
                                     {if ! i.connected}
-                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                     {else}
-                                        <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">Remove contact</a>
+                                        <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">__MSG__REMOVE_CONTACT__</a>
                                     {/if}
                                     <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
+                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
                                 {/if}
                             </div>
                         {forelse}
@@ -147,7 +147,7 @@
                                 {if ! i.picture}
                                     <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                 {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                 {/if}
                                 <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
                                 {if i.extra}
@@ -156,9 +156,9 @@
                                     <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
                                 {/if}
                                 {if ! i.isMe}
-                                    <a href="javascript:;" class="search_result_person_link link_accept_contact" id="link_accept_contact_${i.userid}">Accept Invitation</a>
+                                    <a href="javascript:;" class="search_result_person_link link_accept_contact" id="link_accept_contact_${i.userid}">__MSG__ACCEPT_INVITATION__</a>
                                     <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
+                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
                                 {/if}
                             </div>
                         {forelse}
@@ -190,7 +190,7 @@
                                 {if ! i.picture}
                                     <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                 {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                 {/if}
                                 <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
                                 {if i.extra}
@@ -199,7 +199,7 @@
                                     <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
                                 {/if}
                                 {if ! i.isMe}
-                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
+                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
                                 {/if}
                             </div>
                         {forelse}
