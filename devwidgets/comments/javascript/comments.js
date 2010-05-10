@@ -210,6 +210,7 @@ sakai.comments = function(tuid, showSettings){
      * @param {String} str
      */
     var tidyInput = function(str){
+        str = str.toString(); // in the event its not already a string, make it one
         str = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         str = str.replace(/\n/g, '<br />');
         return str;
@@ -241,9 +242,10 @@ sakai.comments = function(tuid, showSettings){
             catch (ex) {
                 comment.date = tempDate;
             }
+            
             comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
             comment.formatDate = formatDate(comment.date);
-            comment.messageTxt = comment["sakai:body"];
+            comment.messageTxt = comment["sakai:body"];            
             comment.message = tidyInput(comment["sakai:body"]);
             // weird json bug.
             comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
@@ -252,8 +254,9 @@ sakai.comments = function(tuid, showSettings){
             var user = {};
             // User
             // Puts the userinformation in a better structure for trimpath
-            if (comment.profile["sling:resourceType"] === "sakai/user-profile") {
-                var profile = comment.profile;
+            // if (comment.profile["sling:resourceType"] === "sakai/user-profile") { // no longer in use, it seems
+            if (comment.profile) {
+             	  var profile = comment.profile[0];
                 var fullName = "";
                 if (profile.firstName) {
                     fullName = profile.firstName;
@@ -265,9 +268,9 @@ sakai.comments = function(tuid, showSettings){
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
                 if (profile.picture && $.evalJSON(profile.picture).name) {
-                    user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;
+                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.evalJSON(profile.picture).name;
                 }
-                user.uid = profile["rep:userId"][0];
+                user.uid = profile["userid"][0];
                 user.profile = sakai.config.URL.PROFILE_URL + "?user=" + user.uid;
             }
             else {
