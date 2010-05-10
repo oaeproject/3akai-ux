@@ -95,6 +95,19 @@ var Widgets = {
             },
             url:"/devwidgets/createsite/createsite.html"
         },
+        delicious: {
+            description:"Delicious widget",
+            hasSettings:true,
+            id:"delicious",
+            i18n: {
+                "default": "/devwidgets/delicious/bundles/default.json",
+                "en_US": "/devwidgets/delicious/bundles/en_US.json",
+                "nl_NL": "/devwidgets/delicious/bundles/nl_NL.json"
+            },
+            name:"Delicious",
+            personalportal:false,
+            url:"/devwidgets/delicious/delicious.html"
+        },
         discussion: {
             ca:true,
             description:"Discussion widget",
@@ -119,6 +132,20 @@ var Widgets = {
             id:"footer",
             name:"Dynamic Footer",
             url:"/devwidgets/footer/footer.html"
+        },
+        flickr: {
+            ca: false,
+            description: "flickr widget",
+            i18n: {
+                "default": "/devwidgets/flickr/bundles/default.json",
+                "en_US": "/devwidgets/flickr/bundles/en_US.json",
+                "nl_NL": "/devwidgets/flickr/bundles/nl_NL.json"
+            },
+            id: "flickr",
+            img: "/devwidgets/flickr/images/flickr.png",
+            name: "flickr",
+            showinsakaigoodies: false,
+            url:"/devwidgets/flickr/flickr.html"
         },
         filepicker: {
             description:"Pick a file.",

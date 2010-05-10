@@ -68,6 +68,8 @@ sakai.createsite = function(tuid, showSettings){
     var createSiteNoncourseNameEmpty = createSiteNoncourseName + "_empty";
     var createSiteNoncourseIdEmpty = createSiteNoncourseId + "_empty";
     var createSiteNoncourseIdTaken = createSiteNoncourseId + "_taken";
+    var createSiteNoncourseDescriptionLong = createSiteNoncourseDescription + "_long";
+    var createSiteNoncourseDescriptionLongCount = createSiteNoncourseDescriptionLong + "_count";
     var errorFields = ".create_site_error_msg";
 
     // CSS Classes
@@ -197,6 +199,7 @@ sakai.createsite = function(tuid, showSettings){
 
     var resetErrorFields = function(){
         $("input").removeClass(invalidFieldClass);
+        $("textarea").removeClass(invalidFieldClass);
         $(errorFields).hide();
     };
 
@@ -295,6 +298,12 @@ sakai.createsite = function(tuid, showSettings){
         if (!siteid)
         {
             setError(createSiteNoncourseId,createSiteNoncourseIdEmpty,true);
+            inputError = true;
+        }
+        if (sitedescription.length > 80)
+        {
+            $(createSiteNoncourseDescriptionLongCount).html(sitedescription.length);
+            setError(createSiteNoncourseDescription,createSiteNoncourseDescriptionLong,true);
             inputError = true;
         }
 

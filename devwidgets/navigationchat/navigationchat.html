@@ -82,7 +82,7 @@
 <!-- SEARCH -->
 <div id="genaral_search_container">
     <form class="fl-force-right" method="post" action="">
-        <input type="text" id="general_search_input" class="general_search_input" value="__MSG__SEARCH_FOR__"/>
+        <input type="text" id="general_search_input" title="Please input the general search keyword" class="general_search_input" value="__MSG__SEARCH_FOR__" />
         <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
         <br class="clear"/>
     </form>
@@ -91,7 +91,7 @@
 <div id="chat_available_template" style="display:none"><!--
     <span class="chat_button_image">
         <a href="javascript:;" id="chat_available_minimize">
-            <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
+            <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="To show the chat navigation" />
         </a>
     </span>
     <table>
@@ -100,9 +100,9 @@
                 {if me}
                 <td class="chat_available_image">
                     {if me.photo}
-                        <img src="${me.photo}" alt="" />
+                        <img src="${me.photo}" alt="The photo of the user" />
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" alt="" />
+                        <img src="/dev/_images/person_icon.jpg" alt="The default photo of any user if not specified" />
                     {/if}
                 </td>
                 <td>
@@ -121,9 +121,9 @@
                         <tr class="chat_available_friend">
                             <td class="chat_available_image">
                                 {if i.photo}
-                                    <img src="${i.photo}" alt="" />
+                                    <img src="${i.photo}" alt="The photo of the user" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" alt="" />
+                                    <img src="/dev/_images/person_icon.jpg" alt="The photo of the user if not specified" />
                                 {/if}
                             </td>
                             <td>
@@ -187,18 +187,18 @@
                     <tr class="chat_top_container">
                         <td class="chat_available_image">
                             {if i.photo}
-                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="" />
+                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="The photo of the user" />
                             {else}
-                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="" />
+                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="The photo of the user if not specified" />
                             {/if}
                         </td>
                         <td>
                             <span class="chat_user_button_image">
                                 <a href="javascript:;" id="chat_minimize_${i.userid}" class="chat_minimize">
-                                    <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
+                                    <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="To minimize the chat navigation area" />
                                 </a>
                                 <a href="javascript:;" id="chat_close_${i.userid}" class="chat_close">
-                                    <img src="/devwidgets/navigationchat/images/chat_close.png" alt="" />
+                                    <img src="/devwidgets/navigationchat/images/chat_close.png" alt="To close the chat navigation area" />
                                 </a>
                             </span>
                             <span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
@@ -207,7 +207,7 @@
                     </tr>
                 </table>
                 <div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow"></div>
-                <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text"/>
+                <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text" title="Please input the chat text" />
             </div>
 
         ${index++|eat}

@@ -147,7 +147,7 @@
                         <div class="main_content_container">
                             <table class="inbox-table" id="inbox_table" summary="All your messages.">
                                 <tr class="different">
-                                    <th class="inbox-checkbox" id="inbox_tableHeader_chk"><input type="checkbox" id="inbox_inbox_checkAll" /></th>
+                                    <th class="inbox-checkbox" id="inbox_tableHeader_chk"><input type="checkbox" id="inbox_inbox_checkAll" title="Check all" /></th>
                                     <th class="inbox_inbox_table_header_sort" id="inbox_table_header_from"><span>__MSG__FROM__</span></th>
                                     <th class="inbox_inbox_table_header_sort" id="inbox_table_header_subject"><span>__MSG__SUBJECT__</span></th>
                                     <th class="inbox_inbox_table_header_sort" id="inbox_table_header_type"><span>__MSG__TYPE__</span></th>
@@ -168,7 +168,11 @@
                                 {var readClass="inbox-subject-read"}
                             {/if}
                             <tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
-                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" /></td>
+<<<<<<< HEAD
+                                <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" title="uncheck" /></td>
+=======
+                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" /></td>
+>>>>>>> oszkarnagy/master
                                 {if m.messagebox === "outbox"}
                                     {if m.userTo}
                                         <td>
@@ -190,10 +194,9 @@
                                         <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
                                     {/if}
                                 {/if}
-                                    <td id="inbox_table_subject_${m.id}">
-                            <a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
-                            <td>${m.category}</td>
-                            <td>${m.date}</td>
+                                <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
+                                <td>${m.category}</td>
+                                <td>${m.date}</td>
                             </tr>
                         {forelse}
                             <tr class="inbox_message">
@@ -238,7 +241,7 @@
                                 <a href="javascript:;" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__"><img src="/dev/_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__" /></a>
                             </div>
                             <div class="inbox_message_user">
-                                <a href="javascript:;" class="sender-name" id="inbox_message_from"></a>
+                                <a href="javascript:;" class="sender-name" id="inbox_message_from" title="From"></a>
                                 <br />
                                 <div class="sender-timestamp">Sent this on <span id="inbox_message_date"></span></div>
                             </div>
@@ -274,9 +277,9 @@
                             <span style="float:left;">
                                 <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                 {if r.userFrom.picture}
-                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="" class="sender-picture" id="inbox_message_picture" />
+                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="To see the user's profile information" class="sender-picture" id="inbox_message_picture" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="" id="inbox_message_picture" />
+                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="To see the user's profile information" id="inbox_message_picture" />
                                 {/if}
                             </span>
                             <div class="inbox_message_user">
