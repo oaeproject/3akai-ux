@@ -26,13 +26,29 @@ var sakai = sakai || {};
 
 sakai.createdummyaccounts = function(){
 
-    var userlist = [
-        {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"},
-        {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"},
-        {"firstName": "Third", "lastName": "User", "email": "third.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user3"},
-        {"firstName": "Fourth", "lastName": "User", "email": "fourth.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user4"},
-        {"firstName": "Fifth", "lastName": "User", "email": "fifth.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user5"}
-    ];
+    var userlist = [];
+
+    var createUserList = function() {
+
+        var userCount = parseInt($("#num_of_accounts").val(), 10);
+        var list = [];
+
+        for (var i=0, il = userCount; i < il; i++) {
+            var currentObject = {
+                "firstName": "User ",
+                "lastName": "" + i,
+                "email": "user." + i + "@sakatest.edu",
+                "pwd": "test",
+                "pwdConfirm": "test",
+                ":name": "user" + i
+            }
+
+            list.push(currentObject);
+        }
+
+        return list;
+
+    };
 
     var log = function(message, status){
         var cssclass = "";
@@ -54,7 +70,7 @@ sakai.createdummyaccounts = function(){
             var username = userlist[count].firstName + " " + userlist[count].lastName;
 
             $.ajax({
-                url: "/system/userManager/user.create.json",
+                url: "/system/userManager/user.create.html",
                 type: "POST",
                 data: userlist[count],
                 success: function(data){
@@ -78,6 +94,10 @@ sakai.createdummyaccounts = function(){
     $("#create_accounts").bind("click", function(ev){
         $("#log").empty();
 
+        // Create a list of users
+        userlist = createUserList();
+
+        // Create the actual users
         createUsers(0);
     });
 
