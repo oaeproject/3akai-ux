@@ -38,8 +38,20 @@ sakai.api.UI.listPeople = {};
  */
 sakai.listpeople = function(tuid, showSettings){
 
+    // Config defaults
+    var default_config = {
+
+        "maxResults": 20
+
+    }
+
+
+    // Create a config object for this instance
+    sakai.config.widgets.listpeople = sakai.config.widgets.listpeople || {};
+    sakai.config.widgets.listpeople[tuid] = default_config;
+
     // Reset to defaults
-    sakai.api.UI.listPeople.init(tuid);
+    sakai.api.UI.listPeople.reset(tuid);
 };
 
 /**

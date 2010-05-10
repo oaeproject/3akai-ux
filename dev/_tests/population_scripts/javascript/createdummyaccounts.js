@@ -35,7 +35,7 @@ sakai.createdummyaccounts = function(){
 
         for (var i=0, il = userCount; i < il; i++) {
             var currentObject = {
-                "firstName": "User ",
+                "firstName": "User",
                 "lastName": "" + i,
                 "email": "user." + i + "@sakatest.edu",
                 "pwd": "test",
