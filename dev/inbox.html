@@ -168,7 +168,7 @@
                                 {var readClass="inbox-subject-read"}
                             {/if}
                             <tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
-                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="Checkbox __MSG__DELETE__" ></input></td>
+                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="Checkbox __MSG__DELETE__" /></td>
                                 {if m.messagebox === "outbox"}
                                     {if m.userTo}
                                         <td>
