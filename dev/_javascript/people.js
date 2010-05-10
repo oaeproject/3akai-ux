@@ -87,7 +87,7 @@ sakai.search = function(){
                     finaljson.items[index].userid = item.target;
                     if (person.picture && $.evalJSON(person.picture).name) {
                         var picture = $.evalJSON(person.picture);
-                        finaljson.items[index].picture = "/_user/public/" + finaljson.items[index].userid + "/" + picture.name;
+                        finaljson.items[index].picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     }
                     if (person.firstName || person.lastName) {
                         var str = person.firstName;
@@ -199,7 +199,7 @@ sakai.search = function(){
                     finaljson.items[index].userid = item.target;
                     if (person.picture && $.evalJSON(person.picture).name) {
                         var picture = $.evalJSON(person.picture);
-                        finaljson.items[index].picture = "/_user/public/" + finaljson.items[index].userid + "/" + picture.name;
+                        finaljson.items[index].picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     }
                     if (person.firstName || person.lastName) {
                         var str = person.firstName;
@@ -306,7 +306,7 @@ sakai.search = function(){
                     finaljson.items[index].userid = item.target;
                     if (person.picture && $.evalJSON(person.picture).name) {
                         var picture = $.evalJSON(person.picture);
-                        finaljson.items[index].picture = "/_user/public/" + finaljson.items[index].userid + "/" + picture.name;
+                        finaljson.items[index].picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     }
                     if (person.firstName || person.lastName) {
                         var str = person.firstName;

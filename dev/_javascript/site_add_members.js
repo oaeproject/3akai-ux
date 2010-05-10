@@ -151,7 +151,7 @@ sakai.site_add_members = function() {
             if (typeof json.members[i]["rep:userId"] === "object") {
                 json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
             }
-            if (json.members[i]["rep:userId"] == userid) {
+            if (json.members[i]["rep:userId"] === userid) {
                 return sakai.lib.site.authz.getRole(siteJson, json.members[i]["member:groups"]);
             }
         }
@@ -167,30 +167,33 @@ sakai.site_add_members = function() {
             people.results = [];
         }
 
-            for (var i = 0; i < people.results.length; i++) {
-                if (typeof people.results[i].picture !== "undefined" && typeof people.results[i].picture == "string") {
+        for (var i = 0; i < people.results.length; i++) {
+            if (typeof people.results[i].picture !== "undefined") {
+                if (typeof people.results[i].picture === "string") {
                     people.results[i].picture = $.evalJSON(people.results[i].picture);
-                } else {
-                    people.results[i].picture = {};
+                    people.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
                 }
-                people.results[i].userid = people.results[i]["rep:userId"];
-                var existingRole = checkRole(people.results[i].userid);
-                if (existingRole) {
-                    people.results[i].isMember = true;
-                    people.results[i].role = existingRole;
-                }
+            } else {
+                people.results[i].picture = {};
             }
-            $("#siteManage_people").html($.TemplateRenderer("siteManage_people_template", people));
-            updateSelectedPersons();
+            people.results[i].userid = people.results[i]["rep:userId"];
+            var existingRole = checkRole(people.results[i].userid);
+            if (existingRole) {
+                people.results[i].isMember = true;
+                people.results[i].role = existingRole;
+            }
+        }
+        $("#siteManage_people").html($.TemplateRenderer("siteManage_people_template", people));
+        updateSelectedPersons();
 
-            $(".siteManage_person").bind("click",
-            function(e, ui) {
-                if (!$(e.target).hasClass("view-profile-label")) {
-                    var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
-                    selectPerson(userindex, true, false);
-                    updateSelectedPersons();
-                }
-            });
+        $(".siteManage_person").bind("click",
+        function(e, ui) {
+            if (!$(e.target).hasClass("view-profile-label")) {
+                var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
+                selectPerson(userindex, true, false);
+                updateSelectedPersons();
+            }
+        });
 
         if (people.results.length > 0) {
             $(".sakai_pager").show();
@@ -343,7 +346,7 @@ sakai.site_add_members = function() {
         if(typeof json.foundPeople !== "undefined"){
             var dataTemp = getPostData(false);
             if (dataTemp.uuserid.length > 0) {
-                var group = roleToGroup[dataTemp.membertoken];
+                var group = roleToGroup[dataTemp.membertoken[0]];
                 var newMembers = [];
                 for (var i = 0; i < dataTemp.uuserid.length; i++) {
                     var userid = dataTemp.uuserid[i];
