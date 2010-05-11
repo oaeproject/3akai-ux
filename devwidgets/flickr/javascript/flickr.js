@@ -342,7 +342,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userId,
                 "api_key":key,
-                "page":newPage
+                "page":newPage,
+                'per_page':5
             }
         });
     };
@@ -650,7 +651,7 @@ sakai.flickr = function(tuid, showSettings){
 
         // Ajax call to get the user details
         $.ajax({
-            url: sakai.config.URL.flickrGetPicturesByUserIdStart,
+            url: sakai.config.URL.flickrGetPicturesByUserId,
             success: function(data){
 
                 // Get the pictures based on the userid
@@ -662,7 +663,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userId,
                 "api_key":key,
-                "page":page
+                "page":page,
+                "per_page":10
             }
         });
     };
@@ -1325,7 +1327,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userid,
                 "api_key":key,
-                "page":page
+                "page":page,
+                'per_page':5
             }
         });
     };
