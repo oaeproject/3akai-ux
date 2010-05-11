@@ -12,4 +12,13 @@
 { margin: 6px 0 0 0; }
 
 .listpeople_container .listpeople_content
-{ height: 230px; overflow: auto; }
+{ height: 229px; overflow: auto; }
+
+.listpeople_container .listpeople_content .listpeople_page
+{ min-height: 20px; margin: 0; padding: 10px; }
+
+.listpeople_container .listpeople_content .listpeople_page li
+{ display: block; list-style: none; }
+
+.loadinganim
+{ background: #fff url(../../../dev/_images/ajax_load.gif) center 8px no-repeat; }

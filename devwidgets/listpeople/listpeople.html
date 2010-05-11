@@ -15,6 +15,18 @@
 
     </div>
 
+    <div class="listpeople_content_pagetemplate" style="display:none;"><!--
+        {for i in results}
+        <li>
+            <span class="listpeople_name">${i.firstName} ${i.lastName}</span>
+        </li>
+        {/for}
+    --></div>
+
+    <div class="listpeople_error_template" style="display:none;">
+        <span>Sorry, could not retrieve the list of users form the server!</span>
+    </div>
+
 </div>
 
 <!-- JAVASCRIPT -->

@@ -59,5 +59,18 @@
     <!-- FOOTER WIDGET -->
     <div id="widget_footer" class="widget_inline footercontainer"></div>
 
+    <script>
+
+    $(window).bind("listpeople_ready", function(e, tuid){
+
+        var pl_query = "http://localhost:8080/var/search/users?page=0&items=12&username=user*&_=" + (Math.random() * 100000000000000000);
+        var pl_config = {};
+
+        sakai.api.UI.listPeople.render(tuid, pl_query, pl_config);
+
+    });
+
+    </script>
+
 </body>
 </html>
