@@ -116,7 +116,6 @@ sakai.myfriends = function(tuid,showSettings){
                 }
             }
         }
-        console.log(jsonFriends);
         // Render the template with the friends
         $(myfriendsList).html($.TemplateRenderer(myfriendsListTemplate, jsonFriends));
     };
