@@ -1,5 +1,28 @@
+<!-- STYLESHEETS -->
+<link rel="stylesheet" type="text/css" media="screen" href="/devwidgets/bookmarkandshare/css/bookmarkandshare.css"/>
+
 <!-- SETTINGS CONTENT -->
+<div id="bookmarkandshare_settings" style="display:none;">
+    <div id="bookmarkandshare_settings_content">
+        <!-- INSERT TEMPLATE FOR POPULAR OR ALL -->
+    </div>
+</div>
 
-
+<!-- SETTINGS POPULAR TEMPLATE -->
+<div id="bookmarkandshare_popular_template"><!--
+    <p>__MSG__SELECT_TO_FAVORITE__</p>
+    <a href="javascript:;" title="Select all services" id="bookmarkandshare_select_all_services">__MSG__ALL__</a>
+    <form id="bookmarkandshare_frm_popular_services" action="javascript:;" method:"POST">
+        {for service in s}
+            <input type ="checkbox" id="${service.c}" name="${service.c}" class="bookmarkandshare_servicechk bookmarkandshare_popularchk"></input><label for="${service.c}" class="servicelbl"><span class="service_icon at300bs at15t_${service.c}"></span> ${service.n}</label>
+        {/for}
+    <div class="dialog_buttons">
+        <button type=submit class="button-default submit_button" id=bookmarksandshare_settings_submit_button>__MSG__SUBMIT__</button>
+        <button type=submit class="button" id=bookmarksandshare_settings_cancel_button>__MSG__CANCEL__</button>
+    </div>
+    </form>
+    <hr/>-->
+</div>
 <!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/bookmarkandshare/libs/addthis_widget.js"></script>
 <script type="text/javascript" src="/devwidgets/bookmarkandshare/javascript/bookmarkandshare.js"></script>

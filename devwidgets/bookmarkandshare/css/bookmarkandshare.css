@@ -1,0 +1,14 @@
+/* GENERAL */
+hr {display: block; clear: left; margin:0; visibility: hidden;}
+
+/* SETTINGS */
+.bookmarkandshare_servicechk {float:left; clear:left; padding:0 7px 7px 0;}
+.servicelbl {float:left; padding:0 0 7px 7px; cursor:pointer;}
+.service_icon {float:left; display:block;}
+.dialog_buttons {padding-top:7px;}
+
+/* AddThis override*/
+.at300bs {margin-right:7px;}
+
+#bookmarkandshare_settings_content {border-color:#DFDFDF; border-style:solid; border-width:1px; padding:7px;}
+#bookmarkandshare_select_all_services {font-size:12px; text-decoration:underline; color:#205cb5; clear:both; margin-bottom:7px; display:block;}
