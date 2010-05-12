@@ -2,23 +2,44 @@
 .listpeople_container
 { width: 500px; height: 260px; border: 1px solid #999; }
 
+/* HEADER */
 .listpeople_container .listpeople_header
 { height: 30px; line-height: 30px; border-bottom: 1px solid #999; padding: 0 10px 0 10px; }
 
 .listpeople_container .listpeople_header .listpeople_count
-{ color: #333; font-size: 16px; font-weight: bold; }
+{ color: #333; font-size: 14px; font-weight: bold; }
 
-.listpeople_container .listpeople_header .listpeople_sort_order
+.listpeople_container .listpeople_header .listpeople_count_person,
+.listpeople_container .listpeople_header .listpeople_count_people,
+.listpeople_container .listpeople_header .listpeople_count_of,
+.listpeople_container .listpeople_header .listpeople_count_thousands
+{ color: #333;  font-size: 14px;}
+
+.listpeople_container .listpeople_header .listpeople_sort_on
 { margin: 6px 0 0 0; }
 
+
+/* CONTENT */
 .listpeople_container .listpeople_content
 { height: 229px; overflow: auto; }
 
 .listpeople_container .listpeople_content .listpeople_page
-{ min-height: 20px; margin: 0; padding: 10px; }
+{ margin: 0; padding: 0; }
 
 .listpeople_container .listpeople_content .listpeople_page li
-{ display: block; list-style: none; }
+{ display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #DBF3FF; overflow: hidden; }
+
+.listpeople_container .listpeople_content .listpeople_page .listpeople_selected
+{ background: #DBF3FF; border-bottom: 1px solid #006E96; }
+
+.listpeople_container .listpeople_content .listpeople_page .listpeople_ppicture
+{ height: 48px; width: 48px; float: left; display: block; }
+
+.listpeople_container .listpeople_content .listpeople_page .listpeople_name
+{ color: #006E96; font-size: 14px; font-weight: bold; position: relative; top: 5px; left: 5px; }
+
+.listpeople_container .listpeople_content .listpeople_page .listpeople_subnameinfo
+{ color: #999; font-size: 11px; position: relative; top: 5px; left: 5px; }
 
 .loadinganim
-{ background: #fff url(../../../dev/_images/ajax_load.gif) center 8px no-repeat; }
+{ background: #fff url(../../../dev/_images/ajax_load.gif) center 8px no-repeat; min-height: 50px; }

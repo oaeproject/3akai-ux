@@ -5,10 +5,19 @@
 <div class="listpeople_container">
 
     <div class="listpeople_header">
-        <span class="listpeople_count">123 people</span>
-        <select class="listpeople_sort_order fl-force-right">
-            <option default="true">Alphabetical (A-Z)</option>
-        </select>
+        <span class="listpeople_count"></span>
+        <span class="listpeople_count_person" style="display: none;"> person</span>
+        <span class="listpeople_count_people" style="display: none;"> people</span>
+        <span class="listpeople_count_of" style="display: none;"> out of</span>
+        <span class="listpeople_count_thousands" style="display: none;"> thousands</span>
+
+        <span class="fl-force-right">
+            Sort on:
+            <select class="listpeople_sort_on">
+                <option default="true" value="lastName">Last name</option>
+                <option value="firstName">First name</option>
+            </select>
+        <span>
     </div>
 
     <div class="listpeople_content">
@@ -17,8 +26,15 @@
 
     <div class="listpeople_content_pagetemplate" style="display:none;"><!--
         {for i in results}
-        <li>
-            <span class="listpeople_name">${i.firstName} ${i.lastName}</span>
+        <li data-userid="${i['rep:userId']}">
+            {if i.picture}
+                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
+            {else}
+                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+            {/if}
+            <a class="listpeople_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+            <br />
+            <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
         </li>
         {/for}
     --></div>
