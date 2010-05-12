@@ -1710,7 +1710,7 @@ sakai.site.site_admin = function(){
         var pageUniques = sakai.site.createPageUniqueElements(title, sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Default dasboard content
-        var defaultDashboardContent = '{"columns":{"column1":[{"name":"sitemembers","visible":"block","uid":"' + Math.round(Math.random() * 10000000000000) + '"}],"column2":[]},"layout":"dev"}';
+        var defaultDashboardContent = '{"columns":{"column1":[{"name":"sitemembers","visible":"block","uid":"id' + Math.round(Math.random() * 10000000000000) + '"}],"column2":[]},"layout":"dev"}';
 
         // Create page node for dashboard page
         sakai.site.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
