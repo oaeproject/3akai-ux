@@ -175,8 +175,12 @@ sdata.widgets.WidgetLoader = {
                             "name" : widgetname
                         };
 
+                        // Run the widget's main JS function
                         var initfunction = window[widgetNameSpace][widgetname];
                         initfunction(widgets[widgetname][i].uid, settings);
+
+                        // Send out a "loaded" event for this widget
+                        $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);
 
                         doDelete = true;
                     }

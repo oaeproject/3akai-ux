@@ -206,5 +206,7 @@ sakai.config = {
         }
     },
 
-    displayDebugInfo: true
+    displayDebugInfo: true,
+
+    widgets: {}
 };
