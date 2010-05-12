@@ -60,10 +60,6 @@
     <div id="widget_footer" class="widget_inline footercontainer"></div>
 
 
-
-
-
-
     <script>
 
     // Page code
@@ -71,7 +67,7 @@
 
         var pl_query = "/var/search/users?page=0&items=12&username=user*&_=" + (Math.random() * 100000000000000000);
         //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
-        var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName" };
+        var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
 
         sakai.api.UI.listPeople.render(tuid, pl_query, pl_config);
 

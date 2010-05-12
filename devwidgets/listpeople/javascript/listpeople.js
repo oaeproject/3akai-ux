@@ -30,6 +30,7 @@
 var sakai = sakai || {};
 sakai.api.UI.listPeople = {};
 sakai.api.UI.listPeople.selected = {};
+sakai.api.UI.listPeople.currentElementCount = 0;
 
 /**
  * Initialize the listpeople widget
@@ -125,7 +126,14 @@ sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig) {
 
 };
 
-
+/**
+ * addPage
+ * Adds another page of search result to the People lister's result list
+ * @param tuid {String} The instance ID of a widget
+ * @pageNumber {Int} The page we want to load
+ * @searchQuery {Object} An object containing the search query elements
+ * @returns void
+ */
 sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
 
     // Create new container for the bit we load. This is then appended to the
@@ -223,10 +231,13 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
                 });
             }
 
+            //Update known total amount of displayed elements
+            sakai.api.UI.listPeople.currentElementCount += searchResults.results.length;
+
             //Set search result count
             if ((searchResults.total === -1) || (searchResults.total > 1000)) {
                 // If we don't know the total display what we know
-                $("#" + tuid + " .listpeople_count").html(searchResults.items * (pageNumber + 1));
+                $("#" + tuid + " .listpeople_count").html(sakai.api.UI.listPeople.currentElementCount);
                 $("#" + tuid + " .listpeople_count_people").show();
                 $("#" + tuid + " .listpeople_count_of").show();
                 $("#" + tuid + " .listpeople_count_thousands").show();
@@ -255,7 +266,6 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
 
             });
 
-
         },
         error: function(xhr, status, thrown) {
 
@@ -265,6 +275,8 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
             } else {
                 // Probably it's the last page of the result set
                 $pl_pageContainer.last().remove();
+                $("#" + tuid + " .listpeople_count_of").hide();
+                $("#" + tuid + " .listpeople_count_thousands").hide();
             }
         }
     });
