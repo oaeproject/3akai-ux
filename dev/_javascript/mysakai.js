@@ -949,11 +949,23 @@ sakai.dashboard = function(){
     // Initialisation function //
     /////////////////////////////
 
-    /*
-     * This will try to load the dashboard state file from the SData personal space
+    /**
+     * Init function for the dashboard page
      */
+    var init = function(){
 
-    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+        // Set the entity mode
+        sakai.data.entity = sakai.data.entity || {};
+        sakai.data.entity.mode = "profile";
+
+        /*
+         * This will try to load the dashboard state file from the SData personal space
+         */
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+
+    };
+
+    init();
 
 };
 

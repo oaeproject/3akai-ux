@@ -122,6 +122,10 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/discussion/discussion.html"
         },
+        entity: {
+            id:"entity",
+            url:"/devwidgets/entity/entity.html"
+        },
         footer: {
             description:"Dynamic Footer with Debug Info",
             i18n: {

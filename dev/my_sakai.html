@@ -49,6 +49,7 @@
 
     <body id="root" class="body-container fl-centered fl-container i18nable my-sakai">
 
+        <!-- CHANGE LAYOUT DIALOG -->
         <div id="change_layout_dialog" class="dialog">
             <div class="dialog_header">
                 <div class="dialog_header_inner">
@@ -74,7 +75,7 @@
             </div>
         </div>
 
-        <!-- Change layout -->
+        <!-- CHANGE LAYOUT TEMPLATE -->
         <div id="layouts_template" style="display:none;"><!--
             {for i in layouts}
                 {if i_index == selected}
@@ -171,6 +172,10 @@
         <div class="fl-container-flex header">
             <div class="fl-fix fl-centered fixed-container">
                 <div class="decor"><!-- --></div>
+
+                <!-- ENTITY WIDGET -->
+                <div id="widget_entity" class="widget_inline"></div>
+
                 <!-- GREETING -->
                 <div class="fl-col fl-container-500 greeting">
                     <a class="greeting_picture" id="picture_holder" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__MY_AVATOR__" src="/dev/_images/person_icon.jpg" /></a>
@@ -180,7 +185,7 @@
                     <a class="greeting_links" href="profile_edit.html">__MSG__EDIT_PROFILE__</a>
                 </div>
 
-                <!-- SEARCH FIELD -->
+                <!-- OPTIONS CONTAINER -->
                 <div class="fl-col fl-container-400 page_options">
 
                     <!-- OPTIONS -->

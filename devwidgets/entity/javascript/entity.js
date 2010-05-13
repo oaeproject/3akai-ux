@@ -29,12 +29,72 @@ var sakai = sakai || {};
 sakai.entity = function(tuid, showSettings){
 
 
+    /////////////////////////////
+    // CONFIGURATION VARIABLES //
+    /////////////////////////////
+
+    var entitymodes = ["profile","space","content"];
+    var entitymode = entitymodes[0]; // Set the default entity mode
+
+
+    ///////////////////
+    // CSS SELECTORS //
+    ///////////////////
+
+    var $rootel = $("#" + tuid);
+
+    var $entity_container = $("#entity_container", $rootel);
+    var $entity_container_template = $("#entity_container_template", $rootel);
+
+
+    ////////////////////
+    // UTIL FUNCTIONS //
+    ////////////////////
+
     /**
-     * Public function that can be called anywhere this widget is loaded.
-     * @param {String} mode The mode of how you would like to load the entity widget ["profile","space","content"]
+     * Change the mode for the entity widget
+     * @param {String} mode The mode of how you would like to load the entity widget (entitymodes)
      */
-    sakai.entity.init = function(mode){
-        alert(mode);
+    var changeMode = function(mode){
+
+        // Check if the mode value exists and whether it is a valid option
+        if(mode && $.inArray(mode, entitymodes)){
+            entitymode = mode;
+        } else {
+            fluid.log("Entity widget - changeMode - The mode couldn't be changed: '" + mode + "'.");
+        }
+
     };
 
+    /**
+     * Render the main entity template
+     */
+    var renderTemplate = function(){
+        $.TemplateRenderer($entity_container_template, {}, $entity_container);
+    };
+
+
+    ////////////////////
+    // INITIALISATION //
+    ////////////////////
+
+    /**
+     * Init function for the entity widget
+     */
+    var init = function(){
+
+        // Change the mode for the entity widget
+        changeMode(sakai.data.entity.mode);
+
+        // Render the main template
+        renderTemplate();
+
+        // Show the entity container when everything is loaded
+        $entity_container.show();
+
+    };
+
+    init();
+
 };
+sdata.widgets.WidgetLoader.informOnLoad("entity");
