@@ -71,6 +71,7 @@ var Widgets = {
                 "en_US": "/devwidgets/bookmarkandshare/bundles/en_US.json",
                 "nl_NL": "/devwidgets/bookmarkandshare/bundles/nl_NL.json"
             },
+            img: "/devwidgets/bookmarkandshare/images/addthis.png",
             id: "bookmarkandshare",
             name: "Bookmark and share",
             showinsakaigoodies: true,

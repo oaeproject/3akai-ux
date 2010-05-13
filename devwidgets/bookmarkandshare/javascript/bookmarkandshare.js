@@ -38,15 +38,18 @@ sakai.bookmarkandshare = function(tuid, showSettings){
 
     // Templates
     var $settingsPopularTemplate = $("#bookmarkandshare_popular_template", $rootel);
+    var $buttonTemplate = $("#bookmarkandshare_button_template");
 
     // Templateholders
     var $settingsContentHolder = $("#bookmarkandshare_settings_content", $rootel);
+    var $shareButtonHolder = $("#bookmarkandshare_share_button_container");
 
     // Buttons
     var $popularButton = $("#bookmarkandshare_popular", $rootel);
     var $allButton = $("#bookmarkandshare_all", $rootel);
     var $settingsSubmitButton = $("#bookmarksandshare_settings_submit_button", $rootel);
     var $settingsCancelButton = $("#bookmarksandshare_settings_cancel_button", $rootel);
+    var $shareButton = $("#bookmarkandshare_share_button");
 
     // Proxy
     sakai.config.URL.POPULAR_GET_URL = "/var/proxy/bookmarkandshare/popular.json";
@@ -62,24 +65,48 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     ///////////////////
     // Functionality //
     ///////////////////
-    
-    $settingsSubmitButton.live("click", function(){
-        // convert form to JSON
-        var json = sakai.api.UI.Forms.form2json($frmPopularServices);
-        // Only keep data that needs to be saved
-        $(json)[0].each(function(){
-            if ($(this)[0] === "on"){
-                console.log($(this));
-            }
-        });
-    });
+
+    /**
+     * Function that will close the container when the saving is done
+     */
+    var closeContainer = function(){
+        sdata.container.informFinish(tuid);
+    };
+
+    /**
+     * Function that will close the container when the cancel button is clicked
+     */
+    var cancelContainer = function(){
+        sdata.container.informCancel(tuid);
+    };
+
+    /**
+     * Function that will save the array of checked items to Sling
+     * @param {Object} json Array containing objects that can be converted to JSON
+     */
+    var saveSettings = function(json){
+        sakai.api.Widgets.saveWidgetData(tuid, json, closeContainer);
+    }
+
+    /**
+     * Convert the form with selected popular services to JSON
+     * Call function to save to Sling
+     */
+    var convertFormToJSON = function(){
+        // Create a 1 level deep json file
+        // This makes it possible to do json2form later on
+        var jsonArr = [];
+        jsonArr["services"] = sakai.api.UI.Forms.form2json($frmPopularServices);
+        // Save the json
+        saveSettings(jsonArr);
+    }
 
     /**
      * Count the number of checked boxes for the popular services
      * return number (max 10)
      */
     var checkCount = function(){
-        return $popularServicesForm.children("input:checked").length;
+        return $frmPopularServices.children("input:checked").length;
     }
 
     /**
@@ -103,7 +130,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * @param {Object} check Boolean to check or uncheck checkboxes
      */
     var checkBoxes = function(check){
-        $popularServicesForm.children("input").each(function(){
+        $frmPopularServices.children("input").each(function(){
             $(this)[0].checked = check;
         });
     }
@@ -145,23 +172,18 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     }
 
     /**
-     * If the current state is that all checkboxes are checked uncheck all of them (send 0)
-     * else check all of them (send 1)
+     * Function fills up the settings form
+     * checks checkboxes that are marked as checked in the settings file
+     * @param {Object} success boolean that tells if the load of the data was successful
+     * @param {Object} results json results returned from data load
      */
-    $selectAllServices.live("click", function(){
-        if (allChecked){
-            checkPopularServices(0);
+    var checkPopularBoxes = function(success, results){
+        if(success){
+            sakai.api.UI.Forms.json2form($frmPopularServices, results.services);
         }else{
-            checkPopularServices(1)
+            fluid.log("no settings were previously saved.")
         }
-    });
-
-    /**
-     * Called when an individual checkbox from the popular list has been (un)checked
-     */
-    $popularService.live("click", function(){
-        checkPopularServices(2);
-    });
+    }
 
     /**
      * Show the 'Popular' page on the settings page of the widget
@@ -170,11 +192,30 @@ sakai.bookmarkandshare = function(tuid, showSettings){
         // Render the template
         $.TemplateRenderer($settingsPopularTemplate, results, $settingsContentHolder);
         // Fill variables that weren't present before so could not be filled
-        $popularServicesForm = $("#bookmarkandshare_frm_popular_services", $rootel);
         $selectAllServices = $("#bookmarkandshare_select_all_services", $rootel);
         $settingsSubmitButton = $("#bookmarksandshare_settings_submit_button", $rootel);
         $settingsCancelButton = $("#bookmarksandshare_settings_cancel_button", $rootel);
         $frmPopularServices = $("#bookmarkandshare_frm_popular_services", $rootel);
+        // Set clicks
+        $settingsSubmitButton.bind("click", function(){
+            convertFormToJSON();
+        });
+        $settingsCancelButton.bind("click", function(){
+            cancelContainer();
+        });
+        $selectAllServices.bind("click", function(){
+            if (allChecked) {
+                checkPopularServices(0);
+            }
+            else {
+                checkPopularServices(1)
+            }
+        });
+        $popularService.bind("click", function(){
+            checkPopularServices(2);
+        });
+        // Get data about the widget that might have been saved
+        sakai.api.Widgets.loadWidgetData(tuid, checkPopularBoxes);
     };
 
     /**
@@ -197,7 +238,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     /**
      * Show the settings screen to initiate the widget
      */
-    var showSettings = function(){
+    var showSettingsScreen = function(){
         // Show the settings page
         $settings.show();
         // Show the the content of the first selected page
@@ -205,10 +246,38 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     };
 
     /**
+     * Fill the share button with services chosen through the settings screen
+     * @param {Object} success boolean that tells if the load of the data was successful
+     * @param {Object} results json results returned from data load
+     */
+    var populateShareButton = function(success, results){
+        // Get the services that are selected in the settings screen
+        // Dismiss the services that are not selected
+        var obj = new Object();
+        selectedServices = [];
+        for (i in results.services){
+            if (results.services[i][0] === "on"){
+                selectedServices.push(i.split("bookmarkandshare_")[1]);
+            }
+        }
+        obj.services = selectedServices;
+        // Render the button template
+        $.TemplateRenderer($buttonTemplate, obj, $shareButtonHolder);
+        // get the button
+        $shareButton = $("#bookmarkandshare_share_button");
+        // Add rounded corners to button
+        $shareButton.corners();
+        // Set width of div by calculating it
+        var divwidth = 90 + (selectedServices.length * 23);
+        $shareButton.css("width", divwidth);
+    }
+
+    /**
      * Show the widget itself
      */
     var showWidget = function(){
-    
+        // Get the settings for the widget
+        sakai.api.Widgets.loadWidgetData(tuid, populateShareButton);
     }
 
     /**
@@ -218,7 +287,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var init = function(){
         // Check if the widget has just been placed on the page
         if (showSettings) {
-            showSettings();
+            showSettingsScreen();
         }
         else {
             showWidget();
