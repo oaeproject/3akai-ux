@@ -84,28 +84,28 @@
                     <div id="contentmedia_main_left">
                         <!-- Context Filters -->
                         <div id="contentmedia_context_filters">
-                            <a href="javascript:;" id="contentmedia_accordion_list_site_all">All Files (debug)<span class="contentmedia_hidden">allfiles</span></a>
-                            <a href="javascript:;" id="contentmedia_context_filters_myfiles">My Files<span class="contentmedia_hidden">myfiles</span></a>
-                            <a href="javascript:;">My Contacts' Files<span class="contentmedia_hidden">mycontacts</span></a>
-                            <a href="javascript:;">Files On My Sites<span class="contentmedia_hidden">mysites</span></a>
-                            <a href="javascript:;" id="contentmedia_accordion_list_site_bookmarks">My Bookmarked Files<span class="contentmedia_hidden">mybookmarks</span></a>
+                            <a href="javascript:;" id="contentmedia_accordion_list_site_all">__MSG__ALL_FILES__ (debug)<span class="contentmedia_hidden">__MSG__ALLFILES__</span></a>
+                            <a href="javascript:;" id="contentmedia_context_filters_myfiles">__MSG__MY_FILES__<span class="contentmedia_hidden">__MSG__MYFILES__</span></a>
+                            <a href="javascript:;">__MSG__MY_CONTACTS_FILES__<span class="contentmedia_hidden">__MSG__MYCONTACTS__</span></a>
+                            <a href="javascript:;">__MSG__FILES_ON_MY_SITES__<span class="contentmedia_hidden">__MSG__MYSITES__</span></a>
+                            <a href="javascript:;" id="contentmedia_accordion_list_site_bookmarks">__MSG__MY_BOOKMARKED_FILES__<span class="contentmedia_hidden">__MSG__MYBOOKMARKS__</span></a>
                         </div>
                         <!-- Accordion -->
                         <div id="contentmedia_accordion">
-                            <a href="javascript:;" title="Search for files">Search</a>
+                            <a href="javascript:;" title="__MSG__SEARCH_FOR_FILES__">__MSG__SEARCH__</a>
                             <div id="contentmedia_search">
                                 <form>
-                                    <input type="text" value="Search for files ..." class="input" id="search_text" title="Search for files ..." />
+                                    <input type="text" value="Search for files ..." class="input" id="search_text" title="__MSG__SEARCH_FOR_FILES__ ..." />
                                     <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                 </form>
                             </div>
 
-                            <a href="javascript:;" title="Browse by folders" id="contentmedia_folders_trigger">Browse by folders</a>
+                            <a href="javascript:;" title="Browse by folders" id="contentmedia_folders_trigger">__MSG__BROWSE_BY_FOLDERS__</a>
                             <div id="contentmedia_folders">
 
                             </div>
 
-                            <a href="javascript:;" title="Filter by tag">Filter by tag</a>
+                            <a href="javascript:;" title="__MSG__FILTER_BY_TAG__">__MSG__FILTER_BY_TAG__</a>
                             <div id="contentmedia_accordion_list_tag">
                                 <div class="contentmedia_accordion_list_tag_top">
                                     <a href="javascript:;">A</a> <a href="javascript:;">B</a> <a href="javascript:;">C</a> <a href="javascript:;">D</a>
@@ -129,18 +129,18 @@
                                 </div>
                             </div>
 
-                            <a href="javascript:;" title="Filter by site">Filter by site</a>
+                            <a href="javascript:;" title="Filter by site">__MSG__FILTER_BY_SITE__</a>
                             <div id="contentmedia_accordion_list_site">
 
                             </div>
-                            <a href="javascript:;" title="Upload new files" id="contentmedia_uploader_trigger">Upload new files</a>
+                            <a href="javascript:;" title="Upload new files" id="contentmedia_uploader_trigger">__MSG__UPLOAD_NEW_FILES__</a>
                             <div id="uploader-contents">
 
                                 <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
                                 <form method="post" enctype="multipart/form-data" class="fl-uploader fl-progEnhance-basic">
-                                    <p>Browse to upload a file.</p>
-                                    <input name="fileData" type="file" title="Browse to upload a file" />
-                                    <div><input type="submit" value="Save" title="Select the file"/></div>
+                                    <p>__MSG__BROWSE_TO_UPLOAD_A_FILE__.</p>
+                                    <input name="fileData" type="file" title="__MSG__BROWSE_TO_UPLOAD_A_FILE__" />
+                                    <div><input type="submit" value="__MSG__SAVE__" title="__MSG__SELECT_THE_FILE__"/></div>
                                 </form>
 
                                 <!-- This is the markup for the Fluid Uploader component itself. -->
@@ -154,11 +154,11 @@
                                         <!-- Top of the queue -->
                                         <div class="fl-uploader-queue-header">
                                             <table cellspacing="0" cellpadding="0" summary="Headers for the file queue.">
-                                                <caption>File Upload Queue:</caption>
+                                                <caption>__MSG__FILE_UPLOAD_QUEUE__:</caption>
 
                                                     <tr>
-                                                        <th scope="col" class="fl-uploader-file-name">File Name</th>
-                                                        <th scope="col" class="fl-uploader-file-size">Size&nbsp;&nbsp;</th>
+                                                        <th scope="col" class="fl-uploader-file-name">__MSG__FILE_NAME__</th>
+                                                        <th scope="col" class="fl-uploader-file-size">__MSG__SIZE__&nbsp;&nbsp;</th>
                                                         <th scope="col" class="fl-uploader-file-actions">&nbsp;</th>
                                                     </tr>
 
@@ -174,11 +174,11 @@
 
                                                         <!-- Template markup for the file queue rows -->
                                                         <tr class="flc-uploader-file-tmplt flc-uploader-file fl-uploader-hidden-templates">
-                                                            <th class="flc-uploader-file-name fl-uploader-file-name" scope="row">File Name Placeholder</th>
+                                                            <th class="flc-uploader-file-name fl-uploader-file-name" scope="row">__MSG__FILE_NAME_PLACEHOLDER__</th>
                                                             <td class="flc-uploader-file-size fl-uploader-file-size">0 KB</td>
                                                             <td class="fl-uploader-file-actions">
-                                                                <button type="button" class="flc-uploader-file-action fl-uploader-file-action" title="Remove File" tabindex="-1">
-                                                                    <span class="fl-uploader-button-text fl-uploader-hidden">Remove file from queue</span>
+                                                                <button type="button" class="flc-uploader-file-action fl-uploader-file-action" title="__MSG__REMOVE_FILE__" tabindex="-1">
+                                                                    <span class="fl-uploader-button-text fl-uploader-hidden">__MSG__REMOVE_FILE_FROM_QUEUE__</span>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -194,7 +194,7 @@
                                         </div>
 
                                         <div class="flc-uploader-browse-instructions fl-uploader-browse-instructions">
-                                            Choose <em>Browse files</em> to add files to the queue
+                                            __MSG__CHOOSE__ <em>__MSG__BROWSE_FILES__</em> __MSG__TO_ADD_FILES_TO_THE_QUEUE__
                                         </div>
 
                                         <!-- Foot of the queue -->
@@ -203,11 +203,11 @@
 
                                                     <tr>
                                                         <td class="flc-uploader-total-progress-text">
-                                                            Total: <span class="fl-uploader-totalFiles">0</span> files
+                                                            Total: <span class="fl-uploader-totalFiles">0</span> __MSG__FILES__
                                                             (<span class="fl-uploader-totalBytes">0 KB</span>)
                                                         </td>
                                                         <td class=".fl-uploader-footer-buttons" align="right" >
-                                                            <a href="#" class="flc-uploader-button-browse fl-uploader-browse">Browse files</a>
+                                                            <a href="#" class="flc-uploader-button-browse fl-uploader-browse">__MSG__BROWSE_FILES__</a>
                                                         </td>
                                                     </tr>
 
@@ -218,7 +218,7 @@
 
                                     <!-- Action buttons -->
                                     <div class="fl-uploader-btns">
-                                        <button type="button" class="flc-uploader-button-pause fl-uploader-pause fl-uploader-hidden">Stop Upload</button><button type="button" class="flc-uploader-button-upload fl-uploader-upload fl-uploader-button-default fl-uploader-dim" disabled="disabled">Upload</button>
+                                        <button type="button" class="flc-uploader-button-pause fl-uploader-pause fl-uploader-hidden">__MSG__STOP_UPLOAD__</button><button type="button" class="flc-uploader-button-upload fl-uploader-upload fl-uploader-button-default fl-uploader-dim" disabled="disabled">__MSG__UPLOAD__</button>
                                     </div>
                                 </form>
                             </div>
@@ -228,10 +228,10 @@
 
                     <div id="contentmedia_main_right">
                             <div id="contentmedia_bar_right">
-                                <a id="contentmedia_actions_view_list" href="javascript:;" title="List view">List view</a>|
-                                <a id="contentmedia_actions_view_thumbnail" href="javascript:;" title="Thumbnail view"><span>Thumbnail view</span></a>|
-                                <a id="contentmedia_actions_edit" href="javascript:;">File Settings</a>|
-                                <a id="contentmedia_actions_remove" href="javascript:;">Remove Files</a>
+                                <a id="contentmedia_actions_view_list" href="javascript:;" title="List view">__MSG__LIST_VIEW__</a>|
+                                <a id="contentmedia_actions_view_thumbnail" href="javascript:;" title="Thumbnail view"><span>__MSG__THUMBNAIL_VIEW__</span></a>|
+                                <a id="contentmedia_actions_edit" href="javascript:;">__MSG__FILE_SETTINGS__</a>|
+                                <a id="contentmedia_actions_remove" href="javascript:;">__MSG__REMOVE_FILES__</a>
                             </div>
 
                             <!-- Filters -->
@@ -242,22 +242,22 @@
                                         ${site[0].name}
                                     {else}
                                         {if context === "allfiles"}
-                                            All Files
+                                            __MSG__ALL_FILES__
                                         {elseif context === "myfiles"}
-                                            My Files
+                                            __MSG__MYFILES__
                                         {elseif context === "mycontacts"}
-                                            My Contacts' Files
+                                            __MSG__MY_CONTACTS_FILES__
                                         {elseif context === "mysites"}
-                                            Files On My Sites
+                                            __MSG__FILES_ON_MY_SITES__
                                         {elseif context === "mybookmarks"}
-                                            My Bookmarked Files
+                                            __MSG__MY_BOOKMARKED_FILES__
                                         {else}
                                             ${context}
                                         {/if}
                                     {/if}
 
                                     {if site.length > 0 || context != "myfiles"}
-                                    <a href="javascript:;" id="contentmedia_remove_filter_context" title="Remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="Remove the tag filter(s)"/></a>
+                                    <a href="javascript:;" id="contentmedia_remove_filter_context" title="__MSG__REMOVE_THE_TAG_FILTERS__"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__"/></a>
                                     {/if}
                                 </div>
                                 {if tag && tag.length > 0}
@@ -271,12 +271,12 @@
                                         {/if}
                                         "${t}"
                                     {/for}
-                                    <a href="javascript:;" id="contentmedia_remove_filter_tag" title="Remove the tag filter(s)"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="Remove the tag filter(s)"/></a>
+                                    <a href="javascript:;" id="contentmedia_remove_filter_tag" title="__MSG__REMOVE_THE_TAG_FILTERS__"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__"/></a>
                                 </div>
                                 {/if}
                                 {if search && search !== "*"}
                                 <div class="contentmedia_list_heading">
-                                    Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="Remove the tag filter(s)"/></a>
+                                    Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__"/></a>
                                 </div>
                                 {/if}
                             --></div>
@@ -367,7 +367,7 @@
             {/if}
             <span class="contentmedia_hidden">${item.siteref}</span></a>
         {forelse}
-            No sites found
+            __MSG_-NO_SITES_FOUND__
         {/for}
 
         {if items.length > 0}
@@ -381,30 +381,30 @@
     <div id="contentmedia_dialog_edit" class="dialog">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-                <h1>Edit files</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                <h1>__MSG__EDIT_FILES__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
         <div class="dialog_content">
-            <a href="javascript:;" id="contentmedia_dialog_permissions_trigger">Permissions</a> |
-            <a href="javascript:;" id="contentmedia_dialog_associations_trigger">Site Associations</a>
+            <a href="javascript:;" id="contentmedia_dialog_permissions_trigger">__MSG__PERMISSIONS__</a> |
+            <a href="javascript:;" id="contentmedia_dialog_associations_trigger">__MSG__SITE_ASSOCIATIONS__</a>
 
             <div id="contentmedia_dialog_permissions">
                 <form method="get" action="#">
                     <input type="radio" value="public" id="contentmedia_dialog_permissions_public" name="contentmedia_dialog_permissions_options" checked="checked" />
-                    <label for="contentmedia_dialog_permissions_public">Public</label><br />
+                    <label for="contentmedia_dialog_permissions_public">__MSG__PUBLIC__</label><br />
 
                     <input type="radio" value="sharepeople" id="contentmedia_dialog_permissions_sharepeople" name="contentmedia_dialog_permissions_options" />
-                    <label for="contentmedia_dialog_permissions_sharepeople">Visible to people I share with</label><br />
+                    <label for="contentmedia_dialog_permissions_sharepeople">__MSG__VISIBLE_TO_PEOPLE_I_SHARE_WITH__</label><br />
 
-                    <input type="button" value="Set permissions" title="Set permissions" />
+                    <input type="button" value="Set permissions" title="__MSG__SET_PERMISSIONS__" />
                 </form>
             </div>
 
             <div id="contentmedia_dialog_associations" style="display:none;">
                 <div class="contentmedia_dialog_associations_select_container">
-                    <div>All Sites</div>
-                    <select id="contentmedia_dialog_associations_select_all" size="10" multiple="multiple">
+                    <div>__MSG__ALL_SITES__</div>
+                    <select id="contentmedia_dialog_associations_select_all" size="10" multiple="multiple" title="__MSG__ALL_SITES__">
                         <option value="/_sites/site1">site1</option>
                         <option value="/_sites/site2">site2</option>
                         <option value="/_sites/site3">site3</option>
@@ -426,13 +426,13 @@
                 </div>
 
                 <div class="contentmedia_dialog_associations_select_container">
-                    <div>Selected Sites</div>
+                    <div>__MSG__SELECTED_SITES__</div>
                     <select id="contentmedia_dialog_associations_select_selected" size="10" multiple="multiple">
                         <option value="/_sites/site99">site99</option>
                     </select>
                 </div>
 
-                <input type="button" value="Set associations" class="fl-push" title="Set associations" />
+                <input type="button" value="__MSG__SET_ASSOCIATIONS__" class="fl-push" title="__MSG__SET_ASSOCIATIONS__" />
             </div>
         </div>
     <div class="dialog_footer">
@@ -443,14 +443,14 @@
         <div class="dialog_header">
             <div class="dialog_header_inner">
                 <h1>Remove files</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
         <div class="dialog_content">
-            <span>Are you sure you want to remove the following file(s)?</span><br />
+            <span>__MSG__ARE_YOU_SURE_YOU_WANT_TO_REMOVE_THE_FOLLOWING_FILES__?</span><br />
             <div id="contentmedia_dialog_remove_list"></div>
-            <input type="button" value="yes" id="contentmedia_dialog_remove_confirm" />
-            <input type="button" value="no" id="contentmedia_dialog_remove_decline" />
+            <input type="button" value="__MSG__YES__" id="contentmedia_dialog_remove_confirm" title="__MSG__YES__" />
+            <input type="button" value="__MSG__NO__" id="contentmedia_dialog_remove_decline" title="__MSG__NO__" />
             <div id="contentmedia_dialog_remove_list_template"><!--
                 {for file in items}
                     <div class="contentmedia_dialog_remove_file">
