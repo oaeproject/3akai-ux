@@ -46,7 +46,7 @@ sakai.config = {
 
 
         // Services
-        BATCH_GET: "/system/batch/get",
+        BATCH: "/system/batch",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
@@ -206,5 +206,7 @@ sakai.config = {
         }
     },
 
-    displayDebugInfo: true
+    displayDebugInfo: true,
+
+    widgets: {}
 };

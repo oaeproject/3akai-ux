@@ -1,0 +1,49 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/listpeople/css/listpeople.css" />
+
+<!-- MAIN VIEW -->
+<div class="listpeople_container">
+
+    <div class="listpeople_header">
+        <span class="listpeople_count">0</span>
+        <span class="listpeople_count_person" style="display: none;"> person</span>
+        <span class="listpeople_count_people" style="display: none;"> people</span>
+        <span class="listpeople_count_of" style="display: none;"> out of</span>
+        <span class="listpeople_count_thousands" style="display: none;"> thousands</span>
+
+        <span class="fl-force-right">
+            Sort on:
+            <select class="listpeople_sort_on">
+                <option default="true" value="lastName">Last name</option>
+                <option value="firstName">First name</option>
+            </select>
+        <span>
+    </div>
+
+    <div class="listpeople_content">
+
+    </div>
+
+    <div class="listpeople_content_pagetemplate" style="display:none;"><!--
+        {for i in results}
+        <li data-userid="${i['rep:userId']}">
+            {if i.picture}
+                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
+            {else}
+                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+            {/if}
+            <a class="listpeople_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+            <br />
+            <span class="listpeople_subnameinfo">${i.subNameInfo}</span>
+        </li>
+        {/for}
+    --></div>
+
+    <div class="listpeople_error_template" style="display:none;">
+        <span>Sorry, could not retrieve the list of users form the server!</span>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/listpeople/javascript/listpeople.js"></script>
