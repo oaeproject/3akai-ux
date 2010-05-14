@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
 <head>
 
@@ -96,7 +96,7 @@
                             </div>
                         </div>
 
-                        <a href="javascript:;" id="picture_holder" title="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__"><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" alt="" /></a>
+                        <a href="javascript:;" id="picture_holder" title="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__"><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" alt="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__" /></a>
 
                         <div id="profile_user_name" class="profile_user_name"></div>
 
@@ -257,7 +257,7 @@
                                         (<span class="overalltitle">${i.ovtitle}</span>
                                         <span class="number">${i.number}</span>)
                                         {if i.url}
-                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_PAPER_RECORD__"><img alt="" src="_images/link_icon.gif" border="0"></a>
+                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_PAPER_RECORD__"><img alt="__MSG__TO_SEE_THE_PAPER_RECORD__" src="_images/link_icon.gif" border="0"></a>
                                         {/if}
                                         </div>
                                     </td>
@@ -302,7 +302,7 @@
                                         <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
                                         <b>${i.title}</b>
                                         {if i.url}
-                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD__"><img src="_images/link_icon.gif" border="0" alt=""></a>
+                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD__"><img src="_images/link_icon.gif" border="0" alt="__MSG__TO_SEE_THE_TALK_RECORD__"></a>
                                         {/if}
                                         <br/>
                                         {if i.coauth}
@@ -610,7 +610,7 @@
     <div id="add_friend_types_template" style="display:none"><!--
         {var index = 0}
         {for i in connections}
-            <input type="checkbox" name="add_friends_list_type" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
+            <input type="checkbox" name="add_friends_list_type" title="__MSG__ADD_FRIEND_TYPES__" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
             <br/>
             ${index++|eat}
         {/for}

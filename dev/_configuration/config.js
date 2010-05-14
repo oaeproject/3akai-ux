@@ -46,7 +46,7 @@ sakai.config = {
 
 
         // Services
-        BATCH_GET: "/system/batch/get",
+        BATCH: "/system/batch",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
@@ -94,6 +94,7 @@ sakai.config = {
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
         SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
         SITE_ROOT: "/sites",
+        SITE_TEMPLATE: "/var/templates/site/__TEMPLATE__",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
         SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
         SITES_SERVICE: "/system/sling/membership",
@@ -205,5 +206,7 @@ sakai.config = {
         }
     },
 
-    displayDebugInfo: true
+    displayDebugInfo: true,
+
+    widgets: {}
 };

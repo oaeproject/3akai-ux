@@ -43,7 +43,7 @@ var Widgets = {
         }
     },
     widgets: {
-        addtocontacts : {
+        "addtocontacts": {
             description:"Add a contact",
             name:"Add a contact",
             i18n: {
@@ -54,7 +54,7 @@ var Widgets = {
             id:"addtocontacts",
             url:"/devwidgets/addtocontacts/addtocontacts.html"
         },
-        basiclti : {
+        "basiclti": {
             ca:true,
             description:"Basic LTI Widget",
             id:"basiclti",
@@ -63,7 +63,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/basiclti/basiclti.html"
         },
-        changepic: {
+        "changepic": {
             i18n: {
                 "default": "/devwidgets/changepic/bundles/default.json",
                 "en_US": "/devwidgets/changepic/bundles/en_US.json",
@@ -73,7 +73,7 @@ var Widgets = {
             name:"changepic",
             url:"/devwidgets/changepic/changepic.html"
         },
-        comments: {
+        "comments": {
             description:"Comments",
             ca:true,
             hasSettings:true,
@@ -84,7 +84,7 @@ var Widgets = {
             siteportal:true,
             url:"/devwidgets/comments/comments.html"
         },
-        createsite: {
+        "createsite": {
             description:"Create site",
             name:"Create Site",
             id:"createsite",
@@ -95,7 +95,7 @@ var Widgets = {
             },
             url:"/devwidgets/createsite/createsite.html"
         },
-        delicious: {
+        "delicious": {
             description:"Delicious widget",
             hasSettings:true,
             id:"delicious",
@@ -108,7 +108,7 @@ var Widgets = {
             personalportal:false,
             url:"/devwidgets/delicious/delicious.html"
         },
-        discussion: {
+        "discussion": {
             ca:true,
             description:"Discussion widget",
             id:"discussion",
@@ -122,7 +122,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/discussion/discussion.html"
         },
-        footer: {
+        "footer": {
             description:"Dynamic Footer with Debug Info",
             i18n: {
                 "default": "/devwidgets/footer/bundles/default.json",
@@ -133,7 +133,7 @@ var Widgets = {
             name:"Dynamic Footer",
             url:"/devwidgets/footer/footer.html"
         },
-        flickr: {
+        "flickr": {
             ca: false,
             description: "flickr widget",
             i18n: {
@@ -147,7 +147,7 @@ var Widgets = {
             showinsakaigoodies: false,
             url:"/devwidgets/flickr/flickr.html"
         },
-        filepicker: {
+        "filepicker": {
             description:"Pick a file.",
             name:"File",
             id:"filepicker",
@@ -156,7 +156,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/pickers/filepicker.html"
         },
-        folderpicker: {
+        "folderpicker": {
             description:"Pick a folder.",
             hasSettings:false,
             id:"folderpicker",
@@ -165,7 +165,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/pickers/folderpicker.html"
         },
-        googledocs: {
+        "googledocs": {
             description: "Google docs - Show your recent google documents",
             id:"googledocs",
             iframe:true,
@@ -174,7 +174,7 @@ var Widgets = {
             scrolling: false,
             url:"http://docs.google.com/API/IGoogle?up_numDocuments=5&browserok=true"
         },
-        googlemaps: {
+        "googlemaps": {
             ca:true,
             description:"Google maps",
             i18n: {
@@ -188,14 +188,14 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/googlemaps/googlemaps.html"
         },
-        helloworld: {
+        "helloworld": {
             description:"Sakai Hackathon Example",
             hasSettings:true,
             id:"helloworld",
             name:"Hello World",
             url:"/devwidgets/helloworld/helloworld.html"
         },
-        helloworldwow: {
+        "helloworldwow": {
             description:"GWT Widget Example",
             gwt:true,
             hasSettings:true,
@@ -203,7 +203,7 @@ var Widgets = {
             name:"Hello World GWT",
             url:"/devwidgets/helloworldwow/war/Helloworldwow.html"
         },
-        myfriends: {
+        "myfriends": {
             description:"A list of my connections",
             id:"myfriends",
             multipleinstance: false,
@@ -216,7 +216,7 @@ var Widgets = {
             personalportal:true,
             url:"/devwidgets/myfriends/myfriends.html"
         },
-        myprofile: {
+        "myprofile": {
             description:"My Personal Profile",
             name:"My Profile",
             id:"myprofile",
@@ -228,7 +228,7 @@ var Widgets = {
             },
             url:"/devwidgets/myprofile/myprofile.html"
         },
-        navigation: {
+        "navigation": {
             ca:true,
             description:"Navigation Widgets",
             hasSettings: false,
@@ -238,7 +238,7 @@ var Widgets = {
             showinsidebar:true,
             url:"/devwidgets/navigation/navigation.html"
         },
-        navigationchat: {
+        "navigationchat": {
             description:"navigationchat",
             i18n: {
                 "default": "/devwidgets/navigationchat/bundles/default.json",
@@ -250,7 +250,7 @@ var Widgets = {
             name:"navigationchat",
             url:"/devwidgets/navigationchat/navigationchat.html"
         },
-        poll: {
+        "poll": {
             ca:true,
             description:"Poll widget",
             id:"poll",
@@ -259,7 +259,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/poll/poll.html"
         },
-        quiz: {
+        "quiz": {
             ca:true,
             description:"Quiz widget",
             id:"quiz",
@@ -268,7 +268,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/quiz/quiz.html"
         },
-        recentmessages: {
+        "recentmessages": {
             description:"Your recent messages",
             i18n: {
                 "default": "/devwidgets/recentmessages/bundles/default.json",
@@ -279,7 +279,7 @@ var Widgets = {
             personalportal:true,
             url:"/devwidgets/recentmessages/recentmessages.html"
         },
-        remotecontent: {
+        "remotecontent": {
             ca:true,
             description:"Remote Content",
             id:"remotecontent",
@@ -288,7 +288,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/remotecontent/remotecontent.html"
         },
-        rss: {
+        "rss": {
             ca:true,
             description:"RSS Feed Reader",
             hasSettings:true,
@@ -298,14 +298,14 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/rss/rss.html"
         },
-        s23courses: {
+        "s23courses": {
             description:"Your courses &amp; sites for Sakai2",
             id:"s23courses",
             name:"Sakai 2 Courses &amp; Projects",
             personalportal:true,
             url:"/devwidgets/s23/s23courses/s23courses.html"
         },
-        sendmessage: {
+        "sendmessage": {
             description:"Send a message",
             i18n: {
                 "default": "/devwidgets/sites/bundles/default.json",
@@ -315,7 +315,7 @@ var Widgets = {
             name:"Send a message",
             url:"/devwidgets/sendmessage/sendmessage.html"
         },
-        sitemembers: {
+        "sitemembers": {
             ca:true,
             description:"List of site members",
             hasSettings:true,
@@ -326,7 +326,7 @@ var Widgets = {
             name:"Site members",
             url:"/devwidgets/sitemembers/sitemembers.html"
         },
-        siterecentactivity: {
+        "siterecentactivity": {
             ca:true,
             description:"Site Recent Activity",
             hasSettings: false,
@@ -336,7 +336,7 @@ var Widgets = {
             showinsidebar:true,
             url:"/devwidgets/siterecentactivity/siterecentactivity.html"
         },
-        sites: {
+        "sites": {
             description:"Listing of the sites I'm a member of",
             i18n: {
                 "default": "/devwidgets/sites/bundles/default.json",
@@ -348,7 +348,18 @@ var Widgets = {
             personalportal:true,
             url:"/devwidgets/sites/sites.html"
         },
-        tangler: {
+        "structured-form-data": {
+            description:"Structured Form Data",
+            ca:true,
+            hasSettings:true,
+            id:"structured-form-data",
+            img:"/devwidgets/structured-form-data/images/comments.png",
+            name:"Comments",
+            showinsakaigoodies:true,
+            siteportal:true,
+            url:"/devwidgets/structured-form-data/comments.html"
+        },
+        "tangler": {
             ca:true,
             description:"Tangler Forum",
             id:"tangler",
@@ -357,7 +368,7 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/tangler/tangler.html"
         },
-        twitter: {
+        "twitter": {
             description:"Twitter Widget",
             hasSettings:true,
             i18n: {
@@ -370,7 +381,17 @@ var Widgets = {
             personalportal:true,
             url:"/devwidgets/twitter/twitter.html"
         },
-        video: {
+        "listpeople": {
+            description:"General people lister widget",
+            hasSettings: false,
+            id: "listpeople",
+            i18n: {
+                "default": "/devwidgets/listpeople/bundles/default.json"
+            },
+            name: "People Lister",
+            url: "/devwidgets/listpeople/listpeople.html"
+        },
+        "video": {
             ca:true,
             description:"Video",
             hasSettings:true,
@@ -380,7 +401,7 @@ var Widgets = {
             showinmedia:true,
             url:"/devwidgets/video/video.html"
         },
-        wookiechat: {
+        "wookiechat": {
             ca:true,
             description:"wookiechat",
             name:"Chat",
@@ -388,7 +409,7 @@ var Widgets = {
             img:"/devwidgets/wookiechat/images/wookiechat.png",
             url:"/devwidgets/wookiechat/wookiechat.html"
         },
-        wookieforum: {
+        "wookieforum": {
             ca:true,
             description:"wookieforum",
             id:"wookieforum",
@@ -396,7 +417,7 @@ var Widgets = {
             name:"Wookie Forum",
             url:"/devwidgets/wookieforum/wookieforum.html"
         },
-        youtubevideo: {
+        "youtubevideo": {
             ca:true,
             description:"YouTube Video",
             id:"youtubevideo",

@@ -1,0 +1,7 @@
+{
+	"sling:resourceType": "sakai/page",
+	"pageTitle": "A short history",
+	"pageType": "webpage", 
+	"pagePosition": 200000,
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}
