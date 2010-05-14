@@ -348,16 +348,16 @@ var Widgets = {
             personalportal:true,
             url:"/devwidgets/sites/sites.html"
         },
-        "structured-form-data": {
-            description:"Structured Form Data",
+        "form-data-string": {
+            description:"Form Data String",
             ca:true,
             hasSettings:true,
-            id:"structured-form-data",
-            img:"/devwidgets/structured-form-data/images/comments.png",
+            id:"form-data-string",
+            img:"/devwidgets/form-data-string/images/comments.png",
             name:"Comments",
             showinsakaigoodies:true,
             siteportal:true,
-            url:"/devwidgets/structured-form-data/comments.html"
+            url:"/devwidgets/form-data-string/comments.html"
         },
         "tangler": {
             ca:true,
