@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, sdata */
+/*global $, sdata, fluid */
 
 var sakai = sakai || {};
 
@@ -45,18 +45,23 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var $shareButtonHolder = $("#bookmarkandshare_share_button_container");
 
     // Buttons
-    var $popularButton = $("#bookmarkandshare_popular", $rootel);
-    var $allButton = $("#bookmarkandshare_all", $rootel);
     var $settingsSubmitButton = $("#bookmarksandshare_settings_submit_button", $rootel);
     var $settingsCancelButton = $("#bookmarksandshare_settings_cancel_button", $rootel);
     var $shareButton = $("#bookmarkandshare_share_button");
+    var $selectAllServices = $("#bookmarkandshare_select_all_services", $rootel);
 
     // Proxy
     sakai.config.URL.POPULAR_GET_URL = "/var/proxy/bookmarkandshare/popular.json";
 
-    var $selectAllServices = $("#bookmarkandshare_select_all_services", $rootel);
+    // Forms
     var $frmPopularServices = $("#bookmarkandshare_frm_popular_services", $rootel);
     var $popularService = $(".bookmarkandshare_popularchk", $rootel);
+
+    // ERRORS
+    var $noPopularError = $("#bookmarkandshare_error_nopopular", $rootel);
+    var $settingsNotSavedError = $("#bookmarkandshare_error_settings_save", $rootel);
+    var $settingsNotLoadedError = $("#bookmarkandshare_error_settings_load", $rootel);
+    var $selectServiceError = $("#bookmarkandshare_error_select_service", $rootel);
 
     // holds if the select all button has been clicked
     var allChecked = false;
@@ -67,10 +72,46 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     ///////////////////
 
     /**
+     * Remove the default settings error message
+     * This messages is shown when a new widget is created as well as when settings could not be loaded.
+     */
+    var removeDefaultSettingsError = function(){
+        $($settingsNotLoadedError, $settingsContentHolder).remove();
+    };
+
+    /**
+     * Remove the error indicating the user should select at least one service before submitting
+     */
+    var removeSelectServiceError = function(){
+        $($selectServiceError, $settingsContentHolder).remove();
+    };
+
+    /**
+     * Remove the error indicating the settings have not been saved
+     */
+    var removeNotSavedError = function(){
+        $($settingsNotSavedError, $settingsContentHolder).remove();
+    };
+
+    /**
+     * Function that removes all error messages that can be thrown at e certain point
+     * Bundles all functions in one function
+     */
+    var removeErrorMessages = function(){
+        removeDefaultSettingsError();
+        removeSelectServiceError();
+        removeNotSavedError();
+    };
+
+    /**
      * Function that will close the container when the saving is done
      */
-    var closeContainer = function(){
-        sdata.container.informFinish(tuid);
+    var closeContainer = function(success){
+        if (success) {
+            sdata.container.informFinish(tuid);
+        }else{
+            $settingsContentHolder.append($settingsNotSavedError);
+        }
     };
 
     /**
@@ -86,20 +127,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      */
     var saveSettings = function(json){
         sakai.api.Widgets.saveWidgetData(tuid, json, closeContainer);
-    }
-
-    /**
-     * Convert the form with selected popular services to JSON
-     * Call function to save to Sling
-     */
-    var convertFormToJSON = function(){
-        // Create a 1 level deep json file
-        // This makes it possible to do json2form later on
-        var jsonArr = [];
-        jsonArr["services"] = sakai.api.UI.Forms.form2json($frmPopularServices);
-        // Save the json
-        saveSettings(jsonArr);
-    }
+    };
 
     /**
      * Count the number of checked boxes for the popular services
@@ -107,7 +135,27 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      */
     var checkCount = function(){
         return $frmPopularServices.children("input:checked").length;
-    }
+    };
+
+    /**
+     * Convert the form with selected popular services to JSON
+     * Call function to save to Sling
+     */
+    var convertFormToJSON = function(){
+        // First check if the form may be submitted
+        // at least one checkbox has to be checked
+        if (checkCount() > 0) {
+            // Create a 1 level deep json file
+            // This makes it possible to do json2form later on
+            var jsonArr = [];
+            jsonArr.services = sakai.api.UI.Forms.form2json($frmPopularServices);
+            // Save the json
+            saveSettings(jsonArr);
+        } else {
+            fluid.log("Select at least one service.");
+            $settingsContentHolder.append($selectServiceError);
+        }
+    };
 
     /**
      * Set label when all checkboxes are checked
@@ -115,7 +163,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var allCheckedServiceLabel = function(){
         $selectAllServices.html("None");
         allChecked = true;
-    }
+    };
 
     /**
      * Set label when not all checkboxes are checked
@@ -123,7 +171,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var uncheckedServiceLabel = function(){
         $selectAllServices.html("All");
         allChecked = false;
-    }
+    };
 
     /**
      * Check or uncheck checkboxes depending on the boolean coming in
@@ -133,13 +181,14 @@ sakai.bookmarkandshare = function(tuid, showSettings){
         $frmPopularServices.children("input").each(function(){
             $(this)[0].checked = check;
         });
-    }
+    };
 
     /**
      * Check or uncheck all checkboxes for the popular services at once
      * @param {Object} check variable that says to check or uncheck all checkboxes, when individual checkbox is clicked this var contains 'individualchk'
      */
     var checkPopularServices = function(check){
+        removeErrorMessages();
         switch (check) {
             case 0:
                 if (checkCount() === 10) {
@@ -169,7 +218,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
                 }
                 break;
         }
-    }
+    };
 
     /**
      * Function fills up the settings form
@@ -180,42 +229,57 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var checkPopularBoxes = function(success, results){
         if(success){
             sakai.api.UI.Forms.json2form($frmPopularServices, results.services);
+            if (checkCount() === 10){
+                // Set label
+                allCheckedServiceLabel();
+            }
         }else{
-            fluid.log("no settings were previously saved.")
+            fluid.log("No settings could be loaded.");
+            $settingsContentHolder.append($settingsNotLoadedError);
         }
-    }
+    };
 
     /**
      * Show the 'Popular' page on the settings page of the widget
      */
     var showPopular = function(results){
-        // Render the template
-        $.TemplateRenderer($settingsPopularTemplate, results, $settingsContentHolder);
-        // Fill variables that weren't present before so could not be filled
-        $selectAllServices = $("#bookmarkandshare_select_all_services", $rootel);
-        $settingsSubmitButton = $("#bookmarksandshare_settings_submit_button", $rootel);
-        $settingsCancelButton = $("#bookmarksandshare_settings_cancel_button", $rootel);
-        $frmPopularServices = $("#bookmarkandshare_frm_popular_services", $rootel);
-        // Set clicks
-        $settingsSubmitButton.bind("click", function(){
-            convertFormToJSON();
-        });
-        $settingsCancelButton.bind("click", function(){
-            cancelContainer();
-        });
-        $selectAllServices.bind("click", function(){
-            if (allChecked) {
-                checkPopularServices(0);
-            }
-            else {
-                checkPopularServices(1)
-            }
-        });
-        $popularService.bind("click", function(){
-            checkPopularServices(2);
-        });
-        // Get data about the widget that might have been saved
-        sakai.api.Widgets.loadWidgetData(tuid, checkPopularBoxes);
+        if (results) {
+            $($noPopularError, $settingsContentHolder).remove();
+            // Render the template
+            $.TemplateRenderer($settingsPopularTemplate, results, $settingsContentHolder);
+            // Fill variables that weren't present before so could not be filled
+            $selectAllServices = $("#bookmarkandshare_select_all_services", $rootel);
+            $settingsSubmitButton = $("#bookmarksandshare_settings_submit_button", $rootel);
+            $settingsCancelButton = $("#bookmarksandshare_settings_cancel_button", $rootel);
+            $frmPopularServices = $("#bookmarkandshare_frm_popular_services", $rootel);
+            $popularService = $(".bookmarkandshare_popularchk", $rootel);
+            // Set clicks
+            $settingsSubmitButton.bind("click", function(){
+                // Remove error message that can be present
+                removeErrorMessages();
+                // Create JSON
+                convertFormToJSON();
+            });
+            $settingsCancelButton.bind("click", function(){
+                cancelContainer();
+            });
+            $selectAllServices.bind("click", function(){
+                if (allChecked) {
+                    checkPopularServices(0);
+                }
+                else {
+                    checkPopularServices(1);
+                }
+            });
+            $popularService.bind("click", function(){
+                removeErrorMessages();
+                checkPopularServices(2);
+            });
+            // Get data about the widget that might have been saved
+            sakai.api.Widgets.loadWidgetData(tuid, checkPopularBoxes);
+        }else{
+            $settingsContentHolder.append($noPopularError);
+        }
     };
 
     /**
@@ -230,10 +294,11 @@ sakai.bookmarkandshare = function(tuid, showSettings){
                 showPopular(data);
             },
             error: function(){
-                alert(error);
+                fluid.log("Could not retrieve popular services from AddThis.");
+                $settingsContentHolder.append($noPopularError);
             }
         });
-    }
+    };
 
     /**
      * Show the settings screen to initiate the widget
@@ -253,9 +318,9 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var populateShareButton = function(success, results){
         // Get the services that are selected in the settings screen
         // Dismiss the services that are not selected
-        var obj = new Object();
-        selectedServices = [];
-        for (i in results.services){
+        var obj = {};
+        var selectedServices = [];
+        for (var i in results.services){
             if (results.services[i][0] === "on"){
                 selectedServices.push(i.split("bookmarkandshare_")[1]);
             }
@@ -270,7 +335,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
         // Set width of div by calculating it
         var divwidth = 90 + (selectedServices.length * 23);
         $shareButton.css("width", divwidth);
-    }
+    };
 
     /**
      * Show the widget itself
@@ -278,7 +343,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var showWidget = function(){
         // Get the settings for the widget
         sakai.api.Widgets.loadWidgetData(tuid, populateShareButton);
-    }
+    };
 
     /**
      * Function to init the bookmark and share widget

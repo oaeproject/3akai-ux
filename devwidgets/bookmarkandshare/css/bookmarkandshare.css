@@ -10,7 +10,6 @@ hr {display: block; clear: left; margin:0; visibility: hidden;}
 /* AddThis override*/
 .at300bs {margin-right:7px;}
 
-#bookmarkandshare_settings_content {border-color:#DFDFDF; border-style:solid; border-width:1px; padding:7px;}
 #bookmarkandshare_select_all_services {font-size:12px; text-decoration:underline; color:#205cb5; clear:both; margin-bottom:7px; display:block;}
 
 /* SHARE BUTTON */
@@ -19,3 +18,6 @@ hr {display: block; clear: left; margin:0; visibility: hidden;}
 #bookmarkandshare_share_button span {float:left; margin-top:3px;}
 .at_item {float:left;}
 .addthis_button img{padding-left:17px; margin-top:3px;}
+
+/* ERRORS */
+.bookmarkandshare_error {color:#EE0000;}

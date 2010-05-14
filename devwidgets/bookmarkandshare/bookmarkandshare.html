@@ -2,6 +2,14 @@
 <link rel="stylesheet" type="text/css" media="screen" href="/devwidgets/bookmarkandshare/css/bookmarkandshare.css"/>
 <link rel="stylesheet" type="text/css" media="screen" href="/devwidgets/bookmarkandshare/css/jquery.fancybox-1.3.1.css"/>
 
+<!-- ERRORS -->
+<div id="bookmarkandshare_error" style="display:none;">
+    <div id="bookmarkandshare_error_nopopular" class="bookmarkandshare_error">__MSG__NO_POPULAR_SERVICES__</div>
+    <div id="bookmarkandshare_error_settings_save" class="bookmarkandshare_error">__MSG__SETTINGS_NOT_SAVED__</div>
+    <div id="bookmarkandshare_error_settings_load" class="bookmarkandshare_error">__MSG__SETTINGS_NOT_LOADED__</div>
+    <div id="bookmarkandshare_error_select_service" class="bookmarkandshare_error">__MSG__SELECT_SERVICE__</div>
+</div>
+
 <!-- SETTINGS CONTENT -->
 <div id="bookmarkandshare_settings" style="display:none;">
     <div id="bookmarkandshare_settings_content">
@@ -36,7 +44,7 @@
     <p>__MSG__SHARE__</p>
     {for s in services}
     <div id="ati_${s}" class="at_item">
-        <a href="http://www.addthis.com/bookmark.php?s=${s}" target="_blank" title="To ${s}"><span class="at300bs at15t_${s}"></span></a>
+        <a href="http://www.addthis.com/bookmark.php?s=${s}&url=${window.location}" target="_blank" title="To ${s}"><span class="at300bs at15t_${s}"></span></a>
     </div>
     {/for}
     <a class="addthis_button" href="http://www.addthis.com/bookmark.php" title="More services" target="_blank"
