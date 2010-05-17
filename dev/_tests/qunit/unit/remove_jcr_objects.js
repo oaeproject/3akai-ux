@@ -7,7 +7,7 @@ var dummyObject = {
     "jcr:created":"dummy created",
     "jcr:createdBy":"dummy createdby",
     "jcr:mixinTypes":"dummy mixin type"
-}
+};
 
 /**
  * Test if the indexof returns the expected index
@@ -19,18 +19,20 @@ var testJCRRemoval = function(){
 
     //get the amount of properties
     var objCount=0;
-    for(p in dummyObject) objCount++;
+    for(var p in dummyObject){
+        objCount++;
+    }
 
 
     //check if it is the same as expected
     same(objCount, 2,"Checking if removal went well by checking amount of left properties");
     start();
-}
+};
 
 /**
  * Run an asynchronous test
  */
-asyncTest("JCR Removal: test the removal of jcr objects in a json object", function(){
+test("JCR Removal: test the removal of jcr objects in a json object", function(){
     //send a message
-	testJCRRemoval();
+    testJCRRemoval();
 });

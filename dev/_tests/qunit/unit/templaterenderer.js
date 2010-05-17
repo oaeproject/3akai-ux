@@ -13,6 +13,9 @@ var findDummyData = function(){
     //check if the data in the div is the same as the dummyText
     same(data,dummyText,"Checking the parsed template for correct data");
 
+    //remove all dummy divs
+    removeDummyDivs();
+
     //start the next test
     start();
 }
@@ -37,7 +40,10 @@ var testTemplateRenderer = function(){
 /**
  * Run an asynchronous test
  */
-asyncTest("TemplateRenderer:", function(){
+test("TemplateRenderer:", function(){
+    //create a div and a template
+    createDummyDivs();
+
     //render the template
     testTemplateRenderer();
 });

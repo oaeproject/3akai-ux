@@ -14,7 +14,7 @@ var pathToMessages;
  */
 var testMessageCallback = function(bool, data){
     //check if there's data returned
-    ok(data, "The message was sent succesfully")
+    ok(data, "The message was sent succesfully");
 
     //save the values from the response into variables
     var responseMessage = data.message["sakai:body"];
@@ -28,12 +28,14 @@ var testMessageCallback = function(bool, data){
     same(responseSubject, dummySubject, "The subject was returned correctly");
 
     //if the category is different than the standard one, check if the category was saved correctly
-    if(data.message["sakai:category"] != "message")
+    if(data.message["sakai:category"] !== "message"){
         same(responseCategory, dummyCategory, "The category was saved correctly");
+    }
 
     //check if the users sent to are correct
-    if(typeof(dummyUser) != "string")
+    if(typeof(dummyUser) !== "string"){
         same(data.message["sakai:to"], "internal:user1,internal:user2", "The users to whom the message was sent were correct");
+    }
 
     //save the path to the message
     pathToMessages.push(data.message["jcr:path"]);
@@ -42,7 +44,8 @@ var testMessageCallback = function(bool, data){
     dummyReply = data.id;
     dummyMessage = "RE:" + dummyMessage;
     sendMessage("",dummyReply);
-}
+};
+
 /**
  * Test the reply message and start the next test
  */
@@ -63,7 +66,7 @@ var testReplyCallback = function(bool,data){
 
     //start the testrunner for the other tests
     start();
-}
+};
 
 /**
  * Login into sakai with user1 and send a message to dummyUser with subject = dummySubject and text = dummyMessage
@@ -81,21 +84,18 @@ var sendMessage = function(category, reply){
         },
         success:function(){
             //check if it's a normal message or a reply, change the callback function
-            if(reply == "")
+            if(reply == ""){
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testMessageCallback);
-            else
+            }else{
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testReplyCallback);
+            }
         },
         error:function(){
             ok(false);
             start();
         }
     });
-}
-
-/*ayncTest("Messaging: Send message to multiple users", function){
-    sendMessage();
-}*/
+};
 
 asyncTest("Messaging: Send message to one person", function(){
     //send a message
@@ -111,36 +111,5 @@ asyncTest("Messaging: Send message to multiple users", function(){
     //change the dummyUser to an array of users
     dummyUser = ["user1","user2"];
     //send message with multiple users
-    sendMessage("","")
+    sendMessage("","");
 });
-
-/**
- * Delete all messages that were sent during the test
- */
-var deleteMessages = function(){
-    var messages = [];
-    //loop over all the messages sent during the test
-    for (var i = 0,j=pathToMessages.length;i<j;i++) {
-        //console.log(pathToMessages[i]);
-
-        //create a json object containing the request to delete the message
-        var message = {
-            "url":pathToMessages[i],
-            "method":"DELETE"
-        };
-        //create one big json object containing all the requests
-        messages.push(message);
-    }
-
-    //convert the json object with the requests to a string
-    var data = $.toJSON(messages);
-
-    //post the requests to the system/batch servlet which will process all the requests
-    $.ajax({
-        url: "/system/batch",
-        type: "POST",
-        data : {
-            "requests": data
-        }
-    });
-}

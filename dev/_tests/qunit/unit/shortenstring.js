@@ -16,7 +16,7 @@ var testShortenString = function(){
     start();
 }
 
-asyncTest("Shorten String: Send message to one person", function(){
+test("Shorten String: Send message to one person", function(){
     //shorten a string
     testShortenString();
 });

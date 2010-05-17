@@ -52,5 +52,5 @@ var testLoadMeData = function(){
  */
 asyncTest("Load ME data: test if the correct data is retrieved and stored in the sakai.data.me object", function(){
     //send a message
-	testLoadMeData();
+    testLoadMeData();
 });
