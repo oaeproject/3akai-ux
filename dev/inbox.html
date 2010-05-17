@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sakai 3 R&amp;D - My Messages</title>
+    <title>Sakai 3 R&amp;D - __MSG__MY_MESSAGES__</title>
 
     <!-- Sakai Core CSS -->
     <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
@@ -129,7 +129,7 @@
                         <div class="top_button_bar">
                             <!-- General msg -->
                             <span class="light-button">
-                                <a href="javascript:;" id="inbox_general_message" style="display:none;">The conversation has been marked as read.</a>
+                                <a href="javascript:;" id="inbox_general_message" style="display:none;">__MSG__THE_CONVERSATION_HAS_BEEN_MARKED_AS_READ__.</a>
                             </span>
 
                             <!-- Delete-->
@@ -147,7 +147,7 @@
                         <div class="main_content_container">
                             <table class="inbox-table" id="inbox_table" summary="All your messages.">
                                 <tr class="different">
-                                    <th class="inbox-checkbox" id="inbox_tableHeader_chk"><input type="checkbox" id="inbox_inbox_checkAll" title="Check all" /></th>
+                                    <th class="inbox-checkbox" id="inbox_tableHeader_chk"><input type="checkbox" id="inbox_inbox_checkAll" title="__MSG__CHECK_ALL__" /></th>
                                     <th class="inbox_inbox_table_header_sort" id="inbox_table_header_from"><span>__MSG__FROM__</span></th>
                                     <th class="inbox_inbox_table_header_sort" id="inbox_table_header_subject"><span>__MSG__SUBJECT__</span></th>
                                     <th class="inbox_inbox_table_header_sort" id="inbox_table_header_type"><span>__MSG__TYPE__</span></th>
@@ -161,18 +161,14 @@
                         <div id="inbox_inbox_sort_up" style="display:none;"><img src="_images/arrow_up_inbox.png" alt="__MSG__UP__" class="inbox_arrow" /></div>
                         <div id="inbox_inbox_sort_down" style="display:none;"><img src="_images/arrow_down_inbox.png" alt="__MSG__DOWN__" class="inbox_arrow" /></div>
 
-                        <div id="inbox_inbox_messages_template"><!--
+                        <div id="inbox_inbox_messages_template" title=""><!--
                         {for m in messages}
                             {var readClass="inbox-subject-unread"}
                             {if m.read}
                                 {var readClass="inbox-subject-read"}
                             {/if}
                             <tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
-<<<<<<< HEAD
-                                <td><input type="checkbox" class="inbox_inbox_check_message" value="${m.id}" id="inbox_check_delete_${m.id}" title="uncheck" /></td>
-=======
-                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" /></td>
->>>>>>> oszkarnagy/master
+                            <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="Checkbox __MSG__DELETE__" /></td>
                                 {if m.messagebox === "outbox"}
                                     {if m.userTo}
                                         <td>
@@ -222,11 +218,11 @@
                     <!-- Header -->
                     <div class="top_toolbar fl-fix">
                         <div class="fl-force-left sender-options">
-                            <a href="javascript:;" id="inbox_message_back_to_inbox"><span>&laquo;</span> Back to Inbox</a>
+                            <a href="javascript:;" id="inbox_message_back_to_inbox"><span>&laquo;</span> __MSG__BACK_TO_INBOX__</a>
                         </div>
 
                         <div class="fl-force-right sender-options">
-                            <a href="javascript:;" id="inbox_message_option_delete">Delete</a>
+                            <a href="javascript:;" id="inbox_message_option_delete">__MSG__DELETE__</a>
                         </div>
                     </div>
 
@@ -241,9 +237,9 @@
                                 <a href="javascript:;" title="__MSG__TO_SEE_THE_SENDERS_PROFILE__"><img src="/dev/_images/profile_picture.gif" class="sender-picture" id="inbox_message_picture" alt="__MSG__SENDERS_PROFILE_PIC__" /></a>
                             </div>
                             <div class="inbox_message_user">
-                                <a href="javascript:;" class="sender-name" id="inbox_message_from" title="From"></a>
+                                <a href="javascript:;" class="sender-name" id="inbox_message_from" title="__MSG__FROM__"></a>
                                 <br />
-                                <div class="sender-timestamp">Sent this on <span id="inbox_message_date"></span></div>
+                                <div class="sender-timestamp">__MSG__SENT_THIS_ON__ <span id="inbox_message_date"></span></div>
                             </div>
                         </div>
 
@@ -259,16 +255,16 @@
                                     <div id="inbox_message_body"></div>
 
                                     <div class="message-options">
-                                        <span id="inbox-invitation-accept" style="display:none"><a href="javascript:;" id="inbox_message_accept_invitation">Accept Invitation</a> |</span>
-                                        <span id="inbox-invitation-already" style="display:none; color: #666">You have accepted this person as a contact |</span>
-                                        <a href="javascript:;" id="inbox_message_option_reply">Reply</a>
+                                        <span id="inbox-invitation-accept" style="display:none"><a href="javascript:;" id="inbox_message_accept_invitation">__MSG__ACCEPT_INVITATION__</a> |</span>
+                                        <span id="inbox-invitation-already" style="display:none; color: #666">__MSG__YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT__ |</span>
+                                        <a href="javascript:;" id="inbox_message_option_reply">__MSG__REPLY__</a>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
 
-                        <h4 id="inbox_message_previous_messages">Previous messages</h4>
+                        <h4 id="inbox_message_previous_messages">__MSG__PREVIOUS_MESSAGES__</h4>
 
                         <div id="inbox_message_replies"></div>
                         <div id="inbox_message_replies_template"><!--
@@ -277,9 +273,9 @@
                             <span style="float:left;">
                                 <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                 {if r.userFrom.picture}
-                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="To see the user's profile information" class="sender-picture" id="inbox_message_picture" />
+                                    <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="To see the user's profile information" id="inbox_message_picture" />
+                                    <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" id="inbox_message_picture" />
                                 {/if}
                             </span>
                             <div class="inbox_message_user">

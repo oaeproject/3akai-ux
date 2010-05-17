@@ -26,7 +26,7 @@ html {
     line-height: 120%;
 }
 
-/* adding a visable outline on focus for accessibility */
+/* adding a visible outline on focus for accessibility */
 *:focus {
     outline: 1px dotted #000;
 }
@@ -40,7 +40,6 @@ h1 {
 }
 
 /* LINKS */
-
 a {
     color: #333;
     text-decoration: none;
@@ -60,11 +59,10 @@ a:hover {
 .s3d-hidden, .i18nable {
     display: none;
 }
-
-/* CHROME STYLES
- *
+/*
+ * CHROME STYLES
+ * HEADINGS
  */
-/* HEADINGS */
 .s3d-site-heading {
     padding: 10px 0;
     font-weight: bold;
@@ -123,7 +121,6 @@ a:hover {
  * Variants:
  * - action series: links are inside list items, each list item is separated by a divider
  */
-
 a.s3d-action, .s3d-actions a {
     color: #006E96;
     font-weight: bold;
@@ -260,12 +257,10 @@ html > body .s3d-button .s3d-button-inner {
 
 /*
  *  background-color: #D6DBDF;
-    background-image: url('../../_images/primary-tabs-sprite.png');
-    background-attachment: scroll;
-    background-position: left -80px;
-
+ *  background-image: url('../../_images/primary-tabs-sprite.png');
+ *  background-attachment: scroll;
+ *  background-position: left -80px;
  */
-
 .s3d-primary-tabs, .s3d-primary-tabs-inner {
     height: 25px;
     border: none;

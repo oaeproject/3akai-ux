@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
@@ -65,7 +65,7 @@
             <h1>__MSG__VIEW_MY_PROFILE__</h1>
         {elseif mode.value==="viewas"}
             <h1>__MSG__VIEW_MY_PROFILE_AS__</h1>
-            <select>
+            <select title="__MSG__VIEW_MY_PROFILE_AS__">
                 <option{if acls.value==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
                 <option{if acls.value==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
                 <option{if acls.value==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
@@ -101,7 +101,7 @@
                     {if mode.value==="edit" || mode.value==="viewmy"}
                         <form id="profilewow_userinfo_status" method="POST" action="javascript:;">
                             <div>
-                                <input id="profilewow_userinfo_status_input" maxlength="255" type="text" {if !status}class="profilewow_userinfo_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${status}"{/if} />
+                                <input id="profilewow_userinfo_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !status}class="profilewow_userinfo_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${status}"{/if} />
                                 <img src="/dev/_images/ajax-loader-gray.gif" alt="__MSG__SAVING__..." style="display:none" />
                                 <span id="profilewow_userinfo_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
                                 <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
@@ -111,7 +111,7 @@
                         <form method="POST" action="javascript:;">
                             <div>
                                 <label for="profilewow_userinfo_chatstatus">__MSG__CHAT_STATUS__: </label>
-                                <select id="profilewow_userinfo_chatstatus">
+                                <select id="profilewow_userinfo_chatstatus" title="__MSG__CHAT_STATUS__">
                                     <option>__MSG__AVAILABLE__</option>
                                     <option>__MSG__BUSY__</option>
                                     <option>__MSG__OFFLINE__</option>
@@ -228,8 +228,8 @@
                 {if mode.value === "edit"}
                     {if data && config.display}
                         <div class="profilewow_generalinfo_subcontainer">
-                            <label class="profilewow_generalinfo_label">${config.label}:</label>
-                            <input type="text" class="profilewow_generalinfo_content" value="${data.value}">
+                            <label class="profilewow_generalinfo_label" for="profilewow_generalinfo">${config.label}:</label>
+                            <input type="text" class="profilewow_generalinfo_content" value="${data.value}" id="profilewow_generalinfo" />
                         </div>
                     {/if}
                 {else}
@@ -249,7 +249,7 @@
                     </div>
                 {/if}
             --></div>
-            
+
 
             <!-- FOOTER -->
             <div id="profilewow_footer" class="fl-push"><!-- --></div>
@@ -278,7 +278,7 @@
                         </button>
                     {/if}
                     {if mode.value !== "view"}
-                        <select>
+                        <select title="__MSG__PREVIEW_AS__">
                             <option class="profilewow_nonselectable" selected="selected">__MSG__PREVIEW_AS__</option>
                             <option>__MSG__PUBLIC__</option>
                             <option>__MSG__INSTITUTION__</option>
