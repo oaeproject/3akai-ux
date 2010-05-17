@@ -1,5 +1,20 @@
 var userlist;
 var container = "<div id='dummyContainer'><div id='dummyDiv'></div><div id='dummyTemplate'><!--${all}--></div></div>";
+var dummyForm = "<form action='javascript:;' id='dummyForm'>" +
+					"<input type='text' name='name' value='john doe'/>" +
+					"<input type='text' value='should not be saved'/>" +
+					"<input type='radio' checked='true' name='gender' value='male'/>" +
+					"<input type='radio' name='gender' value='female'/>" +
+					"<input type='checkbox' checked='true' name='color' value='red'/>" +
+					"<input type='checkbox' name='color' value='green'/>" +
+					"<input type='checkbox' name='color' value='blue'/>" +
+					"<select name='shape'>" +
+					"<option value='square'>Square</option>" +
+					"<option value='circle'>Circle</option>" +
+					"<option value='rectangle'>Rectangle</option>" +
+					"<textarea rows='10' cols='30' name='description'>Demo text area</textarea>" + 
+					"</select>" +
+				"</form>";
 
 /**
  * A function to create new users, the user will be added to the list of dummy users.
@@ -58,7 +73,24 @@ var removeUsers = function(count){
 }
 
 /**
+ * Append a dummy form to the page
+ * @return void
+ */
+var createDummyForm = function(){
+	$("body").append(dummyForm);
+}
+
+/**
+ * Remove the dummy form from the page
+ * @return void
+ */
+var removeDummyForm = function(){
+	$("#dummyForm").remove();
+}
+
+/**
  * Create a dummy container with a output div and a template div
+ * @return void
  */
 var createDummyDivs = function(){
     $("body").append(container);
@@ -66,6 +98,7 @@ var createDummyDivs = function(){
 
 /**
  * Remove the dummy container and all its children
+ * @return void
  */
 var removeDummyDivs = function(){
     $("#dummyContainer").remove();
@@ -74,6 +107,7 @@ var removeDummyDivs = function(){
 /**
  * Do some setup before the module starts (equal to setUp in JUnit)
  * In this case, if it's a messaging test, we create some dummy users
+ * @return void
  */
 QUnit.moduleStart = function (name) {
 	switch(name){
@@ -92,6 +126,10 @@ QUnit.moduleStart = function (name) {
 		case "TemplateRenderer":
 			//create a div and a template
 			createDummyDivs();
+			break;
+		case "FormToJSON":
+			//create a dummy form
+			createDummyForm();
 			break;
 	}
 };
@@ -114,6 +152,10 @@ QUnit.moduleDone = function (name, failures, total) {
     	case "TemplateRenderer":
 			//remove all dummy divs
     		removeDummyDivs();
+			break;
+    	case "FormToJSON":
+    		//remove the dummy form
+			removeDummyForm();
 			break;
     }
 };
