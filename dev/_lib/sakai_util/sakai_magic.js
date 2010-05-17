@@ -96,6 +96,7 @@ sakai.api.Communication = sakai.api.Communication || {};
 sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
 
 	var toUsers = "";
+	if(typeof(to) == "string"){
 		toUsers = "internal:"+to;
 	}else{
 		for(var i=0,il=to.length;i<il;i++){
