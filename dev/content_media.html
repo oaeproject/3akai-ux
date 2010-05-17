@@ -133,7 +133,7 @@
                             <div id="contentmedia_accordion_list_site">
 
                             </div>
-                            <a href="javascript:;" title="Upload new files" id="contentmedia_uploader_trigger">__MSG__UPLOAD_NEW_FILES__</a>
+                            <a href="javascript:;" title="__MSG__UPLOAD_NEW_FILES__" id="contentmedia_uploader_trigger">__MSG__UPLOAD_NEW_FILES__</a>
                             <div id="uploader-contents">
 
                                 <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
@@ -228,10 +228,10 @@
 
                     <div id="contentmedia_main_right">
                             <div id="contentmedia_bar_right">
-                                <a id="contentmedia_actions_view_list" href="javascript:;" title="List view">__MSG__LIST_VIEW__</a>|
-                                <a id="contentmedia_actions_view_thumbnail" href="javascript:;" title="Thumbnail view"><span>__MSG__THUMBNAIL_VIEW__</span></a>|
-                                <a id="contentmedia_actions_edit" href="javascript:;">__MSG__FILE_SETTINGS__</a>|
-                                <a id="contentmedia_actions_remove" href="javascript:;">__MSG__REMOVE_FILES__</a>
+                                <a id="contentmedia_actions_view_list" href="javascript:;" title="__MSG__LIST_VIEW__">__MSG__LIST_VIEW__</a>|
+                                <a id="contentmedia_actions_view_thumbnail" href="javascript:;" title="__MSG__THUMBNAIL_VIEW__"><span>__MSG__THUMBNAIL_VIEW__</span></a>|
+                                <a id="contentmedia_actions_edit" href="javascript:;" title="__MSG__FILE_SETTINGS__">__MSG__FILE_SETTINGS__</a>|
+                                <a id="contentmedia_actions_remove" href="javascript:;" title="__MSG__REMOVE_FILES__">__MSG__REMOVE_FILES__</a>
                             </div>
 
                             <!-- Filters -->
@@ -257,7 +257,7 @@
                                     {/if}
 
                                     {if site.length > 0 || context != "myfiles"}
-                                    <a href="javascript:;" id="contentmedia_remove_filter_context" title="__MSG__REMOVE_THE_TAG_FILTERS__"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__"/></a>
+                                    <a href="javascript:;" id="contentmedia_remove_filter_context" title="__MSG__REMOVE_THE_TAG_FILTERS__"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__" /></a>
                                     {/if}
                                 </div>
                                 {if tag && tag.length > 0}
@@ -271,12 +271,12 @@
                                         {/if}
                                         "${t}"
                                     {/for}
-                                    <a href="javascript:;" id="contentmedia_remove_filter_tag" title="__MSG__REMOVE_THE_TAG_FILTERS__"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__"/></a>
+                                    <a href="javascript:;" id="contentmedia_remove_filter_tag" title="__MSG__REMOVE_THE_TAG_FILTERS__"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__" /></a>
                                 </div>
                                 {/if}
                                 {if search && search !== "*"}
                                 <div class="contentmedia_list_heading">
-                                    Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__"/></a>
+                                    Using "${search}" search query <a href="javascript:;" id="contentmedia_remove_filter_search"><img src="/devwidgets/filemanager/images/remove_filter.png" alt="__MSG__REMOVE_THE_TAG_FILTERS__" /></a>
                                 </div>
                                 {/if}
                             --></div>
@@ -367,7 +367,7 @@
             {/if}
             <span class="contentmedia_hidden">${item.siteref}</span></a>
         {forelse}
-            __MSG_-NO_SITES_FOUND__
+            __MSG__NO_SITES_FOUND__
         {/for}
 
         {if items.length > 0}
@@ -435,14 +435,14 @@
                 <input type="button" value="__MSG__SET_ASSOCIATIONS__" class="fl-push" title="__MSG__SET_ASSOCIATIONS__" />
             </div>
         </div>
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+        <div class="dialog_footer">
+            <div class="dialog_footer_inner"><!-- --></div>
+        </div>
     </div>
     <div id="contentmedia_dialog_remove" class="dialog">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-                <h1>Remove files</h1>
+                <h1>__MSG__REMOVE_FILES__</h1>
                 <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
