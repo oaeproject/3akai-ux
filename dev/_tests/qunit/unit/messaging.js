@@ -7,38 +7,59 @@ var dummyCategory = "sakai";
 var d;
 var u1time;
 var userlist;
+var dummyReply;
+var pathToMessages;
 
 /**
- * Test all that's coming in
+ * Test all that's coming in and send a reply
  */
 var testMessageCallback = function(bool, data){
     //check if there's data returned
     ok(data, "The message was sent succesfully")
+
+    //save the values from the response into variables
     var responseMessage = data.message["sakai:body"];
     var responseSubject = data.message["sakai:subject"];
     var responseCategory = data.message["sakai:category"];
-    same(responseMessage, dummyMessage, "The body was returned correctly");
-    same(responseSubject, dummySubject, "The subject was returned correctly");
-    if(data.message["sakai:category"] != "message")    same(responseCategory, dummyCategory, "The category was saved correctly");
-    start();
-}
 
+    //check the body of the response
+    same(responseMessage, dummyMessage, "The body was returned correctly");
+
+    //check the subject of the response
+    same(responseSubject, dummySubject, "The subject was returned correctly");
+
+    //if the category is different than the standard one, check if the category was saved correctly
+    if(data.message["sakai:category"] != "message")
+        same(responseCategory, dummyCategory, "The category was saved correctly");
+
+    //save the path to the message
+    pathToMessages.push(data.message["jcr:path"]);
+
+    //send a reply to the message we just sent
+    dummyReply = data.id;
+    dummyMessage = "RE:" + dummyMessage;
+    sendMessage("",dummyReply);
+}
 /**
- * Get a user to send to (NOT USED FOR NOW)
+ * Test the reply message and start the next test
  */
-var getUser = function(){
-    searchURL = sakai.config.URL.SEARCH_USERS + "?items=1&username=user2"+u1time+"&s=sakai:firstName&s=sakai:lastName";
-    $.ajax({
-        url: searchURL,
-        type: "GET",
-        success: function(data){
-            //found user, save it into a global variable
-            alert(data);
-        },
-        error: function(){
-            //no user was found
-        }
-    });
+var testReplyCallback = function(bool,data){
+    //test that some data came in
+    ok(data, "The reply was successful");
+
+    //test that the body was correct
+    same(data.message["sakai:body"], dummyMessage, "The body was returned correctly");
+
+    //test that the id of the previous message is in the response of the reply
+    same(data.message["sakai:previousmessage"], dummyReply, "The previousmessage id equals the id of the first message");
+
+    //reset the data to its start values
+    dummyReply="";
+    dummyMessage = dummyMessage.substring(3);
+    pathToMessages.push(data.message["jcr:path"]);
+
+    //start the testrunner for the other tests
+    start();
 }
 
 /**
@@ -56,101 +77,68 @@ var sendMessage = function(category, reply){
             "_charset_": "utf-8"
         },
         success:function(){
-        	sakai.api.Communication.sendMessage(dummyUser+u1time, dummySubject, dummyMessage, category, reply, testMessageCallback);
+            //check if it's a normal message or a reply, change the callback function
+            if(reply == "")
+                sakai.api.Communication.sendMessage(dummyUser+u1time, dummySubject, dummyMessage, category, reply, testMessageCallback);
+            else
+                sakai.api.Communication.sendMessage(dummyUser+u1time, dummySubject, dummyMessage, category, reply, testReplyCallback);
         },
         error:function(){
-        	ok(false);
-        	start();
+            ok(false);
+            start();
         }
     });
 }
 
+/*ayncTest("Messaging: Send message to multiple users", function){
+    sendMessage();
+}*/
+
 asyncTest("Messaging: Send message to one person", function(){
-    //login
+    //send a message
     sendMessage("","");
 });
 
 asyncTest("Messaging: Send message to one person with a different category", function(){
-	//login
+    //send a message with a custom category
     sendMessage(dummyCategory,"");
 });
 
 /**
- * A recursive function that creates users from the userlist
- * @param {Integer} count The current number of the user in the userlist array
+ * Delete all messages that were sent during the test
  */
-var createUsers = function(count){
-
-    if(count !== userlist.length){
-        //var username = userlist[count].firstName + " " + userlist[count].lastName;
-        
-        $.ajax({
-            url: "/system/userManager/user.create.json",
-            type: "POST",
-            data: userlist[count],
-            success: function(data){
-                //log("Created " + username, true);
-            },
-            error: function(data){
-                //log("Failed to create " + username, false);
-            },
-            complete: function(){
-                count++;
-                createUsers(count);
-            }
-        });
+var deleteMessages = function(){
+    for (var i = 0,j=pathToMessages.length;i<j;i++) {
+        pathToMessages[i] = "/_user/message/" + pathToMessages[i];
     }
-};
-
-/**
- * A recursive function that removes users from the userlist
- * @param {Integer} count The current number of the user in the userlist array
- */
-var removeUsers = function(count){
     
-    if(count !== userlist.length){
-        var username = userlist[count][":name"];
-        $.ajax({
-            url: "/system/userManager/" + username + ".delete.json",
-            type: "POST",
-            success: function(data){
-                //log("Created " + username, true);
-            },
-            error: function(data){
-                //log("Failed to create " + username, false);
-            },
-            complete: function(){
-                count++;
-                removeUsers(count);
-            }
-        });
+    //TODO create a json object containing a JSON Object for each message, e.g.:
+    /*[
+    {
+      "url" : "/foo/bar",
+      "method" : "POST",
+      "parameters : {
+        "val" : 123,
+        "val@TypeHint" : "Long"
+      }
+    },
+    {
+      "url" : "/_user/a/ad/admin/public/authprofile.json",
+      "method" : "GET"
     }
+    ]*/
+    $.ajax({
+        url: "/system/batch",
+        type: "POST",
+        success: function(data) {
+
+        },
+        error: function(xhr, textStatus, thrownError) {
+
+        },
+        data : {
+            "resources": pathToMessages,
+            "_charset_": "utf-8"
+        }
+    });
 }
-
-/**
- * Do some setup before the module starts (equal to setUp in JUnit)
- * In this case, if it's a messaging test, we create some dummy users
- */
-QUnit.moduleStart = function (name) {
-    if(name.match(/Messaging/)){
-    	d = new Date();
-    	u1time = d.getMilliseconds();
-    	userlist = [
-    	            {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"+u1time},
-    	            {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"+u1time}
-    	        ];
-        //create users
-        createUsers(0);
-    }
-};
-
-/**
- * After the test is done, we undo some of the things we did during the test to keep sakai clean.(equal to tearDown in JUnit)
- * In this case, if the test is a messaging test, we remove all the dummy users
- */
-QUnit.moduleDone = function (name, failures, total) {
-    if(name.match(/Messaging/)){
-        //remove users
-        removeUsers(0);
-    }
-};
