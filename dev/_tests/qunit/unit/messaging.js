@@ -93,6 +93,10 @@ var sendMessage = function(category, reply){
     });
 }
 
+/*ayncTest("Messaging: Send message to multiple users", function){
+    sendMessage();
+}*/
+
 asyncTest("Messaging: Send message to one person", function(){
     //send a message
     sendMessage("","");
