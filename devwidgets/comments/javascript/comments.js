@@ -64,6 +64,7 @@ sakai.comments = function(tuid, showSettings){
     var commentsEditText = comments + "_editComment_txt_";
     var commentsEditSave = commentsClass + "_editComment_save";
     var commentsEditCancel = commentsClass + "_editComment_cancel";
+    var commentsPath = comments + "_path_";
 
     // Delete
     var commentsDelete = commentsClass + "_delete";
@@ -685,7 +686,7 @@ sakai.comments = function(tuid, showSettings){
      * @param {Boolean} deleteValue true = delete it, false = undelete it.
      */
     var doDelete = function(id, deleteValue){
-        var url = store + id;
+        var url = $(commentsPath+id).val();
         var data = {
             "sakai:deleted": deleteValue
         };
@@ -739,7 +740,7 @@ sakai.comments = function(tuid, showSettings){
                 "sakai:editedby": me.user.userid + "|" + new Date().toUTCString()
             };
             // Do a post to the comment to edit the message.
-            var commentUrl = store + id;
+            var commentUrl = $(commentsPath+id).val();
             $.ajax({
                 url: commentUrl,
                 cache: false,
