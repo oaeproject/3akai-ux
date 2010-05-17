@@ -40,6 +40,7 @@
 
                 <div class="comments_commentMessage">
                 <div class="comments_commentLinks">
+                    <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
                         {if i.canEdit && i.canEdit === true}
                             <li><a href="javascript:;" class="comments_edit" id="comments_edit_${i['sakai:id']}">Edit</a></li>
