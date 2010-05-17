@@ -7,5 +7,7 @@
 "NO_POPULAR_SERVICES" : "Could not retrieve popular services from AddThis.",
 "SETTINGS_NOT_SAVED" : "Settings could not be saved.",
 "SETTINGS_NOT_LOADED" : "Default settings loaded.",
-"SELECT_SERVICE" : "Select at least one service."
+"SELECT_SERVICE" : "Select at least one service.",
+"ALL" : "All",
+"NONE" : "None"
 }

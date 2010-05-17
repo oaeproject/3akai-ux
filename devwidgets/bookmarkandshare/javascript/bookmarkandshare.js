@@ -57,11 +57,15 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     var $frmPopularServices = $("#bookmarkandshare_frm_popular_services", $rootel);
     var $popularService = $(".bookmarkandshare_popularchk", $rootel);
 
-    // ERRORS
+    // Errors
     var $noPopularError = $("#bookmarkandshare_error_nopopular", $rootel);
     var $settingsNotSavedError = $("#bookmarkandshare_error_settings_save", $rootel);
     var $settingsNotLoadedError = $("#bookmarkandshare_error_settings_load", $rootel);
     var $selectServiceError = $("#bookmarkandshare_error_select_service", $rootel);
+
+    // Internationalization
+    var $allInternationalization = $("#bookmarkandshare_internationalization_all", $rootel).html();
+    var $noneInternationalization = $("#bookmarkandshare_internationalization_none", $rootel).html();
 
     // holds if the select all button has been clicked
     var allChecked = false;
@@ -105,6 +109,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
 
     /**
      * Function that will close the container when the saving is done
+     * @param {Boolean} success Boolean indicating if the save has been successful
      */
     var closeContainer = function(success){
         if (success) {
@@ -131,7 +136,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
 
     /**
      * Count the number of checked boxes for the popular services
-     * return number (max 10)
+     * @returns {Number} return a number with a maximum of 10.
      */
     var checkCount = function(){
         return $frmPopularServices.children("input:checked").length;
@@ -152,7 +157,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             // Save the json
             saveSettings(jsonArr);
         } else {
-            fluid.log("Select at least one service.");
+            fluid.log("Bookmark and share - Select at least one service.");
             $settingsContentHolder.append($selectServiceError);
         }
     };
@@ -161,7 +166,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Set label when all checkboxes are checked
      */
     var allCheckedServiceLabel = function(){
-        $selectAllServices.html("None");
+        $selectAllServices.html($noneInternationalization);
         allChecked = true;
     };
 
@@ -169,30 +174,29 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Set label when not all checkboxes are checked
      */
     var uncheckedServiceLabel = function(){
-        $selectAllServices.html("All");
+        $selectAllServices.html($allInternationalization);
         allChecked = false;
     };
 
     /**
      * Check or uncheck checkboxes depending on the boolean coming in
-     * @param {Object} check Boolean to check or uncheck checkboxes
+     * @param {Boolean} check Boolean to check or uncheck checkboxes
      */
     var checkBoxes = function(check){
-        $frmPopularServices.children("input").each(function(){
-            $(this)[0].checked = check;
-        });
+        $frmPopularServices.children("input").attr("checked", check);
     };
 
     /**
      * Check or uncheck all checkboxes for the popular services at once
-     * @param {Object} check variable that says to check or uncheck all checkboxes, when individual checkbox is clicked this var contains 'individualchk'
+     * @param {Number} Number from 0 to 2. 0 unchecks everything, 1 checks everything and 2 (un)checks single box and checks labels
      */
     var checkPopularServices = function(check){
         removeErrorMessages();
         switch (check) {
             case 0:
+                // Uncheck boxes and set labels accordingly
                 if (checkCount() === 10) {
-                    $selectAllServices.html("All");
+                    $selectAllServices.html($allInternationalization);
                     allChecked = false;
                     // Uncheck everything
                     checkBoxes(check);
@@ -202,7 +206,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
                 }
                 break;
             case 1:
-                // Check everything
+                // Check boxes and set labels accordingly
                 checkBoxes(check);
                 // Set label
                 allCheckedServiceLabel();
@@ -223,7 +227,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     /**
      * Function fills up the settings form
      * checks checkboxes that are marked as checked in the settings file
-     * @param {Object} success boolean that tells if the load of the data was successful
+     * @param {Boolean} success Boolean that tells if the load of the data was successful
      * @param {Object} results json results returned from data load
      */
     var checkPopularBoxes = function(success, results){
@@ -234,13 +238,14 @@ sakai.bookmarkandshare = function(tuid, showSettings){
                 allCheckedServiceLabel();
             }
         }else{
-            fluid.log("No settings could be loaded.");
+            fluid.log("Bookmark and share - No settings could be loaded.");
             $settingsContentHolder.append($settingsNotLoadedError);
         }
     };
 
     /**
      * Show the 'Popular' page on the settings page of the widget
+     * @param {Object} results contains results from the Ajax call with popular services
      */
     var showPopular = function(results){
         if (results) {
@@ -294,7 +299,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
                 showPopular(data);
             },
             error: function(){
-                fluid.log("Could not retrieve popular services from AddThis.");
+                fluid.log("Bookmark and share - Could not retrieve popular services from AddThis.");
                 $settingsContentHolder.append($noPopularError);
             }
         });
@@ -312,7 +317,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
 
     /**
      * Fill the share button with services chosen through the settings screen
-     * @param {Object} success boolean that tells if the load of the data was successful
+     * @param {Boolean} success boolean that tells if the load of the data was successful
      * @param {Object} results json results returned from data load
      */
     var populateShareButton = function(success, results){
@@ -332,7 +337,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
         $shareButton = $("#bookmarkandshare_share_button");
         // Add rounded corners to button
         $shareButton.corners();
-        // Set width of div by calculating it
+        // Set width of share button div by calculating it
         var divwidth = 90 + (selectedServices.length * 23);
         $shareButton.css("width", divwidth);
     };
