@@ -1901,59 +1901,16 @@ sakai.navigationchat = function(tuid, showSettings){
     var loadRecentSites = function(){
         var json = {};
         json.count = 0;
-
-            $.ajax({
-                url: "/_user" + sakai.data.me.profile.path + "/private/recentactivity",
-                cache: false,
-                success: function(data){
-                    // The response is a json object with an "items" array that contains the
-                    // names for the recent sites.
-                    var items = $.evalJSON(data);
-
-                    // Do a request to the site service with all the names in it.
-                    // This will give us the proper location, owner, siteid,..
-                    var url = "/system/batch?";
-                    var n_items = {};
-                    n_items.items = [];
-
-                    for (var i = 0; i < items.items.length; i++) {
-                        n_items.items[i] = "resources=/sites/" + items.items[i] + ".json";
-                    }
-                    url += n_items.items.join("&");
-
-
-                    $.ajax({
-                        url: url,
-                        cache: false,
-                        success: function(data){
-                            var response = $.evalJSON(data);
-                            json = {};
-                            json.items = [];
-                            json.count = 0;
-
-                            // We do a check for the number of sites we have.
-                            // If we only have 1 site we will get a JSONObject
-                            // If we have multiple it will be an array of JSONObjects.
-                            for (var i = 0; i < response.length; i++) {
-                                var el = {};
-                                var site = $.evalJSON(response[i].data);
-                                el.location = site.id;
-                                el.name = site.name;
-                                json.items[json.items.length] = el;
-                                json.count++;
-                            }
-                            renderRecentSites(json);
-                        },
-                        error: function(xhr, textStatus, thrownError) {
-                            renderRecentSites(json);
-                        }
-                    });
-
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    renderRecentSites(json);
-                }
-            });
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
+            if (success) {
+                var json = $.evalJSON(data);
+                json.count = json.items.length;
+                renderRecentSites(json);
+            }
+            else {
+                renderRecentSites(json);
+            }
+        });
     };
 
     /**
