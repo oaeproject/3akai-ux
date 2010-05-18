@@ -381,7 +381,8 @@ sakai.entity = function(tuid, showSettings){
             getUnreadMessagesCount(function(){
 
                 // Set the profile for the entity widget to the personal profile information
-                entityconfig.data.profile = sakai.data.me.profile;
+                // We need to clone the sakai.data.me.profile object so we don't interfere with it
+                entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
 
                 // Set the correct profile data
                 setProfileData();
