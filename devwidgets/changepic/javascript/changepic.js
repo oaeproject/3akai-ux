@@ -66,7 +66,7 @@ sakai.changepic = function(tuid, showSettings){
     var thumbnailContainer = "#thumbnail_container";
 
     // An array with selectors pointing to images that need to be changed.
-    var imagesToChange = ["#picture_holder img", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profilewow_userinfo_picture"];
+    var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profilewow_userinfo_picture"];
 
 
     ///////////////////

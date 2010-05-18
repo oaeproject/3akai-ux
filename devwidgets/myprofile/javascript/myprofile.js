@@ -52,7 +52,7 @@ sakai.myprofile = function (tuid, showSettings) {
     var availableStatus_busy = availableStatus + "busy";
     var availableStatus_offline = availableStatus + "offline";
 
-    var headerChatUserId = "#userid";        //    The username in the chat bar.
+    var headerChatUserId = "#user_link"; // The username in the chat bar.
 
 
     /////////////////

@@ -252,15 +252,6 @@ sakai.dashboard = function(){
         }
         else {
 
-            $("#hispan").text(person.profile.firstName);
-
-            if (person.profile.picture){
-                var picture = $.evalJSON(person.profile.picture);
-                if (picture.name) {
-                    $("#picture_holder").html("<img src='/_user" + person.profile.path + "/public/profile/" + picture.name + "'/>");
-                }
-            }
-
             $(".body-container").show();
 
             if (domyportal) {
@@ -956,7 +947,7 @@ sakai.dashboard = function(){
 
         // Set the entity mode
         sakai.data.entity = sakai.data.entity || {};
-        sakai.data.entity.mode = "profile";
+        sakai.data.entity.mode = "myprofile";
 
         /*
          * This will try to load the dashboard state file from the SData personal space
