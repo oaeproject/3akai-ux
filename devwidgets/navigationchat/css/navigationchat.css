@@ -26,7 +26,7 @@
 .explore_nav ul { padding:0; margin:0; }
 .explore_nav li { float: left; list-style:none none; padding: 0; margin: 0; }
 .explore_nav .explore { font-size: 1em; }
-.explore_nav ul.explore li { padding: 0; padding-bottom: 6px; border-left: 1px solid #878a8c; }
+.explore_nav ul.explore li { padding: 0; padding-bottom: 0px; border-left: 1px solid #878a8c; }
 .explore_nav .explore li#nav_my_sakai_link { border-left: none; }
 .explore_nav .explore li a { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
 .explore_nav .explore li small { color:#ddd; font-size: 0.85em; }
@@ -147,8 +147,8 @@
 
 /* MAIN */
 .dropdown {background-color:#878a8c;padding:0px 0px 72px 0px; margin-bottom: -72px;}
-.dropdown_mysites .fixed-container, .dropdown .fixed-container { width: 920px; margin: 0 auto; background-color: white; overflow: auto;}
-.dropdown h2 {color:#878a8c;font-size:1em;padding:0px 0px 10px 0px; font-weight: normal;}
+.dropdown_mysites .fixed-container, .dropdown .fixed-container { width: 920px; margin: 0 auto; background-color: white; overflow: auto; padding-bottom:10px;}
+.dropdown h2 {color:#878a8c;font-size:1em;padding:0px 0px 0px 0px; font-weight: normal;}
 .dropdown .dropdown_contacts {border-right:1px solid #878A8C;float:left;margin-top: 20px; margin-bottom: 15px; width:380px;}
 .dropdown .dropdown_contacts .dropdown_person {float:left;padding-bottom:10px;padding-right:10px;width:80px;}
 .dropdown .dropdown_contacts .dropdown_person_picture {background-image:url(/dev/_images/person_icon.png);background-repeat:no-repeat;width:60px;height:60px;display:block;padding:0 0 5px;}
@@ -160,7 +160,7 @@
 .dropdown .close img {position:relative;top:5px;padding-left:5px;}
 .dropdown .dropdown_sites {border-right:1px solid #878a8c; margin-top: 20px; width:230px;}
 .dropdown .dropdown_recent_sites {width:230px;border-right:1px solid #878a8c;margin-left:25px; margin-top: 20px; }
-.dropdown .dropdown_search_course_sites {margin-left:540px; margin-top: 20px;}
+.dropdown .dropdown_search_course_sites {margin-left:540px; margin-top: 30px;}
 .dropdown ul {margin:0;padding:0 0 10px;}
 .dropdown ul li {list-style-type:none;padding:2px 0;}
 .close {margin-bottom:-25px;position:relative;top:-30px;margin-right:25px;}
@@ -168,12 +168,19 @@
 .initiate_chat_window,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
 .dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
 #people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}
-.chat_has_dropdown img {margin-left:-10px; margin-top: 11px; padding-right: 10px;}
 #people_dropdown_my_contacts_list {padding-bottom: 10px;}
+
+/* Courses & Sites Dropdown */
 .dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/_images/dropdown_bottom_left.png) no-repeat; height: 10px;}
 .dropdown_bottom_part_right {background: url(/dev/_images/dropdown_bottom_right.png) no-repeat top right; height: 10px;}
-
-
+.dropdown .dropdown_create_sakai_site {padding-top:20px;padding-bottom:20px;}
+.dropdown .dropdown_create_sakai_site a {background: url(/dev/_images/create_new_site_button_left.png) ;background-repeat:no-repeat;display:block;float:left;height:10px;text-indent:0; padding:9px 10px 9px 40px; color: #006e96; font-weight: bold;}
+.dropdown .dropdown_create_sakai_site img {position:relative;top:4px;padding-right:5px;}
+.explore_nav .explore li a{color:#FFFFFF;display:block;float:left;font-weight:bold;padding:8px 20px;text-align:center;}
+.explore_nav_selected_dropdown {background-color:#FFFFFF !important;height:46px;}
+.explore_nav_selected_dropdown span{color:#595E62 !important;}
+.chat_has_dropdown img, .chat_has_dropdown span { float:left; position:relative;}
+.chat_has_dropdown img { padding:1px 0px 0px 0px; margin:0px 0px 0px 5px;}
 
 /* create site button
  * overrides sd3-button from sakai.base.css

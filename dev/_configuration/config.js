@@ -36,6 +36,7 @@ sakai.config = {
         PUBLIC_MY_DASHBOARD_URL: "/dev/public_my_sakai.html",
         PUBLIC_PEOPLE_URL: "/dev/public_people.html",
         PUBLIC_SEARCH_URL: "/dev/public_search.html",
+        RECENT_SITES_URL: "/_user/private/__USERSTORAGEPREFIX__recentsites.json",
         SEARCH_CONTENT_URL: "/dev/search_content.html",
         SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_PEOPLE_URL: "search_people.html",
