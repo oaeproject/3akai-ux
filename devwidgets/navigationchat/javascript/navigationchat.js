@@ -1916,13 +1916,12 @@ sakai.navigationchat = function(tuid, showSettings){
     /**
      * Drop down the sites container under the top navigation bar
      */
-    var isSelected = false;
+    var selectedID = "";
     $(navCoursesSitesLinkClassSelector).live("click", function(ev) {
         if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length === 0){
 
             // Show the courses and sites.
-            if ($(navCoursesSitesLink).hasClass("explore_nav_selected"))
-              isSelected = true;
+            selectedID = $("li.explore_nav_selected").attr("id");
               
             $(mySitesDropDownMain).show();
             $(mySitesDropDownClose).show();
@@ -1947,8 +1946,7 @@ sakai.navigationchat = function(tuid, showSettings){
         selectPage();
         $(navPeopleLink).addClass(navPeopleLinkClass);
         $(navCoursesSitesLink).addClass(navCoursesSitesLink);
-        if (isSelected)
-          $(navCoursesSitesLink).addClass("explore_nav_selected");
+        $("#"+selectedID).addClass("explore_nav_selected");
     });
 
     if (sakai.data.me.user.anon) {
