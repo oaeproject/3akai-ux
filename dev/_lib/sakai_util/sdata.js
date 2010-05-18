@@ -254,7 +254,7 @@ sdata.widgets.WidgetLoader = {
                     var item = {
                         "url" : k,
                         "method" : "GET"
-                    }
+                    };
                     urls[urls.length] = item;
                 }
             }
@@ -571,7 +571,7 @@ sdata.files = {
                     }
                     else {
                         if (aType !== "sakai/folder" && bType === "sakai/folder") {
-                            return 1
+                            return 1;
                         }
                         else {
                             sakai.api.Util.Sorting.naturalSort(a.name, b.name);
