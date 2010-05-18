@@ -2,16 +2,52 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css"></link>
 
 <!-- CONTAINER -->
-<div id="entity_container" class="fl-container-900" style="display:none">
-    
-</div>
+<div id="entity_container" class="fl-container-900 fl-fix" style="display:none"><!--
+--></div>
 
 <div id="entity_container_template"><!--
-    <div class="fl-col fl-container-400">
-        <img id="entity_profile_picture" src="/dev/_images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__" />
+    <div class="fl-col entity_container_left">
+        {if mode === "myprofile" || mode === "profile"}
+            <div class="fl-force-left">
+                {if data.profile && data.profile.picture}
+                    <img class="entity_picture" id="entity_profile_picture" src="${data.profile.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.profile.firstName} ${data.profile.lastName}" />
+                {else}
+                    <img class="entity_picture" id="entity_profile_picture" src="/dev/_images/default_profile_picture_96.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${data.profile.firstName} ${data.profile.lastName}" />
+                {/if}
+                {if mode === "myprofile"}
+                    <br />
+                    <a href="javascript:;" class="s3d-action" id="changepic_container_trigger">__MSG__CHANGE_PHOTO__</a>
+                {/if}
+            </div>
+            <h2 class="entity_header">
+                <a href="/dev/profile.html?user=${data.profile["rep:userId"]}">${data.profile.firstName} ${data.profile.lastName}</a>
+            </h2>
+            <form method="POST" action="javascript:;">
+                <div>
+                    <label for="entity_profile_chatstatus">__MSG__CHAT_STATUS__: </label>
+                    <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
+                        <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE__</option>
+                        <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
+                        <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
+                    </select>
+                </div>
+            </form>
+            <form id="entity_profile_status" method="POST" action="javascript:;">
+                <div>
+                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                </div>
+            </form>
+        {/if}
     </div>
-    <div class="fl-col fl-container-500">
-        <h2>wer</h2>
+    <div class="fl-col entity_container_right s3d-actions">
+        {if mode === "myprofile"}
+            <strong>__MSG__MESSAGES__:</strong>
+            <a href="/dev/inbox.html">${data.count.messages_unread|default:0} __MSG__UNREAD__</a>
+        {/if}
     </div>
 --></div>
 
