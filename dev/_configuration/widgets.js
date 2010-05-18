@@ -63,6 +63,20 @@ var Widgets = {
             showinsakaigoodies:true,
             url:"/devwidgets/basiclti/basiclti.html"
         },
+        bookmarkandshare: {
+            ca: true,
+            description: "Bookmark and share widget",
+            i18n: {
+                "default": "/devwidgets/bookmarkandshare/bundles/default.json",
+                "en_US": "/devwidgets/bookmarkandshare/bundles/en_US.json",
+                "nl_NL": "/devwidgets/bookmarkandshare/bundles/nl_NL.json"
+            },
+            img: "/devwidgets/bookmarkandshare/images/addthis.png",
+            id: "bookmarkandshare",
+            name: "Bookmark and share",
+            showinsakaigoodies: true,
+            url:"/devwidgets/bookmarkandshare/bookmarkandshare.html"
+        },
         changepic: {
             i18n: {
                 "default": "/devwidgets/changepic/bundles/default.json",

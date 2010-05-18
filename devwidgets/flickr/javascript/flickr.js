@@ -59,7 +59,6 @@ sakai.flickr = function(tuid, showSettings){
     var $flickrPreviousUser = $('#flickr_previous_user',rootel);
     var $flickrSeperation = $('.flickr_seperation',rootel);
 
-
     /*Second Accordeon */
     var $flickrSearchInput = $("#flickr_key_input",rootel); // Input box
     var $flickrKeyGallery = $('#flickr_key_gallery',rootel); // Div where the images will be displayed

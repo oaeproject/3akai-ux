@@ -1,206 +1,206 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sakai 3 R&amp;D - Create a new account</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 R&amp;D - __MSG__CREATE_A_NEW_ACCOUNT__</title>
 
-    <!-- Sakai Core CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css"/>
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css"/>
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
-    <!-- Sakai Page CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.create_new_account.css" />
+        <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.create_new_account.css" />
 
-    <!-- 3rd party CSS -->
+        <!-- 3rd party CSS -->
 
-    <!-- Sakai Config JS -->
-    <script type="text/javascript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" src="_configuration/config.js"></script>
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
 
-    <!-- Core 3rd-party JS -->
-    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
-    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
-    <!-- Sakai Core JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
-    <!-- 3rd party JS -->
-    <script type="text/javascript" src="_lib/Jcap/jcap.js"></script>
-    <script type="text/javascript" src="_lib/Jcap/md5.js"></script>
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="_lib/Jcap/jcap.js"></script>
+        <script type="text/javascript" src="_lib/Jcap/md5.js"></script>
 
-</head>
+    </head>
 
-<body class="fl-centered create_account i18nable">
+    <body class="fl-centered create_account i18nable">
 
-    <!-- TOP NAV BAR -->
-    <div class="topnav" style="display: none;">
-        <ul>
-            <li><a href="javascript:;" class="topnav_sign_in">Sign in</a></li>
-            <li><a href="javascript:;" class="topnav_about">About</a></li>
-            <li><a href="javascript:;" class="topnav_search">Search</a></li>
-        </ul>
-    </div>
-
-    <!-- HEADER -->
-    <div class="fl-fix fl-centered header_container">
-        <div class="header-title">
-            <img src="_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
+        <!-- TOP NAV BAR -->
+        <div class="topnav" style="display: none;">
+            <ul>
+                <li><a href="javascript:;" class="topnav_sign_in">__MSG__SIGN_IN__</a></li>
+                <li><a href="javascript:;" class="topnav_about">__MSG__ABOUT__</a></li>
+                <li><a href="javascript:;" class="topnav_search">__MSG__SEARCH__</a></li>
+            </ul>
         </div>
-        <div class="header-byline">
-            __MSG__HEADER_BYLINE__
-        </div>
-    </div>
 
-    <!-- CONTENT -->
-    <div class="fl-centered content">
-
-        <div class="content_top_corners"><!-- --></div>
-
-        <div class="content_inside">
-
-            <!-- CONTENT HEADER -->
-            <h3>Create new account</h3>
-
-            <!-- TOP BORDER -->
-            <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
-
-            <!-- PAGE CONTENT -->
-            <div class="content_main">
-
-                <!-- Set fields red by adding the invalid class -->
-                <form class="create_account_form" id="create_account_form" method="post" action="javascript:;">
-                    <table summary="Create a new account">
-                        <!-- FIRST NAME -->
-                        <tr>
-                            <td class="label_container"><label for="firstname">First Name:</label></td>
-                            <td><input type="text" maxlength="255" id="firstname" name="firstname" class="create_account_input" value="" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><div id="firstname_empty" class="create_account_error_msg">Please enter your first name!</div></td>
-                        </tr>
-
-                        <!-- LAST NAME -->
-                        <tr>
-                            <td class="label_container"><label for="lastname">Last Name:</label></td>
-                            <td><input type="text" maxlength="255" id="lastname" name="lastname" class="create_account_input" value="" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><div id="lastname_empty" class="create_account_error_msg">Please enter your last name!</div></td>
-                        </tr>
-
-                        <!-- EMAIL -->
-                        <tr>
-                            <td class="label_container"><label for="email">Email:</label></td>
-                            <td><input type="text" maxlength="255" id="email" name="email" class="create_account_input" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div id="email_empty" class="create_account_error_msg">Please enter your email address!</div>
-                                <div id="email_invalid" class="create_account_error_msg">This is an invalid email address!</div>
-                            </td>
-                        </tr>
-
-                        <!-- USERNAME -->
-                        <tr>
-                            <td class="label_container"><label id="username_label" for="username">Username:</label></td>
-                            <td><input type="text" maxlength="255" id="username" name="username" class="create_account_input" /></td>
-                            <td>
-                                <button type="button" id="checkUserName" class="s3d-button"><span class="s3d-button-inner">Check if username is available</span></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div id="username_taken" class="create_account_error_msg">This username has already been taken!</div>
-                                <div id="username_spaces" class="create_account_error_msg">The username shouldn't contain spaces!</div>
-                                <div id="username_invalid" class="create_account_error_msg">The username contains invalid characters!</div>
-                                <div id="username_short" class="create_account_error_msg">The username should be at least 3 characters long!</div>
-                                <div id="username_empty" class="create_account_error_msg">Please enter your username!</div>
-                                <div id="username_available" class="username_available">This username is available</div>
-                            </td>
-                        </tr>
-
-                        <!-- PASSWORD -->
-                        <tr>
-                            <td class="label_container"><label for="password">Password:</label></td>
-                            <td><input type="password" maxlength="255" id="password" name="password" class="create_account_input" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div id="password_empty" class="create_account_error_msg">Please enter your password!</div>
-                                <div id="password_short" class="create_account_error_msg">Your password should be 4 characters long!</div>
-                            </td>
-                        </tr>
-
-                        <!-- PASSWORD REPEAT -->
-                        <tr>
-                            <td class="label_container"><label for="password_repeat">Re-type password:</label></td>
-                            <td><input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div id="password_repeat_empty" class="create_account_error_msg">Please repeat your password!</div>
-                                <div id="password_repeat_nomatch" class="create_account_error_msg">This password does not match the first one!</div>
-                            </td>
-                        </tr>
-
-                        <!-- CAPTCHA -->
-                        <tr>
-                            <td class="label_container"><label for="uword">Please type the word below:</label></td>
-                            <td><input type="text" id="uword" maxlength="255" name="uword" class="create_account_input" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div id="uword_empty" class="create_account_error_msg">Please enter the word below!</div>
-                                <div id="uword_nomatch" class="create_account_error_msg">This does not match the word below!</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="captcha_container"><script type="text/javascript">sjcap();</script></td>
-                        </tr>
-
-                        <!-- BUTTONS -->
-                        <tr class="create_account_button_bar">
-                            <td></td>
-                            <td>
-                                <div>
-                                    <button id="save_account" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">Create account</span></button>
-                                    <button id="cancel_button" class="s3d-button" type="reset"><span class="s3d-button-inner">Cancel</span></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><div id="success_message" class="success_message">Account successfully created. <a href="index.html">Click here to login.</a></div></td>
-                        </tr>
-
-                    </table>
-
-                </form>
+        <!-- HEADER -->
+        <div class="fl-fix fl-centered header_container">
+            <div class="header-title">
+                <img src="_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
             </div>
-
-            <!-- BOTTOM BORDER -->
-            <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
-
+            <div class="header-byline">
+                __MSG__HEADER_BYLINE__
+            </div>
         </div>
-    </div>
 
-    <!-- FOOTER WIDGET -->
-    <div id="widget_footer" class="widget_inline footercontainer"></div>
+        <!-- CONTENT -->
+        <div class="fl-centered content">
 
-    <script type="text/javascript" src="_javascript/createnewaccount.js"></script>
-</body>
+            <div class="content_top_corners"><!-- --></div>
+
+            <div class="content_inside">
+
+                <!-- CONTENT HEADER -->
+                <h3>__MSG__CREATE_A_NEW_ACCOUNT__</h3>
+
+                <!-- TOP BORDER -->
+                <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
+
+                <!-- PAGE CONTENT -->
+                <div class="content_main">
+
+                    <!-- Set fields red by adding the invalid class -->
+                    <form class="create_account_form" id="create_account_form" method="post" action="javascript:;">
+                        <table summary="Create a new account">
+                            <!-- FIRST NAME -->
+                            <tr>
+                                <td class="label_container"><label for="firstname">__MSG__FIRSTNAME__:</label></td>
+                                <td><input type="text" maxlength="255" id="firstname" name="firstname" class="create_account_input" value="" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><div id="firstname_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__!</div></td>
+                            </tr>
+
+                            <!-- LAST NAME -->
+                            <tr>
+                                <td class="label_container"><label for="lastname">__MSG__LASTNAME__:</label></td>
+                                <td><input type="text" maxlength="255" id="lastname" name="lastname" class="create_account_input" value="" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><div id="lastname_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__!</div></td>
+                            </tr>
+
+                            <!-- EMAIL -->
+                            <tr>
+                                <td class="label_container"><label for="email">__MSG__EMAIL__:</label></td>
+                                <td><input type="text" maxlength="255" id="email" name="email" class="create_account_input" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div id="email_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_EMAIL_ADDRESS__!</div>
+                                    <div id="email_invalid" class="create_account_error_msg">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__!</div>
+                                </td>
+                            </tr>
+
+                            <!-- USERNAME -->
+                            <tr>
+                                <td class="label_container"><label id="username_label" for="username">__MSG__USERNAME__:</label></td>
+                                <td><input type="text" maxlength="255" id="username" name="username" class="create_account_input" /></td>
+                                <td>
+                                    <button type="button" id="checkUserName" class="s3d-button"><span class="s3d-button-inner">__MSG__CHECK_IF_USERNAME_IS_AVAILABLE__</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div id="username_taken" class="create_account_error_msg">__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__!</div>
+                                    <div id="username_spaces" class="create_account_error_msg">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__!</div>
+                                    <div id="username_invalid" class="create_account_error_msg">__MSG__THE_USERNAME_CONTAINS_INVALID_CHARACTERS__!</div>
+                                    <div id="username_short" class="create_account_error_msg">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__!</div>
+                                    <div id="username_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_USERNAME__!</div>
+                                    <div id="username_available" class="username_available">__MSG__THIS_USERNAME_IS_AVAILABLE__</div>
+                                </td>
+                            </tr>
+
+                            <!-- PASSWORD -->
+                            <tr>
+                                <td class="label_container"><label for="password">__MSG__PASSWORD__:</label></td>
+                                <td><input type="password" maxlength="255" id="password" name="password" class="create_account_input" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div id="password_empty" class="create_account_error_msg">__MSG__PLEASE_ENTER_YOUR_PASSWORD__!</div>
+                                    <div id="password_short" class="create_account_error_msg">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__!</div>
+                                </td>
+                            </tr>
+
+                            <!-- PASSWORD REPEAT -->
+                            <tr>
+                                <td class="label_container"><label for="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label></td>
+                                <td><input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div id="password_repeat_empty" class="create_account_error_msg">__MSG__PLEASE_REPEART_YOUR_PASSWORD__!</div>
+                                    <div id="password_repeat_nomatch" class="create_account_error_msg">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__!</div>
+                                </td>
+                            </tr>
+
+                            <!-- CAPTCHA -->
+                            <tr>
+                                <td class="label_container"><label for="uword">__MSG__PLEASE_TYPE_THE_WORD_BELOW__:</label></td>
+                                <td><input type="text" id="uword" maxlength="255" name="uword" class="create_account_input" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div id="uword_empty" class="create_account_error_msg">__MSG__PLEASE_TYPE_THE_WORD_BELOW__!</div>
+                                    <div id="uword_nomatch" class="create_account_error_msg">__MSG__THIS_DOES_NOT_MATCH_THE_WORD_BELOW__!</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="captcha_container"><script type="text/javascript">sjcap();</script></td>
+                            </tr>
+
+                            <!-- BUTTONS -->
+                            <tr class="create_account_button_bar">
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <button id="save_account" class="s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner">__MSG__CREATE_ACCOUNT__</span></button>
+                                        <button id="cancel_button" class="s3d-button" type="reset"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><div id="success_message" class="success_message">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__. <a href="index.html">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
+                            </tr>
+
+                        </table>
+
+                    </form>
+                </div>
+
+                <!-- BOTTOM BORDER -->
+                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
+
+            </div>
+        </div>
+
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <script type="text/javascript" src="_javascript/createnewaccount.js"></script>
+    </body>
 </html>
