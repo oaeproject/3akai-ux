@@ -87,21 +87,19 @@ sakai.api.Communication = sakai.api.Communication || {};
  * @param {Array|String} to Array with the uuids of the users to post a message to or a String with one user.
  * @param {String} subject The subject for this message
  * @param {String} body The text that this message will contain
- * @param {String} category The category for this message
- * @param {String} reply The id of the message you are replying on
- * @param {Function} callback A callback function which is executed at the end of the operation
+ * @param {String} [category="message"] The category for this message
+ * @param {String} [reply] The id of the message you are replying on
+ * @param {Function} [callback] A callback function which is executed at the end of the operation
  *
  */
 sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
 
     var toUsers = "";
-    if(typeof(to) == "string"){
-        toUsers = "internal:"+to;
-    }else{
-        for(var i=0,il=to.length;i<il;i++){
-            toUsers += "internal:"+to[i]+",";
-        }
-        toUsers = toUsers.substring(0, toUsers.length-1);
+    if (typeof(to) === "string") {
+        toUsers = "internal:" + to;
+    }
+    else {
+        toUsers += "internal:" + to.join(",internal:");
     }
 
     // Basic message details
