@@ -240,6 +240,7 @@ sakai.navigationchat = function(tuid, showSettings){
     var chatWithContentOverflowClass = chatWithContentClass + "_overflow";
 
     var showOnlineVisibleClass = "show_online_visible";
+    var focussedFieldClass = "focussedInput";
 
     // CSS Classes with .
     var initiateWindowClass = ".initiate_chat_window";
