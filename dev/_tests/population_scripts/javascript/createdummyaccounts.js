@@ -28,12 +28,12 @@ sakai.createdummyaccounts = function(){
 
     var userlist = [];
 
-    var createUserList = function() {
+    var createUserList = function(){
 
         var userCount = parseInt($("#num_of_accounts").val(), 10);
         var list = [];
 
-        for (var i=0, il = userCount; i < il; i++) {
+        for (var i = 0, il = userCount; i < il; i++) {
             var currentObject = {
                 "firstName": "User",
                 "lastName": "" + i,
@@ -41,7 +41,7 @@ sakai.createdummyaccounts = function(){
                 "pwd": "test",
                 "pwdConfirm": "test",
                 ":name": "user" + i
-            }
+            };
 
             list.push(currentObject);
         }
@@ -52,12 +52,13 @@ sakai.createdummyaccounts = function(){
 
     var log = function(message, status){
         var cssclass = "";
-        if(status){
-            cssclass= "population_success";
-        }else{
+        if (status) {
+            cssclass = "population_success";
+        }
+        else {
             cssclass = "population_error";
         }
-        $("#log").append('<span class="' + cssclass+  '">' + message + "</span><br/>");
+        $("#log").append('<span class="' + cssclass + '">' + message + "</span><br/>");
     };
 
     /**
@@ -66,11 +67,11 @@ sakai.createdummyaccounts = function(){
      */
     var createUsers = function(count){
 
-        if(count !== userlist.length){
+        if (count !== userlist.length) {
             var username = userlist[count].firstName + " " + userlist[count].lastName;
 
             $.ajax({
-                url: "/system/userManager/user.create.html",
+                url: "/system/userManager/user.create.json",
                 type: "POST",
                 data: userlist[count],
                 success: function(data){
@@ -97,7 +98,6 @@ sakai.createdummyaccounts = function(){
         // Create a list of users
         userlist = createUserList();
 
-        // Create the actual users
         createUsers(0);
     });
 

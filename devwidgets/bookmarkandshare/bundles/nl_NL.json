@@ -1,0 +1,13 @@
+{
+"SELECT_TO_FAVORITE":"Selecteer je favoriete services.",
+"ALL":"Alle",
+"CANCEL":"Annuleer",
+"SUBMIT":"Bevestig",
+"SHARE":"Deel",
+"NO_POPULAR_SERVICES" : "Lijst met populaire services van AddThis niet beschikbaar.",
+"SETTINGS_NOT_SAVED" : "Instellingen konden niet bewaard worden.",
+"SETTINGS_NOT_LOADED" : "Standaard instellingen geladen.",
+"SELECT_SERVICE" : "Selecteer minimum 1 service.",
+"ALL" : "Alle",
+"NONE" : "Geen"
+}
