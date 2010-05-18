@@ -20,7 +20,7 @@ var testJCRRemoval = function(){
     //get the amount of properties
     var objCount=0;
     for(var p in dummyObject){
-        if(dummyObjects.hasOwnProperty(p)){
+        if(dummyObject.hasOwnProperty(p)){
             objCount++;
         }
     }

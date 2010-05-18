@@ -11,9 +11,9 @@ var testFormToJSON = function(){
     //check if it is the same as expected
     var counter = 0;
     for(var d in data){
-    	if(data.hasOwnProperty(d)){
-    		counter++;
-    	}
+        if(data.hasOwnProperty(d)){
+            counter++;
+        }
     }
     same(counter,5, "Check that there are five fields");
     ok(data.color,"The object contains a color property");
