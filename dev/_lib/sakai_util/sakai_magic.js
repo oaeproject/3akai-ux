@@ -401,7 +401,7 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
             success: function(data){
-                sakai.data.i18n.localBundle = $.evalJSON(data);
+                sakai.data.i18n.localBundle = data;
                 doI18N(sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
             },
             error: function(xhr, textStatus, thrownError){
@@ -421,7 +421,7 @@ sakai.api.i18n.init = function(){
             url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
             cache: false,
             success: function(data){
-                var siteJSON = $.evalJSON(data);
+                var siteJSON = data;
                 if (siteJSON.language && siteJSON.language !== "default_default") {
                     loadLocalBundle(siteJSON.language);
                 }
@@ -447,7 +447,7 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
             success: function(data){
-                sakai.data.i18n.defaultBundle = $.evalJSON(data);
+                sakai.data.i18n.defaultBundle = data;
                 var site = getSiteId();
                 if (!site) {
                     if (sakai.data.me.user.locale) {
@@ -594,7 +594,7 @@ sakai.api.i18n.Widgets.process = function(widgetname, widget_html_content) {
             success: function(messages_raw){
 
                 sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                sakai.data.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
+                sakai.data.i18n.widgets[widgetname]["default"] = messages_raw;
 
             },
             error: function(xhr, textStatus, thrownError){
@@ -613,7 +613,7 @@ sakai.api.i18n.Widgets.process = function(widgetname, widget_html_content) {
             success: function(messages_raw){
 
                 sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                sakai.data.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
+                sakai.data.i18n.widgets[widgetname][current_locale_string] = messages_raw;
             },
             error: function(xhr, textStatus, thrownError){
                 //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
@@ -979,18 +979,15 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
         dataType: "json",
         success: function(data) {
 
-            // Transform JSON string to an object
-            var returned_data = $.evalJSON(data);
-
             // Remove keys which are created by JCR or Sling
-            sakai.api.Util.removeJCRObjects(returned_data);
+            sakai.api.Util.removeJCRObjects(data);
 
             // Convert the special objects to arrays
-            returned_data = convertObjectToArray(returned_data, null, null);
+            data = convertObjectToArray(data, null, null);
 
             // Call callback function if present
             if (typeof callback === "function") {
-                callback(true, returned_data);
+                callback(true, data);
             }
         },
         error: function(xhr, status, e) {
@@ -1333,7 +1330,7 @@ sakai.api.User.loadMeData = function(callback) {
         cache: false,
         success: function(data){
 
-            sakai.data.me = $.evalJSON(data);
+            sakai.data.me = data;
 
             // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
             if (!sakai.data.me.profile.firstName) {

@@ -307,44 +307,43 @@ sakai.site = function(){
             },
             success: function(response) {
 
-                // Init, convert response to JS object
-                var temp = $.evalJSON(response);
-                temp = temp.results;
+                // Init
+                response = response.results;
 
                 // Sort site objects by their path
                 var compareURL = function(a,b) {
                     return a.path>b.path ? 1 : a.path<b.path ? -1 : 0;
                 };
-                temp.sort(compareURL);
+                response.sort(compareURL);
 
                 // Create site_info object, the unique key being the partial path of the page from the root of the site
                 // This will also keep the alphabetical order
                 sakai.site.site_info["_pages"] = {};
-                for (var i=0, j=temp.length; i<j; i++) {
+                for (var i=0, j=response.length; i<j; i++) {
 
-                    if (typeof temp[i] !== "undefined") {
+                    if (typeof response[i] !== "undefined") {
 
                         // Save page data and add some helper attributes
 
                         // URL safe title
                         var url_safe_title = "";
-                        var url_elements = temp[i]["jcr:path"].split("/");
+                        var url_elements = response[i]["jcr:path"].split("/");
                         url_safe_title = url_elements[url_elements.length - 1];
-                        temp[i]["pageURLTitle"] = url_safe_title;
+                        response[i]["pageURLTitle"] = url_safe_title;
 
                         // URL safe name
-                        var url_safe_name = sakai.site.createURLName(temp[i]["jcr:path"]);
-                        temp[i]["pageURLName"] = url_safe_name;
+                        var url_safe_name = sakai.site.createURLName(response[i]["jcr:path"]);
+                        response[i]["pageURLName"] = url_safe_name;
 
                         // Page depth
-                        temp[i]["pageDepth"] = url_elements.length;
+                        response[i]["pageDepth"] = url_elements.length;
 
                         // Page base folder
                         url_elements.pop();
-                        temp[i]["pageFolder"] = url_elements.join("/");
+                        response[i]["pageFolder"] = url_elements.join("/");
 
                         // Main page data
-                        sakai.site.site_info["_pages"][url_safe_name] = temp[i];
+                        sakai.site.site_info["_pages"][url_safe_name] = response[i];
                     }
                 }
 

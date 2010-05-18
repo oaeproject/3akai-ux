@@ -158,15 +158,14 @@ sakai.myfriends = function(tuid,showSettings){
             url: sakai.config.URL.CONTACTS_INVITED,
             cache: false,
             success: function(data){
-                var contactrequests = $.evalJSON(data);
                 var jsonTotal = {};
                 jsonTotal.total = 0;
 
                 // Check if the array contains any friends
-                if (contactrequests.total){
+                if (data.total){
 
                     // Only count the contacts which status is Invited
-                    jsonTotal.total += contactrequests.total;
+                    jsonTotal.total += data.total;
                 }
 
                 // Render the requests on the page

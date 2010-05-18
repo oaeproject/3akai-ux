@@ -341,12 +341,11 @@ sakai.navigationchat = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=inbox",
             success: function(data){
-                var json = $.evalJSON(data);
 
                 // Count unread messages
                 var unread_message_count = 0;
-                for (var i = 0; i < json.total; i++) {
-                    if (json.results[i]["sakai:read"] === false) {
+                for (var i = 0; i < data.total; i++) {
+                    if (data.results[i]["sakai:read"] === false) {
                         unread_message_count++;
                     }
                 }
@@ -355,7 +354,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 $(chatUnreadMessages).text(unread_message_count);
             },
             error: function(xhr, status, thrown) {
-
+                fluid.log("Navigationchat widget - it was not possible to get the unread messages from the server.");
             }
         });
     };
@@ -1297,14 +1296,13 @@ sakai.navigationchat = function(tuid, showSettings){
             cache: false,
             sendToLoginOnFail: true,
             success: function(data){
-                var json = $.evalJSON(data);
 
                 // Check if there are any messages inside the JSON object
-                if (json.results) {
+                if (data.results) {
 
                     var njson = {};
-                    for (var i = json.results.length - 1; i >= 0; i--) {
-                        var message = json.results[i];
+                    for (var i = data.results.length - 1; i >= 0; i--) {
+                        var message = data.results[i];
                         var user = "";
                         if (message.userFrom[0].userid === sakai.data.me.user.userid) {
                             user = message.userTo[0].userid;
@@ -1471,7 +1469,7 @@ sakai.navigationchat = function(tuid, showSettings){
             url: sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
             cache: false,
             success: function(data){
-                online = $.evalJSON(data);
+                online = data;
                 showOnlineFriends();
                 setTimeout(checkOnline, 20000);
                 goBackToLogin = true;

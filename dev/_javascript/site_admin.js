@@ -388,7 +388,10 @@ sakai.site.site_admin = function(){
             $insert_more_menu.css({"position": "fixed", "top":"28px"});
         }
 
-        $insert_more_menu.css("left",$("#insert_more_dropdown_main").position().left + $("#toolbarcontainer").position().left + 10 + "px");
+        var $insert_more_dropdown_main = $("#insert_more_dropdown_main");
+        if($insert_more_dropdown_main.length > 0){
+            $insert_more_menu.css("left",$insert_more_dropdown_main.position().left + $("#toolbarcontainer").position().left + 10 + "px");
+        }
 
         sakai.site.last = new Date().getTime();
     };
