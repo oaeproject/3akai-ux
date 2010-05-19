@@ -22,7 +22,7 @@
         {for i in comments}
             <div class="comments_topCommentBar">
                 {if i['sakai:from'] === 'anonymous'}
-                    <img alt="avatar" class="comments_avatar" src="/dev/_images2/person_icon.jpg" />
+                    <img alt="avatar" class="comments_avatar" src="/dev/_images/person_icon.jpg" />
                 {else}
                     <img alt="avatar" class="comments_avatar" src="${i.user.picture}" />
                 {/if}
@@ -40,6 +40,7 @@
 
                 <div class="comments_commentMessage">
                 <div class="comments_commentLinks">
+                    <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
                         {if i.canEdit && i.canEdit === true}
                             <li><a href="javascript:;" class="comments_edit" id="comments_edit_${i['sakai:id']}">Edit</a></li>

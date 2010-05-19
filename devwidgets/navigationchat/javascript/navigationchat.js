@@ -154,6 +154,9 @@ sakai.navigationchat = function(tuid, showSettings){
     var onlineFriends = [];
     var goBackToLogin = false;
     var online = false;
+    
+    var sitesShown = false;
+    var sitesFocus = false;
 
     // Links and labels
     var hiLabel = "#hispan";
@@ -162,10 +165,12 @@ sakai.navigationchat = function(tuid, showSettings){
     var pictureHolder = "#picture_holder";
     var showOnlineLink = "#show_online";
     var userIdLabel = "#userid";
+    var widgetCreateSite = "#widget_createsite";
 
     // Chat
     var chatAvailable = "#chat_available";
     var chatAvailableMinimize = chatAvailable + "_minimize";
+    var chatDropdownRecentSites = "#chat_dropdown_recent_sites";
     var chatOnline = "#chat_online";
     var chatOnlineConnectionsLink = chatOnline + "_connections_link";
     var chatUnreadMessages = "#chat_unreadMessages";
@@ -178,12 +183,34 @@ sakai.navigationchat = function(tuid, showSettings){
     var nav = "#nav";
     var navContentMediaLink = "#nav_content_media_link";
     var navCoursesSitesLink = "#nav_courses_sites_link";
+    var navCoursesSitesLinkClass = "nav_courses_sites_link";
+    var navCoursesSitesLinkClassSelector = $("#explore_nav_container .nav_courses_sites_link");
     var navPeopleLink = "#nav_people_link";
+    var navPeopleLinkClass = "nav_people_link";
     var navMySakaiLink = "#nav_my_sakai_link";
     var navCalendarLink = "#nav_calendar_link";
     var navSelectedNavItemClass = "explore_nav_selected";
+    var navCoursesSitesLinkClassSelector = "#explore_nav_container .nav_courses_sites_link";
+    var topNavigation = "#top_navigation";
+    var topNavigationCreateSite = topNavigation + "_create_site";
+    
+    // Courses & Sites
+    var coursesSitesSearch = "#courses_sites_search";
+    var coursesSitesSearchButton = coursesSitesSearch + "_button";
+    
+    // My Sites
+    var mySitesDropDown = "#mysites_dropdown";
+    var mySitesDropDownMain = mySitesDropDown + "_main";
+    var mySitesDropDownClose = mySitesDropDown + "_close";
+    var mySitesDropDownCloseLink = mySitesDropDownClose + "_link";
+    
+    // Top Navigation
+    var topNavigation = "#top_navigation";
+    var topNavigationCreateSite = topNavigation + "_create_site";
+    var topNavigationWidgets = topNavigation + "_widgets";
+    var topNavigationMySitesList = topNavigation + "_my_sites_list";
 
-    // Seach
+    // Search
     var $general_search_form = $("#genaral_search_container form");
     var $general_search_input = $("#general_search_input");
     var searchFocus = false;
@@ -223,15 +250,22 @@ sakai.navigationchat = function(tuid, showSettings){
     var chatCloseClass = chatClass + "_close";
     var chatMinimizeClass = chatClass + "_minimize";
     var chatWithTxtClass = chatClass + "_with_txt";
-
+    var exploreClass = ".explore";
+        
     // Containers
     var chatMainContainer = "#chat_main_container";
     var exploreNavigationContainer = "#explore_nav_container";
+    var createSiteContainer = "#createsitecontainer";
 
     // Templates
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
     var chatWindowsTemplate = "chat_windows_template";
+    var topNavigationMySitesListTemplate = "top_navigation_my_sites_list_template";
+    var navSelectedPageTemplate = "nav_selected_page_template";
+    var chatDropdownRecentSitesTemplate = "chat_dropdown_recent_sites_template";
+    
+    var rootel = $("#" + tuid);
 
 
     ///////////////////////
@@ -244,6 +278,23 @@ sakai.navigationchat = function(tuid, showSettings){
      */
     sakai.navigationchat.loadChatTextInitial = function(){};
     var doWindowRender = function(){};
+
+    /*
+      * Sort the sites by their name
+      */
+     var doSortSites = function(a, b){
+         if (a.name > b.name) {
+             return 1;
+         }
+         else {
+             if (a.name === b.name) {
+                 return 0;
+             }
+             else {
+                 return -1;
+             }
+         }
+     };
 
     /**
      * Clone a certain object.
@@ -364,6 +415,29 @@ sakai.navigationchat = function(tuid, showSettings){
     ////////////////
     // NAVIGATION //
     ///////////////
+
+    /**
+     * Keep focus above chat panel for keyboard navigation
+     */
+    $("a, input, select, textarea").focus(function(ev) {
+        var chatHeight = $(".chat_main_container").height();
+        //var scrOfY = $(window).scrollTop(); // broken in IE
+        var scrOfY = 0;
+        if( typeof( window.pageYOffset ) === 'number' ) {
+            //Mozilla compliant
+            scrOfY = window.pageYOffset;
+        } else if( document.body && ( document.body.scrollTop ) ) {
+            //DOM compliant
+            scrOfY = document.body.scrollTop;
+        } else if( document.documentElement && ( document.documentElement.scrollTop ) ) {
+            //IE6 standards compliant mode
+            scrOfY = document.documentElement.scrollTop;
+        }
+
+        if ((this.offsetTop + $(this).height() + chatHeight) > (scrOfY + $(window).height())){
+            window.scrollBy(0,100);
+        }
+    });
 
     /**
      * Select the page in the top navigation where you are currently on.
@@ -1680,8 +1754,202 @@ sakai.navigationchat = function(tuid, showSettings){
         setPresence();
     };
 
-    if (sakai.data.me.user.anon) {
 
+    
+    //////////////////////////////
+    // Courses & Sites dropdown //
+    //////////////////////////////
+
+    /**
+     * Load the sites for the current user
+     */
+    var loadSites = function(){
+        var el = $(widgetCreateSite);
+        if (!el.get(0)) {
+            /** TODO Remove the inline html */
+            $(topNavigationWidgets).append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
+            sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
+        }
+        $.ajax({
+            url: sakai.config.URL.SITES_SERVICE,
+            cache: false,
+            success: function(data){
+                var json = {};
+                json.entry = $.evalJSON(data) || [];
+                for (var i = 0; i < json.entry.length; i++) {
+                    json.entry[i] = json.entry[i].site;
+                    json.entry[i].location = json.entry[i].id;
+                }
+                json.entry = json.entry.sort(doSortSites);
+                if (json.entry.length > 5) {
+                    json.entry = json.entry.splice(0, 5);
+                }
+                $(topNavigationMySitesList).html($.TemplateRenderer(topNavigationMySitesListTemplate, json));
+            },
+            error: function(xhr, textStatus, thrownError) {
+                alert("An error has occured");
+            }
+        });
+    };
+
+    /**
+     * Show the create new site lightbox
+     */
+    var createNewSite = function(){
+        $(createSiteContainer, rootel).show();
+        // Initialise the createsite widget.
+        sakai.createsite.initialise();
+    };
+
+    /**
+     * Search for the site(s) you putted in the input field
+     */
+    var doSitesSearch = function(){
+        var tosearch = $(coursesSitesSearch).val();
+        if (tosearch) {
+            document.location = sakai.config.URL.SEARCH_SITES_URL + "#1|" + tosearch;
+        }
+    };
+
+    /**
+     * Bind the create site button in the top navigation
+     */
+    $(topNavigationCreateSite).bind("click", function(ev){
+        createNewSite();
+    });
+
+    /**
+     * If this is the first time the field gets focus, we'll make his text color black
+     * and remove the default value
+     */
+    $(coursesSitesSearch).bind("focus", function(ev){
+        if (!sitesFocus) {
+            var el = $(coursesSitesSearch);
+            el.val("");
+            el.addClass(focussedFieldClass);
+            sitesFocus = true;
+        }
+    });
+
+    /**
+     * Check on every keypress whether the enter key has been pressed or not. If so,
+     * search for sites
+     */
+    $(coursesSitesSearch).bind("keypress", function(ev){
+        if (ev.which === 13) {
+            doSitesSearch();
+        }
+    });
+
+    $(coursesSitesSearchButton).bind("click", doSitesSearch);
+
+
+    ////////////////////////////////////////////
+    // Courses & Sites dropdown : Show & Hide //
+    ////////////////////////////////////////////
+
+    defaultNav = $(exploreClass).html();
+
+    /**
+     * Render the template to show on which page you are currently on.
+     * You can see this by the dark border in the top navigation of a page
+     * @param {String} value The value of the page name
+     * @return {String} The result of the render
+     */
+    var renderSelectedPage = function(value, isDropdown){
+
+        var page = {};
+        page.value = value;
+        page.dropdown = isDropdown || false;
+        return $.TemplateRenderer(navSelectedPageTemplate, page);
+    };
+
+    /**
+     * Select the page in the top navigation where you are currently on.
+     * This will display a dark balloon around the page we are on now.
+     * This is decided by looking at the current url.
+     */
+    var selectPage = function(){
+        var windowLocationPath = window.location.pathname.toLowerCase();
+
+        if (windowLocationPath.indexOf(sakai.config.URL.MY_DASHBOARD) !== -1){
+            $(navMySakaiLink).html(renderSelectedPage($.i18n.getValueForKey("MY_SAKAI")));
+        } else if (windowLocationPath.indexOf(sakai.config.URL.SEARCH_GENERAL_URL) !== -1 || windowLocationPath.indexOf(sakai.config.URL.SEARCH_PEOPLE_URL) !== -1 || windowLocationPath.indexOf(sakai.config.URL.SEARCH_SITES_URL) !== -1 || windowLocationPath.indexOf(sakai.config.URL.SEARCH_CONTENT_URL) !== -1){
+            $(navSearchLink).html(renderSelectedPage("Search"));
+        } else if (windowLocationPath.indexOf(sakai.config.URL.PEOPLE_URL) !== -1){
+            $(navPeopleLink).html(renderSelectedPage("People"));
+        } else if (windowLocationPath.indexOf(sakai.config.URL.PROFILE_URL) !== -1){
+            $(navProfileLink).html(renderSelectedPage("Profile"));
+        } else if (windowLocationPath.indexOf(sakai.config.URL.CONTENT_MEDIA_URL) !== -1){
+            $(navContentMediaLink).html(renderSelectedPage("Content &amp; Media"));
+        }
+
+    };
+
+    /**
+     * Render the recent sites for the current user
+     * @param {Object} json JSON object that contains the recent sites
+     * and a count with how many there are
+     */
+    var renderRecentSites = function(json){
+        $(chatDropdownRecentSites).append($.TemplateRenderer(chatDropdownRecentSitesTemplate,json));
+    };
+
+    /**
+     * Load the recent sites that the current user has visited
+     */
+    var loadRecentSites = function(){
+        var json = {};
+        json.count = 0;
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
+            if (success) {
+                var json = $.evalJSON(data);
+                json.count = json.items.length;
+                renderRecentSites(json);
+            }
+            else {
+                renderRecentSites(json);
+            }
+        });
+    };
+
+    /**
+     * Drop down the sites container under the top navigation bar
+     */
+    var selectedID = "";
+    $(navCoursesSitesLinkClassSelector).live("click", function(ev) {
+        if ($(navCoursesSitesLink + " " + mySitesDropDownCloseLink).length === 0){
+
+            // Show the courses and sites.
+            selectedID = $("li.explore_nav_selected").attr("id");
+              
+            $(mySitesDropDownMain).show();
+            $(mySitesDropDownClose).show();
+
+            $(exploreClass).html(defaultNav);
+            $(navCoursesSitesLink).html(renderSelectedPage("Courses &amp; Sites", true));
+            $(navCoursesSitesLink).removeClass(navCoursesSitesLinkClass);
+            if (!sitesShown) {
+                loadSites();
+                loadRecentSites();
+                sitesShown = true;
+            }
+        }
+    });
+
+    /*
+     * Bind the close button for the sites container
+     */
+    $(mySitesDropDownCloseLink).live("click", function(ev){
+        $(mySitesDropDownMain).hide();
+        $(exploreClass).html(defaultNav);
+        selectPage();
+        $(navPeopleLink).addClass(navPeopleLinkClass);
+        $(navCoursesSitesLink).addClass(navCoursesSitesLink);
+        $("#"+selectedID).addClass("explore_nav_selected");
+    });
+
+    if (sakai.data.me.user.anon) {
         // If a user is not logged in -> switch to anonymous mode
         switchToAnonymousMode();
     }

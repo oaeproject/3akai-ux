@@ -21,7 +21,7 @@
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
-  <version>0.4.0_snapshot</version>
+  <version>0.4.0-SNAPSHOT</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
   <url>http://github.com/oszkarnagy/3akai-ux</url>
@@ -34,18 +34,76 @@
     <system>jira</system>
     <url>http://jira.sakaiproject.org/jira/browse/SAKIII</url>
   </issueManagement>
+  <distributionManagement>
+        <downloadUrl>http://source.sakaiproject.org/maven2/</downloadUrl>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>sakai-maven-snapshots-scp</id>
+            <name>Sakai snapshot Repo</name>
+            <url>scp://source.sakaiproject.org/var/www/html/maven2-snapshots</url>
+            <layout>default</layout>
+        </snapshotRepository>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>sakai-maven2-scp</id>
+            <name>Sakai maven2 repository</name>
+            <url>scp://source.sakaiproject.org/var/www/html/maven2</url>
+            <layout>default</layout>
+        </repository>
+        <site>
+            <id>sakai-site</id>
+            <name>Sakai release Site</name>
+            <url>scp://source.sakaiproject.org/var/www/html/release/nakamura/${project.version}</url>
+        </site>
+  </distributionManagement>
   <repositories>
-    <repository>
-      <id>sakai-releases</id>
-      <name>Sakai Releases</name>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <url>https://source.sakaiproject.org/maven2/</url>
-    </repository>
+        <repository>
+            <id>sakai-maven2</id>
+            <name>Sakai Maven Repository</name>
+            <layout>default</layout>
+            <url>http://source.sakaiproject.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sakai-maven2-snapshots</id>
+            <name>Sakai Maven Repo Snapshots</name>
+            <layout>default</layout>
+            <url>http://source.sakaiproject.org/maven2-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>default</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+           <id>apache-snapshots</id>
+            <name>Apache Snapshot Repository</name>
+           <url>http://repository.apache.org/snapshots/</url>
+          <snapshots>
+             <enabled>true</enabled>
+          </snapshots>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+       </repository>
   </repositories>
   <properties>
     <ant.target>copy_all</ant.target>
@@ -77,7 +135,11 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Sling-Initial-Content>SLING-INF/content;ignoreImportProviders:="xml,json";overwrite:=true</Sling-Initial-Content>
+            <Sling-Initial-Content>
+                SLING-INF/content/dev;path:=/dev;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
+                SLING-INF/content/devwidgets;path:=/devwidgets;ignoreImportProviders:="xml,json,html,jar,zip";overwrite:=true,
+                SLING-INF/content/var;path:=/var
+            </Sling-Initial-Content>
           </instructions>
         </configuration>
       </plugin>

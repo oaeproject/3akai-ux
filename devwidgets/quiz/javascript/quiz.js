@@ -380,9 +380,8 @@ sakai.quiz = function(tuid, showSettings) {
         jsonTemp.results.push(result);
 
         // Save the JSON-object
-        var tostring = $.toJSON(jsonTemp);
         json = jsonTemp;
-        sakai.api.Widgets.saveWidgetData("quiz", tostring, tuid, placement, renderResultHtml);
+        sakai.api.Widgets.saveWidgetData(tuid, jsonTemp, renderResultHtml);
 
     };
 
@@ -392,7 +391,7 @@ sakai.quiz = function(tuid, showSettings) {
     var addUserResult = function() {
         // First update the results in case someone solved the quiz while you were taking it
 
-        sakai.api.Widgets.loadWidgetData("quiz", tuid, placement, function(success, data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
                 addUserResultToResults(data);
             } else {
@@ -765,7 +764,7 @@ sakai.quiz = function(tuid, showSettings) {
             $(quizRandomQuestionTxt, rootel).val(quiz.numQuestions);
             $("input[name=" + quizDisplayQuestionRbt + "][value=" + quiz.resultsViewers + "]", rootel).attr("checked", true);
             // change the result display
-            $(quizResultTypes + quiz.resultDisplay, rootel).addClass(quizResultActive);
+            $(quizResultTypes + quiz.resultDisplay, rootel).addClass(quizResultActive.replace(".",""));
             $(quizShowAnswerChk, rootel).attr("checked", quiz.showAnswers);
             $(quizTimeLimitChk, rootel).attr("checked", quiz.isTimeLimit);
             if (quiz.isTimeLimit) {
@@ -773,7 +772,7 @@ sakai.quiz = function(tuid, showSettings) {
             }
         }
         // put the site name on above the image-list
-        $(quizImageListSiteName, rootel).html(placement.split("/")[0]);
+        $(quizImageListSiteName, rootel).html(sakai.site.currentsite.name);
     };
 
     /**
@@ -862,10 +861,8 @@ sakai.quiz = function(tuid, showSettings) {
      * @param {Object} quiz
      */
     var addQuiz = function(quiz) {
-        // stringify the quizes
-        var tostring = $.toJSON(quiz);
         // Save the quiz to the widget-node
-        sakai.api.Widgets.saveWidgetData("quiz", tostring, tuid, placement, finishNewSettings);
+        sakai.api.Widgets.saveWidgetData(tuid, quiz, finishNewSettings);
         // put the most important info in a new JSON-object
         var quizTemp = {
             "questions": quiz.questions,
@@ -877,7 +874,7 @@ sakai.quiz = function(tuid, showSettings) {
         // save that JSON object to the _quiz node in the site-node
         // this contains all quizes created in the site
         var tostring2 = $.toJSON(quizes);
-        sakai.api.Widgets.saveWidgetData("_quiz", tostring2, tuid, placement, finishNewSettings);
+        //sakai.api.Widgets.saveWidgetData("_quiz", tostring2, tuid, placement, finishNewSettings);
     };
 
     /**
@@ -1649,10 +1646,10 @@ sakai.quiz = function(tuid, showSettings) {
     function(e, ui) {
         $(quizResultType + " li", rootel).attr("class", "");
         if (e.target.parentNode.parentNode.id !== quizResultTypeName) {
-            $("#" + e.target.parentNode.parentNode.id, rootel).attr("class", quizResultActive);
+            $("#" + e.target.parentNode.parentNode.id, rootel).attr("class", quizResultActive.replace(".",""));
         }
         else {
-            $("#" + e.target.parentNode.id, rootel).attr("class", quizResultActive);
+            $("#" + e.target.parentNode.id, rootel).attr("class", quizResultActive.replace(".",""));
         }
     });
     /** Bind the quiz_info button */
@@ -1726,7 +1723,7 @@ sakai.quiz = function(tuid, showSettings) {
     var doInit = function(){
         // show settings page
         if (showSettings) {
-            sakai.api.Widgets.loadWidgetData("quiz", tuid, placement, function(success, data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                 if (success) {
                     // load the quiz settings
                     json = data;
@@ -1736,7 +1733,7 @@ sakai.quiz = function(tuid, showSettings) {
                 }
             });
 
-            sakai.api.Widgets.loadWidgetData("_quiz", tuid, placement, function(success, data){
+            /*sakai.api.Widgets.loadWidgetData("_quiz", tuid, placement, function(success, data){
                 if (success) {
                     // load the existing quizes page
                     quizes = data;
@@ -1744,14 +1741,14 @@ sakai.quiz = function(tuid, showSettings) {
                 } else {
                     loadExistingQuizes(false, data.status);
                 }
-            });
+            });*/
 
         } else {
             // load the output window
             $(quizSettings, rootel).hide();
             $(quizOutput, rootel).show();
 
-            sakai.api.Widgets.loadWidgetData("quiz", tuid, placement, function(success, data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
 
                 if (success) {
                     json = data;
@@ -1764,7 +1761,6 @@ sakai.quiz = function(tuid, showSettings) {
         }
     };
     doInit();
-
 
 };
 

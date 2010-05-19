@@ -1,217 +1,234 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sakai 3 R&amp;D - Search All</title>
 
-    <!-- Sakai Core CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+    <head>
 
-    <!-- Sakai Page CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 R&amp;D - __MSG__SEARCH_ALL__</title>
 
-    <!-- 3rd party CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
 
-    <!-- Sakai Config JS -->
-    <script type="text/javascript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" src="_configuration/config.js"></script>
+        <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.search_b.css" />
 
-    <!-- Core 3rd-party JS -->
-    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
-    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+        <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
 
-    <!-- Sakai Core JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
 
-    <!-- 3rd party JS -->
-    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
-    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-    <script type="text/javascript" src="_javascript/_history/rsh.js"></script>
-    <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
-    <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
-</head>
-<body id="root" class="fl-centered fl-container i18nable search-container">
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
-<!-- EXPLORE BAR -->
-<div id="widget_navigationchat" class="widget_inline"></div>
-<div id="widget_filemanager" class="widget_inline"></div>
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_javascript/_history/rsh.js"></script>
+        <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
+        <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
 
-<!-- CONTENT -->
-<div class="fl-container fl-fix fl-container-flex content content_search">
-    <div class="fl-fix fl-centered fixed-container">
-        <div class="decor"><!-- --></div>
-        <!-- TITLE -->
-        <h1 class="title">__MSG__SEARCH_ALL__</h1>
-        <!-- TAB NAVIGATION -->
-        <div class="s3d-primary-tabs">
-            <ul class="fl-tabs fl-tabs-right">
-                <li class="fl-tabs-active"><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
-                <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
-                <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
-                <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
-            </ul>
-        </div>
-        <!-- TAB CONTENT -->
-        <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
-            <div class="search_tab_content_top">
-                <div class="search_tab_content_top_inner"><!-- --></div>
-            </div>
-            <div class="search_content_main">
-                <!-- SEARCH BAR -->
-                <div class="fl-left fl-container fl-fix search_bar">
-                    <div class="fl-left fl-container" id="introduction_text">
-                        <h4>__MSG__FIND_CONTENT_MEDIA_SITES_AND_PEOPLE_ON_SAKAI_3__</h4>
-                        <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_SITES_AND_PEOPLE__. <br/>
-                            __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
-                    </div>
-                    <div id="search_form" >
-                        <!-- <select class="skinned_select">
-                        <option value="entire_community">Entire Sakai Network</option>
-                        <option value="friends">Friends</option>
-                    </select> -->
+    </head>
 
-                        <input type="text" id="search_text" maxlength="255" class="input" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
-                        <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-                    </div>
+    <body id="root" class="fl-centered fl-container i18nable search-container">
+
+        <!-- EXPLORE BAR -->
+        <div id="widget_navigationchat" class="widget_inline"></div>
+        <div id="widget_filemanager" class="widget_inline"></div>
+
+        <!-- CONTENT -->
+        <div class="fl-container fl-fix fl-container-flex content content_search">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor"><!-- --></div>
+                <!-- TITLE -->
+                <h1 class="title">__MSG__SEARCH_ALL__</h1>
+                <!-- TAB NAVIGATION -->
+                <div class="s3d-primary-tabs">
+                    <ul class="fl-tabs fl-tabs-right">
+                        <li class="fl-tabs-active"><a id="tab_search_all" href="search.html#">__MSG__ALL__</a></li>
+                        <li><a href="search_content.html#" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
+                        <li><a href="search_people.html#" id="tab_search_people">__MSG__PEOPLE__</a></li>
+                        <li><a href="search_sites.html#" id="tab_search_sites">__MSG__COURSES_AND_SITES__</a></li>
+                    </ul>
                 </div>
-                <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">__MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
-                <!-- TEMPORARY SEARCH TEXtT -->
-                <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
-                <!-- SEARCH RESULTS -->
-                <!-- CONTENT / MEDIA PART -->
-                <div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
-                <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                <div class="fl-container fl-fix search_results_part">
-                    <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>View more Content &amp; Media results &raquo;</small></a> </div>
-                    <div id="cm_search_result"></div>
-                    <div id="cm_search_result_template"><!--
-                    {for i in items}
-                        <div class="fl-container fl-fix search_result">
-                            {if i['sakai:mimeType']}
-                                {var mimeType = i['sakai:mimeType']}
-                            {elseif i.file && i.file['sakai:mimeType']}
-                                {var mimeType = i.file['sakai:mimeType']}
-                            {elseif i['jcr:primaryType'] === "sling:Folder"}
-                                {var mimeType = 'folder'}
-                            {/if}
-                            {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                <img src="${i.path}" alt="${mimeTypeDescription}" />
-                            {elseif sakai.config.MimeTypes[mimeType]}
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
-                            {else}
-                                {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
-                                <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
-                            {/if}
-                            <div class="search_result_right">
-                                <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
-                                {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
-                                {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                                    <div class="search_result_tags">Tags:
-                                        {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
-                                    </div>
-                                {/if}
-                                {if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+
+                <!-- TAB CONTENT -->
+                <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
+                    <div class="search_tab_content_top">
+                        <div class="search_tab_content_top_inner"><!-- --></div>
+                    </div>
+
+                    <div class="search_content_main">
+
+                        <!-- SEARCH BAR -->
+                        <div class="fl-left fl-container fl-fix search_bar">
+                            <div class="fl-left fl-container" id="introduction_text">
+                                <h4>__MSG__FIND_CONTENT_MEDIA_SITES_AND_PEOPLE_ON_SAKAI_3__</h4>
+                                <p> __MSG__SAKAI_3_MAKES_IT_EASY_FOR_YOU_TO_FIND_CONTENT_MEDIA_SITES_AND_PEOPLE__. <br/>
+                                    __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
+                            </div>
+                            <div id="search_form" >
+                                <!-- <select class="skinned_select">
+                                    <option value="entire_community">__MSG__ENTIRE_SAKAI_NETWORK__</option>
+                                    <option value="friends">__MSG__FRIENDS__</option>
+                                </select> -->
+
+                                <input type="text" id="search_text" maxlength="255" class="input" title="__MSG__INSERT_NAME_OR_KEYWORD__" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
+                                <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
                         </div>
-                    {forelse}
-                        __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
-                    {/for}
-                    --></div>
-                    <div class="search_results_part_footer"><!-- --></div>
-                </div>
-            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-                </div>
-                <!-- PEOPLE PART -->
-                <div class="fl-container fl-fix search_results_container" style="display:none" id="people_header">
-            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                    <div class="fl-container fl-fix search_results_part">
-                        <div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">__MSG__PEOPLE__</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>View more People results &raquo;</small></a> </div>
-                        <div id="people_search_result"> </div>
-                        <div id="people_search_result_template"><!--
-                        {for i in items}
-                            {if !i.isAnonymous}
-                                <div class="fl-container fl-fix search_result_person">
-                                    {if ! i.picture}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="To see the person profile"></a>
-                                    {else}
-                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="To see the person profile"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
-                                    {/if}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-                                    {if i.extra}
-                                        <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-                                    {else}
-                                        <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-                                    {/if}
-                                    {if ! i.isMe}
-                                        {if ! i.connected}
-                                            <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
-                                            <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                        <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">__MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
+
+                        <!-- TEMPORARY SEARCH TEXT -->
+                        <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
+
+                        <!-- SEARCH RESULTS -->
+
+                        <!-- CONTENT / MEDIA PART -->
+                        <div class="fl-container fl-fix search_results_container" style="display:none" id="cm_header">
+                            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+                            <div class="fl-container fl-fix search_results_part">
+                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_cm" style="display:none"><small>__MSG__VIEW_MORE_CONTENT_AND_MEDIA_RESULTS__ &raquo;</small></a> </div>
+                                <div id="cm_search_result"></div>
+                                <div id="cm_search_result_template"><!--
+                                {for i in items}
+                                    <div class="fl-container fl-fix search_result">
+                                        {if i['sakai:mimeType']}
+                                            {var mimeType = i['sakai:mimeType']}
+                                        {elseif i.file && i.file['sakai:mimeType']}
+                                            {var mimeType = i.file['sakai:mimeType']}
+                                        {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                            {var mimeType = 'folder'}
                                         {/if}
-                                        <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                        {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp"}
+                                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                            <img src="${i.path}" alt="${mimeTypeDescription}" />
+                                        {elseif sakai.config.MimeTypes[mimeType]}
+                                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                            <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                                        {else}
+                                            {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                        {/if}
+                                        <div class="search_result_right">
+                                            <div class="search_result_header"><a href="${i.path}">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</a></div>
+                                            {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
+                                            {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                                <div class="search_result_tags">__MSG__TAGS__:
+                                                    {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{/for}
+                                                </div>
+                                            {/if}
+                                            {if mimeTypeDescription}<div class="search_result_type"><a href="${i.path}">${mimeTypeDescription}</a></div>{/if}
+                                        </div>
+                                    </div>
+                                {forelse}
+                                    __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
+                                {/for}
+                                --></div>
+                                <div class="search_results_part_footer"><!-- --></div>
+                            </div>
+
+                            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                        </div>
+
+                        <!-- PEOPLE PART -->
+                        <div class="fl-container fl-fix search_results_container" style="display:none" id="people_header">
+                        <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+                            <div class="fl-container fl-fix search_results_part">
+                                <div class="fl-container fl-fix search_results_part_header"> <a href="javascript:;" class="search_results_part_title">__MSG__PEOPLE__</a> <a href="javascript:;" class="fl-force-right display_more_link" id="display_more_people" style="display:none"><small>__MSG__VIEW_MORE_PEOPLE_RESULTS__ &raquo;</small></a> </div>
+                                <div id="people_search_result"> </div>
+                                <div id="people_search_result_template"><!--
+                                {for i in items}
+                                    {if !i.isAnonymous}
+                                        <div class="fl-container fl-fix search_result_person">
+                                            {if ! i.picture}
+                                                <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                            {else}
+                                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
+                                            {/if}
+                                            <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                            {if i.extra}
+                                                <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                            {else}
+                                                <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                            {/if}
+                                            {if ! i.isMe}
+                                                {if ! i.connected}
+                                                    <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
+                                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                                {/if}
+                                                <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                            {/if}
+                                        </div>
                                     {/if}
-                                </div>
-                            {/if}
-                        {forelse}
-                            __MSG__NO_PEOPLE_FOUND__.
-                        {/for}
-                        --></div>
+                                {forelse}
+                                    __MSG__NO_PEOPLE_FOUND__.
+                                {/for}
+                                --></div>
+                            </div>
+                            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                        </div>
+
+                        <!-- COURSES / SITES -->
+                        <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
+                            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
+                            <div class="fl-container fl-fix search_results_part">
+                                <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>__MSG__VIEW_MORE_COURSES_AND_SITES_RESULT__ &raquo;</small></a> </div>
+                                <div id="sites_search_result"> </div>
+                                <div id="sites_search_result_template"><!--
+                                    {for i in items}
+                                        <div class="fl-container fl-fix search_result_course_site">
+                                            <div class="search_result_course_site_title"><a href="${i.pagepath}">${i.site.name}</a></div>
+                                            <div class="search_result_course_site_url"><a href="${i.pagepath}">${i.pagepath}</a></div>
+                                            <div class="search_result_course_site_excerpt">${i.excerpt}</div>
+                                        </div>
+                                    {forelse}
+                                        __MSG__NO_COURSES_AND_SITES_FOUND__.
+                                    {/for}
+                                --></div>
+                            </div>
+                            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
+                        </div>
                     </div>
-            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
-                </div>
-                <!-- COURSES / SITES -->
-                <div class="fl-container fl-fix search_results_container" style="display:none" id="sites_header">
-            <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>
-                    <div class="fl-container fl-fix search_results_part">
-                        <div class="fl-container fl-fix search_results_part_header"> <a href="#" class="search_results_part_title">__MSG__COURSES_AND_SITES__</a> <a href="#" class="fl-force-right display_more_link" id="display_more_sites" style="display:none"><small>View more Courses &amp; Sites results &raquo;</small></a> </div>
-                        <div id="sites_search_result"> </div>
-                        <div id="sites_search_result_template"><!--
-                            {for i in items}
-                                <div class="fl-container fl-fix search_result_course_site">
-                                    <div class="search_result_course_site_title"><a href="${i.pagepath}">${i.site.name}</a></div>
-                                    <div class="search_result_course_site_url"><a href="${i.pagepath}">${i.pagepath}</a></div>
-                                    <div class="search_result_course_site_excerpt">${i.excerpt}</div>
-                                </div>
-                            {forelse}
-                                __MSG__NO_COURSES_AND_SITES_FOUND__.
-                            {/for}
-                        --></div>
+
+                    <div class="search_tab_content_bottom">
+                        <div class="search_tab_content_bottom_inner"><!-- --></div>
                     </div>
-            <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"><!-- --></div></div>
                 </div>
-            </div>
-            <div class="search_tab_content_bottom">
-                <div class="search_tab_content_bottom_inner"><!-- --></div>
+
             </div>
         </div>
-    </div>
-</div>
 
-<!-- FOOTER WIDGET -->
-<div id="widget_footer" class="widget_inline footercontainer"></div>
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+        
+        <div id="sendmessagecontainer" style="display:none; width:100%">
+            <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
+        </div>
+        <div id="addtocontactscontainer" style="width:100%">
+            <div id="widget_addtocontacts" class="widget_inline" style="width:100%"></div>
+        </div>
+        <div style="margin-bottom: 50px"><!-- --></div>
 
-<div id="sendmessagecontainer" style="display:none; width:100%">
-    <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
-</div>
-<div id="addtocontactscontainer" style="width:100%">
-    <div id="widget_addtocontacts" class="widget_inline" style="width:100%"></div>
-</div>
-<div style="margin-bottom: 50px"><!-- --></div>
-<script type="text/javascript" src="_javascript/search_main.js"></script>
-<script type="text/javascript" src="_javascript/search.js"></script>
-</body>
+        <script type="text/javascript" src="_javascript/search_main.js"></script>
+        <script type="text/javascript" src="_javascript/search.js"></script>
+
+    </body>
+
 </html>

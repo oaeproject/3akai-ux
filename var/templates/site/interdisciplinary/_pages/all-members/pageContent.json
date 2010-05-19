@@ -1,0 +1,6 @@
+{
+	"jcr:primaryType": "nt:folder",
+	"jcr:mixinTypes" : ["sakai:propertiesmix"],
+	"sling:resourceType": "sakai/pagecontent",
+	"sakai:pagecontent": "<p><img id=\"widget_sitemembers_id865995047\" class=\"widget_inline\" style=\"display:block; padding: 10px; margin: 4px\" src=\"/devwidgets/sitemembers/images/sitemembers.png\" border=\"1\" alt=\"\" /></p>"
+}

@@ -1,0 +1,10 @@
+{
+    "sling:resourceType": "sakai/proxy",
+    "sakai:request-proxy-endpoint": "http://feeds.delicious.com/v2/json/${mode}?count=${count}",
+    "sakai:request-proxy-method": "GET",
+    "sakai:shortDescription": "Get bookmarks from the Delicious JSON feed.",
+    "sakai:title" : "Delicious GET bookmarks",
+    "sakai:parameters" : ["{\"name\" : \"mode\", \"description\" : \"The correct mode of which the bookmarks should be obtained. This is a part of the proxy endpoint and contains a username whenever needed (modes: personal, network, subscriptions).\"}","{\"name\" : \"count\", \"description\" : \"The number of bookmarks to fetch. This is a part of the proxy endpoint.\"}"],
+    "sakai:description" : ["This proxy will retrieve bookmarks from a remote Delicious JSON feed."],
+    "sakai:response": ["Sends an HTTP request in order to receive a JSON feed containing the bookmarks from the desired category."]
+}

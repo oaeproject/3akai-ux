@@ -7,7 +7,7 @@
             <li id="nav_my_sakai_link"><a href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
             <li id="nav_content_media_link"><a href="/dev/content_media.html">__MSG__CONTENT_AND_MEDIA__</a></li>
             <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="/dev/people.html">__MSG__PEOPLE__</a></li>
-            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;" style="color: #888;">__MSG__COURSES_AND_SITES__</a></li>
+            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;"><span>__MSG__COURSES_AND_SITES__</span><img src="/dev/_images/white_subnav_arrow.png"/></a></li>
             <li id="nav_events_link"><a href="javascript:;" href="javascript:;" style="color: #888;">__MSG__CALENDAR__</a></li>
         </ul>
 
@@ -79,28 +79,104 @@
     </div>
 </div>
 
+<!-- SELECTED PAGE -->
+<div id="nav_selected_page_template"><!--
+    {if dropdown}
+        <div class="explore_nav_selected_dropdown" id="mysites_dropdown_close_link">
+    {else}
+        <div class="explore_nav_selected">
+    {/if}
+    <a href="javascript:;">
+        <span>${value}</span>
+        {if dropdown}
+            <img src="/dev/_images/white_subnav_arrow_up.png" class="explore_nav_selected_arrow" />
+        {/if}
+    </a>
+        
+    </div>
+--></div>
+
+<!-- DROPDOWN -->
+<div class="fl-container-flex fl-col-flex3 fl-fix dropdown dropdown_mysites" id="mysites_dropdown_main" style="display:none">
+   <div class="fixed-container">
+       <!-- MY SITES -->
+       <div class="fl-col dropdown_sites">
+           <h2>__MSG__MY_SITES__</h2>
+           <div id="top_navigation_my_sites_list"></div>
+           <div id="top_navigation_my_sites_list_template"><!--
+               <ul class="my_site_list">
+                   {for i in entry}
+                       <li><a href="/sites/${i.location}">${i.name}</a></li>
+                   {forelse}
+                       <span>__MSG__YOU_ARENT_A_MEMEBER_OF_ANY_SITES_YET__</span>
+                   {/for}
+               </ul>
+           --></div>
+           <a href="/dev/sites_edit.html" class="view_all_link hidedev">View &amp; Edit All &raquo;</a>
+       </div>
+
+       <!-- RECENTLY VISITED -->
+       <div id="chat_dropdown_recent_sites" class="fl-col dropdown_recent_sites">
+           <h2>__MSG__RECENT_SITES__</h2>
+       </div>
+       <div id='chat_dropdown_recent_sites_template'><!--
+           {if count == 0}
+               <span>__MSG__NO_RECENT_SITES_FOUND__<span>
+           {else}
+               <ul class="my_site_list">
+                   {for i in items}
+                       <li><a href="/sites/${i.site_id}">${i.site_id}</a></li>
+                   {/for}
+               </ul>
+           {/if}
+       --></div>
+
+        <!-- SEARCH -->
+        <div class="dropdown_search_course_sites">
+            <h2>__MSG__SEARCH_FOR_COURSES_AND_SITES__</h2>
+            <div class="fl-fix dropdown_search_container">
+            <div>
+                <input type="text" id="courses_sites_search" class="dropdown_search_input" value="__MSG__TYPE_NAME_OR_KEYWORDS__"/>
+                <div class="dropdown_search_button_left fl-force-left">
+                    <input type="button" id="courses_sites_search_button" class="dropdown_search_button_right" value="__MSG__SEARCH__"/>
+                </div>
+            </div>
+            </div>
+            <div class="dropdown_create_sakai_site">
+                <a href="javascript:;" id="top_navigation_create_site">__MSG__CREATE_A_SAKAI_SITES__</a>
+                <img src="/dev/_images/create_new_site_button_rt.png" alt="Close Icon"/>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown_bottom_part_left">
+        <div class="dropdown_bottom_part_right"></div>
+    </div>
+</div>
+
 <!-- SEARCH -->
 <div id="genaral_search_container">
     <form class="fl-force-right" method="post" action="">
-        <input type="text" id="general_search_input" class="general_search_input" value="__MSG__SEARCH_FOR__"/>
+        <input type="text" id="general_search_input" title="Please input the general search keyword" class="general_search_input" value="__MSG__SEARCH_FOR__" />
         <button id="general_search_submit_button" class="s3d-search-button s3d-button s3d-button-primary" type="submit"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
         <br class="clear"/>
     </form>
 </div>
 
 <div id="chat_available_template" style="display:none"><!--
-    <a href="javascript:;" id="chat_available_minimize">
-        <img class="chat_button_image" src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
-    </a>
+    <span class="chat_button_image">
+        <a href="javascript:;" id="chat_available_minimize">
+            <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="To show the chat navigation" />
+        </a>
+    </span>
     <table>
         <tbody>
             <tr id="chat_available_me" class="chat_top_container">
                 {if me}
                 <td class="chat_available_image">
                     {if me.photo}
-                        <img src="${me.photo}" alt="" />
+                        <img src="${me.photo}" alt="The photo of the user" />
                     {else}
-                        <img src="/dev/_images/person_icon.jpg" alt="" />
+                        <img src="/dev/_images/person_icon.jpg" alt="The default photo of any user if not specified" />
                     {/if}
                 </td>
                 <td>
@@ -119,13 +195,13 @@
                         <tr class="chat_available_friend">
                             <td class="chat_available_image">
                                 {if i.photo}
-                                    <img src="${i.photo}" alt="" />
+                                    <img src="${i.photo}" alt="The photo of the user" />
                                 {else}
-                                    <img src="/dev/_images/person_icon.jpg" alt="" />
+                                    <img src="/dev/_images/person_icon.jpg" alt="The photo of the user if not specified" />
                                 {/if}
                             </td>
                             <td>
-                                <span class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</span><br />
+                                <a href="javascript:;" class="chat_available_status_${i.chatstatus} initiate_chat_window" id="initiate_chat_window_${i.user}">${i.name}</a><br />
                                 <span class="chat_available_statusmessage">${i.statusmessage}</span>
                             </td>
                         </tr>
@@ -162,7 +238,7 @@
             {/if}
             <span id="online_button_${i.userid}" class="user_chat">
         {/if}
-        <a id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
+        <a href="javascript:;" id="chat_window_chatstatus_${i.userid}" class="chat_name_link chat_available_status_${i.chatstatus}">${i.name}</a>
         </span>
         </span>
 
@@ -185,25 +261,27 @@
                     <tr class="chat_top_container">
                         <td class="chat_available_image">
                             {if i.photo}
-                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="" />
+                                <img src="${i.photo}" id="chat_window_photo_${i.userid}" alt="The photo of the user" />
                             {else}
-                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="" />
+                                <img src="_images/person_icon.png" id="chat_window_photo_${i.userid}" alt="The photo of the user if not specified" />
                             {/if}
                         </td>
                         <td>
-                            <a href="javascript:;">
-                                <img id="chat_close_${i.userid}" class="chat_user_button_image chat_close" src="/devwidgets/navigationchat/images/chat_close.png" alt="" />
-                            </a>
-                            <a href="javascript:;">
-                                <img id="chat_minimize_${i.userid}" class="chat_user_button_image chat_minimize" src="/devwidgets/navigationchat/images/chat_minimize.png" alt="" />
-                            </a>
+                            <span class="chat_user_button_image">
+                                <a href="javascript:;" id="chat_minimize_${i.userid}" class="chat_minimize">
+                                    <img src="/devwidgets/navigationchat/images/chat_minimize.png" alt="To minimize the chat navigation area" />
+                                </a>
+                                <a href="javascript:;" id="chat_close_${i.userid}" class="chat_close">
+                                    <img src="/devwidgets/navigationchat/images/chat_close.png" alt="To close the chat navigation area" />
+                                </a>
+                            </span>
                             <span id="chat_window_name_${i.userid}" class="chat_window_name">${i.name}</span><br />
                             <span id="chat_window_statusmessage_${i.userid}" class="chat_available_statusmessage">${i.statusmessage}</span>
                         </td>
                     </tr>
                 </table>
                 <div id="chat_with_${i.userid}_content" class="chat_with_content_nooverflow"></div>
-                <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text"/>
+                <input id="chat_with_${i.userid}_txt" class="chat_with_txt" type="text" title="Please input the chat text" />
             </div>
 
         ${index++|eat}
@@ -227,7 +305,7 @@
                 <td id="chat_online_connections_link">
                     <span id="online_button">
                         <img src="/devwidgets/navigationchat/images/people.png" width="16px" class="chat_people_icon" alt="Online"/>
-                        <a class="chat_straight_link" id="chat_online"></a>
+                        <a href="javascript:;" class="chat_straight_link" id="chat_online"></a>
 
                         <!-- SHOW ONLINE FRIENDS -->
                         <div id="show_online" style="display:none">

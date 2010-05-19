@@ -22,10 +22,9 @@ var sakai = sakai || {};
 /**
  * Initialize the discussion widget
  * @param {String} tuid Unique id of the widget
- * @param {String} placement The place of the widget - usualy the location of the site
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.discussion = function(tuid, placement, showSettings) {
+sakai.discussion = function(tuid, showSettings) {
 
 
     /////////////////////////////
@@ -42,7 +41,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
     // Each post gets a marker which is basicly the widget ID.
     // If we are using another discussion this marker will be the ID of that widget.
     var marker = tuid;
-    var currentSite = placement.split("/")[0];
+    var currentSite = sakai.site.currentsite.id;
     var store = "/sites/" + currentSite + "/store/";
     var widgetSettings = {};
     var allDiscussions = [];
@@ -594,10 +593,9 @@ sakai.discussion = function(tuid, placement, showSettings) {
 
     /**
      * Takes the widgetSettings object and saves the settings.
-     * @param {Object} callback a function that can be called when the settings were succesfully saved.
+     * @param {Object} callback a function that can be called when the settings were successfully saved.
      */
     var saveWidgetSettings = function(callback) {
-        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
         var data = widgetSettings;
 
         widgetSettings['sling:resourceType'] = 'sakai/settings';
@@ -605,20 +603,8 @@ sakai.discussion = function(tuid, placement, showSettings) {
 
         // JCR properties are not necessary.
         delete data["jcr:primaryType"];
-        $.ajax({
-            cache: false,
-            url: url,
-            success: function(data) {
-                if (callback !== undefined) {
-                    callback();
-                }
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("Failed to save the settings.");
-            },
-            type: 'POST',
-            data: data
-        });
+
+        sakai.api.Widgets.saveWidgetData(tuid, data, callback);
     };
 
     /**
@@ -675,7 +661,7 @@ sakai.discussion = function(tuid, placement, showSettings) {
                 'sakai:sendstate': 'pending',
                 'sakai:to': "discussion:s-" + currentSite
             };
-            var url = "/sites/" + placement.split("/")[0] + "/store.create.html";
+            var url = sakai.site.currentsite["jcr:path"] + "/store.create.html";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -952,53 +938,6 @@ sakai.discussion = function(tuid, placement, showSettings) {
     /**
      * Displays the settings, and depending on the settings the main or exisiting view of it.
      */
-    var displaySettings = function() {
-        $(discussionMainContainer, rootel).hide();
-        $(discussionSettings, rootel).show();
-        // Fetch all the initial posts.
-        getExistingDiscussions();
-
-        // If we are posting to another store we show the existing view.
-        if (widgetSettings.marker !== undefined && widgetSettings.marker !== tuid) {
-            showTab("existing");
-        }
-    };
-
-    /**
-     * Fetches the widget settings and places it in the widgetSettings var.
-     */
-    var getWidgetSettings = function() {
-        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
-
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data) {
-                widgetSettings = $.evalJSON(data);
-                if (widgetSettings.marker !== undefined) {
-                    marker = widgetSettings.marker;
-                }
-
-                if (showSettings) {
-                    displaySettings();
-                }
-                else {
-                    getPostsFromJCR();
-                }
-            },
-            error: function(xhr, textStatus, thrownError) {
-                // We don't have settings for this widget yet.
-                if (showSettings) {
-                    displaySettings();
-                }
-            }
-        });
-    };
-
-
-    /**
-     * Displays the settings, and depending on the settings the main or exisiting view of it.
-     */
     var displaySettings = function(){
         $(discussionMainContainer, rootel).hide();
         $(discussionSettings, rootel).show();
@@ -1014,13 +953,12 @@ sakai.discussion = function(tuid, placement, showSettings) {
     /**
      * Fetches the widget settings and places it in the widgetSettings var.
      */
-    var getWidgetSettings = function(){
-        var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
+    var getWidgetSettings = function() {
 
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function(data){
+        sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+
+            if (success) {
+
                 widgetSettings = $.evalJSON(data);
                 if (widgetSettings.marker !== undefined) {
                     marker = widgetSettings.marker;
@@ -1032,14 +970,18 @@ sakai.discussion = function(tuid, placement, showSettings) {
                 else {
                     getPostsFromJCR();
                 }
-            },
-            error: function(xhr, textStatus, thrownError) {
+
+            }
+            else {
+
                 // We don't have settings for this widget yet.
                 if (showSettings) {
                     displaySettings();
                 }
             }
+
         });
+
     };
 
 

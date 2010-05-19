@@ -1,0 +1,198 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+
+/* DELICIOUS CONTAINER */
+
+#delicious_widget #delicious_container {
+    padding:15px;
+}
+
+
+/* DELICIOUS MAIN MENU */
+
+#delicious_main_menu {
+    padding-bottom:5px;
+    border-bottom:3px solid #ddd;
+}
+
+#delicious_main_menu_links {
+    margin-right:25px;
+}
+
+#delicious_main_menu_refresh {
+    width:15px;
+    float:right;
+    margin:-17px 0 0 0;
+}
+
+#delicious_widget #delicious_main_menu #delicious_refresh_link {
+    background:url('/devwidgets/delicious/images/refresh.jpg');
+    float:right;
+    height:15px;
+    width:15px;
+}
+
+#delicious_widget #delicious_main_menu #delicious_refresh_link:hover {
+    background-position:-15px 0;
+}
+
+#delicious_widget .delicious_activeMenuItem {
+    font-weight:bold;
+}
+
+
+/* DELICIOUS MAIN BOOKMARKS */
+
+#delicious_widget #delicious_main_bookmarks {
+    padding:30px 0 10px 0;
+}
+
+#delicious_widget #delicious_main_bookmarks a {
+    display:block;
+    padding:2px 0;
+}
+
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark {
+    padding:0 20px 10px 0;
+}
+
+
+/* DELICIOUS MAIN BOOKMARKS INFO */
+
+#delicious_widget .delicious_main_bookmark_info_link {
+    background:url('/devwidgets/delicious/images/arrow.jpg');
+    float:right;
+    height:10px;
+    margin-top:4px;
+    width:13px;
+}
+
+#delicious_widget .delicious_showArrowLeft {
+    background-position:0 -15px;
+}
+
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark ul a {
+    display:inline;
+}
+
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info {
+    margin:0 15px;
+    padding:0 5px;
+    border-left:2px solid #ddd;
+}
+
+#delicious_widget #delicious_main_bookmarks .delicious_main_bookmark .delicious_main_bookmark_info li {
+    list-style:none;
+}
+
+
+/* DELICIOUS FILTER */
+
+#delicious_widget #delicious_main_filter {
+    padding-top:8px;
+}
+
+
+/* DELICIOUS SETTINGS */
+
+#delicious_widget .settings_input {
+    padding:5px 0 25px 25px;
+}
+
+
+/* DELICIOUS PAGER */
+
+#delicious_widget .fl-fix {
+    overflow:hidden;
+}
+
+#delicious_widget .fl-widget .fl-widget-options .widget-options-inner {
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+}
+
+#delicious_widget .fl-widget .fl-widget-options ul li {
+    float:left;
+    margin:0;
+    padding:16px 3px 0;
+}
+
+#delicious_widget .fl-widget-options #delicious_paging .page-number {
+    padding-left:0;
+    padding-right:0;
+}
+
+#delicious_widget .fl-widget-options .jq_pager {
+    padding-left:7px;
+}
+
+#delicious_widget .fl-widget-options #delicious_paging {
+    color:#666666;
+    font-size:0.85em;
+    font-weight:bold;
+}
+
+#delicious_widget .sakai_pager li {
+    background:transparent !important;
+}
+
+#delicious_widget .sakai_pager li > span {
+    background:none !important;
+    margin-left:0;
+    margin-right:0;
+    padding-left:3px;
+    padding-right:3px;
+}
+
+#delicious_widget .sakai_pager li.dots {
+    clear:none;
+}
+
+
+/* GENERAL MARKUP */
+
+#delicious_widget #delicious_error_nouser a {
+    display:inline !important;
+    padding:0 !important;
+    text-decoration:underline;
+}
+
+#delicious_widget .delicious_input {
+    border:1px solid #dddddd;
+    padding:3px;
+}
+
+#delicious_widget .delicious_main_menu_link {
+    padding:0 6px;
+}
+
+#delicious_widget .delicious_pipe_divider {
+    color:#999999;
+    font-size:0.85em;
+}
+
+#delicious_widget .s3d-button-inner {
+    padding-right:3px;
+}
+
+.delicious .widget_title {
+    background:url("/devwidgets/delicious/images/delicious_icon.png") no-repeat scroll 17px 18px transparent;
+}

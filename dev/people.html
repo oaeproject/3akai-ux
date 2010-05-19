@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - My Contacts</title>
+        <title>Sakai 3 R&amp;D - __MSG__MY_CONTACTS__</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
@@ -45,189 +45,189 @@
 
     </head>
 
-<body id="root" class="fl-centered fl-container people i18nable">
+    <body id="root" class="fl-centered fl-container people i18nable">
 
-    <!-- EXPLORE BAR -->
-    <div id="widget_navigationchat" class="widget_inline"></div>
+        <!-- EXPLORE BAR -->
+        <div id="widget_navigationchat" class="widget_inline"></div>
 
-    <!-- TITLE BAR  -->
-    <div class="fl-container-flex header">
-        <div class="fl-fix fl-centered fixed-container">
-            <div class="decor"></div>
+        <!-- TITLE BAR  -->
+        <div class="fl-container-flex header">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor"></div>
 
-                <!-- TITLE BAR  -->
-                    <div class="s3d-site-heading">
-                        <div class="fl-container options find_more_people fl-force-right">
-                            <a id="edit-layout" href="search_people.html">__MSG__FIND_MORE_PEOPLE__</a>
+                    <!-- TITLE BAR  -->
+                        <div class="s3d-site-heading">
+                            <div class="fl-container options find_more_people fl-force-right">
+                                <a id="edit-layout" href="search_people.html">__MSG__FIND_MORE_PEOPLE__</a>
+                            </div>
+                            <h1>__MSG__MY_PEOPLE__</h1>
                         </div>
-                        <h1>__MSG__MY_PEOPLE__</h1>
-                    </div>
 
+            </div>
         </div>
-    </div>
 
-    <!-- CONTENT -->
-    <div class="fl-container fl-fix content content_search">
-    <div class="fl-fix fl-centered fixed-container main-container">
-    <div class="outline-top"><div class="outline-top-inner"></div></div>
-    <div class="outline">
+        <!-- CONTENT -->
+        <div class="fl-container fl-fix content content_search">
+        <div class="fl-fix fl-centered fixed-container main-container">
+        <div class="outline-top"><div class="outline-top-inner"></div></div>
+        <div class="outline">
 
-        <!-- TAB CONTENT -->
-        <div class="fl-centered fl-container fl-tab-content search_tab_content">
+            <!-- TAB CONTENT -->
+            <div class="fl-centered fl-container fl-tab-content search_tab_content">
 
-            <!-- SEARCH RESULTS -->
-            <div class="fl-container fl-fix search_results_container" id="content_media_header">
-                <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
+                <!-- SEARCH RESULTS -->
+                <div class="fl-container fl-fix search_results_container" id="content_media_header">
+                    <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
 
-                <!-- COURSE / SITES PART -->
-                <div class="fl-container fl-fix search_results_part">
+                    <!-- COURSE / SITES PART -->
+                    <div class="fl-container fl-fix search_results_part">
 
-                    <div class="fl-container fl-fix search_results_part_header">
-                        <a href="#" class="search_results_part_title">__MSG__MY_CONTACTS__</a>
-                    </div>
+                        <div class="fl-container fl-fix search_results_part_header">
+                            <a href="#" class="search_results_part_title">__MSG__MY_CONTACTS__</a>
+                        </div>
 
-                    <div id="contacts_search_result">
+                        <div id="contacts_search_result">
 
-                    </div>
+                        </div>
 
-                    <div id="contacts_search_result_template"><!--
-                        {for i in items}
-                            <div class="fl-container fl-fix search_result_person">
-                                {if ! i.picture}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
-                                {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
-                                {/if}
-                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-                                {if i.extra}
-                                    <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-                                {else}
-                                    <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-                                {/if}
-                                {if ! i.isMe}
-                                    {if ! i.connected}
-                                        <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">Add to Contacts</a>
+                        <div id="contacts_search_result_template"><!--
+                            {for i in items}
+                                <div class="fl-container fl-fix search_result_person">
+                                    {if ! i.picture}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                     {else}
-                                        <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">Remove contact</a>
+                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                     {/if}
-                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
-                                {/if}
-                            </div>
-                        {forelse}
-                            __MSG__NO_CONTACTS_FOUND__
-                        {/for}
-                    --></div>
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                    {if i.extra}
+                                        <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                    {/if}
+                                    {if ! i.isMe}
+                                        {if ! i.connected}
+                                            <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
+                                        {else}
+                                            <a href="javascript:;" class="search_result_person_link link_remove_contact" id="link_remove_contact_${i.userid}">__MSG__REMOVE_CONTACT__</a>
+                                        {/if}
+                                        <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                        <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
+                                    {/if}
+                                </div>
+                            {forelse}
+                                __MSG__NO_CONTACTS_FOUND__
+                            {/for}
+                        --></div>
 
-                    <div class="search_results_part_footer"></div>
+                        <div class="search_results_part_footer"></div>
 
+                    </div>
+
+                    <div class="jq_pager"></div>
+
+                    <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
                 </div>
 
-                <div class="jq_pager"></div>
+                <!-- PEOPLE PART -->
+                <div class="fl-container fl-fix search_results_container" id="people_header">
+                    <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
+                    <div class="fl-container fl-fix search_results_part">
 
-                <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
-            </div>
+                        <div class="fl-container fl-fix search_results_part_header">
+                            <a href="javascript:;" class="search_results_part_title">__MSG__MY_CONTACTS_INVITATIONS__</a>
+                        </div>
 
-            <!-- PEOPLE PART -->
-            <div class="fl-container fl-fix search_results_container" id="people_header">
-                <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
-                <div class="fl-container fl-fix search_results_part">
+                        <div id="invited_search_result">
 
-                    <div class="fl-container fl-fix search_results_part_header">
-                        <a href="javascript:;" class="search_results_part_title">__MSG__MY_CONTACTS_INVITATIONS__</a>
+                        </div>
+
+                        <div id="invited_search_result_template"><!--
+                            {for i in items}
+                                <div class="fl-container fl-fix search_result_person" id="accept_contact_container_${i.userid}">
+                                    {if ! i.picture}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                    {else}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
+                                    {/if}
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                    {if i.extra}
+                                        <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                    {/if}
+                                    {if ! i.isMe}
+                                        <a href="javascript:;" class="search_result_person_link link_accept_contact" id="link_accept_contact_${i.userid}">__MSG__ACCEPT_INVITATION__</a>
+                                        <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
+                                        <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
+                                    {/if}
+                                </div>
+                            {forelse}
+                                __MSG__NO_INVITATIONS_FOUND__
+                            {/for}
+                        --></div>
+
+                        <div class="search_results_part_footer" style="display:none"></div>
+
                     </div>
-
-                    <div id="invited_search_result">
-
-                    </div>
-
-                    <div id="invited_search_result_template"><!--
-                        {for i in items}
-                            <div class="fl-container fl-fix search_result_person" id="accept_contact_container_${i.userid}">
-                                {if ! i.picture}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
-                                {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
-                                {/if}
-                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-                                {if i.extra}
-                                    <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-                                {else}
-                                    <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-                                {/if}
-                                {if ! i.isMe}
-                                    <a href="javascript:;" class="search_result_person_link link_accept_contact" id="link_accept_contact_${i.userid}">Accept Invitation</a>
-                                    <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
-                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
-                                {/if}
-                            </div>
-                        {forelse}
-                            __MSG__NO_INVITATIONS_FOUND__
-                        {/for}
-                    --></div>
-
-                    <div class="search_results_part_footer" style="display:none"></div>
-
+                    <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
                 </div>
-                <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
-            </div>
 
-            <div class="fl-container fl-fix search_results_container" id="courses_sites_header">
-                <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
-                <div class="fl-container fl-fix search_results_part">
+                <div class="fl-container fl-fix search_results_container" id="courses_sites_header">
+                    <div class="search_top_rounded"><div class="search_top_rounded_inner"></div></div>
+                    <div class="fl-container fl-fix search_results_part">
 
-                    <div class="fl-container fl-fix search_results_part_header">
-                        <a href="#" class="search_results_part_title">__MSG__PENDING_INVITATIONS__</a>
+                        <div class="fl-container fl-fix search_results_part_header">
+                            <a href="#" class="search_results_part_title">__MSG__PENDING_INVITATIONS__</a>
+                        </div>
+
+                        <div id="pending_search_result">
+
+                        </div>
+
+                        <div id="pending_search_result_template"><!--
+                            {for i in items}
+                                <div class="fl-container fl-fix search_result_person">
+                                    {if ! i.picture}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                    {else}
+                                        <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
+                                    {/if}
+                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
+                                    {if i.extra}
+                                        <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
+                                    {else}
+                                        <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
+                                    {/if}
+                                    {if ! i.isMe}
+                                        <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">__MSG__MESSAGE__</a>
+                                    {/if}
+                                </div>
+                            {forelse}
+                                __MSG__NO_PENDING_CONTACTS_FOUND__
+                            {/for}
+                        --></div>
+
+                        <div class="search_results_part_footer" style="display:none"></div>
+
                     </div>
-
-                    <div id="pending_search_result">
-
-                    </div>
-
-                    <div id="pending_search_result_template"><!--
-                        {for i in items}
-                            <div class="fl-container fl-fix search_result_person">
-                                {if ! i.picture}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
-                                {else}
-                                    <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" style="background-image:none" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
-                                {/if}
-                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
-                                {if i.extra}
-                                    <a href="javascript:;" class="search_result_person_dept">${i.extra}</a>
-                                {else}
-                                    <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
-                                {/if}
-                                {if ! i.isMe}
-                                    <a href="javascript:;" class="search_result_person_link person_message_link" id="person_message_link_${i.userid}">Message</a>
-                                {/if}
-                            </div>
-                        {forelse}
-                            __MSG__NO_PENDING_CONTACTS_FOUND__
-                        {/for}
-                    --></div>
-
-                    <div class="search_results_part_footer" style="display:none"></div>
-
+                    <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
                 </div>
-                <div class="search_bottom_rounded"><div class="search_bottom_rounded_inner"></div></div>
+
             </div>
 
         </div>
+        <div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
+        </div>
+        </div>
 
-    </div>
-    <div class="outline-bottom"><div class="outline-bottom-inner"></div></div>
-    </div>
-    </div>
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-    <!-- FOOTER WIDGET -->
-    <div id="widget_footer" class="widget_inline footercontainer"></div>
+        <div id="sendmessagecontainer" style="display:none; width:100%">
+            <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
+        </div>
 
-    <div id="sendmessagecontainer" style="display:none; width:100%">
-        <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
-    </div>
+        <script type="text/javascript" src="_javascript/people.js"></script>
 
-    <script type="text/javascript" src="_javascript/people.js"></script>
-
-</body>
+    </body>
 </html>

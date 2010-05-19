@@ -174,42 +174,45 @@ sakai.site_manage_members = function() {
      * @param {Object} isNew : is this a new list or already updated by javascript code
      */
     var renderMembers = function(members, isNew) {
-        var results = members.results;
-             for (var i = 0; i < results.length; i++) {
-                if(typeof results[i].picture !== "undefined" && $.evalJSON(results[i].picture).name){
-                    results[i].picture = $.evalJSON(results[i].picture);
-                } else {
-                    results[i].picture = undefined;
-                }
-                results[i].role = sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
-            }
-            var toRender = {};
-            toRender.users = results;
-            $("#siteManage_members").html($.TemplateRenderer("siteManage_people_template", toRender));
-             $("#manage_members_count").html(getNumMembers(json.total));
-            $(".siteManage_person").bind("click",
-            function(e, ui) {
-                if (!$(e.target).hasClass("view-profile-label")) {
-                    var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
-                    var isSelected = false;
-                    for (var i = 0; i < selectedPeople.length; i++) {
-                        if (selectedPeople[i]["rep:userId"] === json.results[userindex]["rep:userId"]) {
-                            isSelected = true;
-                            break;
-                        }
-                    }
-                    selectPerson(userindex, !isSelected, false);
-                    updateSelectedPersons();
-                }
-            });
-        $(".sakai_pager").pager({
-            pagenumber: currentPage,
-            pagecount: Math.ceil( json.total/pageSize),
-            buttonClickCallback: function(pageclickednumber){
-                currentPage = pageclickednumber;
-                getSiteMembers($("#txt_member_search").val(), pageclickednumber,"\n");
-            }
-        });
+      var results = members.results;
+      for (var i = 0; i < results.length; i++) {
+          if (typeof results[i].picture !== "undefined") {
+              if (typeof results[i].picture !== "object") {
+                results[i].picture = $.evalJSON(results[i].picture);
+                results[i].picture.picPath = "/_user" + results[i].path + "/public/profile/" + results[i].picture.name;
+              }
+          } else {
+              results[i].picture = undefined;
+          }
+          results[i].role = sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
+      }
+      var toRender = {};
+      toRender.users = results;
+      $("#siteManage_members").html($.TemplateRenderer("siteManage_people_template", toRender));
+      $("#manage_members_count").html(getNumMembers(json.total));
+      $(".siteManage_person").bind("click",
+      function(e, ui) {
+          if (!$(e.target).hasClass("view-profile-label")) {
+              var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
+              var isSelected = false;
+              for (var i = 0; i < selectedPeople.length; i++) {
+                  if (selectedPeople[i]["rep:userId"] === json.results[userindex]["rep:userId"]) {
+                      isSelected = true;
+                      break;
+                  }
+              }
+              selectPerson(userindex, !isSelected, false);
+              updateSelectedPersons();
+          }
+      });
+      $(".sakai_pager").pager({
+          pagenumber: currentPage,
+          pagecount: Math.ceil(json.total / pageSize),
+          buttonClickCallback: function(pageclickednumber) {
+              currentPage = pageclickednumber;
+              getSiteMembers($("#txt_member_search").val(), pageclickednumber, "n");
+          }
+      });
 
 
     };
@@ -388,6 +391,16 @@ sakai.site_manage_members = function() {
                 }
             }
             sakai.lib.batchPosts(actions);
+            
+            var toRemove = [];
+            for(var i =0; i< userCount; i++){
+              for (var j = 0; j < json.results.length; j++) {
+                if( json.results[j]["rep:userId"] === dataTemp.uuserid[i]){
+                  toRemove.push(json.results[j]);
+                }
+              }
+            }
+            removeItemsFromArray(toRemove);
         }
     };
 

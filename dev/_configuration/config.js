@@ -36,6 +36,7 @@ sakai.config = {
         PUBLIC_MY_DASHBOARD_URL: "/dev/public_my_sakai.html",
         PUBLIC_PEOPLE_URL: "/dev/public_people.html",
         PUBLIC_SEARCH_URL: "/dev/public_search.html",
+        RECENT_SITES_URL: "/_user/private/__USERSTORAGEPREFIX__recentsites.json",
         SEARCH_CONTENT_URL: "/dev/search_content.html",
         SEARCH_GENERAL_URL: "/dev/search.html",
         SEARCH_PEOPLE_URL: "search_people.html",
@@ -46,7 +47,7 @@ sakai.config = {
 
 
         // Services
-        BATCH_GET: "/system/batch/get",
+        BATCH: "/system/batch",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
@@ -94,6 +95,7 @@ sakai.config = {
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
         SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
         SITE_ROOT: "/sites",
+        SITE_TEMPLATE: "/var/templates/site/__TEMPLATE__",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
         SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
         SITES_SERVICE: "/system/sling/membership",
@@ -205,5 +207,7 @@ sakai.config = {
         }
     },
 
-    displayDebugInfo: true
+    displayDebugInfo: true,
+
+    widgets: {}
 };
