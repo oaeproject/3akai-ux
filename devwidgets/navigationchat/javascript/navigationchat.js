@@ -295,12 +295,12 @@ sakai.navigationchat = function(tuid, showSettings){
      * @param {String} picture The picture path for a user
      * @param {String} userStoragePrefix The user's storage prefix
      */
-    var parsePicture = function(picture, uuid){
+    var parsePicture = function(profile, uuid){
         // Check if the picture is undefined or not
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
-        if (picture && $.evalJSON(picture).name) {
-            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(picture).name;
+        if (profile.path && profile.picture && $.evalJSON(profile.picture).name) {
+            return "/_user" + profile.path + "/public/profile/" + $.evalJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
@@ -810,7 +810,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 }
 
                 json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
-                json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"]);
+                json.contacts[i].photo = parsePicture(json.contacts[i].profile, json.contacts[i].profile["rep:userId"]);
                 json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
 
                 saveToAllFriends(json.contacts[i]);
@@ -829,7 +829,7 @@ sakai.navigationchat = function(tuid, showSettings){
         json.me = {};
         if (json.me) {
         json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
-        json.me.photo = parsePicture(sakai.data.me.profile.picture, sakai.data.me.user.userid);
+        json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
         json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
         json.me.chatstatus = currentChatStatus;
 
@@ -1382,7 +1382,7 @@ sakai.navigationchat = function(tuid, showSettings){
 
                                 // Parse the name, photo, statusmessage and chatstatus into the activewindows objects
                                 activewindows.items[index].name = parseName(k, friendProfile.firstName, friendProfile.lastName);
-                                activewindows.items[index].photo = parsePicture(friendProfile.picture, k);
+                                activewindows.items[index].photo = parsePicture(friendProfile, k);
                                 activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
                                 activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
 
