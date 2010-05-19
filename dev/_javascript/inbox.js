@@ -457,11 +457,6 @@ sakai.inbox = function() {
      */
     var formatMessage = function(message) {
 
-        //2009-06-30T21:58:37.731+01:00
-        if (typeof message === "string"){
-            message = $.evalJSON(message);
-        }
-
         var dateString = message["sakai:created"];
         var d = new Date();
         d.setFullYear(parseInt(dateString.substring(0,4),10));

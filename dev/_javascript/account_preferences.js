@@ -213,7 +213,7 @@ sakai.account_preferences = function(){
         $.ajax({
             url : "/dev/_configuration/languages.json",
             success : function(data) {
-                languages = $.evalJSON(data);
+                languages = $.extend(data, {}, true);
                 putLangsinCmb(languages);
             },
             error: function(xhr, textStatus, thrownError) {

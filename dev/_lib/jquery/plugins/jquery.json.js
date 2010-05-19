@@ -123,6 +123,7 @@
      **/
     $.evalJSON = function(src)
     {
+        console.log(src);
         // added for backwards compatibility with jQuery 1.4.2
         // see SAKIII-268 for a description of this hack
         if (typeof(src) == 'object') {

@@ -344,7 +344,7 @@ sakai.navigationchat = function(tuid, showSettings){
 
                 // Count unread messages
                 var unread_message_count = 0;
-                for (var i = 0; i < data.total; i++) {
+                for (var i = 0; i < data.results.length; i++) {
                     if (data.results[i]["sakai:read"] === false) {
                         unread_message_count++;
                     }

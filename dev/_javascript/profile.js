@@ -83,7 +83,7 @@ sakai.profile = function(){
         fillInvitePopup();
 
         // If we are looking at another user's profile
-        if ((user) && (user !== me.user.userid)) {
+        if (user && (user !== me.user.userid)) {
 
             myprofile = false;
 
@@ -92,7 +92,7 @@ sakai.profile = function(){
                 cache: false,
                 success: function(raw_userdata){
 
-                    var user_data = $.evalJSON(raw_userdata).results[0];
+                    var user_data = raw_userdata.results[0];
 
                     totalprofile = {};
                     totalprofile.profile = user_data;

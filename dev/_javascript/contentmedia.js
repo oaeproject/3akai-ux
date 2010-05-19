@@ -518,7 +518,7 @@ sakai.contentmedia = function(){
             },
             cache: false,
             success: function(data){
-                doFileRender($.evalJSON(data));
+                doFileRender(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -1335,8 +1335,8 @@ sakai.contentmedia = function(){
             //},
             cache: false,
             success: function(data){
-                parseTreeData($.evalJSON(data));
-                //doFileRender($.evalJSON(data));
+                parseTreeData(data);
+                //doFileRender(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -1396,7 +1396,7 @@ sakai.contentmedia = function(){
                 url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
                 cache: false,
                 success: function(data){
-                    var parsedData = $.evalJSON(data);
+                    var parsedData = data;
                     setSiteFilter(sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 
                     // Fetch the initial list of files
@@ -1432,7 +1432,7 @@ sakai.contentmedia = function(){
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-                loadSites($.evalJSON(data));
+                loadSites(data);
             }
         });
     };
