@@ -175,6 +175,7 @@ sakai.profile = function(){
             $("#myprofile_tabs").show();
             $("#add_to_contacts_button").hide();
             $("#send_message_button").hide();
+            $("#profile_tabs").show();
 
         }
 
