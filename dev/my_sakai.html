@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sakai 3 R&amp;D - __MSG__MY_SAKAI__</title>
@@ -56,6 +57,7 @@
                     <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
+
             <div class="dialog_content">
                 <div class="add-tools-right">
                     <h4>__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__</h4>
@@ -132,32 +134,32 @@
             <div id="add_goodies_body_template"><!--
                 <table>
                 {for i in items}
-                {if i.alreadyIn}
-                <tr class="add" id="row_add_${i.id}" style="display:none">
-                {else}
-                <tr id="row_add_${i.id}" class="add">
-                {/if}
-                <td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">__MSG__ADD__</a></td>
-                <td>
-                <div class="dialog_add_goodies_title">${i.title}</div>
-                <div class="dialog_add_goodies_description">
-                ${i.description}
-                </div>
-                </td>
-                </tr>
-                {if i.alreadyIn}
-                <tr id="row_remove_${i.id}" class="remove">
-                {else}
-                <tr id="row_remove_${i.id}" class="remove" style="display:none">
-                {/if}
-                <td width="80px"><a href="javascript:;" id="btn_remove_${i.id}" class="add-button remove goodies_remove_button">__MSG__REMOVE__</a></td>
-                <td>
-                <div class="dialog_remove_goodies_title">${i.title}</div>
-                <div class="dialog_remove_goodies_description">
-                ${i.description}
-                </div>
-                </td>
-                </tr>
+                    {if i.alreadyIn}
+                    <tr class="add" id="row_add_${i.id}" style="display:none">
+                    {else}
+                    <tr id="row_add_${i.id}" class="add">
+                    {/if}
+                        <td class="remove_add_column"><a href="javascript:;" id="btn_add_${i.id}" class="add-button add active-primary goodies_add_button">__MSG__ADD__</a></td>
+                        <td>
+                            <div class="dialog_add_goodies_title">${i.title}</div>
+                            <div class="dialog_add_goodies_description">
+                            ${i.description}
+                            </div>
+                        </td>
+                    </tr>
+                    {if i.alreadyIn}
+                    <tr id="row_remove_${i.id}" class="remove">
+                    {else}
+                    <tr id="row_remove_${i.id}" class="remove" style="display:none">
+                    {/if}
+                        <td width="80px"><a href="javascript:;" id="btn_remove_${i.id}" class="add-button remove goodies_remove_button">__MSG__REMOVE__</a></td>
+                        <td>
+                            <div class="dialog_remove_goodies_title">${i.title}</div>
+                            <div class="dialog_remove_goodies_description">
+                            ${i.description}
+                        </div>
+                        </td>
+                    </tr>
                 {/for}
                 </table>
             --></div>
@@ -199,34 +201,32 @@
             <div class="fl-col-flex${size}">
             {var index = 0}
             {for c in columns}
-            ${index++|eat}
-            <div class="fl-col groupWrapper" id="column_uid_${index}">
-            {for p in c.portlets}
-            <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-            <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
-            <div class="widget-titlebar-inner">
-            <h2 class="widget_title">${p.title}</h2>
-            <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
-            </div>
-            </div>
-            {if p.display == "none"}
-            <div id="${p.uid}_container" style="display:none">
-            {else}
-            <div id="${p.uid}_container">
-            {/if}
-            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
-            </div>
-            </div>
-            {/for}
-            </div>
+                ${index++|eat}
+                <div class="fl-col groupWrapper" id="column_uid_${index}">
+                {for p in c.portlets}
+                    <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
+                        <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
+                            <div class="widget-titlebar-inner">
+                                <h2 class="widget_title">${p.title}</h2>
+                                <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
+                            </div>
+                        </div>
+                    {if p.display == "none"}
+                        <div id="${p.uid}_container" style="display:none">
+                    {else}
+                        <div id="${p.uid}_container">
+                    {/if}
+                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+                        </div>
+                    </div>
+                {/for}
+                </div>
             {/for}
             </div>
         --></div>
 
         <div class="fl-container-flex widget-content">
-
             <div class="fl-fix fl-centered fixed-container" id="widgetscontainer"></div>
-
         </div>
 
         <!-- Dropdown menu shown when clicking on a widget's pencil -->
@@ -247,4 +247,5 @@
         <script type="text/javascript" src="_javascript/mysakai.js"></script>
 
     </body>
+
 </html>
