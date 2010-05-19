@@ -737,7 +737,7 @@ sakai.comments = function(tuid, showSettings){
         if (message !== "") {
             var data = {
                 "sakai:body": message,
-                "sakai:editedby": me.user.userid + "|" + new Date().toUTCString()
+                "sakai:editedby": me.user.userid
             };
             // Do a post to the comment to edit the message.
             var commentUrl = $(commentsPath+id).val();
