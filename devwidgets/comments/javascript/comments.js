@@ -104,9 +104,6 @@ sakai.comments = function(tuid, showSettings){
     var commentsDirectionRbt = commentsName + "_ChooseDirectionComments";
     var commentsPermissionsRbt = commentsName + "_ChoosePermissionComments";
 
-    // Resize textarea to match width
-    var commentsMainContainerTextarea = commentsOutputContainer + " textarea";
-    var commentsCommentMessage = commentsClass + "_commentMessage";
 
     ////////////////////////
     // Utility  functions //
@@ -635,7 +632,6 @@ sakai.comments = function(tuid, showSettings){
 
     /** Bind the insert comment button*/
     $(commentsCommentBtn, rootel).bind("click", function(e, ui){
-        $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
         // checks if the user is loggedIn
         var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
         var txtToFocus = commentsMessageTxt;
@@ -726,7 +722,6 @@ sakai.comments = function(tuid, showSettings){
      * Edit link
      */
     $(commentsEdit, rootel).live('click', function(e, ui){
-        $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
         var id = e.target.id.replace("comments_edit_", "");
         // Show the textarea
         $(commentsMessage + id, rootel).hide();
