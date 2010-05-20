@@ -1344,22 +1344,24 @@ sakai.site = function(){
     var printPage = function(){
 
         // Save page to be printed into my personal space
-        var content = $("#" + sakai.site.selectedpage).html();
+        var content = $("#" + sakai.site.selectedpage + ".content").html();
         content = "<div class='content'>" + content + "</div>";
 
         var arrLinks = [];
         var links = $("link");
+        var css = "";
         for (var i = 0, j = links.length; i < j; i++){
             if (links[i].type === "text/css"){
                 arrLinks.push(links[i].href);
+                css += links[i].href + ",";
             }
         }
-
+        console.log(content);
         $.ajax({
-            url: "/_user/private/print",
+            url: "/_user" + sakai.data.me.profile.path + "/private/print",
             type: "POST",
             data: {
-                "css": arrLinks,
+                "css": css,
                 "content": content,
                 "_charset_":"utf-8"
             },
@@ -1367,7 +1369,7 @@ sakai.site = function(){
                 // Open a popup window with printable content
                 var day = new Date();
                 var id = day.getTime();
-                window.open("/dev/print.html", id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150");
+                window.open("/dev/print.html", id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=664,height=600,left=320,top=150");
             }
         });
 

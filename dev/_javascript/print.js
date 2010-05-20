@@ -21,6 +21,9 @@
 
 var sakai = sakai || {};
 sakai.print = function(){
+    
+    var init = function() {
+      var json = {};
 
     var json = false;
 
