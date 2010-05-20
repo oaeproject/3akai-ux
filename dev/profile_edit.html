@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -207,49 +208,49 @@
                             </div>
 
                             <div class="profile_section_body" id="degrees_list">
-                            <table summary="Degrees">
+                                <table summary="Degrees">
+                                    <tr id="no_degrees" style="display:block">
+                                        <td colspan="2">
+                                            <span>__MSG__NO_DEGREES_ADDED_YET__</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="degrees_list_template"><!--
+                                {for i in items}
+                                    <div class="multi_entry degree_record" id="degree_record_${i.id}">
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td>
+                                                    <div class="degree_record_div multifield_out" id="degree_record_${i.id}_div" style="line-height:20px">
+                                                        <b>${i.school} (${i.country})</b>
+                                                        <br/>
+                                                        ${i.degree}, ${i.field}<br/>
+                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
+                                                        <br/>
+                                                        {if i.notes}
+                                                        ${i.notes}
+                                                        <br/>
+                                                        {/if}
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="greydotted"></div>
+                                {forelse}
+                                    <table style="width:100%">
                                         <tr id="no_degrees" style="display:block">
                                             <td colspan="2">
                                                 <span>__MSG__NO_DEGREES_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
-                                </div>
-                                <div id="degrees_list_template"><!--
-                                    {for i in items}
-                                        <div class="multi_entry degree_record" id="degree_record_${i.id}">
-                                            <table style="width:100%">
-                                                <tr>
-                                                    <td>
-                                                        <div class="degree_record_div multifield_out" id="degree_record_${i.id}_div" style="line-height:20px">
-                                                            <b>${i.school} (${i.country})</b>
-                                                            <br/>
-                                                            ${i.degree}, ${i.field}<br/>
-                                                            <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
-                                                            <br/>
-                                                            {if i.notes}
-                                                            ${i.notes}
-                                                            <br/>
-                                                            {/if}
-                                                        </div>
-                                                    </td>
-                                                    <td style="width:15px" class="centertd">
-                                                        <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="greydotted"></div>
-                                    {forelse}
-                                        <table style="width:100%">
-                                            <tr id="no_degrees" style="display:block">
-                                                <td colspan="2">
-                                                    <span>__MSG__NO_DEGREES_ADDED_YET__</span>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    {/for}
-                                --></div>
+                                {/for}
+                            --></div>
                         </div>
 
                         <!-- PUBLICATIONS -->
@@ -645,7 +646,7 @@
                         </tr>
                         <tr>
                             <td style="width: 100px">__MSG__ADDITIONAL_NOTES__:</td>
-                            <td><textarea style="width:250px; height:75px" id="new_degree_notes"></textarea></td>
+                            <td><textarea style="width:250px; height:75px" id="new_degree_notes" title="__MSG__ADDITIONAL_NOTES__"></textarea></td>
                         </tr>
                     </table>
                 </form>
@@ -1105,7 +1106,7 @@
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
                     <a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">__MSG__SAVE__</a>
-                        <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
                 </div>
             </div>
 
@@ -1284,4 +1285,5 @@
         <script type="text/javascript" src="_javascript/profile_edit.js"></script>
 
     </body>
+
 </html>

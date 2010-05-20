@@ -84,7 +84,7 @@
                                     __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
                             </div>
                             <div id="search_form" >
-                                <!-- <select class="skinned_select">
+                                <!-- <select class="skinned_select" title="__MSG__SEARCH_SCOPE__">
                                     <option value="entire_community">__MSG__ENTIRE_SAKAI_NETWORK__</option>
                                     <option value="friends">__MSG__FRIENDS__</option>
                                 </select> -->
@@ -160,7 +160,7 @@
                                             {if ! i.picture}
                                                 <a href="/dev/profile.html?user=${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                             {else}
-                                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="" width="60px" height="60px"/></a>
+                                                <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="${i.picture}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="60px" height="60px"/></a>
                                             {/if}
                                             <a href="/dev/profile.html?user=${i.userid}" class="search_result_person_name">${i.name}</a>
                                             {if i.extra}
