@@ -689,7 +689,10 @@ sakai.site_appearance = function() {
 
         // Add the site id to all the element with a specific class
         $(siteAppearanceAppendIdToUrlClass).each(function(i, el) {
-            $(el).attr("href",$(el).attr("href") +  siteId);
+            var url = $(el).attr("href");
+            if(!url.match(/siteid=[a-zA-Z0-9]+/)){
+                $(el).attr("href",$(el).attr("href") +  siteId);
+            }
         });
     };
 
@@ -769,7 +772,7 @@ sakai.site_appearance_change.startCallback = function(){
 
 /**
  * TODO replace with better code (maybe with the Fluid infusion Uploader plug-in)
- * We use this AIM method, which places an iframe on the page, to prevend reloading the page when uploading
+ * We use this AIM method, which places an iframe on the page, to prevent reloading the page when uploading
  */
 var AIM = {
     frame : function(c) {
