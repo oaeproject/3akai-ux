@@ -334,7 +334,7 @@ sakai.search = function() {
                 },
                 cache: false,
                 success: function(data) {
-                    renderCM($.evalJSON(data));
+                    renderCM(data);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     renderCM({});
@@ -348,16 +348,14 @@ sakai.search = function() {
                 cache: false,
                 success: function(data) {
 
-                    var raw_results = $.evalJSON(data);
-
                     // Store found people in data cache
                     sakai.data.search.results_people = {};
-                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
-                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    for (var i = 0, j = data.results.length; i < j; i++) {
+                        sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
                     }
 
                     // Render results
-                    renderPeople(raw_results);
+                    renderPeople(data);
                 },
                 error: function(xhr, textStatus, thrownError) {
 
@@ -371,8 +369,7 @@ sakai.search = function() {
                 cache: false,
                 url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=0&items=5&q=" + urlsearchterm,
                 success: function(data) {
-                    var foundSites = $.evalJSON(data);
-                    renderSites(foundSites);
+                    renderSites(data);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     renderSites({});

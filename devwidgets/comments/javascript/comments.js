@@ -268,8 +268,8 @@ sakai.comments = function(tuid, showSettings){
                 user.fullName = fullName;
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
-                if (profile.picture && $.evalJSON(profile.picture).name) {
-                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.evalJSON(profile.picture).name;
+                if (profile.picture && $.parseJSON(profile.picture).name) {
+                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
                 user.uid = profile["userid"][0];
                 user.profile = sakai.config.URL.PROFILE_URL + "?user=" + user.uid;
@@ -346,7 +346,7 @@ sakai.comments = function(tuid, showSettings){
             url: url,
             cache: false,
             success: function(data){
-                json = $.evalJSON(data);
+                json = $.extend(data, {}, true);
                 showComments();
             },
             error: function(xhr, textStatus, thrownError){

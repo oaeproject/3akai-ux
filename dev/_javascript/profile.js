@@ -192,7 +192,7 @@ sakai.profile = function(){
 
         $("#profile_user_name").text(json.firstName + " " + json.lastName);
         if (json.basic){
-            basic = $.evalJSON(json.basic);
+            basic = $.parseJSON(json.basic);
             if (basic.status){
                 inbasic++;
                 $("#txt_status").html(basic.status);
@@ -240,7 +240,7 @@ sakai.profile = function(){
 
         if (json.basic){
 
-            basic = $.evalJSON(json.basic);
+            basic = $.parseJSON(json.basic);
 
             if (basic.middlename){
                 inbasic++;
@@ -333,7 +333,7 @@ sakai.profile = function(){
                 var obj = {};
                 obj.items = [];
                 if (json[savefield]){
-                    obj.items = $.evalJSON(json[savefield]);
+                    obj.items = $.parseJSON(json[savefield]);
                 }
                 if (obj.items.length > 0){
                     $("#" + field + "s").show();
@@ -344,7 +344,7 @@ sakai.profile = function(){
            var toRender = {};
         toRender.items = [];
         if (json[savefield]){
-            toRender.items = $.evalJSON(json[savefield]);
+            toRender.items = $.parseJSON(json[savefield]);
         }
         $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",toRender));
 
@@ -376,8 +376,8 @@ sakai.profile = function(){
 
         //Picture
 
-        if (json.picture && $.evalJSON(json.picture).name){
-            var picture = $.evalJSON(json.picture);
+        if (json.picture && $.parseJSON(json.picture).name){
+            var picture = $.parseJSON(json.picture);
             $("#picture_holder img").attr("src","/_user" + sakai.data.me.profile.path + "/public/profile/" + picture.name);
         }
 
@@ -389,7 +389,7 @@ sakai.profile = function(){
         var inabout = 0;
         if (json.aboutme) {
 
-            about = $.evalJSON(json.aboutme);
+            about = $.parseJSON(json.aboutme);
 
             if (about.aboutme){
                 inabout++;
@@ -468,7 +468,7 @@ sakai.profile = function(){
 
         if (json.contactinfo) {
 
-            unicontactinfo = $.evalJSON(json.contactinfo);
+            unicontactinfo = $.parseJSON(json.contactinfo);
 
             if (unicontactinfo.uniphone) {
                 inunicontactinfo++;
@@ -520,7 +520,7 @@ sakai.profile = function(){
         var inhomecontactinfo = 0;
         if (json.contactinfo) {
 
-            homecontactinfo = $.evalJSON(json.contactinfo);
+            homecontactinfo = $.parseJSON(json.contactinfo);
 
             if (homecontactinfo.homeemail) {
                 inhomecontactinfo++;
@@ -581,7 +581,7 @@ sakai.profile = function(){
         var inadditional = 0;
         if (json.basic) {
 
-            additional = $.evalJSON(json.basic);
+            additional = $.parseJSON(json.basic);
 
             if (additional.awards){
                 inadditional++;
@@ -713,13 +713,11 @@ sakai.profile = function(){
             url: "/var/contacts/all.json?page=0&items=100",
             cache: false,
             success: function(data){
-                var resp = $.evalJSON(data);
-
                 var status = false;
-                if (resp.results){
-                    for (var i = 0; i < resp.results.length; i++){
-                        if (resp.results[i].target === user){
-                            status = resp.results[i].details["sakai:state"];
+                if (data.results){
+                    for (var i = 0; i < data.results.length; i++){
+                        if (data.results[i].target === user){
+                            status = data.results[i].details["sakai:state"];
                         }
                     }
                 }
@@ -739,8 +737,8 @@ sakai.profile = function(){
                         $("#add_friend_displayname2").text(totalprofile.user.userid);
                     }
 
-                    if (totalprofile.profile.picture && $.evalJSON(totalprofile.profile.picture).name){
-                        $("#add_friend_profilepicture").html("<img src='/_user"+sakai.data.me.profile.path+"/public/profile/" + $.evalJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
+                    if (totalprofile.profile.picture && $.parseJSON(totalprofile.profile.picture).name){
+                        $("#add_friend_profilepicture").html("<img src='/_user"+sakai.data.me.profile.path+"/public/profile/" + $.parseJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
                     } else {
                         $("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
                     }

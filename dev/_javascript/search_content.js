@@ -273,8 +273,7 @@ sakai.search = function() {
                     "usedin" : usedIn
                 },
                 success: function(data) {
-                    var json = $.evalJSON(data);
-                    renderResults(json, true);
+                    renderResults(data, true);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     var json = {};
@@ -311,8 +310,9 @@ sakai.search = function() {
                 url: sakai.config.URL.SITES_SERVICE,
                 cache: false,
                 success: function(data){
-                    var sites = {};
-                    sites.sites = $.evalJSON(data);
+                    var sites = {
+                        "sites" : data
+                    };
                     searchSiteSelect.html($.TemplateRenderer(searchSiteSelectTemplate, sites));
 
                     // Get my sites

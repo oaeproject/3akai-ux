@@ -113,7 +113,7 @@ sakai._search = function(config, callback) {
             url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
             success: function(data) {
-                myfriends = $.evalJSON(data);
+                myfriends = $.extend(data, {}, true);
                 // Change the history
                 History.history_change();
             }
@@ -253,7 +253,7 @@ sakai._search = function(config, callback) {
                 user.path = "/_user/public/" + user.userid + "/";
                 var person = item;
                 if (person.picture) {
-                    var picture = $.evalJSON(person.picture);
+                    var picture = $.parseJSON(person.picture);
                     if (picture.name) {
                         user.picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     } else {
@@ -272,7 +272,7 @@ sakai._search = function(config, callback) {
                     user.name = user.userid;
                 }
                 if (person.basic) {
-                    var basic = $.evalJSON(person.basic);
+                    var basic = $.parseJSON(person.basic);
                     if (basic.unirole) {
                         user.extra = basic.unirole;
                     }

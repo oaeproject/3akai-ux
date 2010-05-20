@@ -350,7 +350,7 @@ sakai.entity = function(tuid, showSettings){
 
                 // Run over all the messages of the current user and
                 // check whether they are read
-                for (var i = 0; i < data.total; i++) {
+                for (var i = 0; i < data.results.length; i++) {
                     if (data.results[i]["sakai:read"] === false) {
                         entityconfig.data.count.messages_unread++;
                     }

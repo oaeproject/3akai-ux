@@ -151,10 +151,9 @@ sakai.twitter = function(tuid, showSettings){
      * @param {Boolean} exists Check if the discussion exists
      */
     var parseTwitterStatus = function(response, exists){
-        var data = $.evalJSON(response);
-        if (exists && data.length > 0) {
+        if (exists && response.length > 0) {
             json.status = "";
-            json.status = data[0].text;
+            json.status = response[0].text;
             changeLocalStatus();
         }
         else {
@@ -169,8 +168,6 @@ sakai.twitter = function(tuid, showSettings){
      */
     var parseTwitterResponse = function(response, exists){
         if (exists) {
-            //TODO check for a valid response in the json object
-            //var data = $.evalJSON(response);
             setInfo("Your twitter status has been succesfully updated.");
         }
         else {
@@ -243,7 +240,7 @@ sakai.twitter = function(tuid, showSettings){
         if (setScreenName(true) && setPassword()) {
             var currentBasic = me_json.basic;
             if (currentBasic) {
-                currentBasic = $.evalJSON(currentBasic);
+                currentBasic = $.parseJSON(currentBasic);
             }
             if (currentBasic.status) {
 

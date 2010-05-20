@@ -319,7 +319,7 @@ sakai.folderpicker = function(tuid, showSettings){
             url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
             cache: false,
             success: function(data){
-                widgetSettings = $.evalJSON(data);
+                widgetSettings = $.extend(data, {}, true);
                 // We get our settings.
                 // Now retrieve the actual info for the file.
                 if (widgetSettings.selectedFolder) {

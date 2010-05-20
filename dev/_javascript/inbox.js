@@ -494,11 +494,16 @@ sakai.inbox = function() {
         }
 
         // pictures
-        if (message.userFrom.picture && $.evalJSON(message.userFrom.picture).name) {
-            message.userFrom.photo = $.evalJSON(message.userFrom.picture).name;
+        for(var i = 0, il = message.userFrom.length; i < il; i++){
+            if (message.userFrom[i].picture && $.parseJSON(message.userFrom[i].picture).name) {
+                message.userFrom[i].photo = $.parseJSON(message.userFrom[i].picture).name;
+            }
         }
-        if (message.userTo.picture && $.evalJSON(message.userTo.picture).name) {
-            message.userTo.photo = $.evalJSON(message.userTo.picture).name;
+
+        for(var j = 0, jl = message.userTo.length; j < jl; j++){
+            if (message.userTo[j].picture && $.parseJSON(message.userTo[j].picture).name) {
+                message.userTo[j].photo = $.parseJSON(message.userTo[j].picture).name;
+            }
         }
 
         return message;
@@ -628,10 +633,9 @@ sakai.inbox = function() {
             url: url,
             cache: false,
             success: function(data) {
-                var json = $.evalJSON(data);
-                if (json.results) {
-                    //    Render the messages
-                    renderMessages(json);
+                if (data.results) {
+                    // Render the messages
+                    renderMessages(data);
                 }
                 if (typeof callback !== "undefined") {
                     callback();
@@ -655,21 +659,20 @@ sakai.inbox = function() {
             url: "/_user" + sakai.data.me.profile.path + "/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
             cache: false,
             success: function(data) {
-                var json = $.evalJSON(data);
 
                 var totalcount = 0;
 
-                for (var i = 0, j = json.count.length; i < j; i++){
-                    if (json.count[i].group === "message"){
-                        unreadMessages = json.count[i].count;
-                    } else if (json.count[i].group === "announcement"){
-                        unreadAnnouncements = json.count[i].count;
-                    } else if (json.count[i].group === "invitation"){
-                        unreadInvitations = json.count[i].count;
-                    } else if (json.count[i].group === "chat"){
-                        $(inboxFilterChats).append(tpl.replace(/__NR__/gi, json.count[i].count));
+                for (var i = 0, j = data.count.length; i < j; i++){
+                    if (data.count[i].group === "message"){
+                        unreadMessages = data.count[i].count;
+                    } else if (data.count[i].group === "announcement"){
+                        unreadAnnouncements = data.count[i].count;
+                    } else if (data.count[i].group === "invitation"){
+                        unreadInvitations = data.count[i].count;
+                    } else if (data.count[i].group === "chat"){
+                        $(inboxFilterChats).append(tpl.replace(/__NR__/gi, data.count[i].count));
                     }
-                    totalcount += json.count[i].count;
+                    totalcount += data.count[i].count;
                 }
 
                 updateUnreadNumbers();
@@ -753,12 +756,11 @@ sakai.inbox = function() {
         $.ajax({
             url: url,
             success: function(data) {
-                var json = $.evalJSON(data);
-                messagesForTypeCat = json.total;
-                if (json.total === 0) {
+                messagesForTypeCat = data.total;
+                if (data.total === 0) {
 
-                    json.messages = [];
-                    renderMessages(json);
+                    data.messages = [];
+                    renderMessages(data);
 
                     // Set the pager to page 1. The pager will be disabled because there is no data to page..
                     pageMessages(1);
@@ -861,8 +863,8 @@ sakai.inbox = function() {
             $(inboxSpecificMessageDate).text(message.date);
             for (var i = 0, j = message.userFrom.length; i < j; i++) {
                 $(inboxSpecificMessageFrom).text(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]);
-                if (message.userFrom.picture && $.evalJSON(message.userFrom[i].picture).name) {
-                    $(inboxSpecificMessagePicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(message.userFrom[i].picture).name);
+                if (message.userFrom[i].photo) {
+                    $(inboxSpecificMessagePicture).attr("src", "/_user" + message.userFrom[i].hash + "/public/profile/" + message.userFrom[i].photo);
                 }
                 else {
                     $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
@@ -877,10 +879,9 @@ sakai.inbox = function() {
                 $.ajax({
                     url: "/var/contacts/invited?page=0&items=100",
                     success: function(data) {
-                        var response = $.evalJSON(data);
                         var pending = false;
-                        for (var i = 0; i < response.results.length; i++){
-                            if (response.results[i].target === message["sakai:from"]){
+                        for (var i = 0; i < data.results.length; i++){
+                            if (data.results[i].target === message["sakai:from"]){
                                 // Still a pending invitation
                                 pending = true;
                             }

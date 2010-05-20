@@ -28,10 +28,9 @@ sakai.print = function(){
         url: "/_user/private/print.json",
         cache: false,
         success: function(data){
-            json = $.evalJSON(data);
-            $(".content_container").html(json.content);
-            /* for (var i = 0; i < json.css.length; i++){
-                $.Load.requireCSS(json.css[i]);
+            $(".content_container").html(data.content);
+            /* for (var i = 0; i < data.css.length; i++){
+                $.Load.requireCSS(data.css[i]);
             } */
         }
     });

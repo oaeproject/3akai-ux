@@ -128,7 +128,7 @@ sakai.myprofile = function (tuid, showSettings) {
 
         // Do we have a picture
         if (json.picture) {
-            var pict = $.evalJSON(json.picture);
+            var pict = $.parseJSON(json.picture);
             if (pict.name) {
                 $(profilePictureID, rootel).attr('src', "/_user" + sakai.data.me.profile.path + "/public/profile/" + pict.name );
             }
@@ -137,7 +137,7 @@ sakai.myprofile = function (tuid, showSettings) {
         // Any extra information we may have.
         var extra = "";
         if (json.basic) {
-            var basic = $.evalJSON(json.basic);
+            var basic = $.parseJSON(json.basic);
             if (json.unirole) {
                 extra = json.unirole;
             }

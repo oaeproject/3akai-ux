@@ -360,7 +360,7 @@ sakai.profilewow = function(){
     var constructProfilePicture = function(profile){
 
         if (profile.picture && profile.path) {
-            return "/_user" + profile.path + "/public/profile/" + $.evalJSON(profile.picture).name;
+            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return "";
@@ -401,14 +401,13 @@ sakai.profilewow = function(){
                 url: sakai.config.URL.SEARCH_USERS,
                 success: function(data){
 
-                    // Set the JSON response
-                    var jsonResponse = $.evalJSON(data);
-
                     // Set the profile picture
-                    sakai.profilewow.profile.picture = constructProfilePicture(jsonResponse.results[0]);
+                    sakai.profilewow.profile.picture = constructProfilePicture(data.results[0]);
 
                     // Set the status for the user you want the information from
-                    sakai.profilewow.profile.status = $.evalJSON(sakai.data.me.profile.basic).status;
+                    if(sakai.data.me.profile.basic){
+                        sakai.profilewow.profile.status = $.parseJSON(sakai.data.me.profile.basic).status;
+                    }
 
                 },
                 error: function(){

@@ -230,7 +230,9 @@ sakai.site = function(){
             cache: false,
             success: function(response){
 
-                sakai.site.currentsite = $.evalJSON(response);
+                if(response && typeof response === "string"){
+                    sakai.site.currentsite = $.parseJSON(response);
+                }
 
                 // Adjust links if not on dev
                 if (!sakai.site.currentsite) {
@@ -635,7 +637,7 @@ sakai.site = function(){
                         type: "GET",
                         success: function(data) {
 
-                            sakai.site.pagecontents[pageUrlName] = $.evalJSON(data);
+                            sakai.site.pagecontents[pageUrlName] = $.extend(data, {}, true);
 
                             displayDashboard(sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"], true);
 
@@ -668,8 +670,7 @@ sakai.site = function(){
                         type: "GET",
                         success: function(data) {
 
-                            var content_node = $.evalJSON(data);
-                            sakai.site.pagecontents[pageUrlName] = content_node;
+                            sakai.site.pagecontents[pageUrlName] = data;
 
                             // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
                             displayPage(sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"], true);
@@ -908,17 +909,16 @@ sakai.site = function(){
         /**
          * Displays a dashboard page.
          * @param {Object} response Content retrieved from server.
-         * @param {Object} exists Wether the request was succesful or not.
+         * @param {Boolean} exists Whether the request was successful or not.
          */
         var displayDashboard = function(response, exists){
             if (exists) {
-                var dashboard_content_json = $.evalJSON(response);
                 try {
-                    sakai.site.portaljsons[sakai.site.selectedpage] = dashboard_content_json;
-                    showportal(dashboard_content_json);
+                    sakai.site.portaljsons[sakai.site.selectedpage] = response;
+                    showportal(response);
                 }
                 catch (err) {
-                    showportal(dashboard_content_json);
+                    showportal(response);
                 }
             }
             else {
@@ -937,7 +937,7 @@ sakai.site = function(){
          */
         var showportal = function(json){
 
-            var layout = json;
+            var layout = $.parseJSON(json);
 
             if (!Widgets.layouts[json.layout]) {
 

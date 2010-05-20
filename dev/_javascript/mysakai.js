@@ -231,7 +231,7 @@ sakai.dashboard = function(){
             }
             jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-            myportaljson = $.evalJSON(jsonstring);
+            myportaljson = $.parseJSON(jsonstring);
 
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
@@ -363,7 +363,7 @@ sakai.dashboard = function(){
 
             jsonstring += '},"layout":"' + sakai.data.my_sakai.selectedLayout + '"}';
 
-            myportaljson = $.evalJSON(jsonstring);
+            myportaljson = $.parseJSON(jsonstring);
             layout = myportaljson;
 
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
@@ -621,7 +621,7 @@ sakai.dashboard = function(){
 
             serString += '},"layout":"' + myportaljson.layout + '"}';
 
-            myportaljson = $.evalJSON(serString);
+            myportaljson = $.parseJSON(serString);
 
             var isempty = true;
             for (i in myportaljson.columns){
@@ -804,7 +804,7 @@ sakai.dashboard = function(){
         }
         jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-        myportaljson = $.evalJSON(jsonstring);
+        myportaljson = $.parseJSON(jsonstring);
 
         sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 

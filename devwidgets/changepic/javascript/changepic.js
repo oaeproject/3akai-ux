@@ -168,7 +168,7 @@ sakai.changepic = function(tuid, showSettings){
         thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 
         if (json.picture) {
-            picture = $.evalJSON(json.picture);
+            picture = $.parseJSON(json.picture);
         }
 
         if (picture && picture._name) {
