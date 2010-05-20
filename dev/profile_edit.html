@@ -1,1280 +1,1287 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
-<head>
+    <head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sakai 3 R&amp;D - __MSG__EDIT_PROFILE__</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 R&amp;D - __MSG__EDIT_PROFILE__</title>
 
-    <!-- Sakai Core CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
-    <!-- Sakai Page CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.edit.css" />
+        <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.edit.css" />
 
-    <!-- 3rd party CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
-    <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+        <!-- 3rd party CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
 
-    <!-- Sakai Config JS -->
-    <script type="text/javascript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" src="_configuration/config.js"></script>
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
 
-    <!-- Core 3rd-party JS -->
-    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
-    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
-    <!-- Sakai Core JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
-    <!-- 3rd party JS -->
-    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
-    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-    <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
 
-</head>
+    </head>
 
-<body class="fl-centered profile_preview i18nable">
+    <body class="fl-centered profile_preview i18nable">
 
-    <!-- EXPLORE BAR -->
-    <div id="widget_navigationchat" class="widget_inline"></div>
+        <!-- EXPLORE BAR -->
+        <div id="widget_navigationchat" class="widget_inline"></div>
 
-    <div class="fl-container-flex header">
-        <div class="fl-fix fl-centered fixed-container">
-            <div class="decor"></div>
+        <div class="fl-container-flex header">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor"></div>
 
-            <!-- TITLE BAR  -->
-            <div class="s3d-site-heading fl-force-left">
-                <h1 id="sitetitle">__MSG__EDIT_MY_PROFILE__</h1>
+                <!-- TITLE BAR  -->
+                <div class="s3d-site-heading fl-force-left">
+                    <h1 id="sitetitle">__MSG__EDIT_MY_PROFILE__</h1>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="fl-container-flex profile">
+        <div class="fl-container-flex profile">
 
-        <div class="fl-fix fl-centered fixed-container">
+            <div class="fl-fix fl-centered fixed-container">
 
-            <!-- TAB NAVIGATION -->
-            <div class="s3d-primary-tabs i18nable">
-                <ul class="fl-tabs fl-tabs-right" id="myprofile_tabs">
-                    <li class="fl-tabs-active"><a href="javascript:;">__MSG__EDIT__</a></li>
-                    <li><a href="profile.html">__MSG__PREVIEW__</a></li>
-                </ul>
-            </div>
+                <!-- TAB NAVIGATION -->
+                <div class="s3d-primary-tabs i18nable">
+                    <ul class="fl-tabs fl-tabs-right" id="myprofile_tabs">
+                        <li class="fl-tabs-active"><a href="javascript:;">__MSG__EDIT__</a></li>
+                        <li><a href="profile.html">__MSG__PREVIEW__</a></li>
+                    </ul>
+                </div>
 
-            <!-- TAB CONTENT -->
-            <div class="fl-centered fl-container fl-tab-content profile_container">
+                <!-- TAB CONTENT -->
+                <div class="fl-centered fl-container fl-tab-content profile_container">
 
-                <div class="content_top"><div class="content_top_inner"></div></div>
+                    <div class="content_top"><div class="content_top_inner"></div></div>
 
-                <div class="profile_contents_main">
+                    <div class="profile_contents_main">
 
-                    <div class="fl-fix profile_user_info">
-                        <a href="javascript:;" id="picture_holder" title="__MSG__USER_PICTURE__"><img class="profile_user_pic" alt="__MSG__USER_PICTURE__" src="_images/default_profile_picture_shadow_110.png" /></a>
+                        <div class="fl-fix profile_user_info">
+                            <a href="javascript:;" id="picture_holder" title="__MSG__USER_PICTURE__"><img class="profile_user_pic" alt="__MSG__USER_PICTURE__" src="_images/default_profile_picture_shadow_110.png" /></a>
 
-                        <div id="profile_user_name" class="profile_user_name"></div>
+                            <div id="profile_user_name" class="profile_user_name"></div>
 
-                        <div class="profile_user_headline"></div>
+                            <div class="profile_user_headline"></div>
 
-                        <button id="changepic_container_trigger" class="s3d-button"><span class="s3d-button-inner">__MSG__CHANGE_PHOTO__</span></button>
-                    </div>
-
-                    <!-- BASIC INFORMATION -->
-                    <div class="fl-fix profile_section profile_section_editable" id="basic_information">
-
-                        <h4 class="profile_section_header">__MSG__BASIC_INFO__</h4>
-
-                        <div class="profile_section_body">
-
-                            <table summary="Basic Info">
-                                <tr id="status">
-                                    <th class="entry_label">__MSG__STATUS__:</th>
-                                    <td>
-                                        <input id="txt_status" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__STATUS__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="firstname">
-                                    <th class="entry_label">__MSG__FIRSTNAME__:</th>
-                                    <td>
-                                        <input id="txt_firstname" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__FIRSTNAME__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="lastname">
-                                    <th class="entry_label">__MSG__LASTNAME__:</th>
-                                    <td>
-                                        <input id="txt_lastname" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__LASTNAME__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="unirole">
-                                    <th class="entry_label">__MSG__ROLE_POSITION__:</th>
-                                    <td>
-                                        <select id="txt_unirole" class="profile_edit_dropdown" title="__MSG__ROLE_POSITION__">
-                                            <option></option>
-                                            <option value="Undergraduate Student">__MSG__UNDERGRADUATE_STUDENT__</option>
-                                            <option value="Graduate Student">__MSG__GRADUATE_STUDENT__</option>
-                                            <option value="Postgraduate Student">__MSG__POSTGRADUATE_STUDENT__</option>
-                                            <option value="Academic Staff">__MSG__ACADEMIC_STAFF__</option>
-                                            <option value="Academic Related Staff">__MSG__ACADEMIC_RELATED_STAFF__</option>
-                                            <option value="Non-academic Staff">__MSG__NON_ACADEMIC_STAFF__</option>
-                                            <option value="Assistant Staff">__MSG__ASSISTANT_STAFF__</option>
-                                            <option value="Other">__MSG__OTHER__</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr id="unidepartment">
-                                    <th class="entry_label">__MSG__DEPARTMENT__:</th>
-                                    <td>
-                                        <input id="txt_unidepartment" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__DEPARTMENT__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="unicollege">
-                                    <th class="entry_label">__MSG__COLLEGE__:</th>
-                                    <td>
-                                        <input id="txt_unicollege" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__COLLEGE__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="birthday">
-                                    <th class="entry_label">__MSG__DATE_OF_BIRTH__:</th>
-                                    <td>
-                                        <input id="txt_birthday" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__DATE_OF_BIRTH__" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- ABOUT ME -->
-                    <div class="fl-fix profile_section profile_section_editable" id="about">
-                        <div class="profile_section_header">
-                            __MSG__ABOUT_ME__
+                            <button id="changepic_container_trigger" class="s3d-button"><span class="s3d-button-inner">__MSG__CHANGE_PHOTO__</span></button>
                         </div>
 
-                        <div class="profile_section_body">
-                            <table summary="About Me">
+                        <!-- BASIC INFORMATION -->
+                        <div class="fl-fix profile_section profile_section_editable" id="basic_information">
 
-                                <tr id="aboutme">
-                                    <th class="entry_label">__MSG__ABOUT_ME__:</th>
-                                    <td>
-                                        <input id="txt_aboutme" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__ABOUT_ME__" />
-                                    </td>
-                                </tr>
+                            <h4 class="profile_section_header">__MSG__BASIC_INFO__</h4>
 
-                                <tr id="academicinterests">
-                                    <th class="entry_label">__MSG__ACADEMIC_INTERESTS__:</th>
-                                    <td>
-                                        <textarea id="txt_academicinterests" rows="3" class="edit profile_edit_textarea" title="__MSG__ACADEMIC_INTERESTS__"></textarea>
-                                    </td>
-                                </tr>
+                            <div class="profile_section_body">
 
-                                <tr id="personalinterests">
-                                    <th class="entry_label">__MSG__PERSONAL_INTERESTS__:</th>
-                                    <td>
-                                        <textarea id="txt_personalinterests" rows="3" class="edit profile_edit_textarea" title="__MSG__PERSONAL_INTERESTS__"></textarea>
-                                    </td>
-                                </tr>
+                                <table summary="Basic Info">
+                                    <tr id="status">
+                                        <th class="entry_label">__MSG__STATUS__:</th>
+                                        <td>
+                                            <input id="txt_status" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__STATUS__" />
+                                        </td>
+                                    </tr>
 
-                                <tr id="hobbies">
-                                    <th class="entry_label">__MSG__HOBBIES__:</th>
-                                    <td>
-                                        <input id="txt_hobbies" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__HOBBIES__" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                                    <tr id="firstname">
+                                        <th class="entry_label">__MSG__FIRSTNAME__:</th>
+                                        <td>
+                                            <input id="txt_firstname" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__FIRSTNAME__" />
+                                        </td>
+                                    </tr>
 
-                    <!-- DEGREES -->
-                    <div class="fl-fix profile_section" id="degrees">
-                        <a href="javascript:;" class="degreesadd popup_field_trigger">__MSG__ADD_A_DEGREE__</a>
-                        <div class="profile_section_header">
-                            __MSG__DEGREES__
-                        </div>
+                                    <tr id="lastname">
+                                        <th class="entry_label">__MSG__LASTNAME__:</th>
+                                        <td>
+                                            <input id="txt_lastname" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__LASTNAME__" />
+                                        </td>
+                                    </tr>
 
-                        <div class="profile_section_body" id="degrees_list">
-                        <table summary="Degrees">
-                                    <tr id="no_degrees" style="display:block">
-                                        <td colspan="2">
-                                            <span>__MSG__NO_DEGREES_ADDED_YET__</span>
+                                    <tr id="unirole">
+                                        <th class="entry_label">__MSG__ROLE_POSITION__:</th>
+                                        <td>
+                                            <select id="txt_unirole" class="profile_edit_dropdown" title="__MSG__ROLE_POSITION__">
+                                                <option></option>
+                                                <option value="Undergraduate Student">__MSG__UNDERGRADUATE_STUDENT__</option>
+                                                <option value="Graduate Student">__MSG__GRADUATE_STUDENT__</option>
+                                                <option value="Postgraduate Student">__MSG__POSTGRADUATE_STUDENT__</option>
+                                                <option value="Academic Staff">__MSG__ACADEMIC_STAFF__</option>
+                                                <option value="Academic Related Staff">__MSG__ACADEMIC_RELATED_STAFF__</option>
+                                                <option value="Non-academic Staff">__MSG__NON_ACADEMIC_STAFF__</option>
+                                                <option value="Assistant Staff">__MSG__ASSISTANT_STAFF__</option>
+                                                <option value="Other">__MSG__OTHER__</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr id="unidepartment">
+                                        <th class="entry_label">__MSG__DEPARTMENT__:</th>
+                                        <td>
+                                            <input id="txt_unidepartment" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__DEPARTMENT__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="unicollege">
+                                        <th class="entry_label">__MSG__COLLEGE__:</th>
+                                        <td>
+                                            <input id="txt_unicollege" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__COLLEGE__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="birthday">
+                                        <th class="entry_label">__MSG__DATE_OF_BIRTH__:</th>
+                                        <td>
+                                            <input id="txt_birthday" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__DATE_OF_BIRTH__" />
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <div id="degrees_list_template"><!--
-                                {for i in items}
-                                    <div class="multi_entry degree_record" id="degree_record_${i.id}">
-                                        <table style="width:100%">
-                                            <tr>
-                                                <td>
-                                                    <div class="degree_record_div multifield_out" id="degree_record_${i.id}_div" style="line-height:20px">
-                                                        <b>${i.school} (${i.country})</b>
-                                                        <br/>
-                                                        ${i.degree}, ${i.field}<br/>
-                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
-                                                        <br/>
-                                                        {if i.notes}
-                                                        ${i.notes}
-                                                        <br/>
-                                                        {/if}
-                                                    </div>
-                                                </td>
-                                                <td style="width:15px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="greydotted"></div>
-                                {forelse}
-                                    <table style="width:100%">
+                        </div>
+
+                        <!-- ABOUT ME -->
+                        <div class="fl-fix profile_section profile_section_editable" id="about">
+                            <div class="profile_section_header">
+                                __MSG__ABOUT_ME__
+                            </div>
+
+                            <div class="profile_section_body">
+                                <table summary="About Me">
+
+                                    <tr id="aboutme">
+                                        <th class="entry_label">__MSG__ABOUT_ME__:</th>
+                                        <td>
+                                            <input id="txt_aboutme" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__ABOUT_ME__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="academicinterests">
+                                        <th class="entry_label">__MSG__ACADEMIC_INTERESTS__:</th>
+                                        <td>
+                                            <textarea id="txt_academicinterests" rows="3" class="edit profile_edit_textarea" title="__MSG__ACADEMIC_INTERESTS__"></textarea>
+                                        </td>
+                                    </tr>
+
+                                    <tr id="personalinterests">
+                                        <th class="entry_label">__MSG__PERSONAL_INTERESTS__:</th>
+                                        <td>
+                                            <textarea id="txt_personalinterests" rows="3" class="edit profile_edit_textarea" title="__MSG__PERSONAL_INTERESTS__"></textarea>
+                                        </td>
+                                    </tr>
+
+                                    <tr id="hobbies">
+                                        <th class="entry_label">__MSG__HOBBIES__:</th>
+                                        <td>
+                                            <input id="txt_hobbies" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__HOBBIES__" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- DEGREES -->
+                        <div class="fl-fix profile_section" id="degrees">
+                            <a href="javascript:;" class="degreesadd popup_field_trigger">__MSG__ADD_A_DEGREE__</a>
+                            <div class="profile_section_header">
+                                __MSG__DEGREES__
+                            </div>
+
+                            <div class="profile_section_body" id="degrees_list">
+                            <table summary="Degrees">
                                         <tr id="no_degrees" style="display:block">
                                             <td colspan="2">
                                                 <span>__MSG__NO_DEGREES_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
-                                {/for}
-                            --></div>
-                    </div>
-
-                    <!-- PUBLICATIONS -->
-                    <div class="fl-fix profile_section" id="papers">
-                        <a href="javascript:;" class="papersadd popup_field_trigger">__MSG__ADD_A_PUBLICATION__</a>
-                        <div class="profile_section_header">
-                            __MSG__PUBLICATIONS__
+                                </div>
+                                <div id="degrees_list_template"><!--
+                                    {for i in items}
+                                        <div class="multi_entry degree_record" id="degree_record_${i.id}">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td>
+                                                        <div class="degree_record_div multifield_out" id="degree_record_${i.id}_div" style="line-height:20px">
+                                                            <b>${i.school} (${i.country})</b>
+                                                            <br/>
+                                                            ${i.degree}, ${i.field}<br/>
+                                                            <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
+                                                            <br/>
+                                                            {if i.notes}
+                                                            ${i.notes}
+                                                            <br/>
+                                                            {/if}
+                                                        </div>
+                                                    </td>
+                                                    <td style="width:15px" class="centertd">
+                                                        <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="greydotted"></div>
+                                    {forelse}
+                                        <table style="width:100%">
+                                            <tr id="no_degrees" style="display:block">
+                                                <td colspan="2">
+                                                    <span>__MSG__NO_DEGREES_ADDED_YET__</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    {/for}
+                                --></div>
                         </div>
 
-                        <div class="profile_section_body" id="papers_list">
-                            <table summary="Publications">
-                                <tr id="no_papers" style="display:block">
-                                    <td colspan="2">
-                                        <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="papers_list_template"><!--
-                            {for i in items}
-                                <div class="multi_entry paper_record" id="paper_record_${i.id}">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td>
-                                                <div class="paper_record_div multifield_out" id="paper_record_${i.id}_div" style="line-height:20px">
-                                                    <span class="author firstauthor">
-                                                    <span class="family-name" style="font-variant: small-caps;">${i.auth}</span>
-                                                </span> ;
-                                                    {if i.coauth}
-                                                        <span class="author">
-                                                            <span class="family-name" style="font-variant: small-caps; ">${i.coauth}</span>
+                        <!-- PUBLICATIONS -->
+                        <div class="fl-fix profile_section" id="papers">
+                            <a href="javascript:;" class="papersadd popup_field_trigger">__MSG__ADD_A_PUBLICATION__</a>
+                            <div class="profile_section_header">
+                                __MSG__PUBLICATIONS__
+                            </div>
+
+                            <div class="profile_section_body" id="papers_list">
+                                <table summary="Publications">
+                                    <tr id="no_papers" style="display:block">
+                                        <td colspan="2">
+                                            <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="papers_list_template"><!--
+                                {for i in items}
+                                    <div class="multi_entry paper_record" id="paper_record_${i.id}">
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td>
+                                                    <div class="paper_record_div multifield_out" id="paper_record_${i.id}_div" style="line-height:20px">
+                                                        <span class="author firstauthor">
+                                                        <span class="family-name" style="font-variant: small-caps;">${i.auth}</span>
+                                                    </span> ;
+                                                        {if i.coauth}
+                                                            <span class="author">
+                                                                <span class="family-name" style="font-variant: small-caps; ">${i.coauth}</span>
+                                                            </span>
+                                                        {/if}
+                                                        (<span class="year">${i.year}</span>):
+                                                        <span style="font-style: italic; ">
+                                                            <span class="title">${i.title}</span>.
+                                                            Vol. <span class="volume">${i.vol}</span>:
+                                                            <span class="volumetitle">${i.voltitle}</span>.
                                                         </span>
-                                                    {/if}
-                                                    (<span class="year">${i.year}</span>):
-                                                    <span style="font-style: italic; ">
-                                                        <span class="title">${i.title}</span>.
-                                                        Vol. <span class="volume">${i.vol}</span>:
-                                                        <span class="volumetitle">${i.voltitle}</span>.
-                                                    </span>
-                                                    {if i.edition}
-                                                        <span class="edition">${i.edition}</span>.
-                                                    {/if}
-                                                    <span class="place">${i.place}</span> :
-                                                    <span class="publisher">${i.publisher}</span>
-                                                    (<span class="overalltitle">${i.ovtitle}</span>
-                                                    <span class="number">${i.number}</span>)
-                                                    {if i.url}
-                                                        <a href="${i.url}" target="_blank" title="__MSG__LINK_TO_THE_PAPER__"><img src="_images/link_icon.gif" border="0" alt="__MSG__LINK_TO_THE_PAPER__"></a>
-                                                    {/if}
-                                                </div>
-                                            </td>
-                                            <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="greydotted"></div>
-                                {forelse}
-                                    <table>
-                                        <tr>
-                                            <td colspan="2">
-                                                <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                 {/for}
-                        --></div>
-                    </div>
-
-                    <!-- TALKS -->
-                    <div class="fl-fix profile_section" id="talks">
-                        <a href="javascript:;" class="talksadd popup_field_trigger">__MSG__ADD_A_TALK__</a>
-                        <div class="profile_section_header">
-                            __MSG__TALKS__
+                                                        {if i.edition}
+                                                            <span class="edition">${i.edition}</span>.
+                                                        {/if}
+                                                        <span class="place">${i.place}</span> :
+                                                        <span class="publisher">${i.publisher}</span>
+                                                        (<span class="overalltitle">${i.ovtitle}</span>
+                                                        <span class="number">${i.number}</span>)
+                                                        {if i.url}
+                                                            <a href="${i.url}" target="_blank" title="__MSG__LINK_TO_THE_PAPER__"><img src="_images/link_icon.gif" border="0" alt="__MSG__LINK_TO_THE_PAPER__"></a>
+                                                        {/if}
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="greydotted"></div>
+                                    {forelse}
+                                        <table>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     {/for}
+                            --></div>
                         </div>
 
-                        <div class="profile_section_body" id="talks_list">
-                            <table summary="Talks">
-                                <tr id="no_talks" style="display:block">
-                                    <td colspan="2">
-                                        <span>__MSG__NO_TALKS_ADDED_YET__</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="talks_list_template"><!--
-                            {for i in items}
-                                <div class="multi_entry talk_record" id="talk_record_${i.id}">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td>
-                                                <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
-                                                    <b>${i.title}</b>
-                                                    {if i.url}
-                                                        <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD_CONTENT__"><img src="_images/link_icon.gif" alt="__MSG__TO_SEE_THE_TALK_RECORD_CONTENT__" border="0"></a>
-                                                    {/if}
-                                                    <br/>
-                                                    {if i.coauth}
-                                                        Presented with ${i.coauth}
-                                                        <br/>
-                                                    {/if}
-                                                    <span style="font-size:0.9em; color:#CCCCCC">${i.date} (${i.place})</span>
-                                                    <br/>
-                                                </div>
-                                            </td>
-                                            <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="greydotted"></div>
-                            {forelse}
-                                <table>
-                                    <tr>
+                        <!-- TALKS -->
+                        <div class="fl-fix profile_section" id="talks">
+                            <a href="javascript:;" class="talksadd popup_field_trigger">__MSG__ADD_A_TALK__</a>
+                            <div class="profile_section_header">
+                                __MSG__TALKS__
+                            </div>
+
+                            <div class="profile_section_body" id="talks_list">
+                                <table summary="Talks">
+                                    <tr id="no_talks" style="display:block">
                                         <td colspan="2">
                                             <span>__MSG__NO_TALKS_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
-                            {/for}
-                        --></div>
-                    </div>
-
-                    <!-- JOBS -->
-                    <div class="fl-fix profile_section" id="jobs">
-                        <a href="javascript:;" class="jobsadd popup_field_trigger">__MSG__ADD_A_POSITION__</a>
-                        <div class="profile_section_header">
-                            __MSG__PROFESSIONAL_EXPERIENCE__
-                        </div>
-
-                        <div class="profile_section_body" id="jobs_list">
-                            <table summary="Professional Experience">
-                                <tr id="no_jobs" style="display:block">
-                                    <td colspan="2">
-                                        <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="jobs_list_template"><!--
-                            {for i in items}
-                                <div class="multi_entry job_record" id="job_record_${i.id}">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td>
-                                                <div class="job_record_div multifield_out" id="job_record_${i.id}_div" style="line-height:20px">
-                                                    <b>${i.role}</b>
-                                                    <br/>
-                                                    ${i.company} (${i.country})<br/>
-                                                    {if i.description}
-                                                        ${i.description}
+                            </div>
+                            <div id="talks_list_template"><!--
+                                {for i in items}
+                                    <div class="multi_entry talk_record" id="talk_record_${i.id}">
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td>
+                                                    <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
+                                                        <b>${i.title}</b>
+                                                        {if i.url}
+                                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD_CONTENT__"><img src="_images/link_icon.gif" alt="__MSG__TO_SEE_THE_TALK_RECORD_CONTENT__" border="0"></a>
+                                                        {/if}
                                                         <br/>
-                                                    {/if}
-                                                    <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
-                                                    <br/>
-                                                </div>
-                                            </td>
-                                            <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                        {if i.coauth}
+                                                            Presented with ${i.coauth}
+                                                            <br/>
+                                                        {/if}
+                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.date} (${i.place})</span>
+                                                        <br/>
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="greydotted"></div>
+                                {forelse}
+                                    <table>
+                                        <tr>
+                                            <td colspan="2">
+                                                <span>__MSG__NO_TALKS_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
-                                </div>
-                            <div class="greydotted"></div>
-                            {forelse}
-                                <table>
-                                    <tr>
+                                {/for}
+                            --></div>
+                        </div>
+
+                        <!-- JOBS -->
+                        <div class="fl-fix profile_section" id="jobs">
+                            <a href="javascript:;" class="jobsadd popup_field_trigger">__MSG__ADD_A_POSITION__</a>
+                            <div class="profile_section_header">
+                                __MSG__PROFESSIONAL_EXPERIENCE__
+                            </div>
+
+                            <div class="profile_section_body" id="jobs_list">
+                                <table summary="Professional Experience">
+                                    <tr id="no_jobs" style="display:block">
                                         <td colspan="2">
                                             <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
-                            {/for}
-                        --></div>
-                    </div>
-
-                    <!-- ADDITIONAL INFO -->
-                    <div class="fl-fix profile_section profile_section_editable" id="additional">
-
-                        <div class="profile_section_header">__MSG__ADDITIONAL_INFORMATION__</div>
-
-                        <div class="profile_section_body">
-                            <table summary="Awards and Honors">
-                                <tr id="awards">
-                                    <th class="entry_label">__MSG__AWARDS_AND_HONORS__:</th>
-                                    <td>
-                                        <input id="txt_awards" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__AWARDS_AND_HONORS__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="clubs">
-                                    <th class="entry_label">__MSG__CLUBS__:</th>
-                                    <td>
-                                        <input id="txt_clubs" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__CLUBS__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="societies">
-                                    <th class="entry_label">__MSG__SOCIETIES__:</th>
-                                    <td>
-                                        <input id="txt_societies" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__SOCIETIES__" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- WEBSITES -->
-                    <div class="fl-fix profile_section" id="websites">
-                        <a href="javascript:;" class="websitesadd popup_field_trigger">__MSG__ADD_A_WEBSITE__</a>
-                        <div class="profile_section_header">
-                            __MSG__WEBSITES__
-                        </div>
-
-                        <div class="profile_section_body" id="websites_list">
-                            <table summary="Websites">
-                                <tr id="no_websites" style="display:block">
-                                    <td colspan="2">
-                                        <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="websites_list_template"><!--
-                            {for i in items}
-                                <div class="multi_entry website_record" id="website_record_${i.id}" style="padding-bottom:0px">
-                                    <table style="width:100%; margin-bottom:0px">
+                            </div>
+                            <div id="jobs_list_template"><!--
+                                {for i in items}
+                                    <div class="multi_entry job_record" id="job_record_${i.id}">
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td>
+                                                    <div class="job_record_div multifield_out" id="job_record_${i.id}_div" style="line-height:20px">
+                                                        <b>${i.role}</b>
+                                                        <br/>
+                                                        ${i.company} (${i.country})<br/>
+                                                        {if i.description}
+                                                            ${i.description}
+                                                            <br/>
+                                                        {/if}
+                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
+                                                        <br/>
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                <div class="greydotted"></div>
+                                {forelse}
+                                    <table>
                                         <tr>
-                                            <td style="padding-bottom:0px;">
-                                                <div class="website_record_div multifield_out" id="website_record_${i.id}_div" style="padding-bottom:0px">
-                                                    <a target="_blank" style="margin-left:5px; line-height:20px" href="${i.url}">${i.title}</a>
-                                                </div>
-                                            </td>
-                                            <td style="width:15px; padding-bottom:0px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_WEBSITE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                            <td colspan="2">
+                                                <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
-                                </div>
-                            {forelse}
-                                <table>
-                                    <tr>
-                                        <td colspan="2" style="padding-bottom:0px;">
+                                {/for}
+                            --></div>
+                        </div>
+
+                        <!-- ADDITIONAL INFO -->
+                        <div class="fl-fix profile_section profile_section_editable" id="additional">
+
+                            <div class="profile_section_header">__MSG__ADDITIONAL_INFORMATION__</div>
+
+                            <div class="profile_section_body">
+                                <table summary="Awards and Honors">
+                                    <tr id="awards">
+                                        <th class="entry_label">__MSG__AWARDS_AND_HONORS__:</th>
+                                        <td>
+                                            <input id="txt_awards" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__AWARDS_AND_HONORS__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="clubs">
+                                        <th class="entry_label">__MSG__CLUBS__:</th>
+                                        <td>
+                                            <input id="txt_clubs" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__CLUBS__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="societies">
+                                        <th class="entry_label">__MSG__SOCIETIES__:</th>
+                                        <td>
+                                            <input id="txt_societies" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__SOCIETIES__" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- WEBSITES -->
+                        <div class="fl-fix profile_section" id="websites">
+                            <a href="javascript:;" class="websitesadd popup_field_trigger">__MSG__ADD_A_WEBSITE__</a>
+                            <div class="profile_section_header">
+                                __MSG__WEBSITES__
+                            </div>
+
+                            <div class="profile_section_body" id="websites_list">
+                                <table summary="Websites">
+                                    <tr id="no_websites" style="display:block">
+                                        <td colspan="2">
                                             <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
-                            {/for}
-                            <div style="height:1em"></div>
-                        --></div>
-                    </div>
+                            </div>
+                            <div id="websites_list_template"><!--
+                                {for i in items}
+                                    <div class="multi_entry website_record" id="website_record_${i.id}" style="padding-bottom:0px">
+                                        <table style="width:100%; margin-bottom:0px">
+                                            <tr>
+                                                <td style="padding-bottom:0px;">
+                                                    <div class="website_record_div multifield_out" id="website_record_${i.id}_div" style="padding-bottom:0px">
+                                                        <a target="_blank" style="margin-left:5px; line-height:20px" href="${i.url}">${i.title}</a>
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px; padding-bottom:0px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_WEBSITE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                {forelse}
+                                    <table>
+                                        <tr>
+                                            <td colspan="2" style="padding-bottom:0px;">
+                                                <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                {/for}
+                                <div style="height:1em"></div>
+                            --></div>
+                        </div>
 
-                    <!-- UNI CONTACT INFO -->
-                    <div class="fl-fix profile_section profile_section_editable" id="unicontactinfo">
+                        <!-- UNI CONTACT INFO -->
+                        <div class="fl-fix profile_section profile_section_editable" id="unicontactinfo">
 
-                        <div class="profile_section_header">__MSG__UNIVERSITY_CONTACT_INFO__</div>
+                            <div class="profile_section_header">__MSG__UNIVERSITY_CONTACT_INFO__</div>
 
-                        <div class="profile_section_body">
-                            <table summary="University Contact Info">
-                                <tr id="uniemail">
-                                    <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
-                                    <td>
-                                        <input id="txt_uniemail" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__EMAIL_ADDRESS__" />
-                                    </td>
-                                </tr>
+                            <div class="profile_section_body">
+                                <table summary="University Contact Info">
+                                    <tr id="uniemail">
+                                        <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
+                                        <td>
+                                            <input id="txt_uniemail" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__EMAIL_ADDRESS__" />
+                                        </td>
+                                    </tr>
 
-                                <tr id="uniphone">
-                                    <th class="entry_label">__MSG__PHONE__:</th>
-                                    <td>
-                                        <input id="txt_uniphone" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__PHONE__" />
-                                    </td>
-                                </tr>
+                                    <tr id="uniphone">
+                                        <th class="entry_label">__MSG__PHONE__:</th>
+                                        <td>
+                                            <input id="txt_uniphone" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__PHONE__" />
+                                        </td>
+                                    </tr>
 
-                                <tr id="unimobile">
-                                    <th class="entry_label">__MSG__MOBILE__:</th>
-                                    <td>
-                                        <input id="txt_unimobile" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__MOBILE__" />
-                                    </td>
-                                </tr>
+                                    <tr id="unimobile">
+                                        <th class="entry_label">__MSG__MOBILE__:</th>
+                                        <td>
+                                            <input id="txt_unimobile" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__MOBILE__" />
+                                        </td>
+                                    </tr>
 
-                                <tr id="uniaddress">
-                                    <th class="entry_label">__MSG__ADDRESS__:</th>
-                                    <td>
-                                        <input id="txt_uniaddress" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__ADDRESS__" />
-                                    </td>
-                                </tr>
-                            </table>
+                                    <tr id="uniaddress">
+                                        <th class="entry_label">__MSG__ADDRESS__:</th>
+                                        <td>
+                                            <input id="txt_uniaddress" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__ADDRESS__" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- HOME CONTACT -->
+                        <div class="fl-fix profile_section profile_section_editable" id="homecontactinfo">
+
+                            <div class="profile_section_header">__MSG__HOME_CONTACT_INFO__</div>
+
+                            <div class="profile_section_body">
+                                <table summary="Home Contact Info">
+                                    <tr id="homeemail">
+                                        <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
+                                        <td>
+                                            <input id="txt_homeemail" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__EMAIL_ADDRESS__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="homephone">
+                                        <th class="entry_label">__MSG__PHONE__:</th>
+                                        <td>
+                                            <input id="txt_homephone" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__PHONE__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="homemobile">
+                                        <th class="entry_label">__MSG__MOBILE__:</th>
+                                        <td>
+                                            <input id="txt_homemobile" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__MOBILE__" />
+                                        </td>
+                                    </tr>
+
+                                    <tr id="homeaddress">
+                                        <th class="entry_label">__MSG__ADDRESS__:</th>
+                                        <td>
+                                            <input id="txt_homeaddress" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__ADDRESS__" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- HOME CONTACT -->
-                    <div class="fl-fix profile_section profile_section_editable" id="homecontactinfo">
-
-                        <div class="profile_section_header">__MSG__HOME_CONTACT_INFO__</div>
-
-                        <div class="profile_section_body">
-                            <table summary="Home Contact Info">
-                                <tr id="homeemail">
-                                    <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
-                                    <td>
-                                        <input id="txt_homeemail" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__EMAIL_ADDRESS__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="homephone">
-                                    <th class="entry_label">__MSG__PHONE__:</th>
-                                    <td>
-                                        <input id="txt_homephone" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__PHONE__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="homemobile">
-                                    <th class="entry_label">__MSG__MOBILE__:</th>
-                                    <td>
-                                        <input id="txt_homemobile" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__MOBILE__" />
-                                    </td>
-                                </tr>
-
-                                <tr id="homeaddress">
-                                    <th class="entry_label">__MSG__ADDRESS__:</th>
-                                    <td>
-                                        <input id="txt_homeaddress" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__ADDRESS__" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
+                    <div class="content_bottom"><div class="content_bottom_inner"></div></div>
                 </div>
+            </div>
 
-                <div class="content_bottom"><div class="content_bottom_inner"></div></div>
+            <!-- FOOTER WIDGET -->
+            <div id="widget_footer" class="widget_inline footercontainer"></div>
         </div>
-    </div>
 
-    <!-- FOOTER WIDGET -->
-    <div id="widget_footer" class="widget_inline footercontainer"></div>
+        <!-- DIALOGS -->
 
-<!-- DIALOGS -->
+        <!--
+        /////////////
+        // Degrees //
+        /////////////
+        -->
 
-<!--
-/////////////
-// Degrees //
-/////////////
--->
+        <div class="dialog" id="add_degrees_lightbox">
 
-<div class="dialog" id="add_degrees_lightbox">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__DEGREES__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
 
-        <div class="dialog_header">
-            <div class="dialog_header_inner">
-                <h1>__MSG__DEGREES__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__ADD_A_DEGREE_TO_YOUR_DEGREE_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="add_degree_form">
+                    <table summary="New Degree">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_degree_country" title="__MSG__COUNTRY__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SCHOOL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_degree_school" title="__MSG__SCHOOL__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DEGREE__:</td>
+                            <td><input maxlength="255" type="text" style="width:50px" id="new_degree_degree" title="__MSG__DEGREE__" />
+                            <br/><span style="color:#666666; font-size:0.9em">__MSG__EG_BENG_MPHIL_PHD__ ...</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__FIELD_OF_STUDY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_degree_field" title="__MSG__FIELD_OF_STUDY__" />
+                            <br/><span style="color:#666666; font-size:0.9em">__MSG__EG_PHILOSOPHY_COMPUTER_SCIENCE__ ...</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
+                            <td>
+                                <select id="new_degree_from" title="__MSG__NEW_DEGREE_FROM__">
+                                    <option></option>
+                                </select>
+                                -
+                                <select id="new_degree_until" title="__MSG__NEW_DEGREE_UNTIL__">
+                                    <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__ADDITIONAL_NOTES__:</td>
+                            <td><textarea style="width:250px; height:75px" id="new_degree_notes"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="new_degree_button" style="font-weight:bold">__MSG__SAVE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+
+        </div>
+
+        <div class="dialog" id="edit_degrees_lightbox">
+
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__DEGREES__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE__DIALOG__">__MSG__CLOSE__DIALOG__</a>
+                </div>
+            </div>
+
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__EDIT_A_DEGREE_FROM_YOUR_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="edit_degrees_form">
+                    <input type="hidden" id="edit_degree_id" title="__MSG__DEGREE_INFORMATION_ID__" />
+                    <table summary="Edit Degree">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_country" title="__MSG__COUNTRY__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SCHOOL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_school" title="__MSG__SCHOOL__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DEGREE__:</td>
+                            <td><input  maxlength="255" type="text" style="width:50px" id="edit_degree_degree" title="__MSG__DEGREE__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. BEng, MPhil, PhD, ...</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__FIELD_OF_STUDY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_field" title="__MSG__FIELD_OF_STUDY__" />
+    
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Philosophy, Computer Science, ...</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
+                            <td>
+                                <select id="edit_degree_from" title="__MSG__EDIT_DEGREE_FROM__">
+                                    <option></option>
+                                    <option>2015</option>
+                                </select>
+                                -
+                                <select id="edit_degree_until" title="__MSG__EDIT_DEGREE_UNTIL__">
+                                    <option></option>
+                                    <option>2015</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__ADDITIONAL_NOTES__:</td>
+                            <td><textarea style="width:250px; height:75px" id="edit_degree_notes" title="__MSG__ADDITIONAL_NOTES__"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__ADD_A_DEGREE_TO_YOUR_DEGREE_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="add_degree_form">
-            <table summary="New Degree">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_degree_country" title="__MSG__COUNTRY__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SCHOOL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_degree_school" title="__MSG__SCHOOL__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DEGREE__:</td>
-                    <td><input maxlength="255" type="text" style="width:50px" id="new_degree_degree" title="__MSG__DEGREE__" />
-                    <br/><span style="color:#666666; font-size:0.9em">__MSG__EG_BENG_MPHIL_PHD__ ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__FIELD_OF_STUDY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_degree_field" title="__MSG__FIELD_OF_STUDY__" />
-                    <br/><span style="color:#666666; font-size:0.9em">__MSG__EG_PHILOSOPHY_COMPUTER_SCIENCE__ ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td>
-                        <select id="new_degree_from" title="__MSG__NEW_DEGREE_FROM__">
-                            <option></option>
-                        </select>
-                        -
-                        <select id="new_degree_until" title="__MSG__NEW_DEGREE_UNTIL__">
-                            <option></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__ADDITIONAL_NOTES__:</td>
-                    <td><textarea style="width:250px; height:75px" id="new_degree_notes"></textarea></td>
-                </tr>
-            </table>
 
-            </form>
+        <!--
+        /////////////
+        // Degrees //
+        /////////////
+        -->
 
-            <!-- DIALOG BUTTONS -->
-            <div class="dialog_buttons">
-                <a href="javascript:;" class="button-default" id="new_degree_button" style="font-weight:bold">__MSG__SAVE__</a>
-                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+        <!--
+        ////////////
+        // Papers //
+        ////////////
+        -->
+
+        <div class="dialog" id="add_papers_lightbox">
+
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__PUBLICATIONS__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__ADD_A_PUBLICATION_TO_YOUR_PUBLICATION_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="add_paper_form">
+                    <table summary="New Publication">
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_title" title="__MSG__MAIN_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_auth" title="__MSG__MAIN_AUTHOR__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px">__MSG__CO_AUTHORS__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_coauth" title="__MSG__CO_AUTHORS__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__YEAR_OF_APPEARANCE__:</td>
+                            <td>
+                                <select id="new_paper_year" title="__MSG__YEAR_OF_APPEARANCE__">
+                                    <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_vol" title="__MSG__VOLUME_INFORMATION__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_voltitle" title="__MSG__VOLUME_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_edition" title="__MSG__EDITION_INFORMATION__" />
+                            <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_place" title="__MSG__PLACE_OF_PUBLICATION__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_publisher" title="__MSG__PUBLISHER__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__OVERAL_SERIES_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_ovtitle"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_paper_number" title="__MSG__NUMBER__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px">__MSG__URL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_paper_url" title="__MSG__URL__" /></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">__MSG__SAVE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
 
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+        <div class="dialog" id="edit_papers_lightbox">
 
-</div>
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__PUBLICATIONS__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
 
-<div class="dialog" id="edit_degrees_lightbox">
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__EDIT_A_PUBLICATION_FROM_YOUR_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="edit_papers_form">
+                    <input type="hidden" id="edit_paper_id" title="__MSG__PAPER_INFORMATION_ID__" />
+                    <table summary="Edit Publication">
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_title" title="__MSG__MAIN_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_auth" title="__MSG__MAIN_AUTHOR__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px">__MSG__CO_AUTHORS__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_coauth" title="__MSG__CO_AUTHORS__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__YEAR_OF_APPEARANCE__:</td>
+                            <td>
+                                <select id="edit_paper_year" title="__MSG__YEAR_OF_APPEARANCE__">
+                                    <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_vol" title="__MSG__VOLUME_INFORMATION__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_voltitle" title="__MSG__VOLUME_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_edition" title="__MSG__EDITION_INFORMATION__" />
+                            <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_place" title="__MSG__PLACE_OF_PUBLICATION__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_publisher" title="__MSG__PUBLISHER__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__OVERAL_SERIES_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_ovtitle" title="__MSG__OVERAL_SERIES_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_number" title="__MSG__NUMBER__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 130px">__MSG__URL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="edit_paper_url" title="__MSG__URL__" /></td>
+                        </tr>
+                    </table>
+                </form>
 
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__DEGREES__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE__DIALOG__">__MSG__CLOSE__DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-       <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Edit a degree from your list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="edit_degrees_form">
-            <input type="hidden" id="edit_degree_id" title="__MSG__DEGREE_INFORMATION_ID__" />
-            <table summary="Edit Degree">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_country" title="__MSG__COUNTRY__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SCHOOL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_school" title="__MSG__SCHOOL__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DEGREE__:</td>
-                    <td><input  maxlength="255" type="text" style="width:50px" id="edit_degree_degree" title="__MSG__DEGREE__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. BEng, MPhil, PhD, ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__FIELD_OF_STUDY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_field" title="__MSG__FIELD_OF_STUDY__" />
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
 
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Philosophy, Computer Science, ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td>
-                        <select id="edit_degree_from" title="__MSG__EDIT_DEGREE_FROM__">
-                            <option></option>
-                            <option>2015</option>
-                        </select>
-                        -
-                        <select id="edit_degree_until" title="__MSG__EDIT_DEGREE_UNTIL__">
-                            <option></option>
-                            <option>2015</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__ADDITIONAL_NOTES__:</td>
-                    <td><textarea style="width:250px; height:75px" id="edit_degree_notes" title="__MSG__ADDITIONAL_NOTES__"></textarea></td>
-                </tr>
-            </table>
-           </form>
-
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">__MSG__UPDATE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
-        </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
-
-<!--
-/////////////
-// Degrees //
-/////////////
--->
-
-<!--
-////////////
-// Papers //
-////////////
--->
-
-<div class="dialog" id="add_papers_lightbox">
-
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__PUBLICATIONS__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__ADD_A_PUBLICATION_TO_YOUR_PUBLICATION_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="add_paper_form">
-            <table summary="New Publication">
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_title" title="__MSG__MAIN_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_auth" title="__MSG__MAIN_AUTHOR__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__CO_AUTHORS__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_coauth" title="__MSG__CO_AUTHORS__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__YEAR_OF_APPEARANCE__:</td>
-                    <td>
-                        <select id="new_paper_year" title="__MSG__YEAR_OF_APPEARANCE__">
-                            <option></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_vol" title="__MSG__VOLUME_INFORMATION__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_voltitle" title="__MSG__VOLUME_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_edition" title="__MSG__EDITION_INFORMATION__" />
-                    <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_place" title="__MSG__PLACE_OF_PUBLICATION__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_publisher" title="__MSG__PUBLISHER__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__OVERAL_SERIES_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_ovtitle"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_paper_number" title="__MSG__NUMBER__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__URL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_paper_url" title="__MSG__URL__" /></td>
-                </tr>
-            </table>
-           </form>
-
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">__MSG__SAVE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
         </div>
 
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
+        <!--
+        ////////////
+        // Papers //
+        ////////////
+        -->
 
-<div class="dialog" id="edit_papers_lightbox">
+        <!--
+        ///////////
+        // Talks //
+        ///////////
+        -->
 
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__PUBLICATIONS__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__EDIT_A_PUBLICATION_FROM_YOUR_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="edit_papers_form">
-            <input type="hidden" id="edit_paper_id" title="__MSG__PAPER_INFORMATION_ID__" />
-            <table summary="Edit Publication">
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_title" title="__MSG__MAIN_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__MAIN_AUTHOR__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_auth" title="__MSG__MAIN_AUTHOR__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Doe, J.</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__CO_AUTHORS__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_coauth" title="__MSG__CO_AUTHORS__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Dane, J., Foo, B.</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__YEAR_OF_APPEARANCE__:</td>
-                    <td>
-                        <select id="edit_paper_year" title="__MSG__YEAR_OF_APPEARANCE__">
-                            <option></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_INFORMATION__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_vol" title="__MSG__VOLUME_INFORMATION__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Vol 22</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__VOLUME_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_voltitle" title="__MSG__VOLUME_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__EDITION_INFORMATION__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_edition" title="__MSG__EDITION_INFORMATION__" />
-                    <br/><span style="color:#666666; font-size:0.9em">4th completely revised Edition</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE_OF_PUBLICATION__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_place" title="__MSG__PLACE_OF_PUBLICATION__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__PUBLISHER__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_publisher" title="__MSG__PUBLISHER__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__OVERAL_SERIES_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_ovtitle" title="__MSG__OVERAL_SERIES_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px"><strong class="fs13 cCC0000">*</strong> __MSG__NUMBER__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_paper_number" title="__MSG__NUMBER__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 130px">__MSG__URL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="edit_paper_url" title="__MSG__URL__" /></td>
-                </tr>
-            </table>
-           </form>
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">__MSG__UPDATE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
+        <div class="dialog" id="add_talks_lightbox">
+
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__TALKS__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__ADD_A_TALK_TO_YOUR_TALK_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="add_talk_form">
+                    <table summary="New Talk">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_talk_title" title="__MSG__TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_talk_place" title="__MSG__PLACE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_talk_date" title="__MSG__DATE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__CO_AUTHORS__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_talk_coauth" title="__MSG__CO_AUTHORS__"/>
+                            <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__URL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="new_talk_url" title="__MSG__URL__" /></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">__MSG__SAVE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
         </div>
 
-        <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
+        <div class="dialog" id="edit_talks_lightbox">
 
-<!--
-////////////
-// Papers //
-////////////
--->
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__TALKS__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
 
-<!--
-///////////
-// Talks //
-///////////
--->
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__EDIT_A_TALK_FROM_YOUR_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="edit_talks_form">
+                    <input type="hidden" id="edit_talk_id" title="__MSG__TALK_INFORMATION_ID__"/>
+                    <table summary="Edit Talk">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_title" title="__MSG__TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_place" title="__MSG__PLACE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_date" title="__MSG__DATE__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__CO_AUTHORS__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_coauth" title="__MSG__CO_AUTHORS__" />
+                            <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__URL__:</td>
+                            <td><input type="text" style="width:250px" class="url_field" id="edit_talk_url" title="__MSG__URL__" /></td>
+                        </tr>
+                    </table>
+                </form>
 
-<div class="dialog" id="add_talks_lightbox">
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">__MSG__UPATE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
 
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__TALKS__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__ADD_A_TALK_TO_YOUR_TALK_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="add_talk_form">
-            <table summary="New Talk">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_talk_title" title="__MSG__TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_talk_place" title="__MSG__PLACE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_talk_date" title="__MSG__DATE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__CO_AUTHORS__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_talk_coauth" title="__MSG__CO_AUTHORS__"/>
-                    <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__URL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px"  class="url_field" id="new_talk_url" title="__MSG__URL__" /></td>
-                </tr>
-            </table>
-           </form>
-
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">__MSG__SAVE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
         </div>
 
-        <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
+        <!--
+        ///////////
+        // Talks //
+        ///////////
+        -->
 
-<div class="dialog" id="edit_talks_lightbox">
+        <!--
+        //////////
+        // Jobs //
+        //////////
+        -->
 
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__TALKS__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__EDIT_A_TALK_FROM_YOUR_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="edit_talks_form">
-            <input type="hidden" id="edit_talk_id" title="__MSG__TALK_INFORMATION_ID__"/>
-            <table summary="Edit Talk">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_title" title="__MSG__TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__PLACE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_place" title="__MSG__PLACE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_date" title="__MSG__DATE__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__CO_AUTHORS__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_talk_coauth" title="__MSG__CO_AUTHORS__" />
-                    <br/><span style="color:#666666; font-size:0.9em">__MSG__SEPARATED_BY_COMMAS__</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__URL__:</td>
-                    <td><input type="text" style="width:250px" class="url_field" id="edit_talk_url" title="__MSG__URL__" /></td>
-                </tr>
-            </table>
-           </form>
+        <div class="dialog" id="add_jobs_lightbox">
 
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">__MSG__UPATE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
-        </div>
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__PROFESSIONAL_EXPERIENCE__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__DIALOG__</a>
+                </div>
+            </div>
 
-        <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__ADD_A_POSITION_TO_YOUR_JOB_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="add_job_form">
+                    <table summary="New Job">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_job_role" title="__MSG__ROLE__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_job_country" title="__MSG__COUNTRY__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_job_company" title="__MSG__COMPANY__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
+                            <td>
+                                <select id="new_job_from" title="__MSG__NEW_JOB_FROM__">
+                                    <option></option>
+                                </select>
+                                -
+                                <select id="new_job_until" title="__MSG__NEW_JOB_UNTIL">
+                                    <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__DESCRIPTION__:</td>
+                            <td><textarea style="width:250px; height:75px" id="new_job_description" title="__MSG__DESCRIPTION__"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
 
-<!--
-///////////
-// Talks //
-///////////
--->
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">__MSG__SAVE__</a>
+                        <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
 
-<!--
-//////////
-// Jobs //
-//////////
--->
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
 
-<div class="dialog" id="add_jobs_lightbox">
-
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__PROFESSIONAL_EXPERIENCE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE__DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__ADD_A_POSITION_TO_YOUR_JOB_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="add_job_form">
-            <table summary="New Job">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_job_role" title="__MSG__ROLE__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_job_country" title="__MSG__COUNTRY__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_job_company" title="__MSG__COMPANY__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
-                    <td>
-                        <select id="new_job_from" title="__MSG__NEW_JOB_FROM__">
-                            <option></option>
-                        </select>
-                        -
-                        <select id="new_job_until" title="__MSG__NEW_JOB_UNTIL">
-                            <option></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__DESCRIPTION__:</td>
-                    <td><textarea style="width:250px; height:75px" id="new_job_description" title="__MSG__DESCRIPTION__"></textarea></td>
-                </tr>
-            </table>
-           </form>
-
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">__MSG__SAVE__</a>
-                <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
         </div>
 
-        <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+        <div class="dialog" id="edit_jobs_lightbox">
 
-</div>
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__PROFESSIONAL_EXPERIENCE__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
 
-<div class="dialog" id="edit_jobs_lightbox">
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">Edit a position from your list</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="edit_jobs_form">
+                    <input type="hidden" id="edit_job_id" title="__MSG__JOB_INFORMATION_ID__" />
+                    <table summary="Edit Job">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_job_role" title="__MSG__ROLE__" />
+                            <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_job_country" title="__MSG__COUNTRY__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_job_company" title="__MSG__COMPANY__" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG_DATE__:</td>
+                            <td>
+                                <select id="edit_job_from" title="__MSG__EDIT_JOB_FROM__">
+                                    <option></option>
+                                </select>
+                                -
+                                <select id="edit_job_until" title="__MSG__EDIT_JOB_UNTIL__">
+                                    <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">__MSG__DESCRIPTION__:</td>
+                            <td><textarea maxlength="1000" style="width:250px; height:75px" id="edit_job_description" title="__MSG__DESCRIPTION__"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
 
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__PROFESSIONAL_EXPERIENCE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">Edit a position from your list</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="edit_jobs_form">
-            <input type="hidden" id="edit_job_id" title="__MSG__JOB_INFORMATION_ID__" />
-            <table summary="Edit Job">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__ROLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_job_role" title="__MSG__ROLE__" />
-                    <br/><span style="color:#666666; font-size:0.9em">e.g. Software Developer, Project Manager, ...</span></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COUNTRY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_job_country" title="__MSG__COUNTRY__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COMPANY__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_job_company" title="__MSG__COMPANY__" /></td>
-                </tr>
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG_DATE__:</td>
-                    <td>
-                        <select id="edit_job_from" title="__MSG__EDIT_JOB_FROM__">
-                            <option></option>
-                        </select>
-                        -
-                        <select id="edit_job_until" title="__MSG__EDIT_JOB_UNTIL__">
-                            <option></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100px">__MSG__DESCRIPTION__:</td>
-                    <td><textarea maxlength="1000" style="width:250px; height:75px" id="edit_job_description" title="__MSG__DESCRIPTION__"></textarea></td>
-                </tr>
-            </table>
-           </form>
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">__MSG__UPDATE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
-        </div>
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
 
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
 
-</div>
-
-<!--
-//////////
-// Jobs //
-//////////
--->
-
-<!--
-//////////////
-// Websites //
-//////////////
--->
-
-<div class="dialog" id="add_websites_lightbox">
-
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__WEBSITE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-        </div>
-    </div>
-        <!-- /lightbox-header -->
-        <div class="dialog_content">
-            <h4 style="color:#333333; float: left">__MSG__ADD_A_WEBSITE_TO_YOUR_SITE_LIST__</h4>
-            <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-            <br/><br/>
-            <form id="add_website_form">
-            <table summary="Add Website">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="new_website_title" title="__MSG__SITE_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_website_url" title="__MSG__URL__" /></td>
-                </tr>
-            </table>
-           </form>
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">__MSG__SAVE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
-        </div>
         </div>
 
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+        <!--
+        //////////
+        // Jobs //
+        //////////
+        -->
 
-</div>
+        <!--
+        //////////////
+        // Websites //
+        //////////////
+        -->
 
-<div class="dialog" id="edit_websites_lightbox">
+        <div class="dialog" id="add_websites_lightbox">
 
-        <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__WEBSITE__</h1>
-            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__WEBSITE__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
+
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__ADD_A_WEBSITE_TO_YOUR_SITE_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="add_website_form">
+                    <table summary="Add Website">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="new_website_title" title="__MSG__SITE_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="new_website_url" title="__MSG__URL__" /></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">__MSG__SAVE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+
         </div>
-    </div>
 
-    <!-- /lightbox-header -->
-        <div class="dialog_content">
-        <h4 style="color:#333333; float: left">__MSG__EDIT_A_WEBSITE_FROM_YOUR_LIST__</h4>
-        <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
-        <br/><br/>
+        <div class="dialog" id="edit_websites_lightbox">
 
-        <form id="edit_website_form">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                    <h1>__MSG__WEBSITE__</h1>
+                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                </div>
+            </div>
 
-        <input type="hidden" id="edit_website_id" title="__MSG__WEBSITE_INFORMATION_ID__"/>
+            <!-- /lightbox-header -->
+            <div class="dialog_content">
+                <h4 style="color:#333333; float: left">__MSG__EDIT_A_WEBSITE_FROM_YOUR_LIST__</h4>
+                <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
+                <br/><br/>
+                <form id="edit_website_form">
+                    <input type="hidden" id="edit_website_id" title="__MSG__WEBSITE_INFORMATION_ID__"/>
+                    <table summary="Edit Website">
+                        <tr>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" id="edit_website_title" title="__MSG__SITE_TITLE__" /></td>
+                        </tr>
+                        <tr>
+                            <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
+                            <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_website_url" title="__MSG__URL__" /></td>
+                        </tr>
+                    </table>
+                </form>
 
-        <table summary="Edit Website">
-                <tr>
-                    <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" id="edit_website_title" title="__MSG__SITE_TITLE__" /></td>
-                </tr>
-                <tr>
-                    <td><strong class="fs13 cCC0000">*</strong> __MSG__URL__:</td>
-                    <td><input maxlength="255" type="text" style="width:250px" class="url_field" id="edit_website_url" title="__MSG__URL__" /></td>
-                </tr>
-            </table>
-           </form>
+                <!-- DIALOG BUTTONS -->
+                <div class="dialog_buttons">
+                    <a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">__MSG__UPDATE__</a>
+                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                </div>
+            </div>
 
-        <!-- DIALOG BUTTONS -->
-        <div class="dialog_buttons">
-            <a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">__MSG__UPDATE__</a>
-            <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
         </div>
-        </div>
 
-        <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
-</div>
+        <!--
+        //////////////
+        // Websites //
+        //////////////
+        -->
 
-<!--
-//////////////
-// Websites //
-//////////////
--->
+        <div id="widget_changepic" class="widget_inline"></div>
 
-    <div id="widget_changepic" class="widget_inline"></div>
+        <script type="text/javascript" src="_javascript/profile_edit.js"></script>
 
-    <script type="text/javascript" src="_javascript/profile_edit.js"></script>
-
-</body>
+    </body>
 </html>
