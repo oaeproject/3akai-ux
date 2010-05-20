@@ -484,8 +484,8 @@ sakai.inbox = function() {
             message.category = "Chat";
         }
 
-        if (message["sakai:previousmessage"]) {
-            message["sakai:previousmessage"] = formatMessage(message["sakai:previousmessage"]);
+        if (message.previousMessage) {
+            message.previousMessage = formatMessage(message.previousMessage);
         }
 
         // A chat message doesn't really have subject, only a body.
@@ -1250,7 +1250,7 @@ sakai.inbox = function() {
         var subject = $(inboxSpecificMessageComposeSubject).val();
         var body = $(inboxSpecificMessageComposeBody).val();
 
-        sakai.api.Communication.sendMessage(selectedMessage.from, subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
+        sakai.api.Communication.sendMessage(selectedMessage["sakai:from"], subject, body, "message", selectedMessage["sakai:id"], sendMessageFinished);
 
         // Clear all the input fields
         clearInputFields();

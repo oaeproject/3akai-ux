@@ -279,7 +279,7 @@
                                 </span>
                                 <div class="inbox_message_user">
                                     {for fromUser in r.userFrom}
-                                        <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ||  ${fromUser.lastName}</a><br />
+                                        <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ${fromUser.lastName}</a><br />
                                     {/for}
                                     <div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
                                 </div>
@@ -300,12 +300,12 @@
                             </div>
 
                             {if r["sakai:previousmessage"]}
-                                ${showReply(r["sakai:previousmessage"])}
+                                ${showReply(r.previousMessage)}
                             {/if}
 
                             {/macro}
 
-                            ${showReply(message["sakai:previousmessage"])}
+                            ${showReply(message.previousMessage)}
                             --></div>
 
                             <div id="inbox_compose_replies_template_chats"><!--
