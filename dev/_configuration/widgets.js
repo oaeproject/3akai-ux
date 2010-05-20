@@ -84,6 +84,17 @@ var Widgets = {
             siteportal:true,
             url:"/devwidgets/comments/comments.html"
         },
+        "formdatastring": {
+            description:"Form Data String",
+            ca:true,
+            hasSettings:true,
+            id:"formdatastring",
+            img:"/devwidgets/formdatastring/images/formdatastring.png",
+            name:"Structured Form Data String",
+            showinsakaigoodies:true,
+            siteportal:true,
+            url:"/devwidgets/formdatastring/formdatastring.html"
+        },
         "createsite": {
             description:"Create site",
             name:"Create Site",
@@ -347,17 +358,6 @@ var Widgets = {
             name:"My Courses & Sites",
             personalportal:true,
             url:"/devwidgets/sites/sites.html"
-        },
-        "form-data-string": {
-            description:"Form Data String",
-            ca:true,
-            hasSettings:true,
-            id:"form-data-string",
-            img:"/devwidgets/form-data-string/images/comments.png",
-            name:"Comments",
-            showinsakaigoodies:true,
-            siteportal:true,
-            url:"/devwidgets/form-data-string/comments.html"
         },
         "tangler": {
             ca:true,
