@@ -21,19 +21,27 @@
 
 var sakai = sakai || {};
 sakai.print = function(){
+    
+    var init = function() {
+      var json = {};
 
-    var json = false;
-
-    $.ajax({
-        url: "/_user/private/print.json",
-        cache: false,
-        success: function(data){
-            json = $.evalJSON(data);
-            $(".content_container").html(json.content);
-            /* for (var i = 0; i < json.css.length; i++){
-                $.Load.requireCSS(json.css[i]);
-            } */
-        }
+      $.ajax({
+          url: "/_user" + sakai.data.me.profile.path + "/private/print.json",
+          cache: false,
+          success: function(data){
+              json = $.evalJSON(data);
+              $(".content_container").html(json.content);
+              var css = json.css.substr(0,json.css.length-1).split(",");
+              for (var i = 0; i < css.length; i++){
+                  $.Load.requireCSS(css[i]);
+              }
+          }
+      });
+    }
+    
+    init();
+    $(function() {
+      window.print();
     });
 
 };
