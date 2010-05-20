@@ -119,7 +119,7 @@ var Widgets = {
                 "nl_NL": "/devwidgets/delicious/bundles/nl_NL.json"
             },
             "name":"Delicious",
-            "personalportal":false,
+            "personalportal":true,
             "url":"/devwidgets/delicious/delicious.html"
         },
         "discussion": {
