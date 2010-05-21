@@ -414,16 +414,15 @@ sakai.delicious = function(tuid, showSettings) {
      * @param {Object} data retrieved data
      */
     var fillInDeliciousSettings = function(data) {
-        var settings = $.evalJSON(data);
 
-        $deliciousSettingsInputUsername.val(settings.username);
-        $deliciousSettingsSelectBookmarksInTotal.val(settings.bookmarksInTotal);
-        $deliciousSettingsSelectBookmarksPerPage.val(settings.bookmarksPerPage);
+        $deliciousSettingsInputUsername.val(data.username);
+        $deliciousSettingsSelectBookmarksInTotal.val(data.bookmarksInTotal);
+        $deliciousSettingsSelectBookmarksPerPage.val(data.bookmarksPerPage);
 
-        filterUser = settings.username;
-        filterUserDefault = settings.username;
-        bookmarkTotal = parseInt(settings.bookmarksInTotal,10);
-        pageSize = parseInt(settings.bookmarksPerPage,10);
+        filterUser = data.username;
+        filterUserDefault = data.username;
+        bookmarkTotal = parseInt(data.bookmarksInTotal,10);
+        pageSize = parseInt(data.bookmarksPerPage,10);
 
         // If the mainview is shown, get the bookmarks from Delicious
         if (!showSettings){

@@ -24,7 +24,7 @@
 
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
@@ -46,7 +46,7 @@
     <body id="root" class="fl-centered fl-container i18nable basic_management">
 
         <!-- MESSAGES -->
-        <span id="siteSettings_error_unauthorized" style="display:none;">__MSG__YOU_ARE_NOT_ALLOWED_TO_CHANGE_THIS_SITE_ARE_YOU_STILL_LOGGED_IN__</span> <span id="siteSettings_error_saveFail" style="display:none;">__MSG__FAILED_TO_SAVE_THE_SITE_SETTINGS__.</span> <span id="siteSettings_error_saveSuccess" style="display:none;">Updated the site settings.</span>
+        <span id="siteSettings_error_unauthorized" style="display:none;">__MSG__YOU_ARE_NOT_ALLOWED_TO_CHANGE_THIS_SITE_ARE_YOU_STILL_LOGGED_IN__</span> <span id="siteSettings_error_saveFail" style="display:none;">__MSG__FAILED_TO_SAVE_THE_SITE_SETTINGS__.</span> <span id="siteSettings_error_saveSuccess" style="display:none;">__MSG__UPDATED_THE_SITE_SETTINGS__.</span>
 
         <!-- EXPLORE BAR -->
         <div id="widget_navigationchat" class="widget_inline"></div>
@@ -107,7 +107,7 @@
                                     <select id="siteSettings_language" name="language">
                                     </select>
                                     <div id="siteSettings_languagesTemplate" style="display:none"><!--
-                                        <option value="default">User's language</option>
+                                        <option value="default">__MSG__USERS_LANGUAGE__</option>
                                         {for i in languages}
                                             <option value="${i.language}_${i.country}">${i.displayName}</option>
                                         {/for}

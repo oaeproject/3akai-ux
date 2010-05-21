@@ -75,10 +75,9 @@ sakai.recentmessages = function(tuid, showSettings){
 
         // Check if the request was successful
         if (response) {
-            var json = $.evalJSON(response);
 
             // Render the recent message for the current user.
-            renderRecentMessages(json);
+            renderRecentMessages(response);
         }else {
             renderRecentMessages("NOT_CONNECTED");
         }

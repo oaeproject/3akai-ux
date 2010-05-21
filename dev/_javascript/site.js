@@ -230,7 +230,9 @@ sakai.site = function(){
             cache: false,
             success: function(response){
 
-                sakai.site.currentsite = $.evalJSON(response);
+                if(response && typeof response === "string"){
+                    sakai.site.currentsite = $.parseJSON(response);
+                }
 
                 // Adjust links if not on dev
                 if (!sakai.site.currentsite) {
@@ -307,44 +309,43 @@ sakai.site = function(){
             },
             success: function(response) {
 
-                // Init, convert response to JS object
-                var temp = $.evalJSON(response);
-                temp = temp.results;
+                // Init
+                response = response.results;
 
                 // Sort site objects by their path
                 var compareURL = function(a,b) {
                     return a.path>b.path ? 1 : a.path<b.path ? -1 : 0;
                 };
-                temp.sort(compareURL);
+                response.sort(compareURL);
 
                 // Create site_info object, the unique key being the partial path of the page from the root of the site
                 // This will also keep the alphabetical order
                 sakai.site.site_info["_pages"] = {};
-                for (var i=0, j=temp.length; i<j; i++) {
+                for (var i=0, j=response.length; i<j; i++) {
 
-                    if (typeof temp[i] !== "undefined") {
+                    if (typeof response[i] !== "undefined") {
 
                         // Save page data and add some helper attributes
 
                         // URL safe title
                         var url_safe_title = "";
-                        var url_elements = temp[i]["jcr:path"].split("/");
+                        var url_elements = response[i]["jcr:path"].split("/");
                         url_safe_title = url_elements[url_elements.length - 1];
-                        temp[i]["pageURLTitle"] = url_safe_title;
+                        response[i]["pageURLTitle"] = url_safe_title;
 
                         // URL safe name
-                        var url_safe_name = sakai.site.createURLName(temp[i]["jcr:path"]);
-                        temp[i]["pageURLName"] = url_safe_name;
+                        var url_safe_name = sakai.site.createURLName(response[i]["jcr:path"]);
+                        response[i]["pageURLName"] = url_safe_name;
 
                         // Page depth
-                        temp[i]["pageDepth"] = url_elements.length;
+                        response[i]["pageDepth"] = url_elements.length;
 
                         // Page base folder
                         url_elements.pop();
-                        temp[i]["pageFolder"] = url_elements.join("/");
+                        response[i]["pageFolder"] = url_elements.join("/");
 
                         // Main page data
-                        sakai.site.site_info["_pages"][url_safe_name] = temp[i];
+                        sakai.site.site_info["_pages"][url_safe_name] = response[i];
                     }
                 }
 
@@ -636,7 +637,7 @@ sakai.site = function(){
                         type: "GET",
                         success: function(data) {
 
-                            sakai.site.pagecontents[pageUrlName] = $.evalJSON(data);
+                            sakai.site.pagecontents[pageUrlName] = $.extend(data, {}, true);
 
                             displayDashboard(sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"], true);
 
@@ -669,8 +670,7 @@ sakai.site = function(){
                         type: "GET",
                         success: function(data) {
 
-                            var content_node = $.evalJSON(data);
-                            sakai.site.pagecontents[pageUrlName] = content_node;
+                            sakai.site.pagecontents[pageUrlName] = data;
 
                             // TO DO: See if we need to run the content through sakai.site.ensureProperWidgetIDs - would be good if we could skip this step and make sure widget IDs are correct from the beginning
                             displayPage(sakai.site.pagecontents[pageUrlName]["sakai:pagecontent"], true);
@@ -909,17 +909,16 @@ sakai.site = function(){
         /**
          * Displays a dashboard page.
          * @param {Object} response Content retrieved from server.
-         * @param {Object} exists Wether the request was succesful or not.
+         * @param {Boolean} exists Whether the request was successful or not.
          */
         var displayDashboard = function(response, exists){
             if (exists) {
-                var dashboard_content_json = $.evalJSON(response);
                 try {
-                    sakai.site.portaljsons[sakai.site.selectedpage] = dashboard_content_json;
-                    showportal(dashboard_content_json);
+                    sakai.site.portaljsons[sakai.site.selectedpage] = response;
+                    showportal(response);
                 }
                 catch (err) {
-                    showportal(dashboard_content_json);
+                    showportal(response);
                 }
             }
             else {
@@ -938,7 +937,7 @@ sakai.site = function(){
          */
         var showportal = function(json){
 
-            var layout = json;
+            var layout = $.parseJSON(json);
 
             if (!Widgets.layouts[json.layout]) {
 
@@ -1345,22 +1344,24 @@ sakai.site = function(){
     var printPage = function(){
 
         // Save page to be printed into my personal space
-        var content = $("#" + sakai.site.selectedpage).html();
+        var content = $("#" + sakai.site.selectedpage + ".content").html();
         content = "<div class='content'>" + content + "</div>";
 
         var arrLinks = [];
         var links = $("link");
+        var css = "";
         for (var i = 0, j = links.length; i < j; i++){
             if (links[i].type === "text/css"){
                 arrLinks.push(links[i].href);
+                css += links[i].href + ",";
             }
         }
-
+        console.log(content);
         $.ajax({
-            url: "/_user/private/print",
+            url: "/_user" + sakai.data.me.profile.path + "/private/print",
             type: "POST",
             data: {
-                "css": arrLinks,
+                "css": css,
                 "content": content,
                 "_charset_":"utf-8"
             },
@@ -1368,7 +1369,7 @@ sakai.site = function(){
                 // Open a popup window with printable content
                 var day = new Date();
                 var id = day.getTime();
-                window.open("/dev/print.html", id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600,left = 320,top = 150");
+                window.open("/dev/print.html", id, "toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=664,height=600,left=320,top=150");
             }
         });
 

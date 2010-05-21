@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sakai 3 R&amp;D - __MSG__MANAGE_MEMBERS__</title>
@@ -22,7 +23,7 @@
 
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
@@ -43,179 +44,184 @@
 
     <body id="root" class="fl-centered fl-container i18nable add-members">
 
-    <!-- EXPLORE BAR -->
-    <div id="widget_navigationchat" class="widget_inline"></div>
-    <div class="fl-container-flex content content-management">
-        <div class="fl-fix fl-centered fixed-container">
-            <div class="decor"></div>
-            <!-- TITLE BAR  -->
-            <h1 id="sitetitle"></h1>
-            <!-- CONTENT -->
-            <!-- SECOND HEADING -->
-            <div class="secondary_title"> Site Management <a id="back_to_site_link" href="/sites/">&laquo; __MSG__BACK_TO_SITE__</a> </div>
-            <!-- TAB NAVIGATION -->
-            <div class="s3d-primary-tabs i18nable">
-                <ul class="fl-tabs fl-tabs-left">
-                    <li><a href="site_management_basic_settings.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__BASIC_SETTINGS__</a></li>
-                    <li class="fl-tabs-active"><a href="javascript:;">__MSG__MEMBERS__</a></li>
-                    <li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__APPEARANCE__</a></li>
-                </ul>
-            </div>
-            <div class="management_content_wrapper">
-                <div class="management_tab_content_top">
-                    <div class="management_tab_content_top_inner"></div>
+        <!-- EXPLORE BAR -->
+        <div id="widget_navigationchat" class="widget_inline"></div>
+        <div class="fl-container-flex content content-management">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor"></div>
+
+                <!-- TITLE BAR  -->
+                <h1 id="sitetitle"></h1>
+
+                <!-- CONTENT -->
+                <!-- SECOND HEADING -->
+                <div class="secondary_title"> __MSG__SITE_MANAGEMENT__ <a id="back_to_site_link" href="/sites/">&laquo; __MSG__BACK_TO_SITE__</a> </div>
+
+                <!-- TAB NAVIGATION -->
+                <div class="s3d-primary-tabs i18nable">
+                    <ul class="fl-tabs fl-tabs-left">
+                        <li><a href="site_management_basic_settings.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__BASIC_SETTINGS__</a></li>
+                        <li class="fl-tabs-active"><a href="javascript:;">__MSG__MEMBERS__</a></li>
+                        <li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__APPEARANCE__</a></li>
+                    </ul>
                 </div>
-                <div class="management_content_main">
-                    <div class="fl-force-right">
-                        <a class="s3d-button s3d-button-primary s3s-manage-members" href="site_management_members_add.html"><span class="s3d-button-inner">__MSG__ADD_PEOPLE_TO_MY_SITE__</span></a>
+                <div class="management_content_wrapper">
+                    <div class="management_tab_content_top">
+                        <div class="management_tab_content_top_inner"></div>
                     </div>
-                    <!-- CURRENT MEMBERS -->
-                    <div class="manage_member_title"> __MSG__MANAGE_CURRENT_MEMBERS__ (<span id="manage_members_count">0</span>) </div>
-                    <!-- MIXED COLUMN -->
-                    <div class="fl-col-mixed-200">
-                        <!-- FIXED COLUMN -->
-                        <div class="fl-col-fixed fl-force-right leftCol">
-                            <div class="leftCol_content_top">
-                                <div class="leftCol_content_top_inner"></div>
-                            </div>
-                            <div class="leftCol-inner">
-                                <form class="member-options" method="" action="" onsubmit="return false;">
-                                    <span class="manage_members_role section">__MSG__MAKE_SELECTED_PEOPLE__:</span>
-                                    <table id="manage_members_role_rbts" class="add-people-table">
-                                    </table>
-                                    <div style="display:none;" id="manage_members_role_rbts_template"><!--
-                                {for i in roles}
-                                <tr>
-                                    <td><input name="membership_role" id="manage_members_role_${i}" value="${i}" type="radio" checked="checked" /></td>
-                                    <th><label for="manage_members_role_${i}">${i}</label></th>
-                                </tr>
-                                {/for}
-                                --></div>
-                                    <!-- <strong>Tag selected people as:</strong>
-                                    <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
-                                    <div id="membership-status-settings" style="display:none">
-                                        <div class="status"><span class="section">__MSG__MEMBERSHIP_STATUS__:</span></div>
-                                        <ul>
-                                            <li>
-                                                <input type="radio" name="status" class="membership-status" title="__MSG__ACTIVE__" checked="checked" />
-                                                __MSG__ACTIVE__ </li>
-                                            <li>
-                                                <input type="radio" name="status" class="membership-status" title="__MSG__SUSPENDED__" />
-                                                __MSG__SUSPENDED__ </li>
-                                        </ul>
-                                    </div>
-                                    <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__UPDATE_SELECTED_PEOPLE__</span></button>
-                                    <button id="selected_members_delete" class="s3d-button"><span class="s3d-button-inner">__MSG__REMOVE_SELECTED_PEOPLE__</span></button>
-                                </form>
-                                <div id="selected-members-container"  class="selected_personsContainer"></div>
-                                <div style="display:none" id="selected-people-template"><!--
-                                <span class="selected-people">Selected People ( ${selectedPeople.length} ):</span>
-                                <table class="selected-people-table">
-                                {for i in selectedPeople}
-                                    <tr>
-                                        {if (typeof i.lastName !== "undefined")}
-                                        <th>${i.firstName} ${i.lastName}</th>
-                                        {else}
-                                        <th>${i['rep:userId']}</th>
-                                        {/if}
-                                        <td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}"><span>X</span></a></td>
-                                    </tr>
-                                {/for}
-                                </table>
-                        --></div>
-                                <div class="fl-push"></div>
-                            </div>
-                            <div class="leftCol_content_bottom">
-                                <div class="leftCol_content_bottom_inner"></div>
-                            </div>
+                    <div class="management_content_main">
+                        <div class="fl-force-right">
+                            <a class="s3d-button s3d-button-primary s3s-manage-members" href="site_management_members_add.html"><span class="s3d-button-inner">__MSG__ADD_PEOPLE_TO_MY_SITE__</span></a>
                         </div>
 
-                        <!-- FLEX COLUMN -->
-                        <div class="fl-col-flex">
-                            <div class="flex-container">
-                                <div class="explore_nav">
-                                    <ul class="s3d-action-series s3d-actions fl-force-left">
-                                        <!-- <li class="first"><a href="#">Current members</a></li> -->
-                                        <li class="first"><a href="javascript:;" id="btn_members_selectAll">__MSG__SELECT_ALL__</a></li>
-                                        <li class="last"><a href="javascript:;" id="btn_members_selectNone">__MSG__SELECT_NONE__</a></li>
-                                        <!-- <li class="last"><a href="#" >Select from CSV file</a></li> -->
-                                    </ul>
-                                    <div class="fl-force-right" style="margin-top:2px;">
-                                        <a href="javascript:;" id="btn_members_filter" class="s3d-action">__MSG__FILTER__</a>
-                                    </div>
-                                    <div class="member-search fl-force-right">
-                                        <input type="text" maxlength="255" style="margin-left:0px" class="member-search-field" id="txt_member_search" title="__MSG__ENTER_NAMES_EMAILS__" value="__MSG__ENTER_NAMES_EMAILS__, ..." />
-                                    </div>
+                        <!-- CURRENT MEMBERS -->
+                        <div class="manage_member_title"> __MSG__MANAGE_CURRENT_MEMBERS__ (<span id="manage_members_count">0</span>) </div>
+
+                        <!-- MIXED COLUMN -->
+                        <div class="fl-col-mixed-200">
+                            <!-- FIXED COLUMN -->
+                            <div class="fl-col-fixed fl-force-right leftCol">
+                                <div class="leftCol_content_top">
+                                    <div class="leftCol_content_top_inner"></div>
                                 </div>
-
-                                <div id="siteManage_members" class="siteManagepeopleContainers"> </div>
-                                <div id="siteManage_people_template" style="display:none"><!--
-                                <div class="members-container">
-                                <ul width="100%">
-                                {for i in users}
-                                    <li class="unselected siteManage_person" id="siteManage_person${users.indexOf(i)}">
-                                        <a href="javascript:;">
-                                        {if typeof i.picture == "undefined"}
-                                        <img src="_images/member_thumb_unselected.png" alt="__MSG__UNDEFINED_MEMBER_PICTURE__" />
-                                        {else}
-                                        <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
-                                        {/if}
-                                        </a>
-
-                                        {if (typeof i.firstName !== "undefined")}
-                                        <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
-                                        {else}
-                                        <a href="javascript:;" class="member-label">${i['rep:userId']}</a><div class="member-title"></div>
-                                        {/if}
-                                        <span class="siteManage_person_roleView">${i.role}</span>
-                                        <a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
-
-                                    </li>
-                                {/for}
-                                </ul>
+                                <div class="leftCol-inner">
+                                    <form class="member-options" method="" action="" onsubmit="return false;">
+                                        <span class="manage_members_role section">__MSG__MAKE_SELECTED_PEOPLE__:</span>
+                                        <table id="manage_members_role_rbts" class="add-people-table">
+                                        </table>
+                                        <div style="display:none;" id="manage_members_role_rbts_template"><!--
+                                        {for i in roles}
+                                        <tr>
+                                            <td><input name="membership_role" id="manage_members_role_${i}" value="${i}" type="radio" checked="checked" /></td>
+                                            <th><label for="manage_members_role_${i}">${i}</label></th>
+                                        </tr>
+                                        {/for}
+                                        --></div>
+                                        <!-- <strong>Tag selected people as:</strong>
+                                        <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
+                                        <div id="membership-status-settings" style="display:none">
+                                            <div class="status"><span class="section">__MSG__MEMBERSHIP_STATUS__:</span></div>
+                                            <ul>
+                                                <li>
+                                                    <input type="radio" name="status" class="membership-status" title="__MSG__ACTIVE__" checked="checked" />
+                                                    __MSG__ACTIVE__ </li>
+                                                <li>
+                                                    <input type="radio" name="status" class="membership-status" title="__MSG__SUSPENDED__" />
+                                                    __MSG__SUSPENDED__ </li>
+                                            </ul>
+                                        </div>
+                                        <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__UPDATE_SELECTED_PEOPLE__</span></button>
+                                        <button id="selected_members_delete" class="s3d-button"><span class="s3d-button-inner">__MSG__REMOVE_SELECTED_PEOPLE__</span></button>
+                                    </form>
+                                    <div id="selected-members-container"  class="selected_personsContainer"></div>
+                                    <div style="display:none" id="selected-people-template"><!--
+                                        <span class="selected-people">__MSG__SELECTED_PEOPLE__ ( ${selectedPeople.length} ):</span>
+                                        <table class="selected-people-table">
+                                        {for i in selectedPeople}
+                                            <tr>
+                                                {if (typeof i.lastName !== "undefined")}
+                                                <th>${i.firstName} ${i.lastName}</th>
+                                                {else}
+                                                <th>${i['rep:userId']}</th>
+                                                {/if}
+                                                <td><a href="javascript:;" class="selected-person-remove" id="selected-person-remove${selectedPeople.indexOf(i)}"><span>X</span></a></td>
+                                            </tr>
+                                        {/for}
+                                        </table>
+                                --></div>
                                     <div class="fl-push"></div>
                                 </div>
-                                --></div>
-                                <div class="sakai_pager"></div>
+                                <div class="leftCol_content_bottom">
+                                    <div class="leftCol_content_bottom_inner"></div>
+                                </div>
+                            </div>
+
+                            <!-- FLEX COLUMN -->
+                            <div class="fl-col-flex">
+                                <div class="flex-container">
+                                    <div class="explore_nav">
+                                        <ul class="s3d-action-series s3d-actions fl-force-left">
+                                            <!-- <li class="first"><a href="#">Current members</a></li> -->
+                                            <li class="first"><a href="javascript:;" id="btn_members_selectAll">__MSG__SELECT_ALL__</a></li>
+                                            <li class="last"><a href="javascript:;" id="btn_members_selectNone">__MSG__SELECT_NONE__</a></li>
+                                            <!-- <li class="last"><a href="#" >Select from CSV file</a></li> -->
+                                        </ul>
+                                        <div class="fl-force-right" style="margin-top:2px;">
+                                            <a href="javascript:;" id="btn_members_filter" class="s3d-action">__MSG__FILTER__</a>
+                                        </div>
+                                        <div class="member-search fl-force-right">
+                                            <input type="text" maxlength="255" style="margin-left:0px" class="member-search-field" id="txt_member_search" title="__MSG__ENTER_NAMES_EMAILS__" value="__MSG__ENTER_NAMES_EMAILS__, ..." />
+                                        </div>
+                                    </div>
+
+                                    <div id="siteManage_members" class="siteManagepeopleContainers"> </div>
+                                    <div id="siteManage_people_template" style="display:none"><!--
+                                        <div class="members-container">
+                                        <ul width="100%">
+                                        {for i in users}
+                                            <li class="unselected siteManage_person" id="siteManage_person${users.indexOf(i)}">
+                                                <a href="javascript:;">
+                                                {if typeof i.picture == "undefined"}
+                                                <img src="_images/member_thumb_unselected.png" alt="__MSG__UNDEFINED_MEMBER_PICTURE__" />
+                                                {else}
+                                                <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
+                                                {/if}
+                                                </a>
+    
+                                                {if (typeof i.firstName !== "undefined")}
+                                                <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+                                                {else}
+                                                <a href="javascript:;" class="member-label">${i['rep:userId']}</a><div class="member-title"></div>
+                                                {/if}
+                                                <span class="siteManage_person_roleView">${i.role}</span>
+                                                <a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
+    
+                                            </li>
+                                        {/for}
+                                        </ul>
+                                            <div class="fl-push"></div>
+                                        </div>
+                                    --></div>
+                                    <div class="sakai_pager"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="fl-push"></div>
-                </div>
-            </div>
-            <div class="management_tab_content_bottom">
-                <div class="management_tab_content_bottom_inner"></div>
-            </div>
-            <div id="site_add_members_search_csv" class="dialog add_goodies" style="width:520px; margin-left: -260px; ">
-                <div class="dialog_header">
-                    <div class="dialog_header_inner">
-                        <h1>__MSG__CSV_FILE__</h1>
-                        <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                        <div class="fl-push"></div>
                     </div>
                 </div>
-                <div class="dialog_content">
-                    <textarea></textarea>
+                <div class="management_tab_content_bottom">
+                    <div class="management_tab_content_bottom_inner"></div>
+                </div>
+                <div id="site_add_members_search_csv" class="dialog add_goodies" style="width:520px; margin-left: -260px; ">
+                    <div class="dialog_header">
+                        <div class="dialog_header_inner">
+                            <h1>__MSG__CSV_FILE__</h1>
+                            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                        </div>
+                    </div>
+                    <div class="dialog_content">
+                        <textarea title="__MSG__SITE_ADD_MEMBERS_SEARCH__"></textarea>
 
-                    <!-- DIALOG BUTTONS -->
-                    <div class="dialog_buttons">
-                        <a href="javascript:;" id="site_manage_searchViaCsv" class="button-default">__MSG__SEARCH__</a>
-                        <a href="javascript:;" class="button jqmClose" style="float:left">__MSG__CANCEL__</a>
+                        <!-- DIALOG BUTTONS -->
+                        <div class="dialog_buttons">
+                            <a href="javascript:;" id="site_manage_searchViaCsv" class="button-default">__MSG__SEARCH__</a>
+                            <a href="javascript:;" class="button jqmClose" style="float:left">__MSG__CANCEL__</a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- DIALOG FOOTER -->
-                <div class="dialog_footer">
-                    <div class="dialog_footer_inner"><!-- --></div>
+                    <!-- DIALOG FOOTER -->
+                    <div class="dialog_footer">
+                        <div class="dialog_footer_inner"><!-- --></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- FOOTER WIDGET -->
-    <div id="widget_footer" class="widget_inline footercontainer"></div>
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-    <!-- Sakai page JS -->
-    <script type="text/javascript" src="_javascript/site_manage_members.js"></script>
+        <!-- Sakai page JS -->
+        <script type="text/javascript" src="_javascript/site_manage_members.js"></script>
 
     </body>
 

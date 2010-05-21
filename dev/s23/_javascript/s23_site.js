@@ -198,7 +198,7 @@ sakai.s23_site = function(){
             success: function(data){
 
                 // Evaluate the data to JSON
-                completeJSON = $.evalJSON(data);
+                completeJSON = $.extend(data, {}, true);
 
                 // Parse the Sakai2 info
                 parseSakai2SiteInfo();

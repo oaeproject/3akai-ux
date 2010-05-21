@@ -51,7 +51,7 @@ sakai.search = function(){
         $.ajax({
             url: "/var/contacts/accepted.json?page=" + (page - 1) + "&items=" + peopleToSearch,
             success: function(data){
-                foundContacts = $.evalJSON(data);
+                foundContacts = $.extend(data, {}, true);
                 renderContacts();
             },
             error: function(xhr, textStatus, thrownError) {
@@ -85,8 +85,8 @@ sakai.search = function(){
                     var index = finaljson.items.length;
                     finaljson.items[index] = {};
                     finaljson.items[index].userid = item.target;
-                    if (person.picture && $.evalJSON(person.picture).name) {
-                        var picture = $.evalJSON(person.picture);
+                    if (person.picture && $.parseJSON(person.picture).name) {
+                        var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     }
                     if (person.firstName || person.lastName) {
@@ -102,7 +102,7 @@ sakai.search = function(){
                     if (relationships) {
                         finaljson.items[index].extra = relationships;
                     } else if (person.basic) {
-                        var basic = $.evalJSON(person.basic);
+                        var basic = $.parseJSON(person.basic);
                         if (basic.unirole) {
                             finaljson.items[index].extra = basic.unirole;
                         }
@@ -172,7 +172,7 @@ sakai.search = function(){
             url: "/var/contacts/invited.json?page=0&items=100",
             cache: false,
             success: function(data){
-                foundInvitations = $.evalJSON(data);
+                foundInvitations = $.extend(data, {}, true);
                 renderInvitations();
             },
             error: function(xhr, textStatus, thrownError) {
@@ -197,8 +197,8 @@ sakai.search = function(){
                     profiles[item.target].profile.uuid = item.target;
                     finaljson.items[index] = {};
                     finaljson.items[index].userid = item.target;
-                    if (person.picture && $.evalJSON(person.picture).name) {
-                        var picture = $.evalJSON(person.picture);
+                    if (person.picture && $.parseJSON(person.picture).name) {
+                        var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     }
                     if (person.firstName || person.lastName) {
@@ -210,7 +210,7 @@ sakai.search = function(){
                         finaljson.items[index].name = finaljson.items[index].userid;
                     }
                     if (person.basic) {
-                        var basic = $.evalJSON(person.basic);
+                        var basic = $.parseJSON(person.basic);
                         if (basic.unirole) {
                             finaljson.items[index].extra = basic.unirole;
                         }
@@ -279,7 +279,7 @@ sakai.search = function(){
             url: "/var/contacts/pending.json?page=0&items=100",
             cache: false,
             success: function(data){
-                foundPending = $.evalJSON(data);
+                foundPending = $.extend(data, {}, true);
                 renderPending();
             },
             error: function(xhr, textStatus, thrownError) {
@@ -304,8 +304,8 @@ sakai.search = function(){
                     profiles[item.target].profile.uuid = item.target;
                     finaljson.items[index] = {};
                     finaljson.items[index].userid = item.target;
-                    if (person.picture && $.evalJSON(person.picture).name) {
-                        var picture = $.evalJSON(person.picture);
+                    if (person.picture && $.parseJSON(person.picture).name) {
+                        var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     }
                     if (person.firstName || person.lastName) {
@@ -317,7 +317,7 @@ sakai.search = function(){
                         finaljson.items[index].name = finaljson.items[index].userid;
                     }
                     if (person.basic) {
-                        var basic = $.evalJSON(person.basic);
+                        var basic = $.parseJSON(person.basic);
                         if (basic.unirole) {
                             finaljson.items[index].extra = basic.unirole;
                         }

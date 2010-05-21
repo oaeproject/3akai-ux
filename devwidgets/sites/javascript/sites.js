@@ -92,16 +92,12 @@ sakai.sites = function(tuid,showSettings){
     var loadSiteList = function(response, succes){
         // Check if the request was ok
         if (succes) {
-            var json = $.evalJSON(response);
-            var newjson = {};
-            newjson.entry = [];
-            for (var i = 0; i < json.length; i++) {
-                var site = json[i];
-                // If this is a valid site
-                //if (site.id.substring(0, 1) !== "~") {
-                    // Add this site to the list of sites we wish to display.
-                    newjson.entry.push(site);
-                //}
+            var json = $.parseJSON(response);
+            var newjson = {
+                entry : []
+            };
+            for (var i = 0, il = json.length; i < il; i++) {
+                newjson.entry.push(json[i]);
             }
             // Render all the sites.
             doRender(newjson);

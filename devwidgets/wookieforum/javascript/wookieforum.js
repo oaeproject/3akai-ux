@@ -136,7 +136,7 @@ sakai.wookieforum = function(tuid, showSettings){
                     sFrame += "&nickname=" + me.profile.firstName + '-' + me.profile.lastName;
                     //    avatar
                     if (me.profile.picture) {
-                        var oPicture = $.evalJSON(me.profile.picture);
+                        var oPicture = $.parseJSON(me.profile.picture);
                         var sAvatar = getSakaiDomain() + getSakaiPort() + "/sdata/f/_private" + me.userStoragePrefix + oPicture.name;
                         sFrame += "&avatar=" + sAvatar;
                     }

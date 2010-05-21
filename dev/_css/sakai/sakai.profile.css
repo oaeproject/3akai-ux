@@ -3,6 +3,9 @@
 .fixed-container
 { background: #fff; }
 
+/** PREVIEW/EDIT TABS DEFAULT TO OFF **/
+#profile_tabs 
+{ display:none; }
 
 /** TAB CONTENTS **/
 .profile_preview .profile_container
