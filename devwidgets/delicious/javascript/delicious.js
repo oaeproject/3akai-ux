@@ -124,7 +124,7 @@ sakai.delicious = function(tuid, showSettings) {
     var displayError = function() {
         var errorMessage;
 
-        if ($deliciousFilterInputUser.val.trim) {
+        if ($.trim($deliciousFilterInputUser.val())) {
             switch (bookmarkMode) {
                 case 0 || 1:
                     errorMessage = $deliciousErrorNoItems;
@@ -234,6 +234,9 @@ sakai.delicious = function(tuid, showSettings) {
             parseBookmarksGlobal = {
                 all: response
             };
+            
+            // Hide paging
+            $deliciousPaging.hide();
 
             // Render the bookmarks
             renderBookmarks();
@@ -309,7 +312,7 @@ sakai.delicious = function(tuid, showSettings) {
      * Set global filter variable
      */
     var updateDeliciousFilter = function() {
-        filterUser = $deliciousFilterInputUser.val().trim();
+        filterUser = $.trim($deliciousFilterInputUser.val());
     };
 
     /**
@@ -448,7 +451,6 @@ sakai.delicious = function(tuid, showSettings) {
             showSettings = false;
             $deliciousContainerMain.show();
             $deliciousContainerSettings.hide();
-            $deliciousPaging.show();
         }
     };
 
