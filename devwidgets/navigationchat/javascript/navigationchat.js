@@ -1769,7 +1769,7 @@ sakai.navigationchat = function(tuid, showSettings){
             cache: false,
             success: function(data){
                 var json = {};
-                json.entry = $.evalJSON(data) || [];
+                json.entry = $.parseJSON(data) || [];
                 for (var i = 0; i < json.entry.length; i++) {
                     json.entry[i] = json.entry[i].site;
                     json.entry[i].location = json.entry[i].id;
@@ -1897,7 +1897,7 @@ sakai.navigationchat = function(tuid, showSettings){
         json.count = 0;
         sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
             if (success) {
-                var json = $.evalJSON(data);
+                var json = data;
                 json.count = json.items.length;
                 renderRecentSites(json);
             }
