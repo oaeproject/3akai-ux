@@ -133,15 +133,11 @@ sakai._search = function(config, callback) {
     var addEventListeners = function(searchterm, searchwhere) {
         /** The top tabs */
         $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content).live("click", function(ev) {
-            var url = $(this).attr("href").split('#')[0] + "#1";
-
-            if (searchterm) {
-                url += "|" + encodeURIComponent(searchterm);
-                if (searchwhere) {
-                    url += "|" + searchwhere;
-                }
-                $(this).attr("href", url);
-            }
+            var url = $(this).attr("href").split("#")[0] + "#";
+            var frag = $.deparam.fragment();
+            frag["filter"] = ""; // clear the filter
+            url = $.param.fragment(url, frag);
+            $(this).attr("href", url);
             return true;
         });
 
@@ -179,7 +175,6 @@ sakai._search = function(config, callback) {
      *  /a-site-of-mine = specific site from the user
      */
     var fillInElements = function(page, searchquery, searchwhere) {
-
         if (searchquery) {
             // This is a custom search term, we shouldnt hide it.
             hasHadFocus = true;

@@ -204,7 +204,7 @@ sakai.search = function() {
         }
         currentpage = page;
         //    This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
 
     /**
@@ -319,6 +319,7 @@ sakai.search = function() {
 
             // The search URL depends on the searchWhere variable
             var searchURL;
+            
             if(searchWhere === "mycontacts") {
                 searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
             }  else {

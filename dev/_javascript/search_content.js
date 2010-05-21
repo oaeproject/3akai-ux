@@ -123,7 +123,7 @@ sakai.search = function() {
         currentpage = page;
 
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
 
     /**
@@ -227,10 +227,12 @@ sakai.search = function() {
         mainSearch.fillInElements(page, searchquery, searchwhere);
 
         var dd = $("#search_filter").get(0);
-        for (var i = 0, j = dd.options.length; i<j; i++){
-            if (dd.options[i].value == searchwhere){
-                dd.selectedIndex = i;
-            }
+        if (dd && dd.options) {
+          for (var i = 0, j = dd.options.length; i<j; i++){
+              if (dd.options[i].value == searchwhere){
+                  dd.selectedIndex = i;
+              }
+          }
         }
 
         // Get the search term out of the input box.
@@ -317,12 +319,12 @@ sakai.search = function() {
 
                     // Get my sites
                     mainSearch.getMySites();
-
-                    // Add the bindings
-                    mainSearch.addEventListeners();
                 }
             });
         }
+        // Add the bindings
+        mainSearch.addEventListeners();
+        
     };
 
     var thisFunctionality = {

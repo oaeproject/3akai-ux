@@ -159,8 +159,8 @@ sakai.search = function() {
      * @param {Object} page Page you are on (for search_b this is always 1)
      * @param {Object} searchquery The searchterm
      */
-    var doHSearch = function(page, searchquery) {
-        History.addBEvent("1|" + encodeURIComponent($(searchConfig.global.text).val()));
+    var doHSearch = function() {
+        History.addBEvent("1", encodeURIComponent($(searchConfig.global.text).val()));
     };
 
     /**
@@ -223,36 +223,38 @@ sakai.search = function() {
         finaljson.items = [];
 
         // Adjust total search result count
-        updateTotalHitCount(foundSites.results.length);
+        if (foundSites.results) {
+          updateTotalHitCount(foundSites.results.length);
 
-        if (foundSites.total > sitesToSearch) {
-            $(searchConfig.sites.displayMore).show();
-            $(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
-        }
+          if (foundSites.total > sitesToSearch) {
+              $(searchConfig.sites.displayMore).show();
+              $(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
+          }
 
-        if (foundSites && foundSites.results) {
+          if (foundSites && foundSites.results) {
 
-            finaljson.items = foundSites.results;
+              finaljson.items = foundSites.results;
 
-            // If result is page content set up page path
-            for (var i=0, j=finaljson.items.length; i<j; i++ ) {
-                var full_path = finaljson.items[i]["path"];
-                var site_path = finaljson.items[i]["site"]["path"];
-                var page_path = site_path;
-                if (finaljson.items[i]["excerpt"]) {
-                    var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
-                    finaljson.items[i]["excerpt"] = stripped_excerpt;
-                }
+              // If result is page content set up page path
+              for (var i=0, j=finaljson.items.length; i<j; i++ ) {
+                  var full_path = finaljson.items[i]["path"];
+                  var site_path = finaljson.items[i]["site"]["path"];
+                  var page_path = site_path;
+                  if (finaljson.items[i]["excerpt"]) {
+                      var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
+                      finaljson.items[i]["excerpt"] = stripped_excerpt;
+                  }
 
-                if (finaljson.items[i]["type"] === "sakai/pagecontent") {
-                    page_path = full_path.replace(/\/_pages/g, "");
-                    page_path = page_path.replace(/\/pageContent/g, "");
-                    page_path = page_path.replace(/\//g,"");
-                    page_path = site_path + "#" + page_path;
-                }
-                finaljson.items[i]["pagepath"] = page_path;
+                  if (finaljson.items[i]["type"] === "sakai/pagecontent") {
+                      page_path = full_path.replace(/\/_pages/g, "");
+                      page_path = page_path.replace(/\/pageContent/g, "");
+                      page_path = page_path.replace(/\//g,"");
+                      page_path = site_path + "#" + page_path;
+                  }
+                  finaljson.items[i]["pagepath"] = page_path;
 
-            }
+              }
+          }
         }
 
         $(searchConfig.sites.searchResult).html($.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
@@ -273,7 +275,7 @@ sakai.search = function() {
         updateTotalHitCount(results.results.length);
 
         if ((results.total > peopleToSearch) && (results.results.length > 0)) {
-            $(searchConfig.people.displayMore).attr("href", "search_people.html#1|" + searchterm).show();
+            $(searchConfig.people.displayMore).attr("href", "search_people.html#q=" + searchterm).show();
         }
 
         if (results && results.results) {
@@ -291,13 +293,12 @@ sakai.search = function() {
      /**
      * This function gets called everytime the page loads and a new searchterm is entered.
      * It gets called by search_history.js
-     * @param {Integer} page The page you are on.
      * @param {String} searchquery The searchterm you want to search trough.
      */
-    sakai._search.doSearch = function(page, searchquery) {
+    sakai._search.doSearch = function(page, searchquery, searchwhere) {
 
         // Check if the searchquery is empty
-        if(searchquery === ""){
+        if(searchquery === "" || searchquery == undefined){
 
             // If there is nothing in the search query, remove the html and hide some divs
             $(".search_results_container").hide();
@@ -305,8 +306,8 @@ sakai.search = function() {
             $(searchConfig.global.pagerClass).hide();
             return;
         }
-
-        mainSearch.fillInElements(page, searchquery);
+        
+        mainSearch.fillInElements(page, searchquery, searchwhere);
 
         // Get the search term out of the input box.
         // If we were redirected to this page it will be added previously already.
@@ -324,7 +325,6 @@ sakai.search = function() {
             var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
 
             // Set off the 3 AJAX requests
-
             // Content & Media Search
             $.ajax({
                 url: sakai.config.URL.SEARCH_ALL_FILES_SERVICE,

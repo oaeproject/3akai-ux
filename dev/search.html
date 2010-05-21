@@ -40,7 +40,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-        <script type="text/javascript" src="_javascript/_history/rsh.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="_javascript/_history/search_history.js"></script>
         <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
 
@@ -169,11 +169,13 @@
                                                 <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
                                             {/if}
                                             {if ! i.isMe}
+                                            <div class="search_result_person_links">
                                                 {if ! i.connected}
                                                     <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                                     <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                                 {/if}
                                                 <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
+                                            <div>
                                             {/if}
                                         </div>
                                     {/if}
