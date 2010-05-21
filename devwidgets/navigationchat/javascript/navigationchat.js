@@ -444,7 +444,7 @@ sakai.navigationchat = function(tuid, showSettings){
         if (tosearch) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
-            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#1|" + tosearch;
+            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
         }
     };
 

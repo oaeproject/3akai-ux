@@ -113,7 +113,7 @@ sakai.search = function() {
 
         currentpage = page;
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
 
     /**

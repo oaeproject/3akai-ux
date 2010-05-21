@@ -453,11 +453,11 @@ sakai.site = function(){
                 sakai.site.pagecontents._navigation = response;
                 $page_nav_content.html(response);
                 sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
-                History.history_change();
+                $(window).trigger('hashchange');
             },
             error: function(xhr, textStatus, thrownError) {
-                History.history_change();
-                alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
+              $(window).trigger('hashchange');
+              alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
 
@@ -580,15 +580,18 @@ sakai.site = function(){
                 }
             }
         }
-
+        
+        
         //Store currently selected page
         sakai.site.selectedpage = pageUrlName;
 
-        // Get page type
-        pageType = sakai.site.site_info._pages[pageUrlName]["pageType"];
+        if (sakai.site.site_info._pages[pageUrlName] != undefined) {
+          // Get page type
+          pageType = sakai.site.site_info._pages[pageUrlName]["pageType"];
 
-        // Set page title
-        $pagetitle.text(sakai.site.site_info._pages[pageUrlName]["pageTitle"]);
+          // Set page title
+          $pagetitle.text(sakai.site.site_info._pages[pageUrlName]["pageTitle"]);
+        }
 
         // Set login link
         $loginLink.attr("href", sakai.site.urls.LOGIN());
