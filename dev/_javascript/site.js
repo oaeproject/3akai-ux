@@ -1356,7 +1356,6 @@ sakai.site = function(){
                 css += links[i].href + ",";
             }
         }
-        console.log(content);
         $.ajax({
             url: "/_user" + sakai.data.me.profile.path + "/private/print",
             type: "POST",
