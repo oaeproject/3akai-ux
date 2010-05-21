@@ -1346,17 +1346,13 @@ sakai.site = function(){
         // Save page to be printed into my personal space
         var content = $("#" + sakai.site.selectedpage + ".content").html();
         content = "<div class='content'>" + content + "</div>";
-
-        var arrLinks = [];
         var links = $("link");
         var css = "";
         for (var i = 0, j = links.length; i < j; i++){
             if (links[i].type === "text/css"){
-                arrLinks.push(links[i].href);
                 css += links[i].href + ",";
             }
         }
-        console.log(content);
         $.ajax({
             url: "/_user" + sakai.data.me.profile.path + "/private/print",
             type: "POST",
