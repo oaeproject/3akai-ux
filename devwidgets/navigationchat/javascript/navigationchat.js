@@ -351,8 +351,8 @@ sakai.navigationchat = function(tuid, showSettings){
         // Check if the picture is undefined or not
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
-        if (picture && $.parseJSON(picture).name) {
-            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(picture).name;
+        if (profile && profile.picture && $.parseJSON(profile.picture).name) {
+            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
