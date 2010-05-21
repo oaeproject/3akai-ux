@@ -99,7 +99,7 @@ sakai.memorypalace = function(tuid, showSettings) {
     $.ajax({
       url: url,
       success: function(data) {
-        var parsedSettingsJSON = $.evalJSON(data);
+        var parsedSettingsJSON = data;
         settings = parsedSettingsJSON;
         if (showSettings) {
           // put the title in
@@ -161,7 +161,7 @@ sakai.memorypalace = function(tuid, showSettings) {
       url: url,
       success: function(data) {
         tmpdata = data;
-        roomData = $.evalJSON(tmpdata.roomData);
+        roomData = $.parseJSON(tmpdata.roomData);
         renderRooms();
       },
       error: function() {

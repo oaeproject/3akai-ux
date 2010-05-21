@@ -38,11 +38,11 @@ sakai.memorypalacecontent = function(){
 
     // Search URL mapping
     var searchURLmap = {
-        allfiles : Config.URL.SEARCH_ALL_FILES_SERVICE,
-        mybookmarks : Config.URL.SEARCH_MY_BOOKMARKS,
-        mycontacts : Config.URL.SEARCH_MY_CONTACTS,
-        myfiles : Config.URL.SEARCH_MY_FILES,
-        mysites : Config.URL.SEARCH_MY_SITES
+        allfiles : sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
+        mybookmarks : sakai.config.URL.SEARCH_MY_BOOKMARKS,
+        mycontacts : sakai.config.URL.SEARCH_MY_CONTACTS,
+        myfiles : sakai.config.URL.SEARCH_MY_FILES,
+        mysites : sakai.config.URL.SEARCH_MY_SITES
     };
 
 
@@ -190,8 +190,8 @@ sakai.memorypalacecontent = function(){
            }
        }
        // Render files
-       $(contentmediaFilesContainer).html($.Template.render(contentmediaFilesContainerTemplate, globaldata));
-       $(resourceDetailsContainer).html($.Template.render(resourceDetailsContainerTemplate, globaldata));
+       $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata));
+       $(resourceDetailsContainer).html($.TemplateRenderer(resourceDetailsContainerTemplate, globaldata));
      };
      
     var doFileRender = function(data){
@@ -210,8 +210,8 @@ sakai.memorypalacecontent = function(){
       }
 
       // Render files
-      $(contentmediaFilesContainer).html($.Template.render(contentmediaFilesContainerTemplate, resultWrapper));
-      $(resourceDetailsContainer).html($.Template.render(resourceDetailsContainerTemplate, resultWrapper));
+      $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper));
+      $(resourceDetailsContainer).html($.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper));
       
 
         // Render paging
@@ -249,7 +249,7 @@ sakai.memorypalacecontent = function(){
         options.site = _options.site || false;
 
         // Set the title of the file list
-        //$(contentmediaListTitle).html($.Template.render(contentmediaListTitleTemplate, options));
+        //$(contentmediaListTitle).html($.TemplateRenderer(contentmediaListTitleTemplate, options));
 
         var url = "";
 
@@ -288,7 +288,7 @@ sakai.memorypalacecontent = function(){
             },
             cache: false,
             success: function(data){
-                doFileRenderFiltered($.evalJSON(data));
+                doFileRenderFiltered(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -600,11 +600,11 @@ sakai.memorypalacecontent = function(){
             var siteid = querystring.get("siteid");
 
             $.ajax({
-                url: Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
+                url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
                 cache: false,
                 success: function(data){
-                    var parsedData = $.evalJSON(data);
-                    setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
+                    var parsedData = data;
+                    setSiteFilter(sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 
                     // Fetch the initial list of files
                     doFileSearch(options);
@@ -627,7 +627,7 @@ sakai.memorypalacecontent = function(){
         var jsonSites = {};
         jsonSites.items = sites;
         // Render the template with the selected files
-        $.Template.render(contentmediaAccordionListSiteTemplate, jsonSites, $(contentmediaAccordionListSite));
+        $.TemplateRenderer(contentmediaAccordionListSiteTemplate, jsonSites, $(contentmediaAccordionListSite));
     };
 
     /**
@@ -635,10 +635,10 @@ sakai.memorypalacecontent = function(){
      */
     var initialiseSites = function(){
         $.ajax({
-            url: Config.URL.SITES_SERVICE,
+            url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-                loadSites($.evalJSON(data));
+                loadSites(data);
             }
         });
     };
