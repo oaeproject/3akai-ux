@@ -22,28 +22,49 @@
     <form id="twitter_get_status" method="GET" action="#">
         <label class="twitter_input_label" for="twitter_input_screen_name">__MSG__SCREEN_NAME__:</label>
         <input class="twitter_input_text" id="twitter_input_screen_name" type="text" value="${screen_name}"/>
-        <div class="buttonBar twitter_buttonBar">
-            <a class="button twitter_button" href="javascript:;" id="twitter_link_get_status">__MSG__OK__</a>
-        </div>
+        <button class="s3d-button s3d-button-primary" id="twitter_link_get_status" type="submit">
+            <span class="s3d-button-inner">__MSG__OK__</span>
+        </button>
     </form>
 --></div>
 <div id="twitter_template_set_status"><!--
-    <form id="twitter_set_status" method="GET" action="#">
+    <form id="twitter_set_status" method="POST" action="#">
         <label class="twitter_input_label" for="twitter_input_screen_name">__MSG__SCREEN_NAME__:</label>
         <input class="twitter_input_text" id="twitter_input_screen_name" type="text" value="${screen_name}"/><br />
         <label class="twitter_input_label" for="twitter_input_password">__MSG__PASSWORD__:</label>
         <input class="twitter_input_text" id="twitter_input_password" type="password" value="${password}"/>
-        <div class="buttonBar twitter_buttonBar">
-            <a class="button twitter_button" href="javascript:;" id="twitter_link_set_status">__MSG__OK__</a>
-        </div>
+        <button class="s3d-button s3d-button-primary" id="twitter_link_set_status" type="submit">
+            <span class="s3d-button-inner">__MSG__OK__</span>
+        </button>
     </form>
 --></div>
-<div id="twitter_template_message"><!--
-    {if error != ""}
-        <p class="twitter_error">${error}</p>
-    {/if}
-    {if info != ""}
-        <p class="twitter_info">${info}</p>
+<div id="twitter_template_message" style="display:none"><!--
+    {if error}
+        <p class="twitter_error">
+            {if error==="nolaststatus"}
+                __MSG__COULD_NOT_FIND_LAST_STATUS_FOR__ '${screen_name}'.
+            {elseif error === "noupdate"}
+                __MSG__COULD_NOT_UPDATE_THE_TWITTER_STATUS__.
+            {elseif error === "inserttwittername"}
+                __MSG__PLEASE_INSERT_YOUR_TWITTER_NAME__.
+            {elseif error === "inserttwitterpassword"}
+                __MSG__PLEASE_INSERT_YOUR_PASSWORD__.
+            {elseif error === "emptysakaistatus"}
+                __MSG__YOUR_SAKAI_STATUS_IS_EMPTY__.
+            {elseif error === "sendstatuserror"}
+                __MSG__AN_ERROR_OCCURED_WHEN_SENDING_THE_STATUS_TO_THE_SERVER__.
+            {elseif error === "nostatusfound"}
+                __MSG__NO_STATUS_FROM_TWITTER_FOUND__.
+            {/if}
+        </p>
+    {elseif info}
+        <p class="twitter_info">
+            {if info==="successfullyupdatedtwitter"}
+                __MSG__YOUR_TWITTER_STATUS_HAS_BEEN_SUCCESSFULLY_UPDATED__.
+            {elseif info === "successfullyupdated"}
+                __MSG__YOUR_STATUS_HAS_BEEN_SUCCESSFULLY_UPDATED__.
+            {/if}
+        </p>
     {/if}
 --></div>
 

@@ -391,6 +391,7 @@ var Widgets = {
             "i18n": {
                 "default": "/devwidgets/twitter/bundles/default.json",
                 "en_US": "/devwidgets/twitter/bundles/en_US.json",
+                "nl_NL": "/devwidgets/twitter/bundles/nl_NL.json",
                 "zh_CN": "/devwidgets/twitter/bundles/zh_CN.json"
             },
             "id":"twitter",
