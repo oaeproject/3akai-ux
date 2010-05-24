@@ -78,21 +78,6 @@ sakai.twitter = function(tuid, showSettings){
     };
 
     /**
-     * Set the message for the info and error message
-     * @param {String} input The message for the info or error message
-     * @param {Boolean} isError Is the message an error message or not (info message)
-     */
-    var setMessage = function(input, isError){
-
-        // Set the correct values for the info and error message
-        twitterinfo.error = isError ? input : "";
-        twitterinfo.info = !isError ? input : "";
-
-        // Render the correct template
-        renderTemplate("message");
-    };
-
-    /**
      * Sets the error message to the json object and renders the template
      * @param {String} errorInput Error message
      */
@@ -138,9 +123,6 @@ sakai.twitter = function(tuid, showSettings){
                 data: data,
                 success: function(data){
                     setInfo("successfullyupdated");
-                    var ev = {
-                        "value": twitterinfo.status
-                    };
                 },
                 error: function(xhr, textStatus, thrownError){
                     setError("sendstatuserror");
@@ -280,7 +262,7 @@ sakai.twitter = function(tuid, showSettings){
      * @param {String} target Id of the container that needs to be shown
      */
     var showSubContainer = function(target){
-        if (currentSubContainer != target) {
+        if (currentSubContainer !== target) {
             setScreenName(false);
             switch (target) {
                 case "get":
