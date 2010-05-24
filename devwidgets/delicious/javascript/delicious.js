@@ -124,7 +124,7 @@ sakai.delicious = function(tuid, showSettings) {
     var displayError = function() {
         var errorMessage;
 
-        if ($deliciousFilterInputUser.val.trim) {
+        if ($.trim($deliciousFilterInputUser.val())) {
             switch (bookmarkMode) {
                 case 0 || 1:
                     errorMessage = $deliciousErrorNoItems;
@@ -234,6 +234,9 @@ sakai.delicious = function(tuid, showSettings) {
             parseBookmarksGlobal = {
                 all: response
             };
+            
+            // Hide paging
+            $deliciousPaging.hide();
 
             // Render the bookmarks
             renderBookmarks();
@@ -309,7 +312,7 @@ sakai.delicious = function(tuid, showSettings) {
      * Set global filter variable
      */
     var updateDeliciousFilter = function() {
-        filterUser = $deliciousFilterInputUser.val().trim();
+        filterUser = $.trim($deliciousFilterInputUser.val());
     };
 
     /**
@@ -414,16 +417,15 @@ sakai.delicious = function(tuid, showSettings) {
      * @param {Object} data retrieved data
      */
     var fillInDeliciousSettings = function(data) {
-        var settings = $.evalJSON(data);
 
-        $deliciousSettingsInputUsername.val(settings.username);
-        $deliciousSettingsSelectBookmarksInTotal.val(settings.bookmarksInTotal);
-        $deliciousSettingsSelectBookmarksPerPage.val(settings.bookmarksPerPage);
+        $deliciousSettingsInputUsername.val(data.username);
+        $deliciousSettingsSelectBookmarksInTotal.val(data.bookmarksInTotal);
+        $deliciousSettingsSelectBookmarksPerPage.val(data.bookmarksPerPage);
 
-        filterUser = settings.username;
-        filterUserDefault = settings.username;
-        bookmarkTotal = parseInt(settings.bookmarksInTotal,10);
-        pageSize = parseInt(settings.bookmarksPerPage,10);
+        filterUser = data.username;
+        filterUserDefault = data.username;
+        bookmarkTotal = parseInt(data.bookmarksInTotal,10);
+        pageSize = parseInt(data.bookmarksPerPage,10);
 
         // If the mainview is shown, get the bookmarks from Delicious
         if (!showSettings){
@@ -449,7 +451,6 @@ sakai.delicious = function(tuid, showSettings) {
             showSettings = false;
             $deliciousContainerMain.show();
             $deliciousContainerSettings.hide();
-            $deliciousPaging.show();
         }
     };
 

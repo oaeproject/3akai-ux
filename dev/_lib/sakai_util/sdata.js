@@ -69,11 +69,8 @@ var sakai = sakai || {};
                     var originalURL = document.location;
                     originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
                     var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
-                    if (exists) {
-                        var me = $.evalJSON(response);
-                        if (me.preferences && (me.preferences.uuid === "anonymous" || !me.preferences.uuid)) {
-                            //document.location = redirecturl;
-                        }
+                    if (exists && response.preferences && (response.preferences.uuid === "anonymous" || !response.preferences.uuid)) {
+                        document.location = redirecturl;
                     }
                 };
 
@@ -254,7 +251,7 @@ sdata.widgets.WidgetLoader = {
                     var item = {
                         "url" : k,
                         "method" : "GET"
-                    }
+                    };
                     urls[urls.length] = item;
                 }
             }
@@ -557,13 +554,12 @@ sdata.files = {
             url: path + ".files.json",
             cache: false,
             success: function(data){
-                var json = $.evalJSON(data);
                 // Sort the files and folders.
                 // Folders come first then files.
                 // These are both sorted in a natural way.
                 // so z1 > z2 > z30 > z100 > z200 and not
                 // z1 > z100 > z2 > z200 > z3
-                json.sort(function alphanumCase(a, b){
+                data.sort(function alphanumCase(a, b){
                     var aType = a["sling:resourceType"];
                     var bType = b["sling:resourceType"];
                     if (aType === "sakai/folder" && bType !== "sakai/folder") {
@@ -571,14 +567,14 @@ sdata.files = {
                     }
                     else {
                         if (aType !== "sakai/folder" && bType === "sakai/folder") {
-                            return 1
+                            return 1;
                         }
                         else {
                             sakai.api.Util.Sorting.naturalSort(a.name, b.name);
                         }
                     }
                 });
-                callback(json, true);
+                callback(data, true);
             },
             error: function(xhr, textStatus, thrownError) {
           callback(xhr.status, false);
@@ -607,11 +603,10 @@ sdata.files = {
             url: path + ".info.json",
             cache: false,
             success: function(data){
-                var json = $.evalJSON(data);
-                callback(json, true);
+                callback(data, true);
             },
             error: function(xhr, textStatus, thrownError) {
-        callback(xhr.status, false);
+                callback(xhr.status, false);
             }
         });
     },

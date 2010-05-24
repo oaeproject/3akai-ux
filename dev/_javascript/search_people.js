@@ -204,7 +204,7 @@ sakai.search = function() {
         }
         currentpage = page;
         //    This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
 
     /**
@@ -319,6 +319,7 @@ sakai.search = function() {
 
             // The search URL depends on the searchWhere variable
             var searchURL;
+            
             if(searchWhere === "mycontacts") {
                 searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
             }  else {
@@ -330,15 +331,13 @@ sakai.search = function() {
                 url: searchURL,
                 success: function(data) {
 
-                    var raw_results = $.evalJSON(data);
-
                     // Store found people in data cache
                     sakai.data.search.results_people = {};
-                    for (var i = 0, j = raw_results.results.length; i < j; i++) {
-                        sakai.data.search.results_people[raw_results.results[i]["rep:userId"]] = raw_results.results[i];
+                    for (var i = 0, j = data.results.length; i < j; i++) {
+                        sakai.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
                     }
 
-                    renderResults(raw_results, true);
+                    renderResults(data, true);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     sakai.data.search.results_people = {};
@@ -372,10 +371,9 @@ sakai.search = function() {
             cache: false,
             url: url,
             success: function(data) {
-                var json = $.evalJSON(data);
                 var finaljson = {};
                 finaljson.items = [];
-                finaljson = mainSearch.preparePeopleForRender(json.results, finaljson);
+                finaljson = mainSearch.preparePeopleForRender(data.results, finaljson);
                 sakai.createsite.initialise(finaljson);
             },
             error: function(xhr, textStatus, thrownError) {

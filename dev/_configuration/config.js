@@ -97,7 +97,7 @@ sakai.config = {
         SITE_TEMPLATE: "/var/templates/site/__TEMPLATE__",
         SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
         SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
-        SITES_SERVICE: "/system/sling/membership",
+        SITES_SERVICE: "/system/sling/membership.json",
         TWITTER_GET_URL: "/var/proxy/twitter/status.json",
         TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
         USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",

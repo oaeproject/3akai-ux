@@ -277,10 +277,9 @@ sakai.blog = function(tuid, showSettings) {
             cache: false,
             success: function(data){
                 arrAllTags = [];
-                var posts = $.evalJSON(data);
                 //    get all the tags for this site.
-                for (var i = 0, iMax=posts.items.length;i < iMax;i++) {
-                    var post = posts.items[i];
+                for (var i = 0, iMax=data.items.length;i < iMax;i++) {
+                    var post = data.items[i];
                     var sTags = post.tags;
                     var arrPostTags = sTags.split(',');
                     for (var t = 0, tMax=arrPostTags.length; t < tMax; t++) {
@@ -793,7 +792,6 @@ sakai.blog = function(tuid, showSettings) {
             $.ajax({
                 url: "/rest/me/" + sUserNames,
                 success: function(userdata){
-                    var users = $.evalJSON(userdata);
                     var arrPostsToDisplay = [];
 
                     //    We check the widget settings if we are interested in a specific set of tags.
@@ -816,7 +814,7 @@ sakai.blog = function(tuid, showSettings) {
                     }
 
                     //    Do all the nescecary markup so that the template can render properly.
-                    arrPostsToDisplay = markupPosts(arrPostsToDisplay, arrUserNames, users.users);
+                    arrPostsToDisplay = markupPosts(arrPostsToDisplay, arrUserNames, userdata.users);
 
                     //    Render template.
                     json = {'posts' : arrPostsToDisplay};
@@ -1058,7 +1056,7 @@ sakai.blog = function(tuid, showSettings) {
         
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
-                blogSettings = $.evalJSON(data);
+                blogSettings = $.extend(data, {}, true);
 
                 //    Show the tags in the page.
                 if (blogSettings.tags.length === 0) {

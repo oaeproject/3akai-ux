@@ -64,7 +64,7 @@ sakai.site_add_members = function() {
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response) {
-                siteJson = $.evalJSON(response);
+                siteJson = $.parseJSON(response);
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
                 $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
@@ -168,12 +168,11 @@ sakai.site_add_members = function() {
         }
 
         for (var i = 0; i < people.results.length; i++) {
-            if (typeof people.results[i].picture !== "undefined") {
-                if (typeof people.results[i].picture === "string") {
-                    people.results[i].picture = $.evalJSON(people.results[i].picture);
-                    people.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
-                }
-            } else {
+            if (people.results[i].picture && typeof people.results[i].picture === "string") {
+                people.results[i].picture = $.parseJSON(people.results[i].picture);
+                parseJSONople.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
+            }
+            else {
                 people.results[i].picture = {};
             }
             people.results[i].userid = people.results[i]["rep:userId"];
@@ -237,7 +236,7 @@ sakai.site_add_members = function() {
             cache: false,
             url: "/var/search/users?username=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
             success: function(data) {
-                json.foundPeople = $.evalJSON(data);
+                json.foundPeople = $.extend(data, {}, true);
                 renderPeople(json.foundPeople);
                 updateSelectedPersons();
                 selectCorrectPeople();
@@ -309,26 +308,27 @@ sakai.site_add_members = function() {
      * gets the site members
      * TODO This is part of some broken logic: SAKIII-98
      */
-     var getSiteMembers = function() {
+    var getSiteMembers = function(){
         $.ajax({
             cache: false,
             url: "/sites/" + selectedSite + ".members.json",
-            success: function(data) {
-                json.members = $.evalJSON(data).results;
-                 var arrPeople = [];
-                 $.each(json.members,
-                 function(i, val) {
-                     val.selected = false;
-                     arrPeople.push(val);
-                 });
-                 json.members.results = arrPeople;
-
-                 if(typeof json.foundPeople !== "undefined"){
-                     renderPeople(json.foundPeople);
-                 }
+            success: function(data){
+                json.members = $.extend(data, {}, true).results;
+                var arrPeople = [];
+                $.each(json.members, function(i, val){
+                    val.selected = false;
+                    arrPeople.push(val);
+                });
+                json.members.results = arrPeople;
+                
+                if (typeof json.foundPeople !== "undefined") {
+                    renderPeople(json.foundPeople);
+                }
             },
-            onFail: function(status) {
-                json.members = {"results" : []};
+            onFail: function(status){
+                json.members = {
+                    "results": []
+                };
                 $("#manage_members_count").html(getNumMembers(json.members.results));
             }
         });

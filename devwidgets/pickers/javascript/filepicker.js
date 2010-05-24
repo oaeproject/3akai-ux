@@ -51,7 +51,7 @@ sakai.filepicker = function(tuid, showSettings){
 
 
     // URL's
-    sakai.config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__"
+    sakai.config.URL.SEARCH_RESOURCES = "/var/search/files/resources.json?path=__PATH__&resource=__RESOURCE__";
     var siteID = "/sites/" + placement.split("/")[0];
     var siteFiles = siteID + "/_files";
     // The currentpath in the folder browser.
@@ -235,7 +235,7 @@ sakai.filepicker = function(tuid, showSettings){
         if (succes) {
             showPage(1);
         }
-        if (currentPath == undefined || currentPath === "") {
+        if (currentPath === undefined || currentPath === "") {
             currentPath = siteFiles;
         }
 
@@ -328,7 +328,7 @@ sakai.filepicker = function(tuid, showSettings){
             url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
             cache: false,
             success: function(data){
-                widgetSettings = $.evalJSON(data);
+                widgetSettings = $.extend(data, {}, true);
                 // We get our settings.
                 // Now retrieve the actual info for the file.
                 if (widgetSettings.selectedFiles) {
@@ -470,7 +470,7 @@ sakai.filepicker = function(tuid, showSettings){
             $(picker_main, rootel).show();
         }
         getWidgetSettings();
-    }
+    };
 
     init();
 

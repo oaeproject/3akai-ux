@@ -266,9 +266,9 @@ sakai.site_appearance = function() {
     var updatePicture = function(){
 
         // Check if there is a picture available for the current site
-        if(siteInformation.picture && $.evalJSON(siteInformation.picture).name){
+        if(siteInformation.picture && $.parseJSON(siteInformation.picture).name){
 
-            var json = $.evalJSON(siteInformation.picture);
+            var json = $.parseJSON(siteInformation.picture);
             // Set the fullpath to the variable
             json.fullName = "/sites/" + siteId + "/200x100_siteicon" + "?sid=" + Math.random();
 
@@ -287,19 +287,16 @@ sakai.site_appearance = function() {
             type: "GET",
             success: function(response) {
 
-                // Parse the json respons
-                var json = $.evalJSON(response);
-
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(json);
+                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(response);
                 if (isMaintainer) {
 
                     // Fill in the info.
-                    $(siteAppearanceTitle).text(json.name);
+                    $(siteAppearanceTitle).text(response.name);
 
                     // Save the site information to the global variable
-                    siteInformation = json;
+                    siteInformation = response;
 
                     // Update the picture on the site
                     updatePicture();
@@ -381,9 +378,7 @@ sakai.site_appearance = function() {
             type: "POST",
             data: data,
             success: function(data){
-                //if($.evalJSON(data).response === "OK"){
-                    updateGroupDef();
-                //}
+                updateGroupDef();
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -562,7 +557,7 @@ sakai.site_appearance = function() {
             picture = siteInformation.picture;
         }
 
-        if (picture && $.evalJSON(picture)._name) {
+        if (picture && $.parseJSON(picture)._name) {
 
             // The user has already uploaded a picture.
             // Show the edit tab.
@@ -694,7 +689,10 @@ sakai.site_appearance = function() {
 
         // Add the site id to all the element with a specific class
         $(siteAppearanceAppendIdToUrlClass).each(function(i, el) {
-            $(el).attr("href",$(el).attr("href") +  siteId);
+            var url = $(el).attr("href");
+            if(!url.match(/siteid=[a-zA-Z0-9]+/)){
+                $(el).attr("href",$(el).attr("href") +  siteId);
+            }
         });
     };
 
@@ -774,7 +772,7 @@ sakai.site_appearance_change.startCallback = function(){
 
 /**
  * TODO replace with better code (maybe with the Fluid infusion Uploader plug-in)
- * We use this AIM method, which places an iframe on the page, to prevend reloading the page when uploading
+ * We use this AIM method, which places an iframe on the page, to prevent reloading the page when uploading
  */
 var AIM = {
     frame : function(c) {
