@@ -42,7 +42,7 @@ sakai.twitter = function(tuid, showSettings){
     var $twitter_set_status =  $("#twitter_set_status", $rootel);
     var $twitter_sub_container = $("#twitter_sub_container", $rootel);
     var $twitter_template_get_status = $("#twitter_template_get_status", $rootel);
-    var $twitter_template_message = $("twitter_template_message", $rootel);
+    var $twitter_template_message = $("#twitter_template_message", $rootel);
     var $twitter_template_set_status = $("#twitter_template_set_status", $rootel);
 
     /**
