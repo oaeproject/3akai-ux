@@ -104,6 +104,9 @@ sakai.comments = function(tuid, showSettings){
     var commentsDirectionRbt = commentsName + "_ChooseDirectionComments";
     var commentsPermissionsRbt = commentsName + "_ChoosePermissionComments";
 
+    // Resize textarea to match width
+    var commentsMainContainerTextarea = commentsOutputContainer + " textarea";
+    var commentsCommentMessage = commentsClass + "_commentMessage";
 
     ////////////////////////
     // Utility  functions //
@@ -268,8 +271,8 @@ sakai.comments = function(tuid, showSettings){
                 user.fullName = fullName;
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
-                if (profile.picture && $.evalJSON(profile.picture).name) {
-                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.evalJSON(profile.picture).name;
+                if (profile.picture && $.parseJSON(profile.picture).name) {
+                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
                 user.uid = profile["userid"][0];
                 user.profile = sakai.config.URL.PROFILE_URL + "?user=" + user.uid;
@@ -346,7 +349,7 @@ sakai.comments = function(tuid, showSettings){
             url: url,
             cache: false,
             success: function(data){
-                json = $.evalJSON(data);
+                json = $.extend(data, {}, true);
                 showComments();
             },
             error: function(xhr, textStatus, thrownError){
@@ -632,6 +635,7 @@ sakai.comments = function(tuid, showSettings){
 
     /** Bind the insert comment button*/
     $(commentsCommentBtn, rootel).bind("click", function(e, ui){
+        $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
         // checks if the user is loggedIn
         var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
         var txtToFocus = commentsMessageTxt;
@@ -722,6 +726,7 @@ sakai.comments = function(tuid, showSettings){
      * Edit link
      */
     $(commentsEdit, rootel).live('click', function(e, ui){
+        $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
         var id = e.target.id.replace("comments_edit_", "");
         // Show the textarea
         $(commentsMessage + id, rootel).hide();
@@ -737,7 +742,7 @@ sakai.comments = function(tuid, showSettings){
         if (message !== "") {
             var data = {
                 "sakai:body": message,
-                "sakai:editedby": me.user.userid + "|" + new Date().toUTCString()
+                "sakai:editedby": me.user.userid
             };
             // Do a post to the comment to edit the message.
             var commentUrl = $(commentsPath+id).val();

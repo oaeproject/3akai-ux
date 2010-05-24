@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -23,7 +24,7 @@
 
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
@@ -126,6 +127,7 @@
 
                             <!-- Buttons -->
                             <div class="top_button_bar">
+
                                 <!-- General msg -->
                                 <span class="light-button">
                                     <a href="javascript:;" id="inbox_general_message" style="display:none;">__MSG__THE_CONVERSATION_HAS_BEEN_MARKED_AS_READ__.</a>
@@ -136,6 +138,7 @@
                             </div>
 
                             <div class="top_decor">
+
                                 <!-- Header -->
                                 <div class="inbox-heading inbox_inbox_header" id="inbox_inbox">__MSG__INBOX__</div>
                                 <div class="inbox-heading inbox_inbox_header" id="inbox_sent" style="display:none;">__MSG__SENT_MESSAGES__</div>
@@ -167,31 +170,31 @@
                                     {var readClass="inbox-subject-read"}
                                 {/if}
                                 <tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
-                                <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="Checkbox __MSG__DELETE__" /></td>
-                                    {if m.messagebox === "outbox"}
-                                        {if m.userTo}
-                                            <td>
-                                            {for toUser in m.userFrom}
-                                                <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${toUser.firstName} ${toUser.lastName}</a>
-                                            {/for}
-                                            </td>
+                                    <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="__MSG__DELETE__" /></td>
+                                        {if m.messagebox === "outbox"}
+                                            {if m.userTo}
+                                                <td>
+                                                {for toUser in m.userFrom}
+                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${toUser.firstName} ${toUser.lastName}</a>
+                                                {/for}
+                                                </td>
+                                            {else}
+                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
+                                            {/if}
                                         {else}
-                                            <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
+                                            {if m.userFrom}
+                                                <td>
+                                                {for fromUser in m.userFrom}
+                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${fromUser.firstName} ${fromUser.lastName}</a></td>
+                                                {/for}
+                                                </td>
+                                            {else}
+                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
+                                            {/if}
                                         {/if}
-                                    {else}
-                                        {if m.userFrom}
-                                            <td>
-                                            {for fromUser in m.userFrom}
-                                                <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${fromUser.firstName} ${fromUser.lastName}</a></td>
-                                            {/for}
-                                            </td>
-                                        {else}
-                                            <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
-                                        {/if}
-                                    {/if}
-                                    <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
-                                    <td>${m.category}</td>
-                                    <td>${m.date}</td>
+                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
+                                        <td>${m.category}</td>
+                                        <td>${m.date}</td>
                                 </tr>
                             {forelse}
                                 <tr class="inbox_message">
@@ -202,7 +205,7 @@
 
                             <div id="inbox_table_preloader"><!--
                                 <tr class="inbox_message">
-                                <td colspan="5" class="inbox_message_none"><img src="/dev/_images/ajax-loader-gray.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></td>
+                                    <td colspan="5" class="inbox_message_none"><img src="/dev/_images/ajax-loader-gray.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></td>
                                 </tr>
                             --></div>
 
@@ -271,15 +274,15 @@
                             <div style="padding: 10px 0px;">
                                 <span style="float:left;">
                                     <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                                    {if r.userFrom.picture}
-                                        <img src="/_user/public/${r["sakai:from"]}/${r.userFrom.photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
+                                    {if r.userFrom[0].picture}
+                                        <img src="/_user${r.userFrom[0].hash}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                     {else}
                                         <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" id="inbox_message_picture" />
                                     {/if}
                                 </span>
                                 <div class="inbox_message_user">
                                     {for fromUser in r.userFrom}
-                                        <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ||  ${fromUser.lastName}</a><br />
+                                        <a href="/dev/profile.html?user=${r["sakai:from"]}" class="sender-name" id="inbox_message_from">${fromUser.firstName} ${fromUser.lastName}</a><br />
                                     {/for}
                                     <div class="sender-timestamp">Sent this on <span id="inbox_message_date">${r.date}</span></div>
                                 </div>
@@ -293,19 +296,19 @@
                                         <div class="message-header" id="inbox_message_subject">${r["sakai:subject"]}</div>
                                         <div id="inbox_message_body">${r["sakai:body"]}</div>
                                         <div class="message-options" style="display:none">
-                                            <a href="javascript:;" id="inbox_message_option_reply_${r["sakai:id"]}">Reply</a>
+                                            <a href="javascript:;" id="inbox_message_option_reply_${r["sakai:id"]}">__MSG__REPLY__</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             {if r["sakai:previousmessage"]}
-                                ${showReply(r["sakai:previousmessage"])}
+                                ${showReply(r.previousMessage)}
                             {/if}
 
                             {/macro}
 
-                            ${showReply(message["sakai:previousmessage"])}
+                            ${showReply(message.previousMessage)}
                             --></div>
 
                             <div id="inbox_compose_replies_template_chats"><!--
@@ -318,7 +321,7 @@
                                 {/for}
                             --></div>
 
-                            <!-- compose Message -->
+                            <!-- Compose Message -->
                             <div class="compose-message" id="inbox_message_compose" style="display:none;">
                                 <form class="compose-form" method="post" action="">
                                     <div>
@@ -334,7 +337,6 @@
                                         <div class="greybutton"><a class="button-default submit_button inbox_bold" href="javascript:;" id="inbox_message_compose_send">__MSG__SEND_MESSAGE__</a></div>
                                         <div class="lightgreybutton"><a class="button-default cancel-button" href="javascript:;" id="inbox_message_compose_cancel">__MSG__CANCEL__</a></div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
@@ -347,6 +349,7 @@
                     <div id="inbox_pane_compose" class="inbox_pane" style="display:none;">
 
                         <div class="top_decor">
+
                             <!-- Header -->
                             <div class="inbox-heading">__MSG__COMPOSE_A_NEW_MESSAGE__</div>
                         </div>
@@ -388,4 +391,5 @@
         <script type="text/javascript" src="_javascript/inbox.js"></script>
 
     </body>
+
 </html>

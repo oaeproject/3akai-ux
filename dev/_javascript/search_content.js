@@ -123,7 +123,7 @@ sakai.search = function() {
         currentpage = page;
 
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
 
     /**
@@ -227,10 +227,12 @@ sakai.search = function() {
         mainSearch.fillInElements(page, searchquery, searchwhere);
 
         var dd = $("#search_filter").get(0);
-        for (var i = 0, j = dd.options.length; i<j; i++){
-            if (dd.options[i].value == searchwhere){
-                dd.selectedIndex = i;
-            }
+        if (dd && dd.options) {
+          for (var i = 0, j = dd.options.length; i<j; i++){
+              if (dd.options[i].value == searchwhere){
+                  dd.selectedIndex = i;
+              }
+          }
         }
 
         // Get the search term out of the input box.
@@ -273,8 +275,7 @@ sakai.search = function() {
                     "usedin" : usedIn
                 },
                 success: function(data) {
-                    var json = $.evalJSON(data);
-                    renderResults(json, true);
+                    renderResults(data, true);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     var json = {};
@@ -311,18 +312,19 @@ sakai.search = function() {
                 url: sakai.config.URL.SITES_SERVICE,
                 cache: false,
                 success: function(data){
-                    var sites = {};
-                    sites.sites = $.evalJSON(data);
+                    var sites = {
+                        "sites" : data
+                    };
                     searchSiteSelect.html($.TemplateRenderer(searchSiteSelectTemplate, sites));
 
                     // Get my sites
                     mainSearch.getMySites();
-
-                    // Add the bindings
-                    mainSearch.addEventListeners();
                 }
             });
         }
+        // Add the bindings
+        mainSearch.addEventListeners();
+        
     };
 
     var thisFunctionality = {

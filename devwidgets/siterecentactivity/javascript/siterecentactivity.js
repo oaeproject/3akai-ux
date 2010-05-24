@@ -20,7 +20,7 @@ sakai.siterecentactivity = function(tuid, showSettings){
         if(sakai.siterecentactivity.recentactivity){
             for (i = 0, j = sakai.siterecentactivity.recentactivity.items.length; i < j; i++) {
 
-                sakai.siterecentactivity.recentactivity.items[i].page_url = "/sites/" + sakai.siterecentactivity.recentactivity.items[i].site_id + "#" + sakai.siterecentactivity.recentactivity.items[i].page_id;
+                sakai.siterecentactivity.recentactivity.items[i].page_url = "/sites/" + sakai.siterecentactivity.recentactivity.items[i].site_id + "#page=" + sakai.siterecentactivity.recentactivity.items[i].page_id;
 
                 sakai.siterecentactivity.recentactivity.items[i].date_parsed = humane_date(sakai.siterecentactivity.recentactivity.items[i].date+ "Z");
 

@@ -113,7 +113,7 @@ sakai.profile = function(){
 
         $("#profile_user_name").text(json.firstName + " " + json.lastName);
         if (json.basic){
-            basic = $.evalJSON(json.basic);
+            basic = $.parseJSON(json.basic);
             if (basic.status){
                 inbasic++;
                 $("#txt_status").val(basic.status);
@@ -136,7 +136,7 @@ sakai.profile = function(){
 
         if (json.basic){
 
-            basic = $.evalJSON(json.basic);
+            basic = $.parseJSON(json.basic);
 
             if (basic.middlename){
                 inbasic++;
@@ -220,7 +220,7 @@ sakai.profile = function(){
         var obj = {};
         obj.items = [];
         if (json[savefield]){
-            obj.items = $.evalJSON(json[savefield]);
+            obj.items = $.parseJSON(json[savefield]);
         }
         $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",obj));
 
@@ -246,7 +246,7 @@ sakai.profile = function(){
                 var obj = {};
                 obj.items = [];
                 if (json[savefield]){
-                    obj.items = $.evalJSON(json[savefield]);
+                    obj.items = $.parseJSON(json[savefield]);
                 }
 
                 index = 0;
@@ -291,7 +291,7 @@ sakai.profile = function(){
                 var obj = {};
                 obj.items = [];
                 if (json[savefield]){
-                    obj.items = $.evalJSON(json[savefield]);
+                    obj.items = $.parseJSON(json[savefield]);
                 }
 
                 index = 0;
@@ -365,7 +365,7 @@ sakai.profile = function(){
                 var obj = {};
                 obj.items = [];
                 if (json[savefield]) {
-                    obj.items = $.evalJSON(json[savefield]);
+                    obj.items = $.parseJSON(json[savefield]);
                 }
 
                 index = 0;
@@ -424,7 +424,7 @@ sakai.profile = function(){
                 var obj = {};
                 obj.items = [];
                 if (json[savefield]) {
-                    obj.items = $.evalJSON(json[savefield]);
+                    obj.items = $.parseJSON(json[savefield]);
                 }
                 index = obj.items.length;
                 obj.items[index] = {};
@@ -483,8 +483,8 @@ sakai.profile = function(){
 
         //Picture
 
-        if (json.picture && $.evalJSON(json.picture).name){
-            var picture = $.evalJSON(json.picture);
+        if (json.picture && $.parseJSON(json.picture).name){
+            var picture = $.parseJSON(json.picture);
             $("#picture_holder img").attr("src",'/_user' + sakai.data.me.profile.path + '/public/profile/' + picture.name);
         }
 
@@ -496,7 +496,7 @@ sakai.profile = function(){
         var inabout = 0;
         if (json.aboutme) {
 
-            about = $.evalJSON(json.aboutme);
+            about = $.parseJSON(json.aboutme);
 
             if (about.aboutme){
                 inabout++;
@@ -533,7 +533,7 @@ sakai.profile = function(){
 
         if (json.contactinfo) {
 
-            unicontactinfo = $.evalJSON(json.contactinfo);
+            unicontactinfo = $.parseJSON(json.contactinfo);
 
             if (unicontactinfo.uniphone) {
                 inunicontactinfo++;
@@ -558,7 +558,7 @@ sakai.profile = function(){
         var inhomecontactinfo = 0;
         if (json.contactinfo) {
 
-            homecontactinfo = $.evalJSON(json.contactinfo);
+            homecontactinfo = $.parseJSON(json.contactinfo);
 
             if (homecontactinfo.homeemail) {
                 inhomecontactinfo++;
@@ -588,7 +588,7 @@ sakai.profile = function(){
         var inadditional = 0;
         if (json.basic) {
 
-            additional = $.evalJSON(json.basic);
+            additional = $.parseJSON(json.basic);
 
             if (additional.awards) {
                 inadditional++;
@@ -662,7 +662,7 @@ sakai.profile = function(){
         } else if (ui.id === "txt_academicinterests"){
 
             if (json.aboutme) {
-                aboutme = $.evalJSON(json.aboutme);
+                aboutme = $.parseJSON(json.aboutme);
             }
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
@@ -672,7 +672,7 @@ sakai.profile = function(){
         } else if (ui.id === "txt_personalinterests"){
 
             if (json.aboutme) {
-                aboutme = $.evalJSON(json.aboutme);
+                aboutme = $.parseJSON(json.aboutme);
             }
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
@@ -683,7 +683,7 @@ sakai.profile = function(){
 
             var basic = {};
             if (json.basic) {
-                basic = $.evalJSON(json.basic);
+                basic = $.parseJSON(json.basic);
             }
             basic[basicfields[ui.id]] = value;
             key = "basic";
@@ -694,7 +694,7 @@ sakai.profile = function(){
         } else if (aboutmefields[ui.id]) {
 
             if (json.aboutme) {
-                aboutme = $.evalJSON(json.aboutme);
+                aboutme = $.parseJSON(json.aboutme);
             }
             aboutme[aboutmefields[ui.id]] = value;
             key = "aboutme";
@@ -705,7 +705,7 @@ sakai.profile = function(){
 
             var unicontactinfoToSave = {};
             if (json.contactinfo) {
-                unicontactinfoToSave = $.evalJSON(json.contactinfo);
+                unicontactinfoToSave = $.parseJSON(json.contactinfo);
             }
             unicontactinfoToSave[unicontactinfo[ui.id]] = value;
             key = "contactinfo";
@@ -716,7 +716,7 @@ sakai.profile = function(){
 
             var homecontactinfoToSave = {};
             if (json.contactinfo) {
-                homecontactinfoToSave = $.evalJSON(json.contactinfo);
+                homecontactinfoToSave = $.parseJSON(json.contactinfo);
             }
             homecontactinfoToSave[homecontactinfo[ui.id]] = value;
             key = "contactinfo";
