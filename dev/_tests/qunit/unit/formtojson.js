@@ -1,5 +1,35 @@
 module("FormToJSON");
 
+var dummyForm = "<form action='javascript:;' id='dummyForm'>" +
+                    "<input type='text' name='name' value='john doe'/>" +
+                    "<input type='text' value='should not be saved'/>" +
+                    "<input type='radio' checked='true' name='gender' value='male'/>" +
+                    "<input type='radio' name='gender' value='female'/>" +
+                    "<input type='checkbox' checked='true' name='color' value='red'/>" +
+                    "<input type='checkbox' name='color' value='green'/>" +
+                    "<input type='checkbox' name='color' value='blue'/>" +
+                    "<select name='shape'>" +
+                    "<option value='square'>Square</option>" +
+                    "<option value='circle'>Circle</option>" +
+                    "<option value='rectangle'>Rectangle</option>" +
+                    "<textarea rows='10' cols='30' name='description'>Demo text area</textarea>" + 
+                    "</select>" +
+                "</form>";
+
+/**
+ * Append a dummy form to the page
+ */
+var createDummyForm = function(){
+    $("body").append(dummyForm);
+}
+
+/**
+ * Remove the dummy form from the page
+ */
+var removeDummyForm = function(){
+    $("#dummyForm").remove();
+}
+
 /**
  * Test if the indexof returns the expected index
  */

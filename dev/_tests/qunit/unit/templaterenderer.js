@@ -1,6 +1,20 @@
 module("TemplateRenderer");
-
+var container = "<div id='dummyContainer'><div id='dummyDiv'></div><div id='dummyTemplate'><!--${all}--></div></div>";
 var dummyText = "Hello World";
+
+/**
+ * Create a dummy container with a output div and a template div
+ */
+var createDummyDivs = function(){
+    $("body").append(container);
+}
+
+/**
+ * Remove the dummy container and all its children
+ */
+var removeDummyDivs = function(){
+    $("#dummyContainer").remove();
+}
 
 /**
  * Check the data in the div with what we have entered
@@ -38,7 +52,7 @@ var testTemplateRenderer = function(){
 }
 
 /**
- * Run an asynchronous test
+ * Run test
  */
 test("TemplateRenderer:", function(){
     //create a div and a template
