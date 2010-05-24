@@ -905,6 +905,7 @@ sakai.site.site_admin = function(){
     /////////////////////////////
 
     // Bind Edit page link click event
+    var didInit = false;
     $("#edit_page").bind("click", function(ev){
         sakai.site.isEditingNewPage = false;
         sakai.site.inEditView = true;
@@ -913,6 +914,12 @@ sakai.site.site_admin = function(){
         if (tinyMCE.activeEditor === null) {
             init_tinyMCE();
         } else {
+            if (tinyMCE.activeEditor.id != "elm1" && didInit == false) {
+              tinyMCE.remove(tinyMCE.activeEditor.id);
+              init_tinyMCE();
+              didInit = true;
+            }
+            tinyMCE.get("elm1").focus(true);
             editPage(sakai.site.selectedpage);
         }
 
