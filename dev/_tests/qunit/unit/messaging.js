@@ -1,5 +1,6 @@
 module("Messaging");
 
+var userlist;
 var dummyMessage = "This is a messaging test";
 var dummySubject = "Test subject";
 var dummyUser = "user2";
@@ -8,6 +9,37 @@ var d;
 var u1time;
 var dummyReply;
 var pathToMessages;
+
+/**
+ * Delete all messages that were sent during the test
+ */
+var deleteMessages = function(){
+    var messages = [];
+    //loop over all the messages sent during the test
+    for (var i = 0,j=pathToMessages.length;i<j;i++) {
+        //console.log(pathToMessages[i]);
+
+        //create a json object containing the request to delete the message
+        var message = {
+            "url":pathToMessages[i],
+            "method":"DELETE"
+        };
+        //create one big json object containing all the requests
+        messages.push(message);
+    }
+
+    //convert the json object with the requests to a string
+    var data = $.toJSON(messages);
+
+    //post the requests to the system/batch servlet which will process all the requests
+    $.ajax({
+        url: "/system/batch",
+        type: "POST",
+        data : {
+            "requests": data
+        }
+    });
+};
 
 /**
  * Test all that's coming in and send a reply
@@ -113,3 +145,93 @@ asyncTest("Messaging: Send message to multiple users", function(){
     //send message with multiple users
     sendMessage("","");
 });
+
+/**
+ * A function to create new users, the user will be added to the list of dummy users.
+ * @param {Array} user The user to be added in following format: {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"}
+ */
+var createUser = function(user){
+    $.ajax({
+        url: "/system/userManager/user.create.json",
+        type: "POST",
+        data: user,
+        complete: function(){
+            userlist.push(user);
+            count++;
+            createUsers(count);
+        }
+    });
+}
+
+/**
+ * A recursive function that creates users from the userlist
+ * @param {Integer} count The current number of the user in the userlist array
+ */
+var createDummyUsers = function(count){
+
+    if(count !== userlist.length){
+
+        $.ajax({
+            url: "/system/userManager/user.create.json",
+            type: "POST",
+            data: userlist[count],
+            complete: function(){
+                count++;
+                createDummyUsers(count);
+            }
+        });
+    }
+};
+
+/**
+ * A recursive function that removes users from the userlist
+ * @param {Integer} count The current number of the user in the userlist array
+ */
+var removeUsers = function(count){
+
+    if(count !== userlist.length){
+        var username = userlist[count][":name"];
+        $.ajax({
+            url: "/system/userManager/" + username + ".delete.json",
+            type: "POST",
+            complete: function(){
+                count++;
+                removeUsers(count);
+            }
+        });
+    }
+}
+
+/**
+ * Do some setup before the module starts (equal to setUp in JUnit)
+ * In this case, if it's a messaging test, we create some dummy users
+ */
+QUnit.moduleStart = function (name) {
+    if(name == "Messaging"){
+        d = new Date();
+        u1time = d.getMilliseconds();
+        dummyUser = dummyUser + u1time;
+        pathToMessages = [];
+        userlist = [
+                    {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"+u1time},
+                    {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"+u1time}
+                ];
+        //create users
+        createDummyUsers(0);
+    }
+};
+
+/**
+ * After the test is done, we undo some of the things we did during the test to keep sakai clean.(equal to tearDown in JUnit)
+ * In this case, if the test is a messaging test, we remove all the dummy users
+ */
+QUnit.moduleDone = function (name, failures, total) {
+    if(name == "Messaging"){
+
+        //remove messages
+        deleteMessages();
+
+        //remove users
+        removeUsers(0);
+    }
+};
