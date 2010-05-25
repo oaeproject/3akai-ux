@@ -27,7 +27,7 @@ var testJCRRemoval = function(){
 
     //check if it is the same as expected
     same(objCount, 2,"Checking if removal went well by checking amount of left properties");
-    start();
+
 };
 
 /**

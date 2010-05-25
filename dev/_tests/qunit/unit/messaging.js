@@ -13,7 +13,7 @@ var pathToMessages;
 /**
  * Delete all messages that were sent during the test
  */
-var deleteMessages = function(){
+var deleteMessages = function(callback){
     var messages = [];
     //loop over all the messages sent during the test
     for (var i = 0,j=pathToMessages.length;i<j;i++) {
@@ -37,6 +37,11 @@ var deleteMessages = function(){
         type: "POST",
         data : {
             "requests": data
+        },
+        complete : function(){
+            if (typeof callback === "function") {
+                callback();
+            }
         }
     });
 };
@@ -181,7 +186,7 @@ var removeUsers = function(count){
     if(count !== userlist.length){
         var username = userlist[count][":name"];
         $.ajax({
-            url: "/system/userManager/" + username + ".delete.json",
+            url: "/system/userManager/user/" + username + ".delete.json",
             type: "POST",
             complete: function(){
                 count++;
@@ -226,5 +231,6 @@ QUnit.moduleDone = function(name, failures, total) {
 
         //remove users
         removeUsers(0);
+
     }
 };

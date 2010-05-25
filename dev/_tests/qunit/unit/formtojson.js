@@ -55,7 +55,6 @@ var testFormToJSON = function(){
 
     //remove the dummy form
     removeDummyForm();
-    start();
 };
 
 /**

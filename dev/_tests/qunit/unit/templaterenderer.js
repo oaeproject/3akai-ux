@@ -30,8 +30,6 @@ var findDummyData = function(){
     //remove all dummy divs
     removeDummyDivs();
 
-    //start the next test
-    start();
 }
 
 /**

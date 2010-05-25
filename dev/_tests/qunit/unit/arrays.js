@@ -21,8 +21,7 @@ var testCustomIndexOf = function(){
     index = dummyArray.indexOf("foo");
     same(index, -1, "Not finding unknown item");
 
-    start();
-}
+};
 
 /**
  * Run a test
