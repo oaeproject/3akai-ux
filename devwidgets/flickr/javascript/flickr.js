@@ -172,7 +172,6 @@ sakai.flickr = function(tuid, showSettings){
     sakai.config.URL.flickrGetUserDetailsByEMail = "/var/proxy/flickr/flickrGetUserDetailsByEMail.json";
     sakai.config.URL.flickrGetUserDetailsByName = "/var/proxy/flickr/flickrGetUserDetailsByName.json";
     sakai.config.URL.flickrGetPicturesByUserId = "/var/proxy/flickr/flickrGetPicturesByUserId.json";
-    sakai.config.URL.flickrGetPicturesByUserIdStart = "/var/proxy/flickr/flickrGetPicturesByUserIdStart.json";
     sakai.config.URL.flickrGetFriendsFromUser = "/var/proxy/flickr/flickrGetFriendsFromUser.json";
     sakai.config.URL.flickrStaticImageUrl = "http://farm3.static.flickr.com/";
 
@@ -243,6 +242,10 @@ sakai.flickr = function(tuid, showSettings){
      * @param {Object} pictures , The response gotten from the ajax call
      */
     var makeImageGallery = function(pictures){
+
+       if (typeof(pictures) !== "object") {
+           pictures = $.parseJSON(pictures);
+       }
 
         //Array for all the pictures
         var pictureUrlArray = [];
@@ -339,7 +342,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userId,
                 "api_key":key,
-                "page":newPage
+                "page":newPage,
+                'per_page':5
             }
         });
     };
@@ -587,6 +591,8 @@ sakai.flickr = function(tuid, showSettings){
      */
     var showPicturesFromPersonStart = function(data){
 
+        data = $.parseJSON(data);
+
         //Show the refresh button
         $flickrRefreshImages.show();
 
@@ -604,7 +610,7 @@ sakai.flickr = function(tuid, showSettings){
 
         //Get the totaal amount of pages
         var pages = {
-            "pages": imageGalleryObject.photos.pages === 1? 1: imageGalleryObject.photos.pages * 2 
+            "pages": getPagesCorrect(imageGalleryObject.photos.total,5)
         };
 
          //Get the total amount of images from the response
@@ -647,7 +653,7 @@ sakai.flickr = function(tuid, showSettings){
 
         // Ajax call to get the user details
         $.ajax({
-            url: sakai.config.URL.flickrGetPicturesByUserIdStart,
+            url: sakai.config.URL.flickrGetPicturesByUserId,
             success: function(data){
 
                 // Get the pictures based on the userid
@@ -659,7 +665,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userId,
                 "api_key":key,
-                "page":page
+                "page":page,
+                "per_page":10
             }
         });
     };
@@ -757,6 +764,8 @@ sakai.flickr = function(tuid, showSettings){
      * @param {Object} data the response gotten form the ajax call
      */
      var displayContacts = function(data){
+
+        data = $.parseJSON(data);
 
         //Set an object that will be used to rendered the template
         contacts = $.extend(data, {}, true);
@@ -1170,6 +1179,10 @@ sakai.flickr = function(tuid, showSettings){
      */
     var displayPhotos = function(pictures){
 
+        if(typeof(pictures)!=='object'){
+            pictures = $.parseJSON(pictures);
+        }
+
         //Show the refreshbutton
         $flickrRefreshKeyButton.show();
 
@@ -1315,7 +1328,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userid,
                 "api_key":key,
-                "page":page
+                "page":page,
+                'per_page':5
             }
         });
     };
@@ -1377,7 +1391,7 @@ sakai.flickr = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.flickrGetUserDetailsByName,
             success: function(data){
-
+                data = $.parseJSON(data);
                 // Get the pictures based on the userid
                 userDetailGlob = data;
                 //Check if the user has been found, if not and error will be shown else the pictures will be shown
@@ -1415,7 +1429,9 @@ sakai.flickr = function(tuid, showSettings){
             success: function(data){
 
                 //Get the pictures based on the userid
-                getPicturesFromPerson(data);
+                data = $.parseJSON(data);
+                userDetailGlob = data;
+                getPicturesFromPerson(data.user.nsid);
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("Error at getting the user details");

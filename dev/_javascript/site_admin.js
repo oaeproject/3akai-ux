@@ -1455,6 +1455,8 @@ sakai.site.site_admin = function(){
 
 
     // Bind Insert Link click event
+    $("#more_link").html("More");
+    $("#more_link").addClass("more_link");
     $("#more_link").bind("click", function(ev){
         var el = $("#more_menu");
         if (el.css("display").toLowerCase() !== "none") {

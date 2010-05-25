@@ -3,34 +3,34 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>__MSG__WIDGET_PLAYGROUND__</title>
+        <title>__MSG__WIDGET_PLAYGROUND__ - Listpeople</title>
 
         <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+        <link rel="stylesheet" type="text/css" href="../../_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="../../_css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="../../_css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="../../_css/sakai/sakai.3.css" />
 
         <!-- Sakai Page CSS -->
         <!-- <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.profile.css" /> -->
 
         <!-- Sakai Config JS -->
-        <script type="text/javascript" src="_configuration/widgets.js"></script>
-        <script type="text/javascript" src="_configuration/config.js"></script>
+        <script type="text/javascript" src="../../_configuration/widgets.js"></script>
+        <script type="text/javascript" src="../../_configuration/config.js"></script>
 
         <!-- Core 3rd-party JS -->
-        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
-        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+        <script type="text/javascript" src="../../_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="../../_lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="../../_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="../../_lib/jquery/plugins/jquery.json.js"></script>
 
         <!-- Sakai Core JS -->
-        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="../../_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="../../_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="../../_lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
-        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="../../_lib/sakai_util/trimpath.template.js"></script>
 
     </head>
 
@@ -43,7 +43,7 @@
 
                 <!-- TITLE BAR  -->
                 <div class="s3d-site-heading fl-force-left">
-                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__</h1>
+                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__ - Listpeople</h1>
                 </div>
             </div>
         </div>
@@ -62,13 +62,13 @@
 
             // Page code
             $(window).bind("listpeople_ready", function(e, tuid){
-        
+
                 var pl_query = "/var/search/users?page=0&items=12&username=user*&_=" + (Math.random() * 100000000000000000);
                 //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
                 var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
-        
+
                 sakai.api.UI.listPeople.render(tuid, pl_query, pl_config);
-        
+
             });
 
         </script>

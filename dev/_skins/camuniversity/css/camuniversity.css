@@ -123,7 +123,7 @@ body{
 	font-size:1.15em;
 	font-weight:normal;
 	margin:0.5em 0;
-	padding:0.7em 0 0.5em;
+	padding-left:25px;
 }
 #main-content-div ol {
 	list-style-type:decimal;
@@ -165,17 +165,79 @@ body{
 	text-decoration:none;
 }
 
-.page_nav h3{
-	background:transparent url(/dev/_skins/camuniversity/images/icon-section.gif) no-repeat scroll 20px 55%;
-	color:#cc6600;
+.page_nav h3, .page_nav h2{
+	color:#cc6600 !important;
 	font-family:Arial,Helvetica,sans-serif;
 	font-size: 1.2em;
 	margin-left:2px;
 	padding:0.75em 20px 0.6em 47px;
 }
 
+.page_nav h2 {
+    padding-left:50px !important;
+    font-weight:bold !important;
+}
+
+.page_nav h3 {
+    background:transparent url(/dev/_skins/camuniversity/images/icon-section.gif) no-repeat scroll 20px 55%;
+}
+
+.siterecentactivity .si_title {
+    background:url(/dev/_images/recent_activity_icon.png) no-repeat scroll 20px 55% !important;
+}
+
+.navigation .nav_title {
+    background:url("/dev/_images/pages_icon.png") no-repeat scroll 20px 55% !important;
+}
+
+.navigation .nav_titlebar_inner {
+    padding:5px 0 0 !important;
+}
+
+.siterecentactivity .si_titlebar_inner {
+    padding: 5px 0 0 !important;
+}
+
+.navigation .nav_content, .siterecentactivity .si_content {
+    border-left:none !important;
+    border-right:none !important;
+}
+
+.tree-default li a.clicked, .tree-default li a.clicked:hover, .tree-default li span.clicked {
+    border:none !important;
+    padding:0 47px !important;
+}
+
 .page_nav #siterecentactivity_output p {
 	display: none;
+}
+
+.page_nav_content div {
+    background:none !important;
+}
+
+.add_new_menu {
+    background-color: #FFFFFF;
+    border: 1px solid #454A4F;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 128px;
+}
+
+.add_menu_spacer {
+    height: 35px;
+}
+
+.add_new_menu ul {
+    margin: 0;
+}
+
+.add_new_menu ul li {
+    list-style-type: none;
+    padding: 5px 10px;
 }
 
 /* Footer */
