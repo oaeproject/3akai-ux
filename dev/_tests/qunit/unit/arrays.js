@@ -25,9 +25,9 @@ var testCustomIndexOf = function(){
 }
 
 /**
- * Run an asynchronous test
+ * Run a test
  */
 test("Arrays: Get the first occurence of an item in an array", function(){
-    //send a message
+    //test to see if the custom index of works correctly
     testCustomIndexOf();
 });
