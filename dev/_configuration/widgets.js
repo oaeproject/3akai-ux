@@ -152,7 +152,7 @@ var Widgets = {
             "url":"/devwidgets/footer/footer.html"
         },
         "flickr": {
-            "ca": false,
+            "ca": true,
             "description": "flickr widget",
             "i18n": {
                 "default": "/devwidgets/flickr/bundles/default.json",
@@ -162,7 +162,7 @@ var Widgets = {
             "id": "flickr",
             "img": "/devwidgets/flickr/images/flickr.png",
             "name": "flickr",
-            "showinsakaigoodies": false,
+            "showinsakaigoodies": true,
             "url":"/devwidgets/flickr/flickr.html"
         },
         "filepicker": {
