@@ -43,6 +43,8 @@ var deleteMessages = function(){
 
 /**
  * Test all that's coming in and send a reply
+ * @param {boolean} bool Whether the message has been sent succesfully or not
+ * @param {Object} data The data coming in from the respons (the message)
  */
 var testMessageCallback = function(bool, data){
     //check if there's data returned
@@ -80,6 +82,8 @@ var testMessageCallback = function(bool, data){
 
 /**
  * Test the reply message and start the next test
+ * @param {boolean} bool Whether the message has been sent succesfully or not
+ * @param {Object} data The data coming in from the respons (the reply message)
  */
 var testReplyCallback = function(bool,data){
     //test that some data came in
@@ -102,6 +106,8 @@ var testReplyCallback = function(bool,data){
 
 /**
  * Login into sakai with user1 and send a message to dummyUser with subject = dummySubject and text = dummyMessage
+ * @param {String} category The category of the message
+ * @param {String} reply The id of the message on which we reply
  */
 var sendMessage = function(category, reply){
     //login first before sending a message
@@ -123,7 +129,7 @@ var sendMessage = function(category, reply){
             }
         },
         error:function(){
-            ok(false);
+            ok(false, "Couldn't login");
             start();
         }
     });
@@ -145,23 +151,6 @@ asyncTest("Messaging: Send message to multiple users", function(){
     //send message with multiple users
     sendMessage("","");
 });
-
-/**
- * A function to create new users, the user will be added to the list of dummy users.
- * @param {Array} user The user to be added in following format: {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"}
- */
-var createUser = function(user){
-    $.ajax({
-        url: "/system/userManager/user.create.json",
-        type: "POST",
-        data: user,
-        complete: function(){
-            userlist.push(user);
-            count++;
-            createUsers(count);
-        }
-    });
-}
 
 /**
  * A recursive function that creates users from the userlist
@@ -205,9 +194,10 @@ var removeUsers = function(count){
 /**
  * Do some setup before the module starts (equal to setUp in JUnit)
  * In this case, if it's a messaging test, we create some dummy users
+ * @param {String} name The name of the current module that is running
  */
-QUnit.moduleStart = function (name) {
-    if(name == "Messaging"){
+QUnit.moduleStart = function(name) {
+    if(name === "Messaging"){
         d = new Date();
         u1time = d.getMilliseconds();
         dummyUser = dummyUser + u1time;
@@ -224,9 +214,12 @@ QUnit.moduleStart = function (name) {
 /**
  * After the test is done, we undo some of the things we did during the test to keep sakai clean.(equal to tearDown in JUnit)
  * In this case, if the test is a messaging test, we remove all the dummy users
+ * @param {String} name The name of the current module that is running
+ * @param {int} failures The amount of tests that have failed in this module
+ * @param {int} total The total amount of tests in this module
  */
-QUnit.moduleDone = function (name, failures, total) {
-    if(name == "Messaging"){
+QUnit.moduleDone = function(name, failures, total) {
+    if(name === "Messaging"){
 
         //remove messages
         deleteMessages();
