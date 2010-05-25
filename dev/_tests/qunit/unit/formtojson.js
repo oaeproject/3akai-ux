@@ -12,7 +12,7 @@ var dummyForm = "<form action='javascript:;' id='dummyForm'>" +
                     "<option value='square'>Square</option>" +
                     "<option value='circle'>Circle</option>" +
                     "<option value='rectangle'>Rectangle</option>" +
-                    "<textarea rows='10' cols='30' name='description'>Demo text area</textarea>" + 
+                    "<textarea rows='10' cols='30' name='description'>Demo text area</textarea>" +
                     "</select>" +
                 "</form>";
 
@@ -31,7 +31,8 @@ var removeDummyForm = function(){
 }
 
 /**
- * Test if the indexof returns the expected index
+ * Convert the form into a JSON string
+ * Test if the form is converted correctly into a json string
  */
 var testFormToJSON = function(){
 
@@ -58,12 +59,12 @@ var testFormToJSON = function(){
 };
 
 /**
- * Run an asynchronous test
+ * Run a test to check if the values from a form are converted into a json string correctly
  */
-asyncTest("FormToJSON: Convert the values of a form to a json object", function(){
+test("FormToJSON: Convert the values of a form to a json object", function(){
     //create dummy form
     createDummyForm();
 
-    //send a message
+    //convert the form into json
     testFormToJSON();
 });
