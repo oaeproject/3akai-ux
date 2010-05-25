@@ -1313,9 +1313,184 @@ sakai.api.User = sakai.api.User || {};
 
 
 /**
+ * Create a user in the Sakai3 system.
+ * 
+ * @param {Object} user A JSON object containing all the information to create a user.
+ * @param {Function} [callback] A callback function which will be called after the request to the server.
+ */
+sakai.api.User.createUser = function(user, callback){
+
+    // Send an Ajax POST request to create a user
+    $.ajax({
+        url: sakai.config.URL.CREATE_USER_SERVICE,
+        type: "POST",
+        data: user,
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+
+/**
+ * Remove the user credentials in the Sakai3 system.
+ * Note that this doesn't actually remove the user, only its permissions.
+ * 
+ * @example
+ * sakai.api.User.createUser({
+ *     "firstName": "User",
+ *     "lastName": "0",
+ *     "email": "user.0@sakatest.edu",
+ *     "pwd": "test",
+ *     "pwdConfirm": "test",
+ *     ":name": "user0"
+ * });
+ * 
+ * @param {String} userid The id of the user you want to remove from the system
+ * @param {Function} [callback] A callback function which will be called after the request to the server.
+ */
+sakai.api.User.removeUser = function(userid, callback){
+
+    // Send an Ajax POST request to remove a user
+    $.ajax({
+        url: "/system/userManager/user/" + userid + ".delete.json",
+        type: "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+/**
+ * Log-in to Sakai3
+ * 
+ * @example
+ * sakai.api.user.login({
+ *     "username": "user1",
+ *     "password": "test"
+ * });
+ * 
+ * @param {Object} credentials JSON object container the log-in information. Contains the username and password.
+ * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
+ */
+sakai.api.User.login = function(credentials, callback) {
+
+    // Argument check
+    if (!credentials || !credentials.username || !credentials.password) {
+        fluid.log("sakai.api.user.login: Not enough or invalid arguments!");
+        return;
+    }
+
+    /*
+     * sakaiauth:un : the username for the user
+     * sakaiauth:pw : the password for the user
+     * sakaiauth:login : set to 1 because we want to perform a login action
+     */
+    var data = {
+        "sakaiauth:login": 1,
+        "sakaiauth:un": credentials.username,
+        "sakaiauth:pw": credentials.password,
+        "_charset_": "utf-8"
+    };
+
+    // Send the Ajax request
+    $.ajax({
+        url : sakai.config.URL.LOGIN_SERVICE,
+        type : "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        },
+        data : data
+    });
+
+};
+
+
+/**
+ * Log-out from Sakai3
+ * 
+ * @example sakai.api.user.logout();
+ * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
+ */
+sakai.api.User.logout = function(callback) {
+
+    // sakaiauth:logout : set to 1 because we want to perform a logout action
+    var data = {
+        "sakaiauth:logout": "1",
+        "_charset_": "utf-8"
+    };
+
+    // Send the Ajax request
+    $.ajax({
+        url : sakai.config.URL.LOGOUT_SERVICE,
+        type : "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        },
+        data: data
+    });
+
+};
+
+
+/**
  * Retrieves all available information about a logged in user and stores it under sakai.data.me object. When ready it will call a specified callback function
  *
- * @param {Function} callback A function which will be called when the information is retrieved from the server.
+ * @param {Function} [callback] A function which will be called when the information is retrieved from the server.
  * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
  * @return {Void}
  */
