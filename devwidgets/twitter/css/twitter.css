@@ -30,8 +30,7 @@
 /* Message Container */
 .twitter_error {color:#ff0000 !important;}
 .twitter_info {color:#4aa02c !important;}
-.twitter_input_text {border:1px solid #dddddd;height:19px;padding-left:3px;padding-top:3px;float:left;}
+.twitter_input_text {border:1px solid #dddddd;padding:3px}
 
-/* Buttons */
-.twitter_buttonBar {float:left;margin-top:2px;}
-.twitter_button {float:left;margin-top:-2px !important;}
+/* Icon */
+.twitter .widget_title {background:url("../images/twitter.png") no-repeat scroll 17px 17px transparent;}

@@ -1,0 +1,17 @@
+{
+"AN_ERROR_OCCURED_WHEN_SENDING_THE_STATUS_TO_THE_SERVER": "De twitter status kan niet veranderd worden wegens een fout op de server",
+"COULD_NOT_FIND_LAST_STATUS_FOR": "Kon de status voor de volgende persoon niet vinden:",
+"COULD_NOT_UPDATE_THE_TWITTER_STATUS": "De twitter status kan niet veranderd worden",
+"GET_STATUS_FROM_TWITTER": "Gebruik een status van twitter",
+"NO_STATUS_FROM_TWITTER_FOUND": "Er is geen status op twitter gevonden",
+"SCREEN_NAME": "Gebruikersnaam",
+"SET_STATUS_TO_TWITTER": "Verander je twitter status",
+"OK": "OK",
+"PASSWORD": "Paswoord",
+"PLEASE_INSERT_YOUR_PASSWORD": "Gelieve je paswoord in te vullen",
+"PLEASE_INSERT_YOUR_TWITTER_NAME": "Gelieve je twitter naam in te vullen",
+"WIDGET_TITLE": "Twitter",
+"YOUR_SAKAI_STATUS_IS_EMPTY": "Uw Sakai status is leeg",
+"YOUR_STATUS_HAS_BEEN_SUCCESSFULLY_UPDATED": "Uw status is geupdated",
+"YOUR_TWITTER_STATUS_HAS_BEEN_SUCCESSFULLY_UPDATED": "Uw twitter status is geupdated"
+}
