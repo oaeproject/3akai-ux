@@ -19,7 +19,7 @@ var testShortenString = function(){
 /**
  * Run a test
  */
-test("Shorten String: Send message to one person", function(){
+test("Send message to one person", function(){
     //shorten a string
     testShortenString();
 });

@@ -1,4 +1,4 @@
-module("Load ME data");
+module("Load me data");
 
 /**
  * The callback function for the loadme function, tests the data returned
@@ -50,6 +50,6 @@ var testLoadMeData = function(){
 /**
  * Run an asynchronous test
  */
-asyncTest("Load ME data: test if the correct data is retrieved and stored in the sakai.data.me object", function(){
+asyncTest("Test if the correct data is retrieved and stored in the sakai.data.me object", function(){
     testLoadMeData();
 });

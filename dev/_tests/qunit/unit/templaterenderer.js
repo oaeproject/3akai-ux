@@ -52,7 +52,7 @@ var testTemplateRenderer = function(){
 /**
  * Run test
  */
-test("TemplateRenderer:", function(){
+test("Render a JavaScript Template", function(){
     //create a div and a template
     createDummyDivs();
 

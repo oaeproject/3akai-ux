@@ -60,7 +60,7 @@ var testFormToJSON = function(){
 /**
  * Run a test to check if the values from a form are converted into a json string correctly
  */
-test("FormToJSON: Convert the values of a form to a json object", function(){
+test("Convert the values of a form to a json object", function(){
     //create dummy form
     createDummyForm();
 

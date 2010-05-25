@@ -140,17 +140,17 @@ var sendMessage = function(category, reply){
     });
 };
 
-asyncTest("Messaging: Send message to one person", function(){
+asyncTest("Send message to one person", function(){
     //send a message
     sendMessage("","");
 });
 
-asyncTest("Messaging: Send message to one person with a different category", function(){
+asyncTest("Send message to one person with a different category", function(){
     //send a message with a custom category
     sendMessage(dummyCategory,"");
 });
 
-asyncTest("Messaging: Send message to multiple users", function(){
+asyncTest("Send message to multiple users", function(){
     //change the dummyUser to an array of users
     dummyUser = ["user1","user2"];
     //send message with multiple users

@@ -33,6 +33,6 @@ var testJCRRemoval = function(){
 /**
  * Run a test
  */
-test("JCR Removal: test the removal of jcr objects in a json object", function(){
+test("Test the removal of jcr objects in a JSON object", function(){
     testJCRRemoval();
 });
