@@ -215,8 +215,8 @@ QUnit.moduleStart = function(name) {
  * After the test is done, we undo some of the things we did during the test to keep sakai clean.(equal to tearDown in JUnit)
  * In this case, if the test is a messaging test, we remove all the dummy users
  * @param {String} name The name of the current module that is running
- * @param {int} failures The amount of tests that have failed in this module
- * @param {int} total The total amount of tests in this module
+ * @param {Integer} failures The amount of tests that have failed in this module
+ * @param {Integer} total The total amount of tests in this module
  */
 QUnit.moduleDone = function(name, failures, total) {
     if(name === "Messaging"){
