@@ -49,7 +49,7 @@ sakai.index = function(){
      */
     var decideLoggedIn = function(data){
 
-        var mejson = (data === undefined ? sakai.data.me : $.evalJSON(data));
+        var mejson = (data === undefined ? sakai.data.me : data);
         if (mejson.user.userid) {
             document.location = redirectUrl;
         } else {

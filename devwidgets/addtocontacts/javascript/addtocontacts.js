@@ -96,8 +96,8 @@ sakai.addtocontacts = function(tuid, showSettings) {
             $(addToContactsInfoDisplayName).text(user.firstName);
 
             // Check for picture
-            if (user.picture && $.evalJSON(user.picture).name) {
-                $(addToContactsInfoProfilePicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(user.picture).name);
+            if (user.picture && $.parseJSON(user.picture).name) {
+                $(addToContactsInfoProfilePicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(user.picture).name);
             }
             else {
                 $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
@@ -239,7 +239,7 @@ sakai.addtocontacts = function(tuid, showSettings) {
                 url: sakai.data.search.results_people[user]["jcr:path"]+".json",
                 success: function(data) {
 
-                    friend = $.evalJSON(data);
+                    friend = $.extend(data, {}, true);
                     friend.uuid = user;
 
                     // Doing a rewrite of the me object, because Sling wraps arrays around

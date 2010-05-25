@@ -7,21 +7,9 @@ strong {color: #000;}
 .sites.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
 .myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images/myprofile_icon.png) no-repeat scroll 17px 18px;}
 
-/* HEADER */
-.header .greeting {padding-top: 19px;margin-right: 20px;}
-.header .greeting .greeting_picture {float: left; padding: 0 5px 10px 0;}
-.header .greeting .greeting_text {font-size: 2em; color: #454A4F; display: block; padding-top: 10px; padding-bottom: 6px; font-weight: bold;}
-.header .greeting .greeting_links {font-size: .9em; color: #454A4F; font-weight: bold;}
-.header .greeting .pipe_divider {padding: 0 12px;}
-.header .page_options { text-align: right; margin: 51px 0 0; }
-.focussedInput {color: #000000 !important;}
-
 /* OPTIONS */
-.options {clear: both;text-align: right; margin-right:10px;}
-.options .fixed-container { background-color: #fff; }
-.options a {font-size: 9pt; color: #454A4F; font-weight: bold;}
-
-.greeting_picture img { width: 60px; height: 60px; }
+.mysakai_options {text-align: right; margin: 0 10px 5px 0}
+.mysakai_options a {font-size: 9pt; color: #454A4F; font-weight: bold}
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
 #toolscontainer { margin-left: 20px; }

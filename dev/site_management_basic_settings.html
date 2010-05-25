@@ -1,179 +1,190 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sakai 3 R&amp;D - Site settings</title>
 
-    <!-- Sakai Core CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
-    <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
+    <head>
 
-    <!-- Sakai Page CSS -->
-    <link rel="stylesheet" type="text/css" href="_css/sakai/site.management.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Sakai 3 R&amp;D - __MSG__SITE_SETTINGS__</title>
 
-    <!-- 3rd party CSS -->
+        <!-- Sakai Core CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.core.2.css" />
+        <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.3.css" />
 
+        <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="_css/sakai/site.management.css" />
 
-    <!-- Sakai Config JS -->
-    <script type="text/javascript" src="_configuration/widgets.js"></script>
-    <script type="text/javascript" src="_configuration/config.js"></script>
-
-    <!-- Core 3rd-party JS -->
-    <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-    <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
-    <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
-    <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
-
-    <!-- Sakai Core JS -->
-    <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
-    <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
-
-    <!-- 3rd party JS -->
-    <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
-    <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <!-- 3rd party CSS -->
 
 
-</head>
-<body id="root" class="fl-centered fl-container i18nable basic_management">
-<!-- MESSAGES -->
-<span id="siteSettings_error_unauthorized" style="display:none;">__MSG__YOU_ARE_NOT_ALLOWED_TO_CHANGE_THIS_SITE_ARE_YOU_STILL_LOGGED_IN__</span> <span id="siteSettings_error_saveFail" style="display:none;">Failed to save the site settings.</span> <span id="siteSettings_error_saveSuccess" style="display:none;">Updated the site settings.</span>
-<!-- EXPLORE BAR -->
-<div id="widget_navigationchat" class="widget_inline"></div>
-<div class="fl-container-flex content content-management">
-    <div class="fl-fix fl-centered fixed-container">
-        <div class="decor"></div>
-        <!-- TITLE BAR  -->
-        <h1 id="sitetitle">John's New Site</h1>
-        <!-- CONTENT -->
-        <!-- SECOND HEADING -->
-        <div class="secondary_title"> __MSG__SITE_MANAGEMENT__ <a href="/sites/" class="siteSettings_appendSiteIDtoURL">&laquo; __MSG__BACK_TO_SITES__</a> </div>
-        <!-- TAB NAVIGATION -->
-        <div class="s3d-primary-tabs">
-            <ul class="fl-tabs fl-tabs-left">
-                <li class="fl-tabs-active"><a href="javascript:;">__MSG__BASIC_SETTINGS__</a></li>
-                <li><a href="site_management_members_manage.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__MEMBERS__</a></li>
-                <li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__APPEARANCE__</a></li>
-            </ul>
-        </div>
-        <div class="management_content_wrapper">
-            <div class="management_tab_content_top">
-                <div class="management_tab_content_top_inner"></div>
-            </div>
-            <div class="management_content_main">
-                <!-- DELETE SITE -->
-                <div id="siteSettings_delete_button_container">
-                    <button id="siteSettings_delete_button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__DELETE_THIS_SITE__</span></button>
+        <!-- Sakai Config JS -->
+        <script type="text/javascript" src="_configuration/widgets.js"></script>
+        <script type="text/javascript" src="_configuration/config.js"></script>
+
+        <!-- Core 3rd-party JS -->
+        <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
+        <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
+
+        <!-- Sakai Core JS -->
+        <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
+        <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
+
+        <!-- 3rd party JS -->
+        <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+
+    </head>
+
+    <body id="root" class="fl-centered fl-container i18nable basic_management">
+
+        <!-- MESSAGES -->
+        <span id="siteSettings_error_unauthorized" style="display:none;">__MSG__YOU_ARE_NOT_ALLOWED_TO_CHANGE_THIS_SITE_ARE_YOU_STILL_LOGGED_IN__</span> <span id="siteSettings_error_saveFail" style="display:none;">__MSG__FAILED_TO_SAVE_THE_SITE_SETTINGS__.</span> <span id="siteSettings_error_saveSuccess" style="display:none;">__MSG__UPDATED_THE_SITE_SETTINGS__.</span>
+
+        <!-- EXPLORE BAR -->
+        <div id="widget_navigationchat" class="widget_inline"></div>
+        <div class="fl-container-flex content content-management">
+            <div class="fl-fix fl-centered fixed-container">
+                <div class="decor"></div>
+
+                <!-- TITLE BAR  -->
+                <h1 id="sitetitle">John's New Site</h1>
+
+                <!-- CONTENT -->
+                <!-- SECOND HEADING -->
+                <div class="secondary_title"> __MSG__SITE_MANAGEMENT__ <a href="/sites/" class="siteSettings_appendSiteIDtoURL">&laquo; __MSG__BACK_TO_SITES__</a> </div>
+
+                <!-- TAB NAVIGATION -->
+                <div class="s3d-primary-tabs">
+                    <ul class="fl-tabs fl-tabs-left">
+                        <li class="fl-tabs-active"><a href="javascript:;">__MSG__BASIC_SETTINGS__</a></li>
+                        <li><a href="site_management_members_manage.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__MEMBERS__</a></li>
+                        <li><a href="site_management_appearance.html?siteid=" class="siteSettings_appendSiteIDtoURL">__MSG__APPEARANCE__</a></li>
+                    </ul>
                 </div>
-                <div class="basic_title">__MSG__BASIC_SETTINGS__</div>
-                <div class="section_container">
-                    <div class="section_header">__MSG__SUMMARY__</div>
-                    <!-- SITE INFO -->
-                    <form method="" action="" class="site_summary_form">
-                        <div class="summary-form-item">
-                            <label for="site_title">__MSG__SITE_TITLE__:</label>
-                            <input type="text" maxlength="255" id="siteSettings_info_title" class="text-field site_title" />
+                <div class="management_content_wrapper">
+                    <div class="management_tab_content_top">
+                        <div class="management_tab_content_top_inner"></div>
+                    </div>
+                    <div class="management_content_main">
+
+                        <!-- DELETE SITE -->
+                        <div id="siteSettings_delete_button_container">
+                            <button id="siteSettings_delete_button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__DELETE_THIS_SITE__</span></button>
                         </div>
-                        <div class="summary-form-item">
-                            <label>__MSG__SITE_URL__:</label>
-                            <span id="siteSettings_info_sakaiDomain"></span>/
-                            <div style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span> <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_text_edit">__MSG__EDIT__</a> </div>
-                            <div id="siteSettings_info_sitePart_edit" style="display:none;">
-                                <input type="text" maxlength="255" id="siteSettings_info_sitePart_edit_input" class="text-field site_location" />
-                                <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_edit_cancel">__MSG__CANCEL__</a>
-                                <div id="siteSettings_info_sitePart_edit_input_tooltip" style="display:none;">__MSG__ONLY_ALPHA_NUMERICAL_CHARACTERS__.</div>
+                        <div class="basic_title">__MSG__BASIC_SETTINGS__</div>
+                        <div class="section_container">
+                            <div class="section_header">__MSG__SUMMARY__</div>
+                            <!-- SITE INFO -->
+                            <form method="" action="" class="site_summary_form">
+                                <div class="summary-form-item">
+                                    <label for="siteSettings_info_title">__MSG__SITE_TITLE__:</label>
+                                    <input type="text" maxlength="255" id="siteSettings_info_title" class="text-field site_title" />
+                                </div>
+                                <div class="summary-form-item">
+                                    <label>__MSG__SITE_URL__:</label>
+                                    <span id="siteSettings_info_sakaiDomain"></span>/
+                                    <div style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span> <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_text_edit">__MSG__EDIT__</a> </div>
+                                    <div id="siteSettings_info_sitePart_edit" style="display:none;">
+                                        <input type="text" maxlength="255" id="siteSettings_info_sitePart_edit_input" class="text-field site_location" title="__MSG__EDIT__" />
+                                        <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_edit_cancel">__MSG__CANCEL__</a>
+                                        <div id="siteSettings_info_sitePart_edit_input_tooltip" style="display:none;">__MSG__ONLY_ALPHA_NUMERICAL_CHARACTERS__.</div>
+                                    </div>
+                                </div>
+                                <div class="summary-form-item">
+                                    <label for="siteSettings_info_description">__MSG__DESCRIPTION__:</label>
+                                    <input type="textarea" maxlength="255" id="siteSettings_info_description" class="text-field site_description" />
+                                </div>
+                                <div class="summary-form-item">
+                                    <label for="siteSettings_language">__MSG__LANGUAGE__:</label>
+                                    <select id="siteSettings_language" name="language">
+                                    </select>
+                                    <div id="siteSettings_languagesTemplate" style="display:none"><!--
+                                        <option value="default">__MSG__USERS_LANGUAGE__</option>
+                                        {for i in languages}
+                                            <option value="${i.language}_${i.country}">${i.displayName}</option>
+                                        {/for}
+                                    --></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="section_container">
+                            <div class="section_header">__MSG__SITE_ACCESS__</div>
+                            <form class="site_access_form" method="post" action="javascript:;">
+                                <div class="access-form-item">
+                                    <div class="site_access_label">__MSG__SITE_STATUS__:</div>
+                                    <input type="radio" id="siteSettings_status_on" class="site_online" checked="checked" name="status" />
+                                    <label class="site_status_on" for="siteSettings_status_on"> __MSG__ONLINE__</label>
+                                    <br />
+                                    <input type="radio" id="siteSettings_status_off" class="site_offline" name="status" />
+                                    <label class="site_status_off" for="siteSettings_status_off"> __MSG__OFFLINE__</label>
+                                </div>
+                                <div class="access-form-item" id="siteSettings_access">
+                                    <div class="site_access_label">__MSG__SITE_IS_AVAILABLE_TO__:</div>
+                                    <input type="radio" id="siteSettings_access_public" class="siteSetting_access site_public" checked="checked" name="privacy" />
+                                    <label for="siteSettings_access_public"> __MSG__THE_GENERAL_PUBLIC__ <span>(__MSG__INCLUDING_ANONYMOUS_VISITORS__)</span></label>
+                                    <br />
+                                    <input type="radio" id="siteSettings_access_sakaiUsers" class="siteSetting_access site_sakai_users" name="privacy" />
+                                    <label for="siteSettings_access_sakaiUsers"> __MSG__ANY_REGISTERED_SAKAI_USER__</label>
+                                    <br />
+                                    <input type="radio" id="siteSettings_access_invite" class="siteSetting_access site_private" name="privacy" />
+                                    <label for="siteSettings_access_invite"> __MSG__ONLY_PEOPLE_I_INVITE__</label>
+                                </div>
+                                <div id="siteSettings_confirm" class="settings_confirm_container">
+                                    <button id="siteSettings_save" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                                    <button id="siteSettings_cancel" class="s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                                </div>
+                                <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
+                            </form>
+                        </div>
+
+                        <!-- Dialog: Site Settings Delete Container -->
+                        <div class="dialog" id="siteSettings_delete_container">
+                            <div class="dialog_header">
+                                <div class="dialog_header_inner">
+                                    <h1>__MSG__DELETE_THIS_WEBSITE__</h1>
+                                    <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="summary-form-item">
-                            <label for="site_description">__MSG__DESCRIPTION__:</label>
-                            <input type="textarea" maxlength="255" id="siteSettings_info_description" class="text-field site_description" />
-                        </div>
-                        <div class="summary-form-item">
-                            <label for="site_description">__MSG__LANGUAGE__:</label>
-                            <select id="siteSettings_language" name="language">
-                            </select>
-                            <div id="siteSettings_languagesTemplate" style="display:none"><!--
-                                <option value="default">User's language</option>
-                                {for i in languages}
-                                    <option value="${i.language}_${i.country}">${i.displayName}</option>
-                                {/for}
-                            --></div>
-                        </div>
-                    </form>
-                </div>
-                <div class="section_container">
-                    <div class="section_header">__MSG__SITE_ACCESS__</div>
-                    <form class="site_access_form" method="post" action="javascript:;">
-                        <div class="access-form-item">
-                            <div class="site_access_label">__MSG__SITE_STATUS__:</div>
-                            <input type="radio" id="siteSettings_status_on" class="site_online" checked="checked" name="status" />
-                            <label class="site_status_on" for="site_status_on"> __MSG__ONLINE__</label>
-                            <br />
-                            <input type="radio" id="siteSettings_status_off" class="site_offline" name="status" />
-                            <label class="site_status_off" for="site_status_off"> __MSG__OFFLINE__</label>
-                        </div>
-                        <div class="access-form-item" id="siteSettings_access">
-                            <div class="site_access_label">__MSG__SITE_IS_AVAILABLE_TO__:</div>
-                            <input type="radio" id="siteSettings_access_public" class="siteSetting_access site_public" checked="checked" name="privacy" />
-                            <label for="allow_public"> __MSG__THE_GENERAL_PUBLIC__ <span>(__MSG__INCLUDING_ANONYMOUS_VISITORS__)</span></label>
-                            <br />
-                            <input type="radio" id="siteSettings_access_sakaiUsers" class="siteSetting_access site_sakai_users" name="privacy" />
-                            <label for="allow_sakai_users"> __MSG__ANY_REGISTERED_SAKAI_USER__</label>
-                            <br />
-                            <input type="radio" id="siteSettings_access_invite" class="siteSetting_access site_private" name="privacy" />
-                            <label for="allow_invite"> __MSG__ONLY_PEOPLE_I_INVITE__</label>
-                        </div>
-                        <div id="siteSettings_confirm" class="settings_confirm_container">
-                            <button id="siteSettings_save" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                            <button id="siteSettings_cancel" class="s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                        </div>
-                         <div id="siteSettings_response" class="settings_confirm_container" style="display:none"></div>
-                    </form>
-                </div>
-                <!-- Dialog: Site Settings Delete Container -->
-                <div class="dialog" id="siteSettings_delete_container">
-                    <div class="dialog_header">
-                        <div class="dialog_header_inner">
-                            <h1>__MSG__DELETE_THIS_WEBSITE__</h1>
-                            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">__MSG__CLOSE_DIALOG__</a>
+                            <div class="dialog_content">
+                                <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_WEBSITE_DELETING_THIS_WEBSITE_WILL_DELETE_ALL_RELATED_CONTENT_AND_WIDGETS__.</p>
+                                <div class="delete_site_warning"><strong>__MSG__WARNING__!</strong> __MSG__THIS_OPERATION_IS_NOT_REVERSIBLE__</div>
+
+                                <!-- DIALOG BUTTONS -->
+                                <div class="dialog_buttons">
+                                    <a href="javascript:;" class="button-default" id="siteSettings_delete_yes">__MSG__YES__</a>
+                                    <a href="javascript:;" class="button jqmClose" id="siteSettings_delete_no">__MSG__NO__</a>
+                                </div>
+                            </div>
+
+                            <!-- DIALOG FOOTER -->
+                            <div class="dialog_footer">
+                                <div class="dialog_footer_inner"><!-- --></div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="dialog_content">
-                        <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_WEBSITE_DELETING_THIS_WEBSITE_WILL_DELETE_ALL_RELATED_CONTENT_AND_WIDGETS__.</p>
-                        <div class="delete_site_warning"><strong>__MSG__WARNING__!</strong> __MSG__THIS_OPERATION_IS_NOT_REVERSIBLE__</div>
-
-                        <!-- DIALOG BUTTONS -->
-                        <div class="dialog_buttons">
-                            <a href="javascript:;" class="button-default" id="siteSettings_delete_yes">__MSG__YES__</a>
-                            <a href="javascript:;" class="button jqmClose" id="siteSettings_delete_no">__MSG__NO__</a>
-                        </div>
-                    </div>
-
-                    <!-- DIALOG FOOTER -->
-                    <div class="dialog_footer">
-                        <div class="dialog_footer_inner"><!-- --></div>
+                    <div class="management_tab_content_bottom">
+                        <div class="management_tab_content_bottom_inner"></div>
                     </div>
 
                 </div>
             </div>
-            <div class="management_tab_content_bottom">
-                <div class="management_tab_content_bottom_inner"></div>
-            </div>
-
         </div>
-    </div>
-</div>
 
-<!-- FOOTER WIDGET -->
-<div id="widget_footer" class="widget_inline footercontainer"></div>
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-<!-- Sakai page JS -->
-<script type="text/javascript" src="_javascript/site_basic_settings.js"></script>
-</body>
+        <!-- Sakai page JS -->
+        <script type="text/javascript" src="_javascript/site_basic_settings.js"></script>
+
+    </body>
+
 </html>

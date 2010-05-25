@@ -1,6 +1,6 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/comments.css" />
-<link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.components.jq_pager.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/comments/css/jq_pager.css" />
 
 <!-- MAIN VIEW -->
 <div id="comments_mainContainer" class="fl-widget-content" style="display:none;">
@@ -40,6 +40,7 @@
 
                 <div class="comments_commentMessage">
                 <div class="comments_commentLinks">
+                    <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
                         {if i.canEdit && i.canEdit === true}
                             <li><a href="javascript:;" class="comments_edit" id="comments_edit_${i['sakai:id']}">Edit</a></li>

@@ -113,7 +113,7 @@ sakai.search = function() {
 
         currentpage = page;
         // This will invoke the sakai._search.doSearch function and change the url.
-        History.addBEvent("" + page + "|" + encodeURIComponent(searchquery) + "|" + searchwhere);
+        History.addBEvent(page, encodeURIComponent(searchquery), searchwhere);
     };
 
     /**
@@ -251,8 +251,7 @@ sakai.search = function() {
                 url: sakai.config.URL.SEARCH_CONTENT_COMPREHENSIVE_SERVICE + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sites=" + searchWhere,
                 cache: false,
                 success: function(data) {
-                    var json = $.evalJSON(data);
-                    renderResults(json, true);
+                    renderResults(data, true);
                 },
                 onFail: function(status) {
                     var json = {};
