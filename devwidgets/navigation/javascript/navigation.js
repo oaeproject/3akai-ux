@@ -229,7 +229,7 @@ sakai.navigation = function(tuid, showSettings){
 
                     // If page is not the current page load it
                     if (sakai.site.selectedpage !== current_page_urlsafetitle) {
-                        sakai.site.openPageH(current_page_urlsafetitle);
+                        History.addBEvent(current_page_urlsafetitle);
                     }
                 },
 

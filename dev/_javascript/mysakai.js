@@ -231,7 +231,7 @@ sakai.dashboard = function(){
             }
             jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-            myportaljson = $.evalJSON(jsonstring);
+            myportaljson = $.parseJSON(jsonstring);
 
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
@@ -251,15 +251,6 @@ sakai.dashboard = function(){
             document.location = "/dev/index.html";
         }
         else {
-
-            $("#hispan").text(person.profile.firstName);
-
-            if (person.profile.picture){
-                var picture = $.evalJSON(person.profile.picture);
-                if (picture.name) {
-                    $("#picture_holder").html("<img src='/_user" + person.profile.path + "/public/profile/" + picture.name + "'/>");
-                }
-            }
 
             $(".body-container").show();
 
@@ -372,7 +363,7 @@ sakai.dashboard = function(){
 
             jsonstring += '},"layout":"' + sakai.data.my_sakai.selectedLayout + '"}';
 
-            myportaljson = $.evalJSON(jsonstring);
+            myportaljson = $.parseJSON(jsonstring);
             layout = myportaljson;
 
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
@@ -630,7 +621,7 @@ sakai.dashboard = function(){
 
             serString += '},"layout":"' + myportaljson.layout + '"}';
 
-            myportaljson = $.evalJSON(serString);
+            myportaljson = $.parseJSON(serString);
 
             var isempty = true;
             for (i in myportaljson.columns){
@@ -813,7 +804,7 @@ sakai.dashboard = function(){
         }
         jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-        myportaljson = $.evalJSON(jsonstring);
+        myportaljson = $.parseJSON(jsonstring);
 
         sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
@@ -949,11 +940,23 @@ sakai.dashboard = function(){
     // Initialisation function //
     /////////////////////////////
 
-    /*
-     * This will try to load the dashboard state file from the SData personal space
+    /**
+     * Init function for the dashboard page
      */
+    var init = function(){
 
-    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+        // Set the entity mode
+        sakai.data.entity = sakai.data.entity || {};
+        sakai.data.entity.mode = "myprofile";
+
+        /*
+         * This will try to load the dashboard state file from the SData personal space
+         */
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+
+    };
+
+    init();
 
 };
 

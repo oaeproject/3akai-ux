@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -23,7 +24,7 @@
 
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
-        <script type="text/javascript" src="_lib/jquery/jquery-ui.custom.js"></script>
+        <script type="text/javascript" src="_lib/jquery/jquery-ui.full.js"></script>
         <script type="text/javascript" src="_lib/Fluid/3akai_Infusion.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/jquery.json.js"></script>
 
@@ -113,7 +114,6 @@
                             <h4 class="profile_section_header">__MSG__BASIC_INFO__</h4>
 
                             <div class="profile_section_body">
-
                                 <table>
                                     <tr>
                                         <th class="entry_label">__MSG__NAME__:</th>
@@ -231,49 +231,49 @@
                             <div id="papers_list_template"><!--
                                 {for i in items}
                                     <div class="multi_entry paper_record" id="paper_record_${i.id}">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <div class="paper_record_div multifield_out" id="paper_record_${i.id}_div" style="line-height:20px">
-                                                    <span class="author firstauthor">
-                                                        <span class="family-name" style="font-variant: small-caps;">${i.auth}</span>
-                                                    </span> ;
-                                                    {if i.coauth}
-                                                        <span class="author">
-                                                        <span class="family-name" style="font-variant: small-caps; ">${i.coauth}</span>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div class="paper_record_div multifield_out" id="paper_record_${i.id}_div" style="line-height:20px">
+                                                        <span class="author firstauthor">
+                                                            <span class="family-name" style="font-variant: small-caps;">${i.auth}</span>
+                                                        </span> ;
+                                                        {if i.coauth}
+                                                            <span class="author">
+                                                            <span class="family-name" style="font-variant: small-caps; ">${i.coauth}</span>
+                                                            </span>
+                                                        {/if}
+                                                        (<span class="year">${i.year}</span>):
+                                                        <span style="font-style: italic; ">
+                                                            <span class="title">${i.title}</span>.
+                                                            Vol. <span class="volume">${i.vol}</span>:
+                                                            <span class="volumetitle">${i.voltitle}</span>.
                                                         </span>
-                                                    {/if}
-                                                    (<span class="year">${i.year}</span>):
-                                                    <span style="font-style: italic; ">
-                                                        <span class="title">${i.title}</span>.
-                                                        Vol. <span class="volume">${i.vol}</span>:
-                                                        <span class="volumetitle">${i.voltitle}</span>.
-                                                    </span>
-                                                    {if i.edition}
-                                                        <span class="edition">${i.edition}</span>.
-                                                    {/if}
-                                                    <span class="place">${i.place}</span> :
-                                                    <span class="publisher">${i.publisher}</span>
-                                                    (<span class="overalltitle">${i.ovtitle}</span>
-                                                    <span class="number">${i.number}</span>)
-                                                    {if i.url}
-                                                        <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_PAPER_RECORD__"><img alt="__MSG__TO_SEE_THE_PAPER_RECORD__" src="_images/link_icon.gif" border="0"></a>
-                                                    {/if}
-                                                </div>
-                                            </td>
-                                            <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                            </td>
-                                        </tr>
-                                    </table>
+                                                        {if i.edition}
+                                                            <span class="edition">${i.edition}</span>.
+                                                        {/if}
+                                                        <span class="place">${i.place}</span> :
+                                                        <span class="publisher">${i.publisher}</span>
+                                                        (<span class="overalltitle">${i.ovtitle}</span>
+                                                        <span class="number">${i.number}</span>)
+                                                        {if i.url}
+                                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_PAPER_RECORD__"><img alt="__MSG__TO_SEE_THE_PAPER_RECORD__" src="_images/link_icon.gif" border="0"></a>
+                                                        {/if}
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer" />
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div class="greydotted"></div>
-                                    {forelse}
+                                {forelse}
                                     <table style="width:100%">
                                         <tr>
-                                        <td colspan="2">
-                                            <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
-                                        </td>
+                                            <td colspan="2">
+                                                <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
+                                            </td>
                                         </tr>
                                     </table>
                                 {/for}
@@ -296,28 +296,28 @@
                             <div id="talks_list_template"><!--
                                 {for i in items}
                                     <div class="multi_entry talk_record" id="talk_record_${i.id}">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
-                                                    <b>${i.title}</b>
-                                                    {if i.url}
-                                                        <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD__"><img src="_images/link_icon.gif" border="0" alt="__MSG__TO_SEE_THE_TALK_RECORD__"></a>
-                                                    {/if}
-                                                    <br/>
-                                                    {if i.coauth}
-                                                        Presented with ${i.coauth}
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
+                                                        <b>${i.title}</b>
+                                                        {if i.url}
+                                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD__"><img src="_images/link_icon.gif" border="0" alt="__MSG__TO_SEE_THE_TALK_RECORD__"></a>
+                                                        {/if}
                                                         <br/>
-                                                    {/if}
-                                                    <span style="font-size:0.9em; color:#CCCCCC">${i.date} (${i.place})</span>
-                                                    <br/>
-                                                </div>
-                                            </td>
-                                            <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                            </td>
-                                        </tr>
-                                    </table>
+                                                        {if i.coauth}
+                                                            Presented with ${i.coauth}
+                                                            <br/>
+                                                        {/if}
+                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.date} (${i.place})</span>
+                                                        <br/>
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer" />
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div class="greydotted"></div>
                                 {forelse}
@@ -348,35 +348,35 @@
                             <div id="jobs_list_template"><!--
                                 {for i in items}
                                     <div class="multi_entry job_record" id="job_record_${i.id}">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td>
-                                                <div class="job_record_div multifield_out" id="job_record_${i.id}_div" style="line-height:20px">
-                                                    <b>${i.role}</b>
-                                                    <br/>
-                                                    ${i.company} (${i.country})<br/>
-                                                    {if i.description}
-                                                        ${i.description}
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td>
+                                                    <div class="job_record_div multifield_out" id="job_record_${i.id}_div" style="line-height:20px">
+                                                        <b>${i.role}</b>
                                                         <br/>
-                                                    {/if}
-                                                    <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
-                                                    <br/>
-                                                </div>
-                                            </td>
-                                            <td style="width:15px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                            </td>
-                                        </tr>
-                                    </table>
+                                                        ${i.company} (${i.country})<br/>
+                                                        {if i.description}
+                                                            ${i.description}
+                                                            <br/>
+                                                        {/if}
+                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
+                                                        <br/>
+                                                    </div>
+                                                </td>
+                                                <td style="width:15px" class="centertd">
+                                                    <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer" />
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
-                                <div class="greydotted"></div>
+                                    <div class="greydotted"></div>
                                 {forelse}
                                     <table>
-                                    <tr>
-                                        <td colspan="2">
-                                        <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                            <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
+                                            </td>
+                                        </tr>
                                     </table>
                                 {/for}
                             --></div>
@@ -436,11 +436,11 @@
                                     </div>
                                 {forelse}
                                     <table>
-                                    <tr>
-                                        <td colspan="2" style="padding-bottom:0px; padding-left:0px">
-                                            <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding-bottom:0px; padding-left:0px">
+                                                <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
+                                            </td>
+                                        </tr>
                                     </table>
                                 {/for}
                                 <div style="height:1em"></div>
@@ -555,7 +555,6 @@
                 <div class="dialog_footer_inner"><!-- --></div>
             </div>
             <div class="dialog_footer" style="padding-left: 15px; height: 40px;">
-
             </div>
 
         </div>
@@ -589,7 +588,7 @@
 
                     <h4>__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__:</h4>
 
-                    <textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note" style="padding:4px"></textarea>
+                    <textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note" title="__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__" style="padding:4px"></textarea>
 
                 </form>
 
@@ -617,4 +616,5 @@
         <script type="text/javascript" src="_javascript/profile.js"></script>
 
     </body>
+
 </html>

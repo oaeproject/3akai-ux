@@ -1,59 +1,50 @@
 var History = {
-
-    history_cur : -1,
-    readyForReload : false,
-
-    historyChange : function(newLocation, historyData) {
-        History.checkChange();
-    },
-
-    checkChange : function(){
-        var str = "" + document.location;
-        var hashIndex = str.indexOf("#");
-        var ourarg = 1;
-        if (hashIndex !== -1){
-            var hashString = str.substring(hashIndex + 1);
-            var hashInt = parseInt(hashString,10);
-            if (hashString === "" || hashInt === -1){
-                hashInt = 1;
-            }
-            ourarg = hashInt;
-        }
-    },
-
-    history_change : function(){
-        var str = "" + document.location;
-        var hashIndex = str.indexOf("#");
-        var ourarg = "";
-        if (hashIndex !== -1){
-            var hashString = str.substring(hashIndex + 1);
-            ourarg = hashString;
-        }
-        if (ourarg != History.history_cur){
-            History.history_cur = ourarg;
-            if (ourarg){
-                sakai._search.doSearch(parseInt(ourarg.split("|")[0]),ourarg.split("|")[1],ourarg.split("|")[2]);
+    prev_url : -1,
+    
+    history_change : function(e) {
+        if (e == undefined) return;
+        var url = e.fragment;
+        if (url != History.prev_url){ // should be checking individual params, not just the string composition
+            if (url){
+                if (sakai._search.doSearch) {
+                  sakai._search.doSearch($.bbq.getState('page'), $.bbq.getState('q'), $.bbq.getState('filter'));
+                  History.prev_url = url;
+                } else { // is hasn't loaded in yet, so lets try every 10ms, using the jQuery animate version of setTimeout
+                  $('html').animate({ opacity:1},10, function() { 
+                    $(window).trigger('hashchange');
+                  });
+                }
             } else {
-                sakai._search.reset();
+                if (sakai._search.reset) {
+                  sakai._search.reset();
+                  History.prev_url = url;
+                } else { 
+                  $('html').animate({ opacity:1},10, function() { 
+                    $(window).trigger('hashchange');
+                  }); 
+                }
             }
         }
-        setTimeout("History.history_change()",100);
     },
-
-    addBEvent: function(id){
-
-        var a = [];
-        a[0] = "" + id;
-        a[1] = "" + id;
-        dhtmlHistory.add(a[0],a[1]);
-
+    
+    addBEvent : function(page, query, filter) {
+      var state = {};
+      state['q'] = query;
+      state['filter'] = filter || "";
+      state['page'] = page || "1";
+      $.bbq.pushState(state);
     }
 
-};
+}
 
-window.dhtmlHistory.create({debugMode: false});
-
-window.onload = function() {
-    dhtmlHistory.initialize();
-    dhtmlHistory.addListener(History.historyChange);
-};
+$(function() {
+  var cache = {
+    '': $(".search-container")
+  };
+  
+  $(window).bind('hashchange', function(e) {
+    History.history_change(e);
+  });
+  
+  $(window).trigger('hashchange');
+});

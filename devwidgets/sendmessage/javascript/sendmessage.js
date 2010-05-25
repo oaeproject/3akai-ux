@@ -132,8 +132,8 @@ if (!sakai.sendmessage){
                 // The formatting of the results in the dropdown list.
                 formatItem: function(row){
                     var s = '<img src="/dev/_images/profile_icon.png" alt="profile icon" width="24" height="24" /> ';
-                    if (row.profile.picture && $.evalJSON(row.profile.picture).name) {
-                        s = '<img src="/_user' + sakai.data.me.profile.path + '/public/profile/' + $.evalJSON(row.profile.picture).name + '" alt="profile icon" width="24" height="24" /> ';
+                    if (row.profile.picture && $.parseJSON(row.profile.picture).name) {
+                        s = '<img src="/_user' + sakai.data.me.profile.path + '/public/profile/' + $.parseJSON(row.profile.picture).name + '" alt="profile icon" width="24" height="24" /> ';
                     }
                     return s + "<span>" + row.profile.firstName + ' ' + row.profile.lastName + "</span>";
                 }
@@ -167,23 +167,22 @@ if (!sakai.sendmessage){
             $.ajax({
                 url: "/var/contacts/accepted.json?page=0&items=100",
                 success: function(data){
-                    var json = $.evalJSON(data);
-                        allFriends = [];
-                        if (json.results) {
-                            var searchArray = [];
-                            for (var i = 0, j = json.results.length; i < j;  i++) {
-                                // Add it too the array.
-                                allFriends.push(json.results[i]);
-                            }
-                            // This will give a nice drop down list with our friends.
-                            autoCompleteFriends(allFriends);
-                            $(messageFieldSubject).focus();
-                            $(messageFieldMultipleTo).focus();
-                       }
+                    allFriends = [];
+                    if (data.results) {
+                        var searchArray = [];
+                        for (var i = 0, j = data.results.length; i < j; i++) {
+                            // Add it too the array.
+                            allFriends.push(data.results[i]);
+                        }
+                        // This will give a nice drop down list with our friends.
+                        autoCompleteFriends(allFriends);
+                        $(messageFieldSubject).focus();
+                        $(messageFieldMultipleTo).focus();
+                    }
 
                 },
-                error: function(xhr, textStatus, thrownError) {
-                    showGeneralMessage(messageDone, $(messageErrorFriends).text(), true,0);
+                error: function(xhr, textStatus, thrownError){
+                    showGeneralMessage(messageDone, $(messageErrorFriends).text(), true, 0);
                 }
             });
         };
@@ -545,7 +544,6 @@ if (!sakai.sendmessage){
         ////////////////////////
         // jqModal functions  //
         ////////////////////////
-
 
         $(messageDialogContainer).jqm({
             modal: true,

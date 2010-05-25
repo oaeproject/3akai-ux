@@ -172,7 +172,6 @@ sakai.flickr = function(tuid, showSettings){
     sakai.config.URL.flickrGetUserDetailsByEMail = "/var/proxy/flickr/flickrGetUserDetailsByEMail.json";
     sakai.config.URL.flickrGetUserDetailsByName = "/var/proxy/flickr/flickrGetUserDetailsByName.json";
     sakai.config.URL.flickrGetPicturesByUserId = "/var/proxy/flickr/flickrGetPicturesByUserId.json";
-    sakai.config.URL.flickrGetPicturesByUserIdStart = "/var/proxy/flickr/flickrGetPicturesByUserIdStart.json";
     sakai.config.URL.flickrGetFriendsFromUser = "/var/proxy/flickr/flickrGetFriendsFromUser.json";
     sakai.config.URL.flickrStaticImageUrl = "http://farm3.static.flickr.com/";
 
@@ -244,15 +243,16 @@ sakai.flickr = function(tuid, showSettings){
      */
     var makeImageGallery = function(pictures){
 
+       if (typeof(pictures) !== "object") {
+           pictures = $.parseJSON(pictures);
+       }
+
         //Array for all the pictures
         var pictureUrlArray = [];
 
-        //Convert the data to an object
-        var pics = $.evalJSON(pictures);
-
         //Give the object a key in an array so it"s easier to address
         var parsedPics = {
-            all: pics.photos.photo
+            all: pictures.photos.photo
         };
 
         //Loop over the pictures in the array and add them transform them into a url and add them to the array
@@ -342,7 +342,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userId,
                 "api_key":key,
-                "page":newPage
+                "page":newPage,
+                'per_page':5
             }
         });
     };
@@ -590,6 +591,8 @@ sakai.flickr = function(tuid, showSettings){
      */
     var showPicturesFromPersonStart = function(data){
 
+        data = $.parseJSON(data);
+
         //Show the refresh button
         $flickrRefreshImages.show();
 
@@ -599,15 +602,15 @@ sakai.flickr = function(tuid, showSettings){
         // Hide the ajax loader
         $flickrLoadingPersonImage.hide();
 
-        // Convert the data into an object so that the pages can be read
-         imageGalleryObject = $.evalJSON(data);
+        // Clone the data object
+        imageGalleryObject = $.extend(data, {}, true);
 
         // The currentpage is 1 since there are 10 images now
         currentPage = 1;
 
         //Get the totaal amount of pages
         var pages = {
-            "pages": imageGalleryObject.photos.pages === 1? 1: imageGalleryObject.photos.pages * 2 
+            "pages": getPagesCorrect(imageGalleryObject.photos.total,5)
         };
 
          //Get the total amount of images from the response
@@ -650,7 +653,7 @@ sakai.flickr = function(tuid, showSettings){
 
         // Ajax call to get the user details
         $.ajax({
-            url: sakai.config.URL.flickrGetPicturesByUserIdStart,
+            url: sakai.config.URL.flickrGetPicturesByUserId,
             success: function(data){
 
                 // Get the pictures based on the userid
@@ -662,7 +665,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userId,
                 "api_key":key,
-                "page":page
+                "page":page,
+                "per_page":10
             }
         });
     };
@@ -761,8 +765,10 @@ sakai.flickr = function(tuid, showSettings){
      */
      var displayContacts = function(data){
 
+        data = $.parseJSON(data);
+
         //Set an object that will be used to rendered the template
-         contacts = $.evalJSON(data);
+        contacts = $.extend(data, {}, true);
 
         $(contacts.contacts.contact).each(function(){
             $(this)[0].nsid = $(this)[0].nsid.replace('@','X');
@@ -773,19 +779,18 @@ sakai.flickr = function(tuid, showSettings){
 
             //Fill in the necessairy data
             contacts.user = prevcontactsArr[contactsCounter].username;
-            contacts.userid = prevcontactsArr[contactsCounter].userid.replace('@','X');;
+            contacts.userid = prevcontactsArr[contactsCounter].userid.replace('@','X');
             contacts.prevusr = previousUser;
 
         //check if userDetail is empty (in this object you can find the current user details)
         }else if (!userDetail) {
-            var currentUserObject = $.evalJSON(userDetailGlob);
-            contacts.user = currentUserObject.user.username._content;
-            contacts.userid = currentUserObject.user.nsid.replace('@','X');
+            contacts.user = userDetailGlob.user.username._content;
+            contacts.userid = userDetailGlob.user.nsid.replace('@','X');
             contacts.prevusr = previousUser;
         }
         else {
             contacts.user = userDetail.username;
-            contacts.userid = userDetail.userid.replace('@','X');;
+            contacts.userid = userDetail.userid.replace('@','X');
             contacts.prevusr = previousUser;
         }
         $flickrContacts.html($.TemplateRenderer($flickrContactsTemplate, contacts));
@@ -1174,6 +1179,10 @@ sakai.flickr = function(tuid, showSettings){
      */
     var displayPhotos = function(pictures){
 
+        if(typeof(pictures)!=='object'){
+            pictures = $.parseJSON(pictures);
+        }
+
         //Show the refreshbutton
         $flickrRefreshKeyButton.show();
 
@@ -1186,18 +1195,15 @@ sakai.flickr = function(tuid, showSettings){
         //Render the image gallery
         $('ul', $flickrKeyGallery).append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(pictures)));
 
-        // Convert the data into an object so that the pages can be read
-        var imageGalleryObjectKey = $.evalJSON(pictures);
-
         // The currentpage is 1 since there are 10 images now
         currentPageKey = 1;
 
         //Get the totaal amount of pages
         var pagesKey = {
-            "pages": imageGalleryObjectKey.photos.pages * 2 
+            "pages": pictures.photos.pages * 2 
         };
 
-        totalImagesKey = imageGalleryObjectKey.photos.total;
+        totalImagesKey = pictures.photos.total;
 
         totalKeyPages = pagesKey.pages;
 
@@ -1209,7 +1215,7 @@ sakai.flickr = function(tuid, showSettings){
         //Show the first 5 images
         $('img', $flickrKeyGallery).slice((currentPageKey - 1) * imgPerPage, (currentPageKey * imgPerPage)).fadeIn(1500);
 
-        bindPluginsKey( imageGalleryObjectKey.photos.page,pagesKey);
+        bindPluginsKey(pictures.photos.page,pagesKey);
     };
 
     /**
@@ -1286,9 +1292,6 @@ sakai.flickr = function(tuid, showSettings){
      */
     var showPicturesFromPerson = function(data){
 
-        //Convert the data into an object so that the pages can be read
-        imageGalleryObject = $.evalJSON(data);
-
         //Render the image gallery
         $flickrKeyPersonGallery.children('ul').append($.TemplateRenderer($flickrImageGalleryTemplate, makeImageGallery(data)));
 
@@ -1325,7 +1328,8 @@ sakai.flickr = function(tuid, showSettings){
             data: {
                 "userid": userid,
                 "api_key":key,
-                "page":page
+                "page":page,
+                'per_page':5
             }
         });
     };
@@ -1387,12 +1391,11 @@ sakai.flickr = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.flickrGetUserDetailsByName,
             success: function(data){
-
+                data = $.parseJSON(data);
                 // Get the pictures based on the userid
                 userDetailGlob = data;
-                var userDetailsObject = $.evalJSON(data);
                 //Check if the user has been found, if not and error will be shown else the pictures will be shown
-                if (userDetailsObject.stat === "fail") {
+                if (data.stat === "fail") {
 
                     //Hide the image loader since there's an error
                     $flickrLoadingPersonImage.hide();
@@ -1400,7 +1403,7 @@ sakai.flickr = function(tuid, showSettings){
                     $flickrNoPersonError.show();
                 }
                 else {
-                    getPicturesFromPerson(userDetailsObject.user.nsid);
+                    getPicturesFromPerson(data.user.nsid);
                 }
             },
             error: function(xhr, textStatus, thrownError){
@@ -1426,7 +1429,9 @@ sakai.flickr = function(tuid, showSettings){
             success: function(data){
 
                 //Get the pictures based on the userid
-                getPicturesFromPerson(data);
+                data = $.parseJSON(data);
+                userDetailGlob = data;
+                getPicturesFromPerson(data.user.nsid);
             },
             error: function(xhr, textStatus, thrownError){
                 fluid.log("Error at getting the user details");
@@ -1692,12 +1697,9 @@ sakai.flickr = function(tuid, showSettings){
 
         $($flickrDropHereImage.parent(), $flickSidebar).remove();
 
-        //Convert the data to an object
-        var imgObject = $.evalJSON(data);
-
         //Give the object a key to render it
         var pictures = {
-            "all": imgObject
+            "all": data
         };
 
         //Render the images in the sidebar
@@ -1884,15 +1886,13 @@ sakai.flickr = function(tuid, showSettings){
      */
     var makeMediumGallery = function (data){
 
-        //Convert the data to an object
-        var imagesObject = $.evalJSON(data);
         var imageArray = [];
 
         // Convert the object to an array
-        for (var c in imagesObject) {
-            if (imagesObject.hasOwnProperty(c)) {
-                if (typeof(imagesObject[c]) === "object") {
-                    imageArray.push(imagesObject[c]);
+        for (var c in data) {
+            if (data.hasOwnProperty(c)) {
+                if (typeof(data[c]) === "object") {
+                    imageArray.push(data[c]);
                 }
             }
         }

@@ -220,8 +220,8 @@ sakai.discussion = function(tuid, showSettings) {
         // Check if the picture is undefined or not
         // The picture name will be undefined if the other user is in process of
         // changing his/her picture
-        if (picture && $.evalJSON(picture).name) {
-            return "/_user/public/" + uuid + "/" + $.evalJSON(picture).name;
+        if (picture && $.parseJSON(picture).name) {
+            return "/_user/public/" + uuid + "/" + $.parseJSON(picture).name;
         }
         return sakai.config.URL.USER_DEFAULT_ICON_URL;
     };
@@ -555,8 +555,7 @@ sakai.discussion = function(tuid, showSettings) {
     var showPosts = function(response, exists) {
         if (exists) {
             try {
-                var oPosts = $.evalJSON(response);
-                getPostInfo(oPosts.results);
+                getPostInfo(response.results);
             }
             catch (err) {
                 alert(err);
@@ -853,15 +852,14 @@ sakai.discussion = function(tuid, showSettings) {
             cache: false,
             url: url,
             success: function(data){
-                var json = $.evalJSON(data);
-                if (json.results) {
+                if (data.results) {
                     // Save the results for later.
-                    allDiscussions = json.results;
+                    allDiscussions = data.results;
                     // Hide the no discussion message.
                     $(discussionNoDiscussions, rootel).hide();
                     // Render the list that contains the existing discussions
 
-                    json.settings = widgetSettings;
+                    data.settings = widgetSettings;
 
                     // If we have a local store we check all our initial nodes and set our text.
                     for (var i = 0, j = allDiscussions.length; i < j; i++) {
@@ -872,7 +870,7 @@ sakai.discussion = function(tuid, showSettings) {
                         }
                     }
 
-                    $(discussionSettingsExistingContainer, rootel).html($.TemplateRenderer(discussionSettingsExistingContainerTemplate, json));
+                    $(discussionSettingsExistingContainer, rootel).html($.TemplateRenderer(discussionSettingsExistingContainerTemplate, data));
                 }
                 else {
                     // No discussions available.
@@ -959,7 +957,7 @@ sakai.discussion = function(tuid, showSettings) {
 
             if (success) {
 
-                widgetSettings = $.evalJSON(data);
+                widgetSettings = $.extend(data, {}, true);
                 if (widgetSettings.marker !== undefined) {
                     marker = widgetSettings.marker;
                 }

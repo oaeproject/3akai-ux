@@ -51,7 +51,7 @@ sakai.site_manage_members = function() {
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response) {
-                siteJson = $.evalJSON(response);
+                siteJson = $.parseJSON(response);
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
             },
@@ -176,12 +176,11 @@ sakai.site_manage_members = function() {
     var renderMembers = function(members, isNew) {
       var results = members.results;
       for (var i = 0; i < results.length; i++) {
-          if (typeof results[i].picture !== "undefined") {
-              if (typeof results[i].picture !== "object") {
-                results[i].picture = $.evalJSON(results[i].picture);
-                results[i].picture.picPath = "/_user" + results[i].path + "/public/profile/" + results[i].picture.name;
-              }
-          } else {
+          if (results[i].picture && typeof results[i].picture !== "object") {
+              results[i].picture = $.parseJSON(results[i].picture);
+              results[i].picture.picPath = "/_user" + results[i].path + "/public/profile/" + results[i].picture.name;
+          }
+          else {
               results[i].picture = undefined;
           }
           results[i].role = sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
@@ -263,10 +262,10 @@ sakai.site_manage_members = function() {
             cache: false,
             url: "/sites/" + selectedSite + ".members.json?sort=firstName,asc&start=" + start + "&items=" + pageSize,
             success: function(data) {
-                json = $.evalJSON(data);
+                json = $.extend(data, {}, true);
 
                 //getSiteMembersData(searchTerm, page, splitChar);
-                 renderMembers(json,true);
+                renderMembers(json,true);
 
             },
             error: function(xhr, textStatus, thrownError) {

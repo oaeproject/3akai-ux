@@ -358,8 +358,8 @@ sakai.sitemembers = function(tuid, showSettings){
             }
             if (typeof user.picture === "object") {
                 user.picture = user.picture[0];
-            } else if (user.picture && $.evalJSON(user.picture).name) {
-                user.picture = "/_user" + user.path + "/public/profile/" + $.evalJSON(user.picture).name;
+            } else if (user.picture && $.parseJSON(user.picture).name) {
+                user.picture = "/_user" + user.path + "/public/profile/" + $.parseJSON(user.picture).name;
             }
             if (typeof user["rep:userId"] === "object") {
                 user.userid = user["rep:userId"][0];
@@ -376,12 +376,12 @@ sakai.sitemembers = function(tuid, showSettings){
             // The fullname for this user. (User for filtering)
             user.fullname = user.firstName + " " + user.lastName;
 
-            user.basic = user.basic ? $.evalJSON(user.basic) : "";
-            user.aboutme = user.aboutme ? $.evalJSON(user.aboutme) : "";
-            user.education = user.education ? $.evalJSON(user.education) : "";
-            user.talks = user.talks ? $.evalJSON(user.talks) : "";
-            user.academic = user.academic ? $.evalJSON(user.academic) : "";
-            user.job = user.job ? $.evalJSON(user.job) : "";
+            user.basic = user.basic ? $.parseJSON(user.basic) : "";
+            user.aboutme = user.aboutme ? $.parseJSON(user.aboutme) : "";
+            user.education = user.education ? $.parseJSON(user.education) : "";
+            user.talks = user.talks ? $.parseJSON(user.talks) : "";
+            user.academic = user.academic ? $.parseJSON(user.academic) : "";
+            user.job = user.job ? $.parseJSON(user.job) : "";
 
 
             // the information the admin wants displayed.
@@ -460,7 +460,7 @@ sakai.sitemembers = function(tuid, showSettings){
         $.ajax({
             url: url,
             success: function(data){
-                var json = $.evalJSON(data).results;
+                var json = $.parseJSON(data).results;
 
                 // If we get an emty list, then we assume we have received all the members.
                 if (json.length === 0) {
@@ -504,7 +504,6 @@ sakai.sitemembers = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.FRIEND_ACCEPTED_SERVICE,
             success: function(data){
-                data = $.evalJSON(data);
                 if (data.results) {
                     contacts = data.results;
                     getSiteMembers();
@@ -559,7 +558,7 @@ sakai.sitemembers = function(tuid, showSettings){
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
                 widgetSettings = data;
-                widgetSettings.data = $.evalJSON(widgetSettings.data);
+                widgetSettings.data = $.parseJSON(widgetSettings.data);
                 if (showSettings) {
                     displaySettings(widgetSettings);
                 }

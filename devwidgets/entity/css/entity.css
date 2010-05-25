@@ -1,0 +1,32 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* General */
+.entity_header {font-size: 1.7em; margin: 10px 0 17px 0; padding: 0}
+.entity_picture {height: 96px; margin: 0 20px 5px 0; width:96px}
+
+/* Container */
+#entity_container {margin: 19px 0 15px 7px}
+#entity_container .entity_profile_status_input_dummy {color: #aaa}
+#entity_container form#entity_profile_status {margin-top: 10px;}
+#entity_container form button{margin-left: 5px}
+#entity_container form input[type="text"]{width: 14em}
+#entity_container input[type="text"] {border: 1px solid #ddd;padding: 3px}
+.entity_container_left {border-right: 1px solid #ddd; width: 450px}
+.entity_container_right {margin-top: 10px; padding-left: 20px; width: 429px}
+.entity_container_right strong {clear: both;: block;float:left;overflow:hidden;width: 90px}

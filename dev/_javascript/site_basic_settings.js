@@ -120,7 +120,7 @@ sakai.site_basic_settings = function(){
         $.ajax({
             url: "/dev/_configuration/languages.json",
             success: function(data){
-                languages = $.evalJSON(data);
+                languages = $.extend(data, {}, true);
                 putLangsinCmb(languages, json);
             },
             error: function(xhr, textStatus, thrownError) {
@@ -137,23 +137,22 @@ sakai.site_basic_settings = function(){
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response){
-                var json = $.evalJSON(response);
-                siteinfo = json;
+                siteinfo = $.parseJSON(response);
 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
                 if (sakai.lib.site.authz.isUserMaintainer(siteinfo)) {
                     // Fill in the info.
-                    $("#sitetitle").text(json.name);
+                    $("#sitetitle").text(response.name);
                     $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + sakai.config.URL.SITE_ROOT);
-                    $(siteSettingsInfoDescription).val(json.description);
-                    $(siteSettingsInfoTitle).val(json.name);
-                    $(siteSettingsTitleClass).text(json.name);
-                    $(siteSettingsInfoSitePartTextLocation).text(json.id);
-                    getLanguages(json);
+                    $(siteSettingsInfoDescription).val(response.description);
+                    $(siteSettingsInfoTitle).val(response.name);
+                    $(siteSettingsTitleClass).text(response.name);
+                    $(siteSettingsInfoSitePartTextLocation).text(response.id);
+                    getLanguages(response);
 
                     // Status
-                    if (json.status && json.status === "offline") {
+                    if (response.status && response.status === "offline") {
                         $(siteSettingsStatusOff).attr("checked", "checked");
                         //  Hide the other part.
                         $(siteSettingsAccess).hide();
@@ -163,11 +162,11 @@ sakai.site_basic_settings = function(){
                     }
 
                     // Access
-                    if (json.access && json.access.toLowerCase() === "sakaiusers") {
+                    if (response.access && response.access.toLowerCase() === "sakaiusers") {
                         $(siteSettingsAccessSakaiUsers).attr("checked", "checked");
                     }
                     else
-                        if (json.access && json.access.toLowerCase() === "invite") {
+                        if (response.access && response.access.toLowerCase() === "invite") {
                             $(siteSettingsAccessInvite).attr("checked", "checked");
                         }
                         else {

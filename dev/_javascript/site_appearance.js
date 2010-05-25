@@ -266,9 +266,9 @@ sakai.site_appearance = function() {
     var updatePicture = function(){
 
         // Check if there is a picture available for the current site
-        if(siteInformation.picture && $.evalJSON(siteInformation.picture).name){
+        if(siteInformation.picture && $.parseJSON(siteInformation.picture).name){
 
-            var json = $.evalJSON(siteInformation.picture);
+            var json = $.parseJSON(siteInformation.picture);
             // Set the fullpath to the variable
             json.fullName = "/sites/" + siteId + "/200x100_siteicon" + "?sid=" + Math.random();
 
@@ -287,19 +287,16 @@ sakai.site_appearance = function() {
             type: "GET",
             success: function(response) {
 
-                // Parse the json respons
-                var json = $.evalJSON(response);
-
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
-                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(json);
+                var isMaintainer = sakai.lib.site.authz.isUserMaintainer(response);
                 if (isMaintainer) {
 
                     // Fill in the info.
-                    $(siteAppearanceTitle).text(json.name);
+                    $(siteAppearanceTitle).text(response.name);
 
                     // Save the site information to the global variable
-                    siteInformation = json;
+                    siteInformation = response;
 
                     // Update the picture on the site
                     updatePicture();
@@ -381,9 +378,7 @@ sakai.site_appearance = function() {
             type: "POST",
             data: data,
             success: function(data){
-                //if($.evalJSON(data).response === "OK"){
-                    updateGroupDef();
-                //}
+                updateGroupDef();
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -562,7 +557,7 @@ sakai.site_appearance = function() {
             picture = siteInformation.picture;
         }
 
-        if (picture && $.evalJSON(picture)._name) {
+        if (picture && $.parseJSON(picture)._name) {
 
             // The user has already uploaded a picture.
             // Show the edit tab.

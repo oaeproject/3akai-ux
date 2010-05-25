@@ -24,16 +24,16 @@ sakai.basiclti = function(tuid, showSettings){
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-    
+
     var rootel = $("#" + tuid);
     var json = false;
     var isAdvancedSettingsVisible = false;
-    
+
     // Default values
     var defaultWidth = 100;
     var defaultWidthUnit = "%";
     var defaultHeight = 200;
-    
+
     // Links and labels
     var basiclti = "#basiclti";
     var basicltiSettings = basiclti + "_settings";
@@ -54,26 +54,26 @@ sakai.basiclti = function(tuid, showSettings){
     var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
     var basicltiSettingsWidth = basicltiSettings + "_width";
     var basicltiSettingsReleaseName = basicltiSettings + "_release_names";
-    
+
     // Containers
     var basicltiMainContainer = basiclti + "_main_container";
-    
+
     // Classes
     var basicltiSettingsWidthUnitClass = ".basiclti_settings_width_unit";
     var basicltiSettingsWidthUnitSelectedClass = "basiclti_settings_width_unit_selected";
-    
+
     // Templates
     var $basicltiSettingsColorContainerTemplate = $("#basiclti_settings_color_container_template", rootel);
     var $basicltiSettingsTemplate = $("#basiclti_settings_template", rootel);
     var $basicltiSettingsPreviewTemplate = $("#basiclti_settings_preview_template", rootel);
-    
+
     // see: http://www.ietf.org/rfc/rfc2396.txt Appendix B
     var urlRegExp = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
-    
+
     ///////////////////////
     // Utility functions //
     ///////////////////////
-    
+
     /**
      * Check if the value is a decimal or not
      * @param {Object} value Value that needs to be checked
@@ -84,7 +84,7 @@ sakai.basiclti = function(tuid, showSettings){
     var isDecimal = function(value){
         return (/^\d+$/).test(value);
     };
-    
+
     /**
      * Check if the input url is in fact an url or not
      * @param {String} url Url that needs to be tested
@@ -101,7 +101,7 @@ sakai.basiclti = function(tuid, showSettings){
             return false;
         }
     };
-    
+
     /**
      * Check to see if both URLs are in the same origin. See: http://en.wikipedia.org/wiki/Same_origin_policy.
      * @param {String} url1
@@ -117,26 +117,26 @@ sakai.basiclti = function(tuid, showSettings){
         // console.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
         // console.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
-        if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) && 
+        if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
            (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
             return true;
         } else {
             return false;
         }
     }
-    
+
     /**
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(data, textStatus, XMLHttpRequest){
         sdata.container.informFinish(tuid);
     };
-    
-    
+
+
     //////////////////////
     // Render functions //
     //////////////////////
-    
+
     /**
      * Render the iframe for the widget in settings mode
      * @param {Boolean} complete Render the preview completely or only adjust values
@@ -150,7 +150,7 @@ sakai.basiclti = function(tuid, showSettings){
             $(basicltiSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
         }
     };
-    
+
     /**
      * Render the iframe for the widget
      */
@@ -170,7 +170,7 @@ sakai.basiclti = function(tuid, showSettings){
             $(basicltiMainContainer, rootel).show();
         }
     };
-    
+
     /**
      * Render the html of the basicltisettings
      */
@@ -179,7 +179,7 @@ sakai.basiclti = function(tuid, showSettings){
             $(basicltiSettings).html($.TemplateRenderer($basicltiSettingsTemplate, json));
         }
     };
-    
+
     /**
      * Render the color container
      */
@@ -188,12 +188,12 @@ sakai.basiclti = function(tuid, showSettings){
             $(basicltiSettingsColorContainer).html($.TemplateRenderer($basicltiSettingsColorContainerTemplate, json));
         }
     };
-    
-    
+
+
     //////////////////////
     // Global functions //
     //////////////////////
-    
+
     /**
      * Display the iframe in normal mode
      * @param {Object} parameters JSON object that contains the necessary information for the iframe
@@ -218,7 +218,7 @@ sakai.basiclti = function(tuid, showSettings){
         json = parameters;
         renderIframe();
     };
-    
+
     /**
      * Save the basiclti to the jcr
      */
@@ -253,7 +253,7 @@ sakai.basiclti = function(tuid, showSettings){
             alert("Please specify a URL");
         }
     };
-    
+
     /**
      * Change the direction (up/down) of the arrow for the advanced settings
      */
@@ -267,12 +267,12 @@ sakai.basiclti = function(tuid, showSettings){
             $(basicltiSettingsAdvancedDown, rootel).show();
         }
     };
-    
-    
+
+
     //////////////
     // Bindings //
     //////////////
-    
+
     /*
      * Add binding to the color boxes
      */
@@ -284,12 +284,12 @@ sakai.basiclti = function(tuid, showSettings){
             addColorBinding();
         });
     };
-    
+
     /*
      * Add binding to all the elements
      */
     var addBinding = function(){
-    
+
         // Change the url for the iFrame
         $(basicltiSettingsLtiUrl).change(function(){
             var urlValue = $(this).val();
@@ -302,27 +302,27 @@ sakai.basiclti = function(tuid, showSettings){
                 //renderIframeSettings(true); // LDS disabled preview
             }
         });
-        
+
         // Change the iframe width
         $(basicltiSettingsWidth).change(function(){
             var widthValue = $(basicltiSettingsWidth).val();
-            
+
             if (isDecimal(widthValue)) {
                 json.width = widthValue;
             }
             renderIframeSettings(false);
         });
-        
+
         // Change the iframe height
         $(basicltiSettingsHeight).change(function(){
             var heightValue = $(basicltiSettingsHeight).val();
-            
+
             if (isDecimal(heightValue)) {
                 json.frame_height = heightValue;
             }
             renderIframeSettings(false);
         });
-        
+
         // Change the border width
         $(basicltiSettingsBorders).change(function(){
             var borderValue = $(basicltiSettingsBorders).val();
@@ -331,14 +331,14 @@ sakai.basiclti = function(tuid, showSettings){
                 renderIframeSettings(false);
             }
         });
-        
+
         // Toggle the advanced view
         $(basicltiSettingsAdvancedToggleSettings).click(function(){
             $("#basiclti_settings_advanced", rootel).toggle();
             isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
             changeAdvancedSettingsArrow();
         });
-        
+
         // When you click on one of the width units (px or percentage)
         $(basicltiSettingsWidthUnitClass).click(function(){
             var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
@@ -352,25 +352,25 @@ sakai.basiclti = function(tuid, showSettings){
             $(this).addClass(basicltiSettingsWidthUnitSelectedClass);
             renderIframeSettings(false);
         });
-        
+
         // When you push the save button..
         $(basicltiSettingsInsert).click(function(){
             saveRemoteContent();
         });
-        
+
         // Cancel it
         $(basicltiSettingsCancel).click(function(){
             sdata.container.informCancel(tuid);
         });
-        
+
         addColorBinding();
     };
-    
-    
+
+
     ///////////////////////
     // Initial functions //
     ///////////////////////
-    
+
     /**
      * Function that fills in the input fields in the settings tab.
      * @param {Object} parameters A JSON object that contains the necessary information.
@@ -402,7 +402,7 @@ sakai.basiclti = function(tuid, showSettings){
         changeAdvancedSettingsArrow();
         $(basicltiSettings).show(); // Show the basiclti settings
     };
-    
+
     /*
      * Is the widget in settings mode or not
      */
@@ -414,7 +414,7 @@ sakai.basiclti = function(tuid, showSettings){
         $(basicltiSettings).hide();
         $(basicltiMainContainer).show();
     }
-    
+
     /**
      * Will fetch the URL and other parameters from the JCR and according to which
      * view we are in, fill in the settings or display an iframe.
@@ -425,14 +425,12 @@ sakai.basiclti = function(tuid, showSettings){
             url: settingsUrl,
             cache: false,
             success: function(data){
-                // Get a JSON string that contains the necessary information.
-                var parameters = $.evalJSON(data);
-                
+
                 if (showSettings) {
-                    displaySettings(parameters, true); // Fill in the settings page.
+                    displaySettings(data, true); // Fill in the settings page.
                 }
                 else {
-                    displayRemoteContent(parameters); // Show the frame
+                    displayRemoteContent(data); // Show the frame
                 }
             },
             error: function(xhr, textStatus, thrownError){
@@ -442,7 +440,7 @@ sakai.basiclti = function(tuid, showSettings){
             }
         });
     };
-    
+
     getRemoteContent();
 };
 

@@ -180,9 +180,8 @@ sakai.blogdashboard = function(tuid, showSettings){
         var json = {'items' : []};
 
         if (bExists) {
-            //    there are already some posts in the database, add them so we don't overwrite them.
-            var previousPosts = $.evalJSON(sPreviousPosts);
-            json.items = previousPosts.items;
+            // There are already some posts in the database, add them so we don't overwrite them.
+            json.items = sPreviousPosts.items;
         }
 
         post.id = json.items.length;
@@ -293,12 +292,11 @@ sakai.blogdashboard = function(tuid, showSettings){
      * @param {Object} response    The response we got from the server
      */
     var loadSiteList = function(response){
-        var json = $.evalJSON(response);
         var newjson = {};
         newjson.entry = [];
-        if (json.entry) {
-            for (var i = 0, iMax =json.entry.length ; i < iMax; i++) {
-                var site = json.entry[i];
+        if (response.entry) {
+            for (var i = 0, iMax =response.entry.length ; i < iMax; i++) {
+                var site = response.entry[i];
                 //    if we are an owner of this site, add it
                 if (site.owners.indexOf(me.preferences.uuid) > -1) {
                     if (site.id.substring(0, 1) !== "~") {

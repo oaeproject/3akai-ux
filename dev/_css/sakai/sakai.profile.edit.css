@@ -1,6 +1,5 @@
-
-/** USER INFO HEADER **/
-
+/** OVERFLOW HIDDEN **/
+.profile_overflow_hidden {overflow:hidden;}
 
 /** ADD BUTTONS */
 .profile .popup_field_trigger
@@ -62,15 +61,11 @@
     cursor: default;
 }
 
-
-
-/** *CENTERED */
+/** CENTERED */
 .centertd
 { vertical-align: middle; }
 
-
 /* DIALOG */
-
 .dialog td
 { border: none !important; padding: 0px 0px 5px 10px !important; }
 
@@ -82,4 +77,3 @@
 
 .overlay-lightbox-fixed
 { display: block; height: 1000px; left: 0%; position: fixed; top: 0%; width: 100%; z-index: 2001; }
-

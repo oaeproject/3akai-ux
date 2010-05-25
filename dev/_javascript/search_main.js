@@ -113,7 +113,7 @@ sakai._search = function(config, callback) {
             url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
             success: function(data) {
-                myfriends = $.evalJSON(data);
+                myfriends = $.extend(data, {}, true);
                 // Change the history
                 History.history_change();
             }
@@ -133,15 +133,11 @@ sakai._search = function(config, callback) {
     var addEventListeners = function(searchterm, searchwhere) {
         /** The top tabs */
         $(searchConfig.tabs.all + ", " + searchConfig.tabs.people + ", " + searchConfig.tabs.sites + ", " + searchConfig.tabs.content).live("click", function(ev) {
-            var url = $(this).attr("href").split('#')[0] + "#1";
-
-            if (searchterm) {
-                url += "|" + encodeURIComponent(searchterm);
-                if (searchwhere) {
-                    url += "|" + searchwhere;
-                }
-                $(this).attr("href", url);
-            }
+            var url = $(this).attr("href").split("#")[0] + "#";
+            var frag = $.deparam.fragment();
+            frag["filter"] = ""; // clear the filter
+            url = $.param.fragment(url, frag);
+            $(this).attr("href", url);
             return true;
         });
 
@@ -179,7 +175,6 @@ sakai._search = function(config, callback) {
      *  /a-site-of-mine = specific site from the user
      */
     var fillInElements = function(page, searchquery, searchwhere) {
-
         if (searchquery) {
             // This is a custom search term, we shouldnt hide it.
             hasHadFocus = true;
@@ -253,7 +248,7 @@ sakai._search = function(config, callback) {
                 user.path = "/_user/public/" + user.userid + "/";
                 var person = item;
                 if (person.picture) {
-                    var picture = $.evalJSON(person.picture);
+                    var picture = $.parseJSON(person.picture);
                     if (picture.name) {
                         user.picture = "/_user" + person.path + "/public/profile/" + picture.name;
                     } else {
@@ -272,7 +267,7 @@ sakai._search = function(config, callback) {
                     user.name = user.userid;
                 }
                 if (person.basic) {
-                    var basic = $.evalJSON(person.basic);
+                    var basic = $.parseJSON(person.basic);
                     if (basic.unirole) {
                         user.extra = basic.unirole;
                     }

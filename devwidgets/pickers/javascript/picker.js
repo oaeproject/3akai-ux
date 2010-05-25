@@ -241,13 +241,12 @@ sakai.picker = function(tuid, showSettings, endFormat){
             url: sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, placement).replace(/__TUID__/, tuid).replace(/__NAME__/, "picker.json"),
             cache: false,
             success: function(data){
-                var json = $.evalJSON(data);
-                userSelection = json;
-                if (json.path !== undefined && json.name !== undefined) {
-                    setSelectedItem(json);
+                userSelection = data;
+                if (data.path !== undefined && data.name !== undefined) {
+                    setSelectedItem(data);
                 }
                 if (showSettings) {
-                    currentPath = json.parentFolder;
+                    currentPath = data.parentFolder;
                     sdata.files.getFiles(userSelection.parentFolder, displayItems);
                 }
             },
