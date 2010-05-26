@@ -346,8 +346,8 @@ sakai.site_appearance = function() {
             url: "/sites/" + siteId,
             type : "POST",
             data : {
-            "picture": stringtosave
-        },
+                "picture": stringtosave
+            },
             success : function(data) {
 
                 // Update picture on the page
@@ -365,6 +365,16 @@ sakai.site_appearance = function() {
     // This is the function that will be called when a user has cut out a selection
     // and saves it.
     var savePicture = function(){
+
+        // Set standard values if the user hasn't selected an area
+        if(!userSelection){
+            userSelection = {
+                x1:"0",
+                y1:"0",
+                width:thumbnailWidth,
+                height:thumbnailHeight
+            };
+        }
 
         //    The parameters for the cropit service.
         var data = {
