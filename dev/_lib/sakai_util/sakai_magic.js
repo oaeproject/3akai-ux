@@ -1225,8 +1225,6 @@ sakai.api.UI.Forms = {
      *     selectElement : ["UK"],
      *     textAreaName : "This is some random text"
      *  }</code></pre>
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     json2form: function(formElement, formDataJson){
 
@@ -1252,11 +1250,9 @@ sakai.api.UI.Forms = {
                             }
                         }
                     } else if (nodeName === "select"){
-                        for (var select = 0; select < formDataJson[name].length; select++){
-                            for (var k = 0, kl = el.options.length; k < kl; k++) {
-                                if (el.options[k].value === formDataJson[name][select]) {
-                                    el.options[k].selected = true;
-                                }
+                        for (var k = 0, kl = el.options.length; k < kl; k++) {
+                            if (el.options[k].value === formDataJson[name]) {
+                                el.options[k].selected = true;
                             }
                         }
                     }
@@ -1272,8 +1268,6 @@ sakai.api.UI.Forms = {
      * If it's a select dropdown, then the first element will be selected
      * @param {Object} formElement JQuery element that represents the container in which we are
      *  resetting the form fields
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     resetForm: function(formElement){
 
