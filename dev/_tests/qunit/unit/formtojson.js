@@ -39,14 +39,11 @@ var jsonToForm = function(data){
     //fill the form
     result = sakai.api.UI.Forms.json2form($("#dummyForm"),data);
 
-    //check if the filling was successful
-    ok(result, "Filled the form with values from JSON");
-
     //check the fields to contain the correct data
     same($("input[name=name]").val(),"john doe","Filled in the 'name' field.");
     same($("input[name=gender]:checked").val(),"female","Filled in the 'gender' field.");
     same($("input[name=color]:checked").val(),"green","Filled in the 'color' field.");
-    same($("select[name=shape]:selected").val(),"circle","Filled in the 'shape' field.");
+    same($("select[name=shape] option:selected").val(),"circle","Filled in the 'shape' field.");
     same($("textarea[name=description]").val(),"Demo text area","Filled in the 'description' field.");
 };
 
@@ -57,9 +54,6 @@ var resetForm = function(){
 
     //reset the form
     var result = sakai.api.UI.Forms.resetForm($("#dummyForm"));
-
-    //check if the reset was successful
-    ok(result, "Resetted the form");
 
     //check the fields to be empty/unselected
     same($("input[name=name]").val(),"","Resetted the 'name' field.");
