@@ -331,7 +331,8 @@ sakai.site_appearance = function() {
 
         var tosave = {
             "name": thumbnailWidth + "x" + thumbnailHeight + "_siteicon",
-            "_name": "siteicon"
+            "_name": "siteicon",
+            "_charset_":"utf-8"
         };
 
         // We edit the profile.json file with the new profile picture.
@@ -346,7 +347,8 @@ sakai.site_appearance = function() {
             url: "/sites/" + siteId,
             type : "POST",
             data : {
-                "picture": stringtosave
+                "picture": stringtosave,
+                "_charset_":"utf-8"
             },
             success : function(data) {
 
@@ -373,7 +375,11 @@ sakai.site_appearance = function() {
                 y1:"0",
                 width:thumbnailWidth,
                 height:thumbnailHeight
+<<<<<<< HEAD
             };
+=======
+            }
+>>>>>>> origin/SAKIII-388
         }
 
         //    The parameters for the cropit service.
@@ -384,7 +390,8 @@ sakai.site_appearance = function() {
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
             height: Math.floor(userSelection.height * ratio),
-            dimensions: "200x100"
+            dimensions: "200x100",
+            "_charset_":"utf-8"
         };
 
         // Post all of this to the server
