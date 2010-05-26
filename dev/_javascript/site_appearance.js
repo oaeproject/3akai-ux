@@ -287,6 +287,11 @@ sakai.site_appearance = function() {
             type: "GET",
             success: function(response) {
 
+                //TODO remove! as soon as KERN-788 is solved!
+                if(typeof response === "string"){
+                    response = $.parseJSON(response);
+                }
+
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
                 var isMaintainer = sakai.lib.site.authz.isUserMaintainer(response);
