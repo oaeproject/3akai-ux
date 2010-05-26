@@ -110,6 +110,9 @@ sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
         searchQuery["_"] = (Math.random() * 100000000000000000);
     }
 
+    // Deal with non logged in users
+    
+
     // Render the first page of results
     sakai.api.UI.listGeneral.addPage(tuid, 0, searchQuery);
 
@@ -142,7 +145,7 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
     }
 
     // Display empty new container with loading anim
-    $pl_container.append($pl_pageContainer);
+    //$pl_container.append($pl_pageContainer);
 
 
 };

@@ -63,11 +63,12 @@
             // Page code
             $(window).bind("listgeneral_ready", function(e, tuid){
 
-                //var pl_query = "/var/search/users?page=0&items=12&username=user*&_=" + (Math.random() * 100000000000000000);
-                //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
-                //var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
+                var lg_query = ["/var/search/users?page=0&items=12&username=user*"];
 
-                sakai.api.UI.listGeneral.render(tuid, pl_query, pl_config);
+                // type: sites, spaces, people, content, mixed
+                var lg_config = {"selectable":true, "type": "sites", "sortOn": "lastName", "itemsPerPage": 50 };
+
+                sakai.api.UI.listGeneral.render(tuid, lg_query, lg_config);
 
             });
 

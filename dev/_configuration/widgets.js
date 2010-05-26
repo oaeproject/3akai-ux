@@ -229,7 +229,7 @@ var Widgets = {
                 "default": "/devwidgets/listgeneral/bundles/default.json"
             },
             "name": "General Lister",
-            "url": "/devwidgets/listgenral/listgeneral.html"
+            "url": "/devwidgets/listgeneral/listgeneral.html"
         },
         "listpeople": {
             "description":"General people lister widget",

@@ -1,10 +1,29 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/listpeople/css/listgeneral.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/listgeneral/css/listgeneral.css" />
 
 <!-- MAIN VIEW -->
 <div class="listgeneral_container">
 
     <div class="listgeneral_header">
+        <div class="listgeneral_results">Results <span class="listgeneral_results_number"></span></div>
+
+        <div class="listgeneral_sortview fl-force-right">
+
+            <!-- Here will be popoulated with one of the sorting dropdown templates -->
+
+            <select class="listgeneral_sortview_view">
+                <option default="true" value="10_per_page">List 10 per page</option>
+                <option value="all">List all</option>
+                <option value="thumbnails_20">Thumbnails 20 per page</option>
+                <option value="thumbnails_10">Thumbnails 10 per page</option>
+            </select>
+
+            <button class="s3d-button s3d-button-primary">
+                <span class="s3d-button-inner">Sort</span>
+            </button>
+
+        </div>
+
 
     </div>
 
@@ -12,13 +31,113 @@
 
     </div>
 
-    <div class="listgeneral_content_pagetemplate" style="display:none;"><!--
+
+
+    <!-- TEMPLATES -->
+
+    <div class="listgeneral_sorttemplate_sites" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite">By favourite</option>
+            <option value="highest_rated">Highest rated</option>
+            <option value="lowest_rated">Lowest rated</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alphabetical_az">Alphabetical A-Z</option>
+            <option value="alphabetical_za">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+    <div class="listgeneral_sorttemplate_spaces" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite">By favourite</option>
+            <option value="highest_rated">Highest rated</option>
+            <option value="lowest_rated">Lowest rated</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alphabetical_az">Alphabetical A-Z</option>
+            <option value="alphabetical_za">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+    <div class="listgeneral_sorttemplate_content" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite">By favourite</option>
+            <option value="highest_rated">Highest rated</option>
+            <option value="lowest_rated">Lowest rated</option>
+            <option value="filesize">File size</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alphabetical_az">Alphabetical A-Z</option>
+            <option value="alphabetical_za">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+    <div class="listgeneral_sorttemplate_people" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite">By favourite</option>
+            <option value="alphabetical_az">Alphabetical A-Z</option>
+            <option value="alphabetical_za">Alphabetical Z-A</option>
+            <option value="recently_added">Most recently added</option>
+            <option value="first_added">First added</option>
+            <option value="newest">Newest member</option>
+            <option value="oldest">Oldest member</option>
+
+        </select>
+    </div>
+
+    <div class="listgeneral_sorttemplate_mixed" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite">By favourite</option>
+            <option value="highest_rated">Highest rated</option>
+            <option value="lowest_rated">Lowest rated</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alphabetical_az">Alphabetical A-Z</option>
+            <option value="alphabetical_za">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+
+    <div class="listgeneral_content_template_people" style="display:none;"><!--
         {for i in results}
         <li data-userid="${i['rep:userId']}">
 
         </li>
         {/for}
     --></div>
+
+    <div class="listgeneral_content_template_sites" style="display:none;"><!--
+        {for i in results}
+        <li data-userid="${i['rep:userId']}">
+
+        </li>
+        {/for}
+    --></div>
+
+    <div class="listgeneral_content_template_spaces" style="display:none;"><!--
+        {for i in results}
+        <li data-userid="${i['rep:userId']}">
+
+        </li>
+        {/for}
+    --></div>
+
+    <div class="listgeneral_content_template_content" style="display:none;"><!--
+        {for i in results}
+        <li data-userid="${i['rep:userId']}">
+
+        </li>
+        {/for}
+    --></div>
+
+    <div class="listgeneral_content_template_mixed" style="display:none;"><!--
+        {for i in results}
+        <li data-userid="${i['rep:userId']}">
+
+        </li>
+        {/for}
+    --></div>
+
 
     <div class="listgeneral_error_template" style="display:none;">
         <span>Sorry, could not retrieve the list of users form the server!</span>
