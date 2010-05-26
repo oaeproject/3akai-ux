@@ -47,6 +47,39 @@ var deleteMessages = function(callback){
 };
 
 /**
+ * A recursive function that removes users from the userlist
+ * @param {Integer} count The current number of the user in the userlist array
+ */
+var removeUsers = function(count){
+
+    if(count !== userlist.length){
+        var username = userlist[count][":name"];
+        $.ajax({
+            url: "/system/userManager/user/" + username + ".delete.json",
+            type: "POST",
+            complete: function(){
+                count++;
+                removeUsers(count);
+            }
+        });
+    }
+}
+
+/**
+ * Remove all the created users and messages at the end of the test
+ */
+var stopTest = function(){
+
+    //remove messages
+    deleteMessages();
+
+    //remove users
+    removeUsers(0);
+
+    start();
+};
+
+/**
  * Test all that's coming in and send a reply
  * @param {boolean} bool Whether the message has been sent succesfully or not
  * @param {Object} data The data coming in from the respons (the message)
@@ -106,7 +139,7 @@ var testReplyCallback = function(bool,data){
     pathToMessages.push(data.message["jcr:path"]);
 
     //start the testrunner for the other tests
-    start();
+    stopTest();
 };
 
 /**
@@ -140,23 +173,6 @@ var sendMessage = function(category, reply){
     });
 };
 
-asyncTest("Send message to one person", function(){
-    //send a message
-    sendMessage("","");
-});
-
-asyncTest("Send message to one person with a different category", function(){
-    //send a message with a custom category
-    sendMessage(dummyCategory,"");
-});
-
-asyncTest("Send message to multiple users", function(){
-    //change the dummyUser to an array of users
-    dummyUser = ["user1","user2"];
-    //send message with multiple users
-    sendMessage("","");
-});
-
 /**
  * A recursive function that creates users from the userlist
  * @param {Integer} count The current number of the user in the userlist array
@@ -178,59 +194,39 @@ var createDummyUsers = function(count){
 };
 
 /**
- * A recursive function that removes users from the userlist
- * @param {Integer} count The current number of the user in the userlist array
+ * Do some setup
+ * In this case we create some dummy users
  */
-var removeUsers = function(count){
+var startTest = function(category, reply){
+    d = new Date();
+    u1time = d.getMilliseconds();
+    dummyUser = dummyUser + u1time;
+    pathToMessages = [];
+    userlist = [
+                {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"+u1time},
+                {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"+u1time}
+            ];
+    //create users
+    createDummyUsers(0);
 
-    if(count !== userlist.length){
-        var username = userlist[count][":name"];
-        $.ajax({
-            url: "/system/userManager/user/" + username + ".delete.json",
-            type: "POST",
-            complete: function(){
-                count++;
-                removeUsers(count);
-            }
-        });
-    }
-}
-
-/**
- * Do some setup before the module starts (equal to setUp in JUnit)
- * In this case, if it's a messaging test, we create some dummy users
- * @param {String} name The name of the current module that is running
- */
-QUnit.moduleStart = function(name) {
-    if(name === "Messaging"){
-        d = new Date();
-        u1time = d.getMilliseconds();
-        dummyUser = dummyUser + u1time;
-        pathToMessages = [];
-        userlist = [
-                    {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"+u1time},
-                    {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"+u1time}
-                ];
-        //create users
-        createDummyUsers(0);
-    }
+    //send a message
+    sendMessage(category,reply);
 };
 
-/**
- * After the test is done, we undo some of the things we did during the test to keep sakai clean.(equal to tearDown in JUnit)
- * In this case, if the test is a messaging test, we remove all the dummy users
- * @param {String} name The name of the current module that is running
- * @param {Integer} failures The amount of tests that have failed in this module
- * @param {Integer} total The total amount of tests in this module
- */
-QUnit.moduleDone = function(name, failures, total) {
-    if(name === "Messaging"){
+asyncTest("Send message to one person", function(){
+    startTest("","");
+});
 
-        //remove messages
-        deleteMessages();
+asyncTest("Send message to one person with a different category", function(){
+    //send a message with a custom category
+    startTest(dummyCategory,"");
+});
 
-        //remove users
-        removeUsers(0);
+asyncTest("Send message to multiple users", function(){
 
-    }
-};
+    //change the dummyUser to an array of users
+    dummyUser = ["user1","user2"];
+
+    //send message with multiple users
+    startTest("","");
+});
