@@ -1225,8 +1225,6 @@ sakai.api.UI.Forms = {
      *     selectElement : ["UK"],
      *     textAreaName : "This is some random text"
      *  }</code></pre>
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     json2form: function(formElement, formDataJson){
 
@@ -1272,8 +1270,6 @@ sakai.api.UI.Forms = {
      * If it's a select dropdown, then the first element will be selected
      * @param {Object} formElement JQuery element that represents the container in which we are
      *  resetting the form fields
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     resetForm: function(formElement){
 
