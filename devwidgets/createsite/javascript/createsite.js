@@ -48,6 +48,10 @@ sakai.createsite = function(tuid, showSettings){
     // Coursesite
     var createSiteCoursesiteContainer = createSite + "_coursesite_container";
 
+    // template containers
+    var createSitePortfolioTemplate = "#portfolio_template_container";
+    var createSiteNoncourseTemplate = "#noncourse_template_container";
+	 
     // Non course
     var createSiteNoncourse = createSite + "_noncourse";
     var createSiteNoncourseCancel = createSiteNoncourse + "_cancel";
@@ -63,7 +67,10 @@ sakai.createsite = function(tuid, showSettings){
     var createSiteOption = createSite + "_option";
     var createSiteOptionCourse = createSiteOption + "_course";
     var createSiteOptionNoncourse = createSiteOption + "_noncourse";
+    var createSiteOptionPortfolio = createSiteOption + "_eport";
 
+    var createSiteType = "noncourse";
+    
     // Error fields
     var createSiteNoncourseNameEmpty = createSiteNoncourseName + "_empty";
     var createSiteNoncourseIdEmpty = createSiteNoncourseId + "_empty";
@@ -125,6 +132,8 @@ sakai.createsite = function(tuid, showSettings){
         $("#createsite_course_container").hide();
         $("#createsite_noncourse_container").show();
         $("#createsite_coursesite_container").show();
+        $(createSitePortfolioTemplate).hide();
+        $(createSiteNoncourseTemplate).show();
         $(createSiteContainer).jqmShow();
     };
 
@@ -147,19 +156,36 @@ sakai.createsite = function(tuid, showSettings){
     };
 
     /**
-     * Show or hide the course/noncourse containers
-     * @param {Boolean} show
-     *     true: show the course container and hide the noncourse container
-     *     false: hide the course container and show the noncourse container
+     * Show the course container (and hide other containers)
      */
-    var showCourse = function(show){
-        if(show){
-            $(createSiteNoncourseContainer).hide();
-            $(createSiteCourseContainer).show();
-        }else{
-            $(createSiteCourseContainer).hide();
-            $(createSiteNoncourseContainer).show();
-        }
+    var showCourse = function(){
+       $(createSitePortfolioTemplate).hide();
+       $(createSiteNoncourseTemplate).hide();
+       
+       $(createSiteNoncourseContainer).hide();
+       $(createSiteCourseContainer).show();
+    };
+
+    /**
+     * Show the non-course container (and hide other containers)
+     */
+    var showNoncourse = function(){
+       $(createSitePortfolioTemplate).hide();
+       $(createSiteNoncourseTemplate).show();
+       
+       $(createSiteNoncourseContainer).show();
+       $(createSiteCourseContainer).hide();
+    };
+
+    /**
+     * Show the portfolio container (and hide other containers)
+     */
+    var showPortfolio = function(){
+       $(createSitePortfolioTemplate).show();
+       $(createSiteNoncourseTemplate).hide();
+       
+       $(createSiteNoncourseContainer).show();
+       $(createSiteCourseContainer).hide();
     };
 
     /**
@@ -261,7 +287,8 @@ sakai.createsite = function(tuid, showSettings){
                 "name" : sitetitle,
                 "description" : sitedescription,
                 "id" : siteid,
-                "sakai:site-template" : sakai.config.URL.SITE_TEMPLATE.replace("__TEMPLATE__",sitetemplate)
+                "sakai:site-template" : sakai.config.URL.SITE_TEMPLATE.replace("__TEMPLATE__",sitetemplate),
+                "sakai:site-type": createSiteType
             },
             type: "POST",
             success: function(data, textStatus){
@@ -368,14 +395,24 @@ sakai.createsite = function(tuid, showSettings){
      * Show the course window
      */
     $(createSiteOptionCourse).bind("click", function(ev){
-        showCourse(true);
+        createSiteType = "course";
+        showCourse();
     });
 
     /*
      * Show the noncourse window
      */
     $(createSiteOptionNoncourse).bind("click", function(ev){
-        showCourse(false);
+        createSiteType = "noncourse";
+        showNoncourse();
+    });
+
+    /*
+     * Show the portfolio window
+     */
+    $(createSiteOptionPortfolio).bind("click", function(ev){
+        createSiteType = "portfolio";
+        showPortfolio();
     });
 
 
