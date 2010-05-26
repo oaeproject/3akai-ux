@@ -375,11 +375,7 @@ sakai.site_appearance = function() {
                 y1:"0",
                 width:thumbnailWidth,
                 height:thumbnailHeight
-<<<<<<< HEAD
             };
-=======
-            }
->>>>>>> origin/SAKIII-388
         }
 
         //    The parameters for the cropit service.
