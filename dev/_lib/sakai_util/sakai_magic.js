@@ -1250,11 +1250,9 @@ sakai.api.UI.Forms = {
                             }
                         }
                     } else if (nodeName === "select"){
-                        for (var select = 0; select < formDataJson[name].length; select++){
-                            for (var k = 0, kl = el.options.length; k < kl; k++) {
-                                if (el.options[k].value === formDataJson[name][select]) {
-                                    el.options[k].selected = true;
-                                }
+                        for (var k = 0, kl = el.options.length; k < kl; k++) {
+                            if (el.options[k].value === formDataJson[name]) {
+                                el.options[k].selected = true;
                             }
                         }
                     }
