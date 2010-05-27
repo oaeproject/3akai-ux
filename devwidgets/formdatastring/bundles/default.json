@@ -1,0 +1,17 @@
+{
+"name":"Structured Form Data String",
+"description":"Form Data String",
+"CREATE_TAB": "Data Input",
+"EXISTING_TAB": "Data Existiing",
+"WIDGET_ID": "Widget Id:",
+"REQUIRED": "Required value?",
+"YES": "Yes",
+"NO": "No",
+"OPTION_LABEL": "Optional Label: ",
+"OPTION_VALUE": "Optional Default Value: ",
+"OPTION_MAX":   "Optional Max Length: ",
+"OPTION_SIZE":  "Optional Input Size: ",
+"SAVE": "Save",
+"CANCEL": "Cancel",
+"ERROR": "Data not found!"
+}

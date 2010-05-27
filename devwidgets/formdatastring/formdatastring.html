@@ -1,0 +1,69 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/formdatastring/css/formdatastring.css" />
+
+
+<!-- MAIN VIEW -->
+<div id="formdatastring_main" style="display:none">
+    <span id="formdatastring_error" style="display:none"><font color="red">__MSG__ERROR__</font></span>
+    <span id="formdatastring_required_star" style="display:none"><font color="red">*</font></span>
+    <span id="formdatastring_data_output" class="formdatastring_data_output"></span> 
+    <span id="formdatastring_edit_icon" style="display:none"><a href="javascript:;" id="formdatastring_add"><img src="/devwidgets/formdatastring/images/application_edit.png" alt="+" border="0"/></a></span>
+</div>
+
+<!-- EDIT VIEW -->
+<div id="formdatastring_edit" style="display:none" >
+  <span id="formdatastring_required_star" style="display:none"><font color="red">*</font></span>
+  <span id="formdatastring_data" class="formdatastring_data"></span>
+  
+  <div class="buttonBar">
+    <div class="greybutton"><a href="javascript:;"  id="formdatastring_edit_submit">__MSG__SAVE__</a></div>
+    <div class="lightgreybutton"><a href="javascript:;" id="formdatastring_edit_cancel">__MSG__CANCEL__</a></div>
+  </div>
+</div>
+
+<!-- SETTINGS VIEW -->
+<div id="formdatastring_settings" style="display:none">
+    <form>
+        <ul class="formdatastring_settings_tabs">
+            <li>
+                <a class="formdatastring_settings_tab_selected" href="javascript:;" id="formdatastring_settings_new_tab">__MSG__CREATE_TAB__</a>
+            </li>
+            <li>
+                <a class="formdatastring_settings_tab" href="javascript:;" id="formdatastring_settings_existing_tab">__MSG__EXISTING_TAB__</a>
+            </li>
+        </ul>
+
+        <div id="formdatastring_settings_new_container" class="formdatastring_settings_container">
+          <p>__MSG__WIDGET_ID__ <span id="formdatastring_widgetid"/></p>
+          <p>
+            __MSG__REQUIRED__
+            <input type="radio" name="formdatastring_required" value="true" id="formdatastring_required_yes">
+            <label for="formdatastring_required_yes">__MSG__YES__</label>
+            <input type="radio" name="formdatastring_required" value="false" id="formdatastring_required_no">
+            <label for="formdatastring_required_no">__MSG__NO__</label>
+          </p>
+          
+          <p><label for="formdatastring_label">__MSG__OPTION_LABEL__</label> <input type="text" id="formdatastring_label"/></p>
+          
+          <p><label for="formdatastring_default">__MSG__OPTION_VALUE__</label> <input type="text" id="formdatastring_default"/></p>
+          
+          <p><label for="formdatastring_max">__MSG__OPTION_MAX__</label> <input type="text" id="formdatastring_max"/></p>
+          
+          <p><label for="formdatastring_size">__MSG__OPTION_SIZE__</label> <input type="text" id="formdatastring_size"/></p>
+          
+          <input type="hidden" id="formdatastring_data_hidden"/>  
+        </div>
+        
+        <div id="formdatastring_settings_existing_container" class="formdatastring_settings_container" style="display:none;">
+          <p><label for="formdatastring_widgetid_input">__MSG__WIDGET_ID__</label> <input type="text" id="formdatastring_widgetid_input"/></p>
+        </div>
+        
+        <div class="dialog_buttons">
+            <a class="button-default submit_button" href="javascript:;" id="formdatastring_settings_submit">__MSG__SAVE__</a>
+            <a class="button cancel-button" href="javascript:;" id="formdatastring_settings_cancel">__MSG__CANCEL__</a>
+        </div>
+    </form>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/formdatastring/javascript/formdatastring.js"></script>

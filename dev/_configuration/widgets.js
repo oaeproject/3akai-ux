@@ -98,6 +98,21 @@ var Widgets = {
             "siteportal":true,
             "url":"/devwidgets/comments/comments.html"
         },
+        "formdatastring": {
+            "description":"Form Data String",
+            "ca":true,
+            "hasSettings":true,
+            "i18n": {
+                "default": "/devwidgets/formdatastring/bundles/default.json",
+                "en_US": "/devwidgets/formdatastring/bundles/en_US.json"
+            },
+            "id":"formdatastring",
+            "img":"/devwidgets/formdatastring/images/formdatastring.png",
+            "name":"Structured Form Data String",
+            "showinsakaigoodies":true,
+            "siteportal":true,
+            "url":"/devwidgets/formdatastring/formdatastring.html"
+        },
         "createsite": {
             "description":"Create site",
             "name":"Create Site",
