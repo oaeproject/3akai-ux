@@ -1,0 +1,7 @@
+{
+	"sling:resourceType": "sakai/page",
+	"pageTitle": "Supporting Materials and Links",
+	"pageType": "webpage", 
+	"pagePosition": 600000,
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}

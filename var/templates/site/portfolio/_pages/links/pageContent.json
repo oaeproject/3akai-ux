@@ -1,0 +1,6 @@
+{
+	"jcr:primaryType": "nt:folder",
+	"jcr:mixinTypes" : ["sakai:propertiesmix"],
+	"sling:resourceType": "sakai/pagecontent",
+	"sakai:pagecontent":"<div class=\"portfolio_page_content portfolioPage\" id=\"linksPage_681deda2-cbc3-4dd1-00a9-4529ffe03577\"><h2>Research</h2><p><a href=\"https://ctools.umich.edu/access/content/user/r.butler@umich.edu/SSW ePortfolio Files/A Case for Reform of the Child Welfare System.pdf\">A Case for Reform of the Child Welfare System.</a>&nbsp;Miriam Aroni Krinsky. <em>Family Court Review</em>, 45 (4), 541&ndash;547 (2007).</p><p><a href=\"https://ctools.umich.edu/access/content/user/r.butler@umich.edu/SSW ePortfolio Files/Child Maltreatment.pdf\">Child Maltreatment and Foster Care: Unpacking the Effects of Prenatal and Postnatal Parental Substance Use.</a> Dana K. Smith; Amber B. Johnson; Katherine C. Pears; Philip A. Fisher; David S. DeGarmo. <em>Child Maltreatment</em>, Vol. 12, No. 2, 150-160 (2007).</p><h2>Public Websites</h2><p><a href=\"http://cssr.berkeley.edu/research_units/cwrc/index.html\">Child Welfare Resource Center.</a> The CWRC has exceptional prevention materials that align with my child studies. They provide excellent techniques and ample research data to validate them.</p></div></div>"
+}

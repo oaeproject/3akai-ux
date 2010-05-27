@@ -1,0 +1,7 @@
+{
+	"sling:resourceType": "sakai/page",
+	"pageTitle": "Professional Skills and Objectives",
+	"pageType": "webpage", 
+	"pagePosition": 200000,
+	"jcr:mixinTypes": "sakai:propertiesmix"
+}

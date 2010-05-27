@@ -84,24 +84,30 @@ sakai.api.Communication = sakai.api.Communication || {};
 /**
  * Sends a Sakai message
  *
- * @param {Array} to Array with the uuids of the users to post a message to
+ * @param {Array|String} to Array with the uuids of the users to post a message to or a String with one user.
  * @param {String} subject The subject for this message
  * @param {String} body The text that this message will contain
- * @param {String} category The category for this message
- * @param {String} reply The id of the message you are replying on
- * @param {Function} callback A callback function which is executed at the end of the operation
+ * @param {String} [category="message"] The category for this message
+ * @param {String} [reply] The id of the message you are replying on
+ * @param {Function} [callback] A callback function which is executed at the end of the operation
  *
- * @return {Void}
  */
 sakai.api.Communication.sendMessage = function(to, subject, body, category, reply, callback) {
 
+    var toUsers = "";
+    if (typeof(to) === "string") {
+        toUsers = "internal:" + to;
+    }
+    else {
+        toUsers += "internal:" + to.join(",internal:");
+    }
 
     // Basic message details
     var toSend = {
         "sakai:type": "internal",
         "sakai:sendstate": "pending",
         "sakai:messagebox": "outbox",
-        "sakai:to": to,
+        "sakai:to": toUsers,
         "sakai:from": sakai.data.me.user.userid,
         "sakai:subject": subject,
         "sakai:body":body,
@@ -395,7 +401,7 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + langCode + ".json",
             success: function(data){
-                sakai.data.i18n.localBundle = $.evalJSON(data);
+                sakai.data.i18n.localBundle = data;
                 doI18N(sakai.data.i18n.localBundle, sakai.data.i18n.defaultBundle);
             },
             error: function(xhr, textStatus, thrownError){
@@ -415,7 +421,7 @@ sakai.api.i18n.init = function(){
             url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
             cache: false,
             success: function(data){
-                var siteJSON = $.evalJSON(data);
+                var siteJSON = data;
                 if (siteJSON.language && siteJSON.language !== "default_default") {
                     loadLocalBundle(siteJSON.language);
                 }
@@ -441,7 +447,7 @@ sakai.api.i18n.init = function(){
         $.ajax({
             url: sakai.config.URL.I18N_BUNDLE_ROOT + "default.json",
             success: function(data){
-                sakai.data.i18n.defaultBundle = $.evalJSON(data);
+                sakai.data.i18n.defaultBundle = data;
                 var site = getSiteId();
                 if (!site) {
                     if (sakai.data.me.user.locale) {
@@ -588,7 +594,7 @@ sakai.api.i18n.Widgets.process = function(widgetname, widget_html_content) {
             success: function(messages_raw){
 
                 sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                sakai.data.i18n.widgets[widgetname]["default"] = $.evalJSON(messages_raw);
+                sakai.data.i18n.widgets[widgetname]["default"] = messages_raw;
 
             },
             error: function(xhr, textStatus, thrownError){
@@ -607,7 +613,7 @@ sakai.api.i18n.Widgets.process = function(widgetname, widget_html_content) {
             success: function(messages_raw){
 
                 sakai.data.i18n.widgets[widgetname] = sakai.data.i18n.widgets[widgetname] || {};
-                sakai.data.i18n.widgets[widgetname][current_locale_string] = $.evalJSON(messages_raw);
+                sakai.data.i18n.widgets[widgetname][current_locale_string] = messages_raw;
             },
             error: function(xhr, textStatus, thrownError){
                 //alert("Could not load default language bundle " + current_locale_string + "for widget: " + widgetname);
@@ -973,18 +979,15 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
         dataType: "json",
         success: function(data) {
 
-            // Transform JSON string to an object
-            var returned_data = $.evalJSON(data);
-
             // Remove keys which are created by JCR or Sling
-            sakai.api.Util.removeJCRObjects(returned_data);
+            sakai.api.Util.removeJCRObjects(data);
 
             // Convert the special objects to arrays
-            returned_data = convertObjectToArray(returned_data, null, null);
+            data = convertObjectToArray(data, null, null);
 
             // Call callback function if present
             if (typeof callback === "function") {
-                callback(true, returned_data);
+                callback(true, data);
             }
         },
         error: function(xhr, status, e) {
@@ -1222,8 +1225,6 @@ sakai.api.UI.Forms = {
      *     selectElement : ["UK"],
      *     textAreaName : "This is some random text"
      *  }</code></pre>
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     json2form: function(formElement, formDataJson){
 
@@ -1249,11 +1250,9 @@ sakai.api.UI.Forms = {
                             }
                         }
                     } else if (nodeName === "select"){
-                        for (var select = 0; select < formDataJson[name].length; select++){
-                            for (var k = 0, kl = el.options.length; k < kl; k++) {
-                                if (el.options[k].value === formDataJson[name][select]) {
-                                    el.options[k].selected = true;
-                                }
+                        for (var k = 0, kl = el.options.length; k < kl; k++) {
+                            if (el.options[k].value === formDataJson[name]) {
+                                el.options[k].selected = true;
                             }
                         }
                     }
@@ -1269,8 +1268,6 @@ sakai.api.UI.Forms = {
      * If it's a select dropdown, then the first element will be selected
      * @param {Object} formElement JQuery element that represents the container in which we are
      *  resetting the form fields
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     resetForm: function(formElement){
 
@@ -1310,9 +1307,184 @@ sakai.api.User = sakai.api.User || {};
 
 
 /**
+ * Create a user in the Sakai3 system.
+ * 
+ * @param {Object} user A JSON object containing all the information to create a user.
+ * @param {Function} [callback] A callback function which will be called after the request to the server.
+ */
+sakai.api.User.createUser = function(user, callback){
+
+    // Send an Ajax POST request to create a user
+    $.ajax({
+        url: sakai.config.URL.CREATE_USER_SERVICE,
+        type: "POST",
+        data: user,
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+
+/**
+ * Remove the user credentials in the Sakai3 system.
+ * Note that this doesn't actually remove the user, only its permissions.
+ * 
+ * @example
+ * sakai.api.User.createUser({
+ *     "firstName": "User",
+ *     "lastName": "0",
+ *     "email": "user.0@sakatest.edu",
+ *     "pwd": "test",
+ *     "pwdConfirm": "test",
+ *     ":name": "user0"
+ * });
+ * 
+ * @param {String} userid The id of the user you want to remove from the system
+ * @param {Function} [callback] A callback function which will be called after the request to the server.
+ */
+sakai.api.User.removeUser = function(userid, callback){
+
+    // Send an Ajax POST request to remove a user
+    $.ajax({
+        url: "/system/userManager/user/" + userid + ".delete.json",
+        type: "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+/**
+ * Log-in to Sakai3
+ * 
+ * @example
+ * sakai.api.user.login({
+ *     "username": "user1",
+ *     "password": "test"
+ * });
+ * 
+ * @param {Object} credentials JSON object container the log-in information. Contains the username and password.
+ * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
+ */
+sakai.api.User.login = function(credentials, callback) {
+
+    // Argument check
+    if (!credentials || !credentials.username || !credentials.password) {
+        fluid.log("sakai.api.user.login: Not enough or invalid arguments!");
+        return;
+    }
+
+    /*
+     * sakaiauth:un : the username for the user
+     * sakaiauth:pw : the password for the user
+     * sakaiauth:login : set to 1 because we want to perform a login action
+     */
+    var data = {
+        "sakaiauth:login": 1,
+        "sakaiauth:un": credentials.username,
+        "sakaiauth:pw": credentials.password,
+        "_charset_": "utf-8"
+    };
+
+    // Send the Ajax request
+    $.ajax({
+        url : sakai.config.URL.LOGIN_SERVICE,
+        type : "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        },
+        data : data
+    });
+
+};
+
+
+/**
+ * Log-out from Sakai3
+ * 
+ * @example sakai.api.user.logout();
+ * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
+ */
+sakai.api.User.logout = function(callback) {
+
+    // sakaiauth:logout : set to 1 because we want to perform a logout action
+    var data = {
+        "sakaiauth:logout": "1",
+        "_charset_": "utf-8"
+    };
+
+    // Send the Ajax request
+    $.ajax({
+        url : sakai.config.URL.LOGOUT_SERVICE,
+        type : "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        },
+        data: data
+    });
+
+};
+
+
+/**
  * Retrieves all available information about a logged in user and stores it under sakai.data.me object. When ready it will call a specified callback function
  *
- * @param {Function} callback A function which will be called when the information is retrieved from the server.
+ * @param {Function} [callback] A function which will be called when the information is retrieved from the server.
  * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
  * @return {Void}
  */
@@ -1327,7 +1499,7 @@ sakai.api.User.loadMeData = function(callback) {
         cache: false,
         success: function(data){
 
-            sakai.data.me = $.evalJSON(data);
+            sakai.data.me = data;
 
             // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
             if (!sakai.data.me.profile.firstName) {

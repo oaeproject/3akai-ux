@@ -21,7 +21,7 @@
 
 
 /** ADD MORE MENU **/
-.sakai_site .content_page_options #more_link
+.sakai_site .content_page_options .more_link
 { background: transparent url(../../_images/more_bg_18.png) top left no-repeat; padding: 1px 21px 2px 12px; }
 
 .sakai_site .add_more_menu

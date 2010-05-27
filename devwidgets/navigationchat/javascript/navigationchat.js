@@ -295,12 +295,12 @@ sakai.navigationchat = function(tuid, showSettings){
      * @param {String} picture The picture path for a user
      * @param {String} userStoragePrefix The user's storage prefix
      */
-    var parsePicture = function(picture, uuid){
+    var parsePicture = function(profile, uuid){
         // Check if the picture is undefined or not
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
-        if (picture && $.evalJSON(picture).name) {
-            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.evalJSON(picture).name;
+        if (profile && profile.picture && $.parseJSON(profile.picture).name) {
+            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
@@ -313,7 +313,7 @@ sakai.navigationchat = function(tuid, showSettings){
      */
     var parseStatusMessage = function(basic){
         if (basic) {
-            var base = $.evalJSON(basic);
+            var base = $.parseJSON(basic);
             if (base.status) {
                 return sakai.api.Util.shortenString(base.status, 20);
             }
@@ -341,12 +341,11 @@ sakai.navigationchat = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=inbox",
             success: function(data){
-                var json = $.evalJSON(data);
 
                 // Count unread messages
                 var unread_message_count = 0;
-                for (var i = 0; i < json.total; i++) {
-                    if (json.results[i]["sakai:read"] === false) {
+                for (var i = 0; i < data.results.length; i++) {
+                    if (data.results[i]["sakai:read"] === false) {
                         unread_message_count++;
                     }
                 }
@@ -355,7 +354,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 $(chatUnreadMessages).text(unread_message_count);
             },
             error: function(xhr, status, thrown) {
-
+                fluid.log("Navigationchat widget - it was not possible to get the unread messages from the server.");
             }
         });
     };
@@ -445,7 +444,7 @@ sakai.navigationchat = function(tuid, showSettings){
         if (tosearch) {
             // Redirecting back to the general search page. This expects the URL to be
             // in a format like this one: page.html#pageid|searchstring
-            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#1|" + tosearch;
+            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
         }
     };
 
@@ -800,7 +799,7 @@ sakai.navigationchat = function(tuid, showSettings){
         if (json.contacts !== undefined) {
             for (var i = 0, j = json.contacts.length; i < j; i++) {
                 if (typeof json.contacts[i].profile === "string") {
-                    json.contacts[i].profile = $.evalJSON(json.contacts[i].profile);
+                    json.contacts[i].profile = $.parseJSON(json.contacts[i].profile);
                 }
                 json.contacts[i].chatstatus = parseChatStatus(json.contacts[i].profile.chatstatus);
                 /** Check if a friend is online or not */
@@ -810,7 +809,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 }
 
                 json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
-                json.contacts[i].photo = parsePicture(json.contacts[i].profile.picture, json.contacts[i].profile["rep:userId"]);
+                json.contacts[i].photo = parsePicture(json.contacts[i].profile, json.contacts[i].profile["rep:userId"]);
                 json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
 
                 saveToAllFriends(json.contacts[i]);
@@ -829,7 +828,7 @@ sakai.navigationchat = function(tuid, showSettings){
         json.me = {};
         if (json.me) {
         json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
-        json.me.photo = parsePicture(sakai.data.me.profile.picture, sakai.data.me.user.userid);
+        json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
         json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
         json.me.chatstatus = currentChatStatus;
 
@@ -1166,14 +1165,10 @@ sakai.navigationchat = function(tuid, showSettings){
                         type: "POST",
                         success: function(data){
 
-                            // We evaluate the response after sending
-                            // the message and store it in an object
-                            var response = $.evalJSON(data);
-
                             // Add the id to the send messages object
                             // We need to do this because otherwise the user who
                             // sends the message, will see it 2 times
-                            addToSendMessages(response.id);
+                            addToSendMessages(data.id);
                         },
                         error: function(xhr, textStatus, thrownError){
                             alert("An error has occured when sending the message.");
@@ -1235,12 +1230,11 @@ sakai.navigationchat = function(tuid, showSettings){
                 data: data,
                 success: function(data){
 
-                    // Parse the JSON data and get the time
-                    var json = $.evalJSON(data);
-                    time = json.time;
-                    pulltime = json.pulltime;
+                    // Get the time
+                    time = data.time;
+                    pulltime = data.pulltime;
 
-                    if (json.update) {
+                    if (data.update) {
                         sakai.navigationchat.loadChatTextInitial(false);
                     }
                     else {
@@ -1297,14 +1291,13 @@ sakai.navigationchat = function(tuid, showSettings){
             cache: false,
             sendToLoginOnFail: true,
             success: function(data){
-                var json = $.evalJSON(data);
 
                 // Check if there are any messages inside the JSON object
-                if (json.results) {
+                if (data.results) {
 
                     var njson = {};
-                    for (var i = json.results.length - 1; i >= 0; i--) {
-                        var message = json.results[i];
+                    for (var i = data.results.length - 1; i >= 0; i--) {
+                        var message = data.results[i];
                         var user = "";
                         if (message.userFrom[0].userid === sakai.data.me.user.userid) {
                             user = message.userTo[0].userid;
@@ -1382,7 +1375,7 @@ sakai.navigationchat = function(tuid, showSettings){
 
                                 // Parse the name, photo, statusmessage and chatstatus into the activewindows objects
                                 activewindows.items[index].name = parseName(k, friendProfile.firstName, friendProfile.lastName);
-                                activewindows.items[index].photo = parsePicture(friendProfile.picture, k);
+                                activewindows.items[index].photo = parsePicture(friendProfile, k);
                                 activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
                                 activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
 
@@ -1446,7 +1439,7 @@ sakai.navigationchat = function(tuid, showSettings){
 
         // Check if there is a cookie from a previous visit
         if ($.cookie('sakai_chat')) {
-            activewindows = $.evalJSON($.cookie("sakai_chat"));
+            activewindows = $.parseJSON($.cookie("sakai_chat"));
             $.cookie("sakai_chat", null);
             var toshow = false;
             for (var i = 0, j = activewindows.items.length; i < j; i++) {
@@ -1471,7 +1464,7 @@ sakai.navigationchat = function(tuid, showSettings){
             url: sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
             cache: false,
             success: function(data){
-                online = $.evalJSON(data);
+                online = data;
                 showOnlineFriends();
                 setTimeout(checkOnline, 20000);
                 goBackToLogin = true;
@@ -1486,7 +1479,7 @@ sakai.navigationchat = function(tuid, showSettings){
      */
     var decideLoggedIn = function(data){
 
-        var mejson = (data === undefined ? sakai.data.me : $.evalJSON(data));
+        var mejson = (data === undefined ? sakai.data.me : data);
         if (mejson.user.userid) {
 
             // We are logged in, reload page
@@ -1685,7 +1678,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // Show the profile picture on the dashboard page
         /** TODO : Remove the lines beneath if this functionality is inside changepic.js */
         if (person.profile.picture) {
-            var picture = $.evalJSON(person.profile.picture);
+            var picture = $.parseJSON(person.profile.picture);
             if (picture.name) {
                 $(pictureHolder).attr("src", "/_user" + sakai.data.me.profile.path + "/public/" + picture.name);
             }
