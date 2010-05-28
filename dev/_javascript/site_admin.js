@@ -1502,7 +1502,7 @@ sakai.site.site_admin = function(){
         toggleInsertMore();
 
         var widgetid = false;
-        if (hash.t){
+        if (hash.t && hash.t.id){
             widgetid = hash.t.id.split("_")[3];
         }
         $dialog_content.hide();
