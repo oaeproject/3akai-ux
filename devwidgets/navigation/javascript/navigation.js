@@ -73,10 +73,10 @@ sakai.navigation = function(tuid, showSettings){
         }
     };
 
-    // Create arrays of cleaned up URL elements
-    var cleanURLs = function(site_object) {
+    // Create arrays of full URL elements
+    var fullURLs = function(site_object) {
 
-        var cleaned_urls = [];
+        var full_urls = [];
 
         for (var current_url_title in site_object) {
 
@@ -84,31 +84,36 @@ sakai.navigation = function(tuid, showSettings){
 
                 var raw_path_elements = site_object[current_url_title]["jcr:path"].split("/");
                 var path_elements = [];
+                var raw_path_element = "";
+
+                for (var j=1; j<start_level; j++) {
+                    raw_path_element += "/" + raw_path_elements[j];
+                }
 
                 // Consider only elements below the start level, and discard "_pages" or empty entries
                 for (var i=start_level, current_level = raw_path_elements.length; i<current_level; i++) {
+                    raw_path_element += "/" + raw_path_elements[i];
                     if ((raw_path_elements[i] !== "_pages") && (raw_path_elements[i] !== "")) {
-                        path_elements.push(raw_path_elements[i]);
+                        path_elements.push(raw_path_element);
                     }
                 }
 
-                cleaned_urls.push(path_elements);
+                full_urls.push(path_elements);
             }
         }
-        return cleaned_urls.sort();
+        return full_urls.sort();
     };
 
-    // Get a page object by it's path's last element
-    var getPageInfoByLastURLElement = function(i_url_element) {
+    // Get a page object by it's jcr path
+    var getPageInfoByLastURLElement = function(i_jcr_path) {
         var return_object = {};
         for (var i in sakai.site.site_info._pages) {
             if (sakai.site.site_info._pages[i]["jcr:path"]) {
-                var temp = sakai.site.site_info._pages[i]["jcr:path"].split("/");
-                var last_url_element = temp[temp.length - 1];
+                var jcr_path = sakai.site.site_info._pages[i]["jcr:path"];
             } else {
                 continue;
             }
-            if (last_url_element === i_url_element) {
+            if (jcr_path === i_jcr_path) {
                 return_object = sakai.site.site_info._pages[i];
             }
         }
@@ -186,9 +191,9 @@ sakai.navigation = function(tuid, showSettings){
     sakai.site.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
 
         // Create navigation data object
-        var cleaned_array_of_urls = cleanURLs(site_info_object);
+        var full_array_of_urls = fullURLs(site_info_object);
         sakai.site.navigation.navigationData = [];
-        sakai.site.navigation.navigationData = convertToHierarchy(cleaned_array_of_urls);
+        sakai.site.navigation.navigationData = convertToHierarchy(full_array_of_urls);
 
         var tree_type = {
             renameable: false,

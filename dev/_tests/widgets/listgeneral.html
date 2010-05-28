@@ -3,7 +3,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>__MSG__WIDGET_PLAYGROUND__ - Listpeople</title>
+        <title>__MSG__WIDGET_PLAYGROUND__ - Listgeneral</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="../../_css/FSS/fss-base.css" />
@@ -43,7 +43,7 @@
 
                 <!-- TITLE BAR  -->
                 <div class="s3d-site-heading fl-force-left">
-                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__ - Listpeople</h1>
+                    <h1 id="sitetitle">__MSG__WIDGET_PLAYGROUND__ - Listgeneral</h1>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
         <!-- CONTENT -->
         <div class="fl-centered fixed-container" style="background: #fff; min-height: 400px;">
 
-            <div id="widget_listpeople" class="widget_inline"></div>
+            <div id="widget_listgeneral" class="widget_inline"></div>
 
         </div>
 
@@ -61,13 +61,13 @@
         <script>
 
             // Page code
-            $(window).bind("listpeople_ready", function(e, tuid){
+            $(window).bind("listgeneral_ready", function(e, tuid){
 
-                var pl_query = "/var/search/users?page=0&items=12&username=*&_=" + (Math.random() * 100000000000000000);
+                //var pl_query = "/var/search/users?page=0&items=12&username=user*&_=" + (Math.random() * 100000000000000000);
                 //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
-                var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
+                //var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
 
-                sakai.api.UI.listPeople.render(tuid, pl_query, pl_config);
+                sakai.api.UI.listGeneral.render(tuid, pl_query, pl_config);
 
             });
 
