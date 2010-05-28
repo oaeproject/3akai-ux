@@ -64,7 +64,7 @@ sakai.site_add_members = function() {
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response) {
-                siteJson = $.parseJSON(response);
+                siteJson = response;
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
                 $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
@@ -320,7 +320,7 @@ sakai.site_add_members = function() {
                     arrPeople.push(val);
                 });
                 json.members.results = arrPeople;
-                
+
                 if (typeof json.foundPeople !== "undefined") {
                     renderPeople(json.foundPeople);
                 }

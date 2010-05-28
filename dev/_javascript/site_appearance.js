@@ -287,11 +287,6 @@ sakai.site_appearance = function() {
             type: "GET",
             success: function(response) {
 
-                //TODO remove! as soon as KERN-788 is solved!
-                if(typeof response === "string"){
-                    response = $.parseJSON(response);
-                }
-
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
                 var isMaintainer = sakai.lib.site.authz.isUserMaintainer(response);
@@ -331,7 +326,8 @@ sakai.site_appearance = function() {
 
         var tosave = {
             "name": thumbnailWidth + "x" + thumbnailHeight + "_siteicon",
-            "_name": "siteicon"
+            "_name": "siteicon",
+            "_charset_":"utf-8"
         };
 
         // We edit the profile.json file with the new profile picture.
@@ -346,8 +342,9 @@ sakai.site_appearance = function() {
             url: "/sites/" + siteId,
             type : "POST",
             data : {
-            "picture": stringtosave
-        },
+                "picture": stringtosave,
+                "_charset_":"utf-8"
+            },
             success : function(data) {
 
                 // Update picture on the page
@@ -366,6 +363,16 @@ sakai.site_appearance = function() {
     // and saves it.
     var savePicture = function(){
 
+        // Set standard values if the user hasn't selected an area
+        if(!userSelection){
+            userSelection = {
+                x1:"0",
+                y1:"0",
+                width:thumbnailWidth,
+                height:thumbnailHeight
+            };
+        }
+
         //    The parameters for the cropit service.
         var data = {
             img: "/sites/" + siteId + "/siteicon",
@@ -374,7 +381,8 @@ sakai.site_appearance = function() {
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
             height: Math.floor(userSelection.height * ratio),
-            dimensions: "200x100"
+            dimensions: "200x100",
+            "_charset_":"utf-8"
         };
 
         // Post all of this to the server
