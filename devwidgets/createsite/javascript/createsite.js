@@ -51,7 +51,7 @@ sakai.createsite = function(tuid, showSettings){
     // template containers
     var createSitePortfolioTemplate = "#portfolio_template_container";
     var createSiteNoncourseTemplate = "#noncourse_template_container";
-	 
+
     // Non course
     var createSiteNoncourse = createSite + "_noncourse";
     var createSiteNoncourseCancel = createSiteNoncourse + "_cancel";
@@ -70,7 +70,7 @@ sakai.createsite = function(tuid, showSettings){
     var createSiteOptionPortfolio = createSiteOption + "_eport";
 
     var createSiteType = "noncourse";
-    
+
     // Error fields
     var createSiteNoncourseNameEmpty = createSiteNoncourseName + "_empty";
     var createSiteNoncourseIdEmpty = createSiteNoncourseId + "_empty";
@@ -161,7 +161,7 @@ sakai.createsite = function(tuid, showSettings){
     var showCourse = function(){
        $(createSitePortfolioTemplate).hide();
        $(createSiteNoncourseTemplate).hide();
-       
+
        $(createSiteNoncourseContainer).hide();
        $(createSiteCourseContainer).show();
     };
@@ -172,7 +172,7 @@ sakai.createsite = function(tuid, showSettings){
     var showNoncourse = function(){
        $(createSitePortfolioTemplate).hide();
        $(createSiteNoncourseTemplate).show();
-       
+
        $(createSiteNoncourseContainer).show();
        $(createSiteCourseContainer).hide();
     };
@@ -183,7 +183,7 @@ sakai.createsite = function(tuid, showSettings){
     var showPortfolio = function(){
        $(createSitePortfolioTemplate).show();
        $(createSiteNoncourseTemplate).hide();
-       
+
        $(createSiteNoncourseContainer).show();
        $(createSiteCourseContainer).hide();
     };
