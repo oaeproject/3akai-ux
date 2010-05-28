@@ -125,7 +125,7 @@ sakai.formdatastring = function(tuid,showSettings){
           inputHtml += 'maxlength="'+settings.maxLength+'" ';
        
        if ( settings.inputSize !== undefined  && settings.inputSize > 0)
-          inputHtml += 'size="'+settings.inputSize+'" ';
+          inputHtml += 'style="width: '+settings.inputSize+'em;" ';
         
        if ( settings.dataValue !== undefined )
           inputHtml += 'value="'+settings.dataValue+'" ';

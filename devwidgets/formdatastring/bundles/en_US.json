@@ -1,6 +1,6 @@
 {
-"name":"Structured Form Data String",
-"description":"Form Data String",
+"name":"Create a Form: String Input",
+"description":"Create a Form: String Input",
 "CREATE_TAB": "Data Input",
 "EXISTING_TAB": "Data Existiing",
 "WIDGET_ID": "Widget Id:",

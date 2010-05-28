@@ -99,7 +99,7 @@ var Widgets = {
             "url":"/devwidgets/comments/comments.html"
         },
         "formdatastring": {
-            "description":"Form Data String",
+            "description":"Create a Form: String Input",
             "ca":true,
             "hasSettings":true,
             "i18n": {
@@ -108,7 +108,7 @@ var Widgets = {
             },
             "id":"formdatastring",
             "img":"/devwidgets/formdatastring/images/formdatastring.png",
-            "name":"Structured Form Data String",
+            "name":"Create a Form: String Input",
             "showinsakaigoodies":true,
             "siteportal":true,
             "url":"/devwidgets/formdatastring/formdatastring.html"
