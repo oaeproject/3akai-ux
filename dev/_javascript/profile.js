@@ -379,7 +379,7 @@ sakai.profile = function(){
 
         if (json.picture && $.parseJSON(json.picture).name){
             var picture = $.parseJSON(json.picture);
-            $("#picture_holder img").attr("src","/_user" + sakai.data.me.profile.path + "/public/profile/" + picture.name);
+            $("#picture_holder img").attr("src","/_user" + json.path + "/public/profile/" + picture.name);
         }
 
         fillInBasic();

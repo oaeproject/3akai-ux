@@ -253,9 +253,14 @@ sakai.entity = function(tuid, showSettings){
                 url: sakai.data.me.profile["jcr:path"],
                 data: {
                     "_charset_": "utf-8",
-                    "basic": $.toJSON({
-                        "status": inputValue
-                    })
+                    "basic": $.toJSON(
+
+                        // Merge two objects together
+                        $.extend($.parseJSON(sakai.data.me.profile.basic),{
+                            "status": inputValue
+                        })
+
+                    )
                 },
                 type: "POST",
                 success: function(){
