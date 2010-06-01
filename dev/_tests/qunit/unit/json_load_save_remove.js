@@ -113,7 +113,7 @@ asyncTest("Load a JSON file - big structure", function(){
     load(testURL, testJSON);
 });
 asyncTest("Load a JSON file - my_sakai example", function(){
-    load(testURL, testJSON);
+    load(testURL2, testJSON2);
 });
 
 var remove = function(url){
