@@ -29,6 +29,8 @@
 
     <div class="listgeneral_content">
 
+        <div class="listgeneral_search_results"></div>
+
     </div>
 
 
@@ -104,24 +106,48 @@
     <div class="listgeneral_content_template" style="display:none;"><!--
         <ul class="listgeneral_result_container">
             {for i in results}
-                {if ${i["listgeneralType"]} === "people"}
+                {if i.listgeneralResultType === "sites"}
                     <li class="listgeneral_result">
-                        {if i.picture}
-                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
+                        {if i.site.picture}
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img class="listgeneral_avatar" src="${i.site['jcr:path']}/${i.site.picture.name}" alt="Site logo"/></a>
                         {else}
-                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img src="/dev/_images/mimetypes/html.png" alt="Site logo" class="listgeneral_avatar"/></a>
                         {/if}
-                        <a class="listgeneral_result_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                        <a class="listgeneral_name" href="${i.listgeneralPagePath}">${i.site.name}</a>
+                        <p class="listgeneral_description">${i.excerpt}</p>
                     </li>
                 {/if}
-                {if ${i["listgeneralType"]} === "sites"}
+                {if i.listgeneralResultType === "spaces"}
                     <li class="listgeneral_result">
-                        {if i.picture}
-                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
+                        {if i.space.picture}
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img class="listgeneral_avatar" src="${i.site['jcr:path']}/${i.space.picture.name}" alt="Space logo"/></a>
                         {else}
-                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img src="/dev/_images/mimetypes/colorscm.png" alt="Site logo" class="listgeneral_avatar"/></a>
                         {/if}
-                        <a class="listgeneral_result_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                        <a class="listgeneral_name" href="${i.listgeneralPagePath}">${i.space.name}</a>
+                        <p class="listgeneral_description">${i.excerpt}</p>
+                    </li>
+                {/if}
+                {if i.listgeneralResultType === "content"}
+                    <li class="listgeneral_result">
+                        {if i.space.picture}
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img class="listgeneral_avatar" src="${i.site['jcr:path']}/${i.space.picture.name}" alt="Space logo"/></a>
+                        {else}
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img src="/dev/_images/mimetypes/colorscm.png" alt="Site logo" class="listgeneral_avatar"/></a>
+                        {/if}
+                        <a class="listgeneral_name" href="${i.listgeneralPagePath}">${i.space.name}</a>
+                        <p class="listgeneral_description">${i.excerpt}</p>
+                    </li>
+                {/if}
+                {if i.listgeneralResultType === "people"}
+                    <li class="listgeneral_result">
+                        {if i.space.picture}
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img class="listgeneral_avatar" src="${i.site['jcr:path']}/${i.space.picture.name}" alt="Space logo"/></a>
+                        {else}
+                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img src="/dev/_images/mimetypes/colorscm.png" alt="Site logo" class="listgeneral_avatar"/></a>
+                        {/if}
+                        <a class="listgeneral_name" href="${i.listgeneralPagePath}">${i.space.name}</a>
+                        <p class="listgeneral_description">${i.excerpt}</p>
                     </li>
                 {/if}
             {/for}

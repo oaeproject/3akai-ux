@@ -145,7 +145,8 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
     sakai.data.listgeneral[tuid].numOfQueriesToProcess = searchQuery.length;
 
     // Create storage for aggregate results
-    sakai.data.listgeneral[tuid].aggregateResults = [];
+    sakai.data.listgeneral[tuid].aggregateResults = {};
+    sakai.data.listgeneral[tuid].aggregateResults.results = [];
 
     // Create new container for the bit we load. This is then appended to the
     // main container
@@ -155,16 +156,15 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
         searchQuery[i].page = pageNumber;
 
         // Get sorting from the sorting dropdown
-        if (typeof $(".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("value") !== "undefined") {
+        if (typeof $("#" + tuid + ".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("value") !== "undefined") {
             // If the sorting select box is already there
-            searchQuery[i].sortOn = $(".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("value");
-            searchQuery[i].sortOrder = $(".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("data-sortorder");
+            searchQuery[i].sortOn = $("#" + tuid + " .listgeneral_sortview_sort option[default='true']").attr("value");
+            searchQuery[i].sortOrder = $("#" + tuid + " .listgeneral_sortview_sort option[default='true']").attr("data-sortorder");
         } else {
             // If no sort selection is available, get the default from the template
-            searchQuery[i].sortOn = $(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type + "[default='true']").attr("value");
-            searchQuery[i].sortOrder = $(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type + "[default='true']").attr("data-sortorder");
+            searchQuery[i].sortOn = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("value");
+            searchQuery[i].sortOrder = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("data-sortorder");
         }
-
 
         // Construct search query
         var sq = searchQuery[i].url + "?";
@@ -187,16 +187,48 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
 
                 for (var j = 0, jl = rawData.results.length; j < jl; j++) {
 
+                    // Decorating / sanitising the result objects with convenience info for rendering
+
                     // Add type property to each result
-                    rawData.results[j].listgeneralType = sakai.config.widgets.listgeneral[tuid].type;
+                    rawData.results[j].listgeneralResultType = sakai.config.widgets.listgeneral[tuid].type;
+
+                    // Create page path if the hit is a page
+                    if (rawData.results[j]["data"]["sling:resourceType"] === "sakai/pagecontent") {
+                        var pagePath = "";
+                        pagePath = rawData.results[j]["data"]["sling:resourceType"].replace(/\/_pages/g, "");
+                        pagePath = pagePath.replace(/\/pageContent/g, "");
+                        pagePath = pagePath.replace(/\//g,"");
+                        pagePath = rawData.results[j]["site"]["jcr:path"] + "#" + pagePath;
+                        rawData.results[j].listgeneralPagePath = pagePath;
+                    } else {
+                        // Or just use site path if it's site root
+                        rawData.results[j].listgeneralPagePath = rawData.results[j]["site"]["jcr:path"];
+                    }
+
+                    // Eval picture object if exists
+                    if (rawData.results[j]["site"] && rawData.results[j]["site"].picture) {
+                        rawData.results[j]["site"].picture = $.parseJSON(rawData.results[j]["site"].picture);
+                    } else if (rawData.results[j].picture) {
+                        rawData.results[j].picture = $.parseJSON(rawData.results[j].picture);
+                    }
+                    if (rawData.results[j]["space"] && rawData.results[j]["space"].picture) {
+                        rawData.results[j]["space"].picture = $.parseJSON(rawData.results[j]["site"].picture);
+                    } else if (rawData.results[j].picture) {
+                        rawData.results[j].picture = $.parseJSON(rawData.results[j].picture);
+                    }
+
+                    // Prepare excerpt for sites and pages
+                    if (rawData.results[j].excerpt) {
+                        rawData.results[j].excerpt = $("" + rawData.results[j].excerpt + "").text().replace(/<[^>]*>/g, "");
+                    }
 
                     // Add result to the collection of aggregate results
-                    sakai.data.listgeneral[tuid].aggregateResults.push(rawData.results[j]);
+                    sakai.data.listgeneral[tuid].aggregateResults.results.push(rawData.results[j]);
                 }
 
                 // If this is the last search query to process
                 if (sakai.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
-                    sakai.api.UI.listGeneral.sortAndDsiplay(tuid, pageNumber);
+                    sakai.api.UI.listGeneral.sortAndDisplay(tuid, pageNumber);
                 }
 
             },
@@ -206,7 +238,7 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                 sakai.data.listgeneral[tuid].numOfQueriesToProcess--;
 
                 if (sakai.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
-                    sakai.api.UI.listGeneral.sortAndDsiplay(tuid, pageNumber);
+                    sakai.api.UI.listGeneral.sortAndDisplay(tuid, pageNumber);
                 }
 
                 // Log error in console
@@ -224,13 +256,17 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
 
 
 
-sakai.api.UI.listGeneral.sortAndDsiplay = function(tuid, pageNumber) {
+sakai.api.UI.listGeneral.sortAndDisplay = function(tuid, pageNumber) {
 
     // Sort aggregate results
 
 
     // Display aggregate search results via the template
-    console.dir(sakai.data.listgeneral[tuid].aggregateResults);
+
+    // Render the results data template
+
+    var newPageHTML = $.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
+    $("#" + tuid + " .listgeneral_search_results").append(newPageHTML);
 
 }
 
