@@ -1,5 +1,7 @@
 module("Date parse");
 
+(function(){
+
 /*
  * Test the supported date formats
  * 2010
@@ -80,3 +82,5 @@ test("Date format: YYYY-MM-DDThh:mm:ssTZD", function(){
     equals(dateEquals.getUTCMinutes(), date.substr(14,2), "The minutes are correct");
     equals(dateEquals.getUTCSeconds(), date.substr(17,2), "The seconds are correct");
 });
+
+})();

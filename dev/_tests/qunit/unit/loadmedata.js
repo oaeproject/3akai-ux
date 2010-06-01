@@ -1,5 +1,7 @@
 module("Load me data");
 
+(function(){
+
 /**
  * The callback function for the loadme function, tests the data returned
  * @param {boolean }success Whether it was successful or not
@@ -18,7 +20,7 @@ var testMeData = function(success, data){
 
     //start the next test
     start();
-}
+};
 
 /**
  * Login and call the loadMeData function
@@ -45,7 +47,7 @@ var testLoadMeData = function(){
             start();
         }
     });
-}
+};
 
 /**
  * Run an asynchronous test
@@ -53,3 +55,5 @@ var testLoadMeData = function(){
 asyncTest("Test if the correct data is retrieved and stored in the sakai.data.me object", function(){
     testLoadMeData();
 });
+
+})();

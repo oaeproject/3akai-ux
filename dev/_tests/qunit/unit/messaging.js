@@ -1,5 +1,7 @@
 module("Messaging");
 
+(function(){
+
 var userlist;
 var dummyMessage = "This is a messaging test";
 var dummySubject = "Test subject";
@@ -63,7 +65,7 @@ var removeUsers = function(count){
             }
         });
     }
-}
+};
 
 /**
  * Remove all the created users and messages at the end of the test
@@ -160,7 +162,7 @@ var sendMessage = function(category, reply){
         },
         success:function(){
             //check if it's a normal message or a reply, change the callback function
-            if(reply == ""){
+            if(reply === ""){
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testMessageCallback);
             }else{
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testReplyCallback);
@@ -231,3 +233,5 @@ asyncTest("Send message to multiple users", function(){
     //send message with multiple users
     startTest("","");
 });
+
+})();
