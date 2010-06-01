@@ -1,5 +1,7 @@
 module("User");
 
+(function(){
+
 // Create a random user id
 // We do this to not conflict with other users in the system + tests
 var user_random = "userrandom_" + (new Date()).getTime();
@@ -70,3 +72,5 @@ asyncTest("Log-out with a Sakai3 admin user", function(){
     });
 
 });
+
+})();

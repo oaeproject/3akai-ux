@@ -1,5 +1,7 @@
 module("JCR Removal");
 
+(function(){
+
 var dummyObject = {
     "name":"dummy",
     "version":"dummy version",
@@ -36,3 +38,5 @@ var testJCRRemoval = function(){
 test("Test the removal of jcr objects in a JSON object", function(){
     testJCRRemoval();
 });
+
+})();
