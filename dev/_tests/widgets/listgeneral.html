@@ -63,10 +63,10 @@
             // Page code
             $(window).bind("listgeneral_ready", function(e, tuid){
 
-                var lg_query = ["/var/search/users?page=0&items=12&username=user*"];
+                var lg_query = ["/var/search/sitecontent.json?page=0&items=10&q=welcome&sites=*"];
 
                 // type: sites, spaces, people, content, mixed
-                var lg_config = {"selectable":true, "type": "sites", "sortOn": "lastName", "itemsPerPage": 50 };
+                var lg_config = {"selectable":true, "type": "sites", "itemsPerPage": 50 };
 
                 sakai.api.UI.listGeneral.render(tuid, lg_query, lg_config);
 

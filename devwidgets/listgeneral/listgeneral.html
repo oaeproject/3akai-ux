@@ -5,7 +5,7 @@
 <div class="listgeneral_container">
 
     <div class="listgeneral_header">
-        <div class="listgeneral_results">Results <span class="listgeneral_results_number"></span></div>
+        <span class="listgeneral_results">Results <span class="listgeneral_results_number"></span></span>
 
         <div class="listgeneral_sortview fl-force-right">
 
@@ -18,7 +18,7 @@
                 <option value="thumbnails_10">Thumbnails 10 per page</option>
             </select>
 
-            <button class="s3d-button s3d-button-primary">
+            <button class="s3d-button s3d-button-secondary">
                 <span class="s3d-button-inner">Sort</span>
             </button>
 
@@ -35,108 +35,99 @@
 
     <!-- TEMPLATES -->
 
+    <!-- Sites sort template -->
     <div class="listgeneral_sorttemplate_sites" style="display: none;">
         <select class="listgeneral_sortview_sort">
-            <option default="true" value="favourite">By favourite</option>
-            <option value="highest_rated">Highest rated</option>
-            <option value="lowest_rated">Lowest rated</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="alphabetical_az">Alphabetical A-Z</option>
-            <option value="alphabetical_za">Alphabetical Z-A</option>
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
         </select>
     </div>
 
+    <!-- Spaces sort template -->
     <div class="listgeneral_sorttemplate_spaces" style="display: none;">
         <select class="listgeneral_sortview_sort">
-            <option default="true" value="favourite">By favourite</option>
-            <option value="highest_rated">Highest rated</option>
-            <option value="lowest_rated">Lowest rated</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="alphabetical_az">Alphabetical A-Z</option>
-            <option value="alphabetical_za">Alphabetical Z-A</option>
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
         </select>
     </div>
 
+    <!-- Content sort template -->
     <div class="listgeneral_sorttemplate_content" style="display: none;">
         <select class="listgeneral_sortview_sort">
-            <option default="true" value="favourite">By favourite</option>
-            <option value="highest_rated">Highest rated</option>
-            <option value="lowest_rated">Lowest rated</option>
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
             <option value="filesize">File size</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="alphabetical_az">Alphabetical A-Z</option>
-            <option value="alphabetical_za">Alphabetical Z-A</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
         </select>
     </div>
 
+    <!-- People sort template -->
     <div class="listgeneral_sorttemplate_people" style="display: none;">
         <select class="listgeneral_sortview_sort">
-            <option default="true" value="favourite">By favourite</option>
-            <option value="alphabetical_az">Alphabetical A-Z</option>
-            <option value="alphabetical_za">Alphabetical Z-A</option>
-            <option value="recently_added">Most recently added</option>
-            <option value="first_added">First added</option>
-            <option value="newest">Newest member</option>
-            <option value="oldest">Oldest member</option>
-
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="lastName" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="lastName" data-sortorder="descending">Alphabetical Z-A</option>
+            <option value="jcr:created" data-sortorder="ascending">Most recently added</option>
+            <option value="jcr:created" data-sortorder="descending">First added</option>
         </select>
     </div>
 
+    <!-- Mixed sort template -->
     <div class="listgeneral_sorttemplate_mixed" style="display: none;">
         <select class="listgeneral_sortview_sort">
-            <option default="true" value="favourite">By favourite</option>
-            <option value="highest_rated">Highest rated</option>
-            <option value="lowest_rated">Lowest rated</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="alphabetical_az">Alphabetical A-Z</option>
-            <option value="alphabetical_za">Alphabetical Z-A</option>
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
         </select>
     </div>
 
 
-    <div class="listgeneral_content_template_people" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-
-        </li>
-        {/for}
+    <!-- MAIN LIST TEMPLATE -->
+    <div class="listgeneral_content_template" style="display:none;"><!--
+        <ul class="listgeneral_result_container">
+            {for i in results}
+                {if ${i["listgeneralType"]} === "people"}
+                    <li class="listgeneral_result">
+                        {if i.picture}
+                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
+                        {else}
+                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                        {/if}
+                        <a class="listgeneral_result_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                    </li>
+                {/if}
+                {if ${i["listgeneralType"]} === "sites"}
+                    <li class="listgeneral_result">
+                        {if i.picture}
+                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="listpeople_ppicture"/></a>
+                        {else}
+                            <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="listpeople_ppicture"/></a>
+                        {/if}
+                        <a class="listgeneral_result_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                    </li>
+                {/if}
+            {/for}
+        </ul>
     --></div>
 
-    <div class="listgeneral_content_template_sites" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-
-        </li>
-        {/for}
-    --></div>
-
-    <div class="listgeneral_content_template_spaces" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-
-        </li>
-        {/for}
-    --></div>
-
-    <div class="listgeneral_content_template_content" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-
-        </li>
-        {/for}
-    --></div>
-
-    <div class="listgeneral_content_template_mixed" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-
-        </li>
-        {/for}
-    --></div>
 
 
     <div class="listgeneral_error_template" style="display:none;">

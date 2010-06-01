@@ -27,8 +27,6 @@
 // Namespaces
 var sakai = sakai || {};
 sakai.api.UI.listGeneral = {};
-sakai.api.UI.listGeneral.selected = {};
-sakai.api.UI.listGeneral.currentElementCount = 0;
 
 /**
  * Initialize the listgeneralwidget
@@ -51,6 +49,11 @@ sakai.listgeneral = function(tuid, showSettings){
     sakai.config.widgets.listgeneral = sakai.config.widgets.listgeneral || {};
     sakai.config.widgets.listgeneral[tuid] = default_config;
 
+    // Create a data object for this instance
+    sakai.data.listgeneral = sakai.data.listgeneral || {};
+    sakai.data.listgeneral[tuid] = {};
+    sakai.data.listgeneral[tuid].selected = 0;
+
     // Reset to defaults
     sakai.api.UI.listGeneral.reset(tuid);
 
@@ -69,7 +72,7 @@ sakai.listgeneral = function(tuid, showSettings){
  */
 sakai.api.UI.listGeneral.reset = function(tuid) {
 
-    sakai.api.UI.listGeneral.selected = {};
+    sakai.data.listgeneral[tuid].selected = {};
 
 };
 
@@ -79,7 +82,7 @@ sakai.api.UI.listGeneral.reset = function(tuid) {
  * a search query initially, then does the paginating and subsequent requests
  * for data automatically
  * @param tuid {String} Unique id of the widget
- * @param iSearchQuery {String} A Sakai search query
+ * @param iSearchQuery {Array} A Sakai search queries
  * @param iConfig {Object} Optional config overrides
  * @returns void
  */
@@ -93,25 +96,35 @@ sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
     }
 
     // Parse search query
-    var searchQuery = {};
-    var main_parts = iSearchQuery.split("?");
-    searchQuery.url = main_parts[0];
-    var arguments = main_parts[1].split("&");
-    for (var i=0, il = arguments.length; i < il; i++) {
-        var kv_pair = arguments[i].split("=");
-        searchQuery[kv_pair[0]] = kv_pair[1];
+    var searchQuery = [];
+    for (var i = 0, il = iSearchQuery.length; i < il; i++) {
+
+        var searchQueryObject = {};
+        var main_parts = iSearchQuery[i].split("?");
+        searchQueryObject.url = main_parts[0];
+        var arguments = main_parts[1].split("&");
+        for (var j = 0, jl = arguments.length; j < jl; j++) {
+            var kv_pair = arguments[j].split("=");
+            searchQueryObject[kv_pair[0]] = kv_pair[1];
+        }
+
+        // Alter search query according to config
+        searchQueryObject.items = sakai.config.widgets.listgeneral[tuid].items;
+
+        // Add hash to search query in case it's not there to prevent caching
+        if (!searchQueryObject["_"]) {
+            searchQueryObject["_"] = (Math.random() * 100000000000000000);
+        }
+
+        // Push search query into the array of queries
+        searchQuery.push(searchQueryObject);
+
     }
+    // Set up sorting according to the type of list
+    $(".listgeneral_sortview").prepend($(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type).html());
 
-    // Alter search query according to config
-    searchQuery.items = sakai.config.widgets.listgeneral[tuid].items;
+    // Deal with non logged in users - remove favourite select options
 
-    // Add hash to search query in case it's not there to prevent caching
-    if (!searchQuery["_"]) {
-        searchQuery["_"] = (Math.random() * 100000000000000000);
-    }
-
-    // Deal with non logged in users
-    
 
     // Render the first page of results
     sakai.api.UI.listGeneral.addPage(tuid, 0, searchQuery);
@@ -123,32 +136,103 @@ sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
  * Adds another page of search result to the People lister's result list
  * @param tuid {String} The instance ID of a widget
  * @pageNumber {Int} The page we want to load
- * @searchQuery {Object} An object containing the search query elements
+ * @searchQuery {Array} An array containing objects of the search query elements
  * @returns void
  */
 sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
 
+    // Store number of requests we need to process to make sure we process all at the end of the ajax requests
+    sakai.data.listgeneral[tuid].numOfQueriesToProcess = searchQuery.length;
+
+    // Create storage for aggregate results
+    sakai.data.listgeneral[tuid].aggregateResults = [];
+
     // Create new container for the bit we load. This is then appended to the
     // main container
+    for (var i=0, il = searchQuery.length; i < il; i++) {
 
-    // Aadd relevant config elements to the search query
-    searchQuery.page = pageNumber;
-    searchQuery.sortOn = sakai.config.widgets.listgeneral[tuid]["sortOn"];
-    searchQuery.sortOrder = sakai.config.widgets.listgeneral[tuid]["sortOrder"];
+        // Add relevant config elements to the search query
+        searchQuery[i].page = pageNumber;
 
-    // Construct search query
-    var sq = searchQuery.url + "?";
-    for (var e in searchQuery) {
-        if (searchQuery.hasOwnProperty(e) && e !== "url") {
-            sq += e + "=" + searchQuery[e] + "&";
+        // Get sorting from the sorting dropdown
+        if (typeof $(".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("value") !== "undefined") {
+            // If the sorting select box is already there
+            searchQuery[i].sortOn = $(".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("value");
+            searchQuery[i].sortOrder = $(".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("data-sortorder");
+        } else {
+            // If no sort selection is available, get the default from the template
+            searchQuery[i].sortOn = $(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type + "[default='true']").attr("value");
+            searchQuery[i].sortOrder = $(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type + "[default='true']").attr("data-sortorder");
         }
+
+
+        // Construct search query
+        var sq = searchQuery[i].url + "?";
+        for (var e in searchQuery[i]) {
+            if (searchQuery[i].hasOwnProperty(e) && e !== "url") {
+                sq += e + "=" + searchQuery[i][e] + "&";
+            }
+        }
+        sq = sq.substring(0, sq.length-1);
+
+
+        // Fire search requests
+        $.ajax({
+            url: sq,
+            type: "GET",
+            success: function(rawData) {
+
+                // Keep track of queries which needs to be processed
+                sakai.data.listgeneral[tuid].numOfQueriesToProcess--;
+
+                for (var j = 0, jl = rawData.results.length; j < jl; j++) {
+
+                    // Add type property to each result
+                    rawData.results[j].listgeneralType = sakai.config.widgets.listgeneral[tuid].type;
+
+                    // Add result to the collection of aggregate results
+                    sakai.data.listgeneral[tuid].aggregateResults.push(rawData.results[j]);
+                }
+
+                // If this is the last search query to process
+                if (sakai.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
+                    sakai.api.UI.listGeneral.sortAndDsiplay(tuid, pageNumber);
+                }
+
+            },
+            error: function(xhr, status, thrown) {
+
+                // Keep track of queries which needs to be processed
+                sakai.data.listgeneral[tuid].numOfQueriesToProcess--;
+
+                if (sakai.data.listgeneral[tuid].numOfQueriesToProcess === 0) {
+                    sakai.api.UI.listGeneral.sortAndDsiplay(tuid, pageNumber);
+                }
+
+                // Log error in console
+                fluid.log("listgeneral.js: Error in processing a search request!");
+
+            }
+        });
+
+        // Display empty new container with loading anim
+        //$pl_container.append($pl_pageContainer);
+
     }
 
-    // Display empty new container with loading anim
-    //$pl_container.append($pl_pageContainer);
-
-
 };
+
+
+
+sakai.api.UI.listGeneral.sortAndDsiplay = function(tuid, pageNumber) {
+
+    // Sort aggregate results
+
+
+    // Display aggregate search results via the template
+    console.dir(sakai.data.listgeneral[tuid].aggregateResults);
+
+}
 
 
 
