@@ -199,7 +199,7 @@ var createDummyUsers = function(count){
  */
 var startTest = function(category, reply){
     d = new Date();
-    u1time = d.getMilliseconds();
+    u1time = d.getTime();
     dummyUser = dummyUser + u1time;
     pathToMessages = [];
     userlist = [
