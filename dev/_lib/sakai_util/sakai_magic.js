@@ -1449,16 +1449,51 @@ sakai.api.User.login = function(credentials, callback) {
  */
 sakai.api.User.logout = function(callback) {
 
-    // sakaiauth:logout : set to 1 because we want to perform a logout action
-    var data = {
-        "sakaiauth:logout": "1",
-        "_charset_": "utf-8"
-    };
+    /*
+     * Array to store the data for the batch Ajax POST.
+     * Each object in this array consists out of
+     *     - the config service URL
+     *     - the used Ajax method
+     *     - the parameters for the service
+     */
+    var data = [];
 
-    // Send the Ajax request
+    /*
+     * POST request to the presence service,
+     * which will change the user status to offline.
+     */
+    data.push({
+        "url": sakai.config.URL.PRESENCE_SERVICE,
+        "method": "POST",
+        "parameters": {
+            "sakai:status": "offline",
+            "_charset_": "utf-8"
+        }
+    });
+
+    /*
+     * POST request to the logout service,
+     * which will destroy the session.
+     */
+    data.push({
+        "url": sakai.config.URL.LOGOUT_SERVICE,
+        "method": "POST",
+        "parameters": {
+            "sakaiauth:logout": "1",
+            "_charset_": "utf-8"
+        }
+    });
+
+    /*
+     * The batch Ajax post.
+     * If the request fails, it is probably because there is no current session.
+     */
     $.ajax({
-        url : sakai.config.URL.LOGOUT_SERVICE,
-        type : "POST",
+        url: sakai.config.URL.BATCH,
+        type: "POST",
+        data: {
+            requests: $.toJSON(data)
+        },
         success: function(data){
 
             // Call callback function if set
@@ -1474,8 +1509,7 @@ sakai.api.User.logout = function(callback) {
                 callback(false, xhr);
             }
 
-        },
-        data: data
+        }
     });
 
 };
