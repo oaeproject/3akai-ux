@@ -183,6 +183,7 @@ var createDummyUsers = function(count){
 
         $.ajax({
             url: "/system/userManager/user.create.json",
+            async: false,
             type: "POST",
             data: userlist[count],
             complete: function(){
