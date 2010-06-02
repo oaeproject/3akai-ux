@@ -19,6 +19,9 @@
 /*global $, sdata, Config, fluid, window */
 
 var sakai = sakai || {};
+sakai.api.UI.entity = sakai.api.UI.entity || {};
+sakai.api.UI.entity.data = sakai.api.UI.entity.data || {};
+sakai.api.UI.entity.render = sakai.api.UI.entity.render || {};
 
 /**
  * Initialize the entity widget - this widget provides person / space and content information
@@ -370,35 +373,48 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Get the date for a specific mode
+     * Get the data for a specific mode
      * @param {String} mode The mode you want to get the data for
+     * @param {Object} [data] The data you received from the page that called this (can be undefined)
      * @param {Function} [callback] A callback function that will be fired it is supplied
      */
-    var getData = function(mode, callback){
+    var getData = function(mode, data, callback){
 
-        if (mode !== "myprofile") {
-            $.ajax({
-                "url": urls[mode]
-            });
-        }
-        else {
 
-            getUnreadMessagesCount(function(){
+        switch (mode) {
+            case "profile":
 
-                // Set the profile for the entity widget to the personal profile information
-                // We need to clone the sakai.data.me.profile object so we don't interfere with it
-                entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
+                $.ajax({
+                    "url": urls[mode]
+                });
+                break;
 
-                // Set the correct profile data
-                setProfileData();
+            case "myprofile":
 
+                getUnreadMessagesCount(function(){
+
+                    // Set the profile for the entity widget to the personal profile information
+                    // We need to clone the sakai.data.me.profile object so we don't interfere with it
+                    entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
+
+                    // Set the correct profile data
+                    setProfileData();
+
+                    // Execute the callback (if there is one)
+                    if (typeof callback === "function") {
+                        callback();
+                    }
+
+                });
+                break;
+
+            default:
+
+                fluid.log("Entity widget - getData - invalid mode");
                 // Execute the callback (if there is one)
                 if (typeof callback === "function") {
                     callback();
                 }
-
-            });
-
 
         }
 
@@ -411,14 +427,16 @@ sakai.entity = function(tuid, showSettings){
 
     /**
      * Init function for the entity widget
+     * @param {String} mode The mode in which you load the entity widget
+     * @param {Object} data A JSON object containing the necessary data - the structure depends on the mode
      */
-    var init = function(){
+    sakai.api.UI.entity.render = function(mode, data){
 
         // Change the mode for the entity widget
-        changeMode(sakai.data.entity.mode);
+        changeMode(mode);
 
         // Get the data for the appropriate mode
-        getData(entityconfig.mode, function(){
+        getData(entityconfig.mode, data, function(){
 
             // Render the main template
             renderTemplate();
@@ -433,7 +451,9 @@ sakai.entity = function(tuid, showSettings){
 
     };
 
-    init();
+    // Send out an event that says the widget is ready.
+    // This event can be picked up in a page JS code
+    $(window).trigger("sakai.api.UI.entity.ready");
 
 };
 sdata.widgets.WidgetLoader.informOnLoad("entity");

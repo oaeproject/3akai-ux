@@ -382,6 +382,8 @@
 "TAGS": "Tags",
 "TALK_INFORMATION_ID": "Talk information id",
 "TALKS": "Talks",
+"THE_CONTENT_PATH_COULD_NOT_BE_LOADED": "The content path could not be loaded",
+"THE_CONTENT_PATH_IS_INVALID_OR_UNDEFINED": "The content path is invalid or undefined",
 "THE_CONVERSATION_HAS_BEEN_MARKED_AS_READ": "The conversation has been marked as read",
 "THE_GENERAL_PUBLIC": "The general public",
 "THE_MESSAGE_HAS_BEEN_DELETED": "The message has been deleted",

@@ -39,7 +39,7 @@
 
     </head>
 
-    <body id="root" class="body-container fl-centered fl-container i18nable">
+    <body class="fl-centered fl-container i18nable">
 
         <!-- NAVIGATION + CHAT -->
         <div id="widget_navigationchat" class="widget_inline"></div>
@@ -51,6 +51,25 @@
 
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline"></div>
+
+                <!-- ERROR CONTAINER -->
+                <div id="content_profile_error_container">
+                </div>
+
+                <div id="content_profile_error_container_template"><!--
+                    {if error}
+                        <div class="s3d-site-heading">
+                            <h1>__MSG__CONTENT_PROFILE__</h1>
+                        </div>
+                        <p class="content_profile_error">
+                        {if error === "invalid_url"}
+                            __MSG__THE_CONTENT_PATH_COULD_NOT_BE_LOADED__.
+                        {elseif error === "invalid_query"}
+                            __MSG__THE_CONTENT_PATH_IS_INVALID_OR_UNDEFINED__.
+                        {/if}
+                        </p>
+                    {/if}
+                --></div>
 
             </div>
         </div>
