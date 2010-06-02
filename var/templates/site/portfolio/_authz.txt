@@ -1,0 +1,94 @@
+// This is a JSON file stored as "text" to block extraction by the Sling contentloader.
+{
+  // Standard site membership roles
+  roles: ["Collaborator", "Viewer"],
+  // Supports internal logic for mapping UX roles to JCR groups
+  roleToGroupPattern: {
+    "Collaborator": "g-${siteId}-collaborators",
+    "Viewer": "g-${siteId}-viewers"
+  },
+  // Standard mapping of roles to JCR permissions for all access schemes.
+  standardAces: [{
+    role: "Collaborator",
+    aces: {
+      "jcr:addChildNodes": "granted",
+      "jcr:modifyAccessControl": "granted",
+      "jcr:modifyProperties": "granted",
+      "jcr:read": "granted",
+      "jcr:readAccessControl": "granted",
+      "jcr:removeChildNodes": "granted",
+      "jcr:removeNode": "granted",
+      "jcr:write": "granted"
+    }
+  }],
+  // Standard site-wide schemes for site availability and access rights.
+  accessSchemes: {
+    "online": {
+      description: "Online",
+      aceModifications: false // Re-apply availability scheme.
+    },
+    "offline": {
+      description: "Offline",
+      aceModifications: [{
+        principal: "everyone",
+        aces: {
+          "jcr:read": "denied"
+        }
+      }, {
+        role: "Viewer"
+      }, {
+        principal: "anonymous"
+      }]
+    },
+    "everyone": {
+      description: "Readable by general public",
+      aceModifications: [{
+        principal: "everyone",
+        aces: {
+          "jcr:read": "granted"
+        }
+      }, {
+        role: "Viewer"
+      }, {
+        principal: "anonymous"
+      }]
+    },
+    "sakaiUsers": {
+      description: "Readable by any registered user",
+      aceModifications: [{
+        principal: "everyone",
+        aces: {
+          "jcr:read": "granted"
+        }
+      }, {
+        principal: "anonymous",
+        aces: {
+          "jcr:read": "denied"
+        }
+      }, {
+        role: "Viewer"
+      }]
+    },
+    "invite": {
+      description: "Only people I invite",
+      aceModifications: [{
+        role: "Viewer",
+        aces: {
+          "jcr:read": "granted"
+        }
+      }, {
+        principal: "everyone",
+        aces: {
+          "jcr:read": "denied"
+        }
+      }, {
+        principal: "anonymous"
+      }]
+    }
+  },
+  maintenanceRole: "Collaborator",
+  defaultProperties: {
+    status: "online",
+    access: "everyone"
+  }
+}

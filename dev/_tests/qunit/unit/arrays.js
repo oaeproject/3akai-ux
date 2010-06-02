@@ -21,13 +21,12 @@ var testCustomIndexOf = function(){
     index = dummyArray.indexOf("foo");
     same(index, -1, "Not finding unknown item");
 
-    start();
-}
+};
 
 /**
- * Run an asynchronous test
+ * Run a test
  */
-test("Arrays: Get the first occurence of an item in an array", function(){
-    //send a message
+test("Get the first occurence of an item in an array", function(){
+    //test to see if the custom index of works correctly
     testCustomIndexOf();
 });

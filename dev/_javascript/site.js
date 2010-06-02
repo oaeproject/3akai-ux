@@ -230,8 +230,8 @@ sakai.site = function(){
             cache: false,
             success: function(response){
 
-                if(response && typeof response === "string"){
-                    sakai.site.currentsite = $.parseJSON(response);
+                if (response){
+                    sakai.site.currentsite = response;
                 }
 
                 // Adjust links if not on dev
@@ -580,8 +580,8 @@ sakai.site = function(){
                 }
             }
         }
-        
-        
+
+
         //Store currently selected page
         sakai.site.selectedpage = pageUrlName;
 

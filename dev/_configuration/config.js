@@ -33,7 +33,7 @@ sakai.config = {
         PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
         PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
         PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-        PUBLIC_MY_DASHBOARD_URL: "/dev/public_my_sakai.html",
+        PUBLIC_MY_DASHBOARD_URL: "/dev/my_sakai.html",
         PUBLIC_PEOPLE_URL: "/dev/public_people.html",
         PUBLIC_SEARCH_URL: "/dev/public_search.html",
         RECENT_SITES_URL: "/_user/private/__USERSTORAGEPREFIX__recentsites.json",
