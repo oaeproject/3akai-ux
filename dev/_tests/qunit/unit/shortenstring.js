@@ -13,10 +13,13 @@ var testShortenString = function(){
     //we expect 33 chars (30 + 3 dots)
     same(newString.length,33, "Checking the length of the shortened string");
     ok(newString.match("\.\.\.$"),"The string ends with three dots");
-    start();
+
 }
 
-test("Shorten String: Send message to one person", function(){
+/**
+ * Run a test
+ */
+test("Send message to one person", function(){
     //shorten a string
     testShortenString();
 });

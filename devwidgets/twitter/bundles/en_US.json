@@ -1,10 +1,17 @@
 {
-"name": "Twitter",
-"description": "Twitter widget\r\n",
-"WIDGET_TITLE": "Twitter",
+"AN_ERROR_OCCURED_WHEN_SENDING_THE_STATUS_TO_THE_SERVER": "An error occurend when sending the status to the server",
+"COULD_NOT_FIND_LAST_STATUS_FOR": "Couldn't find the last status for",
+"COULD_NOT_UPDATE_THE_TWITTER_STATUS": "Could not update the twitter status",
 "GET_STATUS_FROM_TWITTER": "Get status from twitter",
-"SET_STATUS_TO_TWITTER": "Set status to twitter",
+"NO_STATUS_FROM_TWITTER_FOUND": "No status from twitter found",
 "SCREEN_NAME": "Screen name",
+"SET_STATUS_TO_TWITTER": "Set status to twitter",
 "OK": "OK",
-"PASSWORD": "Password"
+"PASSWORD": "Password",
+"PLEASE_INSERT_YOUR_PASSWORD": "Please insert your password",
+"PLEASE_INSERT_YOUR_TWITTER_NAME": "Please insert your twitter name",
+"WIDGET_TITLE": "Twitter",
+"YOUR_SAKAI_STATUS_IS_EMPTY": "Your sakai status is empty",
+"YOUR_STATUS_HAS_BEEN_SUCCESSFULLY_UPDATED": "Your status has been succesfully updated",
+"YOUR_TWITTER_STATUS_HAS_BEEN_SUCCESSFULLY_UPDATED": "Your twitter status has been succesfully updated"
 }
