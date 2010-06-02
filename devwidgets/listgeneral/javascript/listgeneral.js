@@ -40,9 +40,7 @@ sakai.listgeneral = function(tuid, showSettings){
     // Config defaults
     var default_config = {
         "items": 25,
-        "selectable": false,
-        "sortOn": "lastName",
-        "sortOrder": "ascending"
+        "selectable": false
     };
 
     // Create a config object for this instance
@@ -72,6 +70,10 @@ sakai.listgeneral = function(tuid, showSettings){
  */
 sakai.api.UI.listGeneral.reset = function(tuid) {
 
+    //Clear results from DOM
+    $("#"+tuid+" .listgeneral_search_results").html("");
+
+    // Reset selected items
     sakai.data.listgeneral[tuid].selected = {};
 
 };
@@ -120,8 +122,32 @@ sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
         searchQuery.push(searchQueryObject);
 
     }
-    // Set up sorting according to the type of list
+    // Set up sorting drop-down according to the type of list
     $(".listgeneral_sortview").prepend($(".listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type).html());
+
+
+    // Sorting
+    if (!sakai.config.widgets.listgeneral[tuid].sortOn) {
+        sakai.config.widgets.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("value");
+    }
+    if (!sakai.config.widgets.listgeneral[tuid].sortOrder) {
+        sakai.config.widgets.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("data-sortorder");
+    }
+
+    // Wire up sort button
+    $("#" + tuid + " .listgeneral_sort_button").bind("click", function(e) {
+
+        // Get sorting flag from the dropdown
+        sakai.config.widgets.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("value");
+        sakai.config.widgets.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("data-sortorder");
+
+        // Reset everything
+        sakai.api.UI.listGeneral.reset(tuid);
+
+        // Get new results with new sorting
+        sakai.api.UI.listGeneral.addPage(tuid, 0, searchQuery);
+    });
+
 
     // Deal with non logged in users - remove favourite select options
 
@@ -154,17 +180,8 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
 
         // Add relevant config elements to the search query
         searchQuery[i].page = pageNumber;
-
-        // Get sorting from the sorting dropdown
-        if (typeof $("#" + tuid + ".listgeneral_sortview .listgeneral_sortview_sort:selected").attr("value") !== "undefined") {
-            // If the sorting select box is already there
-            searchQuery[i].sortOn = $("#" + tuid + " .listgeneral_sortview_sort option[default='true']").attr("value");
-            searchQuery[i].sortOrder = $("#" + tuid + " .listgeneral_sortview_sort option[default='true']").attr("data-sortorder");
-        } else {
-            // If no sort selection is available, get the default from the template
-            searchQuery[i].sortOn = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("value");
-            searchQuery[i].sortOrder = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("data-sortorder");
-        }
+        searchQuery[i].sortOn = sakai.config.widgets.listgeneral[tuid].sortOn;
+        searchQuery[i].sortOrder = sakai.config.widgets.listgeneral[tuid].sortOrder;
 
         // Construct search query
         var sq = searchQuery[i].url + "?";
@@ -194,7 +211,13 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                     // Decorating / sanitising the result objects with convenience info for rendering
 
                     // Sites, pages, spaces
-                    if (result.type === "sakai/page" || result.type === "sakai/pagecontent" || result.type === "sakai/space") {
+                    if (result.type === "sakai/page" ||
+                        result.type === "sakai/pagecontent" ||
+                        result["sling:resourceType"] === "sakai/site" ||
+                        (result.site && result.site["sling:resourceType"] === "sakai/site") ||
+                        result["sling:resourceType"] === "sakai/space" ||
+                        (result.space && result.space["sling:resourceType"] === "sakai/space")
+                        ) {
 
                         // Add type property
                         if (result.type === "sakai/space") {
@@ -203,47 +226,58 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                             result.listgeneral.resultType = "sites";
                         }
 
+                        // Try to get name
+                        if (result.site && result.site.name) {
+                            result.listgeneral.name = result.site.name;
+                        } else if (result.name) {
+                            result.listgeneral.name = result.name;
+                        } else {
+                            result.listgeneral.name = result["jcr:name"];
+                        }
+
+                        // Get description
+                        if (result.description) {
+                            result.listgeneral.description = result.description;
+                        } else if (result.site && result.site.description) {
+                            result.listgeneral.description = result.site.description;
+                        } else if (result.excerpt) {
+                            result.listgeneral.description = $("" + result.excerpt + "").text().replace(/<[^>]*>/g, "");;
+                        } else {
+                            result.listgeneral.description = "";
+                        }
+
+
                         // Create page path if the hit is a page content
-                        if (result.data["sling:resourceType"] === "sakai/pagecontent") {
+                        if (result.data && result.data["sling:resourceType"] === "sakai/pagecontent") {
                             var pagePath = "";
                             pagePath = result.data["sling:resourceType"].replace(/\/_pages/g, "");
                             pagePath = pagePath.replace(/\/pageContent/g, "");
                             pagePath = pagePath.replace(/\//g,"");
                             pagePath = result.site["jcr:path"] + "#" + pagePath;
-                            result.listgeneralPagePath = pagePath;
+                            result.listgeneral.pagePath = pagePath;
                         } else {
                             // Or just use site path if it's site root
-                            result.listgeneral.pagePath = result.site["jcr:path"];
-                        }
-
-                        // Prepare excerpt
-                        if (result.excerpt) {
-                            result.excerpt = $("" + result.excerpt + "").text().replace(/<[^>]*>/g, "");
+                            result.listgeneral.pagePath = result["jcr:path"];
                         }
 
                         // Eval picture object if exists either in site or in main result. If not use a default one.
-                        if (result.site && result.site.picture) {
+                        if (result.picture) {
+                            result.picture = $.parseJSON(result.picture);
+                            result.listgeneral.avatar = result["jcr:path"] + "/" + result.picture.name;
+                        } else if (result.site && result.site.picture) {
                             result.site.picture = $.parseJSON(result.site.picture);
                             result.listgeneral.avatar = result.site["jcr:path"] + "/" + result.site.picture.name
-                        } else if (result.site && result.picture) {
-                            result.picture = $.parseJSON(result.picture);
-                            result.listgeneral.avatar = result.site["jcr:path"] + "/" + result.picture.name;
-                        } else if (result.site) {
+                        } else if (result.space && result.space.picture) {
+                            result.space.picture = $.parseJSON(result.space.picture);
+                            result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.space.picture.name
+                        } else {
                             result.listgeneral.avatar = "/dev/_images/mimetypes/html.png";
                         }
-                        if (result.space && result.space.picture) {
-                            result.space.picture = $.parseJSON(result.space.picture);
-                            result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.space.picture.name;
-                        } else if (result.picture) {
-                            result.picture = $.parseJSON(result.picture);
-                            result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.picture.name;
-                        } else if (result.space) {
-                            result.listgeneral.avatar = "/dev/_images/mimetypes/colorscm.png";
-                        }
+
                     }
 
                     // Content
-                    if (result["jcr:mimeType"]) {
+                    if (result["jcr:mimeType"] && result["jcr:primaryType"] === "nt:file") {
 
                         // Add type property
                         result.listgeneral.resultType = "content";
@@ -256,6 +290,47 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                             result.listgeneral.avatar = "/dev/_images/mimetypes/empty.png";
                             result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes.other.description;
                         }
+
+                        // Description
+                        if (result.description) {
+                            result.listgeneral.description = result.description;
+                        } else {
+                            result.listgeneral.description = "";
+                        }
+
+                    }
+
+
+                    // People
+                    if (result["sling:resourceType"] === "sakai/user-profile") {
+
+                        // Add type property
+                        result.listgeneral.resultType = "people";
+
+                        // Avatar
+                        if (result.picture) {
+                            result.picture = $.parseJSON(result.picture);
+                            result.listgeneral.avatar = "/_user" + result.path + "/public/profile/" + result.picture.name;
+                        } else {
+                            result.listgeneral.avatar = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                        }
+
+                        // University role
+                        if (result.basic) {
+                            result.basic = $.parseJSON(result.basic);
+                            result.listgeneral.role = result.basic.unirole;
+                        } else {
+                            result.listgeneral.role = "";
+                        }
+
+                        // Description
+                        if (result.aboutme) {
+                            result.aboutme = $.parseJSON(result.aboutme);
+                            result.listgeneral.description = result.aboutme.aboutme;
+                        } else {
+                            result.listgeneral.description = "";
+                        }
+
 
                     }
 
@@ -286,27 +361,31 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
         });
 
         // Display empty new container with loading anim
-        //$pl_container.append($pl_pageContainer);
+        $("#" + tuid + " .listgeneral_search_results").append($("<div class=\"listgeneral_resultpage loadinganim\" data-pagenumber=\"" + pageNumber + "\"></div>"+$("#" + tuid + " .listgeneral_more_results_template").html()));
+
+        // Wire up more results button
+        $("#" + tuid + " .listgeneral_more_button").bind("click", function(e){
+            $(this).remove();
+            sakai.api.UI.listGeneral.addPage(tuid, pageNumber + 1, searchQuery);
+        });
 
     }
 
 };
 
 
-
 sakai.api.UI.listGeneral.sortAndDisplay = function(tuid, pageNumber) {
 
-    // Sort aggregate results
-
-
-    // Display aggregate search results via the template
+    // No sorting of aggregate results for now...
 
     // Render the results data template
-
     var newPageHTML = $.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
-    $("#" + tuid + " .listgeneral_search_results").append(newPageHTML);
 
-}
+    // Add rendered result HTML to DOM
+    $("#" + tuid + " .listgeneral_resultpage[data-pagenumber='"+pageNumber+"']").removeClass("loadinganim").append(newPageHTML);
+
+};
+
 
 
 

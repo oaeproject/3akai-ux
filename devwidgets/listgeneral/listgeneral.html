@@ -12,13 +12,11 @@
             <!-- Here will be popoulated with one of the sorting dropdown templates -->
 
             <select class="listgeneral_sortview_view">
-                <option default="true" value="10_per_page">List 10 per page</option>
-                <option value="all">List all</option>
-                <option value="thumbnails_20">Thumbnails 20 per page</option>
-                <option value="thumbnails_10">Thumbnails 10 per page</option>
+                <option default="true" value="list">List</option>
+                <option value="thumbnails">Thumbnails</option>
             </select>
 
-            <button class="s3d-button s3d-button-secondary">
+            <button class="listgeneral_sort_button s3d-button s3d-button-secondary">
                 <span class="s3d-button-inner">Sort</span>
             </button>
 
@@ -109,36 +107,32 @@
                 {if i.listgeneral.resultType === "sites"}
                     <li class="listgeneral_result">
                         <a class="listgeneral_avatarcontainer" href="${i.listgeneral.pagePath}"><img src="${i.listgeneral.avatar}" alt="Site logo" class="listgeneral_avatar"/></a>
-                        <a class="listgeneral_name" href="${i.listgeneral.pagePath}">${i.site.name}</a>
-                        <p class="listgeneral_description">${i.excerpt}</p>
+                        <a class="listgeneral_name" href="${i.listgeneral.pagePath}">${i.listgeneral.name}</a>
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
                         <div class="listgeneral_rating"></div>
                     </li>
                 {/if}
                 {if i.listgeneral.resultType === "spaces"}
                     <li class="listgeneral_result">
                         <a class="listgeneral_avatarcontainer" href="${i.listgeneral.pagePath}"><img src="${i.listgeneral.avatar}" alt="Space logo" class="listgeneral_avatar"/></a>
-                        <a class="listgeneral_name" href="${i.listgeneral.pagePath}">${i.space.name}</a>
-                        <p class="listgeneral_description">${i.excerpt}</p>
+                        <a class="listgeneral_name" href="${i.listgeneral.pagePath}">${i.listgeneral.name}</a>
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
                         <div class="listgeneral_rating"></div>
                     </li>
                 {/if}
                 {if i.listgeneral.resultType === "content"}
                     <li class="listgeneral_result">
                         <a class="listgeneral_avatarcontainer" href="${i['jcr:path']}"><img src="${i.listgeneral.avatar}" alt="Site logo" class="listgeneral_avatar"/></a>
-                        <a class="listgeneral_name" href="${i['jcr:path']}">${i['jcr:name']}</a>,<span class="listgeneral_mimetype">${i.listgeneral.mimeTypeDescripton}</span>
-                        <p class="listgeneral_description"></p>
+                        <a class="listgeneral_name" href="${i['jcr:path']}">${i['jcr:name']}</a>{if i.listgeneral.mimeTypeDescripton !== ""}, <span class="listgeneral_mimetype">${i.listgeneral.mimeTypeDescripton}</span>{/if}
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
                         <div class="listgeneral_rating"></div>
                     </li>
                 {/if}
                 {if i.listgeneral.resultType === "people"}
                     <li class="listgeneral_result">
-                        {if i.space.picture}
-                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img class="listgeneral_avatar" src="${i.site['jcr:path']}/${i.space.picture.name}" alt="Space logo"/></a>
-                        {else}
-                            <a class="listgeneral_avatarcontainer" href="${i.listgeneralPagePath}"><img src="/dev/_images/mimetypes/colorscm.png" alt="Site logo" class="listgeneral_avatar"/></a>
-                        {/if}
-                        <a class="listgeneral_name" href="${i.listgeneralPagePath}">${i.space.name}</a>
-                        <p class="listgeneral_description">${i.excerpt}</p>
+                        <a class="listgeneral_avatarcontainer" href="/dev/profile.html?user=${i['rep:userId']}"><img src="${i.listgeneral.avatar}" alt="Profile picture" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>{if i.listgeneral.role !== ""}, <span class="listgeneral_role">${i.listgeneral.role}</span>{/if}
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
                     </li>
                 {/if}
             {/for}
@@ -147,6 +141,16 @@
 
     <div class="listgeneral_error_template" style="display:none;">
         <span>Sorry, could not retrieve the list of users form the server!</span>
+    </div>
+
+    <div class="listgeneral_noresults_template" style="display:none;">
+        <span>No results!</span>
+    </div>
+
+    <div class="listgeneral_more_results_template" style="display: none;">
+        <button class="listgeneral_more_button s3d-button s3d-button-secondary">
+            <span class="s3d-button-inner">More results...</span>
+        </button>
     </div>
 
 

@@ -1,15 +1,27 @@
 .listgeneral_container
 { width: 600px; margin-left: 300px; }
 
+.listgeneral_header
+{ height: 30px; overflow: hidden; margin: 0 0 10px 0; line-height: 30px; border-bottom: 1px solid #bbb; }
 
+.listgeneral_header .listgeneral_results
+{ font-size: 16px; color: #666; padding: 0 0 0 10px; }
 
 
 /* General results */
 .listgeneral_result_container
-{ padding: 10px; margin: 0; }
+{ padding: 0 0 0 10px; margin: 0; }
 
 .listgeneral_result
 { display: block; list-style: none; clear: both; margin: 10px 0 10px 0; overflow: hidden; }
+
+
+/* One result page */
+.listgeneral_resultpage
+{ min-height: 200px; }
+
+.loadinganim
+{ background: #fff url(../../../dev/_images/ajax_load.gif) center 40px no-repeat; }
 
 
 /* Sites results */
@@ -20,7 +32,7 @@
 { height: 64px; }
 
 .listgeneral_result_container .listgeneral_result .listgeneral_name
-{ display: inline-block; font-size: 18px; padding: 5px 0;  }
+{ display: inline-block; font-size: 18px; padding: 10px 0 5px 0; }
 
 .listgeneral_result_container .listgeneral_result .listgeneral_description
 { display: block; font-size: 12px; margin: 0; padding: 0; }
