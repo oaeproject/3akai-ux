@@ -2,8 +2,10 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css"></link>
 
 <!-- CONTAINER -->
-<div id="entity_container" class="fl-container-900 fl-fix" style="display:none"><!--
---></div>
+<div id="entity_container" class="fl-container-900 fl-fix" style="display:none"><!-- --></div>
+
+<!-- ACTIONS CONTAINER -->
+<div id="entity_container_actions" style="display:none"><!-- --></div>
 
 <div id="entity_container_template"><!--
     <div class="fl-col entity_container_left">
@@ -42,6 +44,26 @@
                 </div>
             </form>
         {/if}
+        {if mode === "content"}
+            <div class="fl-force-left">
+                {if data.profile}
+                    {if data.profile.mimetype === "image/jpeg" || data.profile.mimetype === "image/png" || data.profile.mimetype === "image/gif"}
+                        <img class="entity_picture" src="${data.profile.path}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}" width="96"/>
+                    {elseif sakai.config.MimeTypes[data.profile.mimetype]}
+                        <img class="entity_picture" src="${sakai.config.MimeTypes[data.profile.mimetype].URL}" alt="${sakai.config.MimeTypes[data.profile.mimetype].description}" />
+                    {else}
+                        <img class="entity_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                    {/if}
+                {/if}
+            </div>
+            <div class="fl-force-left entity_content_information">
+                <p>${data.profile.name}</p>
+                <p>${data.profile.mimetype}</p>
+                <p>${data.profile.filesize}</p>
+                <p>__MSG__CREATED__ ${data.profile.created} __MSG__BY__ ${data.profile.createdby}</p>
+                <p>__MSG__LAST_MODIFIED__ ${data.profile.lastmodified} __MSG__BY__ ${data.profile.lastmodifiedby}</p>
+            </div>
+        {/if}
     </div>
     <div class="fl-col entity_container_right s3d-actions">
         {if mode === "myprofile"}
@@ -49,6 +71,16 @@
             <a href="/dev/inbox.html">${data.count.messages_unread|default:0} __MSG__UNREAD__</a>
         {/if}
     </div>
+--></div>
+
+<div id="entity_container_actions_template"><!--
+    {if mode === "content"}
+        <div class="fl-push entity_actions">
+            <button type="button" class="s3d-button s3d-button-primary" id="entity_action_upload"><span class="s3d-button-inner">__MSG__UPLOAD_NEW_FILE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="entity_action_download"><span class="s3d-button-inner">__MSG__DOWNLOAD_FILE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="entity_action_delete"><span class="s3d-button-inner">__MSG__DELETE_FILE__</span></button>
+        </div>
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

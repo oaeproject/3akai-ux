@@ -15,19 +15,21 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $ */
+/*global $, fluid, window, sdata */
 
 var sakai = sakai || {};
 
 sakai.content_profile = function(){
+
 
     //////////////////////
     // Config variables //
     //////////////////////
 
     var content_path = ""; // The current path of the content
-    
-    
+    var ready_event_fired = 0;
+
+
     ///////////////////
     // CSS Selectors //
     ///////////////////
@@ -56,6 +58,9 @@ sakai.content_profile = function(){
      */
     var loadContentProfile = function(){
 
+        // Clear the error container
+        $content_profile_error_container.empty();
+
         // Check whether there is actually a content path in the URL
         if (content_path) {
 
@@ -67,14 +72,21 @@ sakai.content_profile = function(){
                     var json = {
                         data: data,
                         mode: "content",
-                        url: this.url
+                        url: sakai.config.SakaiDomain + content_path
                     };
 
                     // The request was successful so initialise the entity widget
-                    $(window).bind("sakai.api.UI.entity.ready", function(e){
+                    if (ready_event_fired > 0) {
                         sakai.api.UI.entity.render("content", json);
-                    });
-                    
+                    }
+                    else {
+
+                        $("body").bind("sakai.api.UI.entity.ready", function(e){
+                            sakai.api.UI.entity.render("content", json);
+                            ready_event_fired++;
+                        });
+                    }
+
                 },
                 error: function(xhr, textStatus, thrownError){
 
@@ -83,6 +95,17 @@ sakai.content_profile = function(){
 
                     // Log a more descriptive message to the console
                     fluid.log("sakai.content_profile - loadContentProfile - Loading the content for the following path: '" + this.url + "' failed.");
+
+                    // Render the entity widget
+                    if (ready_event_fired > 0) {
+                        sakai.api.UI.entity.render("content", false);
+                    }
+                    else {
+                        $("body").bind("sakai.api.UI.entity.ready", function(e){
+                            sakai.api.UI.entity.render("content", false);
+                            ready_event_fired++;
+                        });
+                    }
 
                 }
             });
@@ -94,6 +117,18 @@ sakai.content_profile = function(){
 
             // Also log an error message to the console
             fluid.log("sakai.content_profile - loadContentProfile - The content_path variable is invalid: '" + content_path + "'.");
+
+            // Render the entity widget
+
+            if (ready_event_fired > 0) {
+                sakai.api.UI.entity.render("content", false);
+            }
+            else {
+                $("body").bind("sakai.api.UI.entity.ready", function(e){
+                    sakai.api.UI.entity.render("content", false);
+                    ready_event_fired++;
+                });
+            }
 
         }
 

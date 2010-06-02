@@ -122,6 +122,15 @@ var Widgets = {
             "personalportal":true,
             "url":"/devwidgets/delicious/delicious.html"
         },
+        "deletecontent": {
+            "description":"Delete content widget",
+            "id":"deletecontent",
+            "i18n": {
+                "default": "/devwidgets/deletecontent/bundles/default.json"
+            },
+            "name":"Delete Content",
+            "url":"/devwidgets/deletecontent/deletecontent.html"
+        },
         "discussion": {
             "ca":true,
             "description":"Discussion widget",
