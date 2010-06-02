@@ -109,11 +109,11 @@ sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
         }
 
         // Alter search query according to config
-        searchQueryObject.items = sakai.config.widgets.listgeneral[tuid].items;
+        searchQueryObject.items = sakai.config.widgets.listgeneral[tuid].items[i];
 
         // Add hash to search query in case it's not there to prevent caching
         if (!searchQueryObject["_"]) {
-            searchQueryObject["_"] = (Math.random() * 100000000000000000);
+            searchQueryObject["_"] = (Math.random() * 1000000000000000000);
         }
 
         // Push search query into the array of queries
@@ -187,40 +187,78 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
 
                 for (var j = 0, jl = rawData.results.length; j < jl; j++) {
 
+                    // Make code more legible, namespace additional info
+                    var result = rawData.results[j];
+                    result.listgeneral = {};
+
                     // Decorating / sanitising the result objects with convenience info for rendering
 
-                    // Add type property to each result
-                    rawData.results[j].listgeneralResultType = sakai.config.widgets.listgeneral[tuid].type;
+                    // Sites, pages, spaces
+                    if (result.type === "sakai/page" || result.type === "sakai/pagecontent" || result.type === "sakai/space") {
 
-                    // Create page path if the hit is a page
-                    if (rawData.results[j]["data"]["sling:resourceType"] === "sakai/pagecontent") {
-                        var pagePath = "";
-                        pagePath = rawData.results[j]["data"]["sling:resourceType"].replace(/\/_pages/g, "");
-                        pagePath = pagePath.replace(/\/pageContent/g, "");
-                        pagePath = pagePath.replace(/\//g,"");
-                        pagePath = rawData.results[j]["site"]["jcr:path"] + "#" + pagePath;
-                        rawData.results[j].listgeneralPagePath = pagePath;
-                    } else {
-                        // Or just use site path if it's site root
-                        rawData.results[j].listgeneralPagePath = rawData.results[j]["site"]["jcr:path"];
+                        // Add type property
+                        if (result.type === "sakai/space") {
+                            result.listgeneral.resultType = "spaces";
+                        } else {
+                            result.listgeneral.resultType = "sites";
+                        }
+
+                        // Create page path if the hit is a page content
+                        if (result.data["sling:resourceType"] === "sakai/pagecontent") {
+                            var pagePath = "";
+                            pagePath = result.data["sling:resourceType"].replace(/\/_pages/g, "");
+                            pagePath = pagePath.replace(/\/pageContent/g, "");
+                            pagePath = pagePath.replace(/\//g,"");
+                            pagePath = result.site["jcr:path"] + "#" + pagePath;
+                            result.listgeneralPagePath = pagePath;
+                        } else {
+                            // Or just use site path if it's site root
+                            result.listgeneral.pagePath = result.site["jcr:path"];
+                        }
+
+                        // Prepare excerpt
+                        if (result.excerpt) {
+                            result.excerpt = $("" + result.excerpt + "").text().replace(/<[^>]*>/g, "");
+                        }
+
+                        // Eval picture object if exists either in site or in main result. If not use a default one.
+                        if (result.site && result.site.picture) {
+                            result.site.picture = $.parseJSON(result.site.picture);
+                            result.listgeneral.avatar = result.site["jcr:path"] + "/" + result.site.picture.name
+                        } else if (result.site && result.picture) {
+                            result.picture = $.parseJSON(result.picture);
+                            result.listgeneral.avatar = result.site["jcr:path"] + "/" + result.picture.name;
+                        } else if (result.site) {
+                            result.listgeneral.avatar = "/dev/_images/mimetypes/html.png";
+                        }
+                        if (result.space && result.space.picture) {
+                            result.space.picture = $.parseJSON(result.space.picture);
+                            result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.space.picture.name;
+                        } else if (result.picture) {
+                            result.picture = $.parseJSON(result.picture);
+                            result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.picture.name;
+                        } else if (result.space) {
+                            result.listgeneral.avatar = "/dev/_images/mimetypes/colorscm.png";
+                        }
                     }
 
-                    // Eval picture object if exists
-                    if (rawData.results[j]["site"] && rawData.results[j]["site"].picture) {
-                        rawData.results[j]["site"].picture = $.parseJSON(rawData.results[j]["site"].picture);
-                    } else if (rawData.results[j].picture) {
-                        rawData.results[j].picture = $.parseJSON(rawData.results[j].picture);
-                    }
-                    if (rawData.results[j]["space"] && rawData.results[j]["space"].picture) {
-                        rawData.results[j]["space"].picture = $.parseJSON(rawData.results[j]["site"].picture);
-                    } else if (rawData.results[j].picture) {
-                        rawData.results[j].picture = $.parseJSON(rawData.results[j].picture);
+                    // Content
+                    if (result["jcr:mimeType"]) {
+
+                        // Add type property
+                        result.listgeneral.resultType = "content";
+
+                        // Get mimetype icon and human readable mimetype description
+                        if (sakai.config.MimeTypes[result["jcr:mimeType"]]) {
+                            result.listgeneral.avatar = sakai.config.MimeTypes[result["jcr:mimeType"]].URL;
+                            result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes[result["jcr:mimeType"]].description;
+                        } else {
+                            result.listgeneral.avatar = "/dev/_images/mimetypes/empty.png";
+                            result.listgeneral.mimeTypeDescripton = sakai.config.MimeTypes.other.description;
+                        }
+
                     }
 
-                    // Prepare excerpt for sites and pages
-                    if (rawData.results[j].excerpt) {
-                        rawData.results[j].excerpt = $("" + rawData.results[j].excerpt + "").text().replace(/<[^>]*>/g, "");
-                    }
 
                     // Add result to the collection of aggregate results
                     sakai.data.listgeneral[tuid].aggregateResults.results.push(rawData.results[j]);

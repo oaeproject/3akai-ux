@@ -61,13 +61,18 @@
         <script>
 
             // Page code
+            // Bind to the event which signals the listgeneral widget is loaded and ready
             $(window).bind("listgeneral_ready", function(e, tuid){
 
-                var lg_query = ["/var/search/sitecontent.json?page=0&items=10&q=welcome&sites=*"];
+                // Example queries
+                var lg_query = ["/var/search/sitecontent.json?page=0&items=10&q=welcome&sites=*","/var/search/files/allfiles.json?search=*&items=5"];
+                //var lg_query = ["/var/search/files/allfiles.json?search=*&items=5"];
 
-                // type: sites, spaces, people, content, mixed
-                var lg_config = {"selectable":true, "type": "sites", "itemsPerPage": 50 };
+                // type can be one of these: sites, spaces, people, content, mixed
+                // config data will overwrite arguments in the url
+                var lg_config = {"selectable":true, "type": "mixed", "items": [10,10] };
 
+                // Render list
                 sakai.api.UI.listGeneral.render(tuid, lg_query, lg_config);
 
             });
