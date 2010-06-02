@@ -227,6 +227,7 @@ sakai.site = function(){
 
         $.ajax({
             url: "/sites/" + sakai.site.currentsite + ".json",
+            dataType: "json",
             cache: false,
             success: function(response){
 
