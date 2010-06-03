@@ -196,8 +196,12 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Jpg image"
         },
+        "text/html": {
+            URL: "/dev/_images/mimetypes/html.png",
+            description: "HTML document"
+        },
         folder: {
-            URL: "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
+            URL: "/dev/_images/mimetypes/kmultiple.png",
             description: "Folder"
         },
         other: {
