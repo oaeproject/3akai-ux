@@ -25,6 +25,7 @@
 }
 
 .sakai-footer .debug_info { margin: 5px 0 0 76px;}
+.sakai-footer .footer_clickable {cursor: pointer;}
 
 /* Fixed Container */
 .sakai-footer .fixed-container { background: #454A4F; padding: 0 25px; width: 910px; }
