@@ -134,12 +134,19 @@ sakai.api.UI.listGeneral.render = function(tuid, iSearchQuery, iConfig) {
         sakai.config.widgets.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sorttemplate_" + sakai.config.widgets.listgeneral[tuid].type+" option[default='true']").attr("data-sortorder");
     }
 
+    // View mode
+    sakai.config.widgets.listgeneral[tuid].viewMode = $("#" + tuid + " .listgeneral_sortview_view option[default='true']").attr("value");
+
+
     // Wire up sort button
     $("#" + tuid + " .listgeneral_sort_button").bind("click", function(e) {
 
         // Get sorting flag from the dropdown
         sakai.config.widgets.listgeneral[tuid].sortOn = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("value");
         sakai.config.widgets.listgeneral[tuid].sortOrder = $("#" + tuid + " .listgeneral_sortview_sort option:selected").attr("data-sortorder");
+
+        // Get view mode from the dropdown
+        sakai.config.widgets.listgeneral[tuid].viewMode =  $("#" + tuid + " .listgeneral_sortview_view option:selected").attr("value");
 
         // Reset everything
         sakai.api.UI.listGeneral.reset(tuid);
@@ -374,16 +381,32 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
 };
 
 
+/**
+ * sortAndDsiplay
+ * Displays the search results by rendering the appropriate template
+ * @param tuid {String} The instance ID of the widget
+ * @param pageNumber {Int} The page number we wuld like to render
+ */
 sakai.api.UI.listGeneral.sortAndDisplay = function(tuid, pageNumber) {
+
+    var $resultPage = $("#" + tuid + " .listgeneral_resultpage[data-pagenumber='"+pageNumber+"']");
 
     // No sorting of aggregate results for now...
 
-    // Render the results data template
-    var newPageHTML = $.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
+    // If there are no search results, display message template
+    if (sakai.data.listgeneral[tuid].aggregateResults.results.length === 0) {
 
-    // Add rendered result HTML to DOM
-    $("#" + tuid + " .listgeneral_resultpage[data-pagenumber='"+pageNumber+"']").removeClass("loadinganim").append(newPageHTML);
+        $("#" + tuid + " .listgeneral_more_button").hide();
+        $resultPage.removeClass("loadinganim").html($("#"+tuid+" .listgeneral_noresults_template").html());
 
+    } else {
+
+        // Render the results data template
+        var newPageHTML = $.TemplateRenderer("#" + tuid + " .listgeneral_content_template", sakai.data.listgeneral[tuid].aggregateResults);
+
+        // Add rendered result HTML to DOM and set viewmode class
+        $resultPage.removeClass("loadinganim").addClass("listgeneral_result_viewmode_" + sakai.config.widgets.listgeneral[tuid].viewMode).append(newPageHTML);
+    }
 };
 
 
