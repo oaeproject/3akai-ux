@@ -945,9 +945,10 @@ sakai.dashboard = function(){
      */
     var init = function(){
 
-        // Set the entity mode
-        sakai.data.entity = sakai.data.entity || {};
-        sakai.data.entity.mode = "myprofile";
+        // Initialise the entity widget
+        $(window).bind("sakai.api.UI.entity.ready", function(e){
+            sakai.api.UI.entity.render("myprofile", false);
+        });
 
         /*
          * This will try to load the dashboard state file from the SData personal space

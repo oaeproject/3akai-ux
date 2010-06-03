@@ -16,23 +16,4 @@
  * specific language governing permissions and limitations under the License.
  */
 
-
-/*global $, Config */
-
-var sakai = sakai || {};
-sakai.print = function(){
-
-    $.ajax({
-        url: "/_user/private/print.json",
-        cache: false,
-        success: function(data){
-            $(".content_container").html(data.content);
-            /* for (var i = 0; i < data.css.length; i++){
-                $.Load.requireCSS(data.css[i]);
-            } */
-        }
-    });
-
-};
-
-sdata.container.registerForLoad("sakai.print");
+#deletecontent_form h4 {margin-bottom: 30px}

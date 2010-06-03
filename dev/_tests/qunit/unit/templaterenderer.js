@@ -1,4 +1,7 @@
 module("TemplateRenderer");
+
+(function(){
+
 var container = "<div id='dummyContainer'><div id='dummyDiv'></div><div id='dummyTemplate'><!--${all}--></div></div>";
 var dummyText = "Hello World";
 
@@ -7,14 +10,14 @@ var dummyText = "Hello World";
  */
 var createDummyDivs = function(){
     $("body").append(container);
-}
+};
 
 /**
  * Remove the dummy container and all its children
  */
 var removeDummyDivs = function(){
     $("#dummyContainer").remove();
-}
+};
 
 /**
  * Check the data in the div with what we have entered
@@ -30,7 +33,7 @@ var findDummyData = function(){
     //remove all dummy divs
     removeDummyDivs();
 
-}
+};
 
 /**
  * Render the template with some dummy data
@@ -40,14 +43,14 @@ var testTemplateRenderer = function(){
     //create an object with dummy data
     var dummyData = {
         "all":dummyText
-    }
+    };
 
     //Render the template with data
     $.TemplateRenderer("dummyTemplate",dummyData,$("#dummyDiv"));
 
     //check if the rendering happened correctly
     findDummyData();
-}
+};
 
 /**
  * Run test
@@ -59,3 +62,5 @@ test("Render a JavaScript Template", function(){
     //render the template
     testTemplateRenderer();
 });
+
+})();

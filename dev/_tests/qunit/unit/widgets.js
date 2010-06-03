@@ -1,5 +1,7 @@
 module("Widgets");
 
+(function(){
+
 test("The Widget variable exists", function(){
     same(typeof Widgets, "object", "the Widgets variable exists");
 
@@ -156,3 +158,5 @@ asyncTest('Test if all the URLs work', function(){
     }
 
 });
+
+})();
