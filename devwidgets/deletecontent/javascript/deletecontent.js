@@ -52,9 +52,16 @@ sakai.deletecontent = function(tuid, showSettings){
      */
     var showError = function(input){
 
+        if (!input) {
+            $deletecontent_error_container.hide();
+            return;
+        }
+
         if(input === "couldnotdelete"){
             $.TemplateRenderer($deletecontent_error_couldnotdelete, {},$deletecontent_error_container);
         }
+
+        $deletecontent_error_container.show();
 
     };
 
@@ -77,7 +84,9 @@ sakai.deletecontent = function(tuid, showSettings){
             $.ajax({
                 url: deletedata.path,
                 success: function(){
-                    //document.location = "/dev/my_sakai.html";
+                    // TODO - redirect to the global content page
+                    // as soon as we have it
+                    document.location = "/dev/my_sakai.html";
                 },
                 error: function(){
                     showError("couldnotdelete");
