@@ -48,6 +48,7 @@ sakai.search = function() {
     var searchConfig = {
         search : "#search",
         global : {
+            resultTemp : search + "_result_temp",
             button : search + "_button",
             text  :search + '_text',
             numberFound : search + '_numberFound',
@@ -96,6 +97,7 @@ sakai.search = function() {
         $(searchConfig.global.searchTerm).text(searchterm);
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
+        $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
     };
 
 
