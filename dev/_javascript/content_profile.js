@@ -81,7 +81,7 @@ sakai.content_profile = function(){
                     }
                     else {
 
-                        $("body").bind("sakai.api.UI.entity.ready", function(e){
+                        $(window).bind("sakai.api.UI.entity.ready", function(e){
                             sakai.api.UI.entity.render("content", json);
                             ready_event_fired++;
                         });

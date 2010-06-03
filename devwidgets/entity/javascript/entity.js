@@ -596,7 +596,7 @@ sakai.entity = function(tuid, showSettings){
         // Get the data for the appropriate mode
         getData(entityconfig.mode, data, function(){
 
-            if(!data){
+            if(entityconfig.mode ==="content" && !data){
                 return;
             }
 
@@ -613,11 +613,11 @@ sakai.entity = function(tuid, showSettings){
     // Sometimes the trigger event is fired before it is actually bound
     // so we keep trying to execute the ready event
     var triggerReady = function(){
-        if ($("body").data("events") && $("body").data("events").sakai) {
+        if ($(window).data("events") && $(window).data("events").sakai) {
 
             // Send out an event that says the widget is ready.
             // This event can be picked up in a page JS code
-            $("body").trigger("sakai.api.UI.entity.ready");
+            $(window).trigger("sakai.api.UI.entity.ready");
         }
         else {
             setTimeout(triggerReady, 100);
