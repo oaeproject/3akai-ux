@@ -1,28 +1,162 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/listpeople/css/listgeneral.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/listgeneral/css/listgeneral.css" />
 
 <!-- MAIN VIEW -->
 <div class="listgeneral_container">
 
     <div class="listgeneral_header">
+        <span class="listgeneral_results">Results <span class="listgeneral_results_number"></span></span>
+
+        <div class="listgeneral_sortview fl-force-right">
+
+            <!-- Here will be popoulated with one of the sorting dropdown templates -->
+
+            <select class="listgeneral_sortview_view">
+                <option default="true" value="list">List</option>
+                <option value="thumbnail">Thumbnails</option>
+            </select>
+
+            <button class="listgeneral_sort_button s3d-button s3d-button-secondary">
+                <span class="s3d-button-inner">Sort</span>
+            </button>
+
+        </div>
+
 
     </div>
 
     <div class="listgeneral_content">
 
+        <div class="listgeneral_search_results"></div>
+
     </div>
 
-    <div class="listgeneral_content_pagetemplate" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
 
-        </li>
-        {/for}
+
+    <!-- TEMPLATES -->
+
+    <!-- Sites sort template -->
+    <div class="listgeneral_sorttemplate_sites" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+    <!-- Spaces sort template -->
+    <div class="listgeneral_sorttemplate_spaces" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+    <!-- Content sort template -->
+    <div class="listgeneral_sorttemplate_content" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="filesize">File size</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+    <!-- People sort template -->
+    <div class="listgeneral_sorttemplate_people" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="lastName" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="lastName" data-sortorder="descending">Alphabetical Z-A</option>
+            <option value="jcr:created" data-sortorder="ascending">Most recently added</option>
+            <option value="jcr:created" data-sortorder="descending">First added</option>
+        </select>
+    </div>
+
+    <!-- Mixed sort template -->
+    <div class="listgeneral_sorttemplate_mixed" style="display: none;">
+        <select class="listgeneral_sortview_sort">
+            <option default="true" value="favourite" data-sortorder="ascending">By favourite</option>
+            <option value="rating" data-sortorder="ascending">Highest rated</option>
+            <option value="rating" data-sortorder="descending">Lowest rated</option>
+            <option value="jcr:created" data-sortorder="ascending">Newest</option>
+            <option value="jcr:created" data-sortorder="descending">Oldest</option>
+            <option value="jcr:name" data-sortorder="ascending">Alphabetical A-Z</option>
+            <option value="jcr:name" data-sortorder="descending">Alphabetical Z-A</option>
+        </select>
+    </div>
+
+
+    <!-- MAIN LIST TEMPLATE -->
+    <div class="listgeneral_content_template" style="display:none;"><!--
+        <ul class="listgeneral_result_container">
+            {for i in results}
+                {if i.listgeneral.resultType === "sites"}
+                    <li class="listgeneral_result">
+                        <a class="listgeneral_avatarcontainer" href="${i.listgeneral.pagePath}"><img src="${i.listgeneral.avatar}" alt="Site logo" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="${i.listgeneral.pagePath}">${i.listgeneral.name}</a>
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
+                        <div class="listgeneral_rating"></div>
+                    </li>
+                {/if}
+                {if i.listgeneral.resultType === "spaces"}
+                    <li class="listgeneral_result">
+                        <a class="listgeneral_avatarcontainer" href="${i.listgeneral.pagePath}"><img src="${i.listgeneral.avatar}" alt="Space logo" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="${i.listgeneral.pagePath}">${i.listgeneral.name}</a>
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
+                        <div class="listgeneral_rating"></div>
+                    </li>
+                {/if}
+                {if i.listgeneral.resultType === "content"}
+                    <li class="listgeneral_result">
+                        <a class="listgeneral_avatarcontainer" href="${i['jcr:path']}"><img src="${i.listgeneral.avatar}" alt="Site logo" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="${i['jcr:path']}">${i['jcr:name']}</a>{if i.listgeneral.mimeTypeDescripton !== ""}, <span class="listgeneral_mimetype">${i.listgeneral.mimeTypeDescripton}</span>{/if}
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
+                        <div class="listgeneral_rating"></div>
+                    </li>
+                {/if}
+                {if i.listgeneral.resultType === "people"}
+                    <li class="listgeneral_result">
+                        <a class="listgeneral_avatarcontainer" href="/dev/profile.html?user=${i['rep:userId']}"><img src="${i.listgeneral.avatar}" alt="Profile picture" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>{if i.listgeneral.role !== ""}, <span class="listgeneral_role">${i.listgeneral.role}</span>{/if}
+                        <p class="listgeneral_description">${i.listgeneral.description}</p>
+                    </li>
+                {/if}
+            {/for}
+        </ul>
     --></div>
 
     <div class="listgeneral_error_template" style="display:none;">
         <span>Sorry, could not retrieve the list of users form the server!</span>
     </div>
+
+    <div class="listgeneral_noresults_template" style="display:none;">
+        <div class="noresults_msg">
+            <span>No results!</span>
+        </div>
+    </div>
+
+    <div class="listgeneral_more_results_template" style="display: none;">
+        <button class="listgeneral_more_button s3d-button s3d-button-secondary">
+            <span class="s3d-button-inner">More results...</span>
+        </button>
+    </div>
+
+
+
 
 </div>
 

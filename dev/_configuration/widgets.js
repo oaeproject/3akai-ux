@@ -192,6 +192,15 @@ var Widgets = {
             "showinsakaigoodies":true,
             "url":"/devwidgets/pickers/folderpicker.html"
         },
+        "ggadget": {
+            "ca":true,
+            "description":"Embed Google Gadgets in your page or dashboard",
+            "id":"ggadget",
+            "img":"/devwidgets/ggadget/images/ggadget.png",
+            "name":"Google Gadget",
+            "showinsakaigoodies":true,
+            "url":"/devwidgets/ggadget/ggadget.html"
+        },
         "googledocs": {
             "description": "Google docs - Show your recent google documents",
             "id":"googledocs",
