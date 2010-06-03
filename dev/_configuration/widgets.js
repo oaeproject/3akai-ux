@@ -185,7 +185,7 @@ var Widgets = {
         },
         "ggadget": {
             "ca":true,
-            "description":"Google Gadgets - Embed Google Gadgets in your page or dashboard",
+            "description":"Embed Google Gadgets in your page or dashboard",
             "id":"ggadget",
             "img":"/devwidgets/ggadget/images/ggadget.png",
             "name":"Google Gadget",

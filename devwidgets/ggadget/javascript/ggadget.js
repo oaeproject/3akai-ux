@@ -31,9 +31,9 @@ sakai.ggadget = function(tuid, showSettings){
     var isAdvancedSettingsVisible = false;
 
     // Default values
-    var defaultWidth = 100;
-    var defaultWidthUnit = "%";
-    var defaultHeight = 200;
+    var defaultWidth = 400;
+    var defaultWidthUnit = "px";
+    var defaultHeight = 600;
 
     // Links and labels
     var remotecontent = "#remotecontent";
@@ -221,7 +221,22 @@ sakai.ggadget = function(tuid, showSettings){
 
         // Change the url for the iFrame
         $(remotecontentSettingsUrl).change(function(){
+
+            // get the src attribute of the embed script tag, and define a html render rather than JS
             var urlValue = $($(this).val()).attr("src").replace("output=js", "output=html");
+
+            // Get size of the gadget from the embed code
+            var rawParams = urlValue.split("&amp;");
+            for (var i = 0, il = rawParams.length; i < il; i++) {
+                var kvpair = rawParams[i].split("=");
+                if (kvpair[0] === "w") {
+                    json.width = kvpair[1];
+                }
+                if (kvpair[0] === "h") {
+                    json.width = kvpair[1];
+                }
+            }
+
             if (urlValue !== "") {
                 // Check if someone already wrote http inside the url
                 if (!isUrl(urlValue)) {
