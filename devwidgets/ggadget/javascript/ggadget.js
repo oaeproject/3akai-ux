@@ -31,7 +31,7 @@ sakai.ggadget = function(tuid, showSettings){
     var isAdvancedSettingsVisible = false;
 
     // Default values
-    var defaultWidth = 400;
+    var defaultWidth = 600;
     var defaultWidthUnit = "px";
     var defaultHeight = 600;
 
@@ -226,7 +226,7 @@ sakai.ggadget = function(tuid, showSettings){
             var urlValue = $($(this).val()).attr("src").replace("output=js", "output=html");
 
             // Get size of the gadget from the embed code
-            var rawParams = urlValue.split("&amp;");
+            var rawParams = urlValue.split("&");
             for (var i = 0, il = rawParams.length; i < il; i++) {
                 var kvpair = rawParams[i].split("=");
                 if (kvpair[0] === "w") {
@@ -237,12 +237,22 @@ sakai.ggadget = function(tuid, showSettings){
                 }
             }
 
+            // Set width and height values in settings
+            if (isDecimal(json.width)) {
+                $(remotecontentSettingsWidth).val(json.width);
+            }
+
+            if (isDecimal(json.height)) {
+                $(remotecontentSettingsHeight).val(json.height);
+            }
+
             if (urlValue !== "") {
                 // Check if someone already wrote http inside the url
                 if (!isUrl(urlValue)) {
                     urlValue = 'http://' + urlValue;
                 }
                 json.url = urlValue;
+
                 renderIframeSettings(true);
             }
         });
