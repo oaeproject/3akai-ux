@@ -418,6 +418,15 @@ var Widgets = {
             "personalportal":true,
             "url":"/devwidgets/twitter/twitter.html"
         },
+        "uploadcontent": {
+            "description": "Upload content to Sakai3",
+            "i18n": {
+                "default": "/devwidgets/uploadcontent/bundles/default.json"
+            },
+            "id": "uploadcontent",
+            "name": "Upload Content",
+            "url": "/devwidgets/uploadcontent/uploadcontent.html"
+        },
         "video": {
             "ca":true,
             "description":"Video",

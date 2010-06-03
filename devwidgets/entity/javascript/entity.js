@@ -86,6 +86,7 @@ sakai.entity = function(tuid, showSettings){
     // Actions
     var $entity_action_delete = $("#entity_action_delete", $rootel);
     var $entity_action_download = $("#entity_action_download", $rootel);
+    var $entity_action_upload = $("#entity_action_upload", $rootel);
 
 
     ////////////////////
@@ -375,6 +376,21 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
+     * Add binding to the upload buttons
+     */
+    var addBindingUpload = function(){
+
+        // Reinitialise the jQuery selector
+        $entity_action_upload = $($entity_action_upload.selector);
+
+        // Initialise the uploadcontent widget
+        $entity_action_upload.bind("click", function(){
+            sakai.uploadcontent.init(entityconfig.data.profile);
+        });
+
+    };
+
+    /**
      * Add binding to various elements on the entity widget
      */
     var addBinding = function(){
@@ -395,6 +411,9 @@ sakai.entity = function(tuid, showSettings){
 
             // Add binding to the delete button
             addBindingDelete();
+
+            // Add binding to the upload button
+            addBindingUpload();
 
         }
 
