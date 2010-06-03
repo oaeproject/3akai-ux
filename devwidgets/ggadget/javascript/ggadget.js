@@ -33,7 +33,7 @@ sakai.ggadget = function(tuid, showSettings){
     // Default values
     var defaultWidth = 600;
     var defaultWidthUnit = "px";
-    var defaultHeight = 600;
+    var defaultHeight = 400;
 
     // Links and labels
     var remotecontent = "#remotecontent";
@@ -214,16 +214,13 @@ sakai.ggadget = function(tuid, showSettings){
         });
     };
 
-    /*
-     * Add binding to all the elements
+    /**
+     * previewGadget
+     * Executes the preview for the gadget based on the embed code
      */
-    var addBinding = function(){
-
-        // Change the url for the iFrame
-        $(remotecontentSettingsUrl).change(function(){
-
-            // get the src attribute of the embed script tag, and define a html render rather than JS
-            var urlValue = $($(this).val()).attr("src").replace("output=js", "output=html");
+    var previewGadget = function() {
+        // get the src attribute of the embed script tag, and define a html render rather than JS
+            var urlValue = $($(remotecontentSettingsUrl).val()).attr("src").replace("output=js", "output=html");
 
             // Get size of the gadget from the embed code
             var rawParams = urlValue.split("&");
@@ -255,6 +252,30 @@ sakai.ggadget = function(tuid, showSettings){
 
                 renderIframeSettings(true);
             }
+    }
+
+
+    /*
+     * Add binding to all the elements
+     */
+    var addBinding = function(){
+
+        // Change the url for the iFrame
+        $(remotecontentSettingsUrl).change(function(){
+
+            previewGadget();
+
+        });
+
+        // Preview gadget
+        $(".ggadget_preview_button", rootel).bind("click", function() {
+
+            if ($(remotecontentSettingsUrl).val() !== "") {
+                previewGadget();
+            }
+           
+            return false;
+
         });
 
         // Change the iframe width
