@@ -790,7 +790,16 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 
     // Argument check
     if (!i_url || !i_data) {
+
+        // Log the error message
         fluid.log("sakai.api.Server.saveJSON: Not enough or empty arguments!");
+
+        // Still invoke the callback function
+        if (typeof callback === "function") {
+            callback(false, "The supplied arguments were incorrect.");
+        }
+
+        // Make sure none of the other code in this function is executed
         return;
     }
 
@@ -902,7 +911,16 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
 
     // Argument check
     if (!i_url) {
+
+        // Log the error message
         fluid.log("sakai.api.Server.loadJSON: Not enough or empty arguments!");
+
+        // Still invoke the callback function
+        if (typeof callback === "function") {
+            callback(false, "The supplied arguments were incorrect.");
+        }
+
+        // Make sure none of the other code in this function is executed
         return;
     }
 
@@ -1017,7 +1035,16 @@ sakai.api.Server.removeJSON = function(i_url, callback){
 
     // Argument check
     if (!i_url) {
+
+        // Log the error message
         fluid.log("sakai.api.Server.removeJSON: Not enough or empty arguments!");
+
+        // Still invoke the callback function
+        if (typeof callback === "function") {
+            callback(false, "The supplied arguments were incorrect.");
+        }
+
+        // Make sure none of the other code in this function is executed
         return;
     }
 
@@ -1308,7 +1335,7 @@ sakai.api.User = sakai.api.User || {};
 
 /**
  * Create a user in the Sakai3 system.
- * 
+ *
  * @param {Object} user A JSON object containing all the information to create a user.
  * @param {Function} [callback] A callback function which will be called after the request to the server.
  */
@@ -1343,7 +1370,7 @@ sakai.api.User.createUser = function(user, callback){
 /**
  * Remove the user credentials in the Sakai3 system.
  * Note that this doesn't actually remove the user, only its permissions.
- * 
+ *
  * @example
  * sakai.api.User.createUser({
  *     "firstName": "User",
@@ -1353,7 +1380,7 @@ sakai.api.User.createUser = function(user, callback){
  *     "pwdConfirm": "test",
  *     ":name": "user0"
  * });
- * 
+ *
  * @param {String} userid The id of the user you want to remove from the system
  * @param {Function} [callback] A callback function which will be called after the request to the server.
  */
@@ -1385,13 +1412,13 @@ sakai.api.User.removeUser = function(userid, callback){
 
 /**
  * Log-in to Sakai3
- * 
+ *
  * @example
  * sakai.api.user.login({
  *     "username": "user1",
  *     "password": "test"
  * });
- * 
+ *
  * @param {Object} credentials JSON object container the log-in information. Contains the username and password.
  * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
  */
@@ -1443,22 +1470,57 @@ sakai.api.User.login = function(credentials, callback) {
 
 /**
  * Log-out from Sakai3
- * 
+ *
  * @example sakai.api.user.logout();
  * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
  */
 sakai.api.User.logout = function(callback) {
 
-    // sakaiauth:logout : set to 1 because we want to perform a logout action
-    var data = {
-        "sakaiauth:logout": "1",
-        "_charset_": "utf-8"
-    };
+    /*
+     * Array to store the data for the batch Ajax POST.
+     * Each object in this array consists out of
+     *     - the config service URL
+     *     - the used Ajax method
+     *     - the parameters for the service
+     */
+    var data = [];
 
-    // Send the Ajax request
+    /*
+     * POST request to the presence service,
+     * which will change the user status to offline.
+     */
+    data.push({
+        "url": sakai.config.URL.PRESENCE_SERVICE,
+        "method": "POST",
+        "parameters": {
+            "sakai:status": "offline",
+            "_charset_": "utf-8"
+        }
+    });
+
+    /*
+     * POST request to the logout service,
+     * which will destroy the session.
+     */
+    data.push({
+        "url": sakai.config.URL.LOGOUT_SERVICE,
+        "method": "POST",
+        "parameters": {
+            "sakaiauth:logout": "1",
+            "_charset_": "utf-8"
+        }
+    });
+
+    /*
+     * The batch Ajax post.
+     * If the request fails, it is probably because there is no current session.
+     */
     $.ajax({
-        url : sakai.config.URL.LOGOUT_SERVICE,
-        type : "POST",
+        url: sakai.config.URL.BATCH,
+        type: "POST",
+        data: {
+            requests: $.toJSON(data)
+        },
         success: function(data){
 
             // Call callback function if set
@@ -1474,8 +1536,7 @@ sakai.api.User.logout = function(callback) {
                 callback(false, xhr);
             }
 
-        },
-        data: data
+        }
     });
 
 };
