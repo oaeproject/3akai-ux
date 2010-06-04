@@ -54,13 +54,14 @@ sakai.footer = function(tuid,showSettings){
     var $debug_info = $("#debug_info");
     var $footer_date_end = $("#footer_date_end");
     var $footer_root = $("#footer_main");
+    var $footer_logo = $("#footer_logo");
 
 
     ////////////////////
     // Main functions //
     ////////////////////
 
-    var showDebugInfo = function(container) {
+    var renderDebugInfo = function(container) {
 
         // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
         var debug_text = "DEBUG:";
@@ -72,8 +73,6 @@ sakai.footer = function(tuid,showSettings){
         // Put text into holding tag
         container.html(debug_text);
 
-        // Show debug item
-        container.show();
     };
 
     /*
@@ -95,18 +94,24 @@ sakai.footer = function(tuid,showSettings){
         // Display debug info if set in config
         if (sakai.config.displayDebugInfo === true) {
 
-            // Make space for debug info
-            $footer_root.height("65px");
+            // Render the debug info
+            renderDebugInfo($debug_info);
 
-            // Show the debug info
-            showDebugInfo($debug_info);
+            // Add binding to the image
+            $footer_logo.bind("click", function(){
 
-        } else {
+                // Make space for debug info
+                $footer_root.height("65px");
 
-            // Set the height of the footer
-            $footer_root.height("45px");
+                // Show the debug info
+                $debug_info.show();
+
+            }).addClass("footer_clickable");
 
         }
+
+        // Set the height of the footer
+        $footer_root.height("45px");
 
         // index.html mods
         if ((doc_name === "index.html") || (doc_name === "")) {
