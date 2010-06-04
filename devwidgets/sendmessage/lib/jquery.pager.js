@@ -153,4 +153,4 @@
 })(jQuery);
 
 
-sdata.widgets.WidgetLoader.informOnLoad("rss");
+sakai.api.Widgets.widgetLoader.informOnLoad("rss");

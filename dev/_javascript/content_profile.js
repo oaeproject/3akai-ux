@@ -165,4 +165,4 @@ sakai.content_profile = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.content_profile");
+sakai.api.Widgets.Container.registerForLoad("sakai.content_profile");

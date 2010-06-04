@@ -360,4 +360,4 @@ sakai.blogdashboard = function(tuid, showSettings){
     doInit();
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("blogdashboard");
+sakai.api.Widgets.widgetLoader.informOnLoad("blogdashboard");

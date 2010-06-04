@@ -122,7 +122,7 @@ sakai.wookiechat = function(tuid, showSettings) {
      * It will notify the container that it can be closed.
      */
     var chatRoomSaved = function() {
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -323,4 +323,4 @@ sakai.wookiechat = function(tuid, showSettings) {
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("wookiechat");
+sakai.api.Widgets.widgetLoader.informOnLoad("wookiechat");

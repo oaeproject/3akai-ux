@@ -434,4 +434,4 @@ sakai.site_add_members = function() {
 
 };
 
-sdata.container.registerForLoad("sakai.site_add_members");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_add_members");

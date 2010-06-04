@@ -1507,4 +1507,4 @@ sakai.contentmedia = function(){
     });
 };
 
-sdata.container.registerForLoad("sakai.contentmedia");
+sakai.api.Widgets.Container.registerForLoad("sakai.contentmedia");

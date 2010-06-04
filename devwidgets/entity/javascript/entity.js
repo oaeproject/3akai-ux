@@ -626,4 +626,4 @@ sakai.entity = function(tuid, showSettings){
     triggerReady();
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("entity");
+sakai.api.Widgets.widgetLoader.informOnLoad("entity");

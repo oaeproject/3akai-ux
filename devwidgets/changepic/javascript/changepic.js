@@ -464,4 +464,4 @@ var AIM = {
     }
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("changepic");
+sakai.api.Widgets.widgetLoader.informOnLoad("changepic");

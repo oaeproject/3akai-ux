@@ -35,7 +35,7 @@ sakai.googlemaps = function(tuid, showSettings){
      * To finish the widget
      */
     var finish = function() {
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -99,7 +99,7 @@ sakai.googlemaps = function(tuid, showSettings){
 
             // Add listerner to cancel button
             $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                sdata.container.informCancel(tuid);
+                sakai.api.Widgets.Container.informCancel(tuid);
             });
 
             if (json) {
@@ -176,7 +176,7 @@ sakai.googlemaps = function(tuid, showSettings){
 
                 // Add listerner to cancel button
                 $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                    sdata.container.informCancel(tuid);
+                    sakai.api.Widgets.Container.informCancel(tuid);
                 });
             }
 
@@ -201,4 +201,4 @@ sakai.googlemaps = function(tuid, showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("googlemaps");
+sakai.api.Widgets.widgetLoader.informOnLoad("googlemaps");

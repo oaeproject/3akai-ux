@@ -320,4 +320,4 @@ sakai.account_preferences = function(){
     doInit();
 };
 
-sdata.container.registerForLoad("sakai.account_preferences");
+sakai.api.Widgets.Container.registerForLoad("sakai.account_preferences");
