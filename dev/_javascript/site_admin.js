@@ -911,6 +911,12 @@ sakai.site.site_admin = function(){
         sakai.site.isEditingNewPage = false;
         sakai.site.inEditView = true;
 
+        // Hide Add a New menu if open
+        if (sakai.site.isShowingDropdown) {
+            $("#add_new_menu").hide();
+            sakai.site.isShowingDropdown = false;
+        }
+
         //Check if tinyMCE has been loaded before - probably a more robust check will be needed
         if (tinyMCE.activeEditor === null) {
             init_tinyMCE();
@@ -1455,19 +1461,28 @@ sakai.site.site_admin = function(){
         toTop: true
     });
 
-
-    // Bind Insert Link click event
-    $("#more_link").html("More");
-    $("#more_link").addClass("more_link");
-    $("#more_link").bind("click", function(ev){
+    /**
+     * Show or hide the more menu
+     * @param {Boolean} hideOnly
+     *  true: Hide the menu only
+     *  false: Show or hide the menu depending if it's already visible
+     */
+    var showHideMoreMenu = function(hideOnly){
         var el = $("#more_menu");
-        if (el.css("display").toLowerCase() !== "none") {
+        if (el.css("display").toLowerCase() !== "none" || hideOnly) {
             el.hide();
         } else {
             var x = $("#more_link").position().left;
             var y = $("#more_link").position().top;
             el.css({"top": y + 22+ "px", "left": x - el.width() + $("#more_link").width() + 56 + "px"}).show();
         }
+    };
+
+    // Bind Insert Link click event
+    $("#more_link").html("More");
+    $("#more_link").addClass("more_link");
+    $("#more_link").bind("click", function(ev){
+        showHideMoreMenu(false);
     });
 
 
@@ -2279,6 +2294,22 @@ sakai.site.site_admin = function(){
         }
     });
 
+    // Bind click event to hide menus
+    $(document).bind("click", function(e){
+        var $clicked = $(e.target);
+        // Check if one of the parents is the element container
+        if(!$clicked.parents().is(".add_a_new_container")){
+            $("#add_new_menu").hide();
+            sakai.site.isShowingDropdown = false;
+        }
+        if(!$clicked.is("#more_link")){
+            showHideMoreMenu(true);
+        }
+        if(!$clicked.is(".insert_more_dropdown_activator")){
+            $insert_more_menu.hide();
+            sakai.site.showingInsertMore = false;
+        }
+    });
 
     //////////////////
     // EDIT SIDEBAR //
@@ -2286,6 +2317,12 @@ sakai.site.site_admin = function(){
 
     // Bind edit sidebar click
     $("#edit_sidebar").bind("click", function(ev){
+        // Hide Add a New menu if open
+        if (sakai.site.isShowingDropdown) {
+            $("#add_new_menu").hide();
+            sakai.site.isShowingDropdown = false;
+        }
+
         // Init tinyMCE if needed
         if (tinyMCE.activeEditor === null) { // Probably a more robust checking will be necessary
             sakai.site.isEditingNavigation = true;
