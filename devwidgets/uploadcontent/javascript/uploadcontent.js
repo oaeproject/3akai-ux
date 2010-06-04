@@ -42,7 +42,51 @@ sakai.uploadcontent = function(tuid, showSettings){
     var $rootel = $("#" + tuid);
 
     var $uploadcontent_dialog = $("#uploadcontent_dialog", $rootel);
+    var $uploadcontent_main_container = $("#uploadcontent_main_container", $rootel);
+    var $uploadcontent_main_container_template = $("#uploadcontent_main_container_template", $rootel);
 
+
+    ///////////////////////////
+    // General functionality //
+    ///////////////////////////
+
+    /**
+     * Render the general template
+     */
+    var renderTemplate = function(){
+
+        $.TemplateRenderer($uploadcontent_main_container_template, {}, $uploadcontent_main_container);
+
+        // Show the main container
+        $uploadcontent_main_container.show();
+
+    };
+
+
+    /////////////
+    // Binding //
+    /////////////
+
+    /**
+     * Add binding to the main form element when you submit the form
+     */
+    var addBindingForm = function(){
+        
+        
+    }
+
+    /**
+     * General add binding function
+     */
+    var addBinding = function(){
+        
+        // Add binding to the form
+        var addBindingForm();
+
+    };
+    $("#uploadcontent_form", $rootel).bind("submit", function(){
+        
+    });
 
     ////////////////////
     // Initialisation //
@@ -80,6 +124,12 @@ sakai.uploadcontent = function(tuid, showSettings){
             modal: true,
             toTop: true
         });
+
+        // Render the templates
+        renderTemplate();
+        
+        // Add binding
+        addBinding();
 
     };
     init();

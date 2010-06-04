@@ -26,8 +26,8 @@
             <div id="uploadcontent_error_container" style="display:none;"><!-- --></div>
             <div id="uploadcontent_main_container" style="display:none"><!-- --></div>
 
-            <button type="button" class="s3d-button s3d-button-primary" id="uploadcontent_action_delete"><span class="s3d-button-inner">__MSG__DELETE_CONTENT__</span></button>
-            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE_CONTENT__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent"><span class="s3d-button-inner">__MSG__ADD_CONTENT__</span></button>
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_ADD_CONTENT__</span></button>
         </form>
 
     </div>
@@ -39,7 +39,9 @@
     
     <!-- TEMPLATES -->
     <div id="uploadcontent_main_container_template"><!--
-        
+        <label for="uploadcontent_form_link_input">__MSG__PLEASE_TYPE_IN_A_URL__:</label><br />
+        <input id="uploadcontent_form_link_input" type="text"/><br />
+        __MSG__OR__ <button type="button" class="s3d-button s3d-button-primary" id="uploadcontent_form_link_select"><span class="s3d-button-inner">__MSG__SELECT_FILES_TO_UPLOAD__</span></button>
     --></div>
 </div>
 
