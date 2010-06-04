@@ -509,6 +509,7 @@ sakai.contentmedia = function(){
         $.ajax({
             url: url,
             data: {
+                "context" : options.context,
                 "search" : options.search,
                 //"type" : type,
                 "page" : pageCurrent,
@@ -1191,7 +1192,7 @@ sakai.contentmedia = function(){
 
                 options: {
                     // Set the uploadURL to the URL for posting files to your server.
-                    uploadURL: getServerUrl("/_user" + sakai.data.me.profile.path + sakai.config.URL.USER_DEFAULT_UPLOAD_FOLDER),
+                    uploadURL: getServerUrl(sakai.config.URL.UPLOAD_URL),
 
                     // This option points to the location of the SWFUpload Flash object that ships with Fluid Infusion.
                     flashURL: "/dev/_lib/Fluid/fluid-components/swfupload/swfupload.swf"
