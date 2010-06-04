@@ -21,9 +21,10 @@
 
         <form id="uploadcontent_form" method="post" action="javascript:;">
             
-            <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__?</h4>
+            <h4>__MSG__ADD_NEW_CONTENT__</h4>
 
             <div id="uploadcontent_error_container" style="display:none;"><!-- --></div>
+            <div id="uploadcontent_main_container" style="display:none"><!-- --></div>
 
             <button type="button" class="s3d-button s3d-button-primary" id="uploadcontent_action_delete"><span class="s3d-button-inner">__MSG__DELETE_CONTENT__</span></button>
             <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE_CONTENT__</span></button>
@@ -35,6 +36,11 @@
     <div class="dialog_footer">
         <div class="dialog_footer_inner"><!-- --></div>
     </div>
+    
+    <!-- TEMPLATES -->
+    <div id="uploadcontent_main_container_template"><!--
+        
+    --></div>
 </div>
 
 <!-- JAVASCRIPT -->
