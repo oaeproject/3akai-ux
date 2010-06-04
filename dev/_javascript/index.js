@@ -176,4 +176,4 @@ sakai.index = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.index");
+sakai.api.Widgets.Container.registerForLoad("sakai.index");

@@ -258,7 +258,7 @@ sakai.video = function(tuid, showSettings) {
      * @param {Object} video
      */
     var addVideo = function(video) {
-        sakai.api.Widgets.saveWidgetData(tuid, video, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, video, sakai.api.Widgets.Container.informFinish(tuid));
     };
 
 
@@ -399,4 +399,4 @@ sakai.video = function(tuid, showSettings) {
     }
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("video");
+sakai.api.Widgets.widgetLoader.informOnLoad("video");

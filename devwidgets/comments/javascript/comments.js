@@ -495,7 +495,7 @@ sakai.comments = function(tuid, showSettings){
      * It will notify the container that it can be closed.
      */
     var finishNewSettings = function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -676,7 +676,7 @@ sakai.comments = function(tuid, showSettings){
 
     /** Bind the settings cancel button */
     $(commentsCancel, rootel).bind("click", function(e, ui){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
 
@@ -796,4 +796,4 @@ sakai.comments = function(tuid, showSettings){
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("comments");
+sakai.api.Widgets.widgetLoader.informOnLoad("comments");

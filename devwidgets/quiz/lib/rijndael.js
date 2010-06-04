@@ -244,4 +244,4 @@ var RND = function() {
     }
 }
 
-sdata.widgets.WidgetLoader.informOnLoad("quiz");
+sakai.api.Widgets.widgetLoader.informOnLoad("quiz");

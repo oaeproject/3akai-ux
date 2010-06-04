@@ -769,4 +769,4 @@ sakai.profile = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.profile");
+sakai.api.Widgets.Container.registerForLoad("sakai.profile");

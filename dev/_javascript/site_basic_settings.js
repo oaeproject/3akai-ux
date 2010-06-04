@@ -449,4 +449,4 @@ sakai.site_basic_settings = function(){
 
     fillPage();
 };
-sdata.container.registerForLoad("sakai.site_basic_settings");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_basic_settings");

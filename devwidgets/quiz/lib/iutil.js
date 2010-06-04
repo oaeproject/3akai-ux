@@ -243,4 +243,4 @@ jQuery.iUtil = {
             return i;
     return -1;
 });
-sdata.widgets.WidgetLoader.informOnLoad("quiz");
+sakai.api.Widgets.widgetLoader.informOnLoad("quiz");

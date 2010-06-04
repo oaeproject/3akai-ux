@@ -554,4 +554,4 @@ if (!sakai.sendmessage){
     };
 }
 
-sdata.widgets.WidgetLoader.informOnLoad("sendmessage");
+sakai.api.Widgets.widgetLoader.informOnLoad("sendmessage");

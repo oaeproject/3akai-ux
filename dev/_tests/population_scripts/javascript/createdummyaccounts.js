@@ -103,4 +103,4 @@ sakai.createdummyaccounts = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.createdummyaccounts");
+sakai.api.Widgets.Container.registerForLoad("sakai.createdummyaccounts");

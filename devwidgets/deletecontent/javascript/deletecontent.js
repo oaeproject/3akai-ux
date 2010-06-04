@@ -152,4 +152,4 @@ sakai.deletecontent = function(tuid, showSettings){
     init();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("deletecontent");
+sakai.api.Widgets.widgetLoader.informOnLoad("deletecontent");

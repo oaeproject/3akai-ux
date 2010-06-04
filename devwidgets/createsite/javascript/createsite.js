@@ -433,4 +433,4 @@ sakai.createsite = function(tuid, showSettings){
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("createsite");
+sakai.api.Widgets.widgetLoader.informOnLoad("createsite");
