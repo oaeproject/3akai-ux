@@ -2303,6 +2303,10 @@ sakai.site.site_admin = function(){
         if(!$clicked.is("#more_link")){
             showHideMoreMenu(true);
         }
+        if(!$clicked.is(".insert_more_dropdown_activator")){
+            $insert_more_menu.hide();
+            sakai.site.showingInsertMore = false;
+        }
     });
 
     //////////////////
