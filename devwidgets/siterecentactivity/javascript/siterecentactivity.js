@@ -114,10 +114,10 @@ sakai.siterecentactivity = function(tuid, showSettings){
     ///////////////////////
 
     $("#siterecentactivity_settings_submit",rootel).click(function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     });
     $("#siterecentactivity_settings_cancel",rootel).click(function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
     // Hide or show the settings
@@ -205,4 +205,4 @@ sakai.siterecentactivity = function(tuid, showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("siterecentactivity");
+sakai.api.Widgets.widgetLoader.informOnLoad("siterecentactivity");

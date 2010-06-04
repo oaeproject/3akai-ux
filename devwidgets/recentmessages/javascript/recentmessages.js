@@ -117,4 +117,4 @@ sakai.recentmessages = function(tuid, showSettings){
     doInit();
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("recentmessages");
+sakai.api.Widgets.widgetLoader.informOnLoad("recentmessages");

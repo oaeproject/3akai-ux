@@ -133,9 +133,9 @@ sakai.sites = function(tuid,showSettings){
         $(sitesMainContainer, rootel).html(sitesErrorNoSettings);
     }
     else {
-        sdata.widgets.WidgetLoader.insertWidgets(tuid);
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         // Start the request
         doInit();
     }
 };
-sdata.widgets.WidgetLoader.informOnLoad("sites");
+sakai.api.Widgets.widgetLoader.informOnLoad("sites");

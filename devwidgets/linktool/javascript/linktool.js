@@ -132,7 +132,7 @@ sakai.linktool = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(success, data){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
 
@@ -346,7 +346,7 @@ sakai.linktool = function(tuid, showSettings){
 
         // Cancel it
         $(linktoolSettingsCancel).click(function(){
-            sdata.container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
 
         addColorBinding();
@@ -456,4 +456,4 @@ sakai.linktool = function(tuid, showSettings){
     getLinkTool();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("linktool");
+sakai.api.Widgets.widgetLoader.informOnLoad("linktool");

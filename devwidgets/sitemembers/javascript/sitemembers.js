@@ -613,7 +613,7 @@ sakai.sitemembers = function(tuid, showSettings){
             init();
         }
         else {
-            sdata.container.informFinish(tuid);
+            sakai.api.Widgets.Container.informFinish(tuid);
         }
     };
 
@@ -761,7 +761,7 @@ sakai.sitemembers = function(tuid, showSettings){
         }
         else {
             // Inserts the sendmessage-widget
-            sdata.widgets.WidgetLoader.insertWidgets(tuid);
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         }
         // Get the settings, when the settings are received we either fill in the settings view or get all the members for the normal view.
         getSiteMembersSettingsFromJCR();
@@ -771,4 +771,4 @@ sakai.sitemembers = function(tuid, showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("sitemembers");
+sakai.api.Widgets.widgetLoader.informOnLoad("sitemembers");

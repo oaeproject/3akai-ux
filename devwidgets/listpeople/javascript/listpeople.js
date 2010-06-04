@@ -287,4 +287,4 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("listpeople");
+sakai.api.Widgets.widgetLoader.informOnLoad("listpeople");

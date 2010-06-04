@@ -161,7 +161,7 @@ sakai.wookieforum = function(tuid, showSettings){
     */
     var forumSaved = function() {
          //    notify the container that we are finished.
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
      /**
@@ -298,4 +298,4 @@ sakai.wookieforum = function(tuid, showSettings){
     }
     doInit();
 };
-sdata.widgets.WidgetLoader.informOnLoad("wookieforum");
+sakai.api.Widgets.widgetLoader.informOnLoad("wookieforum");

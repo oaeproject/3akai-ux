@@ -726,4 +726,4 @@ sakai.profilewow = function(){
     doInit();
 };
 
-sdata.container.registerForLoad("sakai.profilewow");
+sakai.api.Widgets.Container.registerForLoad("sakai.profilewow");
