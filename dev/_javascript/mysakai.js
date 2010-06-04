@@ -98,11 +98,11 @@ sakai.dashboard = function(){
         newel.id = generic;
         newel.className = "widget_inline";
         old.parentNode.replaceChild(newel,old);
-        sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,false);
+        sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id,false);
     };
 
-    sdata.container.registerFinishFunction(sakai.dashboard.finishEditSettings);
-    sdata.container.registerCancelFunction(sakai.dashboard.finishEditSettings);
+    sakai.api.Widgets.Container.registerFinishFunction(sakai.dashboard.finishEditSettings);
+    sakai.api.Widgets.Container.registerCancelFunction(sakai.dashboard.finishEditSettings);
 
     var showInit = function(){
 
@@ -511,7 +511,7 @@ sakai.dashboard = function(){
                 old.parentNode.replaceChild(newel,old);
                 $("#widget_settings_menu").hide();
                 currentSettingsOpen = false;
-                sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id,true);
+                sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id,true);
                 return false;
             });
 
@@ -556,7 +556,7 @@ sakai.dashboard = function(){
 
             fluid.reorderLayout("#widgetscontainer", options);
 
-            sdata.widgets.WidgetLoader.insertWidgets("widgetscontainer");
+            sakai.api.Widgets.widgetLoader.insertWidgets("widgetscontainer");
 
         } else {
             showInit();
@@ -961,4 +961,4 @@ sakai.dashboard = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.dashboard");
+sakai.api.Widgets.Container.registerForLoad("sakai.dashboard");

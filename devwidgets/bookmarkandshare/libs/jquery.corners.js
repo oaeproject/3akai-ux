@@ -475,4 +475,4 @@ jQuery.fn.corners = function (C) {
     }
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("bookmarkandshare");
+sakai.api.Widgets.widgetLoader.informOnLoad("bookmarkandshare");

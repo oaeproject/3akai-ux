@@ -236,4 +236,4 @@ sakai.s23_site = function(){
     };
     init();
 };
-sdata.container.registerForLoad("sakai.s23_site");
+sakai.api.Widgets.Container.registerForLoad("sakai.s23_site");

@@ -169,4 +169,4 @@
 })(jQuery);
 
 
-sdata.widgets.WidgetLoader.informOnLoad("filepicker");
+sakai.api.Widgets.widgetLoader.informOnLoad("filepicker");

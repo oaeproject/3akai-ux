@@ -412,4 +412,4 @@ sakai.api.UI.listGeneral.sortAndDisplay = function(tuid, pageNumber) {
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("listgeneral");
+sakai.api.Widgets.widgetLoader.informOnLoad("listgeneral");

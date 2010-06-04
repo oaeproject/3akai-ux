@@ -35,4 +35,4 @@ sakai.print = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.print");
+sakai.api.Widgets.Container.registerForLoad("sakai.print");

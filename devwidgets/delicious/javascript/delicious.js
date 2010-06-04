@@ -489,7 +489,7 @@ sakai.delicious = function(tuid, showSettings) {
             if (success){
 
                 // FIXME
-                // sdata.container.informFinish(tuid,"delicious");
+                // sakai.api.Widgets.Container.informFinish(tuid,"delicious");
                 // Problem: multiple instances of this widget show up
 
                 // Get the settings from the server
@@ -582,4 +582,4 @@ sakai.delicious = function(tuid, showSettings) {
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("delicious");
+sakai.api.Widgets.widgetLoader.informOnLoad("delicious");

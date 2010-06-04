@@ -309,10 +309,10 @@ sakai.navigation = function(tuid, showSettings){
     ///////////////////////
 
     $("#navigation_settings_submit",rootel).click(function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     });
     $("#navigation_settings_cancel",rootel).click(function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
     // Hide or show the settings
@@ -330,4 +330,4 @@ sakai.navigation = function(tuid, showSettings){
     }
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("navigation");
+sakai.api.Widgets.widgetLoader.informOnLoad("navigation");
