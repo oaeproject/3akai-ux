@@ -40,6 +40,7 @@ sakai.inbox = function() {
     var messagesForTypeCat; // The number of messages for this type/cat.
     var box = "";
     var cats = "";
+    var inboxComposeNewPanelOpen = false;
 
 
     /**
@@ -1103,6 +1104,12 @@ sakai.inbox = function() {
     $(inboxComposeNew).click(function() {
         //    show the selector
         $(inboxComposeNewPanel).toggle();
+        // set variable which tells us if the menu is open or closed
+        if(inboxComposeNewPanelOpen){
+            inboxComposeNewPanelOpen = false;
+        } else {
+            inboxComposeNewPanelOpen = true;
+        }
     });
     $(inboxComposeMessage).click(function() {
         showPane(inboxPaneCompose);
@@ -1118,6 +1125,15 @@ sakai.inbox = function() {
         showPane(inboxPaneInbox);
     });
 
+    // Bind click event to hide menus
+    $(document).bind("click", function(e){
+        var $clicked = $(e.target);
+        // Check if one of the parents is the element container AND check if menu is open
+        if(!$clicked.parents().is(inboxComposeNew) && inboxComposeNewPanelOpen){
+            $(inboxComposeNewPanel).toggle();
+            inboxComposeNewPanelOpen = false;
+        }
+    });
 
     /**
      *
