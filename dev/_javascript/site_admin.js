@@ -891,8 +891,10 @@ sakai.site.site_admin = function(){
 
         sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
 
-        //sakai.api.Widgets.saveWidgetData("navigation_content", sakai.site.pagecontents._navigation, "navigationwidget", sakai.site.currentsite.id);
-        sakai.api.Server.saveJSON(sakai.site.urls.SITE_NAVIGATION(), sakai.site.pagecontents._navigation);
+        var jsontosave = {};
+        jsontosave["sakai:pagenavigationcontent"] = sakai.site.pagecontents._navigation;
+
+        sakai.api.Server.saveJSON(sakai.site.urls.SITE_NAVIGATION(), jsontosave);
 
         document.getElementById(sakai.site.selectedpage).style.display = "block";
         sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");

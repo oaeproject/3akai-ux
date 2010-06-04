@@ -450,8 +450,8 @@ sakai.site = function(){
               cache: false,
               async: false,
               success: function(response){
-                sakai.site.pagecontents._navigation = response;
-                $page_nav_content.html(response);
+                sakai.site.pagecontents._navigation = response["sakai:pagenavigationcontent"];
+                $page_nav_content.html(sakai.site.pagecontents._navigation);
                 sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
                 $(window).trigger('hashchange');
             },
