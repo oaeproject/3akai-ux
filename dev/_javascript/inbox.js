@@ -1315,4 +1315,4 @@ sakai.inbox = function() {
 
     doInit();
 };
-sdata.container.registerForLoad("sakai.inbox");
+sakai.api.Widgets.Container.registerForLoad("sakai.inbox");

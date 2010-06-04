@@ -654,7 +654,7 @@ sakai.site.site_admin = function(){
             }
 
             $("#" + sakai.site.selectedpage).show();
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
+            sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
 
             // Switch back to view mode
             $("#edit_view_container").hide();
@@ -835,7 +835,7 @@ sakai.site.site_admin = function(){
                 $("#show_view_container").show();
 
                 $("#" + sakai.site.selectedpage).show();
-                sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
+                sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
 
                 // Save page node
                 sakai.site.savePage(sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"], sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"], sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"], sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"], ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
@@ -889,7 +889,7 @@ sakai.site.site_admin = function(){
         $("#edit_view_container").hide();
         $("#show_view_container").show();
 
-        sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
+        sakai.api.Widgets.widgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
 
         var jsontosave = {};
         jsontosave["sakai:pagenavigationcontent"] = sakai.site.pagecontents._navigation;
@@ -897,7 +897,7 @@ sakai.site.site_admin = function(){
         sakai.api.Server.saveJSON(sakai.site.urls.SITE_NAVIGATION(), jsontosave);
 
         document.getElementById(sakai.site.selectedpage).style.display = "block";
-        sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
+        sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
 
     };
 
@@ -1114,7 +1114,7 @@ sakai.site.site_admin = function(){
                 sakai.site.newwidget_uid = nuid;
                 $("#dialog_content").html('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>');
                 $("#dialog_title").text(Widgets.widgets[type].name);
-                sdata.widgets.WidgetLoader.insertWidgets("dialog_content", true,sakai.site.currentsite.id + "/_widgets/");
+                sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.site.currentsite.id + "/_widgets/");
                 $("#dialog_content").show();
                 $insert_more_menu.hide();
                 sakai.site.showingInsertMore = false;
@@ -1353,7 +1353,7 @@ sakai.site.site_admin = function(){
             switchtab("html","HTML","preview","Preview");
         }
         $("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + getContent());
-        sdata.widgets.WidgetLoader.insertWidgets("page_preview_content",null,sakai.site.currentsite.id + "/_widgets/");
+        sakai.api.Widgets.widgetLoader.insertWidgets("page_preview_content",null,sakai.site.currentsite.id + "/_widgets/");
         sakai.site.currentEditView = "preview";
     });
 
@@ -1533,7 +1533,7 @@ sakai.site.site_admin = function(){
             sakai.site.newwidget_uid = id;
             $dialog_content.html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
             $("#dialog_title").text(Widgets.widgets[widgetid].name);
-            sdata.widgets.WidgetLoader.insertWidgets(tuid,true,sakai.site.currentsite.id + "/_widgets/");
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai.site.currentsite.id + "/_widgets/");
             $dialog_content.show();
             window.scrollTo(0,0);
         } else if (!widgetid){
@@ -1915,7 +1915,7 @@ sakai.site.site_admin = function(){
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
                 if (type === "webpage") {
                     $("#" + sakai.site.selectedpage).html(data["sakai:pagecontent"]);
-                    sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
                     sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = data["sakai:pagecontent"];
                 }
                 else if (type === "dashboard") {
@@ -1967,7 +1967,7 @@ sakai.site.site_admin = function(){
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
                 if (type === "webpage") {
                     $("#" + sakai.site.selectedpage).html(data["sakai:pagecontent"]);
-                    sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
                 } else if (type === "dashboard") {
                     $("#" + sakai.site.selectedpage).remove();
                     sakai.site._displayDashboard(data["sakai:pagecontent"], true);
@@ -2347,8 +2347,8 @@ sakai.site.site_admin = function(){
      * @return void
      */
     var admin_init = function() {
-        sdata.container.registerFinishFunction(sakai.site.widgetFinish);
-        sdata.container.registerCancelFunction(sakai.site.widgetCancel);
+        sakai.api.Widgets.Container.registerFinishFunction(sakai.site.widgetFinish);
+        sakai.api.Widgets.Container.registerCancelFunction(sakai.site.widgetCancel);
         fillInsertMoreDropdown();
     };
 

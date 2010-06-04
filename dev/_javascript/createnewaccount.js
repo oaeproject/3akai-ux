@@ -408,4 +408,4 @@ sakai.newaccount = function(){
     $(usernameAvailable).hide();
 };
 
-sdata.container.registerForLoad("sakai.newaccount");
+sakai.api.Widgets.Container.registerForLoad("sakai.newaccount");

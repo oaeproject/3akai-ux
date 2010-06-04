@@ -129,4 +129,4 @@ sakai.footer = function(tuid,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("footer");
+sakai.api.Widgets.widgetLoader.informOnLoad("footer");

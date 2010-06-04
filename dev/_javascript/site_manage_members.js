@@ -516,4 +516,4 @@ sakai.site_manage_members = function() {
 
 };
 
-sdata.container.registerForLoad("sakai.site_manage_members");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_manage_members");

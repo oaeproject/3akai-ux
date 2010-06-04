@@ -191,4 +191,4 @@ sakai.myfriends = function(tuid,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("myfriends");
+sakai.api.Widgets.widgetLoader.informOnLoad("myfriends");

@@ -32,4 +32,4 @@ sakai.logout = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.logout");
+sakai.api.Widgets.Container.registerForLoad("sakai.logout");

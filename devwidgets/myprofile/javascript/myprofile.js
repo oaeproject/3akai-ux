@@ -233,4 +233,4 @@ sakai.myprofile = function (tuid, showSettings) {
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("myprofile");
+sakai.api.Widgets.widgetLoader.informOnLoad("myprofile");

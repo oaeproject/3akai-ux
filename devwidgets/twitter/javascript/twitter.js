@@ -315,4 +315,4 @@ sakai.twitter = function(tuid, showSettings){
     init();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("twitter");
+sakai.api.Widgets.widgetLoader.informOnLoad("twitter");

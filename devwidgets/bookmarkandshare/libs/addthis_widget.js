@@ -1904,4 +1904,4 @@ _ate.extend(addthis, {
         }, g)
     })()
 });
-sdata.widgets.WidgetLoader.informOnLoad("bookmarkandshare");
+sakai.api.Widgets.widgetLoader.informOnLoad("bookmarkandshare");

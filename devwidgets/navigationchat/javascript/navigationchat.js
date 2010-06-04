@@ -1718,4 +1718,4 @@ sakai.navigationchat = function(tuid, showSettings){
     }
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("navigationchat");
+sakai.api.Widgets.widgetLoader.informOnLoad("navigationchat");
