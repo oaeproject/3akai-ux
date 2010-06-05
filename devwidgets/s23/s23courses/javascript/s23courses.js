@@ -133,7 +133,12 @@ sakai.s23courses = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.SAKAI2_MCP_URL,
             success: function(data){
-                globalfeed = $.extend(data, {}, true);
+                if(typeof data === "string"){
+                    globalfeed = $.parseJSON(data);
+                    fluid.log("s23courses widget - getCoursesAndProjects - this widget should return with a correct JSON response header.");
+                }else{
+                    globalfeed = $.extend(data, {}, true);
+                }
             },
             error: function(xhr, textStatus, thrownError) {
                 fluid.log("s23courses: Could not receive the courses and projects from the server.");
