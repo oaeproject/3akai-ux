@@ -2303,7 +2303,7 @@ sakai.api.Widgets.widgetLoader = {
             }
 
             for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
-                $.getScript(JSTags.URL[JSURL]);
+                $.Load.requireJS(JSTags.URL[JSURL]);
             }
 
         };
