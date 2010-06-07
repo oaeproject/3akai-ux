@@ -73,7 +73,7 @@ sakai.uploadcontent = function(tuid, showSettings){
     var addBindingForm = function(){
         
         
-    }
+    };
 
     /**
      * General add binding function
@@ -81,7 +81,7 @@ sakai.uploadcontent = function(tuid, showSettings){
     var addBinding = function(){
         
         // Add binding to the form
-        var addBindingForm();
+        addBindingForm();
 
     };
     $("#uploadcontent_form", $rootel).bind("submit", function(){
@@ -137,4 +137,4 @@ sakai.uploadcontent = function(tuid, showSettings){
 };
 
 // Inform the widget loader that this widget is loaded
-sdata.widgets.WidgetLoader.informOnLoad("uploadcontent");
+sakai.api.Widgets.widgetLoader.informOnLoad("uploadcontent");
