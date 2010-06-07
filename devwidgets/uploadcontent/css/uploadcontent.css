@@ -1,3 +1,4 @@
 #uploadcontent_form h4 {margin-bottom: 20px}
+#uploadcontent_error_container {color: #ff0000; margin-bottom: 20px}
 #uploadcontent_main_container {margin-bottom: 20px}
 #uploadcontent_main_container input[type="text"] {border:1px solid #ddd; margin-bottom:10px; padding:3px}

@@ -34,6 +34,10 @@ sakai.uploadcontent = function(tuid, showSettings){
 
     var uploaddata = {};
 
+    // default POST URL
+    var now = new Date();
+    var defaultposturl = "/_user" + sakai.data.me.profile.path + "/private/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
+
 
     ///////////////////
     // CSS Selectors //
@@ -42,13 +46,45 @@ sakai.uploadcontent = function(tuid, showSettings){
     var $rootel = $("#" + tuid);
 
     var $uploadcontent_dialog = $("#uploadcontent_dialog", $rootel);
+    var $uploadcontent_error_badurlformat = $("#uploadcontent_error_badurlformat", $rootel);
+    var $uploadcontent_error_container = $("#uploadcontent_error_container", $rootel);
+    var $uploadcontent_error_linkcouldnotbesaved = $("#uploadcontent_error_linkcouldnotbesaved", $rootel);
+    var $uploadcontent_form = $("#uploadcontent_form", $rootel);
+    var $uploadcontent_form_link_input = $("#uploadcontent_form_link_input");
     var $uploadcontent_main_container = $("#uploadcontent_main_container", $rootel);
     var $uploadcontent_main_container_template = $("#uploadcontent_main_container_template", $rootel);
 
 
     ///////////////////////////
+    // Utilisation functions //
+    ///////////////////////////
+
+    /**
+     * Check whether a URL is in a valid format or not
+     * @param {String} url The input string you want to test
+     * @return {Boolean} true if the supplied parameter is a valid URL
+     */
+    var isValidURL = function(url){
+
+        // Use regular expressions to check whether the URL is valid or not
+        return (/^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i).test(url);
+
+    };
+
+
+    ///////////////////////////
     // General functionality //
     ///////////////////////////
+
+    /**
+     * Reset the values in the form
+     */
+    var resetForm = function(){
+
+        // Empty the form link input
+        $uploadcontent_form_link_input.val("");
+
+    };
 
     /**
      * Render the general template
@@ -62,6 +98,62 @@ sakai.uploadcontent = function(tuid, showSettings){
 
     };
 
+    /**
+     * Show an error message to the user
+     * @param {String} [error] Supply a key for the error message
+     */
+    var showError = function(error){
+
+        // If there is no error message supplied, hide the container
+        if(!error){
+            $uploadcontent_error_container.hide();
+            return;
+        }
+
+        if(error === "badurlformat"){
+            $uploadcontent_error_container.html($uploadcontent_error_badurlformat.html());
+        }
+        else if(error === "linkcouldnotbesaved"){
+            $uploadcontent_error_container.html($uploadcontent_error_linkcouldnotbesaved.html());
+        }
+
+        // Show the container to the user
+        $uploadcontent_error_container.show();
+
+    };
+
+    /**
+     * Save the link to the back-end
+     * @param {Object} link
+     */
+    var saveLink = function(link){
+
+        var actionlink = defaultposturl;
+
+        $.ajax({
+            url: actionlink + link.split("//")[1].replace(/\./g, "_"),
+            type: "POST",
+            data: {
+                "sakai:link": link,
+                "sling:resourcetype": "sakai/link"
+            },
+            success: function(data){
+
+                // Redirect to the profile page of the newly updated link
+                document.location = "/dev/content_profile.html#content_path=" + this.url;
+
+                // Reset the current form
+                resetForm();
+
+            },
+            error: function(){
+
+               // Show an error message to the user to let him/her know the URL couldn't be saved
+               showError("linkcouldnotbesaved");
+
+            }
+        });
+    };
 
     /////////////
     // Binding //
@@ -71,21 +163,49 @@ sakai.uploadcontent = function(tuid, showSettings){
      * Add binding to the main form element when you submit the form
      */
     var addBindingForm = function(){
-        
-        
+
+        // Add the submit event
+        $uploadcontent_form.submit(function(){
+
+            // Hide previous errors
+            showError();
+
+            // Reinitialise jQuery variables
+            $uploadcontent_form_link_input = $($uploadcontent_form_link_input.selector);
+
+            // Check whether there was any URL inserted into the link field
+            var linkvalue = $.trim($uploadcontent_form_link_input.val());
+            if(linkvalue){
+
+                // Check whether the supplied string is a valid URL
+                if(isValidURL(linkvalue)){
+
+                    // Save the link
+                    saveLink(linkvalue);
+
+                }else{
+
+                    // Show a message that the supplied URL is invalid
+                    showError("badurlformat");
+                }
+                return false;
+            }
+
+        });
+
     };
 
     /**
      * General add binding function
      */
     var addBinding = function(){
-        
+
         // Add binding to the form
         addBindingForm();
 
     };
     $("#uploadcontent_form", $rootel).bind("submit", function(){
-        
+
     });
 
     ////////////////////
@@ -127,7 +247,7 @@ sakai.uploadcontent = function(tuid, showSettings){
 
         // Render the templates
         renderTemplate();
-        
+
         // Add binding
         addBinding();
 

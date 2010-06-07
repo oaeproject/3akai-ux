@@ -1,4 +1,7 @@
 {
 "ADD_NEW_CONTENT": "Add new content",
+"THE_SUPPLIED_LINK_COULD_NOT_BE_SAVED": "The supplied link could not be saved",
+"THE_SUPPLIED_URL_IS_INVALID": "The supplied URL is invalid",
+"OR_SELECT_FILES_TO_UPLOAD": "Or select files to upload",
 "UPLOAD_CONTENT": "Upload Content"
 }
