@@ -37,6 +37,7 @@ sakai.search = function() {
     var searchConfig = {
         search : "#search",
         global : {
+            resultTemp : search + "_result_temp",
             button : search + "_button",
             text  :search + '_text',
             numberFound : search + '_numberFound',
@@ -85,6 +86,7 @@ sakai.search = function() {
         $(searchConfig.global.searchTerm).text(searchterm);
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
+        $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
     };
 
 
@@ -160,8 +162,8 @@ sakai.search = function() {
 
                 // If result is page content set up page path
                 for (var i=0, j=finaljson.items.length; i<j; i++ ) {
-                    var full_path = finaljson.items[i]["path"];
-                    var site_path = finaljson.items[i]["site"]["path"];
+                    var full_path = finaljson.items[i]["data"]["jcr:path"];
+                    var site_path = finaljson.items[i]["site"]["jcr:path"];
                     var page_path = site_path;
                     if (finaljson.items[i]["excerpt"]) {
                         var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
@@ -301,4 +303,4 @@ sakai.search = function() {
 
 };
 
-sdata.container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");

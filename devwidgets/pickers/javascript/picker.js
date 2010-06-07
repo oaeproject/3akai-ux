@@ -123,7 +123,7 @@ sakai.picker = function(tuid, showSettings, endFormat){
         // If we are not in settings mode and we are looking for a folder we show the breadcrumb screen.
         if (!showSettings && endFormat === "folder") {
             // Get all the stuff.
-            sdata.files.getFiles(item.parentFolder, displayFolder);
+            sakai.api.Documents.getFiles(item.parentFolder, displayFolder);
         }
         else
             if (!showSettings && endFormat === "file") {
@@ -150,7 +150,7 @@ sakai.picker = function(tuid, showSettings, endFormat){
             success: function(data){
                 //    We successfully saved the file.
                 //    Close this widget.
-                sdata.container.informFinish(tuid);
+                sakai.api.Widgets.Container.informFinish(tuid);
             },
             error: function(xhr, textStatus, thrownError) {
                 //    Something went wrong trying to save the selected item.
@@ -247,13 +247,13 @@ sakai.picker = function(tuid, showSettings, endFormat){
                 }
                 if (showSettings) {
                     currentPath = data.parentFolder;
-                    sdata.files.getFiles(userSelection.parentFolder, displayItems);
+                    sakai.api.Documents.getFiles(userSelection.parentFolder, displayItems);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
                 // This is the first time this widget gets ran, so there are no settings yet.
                 if (showSettings) {
-                    sdata.files.getFiles(siteFiles, displayItems);
+                    sakai.api.Documents.getFiles(siteFiles, displayItems);
                 }
             }
         });
@@ -267,7 +267,7 @@ sakai.picker = function(tuid, showSettings, endFormat){
 
     // Cancel the picking of a ..
     $(picker_button_cancel, rootel).bind('click', function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
 
@@ -299,7 +299,7 @@ sakai.picker = function(tuid, showSettings, endFormat){
                     setSelectedItem(item);
                 }
                 currentPath = path;
-                sdata.files.getFiles(path, displayItems);
+                sakai.api.Documents.getFiles(path, displayItems);
             }
             else {
                 // It is a file.
@@ -332,11 +332,11 @@ sakai.picker = function(tuid, showSettings, endFormat){
         }
 
         if ($(this).hasClass("picker_breadcrumb_folder")) {
-            sdata.files.getFiles(path, displayFolder);
+            sakai.api.Documents.getFiles(path, displayFolder);
         }
         else {
             currentPath = path;
-            sdata.files.getFiles(path, displayItems);
+            sakai.api.Documents.getFiles(path, displayItems);
         }
     });
 
@@ -348,7 +348,7 @@ sakai.picker = function(tuid, showSettings, endFormat){
         var id = parseInt(parts[parts.length - 1], 10);
 
         var item = currentFolderResults[id];
-        sdata.files.getFiles(item.path, displayFolder);
+        sakai.api.Documents.getFiles(item.path, displayFolder);
     });
 
     ///////////////////
@@ -368,4 +368,4 @@ sakai.picker = function(tuid, showSettings, endFormat){
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("filepicker");
+sakai.api.Widgets.widgetLoader.informOnLoad("filepicker");

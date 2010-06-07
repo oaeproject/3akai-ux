@@ -21,11 +21,6 @@
 
 var sakai = sakai || {};
 sakai.print = function(){
-    
-    var init = function() {
-      var json = {};
-
-    var json = false;
 
     $.ajax({
         url: "/_user/private/print.json",
@@ -40,4 +35,4 @@ sakai.print = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.print");
+sakai.api.Widgets.Container.registerForLoad("sakai.print");

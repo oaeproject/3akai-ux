@@ -113,7 +113,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      */
     var closeContainer = function(success){
         if (success) {
-            sdata.container.informFinish(tuid);
+            sakai.api.Widgets.Container.informFinish(tuid);
         }else{
             $settingsContentHolder.append($settingsNotSavedError);
         }
@@ -123,7 +123,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Function that will close the container when the cancel button is clicked
      */
     var cancelContainer = function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     };
 
     /**
@@ -367,4 +367,4 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     init();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("bookmarkandshare");
+sakai.api.Widgets.widgetLoader.informOnLoad("bookmarkandshare");

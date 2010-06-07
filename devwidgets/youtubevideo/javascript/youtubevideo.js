@@ -112,7 +112,7 @@ sakai.youtubevideo = function(tuid, showSettings){
      */
     var saveNewSettings = function(){
         var val = $(youtubevideoUrl ,rootel).attr("value");
-        sakai.api.Widgets.saveWidgetData(tuid, val, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, val, sakai.api.Widgets.Container.informFinish(tuid));
     };
     /**
      * Shows the preview of the video
@@ -179,4 +179,4 @@ sakai.youtubevideo = function(tuid, showSettings){
     displayYouTubeVideo(showSettings);
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("youtubevideo");
+sakai.api.Widgets.widgetLoader.informOnLoad("youtubevideo");

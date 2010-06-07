@@ -88,7 +88,7 @@ sakai.config = {
         SITE_FILES_URL: "/sites/__SITEID__/_files",
         SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
         SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
-        SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content",
+        SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content.json",
         SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
         SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
@@ -196,8 +196,12 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Jpg image"
         },
+        "text/html": {
+            URL: "/dev/_images/mimetypes/html.png",
+            description: "HTML document"
+        },
         folder: {
-            URL: "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
+            URL: "/dev/_images/mimetypes/kmultiple.png",
             description: "Folder"
         },
         other: {

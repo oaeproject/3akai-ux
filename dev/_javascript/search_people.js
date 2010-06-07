@@ -42,6 +42,7 @@ sakai.search = function() {
     var searchConfig = {
         search : "#search",
         global : {
+            resultTemp : search + "_result_temp",
             button : search + "_button",
             text  :search + '_text',
             numberFound : search + '_numberFound',
@@ -118,6 +119,7 @@ sakai.search = function() {
         $(searchConfig.global.searchTerm).text(searchterm);
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
+        $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
     };
 
     /**
@@ -153,25 +155,10 @@ sakai.search = function() {
      * @return Will return the user object if something is found, false if nothing is found.
      */
     var searchPerson = function(userid) {
-        var person = {};
-        for (var i = 0, j = foundPeople.length; i < j; i++) {
-            var t_userid = concatObjectValues(foundPeople[i].userid);
-
-            if (t_userid === userid) {
-                var t_firstname = "";
-                var t_lastname = "";
-                // Not every user has a first/last name.
-                if (foundPeople[i].hasOwnProperty('firstName')) {
-                    t_firstname = concatObjectValues(foundPeople[i].firstName);
-                } else {
-                    t_firstname = concatObjectValues(foundPeople[i].userid);
-                }
-                if (foundPeople[i].hasOwnProperty('lastName')) {
-                    t_lastname = concatObjectValues(foundPeople[i].lastName);
-                }
-                person.uuid = t_userid;
-                person.firstName = t_firstname;
-                person.lastName = t_lastname;
+        var person = false;
+        for (var i = 0, j = foundPeople.length; i<j; i++) {
+            if (foundPeople[i].userid === userid) {
+                person = foundPeople[i];
                 break;
             }
         }
@@ -391,14 +378,18 @@ sakai.search = function() {
 
     /** When a user wants to message another  user */
     $(searchConfig.global.messageClass).live("click", function() {
-
         var reg = new RegExp(searchConfig.global.messageID, "gi");
         var contactclicked = $(this).attr("id").replace(reg,"");
         var person = searchPerson(contactclicked);
-        if (person) {
+        if (contactclicked) {
             $(searchConfig.global.sendmessageContainer).show();
-
-
+            if (!person.uuid) {
+                person.uuid = person.userid;
+            }
+            if (!person.hasOwnProperty("firstName") && !person.hasOwnProperty("lastName")) {
+                person.firstName = person.uuid;
+                person.lastName = "";
+            }
             sakai.sendmessage.initialise(person, true);
         }
     });
@@ -436,4 +427,4 @@ sakai.search = function() {
     doInit();
 };
 
-sdata.container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");

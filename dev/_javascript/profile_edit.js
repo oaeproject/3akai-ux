@@ -296,7 +296,7 @@ sakai.profile = function(){
 
                 index = 0;
                 for (var i = 0; i < obj.items.length; i++){
-                    if (obj.items[i].id === id){
+                    if (obj.items[i].id + "" === id){
                         index = i;
                     }
                 }
@@ -769,4 +769,4 @@ sakai.profile = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.profile");
+sakai.api.Widgets.Container.registerForLoad("sakai.profile");

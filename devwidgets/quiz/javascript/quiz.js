@@ -742,7 +742,7 @@ sakai.quiz = function(tuid, showSettings) {
      * Closes the settings popup
      */
     var finishNewSettings = function() {
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -1764,4 +1764,4 @@ sakai.quiz = function(tuid, showSettings) {
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("quiz");
+sakai.api.Widgets.widgetLoader.informOnLoad("quiz");

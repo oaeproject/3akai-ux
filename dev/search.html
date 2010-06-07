@@ -31,7 +31,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
@@ -170,12 +169,12 @@
                                             {/if}
                                             {if ! i.isMe}
                                             <div class="search_result_person_links">
-                                                {if ! i.connected}
+                                                {if !i.connected}
                                                     <a href="javascript:;" class="search_result_person_link link_add_to_contacts" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</a>
                                                     <a href="javascript:;" id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</a>
                                                 {/if}
                                                 <a href="javascript:;" class="search_result_person_link search_result_person_link_message" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</a>
-                                            <div>
+                                            </div>
                                             {/if}
                                         </div>
                                     {/if}
@@ -219,7 +218,7 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
-        
+
         <div id="sendmessagecontainer" style="display:none; width:100%">
             <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
         </div>

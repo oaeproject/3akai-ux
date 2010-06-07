@@ -166,4 +166,4 @@ sakai.createconnections = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.createconnections");
+sakai.api.Widgets.Container.registerForLoad("sakai.createconnections");

@@ -122,6 +122,15 @@ var Widgets = {
             "personalportal":true,
             "url":"/devwidgets/delicious/delicious.html"
         },
+        "deletecontent": {
+            "description":"Delete content widget",
+            "id":"deletecontent",
+            "i18n": {
+                "default": "/devwidgets/deletecontent/bundles/default.json"
+            },
+            "name":"Delete Content",
+            "url":"/devwidgets/deletecontent/deletecontent.html"
+        },
         "discussion": {
             "ca":true,
             "description":"Discussion widget",
@@ -183,6 +192,15 @@ var Widgets = {
             "showinsakaigoodies":true,
             "url":"/devwidgets/pickers/folderpicker.html"
         },
+        "ggadget": {
+            "ca":true,
+            "description":"Embed Google Gadgets in your page or dashboard",
+            "id":"ggadget",
+            "img":"/devwidgets/ggadget/images/ggadget.png",
+            "name":"Google Gadget",
+            "showinsakaigoodies":true,
+            "url":"/devwidgets/ggadget/ggadget.html"
+        },
         "googledocs": {
             "description": "Google docs - Show your recent google documents",
             "id":"googledocs",
@@ -229,7 +247,7 @@ var Widgets = {
                 "default": "/devwidgets/listgeneral/bundles/default.json"
             },
             "name": "General Lister",
-            "url": "/devwidgets/listgenral/listgeneral.html"
+            "url": "/devwidgets/listgeneral/listgeneral.html"
         },
         "listpeople": {
             "description":"General people lister widget",
