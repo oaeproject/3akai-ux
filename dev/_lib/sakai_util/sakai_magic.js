@@ -235,7 +235,7 @@ sakai.api.Documents.getFiles = function(path, callback) {
           callback(xhr.status, false);
             }
         });
-    },
+    };
 
 /**
  * Gets info about a certain file.
@@ -265,7 +265,7 @@ sakai.api.Documents.getFileInfo = function(path, callback) {
             callback(xhr.status, false);
         }
     });
-}
+};
 
 
 /**
@@ -2303,7 +2303,7 @@ sakai.api.Widgets.widgetLoader = {
             }
 
             for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
-                $.getScript(JSTags.URL[JSURL]);
+                $.Load.requireJS(JSTags.URL[JSURL]);
             }
 
         };
@@ -2770,7 +2770,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
         }
 
         return o;
-    }
+    };
 
     /**
      * $.URLDecode
@@ -2787,7 +2787,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
             o=o.replace(m[1],t);
         }
         return o;
-    }
+    };
 
 })(jQuery);
 
@@ -2806,7 +2806,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
      */
     $.stripTags = function() {
         return this.replaceWith( this.html().replace(/<\/?[^>]+>/gi,''));
-    }
+    };
 })(jQuery);
 
 
@@ -2831,7 +2831,9 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
         var tag = document.createElement(tagname);
         var head = document.getElementsByTagName('head').item(0);
         for (var a in attributes){
-            tag[a] = attributes[a];
+            if(attributes.hasOwnProperty(a)){
+                tag[a] = attributes[a];
+            }
         }
         head.appendChild(tag);
     };
@@ -2841,7 +2843,7 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
      * @param {String} URL of the JavaScript file relative to the parent dom.
      */
     $.Load.requireJS = function(url) {
-        insertTag("script", {"src" : url, "type" : "text/javascript", "language" : "JavaScript"});
+        insertTag("script", {"src" : url, "type" : "text/javascript"});
     };
 
     /**

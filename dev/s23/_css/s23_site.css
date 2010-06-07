@@ -17,10 +17,10 @@
  */
 
 /* Header */
-.s23_site .header .fixed-container
-{ height: 60px }
-.s23_site .header .greeting .greeting_text
-{ float: left; margin-right:10px }
+.s3d-site-heading #s23_site_title
+{ margin: 8px 10px 0 0}
+.s3d-site-heading #s23_site_title_info
+{ color: #868a8d; font-size: 0.9em; font-weight: normal; margin-top:20px }
 
 /* Menu */
 .s23_site #s23_site_menu_container
@@ -118,5 +118,3 @@
 { background-color:#fff; padding-bottom:20px }
 .s23_site .s23_site_back
 { color:#006E96; float:right; margin-top:30px }
-.s23_site #s23_site_title_info
-{ margin-top:15px; color: #868a8d; font-size: 1.1em }
