@@ -1,5 +1,7 @@
 module("JCR Removal");
 
+(function(){
+
 var dummyObject = {
     "name":"dummy",
     "version":"dummy version",
@@ -10,7 +12,7 @@ var dummyObject = {
 };
 
 /**
- * Test if the indexof returns the expected index
+ * Test if the JCR objects are removed correctly from the object
  */
 var testJCRRemoval = function(){
 
@@ -27,13 +29,14 @@ var testJCRRemoval = function(){
 
     //check if it is the same as expected
     same(objCount, 2,"Checking if removal went well by checking amount of left properties");
-    start();
+
 };
 
 /**
- * Run an asynchronous test
+ * Run a test
  */
-test("JCR Removal: test the removal of jcr objects in a json object", function(){
-    //send a message
+test("Test the removal of jcr objects in a JSON object", function(){
     testJCRRemoval();
 });
+
+})();

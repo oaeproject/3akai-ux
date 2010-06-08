@@ -32,7 +32,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
@@ -108,6 +107,10 @@
                             __MSG__FOUND__ <strong id="search_numberFound">0</strong>
                             __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__
                             <span class="keyword" id="search_mysearchterm"></span> </div>
+
+                        <!-- TEMPORARY SEARCH TEXT -->
+                        <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
+
                         <!-- SEARCH RESULTS -->
                         <div id="search_results_page1" class="fl-container fl-fix search_results_container">
                             <div class="search_top_rounded"><div class="search_top_rounded_inner"><!-- --></div></div>

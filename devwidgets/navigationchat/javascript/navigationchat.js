@@ -352,7 +352,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
+            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
@@ -912,10 +912,12 @@ sakai.navigationchat = function(tuid, showSettings){
 
     /**
      * Show or hide the user link menu
+     * @param {Boolean} hideOnly
+     *  true: Hide the menu only
+     *  false: Show or hide the menu depending if it's already visible
      */
-    var showHideUserLinkMenu = function(){
-
-        if ($(userLinkMenu).is(":visible")) {
+    var showHideUserLinkMenu = function(hideOnly){
+        if ($(userLinkMenu).is(":visible") || hideOnly) {
             $(userLinkMenu).hide();
         }
         else {
@@ -924,7 +926,6 @@ sakai.navigationchat = function(tuid, showSettings){
             $(userLinkMenu).css("width", ($(userLink).width() + 10) + "px");
             $(userLinkMenu).show();
         }
-
     };
 
     /**
@@ -982,13 +983,22 @@ sakai.navigationchat = function(tuid, showSettings){
      */
     var addBinding = function(){
         $(userLink).bind("click", function(){
-            showHideUserLinkMenu();
+            showHideUserLinkMenu(false);
         });
 
         $(userLinkChatStatusClass).bind("click", function(ev){
-            showHideUserLinkMenu();
+            showHideUserLinkMenu(false);
             var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
             sendChatStatus(clicked);
+        });
+
+        $(document).bind("click", function(e){
+            var $clicked = $(e.target);
+
+            // Check if one of the parents is the userLink
+            if(!$clicked.parents().is(userLink)){
+                showHideUserLinkMenu(true);
+            }
         });
     };
 
@@ -1954,4 +1964,4 @@ sakai.navigationchat = function(tuid, showSettings){
     }
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("navigationchat");
+sakai.api.Widgets.widgetLoader.informOnLoad("navigationchat");

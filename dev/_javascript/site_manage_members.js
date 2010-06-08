@@ -51,7 +51,7 @@ sakai.site_manage_members = function() {
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response) {
-                siteJson = $.parseJSON(response);
+                siteJson = response;
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
             },
@@ -390,7 +390,7 @@ sakai.site_manage_members = function() {
                 }
             }
             sakai.lib.batchPosts(actions);
-            
+
             var toRemove = [];
             for(var i =0; i< userCount; i++){
               for (var j = 0; j < json.results.length; j++) {
@@ -516,4 +516,4 @@ sakai.site_manage_members = function() {
 
 };
 
-sdata.container.registerForLoad("sakai.site_manage_members");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_manage_members");

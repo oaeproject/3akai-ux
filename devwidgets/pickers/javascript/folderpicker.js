@@ -133,7 +133,7 @@ sakai.folderpicker = function(tuid, showSettings){
     var renderMainView = function(){
         // Add the filetype for each file. (As in: Word document, image, PDF file, ...)
         for (var i = 0, j = selectedFiles.length; i < j; i++) {
-            selectedFiles[i].fileType = sdata.files.getFileType(selectedFiles[i].name);
+            selectedFiles[i].fileType = sakai.api.Documents.getFileType(selectedFiles[i].name);
         }
 
         var json = {
@@ -158,7 +158,7 @@ sakai.folderpicker = function(tuid, showSettings){
         var show = [];
         for (var i = 0, j = currentFolderResults.length; i < j; i++) {
             if (i >= from && i < to) {
-                currentFolderResults[i].fileType = sdata.files.getFileType(currentFolderResults[i].name);
+                currentFolderResults[i].fileType = sakai.api.Documents.getFileType(currentFolderResults[i].name);
                 show.push(currentFolderResults[i]);
                 show[show.length - 1].index = i;
             }
@@ -297,7 +297,7 @@ sakai.folderpicker = function(tuid, showSettings){
                     init();
                 }
                 else {
-                    sdata.container.informFinish(tuid);
+                    sakai.api.Widgets.Container.informFinish(tuid);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -324,11 +324,11 @@ sakai.folderpicker = function(tuid, showSettings){
                 // Now retrieve the actual info for the file.
                 if (widgetSettings.selectedFolder) {
                     currentPath = widgetSettings.selectedFolder;
-                    sdata.files.getFiles(widgetSettings.selectedFolder, displayItems);
+                    sakai.api.Documents.getFiles(widgetSettings.selectedFolder, displayItems);
                 }
                 else {
                     currentPath = siteFiles;
-                    sdata.files.getFiles(siteFiles, displayItems);
+                    sakai.api.Documents.getFiles(siteFiles, displayItems);
                 }
 
             },
@@ -336,7 +336,7 @@ sakai.folderpicker = function(tuid, showSettings){
                 // This is the first time this widget gets ran, so there are no settings yet.
                 if (showSettings) {
                     currentPath = siteFiles;
-                    sdata.files.getFiles(siteFiles, displayItems);
+                    sakai.api.Documents.getFiles(siteFiles, displayItems);
                 }
             }
         });
@@ -350,7 +350,7 @@ sakai.folderpicker = function(tuid, showSettings){
 
     // Cancel the picking of a ..
     $(picker_button_cancel, rootel).bind('click', function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
 
@@ -371,7 +371,7 @@ sakai.folderpicker = function(tuid, showSettings){
         var item = currentFolderResults[index];
         setSelectedFolder(item.path);
         currentPath = item.path;
-        sdata.files.getFiles(item.path, displayItems);
+        sakai.api.Documents.getFiles(item.path, displayItems);
     });
 
     // Someone clicked a breadcrumb bar.
@@ -390,7 +390,7 @@ sakai.folderpicker = function(tuid, showSettings){
 
         currentPath = path;
         setSelectedFolder(path);
-        sdata.files.getFiles(path, displayItems);
+        sakai.api.Documents.getFiles(path, displayItems);
     });
 
 
@@ -415,5 +415,5 @@ sakai.folderpicker = function(tuid, showSettings){
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("folderpicker");
-sdata.widgets.WidgetLoader.informOnLoad("folderpicker");
+sakai.api.Widgets.widgetLoader.informOnLoad("folderpicker");
+sakai.api.Widgets.widgetLoader.informOnLoad("folderpicker");

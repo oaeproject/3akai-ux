@@ -18,7 +18,7 @@
  *
  */
 
-/*global $, jQuery, fluid, TrimPath, Widgets, window, document, sdata */
+/*global $, jQuery, fluid, TrimPath, Widgets, window, document */
 
 /**
  * @name sakai
@@ -187,6 +187,128 @@ sakai.api.Communication.inviteUser = function(userID) {
  * Document and file management
  */
 sakai.api.Documents = sakai.api.Documents || {};
+
+/**
+ * Gets all the files and folders under a certain path.
+ * @param {String} path The absolute path where we should look for sakai/file, sakai/link and sakai/folder.
+ * @param {Object} callback The callback function that should be excecuted when the data is retrieved.
+ *         When succesfull data will hold the response of the server.
+ *         When the request failed it will hold the status.
+ *                 function myCallbackFunction(data, success){
+ *                    if (success) {
+ *                        //files retrieved successfull
+ *                        //Do something with data.
+ *                    } else {
+ *                        //Error retrieving files.
+ *                        //Do something with the status.
+ *                    }
+ *                }
+ */
+sakai.api.Documents.getFiles = function(path, callback) {
+         $.ajax({
+            url: path + ".files.json",
+            cache: false,
+            success: function(data){
+                // Sort the files and folders.
+                // Folders come first then files.
+                // These are both sorted in a natural way.
+                // so z1 > z2 > z30 > z100 > z200 and not
+                // z1 > z100 > z2 > z200 > z3
+                data.sort(function alphanumCase(a, b){
+                    var aType = a["sling:resourceType"];
+                    var bType = b["sling:resourceType"];
+                    if (aType === "sakai/folder" && bType !== "sakai/folder") {
+                        return -1;
+                    }
+                    else {
+                        if (aType !== "sakai/folder" && bType === "sakai/folder") {
+                            return 1;
+                        }
+                        else {
+                            sakai.api.Util.Sorting.naturalSort(a.name, b.name);
+                        }
+                    }
+                });
+                callback(data, true);
+            },
+            error: function(xhr, textStatus, thrownError) {
+          callback(xhr.status, false);
+            }
+        });
+    };
+
+/**
+ * Gets info about a certain file.
+ * @param {String} path The absolute path for the file. Note this only works for nodes of type sakai/file.
+ * @param {Object} callback The callback function that should be excecuted when the data is retrieved.
+ *         When succesfull data will hold the response of the server.
+ *         When the request failed it will hold the status.
+ *                 function myCallbackFunction(data, success){
+ *                    if (success) {
+ *                        //Info retrieved successfull
+ *                        //Do something with data.
+ *                    } else {
+ *                        //Error retrieving info
+ *                        //Do something with the status.
+ *                    }
+ *                }
+ */
+
+sakai.api.Documents.getFileInfo = function(path, callback) {
+    $.ajax({
+        url: path + ".info.json",
+        cache: false,
+        success: function(data){
+            callback(data, true);
+        },
+        error: function(xhr, textStatus, thrownError) {
+            callback(xhr.status, false);
+        }
+    });
+};
+
+
+/**
+ * @name
+ * getFileType
+ * Determines the type of a file by looking at the filename
+ * @param filename {Object} The name of the file we need the info for
+ */
+sakai.api.Documents.getFileType = function(filename) {
+    try {
+        var array = filename.split(".");
+        var extention = array[array.length - 1].toLowerCase();
+        if (extention == "php" || extention === "html" || extention === "xml" || extention === "css" || extention === "js"){
+            return "Web document";
+        } else if (extention === "doc" || extention === "docx" || extention === "rtf"){
+            return "Word file";
+        } else if (extention === "exe"){
+            return "Program";
+        } else if (extention === "mov" || extention === "avi" || extention === "mp4"){
+            return "Movie";
+        } else if (extention === "fla" || extention === "as" || extention === "flv"){
+            return "Flash";
+        } else if (extention === "mp3" || extention === "wav" || extention === "midi" || extention === "asf"){
+            return "Audio";
+        } else if (extention === "pdf"){
+            return "PDF file";
+        } else if (extention === "png" || extention === "gif" || extention === "jpeg" || extention === "jpg" || extention === "tiff" || extention === "bmp"){
+            return "Picture";
+        } else if (extention === "ppt" || extention === "pptx" || extention === "pps" || extention === "ppsx"){
+            return "Powerpoint";
+        } else if (extention === "txt"){
+            return "Text file";
+        } else if (extention === "xls" || extention === "xlsx"){
+            return "Excel";
+        } else if (extention === "zip" || extention === "rar"){
+            return "Archive";
+        } else {
+            return "Other";
+        }
+    } catch (err){
+        return "Other";
+    }
+};
 
 
 
@@ -364,8 +486,8 @@ sakai.api.i18n.init = function(){
      */
     var finishI18N = function(){
         $i18nable.show();
-        sdata.container.setReadyToLoad(true);
-        sdata.widgets.WidgetLoader.insertWidgets(null, false);
+        sakai.api.Widgets.Container.setReadyToLoad(true);
+        sakai.api.Widgets.widgetLoader.insertWidgets(null, false);
     };
 
     /**
@@ -790,7 +912,16 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 
     // Argument check
     if (!i_url || !i_data) {
+
+        // Log the error message
         fluid.log("sakai.api.Server.saveJSON: Not enough or empty arguments!");
+
+        // Still invoke the callback function
+        if (typeof callback === "function") {
+            callback(false, "The supplied arguments were incorrect.");
+        }
+
+        // Make sure none of the other code in this function is executed
         return;
     }
 
@@ -902,7 +1033,16 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
 
     // Argument check
     if (!i_url) {
+
+        // Log the error message
         fluid.log("sakai.api.Server.loadJSON: Not enough or empty arguments!");
+
+        // Still invoke the callback function
+        if (typeof callback === "function") {
+            callback(false, "The supplied arguments were incorrect.");
+        }
+
+        // Make sure none of the other code in this function is executed
         return;
     }
 
@@ -1017,7 +1157,16 @@ sakai.api.Server.removeJSON = function(i_url, callback){
 
     // Argument check
     if (!i_url) {
+
+        // Log the error message
         fluid.log("sakai.api.Server.removeJSON: Not enough or empty arguments!");
+
+        // Still invoke the callback function
+        if (typeof callback === "function") {
+            callback(false, "The supplied arguments were incorrect.");
+        }
+
+        // Make sure none of the other code in this function is executed
         return;
     }
 
@@ -1225,8 +1374,6 @@ sakai.api.UI.Forms = {
      *     selectElement : ["UK"],
      *     textAreaName : "This is some random text"
      *  }</code></pre>
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     json2form: function(formElement, formDataJson){
 
@@ -1252,11 +1399,9 @@ sakai.api.UI.Forms = {
                             }
                         }
                     } else if (nodeName === "select"){
-                        for (var select = 0; select < formDataJson[name].length; select++){
-                            for (var k = 0, kl = el.options.length; k < kl; k++) {
-                                if (el.options[k].value === formDataJson[name][select]) {
-                                    el.options[k].selected = true;
-                                }
+                        for (var k = 0, kl = el.options.length; k < kl; k++) {
+                            if (el.options[k].value === formDataJson[name]) {
+                                el.options[k].selected = true;
                             }
                         }
                     }
@@ -1272,8 +1417,6 @@ sakai.api.UI.Forms = {
      * If it's a select dropdown, then the first element will be selected
      * @param {Object} formElement JQuery element that represents the container in which we are
      *  resetting the form fields
-     *
-     * @return {Boolean} true or false depending on the success of the operation
      */
     resetForm: function(formElement){
 
@@ -1313,9 +1456,218 @@ sakai.api.User = sakai.api.User || {};
 
 
 /**
+ * Create a user in the Sakai3 system.
+ *
+ * @param {Object} user A JSON object containing all the information to create a user.
+ * @param {Function} [callback] A callback function which will be called after the request to the server.
+ */
+sakai.api.User.createUser = function(user, callback){
+
+    // Send an Ajax POST request to create a user
+    $.ajax({
+        url: sakai.config.URL.CREATE_USER_SERVICE,
+        type: "POST",
+        data: user,
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+
+/**
+ * Remove the user credentials in the Sakai3 system.
+ * Note that this doesn't actually remove the user, only its permissions.
+ *
+ * @example
+ * sakai.api.User.createUser({
+ *     "firstName": "User",
+ *     "lastName": "0",
+ *     "email": "user.0@sakatest.edu",
+ *     "pwd": "test",
+ *     "pwdConfirm": "test",
+ *     ":name": "user0"
+ * });
+ *
+ * @param {String} userid The id of the user you want to remove from the system
+ * @param {Function} [callback] A callback function which will be called after the request to the server.
+ */
+sakai.api.User.removeUser = function(userid, callback){
+
+    // Send an Ajax POST request to remove a user
+    $.ajax({
+        url: "/system/userManager/user/" + userid + ".delete.json",
+        type: "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+/**
+ * Log-in to Sakai3
+ *
+ * @example
+ * sakai.api.user.login({
+ *     "username": "user1",
+ *     "password": "test"
+ * });
+ *
+ * @param {Object} credentials JSON object container the log-in information. Contains the username and password.
+ * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
+ */
+sakai.api.User.login = function(credentials, callback) {
+
+    // Argument check
+    if (!credentials || !credentials.username || !credentials.password) {
+        fluid.log("sakai.api.user.login: Not enough or invalid arguments!");
+        return;
+    }
+
+    /*
+     * sakaiauth:un : the username for the user
+     * sakaiauth:pw : the password for the user
+     * sakaiauth:login : set to 1 because we want to perform a login action
+     */
+    var data = {
+        "sakaiauth:login": 1,
+        "sakaiauth:un": credentials.username,
+        "sakaiauth:pw": credentials.password,
+        "_charset_": "utf-8"
+    };
+
+    // Send the Ajax request
+    $.ajax({
+        url : sakai.config.URL.LOGIN_SERVICE,
+        type : "POST",
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        },
+        data : data
+    });
+
+};
+
+
+/**
+ * Log-out from Sakai3
+ *
+ * @example sakai.api.user.logout();
+ * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
+ */
+sakai.api.User.logout = function(callback) {
+
+    /*
+     * Array to store the data for the batch Ajax POST.
+     * Each object in this array consists out of
+     *     - the config service URL
+     *     - the used Ajax method
+     *     - the parameters for the service
+     */
+    var data = [];
+
+    /*
+     * POST request to the presence service,
+     * which will change the user status to offline.
+     */
+    data.push({
+        "url": sakai.config.URL.PRESENCE_SERVICE,
+        "method": "POST",
+        "parameters": {
+            "sakai:status": "offline",
+            "_charset_": "utf-8"
+        }
+    });
+
+    /*
+     * POST request to the logout service,
+     * which will destroy the session.
+     */
+    data.push({
+        "url": sakai.config.URL.LOGOUT_SERVICE,
+        "method": "POST",
+        "parameters": {
+            "sakaiauth:logout": "1",
+            "_charset_": "utf-8"
+        }
+    });
+
+    /*
+     * The batch Ajax post.
+     * If the request fails, it is probably because there is no current session.
+     */
+    $.ajax({
+        url: sakai.config.URL.BATCH,
+        type: "POST",
+        data: {
+            requests: $.toJSON(data)
+        },
+        success: function(data){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(true, data);
+            }
+
+        },
+        error: function(xhr, textStatus, thrownError){
+
+            // Call callback function if set
+            if (typeof callback === "function") {
+                callback(false, xhr);
+            }
+
+        }
+    });
+
+};
+
+
+/**
  * Retrieves all available information about a logged in user and stores it under sakai.data.me object. When ready it will call a specified callback function
  *
- * @param {Function} callback A function which will be called when the information is retrieved from the server.
+ * @param {Function} [callback] A function which will be called when the information is retrieved from the server.
  * The first argument of the callback is a boolean whether it was successful or not, the second argument will contain the retrieved data or the xhr object
  * @return {Void}
  */
@@ -1685,21 +2037,113 @@ sakai.api.Widgets = sakai.api.Widgets || {};
  * @class Container
  *
  * @description
- * Widget container functions which assist embedding the widgets into a page
+ * This will expose 2 funcions that can be called by widgets to inform
+ * the container that the widget has finished doing things in its settings
+ * mode. The container can then do whatever it needs to do according to the
+ * context it's in (f.e.: if in the personal dashboard environment, the container
+ * will want to render the view mode of that widget, in a site page edit context
+ * the container will want to insert the widget into the WYSIWYG editor).
+ *
+ * This will also allow the container to register 2 functions related to widget
+ * settings mode. First of all, the container can register a finish function,
+ * which will be executed when a widget notifies the container that it has
+ * successfully finished its settings mode. It can also register a cancel
+ * function, which will be executed when a widget notifies the container that
+ * its settings mode has been cancelled.
  *
  * @namespace
  * Widget container functions
  *
  */
+
 sakai.api.Widgets.Container = {
 
-    /**
-    * Initialises the widget container
-    *
-    */
-    init: function() {
+    toCallOnFinish : false,
+    toCallOnCancel : false,
 
+    /**
+     * The container can use this to register a function to be executed when a widget notifies the container
+     * that its settings mode has been successfully completed.
+     * @param {Object} callback
+     *  Function that needs to be executed when a widget notifies the container
+     *  that its settings mode has been successfully completed.
+     */
+    registerFinishFunction : function(callback){
+        if (callback){
+            sakai.api.Widgets.Container.toCallOnFinish = callback;
+        }
+    },
+
+    /**
+     * The container can use this to register a function to be executed when a widget notifies the container
+     * that its settings mode has been cancelled.
+     * @param {Object} callback
+     *  Function that needs to be executed when a widget notifies the container
+     *  that its settings mode has been cancelled.
+     */
+    registerCancelFunction : function(callback){
+        if (callback){
+            sakai.api.Widgets.Container.toCallOnCancel = callback;
+        }
+    },
+
+    /**
+     * Function that can be called by a widget to notify the container that it
+     * has successfully completed its settings mode
+     * @param {Object} tuid
+     *  Unique id (= id of the container this widget is in) of the widget
+     * @param {Object} widgetname
+     *     Name of the widget as registered in the widget config file(e.g. sites, myprofile, video, ...)
+     */
+    informFinish : function(tuid, widgetname){
+        if (sakai.api.Widgets.Container.toCallOnFinish){
+            sakai.api.Widgets.Container.toCallOnFinish(tuid, widgetname);
+        }
+    },
+
+    /**
+     * Function that can be called by a widget to notify the container that its
+     * settings mode has been cancelled
+     * @param {Object} tuid
+     *  Unique id (= id of the container this widget is in) of the widget
+     * @param {Object} widgetname
+     *     Name of the widget as registered in the widget config file(e.g. sites, myprofile, video, ...)
+     */
+    informCancel : function(tuid, widgetname){
+        if (sakai.api.Widgets.Container.toCallOnCancel){
+            sakai.api.Widgets.Container.toCallOnCancel(tuid, widgetname);
+        }
+    },
+
+    readyToLoad : false,
+    toLoad : [],
+
+    registerForLoad : function(id){
+        sakai.api.Widgets.Container.toLoad[sakai.api.Widgets.Container.toLoad.length] = id;
+        if (sakai.api.Widgets.Container.readyToLoad){
+            sakai.api.Widgets.Container.performLoad();
+        }
+    },
+
+    performLoad : function(){
+        for (var i = 0, j = sakai.api.Widgets.Container.toLoad.length; i<j; i++){
+            var fct = eval(sakai.api.Widgets.Container.toLoad[i]);
+            try {
+                fct();
+            } catch (err){
+                fluid.log(err);
+            }
+        }
+        sakai.api.Widgets.Container.toLoad = [];
+    },
+
+    setReadyToLoad : function(set){
+        sakai.api.Widgets.Container.readyToLoad = set;
+        if (set){
+            sakai.api.Widgets.Container.performLoad();
+        }
     }
+
 };
 
 
@@ -1734,12 +2178,324 @@ sakai.api.Widgets.renderWidget = function(widgetID) {
 sakai.api.Widgets.loadWidgetData = function(id, callback) {
 
     // Get the URL from the widgetloader
-    var url = sdata.widgets.WidgetLoader.widgets[id] ? sdata.widgets.WidgetLoader.widgets[id].placement : false;
+    var url = sakai.api.Widgets.widgetLoader.widgets[id] ? sakai.api.Widgets.widgetLoader.widgets[id].placement : false;
 
     // Send a GET request to get the data for the widget
     sakai.api.Server.loadJSON(url, callback);
 
 };
+
+
+
+/*
+ * Will be used for detecting widget declerations inside the page and load those
+ * widgets into the page
+ */
+sakai.api.Widgets.widgetLoader = {
+
+    loaded : [],
+    widgets : [],
+
+    /**
+     * Function that can be called by the container. This will looks for widget declarations
+     * within the specified container and will load the widgets in the requested mode (view - settings)
+     * @param {Object} id
+     *  Id of the HTML container in which we want to look for widget declarations
+     * @param {Object} showSettings
+     *  true  : render the settings mode of the widget
+     *  false : render the view mode of the widget
+     */
+    insertWidgets : function(id, showSettings, context){
+        var obj = sakai.api.Widgets.widgetLoader.loadWidgets(id, showSettings, context);
+        sakai.api.Widgets.widgetLoader.loaded.push(obj);
+    },
+
+    loadWidgets : function(id, showSettings, context){
+
+        // Configuration variables
+        var widgetNameSpace = "sakai";
+        var widgetSelector = ".widget_inline";
+
+        // Help variables
+        var widgets = {}, settings = false;
+
+        /**
+         * Inform the widget that is is loaded and execute the main JavaScript function
+         * If the widget name is "createsite", then the function sakai.createsite will be executed.
+         * @param {String} widgetname The name of the widget
+         */
+        var informOnLoad = function(widgetname){
+
+            var doDelete;
+
+            // Check if the name of the widget is inside the widgets object.
+            if (widgets[widgetname] && widgets[widgetname].length > 0){
+
+                // Run through all the widgets with a specific name
+                for (var i = 0, j = widgets[widgetname].length; i<j; i++){
+                    widgets[widgetname][i].done++;
+                    if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
+
+                         // Save the placement in the widgets variable
+                        sakai.api.Widgets.widgetLoader.widgets[widgets[widgetname][i].uid] = {
+                            "placement": widgets[widgetname][i].placement + widgets[widgetname][i].uid + "/" + widgetname,
+                            "name" : widgetname
+                        };
+
+                        // Run the widget's main JS function
+                        var initfunction = window[widgetNameSpace][widgetname];
+                        initfunction(widgets[widgetname][i].uid, settings);
+
+                        // Send out a "loaded" event for this widget
+                        $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);
+
+                        doDelete = true;
+                    }
+                }
+
+                // Remove the widget from the widgets object (clean up)
+                if (doDelete){
+                    delete widgets[widgetname];
+                }
+            }
+        };
+
+        /**
+         * Locate a tag and remove it from the content
+         * @param {String} content The complete content of a file (e.g. <div>...)
+         * @param {String} tagName The name of the tag you want to remove (link/script)
+         * @param {String} URLIdentifier The part that identifies the URL (href/src)
+         */
+        var locateTagAndRemove = function(content, tagName, URLIdentifier){
+            var returnObject = {
+                URL : [],
+                content : content
+            };
+            var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?["|'+'\''+']([^"]*)["|'+'\''+'].*/.*?>', "gi");
+            var regexp_match_result = regexp.exec(content);
+            while (regexp_match_result !== null) {
+                returnObject.URL[returnObject.URL.length] = regexp_match_result[1]; // value of URLIdentifier attrib
+                returnObject.content = returnObject.content.replace(regexp_match_result[0],""); // whole tag
+                regexp_match_result = regexp.exec(content);
+            }
+            return returnObject;
+        };
+
+        var sethtmlover = function(content,widgets,widgetname){
+
+            var CSSTags = locateTagAndRemove(content, "link", "href");
+            content = CSSTags.content;
+
+            for (var i = 0, j = CSSTags.URL.length; i<j; i++) {
+                $.Load.requireCSS(CSSTags.URL[i]);
+            }
+
+            var JSTags = locateTagAndRemove(content, "script", "src");
+            content = JSTags.content;
+
+            for (var widget = 0, k = widgets[widgetname].length; widget < k; widget++){
+                var container = $("<div>");
+                container.html(content);
+                $("#" + widgets[widgetname][widget].uid).append(container);
+
+                widgets[widgetname][widget].todo = JSTags.URL.length;
+                widgets[widgetname][widget].done = 0;
+            }
+
+            for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
+                $.Load.requireJS(JSTags.URL[JSURL]);
+            }
+
+        };
+
+        /**
+         * Load the files that the widget needs (HTML/CSS and JavaScript)
+         * @param {Object} widgets
+         * @param {Object} batchWidgets A list of all the widgets that need to load
+         */
+        var loadWidgetFiles = function(widgets, batchWidgets){
+            var urls = [];
+
+            for(var k in batchWidgets){
+                if(batchWidgets.hasOwnProperty(k)){
+                    var item = {
+                        "url" : k,
+                        "method" : "GET"
+                    };
+                    urls[urls.length] = item;
+                }
+            }
+
+            if(urls.length > 0){
+                $.ajax({
+                    url: sakai.config.URL.BATCH,
+                    traditional: true,
+                    data: {
+                        requests: $.toJSON(urls)
+                    },
+                    success: function(data){
+                        for (var i = 0, j = data.length; i<j; i++) {
+                            var jsonpath = data[i].url;
+                            var widgetname = batchWidgets[jsonpath];
+
+                            // Do i18n on widget content
+                            var translated_content = sakai.api.i18n.Widgets.process(widgetname, data[i].body);
+
+                            sethtmlover(translated_content, widgets, widgetname);
+                        }
+                    }
+                });
+            }
+        };
+
+        /**
+         * Insert the widgets into the page
+         * @param {String} containerId The id of the container element
+         * @param {Boolean} showSettings Show the settings for the widget
+         * @param {String} context The context of the widget (e.g. siteid)
+         */
+        var insertWidgets = function(containerId, showSettings, context){
+
+            // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
+            var el = containerId ? document.getElementById(containerId) : $(document.body);
+
+            // Array of jQuery objects that contains all the elements in the with the widget selector class.
+            var divarray = $(widgetSelector, el);
+
+            // Check if the showSettings variable is set, if not set the settings variable to false
+            settings = showSettings || false;
+
+            // Array that will contain all the URLs + names of the widgets that need to be fetched with batch get
+            var batchWidgets = [];
+
+            // Run over all the elements and load them
+            for (var i = 0, j = divarray.length; i < j; i++){
+                var id = divarray[i].id;
+                var split = id.split("_");
+                var widgetname = split[1];
+
+                // Set the id for the container of the widget
+                var widgetid;
+                if (split[2]){
+                    widgetid = split[2];
+                } else if(widgetname) {
+                    widgetid = widgetname + "container";
+                }
+
+                // Check if the widget is an iframe or a gwt widget
+                if (Widgets.widgets[widgetname] && (Widgets.widgets[widgetname].gwt || Widgets.widgets[widgetname].iframe)){
+
+                    var gwt = Widgets.widgets[widgetname].gwt ? true : false;
+
+                    // Get the information about the widget in the widgets.js file
+                    var portlet = Widgets.widgets[widgetname];
+
+                    // Check if the scrolling property has been set to true
+                    var scrolling = portlet.scrolling ? "auto" : "no";
+
+                    var src;
+                    if(gwt){
+                        src = portlet.url + "?placement=" + portlet.placement + "&tuid=" + portlet.uid + "&showSettings=" + settings + "&sid=" + Math.random();
+                    }else {
+                        src = portlet.url;
+                    }
+
+                    // Construct the HTML for the iframe
+                    var html = '<div id="widget_content_'+ widgetname + '">' +
+                                   '<iframe src="'+ src +'" ' +
+                                   'frameborder="0" ' +
+                                   'height="'+ portlet.height +'px" ' +
+                                   'width="100%" ' +
+                                   'scrolling="' + scrolling + '"' +
+                                   '></iframe></div>';
+
+                    if(gwt){
+                        $("#" + portlet.uid).append(html);
+                    }else{
+                        // Add the HTML for to the iframe widget container
+                        $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
+                    }
+                }
+
+                // The widget isn't a gwt or iframe widget
+                else if (Widgets.widgets[widgetname]){
+
+                    // Set the placement for the widget
+                    var placement = "";
+                    if (split[3] !== undefined){
+                        var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
+                        placement = id.substring(length);
+                    } else if (context){
+                        placement = context;
+                    }
+
+                    // Check if the widget exists
+                    if (!widgets[widgetname]){
+                        widgets[widgetname] = [];
+                    }
+
+                    // Set the initial properties for the widget
+                    var index = widgets[widgetname].length;
+                    widgets[widgetname][index] = {
+                        uid : widgetid,
+                        placement : placement,
+                        id : id
+                    };
+                    var floating = "inline_class_widget_nofloat";
+
+                    // Check if the browser supports cssFloat (other browsers) or styleFloat (IE)
+                    var styleFloat = jQuery.support.cssFloat ? "cssFloat" : "styleFloat";
+                    if (divarray[i].style[styleFloat]) {
+                        floating = divarray[i].style[styleFloat] === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                    }
+                    widgets[widgetname][index].floating = floating;
+                }
+            }
+
+            for (i in widgets){
+                if (widgets.hasOwnProperty(i)) {
+                    for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
+
+                        // Replace all the widgets with id "widget_" to widgets with new id's
+                        // and add set the appropriate float class
+                        $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
+                    }
+
+                    var url = Widgets.widgets[i].url;
+                    batchWidgets[url] = i; //i is the widgetname
+                }
+            }
+
+            // Load the HTML files for the widgets
+            loadWidgetFiles(widgets, batchWidgets);
+
+        };
+
+        insertWidgets(id, showSettings, context);
+
+        return {
+            "informOnLoad" : informOnLoad
+        };
+    },
+
+    informOnLoad : function(widgetname){
+        for (var i = 0, j = sakai.api.Widgets.widgetLoader.loaded.length; i<j; i++){
+            sakai.api.Widgets.widgetLoader.loaded[i].informOnLoad(widgetname);
+        }
+    }
+
+};
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Save the preference settings or data for a widget
@@ -1752,7 +2508,7 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
 sakai.api.Widgets.saveWidgetData = function(id, content, callback) {
 
     // Get the URL from the widgetloader
-    var url = sdata.widgets.WidgetLoader.widgets[id].placement;
+    var url = sakai.api.Widgets.widgetLoader.widgets[id].placement;
 
     // Send a POST request to update/save the data for the widget
     sakai.api.Server.saveJSON(url, content, callback);
@@ -1769,12 +2525,15 @@ sakai.api.Widgets.saveWidgetData = function(id, content, callback) {
 sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
     // Get the URL from the widgetloader
-    var url = sdata.widgets.WidgetLoader.widgets[id].placement;
+    var url = sakai.api.Widgets.widgetLoader.widgets[id].placement;
 
     // Send a DELETE request to remove the data for the widget
     sakai.api.Server.removeJSON(url, callback);
 
 };
+
+
+
 
 
 
@@ -1787,35 +2546,15 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
 
 
-
-
-
+// -----------------------------------------------------------------------------
 
 /**
  * @name $
  * @namespace
  * jQuery Plugins and overrides for Sakai.
  */
-(function($){
-
-    /**
-    * Override default jQuery error behavior
-    * @function
-    * @param {String} s description
-    * @param {Object} xhr xhr object
-    * @param {String} status Status message
-    * @param {Object} e Thrown error
-    */
-    $.handleError = function (s, xhr, status, e) {
-
-    };
-
-})(jQuery);
 
 
-/////////////////////////////////////
-// jQuery TrimPath Template Plugin //
-/////////////////////////////////////
 
 /*
  * Functionality that allows you to create HTML Templates and give that template
@@ -1911,6 +2650,215 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
 
 
+///////////////////////////
+// jQuery AJAX extention //
+///////////////////////////
+
+/*
+ * We override the standard jQuery.ajax error function, which is being executed when
+ * a request fails. We will check whether the request has failed due to an authorization
+ * required error, by checking the response code and then doing a request to the me service
+ * to find out whether we are no longer logged in. If we are no longer logged in, and the
+ * sendToLoginOnFail variable has been set in the options of the request, we will redirect
+ * to the login page with the current URL encoded in the url. This will cause the system to
+ * redirect to the page we used to be on once logged in.
+ */
+(function($){
+
+    /**
+    * Override default jQuery error behavior
+    * @function
+    * @param {String} s description
+    * @param {Object} xhr xhr object
+    * @param {String} status Status message
+    * @param {Object} e Thrown error
+    */
+    $.handleError = function (s, xhr, status, e) {
+
+        var requestStatus = xhr.status;
+
+        // Sometimes jQuery comes back with a parse-error, although the request
+        // was completely successful. In order to prevent the error method to be called
+        // in this case, we need this if clause.
+        if (requestStatus === 200) {
+            if (s.success) {
+                s.success(xhr.responseText);
+            }
+        }
+        else {
+            // if the sendToLoginOnFail hasn't been set, we assume that we want to redirect when
+            // a 403 comes back
+            s.sendToLoginOnFail = s.sendToLoginOnFail || true;
+            if (requestStatus === 403 && s.sendToLoginOnFail) {
+
+                var decideLoggedIn = function(response, exists){
+                    var originalURL = document.location;
+                    originalURL = $.URLEncode(originalURL.pathname + originalURL.search + originalURL.hash);
+                    var redirecturl = sakai.config.URL.GATEWAY_URL + "?url=" + originalURL;
+                    if (exists && response.preferences && (response.preferences.uuid === "anonymous" || !response.preferences.uuid)) {
+                        document.location = redirecturl;
+                    }
+                };
+
+                $.ajax({
+                    url: sakai.config.URL.ME_SERVICE,
+                    cache: false,
+                    success: function(data){
+                        decideLoggedIn(data, true);
+                    }
+                });
+
+            }
+
+        // Handle HTTP conflicts thrown back by K2 (409) (for example when somebody tries to write to the same node at the very same time)
+        // We do this by re-sending the original request with the data transparently, behind the curtains, until it succeeds.
+        // This still does not eliminate a possibility of another conflict, but greatly reduces
+        // the chance and works in the background until the request is successful (ie jQuery will try to re-send the initial request until the response is not 409
+        // WARNING: This does not solve the locking/overwriting problem entirely, it merely takes care of high volume request related issues. Users
+        // should be notified in advance by the UI when somebody else is editing a piece of content, and should actively try reduce the possibility of
+        // overwriting.
+        if (requestStatus === 409) {
+            // Retry initial post
+            $.ajax(s);
+        }
+
+        // Call original error handler, but not in the case of 409 as we want that to be transparent for users
+        if ((s.error) && (requestStatus !== 409)) {
+          s.error(xhr, status, e);
+        }
+
+        if (s.global) {
+          jQuery.event.trigger("ajaxError", [xhr, status, e]);
+        }
+          }
+
+    };
+
+})(jQuery);
+
+
+/**
+ * URL encoding and decoding Jquery plugins
+ * In order to decode or encode a URL use the following functions:
+ * $.URLDecode(string) : URL Decodes the given string
+ * $.URLEncode(string) : URL Encodes the given string
+ */
+
+(function($){
+
+    /**
+     * $.URLEncode
+     * @function
+     * @param c {String} The URL we would like to encode
+     */
+    $.URLEncode = function(c) {
+        var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
+        while (x<c.length) {
+            var m=r.exec(c.substr(x));
+            if(m!=null && m.length>1 && m[1]!=''){
+                o+=m[1];x+=m[1].length;
+            } else {
+                if(c[x]==' ') {
+                    o+='+';
+                }
+                else {
+                    var d=c.charCodeAt(x);
+                    var h=d.toString(16);
+                    o+='%'+(h.length<2?'0':'')+h.toUpperCase();
+                }x++;
+            }
+        }
+
+        return o;
+    };
+
+    /**
+     * $.URLDecode
+     * @function
+     * @param c {String} The URL we would like to decode
+     */
+    $.URLDecode = function(s){
+        var o=s;
+        var binVal,t;
+        var r=/(%[^%]{2})/;
+        while((m=r.exec(o))!=null && m.length>1 && m[1]!='') {
+            b=parseInt(m[1].substr(1),16);
+            t=String.fromCharCode(b);
+            o=o.replace(m[1],t);
+        }
+        return o;
+    };
+
+})(jQuery);
+
+
+
+/*
+ * Function that will take in a string that possibly contains HTML tags and will strip out all
+ * of the HTML tags and return a string that doesn't contain any HTML tags anymore.
+ */
+(function($){
+
+    /**
+     * $.stripTags
+     * @function
+     * Strips HTML tags form matched element's HTML
+     */
+    $.stripTags = function() {
+        return this.replaceWith( this.html().replace(/<\/?[^>]+>/gi,''));
+    };
+})(jQuery);
+
+
+/*
+ * jQuery plugin that will load JavaScript and CSS files into the document at runtime.
+ */
+(function($){
+
+    $.Load = {};
+
+    /**
+     * Generic function that will insert an HTML tag into the head of the document. This
+     * will be used to both insert CSS and JS files
+     * @param {Object} tagname
+     *  Name of the tag we want to insert. This is supposed to be "link" or "script".
+     * @param {Object} attributes
+     *  A JSON object that contains all of the attributes we want to attach to the tag we're
+     *  inserting. The keys in this object are the attribute names, the values in the object
+     *  are the attribute values
+     */
+    var insertTag = function(tagname, attributes){
+        var tag = document.createElement(tagname);
+        var head = document.getElementsByTagName('head').item(0);
+        for (var a in attributes){
+            if(attributes.hasOwnProperty(a)){
+                tag[a] = attributes[a];
+            }
+        }
+        head.appendChild(tag);
+    };
+
+    /**
+     * Load a JavaScript file into the document
+     * @param {String} URL of the JavaScript file relative to the parent dom.
+     */
+    $.Load.requireJS = function(url) {
+        insertTag("script", {"src" : url, "type" : "text/javascript"});
+    };
+
+    /**
+     * Load a CSS file into the document
+     * @param {String} URL of the CSS file relative to the parent dom.
+     */
+    $.Load.requireCSS = function(url) {
+        insertTag("link", {"href" : url, "type" : "text/css", "rel" : "stylesheet"});
+    };
+
+})(jQuery);
+
+
+
+
 /**
  * @name Array
  * @namespace
@@ -1942,6 +2890,9 @@ if(Array.hasOwnProperty("indexOf") === false){
 }
 
 
+
+
+
 /**
  * Entry point for functions which needs to automatically start on each page
  * load.
@@ -1950,6 +2901,22 @@ if(Array.hasOwnProperty("indexOf") === false){
  */
 sakai.api.autoStart = function() {
 
+
+    /*
+     * There is no specific logging function within Sakai, but using console.debug will
+     * only work in Firefox, and if written poorly, will brake the code in IE, ... If we
+     * do want to use logging, we will reuse the logging function available in the Fluid
+     * Infusion framework. In order to use this, you need to uncomment the fluid.setLogging(true)
+     * line. After this has been done, all calls to
+     *    fluid.log(message);
+     * will be logged in the most appropriate console
+     * NOTE: always disable debugging for production systems, as logging calls are quite
+     * expensive.
+     */
+    fluid.setLogging(true);
+
+
+    // When DOM is ready...
     $(document).ready(function(){
 
         // Load logged in user data
@@ -1962,9 +2929,6 @@ sakai.api.autoStart = function() {
             sakai.api.l10n.init();
 
         });
-
-        // Start Widget container functions
-        sakai.api.Widgets.Container.init();
 
     });
 };

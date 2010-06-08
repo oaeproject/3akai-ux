@@ -29,8 +29,6 @@
 // Namespaces
 var sakai = sakai || {};
 sakai.api.UI.listPeople = {};
-sakai.api.UI.listPeople.selected = {};
-sakai.api.UI.listPeople.currentElementCount = 0;
 
 /**
  * Initialize the listpeople widget
@@ -52,6 +50,12 @@ sakai.listpeople = function(tuid, showSettings){
     // Create a config object for this instance
     sakai.config.widgets.listpeople = sakai.config.widgets.listpeople || {};
     sakai.config.widgets.listpeople[tuid] = default_config;
+
+    // Create data object for this instance
+    sakai.data.listpeople = sakai.data.listpeople || {};
+    sakai.data.listpeople[tuid] = {};
+    sakai.data.listpeople[tuid].selected = {};
+    sakai.data.listpeople[tuid].currentElementCount = 0;
 
     // Reset to defaults
     sakai.api.UI.listPeople.reset(tuid);
@@ -77,7 +81,8 @@ sakai.api.UI.listPeople.reset = function(tuid) {
     $("#" + tuid + " .listpeople_count_people").hide();
     $("#" + tuid + " .listpeople_count_of").hide();
     $("#" + tuid + " .listpeople_count_thousands").hide();
-    sakai.api.UI.listPeople.selected = {};
+    sakai.data.listpeople[tuid].selected = {};
+    sakai.data.listpeople[tuid].currentElementCount = 0;
 
 };
 
@@ -219,23 +224,23 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
                         // Remove from selected list
                         if ($(this).hasClass("listpeople_selected")) {
                             $(this).removeClass("listpeople_selected");
-                            delete sakai.api.UI.listPeople.selected[$(this).attr("data-userid")];
+                            delete sakai.data.listpeople[tuid]["selected"][$(this).attr("data-userid")];
                         } else {
                             // Add to selected list
                             $(this).addClass("listpeople_selected");
-                            sakai.api.UI.listPeople.selected[$(this).attr("data-userid")] = "";
+                            sakai.data.listpeople[tuid]["selected"][$(this).attr("data-userid")] = "";
                         }
                     }
                 });
             }
 
             //Update known total amount of displayed elements
-            sakai.api.UI.listPeople.currentElementCount += rawData.results.length;
+            sakai.data.listpeople[tuid].currentElementCount += rawData.results.length;
 
             //Set search result count
             if ((rawData.total === -1) || (rawData.total > 1000)) {
                 // If we don't know the total display what we know
-                $("#" + tuid + " .listpeople_count").html(sakai.api.UI.listPeople.currentElementCount);
+                $("#" + tuid + " .listpeople_count").html(sakai.data.listpeople[tuid].currentElementCount);
                 $("#" + tuid + " .listpeople_count_people").show();
                 $("#" + tuid + " .listpeople_count_of").show();
                 $("#" + tuid + " .listpeople_count_thousands").show();
@@ -282,4 +287,4 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("listpeople");
+sakai.api.Widgets.widgetLoader.informOnLoad("listpeople");

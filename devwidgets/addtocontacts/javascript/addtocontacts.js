@@ -296,4 +296,4 @@ sakai.addtocontacts = function(tuid, showSettings) {
     });
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("addtocontacts");
+sakai.api.Widgets.widgetLoader.informOnLoad("addtocontacts");

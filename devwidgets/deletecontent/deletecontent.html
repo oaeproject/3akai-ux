@@ -1,0 +1,43 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/deletecontent/css/deletecontent.css"/>
+
+<!-- ERROR MESSAGES -->
+<div style="display:none">
+    <div id="deletecontent_error_couldnotdelete">__MSG__COULD_NOT_DELETE_THE_CONTENT__.</div>
+</div>
+
+<!-- DIALOG -->
+<div class="dialog" id="deletecontent_dialog">
+    <!-- HEADER -->
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__DELETE_CONTENT__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="dialog_content">
+
+        <form id="deletecontent_form" method="post" action="javascript:;">
+            
+            <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__?</h4>
+
+            <div id="deletecontent_error_container">
+                
+            </div>
+
+            <button type="button" class="s3d-button s3d-button-primary" id="deletecontent_action_delete"><span class="s3d-button-inner">__MSG__DELETE_CONTENT__</span></button>
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE_CONTENT__</span></button>
+        </form>
+
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/deletecontent/javascript/deletecontent.js"></script>

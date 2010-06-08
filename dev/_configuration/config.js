@@ -33,7 +33,7 @@ sakai.config = {
         PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
         PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
         PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-        PUBLIC_MY_DASHBOARD_URL: "/dev/public_my_sakai.html",
+        PUBLIC_MY_DASHBOARD_URL: "/dev/my_sakai.html",
         PUBLIC_PEOPLE_URL: "/dev/public_people.html",
         PUBLIC_SEARCH_URL: "/dev/public_search.html",
         RECENT_SITES_URL: "/_user/private/__USERSTORAGEPREFIX__recentsites.json",
@@ -43,6 +43,7 @@ sakai.config = {
         SEARCH_SITES_URL: "search_sites.html",
         TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fss-base.css,/dev/_css/sakai/sakai.core.2.css,/dev/_css/sakai/sakai.css,/dev/_css/sakai/sakai.editor.css",
         USER_DEFAULT_ICON_URL: "/dev/_images/person_icon.jpg",
+        UPLOAD_URL: "/xythos.create.json",
         USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
 
@@ -77,9 +78,9 @@ sakai.config = {
         SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SEARCH_CONTENT_SERVICE: "/var/search/content.json",
         SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
-        SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
-        SEARCH_MY_FILES: "/var/search/files/myfiles.json",
-        SEARCH_MY_SITES: "/var/search/files/mysites.json",
+        SEARCH_MY_CONTACTS: "/var/search/xythos.json",
+        SEARCH_MY_FILES: "/var/search/xythos.json",
+        SEARCH_MY_SITES: "/var/search/xythos.json",
         SEARCH_PAGES: "/var/search/page.json",
         SEARCH_USERS_ACCEPTED: "/var/contacts/find.json?s=",
         SEARCH_USERS: "/var/search/users",
@@ -89,7 +90,7 @@ sakai.config = {
         SITE_FILES_URL: "/sites/__SITEID__/_files",
         SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
         SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
-        SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content",
+        SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content.json",
         SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
         SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
@@ -197,8 +198,12 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Jpg image"
         },
+        "text/html": {
+            URL: "/dev/_images/mimetypes/html.png",
+            description: "HTML document"
+        },
         folder: {
-            URL: "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
+            URL: "/dev/_images/mimetypes/kmultiple.png",
             description: "Folder"
         },
         other: {

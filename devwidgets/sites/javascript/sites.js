@@ -92,12 +92,11 @@ sakai.sites = function(tuid,showSettings){
     var loadSiteList = function(response, succes){
         // Check if the request was ok
         if (succes) {
-            var json = $.parseJSON(response);
             var newjson = {
                 entry : []
             };
-            for (var i = 0, il = json.length; i < il; i++) {
-                newjson.entry.push(json[i]);
+            for (var i = 0, il = response.length; i < il; i++) {
+                newjson.entry.push(response[i]);
             }
             // Render all the sites.
             doRender(newjson);
@@ -112,7 +111,7 @@ sakai.sites = function(tuid,showSettings){
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-                loadSiteList(data, true);
+                loadSiteList($.parseJSON(data), true);
             },
             error: function(xhr, textStatus, thrownError) {
                 loadSiteList("", false);
@@ -133,9 +132,9 @@ sakai.sites = function(tuid,showSettings){
         $(sitesMainContainer, rootel).html(sitesErrorNoSettings);
     }
     else {
-        sdata.widgets.WidgetLoader.insertWidgets(tuid);
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         // Start the request
         doInit();
     }
 };
-sdata.widgets.WidgetLoader.informOnLoad("sites");
+sakai.api.Widgets.widgetLoader.informOnLoad("sites");

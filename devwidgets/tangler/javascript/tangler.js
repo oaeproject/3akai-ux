@@ -54,7 +54,7 @@ sakai.tangler = function(tuid, showSettings){
      * and it will close the pop-up (lightbox).
      */
     var finishNewSettings = function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -189,7 +189,7 @@ sakai.tangler = function(tuid, showSettings){
         // This lets the sdata container know that the current settings view
         // of the widget should be closed. We pass the tuid of the widget to
         // let the container know which widget it should close.
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
 
@@ -245,4 +245,4 @@ sakai.tangler = function(tuid, showSettings){
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("tangler");
+sakai.api.Widgets.widgetLoader.informOnLoad("tangler");

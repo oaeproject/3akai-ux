@@ -234,15 +234,22 @@ sakai.account_preferences = function(){
             url : "/system/userManager/user/" + me.user.userid + ".update.html",
             type : "POST",
             success : function(data) {
-                // update the user of the successful regional settings change
-                showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
+
+                if(language !== me.user.locale.language+"_"+me.user.locale.country){
+                    // Reload the page if the language for a user has changed
+                    document.location.reload();
+                }else{
+                    // Update the user of the successful regional settings change
+                    showGeneralMessage($(messageChangeLang).html(), false, saveRegional, generalMessageReg);
+                }
+
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(errorFailChangeLang).html(), true, saveRegional, generalMessageReg);
             }
         });
     };
-    
+
     /**
      * Disable or enable elements
      * can take a single or multivalue jQuery obj
@@ -251,7 +258,7 @@ sakai.account_preferences = function(){
         jQueryObj.removeAttr("disabled");
         jQueryObj.removeClass(buttonDisabled);
     };
-    
+
     var disableElements = function (jQueryObj) {
         jQueryObj.attr("disabled", "disabled");
         jQueryObj.addClass(buttonDisabled);
@@ -313,4 +320,4 @@ sakai.account_preferences = function(){
     doInit();
 };
 
-sdata.container.registerForLoad("sakai.account_preferences");
+sakai.api.Widgets.Container.registerForLoad("sakai.account_preferences");

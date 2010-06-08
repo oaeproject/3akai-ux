@@ -227,11 +227,12 @@ sakai.site = function(){
 
         $.ajax({
             url: "/sites/" + sakai.site.currentsite + ".json",
+            dataType: "json",
             cache: false,
             success: function(response){
 
-                if(response && typeof response === "string"){
-                    sakai.site.currentsite = $.parseJSON(response);
+                if (response){
+                    sakai.site.currentsite = response;
                 }
 
                 // Adjust links if not on dev
@@ -257,7 +258,7 @@ sakai.site = function(){
                     $site_management.show();
 
                     // Load admin part from a separate file
-                    $.Load.requireJS(sakai.site.siteAdminJS);
+                    $.getScript(sakai.site.siteAdminJS);
                 }
 
                 // Check user's login status
@@ -450,9 +451,9 @@ sakai.site = function(){
               cache: false,
               async: false,
               success: function(response){
-                sakai.site.pagecontents._navigation = response;
-                $page_nav_content.html(response);
-                sdata.widgets.WidgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
+                sakai.site.pagecontents._navigation = response["sakai:pagenavigationcontent"];
+                $page_nav_content.html(sakai.site.pagecontents._navigation);
+                sakai.api.Widgets.widgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
                 $(window).trigger('hashchange');
             },
             error: function(xhr, textStatus, thrownError) {
@@ -539,7 +540,7 @@ sakai.site = function(){
             $("#revision_history_container").hide();
             $("#content_page_options").show();
             $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
+            sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
         }
 
     };
@@ -580,8 +581,8 @@ sakai.site = function(){
                 }
             }
         }
-        
-        
+
+
         //Store currently selected page
         sakai.site.selectedpage = pageUrlName;
 
@@ -1143,7 +1144,7 @@ sakai.site = function(){
                         old.parentNode.replaceChild(newel, old);
                         $("#widget_settings_menu").hide();
                         currentSettingsOpen = false;
-                        sdata.widgets.WidgetLoader.insertWidgets(newel.parentNode.id, true);
+                        sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, true);
                         return false;
                     });
 
@@ -1180,7 +1181,7 @@ sakai.site = function(){
                 }
 
 
-                sdata.widgets.WidgetLoader.insertWidgets(el.id);
+                sakai.api.Widgets.widgetLoader.insertWidgets(el.id);
 
             }
             else {
@@ -1311,7 +1312,7 @@ sakai.site = function(){
                 }
 
             // Insert widgets
-            sdata.widgets.WidgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
+            sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage,null,sakai.site.currentsite.id + "/_widgets/");
 
             // (Re)-Render Navigation widget
             if (sakai.site.navigation) {
@@ -1400,4 +1401,4 @@ sakai.site = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.site");
+sakai.api.Widgets.Container.registerForLoad("sakai.site");

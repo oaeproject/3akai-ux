@@ -5,22 +5,24 @@
 <div style="display:none" id="createsite_container" class="dialog">
     <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Create a new site</h1>
+            <h1>__MSG__WIDGET_TITLE__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
         </div>
     </div>
 
     <div class="dialog_content">
-        <!-- COURSE -->
+        <!-- SELECT SITE TYPE -->
         <div id="createsite_coursesite_container">
                <p>__MSG__PROVIDE_THE_FOLLOWING_INFORMATIONS_AND_CLICK_THE_CREATE_SITE_BUTTON__</p>
 
             <div id="createsite_iscoursesite">
-                <span class="createsite_strong">__MSG__IS_THIS_A_COURSE_SITE__?</span>
+                <span class="createsite_strong">__MSG__WHAT_KIND_OF_SITE__</span>
                 <input type="radio" name="createsite_options" id="createsite_option_noncourse" checked="checked" />
-                <label for="createsite_option_noncourse">__MSG__NO__</label>
+                <label for="createsite_option_noncourse">__MSG__PROJECT_SITE__</label>
                 <input type="radio" name="createsite_options" id="createsite_option_course"/>
-                <label for="createsite_option_course">__MSG__YES__</label>
+                <label for="createsite_option_course">__MSG__COURSE_SITE__</label>
+                <input type="radio" name="createsite_options" id="createsite_option_eport"/>
+                <label for="createsite_option_course">__MSG__EPORT_SITE__</label>
             </div>
 
             <div class="createsite_information"><span class="createsite_strong">*</span> = __MSG__REQUIRED_INFORMATION__</div>
@@ -42,8 +44,14 @@
             <div id="createsite_noncourse_template_container">
                 <input checked="checked" id="createsite_noncourse_template_template" type="radio" name="createsite_noncourse_template" value="template" />
                 <label for="createsite_noncourse_template_template">__MSG__BLANK_SITE__</label><br />
+                <div id="noncourse_template_container">
                 <input id="createsite_noncourse_template_interdisciplinary" type="radio" name="createsite_noncourse_template" value="interdisciplinary" />
                 <label for="createsite_noncourse_template_interdisciplinary">__MSG__INTERDISCIPLINARY_RESEARCH_SITE__</label><br />
+                </div>
+                <div id="portfolio_template_container">
+                <input id="createsite_noncourse_template_portfolio" type="radio" name="createsite_noncourse_template" value="portfolio" />
+                <label for="createsite_noncourse_template_portfolio">__MSG__PORTFOLIO_SITE__</label><br />
+                </div>
             </div>
 
             <label for="createsite_noncourse_description" class="description_fields">Description:</label>
@@ -88,6 +96,7 @@
             
         </div>
 
+        <!-- COURSE SITE -->
         <div id="createsite_course_container" style="display:none">
             <p>__MSG__PLEASE_FILL_OUT_ALL_OF_YOUR_COURSES_AND ALSO_TELL__:</p>
 

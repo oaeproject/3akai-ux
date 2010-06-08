@@ -167,7 +167,7 @@ sakai.filepicker = function(tuid, showSettings){
     var renderMainView = function(){
         // Add the filetype for each file. (As in: Word document, image, PDF file, ...)
         for (var i = 0, j = selectedFiles.length; i < j; i++) {
-            selectedFiles[i].fileType = sdata.files.getFileType(selectedFiles[i].name);
+            selectedFiles[i].fileType = sakai.api.Documents.getFileType(selectedFiles[i].name);
         }
 
         var json = {
@@ -306,7 +306,7 @@ sakai.filepicker = function(tuid, showSettings){
                     init();
                 }
                 else {
-                    sdata.container.informFinish(tuid);
+                    sakai.api.Widgets.Container.informFinish(tuid);
                 }
             },
             error: function(xhr, textStatus, thrownError) {
@@ -356,21 +356,21 @@ sakai.filepicker = function(tuid, showSettings){
                     currentPath = widgetSettings.parentFolder;
                     if (showSettings) {
                         renderSelectedFiles();
-                        sdata.files.getFiles(widgetSettings.parentFolder, displayItems);
+                        sakai.api.Documents.getFiles(widgetSettings.parentFolder, displayItems);
                     }
                     else {
                         renderMainView();
                     }
                 }
                 else {
-                    sdata.files.getFiles(siteFiles, displayItems);
+                    sakai.api.Documents.getFiles(siteFiles, displayItems);
                 }
 
             },
             error: function(xhr, textStatus, thrownError) {
                 // This is the first time this widget gets ran, so there are no settings yet.
                 if (showSettings) {
-                    sdata.files.getFiles(siteFiles, displayItems);
+                    sakai.api.Documents.getFiles(siteFiles, displayItems);
                 }
             }
         });
@@ -384,7 +384,7 @@ sakai.filepicker = function(tuid, showSettings){
 
     // Cancel the picking of a ..
     $(picker_button_cancel, rootel).bind('click', function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
 
@@ -414,7 +414,7 @@ sakai.filepicker = function(tuid, showSettings){
                 // This means the user wants to see all the file/folders of this folder.
                 var path = item["path"];
                 currentPath = path;
-                sdata.files.getFiles(path, displayItems);
+                sakai.api.Documents.getFiles(path, displayItems);
             }
             else {
                 // It is a file.
@@ -453,7 +453,7 @@ sakai.filepicker = function(tuid, showSettings){
         path = path.substring(0, path.length - 1);
 
         currentPath = path;
-        sdata.files.getFiles(path, displayItems);
+        sakai.api.Documents.getFiles(path, displayItems);
     });
 
 
@@ -478,4 +478,4 @@ sakai.filepicker = function(tuid, showSettings){
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("filepicker");
+sakai.api.Widgets.widgetLoader.informOnLoad("filepicker");

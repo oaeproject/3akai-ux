@@ -30,7 +30,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
@@ -101,7 +100,7 @@
                                         <!-- <strong>Tag selected people as:</strong>
                                         <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
                                         <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__ADD_SELECTED_PEOPLE__</span></button>
-        
+
                                     </form>
                                     <div id="selected-people-container" class="selected_personsContainer"></div>
                                     <div style="display:none" id="selected-people-template"><!--
@@ -162,7 +161,7 @@
                                                     <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <span>${i.role}</span><div class="member-title"></div>
                                                     <a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
-            
+
                                                     {else}
                                                     <a href="javascript:;">
                                                     {if typeof i.picture.name == "undefined"}
@@ -171,7 +170,7 @@
                                                     <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
                                                     {/if}
                                                     </a>
-            
+
                                                     <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <a href="profile.html?user=${i.userid}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
                                                     {/if}
@@ -183,6 +182,50 @@
                                             </ul>
                                         </div>
                                     --></div>
+                                </div>
+                                <div class="flex-container">
+                                  <div class="manage_requests_title"> __MSG__APPROVE_MEMBERSHIP_REQUESTS__: </div>
+                                  <div id="siteManage_requests" class="siteManagepeopleContainers" ><div style="padding: 10px;">__MSG__NO_REQUESTS_PENDING__</div></div>
+                                  <div id="siteManage_requests_template" style="display:none"><!--
+                                      <div class="members-container">
+                                          <ul width="100%">
+                                          {for i in results}
+                                              {if (i.isMember)}
+                                              <li class="unselected" style="opacity:0.6;">
+                                              {else}
+                                              <li class="unselected siteManage_person_request" id="siteManage_person_request${results.indexOf(i)}">
+                                              {/if}
+                                                  {if (i.isMember)}
+                                                  {if typeof i.picture.name == "undefined"}
+                                                  <img src="_images/member_thumb_unselected.png" alt="__MSG__UNDEFINED_MEMBER_PICTURE__" />
+                                                  {else}
+                                                  <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
+                                                  {/if}
+                                                  <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+                                                  <span>${i.role}</span><div class="member-title"></div>
+                                                  <a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
+
+                                                  {else}
+                                                  <a href="javascript:;">
+                                                  {if typeof i.picture.name == "undefined"}
+                                                  <img src="_images/member_thumb_unselected.png" alt="__MSG__UNDEFINED_MEMBER_PICTURE__" />
+                                                  {else}
+                                                  <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
+                                                  {/if}
+                                                  </a>
+
+                                                  <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+                                                  <a href="profile.html?user=${i.userid}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
+                                                  {/if}
+                                              </li>
+                                          {forelse}
+                                              <div>__MSG__NO_PEOPLE_HAVE_BEEN_FOUND__</div>
+                                          {/for}
+                                              <div class="fl-push"></div>
+                                          </ul>
+                                      </div>
+                                  --></div>
+                                  
                                 </div>
                             </div>
                         </div>

@@ -95,7 +95,7 @@ sakai.remotecontent = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
 
@@ -284,7 +284,7 @@ sakai.remotecontent = function(tuid, showSettings){
 
         // Cancel it
         $(remotecontentSettingsCancel).click(function(){
-            sdata.container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
 
         addColorBinding();
@@ -364,4 +364,4 @@ sakai.remotecontent = function(tuid, showSettings){
     getRemoteContent();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("remotecontent");
+sakai.api.Widgets.widgetLoader.informOnLoad("remotecontent");

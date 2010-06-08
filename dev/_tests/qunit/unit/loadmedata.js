@@ -1,4 +1,6 @@
-module("Load ME data");
+module("Load me data");
+
+(function(){
 
 /**
  * The callback function for the loadme function, tests the data returned
@@ -18,10 +20,10 @@ var testMeData = function(success, data){
 
     //start the next test
     start();
-}
+};
 
 /**
- * Test if the indexof returns the expected index
+ * Login and call the loadMeData function
  */
 var testLoadMeData = function(){
 
@@ -41,16 +43,17 @@ var testLoadMeData = function(){
             sakai.api.User.loadMeData(testMeData);
         },
         error:function(){
-            ok(false);
+            ok(false, "Couldn't login");
             start();
         }
     });
-}
+};
 
 /**
  * Run an asynchronous test
  */
-asyncTest("Load ME data: test if the correct data is retrieved and stored in the sakai.data.me object", function(){
-    //send a message
+asyncTest("Test if the correct data is retrieved and stored in the sakai.data.me object", function(){
     testLoadMeData();
 });
+
+})();

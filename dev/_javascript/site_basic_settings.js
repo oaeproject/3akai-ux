@@ -17,8 +17,7 @@
  */
 /*global $, Config, sdata, Querystring */
 
-var sakai = sakai ||
-{};
+var sakai = sakai || {};
 sakai.site_basic_settings = function(){
 
     //////////////////////
@@ -137,7 +136,7 @@ sakai.site_basic_settings = function(){
             url: "/sites/" + siteid + ".json",
             cache: false,
             success: function(response){
-                siteinfo = $.parseJSON(response);
+                siteinfo = response;
 
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
@@ -450,4 +449,4 @@ sakai.site_basic_settings = function(){
 
     fillPage();
 };
-sdata.container.registerForLoad("sakai.site_basic_settings");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_basic_settings");

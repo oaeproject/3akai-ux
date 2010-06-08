@@ -153,4 +153,4 @@
 })(jQuery);
 
 
-sdata.widgets.WidgetLoader.informOnLoad("comments");
+sakai.api.Widgets.widgetLoader.informOnLoad("comments");
