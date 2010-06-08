@@ -245,9 +245,7 @@ sakai.site = function(){
                     $site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
                     $site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
                     $site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
-                    //$more_link.attr("href", $more_link.attr("href") + "?url=/sites/"+sitepath);
-                    //$more_link.attr("href", $more_link.attr("href") + "?url=" +location.pathname);
-                    $more_link.attr("href", $more_link.attr("href") + location.pathname);
+                    $more_link.attr("href", $more_link.attr("href") + "?url=" +location.pathname);
                 }
 
                 // Determine whether the user is maintainer, if yes show and load admin elements
