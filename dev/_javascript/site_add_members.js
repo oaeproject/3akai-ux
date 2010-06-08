@@ -231,7 +231,8 @@ sakai.site_add_members = function() {
                     arrSearchTerms.push(" " + $.trim(splitted[i]) + "*") ;
                 }
         }
-        var peoplesearchterm = arrSearchTerms.join(" OR ");
+        //escape the special chars (Ž, Œ,...) and replace hyphens by spaces
+        var peoplesearchterm = escape(arrSearchTerms.join(" OR ")).replace(/-/g,"%20");
         $.ajax({
             cache: false,
             url: "/var/search/users?username=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
