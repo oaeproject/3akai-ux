@@ -45,11 +45,14 @@ sakai.uploadcontent = function(tuid, showSettings){
 
     var $rootel = $("#" + tuid);
 
+    var $uploadcontent_action_addcontent = $("#uploadcontent_action_addcontent", $rootel);
     var $uploadcontent_dialog = $("#uploadcontent_dialog", $rootel);
     var $uploadcontent_error_badurlformat = $("#uploadcontent_error_badurlformat", $rootel);
     var $uploadcontent_error_container = $("#uploadcontent_error_container", $rootel);
+    var $uploadcontent_error_filenotuploaded = $("#uploadcontent_error_filenotuploaded", $rootel);
     var $uploadcontent_error_linkcouldnotbesaved = $("#uploadcontent_error_linkcouldnotbesaved", $rootel);
-    var $uploadcontent_form = $("#uploadcontent_form", $rootel);
+    var $uploadcontent_form_content = $("#uploadcontent_form_content", $rootel);
+    var $uploadcontent_form_link = $("#uploadcontent_form_link", $rootel);
     var $uploadcontent_form_link_input = $("#uploadcontent_form_link_input");
     var $uploadcontent_main_container = $("#uploadcontent_main_container", $rootel);
     var $uploadcontent_main_container_template = $("#uploadcontent_main_container_template", $rootel);
@@ -116,6 +119,9 @@ sakai.uploadcontent = function(tuid, showSettings){
         else if(error === "linkcouldnotbesaved"){
             $uploadcontent_error_container.html($uploadcontent_error_linkcouldnotbesaved.html());
         }
+        else if(error === "filenotuploaded"){
+            $uploadcontent_error_container.html($uploadcontent_error_filenotuploaded.html());
+        }
 
         // Show the container to the user
         $uploadcontent_error_container.show();
@@ -145,6 +151,10 @@ sakai.uploadcontent = function(tuid, showSettings){
                 // Reset the current form
                 resetForm();
 
+                // Hide the current dialog
+                $uploadcontent_dialog.jqmHide();
+
+
             },
             error: function(){
 
@@ -155,6 +165,7 @@ sakai.uploadcontent = function(tuid, showSettings){
         });
     };
 
+
     /////////////
     // Binding //
     /////////////
@@ -164,8 +175,12 @@ sakai.uploadcontent = function(tuid, showSettings){
      */
     var addBindingForm = function(){
 
+        // Reinitialise the jQuery selector
+        $uploadcontent_form_link = $($uploadcontent_form_link.selector);
+        $uploadcontent_form_content = $($uploadcontent_form_content.selector);
+
         // Add the submit event
-        $uploadcontent_form.submit(function(){
+        $uploadcontent_form_link.submit(function(){
 
             // Hide previous errors
             showError();
@@ -188,9 +203,32 @@ sakai.uploadcontent = function(tuid, showSettings){
                     // Show a message that the supplied URL is invalid
                     showError("badurlformat");
                 }
+
+                // Don't do anything else within this function
                 return false;
+
             }
 
+        });
+
+        $uploadcontent_form_content.attr("action", defaultposturl.substr(0, defaultposturl.length -1));
+        $uploadcontent_form_content.ajaxForm({
+            beforeSubmit: function(a,f,o) {
+                $('#uploadOutput').html('Submitting...');
+            },
+            clearForm:true,
+            success: function(data) {
+
+                // The data we get back is always in a bad format (html)
+                // so we just need to check if there is any was any error when uploading the file
+                if (data.indexOf("<div id=\"Status\">200</div>") > -1) {
+                    document.location = sakai.config.URL.MY_DASHBOARD_URL;
+                }
+                else {
+                    showError("filenotuploaded");
+                }
+
+            }
         });
 
     };
@@ -204,9 +242,7 @@ sakai.uploadcontent = function(tuid, showSettings){
         addBindingForm();
 
     };
-    $("#uploadcontent_form", $rootel).bind("submit", function(){
 
-    });
 
     ////////////////////
     // Initialisation //
@@ -252,6 +288,8 @@ sakai.uploadcontent = function(tuid, showSettings){
         addBinding();
 
     };
+
+    // Execute the init function
     init();
 
 };
