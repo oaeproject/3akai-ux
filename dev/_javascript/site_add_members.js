@@ -68,6 +68,7 @@ sakai.site_add_members = function() {
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
                 $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
+                getSiteMembershipRequests();
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
@@ -372,6 +373,66 @@ sakai.site_add_members = function() {
         }
 
     };
+    
+    /**
+     * Membership Requests 
+     */
+     
+     /**
+      * Retrieves pending membership requests for the site
+      */
+     var getSiteMembershipRequests = function() {
+       console.log("getSiteMembershipRequests");
+       $.ajax({
+           cache: false,
+           url:"/var/joinrequests/pending.json?site=" + siteJson.id,
+           success: function(data) {
+             console.log(data);
+             renderPeopleRequests(data.foundPeople);
+           }, 
+           error: function(xhr, textStatus, thrownError) {
+             console.log(error);
+           }
+         });
+     };
+     
+     /**
+        * renders a list of people who requested to join the site
+        * @param {Object} people
+        */
+       var renderPeopleRequests = function(people) {
+           if (typeof(people.results) === "undefined") {
+               people.results = [];
+           }
+
+           for (var i = 0; i < people.results.length; i++) {
+               if (people.results[i].picture && typeof people.results[i].picture === "string") {
+                   people.results[i].picture = $.parseJSON(people.results[i].picture);
+                   parseJSONople.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
+               }
+               else {
+                   people.results[i].picture = {};
+               }
+               people.results[i].userid = people.results[i]["rep:userId"];
+               var existingRole = checkRole(people.results[i].userid);
+               if (existingRole) {
+                   people.results[i].isMember = true;
+                   people.results[i].role = existingRole;
+               }
+           }
+           $("#siteManage_requests").html($.TemplateRenderer("siteManage_request_template", people));
+           updateSelectedPersons();
+
+           $(".siteManage_person_request").bind("click",
+           function(e, ui) {
+               if (!$(e.target).hasClass("view-profile-label")) {
+                   var userindex = parseInt(this.id.replace("siteManage_person_request", ""), 10);
+                   selectPerson(userindex, true, false);
+                   updateSelectedPersons();
+               }
+           });
+
+       };
 
     $("#txt_member_search").bind("focus",
     function(e, ui) {
