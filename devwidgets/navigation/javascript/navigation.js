@@ -162,14 +162,16 @@ sakai.navigation = function(tuid, showSettings){
         // Navigation node data
         var p_title = "";
         var p_id = "";
+        var p_pagePosition;
         if (page_info["pageTitle"]) {
             p_title = page_info["pageTitle"];
             p_id = "nav_" + page_info["pageURLName"];
+            p_pagePosition = page_info.pagePosition;
         }
 
         var node = {
             attributes: { id: p_id },
-            data: {title: p_title, attributes: { "href": "" }},
+            data: {title: p_title, attributes: { "href": "" },pagePosition:p_pagePosition},
             children:[]
         };
         for (var child in children[url_fragment]) {
@@ -179,6 +181,41 @@ sakai.navigation = function(tuid, showSettings){
     };
 
 
+    /**
+     * This function will sort the pages based on pagePosition
+     * @param {Object} site_objects, the page array
+     */
+    var sortOnPagePosition = function(site_objects){
+
+        // Bublesort to srt the pages
+        for (var x = 0,l = site_objects.length ; x < l; x++) {
+            for (y = 0; y < (l - 1); y++) {
+                if (site_objects[y].data.pagePosition > site_objects[y + 1].data.pagePosition) {
+                    holder = site_objects[y + 1];
+                    site_objects[y + 1] = site_objects[y];
+                    site_objects[y] = holder;
+                }
+            }
+        }
+        return site_objects;
+    };
+
+    var updateSite = function(node){
+        console.log(node.pagePosition + ' <== ' + node.pageTitle);
+        /*$.ajax({
+                    url: node['jcr:path'],
+                    type: "POST",
+                    data: {
+                        'pagePosition':node.pagePosition
+                    },
+                    success: function(data){
+
+                    },
+                    error: function(xhr, status, e){
+
+                    }
+                }); */
+    };
 
     /**
      * Function that is available to other functions and called by site.js
@@ -191,9 +228,11 @@ sakai.navigation = function(tuid, showSettings){
     sakai.site.navigation.renderNavigation = function(selectedPageUrlName, site_info_object) {
 
         // Create navigation data object
+
         var full_array_of_urls = fullURLs(site_info_object);
         sakai.site.navigation.navigationData = [];
         sakai.site.navigation.navigationData = convertToHierarchy(full_array_of_urls);
+        sortOnPagePosition(sakai.site.navigation.navigationData);
 
         var tree_type = {
             renameable: false,
@@ -245,7 +284,7 @@ sakai.navigation = function(tuid, showSettings){
 
                 // Callback for moving a page node
                 onmove: function(node, ref_node, type, tree_object, rollback) {
-
+                        console.log(type);
                     // Source data
                     var src_url_name = node.id.replace("nav_","");
                     var src_url = sakai.site.site_info._pages[src_url_name]["jcr:path"];
@@ -257,6 +296,7 @@ sakai.navigation = function(tuid, showSettings){
                     var ref_url = sakai.site.site_info._pages[ref_url_name]["jcr:path"];
                     var ref_url_title = sakai.site.site_info._pages[ref_url_name]["pageURLTitle"];
                     var ref_url_depth = sakai.site.site_info._pages[ref_url_name]["pageDepth"];
+                   // var ref_url_pagePosition = sakai.site.site_info._pages[ref_url_name].pagePosition;
 
                     // Construct target URL
                     var ref_url_elements = ref_url.split("/");
@@ -272,20 +312,31 @@ sakai.navigation = function(tuid, showSettings){
                     // Construct target URL
                     var tgt_url = ref_url_elements.join("/") + "/" + src_url_title;
 
+                    var changeNextNodes = false;
+
                     // If there is a depth difference or putting a node inside another the move is a move within a hierarchy
                     if ((src_url_depth !== ref_url_depth) || (type === "inside")) {
-
                         // Move page
                         sakai.site.movePage(src_url, tgt_url, function(){
                             // Do nothing for now
                         });
 
-                    } else {
-                        // The move is a jsut a reordering
 
+                    } else if((type ==='before') ||(type ==='after')){
+                                    if((type ==='before')){
+                                        sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition,10);
+                                        updateSite(sakai.site.site_info._pages[src_url_name]);
+                                    }else{
+                                        sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition,10);
+                                        updateSite(sakai.site.site_info._pages[src_url_name]);
+                                    }
+                            for (var c in sakai.site.site_info._pages) {
+                                    if(parseFloat(sakai.site.site_info._pages[c].pagePosition,10) > parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition,10) ){
+                                          sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition,10) + 200000;
+                                          updateSite(sakai.site.site_info._pages[c]);
+                                    }
+                            }
                     }
-
-
                 },
 
                 // Callback for renaming a page node
