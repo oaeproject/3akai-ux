@@ -2204,7 +2204,6 @@ sakai.site.site_admin = function(){
      * @param {Object} node, the page that has to be updated
      */
     var updatePagePosition = function(node){
-        console.log(node.pagePosition + ' <== ' + node.pageTitle);
         $.ajax({
             url: node['jcr:path'],
             type: "POST",
@@ -2221,6 +2220,7 @@ sakai.site.site_admin = function(){
 
     /**
      * This function will update the pagePositions when a page is deleted
+     * @param selectedpage, this will contain the page that will be updated
      */
     var updatePagePositions = function(selectedPage){
         // Loop over all the pages 

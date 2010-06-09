@@ -319,7 +319,6 @@ sakai.navigation = function(tuid, showSettings){
                             // Do nothing for now
                         });
 
-
                     } else if((type ==='before') ||(type ==='after')){
                                     var currentNodePage = parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition, 10);
                                     var referenceNodePage = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10);
