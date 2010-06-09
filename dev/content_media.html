@@ -297,11 +297,17 @@
                                                 {var mimeType = i['sakai:mimeType']}
                                             {elseif i.file && i.file['sakai:mimeType']}
                                                 {var mimeType = i.file['sakai:mimeType']}
+                                            {elseif i['Content-Type']}
+                                                {var mimeType = i['Content-Type']}
                                             {elseif i['jcr:primaryType'] === "sling:Folder"}
                                                 {var mimeType = 'folder'}
                                             {/if}
-                                            {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-                                                <img src="${i.uri}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                            {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp" }
+                                                {if i.properties.thumbnailUri}
+                                                  <img src="${i.properties.thumbnailUri}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                                {else}
+                                                  <img src="${i.uri}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                                {/if}
                                             {elseif sakai.config.MimeTypes[mimeType]}
                                                 <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                             {else}
