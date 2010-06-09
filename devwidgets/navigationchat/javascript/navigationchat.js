@@ -1772,7 +1772,7 @@ sakai.navigationchat = function(tuid, showSettings){
         if (!el.get(0)) {
             /** TODO Remove the inline html */
             $(topNavigationWidgets).append("<div id='createsitecontainer' style='display:none'><div id='widget_createsite' class='widget_inline'></div></div>");
-            sdata.widgets.WidgetLoader.insertWidgets("createsitecontainer");
+            sakai.api.Widgets.widgetLoader.insertWidgets("createsitecontainer");
         }
         $.ajax({
             url: sakai.config.URL.SITES_SERVICE,
