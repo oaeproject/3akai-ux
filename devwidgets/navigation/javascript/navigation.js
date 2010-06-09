@@ -190,7 +190,7 @@ sakai.navigation = function(tuid, showSettings){
         // Bublesort to srt the pages
         for (var x = 0,l = site_objects.length ; x < l; x++) {
             for (y = 0; y < (l - 1); y++) {
-                if (site_objects[y].data.pagePosition > site_objects[y + 1].data.pagePosition) {
+                if (parseFloat(site_objects[y].data.pagePosition,10) > parseFloat(site_objects[y + 1].data.pagePosition ,10)) {
                     holder = site_objects[y + 1];
                     site_objects[y + 1] = site_objects[y];
                     site_objects[y] = holder;
@@ -201,8 +201,8 @@ sakai.navigation = function(tuid, showSettings){
     };
 
     var updateSite = function(node){
-        console.log(node.pagePosition + ' <== ' + node.pageTitle);
-        /*$.ajax({
+         console.log(node.pagePosition + ' <== ' + node.pageTitle);
+        $.ajax({
                     url: node['jcr:path'],
                     type: "POST",
                     data: {
@@ -214,7 +214,7 @@ sakai.navigation = function(tuid, showSettings){
                     error: function(xhr, status, e){
 
                     }
-                }); */
+                }); 
     };
 
     /**
@@ -323,19 +323,74 @@ sakai.navigation = function(tuid, showSettings){
 
 
                     } else if((type ==='before') ||(type ==='after')){
+                                    //check if the node has been dropped infront of the reference node or behind
                                     if((type ==='before')){
-                                        sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition,10);
-                                        updateSite(sakai.site.site_info._pages[src_url_name]);
+                                          //Check if the user dragged the node to another node which is higher in the list or not
+                                          if (parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition, 10) < parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10)) {
+                                            // Loop over all the nodes
+                                            for (var c in sakai.site.site_info._pages) {
+                                                // make sure that the dropped node isn't in this list, because it has to be updated speratly
+                                                if (sakai.site.site_info._pages[c].pageTitle !== sakai.site.site_info._pages[src_url_name].pageTitle) {
+                                                    // Check if the node in the list is smaller than the current node (dragged node) and the smaller than the reference node. Because these will have to get a lower position value
+                                                    // These are in fact the nodes that are in front of the reference node
+                                                    if ((parseFloat(sakai.site.site_info._pages[c].pagePosition, 10) > parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition, 10)) && (parseFloat(sakai.site.site_info._pages[c].pagePosition, 10) < parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10))) {
+                                                        sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition, 10) - 200000;
+                                                        updateSite(sakai.site.site_info._pages[c]);
+                                                    }
+                                                    // IF this is not the case this means that the node will be after the reference node and it just has to be parsed
+                                                    else {
+                                                        sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition,10);
+                                                        updateSite(sakai.site.site_info._pages[c]);
+                                                    }
+                                                }
+                                            }
+                                            // The node will get the value of the reference node - 2000000, because the node is dragged from underneath the reference node which means that all the nodes 
+                                            // underneath the referance node will have received a lower value because 1 is gone. 
+                                            sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10) - 200000;
+                                            updateSite(sakai.site.site_info._pages[src_url_name]);
+                                        }
+                                        else {
+                                            // This happends when a user drags a node from the top, this means that nothing will change to the nodes that are under the reference node,only the nodes above the reference node will have to be updated
+                                            sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10);
+                                            updateSite(sakai.site.site_info._pages[src_url_name]);
+                                            for (var c in sakai.site.site_info._pages) {
+                                                if(parseFloat(sakai.site.site_info._pages[c].pagePosition,10) >= parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition,10)&&(sakai.site.site_info._pages[c].pageTitle !==sakai.site.site_info._pages[src_url_name].pageTitle )){
+                                                    sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition,10) + 200000;
+                                                    updateSite(sakai.site.site_info._pages[c]);
+                                                }
+                                            }
+                                        }
                                     }else{
-                                        sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition,10);
-                                        updateSite(sakai.site.site_info._pages[src_url_name]);
+                                        // This is almost exactly the same as the "before" part, there are small diffrences because the reference node is in front of the node when it is dropped
+                                        // This means that the nodes before the reference node will have an extra node and the nodes after the reference node will have one less
+                                        if (parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition, 10) < parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10)) {
+                                            for (var c in sakai.site.site_info._pages) {
+                                                if (sakai.site.site_info._pages[c].pageTitle !== sakai.site.site_info._pages[src_url_name].pageTitle) {
+                                                    if ((parseFloat(sakai.site.site_info._pages[c].pagePosition, 10) > parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition, 10)) && (parseFloat(sakai.site.site_info._pages[c].pagePosition, 10) <= parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10))) {
+                                                        sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition, 10) - 200000;
+                                                        updateSite(sakai.site.site_info._pages[c]);
+                                                    }
+                                                    else {
+                                                        sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition,10);
+                                                        updateSite(sakai.site.site_info._pages[c]);
+                                                    }
+                                                }
+                                            }
+                                            sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10) + 200000;
+                                            updateSite(sakai.site.site_info._pages[src_url_name]);
+                                        }
+                                        else {
+                                            // This is the part where the user drags a node from the top of the list, which again means that only the nodes after the reference node will have to be updated
+                                            sakai.site.site_info._pages[src_url_name].pagePosition = parseFloat(sakai.site.site_info._pages[ref_url_name].pagePosition, 10) + 200000;
+                                            updateSite(sakai.site.site_info._pages[src_url_name]);
+                                            for (var c in sakai.site.site_info._pages) {
+                                                if(parseFloat(sakai.site.site_info._pages[c].pagePosition,10) >= parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition,10)&&(sakai.site.site_info._pages[c].pageTitle !==sakai.site.site_info._pages[src_url_name].pageTitle )){
+                                                    sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition,10) + 200000;
+                                                    updateSite(sakai.site.site_info._pages[c]);
+                                                }
+                                            }
+                                        }
                                     }
-                            for (var c in sakai.site.site_info._pages) {
-                                    if(parseFloat(sakai.site.site_info._pages[c].pagePosition,10) > parseFloat(sakai.site.site_info._pages[src_url_name].pagePosition,10) ){
-                                          sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition,10) + 200000;
-                                          updateSite(sakai.site.site_info._pages[c]);
-                                    }
-                            }
                     }
                 },
 
