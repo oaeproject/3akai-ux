@@ -432,8 +432,13 @@ sakai.contentmedia = function(){
     var doFileRender = function(data){
 
         // Set the globaldata variable
-        globaldata = data;
-
+        
+        resultwrapper = {};
+        resultwrapper.results = data;
+        resultwrapper.total = data.length;
+        globaldata = resultwrapper;
+        
+        
         // Set the formatted file size and format the date
         for(var i = 0; i < globaldata.results.length; i++){
             if(globaldata.results[i].filesize){
@@ -443,12 +448,12 @@ sakai.contentmedia = function(){
         }
 
         // Render files
-        $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, data));
+        $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata));
 
         // Render paging
         $(jqPagerClass).pager({
             pagenumber: pageCurrent + 1,
-            pagecount: Math.ceil(data.total / pageSize),
+            pagecount: Math.ceil(globaldata.total / pageSize),
             buttonClickCallback: doPaging
         });
 
@@ -973,6 +978,8 @@ sakai.contentmedia = function(){
     /**
      * Show the pop up when the user goes over a file
      */
+     /* none of the info is relevant right now, lets not show it
+     *
     $("." + contentmediaViewThumbnailClass + " ." + contentmediaFileClass).live("mouseover", function(){
 
         // Get the id of the pop up that you want to see
@@ -989,10 +996,12 @@ sakai.contentmedia = function(){
         // Show the pop up
         $("#" + popupId).css("display","block");
     });
+    */
 
     /**
      * Hide the pop up when the user goes out of a file
      */
+     /*
     $("." + contentmediaViewThumbnailClass + " ." + contentmediaFileClass).live("mouseout", function(){
 
         // Get the id of the pop up that you want to hide
@@ -1005,7 +1014,7 @@ sakai.contentmedia = function(){
         // Hide the pop up
         $("#" + popupId).css("display","none");
     });
-
+    */
     /**
      * When the search input gets focus from the cursor, add the
      * selected class and empty the input box
@@ -1485,7 +1494,7 @@ sakai.contentmedia = function(){
         initialiseUploader();
 
         // Accordion functionality
-        $(contentmediaAccordion).accordion({
+       $(contentmediaAccordion).accordion({
             //fillSpace: true
             autoHeight: false
         });

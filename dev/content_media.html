@@ -90,7 +90,7 @@
                         <div id="contentmedia_main_left">
                             <!-- Context Filters -->
                             <div id="contentmedia_context_filters">
-                                <a href="javascript:;" id="contentmedia_accordion_list_site_all">__MSG__ALL_FILES__ (debug)<span class="contentmedia_hidden">__MSG__ALLFILES__</span></a>
+                                <a href="javascript:;" id="contentmedia_accordion_list_site_all">__MSG__ALL_FILES__<span class="contentmedia_hidden">__MSG__ALLFILES__</span></a>
                                 <a href="javascript:;" id="contentmedia_context_filters_myfiles">__MSG__MY_FILES__<span class="contentmedia_hidden">__MSG__MYFILES__</span></a>
                                 <a href="javascript:;">__MSG__MY_CONTACTS_FILES__<span class="contentmedia_hidden">__MSG__MYCONTACTS__</span></a>
                                 <a href="javascript:;">__MSG__FILES_ON_MY_SITES__<span class="contentmedia_hidden">__MSG__MYSITES__</span></a>
@@ -102,7 +102,7 @@
                                 <a href="javascript:;" title="__MSG__SEARCH_FOR_FILES__">__MSG__SEARCH__</a>
                                 <div id="contentmedia_search">
                                     <form>
-                                        <input type="text" value="SEARCH_FOR_FILES ..." class="input" id="search_text" title="__MSG__SEARCH_FOR_FILES__ ..." />
+                                        <input type="text" value="Search for files..." class="input" id="search_text" title="__MSG__SEARCH_FOR_FILES__ ..." />
                                         <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                                     </form>
                                 </div>
@@ -112,7 +112,7 @@
 
                                 </div>
 
-                                <a href="javascript:;" title="__MSG__FILTER_BY_TAG__">__MSG__FILTER_BY_TAG__</a>
+                               <!-- <a href="javascript:;" title="__MSG__FILTER_BY_TAG__">__MSG__FILTER_BY_TAG__</a>
                                 <div id="contentmedia_accordion_list_tag">
                                     <div class="contentmedia_accordion_list_tag_top">
                                         <a href="javascript:;">A</a> <a href="javascript:;">B</a> <a href="javascript:;">C</a> <a href="javascript:;">D</a>
@@ -135,11 +135,12 @@
                                         <a href="javascript:;"><span>Zoo</span> (1)</a>
                                     </div>
                                 </div>
-
+                                
                                 <a href="javascript:;" title="Filter by site">__MSG__FILTER_BY_SITE__</a>
                                 <div id="contentmedia_accordion_list_site">
 
                                 </div>
+                                -->
                                 <a href="javascript:;" title="__MSG__UPLOAD_NEW_FILES__" id="contentmedia_uploader_trigger">__MSG__UPLOAD_NEW_FILES__</a>
                                 <div id="uploader-contents">
 
@@ -299,14 +300,14 @@
                                             {elseif i['jcr:primaryType'] === "sling:Folder"}
                                                 {var mimeType = 'folder'}
                                             {/if}
-                                            {if mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-                                                <img src="${i.path}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                            {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
+                                                <img src="${i.uri}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                             {elseif sakai.config.MimeTypes[mimeType]}
                                                 <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                             {else}
                                                 <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                                             {/if}
-                                            <div class="contentmedia_file_name">{if i.name}${i.name}{else}${i["sakai:filename"]}{/if}</div>
+                                            <div class="contentmedia_file_name">{if i.properties.filename}${i.properties.filename}{else}${i["sakai:filename"]}{/if}</div>
                                             {if i.formattedFilesize}
                                                 <div class="contentmedia_file_size">${i.formattedFilesize}</div>
                                             {/if}
@@ -315,8 +316,8 @@
                                             {/if}
                                             <a class="contentmedia_file_bookmark href="javascript:;">Bookmark this file</a>
                                             <div class="contentmedia_hidden">
-                                                {if i.path}
-                                                    ${i.path}
+                                                {if i.uri}
+                                                    ${i.uri}
                                                 {/if}
                                             </div>
                                         </div>
