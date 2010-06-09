@@ -1967,7 +1967,7 @@ sakai.site.site_admin = function(){
                     // Create an activity item for the page edit
                     var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
                     var activityData = {
-                        "sakai:activityMessage": "The  page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been reverted to version: " + version
+                        "sakai:activityMessage": "The  page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been reverted to version: " + version
                     }
                     sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
@@ -2265,6 +2265,13 @@ sakai.site.site_admin = function(){
             url: sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"],
             type: 'DELETE',
             success: function(data){
+
+                // Create an activity item for the page delete
+                var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+                var activityData = {
+                    "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been deleted"
+                }
+                sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
                 delete sakai.site.site_info._pages[sakai.site.selectedpage];
                 delete sakai.site.pagecontents[sakai.site.selectedpage];
