@@ -530,4 +530,4 @@ jQuery.extend({
 		}
 	}
 });
-sdata.widgets.WidgetLoader.informOnLoad("flickr");
+sakai.api.Widgets.widgetLoader.informOnLoad("flickr");

@@ -613,4 +613,4 @@ jQuery.fn.imgAreaSelect = function (options) {
 
     return this;
 };
-sdata.widgets.WidgetLoader.informOnLoad("quiz");
+sakai.api.Widgets.widgetLoader.informOnLoad("quiz");

@@ -303,4 +303,4 @@ sakai.search = function() {
 
 };
 
-sdata.container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");

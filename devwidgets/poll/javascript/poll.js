@@ -736,14 +736,14 @@ sakai.poll = function(tuid, showSettings){
     var finishSettingsAfterSave = function(){
         // Informes the sdata container that you are finished editing the widget.
         // This will close the lightbox
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
      * Executed after clicking on the save button
      */
     var finishNewSettings = function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -1052,7 +1052,7 @@ sakai.poll = function(tuid, showSettings){
         $(pollCancel, rootel).bind("click",function(e,ui){
             // Informs the sdata container that you pressed cancel and
             // this will close the pop up
-            sdata.container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
 
         // Bind the preview button
@@ -1231,4 +1231,4 @@ sakai.poll = function(tuid, showSettings){
         $(pollMainContainer, rootel).show();
     }
 };
-sdata.widgets.WidgetLoader.informOnLoad("poll");
+sakai.api.Widgets.widgetLoader.informOnLoad("poll");

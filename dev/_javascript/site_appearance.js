@@ -834,4 +834,4 @@ var AIM = {
     }
 };
 
-sdata.container.registerForLoad("sakai.site_appearance");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_appearance");

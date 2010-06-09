@@ -300,7 +300,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
+            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
@@ -1718,4 +1718,4 @@ sakai.navigationchat = function(tuid, showSettings){
     }
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("navigationchat");
+sakai.api.Widgets.widgetLoader.informOnLoad("navigationchat");

@@ -439,7 +439,7 @@ sakai.rss = function(tuid, showSettings){
         }
     });
     $(rssCancel, rootel).bind("click",function(e,ui){
-        sdata.container.informCancel(tuid, "rss");
+        sakai.api.Widgets.Container.informCancel(tuid, "rss");
     });
     $(rssSubmit, rootel).bind("click",function(e,ui){
         var object = getSettingsObject();
@@ -450,7 +450,7 @@ sakai.rss = function(tuid, showSettings){
                     showHideSettings(showSettings);
                 }
                 else {
-                    sdata.container.informFinish(tuid);
+                    sakai.api.Widgets.Container.informFinish(tuid);
                 }
             });
         }
@@ -532,8 +532,8 @@ sakai.rss = function(tuid, showSettings){
     showHideSettings(showSettings);
 
     // Inserts the sendmessage-widget
-    sdata.widgets.WidgetLoader.insertWidgets(tuid);
+    sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
 };
 
 
-sdata.widgets.WidgetLoader.informOnLoad("rss");
+sakai.api.Widgets.widgetLoader.informOnLoad("rss");

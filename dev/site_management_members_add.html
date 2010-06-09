@@ -30,13 +30,13 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/notifications.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
@@ -101,7 +101,7 @@
                                         <!-- <strong>Tag selected people as:</strong>
                                         <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
                                         <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__ADD_SELECTED_PEOPLE__</span></button>
-        
+
                                     </form>
                                     <div id="selected-people-container" class="selected_personsContainer"></div>
                                     <div style="display:none" id="selected-people-template"><!--
@@ -162,7 +162,7 @@
                                                     <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <span>${i.role}</span><div class="member-title"></div>
                                                     <a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
-            
+
                                                     {else}
                                                     <a href="javascript:;">
                                                     {if typeof i.picture.name == "undefined"}
@@ -171,7 +171,7 @@
                                                     <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
                                                     {/if}
                                                     </a>
-            
+
                                                     <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <a href="profile.html?user=${i.userid}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
                                                     {/if}
