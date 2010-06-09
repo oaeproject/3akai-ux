@@ -882,15 +882,6 @@ sakai.contentmedia = function(){
     });
 
     /**
-     * Bind actions to the uploader button
-     */
-    $(contentmediaUploaderTrigger).live("click", function(){
-
-        // Show the uploader dialog
-        $(contentmediaDialogUploader).jqmShow();
-    });
-
-    /**
      * Remove the search filter and fetch the files
      */
     $("#contentmedia_remove_filter_search").live("click", function(){
@@ -1190,54 +1181,18 @@ sakai.contentmedia = function(){
      * Set the various settings for the fluid uploader component
      */
     var initialiseUploader = function(){
-
-        // Show the Uploader's markup immediately, since we're not using progressive enhancement.
-        $(".fl-progEnhance-basic").hide();
-        $(".fl-progEnhance-enhanced").show();
-
-        var myUpload = fluid.progressiveEnhanceableUploader(".flc-uploader", ".fl-progEnhance-basic", {
-            uploadManager: {
-                type: "fluid.swfUploadManager",
-
-                options: {
-                    // Set the uploadURL to the URL for posting files to your server.
-                    uploadURL: getServerUrl(sakai.config.URL.UPLOAD_URL),
-
-                    // This option points to the location of the SWFUpload Flash object that ships with Fluid Infusion.
-                    flashURL: "/dev/_lib/Fluid/fluid-components/swfupload/swfupload.swf"
-
-                    // Hide the postparams because we do not need to create a link (for now) -- if we upload files into sites, we do
-                    /*var linkUrl = "/sites/test/_files";
-                    var siteUrl = "/sites/test";
-                    postParams: {
-                        "link" : linkUrl,
-                        "site" : siteUrl
-                    }*/
-                }
-            },
-            decorators: [{
-                type: "fluid.swfUploadSetupDecorator",
-                options: {
-                     // This option points to the location of the Browse Files button used with Flash 10 clients.
-                    flashButtonImageURL: "/dev/_images/uploader/browse.png"
-                }
-            }],
-            listeners: {
-                //afterFileQueued: myQueueListenerFunc
-                afterUploadComplete : uploadCompleteListener
-            }
-
+      $(function(){
+        $("#multifile_upload").MultiFile({
+          list: '#upload_file_list'
+        });  
+        $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
+        $("#multifile_form").ajaxForm({
+          success: function() {
+            $("#multifile_upload").MultiFile('reset');
+            uploadCompleteListener();
+          }
         });
-
-        // Set the settings for when the users uses the single file uploader (without flash)
-        /*$(".fl-progEnhance-basic").submit(function() {
-            if($(contentmediaUploaderBasicName).val().length > 3){
-                basicUploadFilename = $(contentmediaUploaderBasicName).val();
-                $(contentmediaUploaderBasicName).attr("name", basicUploadFilename);
-            }
-
-            return AIM.submit(this, {'onStart' : startUpload, 'onComplete' : completeUpload});
-        });*/
+      });
     };
 
     /**
@@ -1494,10 +1449,10 @@ sakai.contentmedia = function(){
         initialiseUploader();
 
         // Accordion functionality
-       $(contentmediaAccordion).accordion({
+      // $(contentmediaAccordion).accordion({
             //fillSpace: true
-            autoHeight: false
-        });
+       //     autoHeight: false
+       // });
 
         // Initialise search
         initialiseSearch();

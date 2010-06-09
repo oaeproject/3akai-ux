@@ -41,6 +41,8 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/SHA.js"></script>
         <script type="text/javascript" src="_lib/JsTree/tree_component.min.js"></script>
         <script type="text/javascript" src="_lib/JsTree/css.js"></script>
@@ -99,7 +101,7 @@
 
                             <!-- Accordion -->
                             <div id="contentmedia_accordion">
-                                <a href="javascript:;" title="__MSG__SEARCH_FOR_FILES__">__MSG__SEARCH__</a>
+                                <h4>__MSG__SEARCH__</h4>
                                 <div id="contentmedia_search">
                                     <form>
                                         <input type="text" value="Search for files..." class="input" id="search_text" title="__MSG__SEARCH_FOR_FILES__ ..." />
@@ -141,92 +143,15 @@
 
                                 </div>
                                 -->
-                                <a href="javascript:;" title="__MSG__UPLOAD_NEW_FILES__" id="contentmedia_uploader_trigger">__MSG__UPLOAD_NEW_FILES__</a>
-                                <div id="uploader-contents">
-
+                                <h4>__MSG__UPLOAD_NEW_FILES__</h4>
+                                <div id="new_uploader">
                                     <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
-                                    <form method="post" enctype="multipart/form-data" class="fl-uploader fl-progEnhance-basic">
-                                        <p>__MSG__BROWSE_TO_UPLOAD_A_FILE__.</p>
-                                        <input name="fileData" type="file" title="__MSG__BROWSE_TO_UPLOAD_A_FILE__" />
-                                        <div><input type="submit" value="__MSG__SAVE__" title="__MSG__SELECT_THE_FILE__"/></div>
+                                    <form method="post" enctype="multipart/form-data" id="multifile_form">
+                                        <input type="file" name="Filedata" id="multifile_upload"/>
+                                        <p><div id="upload_file_list"></div></p>
+                                        <button type="submit">Upload</button>
                                     </form>
-
-                                    <!-- This is the markup for the Fluid Uploader component itself. -->
-                                    <form class="flc-uploader fl-uploader fl-progEnhance-enhanced"
-                                          method="get"
-                                          enctype="multipart/form-data">
-
-                                        <!-- The file queue -->
-                                        <div class="fl-uploader-queue-wrapper">
-
-                                            <!-- Top of the queue -->
-                                            <div class="fl-uploader-queue-header">
-                                                <table cellspacing="0" cellpadding="0" summary="Headers for the file queue.">
-                                                    <caption>__MSG__FILE_UPLOAD_QUEUE__:</caption>
-                                                        <tr>
-                                                            <th scope="col" class="fl-uploader-file-name">__MSG__FILE_NAME__</th>
-                                                            <th scope="col" class="fl-uploader-file-size">__MSG__SIZE__&nbsp;&nbsp;</th>
-                                                            <th scope="col" class="fl-uploader-file-actions">&nbsp;</th>
-                                                        </tr>
-                                                </table>
-                                            </div>
-
-                                            <!-- Scrollable view -->
-                                            <div class="flc-scroller fl-scroller">
-                                                <div class="fl-scroller-inner">
-                                                    <table cellspacing="0" class="flc-uploader-queue fl-uploader-queue" summary="Queue of files to upload.">
-                                                        <tbody>
-
-                                                            <!-- Rows will be rendered in here. -->
-
-                                                            <!-- Template markup for the file queue rows -->
-                                                            <tr class="flc-uploader-file-tmplt flc-uploader-file fl-uploader-hidden-templates">
-                                                                <th class="flc-uploader-file-name fl-uploader-file-name" scope="row">__MSG__FILE_NAME_PLACEHOLDER__</th>
-                                                                <td class="flc-uploader-file-size fl-uploader-file-size">0 KB</td>
-                                                                <td class="fl-uploader-file-actions">
-                                                                    <button type="button" class="flc-uploader-file-action fl-uploader-file-action" title="__MSG__REMOVE_FILE__" tabindex="-1">
-                                                                        <span class="fl-uploader-button-text fl-uploader-hidden">__MSG__REMOVE_FILE_FROM_QUEUE__</span>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-
-                                                            <!-- Template for the file error info rows -->
-                                                            <tr class="flc-uploader-file-error-tmplt fl-uploader-file-error fl-uploader-hidden-templates">
-                                                                <td colspan="3" class="flc-uploader-file-error"></td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="flc-uploader-file-progressor-tmplt fl-uploader-file-progress"><span class="fl-uploader-file-progress-text fl-uploader-hidden">76%</span></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="flc-uploader-browse-instructions fl-uploader-browse-instructions">
-                                                __MSG__CHOOSE__ <em>__MSG__BROWSE_FILES__</em> __MSG__TO_ADD_FILES_TO_THE_QUEUE__
-                                            </div>
-
-                                            <!-- Foot of the queue -->
-                                            <div class="flc-uploader-queue-footer fl-uploader-queue-footer">
-                                                <table cellspacing="0" cellpadding="0" summary="Status of file queue.">
-                                                        <tr>
-                                                            <td class="flc-uploader-total-progress-text">
-                                                                Total: <span class="fl-uploader-totalFiles">0</span> __MSG__FILES__
-                                                                (<span class="fl-uploader-totalBytes">0 KB</span>)
-                                                            </td>
-                                                            <td class=".fl-uploader-footer-buttons" align="right" >
-                                                                <a href="#" class="flc-uploader-button-browse fl-uploader-browse">__MSG__BROWSE_FILES__</a>
-                                                            </td>
-                                                        </tr>
-                                                </table>
-                                                <div class="flc-uploader-total-progress fl-uploader-total-progress-okay">&nbsp;</div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Action buttons -->
-                                        <div class="fl-uploader-btns">
-                                            <button type="button" class="flc-uploader-button-pause fl-uploader-pause fl-uploader-hidden">__MSG__STOP_UPLOAD__</button><button type="button" class="flc-uploader-button-upload fl-uploader-upload fl-uploader-button-default fl-uploader-dim" disabled="disabled">__MSG__UPLOAD__</button>
-                                        </div>
-                                    </form>
+                                    
                                 </div>
                             </div>
 
