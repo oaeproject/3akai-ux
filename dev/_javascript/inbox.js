@@ -495,15 +495,19 @@ sakai.inbox = function() {
         }
 
         // pictures
-        for(var i = 0, il = message.userFrom.length; i < il; i++){
-            if (message.userFrom[i].picture && $.parseJSON(message.userFrom[i].picture).name) {
-                message.userFrom[i].photo = $.parseJSON(message.userFrom[i].picture).name;
+        if (message.userFrom && $.isArray(message.userFrom)) {
+            for(var i = 0, il = message.userFrom.length; i < il; i++){
+                if (message.userFrom[i].picture && $.parseJSON(message.userFrom[i].picture).name) {
+                    message.userFrom[i].photo = $.parseJSON(message.userFrom[i].picture).name;
+                }
             }
         }
 
-        for(var j = 0, jl = message.userTo.length; j < jl; j++){
-            if (message.userTo[j].picture && $.parseJSON(message.userTo[j].picture).name) {
-                message.userTo[j].photo = $.parseJSON(message.userTo[j].picture).name;
+        if (message.userTo && $.isArray(message.To)) {
+            for(var j = 0, jl = message.userTo.length; j < jl; j++){
+                if (message.userTo[j].picture && $.parseJSON(message.userTo[j].picture).name) {
+                    message.userTo[j].photo = $.parseJSON(message.userTo[j].picture).name;
+                }
             }
         }
 
@@ -635,6 +639,7 @@ sakai.inbox = function() {
             cache: false,
             success: function(data) {
                 if (data.results) {
+
                     // Render the messages
                     renderMessages(data);
                 }
@@ -708,76 +713,6 @@ sakai.inbox = function() {
     };
 
     /**
-     * This method will do a request to the messaging count service.
-     * It will ask how many items there are for all the specified parameters.
-     * It also takes in account the selectedtype and category. These come from module variables!
-     * It will remove all messages in the dom, and start the request to fetch other ones.
-     *
-     * @param {String} read all = all the message, true = the read messages, false = the unread messages.
-     *         (Comma seperated for every value you have in selectedtype and selectedcategory)
-     */
-    getCount = function(read) {
-        var box = "inbox";
-        if (selectedType === "sent"){
-            box = "outbox";
-        } else if (selectedType === "trash"){
-            box = "trash";
-        }
-
-        var url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage;
-
-        var types = "&types=" + selectedType;
-        if (typeof selectedType === "undefined" || selectedType === "") {
-            types = "";
-        }
-        else if (typeof selectedType === "Array") {
-            types = "&types=" + selectedType.join(",");
-        }
-
-        var cats = selectedCategory;
-        if (selectedCategory){
-            if (selectedCategory === "Message"){
-                cats = "message";
-            } else if (selectedCategory === "Announcement"){
-                cats = "announcement";
-            } else if (selectedCategory === "Invitation"){
-                cats = "invitation";
-            } else if (selectedCategory === "Chat"){
-                cats = "chat";
-            }
-            url = sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + cats + "&items=" + messagesPerPage + "0&page=" + currentPage;
-        }
-
-        // Remove previous messages
-        removeAllMessagesOutDOM();
-
-        // Show a preloader
-        showLoader();
-
-        $.ajax({
-            url: url,
-            success: function(data) {
-                messagesForTypeCat = data.total;
-                if (data.total === 0) {
-
-                    data.messages = [];
-                    renderMessages(data);
-
-                    // Set the pager to page 1. The pager will be disabled because there is no data to page..
-                    pageMessages(1);
-                }
-                else {
-                    currentPage = 0;
-                    showPage(currentPage + 1);
-                }
-            },
-            error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
-            }
-        });
-    };
-
-    /**
      *
      * Display specific message
      *
@@ -788,11 +723,14 @@ sakai.inbox = function() {
      * @param {String} id    The id of a message
      */
     var getMessageWithId = function(id) {
+
         for (var i = 0, j=allMessages.length; i<j; i++) {
-            if (allMessages[i].id === id) {
+            if (allMessages[i]["jcr:name"] === id) {
                 return allMessages[i];
             }
         }
+
+        return {};
     };
 
     /**
@@ -845,6 +783,7 @@ sakai.inbox = function() {
      * @param {String} id    The id of a message
      */
     var displayMessage = function(id) {
+
         $(".message-options").show();
         $("#inbox_message_previous_messages").hide();
         $("#inbox_message_replies").html("");
@@ -855,6 +794,7 @@ sakai.inbox = function() {
 
         showPane(inboxPaneMessage);
         var message = getMessageWithId(id);
+
         selectedMessage = message;
         if (typeof message !== "undefined") {
 
@@ -862,14 +802,20 @@ sakai.inbox = function() {
             $(inboxSpecificMessageSubject).text(message["sakai:subject"]);
             $(inboxSpecificMessageBody).html(message["sakai:body"].replace(/\n/gi, "<br />"));
             $(inboxSpecificMessageDate).text(message.date);
-            for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                $(inboxSpecificMessageFrom).text(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]);
-                if (message.userFrom[i].photo) {
-                    $(inboxSpecificMessagePicture).attr("src", "/_user" + message.userFrom[i].hash + "/public/profile/" + message.userFrom[i].photo);
+
+            if (message.userFrom) {
+                for (var i = 0, j = message.userFrom.length; i < j; i++) {
+                    $(inboxSpecificMessageFrom).text(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]);
+                    if (message.userFrom[i].photo) {
+                        $(inboxSpecificMessagePicture).attr("src", "/_user" + message.userFrom[i].hash + "/public/profile/" + message.userFrom[i].photo);
+                    }
+                    else {
+                        $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
+                    }
                 }
-                else {
-                    $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
-                }
+            } else {
+                $(inboxSpecificMessageFrom).text(message["sakai:from"]);
+                $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
             }
 
             // Reply part.
@@ -1142,6 +1088,7 @@ sakai.inbox = function() {
      */
 
     $(inboxInboxMessage).live("click", function(e, ui) {
+
         var id = e.target.id;
         id = id.split('_');
         displayMessage(id[id.length - 1]);
@@ -1291,7 +1238,8 @@ sakai.inbox = function() {
         else {
             // We are logged in. Do all the nescecary stuff.
             // load the list of messages.
-            getCount("all");
+            //getCount("all");
+            getAllMessages();
             showUnreadMessages();
 
             var qs = new Querystring();

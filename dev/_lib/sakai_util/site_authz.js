@@ -98,6 +98,7 @@ sakai.lib.batchPosts = function(actions, success, error){
         $.ajax({
             url: action.url,
             type: "POST",
+            traditional: true,
             success: function(data, textStatus){
                 if (actions.length > 0) {
                     sakai.lib.batchPosts(actions, success, error);

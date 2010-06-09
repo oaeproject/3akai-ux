@@ -168,30 +168,30 @@
                                 {if m.read}
                                     {var readClass="inbox-subject-read"}
                                 {/if}
-                                <tr class="inbox_message ${readClass}" id="inbox_table_message_${m.id}">
-                                    <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m.id}" title="__MSG__DELETE__" /></td>
+                                <tr class="inbox_message ${readClass}" id="inbox_table_message_${m['jcr:name']}">
+                                    <td><input type="checkbox" class="inbox_inbox_check_message" value="${m['jcr:path']}" id="inbox_check_delete_${m['jcr:name']}" title="__MSG__DELETE__" /></td>
                                         {if m.messagebox === "outbox"}
                                             {if m.userTo}
                                                 <td>
-                                                {for toUser in m.userFrom}
-                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${toUser.firstName} ${toUser.lastName}</a>
+                                                {for toUser in m.userTo}
+                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${toUser.userid}">${toUser.firstName} ${toUser.lastName}</a>
                                                 {/for}
                                                 </td>
                                             {else}
-                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m.to}">${m.to}</a></td>
+                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:to']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {else}
                                             {if m.userFrom}
                                                 <td>
                                                 {for fromUser in m.userFrom}
-                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${fromUser.firstName} ${fromUser.lastName}</a></td>
+                                                    <a class="inbox_inbox_message_from" href="/dev/profile.html?user=${fromUser.userid}">${fromUser.firstName} ${fromUser.lastName}</a></td>
                                                 {/for}
                                                 </td>
                                             {else}
-                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m.from}</a></td>
+                                                <td><a class="inbox_inbox_message_from" href="/dev/profile.html?user=${m['sakai:from']}">${m['sakai:to']}</a></td>
                                             {/if}
                                         {/if}
-                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m.id}">${m.subject}</a></td>
+                                        <td id="inbox_table_subject_${m.id}"><a href="javascript:;" class="inbox_inbox_message" id="inbox_inbox_message_${m['jcr:name']}">${m.subject}</a></td>
                                         <td>${m.category}</td>
                                         <td>${m.date}</td>
                                 </tr>
