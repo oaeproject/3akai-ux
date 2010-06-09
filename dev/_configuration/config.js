@@ -62,7 +62,7 @@ sakai.config = {
         LOGIN_SERVICE: "/system/sling/formlogin",
         LOGOUT_SERVICE: "/system/sling/formlogin",
         ME_SERVICE: "/system/me",
-        MESSAGE_BOX_SERVICE: "/var/message/box.json",
+        MESSAGE_BOX_SERVICE: "/var/message/internal/box.json",
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
