@@ -170,7 +170,7 @@ sakai.site_add_members = function() {
         for (var i = 0; i < people.results.length; i++) {
             if (people.results[i].picture && typeof people.results[i].picture === "string") {
                 people.results[i].picture = $.parseJSON(people.results[i].picture);
-                parseJSONople.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
+                people.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
             }
             else {
                 people.results[i].picture = {};
