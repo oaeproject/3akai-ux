@@ -241,7 +241,7 @@ sakai.site_add_members = function() {
         var peoplesearchterm = arrSearchTerms.join(" OR ");
         $.ajax({
             cache: false,
-            url: "/var/search/users?username=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
+            url: sakai.config.URL.SEARCH_USERS + "?q=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
             success: function(data) {
                 json.foundPeople = $.extend(data, {}, true);
                 renderPeople(json.foundPeople);

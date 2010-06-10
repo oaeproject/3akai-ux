@@ -396,7 +396,7 @@ sakai.profilewow = function(){
             // We need to fire an Ajax GET request to get the profile data for the user
             $.ajax({
                 data: {
-                    "username": querystring.get("user")
+                    "q": querystring.get("user")
                 },
                 url: sakai.config.URL.SEARCH_USERS,
                 success: function(data){
