@@ -276,14 +276,14 @@ sakai.createsite = function(tuid, showSettings){
                 "_charset_":"utf-8"
             },
             error: function(xhr, textStatus, thrownError) {
-                alert("Failed to add these members.");
+                fluid.log("Failed to add these members.");
             }
         });
     };
 
     /**
      * Check if the site is created correctly and exists
-     * @param {Object} siteid
+     * @param {String} siteid
      */
     var doCheckSite = function(siteid){
     // Check if the site exists.
@@ -295,12 +295,14 @@ sakai.createsite = function(tuid, showSettings){
             async: false,
             success: function(data, textStatus){
                 siteExists = true;
-                data["sakai:authorizables"].each(function(){
-                    if($(this).match("/"+sakai.config.Site.DefaultMember+"/")){
-                        sitegroup = $(this);
+                var authorizables = data["sakai:authorizables"];
+                for(auth in authorizables){
+                    if(authorizables.hasOwnProperty(auth)){
+                        if(authorizables[auth].match(sakai.config.Site.DefaultMember)){
+                            sitegroup = authorizables[auth];
+                        }
                     }
-                });
-                
+                }
             }
         });
         return siteExists;
@@ -311,11 +313,11 @@ sakai.createsite = function(tuid, showSettings){
      * We have to do this in three calls because it's POST/GET/POST (no batch post possible)
      * We absolutely need to get the groupIDs to be able to add the members.
      * TODO Change the service in the back-end to be able to do this process in 1 call automatically adding the members
-     * @param {Object} siteid the id of the site that's being created
-     * @param {Object} sitetitle the title of the site that's being created
-     * @param {Object} sitedescription the description of the site that's being created
-     * @param {Object} sitetemplate the template for the site
-     * @param {Object} sitemembers a list of users that have to be set as members of the site
+     * @param {String} siteid the id of the site that's being created
+     * @param {String} sitetitle the title of the site that's being created
+     * @param {String} sitedescription the description of the site that's being created
+     * @param {String} sitetemplate the template for the site
+     * @param {Array} sitemembers a list of users that have to be set as members of the site
     */
     var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate, sitemembers){
     // Create a site node based on the template.
@@ -333,13 +335,14 @@ sakai.createsite = function(tuid, showSettings){
             type: "POST",
             success: function(data, textStatus){
                 //check if the site exists and get the group id for viewers from the site
-                doCheckSite(siteid);
+                if (doCheckSite(siteid)) {
 
-                //add all the users as members to the site
-                doSaveMembers(sitemembers);
+                    //add all the users as members to the site
+                    doSaveMembers(sitemembers);
 
-                //redirect the user to the site
-                document.location = "/sites/" + siteid;
+                    //redirect the user to the site
+                    document.location = "/sites/" + siteid;
+                }
             },
             // error: error,
             error: function(xhr, textStatus, thrownError){
@@ -347,7 +350,7 @@ sakai.createsite = function(tuid, showSettings){
                 if (siteCheck){
                     setError(createSiteNoncourseId,createSiteNoncourseIdTaken,true);
                 } else {
-                    alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                    fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
                 }
                 showProcess(false);
             }
