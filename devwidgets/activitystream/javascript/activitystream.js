@@ -32,22 +32,29 @@ sakai.activitystream = function(tuid, showSettings) {
     // Configuration variables //
     /////////////////////////////
 
-    var rootel = $("#" + tuid);
-
-    // URLs
-    sakai.config.URL.DELICIOUS_PROXY = "/var/proxy/delicious/bookmarks.json";
+    var activityData = [];
+    var connectionData = {};
 
     // HTML elements
-    var $contentContainer = $("#as_content_container", rootel);
-    var $mainScreen = $("#as_main", rootel);
-    var $settingsScreen = $("#as_settings", rootel);
+    var $rootel = $("#" + tuid);
+    var $contentContainer = $("#as_content_container", $rootel);
+    var $mainScreen = $("#as_main", $rootel);
+    var $settingsScreen = $("#as_settings", $rootel);
+
 
     /**
      * Init function
      */
     var doInit = function(){
 
-        console.log("hello from activitystream widget");
+        // Which screen to show
+        if (showSettings) {
+            $settingsScreen.show();
+            $mainScreen.hide();
+        } else {
+            $settingsScreen.hide();
+            $mainScreen.show();
+        }
     };
 
     doInit();

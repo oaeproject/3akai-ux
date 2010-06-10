@@ -19,8 +19,14 @@
 
 /* CONTAINERS */
 
+#as_content_container
+{ padding: 15px; margin: 0; }
+
 #as_main
-{ padding: 15px; }
+{  }
 
 #as_settings
-{ padding: 15px; }
+{  }
+
+#as_settings_buttonbar
+{ margin: 10px 0 0 0; text-align: right; }
