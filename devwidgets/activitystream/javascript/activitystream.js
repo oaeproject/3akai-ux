@@ -33,8 +33,8 @@ sakai.activitystream = function(tuid, showSettings) {
     /////////////////////////////
 
     var activityData = {};
-    var connectionData = {};
-    var activityitemsPerPage = 10;
+    var contactsData = {};
+    var activityitemsCount = 10;
     var activityitemsSortOrder = "descending";
 
     // HTML elements
@@ -42,9 +42,40 @@ sakai.activitystream = function(tuid, showSettings) {
     var $contentContainer = $("#as_content_container", $rootel);
     var $mainScreen = $("#as_main", $rootel);
     var $settingsScreen = $("#as_settings", $rootel);
-    var $feedContainer = $("#as_feed");
-    var $feedTitle = $("#as_feed_title");
+    var $feedContainer = $("#as_feed", $rootel);
+    var $feedTitle = $("#as_feed_title", $rootel);
 
+    /**
+     * getContacts
+     * Fetches the logged in user's contacts
+     * @returns void
+     */
+    var getContactsData = function(callback) {
+
+        $.ajax({
+            url: sakai.config.URL.CONTACTS_ACCEPTED,
+            success: function(rawReturnedData) {
+
+                // Store the contacts' information
+                for (var i = 0, il = rawReturnedData.results.length; i < il; i++) {
+                    contactsData[rawReturnedData.results[i]["profile"]["rep:userId"]] = rawReturnedData.results[i];
+                }
+
+                if (typeof callback === "function") {
+                    callback(true);
+                }
+
+            },
+            error: function(xhr, status, thrown) {
+
+                if (typeof callback === "function") {
+                    callback(false, xhr);
+                }
+
+            }
+        });
+
+    }
 
     /**
      * getActivityData
@@ -58,7 +89,7 @@ sakai.activitystream = function(tuid, showSettings) {
             url: sakai.config.URL.ACTIVITY_PERSONAL,
             traditional: true,
             data: {
-                "items": activityitemsPerPage,
+                "items": activityitemsCount,
                 "sortOrder": activityitemsSortOrder
             },
             success: function(rawReturnedData) {
@@ -74,7 +105,7 @@ sakai.activitystream = function(tuid, showSettings) {
             error: function(xhr, status, thrownError) {
 
                 if (typeof callback === "function") {
-                    callback(false, xhr);
+                    callback(false);
                 }
 
             }
@@ -95,8 +126,20 @@ sakai.activitystream = function(tuid, showSettings) {
         // Go through the feed data
         for (var i = 0, il = activityData.results.length; i < il; i++) {
 
+            // Get the contact's full name who created the activity item
+            var contactFullName = "";
+            var contactUserID = activityData.results[i]["sakai:activity-actor"];
+            if (contactsData[contactUserID]) {
+                var contactProfile = contactsData[contactUserID].profile;
+                contactFullName = contactProfile.firstName + " " + contactProfile.lastName;
+            } else if (contactUserID === sakai.data.me.profile["rep:userId"]) {
+                contactFullName = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
+            } else {
+                contactFullName = "Unknown User";
+            }
+
             // Create a list item element for each one of the feed items
-            var $feedItem = $("<li>" + activityData.results[i]["sakai:activityMessage"] + "<li>");
+            var $feedItem = $("<li><a href=\"/dev/profile.html?user=" + contactUserID + "\">" + contactFullName + "</a>: <br />" + activityData.results[i]["sakai:activityMessage"] + "<li>");
 
             // Append the list item to the list container
             $resultContainer.append($feedItem);
@@ -124,8 +167,31 @@ sakai.activitystream = function(tuid, showSettings) {
             $settingsScreen.hide();
             $mainScreen.show();
 
-            // Get the activity feed data, when ready call the rendering function
-            getActivityData(renderActivity);
+            // Get contacts
+            getContactsData(function(contactsSuccess){
+
+                if (contactsSuccess) {
+
+                    // Get the activity feed data
+                    getActivityData(function(activitySuccess){
+                        if (activitySuccess) {
+
+                            // Render the feed data
+                            renderActivity();
+
+                            // Set the title
+                            $feedTitle.html("Last " + activityitemsCount + " activity items");
+
+
+                        } else {
+                            fluid.log("Could not fetch activity feed");
+                        }
+                    });
+                } else {
+                    fluid.log("Could not fetch contacts");
+                }
+            });
+
         }
     };
 

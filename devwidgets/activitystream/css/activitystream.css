@@ -33,11 +33,18 @@
 
 
 /* ACTIVITY FEED */
-#as_feed ul
-{  }
+#as_feed_title
+{ margin: 0; padding: 0; font-weight: normal; color: #666; }
 
 #as_feed ul li
-{ list-style: none; margin: 15px 5px; padding: 0 0 0 10px; }
+{ list-style: none; margin: 15px 5px; padding: 0 0 0 10px; color: #666; }
+
+#as_feed ul li a
+{ color: #006E96; font-weight: bold; }
 
 li .lined
 { border-top: 1px solid #ddd; }
+
+.activitystream .widget_title {
+    background:url("/devwidgets/activitystream/images/activitystream_icon.png") no-repeat scroll 17px 18px transparent;
+}
