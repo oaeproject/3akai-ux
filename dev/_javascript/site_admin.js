@@ -148,7 +148,9 @@ sakai.site.site_admin = function(){
                 // Create an activity item for the move
                 var newTargetLink = "/sites/"+sakai.site.currentsite["jcr:name"] + "#" + tgt_urlsafe_name;
                 var activityData = {
-                    "sakai:activityMessage": "The page \"" + movedPageTitle + "\" in site " + sakai.site.currentsite.name + " has been moved to <a href=\"" + newTargetLink + "\">" + newTargetLink + "</a>"
+                    "sakai:activityMessage": "The page \"" + movedPageTitle + "\" in site " + sakai.site.currentsite.name + " has been moved to <a href=\"" + newTargetLink + "\">" + newTargetLink + "</a>",
+                    "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                 }
                 sakai.api.Activity.createActivity(tgt_url, "site", "default", activityData);
 
@@ -756,7 +758,9 @@ sakai.site.site_admin = function(){
                 if (oldpagetitle !== "Untitled") {
                     var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
                     var activityData = {
-                        "sakai:activityMessage": "The page \"" + oldpagetitle + "\" in site " + sakai.site.currentsite.name + " has been renamed to \"" + newpagetitle + "\""
+                        "sakai:activityMessage": "The page \"" + oldpagetitle + "\" in site " + sakai.site.currentsite.name + " has been renamed to \"" + newpagetitle + "\"",
+                        "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                     }
                     sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
                 }
@@ -795,7 +799,9 @@ sakai.site.site_admin = function(){
                         // Create an activity item for the new page
                         var nodeUrl = newPageUniques.url;
                         var activityData = {
-                            "sakai:activityMessage": "A new page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + newPageUniques.urlName + "\">" + newpagetitle + "</a> was created in site \"" + sakai.site.currentsite.name + "\""
+                            "sakai:activityMessage": "A new page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + newPageUniques.urlName + "\">" + newpagetitle + "</a> was created in site \"" + sakai.site.currentsite.name + "\"",
+                            "sakai:activitySiteName": sakai.site.currentsite.name,
+                            "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                         }
                         sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
@@ -873,7 +879,9 @@ sakai.site.site_admin = function(){
                         // Create an activity item for the page edit
                         var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
                         var activityData = {
-                            "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated"
+                            "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated",
+                            "sakai:activitySiteName": sakai.site.currentsite.name,
+                            "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                         }
                         sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
@@ -1797,7 +1805,9 @@ sakai.site.site_admin = function(){
                 // Create an activity item for the page edit
                 var nodeUrl = pageUniques.url;
                 var activityData = {
-                    "sakai:activityMessage": "A new <a href=\"/sites/"+sakai.site.currentsite.id + "#" + pageUniques.urlName + "\">dashboard page</a> was created in site \"" + sakai.site.currentsite.name + "\""
+                    "sakai:activityMessage": "A new <a href=\"/sites/" + sakai.site.currentsite["jcr:name"] + "#" + pageUniques.urlName + "\">dashboard page</a> was created in site \"" + sakai.site.currentsite.name + "\"",
+                    "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
@@ -2269,7 +2279,9 @@ sakai.site.site_admin = function(){
                 // Create an activity item for the page delete
                 var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
                 var activityData = {
-                    "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been deleted"
+                    "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been deleted",
+                    "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                 }
                 sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 

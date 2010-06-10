@@ -407,6 +407,22 @@ sakai.site_manage_members = function() {
               }
             }
             removeItemsFromArray(toRemove);
+
+            // Create an activity item for rmoving members from site
+            var activityMsg = "The folowing members were removed from the site \"" + siteJson.name + "\": <br/>";
+
+            for (var i = 0, il = toRemove.length; i < il; i++) {
+                activityMsg += "<a href=\"/dev/profile.html?user=" + toRemove[i]["rep:userId"] + "\">" + toRemove[i].firstName + " " + toRemove[i].lastName + "</a>";
+            }
+
+            var nodeUrl = siteJson["jcr:path"];
+            var activityData = {
+                "sakai:activityMessage": activityMsg,
+                "sakai:activitySiteName": siteJson.name,
+                "sakai:activitySiteId": siteJson["jcr:name"]
+            }
+            sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
         }
     };
 
