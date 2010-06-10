@@ -147,14 +147,21 @@ sakai.site_add_members = function() {
     };
 
     var checkRole = function(userid){
-        for (var i = 0; i < json.members.length; i++) {
-            if (typeof json.members[i]["rep:userId"] === "object") {
-                json.members[i]["rep:userId"] = json.members[i]["rep:userId"][0];
+
+        if (json & json.foundPeople & json.foundPeople & json.foundPeople.results & json.foundPeople.results.length > 0) {
+            var results = json.foundPeople.results;
+
+            for (var i = 0, il = results.length; i < il; i++) {
+                if (typeof results[i]["rep:userId"] === "object") {
+                    json.foundPeople.results[i]["rep:userId"] = results[i]["rep:userId"][0];
+                }
+                if (results[i]["rep:userId"] === userid) {
+                    return sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
+                }
             }
-            if (json.members[i]["rep:userId"] === userid) {
-                return sakai.lib.site.authz.getRole(siteJson, json.members[i]["member:groups"]);
-            }
+
         }
+
         return "";
     };
 
@@ -364,6 +371,7 @@ sakai.site_add_members = function() {
                     success: function(data){
                             updateSiteMembers(dataTemp);
                             selectNone();
+                            sakai.lib.notifications.showNotification("Site management", "New member(s) were succesfully added", "normal", false, "/dev/_images/inbox_folders_messages.gif");
                     },
                     error: function(xhr, textStatus, thrownError) {
                         alert("Failed to add these members.");
