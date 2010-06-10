@@ -30,3 +30,14 @@
 
 #as_settings_buttonbar
 { margin: 10px 0 0 0; text-align: right; }
+
+
+/* ACTIVITY FEED */
+#as_feed ul
+{  }
+
+#as_feed ul li
+{ list-style: none; margin: 15px 5px; padding: 0 0 0 10px; }
+
+li .lined
+{ border-top: 1px solid #ddd; }
