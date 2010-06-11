@@ -19,14 +19,13 @@
 
 /* CONTAINERS */
 
+.activitystream .widget_title {
+    background:url("/devwidgets/activitystream/images/activitystream_icon.png") no-repeat scroll 17px 18px transparent;
+}
+
 #as_content_container
 { padding: 15px; margin: 0; }
 
-#as_main
-{  }
-
-#as_settings
-{  }
 
 #as_settings_buttonbar
 { margin: 10px 0 0 0; text-align: right; }
@@ -45,6 +44,14 @@
 li .lined
 { border-top: 1px solid #ddd; }
 
-.activitystream .widget_title {
-    background:url("/devwidgets/activitystream/images/activitystream_icon.png") no-repeat scroll 17px 18px transparent;
-}
+/* SETTINGS */
+
+#as_settings input
+{ margin: 10px 0; }
+
+#as_item_count
+{ border: 1px solid #ddd; height: 20px; width: 40px; font-size: 14px; line-height: 20px; }
+
+
+#as_settings label
+{ height: 20px; font-size: 14px; line-height: 20px; }

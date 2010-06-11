@@ -36,14 +36,25 @@ sakai.activitystream = function(tuid, showSettings) {
     var contactsData = {};
     var activityitemsCount = 10;
     var activityitemsSortOrder = "descending";
+    var displayMe = true;
 
     // HTML elements
     var $rootel = $("#" + tuid);
     var $contentContainer = $("#as_content_container", $rootel);
     var $mainScreen = $("#as_main", $rootel);
     var $settingsScreen = $("#as_settings", $rootel);
+
+    var $settingsItemCountInput = $("#as_item_count", $rootel);
+    var $settingsDisplayMeInput = $("#as_display_me", $rootel);
+    var $settingsCancelButton = $("#as_settings_cancel");
+    var $settingsOkButton = $("#as_settings_ok");
+
     var $feedContainer = $("#as_feed", $rootel);
     var $feedTitle = $("#as_feed_title", $rootel);
+
+    /////////////////
+    // Main screen //
+    /////////////////
 
     /**
      * getContacts
@@ -133,6 +144,12 @@ sakai.activitystream = function(tuid, showSettings) {
                 var contactProfile = contactsData[contactUserID].profile;
                 contactFullName = contactProfile.firstName + " " + contactProfile.lastName;
             } else if (contactUserID === sakai.data.me.profile["rep:userId"]) {
+
+                // Skip item if display me is turned off in the configuration
+                if (displayMe === false) {
+                    continue;
+                }
+
                 contactFullName = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
             } else {
                 contactFullName = "Unknown User";
@@ -148,22 +165,87 @@ sakai.activitystream = function(tuid, showSettings) {
         // Add result container to the DOM
         $feedContainer.html($resultContainer);
 
+    };
 
-    }
+
+    /////////////////////
+    // Settings screen //
+    /////////////////////
+
+    var displaySettingsScreen = function() {
+        // Load widget settings from back-end
+        sakai.api.Widgets.loadWidgetData(tuid, function(settingsLoadSuccess, loadedSettings){
+
+            // Store loaded settings locally
+            displayMe = loadedSettings.displayMe;
+            activityitemsCount = loadedSettings.activityitemsCount;
+
+            // Set settings screen values
+            $settingsItemCountInput.val(activityitemsCount);
+            if (displayMe) {
+                $settingsDisplayMeInput.attr("checked", true);
+            } else {
+                $settingsDisplayMeInput.attr("checked", false);
+            }
+
+            // Show appropriate screen container
+            $settingsScreen.show();
+            $mainScreen.hide();
+        });
+    };
+
+    // Wire up OK Button on settings screen
+    $settingsOkButton.bind("click", function(e){
+
+        // Create a settings object which we will store
+        var settingsObject = {};
+
+        // Populate settings object from settings form values
+        settingsObject.activityitemsCount = parseInt($settingsItemCountInput.val(), 10);
+        if ($settingsDisplayMeInput.is(":checked")) {
+            settingsObject.displayMe = true;
+        } else {
+            settingsObject.displayMe = false;
+        }
+
+        // Store new settings locally
+        activityitemsCount = settingsObject.activityitemsCount;
+        displayMe = settingsObject.displayMe;
+
+        // Save settings object to the back end
+        sakai.api.Widgets.saveWidgetData(tuid, settingsObject);
+
+        // Init main screen with new settings
+        showSettings = false;
+        $settingsScreen.hide();
+        $mainScreen.show();
+        doInit();
+
+    });
+
+    // Wire up Cancel button on settings screen
+    $settingsCancelButton.bind("click", function(e){
+
+        showSettings = false;
+        $settingsScreen.hide();
+        $mainScreen.show();
+        doInit();
+    });
+
 
     /**
      * Init function
      */
     var doInit = function(){
 
-        // Which screen to show
+        // If we need to show the settings screen...
         if (showSettings) {
 
-            $settingsScreen.show();
-            $mainScreen.hide();
+            displaySettingsScreen();
 
         } else {
 
+            // Show main screen container
             $settingsScreen.hide();
             $mainScreen.show();
 
@@ -176,13 +258,20 @@ sakai.activitystream = function(tuid, showSettings) {
                     getActivityData(function(activitySuccess){
                         if (activitySuccess) {
 
-                            // Render the feed data
-                            renderActivity();
+                            // Load widget settings from the back-end
+                            sakai.api.Widgets.loadWidgetData(tuid, function(settingsLoadSuccess, loadedSettings){
 
-                            // Set the title
-                            $feedTitle.html("Last " + activityitemsCount + " activity items");
+                                // Store loaded settings locally
+                                displayMe = loadedSettings.displayMe;
+                                activityitemsCount = loadedSettings.activityitemsCount;
 
+                                // Set the title
+                                $feedTitle.html("Last " + activityitemsCount + " activity items");
 
+                                // Render the feed data
+                                renderActivity();
+
+                            });
                         } else {
                             fluid.log("Could not fetch activity feed");
                         }

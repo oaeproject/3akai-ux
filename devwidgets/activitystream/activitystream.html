@@ -22,14 +22,25 @@
     <!-- SETTINGS SCREEN -->
     <div id="as_settings" style="display:none;">
 
-        Settings screen
+        <!-- Settings form -->
+        <form id="as_settings_form">
+            <label for="as_tem_count">Maximum number of activity items to display</label>
+            <br />
+            <input type="text" maxlength="2" id="as_item_count" name="as_item_count" value="10"></input>
+            <br />
+            <input type="checkbox" id="as_display_me" name="as_display_me" checked="true"></input>
+            <label for="as_display_me">Display my activity</label>
+        </form>
+
+        <!-- Error messages -->
+        <div id="as_settings_error"></div>
 
         <!-- Save and Cancel buttons -->
         <div id="as_settings_buttonbar">
             <button id="as_settings_cancel" class="s3d-button s3d-button-secondary">
                 <span class="s3d-button-inner">Cancel</span>
             </button>
-            <button id="as_settings_save" class="s3d-search-button s3d-button s3d-button-primary">
+            <button id="as_settings_ok" class="s3d-search-button s3d-button s3d-button-primary">
                 <span class="s3d-button-inner">OK</span>
             </button>
         </div>
