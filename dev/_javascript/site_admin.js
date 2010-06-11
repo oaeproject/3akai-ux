@@ -2195,10 +2195,43 @@ sakai.site.site_admin = function(){
         onShow: loadTemplates
     });
 
-
     ///////////////////////
     // MORE: DELETE PAGE //
     ///////////////////////
+
+    /**
+     * This function will update the pageSize when the user deletes a page
+     * @param {Object} node, the page that has to be updated
+     */
+    var updatePagePosition = function(node){
+        $.ajax({
+            url: node['jcr:path'],
+            type: "POST",
+            data: {
+                'pagePosition': node.pagePosition
+            },
+            success: $.noop(),
+            error: function(xhr, status, e){
+                Fluid.log('Error at updatePagePosition');
+            }
+        });
+    };
+
+
+    /**
+     * This function will update the pagePositions when a page is deleted
+     * @param selectedpage, this will contain the page that will be updated
+     */
+    var updatePagePositions = function(selectedPage){
+        // Loop over all the pages 
+        for (var c in sakai.site.site_info._pages) {
+            //Check if the page position is greater than the page position of the deleted page, if so the pagePosition has to be 2000000 less
+            if(parseFloat(sakai.site.site_info._pages[c].pagePosition,10) >= parseFloat(selectedPage.pagePosition,10)){
+                sakai.site.site_info._pages[c].pagePosition = parseFloat(sakai.site.site_info._pages[c].pagePosition) - 200000;
+                updatePagePosition(sakai.site.site_info._pages[c]);
+            }
+        }
+    };
 
     /**
      * Deletes a page
@@ -2206,15 +2239,18 @@ sakai.site.site_admin = function(){
      */
     var deletePage = function() {
 
+        var selectedPage = sakai.site.site_info._pages[sakai.site.selectedpage];
+
         // Delete autosave
         $.ajax({
-            url: sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"],
+            url: selectedPage["jcr:path"],
             type: 'DELETE',
             success: function(data){
 
                 delete sakai.site.site_info._pages[sakai.site.selectedpage];
                 delete sakai.site.pagecontents[sakai.site.selectedpage];
                 sakai.site.autosavecontent = false;
+                updatePagePositions(selectedPage);
                 document.location = "/sites/" + sakai.site.currentsite.id;
 
             },
