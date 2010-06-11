@@ -136,7 +136,7 @@ sakai.content_profile = function(){
                 type:"post",
                 success: function(){
                     // TODO show a valid message to the user instead of reloading the page
-                    window.location.reload();
+                    $(window).trigger('hashchange');
                 },
                 error: function(){
                     // TODO show a valid error message
@@ -161,6 +161,9 @@ sakai.content_profile = function(){
      * Load the content profile for the current content path
      */
     var loadContentProfile = function(){
+
+        // Hide + clear the basic information
+        $content_profile_basic_info_container.hide();
 
         // Clear the error container
         $content_profile_error_container.empty();

@@ -18,7 +18,7 @@
     <!-- HEADER -->
     <div class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>__MSG__UPLOAD_CONTENT__</h1>
+            <h1>__MSG__ADD_RESOURCE__</h1>
             <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
         </div>
     </div>
@@ -26,7 +26,8 @@
     <!-- CONTENT -->
     <div class="dialog_content">
 
-        <h4>__MSG__ADD_NEW_CONTENT__</h4>
+        <!-- TODO: RE-ADD THIS HEADER SO IT FITS WITH EDDS DESIGN -->
+        <h4 style="display:hidden;">__MSG__ADD_RESOURCE__</h4>
 
         <div id="uploadcontent_main_container" style="display:none"><!-- --></div>
         <div id="uploadcontent_error_container" style="display:none;"><!-- --></div>
@@ -49,8 +50,8 @@
             <label for="uploadcontent_fileupload">__MSG__OR_SELECT_FILES_TO_UPLOAD__:</label><br />
             <input type="file" name="*" multiple="true" id="uploadcontent_fileupload" />
             <input type="hidden" name="*@TypeHint" value="nt:file" /><br />
-            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent"><span class="s3d-button-inner">__MSG__ADD_CONTENT__</span></button>
-            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_ADD_CONTENT__</span></button>
+            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent"><span class="s3d-button-inner">__MSG__ADD_RESOURCE__</span></button>
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_ADD_RESOURCE__</span></button>
         </form>
     --></div>
 </div>

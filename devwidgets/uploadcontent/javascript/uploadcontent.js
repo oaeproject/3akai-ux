@@ -36,7 +36,7 @@ sakai.uploadcontent = function(tuid, showSettings){
 
     // default POST URL
     var now = new Date();
-    var defaultposturl = "/_user" + sakai.data.me.profile.path + "/private/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
+    var defaultposturl = "/_user" + sakai.data.me.profile.path + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
 
 
     ///////////////////

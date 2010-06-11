@@ -43,6 +43,15 @@ var Widgets = {
         }
     },
     "widgets": {
+        "addcontent": {
+            "ca":true,
+            "description":"Add Resource to a Site",
+            "name":"Add Resource",
+            "id":"addcontent",
+            "img":"/devwidgets/addcontent/images/addcontent.png",
+            "showinsakaigoodies":true,
+            "url":"/devwidgets/addcontent/addcontent.html"
+        },
         "addtocontacts": {
             "description":"Add a contact",
             "name":"Add a contact",
