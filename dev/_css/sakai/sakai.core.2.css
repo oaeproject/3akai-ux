@@ -275,18 +275,17 @@
     position: absolute;
     top: 0;
     left: 0;
-    border: 1px solid #D4DADE;
-    background: #fff;
-    font-size: 90%;
-    margin-top: 20px;
+    background: #D4DADE;
+    margin-top: 22px;
 }
 #widget_settings_menu ul {
     padding: 0;
     margin: 0;
 }
 #widget_settings_menu ul li {
-    padding: 3px 5px;
+    padding: 4px 5px;
     margin: 0;
+    font-size: 12px;
     list-style-type: none;
 }
 

@@ -1095,8 +1095,8 @@ sakai.site = function(){
 
                         var x = $(this).position().left;
                         var y = $(this).position().top;
-                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 23 + "px");
-                        $("#widget_settings_menu").css("top", y + 18 + "px");
+                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 25 + "px");
+                        $("#widget_settings_menu").css("top", y + 20 + "px");
                         $("#widget_settings_menu").show();
                     });
 
