@@ -129,6 +129,8 @@ sakai.site.site_admin = function(){
             },
             success: function(data) {
 
+                var movedPageTitle = sakai.site.site_info._pages[src_urlsafe_name]["pageTitle"];
+
                 // Remove content html tags
                 $("#" + sakai.site.selectedpage).remove();
                 $("#" + src_urlsafe_name).remove();
@@ -137,24 +139,33 @@ sakai.site.site_admin = function(){
                 delete sakai.site.pagecontents[sakai.site.selectedpage];
                 delete sakai.site.pagecontents[src_urlsafe_name];
 
-                // Refresh site info
-                sakai.site.refreshSiteInfo(tgt_urlsafe_name);
-
                 // Check in new page content to revision history
                 $.ajax({
                     url: tgt_url + "/pageContent.save.html",
                     type: "POST"
                 });
 
+                // Create an activity item for the move
+                var newTargetLink = "/sites/"+sakai.site.currentsite["jcr:name"] + "#" + tgt_urlsafe_name;
+                var activityData = {
+                    "sakai:activityMessage": "The page \"" + movedPageTitle + "\" in site " + sakai.site.currentsite.name + " has been moved to <a href=\"" + newTargetLink + "\">" + newTargetLink + "</a>",
+                    "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
+                }
+                sakai.api.Activity.createActivity(tgt_url, "site", "default", activityData);
+
                 // Save the recent activity
                 var activityItem = {
                     "user_id": sakai.data.me.user.userid,
                     "type": "page_move",
                     "page_id": tgt_urlsafe_name,
-                    "page_title": sakai.site.site_info._pages[tgt_urlsafe_name]["pageTitle"],
+                    "page_title": movedPageTitle,
                     "site_id": sakai.site.currentsite.id
                 };
                 sakai.siterecentactivity.addRecentActivity(activityItem);
+
+                // Refresh site info
+                sakai.site.refreshSiteInfo(tgt_urlsafe_name);
 
                 // Call callback function
                 callback();
@@ -739,6 +750,17 @@ sakai.site.site_admin = function(){
             var oldpagetitle = sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"];
 
             if (newpagetitle !== oldpagetitle) {
+
+                // Create an activity item for the rename
+                if (oldpagetitle !== "Untitled") {
+                    var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+                    var activityData = {
+                        "sakai:activityMessage": "The page \"" + oldpagetitle + "\" in site " + sakai.site.currentsite.name + " has been renamed to \"" + newpagetitle + "\"",
+                        "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
+                    }
+                    sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+                }
                 sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"] = newpagetitle;
             }
 
@@ -770,6 +792,15 @@ sakai.site.site_admin = function(){
                             url: newPageUniques.url + "/pageContent.save.html",
                             type: "POST"
                         });
+
+                        // Create an activity item for the new page
+                        var nodeUrl = newPageUniques.url;
+                        var activityData = {
+                            "sakai:activityMessage": "A new page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + newPageUniques.urlName + "\">" + newpagetitle + "</a> was created in site \"" + sakai.site.currentsite.name + "\"",
+                            "sakai:activitySiteName": sakai.site.currentsite.name,
+                            "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
+                        }
+                        sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
                         // Save the recent activity
                         var activityItem = {
@@ -842,6 +873,15 @@ sakai.site.site_admin = function(){
                         //Update title in HTML
                         $("#pagetitle").html(sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"]);
 
+                        // Create an activity item for the page edit
+                        var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+                        var activityData = {
+                            "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated",
+                            "sakai:activitySiteName": sakai.site.currentsite.name,
+                            "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
+                        }
+                        sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
                         // Save the recent activity
                         var activityItem = {
                             "user_id": sakai.data.me.user.userid,
@@ -895,6 +935,13 @@ sakai.site.site_admin = function(){
 
         document.getElementById(sakai.site.selectedpage).style.display = "block";
         sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
+
+        // Create an activity item for the page edit
+        var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+        var activityData = {
+            "sakai:activityMessage": "The navigationbar of page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated"
+        }
+        sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
     };
 
@@ -1753,6 +1800,15 @@ sakai.site.site_admin = function(){
                     type: "POST"
                 });
 
+                // Create an activity item for the page edit
+                var nodeUrl = pageUniques.url;
+                var activityData = {
+                    "sakai:activityMessage": "A new <a href=\"/sites/" + sakai.site.currentsite["jcr:name"] + "#" + pageUniques.urlName + "\">dashboard page</a> was created in site \"" + sakai.site.currentsite.name + "\"",
+                    "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
+                }
+                sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
             } else {
                 fluid.log("site_admin.js/addDashboardPage(): Could not create page node for dashboard page!");
             }
@@ -1915,6 +1971,14 @@ sakai.site.site_admin = function(){
                     $("#" + sakai.site.selectedpage).html(data["sakai:pagecontent"]);
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
                     sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = data["sakai:pagecontent"];
+
+                    // Create an activity item for the page edit
+                    var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+                    var activityData = {
+                        "sakai:activityMessage": "The  page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been reverted to version: " + version
+                    }
+                    sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
                 }
                 else if (type === "dashboard") {
                     // Remove previous dashboard
@@ -2244,6 +2308,15 @@ sakai.site.site_admin = function(){
             url: selectedPage["jcr:path"],
             type: 'DELETE',
             success: function(data){
+
+                // Create an activity item for the page delete
+                var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+                var activityData = {
+                    "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been deleted",
+                    "sakai:activitySiteName": sakai.site.currentsite.name,
+                    "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
+                }
+                sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
                 delete sakai.site.site_info._pages[sakai.site.selectedpage];
                 delete sakai.site.pagecontents[sakai.site.selectedpage];

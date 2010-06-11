@@ -25,7 +25,7 @@ sakai.site_add_members = function() {
     var roleToGroup = {};
     var siteJson = {};
     var selectedSite = "";
-    var pageSize = 10;
+    var pageSize = 25;
     var selectedPeople = [];
 
    /**
@@ -321,6 +321,7 @@ sakai.site_add_members = function() {
             cache: false,
             url: "/sites/" + selectedSite + ".members.json",
             success: function(data){
+
                 json.members = $.extend(data, {}, true).results;
                 var arrPeople = [];
                 $.each(json.members, function(i, val){
@@ -371,6 +372,23 @@ sakai.site_add_members = function() {
                     success: function(data){
                             updateSiteMembers(dataTemp);
                             selectNone();
+
+                            // Create an activity item for adding new members to the site
+                            var activityMsg = "New members were added to the site \"" + siteJson.name + "\": <br/>";
+
+                            for (var i = 0, il = newMembers.length; i < il; i++) {
+                                activityMsg += "<a href=\"/dev/profile.html?user=" + newMembers[i] + "\">" + $("a[data-userid='" + newMembers[i] + "']").html()+"</a> ";
+                            }
+                            activityMsg += "<br /> as " + $("#manage_members_role_rbts input:checked").val()+"(s)";
+
+                            var nodeUrl = siteJson["jcr:path"];
+                            var activityData = {
+                                "sakai:activityMessage": activityMsg,
+                                "sakai:activitySiteName": siteJson.name,
+                                "sakai:activitySiteId": siteJson["jcr:name"]
+                            }
+                            sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
                             sakai.lib.notifications.showNotification("Site management", "New member(s) were succesfully added", "normal", false, "/dev/_images/inbox_folders_messages.gif");
                     },
                     error: function(xhr, textStatus, thrownError) {

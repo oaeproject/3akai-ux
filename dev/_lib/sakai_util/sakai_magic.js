@@ -312,6 +312,81 @@ sakai.api.Documents.getFileType = function(filename) {
 
 
 
+/**
+ * @class Activity
+ *
+ * @description
+ * Activity related convenience functions which build on the top of Nakamura's
+ * event system.
+ * This should only hold functions which are used across multiple pages,
+ * and does not constitute functionality
+ * related to a single area/page
+ *
+ * @namespace
+ * Events related functions
+ */
+sakai.api.Activity = sakai.api.Activity || {};
+
+
+/**
+ * Wrapper function for creating a Nakamura activity
+ *
+ * @param nodeUrl {String} The URL of the node we would like the activity to be
+ * stored on
+ * @param appID {String} The ID of the application/functionality creating the
+ * activity
+ * @param templateID {String} The ID of the activity template
+ * @param extraData {Object} Any extra data which will be stored on the activity
+ * node
+ * @param callback {Function} Callback function executed at the end of the
+ * operation
+ * @returns void
+ */
+sakai.api.Activity.createActivity = function(nodeUrl, appID, templateID, extraData, callback) {
+
+    // Check required params
+    if (typeof appID !== "string" || appID === "") {
+        fluid.log("sakai.api.Activity.createActivity(): appID is required argument!");
+        return;
+    }
+    if (typeof templateID !== "string" || templateID === "") {
+        fluid.log("sakai.api.Activity.createActivity(): templateID is required argument!");
+    }
+
+    // Create event url with appropriate selector
+    var activityUrl = nodeUrl + ".activity.json";
+
+    // Create data object to send
+    var dataToSend = {
+        "sakai:activity-appid": appID,
+        "sakai:activity-templateid": templateID
+    };
+    for (var i in extraData) {
+        dataToSend[i] = extraData[i];
+    }
+
+    // Send request to create the activity
+    $.ajax({
+        url: activityUrl,
+        traditional: true,
+        type: "POST",
+        data: dataToSend,
+        success: function(data){
+
+            if (typeof callback === "function") {
+                callback(data, true);
+            }
+        },
+        error: function(xhr, textStatus, thrownError) {
+
+            if (typeof callback === "function") {
+                callback(xhr.status, false);
+            }
+        }
+    });
+
+};
+
 
 
 
