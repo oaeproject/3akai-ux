@@ -141,7 +141,8 @@ sakai.config = {
                 image: "/dev/_skins/camuniversity/images/camuniversity.png",
                 URL: "/dev/_skins/camuniversity/camuniversity.html"
             }
-        }
+        },
+        DefaultMember:"viewers"
     },
 
     Messages: {

@@ -406,9 +406,6 @@ sakai.site.site_admin = function(){
         var iframeWin = window.frames[0];
         var iframeEl = document.getElementById ? document.getElementById(ifrm) : document.all ? document.all[ifrm] : null;
         if (iframeEl && iframeWin) {
-            if (BrowserDetect.browser !== "Firefox") {
-                iframeEl.style.height = "auto";
-            }
             var docHt = sakai.site.getDocHeight(iframeWin.document);
             if (docHt < sakai.site.minHeight) {
                 docHt = sakai.site.minHeight;
@@ -1480,6 +1477,7 @@ sakai.site.site_admin = function(){
 
     // Bind Insert Link click event
     $("#more_link").html("More");
+    $("#more_link").attr("href","javascript:;");
     $("#more_link").addClass("more_link");
     $("#more_link").bind("click", function(ev){
         showHideMoreMenu(false);

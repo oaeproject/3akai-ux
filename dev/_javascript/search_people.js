@@ -32,6 +32,7 @@ sakai.search = function() {
     var foundPeople = [];
     var contactclicked = false;
     var mainSearch = false;
+    var max_items = 2000;
 
 
     //    CSS IDs
@@ -353,7 +354,7 @@ sakai.search = function() {
     $("#create_site_these_people_link").bind("click", function(ev){
         var searchterm = $(searchConfig.global.text).val().toLowerCase();
         var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&username=" + urlsearchterm;
+        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + max_items + "&username=" + urlsearchterm;
         $.ajax({
             cache: false,
             url: url,

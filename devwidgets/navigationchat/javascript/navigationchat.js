@@ -1296,7 +1296,9 @@ sakai.navigationchat = function(tuid, showSettings){
             data: {
                 "_from": tosend,
                 "items": 1000,
-                "t": pulltime
+                "t": pulltime,
+                "sortOn": "sakai:created",
+                "sortOrder": "descending"
             },
             cache: false,
             sendToLoginOnFail: true,
