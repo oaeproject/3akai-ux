@@ -21,28 +21,6 @@
     margin: 7px 0 0 10px;
 }
 
-/* Userinfo */
-#profilewow_userinfo {
-    margin-top: 30px;
-}
-#profilewow_userinfo #profilewow_userinfo_picture_container {
-    margin-bottom: 25px;
-}
-#profilewow_userinfo form button{
-    margin-left: 10px;
-}
-#profilewow_userinfo form input[type="text"]{
-    width: 16em;
-}
-#profilewow_userinfo .profilewow_userinfo_status_input_dummy {
-    color: #aaa;
-}
-#profilewow_userinfo_picture {
-    height: 128px;
-    padding: 0 30px 10px 0;
-    width: 128px;
-}
-
 /* General info */
 #profilewow_generalinfo .profilewow_generalinfo_header {
     border-top:1px solid #ccc;
