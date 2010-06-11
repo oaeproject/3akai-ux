@@ -509,7 +509,7 @@ sakai.contentmedia = function(){
         $.ajax({
             url: url,
             data: {
-                "search" : options.search,
+                "q" : options.search,
                 //"type" : type,
                 "page" : pageCurrent,
                 "items" : pageSize,

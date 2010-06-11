@@ -311,7 +311,7 @@ sakai.search = function() {
             if(searchWhere === "mycontacts") {
                 searchURL = sakai.config.URL.SEARCH_USERS_ACCEPTED + urlsearchterm;
             }  else {
-                searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName";
+                searchURL = sakai.config.URL.SEARCH_USERS + "?page=" + (currentpage - 1) + "&items=" + resultsToDisplay + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending";
             }
 
             $.ajax({
@@ -354,7 +354,7 @@ sakai.search = function() {
     $("#create_site_these_people_link").bind("click", function(ev){
         var searchterm = $(searchConfig.global.text).val().toLowerCase();
         var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + max_items + "&username=" + urlsearchterm;
+        var url = sakai.config.URL.SEARCH_USERS + "?page=" + 0 + "&items=" + results.total + "&q=" + urlsearchterm;
         $.ajax({
             cache: false,
             url: url,
