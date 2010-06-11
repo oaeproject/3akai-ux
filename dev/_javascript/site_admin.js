@@ -875,8 +875,9 @@ sakai.site.site_admin = function(){
 
                         // Create an activity item for the page edit
                         var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
+
                         var activityData = {
-                            "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated",
+                            "sakai:activityMessage": "The page <a href=\"/sites/"+sakai.site.currentsite["jcr:name"] + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated",
                             "sakai:activitySiteName": sakai.site.currentsite.name,
                             "sakai:activitySiteId": sakai.site.currentsite["jcr:name"]
                         }
@@ -939,7 +940,7 @@ sakai.site.site_admin = function(){
         // Create an activity item for the page edit
         var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
         var activityData = {
-            "sakai:activityMessage": "The navigationbar of page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pagePath + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated"
+            "sakai:activityMessage": "The navigationbar of page <a href=\"/sites/"+sakai.site.currentsite.id + "#" + sakai.site.selectedpage + "\">" + sakai.site.site_info._pages[sakai.site.selectedpage].pageTitle + "</a> in site \"" + sakai.site.currentsite.name + "\" has been updated"
         }
         sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
@@ -2285,7 +2286,7 @@ sakai.site.site_admin = function(){
      * @param selectedpage, this will contain the page that will be updated
      */
     var updatePagePositions = function(selectedPage){
-        // Loop over all the pages 
+        // Loop over all the pages
         for (var c in sakai.site.site_info._pages) {
             //Check if the page position is greater than the page position of the deleted page, if so the pagePosition has to be 2000000 less
             if(parseFloat(sakai.site.site_info._pages[c].pagePosition,10) >= parseFloat(selectedPage.pagePosition,10)){

@@ -271,9 +271,11 @@ sakai.activitystream = function(tuid, showSettings) {
                             // Load widget settings from the back-end
                             sakai.api.Widgets.loadWidgetData(tuid, function(settingsLoadSuccess, loadedSettings){
 
-                                // Store loaded settings locally
-                                displayMe = loadedSettings.displayMe;
-                                activityitemsCount = loadedSettings.activityitemsCount;
+                                if (settingsLoadSuccess) {
+                                    // Store loaded settings locally
+                                    displayMe = loadedSettings.displayMe;
+                                    activityitemsCount = loadedSettings.activityitemsCount;
+                                }
 
                                 // Render the feed data
                                 renderActivity();
