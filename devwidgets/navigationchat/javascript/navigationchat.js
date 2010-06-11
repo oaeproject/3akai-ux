@@ -782,6 +782,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 else {
                     $(chatWith + "_" + friendId + "_txt").attr("disabled", true);
                     $(chatWith + "_" + friendId + "_txt").val(friendName + " is offline");
+                    updateChatWindowChatStatus(friendId, "offline");
                 }
 
             }

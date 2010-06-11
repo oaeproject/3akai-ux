@@ -246,7 +246,6 @@ sakai.profilewow = function(){
     };
 
     var querystring; // Variable that will contain the querystring object of the page
-    var userinfo_dummy_status; // Contains the dummy status for a user
 
 
     ///////////////////
@@ -266,12 +265,6 @@ sakai.profilewow = function(){
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
     var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
     var $profilewow_section_default_template = $("#profilewow_section_default_template", profilewow_class);
-    var $profilewow_userinfo = $("#profilewow_userinfo", profilewow_class);
-    var $profilewow_userinfo_status;
-    var $profilewow_userinfo_status_input;
-    var profilewow_userinfo_status_input_dummy = "profilewow_userinfo_status_input_dummy";
-    var $profilewow_userinfo_status_input_dummy;
-    var $profilewow_userinfo_template = $("#profilewow_userinfo_template", profilewow_class);
 
 
     ////////////////////
@@ -433,85 +426,6 @@ sakai.profilewow = function(){
     ///////////////////////
 
     /**
-     * Add binding to the user information section
-     */
-    var addBindingUserInfo = function(){
-
-        // We need to reinitialise the jQuery objects after the rendering
-        $profilewow_userinfo_status = $("#profilewow_userinfo_status", profilewow_class);
-        $profilewow_userinfo_status_input = $("#profilewow_userinfo_status_input", profilewow_class);
-        $profilewow_userinfo_status_input_dummy = $("#profilewow_userinfo_status_input_dummy", profilewow_class);
-
-        // Add the focus event to the userinfo status
-        $profilewow_userinfo_status_input.bind("focus", function(){
-
-            // Check whether the status field has the dummy class
-            if ($profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy)) {
-
-                // If we don't have the dummy status (e.g. What are you doing) variable set yet, set it now.
-                if (!userinfo_dummy_status) {
-                    userinfo_dummy_status = $profilewow_userinfo_status_input.val();
-                }
-
-                // Clear the current value for the input box and remove the dummy class
-                $profilewow_userinfo_status_input.val("");
-                $profilewow_userinfo_status_input.removeClass(profilewow_userinfo_status_input_dummy);
-            }
-            else {
-
-                // If we don't have the dummy status (e.g. What are you doing) variable set yet, set it now.
-                if (!userinfo_dummy_status) {
-                    userinfo_dummy_status = $profilewow_userinfo_status_input_dummy.text();
-                }
-            }
-        });
-
-        // Add the blur event to the userinfo status
-        $profilewow_userinfo_status_input.bind("blur", function(){
-
-            // Check if it still has a dummy
-            if (!$profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) && $.trim($profilewow_userinfo_status_input.val()) === "") {
-
-                // Add the dummy class
-                $profilewow_userinfo_status_input.addClass(profilewow_userinfo_status_input_dummy);
-
-                // Set the input value to the dummy status (e.g. What are you doing)
-                $profilewow_userinfo_status_input.val(userinfo_dummy_status);
-
-            }
-        });
-
-        // Add the submit event to the status form
-        $profilewow_userinfo_status.bind("submit", function(){
-
-            $("button", $profilewow_userinfo_status).hide();
-            $("img", $profilewow_userinfo_status).show();
-
-            var inputValue = $profilewow_userinfo_status_input.hasClass(profilewow_userinfo_status_input_dummy) ? "" : $.trim($profilewow_userinfo_status_input.val());
-
-            $.ajax({
-                url: sakai.data.me.profile["jcr:path"],
-                data: {
-                    "_charset_": "utf-8",
-                    "basic": $.toJSON({
-                        "status": inputValue
-                    })
-                },
-                type: "POST",
-                success: function(){
-                    $("img", $profilewow_userinfo_status).hide();
-                    $("button", $profilewow_userinfo_status).show();
-                },
-                error: function(){
-
-                }
-            });
-
-        });
-
-    };
-
-    /**
      * Add binding to the footer elements
      */
     var addBindingFooter = function(){
@@ -552,9 +466,6 @@ sakai.profilewow = function(){
      */
     var addBinding = function(){
 
-        // Add binding to the user info
-        addBindingUserInfo();
-
         // Add binding to footer elements
         addBindingFooter();
 
@@ -572,16 +483,6 @@ sakai.profilewow = function(){
 
         // Render the profilewow site heading
         $.TemplateRenderer($profilewow_heading_template, sakai.profilewow.profile, $profilewow_heading);
-
-    };
-
-    /**
-     * Render the user information (such as picture / name / chat status)
-     */
-    var renderTemplateUserInfo = function(){
-
-        // Render the user info
-        $.TemplateRenderer($profilewow_userinfo_template, sakai.profilewow.profile, $profilewow_userinfo);
 
     };
 
@@ -677,9 +578,6 @@ sakai.profilewow = function(){
         // Render the site heading
         renderTemplateSiteHeading();
 
-        // Render the user info
-        renderTemplateUserInfo();
-
         // Render the general info
         renderTemplateGeneralInfo();
 
@@ -709,6 +607,11 @@ sakai.profilewow = function(){
 
         // Check if you are looking at the logged-in user
         setIsMe();
+
+        // Initialise the entity widget
+        $(window).bind("sakai.api.UI.entity.ready", function(e){
+            sakai.api.UI.entity.render("myprofile", false);
+        });
 
         // Set the profile data
         setProfileData(function(){
