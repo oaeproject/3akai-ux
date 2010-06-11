@@ -2119,19 +2119,19 @@ sakai.api.Widgets.Container = {
     toLoad : [],
 
     registerForLoad : function(id){
-        sakai.api.Widgets.Container.toLoad[sakai.api.Widgets.Container.toLoad.length] = id;
+        sakai.api.Widgets.Container.toLoad[sakai.api.Widgets.Container.toLoad.length] = id.replace("sakai.", "");
         if (sakai.api.Widgets.Container.readyToLoad){
             sakai.api.Widgets.Container.performLoad();
         }
     },
 
     performLoad : function(){
-        for (var i = 0, j = sakai.api.Widgets.Container.toLoad.length; i<j; i++){
-            var fct = eval(sakai.api.Widgets.Container.toLoad[i]);
-            try {
+        for (var i = 0, il = sakai.api.Widgets.Container.toLoad.length; i<il; i++){
+            var fct = window["sakai"][sakai.api.Widgets.Container.toLoad[i]];
+            if(typeof fct === "function"){
                 fct();
-            } catch (err){
-                fluid.log(err);
+            }else{
+                fluid.log("sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '" + fct + "'");
             }
         }
         sakai.api.Widgets.Container.toLoad = [];
