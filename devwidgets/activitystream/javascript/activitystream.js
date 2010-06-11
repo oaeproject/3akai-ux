@@ -131,8 +131,18 @@ sakai.activitystream = function(tuid, showSettings) {
      */
     var renderActivity = function() {
 
-        // Create an unordered list container element for the results
+        // Deal with the case when there are no activities to display
+        if (activityData.results.length === 0) {
+            $feedContainer.html("There are no activity items to display");
+            $feedTitle.html("");
+            return;
+        }
+
+        // Create a result container object
         var $resultContainer = $("<ul class=\"feed_list\"></ul>");
+
+        // Set the title
+        $feedTitle.html("Last " + activityitemsCount + " activity items");
 
         // Go through the feed data
         for (var i = 0, il = activityData.results.length; i < il; i++) {
@@ -264,9 +274,6 @@ sakai.activitystream = function(tuid, showSettings) {
                                 // Store loaded settings locally
                                 displayMe = loadedSettings.displayMe;
                                 activityitemsCount = loadedSettings.activityitemsCount;
-
-                                // Set the title
-                                $feedTitle.html("Last " + activityitemsCount + " activity items");
 
                                 // Render the feed data
                                 renderActivity();
