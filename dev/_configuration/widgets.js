@@ -52,6 +52,19 @@ var Widgets = {
             "showinsakaigoodies":true,
             "url":"/devwidgets/addcontent/addcontent.html"
         },
+        "activitystream": {
+            "description":"Activity Stream Widget",
+            "hasSettings":true,
+            "img": "/devwidgets/activitystream/images/activitystream_icon.png",
+            "id":"activitystream",
+            "i18n": {
+                "default": "/devwidgets/activitystream/bundles/default.json",
+                "en_US": "/devwidgets/activitystream/bundles/en_US.json"
+            },
+            "name":"Activity Stream",
+            "personalportal":true,
+            "url":"/devwidgets/activitystream/activitystream.html"
+        },
         "addtocontacts": {
             "description":"Add a contact",
             "name":"Add a contact",

@@ -88,7 +88,7 @@ sakai.profile = function(){
             myprofile = false;
 
             $.ajax({
-                url: "/var/search/users.json?username=" + user,
+                url: sakai.config.URL.SEARCH_USERS + "?q=" + user,
                 cache: false,
                 success: function(raw_userdata){
 

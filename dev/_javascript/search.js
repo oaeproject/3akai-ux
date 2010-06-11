@@ -332,7 +332,7 @@ sakai.search = function() {
             $.ajax({
                 url: sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
-                    "search" : urlsearchterm,
+                    "q" : urlsearchterm,
                     "items" : cmToSearch
                 },
                 cache: false,
@@ -347,7 +347,7 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending",
                 cache: false,
                 success: function(data) {
 

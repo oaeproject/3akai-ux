@@ -456,8 +456,8 @@ sakai.dashboard = function(){
 
                     var x = $(this).position().left;
                     var y = $(this).position().top;
-                    $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 23 + "px");
-                    $("#widget_settings_menu").css("top", y + 18 + "px");
+                    $("#widget_settings_menu").css("left",x - $("#widget_settings_menu").width() + 28 + "px");
+                    $("#widget_settings_menu").css("top", y + 24 + "px");
                     $("#widget_settings_menu").show();
                 }
             });

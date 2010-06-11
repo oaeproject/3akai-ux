@@ -46,6 +46,8 @@ sakai.config = {
 
 
         // Services
+        ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
+        ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
         BATCH: "/system/batch",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
@@ -80,8 +82,9 @@ sakai.config = {
         SEARCH_MY_FILES: "/var/search/files/myfiles.json",
         SEARCH_MY_SITES: "/var/search/files/mysites.json",
         SEARCH_PAGES: "/var/search/page.json",
+        SEARCH_SITES: "/var/search/sites.json",
         SEARCH_USERS_ACCEPTED: "/var/contacts/find.json?s=",
-        SEARCH_USERS: "/var/search/users",
+        SEARCH_USERS: "/var/search/users.json",
         SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",
         SITE_CONFIGFOLDER: "/sites/__SITEID__",
         SITE_CREATE_SERVICE: "/sites.createsite.json",
@@ -141,7 +144,8 @@ sakai.config = {
                 image: "/dev/_skins/camuniversity/images/camuniversity.png",
                 URL: "/dev/_skins/camuniversity/camuniversity.html"
             }
-        }
+        },
+        DefaultMember:"viewers"
     },
 
     Messages: {

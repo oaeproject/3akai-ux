@@ -133,7 +133,7 @@ if (!sakai.sendmessage){
                 formatItem: function(row){
                     var s = '<img src="/dev/_images/profile_icon.png" alt="profile icon" width="24" height="24" /> ';
                     if (row.profile.picture && $.parseJSON(row.profile.picture).name) {
-                        s = '<img src="/_user' + sakai.data.me.profile.path + '/public/profile/' + $.parseJSON(row.profile.picture).name + '" alt="profile icon" width="24" height="24" /> ';
+                        s = '<img src="/_user' + row.profile.path + '/public/profile/' + $.parseJSON(row.profile.picture).name + '" alt="profile icon" width="24" height="24" /> ';
                     }
                     return s + "<span>" + row.profile.firstName + ' ' + row.profile.lastName + "</span>";
                 }
