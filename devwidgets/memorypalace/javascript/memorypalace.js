@@ -32,26 +32,26 @@ sakai.memorypalace = function(tuid, showSettings) {
   var memorypalaceSettings = memorypalace + "_settings";
   var memorypalaceHeader = memorypalace + "_header"
   var memorypalaceMap = memorypalace + "_map";  
-  var memorypalaceEditRoom = memorypalace + "_room_edit";
+  var memorypalaceEditRoom = memorypalace + "_map_room_edit";
   var memorypalaceEditRoomContainer = memorypalaceEditRoom + "_container";
   var categoriesListingBody = "#categories_listing_body"
-  var memorypalaceShowRoom = "#memorypalace_show_room";
+  var memorypalaceShowRoom = "#memorypalace_map_show_room";
   var memorypalaceShowRoomContainer = memorypalaceShowRoom + "_conatiner";
-  var memorypalaceAddContent = memorypalace + "_add_content";
+  var memorypalaceAddContent = memorypalace + "map_add_content";
   var memorypalaceAddContentContainer = memorypalaceAddContent + "_container";
   var memorypalaceCategoryDropdown = "#category_dropdown"
-  var memorypalaceShowContentItem = "#memorypalace_show_content_item";
+  var memorypalaceShowContentItem = "#memorypalace_map_show_content_item";
   var memorypalaceShowContentItemContainer = memorypalaceShowContentItem + "_container";
   
   // Templates
   var memorypalaceMapTemplate = "memorypalace_map_template";
   var memorypalaceHeaderTemplate = "memorypalace_header_template";
-  var memorypalaceEditRoomTemplate = "memorypalace_room_edit_template";
-  var categoriesListingBodyTemplate = "categories_listing_body_template";
-  var memorypalaceShowRoomTemplate = "memorypalace_show_room_template";
-  var memorypalaceAddContentTemplate = "memorypalace_add_content_template";
+  var memorypalaceEditRoomTemplate = "memorypalace_map_room_edit_template";
+  var categoriesListingBodyTemplate = "memorypalace_map_categories_listing_body_template";
+  var memorypalaceShowRoomTemplate = "memorypalace_map_show_room_template";
+  var memorypalaceAddContentTemplate = "memorypalace_map_add_content_template";
   var memorypalaceCategoryDropdownTemplate = "category_dropdown_template";
-  var memorypalaceShowContentItemTemplate = "memorypalace_show_content_item_template";
+  var memorypalaceShowContentItemTemplate = "memorypalace_map_show_content_item_template";
   
   // Buttons
   var memorypalaceSettingsSubmit = memorypalaceSettings + "_submit";
@@ -75,8 +75,8 @@ sakai.memorypalace = function(tuid, showSettings) {
   var memorypalaceReturnToContentFromEditLink = "#return_to_content_from_edit";
   
   // Form
-  var memoryPalaceEditForm = "#memorypalace_room_edit form";
-  var memorypalaceAddContentForm = "#memorypalace_add_content form";
+  var memoryPalaceEditForm = "#memorypalace_map_room_edit form";
+  var memorypalaceAddContentForm = "#memorypalace_map_add_content form";
   var addCategoryTextField = "#add_category";
 
 
@@ -88,39 +88,49 @@ sakai.memorypalace = function(tuid, showSettings) {
   
   var settings = {};
   var roomData = {};
+  var widgetData = {};
   var currentRoomPosition = 0;
   var currentRoomData = {};
   var currentContentItemData = {};
   var currentContentItemID = 0;
   var fromViewRoom = false;
   
-  var getWidgetSettings = function() {
-    var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings.json");
-    $.ajax({
-      url: url,
-      success: function(data) {
-        var parsedSettingsJSON = data;
-        settings = parsedSettingsJSON;
+  var getWidgetData = function() {
+    sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
+      if (success) {
+        settings = $.parseJSON(data.settings);
+        roomData = $.parseJSON(data.roomData);
         if (showSettings) {
-          // put the title in
           $("#portfolio_title", $(rootel)[0]).val(settings.widgetTitle);
-        }
-        else {
+        } else {
           $(memorypalaceHeader, $(rootel)[0]).show();
           $.TemplateRenderer(memorypalaceHeaderTemplate, settings, $(memorypalaceHeader, $(rootel)[0]));
           if (settings.displayStyle == "mapView") {
-            getRoomData();
+            renderMapView();
           }
         }
-      },
-      error: function() {
+      } else {
         roomData = {"rooms":[{"position":"1","categories":[]},{"position":"2","categories":[]},{"position":"3","categories":[]},{"position":"4","categories":[]},{"position":"5","categories":[]},{"position":"6","categories":[]},{"position":"7","categories":[]},{"position":"8","categories":[]},{"position":"9","categories":[]},{"position":"10","categories":[]}]};
-        saveRoomData();
+        settings.widgetTitle = "title";
+        settings.displayStyle = "mapView";
+        saveWidgetData();
         return;
       }
     });
   }
   
+  var saveWidgetData = function() {
+    widgetData.roomData = JSON.stringify(roomData);
+    widgetData.settings = JSON.stringify(settings);
+    sakai.api.Widgets.saveWidgetData(tuid, widgetData, function(success, data) {
+      if (success) {
+        if (showSettings) {
+          sakai.api.Widgets.Container.informFinish(tuid);
+        }
+      }
+    });
+  }
+
   var setupWidgetSettingsForSave = function() {
     settings = {};
     var title = $("#portfolio_title").val();
@@ -130,45 +140,27 @@ sakai.memorypalace = function(tuid, showSettings) {
     }
     settings.widgetTitle = title;
     settings.displayStyle = "mapView";
-    settings['sling:resourceType'] = 'sakai/settings';
-    
-    saveWidgetSettings();
+  };
+  
+  var serializeRoomDataForPost = function() {
+    var thisRoomData = currentRoomData;    
+    // Put the room's data back into the roomData object
+    for (var i=0; i<roomData.rooms.length; i++) {
+      if (roomData.rooms[i].position == currentRoomPosition) {
+        roomData.rooms[i] = thisRoomData;
+      }
+    }
+    return roomData;
   };
 
   var saveWidgetSettings = function() {
-    var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id).replace(/__TUID__/, tuid).replace(/__NAME__/, "settings");
-    $.ajax({
-      url: saveUrl,
-      type: "POST",
-      data: settings,
-      success: function(data) {
-        finishSaveWidgetSettings();
-      },
-      error: function() {
-        alert('Error saving settings');
-      }
-    });
+    setupWidgetSettingsForSave();
+    saveWidgetData();
   };
   
-  var finishSaveWidgetSettings = function() {
-    sdata.container.informFinish(tuid);
-  };
-  
-  var getRoomData = function() {
-    // get room data, render on success
-    var url = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id).replace(/__TUID__/, tuid).replace(/__NAME__/, "rooms.json");
-    $.ajax({
-      url: url,
-      success: function(data) {
-        tmpdata = data;
-        roomData = $.parseJSON(tmpdata.roomData);
-        renderRooms();
-      },
-      error: function() {
-        renderRooms();
-        return;
-      }
-    });
+  var saveRoomData = function() {
+    roomData = serializeRoomDataForPost();
+    saveWidgetData();
   };
 
   var mpinitTinyMCE = function(elt) {
@@ -196,7 +188,7 @@ sakai.memorypalace = function(tuid, showSettings) {
    * Map View
    */
    
-  var renderRooms = function() {
+  var renderMapView = function() {
     $(memorypalaceMap, $(rootel)[0]).show();
     $.TemplateRenderer(memorypalaceMapTemplate, roomData, $(memorypalaceMap, $(rootel)[0]));
     if (!sakai.site.isCollaborator) {
@@ -237,18 +229,6 @@ sakai.memorypalace = function(tuid, showSettings) {
     tinyMCE.execCommand('mceAddControl', false, 'room_overview');
   }
 
-  var saveRoomData = function() {
-    roomData = serializeRoomDataForPost();
-    var postData = JSON.stringify(roomData);
-    var wrappedData = {"roomData" : postData};
-    var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id).replace(/__TUID__/, tuid).replace(/__NAME__/, "rooms");
-    $.ajax({
-      url: saveUrl,
-      type: "POST",
-      data: wrappedData
-    });
-  };
-  
   var getRoom = function(position) {
     var thisRoomData;
      // Get the room's data
@@ -339,17 +319,7 @@ sakai.memorypalace = function(tuid, showSettings) {
   /** 
    * Edit the roomData object to get ready for a POST
    */
-   var serializeRoomDataForPost = function() {
-     var thisRoomData = currentRoomData;    
-     // Put the room's data back into the roomData object
-     for (var i=0; i<roomData.rooms.length; i++) {
-       if (roomData.rooms[i].position == currentRoomPosition) {
-         roomData.rooms[i] = thisRoomData;
-       }
-     }
-     return roomData;
-   };
-   
+
    var saveCurrentContentData = function() {
       var isNew = true;
       if (currentContentItemData.id) {
@@ -621,12 +591,12 @@ sakai.memorypalace = function(tuid, showSettings) {
    
    // Bind the Settings Submit button
    $(memorypalaceSettingsSubmit, $(rootel)[0]).live("click", function() {
-      setupWidgetSettingsForSave();
+      saveWidgetSettings();
       return false;
    });
    
    $(memorypalaceSettingsCancel, $(rootel)[0]).live("click", function() {
-      sdata.container.informCancel(tuid);
+      sakai.api.Widgets.Container.informCancel(tuid);
       return false;      
    });
 
@@ -638,7 +608,7 @@ sakai.memorypalace = function(tuid, showSettings) {
    $(chooseImageButton, $(rootel)[0]).live("click", function() {
       var resourceURL = chooseImage();
       var mimeType = getMimeType();
-      if ($("#memorypalace_add_content_container", $(rootel)[0]).is(":visible")) {
+      if ($("#memorypalace_map_add_content_container", $(rootel)[0]).is(":visible")) {
         addContentImage(resourceURL);
         addContentMimetype(mimeType);
       } else {
@@ -745,7 +715,7 @@ sakai.memorypalace = function(tuid, showSettings) {
   /**
    * Startup
    */
-  getWidgetSettings();
+  getWidgetData();
   mpinitTinyMCE('room_overview');
   mpinitTinyMCE('content_description');
   if (showSettings) {
@@ -758,4 +728,4 @@ sakai.memorypalace = function(tuid, showSettings) {
 };
 
 
-sdata.widgets.WidgetLoader.informOnLoad("memorypalace");
+sakai.api.Widgets.widgetLoader.informOnLoad("memorypalace");

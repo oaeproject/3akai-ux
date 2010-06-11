@@ -13,9 +13,9 @@
   <!-- Content for memory palace -->
   
   <!-- Map presentation -->
-  <div id="memorypalace_map" style="display:none"></div>
+  <div id="memorypalace_map" style="display:none" class="mapView"></div>
   
-  <div id="memorypalace_map_template"><!--
+  <div id="memorypalace_map_template" class="mapView"><!--
     {for room in rooms}
       <div id="mpLink${room.position}">
         {if room.title}
@@ -23,18 +23,18 @@
             <a href="javascript:;" class="roomLink" id="room_${room.position}">${room.title}</a>
           </span>
         {else}
-          <span><a href="javascript:;" class="roomLink addLink" id="room_${room.position}">Furnish Room</a></span>    
+          <span><a href="javascript:;" class="roomLink addLink" id="room_${room.position}">Furnish Room</a></span>
         {/if}
       </div>
     {/for}
   --></div>
   
-  <div id="memorypalace_room_edit_container" style="display:none">
+  <div id="memorypalace_map_room_edit_container" style="display:none" class="mapView">
     <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit" style="display:none">Return to Room</a>
     <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_edit">Return to Floorplan</a>    
-    <div id="memorypalace_room_edit"></div>
+    <div id="memorypalace_map_room_edit"></div>
   
-    <div id="memorypalace_room_edit_template"><!--
+    <div id="memorypalace_map_room_edit_template"><!--
       <div id="room_edit_${room.position}" class="room_edit">
         <form action="javascript:;" method="POST" id="edit_room_form">
           <div class="form_item">
@@ -80,7 +80,7 @@
             <label>Add Category</label>
             <input type="text" name="add_category" id="add_category"/><button type="button" name="do_add_category" id="do_add_category">Add</button>
           </div>
-          <div>&nbsp;</div><!-- this is here on purpose, since I'm floating tons of elts and other widgets don't float -->
+          <div>&nbsp;</div>
           <div class="form_item" id="action_buttons">
             <input type="button" name="cancel_edit_room" id="cancel_edit_room" value="Cancel"/><input type="submit" name="submit" id="save_room" value="Save"/>
           </div>
@@ -89,11 +89,11 @@
     --></div>
   </div>
 
-  <div id="memorypalace_show_room_conatiner" style="display:none">
+  <div id="memorypalace_map_show_room_conatiner" style="display:none" class="mapView">
     <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_show">Return to Floorplan</a>
     <span id="room_edit_links"><a href="javascript:;" class="edit_this_room_link">Edit Room</a><a href="javascript:;" class="add_content_link">Add Content</a></span>
-    <div id="memorypalace_show_room"></div>
-    <div id="memorypalace_show_room_template"><!--
+    <div id="memorypalace_map_show_room"></div>
+    <div id="memorypalace_map_show_room_template"><!--
       <h2>${room.title}</h2>
       {if room.image}
       <img src="${room.image}" alt="${room.title} image"/>
@@ -112,9 +112,9 @@
     --></div>    
   </div>
 
-  <div id="memorypalace_add_content_container" style="display:none">
-    <div id="memorypalace_add_content"></div>
-    <div id="memorypalace_add_content_template"><!--
+  <div id="memorypalace_map_add_content_container" style="display:none" class="mapView">
+    <div id="memorypalace_map_add_content"></div>
+    <div id="memorypalace_map_add_content_template"><!--
       <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit">Return to Room</a>
       <a href="javascript:;" class="return_to_floorplan_link" id="return_to_content_from_edit" style="display:none">Return to Content</a>      
       <h2>Add Content</h2>
@@ -157,13 +157,13 @@
       --></div>
   </div>
 
-  <div id="memorypalace_show_content_item_container" style="display:none">
+  <div id="memorypalace_map_show_content_item_container" style="display:none" class="mapView">
     <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit_content_item">Return to Room</a>    
     <span id="room_edit_links"><a href="javascript:;" class="edit_this_content_link">Edit Content</a></span>
 
-    <div id="memorypalace_show_content_item"></div>
+    <div id="memorypalace_map_show_content_item"></div>
     
-    <div id="memorypalace_show_content_item_template"><!--
+    <div id="memorypalace_map_show_content_item_template"><!--
       
       <h2>${item.title}</h2>
       {if item.synopsis}
@@ -179,7 +179,7 @@
   </div>
 
   <!-- category table template -->
-  <div id="categories_listing_body_template" style="display:none"><!-- 
+  <div id="memorypalace_map_categories_listing_body_template" style="display:none" class="mapView"><!-- 
     {for cat in categories}
       <tr><td><input type="checkbox" name="${cat.id}" id="cat_${cat.id}" value="${cat.id}"/><label for="cat_${cat.id}">${cat.name}</label</td><td>${cat.items.length}</td><td><input type="text" class="cat_position" name="${cat.id}" id="cat_position_${cat.id}" value="${cat.position}"/></td></tr>
     {/for}

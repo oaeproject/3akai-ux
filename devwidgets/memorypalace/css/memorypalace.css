@@ -40,7 +40,7 @@
 
 
 /* Edit */
-#memorypalace_edit_room { width:94%; padding:3%;}
+#memorypalace_map_edit_room { width:94%; padding:3%;}
 #memorypalace_main_container div.form_item { width:100%; float:left; position:relative; }
 #memorypalace_main_container div.form_item label, #memorypalace_main_container div.form_item input, #memorypalace_main_container div.form_item div {float:left; position:relative;}
 #memorypalace_main_container div.form_item label {width:100%; font-weight:bold; font-size:18px; margin:20px 0px 8px 0px;}

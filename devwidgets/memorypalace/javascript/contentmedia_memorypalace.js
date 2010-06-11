@@ -697,4 +697,4 @@ sakai.memorypalacecontent = function(){
     });
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("memorypalace");
+sakai.api.Widgets.widgetLoader.informOnLoad("memorypalace");
