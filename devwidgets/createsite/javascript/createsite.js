@@ -340,8 +340,18 @@ sakai.createsite = function(tuid, showSettings){
                     //add all the users as members to the site
                     doSaveMembers(sitemembers);
 
-                    //redirect the user to the site
-                    document.location = "/sites/" + siteid;
+                    // Create an activity item for the site creation
+                    var nodeUrl = "/sites/" + siteid;
+                    var activityMsg = "Created a new site: <a href=\"/sites/"+siteid+"\">" + sitetitle + "</a>";
+                    var activityData = {
+                        "sakai:activityMessage": activityMsg,
+                        "sakai:activitySiteName": sitetitle,
+                        "sakai:activitySiteId": siteid
+                    }
+                    sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData, function(activitySuccess){
+                        //redirect the user to the site once the activity node is set
+                        document.location = "/sites/" + siteid;
+                    });
                 }
             },
             // error: error,

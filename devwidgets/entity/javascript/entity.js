@@ -310,6 +310,15 @@ sakai.entity = function(tuid, showSettings){
                     // Set the button back to it's original text
                     $("button span", $entity_profile_status).text(originalText);
 
+                    // Create an activity item for the status update
+                    var nodeUrl = sakai.data.me.profile["jcr:path"];
+                    var activityMsg = "Status: " + inputValue;
+
+                    var activityData = {
+                        "sakai:activityMessage": activityMsg
+                    }
+                    sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+
                 },
                 error: function(){
 

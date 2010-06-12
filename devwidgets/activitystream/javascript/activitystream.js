@@ -35,7 +35,7 @@ sakai.activitystream = function(tuid, showSettings) {
     var activityData = {};
     var contactsData = {};
     var activityitemsCount = 10;
-    var activityitemsSortOrder = "descending";
+    var activityitemsSortOrder = "ascending";
     var displayMe = true;
 
     // HTML elements
@@ -72,6 +72,7 @@ sakai.activitystream = function(tuid, showSettings) {
                     contactsData[rawReturnedData.results[i]["profile"]["rep:userId"]] = rawReturnedData.results[i];
                 }
 
+                //If there is a callback function in the arguments, excute it
                 if (typeof callback === "function") {
                     callback(true);
                 }
@@ -182,6 +183,12 @@ sakai.activitystream = function(tuid, showSettings) {
     // Settings screen //
     /////////////////////
 
+
+    /**
+     * displaySettingsScreen
+     * Prepares and display the settings screen
+     * @returns void
+     */
     var displaySettingsScreen = function() {
         // Load widget settings from back-end
         sakai.api.Widgets.loadWidgetData(tuid, function(settingsLoadSuccess, loadedSettings){
@@ -189,6 +196,9 @@ sakai.activitystream = function(tuid, showSettings) {
             // Store loaded settings locally
             displayMe = loadedSettings.displayMe;
             activityitemsCount = loadedSettings.activityitemsCount;
+
+            // Wire functionality to OK and Cancel buttons
+            wireSettingsButtons();
 
             // Set settings screen values
             $settingsItemCountInput.val(activityitemsCount);
@@ -204,47 +214,57 @@ sakai.activitystream = function(tuid, showSettings) {
         });
     };
 
-    // Wire up OK Button on settings screen
-    $settingsOkButton.bind("click", function(e){
+    /**
+     * wireSettingsButtons
+     * Adds functionality to the settings screen's OK and Cancel button
+     * @returns void
+     */
+    var wireSettingsButtons = function() {
 
-        // Create a settings object which we will store
-        var settingsObject = {};
+        // Wire up OK Button on settings screen
+        $settingsOkButton.bind("click", function(e){
 
-        // Populate settings object from settings form values
-        settingsObject.activityitemsCount = parseInt($settingsItemCountInput.val(), 10);
-        if ($settingsDisplayMeInput.is(":checked")) {
-            settingsObject.displayMe = true;
-        } else {
-            settingsObject.displayMe = false;
-        }
+            // Create a settings object which we will store
+            var settingsObject = {};
 
-        // Store new settings locally
-        activityitemsCount = settingsObject.activityitemsCount;
-        displayMe = settingsObject.displayMe;
+            // Populate settings object from settings form values
+            settingsObject.activityitemsCount = parseInt($settingsItemCountInput.val(), 10);
+            if ($settingsDisplayMeInput.is(":checked")) {
+                settingsObject.displayMe = true;
+            } else {
+                settingsObject.displayMe = false;
+            }
 
-        // Save settings object to the back end
-        sakai.api.Widgets.saveWidgetData(tuid, settingsObject);
+            // Store new settings locally
+            activityitemsCount = settingsObject.activityitemsCount;
+            displayMe = settingsObject.displayMe;
 
-        // Init main screen with new settings
-        showSettings = false;
-        $settingsScreen.hide();
-        $mainScreen.show();
-        doInit();
+            // Save settings object to the back end
+            sakai.api.Widgets.saveWidgetData(tuid, settingsObject);
 
-    });
+            // Init main screen with new settings
+            showSettings = false;
+            $settingsScreen.hide();
+            $mainScreen.show();
+            doInit();
 
-    // Wire up Cancel button on settings screen
-    $settingsCancelButton.bind("click", function(e){
+        });
 
-        showSettings = false;
-        $settingsScreen.hide();
-        $mainScreen.show();
-        doInit();
-    });
+        // Wire up Cancel button on settings screen
+        $settingsCancelButton.bind("click", function(e){
+            showSettings = false;
+            $settingsScreen.hide();
+            $mainScreen.show();
+            doInit();
+        });
+
+    };
 
 
     /**
-     * Init function
+     * doInit
+     * Initialisation, and starting the main functions
+     * @returns void
      */
     var doInit = function(){
 
@@ -259,40 +279,44 @@ sakai.activitystream = function(tuid, showSettings) {
             $settingsScreen.hide();
             $mainScreen.show();
 
-            // Get contacts
-            getContactsData(function(contactsSuccess){
+            // 1. Load widget settings from the back-end
+            sakai.api.Widgets.loadWidgetData(tuid, function(settingsLoadSuccess, loadedSettings){
 
-                if (contactsSuccess) {
+                if (settingsLoadSuccess) {
 
-                    // Get the activity feed data
-                    getActivityData(function(activitySuccess){
-                        if (activitySuccess) {
+                    // Store loaded settings locally
+                    displayMe = loadedSettings.displayMe;
+                    activityitemsCount = loadedSettings.activityitemsCount;
 
-                            // Load widget settings from the back-end
-                            sakai.api.Widgets.loadWidgetData(tuid, function(settingsLoadSuccess, loadedSettings){
-
-                                if (settingsLoadSuccess) {
-                                    // Store loaded settings locally
-                                    displayMe = loadedSettings.displayMe;
-                                    activityitemsCount = loadedSettings.activityitemsCount;
-                                }
-
-                                // Render the feed data
-                                renderActivity();
-
-                            });
-                        } else {
-                            fluid.log("Could not fetch activity feed");
-                        }
-                    });
-                } else {
-                    fluid.log("Could not fetch contacts");
                 }
+
+                // 2. Get contacts
+                getContactsData(function(contactsSuccess){
+
+                    if (contactsSuccess) {
+
+                        // 3. Get the activity feed data
+                        getActivityData(function(activitySuccess){
+
+                            if (activitySuccess) {
+
+                                    // 4. Render the feed data
+                                    renderActivity();
+
+                            } else {
+                                fluid.log("Could not fetch activity feed");
+                            }
+                        });
+                    } else {
+                        fluid.log("Could not fetch contacts");
+                    }
+                });
             });
 
         }
     };
 
+    // Call the init function first
     doInit();
 };
 
