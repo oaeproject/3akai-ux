@@ -42,7 +42,7 @@ sakai.memorypalace = function(tuid, showSettings) {
   var memorypalaceCategoryDropdown = "#category_dropdown"
   var memorypalaceShowContentItem = "#memorypalace_map_show_content_item";
   var memorypalaceShowContentItemContainer = memorypalaceShowContentItem + "_container";
-  
+
   // Templates
   var memorypalaceMapTemplate = "memorypalace_map_template";
   var memorypalaceHeaderTemplate = "memorypalace_header_template";
@@ -98,8 +98,8 @@ sakai.memorypalace = function(tuid, showSettings) {
   var getWidgetData = function() {
     sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
       if (success) {
-        settings = $.parseJSON(data.settings);
-        roomData = $.parseJSON(data.roomData);
+        settings = data.settings; //$.parseJSON(data.settings);
+        roomData = data.roomData; //$.parseJSON(data.roomData);
         if (showSettings) {
           $("#portfolio_title", $(rootel)[0]).val(settings.widgetTitle);
         } else {
@@ -120,8 +120,8 @@ sakai.memorypalace = function(tuid, showSettings) {
   }
   
   var saveWidgetData = function() {
-    widgetData.roomData = JSON.stringify(roomData);
-    widgetData.settings = JSON.stringify(settings);
+    widgetData.roomData = roomData; //JSON.stringify(roomData);
+    widgetData.settings = settings; //JSON.stringify(settings);
     sakai.api.Widgets.saveWidgetData(tuid, widgetData, function(success, data) {
       if (success) {
         if (showSettings) {
