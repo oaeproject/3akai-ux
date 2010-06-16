@@ -113,6 +113,7 @@ sakai.site = function(){
     var $sidebar_content_pages = $("#sidebar-content-pages");
     var $main_content_div = $("#main-content-div");
     var $dashboard_options = $(".dashboard_options");
+    var $more_link = $("#more_link");
 
 
     /////////////////////////////
@@ -245,6 +246,7 @@ sakai.site = function(){
                     $site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
                     $site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
                     $site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
+                    $more_link.attr("href", $more_link.attr("href") + "?url=" +location.pathname);
                 }
 
                 // Determine whether the user is maintainer, if yes show and load admin elements
@@ -1094,8 +1096,8 @@ sakai.site = function(){
 
                         var x = $(this).position().left;
                         var y = $(this).position().top;
-                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 23 + "px");
-                        $("#widget_settings_menu").css("top", y + 18 + "px");
+                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 25 + "px");
+                        $("#widget_settings_menu").css("top", y + 20 + "px");
                         $("#widget_settings_menu").show();
                     });
 
@@ -1282,6 +1284,34 @@ sakai.site = function(){
         });
 
     /**
+     * This function will go over the content and see if there are widgets in it,
+     * if there are. The ids of the widget will be changed
+     * @param {String} content, The content of the page
+     */
+    var checkWidgetsInContent = function(content){
+
+        // Check if there is any widget
+        if ($('.widget_inline', $(content))[0]) {
+
+            // Loop over all the widgets in the content
+            var response = $('.widget_inline', $(content)).each(function(){
+
+                // Change the Id
+                var newId = '';
+                for (var i = 0, j = $(this).attr('id').split('_').length; i < j; i++) {
+                    newId += (i === 2) ? 'id' + Math.round(Math.random() * 100000000) : $(this).attr('id').split('_')[i] + '_';
+                }
+                $(this).attr('id', newId);
+            });
+
+            // Transform the object to HTML again
+             return($('<div>').append( response.clone() ).html());
+        }else{
+            return content;
+        }
+    };
+
+    /**
      * Displays a page
      * @param {Object} response
      * @param {Boolean} exists
@@ -1290,6 +1320,7 @@ sakai.site = function(){
     var displayPage = function(response, exists){
 
         if (exists) {
+            response = checkWidgetsInContent(response);
             // Page exists
 
             // Store page content

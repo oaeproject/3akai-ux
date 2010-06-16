@@ -271,7 +271,7 @@ sakai.search = function() {
             $.ajax({
                 url: url,
                 data: {
-                    "search" : urlsearchterm,
+                    "q" : urlsearchterm,
                     "page" : (currentpage - 1),
                     "items" : resultsToDisplay,
                     "usedin" : usedIn

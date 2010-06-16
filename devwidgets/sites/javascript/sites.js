@@ -111,7 +111,11 @@ sakai.sites = function(tuid,showSettings){
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-                loadSiteList($.parseJSON(data), true);
+            
+                if(typeof data === "string"){
+                    data = $.parseJSON(data);
+                }
+                loadSiteList(data, true);
             },
             error: function(xhr, textStatus, thrownError) {
                 loadSiteList("", false);
