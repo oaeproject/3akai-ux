@@ -1283,34 +1283,6 @@ sakai.site = function(){
         });
 
     /**
-     * This function will go over the content and see if there are widgets in it,
-     * if there are. The ids of the widget will be changed
-     * @param {String} content, The content of the page
-     */
-    var checkWidgetsInContent = function(content){
-
-        // Check if there is any widget
-        if ($('.widget_inline', $(content))[0]) {
-
-            // Loop over all the widgets in the content
-            var response = $('.widget_inline', $(content)).each(function(){
-
-                // Change the Id
-                var newId = '';
-                for (var i = 0, j = $(this).attr('id').split('_').length; i < j; i++) {
-                    newId += (i === 2) ? 'id' + Math.round(Math.random() * 100000000) : $(this).attr('id').split('_')[i] + '_';
-                }
-                $(this).attr('id', newId);
-            });
-
-            // Transform the object to HTML again
-             return($('<div>').append( response.clone() ).html());
-        }else{
-            return content;
-        }
-    };
-
-    /**
      * Displays a page
      * @param {Object} response
      * @param {Boolean} exists
@@ -1319,7 +1291,6 @@ sakai.site = function(){
     var displayPage = function(response, exists){
 
         if (exists) {
-            response = checkWidgetsInContent(response);
             // Page exists
 
             // Store page content
