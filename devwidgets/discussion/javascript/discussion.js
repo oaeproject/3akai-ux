@@ -74,6 +74,15 @@ sakai.discussion = function(tuid, showSettings) {
     var discussionContainer = discussion + "_container";
     var discussionMainContainer = discussion + "_main_container";
 
+    // Add new topic
+    var discussionAdd = discussion + "_add";
+    var discussionAddContainer = discussionAdd + "_container";
+    var discussionAddNewTopic = discussionAdd + "_newtopic";
+    var discussionAddTopicSubject = discussionAdd + "_subject";
+    var discussionAddTopicBody = discussionAdd + "_body";
+    var discussionAddTopicSubmit = discussionAdd + "_submit";
+    var discussionAddTopicCancel = discussionAdd + "_cancel";
+
     // Content
     var discussionContent = discussion + "_content";
     var discussionContentActions = discussionContent + "_actions";
@@ -478,6 +487,8 @@ sakai.discussion = function(tuid, showSettings) {
         // Hide the reply form
         $(discussionReplyContainer, rootel).hide();
 
+        $(discussionAddContainer, rootel).hide();
+
         for (var i = 0, j = arrPosts.length; i<j; i++) {
             arrPosts[i] = doMarkUpOnPost(arrPosts[i]);
         }
@@ -640,6 +651,14 @@ sakai.discussion = function(tuid, showSettings) {
         $(discussionReplyBody, rootel).val('');
     };
 
+    /**
+     * Clear the input fields for the add topic form
+     */
+    var clearAddTopicFields = function() {
+        $(discussionAddTopicSubject, rootel).val('');
+        $(discussionAddTopicBody, rootel).val('');
+    };
+
 
     /**
      * Reply to a post.
@@ -705,6 +724,16 @@ sakai.discussion = function(tuid, showSettings) {
         $(discussionReplySubject, rootel).val("Re: " + $(discussionContentSubject + "_" + id, rootel).text());
     };
 
+    var showAddTopic = function(id) {
+        $(discussionAddContainer, rootel).show();
+
+        // Jump to reply form
+        scrollTo($(discussionAddContainer, rootel));
+
+        // Focus on the subject field
+        $(discussionAddTopicSubject, rootel).focus();
+    };
+
 
     ////////////
     // DELETE //
@@ -731,6 +760,73 @@ sakai.discussion = function(tuid, showSettings) {
             },
             data: data
         });
+    };
+
+    ///////////////////
+    // ADD NEW TOPIC //
+    ///////////////////
+
+    /**
+     * Adds a new topic to the discussion with the provided id.
+     * @param {String} id The id of the post.
+     * @param {String} topic The subject of the new topic
+     * @param {String} body The body of the new topic
+     */
+    var addNewTopic = function(id, subject, body) {
+        var url = store + id;
+        var topic = createPostObject();
+        topic["sakai:id"] = id;
+        topic["sakai:subject"] = subject;
+        topic["sakai:body"] = body;
+
+        $.post(url, topic, function(data) {
+           getPostsFromJCR();
+        });
+    };
+
+    /**
+     * Reply to a post.
+     * @param {String} id
+     */
+    var addNewTopic = function(id) {
+        var subject = $(discussionAddTopicSubject, rootel).val();
+        var body = $(discussionAddTopicBody, rootel).val();
+        if (subject.replace(/ /g, "") !== "" && body.replace(/ /g, "") !== "") {
+
+            var data = {
+                'sakai:subject': subject,
+                'sakai:body': body,
+                'sakai:marker': marker,
+                'sakai:type': 'discussion',
+                'sakai:replyon': id,
+                'sakai:messagebox': 'outbox',
+                'sakai:sendstate': 'pending',
+                'sakai:to': "discussion:s-" + currentSite
+            };
+            var url = sakai.site.currentsite["jcr:path"] + "/store.create.html";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function(data) {
+                    // Get all the other posts
+                    clearAddTopicFields();
+                    getPostsFromJCR();
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    if (xhr.status === 401) {
+                        clearReplyFields();
+                        alert("You are not allowed to add a reply.");
+                    }
+                    else {
+                        alert("Failed to add a reply.");
+                    }
+                },
+                data: data
+            });
+        }
+        else {
+            alert("Please enter all the fields.");
+        }
     };
 
 
@@ -1029,6 +1125,27 @@ sakai.discussion = function(tuid, showSettings) {
      */
     $(discussionReplySubmit, rootel).bind("click", function(e, ui){
         replyPost(currentReplyId);
+    });
+
+    // Bind the add topic button
+    $(discussionAddNewTopic, rootel).bind("click", function(e, ui) {
+        showAddTopic();
+    });
+
+    // Bind the add topic submit
+    $(discussionAddTopicCancel, rootel).bind("click", function(e, ui) {
+        clearAddTopicFields();
+        $(discussionAddContainer, rootel).hide();
+    });
+
+    // Bind the add topic cancel
+    $(discussionReplyCancel, rootel).bind("click", function(e, ui){
+
+        // Clear everything in the reply fields
+        clearReplyFields();
+
+        // Hide the input form
+        $(discussionReplyContainer, rootel).hide();
     });
 
     /*
