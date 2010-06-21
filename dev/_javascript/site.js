@@ -113,6 +113,7 @@ sakai.site = function(){
     var $sidebar_content_pages = $("#sidebar-content-pages");
     var $main_content_div = $("#main-content-div");
     var $dashboard_options = $(".dashboard_options");
+    var $more_link = $("#more_link");
 
 
     /////////////////////////////
@@ -245,6 +246,7 @@ sakai.site = function(){
                     $site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
                     $site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
                     $site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
+                    $more_link.attr("href", $more_link.attr("href") + "?url=" +location.pathname);
                 }
 
                 // Determine whether the user is maintainer, if yes show and load admin elements
@@ -1094,8 +1096,8 @@ sakai.site = function(){
 
                         var x = $(this).position().left;
                         var y = $(this).position().top;
-                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 23 + "px");
-                        $("#widget_settings_menu").css("top", y + 18 + "px");
+                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 25 + "px");
+                        $("#widget_settings_menu").css("top", y + 20 + "px");
                         $("#widget_settings_menu").show();
                     });
 

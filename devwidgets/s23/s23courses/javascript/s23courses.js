@@ -60,9 +60,18 @@ sakai.s23courses = function(tuid, showSettings){
     var parseTemplates = function(){
 
         // Make an array that contains only the elements that will appear on one page
-        var pagingArray = {
-            all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
-        };
+        var pagingArray;
+
+        if (parseglobal.all) {
+            pagingArray = {
+                all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
+            };
+        }
+        else {
+            pagingArray = {
+                all: false
+            };
+        }
 
         // Render the template and pass through the parseglobal object
         $.TemplateRenderer(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);

@@ -516,6 +516,7 @@ sakai.contentmedia = function(){
             data: {
                 "context" : options.context,
                 "search" : options.search,
+                "q" : options.search,
                 //"type" : type,
                 "page" : pageCurrent,
                 "items" : pageSize,

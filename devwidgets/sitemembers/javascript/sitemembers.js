@@ -275,7 +275,7 @@ sakai.sitemembers = function(tuid, showSettings){
 
     var getTotalAmountOfMembers = function(){
         $.ajax({
-            url: "/var/search/sites.json?q=" + siteid,
+            url: sakai.config.URL.SEARCH_SITES + "?q=" + siteid,
             success: function(data){
                 var json = data;
                 if (json.results.length === 1) {
@@ -460,7 +460,7 @@ sakai.sitemembers = function(tuid, showSettings){
         $.ajax({
             url: url,
             success: function(data){
-                var json = $.parseJSON(data).results;
+                var json = data.results;
 
                 // If we get an emty list, then we assume we have received all the members.
                 if (json.length === 0) {

@@ -1,0 +1,60 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/uploadcontent/css/uploadcontent.css"/>
+
+<!-- ERROR MESSAGES -->
+<div style="display:none">
+    <div id="uploadcontent_error_badurlformat">__MSG__THE_SUPPLIED_URL_IS_INVALID__.</div>
+    <div id="uploadcontent_error_filenotuploaded">__MSG__THE_FILE_COULD_NOT_BE_UPLOADED__.</div>
+    <div id="uploadcontent_error_linkcouldnotbesaved">__MSG__THE_SUPPLIED_LINK_COULD_NOT_BE_SAVED__.</div>
+</div>
+
+<!-- OTHER MESSAGES -->
+<div style="display:none">
+    <div id="uploadcontent_message_submitting">__MSG__SUBMITTING__...</div>
+</div>
+
+<!-- DIALOG -->
+<div class="dialog" id="uploadcontent_dialog">
+    <!-- HEADER -->
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__ADD_RESOURCE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="dialog_content">
+
+        <!-- TODO: RE-ADD THIS HEADER SO IT FITS WITH EDDS DESIGN -->
+        <h4 style="display:hidden;">__MSG__ADD_RESOURCE__</h4>
+
+        <div id="uploadcontent_main_container" style="display:none"><!-- --></div>
+        <div id="uploadcontent_error_container" style="display:none;"><!-- --></div>
+
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div id="uploadcontent_main_container_template"><!--
+        <form id="uploadcontent_form_link" method="post" action="javascript:;">
+            <label for="uploadcontent_form_link_input">__MSG__PLEASE_TYPE_IN_A_URL__:</label><br />
+            <input id="uploadcontent_form_link_input" type="text"/><br />
+            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent"><span class="s3d-button-inner">__MSG__ADD_LINK__</span></button>
+        </form>
+        <form id="uploadcontent_form_content" method="post" action="javascript:;" enctype="multipart/form-data">
+            <label for="uploadcontent_fileupload">__MSG__OR_SELECT_FILES_TO_UPLOAD__:</label><br />
+            <input type="file" name="*" multiple="true" id="uploadcontent_fileupload" />
+            <input type="hidden" name="*@TypeHint" value="nt:file" /><br />
+            <button type="submit" class="s3d-button s3d-button-primary" id="uploadcontent_action_addcontent"><span class="s3d-button-inner">__MSG__ADD_RESOURCE__</span></button>
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_ADD_RESOURCE__</span></button>
+        </form>
+    --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/uploadcontent/javascript/uploadcontent.js"></script>

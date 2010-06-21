@@ -741,6 +741,18 @@ sakai.profile = function(){
                 $('#profile_saving').hide();
            },
             success: function() {
+
+                if (ui.id === "txt_status") {
+                    // Create an activity item for the status update
+                    var nodeUrl = fileUrl;
+                    var activityMsg = "Status: "+toset;
+
+                    var activityData = {
+                        "sakai:activityMessage": activityMsg
+                    }
+                    sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+                }
+
                 $('#profile_spinner').fadeOut();
                 $('#profile_saving').hide();
                 $('#profile_saved').css({ top: position.top, left: position.left + $(ui).width() + 50, "color": "green" }).show().fadeTo(1000, 1).fadeOut();
