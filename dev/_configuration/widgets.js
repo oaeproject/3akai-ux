@@ -328,6 +328,16 @@ var Widgets = {
             "name":"navigationchat",
             "url":"/devwidgets/navigationchat/navigationchat.html"
         },
+        "pickeruser": {
+            "description":"General people picker widget",
+            "hasSettings": false,
+            "id": "pickeruser",
+            "i18n": {
+                "default": "/devwidgets/pickeruser/bundles/default.json"
+            },
+            "name": "People Picker",
+            "url": "/devwidgets/pickeruser/pickeruser.html"
+        },
         "poll": {
             "ca":true,
             "description":"Poll widget",
