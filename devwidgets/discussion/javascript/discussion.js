@@ -798,7 +798,8 @@ sakai.discussion = function(tuid, showSettings) {
                 'sakai:body': body,
                 'sakai:marker': marker,
                 'sakai:type': 'discussion',
-                'sakai:replyon': id,
+                'sakai:writeto': store,
+                'sakai:marker': tuid;
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
                 'sakai:to': "discussion:s-" + currentSite
