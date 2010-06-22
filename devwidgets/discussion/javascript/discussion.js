@@ -487,6 +487,7 @@ sakai.discussion = function(tuid, showSettings) {
         // Hide the reply form
         $(discussionReplyContainer, rootel).hide();
 
+        // Hide the add new topic form
         $(discussionAddContainer, rootel).hide();
 
         for (var i = 0, j = arrPosts.length; i<j; i++) {
@@ -767,25 +768,7 @@ sakai.discussion = function(tuid, showSettings) {
     ///////////////////
 
     /**
-     * Adds a new topic to the discussion with the provided id.
-     * @param {String} id The id of the post.
-     * @param {String} topic The subject of the new topic
-     * @param {String} body The body of the new topic
-     */
-    var addNewTopic = function(id, subject, body) {
-        var url = store + id;
-        var topic = createPostObject();
-        topic["sakai:id"] = id;
-        topic["sakai:subject"] = subject;
-        topic["sakai:body"] = body;
-
-        $.post(url, topic, function(data) {
-           getPostsFromJCR();
-        });
-    };
-
-    /**
-     * Reply to a post.
+     * Add a new topic.
      * @param {String} id
      */
     var addNewTopic = function(id) {
@@ -799,7 +782,8 @@ sakai.discussion = function(tuid, showSettings) {
                 'sakai:marker': marker,
                 'sakai:type': 'discussion',
                 'sakai:writeto': store,
-                'sakai:marker': tuid;
+                'sakai:marker': tuid,
+                'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
                 'sakai:to': "discussion:s-" + currentSite
@@ -815,11 +799,11 @@ sakai.discussion = function(tuid, showSettings) {
                 },
                 error: function(xhr, textStatus, thrownError) {
                     if (xhr.status === 401) {
-                        clearReplyFields();
-                        alert("You are not allowed to add a reply.");
+                        clearAddTopicFields();
+                        alert("You are not allowed to add a new topic.");
                     }
                     else {
-                        alert("Failed to add a reply.");
+                        alert("Failed to add a new topic.");
                     }
                 },
                 data: data
@@ -1134,15 +1118,14 @@ sakai.discussion = function(tuid, showSettings) {
     });
 
     // Bind the add topic submit
-    $(discussionAddTopicCancel, rootel).bind("click", function(e, ui) {
-        clearAddTopicFields();
-        $(discussionAddContainer, rootel).hide();
+    $(discussionAddTopicSubmit, rootel).bind("click", function(e, ui) {
+        addNewTopic($(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1]);
     });
 
     // Bind the add topic cancel
-    $(discussionReplyCancel, rootel).bind("click", function(e, ui){
+    $(discussionAddTopicCancel, rootel).bind("click", function(e, ui){
 
-        // Clear everything in the reply fields
+        // Clear everything in the add topic fields
         clearReplyFields();
 
         // Hide the input form

@@ -208,7 +208,9 @@
     {if posts.length == 0}
         No posts yet.
     {else}
-        ${displayPost(posts[0], true, curr)}
+        {for post in posts}
+            ${displayPost(post, true, curr)}
+        {/for}
      {/if}
 --></div>
 
