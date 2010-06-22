@@ -822,24 +822,28 @@ sakai.inbox = function() {
             $(inboxSpecificMessageComposeSubject).val("Re: " + message.subject);
 
             if (message["sakai:category"] === "invitation"){
-                // Check whether this request is still pending
-                $.ajax({
-                    url: "/var/contacts/invited?page=0&items=100",
-                    success: function(data) {
-                        var pending = false;
-                        for (var i = 0; i < data.results.length; i++){
-                            if (data.results[i].target === message["sakai:from"]){
-                                // Still a pending invitation
-                                pending = true;
+            	if (message["sakai:subcategory"] === "joinrequest") {
+            		
+            	} else {
+                    // Check whether this request is still pending
+                    $.ajax({
+                        url: "/var/contacts/invited?page=0&items=100",
+                        success: function(data) {
+                            var pending = false;
+                            for (var i = 0; i < data.results.length; i++){
+                                if (data.results[i].target === message["sakai:from"]){
+                                    // Still a pending invitation
+                                    pending = true;
+                                }
+                            }
+                            if (pending){
+                                $("#inbox-invitation-accept").show();
+                            } else {
+                                $("#inbox-invitation-already").show();
                             }
                         }
-                        if (pending){
-                            $("#inbox-invitation-accept").show();
-                        } else {
-                            $("#inbox-invitation-already").show();
-                        }
-                    }
-                });
+                    });
+            	}
             }
 
             // This message has some replies attached to it.
