@@ -283,7 +283,7 @@ sakai.discussion = function(tuid, showSettings) {
         };
 
         $.ajax({
-            url: store + id,
+            url: store + shardedId(id),
             cache: false,
             success: function(data){
                 if (showSettings) {
@@ -300,6 +300,10 @@ sakai.discussion = function(tuid, showSettings) {
             type: 'POST'
         });
     };
+
+    var shardedId = function(id) {
+        return id.substring(0,2) + '/' + id.substring(2,4) + '/' + id.substring(4,6) + '/' + id.substring(6,8) + '/' + id;
+    }
 
     /**
      * Show the edit form
@@ -450,11 +454,11 @@ sakai.discussion = function(tuid, showSettings) {
         // TODO: Fix this weird assignment bug.
         var editedByProfiles = post['sakai:editedbyprofiles'];
         if (editedByProfiles) {
-            var lastEditter = editedByProfiles[editedByProfiles.length - 1].editter;
+            var lastEditter = editedByProfiles[editedByProfiles.length - 1];
 
             // Get the profile info from the user that edited the post
-            post.editedByUserid = lastEditter["rep:userId"][0];
-            post.editedByName = parseName(lastEditter["rep:userId"][0], lastEditter.firstName, lastEditter.lastName);
+            post.editedByUserid = lastEditter.userid;
+            post.editedByName = parseName(lastEditter.userid, lastEditter.firstName, lastEditter.lastName);
             //post.editedByDate = formatDate(parseDate(lastEditter.date));
         }
         o.post = post;
@@ -746,7 +750,7 @@ sakai.discussion = function(tuid, showSettings) {
      * @param {boolean} deleteValue true = delete, false = undelete
      */
     var deletePost = function(id, deleteValue) {
-        var url = store + id;
+        var url = store + shardedId(id);
         var data = {
             "sakai:deleted": deleteValue
         };
@@ -799,11 +803,11 @@ sakai.discussion = function(tuid, showSettings) {
                 },
                 error: function(xhr, textStatus, thrownError) {
                     if (xhr.status === 401) {
-                        clearAddTopicFields();
-                        alert("You are not allowed to add a new topic.");
+                        clearReplyFields();
+                        alert("You are not allowed to add a reply.");
                     }
                     else {
-                        alert("Failed to add a new topic.");
+                        alert("Failed to add a reply.");
                     }
                 },
                 data: data
