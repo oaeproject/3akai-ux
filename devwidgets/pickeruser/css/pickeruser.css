@@ -1,44 +1,92 @@
 
 .pickeruser_container
-{ width: 500px; height: 260px; border: 1px solid #999; }
+{ width: 600px; height: 420px; padding: 5px; border: 1px solid #999; }
+
+.pickeruser_container .pickeruser_container_header
+{ padding: 10px 5px 15px 5px; }
+
+.pickeruser_container .pickeruser_container_search
+{ width: 595px; height: 300px; border: 1px solid #999; }
 
 /* HEADER */
 .pickeruser_container .pickeruser_header
 { height: 30px; line-height: 30px; border-bottom: 1px solid #999; padding: 0 10px 0 10px; }
 
-.pickeruser_container .pickeruser_header .pickeruser_count
+.pickeruser_container .pickeruser_header_search
+{ float: left; }
+
+/* FOOTER */
+.pickeruser_container .pickeruser_container_footer
+{ float: right; width: 445px; }
+
+.pickeruser_container_footer_select
+{ padding-bottom: 40px; }
+
+/*.pickeruser_container .pickeruser_header .pickeruser_count
 { color: #333; font-size: 14px; font-weight: bold; }
 
 .pickeruser_container .pickeruser_header .pickeruser_count_person,
 .pickeruser_container .pickeruser_header .pickeruser_count_people,
 .pickeruser_container .pickeruser_header .pickeruser_count_of,
 .pickeruser_container .pickeruser_header .pickeruser_count_thousands
-{ color: #333;  font-size: 14px;}
+{ color: #333;  font-size: 14px;}*/
 
-.pickeruser_container .pickeruser_header .pickeruser_sort_on
-{ margin: 6px 0 0 0; }
+/*.pickeruser_container .pickeruser_header .pickeruser_sort_on
+{ margin: 6px 0 0 0; }*/
 
 
 /* CONTENT */
-.pickeruser_container .pickeruser_content
-{ height: 229px; overflow: auto; }
 
-.pickeruser_container .pickeruser_content .pickeruser_page
+.pickeruser_container .pickeruser_content
+{ height: 280px; width: 600px; overflow: auto; }
+
+/* LIST */
+
+.pickeruser_container .pickeruser_content_list
+{ float: left; height: 269px; width: 149px; overflow: auto; border-right: 1px solid #999; }
+
+.pickeruser_container .pickeruser_content_list .pickeruser_list
+{ margin: 0; cursor: pointer; }
+
+.pickeruser_container .pickeruser_content_list .pickeruser_list ul
+{ margin: 0; }
+
+.pickeruser_container .pickeruser_content_list .pickeruser_list li
+{ display: block; list-style: none; clear: both; padding: 1px; overflow: hidden; }
+
+.pickeruser_container .pickeruser_content_list .pickeruser_list li:hover
+{ background-color: #DBF3FF; }
+
+.pickeruser_container .pickeruser_content_list .pickeruser_list .pickeruser_selected_list
+{ background: #99CCFF; }
+
+.pickeruser_container .pickeruser_content_list .pickeruser_list .pickeruser_subnameinfo
+{ color: #999; font-size: 11px; position: relative; top: 5px; left: 5px; }
+
+/* SEARCH */
+
+.pickeruser_container .pickeruser_content_search
+{ height: 269px; width: 445px; overflow: auto; }
+
+.pickeruser_container .pickeruser_content_search .pickeruser_page
 { margin: 0; padding: 0; }
 
-.pickeruser_container .pickeruser_content .pickeruser_page li
-{ display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #DBF3FF; overflow: hidden; }
+.pickeruser_container .pickeruser_content_search .pickeruser_page li
+{ display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #DBF3FF; overflow: hidden; cursor: pointer; }
 
-.pickeruser_container .pickeruser_content .pickeruser_page .pickeruser_selected
-{ background: #DBF3FF; border-bottom: 1px solid #006E96; }
+.pickeruser_container .pickeruser_content_search .pickeruser_page li:hover
+{ background-color: #DBF3FF; }
 
-.pickeruser_container .pickeruser_content .pickeruser_page .pickeruser_ppicture
+.pickeruser_container .pickeruser_content_search .pickeruser_page .pickeruser_selected_user
+{ background: #99CCFF; border-bottom: 1px solid #006E96; }
+
+.pickeruser_container .pickeruser_content_search .pickeruser_page .pickeruser_ppicture
 { height: 48px; width: 48px; float: left; display: block; }
 
-.pickeruser_container .pickeruser_content .pickeruser_page .pickeruser_name
+.pickeruser_container .pickeruser_content_search .pickeruser_page .pickeruser_name
 { color: #006E96; font-size: 14px; font-weight: bold; position: relative; top: 5px; left: 5px; }
 
-.pickeruser_container .pickeruser_content .pickeruser_page .pickeruser_subnameinfo
+.pickeruser_container .pickeruser_content_search .pickeruser_page .pickeruser_subnameinfo
 { color: #999; font-size: 11px; position: relative; top: 5px; left: 5px; }
 
 .loadinganim
