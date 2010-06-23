@@ -18,9 +18,8 @@
     <div id="collections_albums" style="display:none" class="albumView"></div>
     
     <div id="collections_albums_template" style="display:none" class="albumView"><!--
-      <p>test</p>
       {for album in collections}
-        <div id="album_{album.position}">
+        <div id="album_${album.position}" class="albumCover">
         </div>
       {/for}
     --></div>

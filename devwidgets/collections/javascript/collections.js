@@ -30,16 +30,16 @@ sakai.collections = function(tuid, showSettings) {
   var collectionsMainContainer = collections + "_main_container";
   var collectionsContainer = collections + "_container";  
   var collectionsSettings = collections + "_settings";
-  var collectionsHeader = collections + "_header"
+  var collectionsHeader = collections + "_header";
   var collectionsMap = collections + "_map";  
   var collectionsEditRoom = collections + "_map_room_edit";
   var collectionsEditRoomContainer = collectionsEditRoom + "_container";
-  var categoriesListingBody = "#categories_listing_body"
+  var categoriesListingBody = "#categories_listing_body";
   var collectionsShowRoom = "#collections_map_show_room";
   var collectionsShowRoomContainer = collectionsShowRoom + "_conatiner";
   var collectionsAddContent = collections + "_map_add_content";
   var collectionsAddContentContainer = collectionsAddContent + "_container";
-  var collectionsCategoryDropdown = "#category_dropdown"
+  var collectionsCategoryDropdown = "#category_dropdown";
   var collectionsShowContentItem = "#collections_map_show_content_item";
   var collectionsShowContentItemContainer = collectionsShowContentItem + "_container";
 
@@ -63,7 +63,7 @@ sakai.collections = function(tuid, showSettings) {
   
   // Links
   var returnToFloorplanLink = ".return_to_floorplan_link";
-  var collectionsRoomCategoryItem = ".room_categories span a"
+  var collectionsRoomCategoryItem = ".room_categories span a";
   var collectionsEditRoomLink = ".edit_this_room_link";
   var collectionsAddContentLink = ".add_content_link";
   var collectionsReturnToFloorplanFromEdit = "#return_to_floorplan_from_edit";
@@ -115,13 +115,13 @@ sakai.collections = function(tuid, showSettings) {
           }
         }
       } else {
-        collectionData = {"collections":[{"position":"1","categories":[]},{"position":"2","categories":[]},{"position":"3","categories":[]},{"position":"4","categories":[]},{"position":"5","categories":[]},{"position":"6","categories":[]},{"position":"7","categories":[]},{"position":"8","categories":[]},{"position":"9","categories":[]},{"position":"10","categories":[]}]};
+        collectionData = {"collections":[]};
         settings.widgetTitle = "title";
-        settings.displayStyle = "albumView"; //"mapView";
+        settings.displayStyle =  "mapView";//"albumView";
         return;
       }
     });
-  }
+  };
   
   var saveWidgetData = function() {
     widgetData.collectionData = collectionData;
@@ -133,7 +133,7 @@ sakai.collections = function(tuid, showSettings) {
         }
       }
     });
-  }
+  };
 
   var setupWidgetSettingsForSave = function() {
     settings = {};
@@ -143,18 +143,27 @@ sakai.collections = function(tuid, showSettings) {
       return false;
     }
     settings.widgetTitle = title;
-    settings.displayStyle = "albumView"; //"mapView";
+    settings.displayStyle ="mapView";//"albumView"; 
     saveWidgetData();
+    return false;
   };
   
   var serializeCollectionDataForPost = function() {
     var thisCollectionData = currentCollectionData;    
+    var collectionExists = false;
     // Put the room's data back into the collectionData object
     for (var i=0; i<collectionData.collections.length; i++) {
       if (collectionData.collections[i].position == currentRoomPosition) {
+        collectionExists = true;
         collectionData.collections[i] = thisCollectionData;
       }
     }
+    
+    // if we're not editing, just push it onto the data stack
+    if (!collectionExists) {
+      collectionData.collections.push(thisCollectionData);
+    }
+    
     return collectionData;
   };
 
@@ -186,7 +195,7 @@ sakai.collections = function(tuid, showSettings) {
           // Example content CSS (should be your site CSS)
           content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS
       });
-  }
+  };
 
 
   /**
@@ -194,33 +203,75 @@ sakai.collections = function(tuid, showSettings) {
    */
    
   var renderAlbumView = function() {
-    $(collectionsAlbums, $(rootel[0])).show();
+    $(collectionsAlbums, $(rootel)[0]).show();
     $.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $(rootel)[0]));
-  } 
+  };
 
   /**
    * Map View
    */
    
+  var prepCollectionDataForMapView = function() {
+    var ret = {"collections":[]};
+
+    // sort by position
+    collectionData.collections.sort(function(a, b) {
+        var positionA = a.position;
+        var positionB = b.position;
+        if (positionA && positionB) {
+          return positionA - positionB;
+        } else if (positionA) {
+          return -1;
+        } else if (positionB) {
+          return 1;
+        } else {
+          return 0;
+        }
+    });
+    for (var i=1; i<11; i++) {
+      var tmpToPush = {};
+      for (collection in collectionData.collections) {
+        if (collectionData.collections[collection].position == i) {
+          tmpToPush = collectionData.collections[collection];
+          continue;
+        }
+      }
+      
+      if (!tmpToPush.position)
+        tmpToPush.position = i;
+      
+      ret.collections.push(tmpToPush);
+    }
+    
+    return ret;
+  };
+   
   var renderMapView = function() {
     $(collectionsMap, $(rootel)[0]).show();
-    $.TemplateRenderer(collectionsMapTemplate, collectionData, $(collectionsMap, $(rootel)[0]));
+    var mapViewData = prepCollectionDataForMapView();
+    $.TemplateRenderer(collectionsMapTemplate, mapViewData, $(collectionsMap, $(rootel)[0]));
     if (!sakai.site.isCollaborator) {
       $("span a.addLink", $(rootel)[0]).hide();
     }
-  }
+  };
   
   var editRoom = function(roomPosition, fromShowRoom) {
     currentRoomPosition = roomPosition;
+    var roomExists = false;
     for (var i=0; i<collectionData.collections.length; i++) {
       if (collectionData.collections[i].position == currentRoomPosition) {
         currentCollectionData = collectionData.collections[i];
+        roomExists = true;
       }
+    }
+    
+    if (!roomExists) {
+      currentCollectionData = {"position":roomPosition,"categories":[]};
     }
     
     hideEverything(); 
     $(collectionsEditRoomContainer, $(rootel)[0]).show();
-    $(collectionsEditRoomContainer, $(rootel)[0]).parent().show()
+    $(collectionsEditRoomContainer, $(rootel)[0]).parent().show();
 
     if (fromShowRoom) {
       fromViewRoom = true;
@@ -241,7 +292,7 @@ sakai.collections = function(tuid, showSettings) {
       sortCategoriesDisplay();
     }
     tinyMCE.execCommand('mceAddControl', false, 'room_overview');
-  }
+  };
 
   var getRoom = function(position) {
     var thiscollectionData;
@@ -252,7 +303,7 @@ sakai.collections = function(tuid, showSettings) {
        }
      }
      return thiscollectionData;
-  }
+  };
   
   var showRoom = function(position) {
     currentRoomPosition = position;
@@ -277,7 +328,7 @@ sakai.collections = function(tuid, showSettings) {
     $(collectionsSettings, $(rootel)[0]).hide();
     $(collectionsAddContentContainer, $(rootel)[0]).hide();
     $(collectionsShowContentItemContainer, $(rootel)[0]).hide();
-  }
+  };
   
   var returnToFloorplan = function() {
     currentRoomPosition = 0;
@@ -486,7 +537,7 @@ sakai.collections = function(tuid, showSettings) {
         var positionA = $(a).find("input[type='text']").val();
         var positionB = $(b).find("input[type='text']").val();
         return positionA - positionB;
-      })
+      });
       $("#categories_listing_body", $(rootel)[0]).html('');
       $(rows).each(function(index, elt) {
         $("#categories_listing_body", $(rootel)[0]).append(elt);
@@ -496,28 +547,31 @@ sakai.collections = function(tuid, showSettings) {
     var addCategory = function(catToAdd) {
         var newCategory;
         var canAdd = true;
-        for (var j = 0; j < currentCollectionData.categories.length; j++) {
-            if (currentCollectionData.categories[j].name == catToAdd) {
-                canAdd = false;
-            }
+        if (currentCollectionData.categories) {
+          for (var j = 0; j < currentCollectionData.categories.length; j++) {
+              if (currentCollectionData.categories[j].name == catToAdd) {
+                  canAdd = false;
+              }
+          }
         }
+        
         if (canAdd) {
             var d = new Date();
             var catID = catToAdd.replace(" ", "-") + d.getTime() + "" + Math.floor(Math.random() * 101);
             newCategory = {
                 "name": catToAdd,
                 "id": catID,
-                "position": currentCollectionData.categories.length + 1,
+                "position": currentCollectionData.categories ? currentCollectionData.categories.length + 1 : 1,
                 "items": []
             };
-            var currentNumCategories = currentCollectionData.categories.length
-            currentCollectionData.categories.push(newCategory);
+            var currentNumCategories = currentCollectionData.categories ? currentCollectionData.categories.length : 0;
             if (currentNumCategories == 0) {
+              currentCollectionData.categories = [];
               $(categoriesListingBody, $(rootel)[0]).html($.TemplateRenderer(categoriesListingBodyTemplate, {"categories": [newCategory]}));
             } else {
               $(categoriesListingBody, $(rootel)[0]).append($.TemplateRenderer(categoriesListingBodyTemplate, {"categories": [newCategory]}));
             }
-            
+            currentCollectionData.categories.push(newCategory);
             $(addCategoryTextField, $(rootel)[0]).val('');
         } else {
             // name conflict, cannot add
@@ -570,7 +624,7 @@ sakai.collections = function(tuid, showSettings) {
    $(collectionsAddContentForm, $(rootel)[0]).live("submit", function() {
      if (sakai.site.isCollaborator) {
        saveCurrentContentData();
-       savecollectionData();
+       saveCollectionData();
        showContentItem(currentContentItemID);
      }
      return false;
@@ -581,20 +635,21 @@ sakai.collections = function(tuid, showSettings) {
        if ($.trim($("#room_title", $(rootel)[0]).val()) == "") {
          // need a title, son!
          alert("Please enter a title for this room before saving.");
-         return;
+         return false;
        }
        if (currentCollectionData.categories.length == 0) {
          // need categories too, kid!
          alert("Please add a category to this room before saving");
-         return;
+         return false;
        }
        currentCollectionData.title = $("#room_title", $(rootel)[0]).val();
        currentCollectionData.image = $("#room_image", $(rootel)[0]).val();
        currentCollectionData.description = tinyMCE.get("room_overview").getContent();
        saveCollectionData();
+       var mapData = prepCollectionDataForMapView();
        hideEverything();
        $(collectionsMap, $(rootel)[0]).show();
-       $.TemplateRenderer(collectionsMapTemplate, collectionData, $(collectionsMap, $(rootel)[0]));
+       $.TemplateRenderer(collectionsMapTemplate, mapData, $(collectionsMap, $(rootel)[0]));
      }
      return false;
    });
