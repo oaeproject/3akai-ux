@@ -283,7 +283,7 @@ sakai.discussion = function(tuid, showSettings) {
         };
 
         $.ajax({
-            url: store + id,
+            url: store + shardedId(id),
             cache: false,
             success: function(data){
                 if (showSettings) {
@@ -300,6 +300,10 @@ sakai.discussion = function(tuid, showSettings) {
             type: 'POST'
         });
     };
+
+    var shardedId = function(id) {
+        return id.substring(0,2) + '/' + id.substring(2,4) + '/' + id.substring(4,6) + '/' + id.substring(6,8) + '/' + id;
+    }
 
     /**
      * Show the edit form
@@ -450,11 +454,11 @@ sakai.discussion = function(tuid, showSettings) {
         // TODO: Fix this weird assignment bug.
         var editedByProfiles = post['sakai:editedbyprofiles'];
         if (editedByProfiles) {
-            var lastEditter = editedByProfiles[editedByProfiles.length - 1].editter;
+            var lastEditter = editedByProfiles[editedByProfiles.length - 1];
 
             // Get the profile info from the user that edited the post
-            post.editedByUserid = lastEditter["rep:userId"][0];
-            post.editedByName = parseName(lastEditter["rep:userId"][0], lastEditter.firstName, lastEditter.lastName);
+            post.editedByUserid = lastEditter.userid;
+            post.editedByName = parseName(lastEditter.userid, lastEditter.firstName, lastEditter.lastName);
             //post.editedByDate = formatDate(parseDate(lastEditter.date));
         }
         o.post = post;
@@ -487,6 +491,7 @@ sakai.discussion = function(tuid, showSettings) {
         // Hide the reply form
         $(discussionReplyContainer, rootel).hide();
 
+        // Hide the add new topic form
         $(discussionAddContainer, rootel).hide();
 
         for (var i = 0, j = arrPosts.length; i<j; i++) {
@@ -745,7 +750,7 @@ sakai.discussion = function(tuid, showSettings) {
      * @param {boolean} deleteValue true = delete, false = undelete
      */
     var deletePost = function(id, deleteValue) {
-        var url = store + id;
+        var url = store + shardedId(id);
         var data = {
             "sakai:deleted": deleteValue
         };
@@ -767,25 +772,7 @@ sakai.discussion = function(tuid, showSettings) {
     ///////////////////
 
     /**
-     * Adds a new topic to the discussion with the provided id.
-     * @param {String} id The id of the post.
-     * @param {String} topic The subject of the new topic
-     * @param {String} body The body of the new topic
-     */
-    var addNewTopic = function(id, subject, body) {
-        var url = store + id;
-        var topic = createPostObject();
-        topic["sakai:id"] = id;
-        topic["sakai:subject"] = subject;
-        topic["sakai:body"] = body;
-
-        $.post(url, topic, function(data) {
-           getPostsFromJCR();
-        });
-    };
-
-    /**
-     * Reply to a post.
+     * Add a new topic.
      * @param {String} id
      */
     var addNewTopic = function(id) {
@@ -798,7 +785,9 @@ sakai.discussion = function(tuid, showSettings) {
                 'sakai:body': body,
                 'sakai:marker': marker,
                 'sakai:type': 'discussion',
-                'sakai:replyon': id,
+                'sakai:writeto': store,
+                'sakai:marker': tuid,
+                'sakai:initialpost': true,
                 'sakai:messagebox': 'outbox',
                 'sakai:sendstate': 'pending',
                 'sakai:to': "discussion:s-" + currentSite
@@ -1133,15 +1122,14 @@ sakai.discussion = function(tuid, showSettings) {
     });
 
     // Bind the add topic submit
-    $(discussionAddTopicCancel, rootel).bind("click", function(e, ui) {
-        clearAddTopicFields();
-        $(discussionAddContainer, rootel).hide();
+    $(discussionAddTopicSubmit, rootel).bind("click", function(e, ui) {
+        addNewTopic($(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1]);
     });
 
     // Bind the add topic cancel
-    $(discussionReplyCancel, rootel).bind("click", function(e, ui){
+    $(discussionAddTopicCancel, rootel).bind("click", function(e, ui){
 
-        // Clear everything in the reply fields
+        // Clear everything in the add topic fields
         clearReplyFields();
 
         // Hide the input form
