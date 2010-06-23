@@ -3,55 +3,88 @@
 
 <!-- MAIN VIEW -->
 <div class="pickeruser_container">
-
-    <div class="pickeruser_header">
-        <span class="pickeruser_count">0</span>
-        <span class="pickeruser_count_person" style="display: none;"> person</span>
-        <span class="pickeruser_count_people" style="display: none;"> people</span>
-        <span class="pickeruser_count_of" style="display: none;"> out of</span>
-        <span class="pickeruser_count_thousands" style="display: none;"> thousands</span>
-
-        <span class="fl-force-right">
-            Sort on:
-            <select class="pickeruser_sort_on">
-                <option default="true" value="lastName">Last name</option>
-                <option value="firstName">First name</option>
-            </select>
-        <span>
+    <div class="pickeruser_container_header">
+        <span>Search for People to add</span>
+        <a href="javascript:;" class="fl-force-right">Close</a>
     </div>
 
-    <div class="pickeruser_content">
+    <div class="pickeruser_container_search">
+        <div class="pickeruser_header">
+            <span class="pickeruser_header_search">
+                <form class="pickeruser_content_search_form" id="pickeruser_content_search_form" method="post" action="javascript:;">
+                    Search For <input name="pickeruser_search_query" id="pickeruser_search_query" />
+                    <button type="button" id="pickeruser_search_button" type="submit">search</button>
+                </form>
+            </span>
 
+            <!--<span class="pickeruser_count">0</span>
+            <span class="pickeruser_count_person" style="display: none;"> person</span>
+            <span class="pickeruser_count_people" style="display: none;"> people</span>
+            <span class="pickeruser_count_of" style="display: none;"> out of</span>
+            <span class="pickeruser_count_thousands" style="display: none;"> thousands</span>-->
+
+            <span class="fl-force-right">
+                Show
+                <select class="pickeruser_display_as">
+                    <option default="true" value="list">as a List</option>
+                    <option value="grid">as a Grid</option>
+                </select>
+                <select class="pickeruser_sort_on">
+                    <option default="true" value="lastNameAsc">Last name A-Z</option>
+                    <option value="lastNameDesc">Last name Z-A</option>
+                    <option value="firstNameAsc">First name A-Z</option>
+                    <option value="firstNameDesc">First name Z-A</option>
+                </select>
+            <span>
+        </div>
+
+        <div class="pickeruser_content">
+            <div class="pickeruser_content_list"></div>
+            <div class="pickeruser_content_search"></div>
+        </div>
+
+        <div class="pickeruser_container_footer">
+            <div class="pickeruser_container_footer_select">
+                <button class="fl-force-right" type="button" id="pickeruser_select_all_button">Select All</button>
+            </div>
+            <div class="pickeruser_container_footer_options">
+                <button type="button" id="pickeruser_cancel_button">Cancel</button>
+                <button class="fl-force-right" type="button" id="pickeruser_add_button">Add to <span id="pickeruser_space_name">Space</span></button>
+            </div>
+        </div>
+
+        <div class="pickeruser_content_search_pagedefault">
+
+            <div class="pickeruser_content_search_listtemplate"><!--
+                <ul id=\"pickeruser_list\" class=\"pickeruser_page\">
+                {for p in people}
+                    <li data-id="${p.id}">
+                        <span class="pickeruser_list_name">${p.name}</span>
+                    </li>
+                {/for}
+                </ul>
+            --></div>
+
+            <div class="pickeruser_content_search_pagetemplate" style="display:none;"><!--
+                {for i in results}
+                <li data-userid="${i['rep:userId']}">
+                    {if i.picture}
+                        <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/></a>
+                    {else}
+                        <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/></a>
+                    {/if}
+                    <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                    <br />
+                    <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
+                </li>
+                {/for}
+            --></div>
+        </div>
+
+        <div class="pickeruser_error_template" style="display:none;">
+            <span>Sorry, could not retrieve the list of users form the server!</span>
+        </div>
     </div>
-    
-    
-    <div class="pickeruser_content_search_pagedefault"> <!--style="display:none;">-->
-    <form class="pickeruser_content_search_form" id="pickeruser_content_search_form" method="post" action="javascript:;">
-    Search: <input name="search_query" id="search_query" />
-    <button type="button" id="search_button" type="submit">search</button>
-    <button type="button" id="add_button">Add to <span id="space_name"></span></button>
-    </form>
-    </div>
-
-    <div class="pickeruser_content_search_pagetemplate" style="display:none;"><!--
-        {for i in results}
-        <li data-userid="${i['rep:userId']}">
-            {if i.picture}
-                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/></a>
-            {else}
-                <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/></a>
-            {/if}
-            <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
-            <br />
-            <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
-        </li>
-        {/for}
-    --></div>
-
-    <div class="pickeruser_error_template" style="display:none;">
-        <span>Sorry, could not retrieve the list of users form the server!</span>
-    </div>
-
 </div>
 
 <!-- JAVASCRIPT -->
