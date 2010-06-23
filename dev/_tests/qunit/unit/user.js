@@ -37,7 +37,8 @@ asyncTest("Log-in with a Sakai3 user", function(){
 asyncTest("Log-out with a Sakai3 user", function(){
 
     sakai.api.User.logout(function(success, data){
-        ok($.parseJSON(data[0].body).status === "offline", "The user presence is set to offline");
+        // Formlogin always returns HTML - this makes it impossible to parse
+        // ok($.parseJSON(data[0].body).status === "offline", "The user presence is set to offline");
         ok(success, "The user has successfully logged-out");
         start();
     });
@@ -68,7 +69,8 @@ asyncTest("Remove a Sakai3 user", function(){
 asyncTest("Log-out with a Sakai3 admin user", function(){
 
     sakai.api.User.logout(function(success, data){
-        ok($.parseJSON(data[0].body).status === "offline", "The admin user presence is set to offline");
+        // Formlogin always returns HTML - this makes it impossible to parse
+        // ok($.parseJSON(data[0].body).status === "offline", "The admin user presence is set to offline");
         ok(success, "The admin user has successfully logged-out");
         start();
     });
