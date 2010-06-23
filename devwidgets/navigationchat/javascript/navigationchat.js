@@ -1606,19 +1606,13 @@ sakai.navigationchat = function(tuid, showSettings){
                 // Show ajax loader
                 $login_busy.show();
 
+                // Get the username and password
                 var data = {
-                    "sakaiauth:login": 1,
-                    "sakaiauth:un": $("#login_username").val(),
-                    "sakaiauth:pw": $("#login_password").val(),
-                    "_charset_": "utf-8"
+                    "username": $("#login_username").val(),
+                    "password": $("#login_password").val()
                 };
-                $.ajax({
-                    url: sakai.config.URL.LOGIN_SERVICE,
-                    type: "POST",
-                    success: checkLogInSuccess,
-                    error: checkLogInSuccess,
-                    data: data
-                });
+                // Perform the login operation
+                sakai.api.User.login(data, checkLogInSuccess);
 
             }
         });

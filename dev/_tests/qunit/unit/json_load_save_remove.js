@@ -69,6 +69,12 @@ var testURL2 = "/_user/a/ad/admin/public/test2";
 
 var testCallbackCount = 0;
 
+// Set the admin login data
+var logindata = {
+    "username": "admin",
+    "password": "admin"
+};
+
 var testCallback = function(){
     if (testCallbackCount === 1) {
         ok(true, "The callback function was successfully invoked");
@@ -85,25 +91,17 @@ var save = function(url, json){
         start();
     };
 
-    // Login
-    $.ajax({
-        url: "/system/sling/formlogin",
-        type: "POST",
-        data: {
-            "sakaiauth:login": 1,
-            "sakaiauth:pw": "admin",
-            "sakaiauth:un": "admin",
-            "_charset_": "utf-8"
-        },
-        success: function(){
-            // We need to copy the testJSON in order to make sure we don't modify it inside this function
+    // Perform the login operation
+    sakai.api.User.login(logindata, function(success){
+        if (success) {
             sakai.api.Server.saveJSON(url, json, saveCallback);
-        },
-        error: function(){
-            ok(false);
+        }
+        else {
+            ok(false, "Could not log-in successfully");
             start();
         }
     });
+
 };
 
 asyncTest("Save a JSON file - big structure", function(){
@@ -130,24 +128,17 @@ var load = function(url, json){
         start();
     };
 
-    // Login
-    $.ajax({
-        url: "/system/sling/formlogin",
-        type: "POST",
-        data: {
-            "sakaiauth:login": 1,
-            "sakaiauth:pw": "admin",
-            "sakaiauth:un": "admin",
-            "_charset_": "utf-8"
-        },
-        success: function(){
+    // Perform the login operation
+    sakai.api.User.login(logindata, function(success){
+        if (success) {
             sakai.api.Server.loadJSON(url, loadCallback);
-        },
-        error: function(){
+        }
+        else {
             ok(false, "Could not log-in successfully");
             start();
         }
     });
+
 };
 
 asyncTest("Load a JSON file - big structure", function(){
@@ -179,24 +170,17 @@ var remove = function(url){
         start();
     };
 
-    // Login
-    $.ajax({
-        url: "/system/sling/formlogin",
-        type: "POST",
-        data: {
-            "sakaiauth:login": 1,
-            "sakaiauth:pw": "admin",
-            "sakaiauth:un": "admin",
-            "_charset_": "utf-8"
-        },
-        success: function(){
+    // Perform the login operation
+    sakai.api.User.login(logindata, function(success){
+        if (success) {
             sakai.api.Server.removeJSON(url, removeCallback);
-        },
-        error: function(){
-            ok(false);
+        }
+        else {
+            ok(false, "Could not log-in successfully");
             start();
         }
     });
+
 };
 asyncTest("Remove a JSON file - big structure", function(){
     remove(testURL);

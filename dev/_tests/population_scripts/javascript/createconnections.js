@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* global sakai, $ */
 
 var sakai = sakai || {};
@@ -24,25 +23,28 @@ sakai.createconnections = function(){
 
     var password = "test";
 
-    var connections = [
-        {"from": "user1", "to" : "user2", "postdata" : {"fromRelationships" : "Classmate", "toRelationships" : "Classmate" ,"targetUserId" : "user2"}}
-    ];
+    var connections = [{
+        "from": "user1",
+        "to": "user2",
+        "postdata": {
+            "fromRelationships": "Classmate",
+            "toRelationships": "Classmate",
+            "targetUserId": "user2"
+        }
+    }];
 
     var log = function(message, status){
         var cssclass = "";
-        if(status){
-            cssclass= "population_success";
-        }else{
+        if (status) {
+            cssclass = "population_success";
+        }
+        else {
             cssclass = "population_error";
 
             // Send a logout request
-            $.ajax({
-                url: sakai.config.URL.LOGOUT_SERVICE,
-                type: "POST",
-                data: {"sakaiauth:logout":"1"}
-            });
+            sakai.api.User.logout();
         }
-        $("#log").append('<span class="' + cssclass+  '">' + message + "</span><br/>");
+        $("#log").append('<span class="' + cssclass + '">' + message + "</span><br/>");
     };
 
     // TO DO: This will need modifying according to 0.4 kernel specs for contacts
@@ -53,22 +55,16 @@ sakai.createconnections = function(){
      */
     var createConnections = function(count){
 
-        if(count !== connections.length){
+        if (count !== connections.length) {
 
             var currentConnection = connections[count];
 
             // Login
-            $.ajax({
-                url: "/system/sling/formlogin",
-                type: "POST",
-                data: {
-                    "sakaiauth:login" : 1,
-                    "sakaiauth:pw": password,
-                    "sakaiauth:un": currentConnection.from,
-                    "_charset_": "utf-8"
-                },
-                success : function(){
-
+            sakai.api.User.login({
+                "password": password,
+                "username": currentConnection.from
+            }, function(successful){
+                if (successful) {
                     sakai.api.User.loadMeData(function(success, data){
 
                         // Send the invite
@@ -80,62 +76,43 @@ sakai.createconnections = function(){
                                 log("Send the connection invite from " + currentConnection.from + " and " + currentConnection.to, true);
 
                                 // Logout
-                                $.ajax({
-                                    url: sakai.config.URL.LOGOUT_SERVICE,
-                                    type: "POST",
-                                    data: {
-                                        "sakaiauth:logout": "1"
-                                    },
-                                    complete: function(data){
+                                sakai.api.User.logout(function(){
 
-                                        // Login
-                                        $.ajax({
-                                            url: "/system/sling/formlogin",
-                                            type: "POST",
-                                            data: {
-                                                "sakaiauth:login": 1,
-                                                "sakaiauth:pw": password,
-                                                "sakaiauth:un": currentConnection.to
-                                            },
-                                            success: function(){
+                                    // Login
+                                    sakai.api.User.login({
+                                        "password": password,
+                                        "username": currentConnection.to
+                                    }, function(successful){
+                                        if (successful) {
+                                            sakai.api.User.loadMeData(function(success, data){
 
-                                                sakai.api.User.loadMeData(function(success, data){
+                                                // Accept the invite
+                                                $.ajax({
+                                                    url: "/_user/" + sakai.data.me.user.userStoragePrefix + "contacts.accept.html",
+                                                    data: {
+                                                        "targetUserId": currentConnection.from
+                                                    },
+                                                    type: "POST",
+                                                    success: function(data){
+                                                        log("Created the connection between " + currentConnection.from + " and " + currentConnection.to, true);
 
-                                                    // Accept the invite
-                                                    $.ajax({
-                                                        url: "/_user/" + sakai.data.me.user.userStoragePrefix + "contacts.accept.html",
-                                                        data: {
-                                                            "targetUserId": currentConnection.from
-                                                        },
-                                                        type: "POST",
-                                                        success: function(data){
-                                                            log("Created the connection between " + currentConnection.from + " and " + currentConnection.to, true);
-    
-                                                            // Logout
-                                                            $.ajax({
-                                                                url: sakai.config.URL.LOGOUT_SERVICE,
-                                                                type: "POST",
-                                                                data: {
-                                                                    "sakaiauth:logout": "1"
-                                                                },
-                                                                complete: function(data){
-                                                                    count++;
-                                                                    createConnections(count);
-                                                                }
-                                                            });
-                                                        },
-                                                        error: function(data){
-                                                            log("Could not create the connection between " + currentConnection.from + " and " + currentConnection.to, false);
-                                                        }
-                                                    });
+                                                        // Logout
+                                                        sakai.api.User.logout(function(data){
+                                                            count++;
+                                                            createConnections(count);
+                                                        });
+                                                    },
+                                                    error: function(data){
+                                                        log("Could not create the connection between " + currentConnection.from + " and " + currentConnection.to, false);
+                                                    }
                                                 });
+                                            });
+                                        }
+                                        else {
+                                            log("Failed to login " + currentConnection.to, false);
+                                        }
+                                    });
 
-                                            },
-                                            error: function(data){
-                                                log("Failed to login " + currentConnection.to, false);
-                                            }
-                                        });
-                                    }
                                 });
 
                             },
@@ -145,12 +122,12 @@ sakai.createconnections = function(){
                         });
 
                     });
-
-                },
-                error: function(data){
+                }
+                else {
                     log("Failed to login " + currentConnection.from, false);
                 }
             });
+
         }
     };
 
