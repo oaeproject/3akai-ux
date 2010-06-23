@@ -44,9 +44,12 @@ sakai.footer = function(tuid,showSettings){
         return url.substring(url.lastIndexOf(slash) + 1);
     };
 
+    /**
+     * Check whether this is the index page or not
+     */
     var checkIndexPage = function(){
         return document.URL.match(/index.html[?a-zA-Z0-9=]*/);
-    }
+    };
 
     /////////////////////////////
     // Configuration variables //
@@ -117,7 +120,7 @@ sakai.footer = function(tuid,showSettings){
         $footer_root.height("45px");
 
         // index.html mods
-        if (checkIndexPage() || (doc_name="")) {
+        if (checkIndexPage() || doc_name === "") {
             $back_to_top_link.hide();
             $footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
         }
