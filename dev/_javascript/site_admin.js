@@ -296,9 +296,65 @@ sakai.site.site_admin = function(){
             use_native_selects : true,
 
             // Replace tabs by spaces.
-            nonbreaking_force_tab : true
+            nonbreaking_force_tab : true,
 
-
+            // Security
+            verify_html : true,
+            cleanup : true,
+            entity_encoding : "named",
+            invalid_elements : "script",
+            valid_elements : ""+
+                "@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],"+
+                "a[href|rel|rev|target|title|type],"+
+                "b[],"+
+                "blink[],"+
+                "blockquote[align|cite|clear|height|type|width],"+
+                "br[clear],"+
+                "caption[align|height|valign|width],"+
+                "center[align|height|width],"+
+                "col[align|bgcolor|char|charoff|span|valign|width],"+
+                "colgroup[align|bgcolor|char|charoff|span|valign|width],"+
+                "comment[],"+
+                "em[],"+
+                "font[color|face|font-weight|point-size|size],"+
+                "h1[align|clear|height|width],"+
+                "h2[align|clear|height|width],"+
+                "h3[align|clear|height|width],"+
+                "h4[align|clear|height|width],"+
+                "h5[align|clear|height|width],"+
+                "h6[align|clear|height|width],"+
+                "hr[align|clear|color|noshade|size|width],"+
+                "img[align|alt|border|height|hspace|src|vspace|width],"+
+                "li[align|clear|height|type|value|width],"+
+                "marquee[behavior|bgcolor|direction|height|hspace|loop|scrollamount|scrolldelay|vspace|width],"+
+                "ol[align|clear|height|start|type|width],"+
+                "p[align|clear|height|width],"+
+                "pre[clear|width|wrap],"+
+                "s[],"+
+                "small[],"+
+                "span[align],"+
+                "strike[],"+
+                "strong[],"+
+                "sub[],"+
+                "sup[],"+
+                "table[align|background|bgcolor|border|bordercolor|bordercolordark|bordercolorlight|"+
+                       "bottompadding|cellpadding|cellspacing|clear|cols|height|hspace|leftpadding|"+
+                       "rightpadding|rules|summary|toppadding|vspace|width],"+
+                "tbody[align|bgcolor|char|charoff|valign],"+
+                "td[abbr|align|axis|background|bgcolor|bordercolor|"+
+                   "bordercolordark|bordercolorlight|char|charoff|headers|"+
+                   "height|nowrap|rowspan|scope|valign|width],"+
+                "tfoot[align|bgcolor|char|charoff|valign],"+
+                "th[abbr|align|axis|background|bgcolor|bordercolor|"+
+                   "bordercolordark|bordercolorlight|char|charoff|headers|"+
+                   "height|nowrap|rowspan|scope|valign|width],"+
+                "thead[align|bgcolor|char|charoff|valign],"+
+                "tr[align|background|bgcolor|bordercolor|"+
+                   "bordercolordark|bordercolorlight|char|charoff|"+
+                   "height|nowrap|valign],"+
+                "tt[],"+
+                "u[],"+
+                "ul[align|clear|height|start|type|width]"
         });
     }
 

@@ -933,6 +933,37 @@ sakai.api.l10n.getSiteLocale = function() {
  */
 sakai.api.Security = sakai.api.Security || {};
 
+
+/**
+ * Sanitizes HTML content. All untrusted (user) content should be run through
+ * this function before putting it into the DOM
+ *
+ * @param inputHTML {String} The content string we would like to sanitize
+ *
+ * @returns {String} Escaped and sanitized string
+ */
+sakai.api.Security.saneHTML = function(inputHTML) {
+
+    // Filter which runs through every url in inputHTML
+    var filterUrl = function(url) {
+
+        return url;
+
+    };
+
+    // Filter which runs through every name id and class
+    var filterNameIdClass = function(nameIdClass) {
+
+        return nameIdClass;
+
+    };
+
+    // Call Caja's sanitizer
+    return html_sanitize(inputHTML, filterUrl, filterNameIdClass);
+
+};
+
+
 /** Description - TO DO */
 sakai.api.Security.setPermissions = function(target, type, permissions_object) {
 

@@ -453,7 +453,7 @@ sakai.site = function(){
               async: false,
               success: function(response){
                 sakai.site.pagecontents._navigation = response["sakai:pagenavigationcontent"];
-                $page_nav_content.html(sakai.site.pagecontents._navigation);
+                $page_nav_content.html(sakai.api.Security.saneHTML(sakai.site.pagecontents._navigation));
                 sakai.api.Widgets.widgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
                 $(window).trigger('hashchange');
             },
@@ -1303,13 +1303,14 @@ sakai.site = function(){
             } else
                 {
                     // Create element
-                    var el = document.createElement("div");
-                    el.id = sakai.site.selectedpage;
-                    el.className = "content";
-                    el.innerHTML = response;
+                    var $el = $("<div id=\""+ sakai.site.selectedpage +"\" class=\"content\"></div>");
+
+                    // Add sanitized content
+                    var sanitizedContent = sakai.api.Security.saneHTML(response);
+                    $el.html(sanitizedContent);
 
                     // Add element to the DOM
-                    $main_content_div.append(el);
+                    $main_content_div.append($el);
                 }
 
             // Insert widgets
@@ -1326,13 +1327,10 @@ sakai.site = function(){
 
             // Create error element
             sakai.site.pagecontents[sakai.site.selectedpage] = {};
-            var errorel = document.createElement("div");
-            errorel.id = sakai.site.selectedpage;
-            errorel.className = "content";
-            errorel.innerHTML = "";
+            var $errorel = $("<div id=\""+ sakai.site.selectedpage +"\" class=\"content\"></div>");
 
             // Add error element to the DOM
-            $main_content_div.append(errorel);
+            $main_content_div.append($errorel);
         }
 
     };
