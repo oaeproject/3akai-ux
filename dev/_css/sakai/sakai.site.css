@@ -250,8 +250,6 @@
 .sitemembers .sitemembers_settings_data {width:auto;float:none;display:block;}
 .sitemembers.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/myprofile_icon.png) no-repeat scroll 17px 18px; }
 
-.folderpicker.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/folder_icon.png) no-repeat scroll 17px 18px; }
-.filepicker.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/page_18.png) no-repeat scroll 17px 18px; }
 .rss.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/rss_icon.png) no-repeat scroll 17px 18px; }
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
