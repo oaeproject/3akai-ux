@@ -208,3 +208,12 @@ a.content_link {font-size:1.5em; font-weight:bold; text-decoration:underline;}
 #browse_resource_files .s3d-button .s3d-button-inner {background: url("/dev/_images/button-sprite-5state.png") no-repeat scroll left top transparent;}
 #browse_resource_files .s3d-button { background: url("/dev/_images/button-sprite-5state.png") no-repeat scroll right -40px transparent;}
 #browse_resource_files textarea,  #browse_resource_files input[type="text"] {width:500px; height:auto;}
+
+
+/* Album View */
+#collections_albums { float:left; padding-left:0; padding-top:22px; position:relative; }
+.albumCover { float:left; padding:20px; width:140px; height:220px; position:relative; margin:0 0 24px 24px; background-color:rgb(255,255,255); -moz-box-shadow:3px 3px 12px -5px rgb(120,120,120); -moz-border-radius:8px;}
+.albumCover.clicked {background-color:rgb(245,245,245); -moz-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120); padding:22px 18px 18px 22px; overflow:hidden;}
+.albumCover div.albumImage { width:140px; height:105px; float:left; position:relative; }
+.albumCover span.albumTitle { color:#058EC4; font-weight:bold; font-size:14px; width:140px; float:left; position:relative; }
+.albumCover p { float:left; position:relative; width:140px; }

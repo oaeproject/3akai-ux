@@ -19,11 +19,23 @@
     
     <div id="collections_albums_template" style="display:none" class="albumView"><!--
       {for album in collections}
-        <div id="album_${album.position}" class="albumCover">
+        <div id="album_${album.albumViewPosition}" class="albumCover">
+          <div class="albumImage">
+            {if album.image}
+              <img src="${album.image}" alt="${album.title} image"/>
+            {/if}
+          </div>
+          <span class="albumTitle">${album.title}</span>
+          <div class="albumDescription">${album.description}</div>
         </div>
       {/for}
     --></div>
   
+    <div id="collections_albums_show_album" style="display:none" class="albumView"></div>
+    <div id="collections_albums_show_album_template" style="display:none" class="albumView"><!-- 
+    
+    
+    --></div>
   
     <!-- Map presentation -->
     <div id="collections_map" style="display:none" class="mapView"></div>
