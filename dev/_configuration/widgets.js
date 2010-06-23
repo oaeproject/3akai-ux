@@ -109,6 +109,16 @@ var Widgets = {
             "name":"changepic",
             "url":"/devwidgets/changepic/changepic.html"
         },
+        "collections": {
+          "description":"Collections Tool",
+          "ca":true,
+          "hasSettings":true,
+          "showinsakaigoodies":true,
+          "id":"collections",
+          "img":"/devwidgets/collections/images/portfolio.png",
+          "name":"Collections",
+          "url":"/devwidgets/collections/collections.html"
+        },
         "comments": {
             "description":"Comments",
             "ca":true,
@@ -280,16 +290,6 @@ var Widgets = {
             },
             "name": "People Lister",
             "url": "/devwidgets/listpeople/listpeople.html"
-        },
-        "memorypalace": {
-          "description":"Portfolio",
-          "ca":true,
-          "hasSettings":true,
-          "showinsakaigoodies":true,
-          "id":"memorypalace",
-          "img":"/devwidgets/memorypalace/images/portfolio.png",
-          "name":"Portfolio",
-          "url":"/devwidgets/memorypalace/memorypalace.html"
         },
         "myfriends": {
             "description":"A list of my connections",

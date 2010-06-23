@@ -20,42 +20,42 @@ var sakai = sakai || {};
 
 // This function is called by the sakai ux framework when a widget is
 // embedded in the page.
-sakai.memorypalace = function(tuid, showSettings) {
+sakai.collections = function(tuid, showSettings) {
   
 //  var me = sdata.me; // Contains information about the current user
   var rootel = "#" + tuid; // Get the main div used by the widget
-  var memorypalace = "#memorypalace";
+  var collections = "#collections";
   
   // Containers
-  var memorypalaceMainContainer = memorypalace + "_main_container";
-  var memorypalaceContainer = memorypalace + "_container";  
-  var memorypalaceSettings = memorypalace + "_settings";
-  var memorypalaceHeader = memorypalace + "_header"
-  var memorypalaceMap = memorypalace + "_map";  
-  var memorypalaceEditRoom = memorypalace + "_map_room_edit";
-  var memorypalaceEditRoomContainer = memorypalaceEditRoom + "_container";
+  var collectionsMainContainer = collections + "_main_container";
+  var collectionsContainer = collections + "_container";  
+  var collectionsSettings = collections + "_settings";
+  var collectionsHeader = collections + "_header"
+  var collectionsMap = collections + "_map";  
+  var collectionsEditRoom = collections + "_map_room_edit";
+  var collectionsEditRoomContainer = collectionsEditRoom + "_container";
   var categoriesListingBody = "#categories_listing_body"
-  var memorypalaceShowRoom = "#memorypalace_map_show_room";
-  var memorypalaceShowRoomContainer = memorypalaceShowRoom + "_conatiner";
-  var memorypalaceAddContent = memorypalace + "map_add_content";
-  var memorypalaceAddContentContainer = memorypalaceAddContent + "_container";
-  var memorypalaceCategoryDropdown = "#category_dropdown"
-  var memorypalaceShowContentItem = "#memorypalace_map_show_content_item";
-  var memorypalaceShowContentItemContainer = memorypalaceShowContentItem + "_container";
+  var collectionsShowRoom = "#collections_map_show_room";
+  var collectionsShowRoomContainer = collectionsShowRoom + "_conatiner";
+  var collectionsAddContent = collections + "_map_add_content";
+  var collectionsAddContentContainer = collectionsAddContent + "_container";
+  var collectionsCategoryDropdown = "#category_dropdown"
+  var collectionsShowContentItem = "#collections_map_show_content_item";
+  var collectionsShowContentItemContainer = collectionsShowContentItem + "_container";
 
   // Templates
-  var memorypalaceMapTemplate = "memorypalace_map_template";
-  var memorypalaceHeaderTemplate = "memorypalace_header_template";
-  var memorypalaceEditRoomTemplate = "memorypalace_map_room_edit_template";
-  var categoriesListingBodyTemplate = "memorypalace_map_categories_listing_body_template";
-  var memorypalaceShowRoomTemplate = "memorypalace_map_show_room_template";
-  var memorypalaceAddContentTemplate = "memorypalace_map_add_content_template";
-  var memorypalaceCategoryDropdownTemplate = "category_dropdown_template";
-  var memorypalaceShowContentItemTemplate = "memorypalace_map_show_content_item_template";
+  var collectionsMapTemplate = "collections_map_template";
+  var collectionsHeaderTemplate = "collections_header_template";
+  var collectionsEditRoomTemplate = "collections_map_room_edit_template";
+  var categoriesListingBodyTemplate = "collections_map_categories_listing_body_template";
+  var collectionsShowRoomTemplate = "collections_map_show_room_template";
+  var collectionsAddContentTemplate = "collections_map_add_content_template";
+  var collectionsCategoryDropdownTemplate = "category_dropdown_template";
+  var collectionsShowContentItemTemplate = "collections_map_show_content_item_template";
   
   // Buttons
-  var memorypalaceSettingsSubmit = memorypalaceSettings + "_submit";
-  var memorypalaceSettingsCancel = memorypalaceSettings + "_cancel";
+  var collectionsSettingsSubmit = collectionsSettings + "_submit";
+  var collectionsSettingsCancel = collectionsSettings + "_cancel";
   var addCategoryButton = "#do_add_category";
   var browseForFilesButton = "#browse_for_files";
   var browseForContentFileButton = "#browse_for_content_file";
@@ -63,34 +63,37 @@ sakai.memorypalace = function(tuid, showSettings) {
   
   // Links
   var returnToFloorplanLink = ".return_to_floorplan_link";
-  var memorypalaceRoomCategoryItem = ".room_categories span a"
-  var memorypalaceEditRoomLink = ".edit_this_room_link";
-  var memorypalaceAddContentLink = ".add_content_link";
-  var memorypalaceReturnToFloorplanFromEdit = "#return_to_floorplan_from_edit";
-  var memorypalaceReturnToRoomFromEdit = "#return_to_room_from_edit";
-  var memorypalaceReturnToRoomFromEditContentItem = "#return_to_room_from_edit_content_item";
-  var memorypalaceReturnToFloorplanFromShow = "#return_to_floorplan_from_show";
-  var memorypalaceViewContentLink = "div.room_categories span a";
-  var memoryPalaceEditContentLink = ".edit_this_content_link";
-  var memorypalaceReturnToContentFromEditLink = "#return_to_content_from_edit";
+  var collectionsRoomCategoryItem = ".room_categories span a"
+  var collectionsEditRoomLink = ".edit_this_room_link";
+  var collectionsAddContentLink = ".add_content_link";
+  var collectionsReturnToFloorplanFromEdit = "#return_to_floorplan_from_edit";
+  var collectionsReturnToRoomFromEdit = "#return_to_room_from_edit";
+  var collectionsReturnToRoomFromEditContentItem = "#return_to_room_from_edit_content_item";
+  var collectionsReturnToFloorplanFromShow = "#return_to_floorplan_from_show";
+  var collectionsViewContentLink = "div.room_categories span a";
+  var collectionsEditContentLink = ".edit_this_content_link";
+  var collectionsReturnToContentFromEditLink = "#return_to_content_from_edit";
   
   // Form
-  var memoryPalaceEditForm = "#memorypalace_map_room_edit form";
-  var memorypalaceAddContentForm = "#memorypalace_map_add_content form";
+  var collectionsEditForm = "#collections_map_room_edit form";
+  var collectionsAddContentForm = "#collections_map_add_content form";
   var addCategoryTextField = "#add_category";
 
 
   // Pick Resource Dialog
   var browseResourceFilesDialog = "#browse_resource_files";
   var chooseImageButton = "#choose_image";
-
+  
+  // Album View
+  var collectionsAlbums = collections + "_albums";
+  var collectionsAlbumsTemplate = "collections_albums_template";
 
   
   var settings = {};
-  var roomData = {};
+  var collectionData = {};
   var widgetData = {};
   var currentRoomPosition = 0;
-  var currentRoomData = {};
+  var currentCollectionData = {};
   var currentContentItemData = {};
   var currentContentItemID = 0;
   var fromViewRoom = false;
@@ -98,30 +101,31 @@ sakai.memorypalace = function(tuid, showSettings) {
   var getWidgetData = function() {
     sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
       if (success) {
-        settings = data.settings; //$.parseJSON(data.settings);
-        roomData = data.roomData; //$.parseJSON(data.roomData);
+        settings = data.settings;
+        collectionData = data.collectionData;
         if (showSettings) {
-          $("#portfolio_title", $(rootel)[0]).val(settings.widgetTitle);
+          $("#widget_title", $(rootel)[0]).val(settings.widgetTitle);
         } else {
-          $(memorypalaceHeader, $(rootel)[0]).show();
-          $.TemplateRenderer(memorypalaceHeaderTemplate, settings, $(memorypalaceHeader, $(rootel)[0]));
+          $(collectionsHeader, $(rootel)[0]).show();
+          $.TemplateRenderer(collectionsHeaderTemplate, settings, $(collectionsHeader, $(rootel)[0]));
           if (settings.displayStyle == "mapView") {
             renderMapView();
+          } else if (settings.displayStyle == "albumView") {
+            renderAlbumView();
           }
         }
       } else {
-        roomData = {"rooms":[{"position":"1","categories":[]},{"position":"2","categories":[]},{"position":"3","categories":[]},{"position":"4","categories":[]},{"position":"5","categories":[]},{"position":"6","categories":[]},{"position":"7","categories":[]},{"position":"8","categories":[]},{"position":"9","categories":[]},{"position":"10","categories":[]}]};
+        collectionData = {"collections":[{"position":"1","categories":[]},{"position":"2","categories":[]},{"position":"3","categories":[]},{"position":"4","categories":[]},{"position":"5","categories":[]},{"position":"6","categories":[]},{"position":"7","categories":[]},{"position":"8","categories":[]},{"position":"9","categories":[]},{"position":"10","categories":[]}]};
         settings.widgetTitle = "title";
-        settings.displayStyle = "mapView";
-        saveWidgetData();
+        settings.displayStyle = "albumView"; //"mapView";
         return;
       }
     });
   }
   
   var saveWidgetData = function() {
-    widgetData.roomData = roomData; //JSON.stringify(roomData);
-    widgetData.settings = settings; //JSON.stringify(settings);
+    widgetData.collectionData = collectionData;
+    widgetData.settings = settings;
     sakai.api.Widgets.saveWidgetData(tuid, widgetData, function(success, data) {
       if (success) {
         if (showSettings) {
@@ -133,24 +137,25 @@ sakai.memorypalace = function(tuid, showSettings) {
 
   var setupWidgetSettingsForSave = function() {
     settings = {};
-    var title = $("#portfolio_title").val();
+    var title = $("#widget_title").val();
     if ($.trim(title) == "") {
       alert('Please input a title');
       return false;
     }
     settings.widgetTitle = title;
-    settings.displayStyle = "mapView";
+    settings.displayStyle = "albumView"; //"mapView";
+    saveWidgetData();
   };
   
-  var serializeRoomDataForPost = function() {
-    var thisRoomData = currentRoomData;    
-    // Put the room's data back into the roomData object
-    for (var i=0; i<roomData.rooms.length; i++) {
-      if (roomData.rooms[i].position == currentRoomPosition) {
-        roomData.rooms[i] = thisRoomData;
+  var serializeCollectionDataForPost = function() {
+    var thisCollectionData = currentCollectionData;    
+    // Put the room's data back into the collectionData object
+    for (var i=0; i<collectionData.collections.length; i++) {
+      if (collectionData.collections[i].position == currentRoomPosition) {
+        collectionData.collections[i] = thisCollectionData;
       }
     }
-    return roomData;
+    return collectionData;
   };
 
   var saveWidgetSettings = function() {
@@ -158,8 +163,8 @@ sakai.memorypalace = function(tuid, showSettings) {
     saveWidgetData();
   };
   
-  var saveRoomData = function() {
-    roomData = serializeRoomDataForPost();
+  var saveCollectionData = function() {
+    collectionData = serializeCollectionDataForPost();
     saveWidgetData();
   };
 
@@ -185,12 +190,21 @@ sakai.memorypalace = function(tuid, showSettings) {
 
 
   /**
+   * Album View
+   */
+   
+  var renderAlbumView = function() {
+    $(collectionsAlbums, $(rootel[0])).show();
+    $.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $(rootel)[0]));
+  } 
+
+  /**
    * Map View
    */
    
   var renderMapView = function() {
-    $(memorypalaceMap, $(rootel)[0]).show();
-    $.TemplateRenderer(memorypalaceMapTemplate, roomData, $(memorypalaceMap, $(rootel)[0]));
+    $(collectionsMap, $(rootel)[0]).show();
+    $.TemplateRenderer(collectionsMapTemplate, collectionData, $(collectionsMap, $(rootel)[0]));
     if (!sakai.site.isCollaborator) {
       $("span a.addLink", $(rootel)[0]).hide();
     }
@@ -198,54 +212,54 @@ sakai.memorypalace = function(tuid, showSettings) {
   
   var editRoom = function(roomPosition, fromShowRoom) {
     currentRoomPosition = roomPosition;
-    for (var i=0; i<roomData.rooms.length; i++) {
-      if (roomData.rooms[i].position == currentRoomPosition) {
-        currentRoomData = roomData.rooms[i];
+    for (var i=0; i<collectionData.collections.length; i++) {
+      if (collectionData.collections[i].position == currentRoomPosition) {
+        currentCollectionData = collectionData.collections[i];
       }
     }
     
     hideEverything(); 
-    $(memorypalaceEditRoomContainer, $(rootel)[0]).show();
-    $(memorypalaceEditRoomContainer, $(rootel)[0]).parent().show()
+    $(collectionsEditRoomContainer, $(rootel)[0]).show();
+    $(collectionsEditRoomContainer, $(rootel)[0]).parent().show()
 
     if (fromShowRoom) {
       fromViewRoom = true;
-      $(memorypalaceReturnToFloorplanFromEdit, $(rootel)[0]).hide();
-      $(memorypalaceReturnToRoomFromEdit, $(rootel)[0]).show();
+      $(collectionsReturnToFloorplanFromEdit, $(rootel)[0]).hide();
+      $(collectionsReturnToRoomFromEdit, $(rootel)[0]).show();
     } else {
       fromViewRoom = false;
-      $(memorypalaceReturnToFloorplanFromEdit, $(rootel)[0]).show();
-      $(memorypalaceReturnToRoomFromEdit, $(rootel)[0]).hide();
+      $(collectionsReturnToFloorplanFromEdit, $(rootel)[0]).show();
+      $(collectionsReturnToRoomFromEdit, $(rootel)[0]).hide();
     }
-    if (!currentRoomData.id) {
+    if (!currentCollectionData.id) {
       var d = new Date();
-      currentRoomData.id = "room" + d.getTime() + "" + Math.floor(Math.random()*101);
+      currentCollectionData.id = "room" + d.getTime() + "" + Math.floor(Math.random()*101);
     }
-    $.TemplateRenderer(memorypalaceEditRoomTemplate, {"room" : currentRoomData}, $(memorypalaceEditRoom, $(rootel)[0]));
-    if (currentRoomData.categories) {
-      $.TemplateRenderer(categoriesListingBodyTemplate, {"categories" : currentRoomData.categories}, $(categoriesListingBody, $(rootel)[0]));
+    $.TemplateRenderer(collectionsEditRoomTemplate, {"room" : currentCollectionData}, $(collectionsEditRoom, $(rootel)[0]));
+    if (currentCollectionData.categories) {
+      $.TemplateRenderer(categoriesListingBodyTemplate, {"categories" : currentCollectionData.categories}, $(categoriesListingBody, $(rootel)[0]));
       sortCategoriesDisplay();
     }
     tinyMCE.execCommand('mceAddControl', false, 'room_overview');
   }
 
   var getRoom = function(position) {
-    var thisRoomData;
+    var thiscollectionData;
      // Get the room's data
-     for (var i=0; i<roomData.rooms.length; i++) {
-       if (roomData.rooms[i].position == position) {
-         thisRoomData = roomData.rooms[i];
+     for (var i=0; i<collectionData.collections.length; i++) {
+       if (collectionData.collections[i].position == position) {
+         thiscollectionData = collectionData.collections[i];
        }
      }
-     return thisRoomData;
+     return thiscollectionData;
   }
   
   var showRoom = function(position) {
     currentRoomPosition = position;
-    currentRoomData = getRoom(currentRoomPosition);
+    currentCollectionData = getRoom(currentRoomPosition);
     hideEverything();
-    $(memorypalaceShowRoomContainer, $(rootel)[0]).show();
-    $.TemplateRenderer(memorypalaceShowRoomTemplate, {"room" : currentRoomData}, $(memorypalaceShowRoom, $(rootel)[0]));
+    $(collectionsShowRoomContainer, $(rootel)[0]).show();
+    $.TemplateRenderer(collectionsShowRoomTemplate, {"room" : currentCollectionData}, $(collectionsShowRoom, $(rootel)[0]));
     if (!sakai.site.isCollaborator) {
       $("span#room_edit_links", $(rootel)[0]).hide();
     }
@@ -257,28 +271,28 @@ sakai.memorypalace = function(tuid, showSettings) {
       tinyMCE.execCommand('mceRemoveControl', false, 'content_description');
     } catch (e) {
     }
-    $(memorypalaceMap, $(rootel)[0]).hide();
-    $(memorypalaceShowRoomContainer, $(rootel)[0]).hide();
-    $(memorypalaceEditRoomContainer, $(rootel)[0]).hide();
-    $(memorypalaceSettings, $(rootel)[0]).hide();
-    $(memorypalaceAddContentContainer, $(rootel)[0]).hide();
-    $(memorypalaceShowContentItemContainer, $(rootel)[0]).hide();
+    $(collectionsMap, $(rootel)[0]).hide();
+    $(collectionsShowRoomContainer, $(rootel)[0]).hide();
+    $(collectionsEditRoomContainer, $(rootel)[0]).hide();
+    $(collectionsSettings, $(rootel)[0]).hide();
+    $(collectionsAddContentContainer, $(rootel)[0]).hide();
+    $(collectionsShowContentItemContainer, $(rootel)[0]).hide();
   }
   
   var returnToFloorplan = function() {
     currentRoomPosition = 0;
-    currentRoomData = {};
+    currentCollectionData = {};
     hideEverything();
-    $(memorypalaceMap, $(rootel)[0]).show();
+    $(collectionsMap, $(rootel)[0]).show();
   };
   
   var editContent = function(contentItemID) {
     hideEverything();
     currentContentItemData = {};
-    $(memorypalaceAddContentContainer, $(rootel)[0]).show();
+    $(collectionsAddContentContainer, $(rootel)[0]).show();
     if (contentItemID != 0) {
-      for (var i=0; i<currentRoomData.categories.length; i++) {
-        var currentCat = currentRoomData.categories[i];
+      for (var i=0; i<currentCollectionData.categories.length; i++) {
+        var currentCat = currentCollectionData.categories[i];
         for (var j=0; j<currentCat.items.length; j++) {
           if (currentCat.items[j].id == contentItemID) {
             currentContentItemData = currentCat.items[j];
@@ -287,15 +301,15 @@ sakai.memorypalace = function(tuid, showSettings) {
       }
     }
     
-    $.TemplateRenderer(memorypalaceAddContentTemplate, {"content" : currentContentItemData}, $(memorypalaceAddContent, $(rootel)[0]));
-    $.TemplateRenderer(memorypalaceCategoryDropdownTemplate, {"room" : currentRoomData}, $(memorypalaceCategoryDropdown, $(rootel)[0]));
+    $.TemplateRenderer(collectionsAddContentTemplate, {"content" : currentContentItemData}, $(collectionsAddContent, $(rootel)[0]));
+    $.TemplateRenderer(collectionsCategoryDropdownTemplate, {"room" : currentCollectionData}, $(collectionsCategoryDropdown, $(rootel)[0]));
     
     if (contentItemID != 0) {
-      $(memorypalaceReturnToContentFromEditLink, $(rootel)[0]).show();
-      $(memorypalaceReturnToRoomFromEdit, $(rootel)[0]).hide();
+      $(collectionsReturnToContentFromEditLink, $(rootel)[0]).show();
+      $(collectionsReturnToRoomFromEdit, $(rootel)[0]).hide();
     } else {
-      $(memorypalaceReturnToContentFromEditLink, $(rootel)[0]).hide();
-      $(memorypalaceReturnToRoomFromEdit, $(rootel)[0]).show();
+      $(collectionsReturnToContentFromEditLink, $(rootel)[0]).hide();
+      $(collectionsReturnToRoomFromEdit, $(rootel)[0]).show();
     }
     tinyMCE.execCommand('mceAddControl', false, 'content_description');
     
@@ -305,19 +319,19 @@ sakai.memorypalace = function(tuid, showSettings) {
     currentContentItemID = itemID;
     hideEverything();
     currentContentItemData = {};
-    for (var i=0; i<currentRoomData.categories.length; i++) {
-      for (j=0; j<currentRoomData.categories[i].items.length; j++) {
-        if (currentRoomData.categories[i].items[j].id == itemID) {
-          currentContentItemData = currentRoomData.categories[i].items[j];
+    for (var i=0; i<currentCollectionData.categories.length; i++) {
+      for (j=0; j<currentCollectionData.categories[i].items.length; j++) {
+        if (currentCollectionData.categories[i].items[j].id == itemID) {
+          currentContentItemData = currentCollectionData.categories[i].items[j];
         }
       }
     }
-    $(memorypalaceShowContentItemContainer, $(rootel)[0]).show();
-    $.TemplateRenderer(memorypalaceShowContentItemTemplate, {"item" : currentContentItemData}, $(memorypalaceShowContentItem, $(rootel)[0]));
+    $(collectionsShowContentItemContainer, $(rootel)[0]).show();
+    $.TemplateRenderer(collectionsShowContentItemTemplate, {"item" : currentContentItemData}, $(collectionsShowContentItem, $(rootel)[0]));
   };
   
   /** 
-   * Edit the roomData object to get ready for a POST
+   * Edit the collectionData object to get ready for a POST
    */
 
    var saveCurrentContentData = function() {
@@ -331,19 +345,19 @@ sakai.memorypalace = function(tuid, showSettings) {
       currentContentItemData.url = $("#content_url", $(rootel)[0]).val();
       currentContentItemData.synopsis = $("#content_description", $(rootel)[0]).val();
       currentContentItemData.mimetype = $("#content_mimetype", $(rootel)[0]).val(); //"image/jpeg"; // TODO add this in once we can get it from the web
-      for (var i=0; i<currentRoomData.categories.length; i++) {
-        if (currentRoomData.categories[i].name == $("#category_dropdown select option:selected", $(rootel)[0]).val()) {
+      for (var i=0; i<currentCollectionData.categories.length; i++) {
+        if (currentCollectionData.categories[i].name == $("#category_dropdown select option:selected", $(rootel)[0]).val()) {
           if (!isNew) { // replace current one
-            for (var j=0; j<currentRoomData.categories[i].items.length; j++) {
-              if (currentRoomData.categories[i].items[j].id == currentContentItemData.id) {
-                currentRoomData.categories[i].items[j] = currentContentItemData;
+            for (var j=0; j<currentCollectionData.categories[i].items.length; j++) {
+              if (currentCollectionData.categories[i].items[j].id == currentContentItemData.id) {
+                currentCollectionData.categories[i].items[j] = currentContentItemData;
               }
             }
           } else {
             // just add it in
             var d = new Date();
             currentContentItemData.id = "content" + d.getTime() + "" + Math.floor(Math.random()*101);
-            currentRoomData.categories[i].items.push(currentContentItemData);
+            currentCollectionData.categories[i].items.push(currentContentItemData);
             currentContentItemID = currentContentItemData.id;
           }
         }
@@ -352,7 +366,7 @@ sakai.memorypalace = function(tuid, showSettings) {
    
    /**
     * Room Image Methods
-    * Dependent on contentmedia_memorypalace.js
+    * Dependent on contentmedia_collections.js
     */
     var chooseImage = function() {
         // internet resource or file resource?
@@ -421,10 +435,10 @@ sakai.memorypalace = function(tuid, showSettings) {
     * Category Methods
     */
     var deleteCategories = function(catIDs) {
-        for (var i = 0; i < currentRoomData.categories.length; i++) {
+        for (var i = 0; i < currentCollectionData.categories.length; i++) {
             for (var j = 0; j < catIDs.length; j++) {
-                if (currentRoomData.categories[i].id == catIDs[j]) {
-                    currentRoomData.categories.splice(i, 1);
+                if (currentCollectionData.categories[i].id == catIDs[j]) {
+                    currentCollectionData.categories.splice(i, 1);
                     $("#cat_" + catIDs[j], $(rootel)[0]).parent().parent().fadeOut();
                 }
             }
@@ -452,13 +466,13 @@ sakai.memorypalace = function(tuid, showSettings) {
             return positionA - positionB;
         });
 
-        // update order in currentRoomData
+        // update order in currentCollectionData
         for (var j = 0; j < catOrders.length; j++) {
             var catID = $(catOrders[j]).attr("name");
             var catPos = $(catOrders[j]).val();
-            for (var i = 0; i < currentRoomData.categories.length; i++) {
-                if (currentRoomData.categories[i].id == catID) {
-                    currentRoomData.categories[i].position = j + 1;
+            for (var i = 0; i < currentCollectionData.categories.length; i++) {
+                if (currentCollectionData.categories[i].id == catID) {
+                    currentCollectionData.categories[i].position = j + 1;
                     $("input[name='" + catID + "']", $(rootel)[0]).val(j + 1);
                 }
             }
@@ -482,8 +496,8 @@ sakai.memorypalace = function(tuid, showSettings) {
     var addCategory = function(catToAdd) {
         var newCategory;
         var canAdd = true;
-        for (var j = 0; j < currentRoomData.categories.length; j++) {
-            if (currentRoomData.categories[j].name == catToAdd) {
+        for (var j = 0; j < currentCollectionData.categories.length; j++) {
+            if (currentCollectionData.categories[j].name == catToAdd) {
                 canAdd = false;
             }
         }
@@ -493,11 +507,17 @@ sakai.memorypalace = function(tuid, showSettings) {
             newCategory = {
                 "name": catToAdd,
                 "id": catID,
-                "position": currentRoomData.categories.length + 1,
+                "position": currentCollectionData.categories.length + 1,
                 "items": []
             };
-            currentRoomData.categories.push(newCategory);
-            $(categoriesListingBody, $(rootel)[0]).append($.TemplateRenderer(categoriesListingBodyTemplate, {"categories": [newCategory]}));
+            var currentNumCategories = currentCollectionData.categories.length
+            currentCollectionData.categories.push(newCategory);
+            if (currentNumCategories == 0) {
+              $(categoriesListingBody, $(rootel)[0]).html($.TemplateRenderer(categoriesListingBodyTemplate, {"categories": [newCategory]}));
+            } else {
+              $(categoriesListingBody, $(rootel)[0]).append($.TemplateRenderer(categoriesListingBodyTemplate, {"categories": [newCategory]}));
+            }
+            
             $(addCategoryTextField, $(rootel)[0]).val('');
         } else {
             // name conflict, cannot add
@@ -527,13 +547,13 @@ sakai.memorypalace = function(tuid, showSettings) {
     });
    
    $(browseForFilesButton, $(rootel)[0]).live("click", function() {
-     sakai.memorypalacecontent();
+     sakai.collectionscontent();
      $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
       return false;     
    });
    
    $(browseForContentFileButton, $(rootel)[0]).live("click", function() {
-     sakai.memorypalacecontent();
+     sakai.collectionscontent();
      $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
       return false;     
    });
@@ -547,55 +567,55 @@ sakai.memorypalace = function(tuid, showSettings) {
     return false;
    });
    
-   $(memorypalaceAddContentForm, $(rootel)[0]).live("submit", function() {
+   $(collectionsAddContentForm, $(rootel)[0]).live("submit", function() {
      if (sakai.site.isCollaborator) {
        saveCurrentContentData();
-       saveRoomData();
+       savecollectionData();
        showContentItem(currentContentItemID);
      }
      return false;
    });
    
-   $(memoryPalaceEditForm, $(rootel)[0]).live("submit", function(e) {
+   $(collectionsEditForm, $(rootel)[0]).live("submit", function(e) {
      if (sakai.site.isCollaborator) {
        if ($.trim($("#room_title", $(rootel)[0]).val()) == "") {
          // need a title, son!
          alert("Please enter a title for this room before saving.");
          return;
        }
-       if (currentRoomData.categories.length == 0) {
+       if (currentCollectionData.categories.length == 0) {
          // need categories too, kid!
          alert("Please add a category to this room before saving");
          return;
        }
-       currentRoomData.title = $("#room_title", $(rootel)[0]).val();
-       currentRoomData.image = $("#room_image", $(rootel)[0]).val();
-       currentRoomData.description = tinyMCE.get("room_overview").getContent();
-       saveRoomData();
+       currentCollectionData.title = $("#room_title", $(rootel)[0]).val();
+       currentCollectionData.image = $("#room_image", $(rootel)[0]).val();
+       currentCollectionData.description = tinyMCE.get("room_overview").getContent();
+       saveCollectionData();
        hideEverything();
-       $(memorypalaceMap, $(rootel)[0]).show();
-       $.TemplateRenderer(memorypalaceMapTemplate, roomData, $(memorypalaceMap, $(rootel)[0]));
+       $(collectionsMap, $(rootel)[0]).show();
+       $.TemplateRenderer(collectionsMapTemplate, collectionData, $(collectionsMap, $(rootel)[0]));
      }
      return false;
    });
    
-   $(memorypalaceReturnToFloorplanFromShow, $(rootel)[0]).live("click", function() {
+   $(collectionsReturnToFloorplanFromShow, $(rootel)[0]).live("click", function() {
      returnToFloorplan();
       return false;     
    });
    
-   $(memorypalaceReturnToFloorplanFromEdit, $(rootel)[0]).live("click", function() {
+   $(collectionsReturnToFloorplanFromEdit, $(rootel)[0]).live("click", function() {
      returnToFloorplan();
       return false;     
    });
    
    // Bind the Settings Submit button
-   $(memorypalaceSettingsSubmit, $(rootel)[0]).live("click", function() {
+   $(collectionsSettingsSubmit, $(rootel)[0]).live("click", function() {
       saveWidgetSettings();
       return false;
    });
    
-   $(memorypalaceSettingsCancel, $(rootel)[0]).live("click", function() {
+   $(collectionsSettingsCancel, $(rootel)[0]).live("click", function() {
       sakai.api.Widgets.Container.informCancel(tuid);
       return false;      
    });
@@ -608,7 +628,7 @@ sakai.memorypalace = function(tuid, showSettings) {
    $(chooseImageButton, $(rootel)[0]).live("click", function() {
       var resourceURL = chooseImage();
       var mimeType = getMimeType();
-      if ($("#memorypalace_map_add_content_container", $(rootel)[0]).is(":visible")) {
+      if ($("#collections_map_add_content_container", $(rootel)[0]).is(":visible")) {
         addContentImage(resourceURL);
         addContentMimetype(mimeType);
       } else {
@@ -623,7 +643,7 @@ sakai.memorypalace = function(tuid, showSettings) {
      if (fromViewRoom) {
        showRoom(currentRoomPosition);
      } else {
-       $(memorypalaceMap, $(rootel)[0]).show();
+       $(collectionsMap, $(rootel)[0]).show();
      }      
      return false;
    });
@@ -650,48 +670,48 @@ sakai.memorypalace = function(tuid, showSettings) {
      return false;
    });
   
-   $(memorypalaceRoomCategoryItem, $(rootel)[0]).live("click", function(){
+   $(collectionsRoomCategoryItem, $(rootel)[0]).live("click", function(){
      var catItemID = $(this).attr('id').split("item_")[1];
      // show category item
    });
    
-   $(memorypalaceReturnToRoomFromEdit, $(rootel)[0]).live("click", function(){
+   $(collectionsReturnToRoomFromEdit, $(rootel)[0]).live("click", function(){
      showRoom(currentRoomPosition);
      return false;
    });
    
-   $(memorypalaceReturnToRoomFromEditContentItem, $(rootel)[0]).live("click", function() {
+   $(collectionsReturnToRoomFromEditContentItem, $(rootel)[0]).live("click", function() {
      showRoom(currentRoomPosition);
      return false;     
    });
    
-   $(memorypalaceEditRoomLink, $(rootel)[0]).live("click", function() {
+   $(collectionsEditRoomLink, $(rootel)[0]).live("click", function() {
      if (sakai.site.isCollaborator)
       editRoom(currentRoomPosition, true);
      return false;     
    });
    
-   $(memoryPalaceEditContentLink, $(rootel)[0]).live("click", function() {
+   $(collectionsEditContentLink, $(rootel)[0]).live("click", function() {
      if (sakai.site.isCollaborator)     
       editContent(currentContentItemID);
      return false;     
    });
    
-   $(memorypalaceAddContentLink, $(rootel)[0]).live("click", function() {
+   $(collectionsAddContentLink, $(rootel)[0]).live("click", function() {
      // show add content pane
      if (sakai.site.isCollaborator)
       editContent(0);
      return false;     
    });
   
-  $(memorypalaceViewContentLink, $(rootel)[0]).live("click", function() {
+  $(collectionsViewContentLink, $(rootel)[0]).live("click", function() {
     var id = $(this).attr("id").split("cat_")[1];
     var itemID = id.split("_item_")[1];
     showContentItem(itemID);
      return false;    
   });
   
-  $(memorypalaceReturnToContentFromEditLink, $(rootel)[0]).live("click", function() {
+  $(collectionsReturnToContentFromEditLink, $(rootel)[0]).live("click", function() {
     showContentItem(currentContentItemID);
   });
   
@@ -702,13 +722,13 @@ sakai.memorypalace = function(tuid, showSettings) {
   
   $("button.s3d-button.s3d-button-primary.save_button").live("click", function() {
     hideEverything();
-    $(memorypalaceMap, $(rootel)[0]).show();
+    $(collectionsMap, $(rootel)[0]).show();
     return false;    
   });
   
   $("button.s3d-button.cancel-button").live("click", function() {
     hideEverything();
-    $(memorypalaceMap, $(rootel)[0]).show();
+    $(collectionsMap, $(rootel)[0]).show();
     return false;    
   });
   
@@ -719,13 +739,13 @@ sakai.memorypalace = function(tuid, showSettings) {
   mpinitTinyMCE('room_overview');
   mpinitTinyMCE('content_description');
   if (showSettings) {
-    $(memorypalaceSettings, $(rootel)[0]).show();
-    $(memorypalaceMainContainer, $(rootel)[0]).hide();
+    $(collectionsSettings, $(rootel)[0]).show();
+    $(collectionsMainContainer, $(rootel)[0]).hide();
   } else {
-    $(memorypalaceSettings, $(rootel)[0]).hide();
-    $(memorypalaceMainContainer, $(rootel)[0]).show();
+    $(collectionsSettings, $(rootel)[0]).hide();
+    $(collectionsMainContainer, $(rootel)[0]).show();
   }
 };
 
 
-sakai.api.Widgets.widgetLoader.informOnLoad("memorypalace");
+sakai.api.Widgets.widgetLoader.informOnLoad("collections");
