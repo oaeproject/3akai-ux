@@ -199,6 +199,9 @@ sakai.createsite = function(tuid, showSettings){
      * @param {Object} input The string where the characters need to be replaced
      */
     var replaceCharacters = function(input){
+
+        input = $.trim(input); // Remove the spaces at the beginning and end of the id
+
         input = input.toLowerCase().replace(/ /g,"-");
         input = input.toLowerCase().replace(/'/g,"");
         input = input.toLowerCase().replace(/"/g,"");
@@ -347,7 +350,7 @@ sakai.createsite = function(tuid, showSettings){
                         "sakai:activityMessage": activityMsg,
                         "sakai:activitySiteName": sitetitle,
                         "sakai:activitySiteId": siteid
-                    }
+                    };
                     sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData, function(activitySuccess){
                         //redirect the user to the site once the activity node is set
                         document.location = "/sites/" + siteid;
