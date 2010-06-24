@@ -53,9 +53,6 @@ sakai.entity = function(tuid, showSettings){
         }
     };
     var profile_dummy_status;
-    var urls = {
-        "myprofile": ["/var/message/box.json?box=inbox"]
-    };
 
 
     ///////////////////
@@ -316,7 +313,7 @@ sakai.entity = function(tuid, showSettings){
 
                     var activityData = {
                         "sakai:activityMessage": activityMsg
-                    }
+                    };
                     sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
 
                 },
@@ -555,9 +552,16 @@ sakai.entity = function(tuid, showSettings){
         switch (mode) {
             case "profile":
 
-                $.ajax({
-                    "url": urls[mode]
-                });
+                entityconfig.data.profile = $.extend(true, {}, data);
+
+                // Set the correct profile data
+                setProfileData();
+
+                // Execute the callback (if there is one)
+                if (typeof callback === "function") {
+                    callback();
+                }
+
                 break;
 
             case "myprofile":
