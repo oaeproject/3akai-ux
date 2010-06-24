@@ -277,7 +277,7 @@ sakai.site = function(){
                 $initialcontent.show();
                 $sitetitle.text(sakai.site.currentsite.name);
 
-               // if (sakai.site.currentsite["sakai:joinable"] === "true") {
+               if (sakai.site.currentsite["sakai:joinable"] === "true") {
                     $site_join_button.show();
 
                     // Bind 'Join this site' button
@@ -285,7 +285,7 @@ sakai.site = function(){
                         requestJoin();
                         return false;
                     });
-                //}
+                }
 
                 // Refresh site_info object
                 sakai.site.refreshSiteInfo();

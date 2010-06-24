@@ -8,11 +8,29 @@
   <div id="collections_header" style="display:none"></div>
   <div id="collections_header_template"><!--
     <h1>${widgetTitle}</h1>
-    <div><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure the Collections Widget" title="Configure the Collections Widget"/></a></div>
+    <div>
+      <span style="display:none" id="choose_layout">
+        <a id="layout_selector" href="javascript:;"><span id="chosen_layout">{if displayStyle == 'albumView'}Album View{elseif displayStyle == 'mapView'}Architectural View{/if}</span>
+        </a>
+      </span>
+      <a href="javascript:;" id="configure_widget">
+        <img src="/devwidgets/collections/images/config_icon.png" alt="Configure the Collections Widget" title="Configure the Collections Widget"/>
+      </a>
+    </div>
   --></div>
+  
+
+  
   <div id="collections_outer_container">
   <div id="collections_inner_container">
-
+    
+    <div id="collections_header_select_layout" style="display:none">
+      <ul>
+        <li class="selected" id="albumView">Album View</li>
+        <li id="mapView">Architectural View</li>
+      </ul>
+    </div>
+    
     <!-- Content for memory palace -->
     
     <!-- Album presentation -->
