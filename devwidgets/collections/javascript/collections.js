@@ -86,7 +86,9 @@ sakai.collections = function(tuid, showSettings) {
   
   // Album View
   var collectionsAlbums = collections + "_albums";
-  var collectionsAlbumsTemplate = "collections_albums_template";
+  var collectionsAlbumsTemplate = collectionsAlbums + "_template";
+  var collectionsAlbumsShowAlbum = collectionsAlbums + "_show_album";
+  var collectionsAlbumsShowAlbumTemplate = collectionsAlbumsShowAlbum + "_template";
 
   
   var settings = {};
@@ -209,9 +211,10 @@ sakai.collections = function(tuid, showSettings) {
   $("#collections_header div a#configure_widget").live("click", function() {
     $("#collections_header div").toggleClass("expanded");
     $("#collections_header div span#choose_layout").toggle();
-    $("#collections_header div button").toggle();
-    if (settings.displayStyle == "albumView") {
+    if (settings.displayStyle == "albumView" && !$(".addAlbum").is(":visible")) {
       showAddAlbum();
+    } else {
+      hideAddAlbum();
     }
   });
   
@@ -275,26 +278,42 @@ sakai.collections = function(tuid, showSettings) {
   };
 
   var viewAlbum = function() {
+    hideAllAlbumView();
     for (var i in collectionData.collections) {
       if (collectionData.collections[i].albumViewPosition == selectedAlbumPosition) {
        albumData = collectionData.collections[i];
        break;
       }
     }
-    console.log("albumData:",albumData);
-    
+    $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, albumData, $(collectionsAlbumsShowAlbum));
   };
   
   var showAddAlbum = function() {
     if ($(".addAlbum").length == 0)
       $("#collections_albums").append("<div class='albumCover addAlbum'></div>");
+    else
+     $(".addAlbum").show();
   };
+  
+  var hideAddAlbum = function() {
+    $(".addAlbum").hide();
+  };
+  
+  var hideAllAlbumView = function() {
+    $("#collections_header div").removeClass("expanded");
+    $("#collections_header div span#choose_layout").hide();
+    $("#collections_header_select_layout").hide();
+    $(".albumView").hide();
+  };
+  
   /**
    * Album View Events
    */   
   
   $(".addAlbum").live("click", function() {
-    
+    hideAllAlbumView();
+    $(collectionsAlbumsShowAlbum).show();
+    $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {}, $(collectionsAlbumsShowAlbum));
   });
   
   $(".albumCover").live("mousedown", function() {
