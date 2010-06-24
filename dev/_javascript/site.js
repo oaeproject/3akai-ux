@@ -459,6 +459,7 @@ sakai.site = function(){
             },
             error: function(xhr, textStatus, thrownError) {
               $(window).trigger('hashchange');
+              console.log(sakai.site.urls.SITE_NAVIGATION_CONTENT());
               alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });

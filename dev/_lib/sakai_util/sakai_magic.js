@@ -944,6 +944,11 @@ sakai.api.Security = sakai.api.Security || {};
  */
 sakai.api.Security.saneHTML = function(inputHTML) {
 
+    if (inputHTML === "") {
+        return "";
+    }
+
+
     // Filter which runs through every url in inputHTML
     var filterUrl = function(url) {
 
@@ -958,8 +963,67 @@ sakai.api.Security.saneHTML = function(inputHTML) {
 
     };
 
-    // Call Caja's sanitizer
-    return html_sanitize(inputHTML, filterUrl, filterNameIdClass);
+
+    // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
+    var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
+        var out = [];
+        html.makeHtmlSanitizer(
+            function sanitizeAttribs(tagName, attribs) {
+                for (var i = 0; i < attribs.length; i += 2) {
+                    var attribName = attribs[i];
+                    var value = attribs[i + 1];
+                    var atype = null, attribKey;
+                    if ((attribKey = tagName + '::' + attribName, html4.ATTRIBS.hasOwnProperty(attribKey)) || (attribKey = '*::' + attribName, html4.ATTRIBS.hasOwnProperty(attribKey))) {
+                        atype = html4.ATTRIBS[attribKey];
+                    }
+                    if (atype !== null) {
+                        switch (atype) {
+                            case html4.atype.SCRIPT:
+                            case html4.atype.STYLE:
+                                if ((value === "display: none;") || (value === "display:none;") || (value === "display: none") || (value === "display:none")) {
+                                    value = value;
+                                } else {
+                                    value = null;
+                                }
+                                break;
+                            case html4.atype.IDREF:
+                            case html4.atype.IDREFS:
+                            case html4.atype.GLOBAL_NAME:
+                            case html4.atype.LOCAL_NAME:
+                            case html4.atype.CLASSES:
+                                value = opt_nmTokenPolicy ? opt_nmTokenPolicy(value) : value;
+                                break;
+                            case html4.atype.URI:
+                                value = opt_urlPolicy && opt_urlPolicy(value);
+                                break;
+                            case html4.atype.URI_FRAGMENT:
+                                if (value && '#' === value.charAt(0)) {
+                                    value = opt_nmTokenPolicy ? opt_nmTokenPolicy(value) : value;
+                                    if (value) {
+                                        value = '#' + value;
+                                    }
+                                } else {
+                                    value = null;
+                                }
+                                break;
+                        }
+                    } else {
+                        value = null;
+                    }
+                    attribs[i + 1] = value;
+                }
+                return attribs;
+            })(htmlText, out);
+        return out.join('');
+    }
+
+
+    // Call a slightly modified version of Caja's sanitizer
+    return sakaiHtmlSanitize(inputHTML, filterUrl, filterNameIdClass);
+
+
+
+
 
 };
 
@@ -2741,6 +2805,9 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
 
         // Run the template and feed it the given JSON object
         var render = templateCache[templateName].process(templateData);
+
+        // Run the rendered html through the sanitizer
+        render = sakai.api.Security.saneHTML(render);
 
         // Check it there was an output element defined
         // If so, put the rendered template in there
