@@ -135,6 +135,17 @@
                                     <input type="radio" id="siteSettings_access_invite" class="siteSetting_access site_private" name="privacy" />
                                     <label for="siteSettings_access_invite"> __MSG__ONLY_PEOPLE_I_INVITE__</label>
                                 </div>
+                                <div class="access-form-item" id="siteSettings_joinable">
+                                    <div class="site_access_label">__MSG__SITE_JOINABILITY__:</div>
+                                    <input type="radio" id="siteSettings_joinable_no" class="siteSetting_access joinable_no" checked="checked" name="joinable" />
+                                    <label for="siteSettings_joinable_no"> __MSG__NO_ONE_MAY_JOIN__</label>
+                                    <br />
+                                    <input type="radio" id="siteSettings_joinable_withauth" class="siteSetting_access joinable_withauth" name="joinable" />
+                                    <label for="siteSettings_joinable_withauth"> __MSG__USERS_MAY_REQUEST_TO_JOIN__</label>
+                                    <br />
+                                    <input type="radio" id="siteSettings_joinable_yes" class="siteSetting_access joinable_yes" name="joinable" />
+                                    <label for="siteSettings_joinable_yes"> __MSG__ANY_USER_MAY_JOIN_THE_SITE__</label>
+                                </div>
                                 <div id="siteSettings_confirm" class="settings_confirm_container">
                                     <button id="siteSettings_save" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
                                     <button id="siteSettings_cancel" class="s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
