@@ -1368,6 +1368,7 @@ sakai.site = function(){
                      $site_join_button.text("Site join request pending approval");
                 } else if (sakai.site.currentsite["sakai:joinable"] === "yes") {
                      $site_join_button.hide();
+                     showAdminElements();
                 }
             },
             error: function(xhr, textStatus, thrownError) {
