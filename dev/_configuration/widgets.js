@@ -43,6 +43,28 @@ var Widgets = {
         }
     },
     "widgets": {
+        "addcontent": {
+            "ca":true,
+            "description":"Add Resource to a Site",
+            "name":"Add Resource",
+            "id":"addcontent",
+            "img":"/devwidgets/addcontent/images/addcontent.png",
+            "showinsakaigoodies":true,
+            "url":"/devwidgets/addcontent/addcontent.html"
+        },
+        "activitystream": {
+            "description":"Activity Stream Widget",
+            "hasSettings":true,
+            "img": "/devwidgets/activitystream/images/activitystream_icon.png",
+            "id":"activitystream",
+            "i18n": {
+                "default": "/devwidgets/activitystream/bundles/default.json",
+                "en_US": "/devwidgets/activitystream/bundles/en_US.json"
+            },
+            "name":"Activity Stream",
+            "personalportal":true,
+            "url":"/devwidgets/activitystream/activitystream.html"
+        },
         "addtocontacts": {
             "description":"Add a contact",
             "name":"Add a contact",
@@ -86,6 +108,16 @@ var Widgets = {
             "id":"changepic",
             "name":"changepic",
             "url":"/devwidgets/changepic/changepic.html"
+        },
+        "collections": {
+          "description":"Collections Tool",
+          "ca":true,
+          "hasSettings":true,
+          "showinsakaigoodies":true,
+          "id":"collections",
+          "img":"/devwidgets/collections/images/portfolio.png",
+          "name":"Collections",
+          "url":"/devwidgets/collections/collections.html"
         },
         "comments": {
             "description":"Comments",
@@ -259,16 +291,6 @@ var Widgets = {
             "name": "People Lister",
             "url": "/devwidgets/listpeople/listpeople.html"
         },
-        "memorypalace": {
-          "description":"Portfolio",
-          "ca":true,
-          "hasSettings":true,
-          "showinsakaigoodies":true,
-          "id":"memorypalace",
-          "img":"/devwidgets/memorypalace/images/portfolio.png",
-          "name":"Portfolio",
-          "url":"/devwidgets/memorypalace/memorypalace.html"
-        },
         "myfriends": {
             "description":"A list of my connections",
             "id":"myfriends",
@@ -315,6 +337,16 @@ var Widgets = {
             "id":"navigationchat",
             "name":"navigationchat",
             "url":"/devwidgets/navigationchat/navigationchat.html"
+        },
+        "pickeruser": {
+            "description":"General people picker widget",
+            "hasSettings": false,
+            "id": "pickeruser",
+            "i18n": {
+                "default": "/devwidgets/pickeruser/bundles/default.json"
+            },
+            "name": "People Picker",
+            "url": "/devwidgets/pickeruser/pickeruser.html"
         },
         "poll": {
             "ca":true,
@@ -436,6 +468,15 @@ var Widgets = {
             "name":"Twitter",
             "personalportal":true,
             "url":"/devwidgets/twitter/twitter.html"
+        },
+        "uploadcontent": {
+            "description": "Upload content to Sakai3",
+            "i18n": {
+                "default": "/devwidgets/uploadcontent/bundles/default.json"
+            },
+            "id": "uploadcontent",
+            "name": "Upload Content",
+            "url": "/devwidgets/uploadcontent/uploadcontent.html"
         },
         "video": {
             "ca":true,

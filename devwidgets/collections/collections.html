@@ -1,24 +1,48 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/memorypalace/css/memorypalace.css"/>
+<link rel="stylesheet" type="text/css" href="/devwidgets/collections/css/collections.css"/>
 
 <!-- MAIN CONTAINER -->
-<div id="memorypalace_main_container" style="display:none;" class="fl-widget-content">
+<div id="collections_main_container" style="display:none;" class="fl-widget-content">
   
   <!-- Header -->
-  <div id="memorypalace_header" style="display:none"></div>
-  <div id="memorypalace_header_template"><!--
+  <div id="collections_header" style="display:none"></div>
+  <div id="collections_header_template"><!--
     <h1>${widgetTitle}</h1>
+    <div><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure the Collections Widget" title="Configure the Collections Widget"/></a></div>
   --></div>
-  <div id="memorypalace_outer_container">
-  <div id="memorypalace_inner_container">
+  <div id="collections_outer_container">
+  <div id="collections_inner_container">
 
     <!-- Content for memory palace -->
+    
+    <!-- Album presentation -->
+    <div id="collections_albums" style="display:none" class="albumView"></div>
+    
+    <div id="collections_albums_template" style="display:none" class="albumView"><!--
+      {for album in collections}
+        <div id="album_${album.albumViewPosition}" class="albumCover">
+          <div class="albumImage">
+            {if album.image}
+              <img src="${album.image}" alt="${album.title} image"/>
+            {/if}
+          </div>
+          <span class="albumTitle">${album.title}</span>
+          <div class="albumDescription">${album.description}</div>
+        </div>
+      {/for}
+    --></div>
+  
+    <div id="collections_albums_show_album" style="display:none" class="albumView"></div>
+    <div id="collections_albums_show_album_template" style="display:none" class="albumView"><!-- 
+    
+    
+    --></div>
   
     <!-- Map presentation -->
-    <div id="memorypalace_map" style="display:none" class="mapView"></div>
+    <div id="collections_map" style="display:none" class="mapView"></div>
   
-    <div id="memorypalace_map_template" style="display:none" class="mapView"><!--
-      {for room in rooms}
+    <div id="collections_map_template" style="display:none" class="mapView"><!--
+      {for room in collections}
         <div id="mpLink${room.position}">
           {if room.title}
             <span>
@@ -31,12 +55,12 @@
       {/for}
     --></div>
   
-    <div id="memorypalace_map_room_edit_container" style="display:none" class="mapView">
+    <div id="collections_map_room_edit_container" style="display:none" class="mapView">
       <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit" style="display:none">Return to Room</a>
       <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_edit">Return to Floorplan</a>    
-      <div id="memorypalace_map_room_edit"></div>
+      <div id="collections_map_room_edit"></div>
   
-      <div id="memorypalace_map_room_edit_template"><!--
+      <div id="collections_map_room_edit_template"><!--
         <div id="room_edit_${room.position}" class="room_edit">
           <form action="javascript:;" method="POST" id="edit_room_form">
             <div class="form_item">
@@ -71,7 +95,6 @@
                   <tr><th>Category</th><th>Entries</th><th>Position</th></tr>
                 </thead>
                 <tbody id="categories_listing_body">
-
                 </tbody>
                 <tfoot>
                   <tr><td><button type="button" name="delete_categories" id="delete_categories">Delete Marked</button></td><td></td><td><button name="update_order" id="update_order" type="button">Update Order</button></td></tr>
@@ -91,11 +114,11 @@
       --></div>
     </div>
 
-    <div id="memorypalace_map_show_room_conatiner" style="display:none" class="mapView">
+    <div id="collections_map_show_room_conatiner" style="display:none" class="mapView">
       <a href="javascript:;" class="return_to_floorplan_link" id="return_to_floorplan_from_show">Return to Floorplan</a>
       <span id="room_edit_links"><a href="javascript:;" class="edit_this_room_link">Edit Room</a><a href="javascript:;" class="add_content_link">Add Content</a></span>
-      <div id="memorypalace_map_show_room"></div>
-      <div id="memorypalace_map_show_room_template"><!--
+      <div id="collections_map_show_room"></div>
+      <div id="collections_map_show_room_template"><!--
         <h2>${room.title}</h2>
         {if room.image}
         <img src="${room.image}" alt="${room.title} image"/>
@@ -114,11 +137,11 @@
       --></div>    
     </div>
 
-    <div id="memorypalace_map_add_content_container" style="display:none" class="mapView">
-      <div id="memorypalace_map_add_content"></div>
-      <div id="memorypalace_map_add_content_template"><!--
-        <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit">Return to Room</a>
-        <a href="javascript:;" class="return_to_floorplan_link" id="return_to_content_from_edit" style="display:none">Return to Content</a>      
+    <div id="collections_map_add_content_container" style="display:none" class="mapView">
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit">Return to Room</a>
+      <a href="javascript:;" class="return_to_floorplan_link" id="return_to_content_from_edit" style="display:none">Return to Content</a>      
+      <div id="collections_map_add_content"></div>
+      <div id="collections_map_add_content_template"><!--
         <h2>Add Content</h2>
         <form>
           <input type="hidden" name="content_mimetype" id="content_mimetype" value="{if content.mimetype}${content.mimetype}{/if}"/>
@@ -159,13 +182,13 @@
         --></div>
     </div>
 
-    <div id="memorypalace_map_show_content_item_container" style="display:none" class="mapView">
+    <div id="collections_map_show_content_item_container" style="display:none" class="mapView">
       <a href="javascript:;" class="return_to_floorplan_link" id="return_to_room_from_edit_content_item">Return to Room</a>    
       <span id="room_edit_links"><a href="javascript:;" class="edit_this_content_link">Edit Content</a></span>
 
-      <div id="memorypalace_map_show_content_item"></div>
+      <div id="collections_map_show_content_item"></div>
     
-      <div id="memorypalace_map_show_content_item_template"><!--
+      <div id="collections_map_show_content_item_template"><!--
       
         <h2>${item.title}</h2>
         {if item.synopsis}
@@ -180,14 +203,16 @@
     
     </div>
 
-    <div id="memorypalace_album" style="display:none" class="albumView"></div>
+    <div id="collections_album" style="display:none" class="albumView"></div>
   
-    <div id="memorypalace_album_template" style="display:none" class="albumView"></div>  
+    <div id="collections_album_template" style="display:none" class="albumView"></div>  
 
     <!-- category table template -->
-    <div id="memorypalace_map_categories_listing_body_template" style="display:none" class="mapView"><!-- 
+    <div id="collections_map_categories_listing_body_template" style="display:none" class="mapView"><!-- 
       {for cat in categories}
         <tr><td><input type="checkbox" name="${cat.id}" id="cat_${cat.id}" value="${cat.id}"/><label for="cat_${cat.id}">${cat.name}</label</td><td>${cat.items.length}</td><td><input type="text" class="cat_position" name="${cat.id}" id="cat_position_${cat.id}" value="${cat.position}"/></td></tr>
+      {forelse}
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       {/for}
     --></div>
 
@@ -377,14 +402,14 @@
   </div>
 </div>
 
-<div id="memorypalace_settings" style="display:none">
+<div id="collections_settings" style="display:none">
   <form action="javascript:;" method="POST">
     <div class="dialog_buttons">
       <form>
-        <label for="portfolio_title">Title</label>
-        <input type="text" id="portfolio_title" name="portfolio_title"/>
-        <a class="button-default submit_button" href="javascript:;" id="memorypalace_settings_submit">Submit</a>
-        <a class="button cancel-button" href="javascript:;" id="memorypalace_settings_cancel">Cancel</a>
+        <label for="widget_title">Title</label>
+        <input type="text" id="widget_title" name="widget_title"/>
+        <a class="button-default submit_button" href="javascript:;" id="collections_settings_submit">Submit</a>
+        <a class="button cancel-button" href="javascript:;" id="collections_settings_cancel">Cancel</a>
       </form>
     </div>
   </form>
@@ -392,5 +417,5 @@
 
 
 <!-- JAVASCRIPT -->
-<script src="/devwidgets/memorypalace/javascript/memorypalace.js" type="text/javascript" charset="utf-8"></script>
-<script src="/devwidgets/memorypalace/javascript/contentmedia_memorypalace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/devwidgets/collections/javascript/collections.js" type="text/javascript" charset="utf-8"></script>
+<script src="/devwidgets/collections/javascript/contentmedia_collections.js" type="text/javascript" charset="utf-8"></script>

@@ -834,6 +834,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 else {
                     $(chatWith + "_" + friendId + "_txt").attr("disabled", true);
                     $(chatWith + "_" + friendId + "_txt").val(friendName + " is offline");
+                    updateChatWindowChatStatus(friendId, "offline");
                 }
 
             }
@@ -1348,7 +1349,9 @@ sakai.navigationchat = function(tuid, showSettings){
             data: {
                 "_from": tosend,
                 "items": 1000,
-                "t": pulltime
+                "t": pulltime,
+                "sortOn": "sakai:created",
+                "sortOrder": "descending"
             },
             cache: false,
             sendToLoginOnFail: true,

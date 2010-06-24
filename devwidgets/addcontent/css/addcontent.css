@@ -1,0 +1,92 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* Main container */
+#addcontent_container {
+    height: 300px;
+}
+
+/* Place container */
+#addcontent_container_place {
+    border-right: 1px solid #ccc;
+    display: inline;
+    float: left;
+    height: 100%;
+    overflow-x: hidden;
+    width: 150px;
+}
+.addcontent_container_place_selected a {
+    background: #eee;
+    display: block;
+    padding:4px;
+}
+#addcontent_container_place ul {
+    margin: 0;
+    padding: 0;
+}
+#addcontent_container_place ul li {
+    list-style-type: none;
+}
+
+/* Content container */
+#addcontent_container_content {
+    display: inline;
+    float: left;
+    height: 100%;
+    overflow: auto;
+    width: 450px;
+}
+.addcontent_container_content_box_container {
+    cursor: pointer;
+    display: inline;
+    float: left;
+    height:115px;
+    overflow: hidden;
+    padding: 10px;
+    width: 80px;
+}
+.addcontent_container_content_box_container:hover {
+    background: #ddd;
+}
+.addcontent_container_content_box {
+    height: 80px;
+    overflow: hidden;
+}
+.addcontent_container_content_box_info {
+    overflow: hidden;
+}
+.addcontent_container_content_box_selected, .addcontent_container_content_box_selected:hover {
+    background: #45494F;
+    color:#fff;
+}
+
+/* Show box container */
+.addcontent_container_show_box_container {
+    background: #efefef;
+    overflow-x: hidden;
+    padding: 10px;
+    width: 155px;
+}
+.addcontent_container_show_box_info p {
+    margin-bottom: 0;
+}
+
+/* Buttons */
+#addcontent_container_buttons {
+    margin-top: 20px;
+}

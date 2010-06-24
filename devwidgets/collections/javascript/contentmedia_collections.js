@@ -20,7 +20,7 @@
 
 var sakai = sakai || {};
 
-sakai.memorypalacecontent = function(){
+sakai.collectionscontent = function(){
   
     ////////////////////
     // Help variables //
@@ -654,7 +654,7 @@ sakai.memorypalacecontent = function(){
      *         "page" : 0
      *    }
      */
-    sakai.memorypalacecontent.initialise = function(_options){
+    sakai.collectionscontent.initialise = function(_options){
         // Save options object
         options = _options;
         
@@ -689,7 +689,7 @@ sakai.memorypalacecontent = function(){
         
     };
     
-    sakai.memorypalacecontent.initialise({
+    sakai.collectionscontent.initialise({
         "context" : "myfiles",
         "search" : false,
         "tag" : [],
@@ -697,4 +697,4 @@ sakai.memorypalacecontent = function(){
     });
 };
 
-sakai.api.Widgets.widgetLoader.informOnLoad("memorypalace");
+sakai.api.Widgets.widgetLoader.informOnLoad("collections");

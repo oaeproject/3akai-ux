@@ -114,6 +114,7 @@ sakai.site = function(){
     var $sidebar_content_pages = $("#sidebar-content-pages");
     var $main_content_div = $("#main-content-div");
     var $dashboard_options = $(".dashboard_options");
+    var $more_link = $("#more_link");
 
 
     /////////////////////////////
@@ -257,6 +258,7 @@ sakai.site = function(){
                     $site_management_appearance_link.attr("href", $site_management_appearance_link.attr("href") + sitepath);
                     $site_settings_link.attr("href", $site_settings_link.attr("href") + "?site=" + sitepath);
                     $site_management_files_link.attr("href", $site_management_files_link.attr("href") + sitepath);
+                    $more_link.attr("href", $more_link.attr("href") + "?url=" +location.pathname);
                 }
 
                 // Determine whether the user is maintainer, if yes show and load admin elements
@@ -278,25 +280,15 @@ sakai.site = function(){
                 $initialcontent.show();
                 $sitetitle.text(sakai.site.currentsite.name);
 
-                if (sakai.site.currentsite["sakai:joinable"] === "yes" || sakai.site.currentsite["sakai:joinable"] === "withauth") {
-                    if (!sakai.site.isCollaborator) {
-                        if (sakai.site.currentsite["sakai:joinable"] === "withauth") {
-                            if (sakai.site.currentsite[":isPendingApproval"] === true) {
-                                $site_join_button.text("Request for membership pending approval").show().attr('disabled','disabled');
-                            } else {
-                               $site_join_button.text("Request to join this site").show(); 
-                            }
-                        } else if (sakai.site.currentsite["sakai:joinable"] === "yes") {
-                            $site_join_button.show();
-                        }
+               // if (sakai.site.currentsite["sakai:joinable"] === "true") {
+                    $site_join_button.show();
 
-                        // Bind 'Join this site' button
-                        $("#site_join_button").live("click", function(ev){
-                            requestJoin();
-                            return false;
-                        });
-                    }
-                }
+                    // Bind 'Join this site' button
+                    $site_join_button.live("click", function(ev){
+                        requestJoin();
+                        return false;
+                    });
+                //}
 
                 // Refresh site_info object
                 sakai.site.refreshSiteInfo();
@@ -1118,8 +1110,8 @@ sakai.site = function(){
 
                         var x = $(this).position().left;
                         var y = $(this).position().top;
-                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 23 + "px");
-                        $("#widget_settings_menu").css("top", y + 18 + "px");
+                        $("#widget_settings_menu").css("left", x - $(dashPageID + " #widget_settings_menu").width() + 25 + "px");
+                        $("#widget_settings_menu").css("top", y + 20 + "px");
                         $("#widget_settings_menu").show();
                     });
 
@@ -1383,7 +1375,7 @@ sakai.site = function(){
                 fluid.log("site.js: Could not submit request to join site. \n HTTP status code: " + xhr.status);
             }
         });
-    }
+    };
 
 
     /////////////////////////////

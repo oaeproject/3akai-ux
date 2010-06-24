@@ -25,7 +25,7 @@ sakai.site_add_members = function() {
     var roleToGroup = {};
     var siteJson = {};
     var selectedSite = "";
-    var pageSize = 10;
+    var pageSize = 25;
     var selectedPeople = [];
 
    /**
@@ -68,7 +68,6 @@ sakai.site_add_members = function() {
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
                 $("#sitetitle").text(siteJson.name);
                 $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
-                getSiteMembershipRequests();
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
@@ -178,7 +177,7 @@ sakai.site_add_members = function() {
         for (var i = 0; i < people.results.length; i++) {
             if (people.results[i].picture && typeof people.results[i].picture === "string") {
                 people.results[i].picture = $.parseJSON(people.results[i].picture);
-                parseJSONople.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
+                people.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
             }
             else {
                 people.results[i].picture = {};
@@ -239,10 +238,11 @@ sakai.site_add_members = function() {
                     arrSearchTerms.push(" " + $.trim(splitted[i]) + "*") ;
                 }
         }
-        var peoplesearchterm = arrSearchTerms.join(" OR ");
+        //escape the special chars (Ž, Œ,...) and replace hyphens by spaces
+        var peoplesearchterm = escape(arrSearchTerms.join(" OR ")).replace(/-/g,"%20");
         $.ajax({
             cache: false,
-            url: "/var/search/users?username=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
+            url: sakai.config.URL.SEARCH_USERS + "?q=" + peoplesearchterm + "&items=" + pageSize + "&page=" + (page - 1),
             success: function(data) {
                 json.foundPeople = $.extend(data, {}, true);
                 renderPeople(json.foundPeople);
@@ -321,6 +321,7 @@ sakai.site_add_members = function() {
             cache: false,
             url: "/sites/" + selectedSite + ".members.json",
             success: function(data){
+
                 json.members = $.extend(data, {}, true).results;
                 var arrPeople = [];
                 $.each(json.members, function(i, val){
@@ -371,6 +372,23 @@ sakai.site_add_members = function() {
                     success: function(data){
                             updateSiteMembers(dataTemp);
                             selectNone();
+
+                            // Create an activity item for adding new members to the site
+                            var activityMsg = "New members were added to the site \"" + siteJson.name + "\": <br/>";
+
+                            for (var i = 0, il = newMembers.length; i < il; i++) {
+                                activityMsg += "<a href=\"/dev/profile.html?user=" + newMembers[i] + "\">" + $("a[data-userid='" + newMembers[i] + "']").html()+"</a> ";
+                            }
+                            activityMsg += "<br /> as " + $("#manage_members_role_rbts input:checked").val()+"(s)";
+
+                            var nodeUrl = siteJson["jcr:path"];
+                            var activityData = {
+                                "sakai:activityMessage": activityMsg,
+                                "sakai:activitySiteName": siteJson.name,
+                                "sakai:activitySiteId": siteJson["jcr:name"]
+                            }
+                            sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
                             sakai.lib.notifications.showNotification("Site management", "New member(s) were succesfully added", "normal", false, "/dev/_images/inbox_folders_messages.gif");
                     },
                     error: function(xhr, textStatus, thrownError) {
@@ -382,66 +400,6 @@ sakai.site_add_members = function() {
 
     };
     
-    /**
-     * Membership Requests 
-     */
-     
-     /**
-      * Retrieves pending membership requests for the site
-      */
-     var getSiteMembershipRequests = function() {
-       console.log("getSiteMembershipRequests");
-       $.ajax({
-           cache: false,
-           url:"/var/joinrequests/pending.json?site=" + siteJson.id,
-           success: function(data) {
-             console.log(data);
-             renderPeopleRequests(data.foundPeople);
-           }, 
-           error: function(xhr, textStatus, thrownError) {
-             console.log(error);
-           }
-         });
-     };
-     
-     /**
-        * renders a list of people who requested to join the site
-        * @param {Object} people
-        */
-       var renderPeopleRequests = function(people) {
-           if (typeof(people.results) === "undefined") {
-               people.results = [];
-           }
-
-           for (var i = 0; i < people.results.length; i++) {
-               if (people.results[i].picture && typeof people.results[i].picture === "string") {
-                   people.results[i].picture = $.parseJSON(people.results[i].picture);
-                   parseJSONople.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
-               }
-               else {
-                   people.results[i].picture = {};
-               }
-               people.results[i].userid = people.results[i]["rep:userId"];
-               var existingRole = checkRole(people.results[i].userid);
-               if (existingRole) {
-                   people.results[i].isMember = true;
-                   people.results[i].role = existingRole;
-               }
-           }
-           $("#siteManage_requests").html($.TemplateRenderer("siteManage_request_template", people));
-           updateSelectedPersons();
-
-           $(".siteManage_person_request").bind("click",
-           function(e, ui) {
-               if (!$(e.target).hasClass("view-profile-label")) {
-                   var userindex = parseInt(this.id.replace("siteManage_person_request", ""), 10);
-                   selectPerson(userindex, true, false);
-                   updateSelectedPersons();
-               }
-           });
-
-       };
-
     $("#txt_member_search").bind("focus",
     function(e, ui) {
         if ($("#txt_member_search").css("color") !== "rgb(0, 0, 0)") {
