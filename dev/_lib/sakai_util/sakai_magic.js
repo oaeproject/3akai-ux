@@ -2717,10 +2717,10 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
         // WARNING: This does not solve the locking/overwriting problem entirely, it merely takes care of high volume request related issues. Users
         // should be notified in advance by the UI when somebody else is editing a piece of content, and should actively try reduce the possibility of
         // overwriting.
-        if (requestStatus === 409) {
+/*        if (requestStatus === 409) {
             // Retry initial post
             $.ajax(s);
-        }
+        }*/
 
         // Call original error handler, but not in the case of 409 as we want that to be transparent for users
         if ((s.error) && (requestStatus !== 409)) {
