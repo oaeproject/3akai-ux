@@ -102,6 +102,7 @@ sakai.site = function(){
     var $initialcontent = $("#initialcontent");
     var $page_nav_content = $("#page_nav_content");
     var $sitetitle = $("#sitetitle");
+    var $site_join_button = $("#site_join_button");
     var $widget_chat = $("#widget_chat");
     var $loginLink = $("#loginLink");
     var $insert_more_menu = $("#insert_more_menu");
@@ -273,6 +274,16 @@ sakai.site = function(){
                 // Show initial content and display site title
                 $initialcontent.show();
                 $sitetitle.text(sakai.site.currentsite.name);
+
+                if (sakai.site.currentsite["sakai:joinable"] === "true") {
+                    $site_join_button.show();
+
+                    // Bind 'Join this site' button
+                    $("#site_join_button").live("click", function(ev){
+                        requestJoin();
+                        return false;
+                    });
+                }
 
                 // Refresh site_info object
                 sakai.site.refreshSiteInfo();
@@ -1335,6 +1346,28 @@ sakai.site = function(){
         }
 
     };
+
+    /////////////////////////////
+    // Request Site Join
+    /////////////////////////////
+    var requestJoin = function() {
+        $site_join_button.text("Submitting request…").attr('disabled','disabled');
+        $.ajax({
+            url: "/sites/" + sakai.site.currentsite.id + ".join.html",
+            type: "POST",
+            data: {
+                "targetGroup": sakai.site.currentsite["sakai:rolemembers"][0]
+            },
+            success: function(data){
+                $site_join_button.text("Site join request pending approval");
+            },
+            error: function(xhr, textStatus, thrownError) {
+
+                fluid.log("site.js: Could not submit request to join site. \n HTTP status code: " + xhr.status);
+
+            }
+        });
+    }
 
 
     /////////////////////////////
