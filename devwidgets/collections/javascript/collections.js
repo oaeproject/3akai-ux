@@ -98,6 +98,10 @@ sakai.collections = function(tuid, showSettings) {
   var currentContentItemID = 0;
   var fromViewRoom = false;
   
+  /**
+   * Universal Functions
+   */
+  
   var getWidgetData = function() {
     sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
       if (success) {
@@ -177,26 +181,6 @@ sakai.collections = function(tuid, showSettings) {
     saveWidgetData();
   };
 
-  var mpinitTinyMCE = function(elt) {
-
-      // Init tinyMCE
-      tinyMCE.init({
-          // General options
-          mode : "exact",
-          theme: "advanced",
-          elements: elt,
-          width: "603px",
-          plugins: "spellchecker,advhr,embedresource,resourcelink,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
-          theme_advanced_toolbar_location: "top",
-          theme_advanced_toolbar_align: "left",          
-          theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
-          theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,spellchecker,|,image,resourcelink",
-          theme_advanced_buttons3 : "",
-          // Example content CSS (should be your site CSS)
-          content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS
-      });
-  };
-
   var sortCollectionByPosition = function() {
     collectionData.collections.sort(function(a, b) {
         var positionA = a.position;
@@ -212,6 +196,14 @@ sakai.collections = function(tuid, showSettings) {
         }
     });
   };
+
+  /**
+   * Universal event bindings
+   */
+   
+  $("#collections_header span a").live("click", function() {
+    
+  });
 
   /**
    * Album View
@@ -282,7 +274,27 @@ sakai.collections = function(tuid, showSettings) {
   /**
    * Map View
    */
-   
+
+  var mpinitTinyMCE = function(elt) {
+
+       // Init tinyMCE
+       tinyMCE.init({
+           // General options
+           mode : "exact",
+           theme: "advanced",
+           elements: elt,
+           width: "603px",
+           plugins: "spellchecker,advhr,embedresource,resourcelink,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template",
+           theme_advanced_toolbar_location: "top",
+           theme_advanced_toolbar_align: "left",          
+           theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
+           theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,spellchecker,|,image,resourcelink",
+           theme_advanced_buttons3 : "",
+           // Example content CSS (should be your site CSS)
+           content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS
+       });
+   };
+ 
   var prepCollectionDataForMapView = function() {
     var ret = {"collections":[]};
     
@@ -476,10 +488,10 @@ sakai.collections = function(tuid, showSettings) {
    };
    
    /**
-    * Room Image Methods
+    * Map View - Room Image Methods
     * Dependent on contentmedia_collections.js
     */
-    var chooseImage = function() {
+   var chooseImage = function() {
         // internet resource or file resource?
         var resourceURL = '';
         if ($(".embedresource_active", $(rootel)[0]).attr("id") == "embedresource_tab-1") {
@@ -543,7 +555,7 @@ sakai.collections = function(tuid, showSettings) {
    };
   
    /**
-    * Category Methods
+    * Map View - Category Methods
     */
     var deleteCategories = function(catIDs) {
         for (var i = 0; i < currentCollectionData.categories.length; i++) {
