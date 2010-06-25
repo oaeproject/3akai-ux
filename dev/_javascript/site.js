@@ -280,14 +280,20 @@ sakai.site = function(){
                 $initialcontent.show();
                 $sitetitle.text(sakai.site.currentsite.name);
 
-               if (sakai.site.currentsite["sakai:joinable"] === "true") {
+                // Setting up the Join this site button
+                if (shouldShowJoinButton()) {
+                    if (shouldDisableJoinButton()) {
+                        $site_join_button.text("Request for membership pending approval").show().attr('disabled','disabled');
+                    } else {
+                        if (joinRequiresApproval()) {
+                            $site_join_button.text("Request to join this site");
+                        }
+                        // Bind 'Join this site' button
+                        $site_join_button.live("click", function(ev){
+                            requestJoin();
+                        });
+                    }
                     $site_join_button.show();
-
-                    // Bind 'Join this site' button
-                    $site_join_button.live("click", function(ev){
-                        requestJoin();
-                        return false;
-                    });
                 }
 
                 // Refresh site_info object
@@ -306,6 +312,20 @@ sakai.site = function(){
             }
         });
     };
+    
+    var shouldShowJoinButton = function() {
+        return ((sakai.site.currentsite["sakai:joinable"] === "yes" 
+            || sakai.site.currentsite["sakai:joinable"] === "withauth")
+        && !sakai.site.isCollaborator);
+    }
+    
+    var shouldDisableJoinButton = function() {
+        return sakai.site.currentsite[":isPendingApproval"] === true;
+    }
+    
+    var joinRequiresApproval = function() {
+        return sakai.site.currentsite["sakai:joinable"] === "withauth";
+    }
 
 
     /**
