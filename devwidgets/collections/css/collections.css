@@ -10,11 +10,11 @@
 #collections_header div span#choose_layout, #collections_header div button {float:left; margin-right:10px; position:relative; margin:1px 5px 0px 0px;}
 /* Layout Chooser */
 #collections_header div span#choose_layout {height:16px; border:1px solid #aaa; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin-top:1px; width:160px; padding:2px; background:url(/dev/_images/arrow_down_sm2.png) no-repeat scroll 150px 50% transparent; cursor:pointer;}
-#collections_header div span#choose_layout a {float:left; margin-top:-1px; margin-left:4px;}
+#collections_header div span#choose_layout a {float:left; margin-top:-1px; margin-left:4px; font-weight:bold;}
 #collections_header div span#choose_layout a:hover {text-decoration:none;}
 #collections_header_select_layout {-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;background-color:rgb(213,219,223);border-style:solid; border-color:#aaa; border-width:0px 1px 1px 1px;left:423px;position:absolute;top:-15px;width:164px;z-index:200;}
 #collections_header_select_layout ul {float:left;margin:0;padding:5px 0 0;position:relative;width:100%;}
-#collections_header_select_layout ul li {list-style:none inside none;padding-left:51px;margin-bottom:2px; font-size:11px;}
+#collections_header_select_layout ul li {list-style:none inside none;padding-left:7px;margin-bottom:2px; font-size:11px;}
 #collections_header_select_layout ul li:hover {background-color:rgb(30,108,150);color:#fff; cursor:pointer;}
 #collections_header_select_layout ul li.selected {font-weight:bold;}
 #collections_header div span#choose_layout span#chosen_layout {font-size:11px;}
@@ -207,7 +207,7 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 .albumCover div.albumCoverImage{width:140px;height:105px;float:left;position:relative;}
 .albumCover span.albumCoverTitle{color:#058EC4;font-weight:bold;font-size:14px;width:140px;float:left;position:relative;}
 .albumCover p{float:left;position:relative;width:140px;}
-.albumCover.addAlbum {border:4px solid #bbb;background:url(/devwidgets/collections/images/add_icon.png) transparent 50% 50% no-repeat;}
+.albumCover.addAlbum {border:4px solid #bbb;background:url(/devwidgets/collections/images/add_icon.png) transparent 50% 50% no-repeat;height:210px;}
 .albumCover.addAlbum.clicked {background:url(/devwidgets/collections/images/add_icon.png) transparent 51% 51% no-repeat;}
 /* Single Album View */
 .albumHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:20px;width:560px;float:left;position:relative;}

@@ -84,6 +84,10 @@ sakai.collections = function(tuid, showSettings) {
   var browseResourceFilesDialog = "#browse_resource_files";
   var chooseImageButton = "#choose_image";
   
+  // Layout Selection
+  var collectionsHeaderSelectLayout = "#collections_header_select_layout";
+  var collectionsHeaderSelectLayoutTemplate = collectionsHeaderSelectLayout + "_template";
+  
   // Album View
   var collectionsAlbums = collections + "_albums";
   var collectionsAlbumsTemplate = collectionsAlbums + "_template";
@@ -114,6 +118,7 @@ sakai.collections = function(tuid, showSettings) {
         } else {
           $(collectionsHeader, $(rootel)[0]).show();
           $.TemplateRenderer(collectionsHeaderTemplate, settings, $(collectionsHeader, $(rootel)[0]));
+          $.TemplateRenderer(collectionsHeaderSelectLayoutTemplate, settings, $(collectionsHeaderSelectLayout, $(rootel)[0]));
           if (settings.displayStyle == "mapView") {
             renderMapView();
           } else if (settings.displayStyle == "albumView") {
@@ -224,9 +229,12 @@ sakai.collections = function(tuid, showSettings) {
   
   $("#collections_header_select_layout li").live("click", function() {
     hideAllViews();
+    $("#collections_header_select_layout li").removeClass("selected");
+    $(this).addClass("selected");
     if ($(this).attr("id") == "albumView") {
       $("#collections_header div span#choose_layout a span#chosen_layout").text("Album View");
       settings.displayStyle = "albumView";
+      showAddAlbum();
       renderAlbumView();
     } else if ($(this).attr("id") == "mapView") {
       if (collectionData.collections.length > 10) {
@@ -290,10 +298,12 @@ sakai.collections = function(tuid, showSettings) {
   };
   
   var showAddAlbum = function() {
-    if ($(".addAlbum").length == 0)
-      $("#collections_albums").prepend("<div class='albumCover addAlbum'></div>");
-    else
-     $(".addAlbum").show();
+    if ($("#collections_header div").hasClass("expanded")) {
+      if ($(".addAlbum").length == 0)
+        $("#collections_albums").append("<div class='albumCover addAlbum'></div>");
+      else
+       $(".addAlbum").show();
+    }
   };
   
   var hideAddAlbum = function() {

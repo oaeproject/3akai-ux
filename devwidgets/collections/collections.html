@@ -24,12 +24,13 @@
   <div id="collections_outer_container">
   <div id="collections_inner_container">
     
-    <div id="collections_header_select_layout" style="display:none">
+    <div id="collections_header_select_layout" style="display:none"></div>
+    <div id="collections_header_select_layout_template" style="display:none"><!--
       <ul>
-        <li class="selected" id="albumView">Album View</li>
-        <li id="mapView">Architectural View</li>
+        <li {if displayStyle == "albumView"} class="selected" {/if} id="albumView">Album View</li>
+        <li {if displayStyle == "mapView"} class="selected" {/if} id="mapView">Architectural View</li>
       </ul>
-    </div>
+    --></div>
     
     <!-- Content for memory palace -->
     
