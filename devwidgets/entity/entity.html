@@ -1,5 +1,5 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css"></link>
+<link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css" />
 
 <!-- CONTAINER -->
 <div id="entity_container" class="fl-container-900" style="display:none"><!-- --></div>
@@ -27,14 +27,21 @@
             <form method="POST" action="javascript:;">
                 <div>
                     <label for="entity_profile_chatstatus">__MSG__CHAT_STATUS__: </label>
-                    <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
-                        <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE__</option>
-                        <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
-                        <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
-                    </select>
+                    {if mode === "myprofile"}
+                        <select id="entity_profile_chatstatus" title="__MSG__CHAT_STATUS__">
+                            <option value="online" {if data.profile.chatstatus === "online"}selected="selected"{/if}>__MSG__AVAILABLE__</option>
+                            <option value="busy" {if data.profile.chatstatus === "busy"}selected="selected"{/if}>__MSG__BUSY__</option>
+                            <option value="offline" {if data.profile.chatstatus === "offline"}selected="selected"{/if}>__MSG__OFFLINE__</option>
+                        </select>
+                    {else}
+                        {if data.profile.chatstatus === "online"}__MSG__AVAILABLE__{/if}
+                        {if data.profile.chatstatus === "busy"}__MSG__BUSY__{/if}
+                        {if data.profile.chatstatus === "offline"}>__MSG__OFFLINE__{/if}
+                    {/if}
                 </div>
             </form>
             <form id="entity_profile_status" method="POST" action="javascript:;">
+                {if mode === "myprofile"}
                 <div>
                     <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
                     <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
@@ -42,6 +49,11 @@
                     <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
                     <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
                 </div>
+                {else}
+                    {if data.profile.status}
+                        ${data.profile.status}
+                    {/if}
+                {/if}
             </form>
         {/if}
         {if mode === "content"}
