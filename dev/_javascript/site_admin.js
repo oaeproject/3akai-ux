@@ -2441,7 +2441,7 @@ sakai.site.site_admin = function(){
 
     // Bind title input change event
     $("#title-input").bind("change", function(){
-        $("#new_page_path_current").text($("#title-input").val());
+        $("#new_page_path_current").text(sakai.api.Security.saneHTML($("#title-input").val()));
     });
 
     // Bind resize event

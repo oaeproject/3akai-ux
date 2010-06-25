@@ -273,7 +273,7 @@ sakai.site = function(){
 
                 // Show initial content and display site title
                 $initialcontent.show();
-                $sitetitle.text(sakai.site.currentsite.name);
+                $sitetitle.text(sakai.api.Security.saneHTML(sakai.site.currentsite.name));
 
                 // Refresh site_info object
                 sakai.site.refreshSiteInfo();
@@ -593,7 +593,7 @@ sakai.site = function(){
           pageType = sakai.site.site_info._pages[pageUrlName]["pageType"];
 
           // Set page title
-          $pagetitle.text(sakai.site.site_info._pages[pageUrlName]["pageTitle"]);
+          $pagetitle.text(sakai.api.Security.saneHTML(sakai.site.site_info._pages[pageUrlName]["pageTitle"]));
         }
 
         // Set login link
