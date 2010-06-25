@@ -200,12 +200,31 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 #browse_resource_files .s3d-button .s3d-button-inner{background:url("/dev/_images/button-sprite-5state.png") no-repeat scroll left top transparent;}
 #browse_resource_files .s3d-button{background:url("/dev/_images/button-sprite-5state.png") no-repeat scroll right -40px transparent;}
 #browse_resource_files textarea,#browse_resource_files input[type="text"]{width:500px;height:auto;}
-/* Album View */
+/* All Album View */
 #collections_albums{float:left;padding-left:0;padding-top:22px;position:relative;}
 .albumCover{float:left;padding:20px;width:140px;height:220px;position:relative;margin:0 0 24px 24px;background-color:rgb(255,255,255);-moz-box-shadow:3px 3px 12px -5px rgb(120,120,120);-moz-border-radius:8px;-webkit-box-shadow:3px 3px 12px -5px rgb(120,120,120);-webkit-border-radius:8px;box-shadow:3px 3px 12px -5px rgb(120,120,120);border-radius:8px;}
 .albumCover.clicked{background-color:rgb(245,245,245);-moz-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);-webkit-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);padding:22px 18px 18px 22px;overflow:hidden;}
-.albumCover div.albumImage{width:140px;height:105px;float:left;position:relative;}
-.albumCover span.albumTitle{color:#058EC4;font-weight:bold;font-size:14px;width:140px;float:left;position:relative;}
+.albumCover div.albumCoverImage{width:140px;height:105px;float:left;position:relative;}
+.albumCover span.albumCoverTitle{color:#058EC4;font-weight:bold;font-size:14px;width:140px;float:left;position:relative;}
 .albumCover p{float:left;position:relative;width:140px;}
 .albumCover.addAlbum {border:4px solid #bbb;background:url(/devwidgets/collections/images/add_icon.png) transparent 50% 50% no-repeat;}
 .albumCover.addAlbum.clicked {background:url(/devwidgets/collections/images/add_icon.png) transparent 51% 51% no-repeat;}
+/* Single Album View */
+.albumHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:20px;width:560px;float:left;position:relative;}
+.albumHead {float:left; width:100%;}
+.albumImage {float:left; width:300px;height:200px;border:1px solid #ccc;}
+.albumDesc {float:left; width:240px; height:200px;border:1px solid #ccc; margin-left:10px;}
+.albumHead {width:100%; float:left; position:relative;}
+.albumHead h1 {float:left; position:relative; width:74%;}
+.albumHead div {float:left; position:relative; width:26%;}
+.albumHead img {float:right;position:relative;}
+.albumHead button {float:left; position:relative;}
+.albumCategories {float:left;position:relative;width:100%;}
+.categoryHeader {margin:0px 0px 10px 20px;float:left;position:relative;width:630px;}
+.categoryHeader h2 {float:left;position:relative;width:90%;margin:0;}
+.categoryHeader span {float:left;position:relative;width:6%;text-align:right;}
+.categoryPreview {float:left; margin-left:20px;height:180px;width:128px;position:relative;}
+.categoryPreview h3 {font-size:14px;color:#006E96; width:100%; float:left;font-weight:bold;position:relative;margin:5px 0px 0px 5px;}
+.categoryPreview span {width:100%; float:left; font-size:12px;font-weight:bold;position:relative;margin-left:5px;}
+.categoryCover {float:left; position:relative;height:118px; width:118px; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20); padding:10px;background-color:#fff;}
+.categoryCover img {border:1px solid #ccc; height:117px; width:117px; display:block;}

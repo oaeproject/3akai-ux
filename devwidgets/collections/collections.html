@@ -14,7 +14,7 @@
         </a>
       </span>
       <a href="javascript:;" id="configure_widget">
-        <img src="/devwidgets/collections/images/config_icon.png" alt="Configure the Collections Widget" title="Configure the Collections Widget"/>
+        <img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Collections Widget" title="Configure this Collections Widget"/>
       </a>
     </div>
   --></div>
@@ -39,24 +39,40 @@
     <div id="collections_albums_template" style="display:none" class="albumView"><!--
       {for album in collections}
         <div id="album_${album.albumViewPosition}" class="albumCover">
-          <div class="albumImage">
+          <div class="albumCoverImage">
             {if album.image}
               <img src="${album.image}" alt="${album.title} image"/>
             {/if}
           </div>
-          <span class="albumTitle">${album.title}</span>
-          <div class="albumDescription">${album.description}</div>
+          <span class="albumCoverTitle">${album.title}</span>
+          <div class="albumCoverDescription">${album.description}</div>
         </div>
       {/for}
     --></div>
   
     <div id="collections_albums_show_album" style="display:none" class="albumView"></div>
-    <div id="collections_albums_show_album_template" style="display:none" class="albumView"><!-- 
+    <div id="collections_albums_show_album_template" style="display:none" class="albumView"><!--
       <div class="albumHero">
-        <div class="albumHead"><h1>${title}</h1><span>config</span></div>
-        <div class="albumImage"></div><<div class="albumDesc"></div>
+        <div class="albumHead">
+          {if album.title}
+            <h1>${album.title}</h1>
+          {/if}
+          <div class="configureAlbum"><button class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+        </div>
+        <div class="albumImage"></div>
+        <div class="albumDesc"></div>
       </div>
       <div class="albumCategories">
+        <div class="categoryHeader"><h2>Categories</h2><span><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="Add New Category" title="Add New Category"/></a></span></div>
+        {for category in album.categories}
+        <div class="categoryPreview">
+          <div class="categoryCover">
+            <img src="${category.image}" alt="${category.name} image"/>
+          </div>
+          <h3>${category.name}</h3>
+          <span>${category.items.length} items</span>
+        </div>
+        {/for}
       </div>
     --></div>
   

@@ -285,12 +285,13 @@ sakai.collections = function(tuid, showSettings) {
        break;
       }
     }
-    $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, albumData, $(collectionsAlbumsShowAlbum));
+    $(collectionsAlbumsShowAlbum).show();
+    $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {"album":albumData}, $(collectionsAlbumsShowAlbum, $(rootel)[0]));
   };
   
   var showAddAlbum = function() {
     if ($(".addAlbum").length == 0)
-      $("#collections_albums").append("<div class='albumCover addAlbum'></div>");
+      $("#collections_albums").prepend("<div class='albumCover addAlbum'></div>");
     else
      $(".addAlbum").show();
   };
@@ -309,13 +310,13 @@ sakai.collections = function(tuid, showSettings) {
   /**
    * Album View Events
    */   
-  
+  /*
   $(".addAlbum").live("click", function() {
     hideAllAlbumView();
-    $(collectionsAlbumsShowAlbum).show();
-    $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {}, $(collectionsAlbumsShowAlbum));
+    
+    $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {"album":{}}, $(collectionsAlbumsShowAlbum));
   });
-  
+  */
   $(".albumCover").live("mousedown", function() {
     $(this).addClass("clicked");
     clickedAlbumPosition = $(this).attr("id").split("_")[1];
@@ -333,7 +334,6 @@ sakai.collections = function(tuid, showSettings) {
   
   $(".albumCover").live("mouseup", function() {
     $(this).removeClass("clicked");
-
     if ($(this).attr("id").split("_")[1] == clickedAlbumPosition) {
       selectedAlbumPosition = clickedAlbumPosition;
       viewAlbum();
