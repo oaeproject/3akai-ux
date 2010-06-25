@@ -212,7 +212,18 @@ sakai.site = function(){
         return urlName;
     };
 
+    var showAdminElements = function() {
 
+        // Show admin elements
+        $li_edit_page_divider.show();
+        $li_edit_page.show();
+        $add_a_new.show();
+        $site_management.show();
+
+        // Load admin part from a separate file
+        $.getScript(sakai.site.siteAdminJS);
+        
+    }
 
     /////////////
     // LOADING //
@@ -253,15 +264,7 @@ sakai.site = function(){
                 // Determine whether the user is maintainer, if yes show and load admin elements
                 sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite);
                 if (sakai.site.isCollaborator) {
-
-                    // Show admin elements
-                    $li_edit_page_divider.show();
-                    $li_edit_page.show();
-                    $add_a_new.show();
-                    $site_management.show();
-
-                    // Load admin part from a separate file
-                    $.getScript(sakai.site.siteAdminJS);
+                    showAdminElements();
                 }
 
                 // Check user's login status
@@ -1358,15 +1361,19 @@ sakai.site = function(){
             url: "/sites/" + sakai.site.currentsite.id + ".join.html",
             type: "POST",
             data: {
-                "targetGroup": sakai.site.currentsite["sakai:rolemembers"][0]
+                "targetGroup": sakai.site.currentsite["sakai:rolemembers"][1]
             },
             success: function(data){
-                $site_join_button.text("Site join request pending approval");
+                if (sakai.site.currentsite["sakai:joinable"] === "withauth") {
+                     $site_join_button.text("Site join request pending approval");
+                } else if (sakai.site.currentsite["sakai:joinable"] === "yes") {
+                     $site_join_button.hide();
+                     showAdminElements();
+                }
             },
             error: function(xhr, textStatus, thrownError) {
-
+                $site_join_button.text("Unable to submit request. Contact site maintainer for membership.");
                 fluid.log("site.js: Could not submit request to join site. \n HTTP status code: " + xhr.status);
-
             }
         });
     };
