@@ -175,12 +175,12 @@ sakai.site_basic_settings = function(){
                     }
                         
                     // Joinability
-                    if (response["sakai:joinable"] && response["sakai:joinable"].toLowerCase() === "no") {
-                        $(siteSettingsJoinableNo).attr("checked", "checked");
+                    if (response["sakai:joinable"] && response["sakai:joinable"].toLowerCase() === "yes") {
+                        $(siteSettingsJoinableYes).attr("checked", "checked");
                     } else if (response["sakai:joinable"] && response["sakai:joinable"].toLowerCase() === "withauth") {
                         $(siteSettingsJoinableWithAuth).attr("checked", "checked");
                     } else {
-                        $(siteSettingsJoinableYes).attr("checked", "checked");
+                        $(siteSettingsJoinableNo).attr("checked", "checked");
                     }
                 }
                 else {
