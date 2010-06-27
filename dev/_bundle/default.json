@@ -5,6 +5,7 @@
 "ACADEMIC_RELATED_STAFF": "Academic Related Staff",
 "ACADEMIC_STAFF": "Academic Staff",
 "ACCEPT_INVITATION": "Accept Invitation",
+"ACCEPT_SITEJOIN": "Accept Site Join Request",
 "ACCOUNT_PREFERENCES": "Account Preferences",
 "ACCOUNT_SUCCESSFULLY_CREATED": "Account successfully created",
 "ACTIVE": "Active",
@@ -109,6 +110,7 @@
 "DELETE": "Delete",
 "DELETE_THIS_SITE": "Delete this Site",
 "DELETE_THIS_WEBSITE": "Delete this website",
+"DENY_SITEJOIN": "Deny Site Join Request",
 "DEPARTMENT": "Department",
 "DESCRIPTION": "Description",
 "DONT_ADD_CONTENT": "Don't Add Content",
@@ -487,6 +489,7 @@
 "YOUR_BROWSER_DOES_NOT_SUPPORT_IFRAMES": "Your browser does not support iframes",
 "YOU_FILLED_IN_AN_INCORRECT_PASSWORD": "You filled in an incorrect password",
 "YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT": "You have accepted this person as a contact",
+"YOU_HAVE_REPLIED_TO_THIS_REQUEST_TO_JOIN_THIS_SITE": "You have replied to this site join request",
 "YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT": "You'll find pages and sites of your interest, and people with who you can connect",
 "YOUR_MESSAGE_HAS_BEEN_SENT": "Your message has been sent",
 "YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG": "Your password should be 4 characters long"
