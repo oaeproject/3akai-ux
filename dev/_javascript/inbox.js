@@ -826,8 +826,8 @@ sakai.inbox = function() {
 
             if (message["sakai:category"] === "invitation"){
                 if (message["sakai:subcategory"] === "joinrequest") {
-                    $.getJSON(message["sakai:sitepath"] + '.json', function(data) {
-                        var siteJoinRequestIsPending = (data[":isPending"] && data[":isPending"] === true);
+                    $.getJSON(message["sakai:sitepath"] + '/joinrequests/' + message.userFrom[0].hash + '.json', function(data) {
+                        var siteJoinRequestIsPending = (data["sakai:requestState"] && data["sakai:requestState"] === "pending");
                         if (siteJoinRequestIsPending) {
                             $("#inbox-sitejoin-accept").show();
                             $("#inbox-sitejoin-deny").show();
