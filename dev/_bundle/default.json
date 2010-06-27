@@ -274,6 +274,7 @@
 "PASSWORD_CHANGED": "Password changed",
 "PASSWORD_SHOULD_BE_AT_LEAST_FIVE_CHARACTERS_LONG": "Password should be at least 5 characters long",
 "PENDING_INVITATIONS": "Pending Invitations",
+"PENDING_SITE_JOIN_REQUESTS": "Pending site join requests",
 "PEOPLE": "People",
 "PERMISSIONS": "Permissions",
 "PERSONAL_INTERESTS": "Personal interests",
