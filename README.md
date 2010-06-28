@@ -5,7 +5,7 @@
 Essential Information
 ---------------------
 
-The main forms of communication for the project are the UX and the UI Development email list.  
+The main forms of communication for the project are the UX and the UI Development email list.
 The UX list discusses design related topics:  
 [sakai-ux@collab.sakaiproject.org](sakai-ux@collab.sakaiproject.org)  
 The UI Development list discusses technical topics around front-end development:  
