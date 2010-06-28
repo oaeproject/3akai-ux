@@ -60,7 +60,6 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     // Errors
     var $noPopularError = $("#bookmarkandshare_error_nopopular", $rootel);
     var $settingsNotSavedError = $("#bookmarkandshare_error_settings_save", $rootel);
-    var $settingsNotLoadedError = $("#bookmarkandshare_error_settings_load", $rootel);
     var $selectServiceError = $("#bookmarkandshare_error_select_service", $rootel);
 
     // Internationalization
@@ -74,14 +73,6 @@ sakai.bookmarkandshare = function(tuid, showSettings){
     ///////////////////
     // Functionality //
     ///////////////////
-
-    /**
-     * Remove the default settings error message
-     * This messages is shown when a new widget is created as well as when settings could not be loaded.
-     */
-    var removeDefaultSettingsError = function(){
-        $($settingsNotLoadedError, $settingsContentHolder).remove();
-    };
 
     /**
      * Remove the error indicating the user should select at least one service before submitting
@@ -102,7 +93,6 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Bundles all functions in one function
      */
     var removeErrorMessages = function(){
-        removeDefaultSettingsError();
         removeSelectServiceError();
         removeNotSavedError();
     };
@@ -139,7 +129,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * @returns {Number} return a number with a maximum of 10.
      */
     var checkCount = function(){
-        return $frmPopularServices.children("input:checked").length;
+        return $("div", $frmPopularServices).children("input:checked").length;
     };
 
     /**
@@ -183,7 +173,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * @param {Boolean} check Boolean to check or uncheck checkboxes
      */
     var checkBoxes = function(check){
-        $frmPopularServices.children("input").attr("checked", check);
+        $("div", $frmPopularServices).children("input").attr("checked", check);
     };
 
     /**
@@ -239,7 +229,6 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             }
         }else{
             fluid.log("Bookmark and share - No settings could be loaded.");
-            $settingsContentHolder.append($settingsNotLoadedError);
         }
     };
 
