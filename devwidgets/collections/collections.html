@@ -66,7 +66,7 @@
       <div class="albumCategories">
         <div class="categoryHeader"><h2>Categories</h2><span><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="Add New Category" title="Add New Category"/></a></span></div>
         {for category in album.categories}
-        <div class="categoryPreview">
+        <div class="categoryPreview" id="category_${category.id}">
           <div class="categoryCover">
             <img src="${category.image}" alt="${category.name} image"/>
           </div>
@@ -77,6 +77,25 @@
       </div>
     --></div>
   
+    <div id="collections_albums_show_category" style="display:none" class="albumView"></div>
+    <div id="collections_albums_show_category_template" style="display:none" class="albumView"><!-- 
+      <h2>${category.name}</h2>
+      <div class="scroll-pane ui-widget ui-widget-header ui-corner-all">
+        <div class="scroll-content">
+          {for item in category.items}
+            <div class="scroll-content-item">
+              <img src="${item.url}" alt="item image"/>
+              <span>${item.title}</span>
+            </div>
+          {/for}
+        </div>
+        <div class="scroll-bar-wrap ui-widget-content ui-corner-bottom">
+          <div class="scroll-bar"></div>
+        </div>
+      </div>
+    
+    --></div>    
+    
     <!-- Map presentation -->
     <div id="collections_map" style="display:none" class="mapView"></div>
   

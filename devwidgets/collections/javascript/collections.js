@@ -93,7 +93,8 @@ sakai.collections = function(tuid, showSettings) {
   var collectionsAlbumsTemplate = collectionsAlbums + "_template";
   var collectionsAlbumsShowAlbum = collectionsAlbums + "_show_album";
   var collectionsAlbumsShowAlbumTemplate = collectionsAlbumsShowAlbum + "_template";
-
+  var collectionsAlbumShowCategory = collectionsAlbums + "_show_category";
+  var collectionsAlbumShowCategoryTemplate = collectionsAlbumShowCategory + "_template";
   
   var settings = {};
   var collectionData = {};
@@ -270,7 +271,12 @@ sakai.collections = function(tuid, showSettings) {
    
   var clickedAlbumPosition = -1;
   var selectedAlbumPosition = -1;
+  var clickedCategoryID = "";
+  var selectedCategoryID = "";
   var albumData = {};
+  var categoryData = {};
+  
+
   
   var initializeAlbumView = function() {
     sortCollectionByPosition();
@@ -295,6 +301,7 @@ sakai.collections = function(tuid, showSettings) {
     }
     $(collectionsAlbumsShowAlbum).show();
     $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {"album":albumData}, $(collectionsAlbumsShowAlbum, $(rootel)[0]));
+    //$(".categoryPreview").ThreeDots(); // need to figure this one out
   };
   
   var showAddAlbum = function() {
@@ -317,6 +324,30 @@ sakai.collections = function(tuid, showSettings) {
     $(".albumView").hide();
   };
   
+  var viewCategory = function() {
+    hideAllAlbumView();
+    for (var i in albumData.categories) {
+      if (albumData.categories[i].id == selectedCategoryID) {
+        categoryData = albumData.categories[i];
+        break;
+      }
+    }
+    $(collectionsAlbumShowCategory).show();
+    $.TemplateRenderer(collectionsAlbumShowCategoryTemplate, {"category":categoryData}, $(collectionsAlbumShowCategory, $(rootel)[0]));
+    sizeItemScrollbar();
+  };
+  
+  // Item Scrolling (via jQuery Scroll Pane, UI Docs)
+  var sizeItemScrollbar = function() {
+    var numChildren = $(".scroll-content").children().length;
+    console.log(numChildren);
+    var childWidth = $(".scroll-content").children().outerWidth(true);
+    var totalChildWidth = childWidth * numChildren;
+    var scrollContentWidth = totalChildWidth > 600 ? totalChildWidth : 600+"px";
+    $(".scroll-content").css({"width":totalChildWidth+"px"});
+  };
+	
+  
   /**
    * Album View Events
    */   
@@ -327,6 +358,21 @@ sakai.collections = function(tuid, showSettings) {
     $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {"album":{}}, $(collectionsAlbumsShowAlbum));
   });
   */
+
+  $(".scroll-content-item").live("mouseenter mouseleave", function() {
+    $(this).toggleClass("hovered"); // make this an animation
+  });
+  
+  $(".scroll-content-item").live("click", function() {
+    
+  });
+  
+  $(".categoryPreview").live("mouseup", function() {
+    var catid = $(this).attr("id").split("category_")[1];
+    selectedCategoryID = catid;
+    viewCategory();
+  });
+  
   $(".albumCover").live("mousedown", function() {
     $(this).addClass("clicked");
     clickedAlbumPosition = $(this).attr("id").split("_")[1];
@@ -714,7 +760,7 @@ sakai.collections = function(tuid, showSettings) {
         
         if (canAdd) {
             var d = new Date();
-            var catID = catToAdd.replace(" ", "-") + d.getTime() + "" + Math.floor(Math.random() * 101);
+            var catID = catToAdd.replace(/\s/gi, "-") + d.getTime() + "" + Math.floor(Math.random() * 101);
             newCategory = {
                 "name": catToAdd,
                 "id": catID,

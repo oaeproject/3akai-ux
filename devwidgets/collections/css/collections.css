@@ -219,12 +219,17 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 .albumHead div {float:left; position:relative; width:26%;}
 .albumHead img {float:right;position:relative;}
 .albumHead button {float:left; position:relative;}
-.albumCategories {float:left;position:relative;width:100%;}
-.categoryHeader {margin:0px 0px 10px 20px;float:left;position:relative;width:630px;}
+.albumCategories {float:left;position:relative;width:622px;margin-left:20px;}
+.categoryHeader {margin:0px 0px 10px;float:left;position:relative;width:630px;}
 .categoryHeader h2 {float:left;position:relative;width:90%;margin:0;}
 .categoryHeader span {float:left;position:relative;width:6%;text-align:right;}
-.categoryPreview {float:left; margin-left:20px;height:180px;width:128px;position:relative;}
+.categoryPreview {float:left; margin-right:16px;height:180px;width:138px;position:relative;}
 .categoryPreview h3 {font-size:14px;color:#006E96; width:100%; float:left;font-weight:bold;position:relative;margin:5px 0px 0px 5px;}
 .categoryPreview span {width:100%; float:left; font-size:12px;font-weight:bold;position:relative;margin-left:5px;}
 .categoryCover {float:left; position:relative;height:118px; width:118px; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20); padding:10px;background-color:#fff;}
 .categoryCover img {border:1px solid #ccc; height:117px; width:117px; display:block;}
+/* Category/Item View */
+.scroll-pane { overflow: auto; width: 600px; float:left; margin:20px; border:1px solid #ccc; background-color:#fff;}
+.scroll-content { width: 600px; float: left;}
+.scroll-content-item { width: 105px; height: 128px; float: left; margin: 10px;}
+.scroll-content-item img {width:103px; height:103px; float:left; border:1px solid #ccc;}
