@@ -1,61 +1,6 @@
-.mceContentBody {
-    display: block !important;
-}
-
 .fixed-container {
     padding: 0 20px;
     width: 920px;
-}
-
-/********************************************/
-/* Miscellaneous */
-.divider {
-    border-right:1px solid #ccc;
-    width:0.5em;
-    overflow:visible;
-    position:relative;
-}
-.divider * {position:absolute; top:35%; padding:.5em 0;  background-color:#fff; color:#999;}
-
-.content ul {
-    padding-bottom: 5px !important;
-}
-
-/********************************************/
-/* Add New Dropdown */
-
-
-
-/********************************************/
-/* Context Menu */
-
-.context_menu {
-    position:absolute;
-    top: 124px;
-    left: 18px;
-    padding:0px;
-}
-
-.context_menu img {
-    border: 1px solid #555;
-    border-bottom:none;
-}
-
-.context_menu ul {
-    margin:0pt;
-    list-style-type:none;
-    background-color:#eee;
-    border: 1px solid #555;
-}
-
-.context_menu li {
-    list-style-type:none;
-    padding: 2px 20px 2px 4px;
-}
-
-.context_menu li a {
-    color:#666;
-    font-size:0.95em;
 }
 
 /********************************************/
@@ -104,61 +49,8 @@
 }
 
 /********************************************/
-/* Site Nav Menu */
-.site_nav {
-    color:#333;
-    background-color:#f9f9f9;
-    padding:5px;
-    margin:-10px -10px 0;
-    overflow-x:hidden;
-    border-bottom:1px solid #ccc;
-    font-size:0.9em;
-}
-.site_nav ul {
-    padding:0;
-    margin:0;
-}
-.site_nav li {
-    float:left;
-    display:inline;
-    list-style-type:none;
-}
 
-.site_nav .page_options_extra, .site_nav .page_options {
-    text-transform:capitalize;
-    display:inline;
-}
-.site_nav .page_options_extra li, .site_nav .page_options li {
-    border: 1px solid #CCC;
-    border-top:none;
-    border-bottom:none;
-    padding:0 7px;
-}
-
-.site_nav .page_options {
-    font-weight:bold;
-    margin-left:-10px;
-    padding-left:4px;
-}
-
-.site_nav .page_options li{
-    border-right:none;
-}
-
-.site_nav .page_options_extra {
-    margin-right:-10px;
-    padding-right:4px;
-}
-.site_nav .page_options_extra li {
-    border-left:none;
-}
->>>>>>> unified all simple tabs using primary-tab
-
-}
-
-/********************************************/
-
-.contauthlink {
+.grep  {
     color:#666 !important;
     font-weight:bold;
 }

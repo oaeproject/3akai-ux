@@ -2,6 +2,9 @@
 .fixed-container
 { background: #fff; }
 
+.mceContentBody {
+    display: block !important;
+}
 
 /** TOP RIGHT MENU **/
 .sakai_site .content_page_options
