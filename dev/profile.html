@@ -85,15 +85,9 @@
                         <div class="fl-fix profile_user_info">
                             <div class="fl-force-right profile_user_buttons">
                                 <!-- button-disabled -->
-                                <div class="grey_button">
-                                    <a href="javascript:;" style="display: none;" id="add_to_contacts_button" class="button add_con_btn">__MSG__ADD_TO_CONTACTS__</a>
-                                </div>
-                                <div class="grey_button">
-                                    <a href="javascript:;" style="display: none;" id="accept_invitation_button" class="button add_con_btn">__MSG__ACCEPT_INVITATION__</a>
-                                </div>
-                                <div class="grey_button">
-                                    <a href="javascript:;" style="display: none;" id="send_message_button" class="button send_msg_btn">__MSG__SEND_MESSAGE__</a>
-                                </div>
+                                <button type="button" class="s3d-button s3d-button-primary" id="add_to_contacts_button" style="display: none;"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
+                                <button type="button" class="s3d-button s3d-button-primary" id="accept_invitation_button" style="display: none;"><span class="s3d-button-inner">__MSG__ACCEPT_INVITATION__</span></button>
+                                <button type="button" class="s3d-button s3d-button-primary" id="send_message_button" style="display: none;"><span class="s3d-button-inner">__MSG__SEND_MESSAGE__</span></button>
                             </div>
 
                             <a href="javascript:;" id="picture_holder" title="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__"><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" alt="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__" /></a>
@@ -523,7 +517,7 @@
                 </div>
             </div>
 
-            <!-- DIALOGUE BOX -->
+            <!-- DIALOG BOX -->
             <div class="send_message dialogue_box fl-centered">
                 <div class="compose-form" action="" method="" style="padding-bottom:10px">
 
@@ -545,15 +539,13 @@
                 </div>
 
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="save_as_page_template_button" style="font-weight:bold">__MSG__SEND_MESSAGE__</a>
-                    <a href="javascript:;" class="button jqmClose" style="float:none;display:inline;">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="save_as_page_template_button"><span class="s3d-button-inner">__MSG__SEND_MESSAGE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
             <div class="dialog_footer">
                 <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-            <div class="dialog_footer" style="padding-left: 15px; height: 40px;">
             </div>
 
         </div>
@@ -592,8 +584,8 @@
                 </form>
 
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="add_friends_do_invite" style="font-weight:bold">__MSG__INVITE__</a>
-                    <a href="javascript:;" class="button jqmClose" style="display:inline; float: none">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="add_friends_do_invite"><span class="s3d-button-inner">__MSG__INVITE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
 
             </div>
