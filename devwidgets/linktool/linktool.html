@@ -19,7 +19,7 @@
             <div id="linktool_settings_preview">
 
             </div>
-            <a class="button-default" href="javascript:;" id="linktool_settings_advanced_toggle_settings">Advanced Settings <span id="linktool_settings_advanced_down">&#8595;</span><span id="linktool_settings_advanced_up">&#8593;</span></a>
+            <button type="button" class="s3d-button s3d-button-primary" id="linktool_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="linktool_settings_advanced_down">&#8595;</span><span id="linktool_settings_advanced_up">&#8593;</span></span></button>
         </div>
         <div id="linktool_settings_advanced" style="display:none;">
             <div class="linktool_settings_subcontainer">
@@ -62,7 +62,7 @@
                     <br />
                     <label for="linktool_settings_height">Height:</label>
                     <input type="text" id="linktool_settings_height" value="${height}" /><span> px</span>
-                    <a class="button-default" href="javascript:;" id="linktool_settings_reset_size">Reset to original size</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="linktool_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
                     <br class="fl-push" />
                 </div>
             </div>
@@ -78,9 +78,10 @@
             </div>
         </div>
 
-        <a class="button-default fl-force-left" href="javascript:;" id="linktool_settings_cancel">Cancel</a>
-        <a class="button-default fl-force-right" href="javascript:;" id="linktool_settings_insert">Save</a>
-        <br class="fl-push" />
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary" id="linktool_settings_insert"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            <button type="button" class="s3d-button" id="linktool_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        </div>
     </form>
 --></div>
 

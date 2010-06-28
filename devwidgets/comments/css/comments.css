@@ -25,7 +25,6 @@
 .comments_settingsPart ul { margin:3px 0px 0px 2em;}
 .comments_settingsPart ul li {list-style:none;}
 #comments_txtPage {width:30px;padding:2px;height:16px;}
-.comments_settingsPart .buttonBar { margin-top:25px;}
 
 /* Main container */
 .comments_commentMessage p.comments_infoDeleted { font-size:0.9em;text-align:right;}
@@ -53,5 +52,3 @@
 .commentsTable {width:95%;}
 #comments_fillInComment {background-color:#EBEFF1;margin-top:15px;padding:0px 15px 10px 15px;}
 #comments_fillInComment label { font-weight:bold;margin-top:20px;display:block;}
-#comments_fillInComment .buttonBar { margin-top:20px;}
-.comments_nextButtons .buttonBar {margin-top:15px;}

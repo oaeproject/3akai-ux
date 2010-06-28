@@ -17,33 +17,6 @@
     border-right: 1px solid #e2e2e2;
 }
 
-/* Buttons 
- * square style buttons
- */
-.button {
-    display: block;
-    float: left;
-    padding: 3px 5px;
-    text-align: center;
-    border: 1px solid #ccc;
-    background: url(../../_images/button_bg.png) repeat-x bottom left;
-    color: #333;
-}
-
-.submit-button {
-    padding: 2px 5px;
-    background: url(../../_images/button_bg.png) repeat-x bottom left;
-    border: 1px solid #ccc;
-    color: #333;
-    text-align: center;
-    font-size: 13px;
-    margin: 0;
-}
-
-.button-secondary {
-    font-weight: normal;
-}
-
 /* site_management_members_add_flat.html */
 .add-members .current-members{padding-right: 55px; padding-top: 6px; color: #ddd; width: 258px; text-align: left;}
 .add-members .current-members span{color: #999; font-weight: bold;}

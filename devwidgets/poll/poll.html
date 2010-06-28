@@ -30,8 +30,8 @@
             </div>
             <hr />
             <div class="dialog_buttons">
-                <a class="button cancel-button" href="javascript:;" id="poll_preview_back">Back</a>
-                <a class="button-default" href="javascript:;" id="poll_preview_insert">Insert Widget</a>
+                <button type="button" class="s3d-button" id="poll_preview_back"><span class="s3d-button-inner">Back</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">Insert Widget</span></button>
             </div>
             <br class="poll_cls"/>
         </div>
@@ -44,9 +44,7 @@
     </ul>
     <div id="poll_create_new">
         <form>
-            <div class="buttonBar">
-                <a class="button-default" href="javascript:;" id="poll_create_placeholder">Create a quick placeholder</a>
-            </div>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_create_placeholder"><span class="s3d-button-inner">Create a quick placeholder</span></button>
             <br class="poll_cls" />
             <label for="poll_question">Question:</label>
             <textarea id="poll_question">${poll.question}</textarea><br />
@@ -55,17 +53,13 @@
 
             </div>
             <div id="poll_add_new_option_container">
-                <div class="buttonBar">
-                    <a class="button-default" href="javascript:;" id="poll_add_new_option">Add new option...</a>
-                </div>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_add_new_option"><span class="s3d-button-inner">Add new option...</span></button>
             </div>
             <br class="poll_cls" />
             <div class="poll_left">
                 <input id="poll_allow_multiple" {if poll.allow_multiple==1}checked="checked"{/if} type="checkbox"/><label for="poll_allow_multiple" class="poll_radiocheck_label">Allow users to select multiple options</label>
             </div>
-            <div class="buttonBar">
-                <a class="button-default" href="javascript:;" id="poll_toggle_advanced_settings">Advanced settings <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></a>
-            </div>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_toggle_advanced_settings"><span class="s3d-button-inner">Advanced settings <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></span></button>
             <br class="poll_cls" />
             <div id="poll_advanced_settings">
                 <div id="poll_date_left">
@@ -104,9 +98,9 @@
                 <input id="poll_allow_see_results" {if poll.allow_see_results}checked="checked"{/if} type="checkbox"/><label for="poll_allow_see_results" class="poll_radiocheck_label">Allow users to see results before voting</label>
             </div>
             <br class="poll_cls" />
-            <div class="buttonBar poll_bar_bottom">
-                <a class="button cancel-button" href="javascript:;" id="poll_cancel">Cancel</a>
-                <a class="button-default" href="javascript:;" id="poll_preview_insert">Insert Widget</a>
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button" id="poll_cancel"><span class="s3d-button-inner">Cancel</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">Insert Widget</span></button>
             </div>
             <br class="poll_cls" />
         </form>
@@ -152,13 +146,13 @@
                 {/for}
             </div>
             <hr />
-            <div class="buttonBar poll_question_view_bar_bottom">
+            <div class="poll_question_view_bar_bottom">
                 {if poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
-                <a class="button-default" href="javascript:;" id="poll_question_view_vote">Vote</a>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">Vote</span></button>
                 {/if}
                 {if poll.allow_see_results == 1}
                     {if poll.not_see_chart_view == 0}
-                    <a class="button-default" href="javascript:;" id="poll_question_view_results">View results</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">View results</span></button>
                     {/if}
                 {/if}
             </div>
@@ -179,9 +173,9 @@
             {/for}
         </div>
         <hr />
-        <div class="buttonBar poll_question_view_bar_bottom">
-            <a class="button-default" href="javascript:;" id="poll_question_view_vote">Vote</a>
-            <a class="button-default" href="javascript:;" id="poll_question_view_results">View results</a>
+        <div class="poll_question_view_bar_bottom">
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">Vote</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">View results</span></button>
         </div>
     </form>
     <div class="poll_specimen">
@@ -230,8 +224,8 @@
         {/if}
         {if poll.allow_see_results == 1 && poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
         <hr />
-        <div class="buttonBar poll_question_view_bar_bottom">
-            <a class="button-default" href="javascript:;" id="poll_chart_view_back">Back</a>
+        <div class="poll_question_view_bar_bottom">
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_chart_view_back"><span class="s3d-button-inner">Back</span></button>
         </div>
         {/if}
     </form>

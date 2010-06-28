@@ -20,19 +20,19 @@
         <!-- SELECT AREA -->
         <div id="changepic_selectpicture">
                 <h4>__MSG__SELECT_THE_AREA_YOU_WANT__</h4>
-                <img id="changepic_fullpicture" id="profilePic" alt="Create Thumbnail" />
+                <img id="changepic_fullpicture" alt="Create Thumbnail" src="" />
                 <!--
                     CHANGE THE CSS WIDTH AND HEIGHT TO INCREASE THE THUMBNAIL SIZE
                     THE JS CODE WILL PICK THIS UP ..
                 -->
                 <div id="thumbnail_container">
-                    <img id="thumbnail" alt="Thumbnail Preview" />
+                    <img id="thumbnail" alt="Thumbnail Preview" src="" />
                 </div>
 
             <div class="dialog_buttons">
                 <br />
-                <a class="button-default" id="save_new_selection" href="javascript:;">__MSG__SAVE_NEW_SELECTION__</a>
-                <a class="button jqmClose" id="save_new_selection_cancel" href="javascript:;">__MSG__CANCEL__</a>
+                <button type="button" class="s3d-button s3d-button-primary" id="save_new_selection"><span class="s3d-button-inner">__MSG__SAVE_NEW_SELECTION__</span></button>
+                <button type="button" class="s3d-button jqmClose" id="save_new_selection_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             </div>
 
         </div>
@@ -40,15 +40,15 @@
         <!-- UPLOAD NEW PIC -->
         <div id="changepic_uploadnew" style="display:none;">
 
-            <form id="changepic_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai._changepic.startCallback, 'onComplete' : sakai._changepic.completeCallback})">
+            <form id="changepic_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai._changepic.startCallback, 'onComplete' : sakai._changepic.completeCallback});">
                 <h4>__MSG__UPLOAD_A_NEW_PICTURE__</h4>
                 <input type="file" name="profilepicture" id="profilepicture"/>
                 <br/><br/>
                 <!-- BUTTONS -->
                 <div class="dialog_buttons">
                     <!-- THIS HAS TO BE A SUBMIT BUTTON SINCE WE WILL DO A POST TO JCR. -->
-                    <input type="submit" class="button-default" id="profile_upload" value="__MSG__UPLOAD__" href="javascript:;"/>
-                    <a class="button jqmClose" id="profile_upload_cancel" href="javascript:;">__MSG__CANCEL__</a>
+                    <button type="submit" class="s3d-button s3d-button-primary" id="profile_upload"><span class="s3d-button-inner">__MSG__UPLOAD__</span></button>
+                    <button type="button" class="s3d-button jqmClose" id="profile_upload_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </form>
 

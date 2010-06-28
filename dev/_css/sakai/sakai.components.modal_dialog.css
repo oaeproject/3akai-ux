@@ -78,18 +78,3 @@
     background-color: #fff;
     height: 30px;
 }
-
-.dialog_button {
-    padding: 5px 20px 0px 20px;
-    margin: 0 10px 0 0;
-    height: 20px;
-    background:#fff url(../images/custom_button_gradient.png) repeat-x bottom left;
-    border: 1px solid #999;
-    float: left;
-    cursor: pointer;
-}
-
-.dialog_button:hover {
-    border: 1px solid #333;
-}
-
