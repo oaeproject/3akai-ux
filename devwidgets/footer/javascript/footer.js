@@ -28,12 +28,25 @@ var sakai = sakai || {};
 sakai.footer = function(tuid,showSettings){
 
 
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
+
+    var doc_name;
+    var $back_to_top_link = $("#footer_main .back-top");
+    var $footer_debug_info = $("#footer_debug_info");
+    var $footer_date_end = $("#footer_date_end");
+    var $footer_root = $(".footer_main");
+    var $footer_logo = $("#footer_logo");
+
+
     //////////////////////
     // Helper functions //
     //////////////////////
 
-    /*
-     * This helper function will
+    /**
+     * This helper function will return the name of the current document (e.g. my_sakai.html)
+     * @return {String} The name of the current document
      */
     var getDocName = function() {
         var url = document.URL;
@@ -46,27 +59,21 @@ sakai.footer = function(tuid,showSettings){
 
     /**
      * Check whether this is the index page or not
+     * @return {Boolean} True when it is the index page
      */
     var checkIndexPage = function(){
         return document.URL.match(/index.html[?a-zA-Z0-9=]*/);
     };
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var doc_name = getDocName();
-    var $back_to_top_link = $("#footer_main .back-top");
-    var $debug_info = $("#debug_info");
-    var $footer_date_end = $("#footer_date_end");
-    var $footer_root = $("#footer_main");
-    var $footer_logo = $("#footer_logo");
 
 
     ////////////////////
     // Main functions //
     ////////////////////
 
+    /**
+     * Render the debug info
+     * @param {Object} container jQuery selector where you want the debug info to appear in
+     */
     var renderDebugInfo = function(container) {
 
         // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
@@ -81,7 +88,7 @@ sakai.footer = function(tuid,showSettings){
 
     };
 
-    /*
+    /**
      * This event handler will make sure that the Top link
      * that's available in every page footer will scroll back
      * to the top of the page
@@ -95,34 +102,39 @@ sakai.footer = function(tuid,showSettings){
     // Initialisation function //
     /////////////////////////////
 
+    /**
+     * Main initialization function for the footer widget
+     */
     var doInit = function(){
+
+        // Get the name of the current document
+        doc_name = getDocName();
 
         // Display debug info if set in config
         if (sakai.config.displayDebugInfo === true) {
 
             // Render the debug info
-            renderDebugInfo($debug_info);
+            renderDebugInfo($footer_debug_info);
 
             // Add binding to the image
-            $footer_logo.bind("click", function(){
-
-                // Make space for debug info
-                $footer_root.height("65px");
+            $footer_logo.toggle(function(){
 
                 // Show the debug info
-                $debug_info.show();
+                $footer_debug_info.show();
+
+            },function(){
+
+                // Hide the debug info
+                $footer_debug_info.hide();
 
             }).addClass("footer_clickable");
 
         }
 
-        // Set the height of the footer
-        $footer_root.height("45px");
-
         // index.html mods
         if (checkIndexPage() || doc_name === "") {
             $back_to_top_link.hide();
-            $footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
+            $footer_root.addClass("footer_index");
         }
 
         // Set the end year of the copyright notice
