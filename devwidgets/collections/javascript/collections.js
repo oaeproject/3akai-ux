@@ -95,6 +95,8 @@ sakai.collections = function(tuid, showSettings) {
   var collectionsAlbumsShowAlbumTemplate = collectionsAlbumsShowAlbum + "_template";
   var collectionsAlbumShowCategory = collectionsAlbums + "_show_category";
   var collectionsAlbumShowCategoryTemplate = collectionsAlbumShowCategory + "_template";
+  var collectionsAlbumsShowItem = collectionsAlbums + "_show_item";
+  var collectionsAlbumsShowItemTemplate = collectionsAlbumsShowItem + "_template";
   
   var settings = {};
   var collectionData = {};
@@ -252,7 +254,26 @@ sakai.collections = function(tuid, showSettings) {
     $("#collections_header_select_layout").toggle();
   });
   
-  // Hide the layout dropdown if anywhere else is clicked
+  // History Mgmt, need to update for arch view to use these params too
+  $(window).bind("hashchange", function(e) {
+    var album = e.getState("album");
+    var category = e.getState("category");
+    var item = e.getState("item");
+    if (item) {
+      selectedItemID = item;
+      showItem();
+    } else if (category) {
+      selectedCategoryID = category;
+      viewCategory();
+    } else if (album) {
+      selectedAlbumPosition = album;
+      viewAlbum();
+    } else {
+      renderAlbumView();
+    }
+  });
+  
+  // Hide the layout dropdown if anywhere else is clickedhttp://127.0.0.1:8080/sites/asdf
   $("html").live("click", function(e) {
     if ($("#collections_header_select_layout").is(":visible")) {
       var $clicked = $(e.target);
@@ -273,10 +294,11 @@ sakai.collections = function(tuid, showSettings) {
   var selectedAlbumPosition = -1;
   var clickedCategoryID = "";
   var selectedCategoryID = "";
+  var clickedItemID = "";
+  var selectedItemID = "";
   var albumData = {};
   var categoryData = {};
-  
-
+  var itemData = {};
   
   var initializeAlbumView = function() {
     sortCollectionByPosition();
@@ -286,6 +308,7 @@ sakai.collections = function(tuid, showSettings) {
   };
    
   var renderAlbumView = function() {
+    hideAllAlbumView();
     initializeAlbumView();
     $(collectionsAlbums, $(rootel)[0]).show();
     $.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $(rootel)[0]));
@@ -301,6 +324,7 @@ sakai.collections = function(tuid, showSettings) {
     }
     $(collectionsAlbumsShowAlbum).show();
     $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {"album":albumData}, $(collectionsAlbumsShowAlbum, $(rootel)[0]));
+    $.bbq.pushState({'album':selectedAlbumPosition});
     //$(".categoryPreview").ThreeDots(); // need to figure this one out
   };
   
@@ -333,20 +357,30 @@ sakai.collections = function(tuid, showSettings) {
       }
     }
     $(collectionsAlbumShowCategory).show();
-    $.TemplateRenderer(collectionsAlbumShowCategoryTemplate, {"category":categoryData}, $(collectionsAlbumShowCategory, $(rootel)[0]));
+    $.TemplateRenderer(collectionsAlbumShowCategoryTemplate, {"category":categoryData, "album":albumData}, $(collectionsAlbumShowCategory, $(rootel)[0]));
     sizeItemScrollbar();
+    $.bbq.pushState({'category':selectedCategoryID});
   };
   
-  // Item Scrolling (via jQuery Scroll Pane, UI Docs)
   var sizeItemScrollbar = function() {
     var numChildren = $(".scroll-content").children().length;
-    console.log(numChildren);
     var childWidth = $(".scroll-content").children().outerWidth(true);
     var totalChildWidth = childWidth * numChildren;
-    var scrollContentWidth = totalChildWidth > 600 ? totalChildWidth : 600+"px";
-    $(".scroll-content").css({"width":totalChildWidth+"px"});
+    var scrollContentWidth = totalChildWidth > 560 ? totalChildWidth : 560;
+    $(".scroll-content").css({"width":scrollContentWidth+"px"});
   };
 	
+	var showItem = function() {
+	  for (var i in categoryData.items) {
+      if (categoryData.items[i].id == selectedItemID) {
+        itemData = categoryData.items[i];
+        break;
+      }
+    }
+    $(collectionsAlbumsShowItem).show();
+	  $.TemplateRenderer(collectionsAlbumsShowItemTemplate, {"item":itemData}, $(collectionsAlbumsShowItem, $(rootel)[0]));
+	  $.bbq.pushState({'item':selectedItemID});
+	};
   
   /**
    * Album View Events
@@ -360,11 +394,12 @@ sakai.collections = function(tuid, showSettings) {
   */
 
   $(".scroll-content-item").live("mouseenter mouseleave", function() {
-    $(this).toggleClass("hovered"); // make this an animation
+    $(this).toggleClass("hovered"); // make this an animation, or use CSS3 animations
   });
   
   $(".scroll-content-item").live("click", function() {
-    
+    selectedItemID = $(this).attr("id").split("item_")[1];
+    showItem();
   });
   
   $(".categoryPreview").live("mouseup", function() {
@@ -487,7 +522,7 @@ sakai.collections = function(tuid, showSettings) {
     }
     if (!currentCollectionData.id) {
       var d = new Date();
-      currentCollectionData.id = "room" + d.getTime() + "" + Math.floor(Math.random()*101);
+      currentCollectionData.id = d.getTime() + "" + Math.floor(Math.random()*101);
     }
     $.TemplateRenderer(collectionsEditRoomTemplate, {"room" : currentCollectionData}, $(collectionsEditRoom, $(rootel)[0]));
     if (currentCollectionData.categories) {
@@ -610,7 +645,7 @@ sakai.collections = function(tuid, showSettings) {
           } else {
             // just add it in
             var d = new Date();
-            currentContentItemData.id = "content" + d.getTime() + "" + Math.floor(Math.random()*101);
+            currentContentItemData.id = d.getTime() + "" + Math.floor(Math.random()*101);
             currentCollectionData.categories[i].items.push(currentContentItemData);
             currentContentItemID = currentContentItemData.id;
           }

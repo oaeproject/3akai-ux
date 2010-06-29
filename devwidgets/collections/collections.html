@@ -78,23 +78,41 @@
     --></div>
   
     <div id="collections_albums_show_category" style="display:none" class="albumView"></div>
-    <div id="collections_albums_show_category_template" style="display:none" class="albumView"><!-- 
+    <div id="collections_albums_show_category_template" style="display:none" class="albumView"><!--
+      <h1>${album.title}</h1>
       <h2>${category.name}</h2>
-      <div class="scroll-pane ui-widget ui-widget-header ui-corner-all">
-        <div class="scroll-content">
-          {for item in category.items}
-            <div class="scroll-content-item">
-              <img src="${item.url}" alt="item image"/>
-              <span>${item.title}</span>
-            </div>
-          {/for}
-        </div>
-        <div class="scroll-bar-wrap ui-widget-content ui-corner-bottom">
-          <div class="scroll-bar"></div>
+      <span class="configureCategory"><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a></span>
+      <div class="itemsContainer">
+        <div class="scroll-pane">
+          <div class="scroll-content">
+            {for item in category.items}
+              <div class="scroll-content-item" id="item_${item.id}">
+                <img src="${item.url}" alt="item image"/>
+                <span>${item.title}</span>
+              </div>
+            {/for}
+          </div>
+          <div class="scroll-bar-wrap ui-widget-content ui-corner-bottom">
+            <div class="scroll-bar"></div>
+          </div>
         </div>
       </div>
+    --></div>
     
-    --></div>    
+    <div id="collections_albums_show_item" style="display:none" class="albumView"></div>  
+    <div id="collections_albums_show_item_template" style="display:none" class="albumView"><!--
+      <div class="itemHero">
+        <div class="itemHead">
+          {if item.title}
+            <h1>${item.title}</h1>
+          {/if}
+          <div class="configureItem"><button class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+        </div>
+        <div class="itemImage"></div>
+        <div class="itemDesc"></div>
+      </div>
+    
+    --></div>  
     
     <!-- Map presentation -->
     <div id="collections_map" style="display:none" class="mapView"></div>
