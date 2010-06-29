@@ -18,6 +18,18 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
+/**
+ * @name sakai.blog
+ *
+ * @class blog
+ *
+ * @description
+ * Initialize the blog widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.blog = function(tuid, showSettings) {
 
     var me = sakai.data.me;                    // Contains information about the current user
@@ -302,6 +314,9 @@ sakai.blog = function(tuid, showSettings) {
         });
     };
 
+    /**
+     * The view mode for the blog
+     */
     var viewMode = function(){
 
 
@@ -929,6 +944,9 @@ sakai.blog = function(tuid, showSettings) {
     // Blog    settings //
     ///////////////////
 
+    /**
+     * The settings mode for the blog
+     */
     var settingsMode = function(){
 
 

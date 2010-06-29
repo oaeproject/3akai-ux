@@ -20,7 +20,26 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai._changepic
+ *
+ * @description
+ * Public functions for the change picture widget
+ */
 sakai._changepic = {};
+
+/**
+ * @name sakai.changepic
+ *
+ * @class changepic
+ *
+ * @description
+ * Changepic widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.changepic = function(tuid, showSettings){
 
 

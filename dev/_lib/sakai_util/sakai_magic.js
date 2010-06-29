@@ -2140,7 +2140,7 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
 
 
 
-/*
+/**
  * Will be used for detecting widget declerations inside the page and load those
  * widgets into the page
  */
@@ -2163,6 +2163,14 @@ sakai.api.Widgets.widgetLoader = {
         sakai.api.Widgets.widgetLoader.loaded.push(obj);
     },
 
+    /**
+     * Load the actual widgets
+     * @param {String} id The id of the widget
+     * @param {Boolean} showSettings
+     *  true  : render the settings mode of the widget
+     *  false : render the view mode of the widget
+     * @param {String} context The context of the widget (e.g. siteid)
+     */
     loadWidgets : function(id, showSettings, context){
 
         // Configuration variables
@@ -2768,6 +2776,9 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
  */
 (function($){
 
+    /**
+     * Load JavaScript and CSS dynamically
+     */
     $.Load = {};
 
     /**

@@ -20,9 +20,16 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.bookmarkandshare
  *
- * @param {Object} tuid , unique id for the widget
- * @param {Object} showSettings boolean to check if the widget is in settingsmode or not
+ * @class bookmarkandshare
+ *
+ * @description
+ * Bookmarkandshare widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.bookmarkandshare = function(tuid, showSettings){
 

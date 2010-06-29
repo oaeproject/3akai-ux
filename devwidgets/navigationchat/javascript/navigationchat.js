@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.flashChat
+ *
+ * @class flashChat
+ *
+ * @description
+ * Namespace used for the flash functionality for chat
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.flashChat = {
 
 
@@ -133,6 +145,18 @@ sakai.flashChat = {
     }
 };
 
+/**
+ * @name sakai.navigationchat
+ *
+ * @class navigationchat
+ *
+ * @description
+ * Initialize the navigationchat widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.navigationchat = function(tuid, showSettings){
 
     /////////////////////////////
@@ -242,7 +266,7 @@ sakai.navigationchat = function(tuid, showSettings){
      * Placeholders that will be replaced by the real functions. This
      * is necessary to comply with the JSLint rules
      */
-    sakai.navigationchat.loadChatTextInitial = function(){};
+
     var doWindowRender = function(){};
 
     /**

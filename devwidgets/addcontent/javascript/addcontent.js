@@ -21,7 +21,14 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.addcontent
+ *
+ * @class addcontent
+ *
+ * @description
  * Initialize the add content widget - This widget adds content to a site
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */

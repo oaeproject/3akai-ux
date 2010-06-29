@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.s23courses
+ *
+ * @class s23courses
+ *
+ * @description
+ * Initialize the s23courses widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.s23courses = function(tuid, showSettings){
 
     sakai.config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";

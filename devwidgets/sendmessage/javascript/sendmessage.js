@@ -20,6 +20,19 @@
 
 var sakai = sakai || {};
 if (!sakai.sendmessage){
+
+    /**
+     * @name sakai.sendmessage
+     *
+     * @class sendmessage
+     *
+     * @description
+     * Initialize the sendmessage widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
     sakai.sendmessage = function(tuid, showSettings) {
 
 
