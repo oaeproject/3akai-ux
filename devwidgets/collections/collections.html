@@ -292,189 +292,7 @@
       {/for}
     --></div>
 
-    <div id="browse_resource_files" style="display:none" class="dialog">
-      <div class="dialog_header">
-        <div class="dialog_header_inner">
-          <h1>Browse for a File</h1>
-          <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-        </div>
-      </div>
-      <div class="dialog_content">
-        <div id="embedresource_choose">
-          <div id="embedresource_header">
-            <h3>Find an image to use for this room</h3>
-          </div>
-          <div id="embedresource_tabs">
-            <ul>
-              <li id="embedresource_link_tab-1" class="tab_active"><a href="javascript:;">From a repository</a></li>
-              <li id="embedresource_link_tab-2" class="tab_inactive"><a href="javascript:;">From the web</a></li>
-            </ul>
-          </div>
-          <div id="embedresource_container">
-            <!-- CONTENT -->
-            <div id="embedresource_tab-1" class="embedresource_tab embedresource_active">
-            <div id="pickresource_heading">
-              <span id="filters_header" class="panel_header">Search &amp; Filters</span>
-              <span id="repo_header" class="panel_header">Repository Contents</span>
-              <span id="details_header" class="panel_header">Resource Details</span>                    
-            </div>
-              <div class="contentmedia_content_main">
-                <div id="pickresource_filters" class="pickresource_panel">
-                  <!-- Accordion -->
-                  <div id="contentmedia_accordion">
-                    <a href="javascript:;" title="Search for files">Search</a>
-                    <div id="contentmedia_search">
-                      <form>
-                        <input type="text" value="Search for files ..." class="input" id="search_text" /> <a id="clear_search_link" href="javascript:;" style="display:none">clear search</a> <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-                      </form>
-                    </div>
-                    <!--><a href="javascript:;" title="Filter by Owner">Filter by owner</a>
-                    <div id="contentmedia_accordion_list_owners">
-                      <div class="contentmedia_accordion_list">
-                      <a href="javascript:;" title="My Files" id="search_my_files">My Files</a>
-                      <a href="javascript:;" title="All Files" id="search_all_files">All Files</a> 
-                      </div>
-                    </div>
-                    <a href="javascript:;" title="Filter by site">Filter by site</a>
-                    <div id="contentmedia_accordion_list_site"></div>-->
-                  </div>
-                </div>
-                <div id="pickresource_container">
-                <div id="pickresource_files" class="pickresource_panel">
-                    <div id="contentmedia_files_container"></div>
-                    <div id="contentmedia_files_container_template"><!--
-                                {for i in results}
-                                      <div class="contentmedia_file {if i_index % 2 == 1} odd {/if}" id="contentmedia_filename_${i_index}">
-                                          {if i['Content-Type']}
-                                              {var mimeType = i['Content-Type']}
-                                          {elseif i.file && i.file['sakai:mimeType']}
-                                              {var mimeType = i.file['sakai:mimeType']}
-                                          {elseif i['jcr:primaryType'] === "sling:Folder"}
-                                              {var mimeType = 'folder'}
-                                          {/if}
-                                          <span class="mimetype">${mimeType}</span>
-                                          {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-
-                                              <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${Config.MimeTypes[mimeType].description}" />
-                                          {elseif Config.MimeTypes[mimeType]}
-                                              <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
-                                          {else}
-                                              <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
-                                          {/if}
-                                          <div class="contentmedia_file_name">${i.properties.filename}</div>
-
-                                          <div class="contentmedia_hidden">
-                                              {if i["uri"]}${i["uri"]}{else}
-                                              {if i.path}
-                                                  ${i.path}
-                                              {/if}
-                                              {/if}
-                                          </div>
-                                        </div>
-                                      </div>
-                                  {/for}
-                              -->
-                     </div>
-                  </div>
-
-                  <div id="pickresource_selecteddetails" class="pickresource_panel">
-                    <div id="resource_details_container"></div>
-                    <div id="resource_details_container_template"><!--
-                          {for i in results}
-                            <div class="contentmedia_fileinfo" id="contentmedia_fileinfo_${i_index}">
-                                {if i['Content-Type']}
-                                    {var mimeType = i['Content-Type']}
-                                {elseif i.file && i.file['sakai:mimeType']}
-                                    {var mimeType = i.file['sakai:mimeType']}
-                                {elseif i['jcr:primaryType'] === "sling:Folder"}
-                                    {var mimeType = 'folder'}
-                                {/if}
-                                {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-                                    <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${Config.MimeTypes[mimeType].description}" />
-                                {elseif Config.MimeTypes[mimeType]}
-                                    <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
-                                {else}
-                                    <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
-                                {/if}
-                                <p><strong>Description:</strong></p>
-                                <p>
-                                    {if i["sakai:description"]}
-                                        ${i["sakai:description"]}
-                                    {else}
-                                        (no description available)
-                                    {/if}
-                                </p>
-                                <p><strong>Tags:</strong></p>
-                                <p>
-                                    {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{forelse}
-                                        (no tags available)
-                                    {/for}
-                                </p>
-                                <p><strong>Used In:</strong></p>
-                                <p>
-                                    {if i.usedIn && i.usedIn.sites && i.usedIn.total > 0}
-                                        {for u in i.usedIn.sites}
-                                            {if u_index > 0},{/if} ${u.name}
-                                        {/for}
-                                    {else}
-                                        (not used anywhere)
-                                    {/if}
-                                </p>
-                            </div>
-
-                        {/for}
-                    -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="embedresource_tab-2" class="embedresource_tab embedresource_inactive">
-              <div class="embedresource_tab_content">
-                <label for="resource_url">Image URL</label><input name="resource_url" type="text" size="75"/>
-              </div>
-            </div>
-            <div class="mceActionPanel">
-          		<div style="float: left">
-          			<input type="button" id="cancel_choose_image" name="cancel_choose_image" value="Cancel" />
-          		</div>
-          		<div style="float: right">
-          		  <input type="button" id="choose_image" name="choose_image" value="Choose" disabled="disabled" />
-          		</div>
-          	</div>
-
-          </div>
-        </div>
-        <div id="embedresource_settings">
-          <div id="embed_settings_audio" class="embed_settings"></div>
-          <div id="embed_settings_video" class="embed_settings"></div>  
-          <div id="embed_settings_audio" class="embed_settings"></div>            
-        </div>
-
-        <div id="contentmedia_accordion_list_site_template"><!--
-            {if items.length > 0}
-            <div class="contentmedia_accordion_list">
-            {/if}
-            {for item in items}
-                <a href="javascript:;">
-                {if item && item.site && item.site.name}
-                    ${item.site.name}
-                {/if}
-                <span class="contentmedia_hidden">${item.siteref}</span></a>
-            {forelse}
-                No sites found
-            {/for}
-
-            {if items.length > 0}
-            </div>
-            {/if}
-        --></div>
-      </div>
-      <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-      </div>
     </div>
-  </div>
   </div>
 </div>
 
@@ -489,6 +307,189 @@
       </form>
     </div>
   </form>
+</div>
+
+<div id="browse_resource_files" style="display:none" class="dialog">
+  <div class="dialog_header">
+    <div class="dialog_header_inner">
+      <h1>Browse for a File</h1>
+      <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+    </div>
+  </div>
+  <div class="dialog_content">
+    <div id="embedresource_choose">
+      <div id="embedresource_header">
+        <h3>Find an image to use for this room</h3>
+      </div>
+      <div id="embedresource_tabs">
+        <ul>
+          <li id="embedresource_link_tab-1" class="tab_active"><a href="javascript:;">From a repository</a></li>
+          <li id="embedresource_link_tab-2" class="tab_inactive"><a href="javascript:;">From the web</a></li>
+        </ul>
+      </div>
+      <div id="embedresource_container">
+        <!-- CONTENT -->
+        <div id="embedresource_tab-1" class="embedresource_tab embedresource_active">
+        <div id="pickresource_heading">
+          <span id="filters_header" class="panel_header">Search &amp; Filters</span>
+          <span id="repo_header" class="panel_header">Repository Contents</span>
+          <span id="details_header" class="panel_header">Resource Details</span>                    
+        </div>
+          <div class="contentmedia_content_main">
+            <div id="pickresource_filters" class="pickresource_panel">
+              <!-- Accordion -->
+              <div id="contentmedia_accordion">
+                <a href="javascript:;" title="Search for files">Search</a>
+                <div id="contentmedia_search">
+                  <form>
+                    <input type="text" value="Search for files ..." class="input" id="search_text" /> <a id="clear_search_link" href="javascript:;" style="display:none">clear search</a> <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
+                  </form>
+                </div>
+                <!--><a href="javascript:;" title="Filter by Owner">Filter by owner</a>
+                <div id="contentmedia_accordion_list_owners">
+                  <div class="contentmedia_accordion_list">
+                  <a href="javascript:;" title="My Files" id="search_my_files">My Files</a>
+                  <a href="javascript:;" title="All Files" id="search_all_files">All Files</a> 
+                  </div>
+                </div>
+                <a href="javascript:;" title="Filter by site">Filter by site</a>
+                <div id="contentmedia_accordion_list_site"></div>-->
+              </div>
+            </div>
+            <div id="pickresource_container">
+            <div id="pickresource_files" class="pickresource_panel">
+                <div id="contentmedia_files_container"></div>
+                <div id="contentmedia_files_container_template"><!--
+                            {for i in results}
+                                  <div class="contentmedia_file {if i_index % 2 == 1} odd {/if}" id="contentmedia_filename_${i_index}">
+                                      {if i['Content-Type']}
+                                          {var mimeType = i['Content-Type']}
+                                      {elseif i.file && i.file['sakai:mimeType']}
+                                          {var mimeType = i.file['sakai:mimeType']}
+                                      {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                          {var mimeType = 'folder'}
+                                      {/if}
+                                      <span class="mimetype">${mimeType}</span>
+                                      {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
+
+                                          <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${Config.MimeTypes[mimeType].description}" />
+                                      {elseif Config.MimeTypes[mimeType]}
+                                          <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
+                                      {else}
+                                          <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
+                                      {/if}
+                                      <div class="contentmedia_file_name">${i.properties.filename}</div>
+
+                                      <div class="contentmedia_hidden">
+                                          {if i["uri"]}${i["uri"]}{else}
+                                          {if i.path}
+                                              ${i.path}
+                                          {/if}
+                                          {/if}
+                                      </div>
+                                    </div>
+                                  </div>
+                              {/for}
+                          -->
+                 </div>
+              </div>
+
+              <div id="pickresource_selecteddetails" class="pickresource_panel">
+                <div id="resource_details_container"></div>
+                <div id="resource_details_container_template"><!--
+                      {for i in results}
+                        <div class="contentmedia_fileinfo" id="contentmedia_fileinfo_${i_index}">
+                            {if i['Content-Type']}
+                                {var mimeType = i['Content-Type']}
+                            {elseif i.file && i.file['sakai:mimeType']}
+                                {var mimeType = i.file['sakai:mimeType']}
+                            {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                {var mimeType = 'folder'}
+                            {/if}
+                            {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
+                                <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${Config.MimeTypes[mimeType].description}" />
+                            {elseif Config.MimeTypes[mimeType]}
+                                <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
+                            {else}
+                                <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
+                            {/if}
+                            <p><strong>Description:</strong></p>
+                            <p>
+                                {if i["sakai:description"]}
+                                    ${i["sakai:description"]}
+                                {else}
+                                    (no description available)
+                                {/if}
+                            </p>
+                            <p><strong>Tags:</strong></p>
+                            <p>
+                                {for t in i["sakai:tags"]}{if t_index > 0},{/if} ${t}{forelse}
+                                    (no tags available)
+                                {/for}
+                            </p>
+                            <p><strong>Used In:</strong></p>
+                            <p>
+                                {if i.usedIn && i.usedIn.sites && i.usedIn.total > 0}
+                                    {for u in i.usedIn.sites}
+                                        {if u_index > 0},{/if} ${u.name}
+                                    {/for}
+                                {else}
+                                    (not used anywhere)
+                                {/if}
+                            </p>
+                        </div>
+
+                    {/for}
+                -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="embedresource_tab-2" class="embedresource_tab embedresource_inactive">
+          <div class="embedresource_tab_content">
+            <label for="resource_url">Image URL</label><input name="resource_url" type="text" size="75"/>
+          </div>
+        </div>
+        <div class="mceActionPanel">
+      		<div style="float: left">
+      			<input type="button" id="cancel_choose_image" name="cancel_choose_image" value="Cancel" />
+      		</div>
+      		<div style="float: right">
+      		  <input type="button" id="choose_image" name="choose_image" value="Choose" disabled="disabled" />
+      		</div>
+      	</div>
+
+      </div>
+    </div>
+    <div id="embedresource_settings">
+      <div id="embed_settings_audio" class="embed_settings"></div>
+      <div id="embed_settings_video" class="embed_settings"></div>  
+      <div id="embed_settings_audio" class="embed_settings"></div>            
+    </div>
+
+    <div id="contentmedia_accordion_list_site_template"><!--
+        {if items.length > 0}
+        <div class="contentmedia_accordion_list">
+        {/if}
+        {for item in items}
+            <a href="javascript:;">
+            {if item && item.site && item.site.name}
+                ${item.site.name}
+            {/if}
+            <span class="contentmedia_hidden">${item.siteref}</span></a>
+        {forelse}
+            No sites found
+        {/for}
+
+        {if items.length > 0}
+        </div>
+        {/if}
+    --></div>
+  </div>
+  <div class="dialog_footer">
+    <div class="dialog_footer_inner"><!-- --></div>
+  </div>
 </div>
 
 

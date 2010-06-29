@@ -122,11 +122,7 @@ sakai.collections = function(tuid, showSettings) {
           $(collectionsHeader, $(rootel)[0]).show();
           $.TemplateRenderer(collectionsHeaderTemplate, settings, $(collectionsHeader, $(rootel)[0]));
           $.TemplateRenderer(collectionsHeaderSelectLayoutTemplate, settings, $(collectionsHeaderSelectLayout, $(rootel)[0]));
-          if (settings.displayStyle == "mapView") {
-            renderMapView();
-          } else if (settings.displayStyle == "albumView") {
-            renderAlbumView();
-          }
+          parseState();
         }
       } else {
         collectionData = {"collections":[]};
@@ -212,9 +208,59 @@ sakai.collections = function(tuid, showSettings) {
     $(".albumView").hide();
   };
 
+  var parseState = function() {
+    var album = $.bbq.getState("album");
+    var category = $.bbq.getState("category");
+    var item = $.bbq.getState("item");
+    var view = $.bbq.getState("view");
+    if (item) {
+      selectedCategoryID = category;
+      selectedItemID = item;
+      selectedAlbumPosition = album;
+      viewCategory();
+      showItem();
+    } else if (category) {
+      selectedAlbumPosition = album;
+      selectedCategoryID = category;
+      viewCategory();
+    } else if (album) {
+      selectedAlbumPosition = album;
+      viewAlbum();
+    } else if (view) {
+      hideAllViews();
+      if (view == "albumView")
+        renderAlbumView();
+      else if (view == "mapView")
+        renderMapView();
+    } else {
+      hideAllViews();
+      if (settings.displayStyle == "mapView") {
+        renderMapView();
+      } else if (settings.displayStyle == "albumView") {
+        renderAlbumView();
+      }
+    }
+  };
+  
   /**
    * Universal event bindings
    */
+   
+  $("#collections_header h1").live("click", function() {
+     var view = $.bbq.getState("view");
+     if (view) {
+       if (view == "albumView")
+         renderAlbumView();
+       else if (view == "mapView")
+         renderMapView();
+     } else {
+       if (settings.displayStyle == "mapView") {
+         renderMapView();
+       } else if (settings.displayStyle == "albumView") {
+         renderAlbumView();
+       }
+     }
+   });
    
   $("#collections_header div a#configure_widget").live("click", function() {
     $("#collections_header div").toggleClass("expanded");
@@ -238,15 +284,18 @@ sakai.collections = function(tuid, showSettings) {
       $("#collections_header div span#choose_layout a span#chosen_layout").text("Album View");
       settings.displayStyle = "albumView";
       showAddAlbum();
+      $.bbq.pushState({'view':'albumView'});
       renderAlbumView();
     } else if ($(this).attr("id") == "mapView") {
       if (collectionData.collections.length > 10) {
         alert("You cannot change to this view, you have too many collections"); 
+        $.bbq.pushState({'view':'albumView'});
         renderAlbumView();
         showAddAlbum();
       } else {
         $("#collections_header div span#choose_layout a span#chosen_layout").text("Architectural View");
         settings.displayStyle = "mapView";
+        $.bbq.pushState({'view':'mapView'});
         renderMapView();      
       }
     }
@@ -256,21 +305,7 @@ sakai.collections = function(tuid, showSettings) {
   
   // History Mgmt, need to update for arch view to use these params too
   $(window).bind("hashchange", function(e) {
-    var album = e.getState("album");
-    var category = e.getState("category");
-    var item = e.getState("item");
-    if (item) {
-      selectedItemID = item;
-      showItem();
-    } else if (category) {
-      selectedCategoryID = category;
-      viewCategory();
-    } else if (album) {
-      selectedAlbumPosition = album;
-      viewAlbum();
-    } else {
-      renderAlbumView();
-    }
+    parseState();
   });
   
   // Hide the layout dropdown if anywhere else is clickedhttp://127.0.0.1:8080/sites/asdf
@@ -350,9 +385,17 @@ sakai.collections = function(tuid, showSettings) {
   
   var viewCategory = function() {
     hideAllAlbumView();
-    for (var i in albumData.categories) {
-      if (albumData.categories[i].id == selectedCategoryID) {
-        categoryData = albumData.categories[i];
+    if (!albumData.categories || albumData.categories.length == 0) {
+      for (var i in collectionData.collections) {
+        if (collectionData.collections[i].albumViewPosition == selectedAlbumPosition) {
+         albumData = collectionData.collections[i];
+         break;
+        }
+      }
+    }
+    for (var y in albumData.categories) {
+      if (albumData.categories[y].id == selectedCategoryID) {
+        categoryData = albumData.categories[y];
         break;
       }
     }
