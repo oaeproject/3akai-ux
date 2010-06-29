@@ -33,7 +33,7 @@ sakai.footer = function(tuid,showSettings){
     /////////////////////////////
 
     var doc_name;
-    var $back_to_top_link = $("#footer_main .back-top");
+    var $back_to_top_link = $(".footer_main .back-top");
     var $footer_debug_info = $("#footer_debug_info");
     var $footer_date_end = $("#footer_date_end");
     var $footer_root = $(".footer_main");
