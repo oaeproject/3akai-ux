@@ -53,7 +53,8 @@ sakai.siterecentactivity = function(tuid, showSettings){
         sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
             if (success) {
                 sakai.siterecentactivity.recentactivity = data;
-            } else {
+            }
+            else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
                 };

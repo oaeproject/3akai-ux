@@ -281,8 +281,6 @@ sakai.site = function(){
                 // Load site navigation
                 sakai.site.loadSiteNavigation();
 
-                // Save current site to Recent Sites
-                saveToRecentSites(sakai.site.currentsite);
             },
             error: function(xhr, textStatus, thrownError) {
 
@@ -475,57 +473,6 @@ sakai.site = function(){
 
     };
 
-
-    //////////////////
-    // RECENT SITES //
-    //////////////////
-
-    /**
-     * Save to Recent Sites - This function also filter out the current site and writes the data out in JSON format
-     * @param {Object} response
-     * @return void
-     */
-    var saveToRecentSites = function(site_object){
-
-        var items = {};
-        var site = site_object.id;
-
-        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
-
-            if (success) {
-
-                items = data;
-
-                //Filter out this site
-                var index = -1;
-                for (var i = 0, j = items.items.length; i<j; i++){
-                    if (items.items[i] === site){
-                        index = i;
-                    }
-                }
-                if (index > -1){
-                    items.items.splice(index,1);
-                }
-                items.items.unshift(site);
-                items.items = items.items.splice(0,5);
-
-                // Write
-                if (sakai.data.me.user.userStoragePrefix) {
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
-                }
-            } else {
-
-                items.items = [];
-                items.items.unshift(site);
-
-                // Write
-                if (sakai.data.me.user.userStoragePrefix) {
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
-                }
-
-            }
-        });
-    };
 
     /////////////////////
     // VERSION HISTORY //
