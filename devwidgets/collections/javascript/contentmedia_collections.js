@@ -167,6 +167,7 @@ sakai.collectionscontent = function(){
        resultWrapper.total = data.length;
        // Set the globaldata variable
        globaldata = resultWrapper;
+       console.log("globaldata: ", globaldata);
        /*
        // only display embeddable types of resources
        filteredResults = [];
@@ -183,15 +184,20 @@ sakai.collectionscontent = function(){
        
        
        // Set the formatted file size and format the date
+       console.log('here');
        for(var i = 0; i < globaldata.results.length; i++){
-           if(globaldata.results[i]["Content-Length"]){
+          console.log(i);
+           if(globaldata.results[i]["Content-Length"]) {
                globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i]["Content-Length"]);
-               globaldata.results[i].formattedDateModified = dateFormat($.ParseJCRDate("2009-12-21T05:20:31"));
+           }
+           if(globaldata.results[i]["lastmodified"]) {
+             globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["lastmodified"]));
            }
        }
+       console.log($.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper));
        // Render files
-       $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata));
-       $(resourceDetailsContainer).html($.TemplateRenderer(resourceDetailsContainerTemplate, globaldata));
+       $.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper, $(contentmediaFilesContainer));
+       $.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper, $(resourceDetailsContainer));
      };
      
     var doFileRender = function(data){
@@ -205,13 +211,13 @@ sakai.collectionscontent = function(){
       for(var i = 0; i < globaldata.results.length; i++){
           if(globaldata.results[i]["Content-Length"]){
               globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i]["Content-Length"]);
-              globaldata.results[i].formattedDateModified = dateFormat($.ParseJCRDate("2009-12-21T05:20:31"));
+              globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["lastmodified"]));
           }
       }
 
       // Render files
-      $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper));
-      $(resourceDetailsContainer).html($.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper));
+      $.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper, $(contentmediaFilesContainer, $(rootel)[0]));
+      $.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper, $(resourceDetailsContainer, $(rootel)[0]));
       
 
         // Render paging
@@ -525,7 +531,7 @@ sakai.collectionscontent = function(){
  	   
  	   // validate each keystroke against a URL regexp, if valid, enable the submit button
  	   $("input[name='resource_url']").live('click keyup', function() {
- 	     var regexp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i // from jquery validate plugin
+ 	     var regexp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i; // from jquery validate plugin
        var resource_url = $.trim($("input[name='resource_url']").val());    
        if (regexp.test(resource_url)) {
          $(".mceActionPanel input#choose_image").removeAttr('disabled');

@@ -4,10 +4,13 @@
 #collections_inner_container{-moz-border-radius:2px 2px 0 0;-webkit-border-radius:2px 2px 0 0;border-radius:2px 2px 0 0;background-color:rgb(239,242,244);padding:2px;float:left;position:relative;width:640px;}
 #collections_outer_container{background-color:rgb(213,219,223);float:left;position:relative;}
 #collections_header h1{color:rgb(69,74,79);width:66%;float:left;position:relative;cursor:pointer;}
+#collections_header h1:hover {text-decoration:underline;}
 #collections_header div{float:left;margin-top:-2px;position:relative;text-align:right;width:31%;padding:2px;}
 #collections_header div.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
 #collections_header div img {margin:3px 3px 0px 0px;}
 #collections_header div span#choose_layout, #collections_header div button {float:left; margin-right:10px; position:relative; margin:1px 5px 0px 0px;}
+/* Global Edit Styles */
+.editable:hover {background:#FFC;}
 /* Layout Chooser */
 #collections_header div span#choose_layout {height:16px; border:1px solid #aaa; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin-top:1px; width:160px; padding:2px; background:url(/dev/_images/arrow_down_sm2.png) no-repeat scroll 150px 50% transparent; cursor:pointer;}
 #collections_header div span#choose_layout a {float:left; margin-top:-1px; margin-left:4px; font-weight:bold;}
@@ -210,38 +213,46 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 .albumCover.addAlbum {border:4px solid #bbb;background:url(/devwidgets/collections/images/add_icon.png) transparent 50% 50% no-repeat;height:210px;}
 .albumCover.addAlbum.clicked {background:url(/devwidgets/collections/images/add_icon.png) transparent 51% 51% no-repeat;}
 /* Single Album View */
-.albumHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:20px;width:560px;float:left;position:relative;}
+.albumHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:10px 20px 20px 20px;width:560px;float:left;position:relative;}
 .albumHead {float:left; width:100%;}
 .albumImage {float:left; width:300px;height:200px;border:1px solid #ccc;}
-.albumDesc {float:left; width:240px; height:200px;border:1px solid #ccc; margin-left:10px;}
-.albumHead {width:100%; float:left; position:relative;}
-.albumHead h1 {float:left; position:relative; width:74%;}
-.albumHead div {float:left; position:relative; width:26%;}
-.albumHead img {float:right;position:relative;}
-.albumHead button {float:left; position:relative;}
+.albumDesc {float:left; width:246px; height:200px;margin-left:10px;}
+.albumDesc p {height:100%; width:100%; margin:0; padding:0;}
+.albumHead {width:100%; float:left; position:relative; height:40px;}
+.albumHead h1 {float:left; position:relative; width:400px;}
+.albumHead div {float:left; position:relative; width:155px;margin-top:-2px;padding:2px;text-align:right;}
+.albumHead div.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
+.albumHead img {margin:3px 3px 0 0;}
+.albumHead button {float:left; position:relative;margin-top:2px;margin-bottom:2px;}
 .albumCategories {float:left;position:relative;width:622px;margin-left:20px;}
-.categoryHeader {margin:0px 0px 10px;float:left;position:relative;width:630px;}
-.categoryHeader h2 {float:left;position:relative;width:90%;margin:0;}
-.categoryHeader span {float:left;position:relative;width:6%;text-align:right;}
+.categoryHeader {margin:0px 0px 10px;float:left;position:relative;width:630px;height:20px;}
+.categoryHeader h2 {float:left;position:relative;width:555px;margin:0;}
+.categoryHeader div {float:left;position:relative;width:35px;text-align:right;}
 .categoryPreview {float:left; margin-right:16px;height:180px;width:138px;position:relative;}
 .categoryPreview h3 {font-size:14px;color:#006E96; width:100%; float:left;font-weight:bold;position:relative;margin:5px 0px 0px 5px;}
 .categoryPreview span {width:100%; float:left; font-size:12px;font-weight:bold;position:relative;margin-left:5px;}
 .categoryCover {float:left; position:relative;height:118px; width:118px; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20); padding:10px;background-color:#fff;}
 .categoryCover img {border:1px solid #ccc; height:117px; width:117px; display:block;}
 /* Category/Item View */
-#collections_albums_show_category h1 {margin:20px 0px 0px 20px;}
-#collections_albums_show_category h2 {margin-left:40px; width:500px; float:left; font-weight:bold;}
-#collections_albums_show_category span.configureCategory {float:left; width:73px; text-align:right; margin-top:20px;}
-.itemsContainer { margin-bottom:20px; background-color:#fff; width:600px; margin-left:20px; float:left; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);}
-.scroll-pane { overflow: auto; width: 560px; float:left; margin:20px; border:1px solid #aaa;}
+#collections_albums_show_category h1 {margin:20px 0px 0px 20px; cursor:pointer;}
+#collections_albums_show_category h1:hover {text-decoration:underline;}
+#collections_albums_show_category h2 {margin:0; width:395px; float:left; font-weight:bold;}
+#collections_albums_show_category div.configureCategory {float:left; width:163px; text-align:right; margin-top:10px;margin-top:-2px;padding:2px;}
+#collections_albums_show_category div.configureCategory.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
+#collections_albums_show_category div.configureCategory button {float:left; margin-top:2px;margin-bottom:2px;}
+.itemsContainer { background-color:#fff; width:600px; margin:20px 0px 20px 20px; float:left; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);}
+.itemsContainerHead {height:40px;margin-left:20px;margin-top:10px;}
+.itemsContainerHead img {margin:3px 3px 0 0;}
+.scroll-pane { overflow: auto; width: 560px; float:left; margin:10px 20px 20px 20px; border:1px solid #aaa;}
 .scroll-content { width: 560px; float: left;}
 .scroll-content-item { width: 105px; height: 128px; float: left; margin: 10px;}
 .scroll-content-item img {width:103px; height:103px; float:left; border:1px solid #ccc;}
-.itemHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:20px;width:560px;float:left;position:relative;}
-.itemHead {float:left; width:100%;}
-.itemHead h1 {float:left; position:relative; width:74%;}
-.itemHead div {float:left; position:relative; width:26%;}
-.itemHead img {float:right;position:relative;}
-.itemHead button {float:left; position:relative;}
+.itemHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:10px 20px 20px 20px;width:560px;float:left;position:relative;}
+.itemHead {float:left; width:100%;height:40px;}
+.itemHead h1 {float:left; position:relative; width:410px;}
+.itemHead div {float:left; position:relative; width:146px;margin-top:-2px;padding:2px;text-align:right;}
+.itemHead div.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
+.itemHead img {margin:3px 3px 0 0;}
+.itemHead button {float:left; margin-top:2px;margin-bottom:2px;}
 .itemImage {float:left; width:300px;height:200px;border:1px solid #ccc;}
-.itemDesc {float:left; width:240px; height:200px;border:1px solid #ccc; margin-left:10px;}
+.itemDesc {float:left; width:246px; height:200px;border:1px solid #ccc; margin-left:10px;}

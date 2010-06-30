@@ -39,7 +39,7 @@
     
     <div id="collections_albums_template" style="display:none" class="albumView"><!--
       {for album in collections}
-        <div id="album_${album.albumViewPosition}" class="albumCover">
+        <div id="album_${album.id}" class="albumCover">
           <div class="albumCoverImage">
             {if album.image}
               <img src="${album.image}" alt="${album.title} image"/>
@@ -55,16 +55,14 @@
     <div id="collections_albums_show_album_template" style="display:none" class="albumView"><!--
       <div class="albumHero">
         <div class="albumHead">
-          {if album.title}
-            <h1>${album.title}</h1>
-          {/if}
-          <div class="configureAlbum"><button class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+          <h1 class="editable albumTitle">${album.title}</h1>
+          <div class="configureAlbum"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
         <div class="albumImage"></div>
-        <div class="albumDesc"></div>
+        <div class="albumDesc"><p class="editable albumDescription">${album.description}</p></div>
       </div>
       <div class="albumCategories">
-        <div class="categoryHeader"><h2>Categories</h2><span><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="Add New Category" title="Add New Category"/></a></span></div>
+        <div class="categoryHeader"><h2>Categories</h2><span style="display:none"><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="Add New Category" title="Add New Category"/></a></span></div>
         {for category in album.categories}
         <div class="categoryPreview" id="category_${category.id}">
           <div class="categoryCover">
@@ -80,9 +78,11 @@
     <div id="collections_albums_show_category" style="display:none" class="albumView"></div>
     <div id="collections_albums_show_category_template" style="display:none" class="albumView"><!--
       <h1>${album.title}</h1>
-      <h2>${category.name}</h2>
-      <span class="configureCategory"><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a></span>
       <div class="itemsContainer">
+        <div class="itemsContainerHead"
+          <h2>${category.name}</h2>
+          <div class="configureCategory"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Category</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a></div>
+        </div>
         <div class="scroll-pane">
           <div class="scroll-content">
             {for item in category.items}
@@ -106,7 +106,7 @@
           {if item.title}
             <h1>${item.title}</h1>
           {/if}
-          <div class="configureItem"><button class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+          <div class="configureItem"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
         <div class="itemImage"></div>
         <div class="itemDesc"></div>
@@ -119,14 +119,16 @@
   
     <div id="collections_map_template" style="display:none" class="mapView"><!--
       {for room in collections}
-        <div id="mpLink${room.position}">
-          {if room.title}
-            <span>
-              <a href="javascript:;" class="roomLink" id="room_${room.position}">${room.title}</a>
-            </span>
-          {else}
-            <span><a href="javascript:;" class="roomLink addLink" id="room_${room.position}">Furnish Room</a></span>
-          {/if}
+        <div id="room_${room.id}" class="roomWrapper">
+          <div id="mpLink${room.position}">
+            {if room.title}
+              <span>
+                <a href="javascript:;" class="roomLink" id="room_${room.position}">${room.title}</a>
+              </span>
+            {else}
+              <span><a href="javascript:;" class="roomLink addLink" id="room_${room.position}">Furnish Room</a></span>
+            {/if}
+          </div>
         </div>
       {/for}
     --></div>
@@ -372,11 +374,11 @@
                                       <span class="mimetype">${mimeType}</span>
                                       {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
 
-                                          <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${Config.MimeTypes[mimeType].description}" />
-                                      {elseif Config.MimeTypes[mimeType]}
-                                          <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
+                                          <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                      {elseif sakai.config.MimeTypes[mimeType]}
+                                          <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                       {else}
-                                          <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
+                                          <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                                       {/if}
                                       <div class="contentmedia_file_name">${i.properties.filename}</div>
 
@@ -407,11 +409,11 @@
                                 {var mimeType = 'folder'}
                             {/if}
                             {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" ||mimeType=="image/bmp" }
-                                <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${Config.MimeTypes[mimeType].description}" />
-                            {elseif Config.MimeTypes[mimeType]}
-                                <img src="${Config.MimeTypes[mimeType].URL}" alt="${Config.MimeTypes[mimeType].description}" />
+                                <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                            {elseif sakai.config.MimeTypes[mimeType]}
+                                <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                             {else}
-                                <img src="${Config.MimeTypes["other"].URL}" alt="${Config.MimeTypes["other"].description}" />
+                                <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                             {/if}
                             <p><strong>Description:</strong></p>
                             <p>
@@ -495,4 +497,5 @@
 
 <!-- JAVASCRIPT -->
 <script src="/devwidgets/collections/javascript/collections.js" type="text/javascript" charset="utf-8"></script>
+<script src="/devwidgets/collections/javascript/jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
 <script src="/devwidgets/collections/javascript/contentmedia_collections.js" type="text/javascript" charset="utf-8"></script>
