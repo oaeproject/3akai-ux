@@ -89,6 +89,7 @@ sakai.pickeruser = function(tuid, showSettings){
 sakai.api.UI.pickerUser.reset = function(tuid) {
 
     $("#" + tuid + " .pickeruser_content_search").html("");
+    $("#" + tuid + " .pickeruser_content_search").unbind("scroll");
     sakai.data.pickeruser[tuid].selected = {};
     sakai.data.pickeruser[tuid].currentElementCount = 0;
     sakai.data.pickeruser[tuid].selectCount = 0;
@@ -96,6 +97,13 @@ sakai.api.UI.pickerUser.reset = function(tuid) {
 };
 
 
+/**
+ * Render
+ * Renders the people picker
+ * @param tuid {String} Unique id of the widget
+ * @param iConfig {String} Config element for the widget
+ * @returns void
+ */
 sakai.api.UI.pickerUser.render = function(tuid, iConfig) {
 
     // Merge user defined config with defaults
@@ -106,7 +114,6 @@ sakai.api.UI.pickerUser.render = function(tuid, iConfig) {
     }
 
     submitSearch = function(){
-//console.log("submitSearch #################################################");
         sakai.api.UI.pickerUser.reset(tuid);
         var searchQuery = $("#pickeruser_search_query").val();
         if (!searchQuery) {
@@ -117,6 +124,7 @@ sakai.api.UI.pickerUser.render = function(tuid, iConfig) {
         sakai.api.UI.pickerUser.renderSearch(tuid, pl_query);
     };
 
+    // display the groups list, bind elements and submit a search
     sakai.api.UI.pickerUser.renderSearchList(tuid);
     $("#pickeruser_space_name").html(sakai.config.widgets.pickeruser[tuid]['spaceName']);
     $("#pickeruser_search_query").focus();
@@ -125,9 +133,16 @@ sakai.api.UI.pickerUser.render = function(tuid, iConfig) {
     $("#pickeruser_add_button").click(function(){
         $(window).trigger("pickeruser_finished", [tuid]);
     });
+    submitSearch();
 };
 
 
+/**
+ * renderSearchList
+ * Renders the people picker list to limit search to a specific groups
+ * @param tuid {String} Unique id of the widget
+ * @returns void
+ */
 sakai.api.UI.pickerUser.renderSearchList = function(tuid) {
 
     var $pl_listContainer = $("<ul id=\"pickeruser_list\" class=\"pickeruser_list loadinganim\"></ul>");
@@ -136,6 +151,7 @@ sakai.api.UI.pickerUser.renderSearchList = function(tuid) {
     // Display empty new container with loading anim
     $pl_container.append($pl_listContainer);
 
+    // Elements to display in the list
     var listData = {
         people : [ { name: "All Contacts", id: sakai.config.URL.SEARCH_USERS_ACCEPTED },
                    { name: "Everyone", id: sakai.config.URL.SEARCH_USERS + "?username=" }]
@@ -150,13 +166,16 @@ sakai.api.UI.pickerUser.renderSearchList = function(tuid) {
     // Inject results into DOM
     $pl_listContainer.html(pageHTML);
 
+    // Make All Contacts selected by default
     $('[data-id='+sakai.config.URL.SEARCH_USERS_ACCEPTED+']').addClass("pickeruser_selected_list");
     sakai.data.pickeruser[tuid]["searchIn"] = sakai.config.URL.SEARCH_USERS_ACCEPTED;
-    
+
+    // Bind the list and submit the search
     $("#" + tuid + " .pickeruser_list li").live("click", function(e){
         $(".pickeruser_selected_list").removeClass("pickeruser_selected_list");
         $(this).addClass("pickeruser_selected_list");
         sakai.data.pickeruser[tuid]["searchIn"] = $(this).attr("data-id");
+        submitSearch();
     });
 };
 
@@ -266,16 +285,9 @@ sakai.api.UI.pickerUser.addPage = function(tuid, pageNumber, searchQuery) {
 
             // Inject results into DOM
             $pl_pageContainer.html(pageHTML);
-//console.log("pageNumber: "+pageNumber);
             // Wire loading the next page when user scrolls to the bottom of the list
             if ((rawData.total > searchQuery.items) || (rawData.total === -1)) {
                 $pl_container.bind("scroll", function(e){
-/*console.log("ACTUAL BIND");
-console.log("e.target.scrollHeight: "+e.target.scrollHeight);
-console.log("e.target.scrollTop: "+e.target.scrollTop);
-console.log("$(e.target).height(): "+$(e.target).height());
-console.log("Calculation:");
-console.log(e.target.scrollHeight - e.target.scrollTop - $(e.target).height());*/
 
                     if ((e.target.scrollHeight - e.target.scrollTop - $(e.target).height() ) === 0) {
                         $pl_container.unbind("scroll");
@@ -283,14 +295,6 @@ console.log(e.target.scrollHeight - e.target.scrollTop - $(e.target).height());*
                     }
                 });
             }
-/*                $pl_container.bind("scroll", function(e){
-console.log("TEST BIND");
-console.log("e.target.scrollHeight: "+e.target.scrollHeight);
-console.log("e.target.scrollTop: "+e.target.scrollTop);
-console.log("$(e.target).height(): "+$(e.target).height());
-console.log("Calculation:");
-console.log(e.target.scrollHeight - e.target.scrollTop - $(e.target).height());
-                });*/
 
             // Wire item selection
             if (sakai.config.widgets.pickeruser[tuid].selectable) {
