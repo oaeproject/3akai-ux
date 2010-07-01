@@ -70,9 +70,9 @@
                 {for i in results}
                 <li data-userid="${i['rep:userId']}">
                     {if i.picture}
-                        <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/></a>
+                        <img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
                     {else}
-                        <a href="/dev/profile.html?user=${i['rep:userId']}"><img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/></a>
+                        <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/>
                     {/if}
                     <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
                     <br />
