@@ -19,13 +19,27 @@
 /*global $, sdata, Config, fluid, window */
 
 var sakai = sakai || {};
+
+/**
+ * @name sakai.api.UI.entity
+ *
+ * @class entity
+ *
+ */
 sakai.api.UI.entity = sakai.api.UI.entity || {};
 sakai.api.UI.entity.data = sakai.api.UI.entity.data || {};
 sakai.api.UI.entity.render = sakai.api.UI.entity.render || {};
 
 /**
+ * @name sakai.entity
+ *
+ * @class entity
+ *
+ * @description
  * Initialize the entity widget - this widget provides person / space and content information
  * http://jira.sakaiproject.org/browse/SAKIII-371
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */

@@ -20,7 +20,26 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai._changepic
+ *
+ * @description
+ * Public functions for the change picture widget
+ */
 sakai._changepic = {};
+
+/**
+ * @name sakai.changepic
+ *
+ * @class changepic
+ *
+ * @description
+ * Changepic widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.changepic = function(tuid, showSettings){
 
 
@@ -34,6 +53,7 @@ sakai.changepic = function(tuid, showSettings){
     var ratio = 1;
     var userSelection = null; // The object returned by imgAreaSelect that contains the user his choice.
     var me = null;
+    var imageareaobject;
 
     // These values are just in case there are no css values specified.
     // If you want to change the size of a thumbnail please do this in the CSS.
@@ -222,27 +242,24 @@ sakai.changepic = function(tuid, showSettings){
                     }
                 }
 
-                // If the image gets loaded, make a first selection
-                var initialSelection = function(img, selection){
-                    var initialSelectionHeight = realh < 100 ? realh : 100;
-                    var initialSelectionWidth = realw < 100 ? realw : 100;
-                    imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
-                    imageareaobject.setOptions({ show: true });
-                    imageareaobject.update();
-                    selection = imageareaobject.getSelection();
-                    preview(img, selection);
-                };
-
                 // Set the imgAreaSelect to a function so we can access it later on
-                var imageareaobject = $(fullPicture).imgAreaSelect({
+                imageareaobject = $(fullPicture).imgAreaSelect({
                     aspectRatio: "1:1",
                     disable: false,
                     enable: true,
                     hide: false,
                     instance: true,
-                    onInit: initialSelection,
+                    onInit: function(){
+                        // If the image gets loaded, make a first selection
+                        var initialSelectionHeight = realh < 100 ? realh : 100;
+                        var initialSelectionWidth = realw < 100 ? realw : 100;
+                        imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
+                        imageareaobject.setOptions({ show: true });
+                        imageareaobject.update();
+                    },
                     onSelectChange: preview
                 });
+
             });
 
             showSelectTab();
@@ -259,6 +276,10 @@ sakai.changepic = function(tuid, showSettings){
     // This is the function that will be called when a user has cut out a selection
     // and saves it.
     $(saveNewSelection).click(function(ev){
+
+        if (!userSelection) {
+            userSelection = imageareaobject.getSelection();
+        }
 
         // The parameters for the cropit service.
         var data = {
@@ -385,9 +406,6 @@ sakai._changepic.startCallback = function(){
  * @param {Object} response
  */
 sakai._changepic.completeCallback = function(response){
-
-    // Replace any <pre> tags the response might contain.
-    response = response.replace(/<pre[^>]*>/ig,"").replace(/<\/pre[^>]*>/ig,"");
 
     var tosave = {
         "_name": "profilepicture"

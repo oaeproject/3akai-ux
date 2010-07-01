@@ -16,25 +16,33 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/**
- * People Picker widget
- * This is a general widget which aims to display an arbitriary number of
- * people, loading dynamically if the list is very long and return the 
- * selected users in an object.
- */
-
 /*global $, Config, sdata */
 
 // Namespaces
 var sakai = sakai || {};
+
+/**
+ * @name sakai.api.UI.pickerUser
+ *
+ * @description
+ * Public functions for the people picker widget
+ */
 sakai.api.UI.pickerUser = {};
 
 /**
- * Initialize the pickeruser widget
- * This is the widget loader's default callback, executing when the widget
- * is loaded on a page
- * @param tuid {String} Unique id of the widget
- * @param showSettings {Boolean} Show the settings of the widget or not
+ * @name sakai.pickeruser
+ *
+ * @class pickeruser
+ *
+ * @description
+ * People Picker widget<br />
+ * This is a general widget which aims to display an arbitriary number of
+ * people, loading dynamically if the list is very long and return the
+ * selected users in an object.
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.pickeruser = function(tuid, showSettings){
 

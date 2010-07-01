@@ -17,8 +17,20 @@
  */
 /*global $, sdata, Config */
 
-var sakai = sakai ||
-{};
+var sakai = sakai || {};
+
+/**
+ * @name sakai.sitemembers
+ *
+ * @class sitemembers
+ *
+ * @description
+ * Initialize the sitemembers widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.sitemembers = function(tuid, showSettings){
 
 

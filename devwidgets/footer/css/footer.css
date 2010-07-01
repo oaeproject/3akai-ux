@@ -17,19 +17,63 @@
  */
 
 /* General */
-.sakai-footer {
-    background: url('../images/footer.png') center bottom no-repeat; color: #fff; height: 60px; margin: 0 auto 45px auto; padding: 10px 0; width: 960px;
-
-    /* Give IE6 a GIF rather than transparent PNG*/
-    _background: url('../images/footer.gif') center bottom no-repeat; _height: 60px; _padding: 0; _width: 960px;
+.footer_main {
+    background: url('../images/footer.png') center bottom no-repeat;
+    color: #fff;
+    margin: 0 auto 45px auto;
+    padding: 10px 0;
+    width: 960px;
 }
 
-.sakai-footer .debug_info { margin: 5px 0 0 76px;}
-.sakai-footer .footer_clickable {cursor: pointer;}
+.footer_main #footer_debug_info {
+    margin: 5px 0 0 76px;
+}
+
+.footer_main .footer_clickable {
+    cursor: pointer;
+}
 
 /* Fixed Container */
-.sakai-footer .fixed-container { background: #454A4F; padding: 0 25px; width: 910px; }
-.sakai-footer .fixed-container img { float: left; margin-right: 15px; }
-.sakai-footer .fixed-container p { font-size: 11px; margin-bottom: 0; padding-bottom: 0; line-height: 1.3em; color: #fff; }
-.sakai-footer .fixed-container a { color: #c4e4fb; }
-.sakai-footer .fixed-container a.back-top { background: url('../images/white_bottom_arrow.png') center right no-repeat; color: #fff; display: block; float: right; font-size: 13px; font-weight: bold; padding-right: 20px; }
+.footer_main .fixed-container {
+    background: #454A4F;
+    padding: 0 25px 10px;
+    width: 910px;
+}
+
+.footer_main .fixed-container img {
+    float: left;
+    margin-right: 15px;
+}
+
+.footer_main .fixed-container p {
+    font-size: 11px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    line-height: 1.3em;
+    color: #fff;
+}
+
+.footer_main .fixed-container a {
+    color: #c4e4fb;
+}
+
+.footer_main .fixed-container a.back-top {
+    background: url('../images/white_bottom_arrow.png') center right no-repeat;
+    color: #fff;
+    display: block;
+    float: right;
+    font-size: 13px;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+/* Footer on the login page */
+.footer_index {
+    bottom: 0;
+    background: url('../images/footer_index.png') center top no-repeat;
+    clear: both;
+    padding-bottom: 0;
+    position: fixed;
+    margin-bottom: 0;
+    z-index: 99;
+}
