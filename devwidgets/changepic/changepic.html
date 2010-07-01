@@ -40,7 +40,7 @@
         <!-- UPLOAD NEW PIC -->
         <div id="changepic_uploadnew" style="display:none;">
 
-            <form id="changepic_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai._changepic.startCallback, 'onComplete' : sakai._changepic.completeCallback});">
+            <form id="changepic_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai.changepic.startCallback, 'onComplete' : sakai.changepic.completeCallback});">
                 <h4>__MSG__UPLOAD_A_NEW_PICTURE__</h4>
                 <input type="file" name="profilepicture" id="profilepicture"/>
                 <br/><br/>
