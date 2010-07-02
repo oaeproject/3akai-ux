@@ -216,8 +216,7 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 .albumHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:10px 20px 20px 20px;width:560px;float:left;position:relative;}
 .albumHead {float:left; width:100%;}
 .albumImage {float:left; width:300px;height:200px;border:1px solid #ccc;}
-.albumDesc {float:left; width:246px; height:200px;margin-left:10px;}
-.albumDesc p {height:100%; width:100%; margin:0; padding:0;}
+.albumDesc {float:left; width:246px; min-height:200px;margin-left:10px;}
 .albumHead {width:100%; float:left; position:relative; height:40px;}
 .albumHead h1 {float:left; position:relative; width:400px;}
 .albumHead div {float:left; position:relative; width:155px;margin-top:-2px;padding:2px;text-align:right;}
@@ -256,3 +255,5 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 .itemHead button {float:left; margin-top:2px;margin-bottom:2px;}
 .itemImage {float:left; width:300px;height:200px;border:1px solid #ccc;}
 .itemDesc {float:left; width:246px; height:200px;border:1px solid #ccc; margin-left:10px;}
+/* Edit TinyMCE */
+body#tinymce.mceContentBody p {font:13px/1.231 arial,helvetica,clean,sans-serif; font-family:Arial,Helvetica,sans-serif; font-size:11.7333px;color:#333333;line-height:140%;padding:2px 0 10px;margin-bottom:1em;}

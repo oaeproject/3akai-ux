@@ -39,7 +39,7 @@
     
     <div id="collections_albums_template" style="display:none" class="albumView"><!--
       {for album in collections}
-        <div id="album_${album.id}" class="albumCover">
+        <div id="album_{if album.id}${album.id}{else}0{/if}" class="albumCover">
           <div class="albumCoverImage">
             {if album.image}
               <img src="${album.image}" alt="${album.title} image"/>
@@ -55,11 +55,11 @@
     <div id="collections_albums_show_album_template" style="display:none" class="albumView"><!--
       <div class="albumHero">
         <div class="albumHead">
-          <h1 class="editable albumTitle">${album.title}</h1>
+          <h1 class="isEditable albumTitle">${album.title}</h1>
           <div class="configureAlbum"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
         <div class="albumImage"></div>
-        <div class="albumDesc"><p class="editable albumDescription">${album.description}</p></div>
+        <div class="albumDesc isEditable" id="${album.id}_description">${album.description}</div>
       </div>
       <div class="albumCategories">
         <div class="categoryHeader"><h2>Categories</h2><span style="display:none"><a href="javascript:;"><img src="/devwidgets/collections/images/add_icon.png" alt="Add New Category" title="Add New Category"/></a></span></div>
