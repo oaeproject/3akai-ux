@@ -21,19 +21,39 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.footer
+ *
+ * @class footer
+ *
+ * @description
  * Initialize the footer widget
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.footer = function(tuid,showSettings){
 
 
+    /////////////////////////////
+    // Configuration variables //
+    /////////////////////////////
+
+    var doc_name;
+    var $back_to_top_link = $(".footer_main .back-top");
+    var $footer_debug_info = $("#footer_debug_info");
+    var $footer_date_end = $("#footer_date_end");
+    var $footer_root = $(".footer_main");
+    var $footer_logo = $("#footer_logo");
+
+
     //////////////////////
     // Helper functions //
     //////////////////////
 
-    /*
-     * This helper function will
+    /**
+     * This helper function will return the name of the current document (e.g. my_sakai.html)
+     * @return {String} The name of the current document
      */
     var getDocName = function() {
         var url = document.URL;
@@ -44,39 +64,38 @@ sakai.footer = function(tuid,showSettings){
         return url.substring(url.lastIndexOf(slash) + 1);
     };
 
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var doc_name = getDocName();
-    var $back_to_top_link = $("#footer_main .back-top");
-    var $debug_info = $("#debug_info");
-    var $footer_date_end = $("#footer_date_end");
-    var $footer_root = $("#footer_main");
+    /**
+     * Check whether this is the index page or not
+     * @return {Boolean} True when it is the index page
+     */
+    var checkIndexPage = function(){
+        return document.URL.match(/index.html[?a-zA-Z0-9=]*/);
+    };
 
 
     ////////////////////
     // Main functions //
     ////////////////////
 
-    var showDebugInfo = function(container) {
+    /**
+     * Render the debug info
+     * @param {Object} container jQuery selector where you want the debug info to appear in
+     */
+    var renderDebugInfo = function(container) {
 
         // Construct debug info | TODO: get current running kernel version from a service, maybe svn version of UX as well
         var debug_text = "DEBUG:";
-        debug_text += " UX git: <a href='http://github.com/oszkarnagy/3akai-ux/tree/v_0.3.0_release'>v_0.3.0_release</a>";
-        debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/commit/cb0169cfbf2810a50e64494d074939f580b88660' target='_blank'>cb0169cfbf2810a50e64494d074939f580b88660</a>";
+        debug_text += " UX git: <a href='http://github.com/oszkarnagy/3akai-ux/tree/v_0.4.0_release'>v_0.4.0_release</a>";
+        debug_text += " | KERNEL git: <a href='http://github.com/ieb/open-experiments/tree/0.5' target='_blank'>0.5</a>";
         debug_text += " | DOC mod date: " + document.lastModified;
         debug_text += " | PLACE: " + doc_name;
 
         // Put text into holding tag
         container.html(debug_text);
 
-        // Show debug item
-        container.show();
     };
 
-    /*
+    /**
      * This event handler will make sure that the Top link
      * that's available in every page footer will scroll back
      * to the top of the page
@@ -90,28 +109,39 @@ sakai.footer = function(tuid,showSettings){
     // Initialisation function //
     /////////////////////////////
 
+    /**
+     * Main initialization function for the footer widget
+     */
     var doInit = function(){
+
+        // Get the name of the current document
+        doc_name = getDocName();
 
         // Display debug info if set in config
         if (sakai.config.displayDebugInfo === true) {
 
-            // Make space for debug info
-            $footer_root.height("65px");
+            // Render the debug info
+            renderDebugInfo($footer_debug_info);
 
-            // Show the debug info
-            showDebugInfo($debug_info);
+            // Add binding to the image
+            $footer_logo.toggle(function(){
 
-        } else {
+                // Show the debug info
+                $footer_debug_info.show();
 
-            // Set the height of the footer
-            $footer_root.height("45px");
+            },function(){
+
+                // Hide the debug info
+                $footer_debug_info.hide();
+
+            }).addClass("footer_clickable");
 
         }
 
         // index.html mods
-        if ((doc_name === "index.html") || (doc_name === "")) {
+        if (checkIndexPage() || doc_name === "") {
             $back_to_top_link.hide();
-            $footer_root.css({'z-index' : '99', 'bottom' : '0', 'height' : '40px', 'background' : 'url(_images/footer_index.png) center bottom no-repeat', 'position' : 'fixed', 'clear' : 'both', 'margin-bottom' : '0'});
+            $footer_root.addClass("footer_index");
         }
 
         // Set the end year of the copyright notice
@@ -124,4 +154,4 @@ sakai.footer = function(tuid,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("footer");
+sakai.api.Widgets.widgetLoader.informOnLoad("footer");

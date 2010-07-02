@@ -21,9 +21,16 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.delicious
+ *
+ * @class delicious
+ *
+ * @description
  * Initialize the Delicious widget
- * @param {String} tuid unique id of the widget
- * @param {Boolean} showSettings show the settings of the widget or not
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.delicious = function(tuid, showSettings) {
 
@@ -489,7 +496,7 @@ sakai.delicious = function(tuid, showSettings) {
             if (success){
 
                 // FIXME
-                // sdata.container.informFinish(tuid,"delicious");
+                // sakai.api.Widgets.Container.informFinish(tuid,"delicious");
                 // Problem: multiple instances of this widget show up
 
                 // Get the settings from the server
@@ -582,4 +589,4 @@ sakai.delicious = function(tuid, showSettings) {
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("delicious");
+sakai.api.Widgets.widgetLoader.informOnLoad("delicious");

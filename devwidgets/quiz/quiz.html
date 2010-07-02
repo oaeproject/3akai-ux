@@ -26,8 +26,8 @@
             {/if}
 
                 <div class="quiz_questionsBtnBar">
-                <a class="button-default fl-force-left" id="quiz_showResults" href="javascript:;">Show results</a>
-                    <a class="button-default fl-force-right" id="quiz_startQuizBtn" href="javascript:;">Start quiz</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="quiz_showResults"><span class="s3d-button-inner">Show results</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="quiz_startQuizBtn"><span class="s3d-button-inner">Start quiz</span></button>
                 </div>
             </div>
         </div>
@@ -85,12 +85,12 @@
             {/if}
             <div>
             <div class="quiz_questionsBtnBar">
-            <a class="button-default fl-force-left" id="quiz_showResults" href="javascript:;">Show results</a>
+                <button type="button" class="s3d-button s3d-button-primary" id="quiz_showResults"><span class="s3d-button-inner">Show results</span></button>
 
                 {if !isLastQuestion}
-                <a class="button-default quiz_nextQuestion fl-force-right" id="quiz_nextQuestion${index}" href="javascript:;">Next</a>
+                <button type="button" class="s3d-button s3d-button-primary quiz_nextQuestion" id="quiz_nextQuestion${index}"><span class="s3d-button-inner">Next</span></button>
                 {else}
-                <a class="button-default quiz_nextQuestion  fl-force-right" id="quiz_nextQuestion${index}" href="javascript:;">End quiz</a>
+                <button type="button" class="s3d-button s3d-button-primary quiz_nextQuestion" id="quiz_nextQuestion${index}"><span class="s3d-button-inner">End quiz</span></button>
                 {/if}
 
             <div class="fl-push"></div>
@@ -129,12 +129,13 @@
         <td class="quiz_noBorder">
         {if !i.correct && showAnswers && i.answerType != "quiz_imgTagger"}
         {if i.answerType == 'quiz_NormalAnswerRbt'}
-        <a class="button-default quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}" href="javascript:;">Check answer</a>
+        <button type="button" class="s3d-button s3d-button-primary quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}"><span class="s3d-button-inner">Check answer</span></button>
         {else}
             {if i.answerCount == 1}
-            <a class="button-default quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}" href="javascript:;">Check answer</a>
+            <button type="button" class="s3d-button s3d-button-primary quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}"><span class="s3d-button-inner">Check answer</span></button>
+
             {else}
-            <a class="button-default quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}" href="javascript:;">Check answers</a>
+            <button type="button" class="s3d-button s3d-button-primary quiz_checkAnswer" id="quiz_checkAnswer${questions.indexOf(i)}"><span class="s3d-button-inner">Check answers</span></button>
             {/if}
         {/if}
         {/if}
@@ -165,8 +166,7 @@
     <br />
     <br />
     <div class="quiz_questionsBtnBar">
-            <a class="button-default" id="quiz_backToQuiz" href="javascript:;">Back</a>
-
+        <button type="button" class="s3d-button s3d-button-primary" id="quiz_backToQuiz"><span class="s3d-button-inner">Back</span></button>
     <div>
     --></div>
     <div id="quiz_resultGraphTemplate"><!--
@@ -241,7 +241,7 @@
                 <div id="quiz_MultipleAnswersContainer" style="display:none;">
                     <div id="quiz_MultipleAnswersListContainer" >
                     </div>
-                    <a href="javascript:;" class="button-default" id="quiz_addAnswerToMultipleAnswers" >Add answer</a><br />
+                    <button type="button" class="s3d-button s3d-button-primary" id="quiz_addAnswerToMultipleAnswers"><span class="s3d-button-inner">Add answer</span></button><br />
                 </div>
                 <div id="quiz_MultipleAnswersListContainerTemplate"><!--
                 <div>
@@ -303,7 +303,7 @@
                                 <div id="quiz_ImgSiteList">
                                 </div>
                                 <br />
-                                <a class="button-default quiz_insertImg" id="quiz_insertSiteRescourseImg" href="javascript:;">Insert image</a><br />
+                                <button type="button" class="s3d-button s3d-button-primary quiz_insertImg" id="quiz_insertSiteRescourseImg"><span class="s3d-button-inner">Insert image</span></button><br />
                             </div>
                         </div>
                         <div id="quiz_imgSelectURLContainer"  class="quiz_tabContainer" style="display:none;">
@@ -311,9 +311,9 @@
                                 <label for="quiz_txtImgURL">URL:</label><br />
                                 <input type="text" id="quiz_txtImgURL"/><br />
                                 <br />
-                                <a class="button-default quiz_insertImg" id="quiz_insertURLImg" href="javascript:;">Insert image</a>
+                                <button type="button" class="s3d-button s3d-button-primary quiz_insertImg" id="quiz_insertURLImg"><span class="s3d-button-inner">Insert image</span></button>
                                 <div class="fl-push"></div><br />
-                                <a class="button-default quiz_imgTagQuestion" href="javascript:;">Insert image tagger</a>
+                                <button type="button" class="s3d-button s3d-button-primary quiz_imgTagQuestion"><span class="s3d-button-inner">Insert image tagger</span></button>
                             </div>
                             <div class="quiz_tabContainer_right" id="quiz_URLimgPreview">
                             </div>
@@ -324,7 +324,7 @@
                                 <input type="file" size="30" id="quiz_fileUpload" name="file"/>
                                 <input type="hidden" name="realname" id="realname" value="" /><br />
                                 <br />
-                                <a class="button-default quiz_insertImg" id="quiz_insertHDImg" href="javascript:;">Insert image</a>
+                                <button type="button" class="s3d-button s3d-button-primary quiz_insertImg" id="quiz_insertHDImg"><span class="s3d-button-inner">Insert image</span></button>
                             </div>
                             <div class="quiz_tabContainer_right" id="quiz_selectHDimgPreview">
 
@@ -334,7 +334,7 @@
                         <div class="fl-push"></div>
                     </div>
                     <br />
-                    <a class="button-default quiz_addQuestion" href="javascript:;">Add question to quiz</a>
+                    <button type="button" class="s3d-button s3d-button-primary quiz_addQuestion"><span class="s3d-button-inner">Add question to quiz</span></button>
                 </div>
             </div>
         <div id="quiz_selectQContainer" style="display:none;" class="quiz_maintabContainer">
@@ -380,9 +380,9 @@
             {/if}
             <div>
             <div>
-            <a class="button-default quiz_changeQuestion fl-force-left" id="quiz_changeQuestion${Previndex}" href="javascript:;">Previous question</a>
-            <a class="button-default quiz_insertQuestion fl-force-left" href="javascript:;">Insert question</a>
-            <a class="button-default quiz_changeQuestion fl-force-right" id="quiz_changeQuestion${Nextindex}" href="javascript:;">Next question</a>
+            <button type="button" class="s3d-button quiz_changeQuestion" id="quiz_changeQuestion${Previndex}"><span class="s3d-button-inner">Previous question</span></button>
+            <button type="button" class="s3d-button s3d-button-primary quiz_insertQuestion" id="quiz_insertHDImg"><span class="s3d-button-inner">Insert question</span></button>
+            <button type="button" class="s3d-button s3d-button-primary quiz_changeQuestion" id="quiz_changeQuestion${Nextindex}"><span class="s3d-button-inner">Next question</span></button>
             <div class="fl-push"></div>
             <div>
             --></div>
@@ -393,7 +393,7 @@
 
             </div>
 
-            <a class="button-default quiz_lastQuestion fl-force-right" id="quiz_btnadvancedSettings" href="javascript:;">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></a>
+            <button type="button" class="s3d-button s3d-button-primary quiz_lastQuestion fl-force-right" id="quiz_btnadvancedSettings"><span class="s3d-button-inner">Advanced settings <span id="quiz_toggle_advanced_settings_down">&#8595;</span><span id="quiz_toggle_advanced_settings_up" style="display:none">&#8593;</span></span></button>
             <div class="fl-push" ></div>
             <div style="display:none;" id="quiz_advancedSettings">
                 <label for="quiz_txtTitle" class="quiz_bigLabel">Quiztitle:</label><br />
@@ -562,7 +562,7 @@
             <div id="quiz_tagImgInfo" style="display:none;">
                 <form class="quiz_form">
                     <input type="text" id="quiz_txtTag"></input>
-                    <a class="button-default" class="fl-force-left" id="quiz_addTag" href="javascript:;">Add tag to image</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="quiz_addTag"><span class="s3d-button-inner">Add tag to image</span></button>
                 </form>
             </div>
             <div class="fl-push"></div>
@@ -570,12 +570,12 @@
         </div>
 
         <div class="fl-fix">
-            <a class="button-default" id="quiz_backPage" href="javascript:;">Back</a>
-            <a class="button-default" id="quiz_backToOverview" style="display:none;" href="javascript:;">Back</a>
-            <a class="button-default" id="quiz_nextPage" href="javascript:;">Next</a>
-            <a class="button-default" id="quiz_submitWidget" style="display:none;" href="javascript:;">Finish</a>
-            <a class="button-default" id="quiz_insertTagQuestion" style="display:none;" href="javascript:;">Insert question</a>
-            <a class="button-default" id="quiz_saveImgTagger" style="display:none;" href="javascript:;">Save</a>
+            <button type="button" class="s3d-button" id="quiz_backPage"><span class="s3d-button-inner">Back</span></button>
+            <button type="button" class="s3d-button" style="display:none;" id="quiz_backToOverview"><span class="s3d-button-inner">Back</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" style="display:none;" id="quiz_nextPage"><span class="s3d-button-inner">Next</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" style="display:none;" id="quiz_submitWidget"><span class="s3d-button-inner">Finish</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" style="display:none;" id="quiz_insertTagQuestion"><span class="s3d-button-inner">Insert question</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" style="display:none;" id="quiz_saveImgTagger"><span class="s3d-button-inner">Save</span></button>
         </div>
 
     </form>

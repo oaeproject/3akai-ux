@@ -226,35 +226,38 @@ sakai.search = function() {
         if (foundSites.results) {
           updateTotalHitCount(foundSites.results.length);
 
-          if (foundSites.total > sitesToSearch) {
-              $(searchConfig.sites.displayMore).show();
-              $(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
-          }
+        if (foundSites.total > sitesToSearch) {
+            $(searchConfig.sites.displayMore).show();
+            $(searchConfig.sites.displayMore).attr("href", "search_sites.html#1|" + searchterm);
+        }
 
-          if (foundSites && foundSites.results) {
+        if (foundSites && foundSites.results) {
 
-              finaljson.items = foundSites.results;
+            finaljson.items = foundSites.results;
 
-              // If result is page content set up page path
-              for (var i=0, j=finaljson.items.length; i<j; i++ ) {
-                  var full_path = finaljson.items[i]["path"];
-                  var site_path = finaljson.items[i]["site"]["path"];
-                  var page_path = site_path;
-                  if (finaljson.items[i]["excerpt"]) {
-                      var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
-                      finaljson.items[i]["excerpt"] = stripped_excerpt;
-                  }
+            // If result is page content set up page path
+            for (var i=0, j=finaljson.items.length; i<j; i++ ) {
 
-                  if (finaljson.items[i]["type"] === "sakai/pagecontent") {
-                      page_path = full_path.replace(/\/_pages/g, "");
-                      page_path = page_path.replace(/\/pageContent/g, "");
-                      page_path = page_path.replace(/\//g,"");
-                      page_path = site_path + "#" + page_path;
-                  }
-                  finaljson.items[i]["pagepath"] = page_path;
+                //console.log(finaljson.items[i], finaljson.items[i]["jcr:path"], finaljson.items[i]["site"]["jcr:path"]);
 
-              }
-          }
+                var full_path = finaljson.items[i]["data"]["jcr:path"];
+                var site_path = finaljson.items[i]["site"]["jcr:path"];
+                var page_path = site_path;
+                if (finaljson.items[i]["excerpt"]) {
+                    var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
+                    finaljson.items[i]["excerpt"] = stripped_excerpt;
+                }
+
+                if (finaljson.items[i]["type"] === "sakai/pagecontent") {
+                    page_path = full_path.replace(/\/_pages/g, "");
+                    page_path = page_path.replace(/\/pageContent/g, "");
+                    page_path = page_path.replace(/\//g,"");
+                    page_path = site_path + "#" + page_path;
+                }
+                finaljson.items[i]["pagepath"] = page_path;
+
+            }
+        }
         }
 
         $(searchConfig.sites.searchResult).html($.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
@@ -306,7 +309,7 @@ sakai.search = function() {
             $(searchConfig.global.pagerClass).hide();
             return;
         }
-        
+
         mainSearch.fillInElements(page, searchquery, searchwhere);
 
         // Get the search term out of the input box.
@@ -329,7 +332,7 @@ sakai.search = function() {
             $.ajax({
                 url: sakai.config.URL.SEARCH_ALL_FILES_SERVICE,
                 data: {
-                    "search" : urlsearchterm,
+                    "q" : urlsearchterm,
                     "items" : cmToSearch
                 },
                 cache: false,
@@ -344,7 +347,7 @@ sakai.search = function() {
             // People Search
             $.ajax({
                 cache: false,
-                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&username=" + urlsearchterm + "&s=sakai:firstName&s=sakai:lastName",
+                url: sakai.config.URL.SEARCH_USERS + "?page=0&items=" + peopleToSearch + "&q=" + urlsearchterm + "&sortOn=sakai:firstName&sortOrder=ascending",
                 cache: false,
                 success: function(data) {
 
@@ -450,4 +453,4 @@ sakai.search = function() {
     };
     doInit();
 };
-sdata.container.registerForLoad("sakai.search");
+sakai.api.Widgets.Container.registerForLoad("sakai.search");

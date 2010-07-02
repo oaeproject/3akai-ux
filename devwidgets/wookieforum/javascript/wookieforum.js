@@ -19,6 +19,19 @@
 /*global Config, $, sdata, window */
 
 var sakai = sakai || {};
+
+/**
+ * @name sakai.wookieforum
+ *
+ * @class wookieforum
+ *
+ * @description
+ * Initialize the wookieforum widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.wookieforum = function(tuid, showSettings){
 
 
@@ -161,7 +174,7 @@ sakai.wookieforum = function(tuid, showSettings){
     */
     var forumSaved = function() {
          //    notify the container that we are finished.
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
      /**
@@ -298,4 +311,4 @@ sakai.wookieforum = function(tuid, showSettings){
     }
     doInit();
 };
-sdata.widgets.WidgetLoader.informOnLoad("wookieforum");
+sakai.api.Widgets.widgetLoader.informOnLoad("wookieforum");

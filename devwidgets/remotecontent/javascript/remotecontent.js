@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.remotecontent
+ *
+ * @class remotecontent
+ *
+ * @description
+ * Initialize the remotecontent widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.remotecontent = function(tuid, showSettings){
 
 
@@ -95,7 +107,7 @@ sakai.remotecontent = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
 
@@ -284,7 +296,7 @@ sakai.remotecontent = function(tuid, showSettings){
 
         // Cancel it
         $(remotecontentSettingsCancel).click(function(){
-            sdata.container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
 
         addColorBinding();
@@ -364,4 +376,4 @@ sakai.remotecontent = function(tuid, showSettings){
     getRemoteContent();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("remotecontent");
+sakai.api.Widgets.widgetLoader.informOnLoad("remotecontent");

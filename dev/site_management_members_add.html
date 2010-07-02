@@ -30,13 +30,13 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
         <!-- 3rd party JS -->
         <script type="text/javascript" src="/dev/_lib/sakai_util/trimpath.template.js"></script>
         <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/notifications.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
@@ -101,7 +101,7 @@
                                         <!-- <strong>Tag selected people as:</strong>
                                         <input type="text" maxlength="255" class="tag-people" value="Add your tags here" /> -->
                                         <button class="s3d-button s3d-button-primary s3s-selected_people_addToSite"><span class="s3d-button-inner">__MSG__ADD_SELECTED_PEOPLE__</span></button>
-        
+
                                     </form>
                                     <div id="selected-people-container" class="selected_personsContainer"></div>
                                     <div style="display:none" id="selected-people-template"><!--
@@ -132,7 +132,7 @@
                                 <div class="flex-container">
                                     <div class="member-search">
                                         <input type="text" maxlength="255" style="margin-left:0px" class="member-search-field" id="txt_member_search" value="__MSG__ENTER_NAMES_EMAILS_OR_COMMA_SEPARATED_LISTS__" title="__MSG__ENTER_NAMES_EMAILS_OR_COMMA_SEPARATED_LISTS__" />
-                                        <input type="submit" value="__MSG__SEARCH__" title="__MSG__SEARCH__" id="btn_members_search" class="submit-button" />
+                                        <button type="submit" class="s3d-button s3d-button-primary" id="btn_members_search"><span class="s3d-button-inner">__MSG__SEARCH__</span></button>
                                     </div>
                                     <div class="explore_nav" style="margin-top: -45px;">
                                         <ul class="s3d-action-series s3d-actions fl-force-left">
@@ -159,10 +159,10 @@
                                                     {else}
                                                     <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
                                                     {/if}
-                                                    <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+                                                    <a href="javascript:;" style="margin-top: 0px;" class="sitemember-label" data-userid="${i.userid}">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <span>${i.role}</span><div class="member-title"></div>
                                                     <a href="profile.html?user=${i.userid}" target="_blank" class="member-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
-            
+
                                                     {else}
                                                     <a href="javascript:;">
                                                     {if typeof i.picture.name == "undefined"}
@@ -171,8 +171,8 @@
                                                     <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
                                                     {/if}
                                                     </a>
-            
-                                                    <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
+
+                                                    <a href="javascript:;" class="member-label" data-userid="${i.userid}">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                     <a href="profile.html?user=${i.userid}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
                                                     {/if}
                                                 </li>
@@ -208,8 +208,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" id="site_manage_searchViaCsv" class="button-default">__MSG__SEARCH__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="site_manage_searchViaCsv"><span class="s3d-button-inner">__MSG__SEARCH__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 

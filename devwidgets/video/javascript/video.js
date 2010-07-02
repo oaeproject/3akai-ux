@@ -22,7 +22,14 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.video
+ *
+ * @class video
+ *
+ * @description
  * Initialize the video widget
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
@@ -258,7 +265,7 @@ sakai.video = function(tuid, showSettings) {
      * @param {Object} video
      */
     var addVideo = function(video) {
-        sakai.api.Widgets.saveWidgetData(tuid, video, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, video, sakai.api.Widgets.Container.informFinish(tuid));
     };
 
 
@@ -399,4 +406,4 @@ sakai.video = function(tuid, showSettings) {
     }
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("video");
+sakai.api.Widgets.widgetLoader.informOnLoad("video");

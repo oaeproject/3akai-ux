@@ -1,0 +1,92 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/pickeruser/css/pickeruser.css" />
+
+<!-- MAIN VIEW -->
+<div class="pickeruser_container">
+
+    <div class="pickeruser_container_header">
+        <span>Search for People to add</span>
+        <a href="javascript:;" class="pickeruser_link fl-force-right" id="pickeruser_close">Close</a>
+    </div>
+    <div class="pickeruser_container_search">
+        <div class="pickeruser_header">
+            <span class="fl-force-left">
+                <form id="pickeruser_content_search_form" method="post" action="javascript:;">
+                    Search For <input name="pickeruser_search_query" id="pickeruser_search_query" />
+                    <a href="javascript:;" class="button-default" id="pickeruser_search_button">search</a>
+                </form>
+            </span>
+
+            <span class="fl-force-right">
+                Show
+                <select class="pickeruser_display_as">
+                    <option default="true" value="list">as a List</option>
+                    <option value="thumbnails">as Thumbnails</option>
+                </select>
+                <select class="pickeruser_sort_on">
+                    <option default="true" value="lastNameAsc">Last name A-Z</option>
+                    <option value="lastNameDesc">Last name Z-A</option>
+                    <option value="firstNameAsc">First name A-Z</option>
+                    <option value="firstNameDesc">First name Z-A</option>
+                </select>
+            </span>
+        </div>
+
+        <div class="pickeruser_content">
+            <div class="pickeruser_content_list"></div>
+            <div class="pickeruser_content_search"></div>
+        </div>
+
+        <div class="pickeruser_footer">
+            <div class="pickeruser_footer_select">
+            <span class="fl-force-left">
+                <span class="pickeruser_count" style="display: none;">0</span>
+                <span class="pickeruser_count_person" style="display: none;"> person</span>
+                <span class="pickeruser_count_people" style="display: none;"> people</span>
+                <span class="pickeruser_count_of" style="display: none;"> out of</span>
+                <span class="pickeruser_count_thousands" style="display: none;"> thousands</span>
+                </span>
+                <a class="button-default fl-force-right" id="pickeruser_select_all_button">Select All</a>
+            </div>
+            <div class="pickeruser_footer_options">
+                <a class="button-default fl-force-left" id="pickeruser_close">Cancel</button>
+                <a class="button-default fl-force-right" id="pickeruser_add_button">Add to <span id="pickeruser_space_name">Space</span></a>
+            </div>
+        </div>
+
+        <div class="pickeruser_content_search_pagedefault">
+
+            <div class="pickeruser_content_search_listtemplate"><!--
+                <ul id="pickeruser_list" class="pickeruser_page">
+                {for p in people}
+                    <li data-id="${p.id}">
+                        <span class="pickeruser_list_name">${p.name}</span>
+                    </li>
+                {/for}
+                </ul>
+            --></div>
+
+            <div class="pickeruser_content_search_pagetemplate" style="display:none;"><!--
+                {for i in results}
+                <li data-userid="${i['rep:userId']}">
+                    {if i.picture}
+                        <img src="/_user${i.path}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
+                    {else}
+                        <img src="/dev/_images/person_icon.jpg" alt="Default profile picture" class="pickeruser_ppicture"/>
+                    {/if}
+                    <a class="pickeruser_name" href="/dev/profile.html?user=${i['rep:userId']}">${i.firstName} ${i.lastName}</a>
+                    <br />
+                    <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
+                </li>
+                {/for}
+            --></div>
+        </div>
+
+        <div class="pickeruser_error_template" style="display:none;">
+            <span>Sorry, could not retrieve the list of users form the server!</span>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/pickeruser/javascript/pickeruser.js"></script>

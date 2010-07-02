@@ -46,6 +46,8 @@ sakai.config = {
 
 
         // Services
+        ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
+        ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
         BATCH: "/system/batch",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
@@ -60,7 +62,7 @@ sakai.config = {
         LOGIN_SERVICE: "/system/sling/formlogin",
         LOGOUT_SERVICE: "/system/sling/formlogin",
         ME_SERVICE: "/system/me",
-        MESSAGE_BOX_SERVICE: "/var/message/box.json",
+        MESSAGE_BOX_SERVICE: "/var/message/internal/box.json",
         MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
         PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
         PRESENCE_SERVICE: "/var/presence.json",
@@ -80,15 +82,16 @@ sakai.config = {
         SEARCH_MY_FILES: "/var/search/files/myfiles.json",
         SEARCH_MY_SITES: "/var/search/files/mysites.json",
         SEARCH_PAGES: "/var/search/page.json",
+        SEARCH_SITES: "/var/search/sites.json",
         SEARCH_USERS_ACCEPTED: "/var/contacts/find.json?s=",
-        SEARCH_USERS: "/var/search/users",
+        SEARCH_USERS: "/var/search/users.json",
         SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",
         SITE_CONFIGFOLDER: "/sites/__SITEID__",
         SITE_CREATE_SERVICE: "/sites.createsite.json",
         SITE_FILES_URL: "/sites/__SITEID__/_files",
         SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
         SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
-        SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content",
+        SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content.json",
         SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
         SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
         SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
@@ -141,7 +144,8 @@ sakai.config = {
                 image: "/dev/_skins/camuniversity/images/camuniversity.png",
                 URL: "/dev/_skins/camuniversity/camuniversity.html"
             }
-        }
+        },
+        DefaultMember:"viewers"
     },
 
     Messages: {
@@ -196,8 +200,12 @@ sakai.config = {
             URL: "/dev/_images/mimetypes/images.png",
             description: "Jpg image"
         },
+        "text/html": {
+            URL: "/dev/_images/mimetypes/html.png",
+            description: "HTML document"
+        },
         folder: {
-            URL: "http://www.ocf.berkeley.edu/~wwu/images/leopard-folder-big.png",
+            URL: "/dev/_images/mimetypes/kmultiple.png",
             description: "Folder"
         },
         other: {

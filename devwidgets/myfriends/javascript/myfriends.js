@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.myfriends
+ *
+ * @class myfriends
+ *
+ * @description
+ * Initialize the myfriends widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.myfriends = function(tuid,showSettings){
 
     /////////////////////////////
@@ -191,4 +203,4 @@ sakai.myfriends = function(tuid,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("myfriends");
+sakai.api.Widgets.widgetLoader.informOnLoad("myfriends");

@@ -17,7 +17,6 @@
  */
 
 /* Settings */
-#linktool_settings {padding-bottom:10px;}
 #linktool_settings input[type="text"] {background-color:#f1f1f1;border:1px solid #d6d6d6;margin-top:3px;padding:3px;width:99%;}
 .linktool_settings_error {color:red;}
 .linktool_settings_label_head {font-weight:bold;}

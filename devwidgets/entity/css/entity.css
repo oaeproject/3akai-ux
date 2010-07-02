@@ -18,15 +18,22 @@
 
 /* General */
 .entity_header {font-size: 1.7em; margin: 10px 0 17px 0; padding: 0}
-.entity_picture {height: 96px; margin: 0 20px 5px 0; width:96px}
+.entity_picture {margin: 0 20px 5px 0; width:96px}
 
 /* Container */
-#entity_container {margin: 19px 0 15px 7px}
+#entity_container {margin: 19px 0 15px 7px; overflow: hidden;}
 #entity_container .entity_profile_status_input_dummy {color: #aaa}
 #entity_container form#entity_profile_status {margin-top: 10px;}
 #entity_container form button{margin-left: 5px}
 #entity_container form input[type="text"]{width: 14em}
 #entity_container input[type="text"] {border: 1px solid #ddd;padding: 3px}
 .entity_container_left {border-right: 1px solid #ddd; width: 450px}
-.entity_container_right {margin-top: 10px; padding-left: 20px; width: 429px}
+.entity_container_right {margin-top: 10px; padding-left: 20px; width: 410px}
 .entity_container_right strong {clear: both;: block;float:left;overflow:hidden;width: 90px}
+
+/* Content */
+.entity_content_information {width: 330px}
+.entity_content_information p {margin-bottom: 0.4em}
+
+/* Actions */
+.entity_actions {margin-top:10px; overflow:hidden;}

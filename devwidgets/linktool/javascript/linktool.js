@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.linktool
+ *
+ * @class linktool
+ *
+ * @description
+ * Initialize the linktool widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.linktool = function(tuid, showSettings){
 
 
@@ -132,7 +144,7 @@ sakai.linktool = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(success, data){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
 
@@ -346,7 +358,7 @@ sakai.linktool = function(tuid, showSettings){
 
         // Cancel it
         $(linktoolSettingsCancel).click(function(){
-            sdata.container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
 
         addColorBinding();
@@ -456,4 +468,4 @@ sakai.linktool = function(tuid, showSettings){
     getLinkTool();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("linktool");
+sakai.api.Widgets.widgetLoader.informOnLoad("linktool");

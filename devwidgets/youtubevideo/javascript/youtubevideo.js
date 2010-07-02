@@ -21,7 +21,14 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.youtubevideo
+ *
+ * @class youtubevideo
+ *
+ * @description
  * Initialize the youtubevideo widget
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
@@ -112,7 +119,7 @@ sakai.youtubevideo = function(tuid, showSettings){
      */
     var saveNewSettings = function(){
         var val = $(youtubevideoUrl ,rootel).attr("value");
-        sakai.api.Widgets.saveWidgetData(tuid, val, sdata.container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, val, sakai.api.Widgets.Container.informFinish(tuid));
     };
     /**
      * Shows the preview of the video
@@ -179,4 +186,4 @@ sakai.youtubevideo = function(tuid, showSettings){
     displayYouTubeVideo(showSettings);
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("youtubevideo");
+sakai.api.Widgets.widgetLoader.informOnLoad("youtubevideo");

@@ -5,8 +5,11 @@
 Essential Information
 ---------------------
 
-The main form of communication for the project is the UX email list. Here both technical and design related topics are discussed:  
-[sakai-ux@collab.sakaiproject.org](sakai-ux@collab.sakaiproject.org)
+The main forms of communication for the project are the UX and the UI Development email list.
+The UX list discusses design related topics:  
+[sakai-ux@collab.sakaiproject.org](sakai-ux@collab.sakaiproject.org)  
+The UI Development list discusses technical topics around front-end development:  
+[sakai-ui-dev@collab.sakaiproject.org](sakai-ui-dev@collab.sakaiproject.org)
 
 We track bugs, issues and tasks in JIRA:  
 [http://jira.sakaiproject.org/browse/SAKIII](http://jira.sakaiproject.org/browse/SAKIII)
@@ -69,7 +72,7 @@ If you would like to do UI/UX development you will need to additionally to the f
 `cd ~/sakai3`
 
 2. Check out the UX code from Github, this will create a "3akai-ux" folder:  
-`git clone git@github.com:oszkarnagy/3akai-ux.git`
+`git clone git@github.com:sakaiproject/3akai-ux.git`
 
 3. Go to the kernel's Felix console by typing the following address into the browser's address bar (preferably with an alternative browser from the one you are using from development):  
 "http://localhost:8080/system/console"

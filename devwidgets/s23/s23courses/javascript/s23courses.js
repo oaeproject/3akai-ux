@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.s23courses
+ *
+ * @class s23courses
+ *
+ * @description
+ * Initialize the s23courses widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.s23courses = function(tuid, showSettings){
 
     sakai.config.URL.SAKAI2_MCP_URL = "/var/proxy/s23/sites.json";
@@ -60,9 +72,18 @@ sakai.s23courses = function(tuid, showSettings){
     var parseTemplates = function(){
 
         // Make an array that contains only the elements that will appear on one page
-        var pagingArray = {
-            all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
-        };
+        var pagingArray;
+
+        if (parseglobal.all) {
+            pagingArray = {
+                all: parseglobal.all.sites.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
+            };
+        }
+        else {
+            pagingArray = {
+                all: false
+            };
+        }
 
         // Render the template and pass through the parseglobal object
         $.TemplateRenderer(s23coursesContainerTemplate, pagingArray, $s23coursesSubcontainer);
@@ -133,7 +154,12 @@ sakai.s23courses = function(tuid, showSettings){
         $.ajax({
             url: sakai.config.URL.SAKAI2_MCP_URL,
             success: function(data){
-                globalfeed = $.extend(data, {}, true);
+                if(typeof data === "string"){
+                    globalfeed = $.parseJSON(data);
+                    fluid.log("s23courses widget - getCoursesAndProjects - this widget should return with a correct JSON response header.");
+                }else{
+                    globalfeed = $.extend(data, {}, true);
+                }
             },
             error: function(xhr, textStatus, thrownError) {
                 fluid.log("s23courses: Could not receive the courses and projects from the server.");
@@ -157,4 +183,4 @@ sakai.s23courses = function(tuid, showSettings){
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("s23courses");
+sakai.api.Widgets.widgetLoader.informOnLoad("s23courses");

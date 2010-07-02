@@ -18,6 +18,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.basiclti
+ *
+ * @class basiclti
+ *
+ * @description
+ * Basiclti widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.basiclti = function(tuid, showSettings){
 
 
@@ -129,7 +141,7 @@ sakai.basiclti = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(data, textStatus, XMLHttpRequest){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
 
@@ -360,7 +372,7 @@ sakai.basiclti = function(tuid, showSettings){
 
         // Cancel it
         $(basicltiSettingsCancel).click(function(){
-            sdata.container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid);
         });
 
         addColorBinding();
@@ -444,4 +456,4 @@ sakai.basiclti = function(tuid, showSettings){
     getRemoteContent();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("basiclti");
+sakai.api.Widgets.widgetLoader.informOnLoad("basiclti");

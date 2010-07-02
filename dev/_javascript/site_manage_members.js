@@ -174,44 +174,46 @@ sakai.site_manage_members = function() {
      * @param {Object} isNew : is this a new list or already updated by javascript code
      */
     var renderMembers = function(members, isNew) {
-      var results = members.results;
-      for (var i = 0; i < results.length; i++) {
-          if (results[i].picture && typeof results[i].picture !== "object") {
-              results[i].picture = $.parseJSON(results[i].picture);
-              results[i].picture.picPath = "/_user" + results[i].path + "/public/profile/" + results[i].picture.name;
-          }
-          else {
-              results[i].picture = undefined;
-          }
-          results[i].role = sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
-      }
-      var toRender = {};
-      toRender.users = results;
-      $("#siteManage_members").html($.TemplateRenderer("siteManage_people_template", toRender));
-      $("#manage_members_count").html(getNumMembers(json.total));
-      $(".siteManage_person").bind("click",
-      function(e, ui) {
-          if (!$(e.target).hasClass("view-profile-label")) {
-              var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
-              var isSelected = false;
-              for (var i = 0; i < selectedPeople.length; i++) {
-                  if (selectedPeople[i]["rep:userId"] === json.results[userindex]["rep:userId"]) {
-                      isSelected = true;
-                      break;
-                  }
-              }
-              selectPerson(userindex, !isSelected, false);
-              updateSelectedPersons();
-          }
-      });
-      $(".sakai_pager").pager({
-          pagenumber: currentPage,
-          pagecount: Math.ceil(json.total / pageSize),
-          buttonClickCallback: function(pageclickednumber) {
-              currentPage = pageclickednumber;
-              getSiteMembers($("#txt_member_search").val(), pageclickednumber, "n");
-          }
-      });
+
+
+        var results = members.results;
+        for (var i = 0; i < results.length; i++) {
+            if (results[i].picture && typeof results[i].picture !== "object") {
+                results[i].picture = $.parseJSON(results[i].picture);
+                results[i].picture.picPath = "/_user" + results[i].path + "/public/profile/" + results[i].picture.name;
+            }
+            else {
+                results[i].picture = undefined;
+            }
+            results[i].role = sakai.lib.site.authz.getRole(siteJson, results[i]["member:groups"]);
+        }
+        var toRender = {};
+        toRender.users = results;
+        $("#siteManage_members").html($.TemplateRenderer("siteManage_people_template", toRender));
+        $("#manage_members_count").html(getNumMembers(json.total));
+        $(".siteManage_person").bind("click",
+        function(e, ui) {
+            if (!$(e.target).hasClass("view-profile-label")) {
+                var userindex = parseInt(this.id.replace("siteManage_person", ""), 10);
+                var isSelected = false;
+                for (var i = 0; i < selectedPeople.length; i++) {
+                    if (selectedPeople[i]["rep:userId"] === json.results[userindex]["rep:userId"]) {
+                        isSelected = true;
+                        break;
+                    }
+                }
+                selectPerson(userindex, !isSelected, false);
+                updateSelectedPersons();
+            }
+        });
+        $(".sakai_pager").pager({
+            pagenumber: currentPage,
+            pagecount: Math.ceil(json.total / pageSize),
+            buttonClickCallback: function(pageclickednumber) {
+                currentPage = pageclickednumber;
+                getSiteMembers($("#txt_member_search").val(), pageclickednumber, "n");
+            }
+        });
 
 
     };
@@ -245,7 +247,7 @@ sakai.site_manage_members = function() {
     var getSiteMembers = function(searchTerm, page, splitChar) {
         var peoplesearchterm = "";
         if(searchTerm !== null){
-             var splitted = searchTerm.split(splitChar);
+            var splitted = searchTerm.split(splitChar);
             var arrSearchTerms = [];
             for (var i = 0; i < splitted.length; i++) {
                 if($.trim(splitted[i]) !== ""){
@@ -262,6 +264,11 @@ sakai.site_manage_members = function() {
             cache: false,
             url: "/sites/" + selectedSite + ".members.json?sort=firstName,asc&start=" + start + "&items=" + pageSize,
             success: function(data) {
+
+                if (typeof data === "string") {
+                    data = $.parseJSON(data);
+                }
+
                 json = $.extend(data, {}, true);
 
                 //getSiteMembersData(searchTerm, page, splitChar);
@@ -400,6 +407,22 @@ sakai.site_manage_members = function() {
               }
             }
             removeItemsFromArray(toRemove);
+
+            // Create an activity item for rmoving members from site
+            var activityMsg = "The folowing members were removed from the site \"" + siteJson.name + "\": <br/>";
+
+            for (var i = 0, il = toRemove.length; i < il; i++) {
+                activityMsg += "<a href=\"/dev/profile.html?user=" + toRemove[i]["rep:userId"] + "\">" + toRemove[i].firstName + " " + toRemove[i].lastName + "</a>";
+            }
+
+            var nodeUrl = siteJson["jcr:path"];
+            var activityData = {
+                "sakai:activityMessage": activityMsg,
+                "sakai:activitySiteName": siteJson.name,
+                "sakai:activitySiteId": siteJson["jcr:name"]
+            }
+            sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
+
         }
     };
 
@@ -516,4 +539,4 @@ sakai.site_manage_members = function() {
 
 };
 
-sdata.container.registerForLoad("sakai.site_manage_members");
+sakai.api.Widgets.Container.registerForLoad("sakai.site_manage_members");

@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.flashChat
+ *
+ * @class flashChat
+ *
+ * @description
+ * Namespace used for the flash functionality for chat
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.flashChat = {
 
 
@@ -133,6 +145,18 @@ sakai.flashChat = {
     }
 };
 
+/**
+ * @name sakai.navigationchat
+ *
+ * @class navigationchat
+ *
+ * @description
+ * Initialize the navigationchat widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.navigationchat = function(tuid, showSettings){
 
     /////////////////////////////
@@ -242,7 +266,7 @@ sakai.navigationchat = function(tuid, showSettings){
      * Placeholders that will be replaced by the real functions. This
      * is necessary to comply with the JSLint rules
      */
-    sakai.navigationchat.loadChatTextInitial = function(){};
+
     var doWindowRender = function(){};
 
     /**
@@ -300,7 +324,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/_user" + sakai.data.me.profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
+            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
@@ -782,6 +806,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 else {
                     $(chatWith + "_" + friendId + "_txt").attr("disabled", true);
                     $(chatWith + "_" + friendId + "_txt").val(friendName + " is offline");
+                    updateChatWindowChatStatus(friendId, "offline");
                 }
 
             }
@@ -860,10 +885,12 @@ sakai.navigationchat = function(tuid, showSettings){
 
     /**
      * Show or hide the user link menu
+     * @param {Boolean} hideOnly
+     *  true: Hide the menu only
+     *  false: Show or hide the menu depending if it's already visible
      */
-    var showHideUserLinkMenu = function(){
-
-        if ($(userLinkMenu).is(":visible")) {
+    var showHideUserLinkMenu = function(hideOnly){
+        if ($(userLinkMenu).is(":visible") || hideOnly) {
             $(userLinkMenu).hide();
         }
         else {
@@ -872,7 +899,6 @@ sakai.navigationchat = function(tuid, showSettings){
             $(userLinkMenu).css("width", ($(userLink).width() + 10) + "px");
             $(userLinkMenu).show();
         }
-
     };
 
     /**
@@ -930,13 +956,22 @@ sakai.navigationchat = function(tuid, showSettings){
      */
     var addBinding = function(){
         $(userLink).bind("click", function(){
-            showHideUserLinkMenu();
+            showHideUserLinkMenu(false);
         });
 
         $(userLinkChatStatusClass).bind("click", function(ev){
-            showHideUserLinkMenu();
+            showHideUserLinkMenu(false);
             var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
             sendChatStatus(clicked);
+        });
+
+        $(document).bind("click", function(e){
+            var $clicked = $(e.target);
+
+            // Check if one of the parents is the userLink
+            if(!$clicked.parents().is(userLink)){
+                showHideUserLinkMenu(true);
+            }
         });
     };
 
@@ -1286,7 +1321,9 @@ sakai.navigationchat = function(tuid, showSettings){
             data: {
                 "_from": tosend,
                 "items": 1000,
-                "t": pulltime
+                "t": pulltime,
+                "sortOn": "sakai:created",
+                "sortOrder": "descending"
             },
             cache: false,
             sendToLoginOnFail: true,
@@ -1593,19 +1630,13 @@ sakai.navigationchat = function(tuid, showSettings){
                 // Show ajax loader
                 $login_busy.show();
 
+                // Get the username and password
                 var data = {
-                    "sakaiauth:login": 1,
-                    "sakaiauth:un": $("#login_username").val(),
-                    "sakaiauth:pw": $("#login_password").val(),
-                    "_charset_": "utf-8"
+                    "username": $("#login_username").val(),
+                    "password": $("#login_password").val()
                 };
-                $.ajax({
-                    url: sakai.config.URL.LOGIN_SERVICE,
-                    type: "POST",
-                    success: checkLogInSuccess,
-                    error: checkLogInSuccess,
-                    data: data
-                });
+                // Perform the login operation
+                sakai.api.User.login(data, checkLogInSuccess);
 
             }
         });
@@ -1708,4 +1739,4 @@ sakai.navigationchat = function(tuid, showSettings){
     }
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("navigationchat");
+sakai.api.Widgets.widgetLoader.informOnLoad("navigationchat");

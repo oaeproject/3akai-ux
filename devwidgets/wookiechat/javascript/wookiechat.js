@@ -19,6 +19,19 @@
 /*global $, Config, sdata, window */
 
 var sakai = sakai || {};
+
+/**
+ * @name sakai.wookiechat
+ *
+ * @class wookiechat
+ *
+ * @description
+ * Initialize the wookiechat widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.wookiechat = function(tuid, showSettings) {
 
 
@@ -122,7 +135,7 @@ sakai.wookiechat = function(tuid, showSettings) {
      * It will notify the container that it can be closed.
      */
     var chatRoomSaved = function() {
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -323,4 +336,4 @@ sakai.wookiechat = function(tuid, showSettings) {
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("wookiechat");
+sakai.api.Widgets.widgetLoader.informOnLoad("wookiechat");

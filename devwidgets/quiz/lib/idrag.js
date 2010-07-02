@@ -586,4 +586,4 @@ jQuery.fn.extend(
         Draggable : jQuery.iDrag.build
     }
 );
-sdata.widgets.WidgetLoader.informOnLoad("quiz");
+sakai.api.Widgets.widgetLoader.informOnLoad("quiz");

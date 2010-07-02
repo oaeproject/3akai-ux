@@ -1,1 +1,61 @@
+.listgeneral_container
+{ width: 600px; margin-left: 300px; }
 
+.listgeneral_header
+{ height: 30px; overflow: hidden; margin: 0 0 10px 0; line-height: 30px; border-bottom: 1px solid #bbb; }
+
+.listgeneral_header .listgeneral_results
+{ font-size: 16px; color: #666; padding: 0 0 0 10px; }
+
+
+/* General results */
+.listgeneral_result_container
+{ padding: 0 0 0 10px; margin: 0; }
+
+.listgeneral_result
+{ display: block; list-style: none; margin: 10px 0 10px 0; overflow: hidden; }
+
+
+/* One result page */
+.listgeneral_resultpage
+{ min-height: 200px; overflow: hidden; }
+
+.loadinganim
+{ background: #fff url(../../../dev/_images/ajax_load.gif) center 40px no-repeat; }
+
+
+/* Sites results */
+
+/* List view */
+.listgeneral_result_viewmode_list .listgeneral_result_container .listgeneral_result .listgeneral_avatarcontainer
+{ display: block; height: 64px; float: left; margin-right: 15px; }
+
+.listgeneral_result_viewmode_list .listgeneral_result_container .listgeneral_result .listgeneral_avatar
+{ height: 64px; }
+
+.listgeneral_result_viewmode_list .listgeneral_result_container .listgeneral_result .listgeneral_name
+{ display: inline-block; font-size: 18px; padding: 10px 0 5px 0; }
+
+.listgeneral_result_viewmode_list .listgeneral_result_container .listgeneral_result .listgeneral_description
+{ display: block; font-size: 12px; margin: 0; padding: 0; }
+
+/* Thumbnail view */
+.listgeneral_result_viewmode_thumbnail .listgeneral_result_container .listgeneral_result
+{ float:left; height:190px; overflow:auto; padding:10px; width:175px; }
+
+.listgeneral_result_viewmode_thumbnail .listgeneral_result_container .listgeneral_result .listgeneral_avatarcontainer
+{ display: block; height: 64px; margin-right: 15px; }
+
+.listgeneral_result_viewmode_thumbnail .listgeneral_result_container .listgeneral_result .listgeneral_avatar
+{ height: 64px; }
+
+.listgeneral_result_viewmode_thumbnail .listgeneral_result_container .listgeneral_result .listgeneral_name
+{ display: inline-block; font-size: 14px; padding: 10px 0 5px 0; }
+
+.listgeneral_result_viewmode_thumbnail .listgeneral_result_container .listgeneral_result .listgeneral_description
+{ display: block; font-size: 12px; margin: 0; padding: 0; }
+
+
+/* Errors, messages */
+.listgeneral_resultpage .noresults_msg
+{ font-size: 20px; color: #ff2222; text-align: center; padding: 50px 0 0 0; }

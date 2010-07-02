@@ -24,21 +24,12 @@ var sakai = sakai || {};
 sakai.logout = function(){
 
     /*
-     * Will do a POST request to the logout service, which will cause the
-     * session to be destroyed. After this, we will redirect again to the
-     * login page. If the request fails, this is probably because of the fact
-     * that there is no current session. We can then just redirect to the login
-     * page again without notifying the user.
+     * Log the user out. Redirect to the login page on completion.
      */
-    $.ajax({
-        url: sakai.config.URL.LOGOUT_SERVICE,
-        type: "POST",
-        complete: function(){
-            window.location = sakai.config.URL.GATEWAY_URL;
-        },
-        data: {"sakaiauth:logout":"1","_charset_":"utf-8"}
+    sakai.api.User.logout(function(){
+        window.location = sakai.config.URL.GATEWAY_URL;
     });
 
 };
 
-sdata.container.registerForLoad("sakai.logout");
+sakai.api.Widgets.Container.registerForLoad("sakai.logout");

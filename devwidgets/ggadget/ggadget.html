@@ -1,0 +1,88 @@
+<!-- STYLESHEET -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/ggadget/css/ggadget.css" />
+
+<!-- SETTINGS -->
+<div id="remotecontent_settings" style="display:none;">
+
+</div>
+
+<!-- The main  settings template -->
+<div id="remotecontent_settings_template"><!--
+    <form>
+        <div class="remotecontent_settings_subcontainer">
+            <p>
+                Please insert the gadget's embed code here:
+            </p>
+            <p>
+                <input type="text" id="remotecontent_settings_url" value="${url}" /><br />
+            </p>
+            <div class="fl-force-right">
+                <button class="ggadget_preview_button s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner">Preview gadget</span>
+                </button>
+            </div>
+            <p>
+                <label class="remotecontent_settings_label_head">Preview:</label> <span> (size doesn't change in preview mode)<br class="fl-push" />
+            </p>
+            <div id="remotecontent_settings_preview">
+
+            </div>
+            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_advanced_toggle_settings"><span class="s3d-button-inner">Advanced Settings <span id="remotecontent_settings_advanced_down">&#8595;</span><span id="remotecontent_settings_advanced_up">&#8593;</span></span></button>
+        </div>
+        <div id="remotecontent_settings_advanced" style="display:none;">
+            <div class="remotecontent_settings_subcontainer">
+                <label class="remotecontent_settings_label_head">Size:</label><br />
+                <div class="remotecontent_settings_block">
+                    <label for="remotecontent_settings_width">Width:</label>
+                    <input type="text" id="remotecontent_settings_width" value="${width}" />
+                    <a href="javascript:;" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</a>
+                    <span> or </span>
+                    <a href="javascript:;" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</a>
+                    <br />
+                    <label for="remotecontent_settings_height">Height:</label>
+                    <input type="text" id="remotecontent_settings_height" value="${height}" /><span> px</span>
+                    <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_reset_size"><span class="s3d-button-inner">Reset to original size</span></button>
+                    <br class="fl-push" />
+                </div>
+            </div>
+
+            <div class="remotecontent_settings_subcontainer">
+                <label class="remotecontent_settings_label_head">Border:</label><br />
+                <div class="remotecontent_settings_block">
+                    <label for="remotecontent_settings_borders">Width:</label>
+                    <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
+                    <div id="remotecontent_settings_color_container">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary" id="remotecontent_settings_insert"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            <button type="button" class="s3d-button" id="remotecontent_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        </div>
+    </form>
+--></div>
+
+<!-- Template to show the preview of the iframe -->
+<div id="remotecontent_settings_preview_template"><!--
+    <iframe id="remotecontent_settings_preview_frame" style="border: ${border_size}px #${border_color} solid" src="${url}" width="${width}${width_unit}" height="${height}px"></iframe>
+--></div>
+
+<!-- Template for choosing the color -->
+<div id="remotecontent_settings_color_container_template"><!--
+    <label>Color:</label>
+    <a id="remotecontent_settings_color_000000" class="remotecontent_settings_color {if border_color == "000000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+    <a id="remotecontent_settings_color_cccccc" class="remotecontent_settings_color {if border_color == "cccccc"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+    <a id="remotecontent_settings_color_ff0000" class="remotecontent_settings_color {if border_color == "ff0000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+    <a id="remotecontent_settings_color_008000" class="remotecontent_settings_color {if border_color == "008000"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+    <a id="remotecontent_settings_color_0000ff" class="remotecontent_settings_color {if border_color == "0000ff"} remotecontent_settings_color_selected{/if}">&nbsp;</a>
+    <br class="fl-push" />
+--></div>
+
+<!-- MAIN CONTAINER -->
+<div id="remotecontent_main_container" style="display:none;">
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/ggadget/javascript/ggadget.js" />

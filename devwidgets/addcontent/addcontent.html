@@ -1,0 +1,64 @@
+<!-- CSS -->
+<link  rel="stylesheet" type="text/css" href="/devwidgets/addcontent/css/addcontent.css" />
+
+<!-- CONTAINER -->
+<div id="addcontent_container" style="display:none;">
+    <div id="addcontent_container_place">
+        <ul class="s3d-actions">
+            <li class="addcontent_container_place_selected"><a href="javascript:;">__MSG__MY_RESOURCES__</a></li>
+        </ul>
+    </div>
+    <div id="addcontent_container_content"><!-- --></div>
+</div>
+<div id="addcontent_container_buttons" style="display:none;">
+    <button type="button" class="s3d-button s3d-button-primary" id="addcontent_button"><span class="s3d-button-inner">__MSG__ADD_RESOURCE__</span></button>
+    <button type="button" class="s3d-button jqmClose" id="addcontent_button_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD_RESOURCE__</span></button>
+</div>
+
+<!-- TEMPLATES -->
+<div id="addcontent_container_content_template"><!--
+    {for resource in results}
+        <div class="addcontent_container_content_box_container" data-sakai_widget_addcontent="${resource["jcr:path"]}">
+            <div class="addcontent_container_content_box">
+                {if resource["jcr:mimeType"] === "image/jpeg" || resource["jcr:mimeType"] === "image/png" || resource["jcr:mimeType"] === "image/gif"}
+                    <img class="addcontent_container_content_box_image" src="${resource["jcr:path"]}" alt="${sakai.config.MimeTypes[resource["jcr:mimeType"]].description}" width="80"/>
+                {elseif sakai.config.MimeTypes[resource["jcr:mimeType"]]}
+                    <img class="addcontent_container_content_box_image" src="${sakai.config.MimeTypes[resource["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[resource["jcr:mimeType"]].description}" />
+                {else}
+                    <img class="addcontent_container_content_box_image" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                {/if}
+            </div>
+            <div class="addcontent_container_content_box_info">
+                <span class="addcontent_container_content_box_info_name">{if resource["sakai:name"]}${resource["sakai:name"]}{else}${resource["jcr:name"]}{/if}</span>
+            </div>
+        </div>
+    {/for}
+--></div>
+
+<div id="addcontent_container_show" style="display:none"><!-- --></div>
+
+<div id="addcontent_container_show_template"><!--
+    {if data}
+        <div class="addcontent_container_show_box_container"">
+            <div class="addcontent_container_show_box">
+                {if data["jcr:content"]["jcr:mimeType"] === "image/jpeg" || data["jcr:content"]["jcr:mimeType"] === "image/png" || data["jcr:content"]["jcr:mimeType"] === "image/gif"}
+                    <img class="addcontent_container_show_box_image" src="${url}" alt="${sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description}" width="155"/>
+                {elseif sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]]}
+                    <img class="addcontent_container_show_box_image" src="${sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[data["jcr:content"]["jcr:mimeType"]].description}" />
+                {else}
+                    <img class="addcontent_container_show_box_image" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                {/if}
+            </div>
+            <div class="addcontent_container_show_box_info">
+                <p class="addcontent_container_show_box_info_name">{if data["sakai:name"]}${data["sakai:name"]}{else}${data.name}{/if}</p>
+                {if data["sakai:tags"]}<p>__MSG__TAGS__: ${data["sakai:tags"].join(", ")}</p>{/if}
+                {if data["sakai:description"]}<p>__MSG__DESCRIPTION__: ${data["sakai:description"]}</p>{/if}
+                <button type="button" class="s3d-button s3d-button-primary" id="addcontent_container_show_box_profile"><span class="s3d-button-inner">__MSG__SHOW_PROFILE__</button>
+                <button type="button" class="s3d-button s3d-button-primary" id="addcontent_container_show_box_download"><span class="s3d-button-inner">__MSG__DOWNLOAD_RESOURCE__</button>
+            </div>
+        </div>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="application/javascript" src="/devwidgets/addcontent/javascript/addcontent.js"></script>

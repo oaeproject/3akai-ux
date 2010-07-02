@@ -1,5 +1,7 @@
 module("User");
 
+(function(){
+
 // Create a random user id
 // We do this to not conflict with other users in the system + tests
 var user_random = "userrandom_" + (new Date()).getTime();
@@ -35,6 +37,8 @@ asyncTest("Log-in with a Sakai3 user", function(){
 asyncTest("Log-out with a Sakai3 user", function(){
 
     sakai.api.User.logout(function(success, data){
+        // Formlogin always returns HTML - this makes it impossible to parse
+        // ok($.parseJSON(data[0].body).status === "offline", "The user presence is set to offline");
         ok(success, "The user has successfully logged-out");
         start();
     });
@@ -65,8 +69,12 @@ asyncTest("Remove a Sakai3 user", function(){
 asyncTest("Log-out with a Sakai3 admin user", function(){
 
     sakai.api.User.logout(function(success, data){
+        // Formlogin always returns HTML - this makes it impossible to parse
+        // ok($.parseJSON(data[0].body).status === "offline", "The admin user presence is set to offline");
         ok(success, "The admin user has successfully logged-out");
         start();
     });
 
 });
+
+})();

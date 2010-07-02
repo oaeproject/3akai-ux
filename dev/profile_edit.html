@@ -32,7 +32,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
@@ -653,8 +652,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="new_degree_button" style="font-weight:bold">__MSG__SAVE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="new_degree_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -698,7 +697,7 @@
                         <tr>
                             <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__FIELD_OF_STUDY__:</td>
                             <td><input maxlength="255" type="text" style="width:250px" id="edit_degree_field" title="__MSG__FIELD_OF_STUDY__" />
-    
+
                             <br/><span style="color:#666666; font-size:0.9em">e.g. Philosophy, Computer Science, ...</span></td>
                         </tr>
                         <tr>
@@ -724,8 +723,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="edit_degree_button" style="font-weight:bold">__MSG__UPDATE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="edit_degree_button"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -824,8 +823,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="new_paper_button" style="font-weight:bold">__MSG__SAVE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="new_paper_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -913,8 +912,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="edit_paper_button" style="font-weight:bold">__MSG__UPDATE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="edit_paper_button"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -978,8 +977,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="new_talk_button" style="font-weight:bold">__MSG__SAVE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="new_talk_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -1032,8 +1031,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="edit_talk_button" style="font-weight:bold">__MSG__UPDATE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="edit_talk_button"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -1105,8 +1104,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="new_job_button" style="font-weight:bold">__MSG__SAVE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="new_job_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -1148,7 +1147,7 @@
                             <td><input maxlength="255" type="text" style="width:250px" id="edit_job_company" title="__MSG__COMPANY__" /></td>
                         </tr>
                         <tr>
-                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG_DATE__:</td>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__DATE__:</td>
                             <td>
                                 <select id="edit_job_from" title="__MSG__EDIT_JOB_FROM__">
                                     <option></option>
@@ -1168,8 +1167,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="edit_job_button" style="font-weight:bold">__MSG__UPDATE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="edit_job_button"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -1221,8 +1220,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="new_website_button" style="font-weight:bold">__MSG__SAVE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="new_website_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 
@@ -1263,8 +1262,8 @@
 
                 <!-- DIALOG BUTTONS -->
                 <div class="dialog_buttons">
-                    <a href="javascript:;" class="button-default" id="edit_website_button" style="font-weight:bold">__MSG__UPDATE__</a>
-                    <a href="javascript:;" class="button jqmClose">__MSG__CANCEL__</a>
+                    <button type="button" class="s3d-button s3d-button-primary" id="edit_website_button"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                 </div>
             </div>
 

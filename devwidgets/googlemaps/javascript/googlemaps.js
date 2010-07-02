@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.googlemaps
+ *
+ * @class googlemaps
+ *
+ * @description
+ * Initialize the googlemaps widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.googlemaps = function(tuid, showSettings){
 
 
@@ -35,7 +47,7 @@ sakai.googlemaps = function(tuid, showSettings){
      * To finish the widget
      */
     var finish = function() {
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -99,7 +111,7 @@ sakai.googlemaps = function(tuid, showSettings){
 
             // Add listerner to cancel button
             $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                sdata.container.informCancel(tuid);
+                sakai.api.Widgets.Container.informCancel(tuid);
             });
 
             if (json) {
@@ -176,7 +188,7 @@ sakai.googlemaps = function(tuid, showSettings){
 
                 // Add listerner to cancel button
                 $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                    sdata.container.informCancel(tuid);
+                    sakai.api.Widgets.Container.informCancel(tuid);
                 });
             }
 
@@ -201,4 +213,4 @@ sakai.googlemaps = function(tuid, showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("googlemaps");
+sakai.api.Widgets.widgetLoader.informOnLoad("googlemaps");

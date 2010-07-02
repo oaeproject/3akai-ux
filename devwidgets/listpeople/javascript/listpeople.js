@@ -16,26 +16,34 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/**
- * People Lister widget
- * This is a general widget which aims to display an arbitriary number of
- * people, loading dynamically if the list is very long.
- * Also this is a first attempt at implementing a general UI component which
- * needs to be part of the frontend API as a widget.
- */
-
 /*global $, Config, sdata */
 
 // Namespaces
 var sakai = sakai || {};
+
+/**
+ * @name sakai.api.UI.listPeople
+ *
+ * @description
+ * Public functions for the people lister widget
+ */
 sakai.api.UI.listPeople = {};
 
 /**
- * Initialize the listpeople widget
- * This is the widget loader's default callback, executing when the widget
- * is loaded on a page
- * @param tuid {String} Unique id of the widget
- * @param showSettings {Boolean} Show the settings of the widget or not
+ * @name sakai.listpeople
+ *
+ * @class listpeople
+ *
+ * @description
+ * People Lister widget<br />
+ * This is a general widget which aims to display an arbitriary number of
+ * people, loading dynamically if the list is very long.
+ * Also this is a first attempt at implementing a general UI component which
+ * needs to be part of the frontend API as a widget.
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.listpeople = function(tuid, showSettings){
 
@@ -287,4 +295,4 @@ sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
 
 
 
-sdata.widgets.WidgetLoader.informOnLoad("listpeople");
+sakai.api.Widgets.widgetLoader.informOnLoad("listpeople");

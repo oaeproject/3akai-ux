@@ -30,7 +30,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
@@ -90,8 +89,7 @@
                                 </div>
                                 <div class="summary-form-item">
                                     <label>__MSG__SITE_URL__:</label>
-                                    <span id="siteSettings_info_sakaiDomain"></span>/
-                                    <div style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span> <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_text_edit">__MSG__EDIT__</a> </div>
+                                    <span id="siteSettings_info_sakaiDomain"></span>/<span style="display:inline" id="siteSettings_info_sitePart_text"><span id="siteSettings_info_sitePart_text_location"></span><a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_text_edit">__MSG__EDIT__</a></span>
                                     <div id="siteSettings_info_sitePart_edit" style="display:none;">
                                         <input type="text" maxlength="255" id="siteSettings_info_sitePart_edit_input" class="text-field site_location" title="__MSG__EDIT__" />
                                         <a class="edit-link" href="javascript:;" id="siteSettings_info_sitePart_edit_cancel">__MSG__CANCEL__</a>
@@ -159,8 +157,8 @@
 
                                 <!-- DIALOG BUTTONS -->
                                 <div class="dialog_buttons">
-                                    <a href="javascript:;" class="button-default" id="siteSettings_delete_yes">__MSG__YES__</a>
-                                    <a href="javascript:;" class="button jqmClose" id="siteSettings_delete_no">__MSG__NO__</a>
+                                    <button type="button" class="s3d-button s3d-button-primary" id="siteSettings_delete_yes"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                                    <button type="button" class="s3d-button jqmClose" id="siteSettings_delete_no"><span class="s3d-button-inner">__MSG__NO__</span></button>
                                 </div>
                             </div>
 

@@ -108,87 +108,87 @@
     <div id="discussion_container_template" style="display:none"><!--
     {macro displayPost(o, first, current)}
 
-                <div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
-                    <div class="discussion_header">
-                        <div class="discussion_left">
-                            {if loggedIn}
-                                {if o.post.profile.picture !== ""}
-                                    <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
-                                {else}
-                                    <img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg    " />
-                                {/if}
-                                <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                                <a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                                <span class="discussion_date">posted this on ${o.post.date}</span>
-                            {else}
-                                <span class="discussion_posted_container">
-                                    <span class="discussion_date">Posted on ${o.post.date}</span>
-                                </span>
-                             {/if}
-                            {if o.post.editters !== undefined}
-                                <br />
-                                <a href="/dev/profile.html?user=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
-                                <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
-                             {/if}
-                        </div>
-                        <span class="discussion_right">
-                            <span class="discussion_totalReplies">${o.post.nrOfReplies}</span>
-                            {if o.post.nrOfReplies == "1"}
-                                <span class="discussion_countReplies"> reply </span>
-                            {else}
-                                <span class="discussion_countReplies"> replies </span>
-                            {/if}
-                            {if o.post.nrOfReplies != "0"}
-                                <span class="discussion_showAllContainer">
-                                (<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
-                                    <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">Hide all</span>
-                                    <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">Show all</span>
-                                </a>)
-                                </span>
-                            {/if}
-                        </span>
-                     </div>
-                    <div class="discussion_content">
-                        <div id="discussion_content_container_${o.post["sakai:id"]}">
-                            {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
-                                <p class="discussion_content_infoDeleted">
-                                {if o.post["sakai:from"] === current.user.userid}
-                                    You have deleted your post.
-                                {else}
-                                    This post has been deleted. Only site collaborators can see this post.
-                                {/if}
-                                {if o.post.canDelete && o.post.canDelete === true}
-                                    <br />You can return it by clicking the undelete link.
-                                {/if}
-                                </p>
-                            {/if}
-                            <div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
-                        </div>
-                        {if loggedIn}
-                            <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
-                                <ul>
-                                    <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
-                                    {if o.post.canEdit}
-                                        <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
-                                    {/if}
-                                    {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
-                                        {if o.post["sakai:deleted"]}
-                                            <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
-                                        {else}
-                                             <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
-                                        {/if}
-                                    {/if}
-                                </ul>
-                            </div>
+        <div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
+            <div class="discussion_header">
+                <div class="discussion_left">
+                    {if loggedIn}
+                        {if o.post.profile.picture !== ""}
+                            <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
+                        {else}
+                            <img alt="avatar" class="discussion_avatar" src="/dev/_images2/person_icon.jpg    " />
                         {/if}
-                    </div>
+                        <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
+                        <a href="/dev/profile.html?user=${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
+                        <span class="discussion_date">posted this on ${o.post.date}</span>
+                    {else}
+                        <span class="discussion_posted_container">
+                            <span class="discussion_date">Posted on ${o.post.date}</span>
+                        </span>
+                     {/if}
+                    {if o.post.editters !== undefined}
+                        <br />
+                        <a href="/dev/profile.html?user=${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
+                        <span class="discussion_date">edited this on ${o.post.editedByDate}</span>
+                     {/if}
                 </div>
-
-            <div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">
-                {for reply in o.replies}
-                    ${displayPost(reply, false, current)}
-                {/for}
+                <span class="discussion_right">
+                    <span class="discussion_totalReplies">${o.post.nrOfReplies}</span>
+                    {if o.post.nrOfReplies == "1"}
+                        <span class="discussion_countReplies"> reply </span>
+                    {else}
+                        <span class="discussion_countReplies"> replies </span>
+                    {/if}
+                    {if o.post.nrOfReplies != "0"}
+                        <span class="discussion_showAllContainer">
+                        (<a class="discussion_toggle_showhideall" id="discussion_toggle_showhideall_${o.post["sakai:id"]}" href="javascript:;">
+                            <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">Hide all</span>
+                            <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">Show all</span>
+                        </a>)
+                        </span>
+                    {/if}
+                </span>
              </div>
+            <div class="discussion_content">
+                <div id="discussion_content_container_${o.post["sakai:id"]}">
+                    {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
+                        <p class="discussion_content_infoDeleted">
+                        {if o.post["sakai:from"] === current.user.userid}
+                            You have deleted your post.
+                        {else}
+                            This post has been deleted. Only site collaborators can see this post.
+                        {/if}
+                        {if o.post.canDelete && o.post.canDelete === true}
+                            <br />You can return it by clicking the undelete link.
+                        {/if}
+                        </p>
+                    {/if}
+                    <div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
+                </div>
+                {if loggedIn}
+                    <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
+                        <ul>
+                            <li class="discussion_content_no_border"><a id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply" href="javascript:;">Reply</a></li>
+                            {if o.post.canEdit}
+                                <li><a id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit" href="javascript:;">Edit</a></li>
+                            {/if}
+                            {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
+                                {if o.post["sakai:deleted"]}
+                                    <li><a id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete" href="javascript:;">Undelete</a></li>
+                                {else}
+                                     <li><a id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete" href="javascript:;">Delete</a></li>
+                                {/if}
+                            {/if}
+                        </ul>
+                    </div>
+                {/if}
+            </div>
+        </div>
+
+        <div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">
+            {for reply in o.replies}
+                ${displayPost(reply, false, current)}
+            {/for}
+         </div>
     {/macro}
 
     {if posts.length == 0}
@@ -204,8 +204,8 @@
             <input type="text" id="discussion_edit_subject" /><br />
             <textarea id="discussion_edit_message" rows="0" cols="0"></textarea><br />
             <div class="dialog_buttons">
-                <a class="button-default save_button" href="javascript:;" id="discussion_edit_save">Save</a>
-                <a class="button cancel-button" href="javascript:;" id="discussion_edit_cancel">Cancel</a>
+                <button type="button" class="s3d-button s3d-button-primary" id="discussion_edit_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                <button type="button" class="s3d-button" id="discussion_edit_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             </div>
         </form>
     </div>
@@ -219,8 +219,8 @@
             <textarea id="discussion_reply_body"></textarea><br />
 
             <div class="dialog_buttons">
-                <a class="button-default submit_button" href="javascript:;" id="discussion_reply_submit">Reply</a>
-                <a class="button cancel-button" href="javascript:;" id="discussion_reply_cancel">Cancel</a>
+                <button type="button" class="s3d-button s3d-button-primary" id="discussion_reply_submit"><span class="s3d-button-inner">__MSG__REPLY__</span></button>
+                <button type="button" class="s3d-button" id="discussion_reply_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             </div>
         </form>
     </div>
@@ -274,8 +274,8 @@
             <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">Full view - displaying all replies by default</label></p>
         </div>
         <div class="dialog_buttons">
-            <a class="button-default submit_button" href="javascript:;" id="discussion_settings_submit">Submit</a>
-            <a class="button cancel-button" href="javascript:;" id="discussion_settings_cancel">Cancel</a>
+            <button type="button" class="s3d-button s3d-button-primary" id="discussion_settings_submit"><span class="s3d-button-inner">__MSG__SUBMIT__</span></button>
+            <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
         </div>
     </form>
 </div>

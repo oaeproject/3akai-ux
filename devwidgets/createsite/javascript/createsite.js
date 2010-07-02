@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.createsite
+ *
+ * @class createsite
+ *
+ * @description
+ * Createsite widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.createsite = function(tuid, showSettings){
 
     /////////////////////////////
@@ -34,6 +46,7 @@ sakai.createsite = function(tuid, showSettings){
 
     // Container
     var createSiteContainer = createSite + "_container";
+    var $membersContainer = $("#members_to_add");
 
     // Course
     var createSiteCourse = createSite + "_course";
@@ -82,6 +95,9 @@ sakai.createsite = function(tuid, showSettings){
     // CSS Classes
     var invalidFieldClass = "invalid";
 
+    // Members
+    var sitegroup = false;
+
     ///////////////////////
     // Utility functions //
     ///////////////////////
@@ -121,7 +137,7 @@ sakai.createsite = function(tuid, showSettings){
 
             $(".description_fields").hide();
             $(".member_fields").show();
-            $("#members_to_add").html($.TemplateRenderer("members_to_add_template", members));
+            $membersContainer.html($.TemplateRenderer("members_to_add_template", members));
 
         } else {
             $(".description_fields").show();
@@ -195,6 +211,9 @@ sakai.createsite = function(tuid, showSettings){
      * @param {Object} input The string where the characters need to be replaced
      */
     var replaceCharacters = function(input){
+
+        input = $.trim(input); // Remove the spaces at the beginning and end of the id
+
         input = input.toLowerCase().replace(/ /g,"-");
         input = input.toLowerCase().replace(/'/g,"");
         input = input.toLowerCase().replace(/"/g,"");
@@ -259,25 +278,63 @@ sakai.createsite = function(tuid, showSettings){
     ///////////////////
 
     /**
-     * Create the actual site.
-     * Sends information to the server about the site you are making.
+     * Add the selected users as members of the site.
+     * @param {Object} sitemembers A list of users to add
      */
+    var doSaveMembers = function(sitemembers){
+        $.ajax({
+            url: "/system/userManager/group/" + sitegroup + ".update.html",
+            type: "POST",
+            traditional: true,
+            data: {
+                ":member": sitemembers,
+                "_charset_":"utf-8"
+            },
+            error: function(xhr, textStatus, thrownError) {
+                fluid.log("Failed to add these members.");
+            }
+        });
+    };
 
+    /**
+     * Check if the site is created correctly and exists
+     * @param {String} siteid
+     */
     var doCheckSite = function(siteid){
     // Check if the site exists.
         var siteExists = false;
+
         $.ajax({
             url: "/sites/" + siteid + ".json",
             type: "GET",
             async: false,
             success: function(data, textStatus){
                 siteExists = true;
+                var authorizables = data["sakai:authorizables"];
+                for(auth in authorizables){
+                    if(authorizables.hasOwnProperty(auth)){
+                        if(authorizables[auth].match(sakai.config.Site.DefaultMember)){
+                            sitegroup = authorizables[auth];
+                        }
+                    }
+                }
             }
         });
         return siteExists;
     };
 
-    var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate){
+    /**
+     * Create the website, get the groupIDs for that website and add all the checked users as members to the site.
+     * We have to do this in three calls because it's POST/GET/POST (no batch post possible)
+     * We absolutely need to get the groupIDs to be able to add the members.
+     * TODO Change the service in the back-end to be able to do this process in 1 call automatically adding the members
+     * @param {String} siteid the id of the site that's being created
+     * @param {String} sitetitle the title of the site that's being created
+     * @param {String} sitedescription the description of the site that's being created
+     * @param {String} sitetemplate the template for the site
+     * @param {Array} sitemembers a list of users that have to be set as members of the site
+    */
+    var doSaveSite = function(siteid, sitetitle, sitedescription, sitetemplate, sitemembers){
     // Create a site node based on the template.
         $.ajax({
             url: sakai.config.URL.SITE_CREATE_SERVICE,
@@ -292,7 +349,25 @@ sakai.createsite = function(tuid, showSettings){
             },
             type: "POST",
             success: function(data, textStatus){
-                document.location = "/sites/" + siteid;
+                //check if the site exists and get the group id for viewers from the site
+                if (doCheckSite(siteid)) {
+
+                    //add all the users as members to the site
+                    doSaveMembers(sitemembers);
+
+                    // Create an activity item for the site creation
+                    var nodeUrl = "/sites/" + siteid;
+                    var activityMsg = "Created a new site: <a href=\"/sites/"+siteid+"\">" + sitetitle + "</a>";
+                    var activityData = {
+                        "sakai:activityMessage": activityMsg,
+                        "sakai:activitySiteName": sitetitle,
+                        "sakai:activitySiteId": siteid
+                    };
+                    sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData, function(activitySuccess){
+                        //redirect the user to the site once the activity node is set
+                        document.location = "/sites/" + siteid;
+                    });
+                }
             },
             // error: error,
             error: function(xhr, textStatus, thrownError){
@@ -300,7 +375,7 @@ sakai.createsite = function(tuid, showSettings){
                 if (siteCheck){
                     setError(createSiteNoncourseId,createSiteNoncourseIdTaken,true);
                 } else {
-                    alert("An error has occurred: " + xhr.status + " " + xhr.statusText);
+                    fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
                 }
                 showProcess(false);
             }
@@ -315,6 +390,7 @@ sakai.createsite = function(tuid, showSettings){
         var sitedescription = $(createSiteNoncourseDescription).val() || "";
         var siteid = replaceCharacters($(createSiteNoncourseId).val());
         var inputError = false;
+        var sitemembers = [];
 
         // Check if there is a site id or site title defined
         if (sitetitle === "")
@@ -334,6 +410,11 @@ sakai.createsite = function(tuid, showSettings){
             inputError = true;
         }
 
+        //get all the names of the selected members for the site
+        $("input:checked", $membersContainer).each(function(){
+            sitemembers.push($(this).val());
+        });
+
         if (inputError)
         {
             return;
@@ -347,7 +428,7 @@ sakai.createsite = function(tuid, showSettings){
 
             // Hide the buttons and show the process status
             showProcess(true);
-            doSaveSite(siteid, sitetitle, sitedescription, sitetemplate);
+            doSaveSite(siteid, sitetitle, sitedescription, sitetemplate, sitemembers);
         }
     };
 
@@ -433,4 +514,4 @@ sakai.createsite = function(tuid, showSettings){
     doInit();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("createsite");
+sakai.api.Widgets.widgetLoader.informOnLoad("createsite");

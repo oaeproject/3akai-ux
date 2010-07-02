@@ -1,5 +1,7 @@
 module("Messaging");
 
+(function(){
+
 var userlist;
 var dummyMessage = "This is a messaging test";
 var dummySubject = "Test subject";
@@ -9,6 +11,12 @@ var d;
 var u1time;
 var dummyReply;
 var pathToMessages;
+
+// Set the admin login data
+var logindata = {
+    "username": "admin",
+    "password": "admin"
+};
 
 /**
  * Delete all messages that were sent during the test
@@ -63,7 +71,7 @@ var removeUsers = function(count){
             }
         });
     }
-}
+};
 
 /**
  * Remove all the created users and messages at the end of the test
@@ -148,29 +156,23 @@ var testReplyCallback = function(bool,data){
  * @param {String} reply The id of the message on which we reply
  */
 var sendMessage = function(category, reply){
-    //login first before sending a message
-    $.ajax({
-        url: "/system/sling/formlogin",
-        type: "POST",
-        data: {
-            "sakaiauth:login": 1,
-            "sakaiauth:pw": "admin",
-            "sakaiauth:un": "admin",
-            "_charset_": "utf-8"
-        },
-        success:function(){
+
+    // Login first before sending a message
+    sakai.api.User.login(logindata, function(success){
+        if (success) {
             //check if it's a normal message or a reply, change the callback function
-            if(reply == ""){
+            if(reply === ""){
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testMessageCallback);
             }else{
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testReplyCallback);
             }
-        },
-        error:function(){
+        }
+        else {
             ok(false, "Couldn't login");
             start();
         }
     });
+
 };
 
 /**
@@ -183,6 +185,7 @@ var createDummyUsers = function(count){
 
         $.ajax({
             url: "/system/userManager/user.create.json",
+            async: false,
             type: "POST",
             data: userlist[count],
             complete: function(){
@@ -199,13 +202,24 @@ var createDummyUsers = function(count){
  */
 var startTest = function(category, reply){
     d = new Date();
-    u1time = d.getMilliseconds();
+    u1time = d.getTime();
     dummyUser = dummyUser + u1time;
     pathToMessages = [];
-    userlist = [
-                {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"+u1time},
-                {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"+u1time}
-            ];
+    userlist = [{
+        "firstName": "First",
+        "lastName": "User",
+        "email": "first.user@sakai.com",
+        "pwd": "test",
+        "pwdConfirm": "test",
+        ":name": "user1" + u1time
+    }, {
+        "firstName": "Second",
+        "lastName": "User",
+        "email": "second.user@sakai.com",
+        "pwd": "test",
+        "pwdConfirm": "test",
+        ":name": "user2" + u1time
+    }];
     //create users
     createDummyUsers(0);
 
@@ -230,3 +244,5 @@ asyncTest("Send message to multiple users", function(){
     //send message with multiple users
     startTest("","");
 });
+
+})();

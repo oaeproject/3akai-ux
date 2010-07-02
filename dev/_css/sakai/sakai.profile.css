@@ -61,10 +61,6 @@
 
 
 /** GENERAL USER INFO RULES **/
-.profile_preview .button.add_con_btn
-{ width: 123px; }
-.profile_preview .button.send_msg_btn
-{ width: 123px; margin-top: 7px; }
 
 .profile_preview .profile_section_body{padding-top: 7px;}
 .profile_preview .profile_section th{text-align: left; font-weight: bold; font-size: 12px; width: 125px; border:0;}
@@ -76,7 +72,7 @@
 
 
 .profile_preview .profile_section .profile_section_body
-{ margin: 0; padding: 5px 0 35px 0; }
+{ margin: 0; padding: 5px 0 15px 0; }
 
 .profile_preview .profile_section .entry_label
 { text-align: right; vertical-align: top; }

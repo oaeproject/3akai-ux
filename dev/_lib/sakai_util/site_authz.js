@@ -97,7 +97,9 @@ sakai.lib.batchPosts = function(actions, success, error){
         action.data["_charset_"] = "utf-8";
         $.ajax({
             url: action.url,
+            traditional:true,
             type: "POST",
+            traditional: true,
             success: function(data, textStatus){
                 if (actions.length > 0) {
                     sakai.lib.batchPosts(actions, success, error);

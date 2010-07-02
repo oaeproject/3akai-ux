@@ -29,7 +29,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/site_authz.js"></script>
 
@@ -167,7 +166,7 @@
                                                 <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
                                                 {/if}
                                                 </a>
-    
+
                                                 {if (typeof i.firstName !== "undefined")}
                                                 <a href="javascript:;" class="member-label">${i.firstName} ${i.lastName}</a><div class="member-title"></div>
                                                 {else}
@@ -175,7 +174,7 @@
                                                 {/if}
                                                 <span class="siteManage_person_roleView">${i.role}</span>
                                                 <a href="profile.html?user=${i['rep:userId']}" target="_blank" class="member-label view-profile-label" style="color:#006E96; font-weight: normal; font-size: 0.9em; width: 150px;">__MSG__VIEW_PROFILE__</a>
-    
+
                                             </li>
                                         {/for}
                                         </ul>
@@ -204,8 +203,8 @@
 
                         <!-- DIALOG BUTTONS -->
                         <div class="dialog_buttons">
-                            <a href="javascript:;" id="site_manage_searchViaCsv" class="button-default">__MSG__SEARCH__</a>
-                            <a href="javascript:;" class="button jqmClose" style="float:left">__MSG__CANCEL__</a>
+                            <button type="button" class="s3d-button s3d-button-primary" id="site_manage_searchViaCsv"><span class="s3d-button-inner">__MSG__SEARCH__</span></button>
+                            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                         </div>
                     </div>
 

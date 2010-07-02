@@ -1,5 +1,7 @@
 module("Shorten String");
 
+(function(){
+
 var dummyString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In orci nibh, venenatis id aliquam vitae, porttitor quis lacus.";
 
 /**
@@ -14,7 +16,7 @@ var testShortenString = function(){
     same(newString.length,33, "Checking the length of the shortened string");
     ok(newString.match("\.\.\.$"),"The string ends with three dots");
 
-}
+};
 
 /**
  * Run a test
@@ -23,3 +25,5 @@ test("Send message to one person", function(){
     //shorten a string
     testShortenString();
 });
+
+})();

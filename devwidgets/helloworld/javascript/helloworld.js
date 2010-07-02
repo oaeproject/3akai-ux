@@ -21,7 +21,14 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.helloworld
+ *
+ * @class helloworld
+ *
+ * @description
  * Initialize the helloworld widget
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
@@ -85,7 +92,7 @@ sakai.helloworld = function(tuid,showSettings){
         var select = $(colorPicker, rootel).get(0);
         var selected = select.options[select.selectedIndex].value;
         sakai.api.Widgets.saveWidgetData(tuid, selected, function(success, data){
-            sdata.container.informFinish(tuid, "helloworld");
+            sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
         });
     });
 
@@ -124,4 +131,4 @@ sakai.helloworld = function(tuid,showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("helloworld");
+sakai.api.Widgets.widgetLoader.informOnLoad("helloworld");

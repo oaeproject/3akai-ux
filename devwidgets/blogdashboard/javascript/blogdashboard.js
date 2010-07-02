@@ -23,12 +23,19 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.blogdashboard
+ *
+ * @class blogdashboard
+ *
+ * @description
  * Initialize the dashboard widget for a blog
  * This widget will be running in the dashboard.
  * It allows the user to make a post to a blog he has on a website.
  * If there is no blog found on the website, one will be created.
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget or not (this widget has none)
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.blogdashboard = function(tuid, showSettings){
 
@@ -360,4 +367,4 @@ sakai.blogdashboard = function(tuid, showSettings){
     doInit();
 
 };
-sdata.widgets.WidgetLoader.informOnLoad("blogdashboard");
+sakai.api.Widgets.widgetLoader.informOnLoad("blogdashboard");

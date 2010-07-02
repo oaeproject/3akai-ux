@@ -1,5 +1,17 @@
 var sakai = sakai || {};
 
+/**
+ * @name sakai.siterecentactivity
+ *
+ * @class siterecentactivity
+ *
+ * @description
+ * Initialize the siterecentactivity widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.siterecentactivity = function(tuid, showSettings){
 
     var count = 5;
@@ -53,7 +65,8 @@ sakai.siterecentactivity = function(tuid, showSettings){
         sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
             if (success) {
                 sakai.siterecentactivity.recentactivity = data;
-            } else {
+            }
+            else {
                 sakai.siterecentactivity.recentactivity = {
                     items: []
                 };
@@ -85,28 +98,34 @@ sakai.siterecentactivity = function(tuid, showSettings){
      */
     sakai.siterecentactivity.addRecentActivity = function(activityitem){
 
-        // Set the date of the activity
-        activityitem.date = sakai.api.Util.createSakaiDate();
+        // Check whether the activity item is actually an object
+        if($.isPlainObject(activityitem)){
 
-        // Construct the callback function
-        var callback = function(){
+            // Set the date of the activity
+            activityitem.date = sakai.api.Util.createSakaiDate();
 
-            // Add the current activity item to the array of activity items
-            sakai.siterecentactivity.recentactivity.items.push(activityitem);
+            // Construct the callback function
+            var callback = function(){
 
-            // If the number of recent activity items exceeds a specific number, remove the other ones
-            if(sakai.siterecentactivity.recentactivity.items.length > count){
-                var count_remove = sakai.siterecentactivity.recentactivity.items.length - count;
+                // Add the current activity item to the array of activity items
+                sakai.siterecentactivity.recentactivity.items.push(activityitem);
 
-                sakai.siterecentactivity.recentactivity.items.splice(0, count_remove);
-            }
+                // If the number of recent activity items exceeds a specific number, remove the other ones
+                if(sakai.siterecentactivity.recentactivity.items.length > count){
+                    var count_remove = sakai.siterecentactivity.recentactivity.items.length - count;
 
-            // Save the recent activity to a file in JCR
-            saveRecentActivity();
-        };
+                    sakai.siterecentactivity.recentactivity.items.splice(0, count_remove);
+                }
 
-        // Get the recent activity
-        sakai.siterecentactivity.getRecentActivity(callback);
+                // Save the recent activity to a file in JCR
+                saveRecentActivity();
+            };
+
+            // Get the recent activity
+            sakai.siterecentactivity.getRecentActivity(callback);
+
+        }
+
     };
 
     ///////////////////////
@@ -114,10 +133,10 @@ sakai.siterecentactivity = function(tuid, showSettings){
     ///////////////////////
 
     $("#siterecentactivity_settings_submit",rootel).click(function(){
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     });
     $("#siterecentactivity_settings_cancel",rootel).click(function(){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
     // Hide or show the settings
@@ -205,4 +224,4 @@ sakai.siterecentactivity = function(tuid, showSettings){
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("siterecentactivity");
+sakai.api.Widgets.widgetLoader.informOnLoad("siterecentactivity");

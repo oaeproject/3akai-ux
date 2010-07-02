@@ -31,7 +31,6 @@
 
         <!-- Sakai Core JS -->
         <script type="text/javascript" src="_lib/sakai_util/sakai_magic.js"></script>
-        <script type="text/javascript" src="_lib/sakai_util/sdata.js"></script>
         <script type="text/javascript" src="_lib/sakai_util/i18n.js"></script>
 
         <!-- 3rd party JS -->
@@ -89,6 +88,9 @@
                             </div>
                         </div>
 
+                        <!-- TEMPORARY SEARCH TEXT -->
+                        <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
+
                         <!-- SEARCH RESULTS -->
                         <div id="search_results_page1" class="fl-container fl-fix search_results_container">
 
@@ -126,7 +128,7 @@
                                         {else}
                                         <a href="javascript:;" class="search_result_person_dept">&nbsp;</a>
                                         {/if}
-    
+
                                         <div class="search_result_person_links">
                                         {if ! i.isMe}
                                             {if ! i.connected}

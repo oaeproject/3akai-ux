@@ -99,22 +99,13 @@ sakai.index = function(){
         $(registerLink).hide();
         $(loadingMessage).show();
 
-        /*
-         * a : set to FORM because we're trying to do a FORM based login
-         * u : the username entered in the username textfield
-         * p : the password entered in the password textfield
-         * l : set to 1 because we want to perform a login action
-         */
-        // -Fsakaiauth:un=user -Fsakaiauth:pw=pass -Fsakaiauth:login=1
-        var data = {"sakaiauth:login" : 1, "sakaiauth:un" : values[usernameField], "sakaiauth:pw" : values[passwordField], "_charset_":"utf-8"};
+        var data = {
+            "username": values[usernameField],
+            "password": values[passwordField]
+        };
 
-        $.ajax({
-            url : sakai.config.URL.LOGIN_SERVICE,
-            type : "POST",
-            success : checkLogInSuccess,
-            error : checkLogInSuccess,
-            data : data
-        });
+        // Perform the login operation
+        sakai.api.User.login(data, checkLogInSuccess);
 
         return false;
 
@@ -176,4 +167,4 @@ sakai.index = function(){
 
 };
 
-sdata.container.registerForLoad("sakai.index");
+sakai.api.Widgets.Container.registerForLoad("sakai.index");

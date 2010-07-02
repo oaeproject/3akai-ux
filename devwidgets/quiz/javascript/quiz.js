@@ -21,7 +21,14 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.quiz
+ *
+ * @class quiz
+ *
+ * @description
  * Initialize the quiz widget
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
@@ -742,7 +749,7 @@ sakai.quiz = function(tuid, showSettings) {
      * Closes the settings popup
      */
     var finishNewSettings = function() {
-        sdata.container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -1764,4 +1771,4 @@ sakai.quiz = function(tuid, showSettings) {
 
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("quiz");
+sakai.api.Widgets.widgetLoader.informOnLoad("quiz");

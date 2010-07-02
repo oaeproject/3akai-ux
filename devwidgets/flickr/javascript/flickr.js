@@ -20,9 +20,16 @@
 var sakai = sakai || {};
 
 /**
- * 
- * @param {Object} tuid , unique id for the widget
- * @param {Object} showSettings boolean to check if the widget is in settingsmode or not
+ * @name sakai.flickr
+ *
+ * @class flickr
+ *
+ * @description
+ * Initialize the flickr widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.flickr = function(tuid, showSettings){
 
@@ -202,7 +209,7 @@ sakai.flickr = function(tuid, showSettings){
       * Closes the settings container.
       */
      var finishSettingsContainer = function() {
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
      };
 
     /**
@@ -1601,7 +1608,7 @@ sakai.flickr = function(tuid, showSettings){
      * This function will be executed after the data is saved
      */
     var closeContainer = function(){
-         sdata.container.informFinish(tuid);
+         sakai.api.Widgets.Container.informFinish(tuid);
     };
 
     /**
@@ -2034,4 +2041,4 @@ sakai.flickr = function(tuid, showSettings){
     init();
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("flickr");
+sakai.api.Widgets.widgetLoader.informOnLoad("flickr");

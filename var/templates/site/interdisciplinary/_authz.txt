@@ -18,7 +18,10 @@
       "jcr:readAccessControl": "granted",
       "jcr:removeChildNodes": "granted",
       "jcr:removeNode": "granted",
-      "jcr:write": "granted"
+      "jcr:write": "granted",
+      "jcr:nodeTypeManagement": "granted",
+      "jcr:versionManagement": "granted",
+      "jcr:retentionManagement": "granted"
     }
   }],
   // Standard site-wide schemes for site availability and access rights.
