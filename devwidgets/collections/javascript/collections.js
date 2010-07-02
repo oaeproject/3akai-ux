@@ -437,6 +437,7 @@ sakai.collections = function(tuid, showSettings) {
     if (!currentCollectionData.title || currentCollectionData.title == "") {
       $(".configureAlbum a").trigger("click");
     }
+    initInlineMCE();
     //$(".categoryPreview").ThreeDots(); // need to figure this one out
   };
   
@@ -481,7 +482,7 @@ sakai.collections = function(tuid, showSettings) {
     $.TemplateRenderer(collectionsAlbumShowCategoryTemplate, {"category":categoryData, "album":currentCollectionData}, $(collectionsAlbumShowCategory, $(rootel)[0]));
     sizeItemScrollbar();
     $.bbq.pushState({'category':selectedCategoryID});
-    initEditable();
+    toggleEditable();
   };
   
   var sizeItemScrollbar = function() {
@@ -502,7 +503,7 @@ sakai.collections = function(tuid, showSettings) {
     $(collectionsAlbumsShowItem).show();
 	  $.TemplateRenderer(collectionsAlbumsShowItemTemplate, {"item":itemData}, $(collectionsAlbumsShowItem, $(rootel)[0]));
 	  $.bbq.pushState({'item':selectedItemID});
-    initEditable();	  
+    toggleEditable();	  
 	};
   
   var toggleEditable = function() {
@@ -510,28 +511,28 @@ sakai.collections = function(tuid, showSettings) {
       if ($(this).hasClass("editable")) {
         $(this).editable("disable");
         tinyMCE.execCommand("mceRemoveControl", true, $(this).attr("id")+'_mce');
+        console.log('text:',$(this).text());
+        if ($(this).text() == "Click to edit") {
+          $(this).text('');
+        }        
+      } else {
+        if ($(this).hasClass("albumDesc")) {
+          $('.albumDesc').editable(function(value, settings) {
+            currentCollectionData.description = value;
+            saveCollectionData();
+            return(value);
+          },{type:'mce',submit:'OK', tooltip:'Click to add a description of this album'});
+        } else if ($(this).hasClass("albumTitle")) {
+          $('.albumTitle').editable(function(value, settings) { 
+            currentCollectionData.title = value;
+            saveCollectionData();
+            return(value);
+          },{type:'text',submit:'OK', tooltip:'Click to add the album title'});
+        }
       }
       $(this).toggleClass("editable");
     });
-    initEditable();
     $(".editable").editable("enable");
-  };
-  
-  var initEditable = function() {
-    $('.albumTitle').editable(function(value, settings) { 
-      currentCollectionData.title = value;
-      saveCollectionData();
-      return(value);
-    },{type:'text',submit:'OK', tooltip:'Click to add the album title'});
-    
-    initInlineMCE();
-    
-    $('.albumDesc').editable(function(value, settings) {
-      currentCollectionData.description = value;
-      saveCollectionData();
-      return(value);
-    },{type:'mce',submit:'OK', tooltip:'Click to add a description of this album...'});
-    
   };
   
   /**
