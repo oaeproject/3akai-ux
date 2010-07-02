@@ -21,14 +21,6 @@
 var sakai = sakai || {};
 
 /**
- * @name sakai._changepic
- *
- * @description
- * Public functions for the change picture widget
- */
-sakai._changepic = {};
-
-/**
  * @name sakai.changepic
  *
  * @class changepic
@@ -141,7 +133,7 @@ sakai.changepic = function(tuid, showSettings){
      * Clicked on the select tab
      */
     $(tabSelect).click(function(){
-        sakai._changepic.doInit();
+        sakai.changepic.doInit();
     });
 
     /**
@@ -169,7 +161,7 @@ sakai.changepic = function(tuid, showSettings){
 
     }
 
-    sakai._changepic.doInit = function(){
+    sakai.changepic.doInit = function(){
 
         // Check whether there is a base picture at all
         me = sakai.data.me;
@@ -375,7 +367,7 @@ sakai.changepic = function(tuid, showSettings){
      * @param {Object} hash
      */
     var showArea = function(hash){
-        sakai._changepic.doInit();
+        sakai.changepic.doInit();
         hash.w.show();
     };
 
@@ -397,7 +389,7 @@ sakai.changepic = function(tuid, showSettings){
 /**
  * This method gets called the second we submit the form
  */
-sakai._changepic.startCallback = function(){
+sakai.changepic.startCallback = function(){
     return true;
 };
 
@@ -405,7 +397,7 @@ sakai._changepic.startCallback = function(){
  * When the file has been saved we will get a response back from JCR.
  * @param {Object} response
  */
-sakai._changepic.completeCallback = function(response){
+sakai.changepic.completeCallback = function(response){
 
     var tosave = {
         "_name": "profilepicture"
@@ -428,7 +420,7 @@ sakai._changepic.completeCallback = function(response){
         success : function(data) {
 
             // we have saved the profile, now do the widgets other stuff.
-            sakai._changepic.doInit();
+            sakai.changepic.doInit();
         },
         error: function(xhr, textStatus, thrownError) {
             alert("An error has occured");
