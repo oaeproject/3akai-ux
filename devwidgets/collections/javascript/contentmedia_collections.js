@@ -31,6 +31,7 @@ sakai.collectionscontent = function(){
     var selectedFiles = {};            // Object with the files that are currently selected
     var basicUploadFilename = "";    // The filename when you use the basic upload
     var enableFolder = false;        // Enable seeing folder or not
+    var imagesOnly = false;
 
     // Paging
     var pageCurrent = 0;            // The page you are currently on
@@ -145,15 +146,6 @@ sakai.collectionscontent = function(){
         return $.L10N.transformDate(date);
     };
 
-    /**
-     * Add the session id to the url so the user is authenticated.
-     * This is to solve the flash cookie bug.
-     * @param {String} url The url where you want to add the session to
-     */
-    var getServerUrl = function(url){
-        return url + ";jsessionid=" + encodeURIComponent(get_cookie("JSESSIONID"));
-    };
-
 
     /**
      *
@@ -167,26 +159,25 @@ sakai.collectionscontent = function(){
        resultWrapper.total = data.length;
        // Set the globaldata variable
        globaldata = resultWrapper;
-       console.log("globaldata: ", globaldata);
-       /*
-       // only display embeddable types of resources
-       filteredResults = [];
-       for(var i = 0; i < globaldata.results.length; i++){
-         var contentType = globaldata.results[i]["Content-Type"];
-          if (contentType.split("/")[0] == "image") {
-            if (contentType.split("/")[1] != 'tiff' && contentType.split("/")[1] != 'vnd.microsoft.icon') {
-              filteredResults.push(globaldata.results[i]);
+       
+       // only display images
+       if (imagesOnly) {
+         console.log(imagesOnly);
+         filteredResults = [];
+         for(var j = 0; j < globaldata.results.length; j++){
+           var contentType = globaldata.results[j]["Content-Type"];
+            if (contentType.split("/")[0] == "image") {
+              if (contentType.split("/")[1] != 'tiff' && contentType.split("/")[1] != 'vnd.microsoft.icon') {
+                filteredResults.push(globaldata.results[j]);
+              }
             }
-          }
+         }
+         globaldata.results = filteredResults;
        }
        
-       globaldata.results = filteredResults;*/
-       
-       
        // Set the formatted file size and format the date
-       console.log('here');
+       
        for(var i = 0; i < globaldata.results.length; i++){
-          console.log(i);
            if(globaldata.results[i]["Content-Length"]) {
                globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i]["Content-Length"]);
            }
@@ -194,47 +185,13 @@ sakai.collectionscontent = function(){
              globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["lastmodified"]));
            }
        }
-       console.log($.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper));
+       
        // Render files
        $.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper, $(contentmediaFilesContainer));
        $.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper, $(resourceDetailsContainer));
      };
      
-    var doFileRender = function(data){
-      resultWrapper = {};
-      resultWrapper.results = data;
-      resultWrapper.total = data.length;
-      // Set the globaldata variable
-      globaldata = resultWrapper;
-
-      // Set the formatted file size and format the date
-      for(var i = 0; i < globaldata.results.length; i++){
-          if(globaldata.results[i]["Content-Length"]){
-              globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i]["Content-Length"]);
-              globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["lastmodified"]));
-          }
-      }
-
-      // Render files
-      $.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper, $(contentmediaFilesContainer, $(rootel)[0]));
-      $.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper, $(resourceDetailsContainer, $(rootel)[0]));
-      
-
-        // Render paging
-        /*$(jqPagerClass).pager({
-            pagenumber: pageCurrent + 1,
-            pagecount: Math.ceil(data.total / pageSize),
-            buttonClickCallback: doPaging
-        });*/
-
-        // Initialise the dragging and dropping of files
-        //initialiseDragDrop();
-
-        // Reset the selected files variable
-        //resetSelectedFiles();
-    };
-
-    /**
+   /**
      *
      * @param {Object} options  identifier for the current context, initial search
      *   query and initial tag filter
@@ -294,7 +251,7 @@ sakai.collectionscontent = function(){
             },
             cache: false,
             success: function(data){
-                doFileRenderFiltered(data);
+              doFileRenderFiltered(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -660,9 +617,11 @@ sakai.collectionscontent = function(){
      *         "page" : 0
      *    }
      */
-    sakai.collectionscontent.initialise = function(_options){
+    sakai.collectionscontent.initialise = function(_options, _imagesOnly){
         // Save options object
         options = _options;
+        imagesOnly = _imagesOnly;
+        console.log("intitialize, imagesOnly=", imagesOnly);
         
         // Initialize the selected files object
        // resetSelectedFiles();

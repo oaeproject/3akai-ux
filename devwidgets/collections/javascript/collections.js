@@ -349,6 +349,29 @@ sakai.collections = function(tuid, showSettings) {
     $("#collections_header_select_layout").toggle();
   });
   
+  // Universal Pick Resource Bindings
+  $("#cancel_choose_image", $(rootel)[0]).live("click", function() {
+    $(browseResourceFilesDialog, $(rootel)[0]).jqmHide();
+    return false;
+  });
+
+  $(chooseImageButton, $(rootel)[0]).live("click", function() {
+     var resourceURL = chooseImage();
+     var mimeType = getMimeType();
+     if ($(".albumImage.editable", $(rootel)[0]).is(":visible")) {
+       addAlbumImage(resourceURL);
+     } else if ($("#collections_map_add_content_container", $(rootel)[0]).is(":visible")) {
+       addContentImage(resourceURL);
+       addContentMimetype(mimeType);
+     } else {
+       addRoomImage(resourceURL);
+     }
+     $(browseResourceFilesDialog, $(rootel)[0]).jqmHide();
+     return false;
+  });
+  
+  
+  
   // History Mgmt, need to update for arch view to use these params too
   $(window).bind("hashchange", function(e) {
     parseState();
@@ -397,7 +420,6 @@ sakai.collections = function(tuid, showSettings) {
   };
 
   var addNewAlbum = function() {
-    console.log("addNewAlbum");
     currentCollectionData = {};
     currentCollectionData.albumViewPosition = collectionData.collections.length;
     
@@ -511,7 +533,6 @@ sakai.collections = function(tuid, showSettings) {
       if ($(this).hasClass("editable")) {
         $(this).editable("disable");
         tinyMCE.execCommand("mceRemoveControl", true, $(this).attr("id")+'_mce');
-        console.log('text:',$(this).text());
         if ($(this).text() == "Click to edit") {
           $(this).text('');
         }        
@@ -529,10 +550,16 @@ sakai.collections = function(tuid, showSettings) {
             return(value);
           },{type:'text',submit:'OK', tooltip:'Click to add the album title'});
         }
+        $(this).editable("enable");
       }
       $(this).toggleClass("editable");
     });
-    $(".editable").editable("enable");
+  };
+  
+  var addAlbumImage = function(url) {
+    currentCollectionData.image = url;
+    $(".albumImage img").attr("src", url);
+    saveCollectionData();
   };
   
   /**
@@ -545,7 +572,15 @@ sakai.collections = function(tuid, showSettings) {
     $.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {"album":{}}, $(collectionsAlbumsShowAlbum));
   });
   */
-
+  
+  
+  $(".albumImage.editable").live("click", function() {
+    sakai.collectionscontent();
+    sakai.collectionscontent.initialise({}, true);
+    $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
+    return false;
+  });
+  
   $(".configureAlbum a").live("click", function() {
     $(".configureAlbum").toggleClass("expanded");
     $(".configureAlbum button").toggle();
@@ -601,7 +636,6 @@ sakai.collections = function(tuid, showSettings) {
   });
   
   $(".albumCover").live("mouseup", function() {
-    console.log('.albumCover mouseup');
     $(this).removeClass("clicked");
     if ($(this).attr("id").split("_")[1] == clickedCollectionID) {
       if ($(this).hasClass("addAlbum")) {
@@ -1020,13 +1054,13 @@ sakai.collections = function(tuid, showSettings) {
    $(browseResourceFilesDialog, $(rootel)[0]).jqm({modal: true, width: 775, height: 450});
    
    $(browseForFilesButton, $(rootel)[0]).live("click", function() {
-     sakai.collectionscontent();
+     sakai.collectionscontent.initialise({}, true);
      $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
       return false;     
    });
    
    $(browseForContentFileButton, $(rootel)[0]).live("click", function() {
-     sakai.collectionscontent();
+     sakai.collectionscontent.initialise({}, false);
      $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
       return false;     
    });
@@ -1093,24 +1127,7 @@ sakai.collections = function(tuid, showSettings) {
       return false;      
    });
 
-   $("#cancel_choose_image", $(rootel)[0]).live("click", function() {
-     $(browseResourceFilesDialog, $(rootel)[0]).jqmHide();
-     return false;
-   });
 
-   $(chooseImageButton, $(rootel)[0]).live("click", function() {
-      var resourceURL = chooseImage();
-      var mimeType = getMimeType();
-      if ($("#collections_map_add_content_container", $(rootel)[0]).is(":visible")) {
-        addContentImage(resourceURL);
-        addContentMimetype(mimeType);
-      } else {
-        addRoomImage(resourceURL);
-      }
-      $(browseResourceFilesDialog, $(rootel)[0]).jqmHide();
-      return false;
-   });
-   
    $("#cancel_edit_room", $(rootel)[0]).live("click", function() {
      hideEverything();
      if (fromViewRoom) {

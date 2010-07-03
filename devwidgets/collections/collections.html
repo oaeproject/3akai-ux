@@ -58,7 +58,7 @@
           <h1 class="isEditable albumTitle">${album.title}</h1>
           <div class="configureAlbum"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
-        <div class="albumImage"></div>
+        <div class="albumImage isEditable"><img src="${album.image}"/></div>
         <div class="albumDesc isEditable" id="${album.id}_description">${album.description}</div>
       </div>
       <div class="albumCategories">
