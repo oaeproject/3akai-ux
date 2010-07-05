@@ -245,6 +245,18 @@ sakai.collections = function(tuid, showSettings) {
     }
   };
   
+  var deleteCollection = function(cid) {
+    var newCollectionData = [];
+    for (var i=0; i<collectionData.collections.length; i++) {
+      if (collectionData.collections[i].id != cid) {
+        newCollectionData.push(collectionData.collections[i]);
+      }
+    }
+    currentCollectionData = {};
+    collectionData.collections = newCollectionData;
+    saveWidgetData();
+  };
+  
   
   /**
    * New TinyMCE Functions
@@ -535,7 +547,7 @@ sakai.collections = function(tuid, showSettings) {
         tinyMCE.execCommand("mceRemoveControl", true, $(this).attr("id")+'_mce');
         if ($(this).text() == "Click to edit") {
           $(this).text('');
-        }        
+        }
       } else {
         if ($(this).hasClass("albumDesc")) {
           $('.albumDesc').editable(function(value, settings) {
@@ -549,6 +561,8 @@ sakai.collections = function(tuid, showSettings) {
             saveCollectionData();
             return(value);
           },{type:'text',submit:'OK', tooltip:'Click to add the album title'});
+        } else if ($(this).hasClass("albumImage")) {
+
         }
         $(this).editable("enable");
       }
@@ -574,9 +588,16 @@ sakai.collections = function(tuid, showSettings) {
   */
   
   
+  $(".configureAlbum button").live("click", function() {
+    deleteCollection(currentCollectionData.id);
+    renderAlbumView();
+  });
+  
   $(".albumImage.editable").live("click", function() {
-    sakai.collectionscontent();
-    sakai.collectionscontent.initialise({}, true);
+    if (!sakai.collectionscontent.initialise) {
+      sakai.collectionscontent();
+      sakai.collectionscontent.initialise({}, true);
+    }
     $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
     return false;
   });

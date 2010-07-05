@@ -10,7 +10,8 @@
 #collections_header div img {margin:3px 3px 0px 0px;}
 #collections_header div span#choose_layout, #collections_header div button {float:left; margin-right:10px; position:relative; margin:1px 5px 0px 0px;}
 /* Global Edit Styles */
-.editable:hover {background:#FFC;}
+.editable {background:url(/devwidgets/collections/images/edit_pencil.png) no-repeat top right; cursor:pointer;}
+.editable:hover {background-color:#FFC;}
 /* Layout Chooser */
 #collections_header div span#choose_layout {height:16px; border:1px solid #aaa; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin-top:1px; width:160px; padding:2px; background:url(/dev/_images/arrow_down_sm2.png) no-repeat scroll 150px 50% transparent; cursor:pointer;}
 #collections_header div span#choose_layout a {float:left; margin-top:-1px; margin-left:4px; font-weight:bold;}
@@ -219,12 +220,14 @@ a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
 .albumImage {float:left; width:300px;height:200px;}
 .albumImage.editable {border:1px solid #ccc;}
 .albumImage img {float:left; max-width:300px; max-height:200px;}
+.albumImage div {width:300px; height:200px;}
 .albumDesc {float:left; width:246px; min-height:200px;margin-left:10px;}
 .albumDesc.editable {border:1px solid #ccc;}
 .albumHead {width:100%; float:left; position:relative; height:40px;}
-.albumHead h1 {float:left; position:relative; width:400px;}
-.albumHead div {float:left; position:relative; width:155px;margin-top:-2px;padding:2px;text-align:right;}
-.albumHead div.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
+.albumHead div.albumTitleContainer {float:left; position:relative; width:400px; height:28px;}
+.albumHead h1 {float:left; position:relative; width:350px;}
+.albumHead div.configureAlbum {float:left; position:relative; width:155px;margin-top:-2px;padding:2px;text-align:right;}
+.albumHead div.configureAlbum.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
 .albumHead img {margin:3px 3px 0 0;}
 .albumHead button {float:left; position:relative;margin-top:2px;margin-bottom:2px;}
 .albumCategories {float:left;position:relative;width:622px;margin-left:20px;}
