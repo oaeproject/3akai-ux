@@ -109,10 +109,11 @@
     <div id="collections_albums_show_item_template" style="display:none" class="albumView"><!--
       <div class="itemHero">
         <div class="itemHead">
-          <div class="itemTitleContainer"><h1 class="itemTitle isEditable itemData">${item.title}</h1></div>
+        <div class="itemTitleContainer"><h1 class="itemTitle isEditable itemData">${item.title}</h1></div>
           <div class="configureItem"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
         <div class="itemImage isEditable itemData">
+          <a class="itemLink" href="${item.url}">
           {if (item.mimeType.split("/")[0] == "image")}
             <img src="${item.url}" alt="${item.title} image"/>
           {elseif sakai.config.MimeTypes[item.mimeType]}
@@ -120,8 +121,9 @@
           {else}
             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
           {/if}
+          </a>
         </div>
-        <div class="itemDesc isEditable itemData"></div>
+        <div class="itemDesc isEditable itemData">${item.description}</div>
       </div>
     
     --></div>  
