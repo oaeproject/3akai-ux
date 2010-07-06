@@ -58,7 +58,7 @@
           <div class="albumTitleContainer"><h1 class="isEditable albumTitle">${album.title}</h1></div>
           <div class="configureAlbum"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
-        <div class="albumImage isEditable"><img src="${album.image}" alt="${album.image} image"/></div>
+        <div class="albumImage isEditable"><img src="${album.image}"/></div>
         <div class="albumDesc isEditable" id="${album.id}_description">${album.description}</div>
       </div>
       <div class="albumCategories">
@@ -79,15 +79,21 @@
     <div id="collections_albums_show_category_template" style="display:none" class="albumView"><!--
       <h1>${album.title}</h1>
       <div class="itemsContainer">
-        <div class="itemsContainerHead"
-          <h2>${category.name}</h2>
+        <div class="itemsContainerHead">
+          <div class="categoryTitleContainer"><h2 class="isEditable categoryTitle categoryData">${category.name}</h2></div
           <div class="configureCategory"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Category</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a></div>
         </div>
         <div class="scroll-pane">
           <div class="scroll-content">
             {for item in category.items}
               <div class="scroll-content-item" id="item_${item.id}">
-                <img src="${item.url}" alt="item image"/>
+                {if (item.mimeType.split("/")[0] == "image")}
+                  <img src="${item.url}" alt="${item.title} image"/>
+                {elseif sakai.config.MimeTypes[item.mimeType]}
+                  <img src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${sakai.config.MimeTypes[item.mimeType].description}" />
+                {else}
+                  <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                {/if}
                 <span>${item.title}</span>
               </div>
             {/for}
@@ -103,13 +109,19 @@
     <div id="collections_albums_show_item_template" style="display:none" class="albumView"><!--
       <div class="itemHero">
         <div class="itemHead">
-          {if item.title}
-            <h1>${item.title}</h1>
-          {/if}
+          <div class="itemTitleContainer"><h1 class="itemTitle isEditable itemData">${item.title}</h1></div>
           <div class="configureItem"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
-        <div class="itemImage"></div>
-        <div class="itemDesc"></div>
+        <div class="itemImage isEditable itemData">
+          {if (item.mimeType.split("/")[0] == "image")}
+            <img src="${item.url}" alt="${item.title} image"/>
+          {elseif sakai.config.MimeTypes[item.mimeType]}
+            <img src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${sakai.config.MimeTypes[item.mimeType].description}" />
+          {else}
+            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+          {/if}
+        </div>
+        <div class="itemDesc isEditable itemData"></div>
       </div>
     
     --></div>  
