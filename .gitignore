@@ -2,4 +2,4 @@
 .project
 /target
 *.kpf
-nginx.conf
+nginx.*

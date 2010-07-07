@@ -162,7 +162,6 @@ sakai.collectionscontent = function(){
        
        // only display images
        if (imagesOnly) {
-         console.log(imagesOnly);
          filteredResults = [];
          for(var j = 0; j < globaldata.results.length; j++){
            var contentType = globaldata.results[j]["Content-Type"];
@@ -621,7 +620,6 @@ sakai.collectionscontent = function(){
         // Save options object
         options = _options;
         imagesOnly = _imagesOnly;
-        console.log("intitialize, imagesOnly=", imagesOnly);
         
         // Initialize the selected files object
        // resetSelectedFiles();

@@ -973,7 +973,6 @@ sakai.site.site_admin = function(){
               init_tinyMCE();
               didInit = true;
             }
-            tinyMCE.get("elm1").focus(true);
             editPage(sakai.site.selectedpage);
         }
 
