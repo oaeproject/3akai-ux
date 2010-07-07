@@ -1,0 +1,9 @@
+{
+	"ca":true,
+	"description":"Basic LTI Widget",
+	"id":"basiclti",
+	"img":"/devwidgets/basiclti/images/basiclti.png",
+	"name":"Basic LTI",
+	"showinsakaigoodies":true,
+	"url":"/devwidgets/basiclti/basiclti.html"
+}

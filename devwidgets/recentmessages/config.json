@@ -1,0 +1,11 @@
+{
+	"description":"Your recent messages",
+	"i18n": {
+		"default": "/devwidgets/recentmessages/bundles/default.json",
+		"en_US": "/devwidgets/recentmessages/bundles/en_US.json"
+	},
+	"id":"recentmessages",
+	"name":"Recent Messages",
+	"personalportal":true,
+	"url":"/devwidgets/recentmessages/recentmessages.html"
+}

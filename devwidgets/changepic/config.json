@@ -1,0 +1,10 @@
+{
+	"i18n": {
+		"default": "/devwidgets/changepic/bundles/default.json",
+		"en_US": "/devwidgets/changepic/bundles/en_US.json",
+		"zh_CN": "/devwidgets/changepic/bundles/zh_CN.json"
+	},
+	"id":"changepic",
+	"name":"changepic",
+	"url":"/devwidgets/changepic/changepic.html"
+}
