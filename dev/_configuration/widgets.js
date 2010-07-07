@@ -99,6 +99,15 @@ var Widgets = {
             "showinsakaigoodies": true,
             "url":"/devwidgets/bookmarkandshare/bookmarkandshare.html"
         },
+        "captcha": {
+            "description":"Display a captcha widget",
+            "name":"Captcha Widget",
+            "i18n": {
+                "default": "/devwidgets/captcha/bundles/default.json"
+            },
+            "id":"captcha",
+            "url":"/devwidgets/captcha/captcha.html"
+        },
         "changepic": {
             "i18n": {
                 "default": "/devwidgets/changepic/bundles/default.json",

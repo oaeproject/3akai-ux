@@ -49,6 +49,7 @@ sakai.config = {
         ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
         ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
         BATCH: "/system/batch",
+        CAPTCHA_SERVICE: "/system/captcha",
         CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
