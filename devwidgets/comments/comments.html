@@ -67,9 +67,9 @@
                 </div>
                 <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
                     <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br />
-                    <div class="buttonBar">
-                        <div class="greybutton"><a href="javascript:;" class="comments_editComment_save" id="comments_editComment_save${i['sakai:id']}">Edit comment</a></div>
-                        <div class="lightgreybutton"><a href="javascript:;" class="comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}">Cancel</a></div>
+                    <div class="dialog_buttons">
+                        <button type="button" class="s3d-button s3d-button-primary comments_editComment_save" id="comments_editComment_save${i['sakai:id']}"><span class="s3d-button-inner">Edit comment</span></button>
+                        <button type="button" class="s3d-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}"><span class="s3d-button-inner">Cancel</span></button>
                     </div>
                 </div>
                 </div>
@@ -82,10 +82,10 @@
     </div>
     --></div>
     <div class="comments_nextButtons">
-        <div class="buttonBar">
-            <div class="greybutton"><a href="javascript:;" class="comments_comment" id="comments_comment_Bottom">Add comment</a></div>
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary comments_comment" id="comments_comment_Bottom"><span class="s3d-button-inner">Add comment</span></button>
         </div>
-        <a class="button-default" id="comments_prevPage" href="javascript:;">Previous page</a><br />
+        <button type="button" class="s3d-button" id="comments_prevPage"><span class="s3d-button-inner">Previous page</span></button><br />
         <div class="jq_pager comments_jqpager" style="display:none;"><!-- In this container the pager will be shown (bottom) --></div>
     </div>
     <div id="comments_fillInComment" style="display:none;">
@@ -102,9 +102,9 @@
         <label for="comments_txtMessage">Your comment:</label>
         <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50"></textarea><br />
 
-        <div class="buttonBar">
-            <div class="greybutton"><a href="javascript:;" class="comment_postCommentTopBottom" id="comments_postComment">Submit comment</a></div>
-            <div class="lightgreybutton"><a href="javascript:;" class="comment_postCommentTopBottom" id="comments_cancelComment">Cancel</a></div>
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner">Submit comment</span></button>
+            <button type="button" class="s3d-button comment_postCommentTopBottom" id="comments_cancelComment"><span class="s3d-button-inner">Cancel</span></button>
         </div>
 
         </div>
@@ -167,11 +167,11 @@
             <h3>Notification:</h3>
             <ul><li><input type="checkbox" id="comments_SendMail"><label for="comments_SendMail" class="video_source_rbtLabel"> Email me when there is a new comment</label></input></li></ul>
         </div>
-        <div class="buttonBar">
-            <div class="greybutton"><a href="javascript:;"  id="comments_submit">Save</a></div>
-            <div class="lightgreybutton"><a href="javascript:;" id="comments_cancel">Cancel</a></div>
-        </div>
 
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary" id="comments_submit"><span class="s3d-button-inner">Save</span></button>
+            <button type="button" class="s3d-button" id="comments_cancel"><span class="s3d-button-inner">Cancel</span></button>
+        </div>
     </form>
 </div>
 <!-- WIDGET FOOTER-->

@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.linktool
+ *
+ * @class linktool
+ *
+ * @description
+ * Initialize the linktool widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.linktool = function(tuid, showSettings){
 
 

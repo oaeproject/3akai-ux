@@ -21,9 +21,16 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.delicious
+ *
+ * @class delicious
+ *
+ * @description
  * Initialize the Delicious widget
- * @param {String} tuid unique id of the widget
- * @param {Boolean} showSettings show the settings of the widget or not
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.delicious = function(tuid, showSettings) {
 

@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.createsite
+ *
+ * @class createsite
+ *
+ * @description
+ * Createsite widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.createsite = function(tuid, showSettings){
 
     /////////////////////////////
@@ -199,6 +211,9 @@ sakai.createsite = function(tuid, showSettings){
      * @param {Object} input The string where the characters need to be replaced
      */
     var replaceCharacters = function(input){
+
+        input = $.trim(input); // Remove the spaces at the beginning and end of the id
+
         input = input.toLowerCase().replace(/ /g,"-");
         input = input.toLowerCase().replace(/'/g,"");
         input = input.toLowerCase().replace(/"/g,"");
@@ -347,7 +362,7 @@ sakai.createsite = function(tuid, showSettings){
                         "sakai:activityMessage": activityMsg,
                         "sakai:activitySiteName": sitetitle,
                         "sakai:activitySiteId": siteid
-                    }
+                    };
                     sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData, function(activitySuccess){
                         //redirect the user to the site once the activity node is set
                         document.location = "/sites/" + siteid;

@@ -2,9 +2,15 @@ module("Load me data");
 
 (function(){
 
+// Set the admin login data
+var logindata = {
+    "username": "admin",
+    "password": "admin"
+};
+
 /**
  * The callback function for the loadme function, tests the data returned
- * @param {boolean }success Whether it was successful or not
+ * @param {boolean} success Whether it was successful or not
  * @param {Object} data Contains the retrieved data or the xhr object
  */
 var testMeData = function(success, data){
@@ -27,26 +33,18 @@ var testMeData = function(success, data){
  */
 var testLoadMeData = function(){
 
-    //login
-    $.ajax({
-        url: "/system/sling/formlogin",
-        type: "POST",
-        data: {
-            "sakaiauth:login": 1,
-            "sakaiauth:pw": "admin",
-            "sakaiauth:un": "admin",
-            "_charset_": "utf-8"
-        },
-        success:function(){
-
+    // Perform the login operation
+    sakai.api.User.login(logindata, function(success){
+        if (success) {
             //test the loadmedata function
             sakai.api.User.loadMeData(testMeData);
-        },
-        error:function(){
-            ok(false, "Couldn't login");
+        }
+        else {
+            ok(false, "Could not log-in successfully");
             start();
         }
     });
+
 };
 
 /**

@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.ggadget
+ *
+ * @class ggadget
+ *
+ * @description
+ * Initialize the ggadget widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.ggadget = function(tuid, showSettings){
 
 

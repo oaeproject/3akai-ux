@@ -174,13 +174,12 @@ sakai.api.Communication.inviteUser = function(userID) {
 
 
 
-
 /**
  * @class Documents
  *
  * @description
- * Document related functionality, file management.This should only hold f
- * unctions which are used across multiple pages, and does not constitute
+ * Document related functionality, file management.This should only hold
+ * functions which are used across multiple pages, and does not constitute
  * functionality related to a single area/page
  *
  * @namespace
@@ -188,127 +187,6 @@ sakai.api.Communication.inviteUser = function(userID) {
  */
 sakai.api.Documents = sakai.api.Documents || {};
 
-/**
- * Gets all the files and folders under a certain path.
- * @param {String} path The absolute path where we should look for sakai/file, sakai/link and sakai/folder.
- * @param {Object} callback The callback function that should be excecuted when the data is retrieved.
- *         When succesfull data will hold the response of the server.
- *         When the request failed it will hold the status.
- *                 function myCallbackFunction(data, success){
- *                    if (success) {
- *                        //files retrieved successfull
- *                        //Do something with data.
- *                    } else {
- *                        //Error retrieving files.
- *                        //Do something with the status.
- *                    }
- *                }
- */
-sakai.api.Documents.getFiles = function(path, callback) {
-         $.ajax({
-            url: path + ".files.json",
-            cache: false,
-            success: function(data){
-                // Sort the files and folders.
-                // Folders come first then files.
-                // These are both sorted in a natural way.
-                // so z1 > z2 > z30 > z100 > z200 and not
-                // z1 > z100 > z2 > z200 > z3
-                data.sort(function alphanumCase(a, b){
-                    var aType = a["sling:resourceType"];
-                    var bType = b["sling:resourceType"];
-                    if (aType === "sakai/folder" && bType !== "sakai/folder") {
-                        return -1;
-                    }
-                    else {
-                        if (aType !== "sakai/folder" && bType === "sakai/folder") {
-                            return 1;
-                        }
-                        else {
-                            sakai.api.Util.Sorting.naturalSort(a.name, b.name);
-                        }
-                    }
-                });
-                callback(data, true);
-            },
-            error: function(xhr, textStatus, thrownError) {
-          callback(xhr.status, false);
-            }
-        });
-    };
-
-/**
- * Gets info about a certain file.
- * @param {String} path The absolute path for the file. Note this only works for nodes of type sakai/file.
- * @param {Object} callback The callback function that should be excecuted when the data is retrieved.
- *         When succesfull data will hold the response of the server.
- *         When the request failed it will hold the status.
- *                 function myCallbackFunction(data, success){
- *                    if (success) {
- *                        //Info retrieved successfull
- *                        //Do something with data.
- *                    } else {
- *                        //Error retrieving info
- *                        //Do something with the status.
- *                    }
- *                }
- */
-
-sakai.api.Documents.getFileInfo = function(path, callback) {
-    $.ajax({
-        url: path + ".info.json",
-        cache: false,
-        success: function(data){
-            callback(data, true);
-        },
-        error: function(xhr, textStatus, thrownError) {
-            callback(xhr.status, false);
-        }
-    });
-};
-
-
-/**
- * @name
- * getFileType
- * Determines the type of a file by looking at the filename
- * @param filename {Object} The name of the file we need the info for
- */
-sakai.api.Documents.getFileType = function(filename) {
-    try {
-        var array = filename.split(".");
-        var extention = array[array.length - 1].toLowerCase();
-        if (extention == "php" || extention === "html" || extention === "xml" || extention === "css" || extention === "js"){
-            return "Web document";
-        } else if (extention === "doc" || extention === "docx" || extention === "rtf"){
-            return "Word file";
-        } else if (extention === "exe"){
-            return "Program";
-        } else if (extention === "mov" || extention === "avi" || extention === "mp4"){
-            return "Movie";
-        } else if (extention === "fla" || extention === "as" || extention === "flv"){
-            return "Flash";
-        } else if (extention === "mp3" || extention === "wav" || extention === "midi" || extention === "asf"){
-            return "Audio";
-        } else if (extention === "pdf"){
-            return "PDF file";
-        } else if (extention === "png" || extention === "gif" || extention === "jpeg" || extention === "jpg" || extention === "tiff" || extention === "bmp"){
-            return "Picture";
-        } else if (extention === "ppt" || extention === "pptx" || extention === "pps" || extention === "ppsx"){
-            return "Powerpoint";
-        } else if (extention === "txt"){
-            return "Text file";
-        } else if (extention === "xls" || extention === "xlsx"){
-            return "Excel";
-        } else if (extention === "zip" || extention === "rar"){
-            return "Archive";
-        } else {
-            return "Other";
-        }
-    } catch (err){
-        return "Other";
-    }
-};
 
 
 
@@ -2262,7 +2140,7 @@ sakai.api.Widgets.loadWidgetData = function(id, callback) {
 
 
 
-/*
+/**
  * Will be used for detecting widget declerations inside the page and load those
  * widgets into the page
  */
@@ -2285,6 +2163,14 @@ sakai.api.Widgets.widgetLoader = {
         sakai.api.Widgets.widgetLoader.loaded.push(obj);
     },
 
+    /**
+     * Load the actual widgets
+     * @param {String} id The id of the widget
+     * @param {Boolean} showSettings
+     *  true  : render the settings mode of the widget
+     *  false : render the view mode of the widget
+     * @param {String} context The context of the widget (e.g. siteid)
+     */
     loadWidgets : function(id, showSettings, context){
 
         // Configuration variables
@@ -2890,6 +2776,9 @@ sakai.api.Widgets.removeWidgetData = function(id, callback) {
  */
 (function($){
 
+    /**
+     * Load JavaScript and CSS dynamically
+     */
     $.Load = {};
 
     /**

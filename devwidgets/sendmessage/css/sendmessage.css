@@ -28,37 +28,14 @@
 #sendmessage_multiple_to_input_container span {display:inline-block;background-color:#f4f4f4;margin:2px;padding:1px 3px 2px 5px;font-size:0.9em;border:1px solid #ccc;}
 #sendmessage_multiple_to_what {width:482px;font-size:0.9em;background-color:#e3e3e2;padding:4px;z-index:100;position:absolute;border-top:1px solid #ccc;border-left:1px solid #ccc;border-bottom:1px solid #e6e6e6;border-right:1px solid #e6e6e6;}
 .sendmessage_multipleBox_delete {margin-right:3px;position:relative;top:2px;left:3px;cursor:pointer;}
-#sendmessage_buttonBar {position:relative; top:5px; padding-bottom:15px}
-
-/** BUTTONS **/
-.send_message .lightgreybutton
-{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.send_message .lightgreybutton a
-{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
-
-.send_message .greybutton
-{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.send_message .greybutton a
-{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
-
-
 
 /* send_message_lightbox.html */
 .send_message .compose-form input, .send_message .compose-form textarea {font-weight:normal;}
-.send_message .compose-form span {font-weight:100; padding-left:4px;}
+.send_message .compose-form #message_from, .send_message .compose-form #message_to {font-weight:100; padding-left:4px;}
 .send_message .compose-form div {padding-bottom:10px;}
 .send_message .compose-form .compose-subject {width:500px;}
 .send_message .compose-form .compose-body {height:150px; width:500px;}
-.send_message .compose-form .compose-send {padding-top:5px;}
-.send_message .compose-form .compose-cancel {padding:5px 0 0 8px;}
-.send_message .button {margin-top:5px; color:#333;}
-.send_message .send {width:107px; font-size:12px;}
-.send_message .cancel {margin-left:9px; width:74px;  font-size:12px;}
 #send_message {font-weight:bold}
-
-
 
 /*    AUTOCOMPLETE CSS */
 .ac_results {padding:0px;border:1px solid black;background-color:white;overflow:hidden;z-index:99999;}

@@ -19,10 +19,35 @@
 /*global $, sdata */
 
 var sakai = sakai || {};
+
+/**
+ * @name sakai.site
+ *
+ * @description
+ * Contains the functionality for sites
+ */
 sakai.site = sakai.site || {};
+
+/**
+ * @name sakai.site.navigation
+ *
+ * @description
+ * Contains public functions for the navigation widget
+ */
 sakai.site.navigation = sakai.site.navigation || {};
 
-
+/**
+ * @name sakai.navigation
+ *
+ * @class navigation
+ *
+ * @description
+ * Initialize the navigation widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.navigation = function(tuid, showSettings){
 
     /////////////////////////////

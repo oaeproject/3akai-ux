@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.googlemaps
+ *
+ * @class googlemaps
+ *
+ * @description
+ * Initialize the googlemaps widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.googlemaps = function(tuid, showSettings){
 
 

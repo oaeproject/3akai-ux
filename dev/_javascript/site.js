@@ -281,8 +281,6 @@ sakai.site = function(){
                 // Load site navigation
                 sakai.site.loadSiteNavigation();
 
-                // Save current site to Recent Sites
-                saveToRecentSites(sakai.site.currentsite);
             },
             error: function(xhr, textStatus, thrownError) {
 
@@ -475,57 +473,6 @@ sakai.site = function(){
 
     };
 
-
-    //////////////////
-    // RECENT SITES //
-    //////////////////
-
-    /**
-     * Save to Recent Sites - This function also filter out the current site and writes the data out in JSON format
-     * @param {Object} response
-     * @return void
-     */
-    var saveToRecentSites = function(site_object){
-
-        var items = {};
-        var site = site_object.id;
-
-        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", function(success, data) {
-
-            if (success) {
-
-                items = data;
-
-                //Filter out this site
-                var index = -1;
-                for (var i = 0, j = items.items.length; i<j; i++){
-                    if (items.items[i] === site){
-                        index = i;
-                    }
-                }
-                if (index > -1){
-                    items.items.splice(index,1);
-                }
-                items.items.unshift(site);
-                items.items = items.items.splice(0,5);
-
-                // Write
-                if (sakai.data.me.user.userStoragePrefix) {
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
-                }
-            } else {
-
-                items.items = [];
-                items.items.unshift(site);
-
-                // Write
-                if (sakai.data.me.user.userStoragePrefix) {
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/recentactivity", items);
-                }
-
-            }
-        });
-    };
 
     /////////////////////
     // VERSION HISTORY //
@@ -1283,34 +1230,6 @@ sakai.site = function(){
         });
 
     /**
-     * This function will go over the content and see if there are widgets in it,
-     * if there are. The ids of the widget will be changed
-     * @param {String} content, The content of the page
-     */
-    var checkWidgetsInContent = function(content){
-
-        // Check if there is any widget
-        if ($('.widget_inline', $(content))[0]) {
-
-            // Loop over all the widgets in the content
-            var response = $('.widget_inline', $(content)).each(function(){
-
-                // Change the Id
-                var newId = '';
-                for (var i = 0, j = $(this).attr('id').split('_').length; i < j; i++) {
-                    newId += (i === 2) ? 'id' + Math.round(Math.random() * 100000000) : $(this).attr('id').split('_')[i] + '_';
-                }
-                $(this).attr('id', newId);
-            });
-
-            // Transform the object to HTML again
-             return($('<div>').append( response.clone() ).html());
-        }else{
-            return content;
-        }
-    };
-
-    /**
      * Displays a page
      * @param {Object} response
      * @param {Boolean} exists
@@ -1319,7 +1238,6 @@ sakai.site = function(){
     var displayPage = function(response, exists){
 
         if (exists) {
-            response = checkWidgetsInContent(response);
             // Page exists
 
             // Store page content

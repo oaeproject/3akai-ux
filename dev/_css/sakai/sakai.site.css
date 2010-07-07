@@ -2,6 +2,9 @@
 .fixed-container
 { background: #fff; }
 
+.mceContentBody {
+    display: block !important;
+}
 
 /** TOP RIGHT MENU **/
 .sakai_site .content_page_options
@@ -89,13 +92,6 @@
 
 .sakai_site .add_new_menu ul li
 { padding: 5px 10px 5px 10px; list-style-type: none; }
-
-/** BUTTONS **/
-.sakai_site .greybutton
-{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.sakai_site .greybutton a
-{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
 
 /** REVISION HISTORY **/
 .sakai_site .revision_history
@@ -240,8 +236,6 @@
 
 .groupWrapper {overflow:hidden;}
 
-#dashboard_addpage_dialog .buttonBar #dashboard_addpage_add { float: left;}
-#dashboard_addpage_dialog .buttonBar .jqmClose { margin-left: 10px;}
 #dashboard_addpage_dialog #dashboard_addpage_title { width:98%; margin-top:10px;}
 
 /* SPECIFIC WIDGETS */
@@ -250,8 +244,6 @@
 .sitemembers .sitemembers_settings_data {width:auto;float:none;display:block;}
 .sitemembers.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/myprofile_icon.png) no-repeat scroll 17px 18px; }
 
-.folderpicker.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/folder_icon.png) no-repeat scroll 17px 18px; }
-.filepicker.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/page_18.png) no-repeat scroll 17px 18px; }
 .rss.fl-widget .fl-widget-titlebar .widget_title { background:transparent url(/dev/_images/rss_icon.png) no-repeat scroll 17px 18px; }
 
 /* TOOLS CONTAINER - RIGHT COLUMN */

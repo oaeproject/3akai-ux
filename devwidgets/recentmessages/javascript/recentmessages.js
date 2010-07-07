@@ -18,6 +18,18 @@
 
 /*global $, Config, jQuery, sakai, sdata */
 
+/**
+ * @name sakai.recentmessages
+ *
+ * @class recentmessages
+ *
+ * @description
+ * Initialize the recentmessages widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.recentmessages = function(tuid, showSettings){
 
 
