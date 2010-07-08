@@ -1208,13 +1208,14 @@ sakai.collections = function(tuid, showSettings) {
             var selectedResource = $(".contentmedia_file_selected", $(rootel)[0]);
             var path = $.trim($(selectedResource).find(".contentmedia_hidden").text());
             resourceURL = path;
-
+            var groupid = "/sites" + parent.location.href.substring(parent.location.href.lastIndexOf("/"));
+            groupid = groupid.split("#")[0].split("&")[0]; 
             $.ajax({
                 url: "/sharedoc",
                 type: "POST",
                 data: {
                     "resource": path.replace("/xythos", ""),
-                    "groupid": "/sites" + parent.location.href.substring(parent.location.href.lastIndexOf("/"))
+                    "groupid": groupid
                 },
                 success: function(data) {
                     },
