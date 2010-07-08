@@ -226,7 +226,7 @@ sakai.search = function() {
 
         var finaljson = {};
         finaljson.items = [];
-        
+
         // set required fields to default values in case foundCM is empty
         // this can be the case when a search fails
         foundSites.results = foundSites.results || [];
