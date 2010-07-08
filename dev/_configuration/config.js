@@ -76,7 +76,7 @@ sakai.config = {
         SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
         SDATA_FETCH: "/",
         // --
-        SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
+        SEARCH_ALL_FILES_SERVICE: "/var/search/xythos.json",
         SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SEARCH_CONTENT_SERVICE: "/var/search/content.json",
         SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
