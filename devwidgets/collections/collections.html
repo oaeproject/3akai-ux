@@ -236,7 +236,7 @@
       <div id="collections_map_add_content_template"><!--
         <h2>Add Content</h2>
         <form>
-          <input type="hidden" name="content_mimetype" id="content_mimetype" value="{if content.mimetype}${content.mimetype}{/if}"/>
+          <input type="hidden" name="content_mimetype" id="content_mimetype" value="{if content.mimeType}${content.mimeType}{/if}"/>
           <div class="form_item">
             <label for="content_title">Title</label>
             <input type="text" name="content_title" id="content_title" value="{if content.title}${content.title}{/if}"/>
@@ -246,7 +246,7 @@
             <input type="text" name="content_url" id="content_url" value="{if content.url}${content.url}{/if}" disabled="disabled"/><button type="button" name="browse_for_content_file" id="browse_for_content_file">Browse</button>
           </div>
           <div class="form_item">
-            {if content.mimetype == "image"}
+            {if content.mimeType == "image"}
             <img src="${content.url}" alt="content image" class="room_image_preview"/>
             {/if}
           </div>
@@ -254,7 +254,7 @@
             <label for="content_description">Description</label>
             <div id="placeholderforeditor" class="textarea">
                 <textarea id="content_description" name="content_description" rows="15" cols="80" style="width: 100%">
-                    {if content.synopsis}${content.synopsis}{/if}
+                    ${content.description}
                 </textarea>
             </div>
           </div>
@@ -283,13 +283,11 @@
       <div id="collections_map_show_content_item_template"><!--
       
         <h2>${item.title}</h2>
-        {if item.synopsis}
-          <div>${item.synopsis}</div>
-        {/if}
-        {if item.mimetype.split('/')[0] == "image"}
-          <img src="${item.url}" alt="${item.title} image"/>
+        <div>${item.description}</div>
+        {if item.mimeType.split('/')[0] == "image"}
+          <a href="${item.url}"><img src="${item.url}" alt="${item.title} image" class="content_image"/></a>
         {else}
-          <a href="${item.url}" alt="${item.title}" class="content_link">${item.url.split("/")[item.url.split("/").length-1]}</a>
+          <a href="${item.url}" class="content_link">${item.url.split("/")[item.url.split("/").length-1]}</a>
         {/if}
       --></div>
     

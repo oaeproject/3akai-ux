@@ -87,6 +87,7 @@ div.room_categories span{width:100%;float:left;position:relative;}
 .return_to_floorplan_link{background:url("../images/returnto.png") no-repeat scroll left bottom transparent;padding-left:22px;}
 /* Show Content */
 a.content_link{font-size:1.5em;font-weight:bold;text-decoration:underline;}
+img.content_image {max-width:300px; max-height:200px;}
 /* Browse for Resource */
 /* Container - tabs */
 #browse_resource_files a,#browse_resource_files a:link,#browse_resource_files a:visited{color:#006E96;text-decoration:none;}

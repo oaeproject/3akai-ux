@@ -271,6 +271,7 @@ sakai.collections = function(tuid, showSettings) {
   };
 
   var parseState = function() {
+    
     var album = $.bbq.getState("album");
     var category = $.bbq.getState("category");
     var item = $.bbq.getState("item");
@@ -285,15 +286,17 @@ sakai.collections = function(tuid, showSettings) {
       selectedItemID = item;
       showItem();
     } else if (category) {
+      hideEverything();
       selectedCollectionID = album;
       setCollectionData();
       selectedCategoryID = category;
       viewCategory();
     } else if (album) {
+      hideEverything();
       selectedCollectionID = album;
       viewAlbum();
     } else if (view) {
-      hideAllViews();
+      hideEverything();
       if (view == "albumView")
         renderAlbumView();
       else if (view == "mapView")
@@ -411,20 +414,7 @@ sakai.collections = function(tuid, showSettings) {
    */
    
   $("#collections_header h1", $(rootel)[0]).live("click", function() {
-     var view = $.bbq.getState("view");
      $.bbq.removeState('item', 'category', 'album');
-     if (view) {
-       if (view == "albumView")
-         renderAlbumView();
-       else if (view == "mapView")
-         renderMapView();
-     } else {
-       if (settings.displayStyle == "mapView") {
-         renderMapView();
-       } else if (settings.displayStyle == "albumView") {
-         renderAlbumView();
-       }
-     }
   });
    
   $("#collections_header div a#configure_widget", $(rootel)[0]).live("click", function() {
@@ -877,8 +867,8 @@ sakai.collections = function(tuid, showSettings) {
   $(".albumImage.editable", $(rootel)[0]).live("click", function() {
     if (!sakai.collectionscontent.initialise) {
       sakai.collectionscontent();
-      sakai.collectionscontent.initialise({}, true);
     }
+    sakai.collectionscontent.initialise({}, true);
     $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
   });
   
@@ -1010,15 +1000,24 @@ sakai.collections = function(tuid, showSettings) {
     
     for (var i=1; i<11; i++) {
       var tmpToPush = {};
-      for (collection in collectionData.collections) {
-        if (collectionData.collections[collection].position == i) {
-          tmpToPush = collectionData.collections[collection];
-          continue;
+      for (j in collectionData.collections) {
+        if (collectionData.collections[j].position == i) {
+          tmpToPush = collectionData.collections[j];
         }
       }
       
-      if (!tmpToPush.position)
+      
+      if (!tmpToPush.position){
+        if (collectionData.collections[i-1] && !collectionData.collections[i-1].position) {
+          tmpToPush = collectionData.collections[i-1];
+        }
         tmpToPush.position = i;
+      }
+      
+      if (!tmpToPush.id) {
+        var d = new Date();
+        tmpToPush.id = d.getTime() + "" + Math.floor(Math.random()*101);
+      }
       
       ret.collections.push(tmpToPush);
     }
@@ -1102,6 +1101,8 @@ sakai.collections = function(tuid, showSettings) {
       tinyMCE.execCommand('mceRemoveControl', false, 'content_description');
     } catch (e) {
     }
+    $(".mapView").hide();
+    $(".albumView").hide();    
     $(collectionsMap, $(rootel)[0]).hide();
     $(collectionsShowRoomContainer, $(rootel)[0]).hide();
     $(collectionsEditRoomContainer, $(rootel)[0]).hide();
@@ -1174,8 +1175,8 @@ sakai.collections = function(tuid, showSettings) {
       }
       currentContentItemData.title = $("#content_title", $(rootel)[0]).val();
       currentContentItemData.url = $("#content_url", $(rootel)[0]).val();
-      currentContentItemData.synopsis = $("#content_description", $(rootel)[0]).val();
-      currentContentItemData.mimetype = $("#content_mimetype", $(rootel)[0]).val(); //"image/jpeg"; // TODO add this in once we can get it from the web
+      currentContentItemData.description = $("#content_description", $(rootel)[0]).val();
+      currentContentItemData.mimeType = $("#content_mimetype", $(rootel)[0]).val(); //"image/jpeg"; // TODO add this in once we can get it from the web
       for (var i=0; i<currentCollectionData.categories.length; i++) {
         if (currentCollectionData.categories[i].name == $("#category_dropdown select option:selected", $(rootel)[0]).val()) {
           if (!isNew) { // replace current one
@@ -1377,12 +1378,18 @@ sakai.collections = function(tuid, showSettings) {
    $(browseResourceFilesDialog, $(rootel)[0]).jqm({modal: true, width: 775, height: 450});
    
    $(browseForFilesButton, $(rootel)[0]).live("click", function() {
+     if (!sakai.collectionscontent.initialise) {
+       sakai.collectionscontent();
+     }
      sakai.collectionscontent.initialise({}, true);
      $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
       return false;     
    });
    
    $(browseForContentFileButton, $(rootel)[0]).live("click", function() {
+     if (!sakai.collectionscontent.initialise) {
+       sakai.collectionscontent();
+     }
      sakai.collectionscontent.initialise({}, false);
      $(browseResourceFilesDialog, $(rootel)[0]).jqmShow();
       return false;     
