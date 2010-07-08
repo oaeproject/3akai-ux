@@ -194,8 +194,13 @@ sakai.search = function() {
     var renderCM = function(foundCM) {
         var finaljson = {};
         finaljson.items = [];
+        
+        // set required fields to default values in case foundCM is empty
+        // this can be the case when a search fails
+        foundCM.results = foundCM.results || [];
+        foundCM.total = foundCM.total || 0;
 
-        // Adjust total search result count
+        // Adjust total search result count        
         updateTotalHitCount(foundCM.results.length);
 
 
