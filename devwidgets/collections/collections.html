@@ -8,7 +8,7 @@
   <div id="collections_header" style="display:none"></div>
   <div id="collections_header_template"><!--
     <h1>${widgetTitle}</h1>
-    <div>
+    <div style="display:none">
       <span style="display:none" id="choose_layout">
         <a id="layout_selector" href="javascript:;"><span id="chosen_layout">{if displayStyle == 'albumView'}Album View{elseif displayStyle == 'mapView'}Architectural View{/if}</span>
         </a>
@@ -56,7 +56,7 @@
       <div class="albumHero">
         <div class="albumHead">
           <div class="albumTitleContainer"><h1 class="isEditable albumTitle">${album.title}</h1></div>
-          <div class="configureAlbum"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+          <div class="configureAlbum configure" style="display:none"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Album</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
         <div class="albumImage isEditable"><img src="${album.image}"/></div>
         <div class="albumDesc isEditable" id="${album.id}_description">${album.description}</div>
@@ -81,7 +81,7 @@
       <div class="itemsContainer">
         <div class="itemsContainerHead">
           <div class="categoryTitleContainer"><h2 class="isEditable categoryTitle categoryData">${category.name}</h2></div
-          <div class="configureCategory"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Category</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a></div>
+          <div class="configureCategory configure" style="display:none"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Category</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure This Category" title="Configure This Category"/></a></div>
         </div>
         <div class="scroll-pane">
           <div class="scroll-content">
@@ -110,7 +110,7 @@
       <div class="itemHero">
         <div class="itemHead">
         <div class="itemTitleContainer"><h1 class="itemTitle isEditable itemData">${item.title}</h1></div>
-          <div class="configureItem"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
+          <div class="configureItem configure" style="display:none"><button class="s3d-button s3d-button-primary" style="display:none"><span class="s3d-button-inner">Delete Item</span></button><a href="javascript:;"><img src="/devwidgets/collections/images/config_icon.png" alt="Configure this Album" title="Configure this Album"/></a></div>
         </div>
         <div class="itemImage isEditable itemData">
           <a class="itemLink" href="${item.url}">
