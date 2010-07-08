@@ -227,6 +227,11 @@ sakai.search = function() {
         var finaljson = {};
         finaljson.items = [];
 
+        // set required fields to default values in case foundCM is empty
+        // this can be the case when a search fails
+        foundSites.results = foundSites.results || [];
+        foundSites.total = foundSites.total || 0;
+        
         // Adjust total search result count
         if (foundSites.results) {
           updateTotalHitCount(foundSites.results.length);
@@ -279,6 +284,11 @@ sakai.search = function() {
         var finaljson = {};
         finaljson.items = [];
 
+        // set required fields to default values in case foundCM is empty
+        // this can be the case when a search fails
+        results.results = results.results || [];
+        results.total = results.total || 0;
+        
         // Adjust total search result count
         updateTotalHitCount(results.results.length);
 
