@@ -45,8 +45,8 @@
               <img src="${album.image}" alt="${album.title} image"/>
             {/if}
           </div>
-          <span class="albumCoverTitle">${album.title}</span>
-          <div class="albumCoverDescription">${album.description}</div>
+          <div class="albumCoverTitle"><span class="ellipsis_text">${album.title}</span></div>
+          <div class="albumCoverDescription"><span class="ellipsis_text">"${album.description}</span></div>
         </div>
       {/for}
     --></div>
@@ -68,8 +68,8 @@
           <div class="categoryCover">
             <img src="${category.image}" alt="${category.name} image"/>
           </div>
-          <h3>${category.name}</h3>
-          <span>${category.items.length} items</span>
+          <div class="categoryPreviewName"><span class="ellipsis_text">${category.name}</span></div>
+          <span class="categoryPreviewItems">${category.items.length} items</span>
         </div>
         {/for}
       </div>
@@ -94,7 +94,7 @@
                 {else}
                   <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                 {/if}
-                <span>${item.title}</span>
+                <div class="itemPreviewTitle"><span class="ellipsis_text">${item.title}</span></div>
               </div>
             {/for}
           </div>

@@ -268,10 +268,6 @@ sakai.collections = function(tuid, showSettings) {
 		});
 	};
 
-	var hideAllViews = function() {
-		$(".mapView").hide();
-		$(".albumView").hide();
-	};
 
 	var parseState = function() {
 
@@ -303,7 +299,7 @@ sakai.collections = function(tuid, showSettings) {
 			if (view == "albumView") renderAlbumView();
 			else if (view == "mapView") renderMapView();
 		} else {
-			hideAllViews();
+			hideEverything();
 			if (settings.displayStyle == "mapView") {
 				renderMapView();
 			} else if (settings.displayStyle == "albumView") {
@@ -445,24 +441,22 @@ sakai.collections = function(tuid, showSettings) {
 	});
 
 	$("#collections_header_select_layout li", $(rootel)[0]).live("click", function() {
-		hideAllViews();
+		hideEverything();
 		$("#collections_header_select_layout li").removeClass("selected");
 		$(this).addClass("selected");
 		if ($(this).attr("id") == "albumView") {
 			$("#collections_header div span#choose_layout a span#chosen_layout").text("Album View");
 			settings.displayStyle = "albumView";
-			showAddAlbum();
 			$.bbq.pushState({
 				'view': 'albumView'
 			});
-			renderAlbumView();
+			showAddAlbum();
 		} else if ($(this).attr("id") == "mapView") {
 			if (collectionData.collections.length > 10) {
 				alert("You cannot change to this view, you have too many collections");
 				$.bbq.pushState({
 					'view': 'albumView'
 				});
-				renderAlbumView();
 				showAddAlbum();
 			} else {
 				$("#collections_header div span#choose_layout a span#chosen_layout").text("Architectural View");
@@ -470,7 +464,6 @@ sakai.collections = function(tuid, showSettings) {
 				$.bbq.pushState({
 					'view': 'mapView'
 				});
-				renderMapView();
 			}
 		}
 		saveWidgetData();
@@ -523,6 +516,13 @@ sakai.collections = function(tuid, showSettings) {
 	var selectedAlbumPosition = -1;
 	var categoryImages = [];
 
+  var stripHTML = function(_html) {
+    console.log(_html);
+    var ret = $('<div>' + _html + '</div>').text().trim();
+    console.log(ret);
+    return ret;
+  };
+
 	var initializeAlbumView = function() {
 		sortCollectionByPosition();
 		for (var i in collectionData.collections) {
@@ -536,11 +536,15 @@ sakai.collections = function(tuid, showSettings) {
 		if (sakai.site.isCollaborator) {
 		  $("#collections_header div", $(rootel)[0]).show();		  
 		}
-		$.bbq.pushState({
-			'view': 'albumView'
-		});
 		$(collectionsAlbums, $(rootel)[0]).show();
+		console.log(collectionData);
 		$.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $(rootel)[0]));
+		$(".albumCoverTitle span").html(stripHTML($(".albumCoverTitle span").html()));
+		var newDesc = stripHTML($(".albumCoverDescription span").html());
+		newDesc = newDesc.substring(1,newDesc.length); // remove the " that trimpath is putting in there...
+		$(".albumCoverDescription span").html(newDesc); // strip the html tags
+		$(".albumCoverDescription").ThreeDots({max_rows : 6,  allow_dangle:true, whole_word:false});
+		$(".albumCoverTitle").ThreeDots({max_rows : 2,  allow_dangle:true, whole_word:false});
 	};
 
 	var addNewAlbum = function() {
@@ -581,6 +585,7 @@ sakai.collections = function(tuid, showSettings) {
 		}
 
 		$(collectionsAlbumsShowAlbum).show();
+		console.log(currentCollectionData);
 		$.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {
 			"album": currentCollectionData
 		},
@@ -592,7 +597,9 @@ sakai.collections = function(tuid, showSettings) {
 		} else {
 			setupCategoryPreviewImages();
 		}
-		//$(".categoryPreview").ThreeDots(); // need to figure this one out
+		
+		$(".categoryPreviewName span").html(stripHTML($(".categoryPreviewName span").html()));
+		$(".categoryPreviewName").ThreeDots({max_rows : 1,  allow_dangle:true, whole_word:false});
 	};
 
 	var showAddAlbum = function() {
@@ -642,6 +649,8 @@ sakai.collections = function(tuid, showSettings) {
 		}
 	};
 
+  var isNewCategory = false;
+
 	var addNewCategory = function() {
 		currentCategoryData = {};
 		if (currentCollectionData.categories) currentCategoryData.position = currentCollectionData.categories.length;
@@ -654,6 +663,7 @@ sakai.collections = function(tuid, showSettings) {
 		$.bbq.pushState({
 			'category': selectedCategoryID
 		});
+		isNewCategory = true;
 	};
 
 	var viewCategory = function() {
@@ -674,9 +684,13 @@ sakai.collections = function(tuid, showSettings) {
 		$(collectionsAlbumShowCategory, $(rootel)[0]));
 		sizeItemScrollbar();
 
-		if (!currentCategoryData.name || currentCategoryData.name == "") {
+		if (isNewCategory && sakai.site.isCollaborator) {
 			$(".configureCategory a").trigger("click");
+			isNewCategory = false;
 		}
+		
+		$(".itemPreviewTitle span").html(stripHTML($(".itemPreviewTitle span").html()));
+		$(".itemPreviewTitle").ThreeDots({max_rows : 1,  allow_dangle:true, whole_word:false});
 
 	};
 
@@ -785,8 +799,7 @@ sakai.collections = function(tuid, showSettings) {
 		$(".categoryData.isEditable").each(function(elt) {
 			if ($(this).hasClass("editable")) {
 				$(this).editable("disable");
-				$(this).find("input").reset();
-				$(this).find("textarea").reset();
+				$(this).find("input").blur();
 				tinyMCE.execCommand("mceRemoveControl", true, $(this).attr("id") + '_mce');
 				if ($(this).text() == "Click to edit") {
 					$(this).text('');
@@ -834,8 +847,13 @@ sakai.collections = function(tuid, showSettings) {
 							"album": currentCollectionData
 						},
 						$(collectionsAlbumShowCategory, $(rootel)[0]));
+						if (sakai.site.isCollaborator) {
+        		  $(".configure").show();	  
+        		}
 						$("#item_" + selectedItemID).addClass("selected");
 						sizeItemScrollbar();
+						$(".itemPreviewTitle span").html(stripHTML($(".itemPreviewTitle span").html()));
+        		$(".itemPreviewTitle").ThreeDots({max_rows : 1,  allow_dangle:true, whole_word:false});
 						return (value);
 					},
 					{
@@ -854,8 +872,13 @@ sakai.collections = function(tuid, showSettings) {
 							"album": currentCollectionData
 						},
 						$(collectionsAlbumShowCategory, $(rootel)[0]));
+						if (sakai.site.isCollaborator) {
+        		  $(".configure").show();	  
+        		}
 						$("#item_" + selectedItemID).addClass("selected");
 						sizeItemScrollbar();
+						$(".itemPreviewTitle span").html(stripHTML($(".itemPreviewTitle span").html()));
+        		$(".itemPreviewTitle").ThreeDots({max_rows : 1,  allow_dangle:true, whole_word:false});
 						return (value);
 					},
 					{
@@ -1108,7 +1131,9 @@ sakai.collections = function(tuid, showSettings) {
 		$(collectionsMap, $(rootel)[0]).show();
 		var mapViewData = prepCollectionDataForMapView();
 		$.TemplateRenderer(collectionsMapTemplate, mapViewData, $(collectionsMap, $(rootel)[0]));
-		if (!sakai.site.isCollaborator) {
+		if (sakai.site.isCollaborator) {
+		  $("#collections_header div", $(rootel)[0]).show();		  
+		} else {
 			$("span a.addLink", $(rootel)[0]).hide();
 		}
 	};
@@ -1185,7 +1210,6 @@ sakai.collections = function(tuid, showSettings) {
 			$("span#room_edit_links", $(rootel)[0]).hide();
 		}
 	};
-
 
 	var returnToFloorplan = function() {
 		selectedCollectionID = '';
@@ -1424,7 +1448,7 @@ sakai.collections = function(tuid, showSettings) {
 
 		if (canAdd) {
 			var d = new Date();
-			var catID = catToAdd.replace(/s/gi, "-") + d.getTime() + "" + Math.floor(Math.random() * 101);
+			var catID = d.getTime() + "" + Math.floor(Math.random() * 101);
 			newCategory = {
 				"name": catToAdd,
 				"id": catID,

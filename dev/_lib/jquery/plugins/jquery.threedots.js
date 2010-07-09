@@ -484,7 +484,6 @@
 	
 		if (	(the_type == 'object') 
 			||	(the_type == undefined)	) {
-
 			// do the math & return
 			return $(obj).height() / cstate.lh;
 			
