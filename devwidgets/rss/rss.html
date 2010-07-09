@@ -15,7 +15,7 @@
         <label for="rss_settings_txtUrl">RSS feed url:</label><br />
         <input type="text" id="rss_settings_txtUrl" />
         <br/>
-        <a class="button-default rss_settings_btnAddUrl" href="javascript:;">Add url</a>
+        <button type="button" class="s3d-button s3d-button-primary rss_settings_btnAddUrl"><span class="s3d-button-inner">Add url</span></button>
         <br />
 
         <div id="rss_settings_rssFeedList">
@@ -44,9 +44,9 @@
             <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">Display source</label><br />
             <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">Display headlines only</label><br />
         </p>
-        <div class="rss_settings_buttonbar">
-            <a class="button-default fl-force-left"  id="rss_setting_cancel" href="javascript:;">Cancel</a>
-            <a class="button-default fl-force-right" id="rss_setting_finish" href="javascript:;">Finish</a>
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button s3d-button-primary" id="rss_setting_finish"><span class="s3d-button-inner">Finish</span></button>
+            <button type="button" class="s3d-button" id="rss_setting_cancel"><span class="s3d-button-inner">Cancel</span></button>
         </div>
     </form>
 </div>
@@ -64,8 +64,8 @@
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
             <h1>${title}</h1>
-            <a class="button-default rss_output_order fl-force-right" id="rss_output_order_date" href="javascript:;">sort by date</a>
-            <a class="button-default rss_output_order fl-force-right" id="rss_output_order_source" href="javascript:;">sort by source</a>
+            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_date"><span class="s3d-button-inner">Sort by date</span></button>
+            <button type="button" class="s3d-button s3d-button-primary rss_output_order fl-force-right" id="rss_output_order_source"><span class="s3d-button-inner">Sort by source</span></button>
         </div>
 
         {for i in shownEntries}

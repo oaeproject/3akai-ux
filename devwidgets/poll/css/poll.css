@@ -32,15 +32,14 @@
 
 /* Poll Container */
 #poll_create_placeholder, #poll_toggle_advanced_settings, #poll_add_new_option, #poll_preview_button, #poll_preview_insert, #poll_widget_insert {display:block;float:right;}
-.poll_left, #poll_cancel, #poll_cancel_existing, #poll_preview_back {float:left;}
-.poll_bar_bottom {margin-top:10px;}
+.poll_left, #poll_cancel, #poll_preview_back {float:left;}
 
 /* Poll tabs */
 #poll_tabs {margin-left:0px;margin-bottom:10px;}
 #poll_tabs li {display:inline;list-style-type:none;}
 #poll_tabs li a {background-color:#cccccc;color:#ffffff;padding:10px 20px 10px 20px;}
 .poll_selectedtab {color:#222222 !important;border-color:#cccccc;background-color:#ffffff !important;border-style:solid;border-width:1px;border-bottom:0px;padding:10px 20px 10px 20px;}
-#poll_create_new, #poll_insert_existing {border-top:1px solid #dfdfdf;padding-top:10px;}
+#poll_create_new {border-top:1px solid #dfdfdf;padding-top:10px;}
 
 /* Poll Advanced settings */
 #poll_advanced_settings {margin-top:10px;}
@@ -58,11 +57,6 @@
 .poll_time a:hover {background:#dadada;border:1px solid #707070;color:#212121;}
 .poll_time_active {background:#ffffff !important;border:1px solid #707070 !important;color:#363636 !important;}
 .poll_minutes_seconds {float:left;font-size:1.2em;margin:6px 2px;}
-
-#poll_insert_existing_items {background-color:#e6e6e6;border:1px solid #d6d6d6;height:150px;margin:5px 0;overflow:auto;width:99%;}
-#poll_insert_existing_items a {background:#e6e6e6;border:1px solid #e6e6e6;color:#787878;display:block;padding:3px;}
-#poll_insert_existing_items a:hover {background:#dadada;border:1px solid #707070;color:#212121;}
-.poll_insert_existing_selected {background:#ffffff !important;border:1px solid #707070 !important;color:#363636 !important;}
 
 /* Poll Options */
 #poll_options, #poll_add_new_option_container {width:430px;}

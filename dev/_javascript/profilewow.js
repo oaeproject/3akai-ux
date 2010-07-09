@@ -245,6 +245,7 @@ sakai.profilewow = function(){
         status: ""
     };
 
+    var userprofile;
     var querystring; // Variable that will contain the querystring object of the page
 
 
@@ -394,12 +395,19 @@ sakai.profilewow = function(){
                 url: sakai.config.URL.SEARCH_USERS,
                 success: function(data){
 
-                    // Set the profile picture
-                    sakai.profilewow.profile.picture = constructProfilePicture(data.results[0]);
+                    // Check whether there are any results
+                    if(data.results[0]){
 
-                    // Set the status for the user you want the information from
-                    if(sakai.data.me.profile.basic){
-                        sakai.profilewow.profile.status = $.parseJSON(sakai.data.me.profile.basic).status;
+                        // Set the correct userprofile data
+                        userprofile = data.results[0];
+
+                        // Set the profile picture
+                        sakai.profilewow.profile.picture = constructProfilePicture(data.results[0]);
+
+                        // Set the status for the user you want the information from
+                        if(sakai.data.me.profile.basic){
+                            sakai.profilewow.profile.status = $.parseJSON(sakai.data.me.profile.basic).status;
+                        }
                     }
 
                 },
@@ -608,13 +616,22 @@ sakai.profilewow = function(){
         // Check if you are looking at the logged-in user
         setIsMe();
 
-        // Initialise the entity widget
-        $(window).bind("sakai.api.UI.entity.ready", function(e){
-            sakai.api.UI.entity.render("myprofile", false);
-        });
-
         // Set the profile data
         setProfileData(function(){
+
+            // Initialise the entity widget
+            $(window).bind("sakai.api.UI.entity.ready", function(e){
+
+                // Check whether we need to load the myprofile or the profile mode
+                var whichprofile = sakai.profilewow.profile.isme ? "myprofile" : "profile";
+
+                // Check which data we need to send
+                var data = sakai.profilewow.profile.isme ? false : userprofile;
+
+                // Render the entity widget
+                sakai.api.UI.entity.render(whichprofile, data);
+
+            });
 
             // Render all the templates
             renderTemplates();

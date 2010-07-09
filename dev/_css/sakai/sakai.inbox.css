@@ -195,9 +195,6 @@
 .inbox_main .compose-form
 { padding: 0; color: #333; font-size: 13px; }
 
-.inbox_main .compose-form span
-{ font-weight: 100; padding-left: 5px; }
-
 .inbox_main .compose-form .compose-to, .compose-subject, .compose-body
 { border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6; }
 
@@ -293,24 +290,6 @@
 
 .inbox_detail #inbox_compose_replies_template_chats
 { margin: 0 0 0 38px; background: #f4f4f4; }
-
-/** BUTTONS **/
-.inbox_main .button_container
-{ height: 20px; }
-
-.inbox_main .lightgreybutton
-{ background: transparent url(../../_images/lightgray_button_right.gif) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.inbox_main .lightgreybutton a
-{ background: url(../../_images/lightgray_button_left.gif) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: normal; }
-
-.inbox_main .greybutton
-{ background: transparent url(../../_images/gray_button_right.png) top right no-repeat; float: left; height: 23px; padding: 0 10px 0 0; margin-right: 10px; }
-
-.inbox_main .greybutton a
-{ background: url(../../_images/gray_button_left.png) top left no-repeat; display: block; height: 23px; padding: 4px 0 0 10px; color: #FFFFFF; font-weight: bold; border: none; cursor: pointer; font-weight: bold; }
-
-
 
 /** NOTIFICATIONS, ERROR MESSAGES **/
 .inbox_error_message

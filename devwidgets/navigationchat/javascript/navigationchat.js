@@ -19,6 +19,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.flashChat
+ *
+ * @class flashChat
+ *
+ * @description
+ * Namespace used for the flash functionality for chat
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.flashChat = {
 
 
@@ -133,6 +145,18 @@ sakai.flashChat = {
     }
 };
 
+/**
+ * @name sakai.navigationchat
+ *
+ * @class navigationchat
+ *
+ * @description
+ * Initialize the navigationchat widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.navigationchat = function(tuid, showSettings){
 
     /////////////////////////////
@@ -242,7 +266,7 @@ sakai.navigationchat = function(tuid, showSettings){
      * Placeholders that will be replaced by the real functions. This
      * is necessary to comply with the JSLint rules
      */
-    sakai.navigationchat.loadChatTextInitial = function(){};
+
     var doWindowRender = function(){};
 
     /**
@@ -1606,19 +1630,13 @@ sakai.navigationchat = function(tuid, showSettings){
                 // Show ajax loader
                 $login_busy.show();
 
+                // Get the username and password
                 var data = {
-                    "sakaiauth:login": 1,
-                    "sakaiauth:un": $("#login_username").val(),
-                    "sakaiauth:pw": $("#login_password").val(),
-                    "_charset_": "utf-8"
+                    "username": $("#login_username").val(),
+                    "password": $("#login_password").val()
                 };
-                $.ajax({
-                    url: sakai.config.URL.LOGIN_SERVICE,
-                    type: "POST",
-                    success: checkLogInSuccess,
-                    error: checkLogInSuccess,
-                    data: data
-                });
+                // Perform the login operation
+                sakai.api.User.login(data, checkLogInSuccess);
 
             }
         });

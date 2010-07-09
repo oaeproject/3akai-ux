@@ -16,24 +16,32 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/**
- * General Lister widget
- * This is a general widget which aims to display an arbitriary number of
- * spaces, sites or content, loading dynamically if the list is very long.
- */
-
 /*global $, Config, sdata */
 
 // Namespaces
 var sakai = sakai || {};
+
+/**
+ * @name sakai.api.UI.listGeneral
+ *
+ * @description
+ * Public functions for the general lister widget
+ */
 sakai.api.UI.listGeneral = {};
 
 /**
- * Initialize the listgeneralwidget
- * This is the widget loader's default callback, executing when the widget
- * is loaded on a page
- * @param tuid {String} Unique id of the widget
- * @param showSettings {Boolean} Show the settings of the widget or not
+ * @name sakai.listgeneral
+ *
+ * @class listgeneral
+ *
+ * @description
+ * General Lister widget<br />
+ * This is a general widget which aims to display an arbitriary number of
+ * spaces, sites or content, loading dynamically if the list is very long.
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.listgeneral = function(tuid, showSettings){
 

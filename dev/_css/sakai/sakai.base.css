@@ -352,8 +352,6 @@ html > body .s3d-button .s3d-button-inner {
 
 /* Dialog buttons */
 .dialog_buttons{clear:both;margin-top:20px;}
-.dialog_buttons .button,.dialog_buttons .button-default{background:#FFF url(/dev/_images/custom_button_gradient.png) repeat-x scroll center bottom;border:1px solid #CCC;display:inline;float:none;font-weight:normal;cursor:pointer;padding:3px 8px;width:auto}
-.dialog_buttons .button-default{color:#222;}
 
 /* Dialog footer */
 .dialog_footer{background:url(/dev/_images/dialog_br.png) top right no-repeat;padding:0 8px 0 0;}

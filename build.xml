@@ -228,6 +228,9 @@
             <filelist dir="${SRC_DIR}/_lib/sakai_util">
                 <file name="sakai_magic.js" />
             </filelist>
+            <fileset dir="${SRC_DIR_W}">
+                <patternset refid="js.widgetfiles"/>
+            </fileset>
         </apply>
     </target>
 

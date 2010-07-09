@@ -20,6 +20,18 @@
 
 var sakai = sakai || {};
 
+/**
+ * @name sakai.deletecontent
+ *
+ * @class deletecontent
+ *
+ * @description
+ * Deletecontent widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.deletecontent = function(tuid, showSettings){
 
 

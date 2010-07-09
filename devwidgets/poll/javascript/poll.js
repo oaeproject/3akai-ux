@@ -21,7 +21,14 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.poll
+ *
+ * @class poll
+ *
+ * @description
  * Initialize the poll widget
+ *
+ * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */

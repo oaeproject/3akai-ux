@@ -125,7 +125,7 @@
                                     <div>
                                         <iframe src="" class="page_preview_iframe" frameborder="0" scrolling="0">__MSG__YOUR_BROWSER_DOES_NOT_SUPPORT_IFRAMES__.</iframe>
                                     </div>
-                                    <div class="button-container fl-fix">
+                                    <div class="dialog_buttons">
                                         <button id="site_appearance_save" type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
                                         <button id="site_appearance_cancel" type="button" class="s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                                      </div>
@@ -176,8 +176,9 @@
 
                     <!-- DIALOG BUTTONS -->
                     <div class="dialog_buttons">
-                        <a class="button-default" id="site_appearance_change_picture_save" href="javascript:;">__MSG__SAVE__</a>
-                        <a class="button jqmClose" href="javascript:;">__MSG__CANCEL__</a>
+                        <br />
+                        <button type="button" class="s3d-button s3d-button-primary" id="site_appearance_change_picture_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                        <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                     </div>
 
                 </div>
@@ -195,8 +196,8 @@
                         <div class="dialog_buttons">
 
                             <!-- We need a button here because we are doing a form upload -->
-                            <input type="submit" class="button-default" id="profile_upload" value="__MSG__UPLOAD__" href="javascript:;" title="__MSG__UPLOAD__" />
-                            <a class="button jqmClose" id="profile_upload_cancel" href="javascript:;">__MSG__CANCEL__</a>
+                            <button type="submit" class="s3d-button s3d-button-primary" id="profile_upload"><span class="s3d-button-inner">__MSG__UPLOAD__</span></button>
+                            <button type="button" class="s3d-button jqmClose" id="profile_upload_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
                         </div>
                     </form>
                 </div>

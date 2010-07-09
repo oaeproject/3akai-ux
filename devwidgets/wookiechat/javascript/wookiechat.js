@@ -19,6 +19,19 @@
 /*global $, Config, sdata, window */
 
 var sakai = sakai || {};
+
+/**
+ * @name sakai.wookiechat
+ *
+ * @class wookiechat
+ *
+ * @description
+ * Initialize the wookiechat widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
+ */
 sakai.wookiechat = function(tuid, showSettings) {
 
 

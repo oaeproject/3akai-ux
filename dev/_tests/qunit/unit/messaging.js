@@ -12,6 +12,12 @@ var u1time;
 var dummyReply;
 var pathToMessages;
 
+// Set the admin login data
+var logindata = {
+    "username": "admin",
+    "password": "admin"
+};
+
 /**
  * Delete all messages that were sent during the test
  */
@@ -150,29 +156,23 @@ var testReplyCallback = function(bool,data){
  * @param {String} reply The id of the message on which we reply
  */
 var sendMessage = function(category, reply){
-    //login first before sending a message
-    $.ajax({
-        url: "/system/sling/formlogin",
-        type: "POST",
-        data: {
-            "sakaiauth:login": 1,
-            "sakaiauth:pw": "admin",
-            "sakaiauth:un": "admin",
-            "_charset_": "utf-8"
-        },
-        success:function(){
+
+    // Login first before sending a message
+    sakai.api.User.login(logindata, function(success){
+        if (success) {
             //check if it's a normal message or a reply, change the callback function
             if(reply === ""){
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testMessageCallback);
             }else{
                 sakai.api.Communication.sendMessage(dummyUser, dummySubject, dummyMessage, category, reply, testReplyCallback);
             }
-        },
-        error:function(){
+        }
+        else {
             ok(false, "Couldn't login");
             start();
         }
     });
+
 };
 
 /**
@@ -205,10 +205,21 @@ var startTest = function(category, reply){
     u1time = d.getTime();
     dummyUser = dummyUser + u1time;
     pathToMessages = [];
-    userlist = [
-                {"firstName": "First", "lastName": "User", "email": "first.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user1"+u1time},
-                {"firstName": "Second", "lastName": "User", "email": "second.user@sakai.com", "pwd": "test", "pwdConfirm": "test", ":name": "user2"+u1time}
-            ];
+    userlist = [{
+        "firstName": "First",
+        "lastName": "User",
+        "email": "first.user@sakai.com",
+        "pwd": "test",
+        "pwdConfirm": "test",
+        ":name": "user1" + u1time
+    }, {
+        "firstName": "Second",
+        "lastName": "User",
+        "email": "second.user@sakai.com",
+        "pwd": "test",
+        "pwdConfirm": "test",
+        ":name": "user2" + u1time
+    }];
     //create users
     createDummyUsers(0);
 

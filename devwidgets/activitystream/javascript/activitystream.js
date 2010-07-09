@@ -21,9 +21,16 @@
 var sakai = sakai || {};
 
 /**
- * Initialize the Activitystream widget
- * @param {String} tuid unique id of the widget
- * @param {Boolean} showSettings show the settings of the widget or not
+ * @name sakai.activitystream
+ *
+ * @class activitystream
+ *
+ * @description
+ * Initialize the activitystream widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.activitystream = function(tuid, showSettings) {
 

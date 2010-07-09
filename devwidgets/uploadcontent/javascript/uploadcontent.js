@@ -21,9 +21,16 @@
 var sakai = sakai || {};
 
 /**
+ * @name sakai.uploadcontent
+ *
+ * @class uploadcontent
+ *
+ * @description
  * Widget that uploads content (files + links) to Sakai3
- * @param {String} tuid The unique id of the widget
- * @param {Boolean} showSettings Show the settings of the widget
+ *
+ * @version 0.0.1
+ * @param {String} tuid Unique id of the widget
+ * @param {Boolean} showSettings Show the settings of the widget or not
  */
 sakai.uploadcontent = function(tuid, showSettings){
 
