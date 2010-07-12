@@ -106,12 +106,12 @@ sakai.collections = function(tuid, showSettings) {
 	var currentItemData = {};
 	var currentContentItemID = 0;
 	var fromViewRoom = false;
-	var selectedCollectionID = '';
-	var clickedCollectionID = '';
-	var clickedCategoryID = "";
-	var selectedCategoryID = "";
-	var clickedItemID = "";
-	var selectedItemID = "";
+	var selectedCollectionID = -1;
+	var clickedCollectionID = -1;
+	var clickedCategoryID = -1;
+	var selectedCategoryID = -1;
+	var clickedItemID = -1;
+	var selectedItemID = -1;
 
 	/**
 	 * Universal Functions
@@ -517,9 +517,7 @@ sakai.collections = function(tuid, showSettings) {
 	var categoryImages = [];
 
   var stripHTML = function(_html) {
-    console.log(_html);
     var ret = $('<div>' + _html + '</div>').text().trim();
-    console.log(ret);
     return ret;
   };
 
@@ -537,12 +535,13 @@ sakai.collections = function(tuid, showSettings) {
 		  $("#collections_header div", $(rootel)[0]).show();		  
 		}
 		$(collectionsAlbums, $(rootel)[0]).show();
-		console.log(collectionData);
 		$.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $(rootel)[0]));
 		$(".albumCoverTitle span").html(stripHTML($(".albumCoverTitle span").html()));
-		var newDesc = stripHTML($(".albumCoverDescription span").html());
-		newDesc = newDesc.substring(1,newDesc.length); // remove the " that trimpath is putting in there...
-		$(".albumCoverDescription span").html(newDesc); // strip the html tags
+		$(".albumCoverDescription span").each(function(elt) {
+		  var newDesc = stripHTML($(this).html()); // strip the html tags
+		  newDesc = newDesc.substring(1,newDesc.length);  // remove the " that trimpath is putting in there...
+		  $(this).html(newDesc); 
+		});
 		$(".albumCoverDescription").ThreeDots({max_rows : 6,  allow_dangle:true, whole_word:false});
 		$(".albumCoverTitle").ThreeDots({max_rows : 2,  allow_dangle:true, whole_word:false});
 	};
@@ -585,7 +584,6 @@ sakai.collections = function(tuid, showSettings) {
 		}
 
 		$(collectionsAlbumsShowAlbum).show();
-		console.log(currentCollectionData);
 		$.TemplateRenderer(collectionsAlbumsShowAlbumTemplate, {
 			"album": currentCollectionData
 		},
@@ -598,7 +596,11 @@ sakai.collections = function(tuid, showSettings) {
 			setupCategoryPreviewImages();
 		}
 		
-		$(".categoryPreviewName span").html(stripHTML($(".categoryPreviewName span").html()));
+		$(".categoryPreviewName span").each(function(elt) {
+		  $(this).html(stripHTML($(this).html()));
+		});
+		
+		
 		$(".categoryPreviewName").ThreeDots({max_rows : 1,  allow_dangle:true, whole_word:false});
 	};
 
@@ -991,19 +993,39 @@ sakai.collections = function(tuid, showSettings) {
 		$.bbq.removeState('item', 'category');
 	});
 
-	$(".scroll-content-item", $(rootel)[0]).live("mouseenter mouseleave", function() {
-		$(this).toggleClass("hovered");
-		// make this an animation, or use CSS3 animations
+	$(".scroll-content-item", $(rootel)[0]).live("mouseenter", function() {
+		if (clickedItemID == -1) {
+	    $(this).addClass("hovered");
+    }
+		if ($(this).attr("id").split("item_")[1] == clickedItemID) {
+			$(this).addClass("clicked");
+		}
+	});
+	
+	$(".scroll-content-item", $(rootel)[0]).live("mouseleave", function() {
+		$(this).removeClass("hovered");
+		$(this).removeClass("clicked");
 	});
 
-	$(".scroll-content-item", $(rootel)[0]).live("click", function() {
-		selectedItemID = $(this).attr("id").split("item_")[1];
-		$(".scroll-content-item").removeClass("selected");
-		$(this).addClass("selected");
-		$.bbq.pushState({
-			'item': selectedItemID
-		});
-	});
+  $(".scroll-content-item", $(rootel)[0]).live("mousedown", function() {
+    $(this).addClass("clicked");
+    clickedItemID = $(this).attr("id").split("item_")[1];
+  });
+  
+  $(".scroll-content-item", $(rootel)[0]).live("mouseup", function() {
+    $(this).removeClass("clicked");
+	  var itemid = $(this).attr("id").split("item_")[1];
+		if (itemid == clickedItemID) {
+		  $(".scroll-content-item").removeClass("selected");
+		  $(this).addClass("selected");
+  		selectedItemID = itemid;
+  		clickedItemID = -1;
+  		$.bbq.pushState({
+  			"item": selectedItemID
+  		});
+	  }
+  });
+
 
 	var timeOfLastImageChange = 0;
 
@@ -1027,12 +1049,35 @@ sakai.collections = function(tuid, showSettings) {
 	});
 
 	$(".categoryPreview", $(rootel)[0]).live("mouseup", function() {
-		var catid = $(this).attr("id").split("category_")[1];
-		selectedCategoryID = catid;
-		$.bbq.pushState({
-			"category": selectedCategoryID
-		});
+	  $(this).removeClass("clicked");
+	  var catid = $(this).attr("id").split("category_")[1];
+		if (catid == clickedCategoryID) {
+  		selectedCategoryID = catid;
+  		clickedCategoryID = -1;
+  		$.bbq.pushState({
+  			"category": selectedCategoryID
+  		});
+	  }
 	});
+	
+	$(".categoryPreview", $(rootel)[0]).live("mouseenter", function() {
+	  if (clickedCategoryID == -1) {
+	    $(this).addClass("hovered");
+    }
+	  if ($(this).attr("id").split("category_")[1] == clickedCategoryID) {
+			$(this).addClass("clicked");
+		}
+	}); 
+	
+	$(".categoryPreview", $(rootel)[0]).live("mouseleave", function() {
+	  $(this).removeClass("clicked");
+	  $(this).removeClass("hovered");
+	});   
+	
+	$(".categoryPreview", $(rootel)[0]).live("mousedown", function() {
+	  $(this).addClass("clicked");
+    clickedCategoryID = $(this).attr("id").split("category_")[1];
+  });
 
 	$(".albumCover", $(rootel)[0]).live("mousedown", function() {
 		$(this).addClass("clicked");
@@ -1040,10 +1085,14 @@ sakai.collections = function(tuid, showSettings) {
 	});
 
 	$(".albumCover", $(rootel)[0]).live("mouseleave", function() {
-		$(this).removeClass("clicked");
+	  $(this).removeClass("clicked");
+	  $(this).removeClass("hovered");
 	});
 
 	$(".albumCover", $(rootel)[0]).live("mouseenter", function() {
+	  if (clickedCollectionID == -1) {
+	    $(this).addClass("hovered");
+    }
 		if ($(this).attr("id").split("_")[1] == clickedCollectionID) {
 			$(this).addClass("clicked");
 		}
@@ -1066,7 +1115,13 @@ sakai.collections = function(tuid, showSettings) {
 
 	$("html").live("mouseup", function() {
 		if ($(this).attr("id").split("_")[0] != "album") {
-			clickedAlbumPosition = -1;
+			clickedCollectionID = -1;
+		} 
+		if ($(this).attr("id").split("_")[0] != "category") {
+		  clickedCategoryID = -1;
+		}
+		if ($(this).attr("id").split("_")[0] != "item") {
+		  clickedItemID = -1;
 		}
 	});
 

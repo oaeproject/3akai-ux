@@ -208,8 +208,9 @@ img.content_image {max-width:300px; max-height:200px;}
 #browse_resource_files textarea,#browse_resource_files input[type="text"]{width:500px;height:auto;}
 /* All Album View */
 #collections_albums{float:left;padding-left:0;padding-top:22px;position:relative;}
-.albumCover{float:left;padding:20px;width:140px;height:220px;position:relative;margin:0 0 24px 24px;background-color:rgb(255,255,255);-moz-box-shadow:3px 3px 12px -5px rgb(120,120,120);-moz-border-radius:8px;-webkit-box-shadow:3px 3px 12px -5px rgb(120,120,120);-webkit-border-radius:8px;box-shadow:3px 3px 12px -5px rgb(120,120,120);border-radius:8px;}
-.albumCover.clicked{background-color:rgb(245,245,245);-moz-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);-webkit-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);padding:22px 18px 18px 22px;overflow:hidden;}
+.albumCover{float:left;padding:20px;width:140px;height:220px;position:relative;margin:0 0 24px 24px;background-color:rgb(255,255,255);-moz-box-shadow:3px 3px 12px -5px rgb(120,120,120);-moz-border-radius:8px;-webkit-box-shadow:3px 3px 12px -5px rgb(120,120,120);-webkit-border-radius:8px;box-shadow:3px 3px 12px -5px rgb(120,120,120);border-radius:8px;cursor:pointer;}
+.albumCover.hovered{background-color:rgb(245,245,245);}
+.albumCover.clicked{background-color:rgb(235,235,235);-moz-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);-webkit-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);padding:22px 18px 18px 22px;overflow:hidden;}
 .albumCover div.albumCoverImage{width:140px;height:105px;float:left;position:relative;}
 .albumCover div.albumCoverImage img{max-width:140px;max-height:105px;float:left;}
 .albumCover div.albumCoverTitle{color:#058EC4;font-weight:bold;font-size:14px;width:140px;float:left;position:relative; overflow:hidden;}
@@ -241,6 +242,8 @@ img.content_image {max-width:300px; max-height:200px;}
 .categoryPreview span.categoryPreviewItems {width:100%; float:left; font-size:12px;font-weight:bold;position:relative;margin-left:5px;}
 .categoryCover {float:left; position:relative;height:118px; width:118px; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20); padding:10px;background-color:#fff; cursor:pointer; text-align:center;}
 .categoryCover img {max-height:117px; max-width:117px; vertical-align:middle; display:block;}
+.categoryPreview.hovered .categoryCover {background-color:rgb(245,245,245);}
+.categoryPreview.clicked .categoryCover {background-color:rgb(235,235,235);-moz-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);-webkit-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);overflow:hidden;padding:12px 10px 10px 12px; height:116px; width:116px;}
 /* Category/Item View */
 #collections_albums_show_category h1 {margin:20px 0px 0px 20px; cursor:pointer;}
 #collections_albums_show_category h1:hover {text-decoration:underline;}
@@ -254,11 +257,14 @@ img.content_image {max-width:300px; max-height:200px;}
 .itemsContainerHead img {margin:3px 3px 0 0;}
 .scroll-pane { overflow: auto; width: 560px; height:148px; float:left; margin:10px 20px 20px 20px; border:1px solid #aaa;}
 .scroll-content { width: 560px; float: left;}
-.scroll-content-item { width: 105px; height: 128px; float: left; padding: 10px; cursor:pointer;}
-.scroll-content-item img {width:103px; height:103px; float:left; border:1px solid #ccc;}
+.scroll-content-item { width: 125px; height: 148px; float: left; cursor:pointer;}
+.scroll-content-item div.scrollItemContainer {width:95px; height:118px; padding:5px; margin:10px; float:left; background-color:#fff; -moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);text-align:center;}
+.scroll-content-item.hovered div.scrollItemContainer {background-color:rgb(245,245,245);}
+.scroll-content-item.clicked div.scrollItemContainer {width:93px; height:116px; padding:7px 5px 5px 7px; background-color:rgb(235,235,235);-moz-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);-webkit-box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);box-shadow:inset 3px 3px 12px -5px rgb(120,120,120);overflow:hidden;}
+.scroll-content-item img {max-width:93px; max-height:93px; float:left;}
 .scroll-content-item.addItem {border:1px solid #bbb;background:url(/devwidgets/collections/images/add_icon.png) transparent 50% 50% no-repeat; width:103px; height:126px;}
 .scroll-content-item.selected {background-color:rgb(160,187,244);}
-.scroll-content-item div.itemPreviewTitle {float:left;position:relative;width:105px;}
+.scroll-content-item div.itemPreviewTitle {float:left;position:relative;width:90px;}
 .itemHero {-moz-border-radius:3px;-moz-box-shadow:3px 3px 12px -5px rgb(20,20,20);-webkit-border-radius:3px;-webkit-box-shadow:3px 3px 12px -5px rgb(20,20,20);border-radius:3px;box-shadow:3px 3px 12px -5px rgb(20,20,20);background-color:#fff;margin:20px;padding:10px 20px 20px 20px;width:560px;float:left;position:relative;}
 .itemHead {float:left; width:100%;min-height:40px;}
 .itemHead div.itemTitleContainer { float:left; position:relative; width:410px; min-height:27px;}

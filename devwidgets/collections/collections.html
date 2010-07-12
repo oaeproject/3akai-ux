@@ -87,14 +87,16 @@
           <div class="scroll-content">
             {for item in category.items}
               <div class="scroll-content-item" id="item_${item.id}">
-                {if (item.mimeType.split("/")[0] == "image")}
-                  <img src="${item.url}" alt="${item.title} image"/>
-                {elseif sakai.config.MimeTypes[item.mimeType]}
-                  <img src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${sakai.config.MimeTypes[item.mimeType].description}" />
-                {else}
-                  <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
-                {/if}
-                <div class="itemPreviewTitle"><span class="ellipsis_text">${item.title}</span></div>
+                <div class="scrollItemContainer">
+                  {if (item.mimeType.split("/")[0] == "image")}
+                    <img src="${item.url}" alt="${item.title} image"/>
+                  {elseif sakai.config.MimeTypes[item.mimeType]}
+                    <img src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${sakai.config.MimeTypes[item.mimeType].description}" />
+                  {else}
+                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
+                  {/if}
+                  <div class="itemPreviewTitle"><span class="ellipsis_text">${item.title}</span></div>
+                </div>
               </div>
             {/for}
           </div>
