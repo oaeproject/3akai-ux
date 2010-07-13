@@ -1782,7 +1782,7 @@ sakai.navigationchat = function(tuid, showSettings){
             cache: false,
             success: function(data){
                 var json = {};
-                json.entry = $.parseJSON(data) || [];
+                json.entry = data || [];
                 for (var i = 0; i < json.entry.length; i++) {
                     json.entry[i] = json.entry[i].site;
                     json.entry[i].location = json.entry[i].id;
