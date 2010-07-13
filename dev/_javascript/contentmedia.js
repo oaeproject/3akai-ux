@@ -1181,21 +1181,24 @@ sakai.contentmedia = function(){
     /**
      * Set the various settings for the fluid uploader component
      */
-    var initialiseUploader = function(){
-      $(function(){
-        $("#multifile_upload").MultiFile({
-          list: '#upload_file_list'
-        });  
-        $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
-        $("#multifile_form").ajaxForm({
-          success: function() {
-            $("#multifile_upload").MultiFile('reset');
-            uploadCompleteListener();
-          }
+    var initialiseUploader = function() {
+        $(function() {
+            /* Multi-file upload - uncomment when we can enable this
+            $("#multifile_upload").MultiFile({
+              list: '#upload_file_list'
+            });  
+            */
+            $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
+            $("#multifile_form").ajaxForm({
+                success: function() {
+                    //$("#multifile_upload").MultiFile('reset');
+                    $("#multifile_upload").val('');
+                    uploadCompleteListener();
+                }
+            });
         });
-      });
     };
-
+    
     /**
      * Initialise the modal dialogs
      */
