@@ -125,7 +125,9 @@ sakai.footer = function(tuid,showSettings){
         // Set the end year of the copyright notice
         var d = new Date();
         $footer_date_end.text(d.getFullYear());
-        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+        if (window.location.href.split('/')[window.location.href.split("/").length-1] != 'my_sakai.html') {
+          sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+        }
 
     };
 
