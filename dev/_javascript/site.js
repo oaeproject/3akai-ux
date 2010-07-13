@@ -1376,7 +1376,7 @@ sakai.site = function(){
     // Request Site Join
     /////////////////////////////
     var requestJoin = function() {
-        $site_join_button.text("Submitting request…").attr('disabled','disabled');
+        $site_join_button.find("span").text("Submitting request…").attr('disabled','disabled');
         $.ajax({
             url: "/sites/" + sakai.site.currentsite.id + ".join.html",
             type: "POST",
@@ -1385,14 +1385,14 @@ sakai.site = function(){
             },
             success: function(data){
                 if (sakai.site.currentsite["sakai:joinable"] === "withauth") {
-                     $site_join_button.text("Site join request pending approval");
+                     $site_join_button.find("span").text("Site join request pending approval");
                 } else if (sakai.site.currentsite["sakai:joinable"] === "yes") {
                      $site_join_button.hide();
                      showAdminElements();
                 }
             },
             error: function(xhr, textStatus, thrownError) {
-                $site_join_button.text("Unable to submit request. Contact site maintainer for membership.");
+                $site_join_button.find("span").text("Unable to submit request. Contact site maintainer for membership.");
                 fluid.log("site.js: Could not submit request to join site. \n HTTP status code: " + xhr.status);
             }
         });
