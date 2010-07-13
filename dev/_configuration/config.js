@@ -55,6 +55,7 @@ sakai.config = {
         CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
         CONTACTS_ACCEPTED: "/var/contacts/accepted.json",
         CONTACTS_INVITED: "/var/contacts/invited.json",
+        CONTENT_TYPE_SERVICE: "/var/proxy/contentType.json",
         CREATE_USER_SERVICE: "/system/userManager/user.create.html",
         DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",

@@ -288,7 +288,7 @@
         <div>${item.description}</div>
         {if item.mimeType.split('/')[0] == "image"}
           <a href="${item.url}"><img src="${item.url}" alt="${item.title} image" class="content_image"/></a>
-        {else}
+        {elseif item.url}
           <a href="${item.url}" class="content_link">${item.url.split("/")[item.url.split("/").length-1]}</a>
         {/if}
       --></div>
