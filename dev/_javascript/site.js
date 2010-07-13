@@ -283,10 +283,10 @@ sakai.site = function(){
                 // Setting up the Join this site button
                 if (shouldShowJoinButton()) {
                     if (shouldDisableJoinButton()) {
-                        $site_join_button.text("Request for membership pending approval").show().attr('disabled','disabled');
+                        $site_join_button.find("span").text("Request for membership pending approval").show().attr('disabled','disabled');
                     } else {
                         if (joinRequiresApproval()) {
-                            $site_join_button.text("Request to join this site");
+                            $site_join_button.find("span").text("Request to join this site");
                         }
                         // Bind 'Join this site' button
                         $site_join_button.live("click", function(ev){
