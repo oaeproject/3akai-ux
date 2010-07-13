@@ -1420,14 +1420,15 @@ sakai.collections = function(tuid, showSettings) {
 			
        $.ajax({
          async: false,
-         url: sakai.config.URL.CONTENT_TYPE_SERVICE,
+         url: sakai.config.URL.HEADER_SERVICE,
          type: "POST",
-         data: {'url':resource_path},
+         dataType: "json",
+         data: {'url':resource_path, 'header':'Content-Type'},
          success: function(data){
-           console.log(data);
+           mimeType = data["Content-Type"];
          },
          error: function(xhr, textStatus, thrownError) {
-           console.log(xhr,textStatus,thrownError);
+           fluid.log(xhr,textStatus,thrownError);
          }
        });
        
