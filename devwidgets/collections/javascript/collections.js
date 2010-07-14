@@ -555,11 +555,19 @@ sakai.collections = function(tuid, showSettings) {
 	var renderAlbumView = function() {
 		hideAllAlbumView();
 		initializeAlbumView();
-		if (sakai.site.isCollaborator) {
-		  $("#collections_header div", $(rootel)[0]).show();		  
-		}
 		$(collectionsAlbums, $(rootel)[0]).show();
 		$.TemplateRenderer(collectionsAlbumsTemplate, collectionData, $(collectionsAlbums, $(rootel)[0]));
+		if (sakai.site.isCollaborator) {
+		  $("#collections_header div", $(rootel)[0]).show();
+		  if (collectionData.collections.length == 0) {
+		    if (!$("#collections_header div").hasClass("expanded")) {
+		      $("#collections_header div a#configure_widget").trigger("click");
+	      } else {
+	        showAddAlbum();
+        }
+		  }	  
+		}
+
 		$(".albumCoverTitle span").html(stripHTML($(".albumCoverTitle span").html()));
 		$(".albumCoverDescription span").each(function(elt) {
 		  var newDesc = stripHTML($(this).html()); // strip the html tags
@@ -640,11 +648,7 @@ sakai.collections = function(tuid, showSettings) {
 	};
 
 	var hideAllAlbumView = function() {
-		$("#collections_header div").removeClass("expanded");
-		$("#collections_header div span#choose_layout").hide();
 		$(".albumView").hide();
-		$(collectionsHeaderSelectLayout).hide();
-		$("#collections_header div").hide();
 	};
 
 	var setupCategoryPreviewImages = function() {

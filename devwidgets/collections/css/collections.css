@@ -228,7 +228,7 @@ img.content_image {max-width:300px; max-height:200px;}
 .albumDesc.editable {border:1px solid #ccc;}
 .albumHead {width:100%; float:left; position:relative; min-height:40px;}
 .albumHead div.albumTitleContainer {float:left; position:relative; width:400px; min-height:28px;}
-.albumHead h1 {float:left; position:relative; width:350px;overflow:hidden;}
+.albumHead h1 {float:left; position:relative; width:350px;}
 .albumHead div.configureAlbum {float:left; position:relative; width:155px;margin-top:-2px;padding:2px;text-align:right;}
 .albumHead div.configureAlbum.expanded {border:1px solid #999; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; padding:1px;}
 .albumHead img {margin:3px 3px 0 0;}
