@@ -225,14 +225,16 @@ sakai.discussion = function(tuid, showSettings) {
      * @param {String} picture The picture path for a user
      * @param {String} userStoragePrefix The user's storage prefix
      */
-    var parsePicture = function(uuid, picture){
+    var parsePicture = function(uuid, profile){
         // Check if the picture is undefined or not
         // The picture name will be undefined if the other user is in process of
         // changing his/her picture
-        if (picture && $.parseJSON(picture).name) {
-            return "/_user/public/" + uuid + "/" + $.parseJSON(picture).name;
+        if (profile.picture && $.parseJSON(profile.picture).name){
+            var picture = $.parseJSON(profile.picture);
+            return "/_user" + profile.hash + "/public/profile/" + picture.name;
+        } else {
+          return sakai.config.URL.USER_DEFAULT_ICON_URL;
         }
-        return sakai.config.URL.USER_DEFAULT_ICON_URL;
     };
 
 
@@ -303,7 +305,7 @@ sakai.discussion = function(tuid, showSettings) {
 
     var shardedId = function(id) {
         return id.substring(0,2) + '/' + id.substring(2,4) + '/' + id.substring(4,6) + '/' + id.substring(6,8) + '/' + id;
-    }
+    };
 
     /**
      * Show the edit form
@@ -445,9 +447,9 @@ sakai.discussion = function(tuid, showSettings) {
         }
 
         // Get the user's firstName, lastName and picture if it's in the database
-        var profile = post.profile;
+        var profile = post.profile[0];
         post.profile.fullName = parseName(uid, profile.firstName, profile.lastName);
-        post.profile.picture = parsePicture(uid, profile.picture);
+        post.profile.picture = parsePicture(uid, profile);
 
         // Check if someone edited the post
         // post.sakai:editedbyprofiles is an array of objects that contain all the editers for this post.
@@ -921,8 +923,8 @@ sakai.discussion = function(tuid, showSettings) {
                 widgetSettings.displayMode = 'inline';
             }
 
-            var callback = finishSettingsContainer;
-            saveWidgetSettings(callback);
+            var callback1 = finishSettingsContainer;
+            saveWidgetSettings(callback1);
         }
     };
 
