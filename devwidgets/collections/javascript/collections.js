@@ -1732,6 +1732,7 @@ sakai.collections = function(tuid, showSettings) {
 
 	$("#edit_page").bind("click", function() {
 		hideEverything();
+		$.bbq.removeState("item", "collection", "category");
 		return false;
 	});
 
