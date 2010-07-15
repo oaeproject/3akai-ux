@@ -135,6 +135,21 @@ var Widgets = {
             "siteportal":true,
             "url":"/devwidgets/formdatastring/formdatastring.html"
         },
+        "formsavecancel": {
+            "description":"Create a Form: Save or Cancel buttons",
+            "ca":true,
+            "hasSettings":true,
+            "i18n": {
+                "default": "/devwidgets/formsavecancel/bundles/default.json",
+                "en_US": "/devwidgets/formsavecancel/bundles/en_US.json"
+            },
+            "id":"formsavecancel",
+            "img":"/devwidgets/formsavecancel/images/formsavecancel.png",
+            "name":"Create a Form: Save or Cancel",
+            "showinsakaigoodies":true,
+            "siteportal":true,
+            "url":"/devwidgets/formsavecancel/formsavecancel.html"
+        },
         "createsite": {
             "description":"Create site",
             "name":"Create Site",

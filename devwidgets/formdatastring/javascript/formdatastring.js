@@ -277,14 +277,14 @@ sakai.formdatastring = function(tuid,showSettings){
                  if ( !success) 
                     alert("Failed to save.");
                  else 
-                    sdata.container.informFinish(tuid, "formdatastring");
+                    sakai.api.Widgets.Container.informFinish(tuid, "formdatastring");
               });
         }
        });
 
     /** Bind the settings cancel button */
     $(settingsCancel, rootel).bind("click", function(e, ui){
-        sdata.container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid);
     });
 
     /** Bind edit widget data (icon) link */
@@ -326,7 +326,7 @@ sakai.formdatastring = function(tuid,showSettings){
        //   sakai.api.Widgets.loadWidgetData(settings.widgetId, function(success, replaySettings){};
        // so instead construct reference widget URL and directly send a GET request 
        
-       var url = sdata.widgets.WidgetLoader.widgets[tuid].placement.replace(tuid, settings.widgetId)
+       var url = sakai.api.Widgets.widgetLoader.widgets[tuid].placement.replace(tuid, settings.widgetId)
        sakai.api.Server.loadJSON(url,  function(success, replaySettings){
             if (success) {
                showWidgetData(replaySettings, true);
@@ -366,4 +366,4 @@ sakai.formdatastring = function(tuid,showSettings){
     loadSettings(showWidgetData, showSettings);
 };
 
-sdata.widgets.WidgetLoader.informOnLoad("formdatastring");
+sakai.api.Widgets.widgetLoader.informOnLoad("formdatastring");
