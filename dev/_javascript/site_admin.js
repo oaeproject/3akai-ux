@@ -88,10 +88,10 @@ sakai.site.site_admin = function(){
         var counter = 0;
 
         while (!new_urlsafe_name){
-            var test_url_safe_name = sakai.site.createURLName(base_folder + "/" + urlsafe_title);
             if (counter > 0){
                 urlsafe_title += "-" + counter;
             }
+            var test_url_safe_name = sakai.site.createURLName(base_folder + "/" + urlsafe_title);
             counter++;
             if (!sakai.site.site_info._pages[test_url_safe_name]) {
                 new_urlsafe_name = test_url_safe_name;
@@ -813,7 +813,8 @@ sakai.site.site_admin = function(){
                         sakai.siterecentactivity.addRecentActivity(activityItem);
 
                         // Delete old Untitled-x page node
-                        if (oldpagetitle !== newpagetitle) {
+                        if ((oldpagetitle === 'Untitled' && newpagetitle === 'Untitled') || oldpagetitle !== newpagetitle) {
+
                             $.ajax({
                                 url: sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"],
                                 type: "DELETE",
