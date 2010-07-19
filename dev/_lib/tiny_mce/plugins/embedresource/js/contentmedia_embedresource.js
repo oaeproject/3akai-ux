@@ -313,8 +313,8 @@ sakai.pickresource = function(){
         $.ajax({
             url: url,
             data: {
-                "search" : options.search,
-                //"type" : type,
+                "q" : options.search,
+                "context" : options.context,
                 "page" : pageCurrent,
                 "items" : pageSize,
                 "sakai:tags" : options.tag,
@@ -322,7 +322,7 @@ sakai.pickresource = function(){
             },
             cache: false,
             success: function(data){
-                doFileRenderFiltered($.evalJSON(data));
+                doFileRenderFiltered(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -617,36 +617,6 @@ sakai.pickresource = function(){
         sortOptions(contentmediaDialogAssociationsSelectAll);
     });
 
-    /**
-     * When the user confirms to delete the selected files
-     */
-    $(contentmediaDialogRemoveConfirm).live("click", function(){
-
-        // We send a POST request with a delete operation and in the applyTo we
-        // supply an array with the URLs of the files that need to be deleted
-        $.ajax({
-            data: {
-                "resources" : doSelectedFilesURLToArray(),
-                "_charset_" : "utf-8"
-            },
-            type: "POST",
-            url: "/system/batch/delete",
-            cache: false,
-            success: function(data){
-
-                // Hide the dialog if the delete was succesful
-                $(contentmediaDialogRemove).jqmHide();
-
-                // If the post was successful, we redo the search
-                doFileSearch(options);
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("An error has while deleting the files occured");
-            }
-        });
-    });
-
-
     ///////////////////////
     // Initial functions //
     ///////////////////////
@@ -781,7 +751,7 @@ sakai.pickresource = function(){
                 url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
                 cache: false,
                 success: function(data){
-                    var parsedData = $.evalJSON(data);
+                    var parsedData = data;
                     setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 
                     // Fetch the initial list of files
@@ -816,7 +786,7 @@ sakai.pickresource = function(){
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-                loadSites($.evalJSON(data));
+                loadSites(data);
             }
         });
     };
@@ -884,10 +854,10 @@ sakai.pickresource = function(){
     
     sakai.pickresource.initialise({
         "context" : "myfiles",
-        "search" : false,
+        "q" : "*",
         "tag" : [],
         "site" : []
     });
 };
 
-sdata.container.registerForLoad("sakai.pickresource");
+sakai.api.Widgets.Container.registerForLoad("sakai.pickresource");

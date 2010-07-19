@@ -491,8 +491,8 @@ sakai.pickresource = function(){
         $.ajax({
             url: url,
             data: {
-                "search" : options.search,
-                //"type" : type,
+                "q" : options.search,
+                "context" : options.context,
                 "page" : pageCurrent,
                 "items" : pageSize,
                 "sakai:tags" : options.tag,
@@ -500,7 +500,7 @@ sakai.pickresource = function(){
             },
             cache: false,
             success: function(data){
-                doFileRender($.evalJSON(data));
+                doFileRender(data);
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("An error has occured");
@@ -775,21 +775,6 @@ sakai.pickresource = function(){
         $(".contentmedia_fileinfo").hide();
         $("#contentmedia_fileinfo_" + index).show();
         $("#insert").removeAttr('disabled');
-        /*
-        if ($(this).hasClass(contentmediaFileSelectedClass)){
-            $(this).removeClass(contentmediaFileSelectedClass);
-
-            // Remove the file from selected files
-            removeFromSelectedFiles(index);
-        } else {
-            $(this).addClass(contentmediaFileSelectedClass);
-
-            // Add file to selected files
-            addToSelectedFiles(index);
-
-            // Initialise the dragging and dropping of files
-            initialiseDragDrop();
-        }*/
     });
 
     /**
@@ -1114,130 +1099,11 @@ sakai.pickresource = function(){
             }
 
         });
-
-        // Set the settings for when the users uses the single file uploader (without flash)
-        /*$(".fl-progEnhance-basic").submit(function() {
-            if($(contentmediaUploaderBasicName).val().length > 3){
-                basicUploadFilename = $(contentmediaUploaderBasicName).val();
-                $(contentmediaUploaderBasicName).attr("name", basicUploadFilename);
-            }
-
-            return AIM.submit(this, {'onStart' : startUpload, 'onComplete' : completeUpload});
-        });*/
     };
 
-    /*
-    var recursiveTree = function(treeData){
-        for (var i in treeData) {
-
-            // We need to add the hasOwnProperty to pass to JSLint and it is also a security issue
-            if (treeData.hasOwnProperty(i)) {
-
-                if(treeData[i]["jcr:primaryType"] === "sling:Folder"){
-
-                    globalTree.push({
-                        attributes: {
-                            id: $.URLEncode(i)
-                        },
-                        data: i,
-                        children : recursiveTree(treeData[i])
-                    });
-                }
-            }
-        }
-    };*/
-
-    /**
-     * Parse the data from the json request
-     * @param {Object} treeData
-     */
-    /*
-    var parseTreeData = function(treeData){
-        globalTree = [];
-
-        recursiveTree(treeData);
-
-        console.log(globalTree);
-
-        $(contentmediaFolders).tree({
-            data: {
-                type: "json",
-                json: globalTree
-            }
-        });
-
-        for(var i = 0; i < treeData.results.length; i++){
-            if(treeData.results[i]["jcr:primaryType"] === "sling:folder"){
-                console.log(treeData.results[i]);
-                //globalTree.push({
-
-                //});
-            }
-        }
-    };*/
-
-    /**
-     * Initialise the tree for folders
-     * The plug-in we use is called jsTree
-     * You can find more information on http://www.jstree.com/
-     */
-    /*var initialiseTree = function(){
-
-        $.ajax({
-            url: options.context + ".infinity.json",
-            //url: searchURL,
-            //data: {
-            //    path: options.context,
-            //    type: "sling:Folder"
-            //},
-            cache: false,
-            success: function(data){
-                parseTreeData($.evalJSON(data));
-                //doFileRender($.evalJSON(data));
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("An error has occured");
-            }
-        });
 
 
 
-        $(contentmediaFolders).tree({
-            data: {
-                type: "json",
-                json: [{
-                    attributes: {
-                        id: "pjson_1"
-                    },
-                    state: "open",
-                    data: "Root node 1",
-                    children: [{
-                        attributes: {
-                            id: "pjson_2"
-                        },
-                        data: {
-                            title: "Custom icon"
-                        }
-                    }, {
-                        attributes: {
-                            id: "pjson_3"
-                        },
-                        data: "Child node 2"
-                    }, {
-                        attributes: {
-                            id: "pjson_4"
-                        },
-                        data: "Some other child node"
-                    }]
-                }, {
-                    attributes: {
-                        id: "pjson_5"
-                    },
-                    data: "Root node 2"
-                }]
-            }
-        });
-    };*/
 
     /**
      * Parse the querystring from the browser
@@ -1253,7 +1119,7 @@ sakai.pickresource = function(){
                 url: sakai.config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid) + ".json",
                 cache: false,
                 success: function(data){
-                    var parsedData = $.evalJSON(data);
+                    var parsedData = data;
                     setSiteFilter(Config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", siteid), parsedData.name);
 
                     // Fetch the initial list of files
@@ -1289,7 +1155,7 @@ sakai.pickresource = function(){
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-                loadSites($.evalJSON(data));
+                loadSites(data);
             }
         });
     };
@@ -1362,4 +1228,4 @@ sakai.pickresource = function(){
     });
 };
 
-sdata.container.registerForLoad("sakai.pickresource");
+sakai.api.Widgets.Container.registerForLoad("sakai.pickresource");
