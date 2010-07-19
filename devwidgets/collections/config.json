@@ -1,0 +1,10 @@
+{
+  "description":"Collections Tool",
+  "ca":true,
+  "hasSettings":true,
+  "showinsakaigoodies":true,
+  "id":"collections",
+  "img":"/devwidgets/collections/images/portfolio.png",
+  "name":"Collections",
+  "url":"/devwidgets/collections/collections.html"
+}

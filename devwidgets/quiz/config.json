@@ -1,0 +1,9 @@
+{
+	"ca":true,
+	"description":"Quiz widget",
+	"id":"quiz",
+	"img":"/devwidgets/quiz/images/quiz.png",
+	"name":"Quiz",
+	"showinsakaigoodies":true,
+	"url":"/devwidgets/quiz/quiz.html"
+}

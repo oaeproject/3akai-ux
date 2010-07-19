@@ -1,0 +1,9 @@
+{
+	"description":"Delete content widget",
+	"id":"deletecontent",
+	"i18n": {
+		"default": "/devwidgets/deletecontent/bundles/default.json"
+	},
+	"name":"Delete Content",
+	"url":"/devwidgets/deletecontent/deletecontent.html"
+}

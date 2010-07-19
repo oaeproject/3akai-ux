@@ -379,7 +379,7 @@ sakai.profile = function(){
 
         if (json.picture && $.parseJSON(json.picture).name){
             var picture = $.parseJSON(json.picture);
-            $("#picture_holder img").attr("src","/_user" + json.path + "/public/profile/" + picture.name);
+            $("#picture_holder img").attr("src","/~" + json["rep:userId"] + "/public/profile/" + picture.name);
         }
 
         fillInBasic();
@@ -739,7 +739,7 @@ sakai.profile = function(){
                     }
 
                     if (totalprofile.profile.picture && $.parseJSON(totalprofile.profile.picture).name){
-                        $("#add_friend_profilepicture").html("<img src='/_user"+sakai.data.me.profile.path+"/public/profile/" + $.parseJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
+                        $("#add_friend_profilepicture").html("<img src='/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
                     } else {
                         $("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
                     }
@@ -776,7 +776,7 @@ sakai.profile = function(){
             var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
 
             $.ajax({
-                url: "/_user" + sakai.data.me.profile.path + "/contacts.invite.html",
+                url: "/~" + sakai.data.me.user.userid + "/contacts.invite.html",
                 type: "POST",
                 data: {
                     "type": type,
@@ -804,7 +804,7 @@ sakai.profile = function(){
    $("#accept_invitation_button").bind("click", function(ev){
 
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
+            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
             type: "POST",
             data : {"targetUserId":user},
             success: function(data){

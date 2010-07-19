@@ -1,0 +1,12 @@
+{
+	"description":"My Personal Profile",
+	"name":"My Profile",
+	"id":"myprofile",
+	"personalportal":true,
+	"i18n": {
+		"default": "/devwidgets/myprofile/bundles/default.json",
+		"en_US": "/devwidgets/myprofile/bundles/en_US.json",
+		"zh_CN": "/devwidgets/myprofile/bundles/zh_CN.json"
+	},
+	"url":"/devwidgets/myprofile/myprofile.html"
+}

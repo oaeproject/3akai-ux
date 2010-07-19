@@ -774,7 +774,7 @@ sakai.blog = function(tuid, showSettings) {
                     arrComments[i].name = users[u].profile.firstName + " " + users[u].profile.lastName;
 
                     if (users[u].profile.picture) {
-                        arrComments[i].picture = "/_user" + users[u].profile.path + "/public/profile/" + users[u].profile.picture.name;
+                        arrComments[i].picture = "/~" + users[u].profile["rep:userId"] + "/public/profile/" + users[u].profile.picture.name;
                     }
                 }
             }

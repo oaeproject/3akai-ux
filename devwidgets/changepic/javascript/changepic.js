@@ -169,7 +169,7 @@ sakai.changepic = function(tuid, showSettings){
 
         picture = false;
 
-        $(picForm).attr("action", "/_user"+sakai.data.me.profile.path+"/public/profile");
+        $(picForm).attr("action", "/~"+sakai.data.me.user.userid+"/public/profile");
 
         // Get the preferred size for the thumbnail.
         var prefThumbWidth = parseInt($(thumbnailContainer).css("width").replace(/px/gi,""), 10);
@@ -191,7 +191,7 @@ sakai.changepic = function(tuid, showSettings){
 
 
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
-            $(pictureMeasurer).html("<img src='" + "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
+            $(pictureMeasurer).html("<img src='" + "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
 
             // Check the current picture's size
             $(pictureMeasurerImage).bind("load", function(ev){
@@ -201,8 +201,8 @@ sakai.changepic = function(tuid, showSettings){
                 realh = $(pictureMeasurerImage).height();
 
                 // Set the images
-                $(fullPicture).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name + "?sid=" + Math.random());
-                $(thumbnail).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                $(fullPicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
+                $(thumbnail).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
 
                 // Width < 500 ; Height < 300 => set the original height and width
                 if (realw < 500 && realh < 300){
@@ -275,8 +275,8 @@ sakai.changepic = function(tuid, showSettings){
 
         // The parameters for the cropit service.
         var data = {
-            img: "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name,
-            save: "/_user" + sakai.data.me.profile.path + "/public/profile",
+            img: "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name,
+            save: "/~" + sakai.data.me.user.userid + "/public/profile",
             x: Math.floor(userSelection.x1 * ratio),
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
@@ -311,7 +311,7 @@ sakai.changepic = function(tuid, showSettings){
 
                 // Do a patch request to the profile info so that it gets updated with the new information.
                 $.ajax({
-                    url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
+                    url: "/~" + sakai.data.me.user.userid + "/public/authprofile.json",
                     type : "POST",
                     data : {
                         "picture" : $.toJSON(tosave),
@@ -321,7 +321,7 @@ sakai.changepic = function(tuid, showSettings){
                         // Change the picture in the page. (This is for my_sakai.html)
                         // Math.random is for cache issues.
                         for (var i = 0; i < imagesToChange.length;i++) {
-                            $(imagesToChange[i]).attr("src", "/_user" + sakai.data.me.profile.path + "/public/profile/" + tosave.name + "?sid=" + Math.random());
+                            $(imagesToChange[i]).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                         }
 
                         // Hide the layover.
@@ -414,7 +414,7 @@ sakai.changepic.completeCallback = function(response){
     var data = {"picture":stringtosave,"_charset_":"utf-8"};
 
     $.ajax({
-        url: "/_user" + sakai.data.me.profile.path + "/public/authprofile.json",
+        url: "/~" + sakai.data.me.user.userid + "/public/authprofile.json",
         type : "POST",
         data : data,
         success : function(data) {

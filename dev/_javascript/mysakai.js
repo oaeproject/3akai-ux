@@ -91,7 +91,7 @@ sakai.dashboard = function(){
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname){
-        var generic = "widget_" + widgetname + "_" + tuid + "_/_user/private" + sakai.data.me.user.userStoragePrefix + "widgets/" + tuid + "/" + widgetname;
+        var generic = "widget_" + widgetname + "_" + tuid + "_/~" + sakai.data.me.user.userid + "/private/widgets/" + tuid + "/" + widgetname;
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -134,7 +134,7 @@ sakai.dashboard = function(){
 
         myportaljson = jsonobj;
 
-        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, jsonobj, saveGroup);
+        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, jsonobj, saveGroup);
 
     };
 
@@ -233,7 +233,7 @@ sakai.dashboard = function(){
 
             myportaljson = $.parseJSON(jsonstring);
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
         }
     });
@@ -272,7 +272,7 @@ sakai.dashboard = function(){
 
             var jsonobject = {"items":{"group": selected }};
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/group", jsonobject, buildLayout);
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/group", jsonobject, buildLayout);
 
         } else {
             fluid.log("my_sakai.js: An error occured while saving your layout");
@@ -366,7 +366,7 @@ sakai.dashboard = function(){
             myportaljson = $.parseJSON(jsonstring);
             layout = myportaljson;
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, myportaljson);
         }
 
         var final2 = {};
@@ -397,7 +397,7 @@ sakai.dashboard = function(){
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = portaldef.visible;
                         final2.columns[index].portlets[iindex].uid = portaldef.uid;
-                        final2.columns[index].portlets[iindex].placement = "/_user" + sakai.data.me.profile.path + "/private/widgets/";
+                        final2.columns[index].portlets[iindex].placement = ""/~" + sakai.data.me.user.userid" + sakai.data.me.profile.path + "/private/widgets/";
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -502,7 +502,7 @@ sakai.dashboard = function(){
             });
 
             $("#settings_settings").unbind('click').click(function(ev){
-                var generic = "widget_" + currentSettingsOpen + "_/_user" + sakai.data.me.profile.path + "/private/widgets/";
+                var generic = "widget_" + currentSettingsOpen + "_/~" + sakai.data.me.user.userid + "/private/widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
                 var newel = document.createElement("div");
@@ -630,7 +630,7 @@ sakai.dashboard = function(){
                 }
             }
 
-            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, checksucceed);
+            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, myportaljson, checksucceed);
 
         }
 
@@ -806,7 +806,7 @@ sakai.dashboard = function(){
 
         myportaljson = $.parseJSON(jsonstring);
 
-        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
+        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
     };
 
@@ -953,7 +953,7 @@ sakai.dashboard = function(){
         /*
          * This will try to load the dashboard state file from the SData personal space
          */
-        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, decideExists);
 
     };
 

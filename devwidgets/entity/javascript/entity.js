@@ -168,8 +168,8 @@ sakai.entity = function(tuid, showSettings){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.picture && profile.path) {
-            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
+        if (profile.picture && profile["rep:userId"]) {
+            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return "";
@@ -445,7 +445,7 @@ sakai.entity = function(tuid, showSettings){
     var setProfileData = function(){
 
         // Set the profile picture for the user you are looking at
-        // /_user/a/ad/admin/public/profile/256x256_profilepicture
+        // /~admin/public/profile/256x256_profilepicture
         entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
         // Set the status for the user you want the information from
@@ -509,7 +509,7 @@ sakai.entity = function(tuid, showSettings){
         if(filedata["sakai:name"]){
             entityconfig.data.profile.name = filedata["sakai:name"];
         }
-        // e.g. http://localhost:8080/_user/a/ad/admin/private/3739036439_2418af9b4d_o.jpg
+        // e.g. http://localhost:8080/~admin/private/3739036439_2418af9b4d_o.jpg
         // to 3739036439_2418af9b4d_o.jpg
         else if(data.url){
             var splitslash = data.url.split("/");

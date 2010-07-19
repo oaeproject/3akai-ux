@@ -1,0 +1,14 @@
+{
+	"ca":true,
+	"description":"Discussion widget",
+	"id":"discussion",
+	"img":"/devwidgets/discussion/images/discussion.png",
+	"i18n": {
+		"default": "/devwidgets/discussion/bundles/default.json",
+		"en_US": "/devwidgets/discussion/bundles/en_US.json",
+		"zh_CN": "/devwidgets/discussion/bundles/zh_CN.json"
+	},
+	"name":"Discussion",
+	"showinsakaigoodies":true,
+	"url":"/devwidgets/discussion/discussion.html"
+}

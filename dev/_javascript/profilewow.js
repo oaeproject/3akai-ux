@@ -353,8 +353,8 @@ sakai.profilewow = function(){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.picture && profile.path) {
-            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
+        if (profile.picture && profile["rep:userId"]) {
+            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return "";
@@ -371,7 +371,7 @@ sakai.profilewow = function(){
         if (sakai.profilewow.profile.isme) {
 
             // Set the profile picture for the user you are looking at
-            // /_user/a/ad/admin/public/profile/256x256_profilepicture
+            // /~admin/public/profile/256x256_profilepicture
             sakai.profilewow.profile.picture = constructProfilePicture(sakai.data.me.profile);
 
             // Set the status for the user you want the information from

@@ -245,12 +245,12 @@ sakai._search = function(config, callback) {
                 var user = {};
                 user.userid = item["rep:userId"];
                 // Parse the user his info.
-                user.path = "/_user/public/" + user.userid + "/";
+                user.path = "/~" + user.userid + "/public/";
                 var person = item;
                 if (person.picture) {
                     var picture = $.parseJSON(person.picture);
                     if (picture.name) {
-                        user.picture = "/_user" + person.path + "/public/profile/" + picture.name;
+                        user.picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     } else {
                         user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }

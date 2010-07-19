@@ -20,6 +20,7 @@
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
+		<script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
         <script type="text/javascript" src="_configuration/config.js"></script>
 
         <!-- Core 3rd-party JS -->
@@ -277,7 +278,7 @@
                                 <span style="float:left;">
                                     <a href="javascript:;" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                                     {if r.userFrom[0].picture}
-                                        <img src="/_user${r.userFrom[0].hash}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
+                                        <img src="/~${r.userFrom[0]["rep:userId"]}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                     {else}
                                         <img src="/dev/_images/person_icon.jpg" class="sender-picture" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" id="inbox_message_picture" />
                                     {/if}

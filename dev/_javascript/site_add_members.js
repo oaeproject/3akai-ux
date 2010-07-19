@@ -177,7 +177,7 @@ sakai.site_add_members = function() {
         for (var i = 0; i < people.results.length; i++) {
             if (people.results[i].picture && typeof people.results[i].picture === "string") {
                 people.results[i].picture = $.parseJSON(people.results[i].picture);
-                people.results[i].picture.picPath = "/_user" + people.results[i].path + "/public/profile/" + people.results[i].picture.name;
+                people.results[i].picture.picPath = "/~" + people.results[i]["rep:userId"] + "/public/profile/" + people.results[i].picture.name;
             }
             else {
                 people.results[i].picture = {};
@@ -238,7 +238,7 @@ sakai.site_add_members = function() {
                     arrSearchTerms.push(" " + $.trim(splitted[i]) + "*") ;
                 }
         }
-        //escape the special chars (Ž, Œ,...) and replace hyphens by spaces
+        //escape the special chars (ï¿½, ï¿½,...) and replace hyphens by spaces
         var peoplesearchterm = escape(arrSearchTerms.join(" OR ")).replace(/-/g,"%20");
         $.ajax({
             cache: false,

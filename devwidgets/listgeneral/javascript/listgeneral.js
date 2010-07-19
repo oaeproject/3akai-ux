@@ -325,7 +325,7 @@ sakai.api.UI.listGeneral.addPage = function(tuid, pageNumber, searchQuery) {
                         // Avatar
                         if (result.picture) {
                             result.picture = $.parseJSON(result.picture);
-                            result.listgeneral.avatar = "/_user" + result.path + "/public/profile/" + result.picture.name;
+                            result.listgeneral.avatar = "/~" + result["rep:userId"] + "/public/profile/" + result.picture.name;
                         } else {
                             result.listgeneral.avatar = sakai.config.URL.USER_DEFAULT_ICON_URL;
                         }

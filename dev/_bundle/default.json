@@ -425,7 +425,7 @@
 "THE_USERNAME_CONTAINS_INVALID_CHARACTERS": "The username contains invalid characters",
 "THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG": "The username should be at least 3 characters long",
 "THE_USERNAME_SHOULDNT_CONTAIN_SPACES": "The username shouldn't contain spaces",
-"THIS_DOES_NOT_MATCH_THE_WORD_BELOW": "This does not match the word below",
+"THIS_DOES_NOT_MATCH": "This does not match the displayed words",
 "THIS_IS_AN_INVALID_EMAIL_ADDRESS": "This is an invalid email address",
 "THIS_OPERATION_IS_NOT_REVERSIBLE": "This operation is not reversible",
 "THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE": "This password does not match the first one",

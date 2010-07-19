@@ -64,8 +64,8 @@ var testJSON2 = {
     "layout": "dev"
 };
 
-var testURL = "/_user/a/ad/admin/public/test";
-var testURL2 = "/_user/a/ad/admin/public/test2";
+var testURL = "/~admin/public/test";
+var testURL2 = "/~admin/public/test2";
 
 var testCallbackCount = 0;
 

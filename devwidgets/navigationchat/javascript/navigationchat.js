@@ -326,7 +326,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // The picture will be undefined if the other user is in process of
         // changing his/her picture
         if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/_user" + profile.path + "/public/profile/" + $.parseJSON(profile.picture).name;
+            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
         }
         else {
             return personIconUrl;
@@ -1198,7 +1198,7 @@ sakai.navigationchat = function(tuid, showSettings){
                     };
 
                     $.ajax({
-                        url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
+                        url: "/~" + sakai.data.me.user.userid + "/message.create.html",
                         type: "POST",
                         success: function(data){
 
@@ -1263,7 +1263,7 @@ sakai.navigationchat = function(tuid, showSettings){
         // Send an Ajax request to check if there are any new messages, but only if there are contacts online
         if ((onlineFriends) && (onlineFriends.length > 0)) {
             $.ajax({
-                url: "/_user" + sakai.data.me.profile.path + "/message.chatupdate.json",
+                url: "/~" + sakai.data.me.user.userid + "/message.chatupdate.json",
                 data: data,
                 success: function(data){
 
@@ -1713,7 +1713,7 @@ sakai.navigationchat = function(tuid, showSettings){
         if (person.profile.picture) {
             var picture = $.parseJSON(person.profile.picture);
             if (picture.name) {
-                $(pictureHolder).attr("src", "/_user" + sakai.data.me.profile.path + "/public/" + picture.name);
+                $(pictureHolder).attr("src", "/~" + sakai.data.me.user.userid + "/public/" + picture.name);
             }
         }
 

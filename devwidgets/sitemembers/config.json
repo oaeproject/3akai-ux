@@ -1,0 +1,11 @@
+{
+	"ca":true,
+	"description":"List of site members",
+	"hasSettings":true,
+	"id":"sitemembers",
+	"img":"/devwidgets/sitemembers/images/sitemembers.png",
+	"showinsakaigoodies":true,
+	"siteportal":true,
+	"name":"Site members",
+	"url":"/devwidgets/sitemembers/sitemembers.html"
+}
