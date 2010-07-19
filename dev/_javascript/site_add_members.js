@@ -371,6 +371,7 @@ sakai.site_add_members = function() {
                     traditional: true,
                     success: function(data){
                             updateSiteMembers(dataTemp);
+                            addMembersToXythos(dataTemp);
                             selectNone();
 
                             // Create an activity item for adding new members to the site
@@ -399,6 +400,27 @@ sakai.site_add_members = function() {
         }
 
     };
+
+    var addMembersToXythos = function(addedMembers) {
+        if (addedMembers.uuserid.length > 0) {
+            var newMembers = [];
+            for (var i = 0; i < addedMembers.uuserid.length; i++) {
+                newMembers.push(addedMembers.uuserid[i]);
+            }
+            $.ajax({
+                url: "/addmembers",
+                type: "POST",
+                success: function(data){
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                    },
+                    data: {
+                        ":member": newMembers,
+                        "siteid": "/sites/" + siteJson.id
+                    }
+                });
+        }
+    }
     
     $("#txt_member_search").bind("focus",
     function(e, ui) {
