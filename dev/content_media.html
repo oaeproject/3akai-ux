@@ -218,7 +218,9 @@
                                 <div id="contentmedia_files_container_template"><!--
                                     {for i in results}
                                         <div class="contentmedia_file" id="contentmedia_filename_${i_index}">
-                                            {if i['sakai:mimeType']}
+                                            {if i['jcr:mimeType']}
+                                              {var mimeType = i['jcr:mimeType']}
+                                            {elseif i['sakai:mimeType']}
                                                 {var mimeType = i['sakai:mimeType']}
                                             {elseif i.file && i.file['sakai:mimeType']}
                                                 {var mimeType = i.file['sakai:mimeType']}
@@ -228,17 +230,19 @@
                                                 {var mimeType = 'folder'}
                                             {/if}
                                             {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp" }
-                                                {if i.properties.thumbnailUri}
+                                                {if i.properties && i.properties.thumbnailUri}
                                                   <img src="${i.properties.thumbnailUri}" alt="${sakai.config.MimeTypes[mimeType].description}" />
-                                                {else}
+                                                {elseif i.uri}
                                                   <img src="${i.uri}" alt="${sakai.config.MimeTypes[mimeType].description}" />
+                                                {elseif i['jcr:path']}
+                                                  <img src="${i['jcr:path']}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                                 {/if}
                                             {elseif sakai.config.MimeTypes[mimeType]}
                                                 <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                             {else}
                                                 <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" />
                                             {/if}
-                                            <div class="contentmedia_file_name">{if i.properties.filename}${i.properties.filename}{else}${i["sakai:filename"]}{/if}</div>
+                                            <div class="contentmedia_file_name">{if i.properties && i.properties.filename}${i.properties.filename}{elseif i["sakai:filename"]}${i["sakai:filename"]}{elseif i["jcr:name"]}${i["jcr:name"]}{/if}</div>
                                             {if i.formattedFilesize}
                                                 <div class="contentmedia_file_size">${i.formattedFilesize}</div>
                                             {/if}
@@ -249,6 +253,8 @@
                                             <div class="contentmedia_hidden">
                                                 {if i.uri}
                                                     ${i.uri}
+                                                {elseif i['jcr:path']}
+                                                    ${i['jcr:path']}
                                                 {/if}
                                             </div>
                                         </div>

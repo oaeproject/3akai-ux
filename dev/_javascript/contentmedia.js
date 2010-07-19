@@ -433,10 +433,14 @@ sakai.contentmedia = function(){
 
         // Set the globaldata variable
         
-        resultwrapper = {};
-        resultwrapper.results = data;
-        resultwrapper.total = data.length;
-        globaldata = resultwrapper;
+        if (!data.results) {
+          resultwrapper = {};
+          resultwrapper.results = data;
+          resultwrapper.total = data.length;
+          globaldata = resultwrapper;
+        } else {
+          globaldata = data;
+        }
         
         
         // Set the formatted file size and format the date
@@ -448,7 +452,8 @@ sakai.contentmedia = function(){
         }
 
         // Render files
-        $(contentmediaFilesContainer).html($.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata));
+        console.log("rendered:", $.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata));
+        $.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata, $(contentmediaFilesContainer));
 
         // Render paging
         $(jqPagerClass).pager({
@@ -1188,7 +1193,11 @@ sakai.contentmedia = function(){
               list: '#upload_file_list'
             });  
             */
-            $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
+            if (sakai.config.URL.UPLOAD_URL) {
+              $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
+            } else {
+              $("#new_uploader form").attr("action", getServerUrl("/~" + sakai.data.me.user.userid + sakai.config.URL.USER_DEFAULT_UPLOAD_FOLDER));
+            }
             $("#multifile_form").ajaxForm({
                 success: function() {
                     //$("#multifile_upload").MultiFile('reset');
