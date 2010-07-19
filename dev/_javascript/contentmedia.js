@@ -1186,52 +1186,28 @@ sakai.contentmedia = function(){
     /**
      * Set the various settings for the fluid uploader component
      */
-    var initialiseUploader = function(){
-
-        // Show the Uploader's markup immediately, since we're not using progressive enhancement.
-        $(".fl-progEnhance-basic").hide();
-        $(".fl-progEnhance-enhanced").show();
-
-        var myUpload = fluid.progressiveEnhanceableUploader(".flc-uploader", ".fl-progEnhance-basic", {
-            uploadManager: {
-                type: "fluid.swfUploadManager",
-
-                options: {
-                    // Set the uploadURL to the URL for posting files to your server.
-                    uploadURL: getServerUrl("/~" + sakai.data.me.user.userid + sakai.config.URL.USER_DEFAULT_UPLOAD_FOLDER),
-
-                    // This option points to the location of the SWFUpload Flash object that ships with Fluid Infusion.
-                    flashURL: "/dev/_lib/Fluid/fluid-components/swfupload/swfupload.swf"
-
-                    // Hide the postparams because we do not need to create a link (for now) -- if we upload files into sites, we do
-                    /*var linkUrl = "/sites/test/_files";
-                    var siteUrl = "/sites/test";
-                    postParams: {
-                        "link" : linkUrl,
-                        "site" : siteUrl
-                    }*/
-                }
-            },
-            decorators: [{
-                type: "fluid.swfUploadSetupDecorator",
-                options: {
-                     // This option points to the location of the Browse Files button used with Flash 10 clients.
-                    flashButtonImageURL: "/dev/_images/uploader/browse.png"
-                }
-            }],
-            listeners: {
-                //afterFileQueued: myQueueListenerFunc
-                afterUploadComplete : uploadCompleteListener
-            }
-            $("#multifile_form").ajaxForm({
-                success: function() {
-                    //$("#multifile_upload").MultiFile('reset');
-                    $("#multifile_upload").val('');
-                    uploadCompleteListener();
-                }
-            });
-        });
-    };
+     
+     var initialiseUploader = function() {
+         $(function() {
+             /* Multi-file upload - uncomment when we can enable this
+             $("#multifile_upload").MultiFile({
+               list: '#upload_file_list'
+             });  
+             */
+             if (sakai.config.URL.UPLOAD_URL) {
+               $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
+             } else {
+               $("#new_uploader form").attr("action", getServerUrl("/~" + sakai.data.me.user.userid + sakai.config.URL.USER_DEFAULT_UPLOAD_FOLDER));
+             }
+             $("#multifile_form").ajaxForm({
+                 success: function() {
+                     //$("#multifile_upload").MultiFile('reset');
+                     $("#multifile_upload").val('');
+                     uploadCompleteListener();
+                 }
+             });
+         });
+     };
     
     /**
      * Initialise the modal dialogs
