@@ -273,7 +273,7 @@ sakai.wookiechat = function(tuid, showSettings) {
                     // avatar
                     if (me.profile.picture) {
                         var oPicture = me.profile.picture;
-                        var sAvatar = "/_user" + me.profile.path + "/public/profile/" + oPicture.name;
+                        var sAvatar = "/~" + me.user.userid + "/public/profile/" + oPicture.name;
                         sFrame += "&avatar=" + sAvatar;
                     }
                 }

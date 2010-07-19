@@ -228,7 +228,7 @@ sakai.discussion = function(tuid, showSettings) {
         // The picture name will be undefined if the other user is in process of
         // changing his/her picture
         if (picture && $.parseJSON(picture).name) {
-            return "/_user/public/" + uuid + "/" + $.parseJSON(picture).name;
+            return "/" + uuid + "/public/" + $.parseJSON(picture).name;
         }
         return sakai.config.URL.USER_DEFAULT_ICON_URL;
     };
@@ -620,7 +620,7 @@ sakai.discussion = function(tuid, showSettings) {
     var createInitialPost = function(post) {
         // Use the local store for creating the initial posts.
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
+            url: "/~" + sakai.data.me.user.userid + "/message.create.html",
             cache: false,
             type: 'POST',
             success: function(data) {

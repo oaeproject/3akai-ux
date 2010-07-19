@@ -128,7 +128,7 @@ sakai.api.Communication.sendMessage = function(to, subject, body, category, repl
 
     // Send message
     $.ajax({
-        url: "/_user" + sakai.data.me.profile.path + "/message.create.html",
+        url: "/~" + sakai.data.me.user.userid + "/message.create.html",
         type: "POST",
         data: toSend,
         success: function(data) {

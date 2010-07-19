@@ -180,7 +180,7 @@ sakai.site_manage_members = function() {
         for (var i = 0; i < results.length; i++) {
             if (results[i].picture && typeof results[i].picture !== "object") {
                 results[i].picture = $.parseJSON(results[i].picture);
-                results[i].picture.picPath = "/_user" + results[i].path + "/public/profile/" + results[i].picture.name;
+                results[i].picture.picPath = "/~" + results[i]["rep:userId"] + "/public/profile/" + results[i].picture.name;
             }
             else {
                 results[i].picture = undefined;

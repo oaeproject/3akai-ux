@@ -1306,7 +1306,7 @@ sakai.site = function(){
             }
         }
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "/private/print",
+            url: "/~" + sakai.data.me.user.userid + "/private/print",
             type: "POST",
             data: {
                 "css": css,

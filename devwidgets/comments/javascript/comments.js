@@ -279,7 +279,7 @@ sakai.comments = function(tuid, showSettings){
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
                 if (profile.picture && $.parseJSON(profile.picture).name) {
-                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.parseJSON(profile.picture).name;
+                    user.picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
                 user.uid = profile["userid"][0];
                 user.profile = sakai.config.URL.PROFILE_URL + "?user=" + user.uid;
@@ -431,7 +431,7 @@ sakai.comments = function(tuid, showSettings){
             };
 
 
-            var url = "/_user" + sakai.data.me.profile.path + "/message.create.html";
+            var url = "/~" + sakai.data.me.user.userid + "/message.create.html";
             $.ajax({
                 url: url,
                 type: "POST",

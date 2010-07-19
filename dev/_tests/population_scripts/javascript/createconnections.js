@@ -69,7 +69,7 @@ sakai.createconnections = function(){
 
                         // Send the invite
                         $.ajax({
-                            url: "/_user/" + sakai.data.me.user.userStoragePrefix + "contacts.invite.html",
+                            url: "/~" + sakai.data.me.user.userid + "/contacts.invite.html",
                             type: "POST",
                             data: currentConnection.postdata,
                             success: function(){
@@ -88,7 +88,7 @@ sakai.createconnections = function(){
 
                                                 // Accept the invite
                                                 $.ajax({
-                                                    url: "/_user/" + sakai.data.me.user.userStoragePrefix + "contacts.accept.html",
+                                                    url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
                                                     data: {
                                                         "targetUserId": currentConnection.from
                                                     },

@@ -142,7 +142,7 @@ sakai.myprofile = function (tuid, showSettings) {
         if (json.picture) {
             var pict = $.parseJSON(json.picture);
             if (pict.name) {
-                $(profilePictureID, rootel).attr('src', "/_user" + sakai.data.me.profile.path + "/public/profile/" + pict.name );
+                $(profilePictureID, rootel).attr('src', "/~" + sakai.data.me.user.userid + "/public/profile/" + pict.name );
             }
         }
 

@@ -662,7 +662,7 @@ sakai.inbox = function() {
     var showUnreadMessages = function() {
 
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
+            url: "/~" + sakai.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=inbox,false&groupedby=sakai:category",
             cache: false,
             success: function(data) {
 
@@ -807,7 +807,7 @@ sakai.inbox = function() {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
                     $(inboxSpecificMessageFrom).text(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]);
                     if (message.userFrom[i].photo) {
-                        $(inboxSpecificMessagePicture).attr("src", "/_user" + message.userFrom[i].hash + "/public/profile/" + message.userFrom[i].photo);
+                        $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["rep:userId"] + "/public/profile/" + message.userFrom[i].photo);
                     }
                     else {
                         $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
@@ -881,7 +881,7 @@ sakai.inbox = function() {
     $("#inbox_message_accept_invitation").live("click", function(ev){
         var accepting = selectedMessage["sakai:from"];
         $.ajax({
-            url: "/_user" + sakai.data.me.profile.path + "/contacts.accept.html",
+            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
             type: "POST",
             data : {"targetUserId":accepting},
             success: function(data){

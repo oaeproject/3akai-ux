@@ -129,7 +129,7 @@ sakai.createsite = function(tuid, showSettings){
             item.userid = sakai.data.me.user.userid;
             item.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
             if (sakai.data.me.profile.picture && $.parseJSON(sakai.data.me.profile.picture).name){
-                item.picture = "/_user/public/" + sakai.data.me.user.userid + "/" + $.parseJSON(sakai.data.me.profile.picture).name;
+                item.picture = "/~" + sakai.data.me.user.userid + "/public/" + $.parseJSON(sakai.data.me.profile.picture).name;
             }
             members.items.unshift(item);
 
