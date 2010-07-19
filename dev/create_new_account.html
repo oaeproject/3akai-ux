@@ -34,6 +34,10 @@
         <!-- 3rd party JS -->
         <script type="text/javascript" src="_lib/Jcap/jcap.js"></script>
         <script type="text/javascript" src="_lib/Jcap/md5.js"></script>
+        
+        <!-- reCAPTCHA js -->
+        <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
 
     </head>
 
@@ -158,8 +162,10 @@
 
                             <!-- CAPTCHA -->
                             <tr>
-                                <td class="label_container"><label for="uword">__MSG__PLEASE_TYPE_THE_WORD_BELOW__:</label></td>
-                                <td><input type="text" id="uword" maxlength="255" name="uword" class="create_account_input" /></td>
+                                <td></td>
+                                <td class="captcha_container" id="captcha_box">
+                                    <div id="widget_captcha" class="widget_inline"></div>
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -167,10 +173,6 @@
                                     <div id="uword_empty" class="create_account_error_msg">__MSG__PLEASE_TYPE_THE_WORD_BELOW__!</div>
                                     <div id="uword_nomatch" class="create_account_error_msg">__MSG__THIS_DOES_NOT_MATCH_THE_WORD_BELOW__!</div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td class="captcha_container"><script type="text/javascript">sjcap();</script></td>
                             </tr>
 
                             <!-- BUTTONS -->
