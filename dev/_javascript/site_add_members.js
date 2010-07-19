@@ -399,7 +399,7 @@ sakai.site_add_members = function() {
         }
 
     };
-
+    
     $("#txt_member_search").bind("focus",
     function(e, ui) {
         if ($("#txt_member_search").css("color") !== "rgb(0, 0, 0)") {

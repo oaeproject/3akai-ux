@@ -109,6 +109,16 @@ var Widgets = {
             "name":"changepic",
             "url":"/devwidgets/changepic/changepic.html"
         },
+        "collections": {
+          "description":"Collections Tool",
+          "ca":true,
+          "hasSettings":true,
+          "showinsakaigoodies":true,
+          "id":"collections",
+          "img":"/devwidgets/collections/images/portfolio.png",
+          "name":"Collections",
+          "url":"/devwidgets/collections/collections.html"
+        },
         "comments": {
             "description":"Comments",
             "ca":true,

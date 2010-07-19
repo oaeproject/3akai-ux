@@ -283,6 +283,42 @@ sakai.site_manage_members = function() {
         });
     };
     getSiteMembers(null, 1,",");
+    var getPendingJoinRequests = function() {
+        $.getJSON("/var/joinrequests/pending.json", {"site": selectedSite}, function(data) {
+            var toRender = {};
+            toRender.requesters = data.results;
+            if(data.results.length > 0) {
+                $("#siteManage_pending-requests-title").show();
+                $("#siteManage_requests").html($.TemplateRenderer("siteManage_requests_template", toRender));
+                $(".accept-sitejoin").bind("click",function(ev){
+                    var from = this.id.replace("accept_link_", "")
+                    var sitePath = '/sites/' + selectedSite;
+                    $.ajax({
+                        url: sitePath + ".approve.html",
+                        type: "POST",
+                        data : {"user":from},
+                        success: function(data){
+                            $("#siteManage_requester_" + from).fadeOut().remove();
+                            getSiteMembers(null, 1, ",");
+                        }
+                    });
+                });
+                $(".deny-sitejoin").bind("click",function(ev){
+                    var from = this.id.replace("deny_link_", "")
+                    var sitePath = '/sites/' + selectedSite;
+                    $.ajax({
+                        url: sitePath + ".deny.html",
+                        type: "POST",
+                        data : {"user":from},
+                        success: function(data){
+                            $("#siteManage_requester_" + from).fadeOut().remove();
+                        }
+                    });
+                });
+            }
+        });
+    }
+    getPendingJoinRequests();
 
 
     var filterMembers = function(search){

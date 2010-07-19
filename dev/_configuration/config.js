@@ -58,6 +58,7 @@ sakai.config = {
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
         FRIEND_ACCEPTED_SERVICE: "/var/contacts/accepted.json",
         GOOGLE_CHARTS_API: "http://chart.apis.google.com/chart",
+        HEADER_SERVICE: "/var/proxy/header.json",
         IMAGE_SERVICE: "/var/image/cropit",
         LOGIN_SERVICE: "/system/sling/formlogin",
         LOGOUT_SERVICE: "/system/sling/formlogin",

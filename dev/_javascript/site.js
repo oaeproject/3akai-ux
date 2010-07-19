@@ -102,6 +102,7 @@ sakai.site = function(){
     var $initialcontent = $("#initialcontent");
     var $page_nav_content = $("#page_nav_content");
     var $sitetitle = $("#sitetitle");
+    var $site_join_button = $("#site_join_button");
     var $widget_chat = $("#widget_chat");
     var $loginLink = $("#loginLink");
     var $insert_more_menu = $("#insert_more_menu");
@@ -211,7 +212,18 @@ sakai.site = function(){
         return urlName;
     };
 
+    var showAdminElements = function() {
 
+        // Show admin elements
+        $li_edit_page_divider.show();
+        $li_edit_page.show();
+        $add_a_new.show();
+        $site_management.show();
+
+        // Load admin part from a separate file
+        $.getScript(sakai.site.siteAdminJS);
+        
+    }
 
     /////////////
     // LOADING //
@@ -228,6 +240,7 @@ sakai.site = function(){
 
         $.ajax({
             url: "/sites/" + sakai.site.currentsite + ".json",
+            dataType: "json",
             cache: false,
             success: function(response){
 
@@ -251,15 +264,7 @@ sakai.site = function(){
                 // Determine whether the user is maintainer, if yes show and load admin elements
                 sakai.site.isCollaborator = sakai.lib.site.authz.isUserMaintainer(sakai.site.currentsite);
                 if (sakai.site.isCollaborator) {
-
-                    // Show admin elements
-                    $li_edit_page_divider.show();
-                    $li_edit_page.show();
-                    $add_a_new.show();
-                    $site_management.show();
-
-                    // Load admin part from a separate file
-                    $.getScript(sakai.site.siteAdminJS);
+                    showAdminElements();
                 }
 
                 // Check user's login status
@@ -275,6 +280,22 @@ sakai.site = function(){
                 $initialcontent.show();
                 $sitetitle.text(sakai.site.currentsite.name);
 
+                // Setting up the Join this site button
+                if (shouldShowJoinButton()) {
+                    if (shouldDisableJoinButton()) {
+                        $site_join_button.find("span").text("Request for membership pending approval").show().attr('disabled','disabled');
+                    } else {
+                        if (joinRequiresApproval()) {
+                            $site_join_button.find("span").text("Request to join this site");
+                        }
+                        // Bind 'Join this site' button
+                        $site_join_button.live("click", function(ev){
+                            requestJoin();
+                        });
+                    }
+                    $site_join_button.show();
+                }
+
                 // Refresh site_info object
                 sakai.site.refreshSiteInfo();
 
@@ -289,6 +310,20 @@ sakai.site = function(){
             }
         });
     };
+    
+    var shouldShowJoinButton = function() {
+        return ((sakai.site.currentsite["sakai:joinable"] === "yes" 
+            || sakai.site.currentsite["sakai:joinable"] === "withauth")
+        && !sakai.site.isCollaborator);
+    }
+    
+    var shouldDisableJoinButton = function() {
+        return sakai.site.currentsite[":isPendingApproval"] === true;
+    }
+    
+    var joinRequiresApproval = function() {
+        return sakai.site.currentsite["sakai:joinable"] === "withauth";
+    }
 
 
     /**
@@ -1282,6 +1317,32 @@ sakai.site = function(){
             $main_content_div.append(errorel);
         }
 
+    };
+
+    /////////////////////////////
+    // Request Site Join
+    /////////////////////////////
+    var requestJoin = function() {
+        $site_join_button.find("span").text("Submitting request…").attr('disabled','disabled');
+        $.ajax({
+            url: "/sites/" + sakai.site.currentsite.id + ".join.html",
+            type: "POST",
+            data: {
+                "targetGroup": sakai.site.currentsite["sakai:rolemembers"][1]
+            },
+            success: function(data){
+                if (sakai.site.currentsite["sakai:joinable"] === "withauth") {
+                     $site_join_button.find("span").text("Site join request pending approval");
+                } else if (sakai.site.currentsite["sakai:joinable"] === "yes") {
+                     $site_join_button.hide();
+                     showAdminElements();
+                }
+            },
+            error: function(xhr, textStatus, thrownError) {
+                $site_join_button.find("span").text("Unable to submit request. Contact site maintainer for membership.");
+                fluid.log("site.js: Could not submit request to join site. \n HTTP status code: " + xhr.status);
+            }
+        });
     };
 
 

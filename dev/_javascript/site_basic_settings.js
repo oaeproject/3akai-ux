@@ -65,6 +65,10 @@ sakai.site_basic_settings = function(){
     var siteSettingsAccessPublic = siteSettingsAccess + "_public";
     var siteSettingsAccessSakaiUsers = siteSettingsAccess + "_sakaiUsers";
     var siteSettingsAccessInvite = siteSettingsAccess + "_invite";
+    var siteSettingsJoinable = siteSettings + "_joinable";
+    var siteSettingsJoinableNo = siteSettingsJoinable + "_no";
+    var siteSettingsJoinableWithAuth = siteSettingsJoinable + "_withauth";
+    var siteSettingsJoinableYes = siteSettingsJoinable + "_yes";
     //    Delete
     var siteSettingsDelete = siteSettings + "_delete";
     var siteSettingsDeleteButton = siteSettingsDelete + "_button";
@@ -155,6 +159,7 @@ sakai.site_basic_settings = function(){
                         $(siteSettingsStatusOff).attr("checked", "checked");
                         //  Hide the other part.
                         $(siteSettingsAccess).hide();
+                        $(siteSettingsJoinable).hide();
                     }
                     else {
                         $(siteSettingsStatusOn).attr("checked", "checked");
@@ -163,14 +168,20 @@ sakai.site_basic_settings = function(){
                     // Access
                     if (response.access && response.access.toLowerCase() === "sakaiusers") {
                         $(siteSettingsAccessSakaiUsers).attr("checked", "checked");
+                    } else if (response.access && response.access.toLowerCase() === "invite") {
+                        $(siteSettingsAccessInvite).attr("checked", "checked");
+                    } else {
+                        $(siteSettingsAccessPublic).attr("checked", "checked");
                     }
-                    else
-                        if (response.access && response.access.toLowerCase() === "invite") {
-                            $(siteSettingsAccessInvite).attr("checked", "checked");
-                        }
-                        else {
-                            $(siteSettingsAccessPublic).attr("checked", "checked");
-                        }
+                        
+                    // Joinability
+                    if (response["sakai:joinable"] && response["sakai:joinable"].toLowerCase() === "yes") {
+                        $(siteSettingsJoinableYes).attr("checked", "checked");
+                    } else if (response["sakai:joinable"] && response["sakai:joinable"].toLowerCase() === "withauth") {
+                        $(siteSettingsJoinableWithAuth).attr("checked", "checked");
+                    } else {
+                        $(siteSettingsJoinableNo).attr("checked", "checked");
+                    }
                 }
                 else {
                     // The user is not an owner for this site. we redirect him/her to the site page.
@@ -287,6 +298,12 @@ sakai.site_basic_settings = function(){
                 if ($(siteSettingsAccessInvite + "[type=radio]").is(":checked")) {
                     access = "invite";
                 }
+            var joinable = "no";
+            if ($(siteSettingsJoinableWithAuth + "[type=radio]").is(":checked")) {
+                joinable = "withauth";
+            } else if ($(siteSettingsJoinableYes + "[type=radio]").is(":checked")) {
+                joinable = "yes";
+            }
 
             var language = $(siteSettingLanguageCmb + " option:selected").val();
             var tosend = {
@@ -294,6 +311,7 @@ sakai.site_basic_settings = function(){
                 "description": descEL.val(),
                 "status": status,
                 "access": access,
+                "sakai:joinable": joinable,
                 "language": language,
                 "_charset_":"utf-8"
             };
@@ -416,9 +434,11 @@ sakai.site_basic_settings = function(){
      */
     $(siteSettingsStatusOff).bind("click", function(){
         $(siteSettingsAccess).hide();
+        $(siteSettingsJoinable).hide();
     });
     $(siteSettingsStatusOn).bind("click", function(){
         $(siteSettingsAccess).show();
+        $(siteSettingsJoinable).show();
     });
 
     /*

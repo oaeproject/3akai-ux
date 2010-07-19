@@ -154,6 +154,9 @@
                                     </div>
 
                                     <div id="siteManage_members" class="siteManagepeopleContainers"> </div>
+                                    <div class="sakai_pager"></div>
+                                    <div id="siteManage_pending-requests-title" style="display:none;" class="manage_member_title"> __MSG__PENDING_SITE_JOIN_REQUESTS__ </div>
+                                    <div id="siteManage_requests" class="siteManagepeopleContainers"> </div>
                                     <div id="siteManage_people_template" style="display:none"><!--
                                         <div class="members-container">
                                         <ul width="100%">
@@ -181,7 +184,36 @@
                                             <div class="fl-push"></div>
                                         </div>
                                     --></div>
-                                    <div class="sakai_pager"></div>
+                                        
+                                        <div id="siteManage_requests_template" style="display:none"><!--
+                                            <div class="members-container">
+                                            <ul width="100%">
+                                            {for i in requesters}
+                                                <li class="unselected siteManage_person" id="siteManage_requester_${i['jcr:name']}">
+                                                    <a href="javascript:;">
+                                                    {if typeof i.picture == "undefined"}
+                                                    <img src="_images/member_thumb_unselected.png" alt="__MSG__UNDEFINED_MEMBER_PICTURE__" />
+                                                    {else}
+                                                    <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
+                                                    {/if}
+                                                    </a>
+
+                                                    {if (typeof i['jcr:name'] !== "undefined")}
+                                                    <a href="javascript:;" class="member-label">${i['jcr:name']}</a><div class="member-title"></div>
+                                                    {else}
+                                                    <a href="javascript:;" class="member-label">${i['jcr:name']}</a><div class="member-title"></div>
+                                                    {/if}
+                                                    <a href="profile.html?user=${i['jcr:name']}" target="_blank" class="member-label view-profile-label sitejoin-link">__MSG__VIEW_PROFILE__</a>
+                                                    <a href="javascript:;" id="accept_link_${i['jcr:name']}" class="member-label accept-sitejoin sitejoin-link">__MSG__ACCEPT_SITEJOIN__</a>
+                                                    <a href="javascript:;" id="deny_link_${i['jcr:name']}"class="member-label deny-sitejoin sitejoin-link">__MSG__DENY_SITEJOIN__</a>
+
+                                                </li>
+                                            {/for}
+                                            </ul>
+                                                <div class="fl-push"></div>
+                                            </div>
+                                        --></div>
+                                    
                                 </div>
                             </div>
                         </div>

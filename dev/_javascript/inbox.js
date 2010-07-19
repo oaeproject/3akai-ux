@@ -791,6 +791,9 @@ sakai.inbox = function() {
         // Hide invitation links
         $("#inbox-invitation-accept").hide();
         $("#inbox-invitation-already").hide();
+        $("#inbox-sitejoin-accept").hide();
+        $("#inbox-sitejoin-deny").hide();
+        $("#inbox-sitejoin-already").hide();
 
         showPane(inboxPaneMessage);
         var message = getMessageWithId(id);
@@ -822,24 +825,36 @@ sakai.inbox = function() {
             $(inboxSpecificMessageComposeSubject).val("Re: " + message.subject);
 
             if (message["sakai:category"] === "invitation"){
-                // Check whether this request is still pending
-                $.ajax({
-                    url: "/var/contacts/invited?page=0&items=100",
-                    success: function(data) {
-                        var pending = false;
-                        for (var i = 0; i < data.results.length; i++){
-                            if (data.results[i].target === message["sakai:from"]){
-                                // Still a pending invitation
-                                pending = true;
+                if (message["sakai:subcategory"] === "joinrequest") {
+                    $.getJSON(message["sakai:sitepath"] + '/joinrequests/' + message.userFrom[0].hash + '.json', function(data) {
+                        var siteJoinRequestIsPending = (data["sakai:requestState"] && data["sakai:requestState"] === "pending");
+                        if (siteJoinRequestIsPending) {
+                            $("#inbox-sitejoin-accept").show();
+                            $("#inbox-sitejoin-deny").show();
+                        } else {
+                            $("#inbox-sitejoin-already").show();
+                        }
+                    });
+                } else {
+                    // Check whether this request is still pending
+                    $.ajax({
+                        url: "/var/contacts/invited?page=0&items=100",
+                        success: function(data) {
+                            var pending = false;
+                            for (var i = 0; i < data.results.length; i++){
+                                if (data.results[i].target === message["sakai:from"]){
+                                    // Still a pending invitation
+                                    pending = true;
+                                }
+                            }
+                            if (pending){
+                                $("#inbox-invitation-accept").show();
+                            } else {
+                                $("#inbox-invitation-already").show();
                             }
                         }
-                        if (pending){
-                            $("#inbox-invitation-accept").show();
-                        } else {
-                            $("#inbox-invitation-already").show();
-                        }
-                    }
-                });
+                    });
+            	}
             }
 
             // This message has some replies attached to it.
@@ -887,6 +902,48 @@ sakai.inbox = function() {
             success: function(data){
                 $("#inbox-invitation-accept").hide();
                 $("#inbox-invitation-already").show();
+            }
+        });
+    });
+    
+    /**
+     *
+     * ACCEPT SITE JOIN REQUEST
+     *
+     */
+
+    $("#inbox_message_accept_sitejoin").live("click", function(ev){
+        var from = selectedMessage["sakai:from"];
+        var sitePath = selectedMessage["sakai:sitepath"];
+        $.ajax({
+            url: sitePath + ".approve.html",
+            type: "POST",
+            data : {"user":from},
+            success: function(data){
+                $("#inbox-sitejoin-accept").hide();
+                $("#inbox-sitejoin-deny").hide();
+                $("#inbox-sitejoin-already").show();
+            }
+        });
+    });
+    
+    /**
+     *
+     * DENY SITE JOIN REQUEST
+     *
+     */
+
+    $("#inbox_message_deny_sitejoin").live("click", function(ev){
+        var from = selectedMessage["sakai:from"];
+        var sitePath = selectedMessage["sakai:sitepath"];
+        $.ajax({
+            url: sitePath + ".deny.html",
+            type: "POST",
+            data : {"user":from},
+            success: function(data){
+                $("#inbox-sitejoin-accept").hide();
+                $("#inbox-sitejoin-deny").hide();
+                $("#inbox-sitejoin-already").show();
             }
         });
     });

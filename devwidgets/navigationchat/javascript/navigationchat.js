@@ -202,12 +202,14 @@ sakai.navigationchat = function(tuid, showSettings){
     var nav = "#nav";
     var navContentMediaLink = "#nav_content_media_link";
     var navCoursesSitesLink = "#nav_courses_sites_link";
+    var navCoursesSitesLinkClass = "#nav_courses_sites_link";
     var navPeopleLink = "#nav_people_link";
+    var navPeopleLinkClass = "nav_people_link";
     var navMySakaiLink = "#nav_my_sakai_link";
     var navCalendarLink = "#nav_calendar_link";
     var navSelectedNavItemClass = "explore_nav_selected";
 
-    // Seach
+    // Search
     var $general_search_form = $("#genaral_search_container form");
     var $general_search_input = $("#general_search_input");
     var searchFocus = false;
@@ -859,9 +861,9 @@ sakai.navigationchat = function(tuid, showSettings){
 
         // We render the template, add it to a temporary div element and set the html for it.
         json.items = [];
-        for (var j = 0, k = json.contacts.length; j < k; j++) {
-            if (json.contacts[j]["sakai:status"] == "online" && json.contacts[j].chatstatus !== "offline") {
-                json.items.push(json.contacts[j]);
+        for (var z = 0, k = json.contacts.length; z < k; z++) {
+            if (json.contacts[z]["sakai:status"] == "online" && json.contacts[z].chatstatus !== "offline") {
+                json.items.push(json.contacts[z]);
             }
         }
         var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
