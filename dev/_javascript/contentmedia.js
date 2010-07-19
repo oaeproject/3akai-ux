@@ -452,7 +452,6 @@ sakai.contentmedia = function(){
         }
 
         // Render files
-        console.log("rendered:", $.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata));
         $.TemplateRenderer(contentmediaFilesContainerTemplate, globaldata, $(contentmediaFilesContainer));
 
         // Render paging
@@ -1189,11 +1188,9 @@ sakai.contentmedia = function(){
      
      var initialiseUploader = function() {
          $(function() {
-             /* Multi-file upload - uncomment when we can enable this
              $("#multifile_upload").MultiFile({
                list: '#upload_file_list'
              });  
-             */
              if (sakai.config.URL.UPLOAD_URL) {
                $("#new_uploader form").attr("action", sakai.config.URL.UPLOAD_URL);
              } else {
@@ -1201,7 +1198,7 @@ sakai.contentmedia = function(){
              }
              $("#multifile_form").ajaxForm({
                  success: function() {
-                     //$("#multifile_upload").MultiFile('reset');
+                     $("#multifile_upload").MultiFile('reset');
                      $("#multifile_upload").val('');
                      uploadCompleteListener();
                  }
