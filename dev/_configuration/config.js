@@ -42,7 +42,6 @@ sakai.config = {
         SEARCH_SITES_URL: "search_sites.html",
         TINY_MCE_CONTENT_CSS: "/dev/_css/FSS/fss-base.css,/dev/_css/sakai/sakai.core.2.css,/dev/_css/sakai/sakai.css,/dev/_css/sakai/sakai.editor.css",
         USER_DEFAULT_ICON_URL: "/dev/_images/person_icon.jpg",
-        UPLOAD_URL: "/xythos.create.json",
         USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
 
@@ -76,13 +75,13 @@ sakai.config = {
         SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
         SDATA_FETCH: "/",
         // --
-        SEARCH_ALL_FILES_SERVICE: "/var/search/xythos.json",
+        SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
         SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
         SEARCH_CONTENT_SERVICE: "/var/search/content.json",
         SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
-        SEARCH_MY_CONTACTS: "/var/search/xythos.json",
-        SEARCH_MY_FILES: "/var/search/xythos.json",
-        SEARCH_MY_SITES: "/var/search/xythos.json",
+        SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
+        SEARCH_MY_FILES: "/var/search/files/myfiles.json",
+        SEARCH_MY_SITES: "/var/search/files/mysites.json",
         SEARCH_PAGES: "/var/search/page.json",
         SEARCH_SITES: "/var/search/sites.json",
         SEARCH_USERS_ACCEPTED: "/var/contacts/find.json?s=",
