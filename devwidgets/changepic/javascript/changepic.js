@@ -275,8 +275,8 @@ sakai.changepic = function(tuid, showSettings){
 
         // The parameters for the cropit service.
         var data = {
-            img: "/_user" + sakai.data.me.profile.path + "/public/profile/" + picture._name,
-            save: "/_user" + sakai.data.me.profile.path + "/public/profile",
+            img: "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name,
+            save: "/~" + sakai.data.me.user.userid + "/public/profile",
             x: Math.floor(userSelection.x1 * ratio),
             y: Math.floor(userSelection.y1 * ratio),
             width: Math.floor(userSelection.width * ratio),
