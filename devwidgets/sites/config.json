@@ -1,0 +1,12 @@
+{
+	"description":"Listing of the sites I'm a member of",
+	"i18n": {
+		"default": "/devwidgets/sites/bundles/default.json",
+		"en_US": "/devwidgets/sites/bundles/en_US.json",
+		"zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
+	},
+	"id":"sites",
+	"name":"My Courses & Sites",
+	"personalportal":true,
+	"url":"/devwidgets/sites/sites.html"
+}

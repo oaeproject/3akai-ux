@@ -1,0 +1,11 @@
+{
+	"description":"Comments",
+	"ca":true,
+	"hasSettings":true,
+	"id":"comments",
+	"img":"/devwidgets/comments/images/comments.png",
+	"name":"Comments",
+	"showinsakaigoodies":true,
+	"siteportal":true,
+	"url":"/devwidgets/comments/comments.html"
+}

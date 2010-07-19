@@ -17,7 +17,7 @@
  */
 
 
-/*global Config, $, sdata, jcap */
+/*global Config, $, sdata */
 
 
 var sakai = sakai || {};
@@ -158,7 +158,16 @@ sakai.newaccount = function(){
      * the values entered by the user in those fields.
      */
     var getFormValues = function(){
-        return sakai.api.UI.Forms.form2json($(formContainer));
+        // Get the values from the form.
+        var values = sakai.api.UI.Forms.form2json($(formContainer));
+
+        // Get the values from the captcha form.       
+        var captchaValues = sakai.captcha.getProperties();
+
+        // Add them to the form values.
+        jQuery.extend(values, captchaValues);
+
+        return values;
     };
 
 
@@ -201,10 +210,12 @@ sakai.newaccount = function(){
      * will try to create the new user
      */
     var doCreateUser = function(){
-
         var values = getFormValues();
         var data = {
             "firstName": values[firstName],
+            ":create-auth" : "reCAPTCHA.net",
+            "recaptcha-challenge" : values["recaptcha-challenge"],
+            "recaptcha-response" : values["recaptcha-response"],
             "lastName": values[lastName],
             "email": values[email],
             "pwd": values[password],
@@ -219,9 +230,16 @@ sakai.newaccount = function(){
                 // This will hide the Create and Cancel button and offer a link back to the login page
                 $(buttonsContainer).hide();
                 $(successMessage).show();
+                
+                // Destroy the captcha
+                sakai.captcha.destroy();
             },
         error: function(xhr, textStatus, thrownError) {
-                resetErrorFields();
+                if (xhr.status === 500) {
+                    if (xhr.responseText.indexOf("Untrusted request") !== -1) {
+                        setError(captchaField, captchaNoMatch, true);
+                    }
+                }
             }
         });
 
@@ -255,18 +273,12 @@ sakai.newaccount = function(){
 
         var fields = [{id: firstnameField, error: firstnameEmpty},{id: lastnameField, error: lastnameEmpty},{id: emailField, error: emailEmpty},
                       {id: usernameField, error: usernameEmpty},{id: passwordField, error: passwordEmpty},
-                      {id: passwordRepeatField, error: passwordRepeatEmpty},{id: captchaField, error: captchaEmpty}];
+                      {id: passwordRepeatField, error: passwordRepeatEmpty}];
 
         var totalEmpty = checkAllFieldsForEmpty(fields);
         // If totalEmpty is higher than 0, that means we have at least 1 field that is empty so we need to stop
         // executing the code.
         if (totalEmpty > 0){
-            return false;
-        }
-
-        // Check whether the Captcha value entered is valid
-        if (!jcap()){
-            setError(captchaField, captchaNoMatch, true);
             return false;
         }
 
@@ -366,6 +378,10 @@ sakai.newaccount = function(){
         return false;
 
     };
+    
+    var initCaptcha = function() {
+        sakai.api.Widgets.widgetLoader.insertWidgets("captcha_box", false);
+    };
 
 
     ////////////////////
@@ -406,6 +422,9 @@ sakai.newaccount = function(){
 
     // Hide username available message
     $(usernameAvailable).hide();
+    
+    // Initialize the captcha widget.
+    initCaptcha();
 };
 
 sakai.api.Widgets.Container.registerForLoad("sakai.newaccount");

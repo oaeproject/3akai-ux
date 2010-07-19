@@ -1,0 +1,9 @@
+{
+	"description":"Display a captcha widget",
+	"name":"Captcha Widget",
+	"i18n": {
+		"default": "/devwidgets/captcha/bundles/default.json"
+	},
+	"id":"captcha",
+	"url":"/devwidgets/captcha/captcha.html"
+}

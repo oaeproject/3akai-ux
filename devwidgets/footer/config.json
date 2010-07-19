@@ -1,0 +1,11 @@
+{
+	"description":"Dynamic Footer with Debug Info",
+	"i18n": {
+		"default": "/devwidgets/footer/bundles/default.json",
+		"en_US": "/devwidgets/footer/bundles/en_US.json",
+		"zh_CN": "/devwidgets/footer/bundles/zh_CN.json"
+	},
+	"id":"footer",
+	"name":"Dynamic Footer",
+	"url":"/devwidgets/footer/footer.html"
+}
