@@ -1,7 +1,7 @@
 {
-	"description":"Sakai Hackathon Example",
-	"hasSettings":true,
-	"id":"helloworld",
-	"name":"Hello World",
-	"url":"/devwidgets/helloworld/helloworld.html"
+    "description":"Sakai Hackathon Example",
+    "hasSettings":true,
+    "id":"helloworld",
+    "name":"Hello World",
+    "url":"/devwidgets/helloworld/helloworld.html"
 }

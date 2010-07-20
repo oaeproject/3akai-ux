@@ -1,10 +1,10 @@
 {
-	"ca":true,
-	"description":"Video",
-	"hasSettings":true,
-	"id":"video",
-	"img":"/devwidgets/video/images/video.png",
-	"name":"Video",
-	"showinmedia":true,
-	"url":"/devwidgets/video/video.html"
+    "ca":true,
+    "description":"Video",
+    "hasSettings":true,
+    "id":"video",
+    "img":"/devwidgets/video/images/video.png",
+    "name":"Video",
+    "showinmedia":true,
+    "url":"/devwidgets/video/video.html"
 }

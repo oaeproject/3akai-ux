@@ -1,10 +1,10 @@
 {
-	"description":"General people lister widget",
-	"hasSettings": false,
-	"id": "listpeople",
-	"i18n": {
-		"default": "/devwidgets/listpeople/bundles/default.json"
-	},
-	"name": "People Lister",
-	"url": "/devwidgets/listpeople/listpeople.html"
+    "description":"General people lister widget",
+    "hasSettings": false,
+    "id": "listpeople",
+    "i18n": {
+        "default": "/devwidgets/listpeople/bundles/default.json"
+    },
+    "name": "People Lister",
+    "url": "/devwidgets/listpeople/listpeople.html"
 }

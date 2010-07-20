@@ -1,10 +1,10 @@
 {
-	"description":"Send a message",
-	"i18n": {
-		"default": "/devwidgets/sites/bundles/default.json",
-		"zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
-	},
-	"id":"sendmessage",
-	"name":"Send a message",
- 	"url":"/devwidgets/sendmessage/sendmessage.html"
+    "description":"Send a message",
+    "i18n": {
+        "default": "/devwidgets/sites/bundles/default.json",
+        "zh_CN": "/devwidgets/sites/bundles/zh_CN.json"
+    },
+    "id":"sendmessage",
+    "name":"Send a message",
+    "url":"/devwidgets/sendmessage/sendmessage.html"
 }

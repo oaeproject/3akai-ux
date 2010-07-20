@@ -1,10 +1,10 @@
 {
-	"ca":true,
- 	"description":"RSS Feed Reader",
-	"hasSettings":true,
-	"id":"rss",
-	"img":"/devwidgets/rss/images/rss.png",
-	"name":"RSS Feed",
-	"showinsakaigoodies":true,
-	"url":"/devwidgets/rss/rss.html"
+    "ca":true,
+    "description":"RSS Feed Reader",
+    "hasSettings":true,
+    "id":"rss",
+    "img":"/devwidgets/rss/images/rss.png",
+    "name":"RSS Feed",
+    "showinsakaigoodies":true,
+    "url":"/devwidgets/rss/rss.html"
 }

@@ -1,10 +1,10 @@
 {
-	"description":"General people picker widget",
-	"hasSettings": false,
- 	"id": "pickeruser",
-	"i18n": {
-		"default": "/devwidgets/pickeruser/bundles/default.json"
-	},
-	"name": "People Picker",
-	"url": "/devwidgets/pickeruser/pickeruser.html"
+    "description":"General people picker widget",
+    "hasSettings": false,
+    "id": "pickeruser",
+    "i18n": {
+        "default": "/devwidgets/pickeruser/bundles/default.json"
+    },
+    "name": "People Picker",
+    "url": "/devwidgets/pickeruser/pickeruser.html"
 }

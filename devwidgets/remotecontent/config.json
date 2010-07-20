@@ -1,9 +1,9 @@
 {
-	"ca":true,
-	"description":"Remote Content",
-	"id":"remotecontent",
-	"img":"/devwidgets/remotecontent/images/remotecontent.png",
-	"name":"Remote Content",
-	"showinsakaigoodies":true,
-	"url":"/devwidgets/remotecontent/remotecontent.html"
+    "ca":true,
+    "description":"Remote Content",
+    "id":"remotecontent",
+    "img":"/devwidgets/remotecontent/images/remotecontent.png",
+    "name":"Remote Content",
+    "showinsakaigoodies":true,
+    "url":"/devwidgets/remotecontent/remotecontent.html"
 }

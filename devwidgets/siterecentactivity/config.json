@@ -1,10 +1,10 @@
 {
-	"ca":true,
-	"description":"Site Recent Activity",
-	"hasSettings": false,
-	"id":"siterecentactivity",
-	"img":"/devwidgets/siterecentactivity/images/icon.png",
-	"name":"Recent Activity",
-	"showinsidebar":true,
-	"url":"/devwidgets/siterecentactivity/siterecentactivity.html"
+    "ca":true,
+    "description":"Site Recent Activity",
+    "hasSettings": false,
+    "id":"siterecentactivity",
+    "img":"/devwidgets/siterecentactivity/images/icon.png",
+    "name":"Recent Activity",
+    "showinsidebar":true,
+    "url":"/devwidgets/siterecentactivity/siterecentactivity.html"
 }

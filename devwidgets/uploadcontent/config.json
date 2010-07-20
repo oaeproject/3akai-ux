@@ -1,9 +1,9 @@
 {
-	"description": "Upload content to Sakai3",
-	"i18n": {
-		"default": "/devwidgets/uploadcontent/bundles/default.json"
-	},
-	"id": "uploadcontent",
-	"name": "Upload Content",
-	"url": "/devwidgets/uploadcontent/uploadcontent.html"
+    "description": "Upload content to Sakai3",
+    "i18n": {
+        "default": "/devwidgets/uploadcontent/bundles/default.json"
+    },
+    "id": "uploadcontent",
+    "name": "Upload Content",
+    "url": "/devwidgets/uploadcontent/uploadcontent.html"
 }
