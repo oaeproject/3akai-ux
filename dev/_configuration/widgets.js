@@ -80,9 +80,9 @@ var Widgets = {
 
 /**
  * Store the overall widget configuration object in memory
- * @param {Object} widgets	
+ * @param {Object} widgets
  * JSON Object that is an aggregation of all widget config.json files
  */
 sakai.storeWidgets = function(widgets){
-	Widgets.widgets = widgets;		
-}
+    Widgets.widgets = widgets;
+};
