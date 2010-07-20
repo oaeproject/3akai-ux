@@ -1,6 +1,5 @@
 {
     "description":"Twitter Widget",
-    "hasSettings":true,
     "i18n": {
         "default": "/devwidgets/twitter/bundles/default.json",
         "en_US": "/devwidgets/twitter/bundles/en_US.json",
