@@ -37,9 +37,9 @@ asyncTest("Log-in with a Sakai3 user", function(){
 asyncTest("Log-out with a Sakai3 user", function(){
 
     sakai.api.User.logout(function(success, data){
-		ok(success, "The user has successfully logged-out");
-		sakai.api.User.loadMeData(function(success, data){
-			ok(data.user.anon === true, "The current active user is anonymous");
+        ok(success, "The user has successfully logged-out");
+        sakai.api.User.loadMeData(function(success, data){
+            ok(data.user.anon === true, "The current active user is anonymous");
         });
         start();
     });
@@ -71,8 +71,8 @@ asyncTest("Log-out with a Sakai3 admin user", function(){
 
     sakai.api.User.logout(function(success, data){
         ok(success, "The admin user has successfully logged-out");
-		sakai.api.User.loadMeData(function(success, data){
-			ok(data.user.anon === true, "The current active user is anonymous");
+        sakai.api.User.loadMeData(function(success, data){
+            ok(data.user.anon === true, "The current active user is anonymous");
         });
         start();
     });

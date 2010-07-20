@@ -267,7 +267,7 @@ sakai.comments = function(tuid, showSettings){
             // Puts the userinformation in a better structure for trimpath
             // if (comment.profile["sling:resourceType"] === "sakai/user-profile") { // no longer in use, it seems
             if (comment.profile) {
-             	  var profile = comment.profile[0];
+                   var profile = comment.profile[0];
                 var fullName = "";
                 if (profile.firstName) {
                     fullName = profile.firstName;

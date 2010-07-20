@@ -854,7 +854,7 @@ sakai.inbox = function() {
                             }
                         }
                     });
-            	}
+                }
             }
 
             // This message has some replies attached to it.
