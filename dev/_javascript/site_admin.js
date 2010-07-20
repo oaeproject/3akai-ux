@@ -60,6 +60,8 @@ sakai.site.site_admin = function(){
     var elm1_menu_fontselect = "#menu_elm1_elm1_fontselect_menu";
     var elm1_menu_fontsizeselect = "#menu_elm1_elm1_fontsizeselect_menu";
 
+    // Untitled page title
+    var untitled_page_title = $("#edit_untitled_page").html();
 
     /////////////////////////////
     // PAGE UTILITY FUNCTIONS
@@ -752,7 +754,7 @@ sakai.site.site_admin = function(){
             if (newpagetitle !== oldpagetitle) {
 
                 // Create an activity item for the rename
-                if (oldpagetitle !== "Untitled") {
+                if (oldpagetitle !== untitled_page_title) {
                     var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
                     var activityData = {
                         "sakai:activityMessage": "The page \"" + oldpagetitle + "\" in site " + sakai.site.currentsite.name + " has been renamed to \"" + newpagetitle + "\"",
@@ -813,8 +815,7 @@ sakai.site.site_admin = function(){
                         sakai.siterecentactivity.addRecentActivity(activityItem);
 
                         // Delete old Untitled-x page node
-                        if ((oldpagetitle === 'Untitled' && newpagetitle === 'Untitled') || oldpagetitle !== newpagetitle) {
-
+                        if ((oldpagetitle === untitled_page_title && newpagetitle === untitled_page_title) || oldpagetitle !== newpagetitle) {
                             $.ajax({
                                 url: sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"],
                                 type: "DELETE",
@@ -1712,7 +1713,7 @@ sakai.site.site_admin = function(){
         sakai.site.isEditingNewPage = true;
 
         // Create unique page items
-        var pageUniques = sakai.site.createPageUniqueElements("untitled", sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
+        var pageUniques = sakai.site.createPageUniqueElements(untitled_page_title.toLowerCase(), sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Assign the empty content to the sakai.site.pagecontents array
         if (sakai.site.pagecontents[pageUniques.urlName]) {
@@ -1722,7 +1723,7 @@ sakai.site.site_admin = function(){
             sakai.site.pagecontents[pageUniques.urlName]["sakai:pagecontent"] = content;
         }
 
-        sakai.site.savePage(pageUniques.url, "webpage", "Untitled", content, (determineHighestPosition() + 100000), "parent", function(success, data){
+        sakai.site.savePage(pageUniques.url, "webpage", untitled_page_title, content, (determineHighestPosition() + 100000), "parent", function(success, data){
 
             if (success) {
 
