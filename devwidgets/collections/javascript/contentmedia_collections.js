@@ -21,7 +21,7 @@
 var sakai = sakai || {};
 
 sakai.collectionscontent = function(){
-  
+
     ////////////////////
     // Help variables //
     ////////////////////
@@ -57,7 +57,7 @@ sakai.collectionscontent = function(){
 
     var contentmediaFilesContainer = contentmediaId + "_files_container";
     var contentmediaUploaderBasicSuccessful = contentmediaId + "_uploader_basic_successful";
-    
+
     var resourceDetailsContainer = "#resource_details_container";
 
     // Class
@@ -152,14 +152,14 @@ sakai.collectionscontent = function(){
      * @param {Object} data  JSON object with all of the files to be displayed on the
      * screen. An example of the data model can be found in /devwidgets/contentmedia/json/files.json
      */
-     
+
     var doFileRenderFiltered = function(data){
        resultWrapper = {};
        resultWrapper.results = data;
        resultWrapper.total = data.length;
        // Set the globaldata variable
        globaldata = resultWrapper;
-       
+
        // only display images
        if (imagesOnly) {
          filteredResults = [];
@@ -173,9 +173,9 @@ sakai.collectionscontent = function(){
          }
          globaldata.results = filteredResults;
        }
-       
+
        // Set the formatted file size and format the date
-       
+
        for(var i = 0; i < globaldata.results.length; i++){
            if(globaldata.results[i]["Content-Length"]) {
                globaldata.results[i].formattedFilesize = filesizeFormat(globaldata.results[i]["Content-Length"]);
@@ -184,12 +184,12 @@ sakai.collectionscontent = function(){
              globaldata.results[i].formattedDateModified = dateFormat(sakai.api.Util.parseSakaiDate(globaldata.results[i]["lastmodified"]));
            }
        }
-       
+
        // Render files
        $.TemplateRenderer(contentmediaFilesContainerTemplate, resultWrapper, $(contentmediaFilesContainer));
        $.TemplateRenderer(resourceDetailsContainerTemplate, resultWrapper, $(resourceDetailsContainer));
      };
-     
+
    /**
      *
      * @param {Object} options  identifier for the current context, initial search
@@ -390,14 +390,14 @@ sakai.collectionscontent = function(){
       options.site = [];
       doFileSearch(options);
     });
-    
+
     $(searchAllFiles).live("click", function(ev) {
       options.context = "allfiles";
       options.search = "*";
       options.site = [];
       doFileSearch(options);
     });
-    
+
     $("#clear_search_link").live("click", function(ev) {
       $(this).hide();
       $("#search_text").val('');
@@ -406,18 +406,18 @@ sakai.collectionscontent = function(){
     });
 
     // enable the tabs
-	  $("#embedresource_tabs ul li").live('click', function() {
-	    var which = $(this).attr("id").split("-")[1];
-	    // reset them, hide them both, then show the right one
-	    $("#embedresource_tabs ul li").removeClass("tab_active").addClass("tab_inactive");
-	    $(this).addClass("tab_active").removeClass("tab_inactive");
-	    
-	    $(".embedresource_tab").removeClass("embedresource_active").removeClass("embedresource_inactive");
-	    $(".embedresource_tab").addClass("embedresource_inactive");   
-	    $("#embedresource_tab-"+which).removeClass("embedresource_inactive").addClass("embedresource_active");
+      $("#embedresource_tabs ul li").live('click', function() {
+        var which = $(this).attr("id").split("-")[1];
+        // reset them, hide them both, then show the right one
+        $("#embedresource_tabs ul li").removeClass("tab_active").addClass("tab_inactive");
+        $(this).addClass("tab_active").removeClass("tab_inactive");
 
-	  });
-	  
+        $(".embedresource_tab").removeClass("embedresource_active").removeClass("embedresource_inactive");
+        $(".embedresource_tab").addClass("embedresource_inactive");
+        $("#embedresource_tab-"+which).removeClass("embedresource_inactive").addClass("embedresource_active");
+
+      });
+
 
     /**
      * This will select / deselect files when clicked
@@ -476,26 +476,26 @@ sakai.collectionscontent = function(){
     });
 
 
-    /** 
+    /**
      * Submit/Validation Bindings
      */
-     
+
      // handle focusin on the resource_url for the embed from web
      $("input[name='resource_url']").live('focusin', function() {
- 	     $(".mceActionPanel input#choose_image").attr('disabled','disabled');
- 	   });
- 	   
- 	   // validate each keystroke against a URL regexp, if valid, enable the submit button
- 	   $("input[name='resource_url']").live('click keyup', function() {
- 	     var regexp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i; // from jquery validate plugin
-       var resource_url = $.trim($("input[name='resource_url']").val());    
+          $(".mceActionPanel input#choose_image").attr('disabled','disabled');
+        });
+
+        // validate each keystroke against a URL regexp, if valid, enable the submit button
+        $("input[name='resource_url']").live('click keyup', function() {
+          var regexp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i; // from jquery validate plugin
+       var resource_url = $.trim($("input[name='resource_url']").val());
        if (regexp.test(resource_url)) {
          $(".mceActionPanel input#choose_image").removeAttr('disabled');
        } else {
          $(".mceActionPanel input#choose_image").attr('disabled','disabled');
        }
- 	   });
- 	  
+        });
+
 
     ///////////////////////
     // Initial functions //
@@ -620,7 +620,7 @@ sakai.collectionscontent = function(){
         // Save options object
         options = _options;
         imagesOnly = _imagesOnly;
-        
+
         // Initialize the selected files object
        // resetSelectedFiles();
 
@@ -648,10 +648,10 @@ sakai.collectionscontent = function(){
 
         // Initialise the sites tab
         initialiseSites();
-        
-        
+
+
     };
-    
+
     sakai.collectionscontent.initialise({
         "context" : "myfiles",
         "search" : false,
