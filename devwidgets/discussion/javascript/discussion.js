@@ -238,7 +238,7 @@ sakai.discussion = function(tuid, showSettings) {
         // changing his/her picture
         if (profile.picture && $.parseJSON(profile.picture).name){
             var picture = $.parseJSON(profile.picture);
-            return "/_user" + profile.hash + "/public/profile/" + picture.name;
+            return "/~" + uuid + "/public/profile/" + picture.name;
         } else {
           return sakai.config.URL.USER_DEFAULT_ICON_URL;
         }

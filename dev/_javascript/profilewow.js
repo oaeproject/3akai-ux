@@ -371,7 +371,7 @@ sakai.profilewow = function(){
         if (sakai.profilewow.profile.isme) {
 
             // Set the profile picture for the user you are looking at
-            // /~admin/public/profile/256x256_profilepicture
+            // The actual location of the picture could be something like this: /~admin/public/profile/256x256_profilepicture
             sakai.profilewow.profile.picture = constructProfilePicture(sakai.data.me.profile);
 
             // Set the status for the user you want the information from
