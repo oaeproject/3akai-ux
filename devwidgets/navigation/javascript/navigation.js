@@ -189,7 +189,7 @@ sakai.navigation = function(tuid, showSettings){
         var p_id = "";
         var p_pagePosition;
         if (page_info["pageTitle"]) {
-            p_title = page_info["pageTitle"];
+            p_title = sakai.api.Security.saneHTML(page_info["pageTitle"]);
             p_id = "nav_" + page_info["pageURLName"];
             p_pagePosition = page_info.pagePosition;
         }
