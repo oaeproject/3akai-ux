@@ -759,7 +759,7 @@ sakai.comments = function(tuid, showSettings){
                 type: 'POST',
                 success: function(data){
                     // Set the new message
-                    $(commentsMessage + id, rootel).html(tidyInput(message));
+                    $(commentsMessage + id, rootel).html(sakai.api.Security.saneHTML(tidyInput(message)));
                     // Hide the form
                     $(commentsMessageEditContainer + id, rootel).hide();
                     $(commentsMessage + id, rootel).show();

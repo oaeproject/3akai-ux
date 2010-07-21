@@ -79,7 +79,7 @@ sakai.wookieforum = function(tuid, showSettings){
      * @param {Number} timeout the amount of milliseconds you want the message to be displayed, 0 = always (till the next message)
      */
     var showGeneralMessage = function(idToAppend, msg, isError, timeout) {
-        $(idToAppend).html(msg);
+        $(idToAppend).html(sakai.api.Security.saneHTML(msg));
         if (isError) {
             $(idToAppend).addClass(CSSerrorMessage);
             $(idToAppend).removeClass(CSSnormalMessage);

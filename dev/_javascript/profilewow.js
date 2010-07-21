@@ -564,7 +564,7 @@ sakai.profilewow = function(){
         }
 
         // Render the General info
-        $profilewow_generalinfo.html(sakai.api.i18n.General.process(generalinfo, null, null));
+        $profilewow_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
 
     };
 

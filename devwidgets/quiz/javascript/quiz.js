@@ -779,7 +779,7 @@ sakai.quiz = function(tuid, showSettings) {
             }
         }
         // put the site name on above the image-list
-        $(quizImageListSiteName, rootel).html(sakai.site.currentsite.name);
+        $(quizImageListSiteName, rootel).html(sakai.api.Security.saneHTML(sakai.site.currentsite.name));
     };
 
     /**
@@ -1233,7 +1233,7 @@ sakai.quiz = function(tuid, showSettings) {
 
 
             // add the container to the image
-            $(quizImgTagContainer, rootel).append(rect);
+            $(quizImgTagContainer, rootel).append(sakai.api.Security.saneHTML(rect));
             $("." + quizImgTagCloseName, rootel).unbind("click", imgCloseClickHandler);
             $("." + quizImgTagCloseName, rootel).bind("click", imgCloseClickHandler);
             $("." + quizBackImgTagName, rootel).unbind("click", imgTagClickHandler);
@@ -1596,7 +1596,7 @@ sakai.quiz = function(tuid, showSettings) {
     /** Bind the quiz_insertURLImg button */
     $(quizInsertUrlImg, rootel).bind("click",
     function(e, ui) {
-        $(quizImagePreview).html("<img src='" + $(quizImageTxtUrl).val() + "' width='150px'/>");
+        $(quizImagePreview).html(sakai.api.Security.saneHTML("<img src='" + $(quizImageTxtUrl).val() + "' width='150px'/>"));
         currentQuestion.img = $(quizImageTxtUrl).val();
     });
     /** Bind the quiz_nextPage button */

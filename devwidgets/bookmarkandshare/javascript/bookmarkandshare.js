@@ -112,7 +112,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
         if (success) {
             sakai.api.Widgets.Container.informFinish(tuid);
         }else{
-            $settingsContentHolder.append($settingsNotSavedError);
+            $settingsContentHolder.append(sakai.api.Security.saneHTML($settingsNotSavedError));
         }
     };
 
@@ -155,7 +155,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             saveSettings(jsonArr);
         } else {
             fluid.log("Bookmark and share - Select at least one service.");
-            $settingsContentHolder.append($selectServiceError);
+            $settingsContentHolder.append(sakai.api.Security.saneHTML($selectServiceError));
         }
     };
 
@@ -163,7 +163,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Set label when all checkboxes are checked
      */
     var allCheckedServiceLabel = function(){
-        $selectAllServices.html($noneInternationalization);
+        $selectAllServices.html(sakai.api.Security.saneHTML($noneInternationalization));
         allChecked = true;
     };
 
@@ -171,7 +171,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Set label when not all checkboxes are checked
      */
     var uncheckedServiceLabel = function(){
-        $selectAllServices.html($allInternationalization);
+        $selectAllServices.html(sakai.api.Security.saneHTML($allInternationalization));
         allChecked = false;
     };
 
@@ -193,7 +193,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             case 0:
                 // Uncheck boxes and set labels accordingly
                 if (checkCount() === 10) {
-                    $selectAllServices.html($allInternationalization);
+                    $selectAllServices.html(sakai.api.Security.saneHTML($allInternationalization));
                     allChecked = false;
                     // Uncheck everything
                     checkBoxes(check);
@@ -236,6 +236,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             }
         }else{
             fluid.log("Bookmark and share - No settings could be loaded.");
+            $settingsContentHolder.append(sakai.api.Security.saneHTML($settingsNotLoadedError));
         }
     };
 
@@ -279,7 +280,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             // Get data about the widget that might have been saved
             sakai.api.Widgets.loadWidgetData(tuid, checkPopularBoxes);
         }else{
-            $settingsContentHolder.append($noPopularError);
+            $settingsContentHolder.append(sakai.api.Security.saneHTML($noPopularError));
         }
     };
 
@@ -296,7 +297,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
             },
             error: function(){
                 fluid.log("Bookmark and share - Could not retrieve popular services from AddThis.");
-                $settingsContentHolder.append($noPopularError);
+                $settingsContentHolder.append(sakai.api.Security.saneHTML($noPopularError));
             }
         });
     };

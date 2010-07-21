@@ -292,7 +292,7 @@ sakai.sitemembers = function(tuid, showSettings){
                 var json = data;
                 if (json.results.length === 1) {
                     totalMembers = json.results[0]["member-count"];
-                    $(sitemembers_normal_count, rootel).text(totalMembers);
+                    $(sitemembers_normal_count, rootel).text(sakai.api.Security.saneHTML(totalMembers));
                 }
             }
         });

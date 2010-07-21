@@ -189,9 +189,8 @@ sakai.changepic = function(tuid, showSettings){
             // Show tab in header
             $(tabSelect).show();
 
-
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
-            $(pictureMeasurer).html("<img src='" + "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />");
+            $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
 
             // Check the current picture's size
             $(pictureMeasurerImage).bind("load", function(ev){

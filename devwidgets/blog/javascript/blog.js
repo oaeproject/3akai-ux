@@ -1082,7 +1082,7 @@ sakai.blog = function(tuid, showSettings) {
                 }
                 else {
                     $(viewBlogTagsContainer).show();
-                    $(viewBlogTags).text(blogSettings.tags.join(', '));
+                    $(viewBlogTags).text(sakai.api.Security.saneHTML(blogSettings.tags.join(', ')));
                 }
 
                 if (typeof callback === "function") {

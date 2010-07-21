@@ -298,9 +298,65 @@ sakai.site.site_admin = function(){
             use_native_selects : true,
 
             // Replace tabs by spaces.
-            nonbreaking_force_tab : true
+            nonbreaking_force_tab : true,
 
-
+            // Security
+            verify_html : true,
+            cleanup : true,
+            entity_encoding : "named",
+            invalid_elements : "script",
+            valid_elements : ""+
+                "@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],"+
+                "a[href|rel|rev|target|title|type],"+
+                "b[],"+
+                "blink[],"+
+                "blockquote[align|cite|clear|height|type|width],"+
+                "br[clear],"+
+                "caption[align|height|valign|width],"+
+                "center[align|height|width],"+
+                "col[align|bgcolor|char|charoff|span|valign|width],"+
+                "colgroup[align|bgcolor|char|charoff|span|valign|width],"+
+                "comment[],"+
+                "em[],"+
+                "font[color|face|font-weight|point-size|size],"+
+                "h1[align|clear|height|width],"+
+                "h2[align|clear|height|width],"+
+                "h3[align|clear|height|width],"+
+                "h4[align|clear|height|width],"+
+                "h5[align|clear|height|width],"+
+                "h6[align|clear|height|width],"+
+                "hr[align|clear|color|noshade|size|width],"+
+                "img[align|alt|border|height|hspace|src|vspace|width],"+
+                "li[align|clear|height|type|value|width],"+
+                "marquee[behavior|bgcolor|direction|height|hspace|loop|scrollamount|scrolldelay|vspace|width],"+
+                "ol[align|clear|height|start|type|width],"+
+                "p[align|clear|height|width],"+
+                "pre[clear|width|wrap],"+
+                "s[],"+
+                "small[],"+
+                "span[align],"+
+                "strike[],"+
+                "strong[],"+
+                "sub[],"+
+                "sup[],"+
+                "table[align|background|bgcolor|border|bordercolor|bordercolordark|bordercolorlight|"+
+                       "bottompadding|cellpadding|cellspacing|clear|cols|height|hspace|leftpadding|"+
+                       "rightpadding|rules|summary|toppadding|vspace|width],"+
+                "tbody[align|bgcolor|char|charoff|valign],"+
+                "td[abbr|align|axis|background|bgcolor|bordercolor|"+
+                   "bordercolordark|bordercolorlight|char|charoff|headers|"+
+                   "height|nowrap|rowspan|scope|valign|width],"+
+                "tfoot[align|bgcolor|char|charoff|valign],"+
+                "th[abbr|align|axis|background|bgcolor|bordercolor|"+
+                   "bordercolordark|bordercolorlight|char|charoff|headers|"+
+                   "height|nowrap|rowspan|scope|valign|width],"+
+                "thead[align|bgcolor|char|charoff|valign],"+
+                "tr[align|background|bgcolor|bordercolor|"+
+                   "bordercolordark|bordercolorlight|char|charoff|"+
+                   "height|nowrap|valign],"+
+                "tt[],"+
+                "u[],"+
+                "ul[align|clear|height|start|type|width]"
         });
     }
 
@@ -657,7 +713,7 @@ sakai.site.site_admin = function(){
             switchToTextEditor();
 
             // Put back original content
-            $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
+            $("#" + sakai.site.selectedpage).html(sakai.api.Security.saneHTML(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]));
 
             if (sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"] === "webpage") {
                 $("#webpage_edit").show();
@@ -858,7 +914,7 @@ sakai.site.site_admin = function(){
                 sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = getContent();
 
                 // Put page contents into html
-                $("#" + sakai.site.selectedpage).html(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]);
+                $("#" + sakai.site.selectedpage).html(sakai.api.Security.saneHTML(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]));
 
                 // Switch back to view mode
                 $("#edit_view_container").hide();
@@ -873,7 +929,7 @@ sakai.site.site_admin = function(){
                     if (success) {
 
                         //Update title in HTML
-                        $("#pagetitle").html(sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"]);
+                        $("#pagetitle").html(sakai.api.Security.saneHTML(sakai.site.site_info._pages[sakai.site.selectedpage]["pageTitle"]));
 
                         // Create an activity item for the page edit
                         var nodeUrl = sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"];
@@ -1023,7 +1079,7 @@ sakai.site.site_admin = function(){
      */
     var showPageLocation = function(){
 
-        $("#new_page_path").html("<span>Page location: </span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"]);
+        $("#new_page_path").html(sakai.api.Security.saneHTML("<span>Page location: </span>" + sakai.site.site_info._pages[sakai.site.selectedpage]["jcr:path"]));
 
     };
 
@@ -1165,7 +1221,7 @@ sakai.site.site_admin = function(){
                     nuid += "_" + placement;
                 }
                 sakai.site.newwidget_uid = nuid;
-                $("#dialog_content").html('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>');
+                $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + Widgets.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
                 $("#dialog_title").text(Widgets.widgets[type].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true,sakai.site.currentsite.id + "/_widgets/");
                 $("#dialog_content").show();
@@ -1405,7 +1461,7 @@ sakai.site.site_admin = function(){
             tinyMCE.get("elm1").setContent(value);
             switchtab("html","HTML","preview","Preview");
         }
-        $("#page_preview_content").html("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + getContent());
+        $("#page_preview_content").html(sakai.api.Security.saneHTML("<h1 style='padding-bottom:10px'>" + $("#title-input").val() + "</h1>" + getContent()));
         sakai.api.Widgets.widgetLoader.insertWidgets("page_preview_content",null,sakai.site.currentsite.id + "/_widgets/");
         sakai.site.currentEditView = "preview";
     });
@@ -1425,8 +1481,8 @@ sakai.site.site_admin = function(){
      * @return void
      */
     var switchtab = function(inactiveid, inactivetext, activeid, activetext){
-        $("#tab_" + inactiveid).removeClass("fl-tabs-active").html('<a href="javascript:;">' + inactivetext + '</a>');
-        $("#tab_" + activeid).addClass("fl-tabs-active").html('<a href="javascript:;">' + activetext + '</a>');
+        $("#tab_" + inactiveid).removeClass("fl-tabs-active").html(sakai.api.Security.saneHTML('<a href="javascript:;">' + inactivetext + '</a>'));
+        $("#tab_" + activeid).addClass("fl-tabs-active").html(sakai.api.Security.saneHTML('<a href="javascript:;">' + activetext + '</a>'));
     };
 
 
@@ -1585,7 +1641,7 @@ sakai.site.site_admin = function(){
             var tuid = "id" + Math.round(Math.random() * 1000000000);
             var id = "widget_" + widgetid + "_" + tuid;
             sakai.site.newwidget_uid = id;
-            $dialog_content.html('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
+            $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + Widgets.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
             $("#dialog_title").text(Widgets.widgets[widgetid].name);
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai.site.currentsite.id + "/_widgets/");
             $dialog_content.show();
@@ -1977,7 +2033,7 @@ sakai.site.site_admin = function(){
 
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
                 if (type === "webpage") {
-                    $("#" + sakai.site.selectedpage).html(data["sakai:pagecontent"]);
+                    $("#" + sakai.site.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
                     sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"] = data["sakai:pagecontent"];
 
@@ -2037,7 +2093,7 @@ sakai.site.site_admin = function(){
 
                 var type = sakai.site.site_info._pages[sakai.site.selectedpage]["pageType"];
                 if (type === "webpage") {
-                    $("#" + sakai.site.selectedpage).html(data["sakai:pagecontent"]);
+                    $("#" + sakai.site.selectedpage).html(sakai.api.Security.saneHTML(data["sakai:pagecontent"]));
                     sakai.api.Widgets.widgetLoader.insertWidgets(sakai.site.selectedpage, null, sakai.site.currentsite.id + "/_widgets/");
                 } else if (type === "dashboard") {
                     $("#" + sakai.site.selectedpage).remove();
@@ -2392,7 +2448,7 @@ sakai.site.site_admin = function(){
 
     // Bind title input change event
     $("#title-input").bind("change", function(){
-        $("#new_page_path_current").text($("#title-input").val());
+        $("#new_page_path_current").text(sakai.api.Security.saneHTML($("#title-input").val()));
     });
 
     // Bind resize event

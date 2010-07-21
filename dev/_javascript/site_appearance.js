@@ -149,7 +149,7 @@ sakai.site_appearance = function() {
         if(appearance.style){
 
             // Change the name of the template
-            $(siteAppearancePreviewTitle).text(appearance.style.name);
+            $(siteAppearancePreviewTitle).text(sakai.api.Security.saneHTML(appearance.style.name));
 
             // Load the template inside the iframe
             loadTemplate();
@@ -240,7 +240,7 @@ sakai.site_appearance = function() {
                 if (isMaintainer) {
 
                     // Fill in the info.
-                    $(siteAppearanceTitle).text(response.name);
+                    $(siteAppearanceTitle).text(sakai.api.Security.saneHTML(response.name));
 
                     // Save the site information to the global variable
                     siteInformation = response;
@@ -524,7 +524,7 @@ sakai.site_appearance = function() {
             $(siteAppearanceChangeSelectTab).show();
 
             // Set the unvisible image to the full blown image. (make sure to filter the # out)
-            $(siteAppearanceChangePictureMeasurer).html("<img src='" + "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random() + "' id='" + siteAppearanceChangePictureMeasurerImage.replace(/#/gi, '') + "' />");
+            $(siteAppearanceChangePictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/sites/" + siteId + "/" + "siteicon" + "?sid=" + Math.random() + "' id='" + siteAppearanceChangePictureMeasurerImage.replace(/#/gi, '') + "' />"));
 
             // Check the current picture's size
             $(siteAppearanceChangePictureMeasurerImage).bind("load", function(ev){

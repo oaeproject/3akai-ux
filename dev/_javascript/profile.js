@@ -191,9 +191,9 @@ sakai.profile = function(){
 
         fillInMessagePopUp();
 
-        $("#profile_user_name").text(json.firstName + " " + json.lastName);
+        $("#profile_user_name").text(sakai.api.Security.saneHTML(json.firstName + " " + json.lastName));
         if (json.basic){
-            basic = $.parseJSON(json.basic);
+            basic = $.parseJSON(sakai.api.Security.saneHTML(json.basic));
             if (basic.status){
                 inbasic++;
                 $("#txt_status").html(basic.status);
@@ -241,7 +241,7 @@ sakai.profile = function(){
 
         if (json.basic){
 
-            basic = $.parseJSON(json.basic);
+            basic = $.parseJSON(sakai.api.Security.saneHTML(json.basic));
 
             if (basic.middlename){
                 inbasic++;
@@ -370,7 +370,7 @@ sakai.profile = function(){
 
    var fillInFields = function(){
         // status
-        $("#profile_user_status").text(totalprofile._status);
+        $("#profile_user_status").text(sakai.api.Security.saneHTML(totalprofile._status));
         // status picture
         updateChatStatusElement($("#profile_user_status"), totalprofile._status);
 
@@ -378,7 +378,7 @@ sakai.profile = function(){
         //Picture
 
         if (json.picture && $.parseJSON(json.picture).name){
-            var picture = $.parseJSON(json.picture);
+	        var picture = $.parseJSON(sakai.api.Security.saneHTML(json.picture));
             $("#picture_holder img").attr("src","/~" + json["rep:userId"] + "/public/profile/" + picture.name);
         }
 
@@ -390,7 +390,7 @@ sakai.profile = function(){
         var inabout = 0;
         if (json.aboutme) {
 
-            about = $.parseJSON(json.aboutme);
+            about = $.parseJSON(sakai.api.Security.saneHTML(json.aboutme));
 
             if (about.aboutme){
                 inabout++;
@@ -462,14 +462,14 @@ sakai.profile = function(){
         if (json.email){
             inunicontactinfo++;
             $("#uniemail").show();
-            $("#txt_uniemail").text(json.email);
+            $("#txt_uniemail").text(sakai.api.Security.saneHTML(json.email));
         } else if (!inedit_basic) {
             $("#uniemail").hide();
         }
 
         if (json.contactinfo) {
 
-            unicontactinfo = $.parseJSON(json.contactinfo);
+            unicontactinfo = $.parseJSON(sakai.api.Security.saneHTML(json.contactinfo));
 
             if (unicontactinfo.uniphone) {
                 inunicontactinfo++;
@@ -521,7 +521,7 @@ sakai.profile = function(){
         var inhomecontactinfo = 0;
         if (json.contactinfo) {
 
-            homecontactinfo = $.parseJSON(json.contactinfo);
+            homecontactinfo = $.parseJSON(sakai.api.Security.saneHTML(json.contactinfo));
 
             if (homecontactinfo.homeemail) {
                 inhomecontactinfo++;
@@ -582,7 +582,7 @@ sakai.profile = function(){
         var inadditional = 0;
         if (json.basic) {
 
-            additional = $.parseJSON(json.basic);
+            additional = $.parseJSON(sakai.api.Security.saneHTML(json.basic));
 
             if (additional.awards){
                 inadditional++;
@@ -643,8 +643,8 @@ sakai.profile = function(){
     });
 
     var fillInMessagePopUp = function(){
-        $("#message_from").text(me.profile.firstName + " " + me.profile.lastName);
-        $("#message_to").text(totalprofile.profile.firstName + " " + totalprofile.profile.lastName);
+        $("#message_from").text(sakai.api.Security.saneHTML(me.profile.firstName + " " + me.profile.lastName));
+        $("#message_to").text(sakai.api.Security.saneHTML(totalprofile.profile.firstName + " " + totalprofile.profile.lastName));
     };
 
     $("#save_as_page_template_button").bind("click", function(ev){
@@ -697,14 +697,14 @@ sakai.profile = function(){
     var fillInvitePopup = function(){
         if (me.profile) {
             if (me.profile.firstName) {
-                $("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName);
+                $("#add_friend_personal_note").text(sakai.api.Security.saneHTML("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName));
             }
             else
                 if (me.profile.lastName) {
-                    $("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName);
+                    $("#add_friend_personal_note").text(sakai.api.Security.saneHTML("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName));
                 }
                 else {
-                    $("#add_friend_personal_note").text("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.userid);
+                    $("#add_friend_personal_note").text(sakai.api.Security.saneHTML("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.userid));
                 }
         }
     };
@@ -716,7 +716,7 @@ sakai.profile = function(){
             success: function(data){
                 var status = false;
                 if (data.results){
-                    for (var i = 0; i < data.results.length; i++){
+                    for (var i = 0, il = data.results.length; i < il; i++){
                         if (data.results[i].target === user){
                             status = data.results[i].details["sakai:state"];
                         }
@@ -728,20 +728,25 @@ sakai.profile = function(){
                     $("#add_to_contacts_button").show();
 
                     if (totalprofile.profile.firstName){
-                        $("#add_friend_displayname").text(totalprofile.profile.firstName);
-                        $("#add_friend_displayname2").text(totalprofile.profile.firstName);
+
+                        // Sanitize names
+                        fnToDisplay = sakai.api.Security.saneHTML(totalprofile.profile.firstName);
+                        lnToDisplay = sakai.api.Security.saneHTML(totalprofile.profile.lastName);
+
+                        $("#add_friend_displayname").text(fnToDisplay);
+                        $("#add_friend_displayname2").text(fnToDisplay);
                     } else if (totalprofile.profile.lastName) {
-                        $("#add_friend_displayname").text(totalprofile.profile.lastName);
-                        $("#add_friend_displayname2").text(totalprofile.profile.lastName);
+                        $("#add_friend_displayname").text(lnToDisplay);
+                        $("#add_friend_displayname2").text(lnToDisplay);
                     } else {
                         $("#add_friend_displayname").text(totalprofile.user.userid);
                         $("#add_friend_displayname2").text(totalprofile.user.userid);
                     }
 
                     if (totalprofile.profile.picture && $.parseJSON(totalprofile.profile.picture).name){
-                        $("#add_friend_profilepicture").html("<img src='/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>");
+                        $("#add_friend_profilepicture").html(sakai.api.Security.saneHTML("<img src='/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>"));
                     } else {
-                        $("#add_friend_profilepicture").html("<img src='_images/person_icon.png' width='40px' height='40px'/>");
+                        $("#add_friend_profilepicture").html(sakai.api.Security.saneHTML("<img src='_images/person_icon.png' width='40px' height='40px'/>"));
                     }
 
                     $("#add_friend_types").html($.TemplateRenderer("add_friend_types_template",Widgets));

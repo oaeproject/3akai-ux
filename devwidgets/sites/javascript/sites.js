@@ -87,7 +87,7 @@ sakai.sites = function(tuid,showSettings){
 
         // If the user is not registered for any sites, show the no sites error.
         if (newjson.entry.length === 0){
-            $(sitesList, rootel).html($(sitesErrorNoSites).html());
+            $(sitesList, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSites).html()));
         }
         else {
             // Sort the sites by their name
@@ -145,7 +145,7 @@ sakai.sites = function(tuid,showSettings){
     });
 
     if (showSettings) {
-        $(sitesMainContainer, rootel).html(sitesErrorNoSettings);
+        $(sitesMainContainer, rootel).html(sakai.api.Security.saneHTML(sitesErrorNoSettings));
     }
     else {
         sakai.api.Widgets.widgetLoader.insertWidgets(tuid);

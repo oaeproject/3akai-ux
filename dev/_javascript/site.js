@@ -278,7 +278,7 @@ sakai.site = function(){
 
                 // Show initial content and display site title
                 $initialcontent.show();
-                $sitetitle.text(sakai.site.currentsite.name);
+                $sitetitle.text(sakai.api.Security.saneHTML(sakai.site.currentsite.name));
 
                 // Setting up the Join this site button
                 if (shouldShowJoinButton()) {
@@ -486,12 +486,13 @@ sakai.site = function(){
               async: false,
               success: function(response){
                 sakai.site.pagecontents._navigation = response["sakai:pagenavigationcontent"];
-                $page_nav_content.html(sakai.site.pagecontents._navigation);
+                $page_nav_content.html(sakai.api.Security.saneHTML(sakai.site.pagecontents._navigation));
                 sakai.api.Widgets.widgetLoader.insertWidgets("page_nav_content",null,sakai.site.currentsite.id + "/_widgets/");
                 $(window).trigger('hashchange');
             },
             error: function(xhr, textStatus, thrownError) {
               $(window).trigger('hashchange');
+              console.log(sakai.site.urls.SITE_NAVIGATION_CONTENT());
               alert("site.js: Could not load site navigation content. \n HTTP status code: " + xhr.status);
             }
         });
@@ -574,7 +575,7 @@ sakai.site = function(){
           pageType = sakai.site.site_info._pages[pageUrlName]["pageType"];
 
           // Set page title
-          $pagetitle.text(sakai.site.site_info._pages[pageUrlName]["pageTitle"]);
+          $pagetitle.text(sakai.api.Security.saneHTML(sakai.site.site_info._pages[pageUrlName]["pageTitle"]));
         }
 
         // Set login link
@@ -1285,13 +1286,14 @@ sakai.site = function(){
             } else
                 {
                     // Create element
-                    var el = document.createElement("div");
-                    el.id = sakai.site.selectedpage;
-                    el.className = "content";
-                    el.innerHTML = response;
+                    var $el = $("<div id=\""+ sakai.site.selectedpage +"\" class=\"content\"></div>");
+
+                    // Add sanitized content
+                    var sanitizedContent = sakai.api.Security.saneHTML(response);
+                    $el.html(sanitizedContent);
 
                     // Add element to the DOM
-                    $main_content_div.append(el);
+                    $main_content_div.append($el);
                 }
 
             // Insert widgets
@@ -1308,13 +1310,10 @@ sakai.site = function(){
 
             // Create error element
             sakai.site.pagecontents[sakai.site.selectedpage] = {};
-            var errorel = document.createElement("div");
-            errorel.id = sakai.site.selectedpage;
-            errorel.className = "content";
-            errorel.innerHTML = "";
+            var $errorel = $("<div id=\""+ sakai.site.selectedpage +"\" class=\"content\"></div>");
 
             // Add error element to the DOM
-            $main_content_div.append(errorel);
+            $main_content_div.append($errorel);
         }
 
     };

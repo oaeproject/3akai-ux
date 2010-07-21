@@ -154,7 +154,7 @@ sakai.contentmedia = function(){
         var sortedVals = $.makeArray($(element + ' option')).sort(function(a,b){
             return $(a).text() > $(b).text() ? 1: -1;
         });
-        $(element).empty().html(sortedVals);
+        $(element).empty().html(sakai.api.Security.saneHTML(sortedVals));
     };
 
     /**
@@ -247,7 +247,7 @@ sakai.contentmedia = function(){
         // Render the message and add animation to show the message
         $(contentmediaDropMessage).hide();
         $.TemplateRenderer(contentmediaDropMessageTemplate, movedFiles, $(contentmediaDropMessage));
-        $(showDroppedMessageIn).append($(contentmediaDropMessage));
+        $(showDroppedMessageIn).append(sakai.api.Security.saneHTML($(contentmediaDropMessage)));
         $(contentmediaDropMessage).show();
         $(contentmediaDropMessage).fadeOut(2000);
     };
@@ -1063,7 +1063,7 @@ sakai.contentmedia = function(){
         var sitesArray = [];
 
         $(contentmediaDialogAssociationsSelectAll + " :selected").each(function(i, selected){
-            $(contentmediaDialogAssociationsSelectSelected).append(selected);
+            $(contentmediaDialogAssociationsSelectSelected).append(sakai.api.Security.saneHTML(selected));
             sitesArray.push(selected.value);
         });
 
@@ -1085,7 +1085,7 @@ sakai.contentmedia = function(){
      */
     $(contentmediaDialogAssociationsMoveAll).live("click", function(){
         $(contentmediaDialogAssociationsSelectSelected + " :selected").each(function(i, selected){
-            $(contentmediaDialogAssociationsSelectAll).append(selected);
+            $(contentmediaDialogAssociationsSelectAll).append(sakai.api.Security.saneHTML(selected));
         });
         enableDisableMoveButtons();
 

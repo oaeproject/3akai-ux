@@ -101,7 +101,7 @@ if (!sakai.sendmessage){
          * @param {Number} timeout The amount of milliseconds you want the message to be displayed, 0 = always (till the next message)
          */
         var showGeneralMessage = function(idToAppend, msg, isError, timeout) {
-            $(idToAppend).html(msg);
+            $(idToAppend).html(sakai.api.Security.saneHTML(msg));
             if (isError) {
                 $(idToAppend).addClass(errorClass);
                 $(idToAppend).removeClass(normalClass);
@@ -258,7 +258,7 @@ if (!sakai.sendmessage){
          */
         var loadMessageDialog = function(hash) {
             // Fill in the userdata
-            $(messageFieldFrom).text(me.user.properties.firstName + " " + me.user.properties.lastName);
+            $(messageFieldFrom).text(sakai.api.Security.saneHTML(me.user.properties.firstName + " " + me.user.properties.lastName));
 
             // Depending on the allowOthers variable we show the appropriate input
             if (allowOthers) {
@@ -284,7 +284,7 @@ if (!sakai.sendmessage){
                 // check for null
                 if (user !== null) {
                     // Fill in the username
-                    $(messageFieldToSingle).text(user.firstName + " " + user.lastName);
+                    $(messageFieldToSingle).text(sakai.api.Security.saneHTML(user.firstName + " " + user.lastName));
                 }
 
                 // We add it to the selectedFriendsList
@@ -360,11 +360,11 @@ if (!sakai.sendmessage){
             // Depending on success we add the correct class and show the appropriate message.
             if (succes) {
                 $(messageDone).addClass(normalClass);
-                $(messageDone).text($(messageOK).text());
+                $(messageDone).text(sakai.api.Security.saneHTML($(messageOK).text()));
             }
             else {
                 $(messageDone).addClass(errorClass);
-                $(messageDone).text($(messageError).text());
+                $(messageDone).text(sakai.api.Security.saneHTML($(messageError).text()));
             }
 
             // If we have a valid callback function we call that

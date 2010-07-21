@@ -167,7 +167,7 @@ sakai.s23_site = function(){
         if (completeJSON && completeJSON.site && completeJSON.site.title && completeJSON.site.pages) {
 
             // Set the title of the page
-            s23SiteTitle.text(completeJSON.site.title);
+            s23SiteTitle.text(sakai.api.Security.saneHTML(completeJSON.site.title));
 
             // Render the menu of the workspace
             s23SiteMenuContainer.html($.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));

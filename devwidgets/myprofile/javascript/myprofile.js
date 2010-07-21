@@ -132,10 +132,10 @@ sakai.myprofile = function (tuid, showSettings) {
 
         // Check if we have a first and last name
         if (json.firstName && json.lastName) {
-            $(profileNameID, rootel).text(json.firstName + " " + json.lastName);
+            $(profileNameID, rootel).text(sakai.api.Security.saneHTML(json.firstName + " " + json.lastName));
         }
         else {
-            $(profileNameID, rootel).text(me.user.userid);
+            $(profileNameID, rootel).text(sakai.api.Security.saneHTML(me.user.userid));
         }
 
         // Do we have a picture
@@ -159,7 +159,7 @@ sakai.myprofile = function (tuid, showSettings) {
             else if (json.unidepartment) {
                 extra = json.unidepartment;
             }
-            $(profileDepartementID, rootel).html(extra);
+            $(profileDepartementID, rootel).html(sakai.api.Security.saneHTML(extra));
         }
 
         // Get the user his chatstatus

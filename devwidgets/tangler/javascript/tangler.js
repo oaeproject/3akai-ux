@@ -105,7 +105,7 @@ sakai.tangler = function(tuid, showSettings){
                 var gid = start2[1].split("\"")[0];
 
                 // Put the paragraph in the output container in the main view.
-                $(tanglerOutput,rootel).html(paragraph);
+                $(tanglerOutput,rootel).html(sakai.api.Security.saneHTML(paragraph));
 
                 // Quit if this function already has been called.
                 // We do this before executing the javascript and after adding

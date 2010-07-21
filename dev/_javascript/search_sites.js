@@ -83,7 +83,7 @@ sakai.search = function() {
      * This method will show all the appropriate elements for when a search is executed.
      */
     var showSearchContent = function() {
-        $(searchConfig.global.searchTerm).text(searchterm);
+        $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
         $(searchConfig.global.numberFound).text("0");
         $(searchConfig.results.header).show();
         $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());

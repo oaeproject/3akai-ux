@@ -93,7 +93,7 @@ sakai.addtocontacts = function(tuid, showSettings) {
      */
     var fillInUserInfo = function(user) {
         if (user) {
-            $(addToContactsInfoDisplayName).text(user.firstName);
+            $(addToContactsInfoDisplayName).text(sakai.api.Security.saneHTML(user.firstName));
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
@@ -181,13 +181,13 @@ sakai.addtocontacts = function(tuid, showSettings) {
                     sakai.api.Communication.sendMessage(userid, title, message, "invitation", null, contactAdded);
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    $(addToContactsResponse).text($(addToContactsErrorRequest).text());
+                    $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
                 }
             });
 
         }
         else {
-            $(addToContactsResponse).text($(addToContactsErrorNoTypeSelected).text());
+            $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
         }
     };
 
