@@ -1755,17 +1755,18 @@ sakai.api.Util.notification = sakai.api.Util.notification || {};
 
 /**
  * Show notification messages
- * @param {String} title The notification title
+ * @example sakai.api.Util.notification.show("Title Message", "z2", "z01");
+ * @param {String} title The notification title (if it is an empty string, the title isn't shown)
  * @param {String} text The text you want to see appear in the body of the notification
  * @param {Constant} [type] The type of the notification. If this is not supplied, we use the type "information"
  */
 sakai.api.Util.notification.show = function(title, text, type){
 
-    // Check whether the title and text parameters are supplied.
-    if(!params.title || !params.text){
+    // Check whether the text parameter is supplied.
+    if(!text){
 
         // Log an error message
-        fluid.log("sakai.api.Util.notification.show: You need to fill out the first 2 parameters: 'title' and 'text'");
+        fluid.log("sakai.api.Util.notification.show: You need to fill out the 'text' parameter");
 
         // Make sure the execution in this function stops
         return;

@@ -390,7 +390,7 @@ sakai.site_add_members = function() {
                             }
                             sakai.api.Activity.createActivity(nodeUrl, "site", "default", activityData);
 
-                            sakai.lib.notifications.showNotification("Site management", "New member(s) were succesfully added", "normal", false, "/dev/_images/inbox_folders_messages.gif");
+                            sakai.api.Util.notification.show("Site management", "New member(s) were succesfully added");
                     },
                     error: function(xhr, textStatus, thrownError) {
                         alert("Failed to add these members.");

@@ -1897,7 +1897,7 @@ sakai.site.site_admin = function(){
     ////////////////////////////////////////
     $("#more_permissions").bind("click", function(e) {
         $("#more_menu").hide();
-        sakai.lib.notifications.showNotification("Page permissions", "This feature is not implemented yet!", "error", false, "/dev/_images/page_18.png", 500, 5000, 500);
+        sakai.api.Util.notification.show("Page permissions", "This feature is not implemented yet!", sakai.api.Util.notification.type.ERROR);
     });
 
 
@@ -2059,8 +2059,7 @@ sakai.site.site_admin = function(){
     $("#more_move").bind("click", function() {
 
         $("#more_menu").hide();
-        sakai.lib.notifications.showNotification("Page move", "To move a page just drag&drop in the page navigation widget!", "normal", false, "/dev/_images/page_18.png", 500, 5000, 500);
-
+        sakai.api.Util.notification.show("Page move", "To move a page just drag&drop in the page navigation widget!", sakai.api.Util.notification.type.INFORMATION);
     });
 
 
