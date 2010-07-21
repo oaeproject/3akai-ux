@@ -1791,7 +1791,7 @@ sakai.api.Util.notification.show = function(title, text, type){
     notification.title = title;
     notification.text = text;
 
-    // Add a growl like modification
+    // Show a the actual notification to the user
     $.gritter.add(notification);
 
 };
