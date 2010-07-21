@@ -216,6 +216,19 @@ sakai.config = {
         }
     },
 
+    notification: {
+        type :{
+            ERROR : {
+                image: "/dev/_images/notifications_exclamation_icon.png",
+                time: 10000
+            },
+            INFORMATION: {
+                image: "/dev/_images/notifications_info_icon.png",
+                time: 5000
+            }
+        }
+    },
+
     displayDebugInfo: true,
 
     widgets: {}

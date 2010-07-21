@@ -1742,6 +1742,86 @@ sakai.api.Util.createSakaiDate = function(date, format, offset) {
 
 
 /**
+ * @class notification
+ *
+ * @description
+ * Utility functions related to notifications messages in Sakai3
+ *
+ * @namespace
+ * Notifications messages
+ */
+sakai.api.Util.notification = sakai.api.Util.notification || {};
+
+
+/**
+ * Show notification messages
+ * @example sakai.api.Util.notification.show("Title Message", "z2", "z01");
+ * @param {String} title The notification title (if it is an empty string, the title isn't shown)
+ * @param {String} text The text you want to see appear in the body of the notification
+ * @param {Constant} [type] The type of the notification. If this is not supplied, we use the type "information"
+ */
+sakai.api.Util.notification.show = function(title, text, type){
+
+    // Check whether the text parameter is supplied.
+    if(!text){
+
+        // Log an error message
+        fluid.log("sakai.api.Util.notification.show: You need to fill out the 'text' parameter");
+
+        // Make sure the execution in this function stops
+        return;
+
+    }
+
+    // Check whether the type is an actual object if it is supplied
+    if (type && !$.isPlainObject(type)) {
+
+        // Log an error message
+        fluid.log("sakai.api.Util.notification.show: Make sure you supplied a correct type parameter");
+
+        // Stop the function execution
+        return;
+
+    }
+
+    // Set the notification type
+    var notification = type || sakai.api.Util.notification.type.INFORMATION;
+
+    // Set the title and text
+    notification.title = title;
+    notification.text = text;
+
+    // Add a growl like modification
+    $.gritter.add(notification);
+
+};
+
+
+/**
+ * @class type
+ *
+ * @description
+ * Namespace that contains all the different notification types
+ *
+ * @namespace
+ * Notifications types
+ */
+sakai.api.Util.notification.type = sakai.api.Util.notification.type || {};
+
+
+/**
+ * Object containing settings for the information notification type
+ */
+sakai.api.Util.notification.type.INFORMATION = $.extend(true, {}, sakai.config.notification.type.INFORMATION);
+
+
+/**
+ * Object containing settings for the error notification type
+ */
+sakai.api.Util.notification.type.ERROR = $.extend(true, {}, sakai.config.notification.type.ERROR);
+
+
+/**
  * Parse a ISO8601 date into a JavaScript date object.
  *
  * <p>

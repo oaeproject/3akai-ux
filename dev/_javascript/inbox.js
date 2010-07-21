@@ -206,16 +206,13 @@ sakai.inbox = function() {
      * Shows a general message on the top screen
      * @param {String} msg    the message you want to display
      * @param {Boolean} isError    true for error (red block)/false for normal message(green block)
-     * @param {Number} timeoutthe amout of milliseconds you want the message to be displayed, 0 = always (till the next message)
      */
-    var showGeneralMessage = function(msg, isError, timeout) {
-        var type = "normal";
-        var stay = false;
-        if (isError) {
-            type = "error";
-            stay = true;
-        }
-        sakai.lib.notifications.showNotification("My Messages", msg, type, stay, "/dev/_images/inbox_folders_messages.gif");
+    var showGeneralMessage = function(msg, isError) {
+
+        var type = isError ? sakai.api.Util.notification.type.ERROR : sakai.api.Util.notification.type.INFORMATION;
+
+        sakai.api.Util.notification.show("", msg, type);
+
     };
 
     /**
@@ -649,7 +646,7 @@ sakai.inbox = function() {
 
             },
             error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
+                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
                 $(inboxResults).html($(inboxGeneralMessagesErrorGeneral).text());
             }
         });
@@ -685,7 +682,7 @@ sakai.inbox = function() {
 
             },
             error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
+                showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text());
             }
         });
     };
@@ -773,7 +770,7 @@ sakai.inbox = function() {
 
             },
             error: function(xhr, textStatus, thrownError) {
-                showGeneralMessage($(inboxGeneralMessagesErrorReadFail).text(), true);
+                showGeneralMessage($(inboxGeneralMessagesErrorReadFail).text());
             }
         });
     };
@@ -961,7 +958,7 @@ sakai.inbox = function() {
      */
     var sendMessageFinished = function(success, data) {
 
-        showGeneralMessage($(inboxGeneralMessagesSent).text(), false, 5000);
+        showGeneralMessage($(inboxGeneralMessagesSent).text(), false);
         clearInputFields();
 
         // Show the sent inbox pane.
@@ -999,10 +996,10 @@ sakai.inbox = function() {
                 txt = pathToMessages.length + $(inboxGeneralMessagesDeleted_x).text();
             }
 
-            showGeneralMessage(txt, false, 5000);
+            showGeneralMessage(txt, false);
         }
         else {
-            showGeneralMessage($(inboxGeneralMessagesDeletedFailed).text(), true);
+            showGeneralMessage($(inboxGeneralMessagesDeletedFailed).text());
         }
     };
 
