@@ -209,8 +209,10 @@ sakai.inbox = function() {
      */
     var showGeneralMessage = function(msg, isError) {
 
+        // Check whether to show an error type message or an information one
         var type = isError ? sakai.api.Util.notification.type.ERROR : sakai.api.Util.notification.type.INFORMATION;
 
+        // Show the message to the user
         sakai.api.Util.notification.show("", msg, type);
 
     };
