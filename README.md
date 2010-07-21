@@ -56,7 +56,7 @@ Then you can set up an instance with the following Terminal commands on a Unix/M
 
 5. Open a browser and type "http://localhost:8080/dev" into the address bar
 
-Done. Now you have a the latest stable kernel with latest stable UX code (from Maven repo) running on your local machine.
+Done. Now you have the latest kernel with the latest stable UX code (from Maven repo) running on your local machine.
 
 
 If you would like to do UI/UX development you will need to additionally to the following:
