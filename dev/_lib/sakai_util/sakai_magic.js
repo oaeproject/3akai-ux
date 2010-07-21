@@ -895,13 +895,8 @@ sakai.api.Security.saneHTML = function(inputHTML) {
         return out.join('');
     }
 
-
     // Call a slightly modified version of Caja's sanitizer
     return sakaiHtmlSanitize(inputHTML, filterUrl, filterNameIdClass);
-
-
-
-
 
 };
 
