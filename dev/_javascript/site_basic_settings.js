@@ -141,13 +141,14 @@ sakai.site_basic_settings = function(){
                 // Check if we are an owner for this site.
                 // Otherwise we will redirect to the site page.
                 if (sakai.lib.site.authz.isUserMaintainer(siteinfo)) {
+                    var nameSaneHTML = sakai.api.Security.saneHTML(response.name)
                     // Fill in the info.
-                    $("#sitetitle").text(response.name);
-                    $(siteSettingsInfoSakaiDomain).text(document.location.protocol + "//" + document.location.host + sakai.config.URL.SITE_ROOT);
+                    $("#sitetitle").text(nameSaneHTML);
+                    $(siteSettingsInfoSakaiDomain).text(sakai.api.Security.saneHTML(document.location.protocol + "//" + document.location.host + sakai.config.URL.SITE_ROOT));
                     $(siteSettingsInfoDescription).val(response.description);
                     $(siteSettingsInfoTitle).val(response.name);
-                    $(siteSettingsTitleClass).text(response.name);
-                    $(siteSettingsInfoSitePartTextLocation).text(response.id);
+                    $(siteSettingsTitleClass).text(nameSaneHTML);
+                    $(siteSettingsInfoSitePartTextLocation).text(sakai.api.Security.saneHTML(response.id));
                     getLanguages(response);
 
                     // Status
@@ -206,7 +207,7 @@ sakai.site_basic_settings = function(){
 
     var saveSettingsDone = function(success, data, redirect_url){
         if (success) {
-            $(siteSettingsResponse).text($(siteSettingsErrorSaveSuccess).text());
+            $(siteSettingsResponse).text(sakai.api.Security.saneHTML($(siteSettingsErrorSaveSuccess).text()));
 
             // Go back to site
             document.location = sakai.config.URL.SITE_ROOT + redirect_url;
@@ -215,11 +216,11 @@ sakai.site_basic_settings = function(){
         else {
             // The user has no sufficient rights.
             if (data === 401) {
-                $(siteSettingsResponse).text($(siteSettingsErrorUnauthorized).text());
+                $(siteSettingsResponse).text(sakai.api.Security.saneHTML($(siteSettingsErrorUnauthorized).text()));
             }
             // Show a general error message.
             else {
-                $(siteSettingsResponse).text($(siteSettingsErrorSaveFail).text());
+                $(siteSettingsResponse).text(sakai.api.Security.saneHTML($(siteSettingsErrorSaveFail).text()));
             }
         }
 

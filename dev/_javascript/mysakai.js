@@ -669,8 +669,8 @@ sakai.dashboard = function(){
         $("#addwidgetlist").html($.TemplateRenderer("addwidgetlist_template", addingPossible));
         currentlyopen = addingPossible.items[0].id;
 
-        $("#addWidgets_selected_title").text(addingPossible.items[0].title);
-        $("#addWidgets_selected_description").text(addingPossible.items[0].description);
+        $("#addWidgets_selected_title").text(sakai.api.Security.saneHTML(addingPossible.items[0].title));
+        $("#addWidgets_selected_description").text(sakai.api.Security.saneHTML(addingPossible.items[0].description));
         $("#widget_img").attr("src",addingPossible.items[0].img);
         if (addingPossible.items[0].alreadyIn){
             $("#btnAddWidget").hide();
@@ -704,8 +704,8 @@ sakai.dashboard = function(){
                     }
                 }
                 currentlyopen = Widgets.widgets[l].id;
-                $("#addWidgets_selected_title").text(Widgets.widgets[l].name);
-                $("#addWidgets_selected_description").text(Widgets.widgets[l].description);
+                $("#addWidgets_selected_title").text(sakai.api.Security.saneHTML(Widgets.widgets[l].name));
+                $("#addWidgets_selected_description").text(sakai.api.Security.saneHTML(Widgets.widgets[l].description));
                 $("#widget_img").attr("src",Widgets.widgets[l].img);
                 if (alreadyIn){
                     $("#btnAddWidget").hide();

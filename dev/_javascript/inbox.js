@@ -650,7 +650,7 @@ sakai.inbox = function() {
             },
             error: function(xhr, textStatus, thrownError) {
                 showGeneralMessage($(inboxGeneralMessagesErrorGeneral).text(), true);
-                $(inboxResults).html($(inboxGeneralMessagesErrorGeneral).text());
+                $(inboxResults).html(sakai.api.Security.saneHTML($(inboxGeneralMessagesErrorGeneral).text()));
             }
         });
     };
@@ -676,7 +676,7 @@ sakai.inbox = function() {
                     } else if (data.count[i].group === "invitation"){
                         unreadInvitations = data.count[i].count;
                     } else if (data.count[i].group === "chat"){
-                        $(inboxFilterChats).append(tpl.replace(/__NR__/gi, data.count[i].count));
+                        $(inboxFilterChats).append(sakai.api.Security.saneHTML(tpl.replace(/__NR__/gi, data.count[i].count)));
                     }
                     totalcount += data.count[i].count;
                 }
@@ -693,19 +693,19 @@ sakai.inbox = function() {
     var updateUnreadNumbers = function(){
 
         if (unreadMessages > 0){
-            $("#inbox_unread_nr_messages").text("(" + unreadMessages + ")");
+            $("#inbox_unread_nr_messages").text(sakai.api.Security.saneHTML("(" + unreadMessages + ")"));
         } else {
             $("#inbox_unread_nr_messages").text("");
         }
 
         if (unreadAnnouncements > 0){
-            $("#inbox_unread_nr_announcements").text("(" + unreadAnnouncements + ")");
+            $("#inbox_unread_nr_announcements").text(sakai.api.Security.saneHTML("(" + unreadAnnouncements + ")"));
         } else {
             $("#inbox_unread_nr_announcements").text("");
         }
 
         if (unreadInvitations > 0){
-            $("#inbox_unread_nr_invitations").text("(" + unreadInvitations + ")");
+            $("#inbox_unread_nr_invitations").text(sakai.api.Security.saneHTML("(" + unreadInvitations + ")"));
         } else {
             $("#inbox_unread_nr_invitations").text("");
         }
@@ -769,7 +769,7 @@ sakai.inbox = function() {
                 updateUnreadNumbers();
 
                 // Mark message in navigationchat as read
-                $(chatUnreadMessages).html((parseInt($(chatUnreadMessages).text(),10) - 1));
+                $(chatUnreadMessages).html(sakai.api.Security.saneHTML((parseInt($(chatUnreadMessages).text(),10) - 1)));
 
             },
             error: function(xhr, textStatus, thrownError) {
@@ -799,13 +799,13 @@ sakai.inbox = function() {
         if (typeof message !== "undefined") {
 
             // Fill in this message values.
-            $(inboxSpecificMessageSubject).text(message["sakai:subject"]);
-            $(inboxSpecificMessageBody).html(message["sakai:body"].replace(/\n/gi, "<br />"));
-            $(inboxSpecificMessageDate).text(message.date);
+            $(inboxSpecificMessageSubject).text(sakai.api.Security.saneHTML(message["sakai:subject"]));
+            $(inboxSpecificMessageBody).html(sakai.api.Security.saneHTML(message["sakai:body"].replace(/\n/gi, "<br />")));
+            $(inboxSpecificMessageDate).text(sakai.api.Security.saneHTML(message.date));
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                    $(inboxSpecificMessageFrom).text(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]);
+                    $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]));
                     if (message.userFrom[i].photo) {
                         $(inboxSpecificMessagePicture).attr("src", "/_user" + message.userFrom[i].hash + "/public/profile/" + message.userFrom[i].photo);
                     }
@@ -814,7 +814,7 @@ sakai.inbox = function() {
                     }
                 }
             } else {
-                $(inboxSpecificMessageFrom).text(message["sakai:from"]);
+                $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message["sakai:from"]));
                 $(inboxSpecificMessagePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
             }
 
@@ -1148,10 +1148,10 @@ sakai.inbox = function() {
     // Sorters for the inbox.
     $(inboxTableHeaderSort).bind("mouseenter", function() {
         if (sortOrder === 'descending') {
-            $(this).append($(inboxInboxSortUp).html());
+            $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortUp).html()));
         }
         else {
-            $(this).append($(inboxInboxSortDown).html());
+            $(this).append(sakai.api.Security.saneHTML($(inboxInboxSortDown).html()));
         }
     });
     $(inboxTableHeaderSort).bind("mouseout", function() {

@@ -66,7 +66,7 @@ sakai.site_add_members = function() {
             success: function(response) {
                 siteJson = response;
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
-                $("#sitetitle").text(siteJson.name);
+                $("#sitetitle").text(sakai.api.Security.saneHTML(siteJson.name));
                 $("#manage_members_role_rbts").html($.TemplateRenderer("manage_members_role_rbts_template", {"roles" : siteJson["sakai:roles"]}));
             },
             error: function(xhr, textStatus, thrownError) {
@@ -338,7 +338,7 @@ sakai.site_add_members = function() {
                 json.members = {
                     "results": []
                 };
-                $("#manage_members_count").html(getNumMembers(json.members.results));
+                $("#manage_members_count").html(sakai.api.Security.saneHTML(getNumMembers(json.members.results)));
             }
         });
     };

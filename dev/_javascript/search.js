@@ -129,7 +129,7 @@ sakai.search = function() {
 
     var showSearchContent = function() {
         // Set searching messages
-        $(searchConfig.global.searchTerm).text(searchterm);
+        $(searchConfig.global.searchTerm).text(sakai.api.Security.saneHTML(searchterm));
         $(searchConfig.global.numberFound).text("0");
 
         $(searchConfig.cm.displayMoreNumber).text("0");

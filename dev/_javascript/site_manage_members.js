@@ -53,7 +53,7 @@ sakai.site_manage_members = function() {
             success: function(response) {
                 siteJson = response;
                 roleToGroup = sakai.lib.site.authz.getRoleToPrincipalMap(siteJson);
-                $("#sitetitle").text(siteJson.name);
+                $("#sitetitle").text(sakai.api.Security.saneHTML(siteJson.name));
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Failed to get the site info.");
