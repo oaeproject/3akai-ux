@@ -50,11 +50,11 @@ sakai.recentmessages = function(tuid, showSettings){
         if(response === "NOT_CONNECTED"){
 
             // If it wasn't possible to connect to the server, show the not connected error
-            $recentmessagesContainer.html($recentmessagesErrorNotConnected);
+            $recentmessagesContainer.html(sakai.api.Security.saneHTML($recentmessagesErrorNotConnected));
         } else if (response.total === 0){
 
             // If the user doesn't have any messages, show the no messages error.
-            $recentmessagesContainer.html($recentmessagesErrorNomessages);
+            $recentmessagesContainer.html(sakai.api.Security.saneHTML($recentmessagesErrorNomessages));
         } else {
 
             // Only if everything went fine, show the recent messages

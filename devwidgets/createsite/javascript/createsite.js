@@ -391,6 +391,7 @@ sakai.createsite = function(tuid, showSettings){
         if (sitedescription.length > 80)
         {
             $(createSiteNoncourseDescriptionLongCount).html(sitedescription.length);
+            
             setError(createSiteNoncourseDescription,createSiteNoncourseDescriptionLong,true);
             inputError = true;
         }
@@ -493,7 +494,7 @@ sakai.createsite = function(tuid, showSettings){
 
         // Set the text of the span containing the url of the current site
         // e.g. http://celestine.caret.local:8080/site/
-        $(createSiteNoncourseUrl).text(document.location.protocol + "//" + document.location.host + "/sites/");
+        $(createSiteNoncourseUrl).text(sakai.api.Security.saneHTML(document.location.protocol + "//" + document.location.host + "/sites/"));
     };
 
     doInit();

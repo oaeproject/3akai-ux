@@ -145,7 +145,7 @@ sakai.delicious = function(tuid, showSettings) {
             errorMessage = $deliciousErrorNoUser;
         }
 
-        $deliciousMainBookmarks.html(errorMessage);
+        $deliciousMainBookmarks.html(sakai.api.Security.saneHTML(errorMessage));
     };
 
 

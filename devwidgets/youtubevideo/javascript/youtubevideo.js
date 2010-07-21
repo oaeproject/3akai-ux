@@ -89,7 +89,7 @@ sakai.youtubevideo = function(tuid, showSettings){
                     }
                     // show the video
                     else {
-                        $(container, rootel).html(embedYouTube.replace(/__ID__/g, id));
+                        $(container, rootel).html(sakai.api.Security.saneHTML(embedYouTube.replace(/__ID__/g, id)));
                     }
                 }
 

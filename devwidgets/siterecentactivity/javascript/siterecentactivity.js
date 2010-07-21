@@ -198,7 +198,7 @@ sakai.siterecentactivity = function(tuid, showSettings){
             return this.each(function(){
                 var date = humane_date(this.title);
                 if(date && jQuery(this).text() != date) // don't modify the dom if we don't have to
-                    jQuery(this).text(date);
+                    jQuery(this).text(sakai.api.Security.saneHTML(date));
             });
         };
     }

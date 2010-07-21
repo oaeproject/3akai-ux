@@ -114,13 +114,13 @@ sakai.uploadcontent = function(tuid, showSettings){
         }
 
         if(error === "badurlformat"){
-            $uploadcontent_error_container.html($uploadcontent_error_badurlformat.html());
+            $uploadcontent_error_container.html(sakai.api.Security.saneHTML($uploadcontent_error_badurlformat.html()));
         }
         else if(error === "linkcouldnotbesaved"){
-            $uploadcontent_error_container.html($uploadcontent_error_linkcouldnotbesaved.html());
+            $uploadcontent_error_container.html(sakai.api.Security.saneHTML($uploadcontent_error_linkcouldnotbesaved.html()));
         }
         else if(error === "filenotuploaded"){
-            $uploadcontent_error_container.html($uploadcontent_error_filenotuploaded.html());
+            $uploadcontent_error_container.html(sakai.api.Security.saneHTML($uploadcontent_error_filenotuploaded.html()));
         }
 
         // Show the container to the user

@@ -116,7 +116,7 @@ sakai.helloworld = function(tuid,showSettings){
             $(settingsContainer, rootel).show();
         } else {
             var me = sakai.data.me;
-            $(usernameContainer, rootel).text(me.profile.firstName);
+            $(usernameContainer, rootel).text(sakai.api.Security.saneHTML(me.profile.firstName));
             getPreferedColor(showHelloWorld);
         }
     };

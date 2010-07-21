@@ -143,7 +143,7 @@ sakai.activitystream = function(tuid, showSettings) {
         var $resultContainer = $("<ul class=\"feed_list\"></ul>");
 
         // Set the title
-        $feedTitle.html("Last " + activityitemsCount + " activity items");
+        $feedTitle.html(sakai.api.Security.saneHTML("Last " + activityitemsCount + " activity items"));
 
         // Go through the feed data
         for (var i = 0, il = activityData.results.length; i < il; i++) {
@@ -167,7 +167,7 @@ sakai.activitystream = function(tuid, showSettings) {
             }
 
             // Create a list item element for each one of the feed items
-            var $feedItem = $("<li><a href=\"/dev/profile.html?user=" + contactUserID + "\">" + contactFullName + "</a>: <br />" + activityData.results[i]["sakai:activityMessage"] + "<li>");
+            var $feedItem = $(sakai.api.Security.saneHTML("<li><a href=\"/dev/profile.html?user=" + contactUserID + "\">" + contactFullName + "</a>: <br />" + activityData.results[i]["sakai:activityMessage"] + "<li>"));
 
             // Append the list item to the list container
             $resultContainer.append($feedItem);

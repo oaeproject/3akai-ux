@@ -547,7 +547,7 @@ sakai.navigationchat = function(tuid, showSettings){
                 // To avoid flickering of the element we check if the element already has this value.
                 // This improves the overall performance.
                 if (el.text() !== value) {
-                    el.text(value);
+                    el.text(sakai.api.Security.saneHTML(value));
                     updateActiveWindows(userid, item, value);
                 }
                 break;
@@ -985,7 +985,7 @@ sakai.navigationchat = function(tuid, showSettings){
      */
     var addChatMessage = function(el, message){
         if (el.length > 0) {
-            el.append(renderChatMessage(message));
+            el.append(sakai.api.Security.saneHTML(renderChatMessage(message)));
             checkHeight(el, chatWithContentNooverflowClass, chatWithContentOverflowClass);
             scroll_to_bottom(el);
         }
@@ -1684,8 +1684,8 @@ sakai.navigationchat = function(tuid, showSettings){
 
         // Fill in the name of the user in the different fields
         if (person.profile.firstName || person.profile.lastName) {
-            $(userIdLabel).text(person.profile.firstName + " " + person.profile.lastName);
-            $(hiLabel).text(person.profile.firstName);
+            $(userIdLabel).text(sakai.api.Security.saneHTML(person.profile.firstName + " " + person.profile.lastName));
+            $(hiLabel).text(sakai.api.Security.saneHTML(person.profile.firstName));
         }
 
         // Show the profile picture on the dashboard page

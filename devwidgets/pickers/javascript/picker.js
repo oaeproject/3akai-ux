@@ -110,9 +110,9 @@ sakai.picker = function(tuid, showSettings, endFormat){
      */
     var setSelectedItem = function(item){
         selectedItem = item;
-        $(picker_selectedfile_name).text(item.name);
+        $(picker_selectedfile_name).text(sakai.api.Security.saneHTML(item.name));
         $(picker_selectedfile_name).attr('href', item.path);
-        $(picker_selectedfile_location).text(item.path);
+        $(picker_selectedfile_location).text(sakai.api.Security.saneHTML(item.path));
 
         var json = {
             'file': item,

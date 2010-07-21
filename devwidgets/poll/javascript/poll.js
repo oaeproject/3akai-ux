@@ -693,7 +693,7 @@ sakai.poll = function(tuid, showSettings){
             a.appendChild(text);
 
             // Add the a tag to the div
-            $("#"+input+"_div").append(a);
+            $("#"+input+"_div").append(sakai.api.Security.saneHTML(a));
         }
 
         // If you click on a field, insert the value into the input box and change class

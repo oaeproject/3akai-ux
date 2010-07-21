@@ -141,7 +141,7 @@ sakai.blogdashboard = function(tuid, showSettings){
     var showGeneralMessage = function(msg, isError, timeout){
         // gets the errormessage
         // this is set in the html for i18n
-        $(generalMessage).html(msg);
+        $(generalMessage).html(sakai.api.Security.saneHTML(msg));
         // show the error container
         $(generalMessage).show();
         // show error or warning

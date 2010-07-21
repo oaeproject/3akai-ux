@@ -254,8 +254,8 @@ sakai.discussion = function(tuid, showSettings) {
         // Show new values
         stopEditing(id);
 
-        $(discussionContentSubject + "_" + id, rootel).html(subject);
-        $(discussionContentMessage + "_" + id, rootel).html(body.replace(/\n/g, "<br />"));
+        $(discussionContentSubject + "_" + id, rootel).html(sakai.api.Security.saneHTML(subject));
+        $(discussionContentMessage + "_" + id, rootel).html(sakai.api.Security.saneHTML(body.replace(/\n/g, "<br />")));
 
     };
 
@@ -493,7 +493,7 @@ sakai.discussion = function(tuid, showSettings) {
         }
 
         var firstPostSubject = jsonPosts.posts[0].post['sakai:subject'];
-        $('#discussion_widget_title',rootel).html(firstPostSubject);
+        $('#discussion_widget_title',rootel).html(sakai.api.Security.saneHTML(firstPostSubject));
 
         $('#discussion_compact_link',rootel).bind('click', jsonPosts, renderCompactPostsView);
 
