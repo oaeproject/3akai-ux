@@ -23,9 +23,6 @@ test('Test properties', function(){
                 "name": "description",
                 "type": "string"
             }, {
-                "name": "gwt",
-                "type": "boolean"
-            }, {
                 "name": "hasSettings",
                 "type": "boolean"
             }, {

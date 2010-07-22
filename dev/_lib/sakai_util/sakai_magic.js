@@ -2513,10 +2513,8 @@ sakai.api.Widgets.widgetLoader = {
                     widgetid = widgetname + "container";
                 }
 
-                // Check if the widget is an iframe or a gwt widget
-                if (Widgets.widgets[widgetname] && (Widgets.widgets[widgetname].gwt || Widgets.widgets[widgetname].iframe)){
-
-                    var gwt = Widgets.widgets[widgetname].gwt ? true : false;
+                // Check if the widget is an iframe widget
+                if (Widgets.widgets[widgetname] && Widgets.widgets[widgetname].iframe){
 
                     // Get the information about the widget in the widgets.js file
                     var portlet = Widgets.widgets[widgetname];
@@ -2524,12 +2522,7 @@ sakai.api.Widgets.widgetLoader = {
                     // Check if the scrolling property has been set to true
                     var scrolling = portlet.scrolling ? "auto" : "no";
 
-                    var src;
-                    if(gwt){
-                        src = portlet.url + "?placement=" + portlet.placement + "&tuid=" + portlet.uid + "&showSettings=" + settings + "&sid=" + Math.random();
-                    }else {
-                        src = portlet.url;
-                    }
+                    var src = portlet.url;
 
                     // Construct the HTML for the iframe
                     var html = '<div id="widget_content_'+ widgetname + '">' +
@@ -2540,15 +2533,12 @@ sakai.api.Widgets.widgetLoader = {
                                    'scrolling="' + scrolling + '"' +
                                    '></iframe></div>';
 
-                    if(gwt){
-                        $("#" + portlet.uid).append(html);
-                    }else{
-                        // Add the HTML for to the iframe widget container
-                        $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
-                    }
+                    // Add the HTML for to the iframe widget container
+                    $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
+                    
                 }
 
-                // The widget isn't a gwt or iframe widget
+                // The widget isn't an iframe widget
                 else if (Widgets.widgets[widgetname]){
 
                     // Set the placement for the widget
