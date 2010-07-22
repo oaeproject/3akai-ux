@@ -1457,7 +1457,7 @@ sakai.site.site_admin = function(){
         if (!sakai.site.currentEditView) {
             switchtab("text_editor","Text Editor","preview","Preview");
         } else if (sakai.site.currentEditView === "html"){
-            var value = $("#html-editor-content").val();
+            var value = sakai.api.Security.saneHTML($("#html-editor-content").val());
             tinyMCE.get("elm1").setContent(value);
             switchtab("html","HTML","preview","Preview");
         }
