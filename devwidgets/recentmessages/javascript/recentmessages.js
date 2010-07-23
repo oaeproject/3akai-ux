@@ -113,7 +113,6 @@ sakai.recentmessages = function(tuid, showSettings){
             url: sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?" + params,
             cache: false,
             success: function(data){
-                //alert($.toJSON(data));
                 loadRecentMessages(data);
             },
             error: function() {
