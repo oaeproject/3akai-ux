@@ -1,0 +1,30 @@
+/* General info */
+#profilesection_generalinfo .profilesection_generalinfo_header {
+    border-top:1px solid #ccc;
+    margin:15px 0;
+    overflow:hidden;
+    padding-top:20px;
+}
+#profilesection_generalinfo .profilesection_generalinfo_header_first {
+    border: none;
+    padding-top: 0;
+}
+#profilesection_generalinfo h3 {
+    color:#5A6A7C;
+    font-size:120%;
+    font-weight:normal;
+    margin: 0;
+    padding-right: 5px;
+    width: 400px;
+}
+#profilesection_generalinfo .profilesection_generalinfo_subcontainer {
+    clear: both;
+    margin: 7px 0;
+    overflow: auto;
+    padding: 1px 0;
+}
+#profilesection_generalinfo .profilesection_generalinfo_label, .profilesection_generalinfo label {
+    display: block;
+    float: left;
+    width: 140px;
+}
