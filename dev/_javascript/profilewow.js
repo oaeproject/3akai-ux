@@ -260,12 +260,10 @@ sakai.profilewow = function(){
     var $profilewow_footer_button_dontupdate;
     var $profilewow_footer_button_edit;
     var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
-    var $profilewow_generalinfo = $("#profilewow_generalinfo", profilewow_class);
-    var $profilewow_generalinfo_template = $("#profilewow_generalinfo_template", profilewow_class);
-    var profilewow_generalinfo_template_container = "";
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
     var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
-    var $profilewow_section_default_template = $("#profilewow_section_default_template", profilewow_class);
+    var $profilewow_sectionwidgets_container = $("#profilewow_sectionwidgets_container", profilewow_class);
+    var $profilewow_sectionwidgets_container_template = $("#profilewow_sectionwidgets_container_template", profilewow_class);
 
 
     ////////////////////
@@ -495,52 +493,28 @@ sakai.profilewow = function(){
     };
 
     /**
-     * Render the template for the field
-     * @param {Object} fieldTemplate
-     * @param {Object} sectionName
-     * @param {Object} fieldObject
-     * @param {Object} fieldName
+     * Insert a profile section widget
+     * @param {String} sectionname The name of the section e.g. basic/talks/aboutme
      */
-    var renderTemplateField = function(fieldTemplate, sectionName, fieldObject, fieldName){
+    var insertProfileSectionWidget = function(sectionname) {
 
-        var json_config = {
-            "data": sakai.profilewow.profile.data[sectionName].elements[fieldName],
-            "config": sakai.profilewow.profile.config[sectionName].elements[fieldName]
+        // Create a JSON object to pass the sectionname along
+        // Trimpath needs an object to be passed (not only a variable)
+        var sectionobject = {
+            "sectionname": "profilesection-" + sectionname
         };
 
-        return $.TemplateRenderer(fieldTemplate, json_config);
+        // Construct the html for the widget
+        $profilewow_sectionwidgets_container.append($.TemplateRenderer($profilewow_sectionwidgets_container_template, sectionobject));
 
-    };
+        // Bind a global event that can be triggered by the profilesection widgets
+        $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
 
-    /**
-     * Render the template for the sectino
-     * @param {Object} sectionTemplate jQuery object that contains the template you want to render for the section
-     * @param {Object} sectionObject The object you need to pass into the template
-     * @param {String} sectionName The name of the sectionObject (e.g. basic)
-     */
-    var renderTemplateSection = function(sectionTemplate, sectionObject, sectionName){
-
-        var sections = "";
-
-        for(var i in sectionObject.elements){
-            if(sectionObject.elements.hasOwnProperty(i)){
-
-                // Set the field template, if there is no template defined, use the default one
-                var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, profilewow_class) : $profilewow_field_default_template;
-
-                // Render the template field
-                sections += renderTemplateField(fieldTemplate, sectionName, sectionObject.elements[i], i);
-
+            if(callback && typeof callback === "function"){
+                callback(sectionname);
             }
-        }
 
-        var json_config = {
-            "data" : sakai.profilewow.profile.data[sectionName],
-            "config" : sakai.profilewow.profile.config[sectionName],
-            "fields" : $.trim(sections)
-        };
-
-        return $.TemplateRenderer(sectionTemplate, json_config);
+        });
 
     };
 
@@ -549,22 +523,14 @@ sakai.profilewow = function(){
      */
     var renderTemplateGeneralInfo = function(){
 
-        var generalinfo = "";
-
         for(var i in sakai.profilewow.profile.config){
             if(sakai.profilewow.profile.config.hasOwnProperty(i)){
 
-                // Set the section template, if there is no template defined, user the default one
-                var sectionTemplate = sakai.profilewow.profile.config[i].template ? $("#" + sakai.profilewow.profile.config[i].template, profilewow_class) : $profilewow_section_default_template;
-
-                // Render the template section
-                generalinfo += renderTemplateSection(sectionTemplate, sakai.profilewow.profile.config[i], i);
+                // Insert a separate widget for each profile section widget
+                insertProfileSectionWidget(i);
 
             }
         }
-
-        // Render the General info
-        $profilewow_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
 
     };
 

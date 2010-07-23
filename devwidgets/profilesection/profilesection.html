@@ -1,0 +1,130 @@
+<!-- CSS -->
+<link href="/devwidgets/profilesection/css/profilesection.css" type="text/css" />
+
+<!-- GENERAL INFO -->
+<div id="profilesection_generalinfo" class="fl-push"><!-- --></div>
+
+<!-- GENERAL INFO TEMPLATE -->
+<div id="profilesection_generalinfo_template"><!--
+    {var i_count = 0}
+    {for i in config}
+        <div class="profilesection_generalinfo_header{if i_count === 0} profilesection_generalinfo_header_first{/if}">
+            <h3 class="fl-force-left">${i.label}</h3>
+
+            {if mode.value === "viewmy" || mode.value === "edit"}
+                {var _access = sakai.profilewow.profile.data[i_index].access}
+                <div class="profilesection_generalinfo_acl fl-force-right">
+                    {if mode.value === "viewmy"}
+                        <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
+                        <a href="profilewow.html?mode=edit">
+                            {if _access==="public"}__MSG__PUBLIC__
+                            {elseif _access==="institution"}__MSG__INSTITUTION__
+                            {elseif _access==="contacts"}__MSG__CONTACTS__
+                            {elseif _access==="noone"}__MSG__NO_ONE__
+                            {/if}
+                        </a>
+                    {else}
+                        <label for="profilesection_generalinfo_access_${i_index}">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
+                        <select id="profilesection_generalinfo_access_${i_index}">
+                            <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                            <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
+                            <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
+                            <option{if _access==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
+                        </select>
+                    {/if}
+                </div>
+            {/if}
+
+        </div>
+
+        {for element in i.elements}
+
+            {var _elements = sakai.profilewow.profile.data[i_index].elements}
+            {var _element = _elements[element_index]}
+            {var isarray = $.isArray(_elements)}
+
+            <div class="profilesection_generalinfo_subcontainer">
+                <span class="profilesection_generalinfo_label">${element.label}:</span>
+                <div class="profilesection_generalinfo_content">
+                    {if !isarray}
+                        ${_element.value}
+                    {else}
+                        {for _subelement in _elements}
+                            ${_subelement[element_index]}
+                        {/for}
+                    {/if}
+                </div>
+            </div>
+        {/for}
+        ${i_count++ |eat}
+    {/for}
+--></div>
+
+<!-- SECTION TEMPLATES -->
+<div id="profilesection_default_template"><!--
+    {var mode = sakai.profilewow.profile.mode}
+    {if fields}
+        {if config && config.label && data}
+            <div class="profilesection_generalinfo_header">
+                <h3 class="fl-force-left">${config.label}</h3>
+
+                {if mode.value === "viewmy" || mode.value === "edit"}
+                    {var _access = data.access}
+                    <div class="profilesection_generalinfo_acl fl-force-right">
+                        {if mode.value === "viewmy"}
+                            <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
+                            <a href="profilewow.html?mode=edit">
+                                {if _access==="public"}__MSG__PUBLIC__
+                                {elseif _access==="institution"}__MSG__INSTITUTION__
+                                {elseif _access==="contacts"}__MSG__CONTACTS__
+                                {elseif _access==="noone"}__MSG__NO_ONE__
+                                {/if}
+                            </a>
+                        {else}
+                            <label for="profilesection_generalinfo_access">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
+                            <select id="profilesection_generalinfo_access">
+                                <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                                <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
+                                <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
+                                <option{if _access==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
+                            </select>
+                        {/if}
+                    </div>
+                {/if}
+            </div>
+        {/if}
+
+        ${fields}
+    {/if}
+--></div>
+
+<!-- FIELD TEMPLATES -->
+<div id="profilesection_field_default_template"><!--
+    {var mode = sakai.profilewow.profile.mode}
+    {if mode.value === "edit"}
+        {if data && config.display}
+            <div class="profilesection_generalinfo_subcontainer">
+                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo">${config.label}:</label>
+                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo" />
+            </div>
+        {/if}
+    {else}
+        {if data && data.value && config.display}
+            <div class="profilesection_generalinfo_subcontainer">
+                <span class="profilesection_generalinfo_label">${config.label}:</span>
+                <div class="profilesection_generalinfo_content">${data.value}</div>
+            </div>
+        {/if}
+    {/if}
+--></div>
+<div id="profilesection_field_textarea_template"><!--
+    {if data && data.value && config.display}
+        <div class="profilesection_generalinfo_subcontainer">
+            <span class="profilesection_generalinfo_label">${config.label}:</span>
+            <div class="profilesection_generalinfo_content">${data.value}</div>
+        </div>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script src="/devwidgets/profilesection/javascript/profilesection.js" type="application/javascript"></script>
