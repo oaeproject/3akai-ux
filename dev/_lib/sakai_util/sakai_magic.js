@@ -1592,6 +1592,7 @@ sakai.api.User.login = function(credentials, callback) {
     // Argument check
     if (!credentials || !credentials.username || !credentials.password) {
         fluid.log("sakai.api.user.login: Not enough or invalid arguments!");
+        callback(false, null);
         return;
     }
 
