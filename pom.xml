@@ -24,11 +24,11 @@
   <version>0.5.0-SNAPSHOT</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
-  <url>http://github.com/oszkarnagy/3akai-ux</url>
+  <url>http://github.com/sakaiproject/3akai-ux</url>
   <scm>
-    <connection>scm:git:git://github.com/oszkarnagy/3akai-ux.git</connection>
-    <developerConnection>scm:git:git://git@github.com/oszkarnagy/3akai-ux.git</developerConnection>
-    <url>http://github.com/oszkarnagy/3akai-ux/</url>
+    <connection>scm:git:git://github.com/sakaiproject/3akai-ux.git</connection>
+    <developerConnection>scm:git:git://git@github.com/sakaiproject/3akai-ux.git</developerConnection>
+    <url>http://github.com/sakaiproject/3akai-ux/</url>
   </scm>
   <issueManagement>
     <system>jira</system>
