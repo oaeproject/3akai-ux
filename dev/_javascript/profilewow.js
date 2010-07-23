@@ -234,7 +234,7 @@ sakai.profilewow = function(){
         data: profile_data,
         isme: false,
         mode: {
-            options: ["viewmy", "view", "viewas", "edit"],
+            options: ["viewmy", "view", "edit"],
             value: "viewmy"
         },
         acls: {
@@ -254,9 +254,10 @@ sakai.profilewow = function(){
     ///////////////////
 
     var profilewow_class = ".profilewow";
+    var $profilewow_actions = $("#profilewow_actions", profilewow_class);
+    var $profilewow_actions_template = $("#profilewow_actions_template", profilewow_class);
     var $profilewow_field_default_template = $("#profilewow_field_default_template", profilewow_class);
     var $profilewow_footer = $("#profilewow_footer", profilewow_class);
-    var $profilewow_footer_button_back;
     var $profilewow_footer_button_dontupdate;
     var $profilewow_footer_button_edit;
     var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
@@ -272,7 +273,7 @@ sakai.profilewow = function(){
 
     /**
      * Change the mode of the current profile
-     * @param {String} mode The mode for the profile (view | viewas | viewmy | edit)
+     * @param {String} mode The mode for the profile (view | viewmy | edit)
      */
     var setProfileMode = function(mode){
 
@@ -437,17 +438,7 @@ sakai.profilewow = function(){
     var addBindingFooter = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_back = $("#profilewow_footer_button_back", profilewow_class);
         $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
-        $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
-
-        // Bind the back button
-        $profilewow_footer_button_back.bind("click", function(){
-
-            // Go to the previous page
-            history.go(-1);
-
-        });
 
         // Bind the don't update
         $profilewow_footer_button_dontupdate.bind("click", function(){
@@ -456,6 +447,16 @@ sakai.profilewow = function(){
             changeProfileMode("viewmy");
 
         });
+
+    };
+
+    /**
+     * Add binding to the action elements
+     */
+    var addBindingActions = function(){
+
+        // Reinitialise jQuery objects
+        $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
 
         // Bind the edit button
         $profilewow_footer_button_edit.bind("click", function(){
@@ -471,6 +472,9 @@ sakai.profilewow = function(){
      * Add binding to all the elements on the page
      */
     var addBinding = function(){
+
+        // Add binding to the actions elements
+        addBindingActions();
 
         // Add binding to footer elements
         addBindingFooter();
@@ -489,6 +493,13 @@ sakai.profilewow = function(){
 
         // Render the profilewow site heading
         $.TemplateRenderer($profilewow_heading_template, sakai.profilewow.profile, $profilewow_heading);
+
+    };
+
+    var renderTemplateActions = function(){
+
+        // Render the actions for the profile
+        $.TemplateRenderer($profilewow_actions_template, sakai.profilewow.profile, $profilewow_actions);
 
     };
 
@@ -519,9 +530,9 @@ sakai.profilewow = function(){
     };
 
     /**
-     * Render the general information (firstname/lastname/about me/...)
+     * Insert the profile section widgets
      */
-    var renderTemplateGeneralInfo = function(){
+    var insertProfileSectionWidgets = function(){
 
         for(var i in sakai.profilewow.profile.config){
             if(sakai.profilewow.profile.config.hasOwnProperty(i)){
@@ -552,8 +563,8 @@ sakai.profilewow = function(){
         // Render the site heading
         renderTemplateSiteHeading();
 
-        // Render the general info
-        renderTemplateGeneralInfo();
+        // Render the profile actions
+        renderTemplateActions();
 
         // Render the footer buttons
         renderTemplateFooter();
@@ -601,6 +612,9 @@ sakai.profilewow = function(){
 
             // Render all the templates
             renderTemplates();
+
+            // Insert the profile section widgets
+            insertProfileSectionWidgets();
 
             // Add binding to all the elements
             addBinding();

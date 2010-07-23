@@ -66,14 +66,6 @@
                 <h1>__MSG__VIEW_PROFILE__</h1>
             {elseif mode.value==="viewmy"}
                 <h1>__MSG__VIEW_MY_PROFILE__</h1>
-            {elseif mode.value==="viewas"}
-                <h1>__MSG__VIEW_MY_PROFILE_AS__</h1>
-                <select title="__MSG__VIEW_MY_PROFILE_AS__">
-                    <option{if acls.value==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                    <option{if acls.value==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
-                    <option{if acls.value==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
-                    <option{if acls.value==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
-                </select>
             {elseif mode.value==="edit"}
                 <h1>__MSG__EDIT_MY_PROFILE__</h1>
             {/if}
@@ -86,6 +78,18 @@
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline"><!-- --></div>
 
+                <!-- ACTIONS -->
+                <div id="profilewow_actions"><!-- --></div>
+
+                <!-- ACTIONS TEMPLATE -->
+                <div id="profilewow_actions_template"><!--
+                    {if mode.value === "viewmy"}
+                        <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
+                        </button>
+                    {/if}
+                -->
+
                 <!-- PROFILE SECTION WIDGETS -->
                 <div id="profilewow_sectionwidgets_container"><!-- --></div>
 
@@ -94,35 +98,14 @@
 
                 <!-- FOOTER TEMPLATE -->
                 <div id="profilewow_footer_template"><!--
-                    <div class="fl-force-left">
-                        {if mode.value === "edit"}
-                            <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
-                            </button>
-                        {elseif history.length > 1}
-                            <button id="profilewow_footer_button_back" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__GO_BACK__</span>
-                            </button>
-                        {/if}
-                    </div>
                     <div class="fl-force-right">
                         {if mode.value === "edit"}
+                            <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button">
+                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                            </button>
                             <button id="profilewow_footer_button_update" type="button" class="s3d-button s3d-button-primary">
                                 <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
                             </button>
-                        {elseif mode.value === "viewmy" || mode.value === "viewas"}
-                            <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
-                            </button>
-                        {/if}
-                        {if mode.value !== "view"}
-                            <select title="__MSG__PREVIEW_AS__">
-                                <option class="profilewow_nonselectable" selected="selected">__MSG__PREVIEW_AS__</option>
-                                <option>__MSG__PUBLIC__</option>
-                                <option>__MSG__INSTITUTION__</option>
-                                <option>__MSG__CONTACTS__</option>
-                                <option>__MSG__NO_ONE__</option>
-                            </select>
                         {/if}
                     </div>
                 --></div>
