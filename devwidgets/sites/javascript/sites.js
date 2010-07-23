@@ -48,6 +48,8 @@ sakai.sites = function(tuid,showSettings){
     var sitesCreateNewSite = "#create_new_site_link";
     var createSiteContainer = "#createsitecontainer";
 
+    var sites_error_class = "sites_error";
+
 
     ///////////////////////
     // Utility functions //
@@ -87,7 +89,7 @@ sakai.sites = function(tuid,showSettings){
 
         // If the user is not registered for any sites, show the no sites error.
         if (newjson.entry.length === 0){
-            $(sitesList, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSites).html()));
+            $(sitesList, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSites).html())).addClass(sites_error_class);
         }
         else {
             // Sort the sites by their name
@@ -123,7 +125,7 @@ sakai.sites = function(tuid,showSettings){
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
             success: function(data){
-            
+
                 if(typeof data === "string"){
                     data = $.parseJSON(data);
                 }
@@ -145,7 +147,7 @@ sakai.sites = function(tuid,showSettings){
     });
 
     if (showSettings) {
-        $(sitesMainContainer, rootel).html(sakai.api.Security.saneHTML(sitesErrorNoSettings));
+        $(sitesMainContainer, rootel).html(sakai.api.Security.saneHTML($(sitesErrorNoSettings).html())).addClass(sites_error_class);
     }
     else {
         sakai.api.Widgets.widgetLoader.insertWidgets(tuid);

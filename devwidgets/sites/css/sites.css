@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.sites_error {font-size:0.95em;}
+.sites_error {font-size:0.95em; padding:10px 20px !important;}
 
 #createsitecontainer, createsitecontainer>div {width:100%;}
 
