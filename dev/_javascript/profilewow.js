@@ -258,8 +258,8 @@ sakai.profilewow = function(){
     var $profilewow_actions_template = $("#profilewow_actions_template", profilewow_class);
     var $profilewow_field_default_template = $("#profilewow_field_default_template", profilewow_class);
     var $profilewow_footer = $("#profilewow_footer", profilewow_class);
-    var $profilewow_footer_button_dontupdate;
-    var $profilewow_footer_button_edit;
+    var $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
+    var $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
     var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
     var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
@@ -438,7 +438,7 @@ sakai.profilewow = function(){
     var addBindingFooter = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
+        $profilewow_footer_button_dontupdate = $($profilewow_footer_button_edit.selector);
 
         // Bind the don't update
         $profilewow_footer_button_dontupdate.bind("click", function(){
@@ -456,7 +456,7 @@ sakai.profilewow = function(){
     var addBindingActions = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
+        $profilewow_footer_button_edit = $($profilewow_footer_button_edit.selector);
 
         // Bind the edit button
         $profilewow_footer_button_edit.bind("click", function(){
