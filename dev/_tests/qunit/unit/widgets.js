@@ -26,6 +26,9 @@ test('Test properties', function(){
                 "name": "hasSettings",
                 "type": "boolean"
             }, {
+                "name": "height",
+                "type": "number"
+            }, {
                 "name": "i18n",
                 "type": "object"
             }, {
