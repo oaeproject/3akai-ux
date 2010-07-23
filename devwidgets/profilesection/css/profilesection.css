@@ -1,30 +1,54 @@
 /* General info */
+#profilesection_generalinfo {
+    color: #222;
+}
+#profilesection_generalinfo input[type="text"], #profilesection_generalinfo input[type="password"], textarea {
+    border: 1px solid #999;
+    padding: 3px;
+    width:  410px
+}
+#profilesection_generalinfo input[type="text"]:hover, #profilesection_generalinfo input[type="password"]:hover, textarea:hover {
+    background: #d3edf5;
+}
+#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
+    color: #3399CC;
+    font-weight: bold;
+}
 #profilesection_generalinfo .profilesection_generalinfo_header {
-    border-top:1px solid #ccc;
+    border-bottom:1px solid #999;
     margin:15px 0;
     overflow:hidden;
-    padding-top:20px;
+    padding:7px 0;
 }
 #profilesection_generalinfo .profilesection_generalinfo_header_first {
-    border: none;
     padding-top: 0;
 }
-#profilesection_generalinfo h3 {
-    color:#5A6A7C;
-    font-size:120%;
+#profilesection_generalinfo h2 {
+    color:#333;
+    font-size: 24px;
     font-weight:normal;
     margin: 0;
     padding-right: 5px;
     width: 400px;
 }
+#profilesection_generalinfo .profilesection_generalinfo_content {
+    font-weight: bold;
+}
+#profilesection_generalinfo div.profilesection_generalinfo_content {
+    padding: 3px 0;
+}
 #profilesection_generalinfo .profilesection_generalinfo_subcontainer {
     clear: both;
-    margin: 7px 0;
+    margin: 4px 0;
     overflow: auto;
     padding: 1px 0;
 }
 #profilesection_generalinfo .profilesection_generalinfo_label, .profilesection_generalinfo label {
+    color: #666;
     display: block;
     float: left;
-    width: 140px;
+    margin-right: 5px;
+    padding: 3px 0;
+    text-align: right;
+    width: 240px;
 }

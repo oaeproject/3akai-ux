@@ -2,14 +2,6 @@
 .fixed-container {
     background: #fff;
 }
-.profilewow input[type="text"], .profilewow input[type="password"] {
-    border: 1px solid #ddd;
-    padding: 3px;
-}
-#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
-    color: #3399CC;
-    font-weight: bold;
-}
 
 /* Heading */
 #profilewow_heading h1 {
