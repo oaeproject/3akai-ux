@@ -438,7 +438,7 @@ sakai.profilewow = function(){
     var addBindingFooter = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_dontupdate = $($profilewow_footer_button_edit.selector);
+        $profilewow_footer_button_dontupdate = $($profilewow_footer_button_dontupdate.selector);
 
         // Bind the don't update
         $profilewow_footer_button_dontupdate.bind("click", function(){
