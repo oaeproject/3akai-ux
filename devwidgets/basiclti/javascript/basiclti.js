@@ -171,6 +171,8 @@ sakai.basiclti = function(tuid, showSettings){
             json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
             json.tuidFrame = basicltiSettingsPreviewId;
             $(basicltiMainContainer, rootel).html($.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+            // SAKIII-542 Basic LTI no longer renders IFRAME content (workaround)
+            $("#" + json.tuidFrame).attr("src", json.launchDataUrl);
             // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
             if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
                 $(basicltiSettingsPreviewFrame).load(function() {
