@@ -66,8 +66,8 @@ sakai.profilesection = function(tuid, showSettings){
     var renderTemplateField = function(fieldTemplate, fieldName){
 
         var json_config = {
-            "data": sakai.profilewow.profile.data[currentsection].elements[fieldName],
-            "config": sakai.profilewow.profile.config[currentsection].elements[fieldName]
+            "data": sakai.profile.profile.data[currentsection].elements[fieldName],
+            "config": sakai.profile.profile.config[currentsection].elements[fieldName]
         };
 
         return $.TemplateRenderer(fieldTemplate, json_config);
@@ -96,8 +96,8 @@ sakai.profilesection = function(tuid, showSettings){
         }
 
         var json_config = {
-            "data" : sakai.profilewow.profile.data[currentsection],
-            "config" : sakai.profilewow.profile.config[currentsection],
+            "data" : sakai.profile.profile.data[currentsection],
+            "config" : sakai.profile.profile.config[currentsection],
             "fields" : $.trim(sections)
         };
 
@@ -119,10 +119,10 @@ sakai.profilesection = function(tuid, showSettings){
         currentsection = profilesection;
 
         // Set the section template, if there is no template defined, user the default one
-        var sectionTemplate = sakai.profilewow.profile.config[currentsection].template ? $("#" + sakai.profilewow.profile.config[currentsection].template, $rootel) : $profilesection_default_template;
+        var sectionTemplate = sakai.profile.profile.config[currentsection].template ? $("#" + sakai.profile.profile.config[currentsection].template, $rootel) : $profilesection_default_template;
 
         // Render the template section
-        generalinfo += renderTemplateSection(sectionTemplate, sakai.profilewow.profile.config[currentsection]);
+        generalinfo += renderTemplateSection(sectionTemplate, sakai.profile.profile.config[currentsection]);
 
         // Render the General info
         $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));

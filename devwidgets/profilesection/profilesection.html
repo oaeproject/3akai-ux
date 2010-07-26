@@ -12,11 +12,11 @@
             <h2 class="fl-force-left">${i.label}</h2>
 
             {if mode.value === "viewmy" || mode.value === "edit"}
-                {var _access = sakai.profilewow.profile.data[i_index].access}
+                {var _access = sakai.profile.profile.data[i_index].access}
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                        <a href="profilewow.html?mode=edit">
+                        <a href="profile.html?mode=edit">
                             {if _access==="public"}__MSG__EVERYBODY__
                             {elseif _access==="institution"}__MSG__INSTITUTION_ONLY__
                             {elseif _access==="contacts"}__MSG__CONTACTS_ONLY__
@@ -39,7 +39,7 @@
 
         {for element in i.elements}
 
-            {var _elements = sakai.profilewow.profile.data[i_index].elements}
+            {var _elements = sakai.profile.profile.data[i_index].elements}
             {var _element = _elements[element_index]}
             {var isarray = $.isArray(_elements)}
 
@@ -62,7 +62,7 @@
 
 <!-- SECTION TEMPLATES -->
 <div id="profilesection_default_template"><!--
-    {var mode = sakai.profilewow.profile.mode}
+    {var mode = sakai.profile.profile.mode}
     {if fields}
         {if config && config.label && data}
             <div class="profilesection_generalinfo_header">
@@ -73,7 +73,7 @@
                     <div class="profilesection_generalinfo_acl fl-force-right">
                         {if mode.value === "viewmy"}
                             <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                            <a href="profilewow.html?mode=edit">
+                            <a href="profile.html?mode=edit">
                                 {if _access==="public"}__MSG__EVERYBODY__
                                 {elseif _access==="institution"}__MSG__INSTITUTION_ONLY__
                                 {elseif _access==="contacts"}__MSG__CONTACTS_ONLY__
@@ -100,7 +100,7 @@
 
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
-    {var mode = sakai.profilewow.profile.mode}
+    {var mode = sakai.profile.profile.mode}
     {if mode.value === "edit"}
         {if data && config.display}
             <div class="profilesection_generalinfo_subcontainer">

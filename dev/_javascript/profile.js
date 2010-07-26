@@ -1,830 +1,433 @@
-var sakai = sakai || {};
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/*global $, sdata, QueryString */
 
-var profileinfo_userId = false;
+var sakai = sakai || {};
 
 sakai.profile = function(){
 
-    var qs = new Querystring();
-    var user = qs.get("user", false);
-    var showEdit = false;
-    var json = false;
-    var myprofile = true;
-    var me = false;
 
-    var totalprofile = false;
+    /////////////////////////////
+    // CONFIGURATION VARIABLES //
+    /////////////////////////////
 
-    var fileUrl = "";
+    sakai.profile.profile = {
+        chatstatus: "",
+        config: sakai.config.Profile.configuration,
+        data: {},
+        isme: false,
+        mode: {
+            options: ["viewmy", "view", "edit"],
+            value: "viewmy"
+        },
+        acls: {
+            options: ["public", "institution", "contacts", "noone"],
+            value: "public"
+        },
+        picture: "",
+        status: ""
+    };
 
-    // Fields for papers
-
-    var paperfield = "paper";
-    var papersavefield = "academic";
-    var papersavestring = "academic";
-    var paperfields = ["title", "ovtitle", "auth", "coauth", "year", "vol", "voltitle", "edition", "place", "publisher", "number", "url"];
-    var paperrequired = ["title", "ovtitle", "auth", "year", "vol", "voltitle", "place", "publisher", "number"];
-
-    // Fields for websites
-
-    var websitefield = "website";
-    var websitesavefield = "websites";
-    var websitesavestring = "websites";
-    var websitefields = ["title", "url"];
-    var websiterequired = ["title", "url"];
-
-    // Fields for degree
-
-    var educationfield = "degree";
-    var educationsavefield = "education";
-    var educationsavestring = "education";
-    var educationfields = ["country", "school", "field", "degree", "from", "until", "notes"];
-    var educationrequired = ["country", "school", "field", "degree", "from", "until"];
-
-    // Fields for jobs
-
-    var jobfield = "job";
-    var jobsavefield = "job";
-    var jobsavestring = "job";
-    var jobfields = ["role", "country", "company", "from", "until", "description"];
-    var jobrequired = ["role", "country", "company", "from", "until"];
-
-    // Fields for talks
-
-    var talkfield = "talk";
-    var talksavefield = "talks";
-    var talksavestring = "talks";
-    var talkfields = ["title", "place", "date", "url", "coauth"];
-    var talkrequired = ["title", "place", "date"];
-
-    $(".url_field").bind("change", function(ev){
-        var value = $(this).val();
-        if (value) {
-            if (value.indexOf("//") == -1) {
-                value = "http://" + value;
-                $(this).val(value);
-            }
-        }
-    });
+    var userprofile;
+    var querystring; // Variable that will contain the querystring object of the page
 
 
+    ///////////////////
+    // CSS SELECTORS //
+    ///////////////////
 
-    var doInit = function(){
-
-        me = sakai.data.me;
-
-        if (!me.user.userid) {
-            var redirect =  sakai.config.URL.GATEWAY_URL + "?url=/dev/profile.html";
-            if (user){
-                redirect += $.URLEncode("?user=" + user);
-            }
-            document.location = redirect;
-        }
-
-        totalprofile = me;
-        fillInvitePopup();
-
-        // If we are looking at another user's profile
-        if (user && (user !== me.user.userid)) {
-
-            myprofile = false;
-
-            $.ajax({
-                url: sakai.config.URL.SEARCH_USERS + "?q=" + user,
-                cache: false,
-                success: function(raw_userdata){
-
-                    var user_data = raw_userdata.results[0];
-
-                    totalprofile = {};
-                    totalprofile.profile = user_data;
-                    totalprofile.profile["sakai:status"] = user_data["sakai:status"];
-
-                    // Doing a rewrite of the me object, because Sling wraps arrays around
-                    // the different fields in the profile object
-                    if (typeof totalprofile.profile.firstName === "object"){
-                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
-                    }
-                    if (typeof totalprofile.profile.lastName === "object"){
-                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
-                    }
-                    if (typeof totalprofile.profile.email === "object"){
-                        totalprofile.profile.email = totalprofile.profile.email[0];
-                    }
-
-                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
-                        totalprofile.profile._status = totalprofile.profile.chatstatus;
-                    }
-                    else {
-                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
-                    }
-                    json = totalprofile.profile;
+    var profilewow_class = ".profile";
+    var $profilewow_actions = $("#profilewow_actions", profilewow_class);
+    var $profilewow_actions_template = $("#profilewow_actions_template", profilewow_class);
+    var $profilewow_field_default_template = $("#profilewow_field_default_template", profilewow_class);
+    var $profilewow_footer = $("#profilewow_footer", profilewow_class);
+    var $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
+    var $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
+    var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
+    var $profilewow_heading = $("#profilewow_heading", profilewow_class);
+    var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
+    var $profilewow_sectionwidgets_container = $("#profilewow_sectionwidgets_container", profilewow_class);
+    var $profilewow_sectionwidgets_container_template = $("#profilewow_sectionwidgets_container_template", profilewow_class);
 
 
-                    if (user && user != me.user.userid) {
-                        doAddButton();
-                    }
+    ////////////////////
+    // UTIL FUNCTIONS //
+    ////////////////////
 
-                    fillInFields();
+    /**
+     * Change the mode of the current profile
+     * @param {String} mode The mode for the profile (view | viewmy | edit)
+     */
+    var setProfileMode = function(mode){
 
+        // Check the mode parameter
+        if ($.inArray(mode, sakai.profile.profile.mode.options) !== -1) {
 
-                },
-                error: function(xhr, status, thrown) {
-                    fluid.log("profile.js/doInit(): Could not get user data for " + user);
-                }
-            });
-
-        // If we are looking at the logged in user's own profile
-        } else if (!showEdit) {
-            $("#profile_tabs").show();
-            $("#link_edit_profile").show();
-
-                    //var totalprofile = {};
-                    totalprofile.profile = sakai.data.me.profile;
-                    totalprofile.profile["sakai:status"] = sakai.data.me.profile.chatstatus;
-
-                    // Doing a rewrite of the me object, because Sling wraps arrays around
-                    // the different fields in the profile object
-                    if (typeof totalprofile.profile.firstName === "object"){
-                        totalprofile.profile.firstName = totalprofile.profile.firstName[0];
-                    }
-                    if (typeof totalprofile.profile.lastName === "object"){
-                        totalprofile.profile.lastName = totalprofile.profile.lastName[0];
-                    }
-                    if (typeof totalprofile.profile.email === "object"){
-                        totalprofile.profile.email = totalprofile.profile.email[0];
-                    }
-
-                    if (totalprofile.profile["sakai:status"] === "online" && totalprofile.profile.chatstatus) {
-                        totalprofile.profile._status = totalprofile.profile.chatstatus;
-                    }
-                    else {
-                        totalprofile.profile._status = totalprofile.profile["sakai:status"];
-                    }
-                    json = totalprofile.profile;
-
-                    if (user && user != me.user.userid) {
-                        doAddButton();
-                    }
-
-                    fillInFields();
+            // Set the correct profile mode
+            sakai.profile.profile.mode.value = mode;
 
         }
+        else {
 
-        if (myprofile) {
+            // Use the standard profile mode
+            sakai.profile.profile.mode.value = sakai.profile.profile.mode.options[0];
 
-            $("#myprofile_placeholder").hide();
-            $("#myprofile_tabs").show();
-            $("#add_to_contacts_button").hide();
-            $("#send_message_button").hide();
-            $("#profile_tabs").show();
+            // Print a log message that the supplied mode isn't valid
+            fluid.log("Profilewow - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
 
         }
 
     };
 
-   var inedit_basic = false;
+    /**
+     * Get the profile mode from the querystring
+     */
+    var getProfileMode = function(){
 
-   var fillInBasic = function(){
-
-        var inbasic = 0;
-        var basic = false;
-        var str = "";
-
-        fillInMessagePopUp();
-
-        $("#profile_user_name").text(sakai.api.Security.saneHTML(json.firstName + " " + json.lastName));
-        if (json.basic){
-            basic = $.parseJSON(sakai.api.Security.saneHTML(json.basic));
-            if (basic.status){
-                inbasic++;
-                $("#txt_status").html(basic.status);
-                $("#status").show();
-            } else if (!inedit_basic) {
-                $("#status").hide();
-            }
-        } else if (!inedit_basic) {
-            $("#status").hide();
+        if (querystring.contains("mode")) {
+            return querystring.get("mode");
         }
-
-        $("#profile_user_status_" + json._status).show();
-
-        // Basic Information
-
-        if (json.firstName){
-            inbasic++;
-            $("#firstname").show();
-            str = json.firstName;
-            $("#txt_firstname").text("" + str);
-        } else if (!inedit_basic) {
-            $("#firstname").hide();
-        }
-
-        if (json.lastName){
-            inbasic++;
-            $("#lastname").show();
-            str = json.lastName;
-            $("#txt_lastname").text("" + str);
-        } else if (!inedit_basic) {
-            $("#lastname").hide();
-        }
-
-        if (myprofile || (user === false || user == me.user.userid)){
-            $("#sitetitle").text("My Profile");
-        } else {
-            if (json.firstName || json.lastName){
-                $("#sitetitle").text(json.firstName + " " + json.lastName);
-            } else {
-                $("#sitetitle").text(json.displayName);
-            }
-        }
-
-        $("#basic").show();
-
-        if (json.basic){
-
-            basic = $.parseJSON(sakai.api.Security.saneHTML(json.basic));
-
-            if (basic.middlename){
-                inbasic++;
-                $("#middlename").show();
-                str = basic.middlename;
-                $("#txt_middlename").text("" + str);
-            } else if (!inedit_basic) {
-                $("#middlename").hide();
-            }
-
-            if (basic.birthday){
-                inbasic++;
-                $("#birthday").show();
-                $("#txt_birthday").text(basic.birthday);
-            } else if (!inedit_basic) {
-                $("#birthday").hide();
-            }
-
-            if (basic.unirole && basic.unirole.replace(/ /g,"")){
-                inbasic++;
-                $("#unirole").show();
-                str = basic.unirole;
-                $("#txt_unirole").text("" + str);
-            } else if (!inedit_basic) {
-                $("#unirole").hide();
-            }
-
-            if (basic.unidepartment){
-                inbasic++;
-                $("#unidepartment").show();
-                str = basic.unidepartment;
-                $("#txt_unidepartment").text("" + str);
-            } else if (!inedit_basic) {
-                $("#unidepartment").hide();
-            }
-
-            if (basic.unicollege){
-                inbasic++;
-                $("#unicollege").show();
-                str = basic.unicollege;
-                $("#txt_unicollege").text("" + str);
-            } else if (!inedit_basic) {
-                $("#unicollege").hide();
-            }
-
-
-        } else if (!inedit_basic){
-            $("#middlename").hide();
-            $("#birthday").hide();
-            $("#unicollege").hide();
-            $("#unidepartment").hide();
-            $("#unirole").hide();
-        }
-
-        if (inbasic > 0){
-            $("#basic").show();
-            $("#no_basic").hide();
-        } else if (myprofile) {
-            $("#basic").show();
-            if (!inedit_basic) {
-                $("#no_basic").show();
-            } else {
-                $("#no_basic").hide();
-            }
-        } else {
-            $("#basic").hide();
-        }
-
-        fillGeneralPopupField(paperfield, papersavefield, papersavestring, paperfields);
-        fillGeneralPopupField(talkfield, talksavefield, talksavestring, talkfields);
-        fillGeneralPopupField(jobfield, jobsavefield, jobsavestring, jobfields);
-        fillGeneralPopupField(educationfield, educationsavefield, educationsavestring, educationfields);
-        fillGeneralPopupField(websitefield, websitesavefield, websitesavestring, websitefields);
-
-        // ! Set dropdown for paper year
-
-   };
-
-   //////////////////////////
-   // General Popup Fields //
-   //////////////////////////
-
-    var fillGeneralPopupField = function(field, savefield, savestring, fields){
-
-           if (myprofile && showEdit){
-            $("#" + field + "s").show();
-            $("#" + field + "sadd").show();
-        } else {
-            if (json[savefield]){
-                var obj = {};
-                obj.items = [];
-                if (json[savefield]){
-                    obj.items = $.parseJSON(json[savefield]);
-                }
-                if (obj.items.length > 0){
-                    $("#" + field + "s").show();
-                }
-            }
-        }
-
-           var toRender = {};
-        toRender.items = [];
-        if (json[savefield]){
-            toRender.items = $.parseJSON(json[savefield]);
-        }
-        $("#" + field + "s_list").html($.TemplateRenderer(field + "s_list_template",toRender));
+        return false;
 
     };
 
+    /**
+     * Change the profile mode
+     * This will fire a redirect
+     * @param {String} mode The mode you want to change to
+     */
+    var changeProfileMode = function(mode){
+
+         // Check the mode parameter
+        if ($.inArray(mode, sakai.profile.profile.mode.options) !== -1) {
+
+            // Perform the redirect
+            window.location = window.location.pathname + "?mode=" + mode;
+
+        }
+
+    };
 
 
     /**
-     * Update a certain element
-     * @param {Object} element Element that needs to be updated
+     * Check whether the user is editing/looking at it's own profile or not
+     * We do this because if it is the current user, we don't need to perform an extra search
      */
-    var updateChatStatusElement = function(element, status){
-        element.removeClass("profile_available_status_online");
-        element.removeClass("profile_available_status_busy");
-        element.removeClass("profile_available_status_offline");
-        element.addClass("profile_available_status_"+status);
+    var setIsMe = function(){
+
+        // Check whether there is a user parameter in the querystring,
+        // if so, check whether the userid is not the same as the user parameter
+        if (querystring.contains("user") && querystring.get("user") !== sakai.data.me.user.userid) {
+            sakai.profile.profile.isme = false;
+        }
+        else {
+            sakai.profile.profile.isme = true;
+        }
+
     };
 
-   //////////////////////////
-   // General Popup Fields //
-   //////////////////////////
-
-   var fillInFields = function(){
-        // status
-        $("#profile_user_status").text(sakai.api.Security.saneHTML(totalprofile._status));
-        // status picture
-        updateChatStatusElement($("#profile_user_status"), totalprofile._status);
-
-
-        //Picture
-
-        if (json.picture && $.parseJSON(json.picture).name){
-	        var picture = $.parseJSON(sakai.api.Security.saneHTML(json.picture));
-            $("#picture_holder img").attr("src","/~" + json["rep:userId"] + "/public/profile/" + picture.name);
-        }
-
-        fillInBasic();
-
-        // About Me
-
-        var about = false;
-        var inabout = 0;
-        if (json.aboutme) {
-
-            about = $.parseJSON(sakai.api.Security.saneHTML(json.aboutme));
-
-            if (about.aboutme){
-                inabout++;
-                $("#aboutme").show();
-                $("#txt_aboutme").html("" + about.aboutme.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#aboutme").hide();
-            }
-
-            if (about.personalinterests && !(typeof about.personalinterests === "object" && about.personalinterests.length === 0)) {
-                inabout++;
-                $("#personalinterests").show();
-                if (typeof about.personalinterests === "object") {
-                    $("#txt_personalinterests").html("" + about.personalinterests.join("<br/>"));
-                } else {
-                    $("#txt_personalinterests").html("" + about.personalinterests.replace(/\n/g, "<br/>"));
-                }
-            } else if (!inedit_basic) {
-                $("#personalinterests").hide();
-            }
-
-            if (about.academicinterests && !(typeof about.academicinterests === "object" && about.academicinterests.length === 0)) {
-                inabout++;
-                $("#academicinterests").show();
-                if (typeof about.academicinterests === "object"){
-                    $("#txt_academicinterests").html("" + about.academicinterests.join("<br/>"));
-                } else {
-                    $("#txt_academicinterests").html("" + about.academicinterests.replace(/\n/g, "<br/>"));
-                }
-            } else if (!inedit_basic) {
-                $("#academicinterests").hide();
-            }
-
-            if (about.hobbies) {
-                inabout++;
-                $("#hobbies").show();
-                $("#txt_hobbies").html("" + about.hobbies.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#hobbies").hide();
-            }
-
-
-        } else if (!inedit_basic){
-            $("#aboutme").hide();
-            $("#academicinterests").hide();
-            $("#hobbies").hide();
-            $("#personalinterests").hide();
-        }
-
-        if (inabout > 0){
-            $("#about").show();
-            $("#no_about").hide();
-        } else if (myprofile && showEdit) {
-            $("#about").show();
-            if (!inedit_basic) {
-                $("#no_about").show();
-            } else {
-                $("#no_about").hide();
-            }
-        } else {
-            $("#about").hide();
-        }
-
-        // Uni Contact Info
-
-        var unicontactinfo = false;
-        var inunicontactinfo = 0;
-
-        if (json.email){
-            inunicontactinfo++;
-            $("#uniemail").show();
-            $("#txt_uniemail").text(sakai.api.Security.saneHTML(json.email));
-        } else if (!inedit_basic) {
-            $("#uniemail").hide();
-        }
-
-        if (json.contactinfo) {
-
-            unicontactinfo = $.parseJSON(sakai.api.Security.saneHTML(json.contactinfo));
-
-            if (unicontactinfo.uniphone) {
-                inunicontactinfo++;
-                $("#uniphone").show();
-                $("#txt_uniphone").text("" + unicontactinfo.uniphone);
-            } else if (!inedit_basic) {
-                $("#uniphone").hide();
-            }
-
-            if (unicontactinfo.unimobile) {
-                inunicontactinfo++;
-                $("#unimobile").show();
-                $("#txt_unimobile").text("" + unicontactinfo.unimobile);
-            } else if (!inedit_basic) {
-                $("#unimobile").hide();
-            }
-
-            if (unicontactinfo.uniaddress) {
-                inunicontactinfo++;
-                $("#uniaddress").show();
-                $("#txt_uniaddress").html("" + unicontactinfo.uniaddress.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#uniaddress").hide();
-            }
-
-        } else if (!inedit_basic) {
-            $("#uniphone").hide();
-            $("#unimobile").hide();
-            $("#uniaddress").hide();
-        }
-
-        if (inunicontactinfo > 0){
-            $("#unicontactinfo").show();
-            $("#no_unicontactinfo").hide();
-        } else if (myprofile && showEdit) {
-            $("#unicontactinfo").show();
-            if (!inedit_basic) {
-                $("#no_unicontactinfo").show();
-            } else {
-                $("#no_unicontactinfo").hide();
-            }
-        } else {
-            $("#unicontactinfo").hide();
-        }
-
-        // Home Contact Info
-
-        var homecontactinfo = false;
-        var inhomecontactinfo = 0;
-        if (json.contactinfo) {
-
-            homecontactinfo = $.parseJSON(sakai.api.Security.saneHTML(json.contactinfo));
-
-            if (homecontactinfo.homeemail) {
-                inhomecontactinfo++;
-                $("#homeemail").show();
-                $("#txt_homeemail").text("" + homecontactinfo.homeemail);
-            } else if (!inedit_basic) {
-                $("#homeemail").hide();
-            }
-
-            if (homecontactinfo.homephone) {
-                inhomecontactinfo++;
-                $("#homephone").show();
-                $("#txt_homephone").text("" + homecontactinfo.homephone);
-            } else if (!inedit_basic) {
-                $("#homephone").hide();
-            }
-
-            if (homecontactinfo.homemobile) {
-                inhomecontactinfo++;
-                $("#homemobile").show();
-                $("#txt_homemobile").text("" + homecontactinfo.homemobile);
-            } else if (!inedit_basic) {
-                $("#homemobile").hide();
-            }
-
-            if (homecontactinfo.homeaddress) {
-                inhomecontactinfo++;
-                $("#homeaddress").show();
-                $("#txt_homeaddress").html("" + homecontactinfo.homeaddress.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#homeaddress").hide();
-            }
-
-        } else if (!inedit_basic) {
-            $("#homeemail").hide();
-            $("#homephone").hide();
-            $("#homeaddress").hide();
-            $("#homemobile").hide();
-        }
-
-        if (inhomecontactinfo > 0){
-            $("#homecontactinfo").show();
-            $("#no_homecontactinfo").hide();
-        } else if (myprofile && showEdit) {
-            $("#homecontactinfo").show();
-            if (!inedit_basic) {
-                $("#no_homecontactinfo").show();
-            } else {
-                $("#no_homecontactinfo").hide();
-            }
-        } else {
-            $("#homecontactinfo").hide();
-        }
-
-        // Additional
-
-        var additional = false;
-        var inadditional = 0;
-        if (json.basic) {
-
-            additional = $.parseJSON(sakai.api.Security.saneHTML(json.basic));
-
-            if (additional.awards){
-                inadditional++;
-                $("#awards").show();
-                $("#txt_awards").html("" + additional.awards.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#awards").hide();
-            }
-
-            if (additional.clubs){
-                inadditional++;
-                $("#clubs").show();
-                $("#txt_clubs").html("" + additional.clubs.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#clubs").hide();
-            }
-
-            if (additional.societies){
-                inadditional++;
-                $("#societies").show();
-                $("#txt_societies").html("" + additional.societies.replace(/\n/g, "<br/>"));
-            } else if (!inedit_basic) {
-                $("#societies").hide();
-            }
-
-
-        } else if (!inedit_basic){
-            $("#awards").hide();
-            $("#societies").hide();
-            $("#clubs").hide();
-        }
-
-        if (inadditional > 0){
-            $("#additional").show();
-            $("#no_additional").hide();
-        } else if (myprofile && showEdit) {
-            $("#additional").show();
-            if (!inedit_basic) {
-                $("#no_additional").show();
-            } else {
-                $("#no_additional").hide();
-            }
-        } else {
-            $("#additional").hide();
-        }
-
-   };
-
-   /*
-    * Sending a message
-    */
-
-    $("#message_dialog").jqm({
-        modal: true,
-        trigger: $('#send_message_button'),
-        overlay: 20,
-        toTop: true
-    });
-
-    var fillInMessagePopUp = function(){
-        $("#message_from").text(sakai.api.Security.saneHTML(me.profile.firstName + " " + me.profile.lastName));
-        $("#message_to").text(sakai.api.Security.saneHTML(totalprofile.profile.firstName + " " + totalprofile.profile.lastName));
-    };
-
-    $("#save_as_page_template_button").bind("click", function(ev){
-
-        var subjectEl = $("#comp-subject");
-        var bodyEl = $("#comp-body");
-
-        var valid = true;
-        var    subject = subjectEl.val();
-        var body = bodyEl.val();
-
-        subjectEl.removeClass("invalid");
-        bodyEl.removeClass("invalid");
-
-        if (!subject){
-            valid = false;
-            subjectEl.addClass("invalid");
-        }
-        if (!body){
-            valid = false;
-            bodyEl.addClass("invalid");
-        }
-
-        if (!valid){
-            return false;
-        } else {
-
-            sakai.api.Communication.sendMessage(user, subject, body);
-
-            subjectEl.val("");
-            bodyEl.val("");
-
-            $("#message_dialog").jqmHide();
-        }
-
-    });
-
-
-    /*
-     * Add to contacts
+    /**
+     * Check whether there is a valid picture for the user
+     * @param {Object} profile The profile object that could contain the profile picture
+     * @return {String}
+     * The complete URL of the profile picture
+     * Will be an empty string if there is no picture
      */
+    var constructProfilePicture = function(profile){
 
-    $("#add_to_contacts_dialog").jqm({
-        modal: true,
-        trigger: $("#add_to_contacts_button"),
-        overlay: 20,
-        toTop: true
-    });
-
-    var fillInvitePopup = function(){
-        if (me.profile) {
-            if (me.profile.firstName) {
-                $("#add_friend_personal_note").text(sakai.api.Security.saneHTML("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.firstName));
-            }
-            else
-                if (me.profile.lastName) {
-                    $("#add_friend_personal_note").text(sakai.api.Security.saneHTML("I would like to invite you to become a member of my network on Sakai \n\n " + me.profile.lastName));
-                }
-                else {
-                    $("#add_friend_personal_note").text(sakai.api.Security.saneHTML("I would like to invite you to become a member of my network on Sakai \n\n " + me.user.userid));
-                }
+        if (profile.basic.elements.picture && profile["rep:userId"]) {
+            return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
         }
+        else {
+            return "";
+        }
+
     };
 
-    var doAddButton = function(){
-        $.ajax({
-            url: "/var/contacts/all.json?page=0&items=100",
-            cache: false,
-            success: function(data){
-                var status = false;
-                if (data.results){
-                    for (var i = 0, il = data.results.length; i < il; i++){
-                        if (data.results[i].target === user){
-                            status = data.results[i].details["sakai:state"];
-                        }
-                    }
-                }
+    /**
+     * Set the profile data for the user such as the status and profile picture
+     */
+    var setProfileData = function(callback){
 
-                if (! status){
+        // Check whether the user is looking/editing it's own profile
+        if (sakai.profile.profile.isme) {
 
-                    $("#add_to_contacts_button").show();
+            // Set the profile picture for the user you are looking at
+            // The actual location of the picture could be something like this: /~admin/public/profile/256x256_profilepicture
+            sakai.profile.profile.picture = constructProfilePicture(sakai.data.me.profile);
 
-                    if (totalprofile.profile.firstName){
-
-                        // Sanitize names
-                        fnToDisplay = sakai.api.Security.saneHTML(totalprofile.profile.firstName);
-                        lnToDisplay = sakai.api.Security.saneHTML(totalprofile.profile.lastName);
-
-                        $("#add_friend_displayname").text(fnToDisplay);
-                        $("#add_friend_displayname2").text(fnToDisplay);
-                    } else if (totalprofile.profile.lastName) {
-                        $("#add_friend_displayname").text(lnToDisplay);
-                        $("#add_friend_displayname2").text(lnToDisplay);
-                    } else {
-                        $("#add_friend_displayname").text(totalprofile.user.userid);
-                        $("#add_friend_displayname2").text(totalprofile.user.userid);
-                    }
-
-                    if (totalprofile.profile.picture && $.parseJSON(totalprofile.profile.picture).name){
-                        $("#add_friend_profilepicture").html(sakai.api.Security.saneHTML("<img src='/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(totalprofile.profile.picture).name + "' width='40px' height='40px'/>"));
-                    } else {
-                        $("#add_friend_profilepicture").html(sakai.api.Security.saneHTML("<img src='_images/person_icon.png' width='40px' height='40px'/>"));
-                    }
-
-                    $("#add_friend_types").html($.TemplateRenderer("add_friend_types_template",Widgets));
-
-                } else if (status == "INVITED"){
-                    $("#accept_invitation_button").show();
-                }
-            },
-            error: function(xhr, textStatus, thrownError) {
-                //alert("An error has occured");
-            }
-        });
-
-   };
-
-   $("#add_friends_do_invite").bind("click", function(ev){
-        var toSend = sakai.api.UI.Forms.form2json($("#add_friends_form"));
-        if (toSend.add_friends_list_type){
-
-            var type = toSend.add_friends_list_type;
-            var comment = toSend.add_friend_personal_note;
-
-            // send message to other person
-            var userstring = "";
-            if (me.profile.firstName && me.profile.lastName){
-                userstring = me.profile.firstName + " " + me.profile.lastName;
-            } else {
-                userstring = me.user.userid;
+            // Set the status for the user you want the information from
+            if(sakai.data.me.profile.basic && sakai.data.me.profile.basic.elements.status){
+                sakai.profile.profile.status = sakai.data.me.profile.basic.elements.status.value;
             }
 
-            var title = sakai.config.Connections.Invitation.title.replace(/[$][{][u][s][e][r][}]/g,userstring);
-            var message = sakai.config.Connections.Invitation.body.replace(/[$][{][u][s][e][r][}]/g,userstring).replace(/[$][{][c][o][m][m][e][n][t][}]/g,comment);
+            // Set the profile data object
+            sakai.profile.profile.data = $.extend(true, {}, sakai.data.me.profile);
 
+            // Execute the callback function
+            if (callback && typeof callback === "function") {
+                callback();
+            }
+
+        }
+        else {
+
+            // We need to fire an Ajax GET request to get the profile data for the user
             $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/contacts.invite.html",
-                type: "POST",
                 data: {
-                    "type": type,
-                    "targetUserId": user
+                    "q": querystring.get("user")
                 },
+                url: sakai.config.URL.SEARCH_USERS,
                 success: function(data){
 
-                    // Send an invitation message
-                    sakai.api.Communication.sendMessage(user,title,message,"invitation",null,function(success, data){
-                        if (success) {
-                            $("#add_to_contacts_dialog").jqmHide();
-                            $("#add_to_contacts_button").hide();
-                        }
-                    });
-                },
+                    // Check whether there are any results
+                    if(data.results[0]){
 
-                error: function(xhr, textStatus, thrownError) {
-                    fluid.log("profile.js/#add_friends_do_invite.click: Could not invite " + user);
+                        // Set the correct userprofile data
+                        userprofile = data.results[0];
+
+                        // Set the profile picture
+                        sakai.profile.profile.picture = constructProfilePicture(userprofile);
+
+                        // Set the status for the user you want the information from
+                        if(sakai.data.me.profile.basic){
+                            sakai.profile.profile.status = $.parseJSON(userprofile.basic).status;
+                        }
+
+                        // Set the profile data object
+                        sakai.profile.profile.data = $.extend(true, {}, sakai.data.me.profile);
+                    }
+
+                },
+                error: function(){
+                    fluid.log("setProfilePicture: Could not find the user");
+                },
+                complete: function(data){
+
+                    // Execute the callback function
+                    if (callback && typeof callback === "function") {
+                        callback();
+                    }
+
                 }
             });
 
         }
-   });
 
-   $("#accept_invitation_button").bind("click", function(ev){
+    };
 
-        $.ajax({
-            url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
-            type: "POST",
-            data : {"targetUserId":user},
-            success: function(data){
-                $("#accept_invitation_button").hide();
-            },
-            error: function(xhr, textStatus, thrownError) {
-                alert("An error has occured");
-            }
+
+    ///////////////////////
+    // BINDING FUNCTIONS //
+    ///////////////////////
+
+    /**
+     * Add binding to the footer elements
+     */
+    var addBindingFooter = function(){
+
+        // Reinitialise jQuery objects
+        $profilewow_footer_button_dontupdate = $($profilewow_footer_button_dontupdate.selector);
+
+        // Bind the don't update
+        $profilewow_footer_button_dontupdate.bind("click", function(){
+
+            // Change the profile mode
+            changeProfileMode("viewmy");
+
         });
 
-   });
+    };
 
+    /**
+     * Add binding to the action elements
+     */
+    var addBindingActions = function(){
+
+        // Reinitialise jQuery objects
+        $profilewow_footer_button_edit = $($profilewow_footer_button_edit.selector);
+
+        // Bind the edit button
+        $profilewow_footer_button_edit.bind("click", function(){
+
+            // Change the profile mode
+            changeProfileMode("edit");
+
+        });
+
+    };
+
+    /**
+     * Add binding to all the elements on the page
+     */
+    var addBinding = function(){
+
+        // Add binding to the actions elements
+        addBindingActions();
+
+        // Add binding to footer elements
+        addBindingFooter();
+
+    };
+
+
+    ////////////////////////
+    // TEMPLATE FUNCTIONS //
+    ////////////////////////
+
+    /**
+     * Render the profile site heading
+     */
+    var renderTemplateSiteHeading = function(){
+
+        // Render the profile site heading
+        $.TemplateRenderer($profilewow_heading_template, sakai.profile.profile, $profilewow_heading);
+
+    };
+
+    var renderTemplateActions = function(){
+
+        // Render the actions for the profile
+        $.TemplateRenderer($profilewow_actions_template, sakai.profile.profile, $profilewow_actions);
+
+    };
+
+    /**
+     * Insert a profile section widget
+     * @param {String} sectionname The name of the section e.g. basic/talks/aboutme
+     */
+    var insertProfileSectionWidget = function(sectionname) {
+
+        // Create a JSON object to pass the sectionname along
+        // Trimpath needs an object to be passed (not only a variable)
+        var sectionobject = {
+            "sectionname": "profilesection-" + sectionname
+        };
+
+        // Construct the html for the widget
+        $profilewow_sectionwidgets_container.append($.TemplateRenderer($profilewow_sectionwidgets_container_template, sectionobject));
+
+        // Bind a global event that can be triggered by the profilesection widgets
+        $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
+
+            if(callback && typeof callback === "function"){
+                callback(sectionname);
+            }
+
+        });
+
+    };
+
+    /**
+     * Insert the profile section widgets
+     */
+    var insertProfileSectionWidgets = function(){
+
+        for(var i in sakai.profile.profile.config){
+            if(sakai.profile.profile.config.hasOwnProperty(i)){
+
+                // Insert a separate widget for each profile section widget
+                insertProfileSectionWidget(i);
+
+            }
+        }
+
+    };
+
+    /**
+     * Render the footer for profile
+     */
+    var renderTemplateFooter = function(){
+
+        // Render the profile footer
+        $profilewow_footer.html($.TemplateRenderer($profilewow_footer_template, sakai.profile.profile));
+
+    };
+
+    /**
+     * Parse and render all the templates on the page
+     */
+    var renderTemplates = function(){
+
+        // Render the site heading
+        renderTemplateSiteHeading();
+
+        // Render the profile actions
+        renderTemplateActions();
+
+        // Render the footer buttons
+        renderTemplateFooter();
+
+    };
+
+
+    ////////////////////
+    // INITIALISATION //
+    ////////////////////
+
+    var doInit = function(){
+
+        // Set the querystring object variable
+        // We use the following parameters:
+        //    mode -> mode of the profile
+        //    user -> the id of the user for which you want to see the profile
+        querystring = new Querystring();
+
+        // Get and set the profile mode
+        var profilemode = getProfileMode();
+        if (profilemode) {
+            setProfileMode(profilemode);
+        }
+
+        // Check if you are looking at the logged-in user
+        setIsMe();
+
+        // Set the profile data
+        setProfileData(function(){
+
+            // Initialise the entity widget
+            $(window).bind("sakai.api.UI.entity.ready", function(e){
+
+                // Check whether we need to load the myprofile or the profile mode
+                var whichprofile = sakai.profile.profile.isme ? "myprofile" : "profile";
+
+                // Check which data we need to send
+                var data = sakai.profile.profile.isme ? false : userprofile;
+
+                // Render the entity widget
+                sakai.api.UI.entity.render(whichprofile, data);
+
+            });
+
+            // Render all the templates
+            renderTemplates();
+
+            // Insert the profile section widgets
+            insertProfileSectionWidgets();
+
+            // Add binding to all the elements
+            addBinding();
+
+        });
+
+    };
 
     doInit();
-
 };
 
 sakai.api.Widgets.Container.registerForLoad("sakai.profile");

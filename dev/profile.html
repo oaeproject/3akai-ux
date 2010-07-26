@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" class="fl-layout-">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
     <head>
 
@@ -17,6 +17,7 @@
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -40,10 +41,11 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
+        <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
 
     </head>
 
-    <body class="fl-centered profile_preview i18nable">
+    <body class="fl-centered profile i18nable">
 
         <!-- EXPLORE BAR -->
         <div id="widget_navigationchat" class="widget_inline"></div>
@@ -51,561 +53,79 @@
         <!-- HEADER -->
         <div class="fl-container-flex header">
             <div class="fl-fix fl-centered fixed-container">
-                <div class="decor"></div>
+                <div class="decor"><!-- --></div>
 
                 <!-- TITLE BAR  -->
-                <div class="s3d-site-heading fl-force-left">
-                    <h1 id="sitetitle">__MSG__PROFILE__</h1>
-                </div>
+                <div id="profilewow_heading" class="s3d-site-heading fl-force-left"><!-- --></div>
             </div>
         </div>
 
-        <!-- PROFILE -->
-        <div class="fl-container-flex profile">
+        <!-- HEADER TEMPLATE -->
+        <div id="profilewow_heading_template"><!--
+            {if mode.value === "view"}
+                <h1>__MSG__VIEW_PROFILE__</h1>
+            {elseif mode.value === "viewmy"}
+                <h1>__MSG__VIEW_MY_PROFILE__</h1>
+            {elseif mode.value === "edit"}
+                <h1>__MSG__EDIT_MY_PROFILE__</h1>
+            {/if}
+        --></div>
+
+        <div class="fl-container-flex">
 
             <div class="fl-fix fl-centered fixed-container">
 
-                <!-- TAB NAVIGATION -->
-                <div class="s3d-primary-tabs i18nable" id="profile_tabs">
-                    <ul class="fl-tabs fl-tabs-right" id="myprofile_tabs">
-                        <li><a href="profile_edit.html">__MSG__EDIT__</a></li>
-                        <li class="fl-tabs-active"><a href="javascript:;">__MSG__PREVIEW__</a></li>
-                    </ul>
-                    <div id="myprofile_placeholder"></div>
-                </div>
+                <!-- ENTITY WIDGET -->
+                <div id="widget_entity" class="widget_inline"><!-- --></div>
 
-                <!-- TAB CONTENT -->
-                <div class="fl-centered fl-container fl-tab-content profile_container">
+                <!-- ACTIONS -->
+                <div id="profilewow_actions"><!-- --></div>
 
-                    <!-- TOP BORDER -->
-                    <div class="content_top"><div class="content_top_inner"></div></div>
+                <!-- ACTIONS TEMPLATE -->
+                <div id="profilewow_actions_template"><!--
+                    {if mode.value === "viewmy"}
+                        <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
+                        </button>
+                    {/if}
+                -->
 
-                    <!-- PROFILE CONTENTS -->
-                    <div class="profile_contents_main">
+                <!-- PROFILE SECTION WIDGETS -->
+                <div id="profilewow_sectionwidgets_container"><!-- --></div>
 
-                        <!-- User Information / Avatar Image-->
-                        <div class="fl-fix profile_user_info">
-                            <div class="fl-force-right profile_user_buttons">
-                                <!-- button-disabled -->
-                                <button type="button" class="s3d-button s3d-button-primary" id="add_to_contacts_button" style="display: none;"><span class="s3d-button-inner">__MSG__ADD_TO_CONTACTS__</span></button>
-                                <button type="button" class="s3d-button s3d-button-primary" id="accept_invitation_button" style="display: none;"><span class="s3d-button-inner">__MSG__ACCEPT_INVITATION__</span></button>
-                                <button type="button" class="s3d-button s3d-button-primary" id="send_message_button" style="display: none;"><span class="s3d-button-inner">__MSG__SEND_MESSAGE__</span></button>
-                            </div>
+                <!-- FOOTER -->
+                <div id="profilewow_footer" class="fl-push"><!-- --></div>
 
-                            <a href="javascript:;" id="picture_holder" title="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__"><img class="profile_user_pic" src="_images/default_profile_picture_shadow_110.png" alt="__MSG__TO_CHANGE_THE_PERSONAL_IMAGE__" /></a>
-
-                            <div id="profile_user_name" class="profile_user_name"></div>
-
-                            <div id="txt_status" class="profile_user_headline"></div>
-
-                            <div id="profile_user_status_online" class="profile_user_status_online">__MSG__ONLINE__</div>
-                            <div id="profile_user_status_busy" class="profile_user_status_busy">__MSG__BUSY__</div>
-                            <div id="profile_user_status_offline" class="profile_user_status_offline">__MSG__OFFLINE__</div>
-                        </div>
-
-                        <!-- Basic Info -->
-                        <div class="fl-fix profile_section" id="basic_information">
-
-                            <h4 class="profile_section_header">__MSG__BASIC_INFO__</h4>
-
-                            <div class="profile_section_body">
-                                <table>
-                                    <tr>
-                                        <th class="entry_label">__MSG__NAME__:</th>
-                                        <td><span id="txt_firstname"></span>&nbsp;<span id="txt_lastname"></span></td>
-                                    </tr>
-                                    <tr id="unirole">
-                                        <th class="entry_label">__MSG__ROLE_POSITION__:</th>
-                                        <td id="txt_unirole"></td>
-                                    </tr>
-                                    <tr id="unidepartment">
-                                        <th class="entry_label">__MSG__DEPARTMENT__:</th>
-                                        <td id="txt_unidepartment"></td>
-                                    </tr>
-                                    <tr id="unicollege">
-                                        <th class="entry_label">__MSG__COLLEGE__:</th>
-                                        <td id="txt_unicollege"></td>
-                                    </tr>
-                                    <tr id="birthday">
-                                        <th class="entry_label">__MSG__DATE_OF_BIRTH__:</th>
-                                        <td id="txt_birthday"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- About Me -->
-                        <div class="fl-fix profile_section" id="about" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__ABOUT_ME__</h4>
-
-                            <div class="profile_section_body">
-                                <table>
-                                    <tr id="aboutme">
-                                        <th class="entry_label">__MSG__ABOUT_ME__:</th>
-                                        <td id="txt_aboutme"></td>
-                                    </tr>
-                                    <tr id="academicinterests">
-                                        <th class="entry_label">__MSG__ACADEMIC_INTERESTS__:</th>
-                                        <td id="txt_academicinterests"></td>
-                                    </tr>
-                                    <tr id="personalinterests">
-                                        <th class="entry_label">__MSG__PERSONAL_INTERESTS__:</th>
-                                        <td id="txt_personalinterests"></td>
-                                    </tr>
-                                    <tr id="hobbies">
-                                        <th class="entry_label">__MSG__HOBBIES__:</th>
-                                        <td id="txt_hobbies"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Degrees -->
-                        <div class="fl-fix profile_section" id="degrees" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__DEGREES__</h4>
-
-                            <div class="profile_section_body" id="degrees_list">
-                                <table>
-                                <tr id="no_degrees">
-                                    <td><span>__MSG__NO_DEGREES_ADDED_YET__</span></td>
-                                </tr>
-                                </table>
-                            </div>
-                            <div id="degrees_list_template"><!--
-                                {for i in items}
-                                    <div class="multi_entry degree_record" id="degree_record_${i.id}">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <div class="degree_record_div multifield_out" id="degree_record_${i.id}_div" style="line-height:20px">
-                                                        <b>${i.school} (${i.country})</b>
-                                                        <br/>
-                                                        ${i.degree}, ${i.field}<br/>
-                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
-                                                        <br/>
-                                                        {if i.notes}
-                                                        ${i.notes}
-                                                        <br/>
-                                                        {/if}
-                                                    </div>
-                                                </td>
-                                                <td style="width:15px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="degree_record_${i.id}_remove" alt="__MSG__REMOVE_THE_DEGREE_RECORD__" class="degree_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="greydotted"></div>
-                                {forelse}
-                                    <table>
-                                        <tr id="no_degrees">
-                                            <td colspan="2">
-                                                <span>__MSG__NO_DEGREES_ADDED_YET__</span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                {/for}
-                            --></div>
-                        </div>
-
-                        <!-- Papers -->
-                        <div class="fl-fix profile_section" id="papers" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__PUBLICATIONS__</h4>
-
-                            <div class="profile_section_body" id="papers_list">
-                                <table>
-                                    <tr id="no_papers">
-                                        <td><span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span></td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div id="papers_list_template"><!--
-                                {for i in items}
-                                    <div class="multi_entry paper_record" id="paper_record_${i.id}">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <div class="paper_record_div multifield_out" id="paper_record_${i.id}_div" style="line-height:20px">
-                                                        <span class="author firstauthor">
-                                                            <span class="family-name" style="font-variant: small-caps;">${i.auth}</span>
-                                                        </span> ;
-                                                        {if i.coauth}
-                                                            <span class="author">
-                                                            <span class="family-name" style="font-variant: small-caps; ">${i.coauth}</span>
-                                                            </span>
-                                                        {/if}
-                                                        (<span class="year">${i.year}</span>):
-                                                        <span style="font-style: italic; ">
-                                                            <span class="title">${i.title}</span>.
-                                                            Vol. <span class="volume">${i.vol}</span>:
-                                                            <span class="volumetitle">${i.voltitle}</span>.
-                                                        </span>
-                                                        {if i.edition}
-                                                            <span class="edition">${i.edition}</span>.
-                                                        {/if}
-                                                        <span class="place">${i.place}</span> :
-                                                        <span class="publisher">${i.publisher}</span>
-                                                        (<span class="overalltitle">${i.ovtitle}</span>
-                                                        <span class="number">${i.number}</span>)
-                                                        {if i.url}
-                                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_PAPER_RECORD__"><img alt="__MSG__TO_SEE_THE_PAPER_RECORD__" src="_images/link_icon.gif" border="0"></a>
-                                                        {/if}
-                                                    </div>
-                                                </td>
-                                                <td style="width:15px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="paper_record_${i.id}_remove" alt="__MSG__REMOVE_THE_PAPER_RECORD__" class="paper_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="greydotted"></div>
-                                {forelse}
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td colspan="2">
-                                                <span>__MSG__NO_PUBLICATIONS_ADDED_YET__</span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                {/for}
-                            --></div>
-                        </div>
-
-                        <!-- Talks -->
-                        <div class="fl-fix profile_section" id="talks" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__TALKS__</h4>
-
-                            <div class="profile_section_body" id="talks_list">
-                                <table>
-                                    <tr id="no_talks">
-                                        <td><span>__MSG__NO_TALKS_ADDED_YET__</span></td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div id="talks_list_template"><!--
-                                {for i in items}
-                                    <div class="multi_entry talk_record" id="talk_record_${i.id}">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <div class="talk_record_div multifield_out" id="talk_record_${i.id}_div" style="line-height:20px">
-                                                        <b>${i.title}</b>
-                                                        {if i.url}
-                                                            <a href="${i.url}" target="_blank" title="__MSG__TO_SEE_THE_TALK_RECORD__"><img src="_images/link_icon.gif" border="0" alt="__MSG__TO_SEE_THE_TALK_RECORD__"></a>
-                                                        {/if}
-                                                        <br/>
-                                                        {if i.coauth}
-                                                            Presented with ${i.coauth}
-                                                            <br/>
-                                                        {/if}
-                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.date} (${i.place})</span>
-                                                        <br/>
-                                                    </div>
-                                                </td>
-                                                <td style="width:15px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="talk_record_${i.id}_remove" alt="__MSG__REMOVE_THE_TALK_RECORD__" class="talk_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="greydotted"></div>
-                                {forelse}
-                                    <table>
-                                        <tr>
-                                            <td><span>__MSG__NO_TALKS_ADDED_YET__</span></td>
-                                        </tr>
-                                    </table>
-                                {/for}
-                            --></div>
-                        </div>
-
-                        <!-- Jobs -->
-                        <div class="fl-fix profile_section" id="jobs" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__PROFESSIONAL_EXPERIENCE__</h4>
-
-                            <div class="profile_section_body" id="jobs_list">
-                                <table>
-                                    <tr id="no_jobs" style="display:block">
-                                    <td>
-                                        <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
-                                    </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div id="jobs_list_template"><!--
-                                {for i in items}
-                                    <div class="multi_entry job_record" id="job_record_${i.id}">
-                                        <table style="width:100%">
-                                            <tr>
-                                                <td>
-                                                    <div class="job_record_div multifield_out" id="job_record_${i.id}_div" style="line-height:20px">
-                                                        <b>${i.role}</b>
-                                                        <br/>
-                                                        ${i.company} (${i.country})<br/>
-                                                        {if i.description}
-                                                            ${i.description}
-                                                            <br/>
-                                                        {/if}
-                                                        <span style="font-size:0.9em; color:#CCCCCC">${i.from} - ${i.until}</span>
-                                                        <br/>
-                                                    </div>
-                                                </td>
-                                                <td style="width:15px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="job_record_${i.id}_remove" alt="__MSG__REMOVE_THE_JOB_RECORD__" class="job_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="greydotted"></div>
-                                {forelse}
-                                    <table>
-                                        <tr>
-                                            <td colspan="2">
-                                            <span>__MSG__NO_POSITIONS_ADDED_YET__</span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                {/for}
-                            --></div>
-                        </div>
-
-                        <!-- Additional Information -->
-                        <div class="fl-fix profile_section" id="additional" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__ADDITIONAL_INFORMATION__</h4>
-
-                            <div class="profile_section_body">
-                                <table>
-                                    <tr id="awards">
-                                        <th class="entry_label">__MSG__AWARDS_AND_HONORS__:</th>
-                                        <td id="txt_awards"></td>
-                                    </tr>
-                                    <tr id="clubs">
-                                        <th class="entry_label">__MSG__CLUBS__:</th>
-                                        <td id="txt_clubs"></td>
-                                    </tr>
-                                    <tr id="societies">
-                                        <th class="entry_label">__MSG__SOCIETIES__:</th>
-                                        <td id="txt_societies"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Websites -->
-                        <div class="fl-fix profile_section" id="websites" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__WEBSITES__</h4>
-
-                            <div class="profile_section_body" id="websites_list">
-                                <table>
-                                    <tr id="no_websites">
-                                        <td><span>__MSG__NO_WEBSITES_ADDED_YET__</span></td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div id="websites_list_template"><!--
-                                {for i in items}
-                                    <div class="multi_entry website_record" id="website_record_${i.id}" style="padding-bottom:0px">
-                                    <table style="width:100%; margin-bottom:0px">
-                                        <tr>
-                                            <td style="padding-bottom:0px; padding-left:0px">
-                                                <div class="website_record_div multifield_out" id="website_record_${i.id}_div" style="padding-bottom:0px">
-                                                    <a target="_blank" style="margin-left:5px; line-height:20px" href="${i.url}">${i.title}</a>
-                                                </div>
-                                            </td>
-                                            <td style="width:15px; padding-bottom:0px" class="centertd">
-                                                <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_WEBSITE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer" />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    </div>
-                                {forelse}
-                                    <table>
-                                        <tr>
-                                            <td colspan="2" style="padding-bottom:0px; padding-left:0px">
-                                                <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                {/for}
-                                <div style="height:1em"></div>
-                            --></div>
-                        </div>
-
-                        <!-- University contact info -->
-                        <div class="fl-fix profile_section" id="unicontactinfo" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__UNIVERSITY_CONTACT_INFO__</h4>
-
-                            <div class="profile_section_body">
-                                <table>
-                                    <tr id="uniemail">
-                                        <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
-                                        <td id="txt_uniemail"></td>
-                                    </tr>
-                                    <tr id="uniphone">
-                                        <th class="entry_label">__MSG__PHONE__:</th>
-                                        <td id="txt_uniphone"></td>
-                                    </tr>
-                                    <tr id="unimobile">
-                                        <th class="entry_label">__MSG__MOBILE__:</th>
-                                        <td id="txt_unimobile"></td>
-                                    </tr>
-                                    <tr id="uniaddress">
-                                        <th class="entry_label">__MSG__ADDRESS__:</th>
-                                        <td id="txt_uniaddress"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Home Contact -->
-                        <div class="fl-fix profile_section" id="homecontactinfo" style="display:none">
-
-                            <h4 class="profile_section_header">__MSG__HOME_CONTACT_INFO__</h4>
-
-                            <div class="profile_section_body">
-                                <table>
-                                    <tr id="homeemail">
-                                        <th class="entry_label">__MSG__EMAIL_ADDRESS__:</th>
-                                        <td id="txt_homeemail"></td>
-                                    </tr>
-                                    <tr id="homephone">
-                                        <th class="entry_label">__MSG__PHONE__:</th>
-                                        <td id="txt_homephone"></td>
-                                    </tr>
-                                    <tr id="homemobile">
-                                        <th class="entry_label">__MSG__MOBILE__:</th>
-                                        <td id="txt_homemobile"></td>
-                                    </tr>
-                                    <tr id="homeaddress">
-                                        <th class="entry_label">__MSG__ADDRESS__:</th>
-                                        <td id="txt_homeaddress"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
+                <!-- FOOTER TEMPLATE -->
+                <div id="profilewow_footer_template"><!--
+                    <div class="fl-force-right">
+                        {if mode.value === "edit"}
+                            <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button">
+                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                            </button>
+                            <button id="profilewow_footer_button_update" type="button" class="s3d-button s3d-button-primary">
+                                <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
+                            </button>
+                        {/if}
                     </div>
-
-                    <div class="content_bottom"><div class="content_bottom_inner"></div></div>
-
-                </div>
+                --></div>
 
             </div>
 
         </div>
+
+        <!-- SECTION WIDGET TEMPLATE -->
+        <div id="profilewow_sectionwidgets_container_template"><!--
+            <div id="widget_profilesection_${sectionname}" class="widget_inline"></div>
+        --></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-    <!-- DIALOGS -->
+        <!-- CHANGEPIC WIDGET -->
+        <div id="widget_changepic" class="widget_inline"></div>
 
-        <div class="dialog" id="message_dialog">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                    <h1>__MSG__SEND_MESSAGE__</h1>
-                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-                </div>
-            </div>
-
-            <!-- DIALOG BOX -->
-            <div class="send_message dialogue_box fl-centered">
-                <div class="compose-form" action="" method="" style="padding-bottom:10px">
-
-                    <div>__MSG__FROM__: <span id="message_from"></span></div>
-
-                    <div>__MSG__TO__: <span id="message_to"></span></div>
-
-                    <div>
-                        <label for="comp-subject">__MSG__SUBJECT__</label>
-                        <br />
-                        <input type="text" maxlength="255" class="text-field compose-subject" id="comp-subject" />
-                    </div>
-
-                    <div>
-                        <label for="comp-body">__MSG__BODY__</label>
-                        <br />
-                        <textarea class="text-field compose-body" id="comp-body"></textarea>
-                    </div>
-                </div>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="save_as_page_template_button"><span class="s3d-button-inner">__MSG__SEND_MESSAGE__</span></button>
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                </div>
-            </div>
-
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-
-        </div>
-
-        <!-- Add to Contacts dialog -->
-        <div class="dialog" id="add_to_contacts_dialog">
-
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                    <h1>__MSG__ADD_TO_CONTACTS__</h1>
-                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
-                <form id="add_friends_form">
-
-                    <h4>__MSG__INVITE__ <span id="add_friend_displayname" style="font-weight:bold"></span> __MSG__TO_CONNECT_THROUGH_SAKAI__</h4>
-
-                    <table style="width:100%; border:0px">
-                        <tr>
-                        <td style="vertical-align:top; width: 75px">
-                            <span id="add_friend_displayname2" style="font-weight:bold"></span>
-                            <div id="add_friend_profilepicture" style="padding-top:5px"></div>
-                        </td>
-                        <td id="add_friend_types">
-                        </td>
-                        </tr>
-                    </table>
-
-                    <h4>__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__:</h4>
-
-                    <textarea cols="75" rows="3" id="add_friend_personal_note" name="add_friend_personal_note" title="__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__" style="padding:4px"></textarea>
-
-                </form>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="add_friends_do_invite"><span class="s3d-button-inner">__MSG__INVITE__</span></button>
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                </div>
-
-            </div>
-
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-        </div>
-
-        <div id="add_friend_types_template" style="display:none"><!--
-            {var index = 0}
-            {for i in connections}
-                <input type="checkbox" name="add_friends_list_type" title="__MSG__ADD_FRIEND_TYPES__" value="${i.id}" {if index == 0}CHECKED{/if}/> ${i.dir1}
-                <br/>
-                ${index++|eat}
-            {/for}
-        --></div>
-
+        <!-- PROFILEWOW JS -->
         <script type="text/javascript" src="_javascript/profile.js"></script>
 
     </body>
