@@ -1653,9 +1653,19 @@ sakai.api.User.logout = function(callback) {
         	"sakai:status": "offline",
             "_charset_": "utf-8"
         },
-        complete: function(xhr, textStatus) {
-            if (callback && typeof callback === "function"){
-                callback();
+        success: function(data) {
+            if (typeof callback === "function"){
+                callback(true, data);
+            }
+            /*
+             * Redirect to the standard logout servlet, which
+             * will destroy the session.
+             */
+             window.location = sakai.config.URL.LOGOUT_SERVICE;
+         },
+         error: function(xhr, textStatus, thrownError){
+            if (typeof callback === "function"){
+                callback(false, xhr);
             }
             /*
              * Redirect to the standard logout servlet, which
