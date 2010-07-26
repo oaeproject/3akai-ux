@@ -168,8 +168,8 @@ sakai.entity = function(tuid, showSettings){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.picture && profile["rep:userId"]) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+        if (profile.basic.elements.picture && profile["rep:userId"]) {
+            return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
         }
         else {
             return "";
@@ -449,8 +449,8 @@ sakai.entity = function(tuid, showSettings){
         entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
         // Set the status for the user you want the information from
-        if (entityconfig.data.profile.basic) {
-            entityconfig.data.profile.status = $.parseJSON(entityconfig.data.profile.basic).status;
+        if (entityconfig.data.profile.basic && entityconfig.data.profile.basic.elements.status) {
+            entityconfig.data.profile.status = entityconfig.data.profile.basic.elements.status.value;
         }
 
         if (!entityconfig.data.profile.chatstatus) {

@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 var sakai = sakai || {};
 
 sakai.config = {
@@ -118,8 +117,120 @@ sakai.config = {
     SakaiDomain: window.location.protocol + "//" + window.location.host,
 
     Profile: {
-        // Fields that cannot be edited and so controlled by LDAP, ...
-        uneditable: ["txt_firstname", "txt_lastname"]
+        /*
+         * This is a collection of profile configuration functions and settings
+         * The structure of the config object is identical to the storage object
+         * When system/me returns profile data for the logged in user the profile_config and profile_data objects could be merged
+         * "label": the internationalizable message for the entry label in HTML
+         * "required": Whether the entry is compulsory or not
+         */
+        configuration: {
+
+            "basic": {
+                "label": "__MSG__PROFILE_BASIC_LABEL__",
+                "required": true,
+                "display": true,
+                "elements": {
+                    "firstname": {
+                        "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
+                        "required": true,
+                        "display": true,
+                        "validation": function(input_value){
+                            // Custom validation code here
+                            if (typeof input_value === "string") {
+                                return true;
+                            }
+                            else {
+                                return "__MSG___PROFILE_BASIC_FIRSTNAME_ERROR_STRING__";
+                            }
+                        }
+                    },
+                    "lastname": {
+                        "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
+                        "required": true,
+                        "display": true
+                    },
+                    "displayname": {
+                        "label": "__MSG__PROFILE_BASIC_DISPLAYNAME_LABEL__",
+                        "required": true,
+                        "display": true
+                    },
+                    "picture": {
+                        "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
+                        "required": false,
+                        "display": false
+                    },
+                    "preferredname": {
+                        "label": "__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__",
+                        "required": false,
+                        "display": true
+                    },
+                    "status": {
+                        "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
+                        "required": false,
+                        "display": false
+                    },
+                    "role": {
+                        "label": "__MSG__PROFILE_BASIC_ROLE_LABEL__",
+                        "required": true,
+                        "display": true
+                    }
+                }
+            },
+            "aboutme": {
+                "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                "required": true,
+                "display": true,
+                "elements": {
+                    "aboutme": {
+                        "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__",
+                        "template": "profilewow_field_textarea_template"
+                    },
+                    "academicinterests": {
+                        "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_EXAMPLE__"
+                    },
+                    "personalinterests": {
+                        "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_EXAMPLE__"
+                    },
+                    "hobbies": {
+                        "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_ABOUTME_HOBBIES_EXAMPLE__"
+                    }
+                }
+            },
+            "publications": {
+                "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
+                "required": false,
+                "display": true,
+                //"template": "profilewow_section_publications_template",
+                "elements": {
+                    "title": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_TITLE__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_PUBLICATIONS_TITLE_EXAMPLE__"
+                    },
+                    "authors": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_AUTHORS__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_PUBLICATIONS_AUTHORS_EXAMPLE__"
+                    }
+                }
+            }
+        }
+
     },
 
     Connections: {
@@ -147,7 +258,7 @@ sakai.config = {
                 URL: "/dev/_skins/camuniversity/camuniversity.html"
             }
         },
-        DefaultMember:"viewers"
+        DefaultMember: "viewers"
     },
 
     Messages: {
@@ -217,8 +328,8 @@ sakai.config = {
     },
 
     notification: {
-        type :{
-            ERROR : {
+        type: {
+            ERROR: {
                 image: "/dev/_images/notifications_exclamation_icon.png",
                 time: 10000
             },
