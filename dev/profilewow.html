@@ -66,14 +66,6 @@
                 <h1>__MSG__VIEW_PROFILE__</h1>
             {elseif mode.value==="viewmy"}
                 <h1>__MSG__VIEW_MY_PROFILE__</h1>
-            {elseif mode.value==="viewas"}
-                <h1>__MSG__VIEW_MY_PROFILE_AS__</h1>
-                <select title="__MSG__VIEW_MY_PROFILE_AS__">
-                    <option{if acls.value==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                    <option{if acls.value==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
-                    <option{if acls.value==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
-                    <option{if acls.value==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
-                </select>
             {elseif mode.value==="edit"}
                 <h1>__MSG__EDIT_MY_PROFILE__</h1>
             {/if}
@@ -84,167 +76,36 @@
             <div class="fl-fix fl-centered fixed-container">
 
                 <!-- ENTITY WIDGET -->
-                <div id="widget_entity" class="widget_inline"></div>
+                <div id="widget_entity" class="widget_inline"><!-- --></div>
 
-                <!-- GENERAL INFO -->
-                <div id="profilewow_generalinfo" class="fl-push"><!-- --></div>
+                <!-- ACTIONS -->
+                <div id="profilewow_actions"><!-- --></div>
 
-                <!-- GENERAL INFO TEMPLATE -->
-                <div id="profilewow_generalinfo_template"><!--
-                    {var i_count = 0}
-                    {for i in config}
-                        <div class="profilewow_generalinfo_header{if i_count === 0} profilewow_generalinfo_header_first{/if}">
-                            <h3 class="fl-force-left">${i.label}</h3>
-
-                            {if mode.value === "viewmy" || mode.value === "edit"}
-                                {var _access = sakai.profilewow.profile.data[i_index].access}
-                                <div class="profilewow_generalinfo_acl fl-force-right">
-                                    {if mode.value === "viewmy"}
-                                        <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
-                                        <a href="profilewow.html?mode=edit">
-                                            {if _access==="public"}__MSG__PUBLIC__
-                                            {elseif _access==="institution"}__MSG__INSTITUTION__
-                                            {elseif _access==="contacts"}__MSG__CONTACTS__
-                                            {elseif _access==="noone"}__MSG__NO_ONE__
-                                            {/if}
-                                        </a>
-                                    {else}
-                                        <label for="profilewow_generalinfo_access_${i_index}">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
-                                        <select id="profilewow_generalinfo_access_${i_index}">
-                                            <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                                            <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
-                                            <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
-                                            <option{if _access==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
-                                        </select>
-                                    {/if}
-                                </div>
-                            {/if}
-
-                        </div>
-
-                        {for element in i.elements}
-
-                            {var _elements = sakai.profilewow.profile.data[i_index].elements}
-                            {var _element = _elements[element_index]}
-                            {var isarray = $.isArray(_elements)}
-
-                            <div class="profilewow_generalinfo_subcontainer">
-                                <span class="profilewow_generalinfo_label">${element.label}:</span>
-                                <div class="profilewow_generalinfo_content">
-                                    {if !isarray}
-                                        ${_element.value}
-                                    {else}
-                                        {for _subelement in _elements}
-                                            ${_subelement[element_index]}
-                                        {/for}
-                                    {/if}
-                                </div>
-                            </div>
-                        {/for}
-                        ${i_count++ |eat}
-                    {/for}
-                --></div>
-
-                <!-- SECTION TEMPLATES -->
-                <div id="profilewow_section_default_template"><!--
-                    {var mode = sakai.profilewow.profile.mode}
-                    {if fields}
-                        {if config && config.label && data}
-                            <div class="profilewow_generalinfo_header">
-                                <h3 class="fl-force-left">${config.label}</h3>
-
-                                {if mode.value === "viewmy" || mode.value === "edit"}
-                                    {var _access = data.access}
-                                    <div class="profilewow_generalinfo_acl fl-force-right">
-                                        {if mode.value === "viewmy"}
-                                            <span>__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</span>
-                                            <a href="profilewow.html?mode=edit">
-                                                {if _access==="public"}__MSG__PUBLIC__
-                                                {elseif _access==="institution"}__MSG__INSTITUTION__
-                                                {elseif _access==="contacts"}__MSG__CONTACTS__
-                                                {elseif _access==="noone"}__MSG__NO_ONE__
-                                                {/if}
-                                            </a>
-                                        {else}
-                                            <label for="profilewow_generalinfo_access">__MSG__WHO_CAN_SEE_SEARCH_ON_THIS__</label>
-                                            <select id="profilewow_generalinfo_access">
-                                                <option{if _access==="public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                                                <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION__</option>
-                                                <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS__</option>
-                                                <option{if _access==="noone"} selected="selected"{/if}>__MSG__NO_ONE__</option>
-                                            </select>
-                                        {/if}
-                                    </div>
-                                {/if}
-                            </div>
-                        {/if}
-
-                        ${fields}
+                <!-- ACTIONS TEMPLATE -->
+                <div id="profilewow_actions_template"><!--
+                    {if mode.value === "viewmy"}
+                        <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
+                        </button>
                     {/if}
-                --></div>
+                -->
 
-                <!-- FIELD TEMPLATES -->
-                <div id="profilewow_field_default_template"><!--
-                    {var mode = sakai.profilewow.profile.mode}
-                    {if mode.value === "edit"}
-                        {if data && config.display}
-                            <div class="profilewow_generalinfo_subcontainer">
-                                <label class="profilewow_generalinfo_label" for="profilewow_generalinfo">${config.label}:</label>
-                                <input type="text" class="profilewow_generalinfo_content" value="${data.value}" id="profilewow_generalinfo" />
-                            </div>
-                        {/if}
-                    {else}
-                        {if data && data.value && config.display}
-                            <div class="profilewow_generalinfo_subcontainer">
-                                <span class="profilewow_generalinfo_label">${config.label}:</span>
-                                <div class="profilewow_generalinfo_content">${data.value}</div>
-                            </div>
-                        {/if}
-                    {/if}
-                --></div>
-                <div id="profilewow_field_textarea_template"><!--
-                    {if data && data.value && config.display}
-                        <div class="profilewow_generalinfo_subcontainer">
-                            <span class="profilewow_generalinfo_label">${config.label}:</span>
-                            <div class="profilewow_generalinfo_content">${data.value}</div>
-                        </div>
-                    {/if}
-                --></div>
+                <!-- PROFILE SECTION WIDGETS -->
+                <div id="profilewow_sectionwidgets_container"><!-- --></div>
 
                 <!-- FOOTER -->
                 <div id="profilewow_footer" class="fl-push"><!-- --></div>
 
                 <!-- FOOTER TEMPLATE -->
                 <div id="profilewow_footer_template"><!--
-                    <div class="fl-force-left">
-                        {if mode.value === "edit"}
-                            <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
-                            </button>
-                        {elseif history.length > 1}
-                            <button id="profilewow_footer_button_back" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__GO_BACK__</span>
-                            </button>
-                        {/if}
-                    </div>
                     <div class="fl-force-right">
                         {if mode.value === "edit"}
+                            <button id="profilewow_footer_button_dontupdate" type="button" class="s3d-button">
+                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                            </button>
                             <button id="profilewow_footer_button_update" type="button" class="s3d-button s3d-button-primary">
                                 <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
                             </button>
-                        {elseif mode.value === "viewmy" || mode.value === "viewas"}
-                            <button id="profilewow_footer_button_edit" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__EDIT_PROFILE__</span>
-                            </button>
-                        {/if}
-                        {if mode.value !== "view"}
-                            <select title="__MSG__PREVIEW_AS__">
-                                <option class="profilewow_nonselectable" selected="selected">__MSG__PREVIEW_AS__</option>
-                                <option>__MSG__PUBLIC__</option>
-                                <option>__MSG__INSTITUTION__</option>
-                                <option>__MSG__CONTACTS__</option>
-                                <option>__MSG__NO_ONE__</option>
-                            </select>
                         {/if}
                     </div>
                 --></div>
@@ -252,6 +113,11 @@
             </div>
 
         </div>
+
+        <!-- SECTION WIDGET TEMPLATE -->
+        <div id="profilewow_sectionwidgets_container_template"><!--
+            <div id="widget_profilesection_${sectionname}" class="widget_inline"></div>
+        --></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

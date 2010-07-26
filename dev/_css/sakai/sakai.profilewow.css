@@ -1,15 +1,6 @@
-
 /* Global */
 .fixed-container {
     background: #fff;
-}
-.profilewow input[type="text"], .profilewow input[type="password"] {
-    border: 1px solid #ddd;
-    padding: 3px;
-}
-#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
-    color: #3399CC;
-    font-weight: bold;
 }
 
 /* Heading */
@@ -19,37 +10,6 @@
 #profilewow_heading select {
     font-weight: normal;
     margin: 7px 0 0 10px;
-}
-
-/* General info */
-#profilewow_generalinfo .profilewow_generalinfo_header {
-    border-top:1px solid #ccc;
-    margin:15px 0;
-    overflow:hidden;
-    padding-top:20px;
-}
-#profilewow_generalinfo .profilewow_generalinfo_header_first {
-    border: none;
-    padding-top: 0;
-}
-#profilewow_generalinfo h3 {
-    color:#5A6A7C;
-    font-size:120%;
-    font-weight:normal;
-    margin: 0;
-    padding-right: 5px;
-    width: 400px;
-}
-#profilewow_generalinfo .profilewow_generalinfo_subcontainer {
-    clear: both;
-    margin: 7px 0;
-    overflow: auto;
-    padding: 1px 0;
-}
-#profilewow_generalinfo .profilewow_generalinfo_label, .profilewow_generalinfo label {
-    display: block;
-    float: left;
-    width: 140px;
 }
 
 /* Footer */

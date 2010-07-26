@@ -234,7 +234,7 @@ sakai.profilewow = function(){
         data: profile_data,
         isme: false,
         mode: {
-            options: ["viewmy", "view", "viewas", "edit"],
+            options: ["viewmy", "view", "edit"],
             value: "viewmy"
         },
         acls: {
@@ -254,18 +254,17 @@ sakai.profilewow = function(){
     ///////////////////
 
     var profilewow_class = ".profilewow";
+    var $profilewow_actions = $("#profilewow_actions", profilewow_class);
+    var $profilewow_actions_template = $("#profilewow_actions_template", profilewow_class);
     var $profilewow_field_default_template = $("#profilewow_field_default_template", profilewow_class);
     var $profilewow_footer = $("#profilewow_footer", profilewow_class);
-    var $profilewow_footer_button_back;
-    var $profilewow_footer_button_dontupdate;
-    var $profilewow_footer_button_edit;
+    var $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
+    var $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
     var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
-    var $profilewow_generalinfo = $("#profilewow_generalinfo", profilewow_class);
-    var $profilewow_generalinfo_template = $("#profilewow_generalinfo_template", profilewow_class);
-    var profilewow_generalinfo_template_container = "";
     var $profilewow_heading = $("#profilewow_heading", profilewow_class);
     var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
-    var $profilewow_section_default_template = $("#profilewow_section_default_template", profilewow_class);
+    var $profilewow_sectionwidgets_container = $("#profilewow_sectionwidgets_container", profilewow_class);
+    var $profilewow_sectionwidgets_container_template = $("#profilewow_sectionwidgets_container_template", profilewow_class);
 
 
     ////////////////////
@@ -274,7 +273,7 @@ sakai.profilewow = function(){
 
     /**
      * Change the mode of the current profile
-     * @param {String} mode The mode for the profile (view | viewas | viewmy | edit)
+     * @param {String} mode The mode for the profile (view | viewmy | edit)
      */
     var setProfileMode = function(mode){
 
@@ -439,17 +438,7 @@ sakai.profilewow = function(){
     var addBindingFooter = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_back = $("#profilewow_footer_button_back", profilewow_class);
-        $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
-        $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
-
-        // Bind the back button
-        $profilewow_footer_button_back.bind("click", function(){
-
-            // Go to the previous page
-            history.go(-1);
-
-        });
+        $profilewow_footer_button_dontupdate = $($profilewow_footer_button_dontupdate.selector);
 
         // Bind the don't update
         $profilewow_footer_button_dontupdate.bind("click", function(){
@@ -458,6 +447,16 @@ sakai.profilewow = function(){
             changeProfileMode("viewmy");
 
         });
+
+    };
+
+    /**
+     * Add binding to the action elements
+     */
+    var addBindingActions = function(){
+
+        // Reinitialise jQuery objects
+        $profilewow_footer_button_edit = $($profilewow_footer_button_edit.selector);
 
         // Bind the edit button
         $profilewow_footer_button_edit.bind("click", function(){
@@ -473,6 +472,9 @@ sakai.profilewow = function(){
      * Add binding to all the elements on the page
      */
     var addBinding = function(){
+
+        // Add binding to the actions elements
+        addBindingActions();
 
         // Add binding to footer elements
         addBindingFooter();
@@ -494,77 +496,52 @@ sakai.profilewow = function(){
 
     };
 
-    /**
-     * Render the template for the field
-     * @param {Object} fieldTemplate
-     * @param {Object} sectionName
-     * @param {Object} fieldObject
-     * @param {Object} fieldName
-     */
-    var renderTemplateField = function(fieldTemplate, sectionName, fieldObject, fieldName){
+    var renderTemplateActions = function(){
 
-        var json_config = {
-            "data": sakai.profilewow.profile.data[sectionName].elements[fieldName],
-            "config": sakai.profilewow.profile.config[sectionName].elements[fieldName]
-        };
-
-        return $.TemplateRenderer(fieldTemplate, json_config);
+        // Render the actions for the profile
+        $.TemplateRenderer($profilewow_actions_template, sakai.profilewow.profile, $profilewow_actions);
 
     };
 
     /**
-     * Render the template for the sectino
-     * @param {Object} sectionTemplate jQuery object that contains the template you want to render for the section
-     * @param {Object} sectionObject The object you need to pass into the template
-     * @param {String} sectionName The name of the sectionObject (e.g. basic)
+     * Insert a profile section widget
+     * @param {String} sectionname The name of the section e.g. basic/talks/aboutme
      */
-    var renderTemplateSection = function(sectionTemplate, sectionObject, sectionName){
+    var insertProfileSectionWidget = function(sectionname) {
 
-        var sections = "";
+        // Create a JSON object to pass the sectionname along
+        // Trimpath needs an object to be passed (not only a variable)
+        var sectionobject = {
+            "sectionname": "profilesection-" + sectionname
+        };
 
-        for(var i in sectionObject.elements){
-            if(sectionObject.elements.hasOwnProperty(i)){
+        // Construct the html for the widget
+        $profilewow_sectionwidgets_container.append($.TemplateRenderer($profilewow_sectionwidgets_container_template, sectionobject));
 
-                // Set the field template, if there is no template defined, use the default one
-                var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, profilewow_class) : $profilewow_field_default_template;
+        // Bind a global event that can be triggered by the profilesection widgets
+        $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
 
-                // Render the template field
-                sections += renderTemplateField(fieldTemplate, sectionName, sectionObject.elements[i], i);
-
+            if(callback && typeof callback === "function"){
+                callback(sectionname);
             }
-        }
 
-        var json_config = {
-            "data" : sakai.profilewow.profile.data[sectionName],
-            "config" : sakai.profilewow.profile.config[sectionName],
-            "fields" : $.trim(sections)
-        };
-
-        return $.TemplateRenderer(sectionTemplate, json_config);
+        });
 
     };
 
     /**
-     * Render the general information (firstname/lastname/about me/...)
+     * Insert the profile section widgets
      */
-    var renderTemplateGeneralInfo = function(){
-
-        var generalinfo = "";
+    var insertProfileSectionWidgets = function(){
 
         for(var i in sakai.profilewow.profile.config){
             if(sakai.profilewow.profile.config.hasOwnProperty(i)){
 
-                // Set the section template, if there is no template defined, user the default one
-                var sectionTemplate = sakai.profilewow.profile.config[i].template ? $("#" + sakai.profilewow.profile.config[i].template, profilewow_class) : $profilewow_section_default_template;
-
-                // Render the template section
-                generalinfo += renderTemplateSection(sectionTemplate, sakai.profilewow.profile.config[i], i);
+                // Insert a separate widget for each profile section widget
+                insertProfileSectionWidget(i);
 
             }
         }
-
-        // Render the General info
-        $profilewow_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, null, null)));
 
     };
 
@@ -586,8 +563,8 @@ sakai.profilewow = function(){
         // Render the site heading
         renderTemplateSiteHeading();
 
-        // Render the general info
-        renderTemplateGeneralInfo();
+        // Render the profile actions
+        renderTemplateActions();
 
         // Render the footer buttons
         renderTemplateFooter();
@@ -635,6 +612,9 @@ sakai.profilewow = function(){
 
             // Render all the templates
             renderTemplates();
+
+            // Insert the profile section widgets
+            insertProfileSectionWidgets();
 
             // Add binding to all the elements
             addBinding();
