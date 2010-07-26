@@ -1,0 +1,11 @@
+{
+    "description":"Dashboard",
+    "ca":true,
+    "hasSettings":true,
+    "id":"dashboard",
+    "img":"/devwidgets/comments/images/comments.png",
+    "name":"Dashboard",
+    "showinsakaigoodies":false,
+    "siteportal":true,
+    "url":"/devwidgets/dashboard/dashboard.html"
+}
