@@ -1,0 +1,19 @@
+/* GENERAL */
+strong {color: #000;}
+.dialog_buttons .button {color: #666;}
+
+/* WIDGET CSS */
+.myfriends.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/contacts_icon.png') 17px 18px no-repeat;}
+.sites.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
+.myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images/myprofile_icon.png) no-repeat scroll 17px 18px;}
+
+/* OPTIONS */
+.dashboard_options {text-align: right;}
+.dashboard_options a {font-size: 9pt; color: #454A4F; font-weight: bold}
+
+/* TOOLS CONTAINER - RIGHT COLUMN */
+#toolscontainer { margin-left: 20px; }
+
+/* WIDGET CONTAINER */
+#widgetscontainer {background-color: #fff; padding-top: 1px; padding-bottom: 20px;}
+#widgetscontainer .fl-widget {margin-top: 1px}
