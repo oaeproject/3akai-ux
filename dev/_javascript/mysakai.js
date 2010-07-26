@@ -39,7 +39,7 @@ sakai.mysakai = function(){
         });
 
         $(window).bind("sakai.dashboard.ready", function(e) {
-          sakai.dashboard.init("/~" + sakai.data.me.user.userid, false, "personalportal");
+          sakai.dashboard.init("/~" + sakai.data.me.user.userid, true, "personalportal");
         });
         
         // If the user isn't logged in, redirect them to do so, as the dashboard is relevant
