@@ -26,7 +26,7 @@ sakai.profile = function(){
     // CONFIGURATION VARIABLES //
     /////////////////////////////
 
-    sakai.profile.profile = {
+    sakai.profile.main = {
         chatstatus: "",
         config: sakai.config.Profile.configuration,
         data: {},
@@ -76,16 +76,16 @@ sakai.profile = function(){
     var setProfileMode = function(mode){
 
         // Check the mode parameter
-        if ($.inArray(mode, sakai.profile.profile.mode.options) !== -1) {
+        if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
 
             // Set the correct profile mode
-            sakai.profile.profile.mode.value = mode;
+            sakai.profile.main.mode.value = mode;
 
         }
         else {
 
             // Use the standard profile mode
-            sakai.profile.profile.mode.value = sakai.profile.profile.mode.options[0];
+            sakai.profile.main.mode.value = sakai.profile.main.mode.options[0];
 
             // Print a log message that the supplied mode isn't valid
             fluid.log("Profilewow - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
@@ -114,7 +114,7 @@ sakai.profile = function(){
     var changeProfileMode = function(mode){
 
          // Check the mode parameter
-        if ($.inArray(mode, sakai.profile.profile.mode.options) !== -1) {
+        if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
 
             // Perform the redirect
             window.location = window.location.pathname + "?mode=" + mode;
@@ -133,10 +133,10 @@ sakai.profile = function(){
         // Check whether there is a user parameter in the querystring,
         // if so, check whether the userid is not the same as the user parameter
         if (querystring.contains("user") && querystring.get("user") !== sakai.data.me.user.userid) {
-            sakai.profile.profile.isme = false;
+            sakai.profile.main.isme = false;
         }
         else {
-            sakai.profile.profile.isme = true;
+            sakai.profile.main.isme = true;
         }
 
     };
@@ -165,19 +165,19 @@ sakai.profile = function(){
     var setProfileData = function(callback){
 
         // Check whether the user is looking/editing it's own profile
-        if (sakai.profile.profile.isme) {
+        if (sakai.profile.main.isme) {
 
             // Set the profile picture for the user you are looking at
             // The actual location of the picture could be something like this: /~admin/public/profile/256x256_profilepicture
-            sakai.profile.profile.picture = constructProfilePicture(sakai.data.me.profile);
+            sakai.profile.main.picture = constructProfilePicture(sakai.data.me.profile);
 
             // Set the status for the user you want the information from
             if(sakai.data.me.profile.basic && sakai.data.me.profile.basic.elements.status){
-                sakai.profile.profile.status = sakai.data.me.profile.basic.elements.status.value;
+                sakai.profile.main.status = sakai.data.me.profile.basic.elements.status.value;
             }
 
             // Set the profile data object
-            sakai.profile.profile.data = $.extend(true, {}, sakai.data.me.profile);
+            sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
 
             // Execute the callback function
             if (callback && typeof callback === "function") {
@@ -202,15 +202,15 @@ sakai.profile = function(){
                         userprofile = data.results[0];
 
                         // Set the profile picture
-                        sakai.profile.profile.picture = constructProfilePicture(userprofile);
+                        sakai.profile.main.picture = constructProfilePicture(userprofile);
 
                         // Set the status for the user you want the information from
                         if(sakai.data.me.profile.basic){
-                            sakai.profile.profile.status = $.parseJSON(userprofile.basic).status;
+                            sakai.profile.main.status = $.parseJSON(userprofile.basic).status;
                         }
 
                         // Set the profile data object
-                        sakai.profile.profile.data = $.extend(true, {}, sakai.data.me.profile);
+                        sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
                     }
 
                 },
@@ -296,14 +296,14 @@ sakai.profile = function(){
     var renderTemplateSiteHeading = function(){
 
         // Render the profile site heading
-        $.TemplateRenderer($profilewow_heading_template, sakai.profile.profile, $profilewow_heading);
+        $.TemplateRenderer($profilewow_heading_template, sakai.profile.main, $profilewow_heading);
 
     };
 
     var renderTemplateActions = function(){
 
         // Render the actions for the profile
-        $.TemplateRenderer($profilewow_actions_template, sakai.profile.profile, $profilewow_actions);
+        $.TemplateRenderer($profilewow_actions_template, sakai.profile.main, $profilewow_actions);
 
     };
 
@@ -338,8 +338,8 @@ sakai.profile = function(){
      */
     var insertProfileSectionWidgets = function(){
 
-        for(var i in sakai.profile.profile.config){
-            if(sakai.profile.profile.config.hasOwnProperty(i)){
+        for(var i in sakai.profile.main.config){
+            if(sakai.profile.main.config.hasOwnProperty(i)){
 
                 // Insert a separate widget for each profile section widget
                 insertProfileSectionWidget(i);
@@ -355,7 +355,7 @@ sakai.profile = function(){
     var renderTemplateFooter = function(){
 
         // Render the profile footer
-        $profilewow_footer.html($.TemplateRenderer($profilewow_footer_template, sakai.profile.profile));
+        $profilewow_footer.html($.TemplateRenderer($profilewow_footer_template, sakai.profile.main));
 
     };
 
@@ -404,10 +404,10 @@ sakai.profile = function(){
             $(window).bind("sakai.api.UI.entity.ready", function(e){
 
                 // Check whether we need to load the myprofile or the profile mode
-                var whichprofile = sakai.profile.profile.isme ? "myprofile" : "profile";
+                var whichprofile = sakai.profile.main.isme ? "myprofile" : "profile";
 
                 // Check which data we need to send
-                var data = sakai.profile.profile.isme ? false : userprofile;
+                var data = sakai.profile.main.isme ? false : userprofile;
 
                 // Render the entity widget
                 sakai.api.UI.entity.render(whichprofile, data);
