@@ -1643,66 +1643,26 @@ sakai.api.User.login = function(credentials, callback) {
 sakai.api.User.logout = function(callback) {
 
     /*
-     * Array to store the data for the batch Ajax POST.
-     * Each object in this array consists out of
-     *     - the config service URL
-     *     - the used Ajax method
-     *     - the parameters for the service
-     */
-    var data = [];
-
-    /*
-     * POST request to the presence service,
-     * which will change the user status to offline.
-     */
-    data.push({
-        "url": sakai.config.URL.PRESENCE_SERVICE,
-        "method": "POST",
-        "parameters": {
-            "sakai:status": "offline",
-            "_charset_": "utf-8"
-        }
-    });
-
-    /*
      * POST request to the logout service,
      * which will destroy the session.
      */
-    data.push({
-        "url": sakai.config.URL.LOGOUT_SERVICE,
-        "method": "POST",
-        "parameters": {
-            "sakaiauth:logout": "1",
-            "_charset_": "utf-8"
-        }
-    });
-
-    /*
-     * The batch Ajax post.
-     * If the request fails, it is probably because there is no current session.
-     */
     $.ajax({
-        url: sakai.config.URL.BATCH,
+        url: sakai.config.URL.PRESENCE_SERVICE,
         type: "POST",
         data: {
-            requests: $.toJSON(data)
+        	"sakai:status": "offline",
+            "_charset_": "utf-8"
         },
-        success: function(data){
-
-            // Call callback function if set
-            if (typeof callback === "function") {
-                callback(true, data);
+        complete: function(xhr, textStatus) {
+            if (callback && typeof callback === "function"){
+                callback();
             }
-
-        },
-        error: function(xhr, textStatus, thrownError){
-
-            // Call callback function if set
-            if (typeof callback === "function") {
-                callback(false, xhr);
-            }
-
-        }
+            /*
+             * Redirect to the standard logout servlet, which
+             * will destroy the session.
+             */
+             window.location = sakai.config.URL.LOGOUT_SERVICE;
+         }
     });
 
 };
