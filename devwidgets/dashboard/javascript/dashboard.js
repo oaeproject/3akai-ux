@@ -545,6 +545,7 @@ sakai.dashboard = function(tuid, showSettings) {
                       grabHandle: grabHandleFinder
                   },
                   listeners: {
+                      onBeginMove: beforeWidgetDrag,
                       afterMove: saveState
                   }
               };
@@ -561,11 +562,15 @@ sakai.dashboard = function(tuid, showSettings) {
         }
 
     };
+    
+    var beforeWidgetDrag = function() {
+        $("#widget_settings_menu").hide();
+    };
 
     var currentSettingsOpen = false;
 
     var saveState = function() {
-
+        
         serString = '{"columns":{';
         if (startSaving === true) {
 
