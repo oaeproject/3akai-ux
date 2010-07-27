@@ -127,11 +127,11 @@
 
 
   <div id="widgetscontainer_template"><!--
-      <div class="fl-col-flex${size}">
+      <div class="fl-col-flex{if size !== 1}${size}{/if}">
       {var index = 0}
       {for c in columns}
           ${index++|eat}
-          <div class="fl-col groupWrapper" id="column_uid_${index}">
+          <div class="fl-col groupWrapper{if size === 1} fl-container-flex{/if}" id="column_uid_${index}">
           {for p in c.portlets}
               <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
                   <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
