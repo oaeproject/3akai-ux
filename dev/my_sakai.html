@@ -50,127 +50,6 @@
 
     <body id="root" class="body-container fl-centered fl-container i18nable my-sakai">
 
-        <!-- CHANGE LAYOUT DIALOG -->
-        <div id="change_layout_dialog" class="dialog">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                    <h1>__MSG__CHANGE_LAYOUT__</h1>
-                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-                <div class="add-tools-right">
-                    <h4>__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__</h4>
-                    <div class="elf-right-up fl-fix">
-                        <div id="layouts_list"></div>
-                    </div>
-                </div>
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="select-layout-finished"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                    <button type="button" class="s3d-button jqmClose" id="select-layout_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                </div>
-            </div>
-
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-        </div>
-
-        <!-- CHANGE LAYOUT TEMPLATE -->
-        <div id="layouts_template" style="display:none;"><!--
-            {for i in layouts}
-                {if i_index == selected}
-                    <div class="layout_container">
-                            <table cellpadding="0" cellspacing="0" class="layout_picker_item">
-                                <tr>
-                                    {for w in i.widths}
-                                    <td style="width:${w}%;" class="layout_picker_item_column">
-                                        &nbsp;
-                                    </td>
-                                    {/for}
-                                </tr>
-                            </table>
-                        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio" checked="true" title="__MSG__SELECT_THIS_LAYOUT__" />
-                    </div>
-                {else}
-                    <div class="layout_container_unselected">
-                        <table cellpadding="0" cellspacing="0" class="layout_picker_item_unselected">
-                            <tr>
-                                {for w in i.widths}
-                                <td style="width:${w}%;" class="layout_picker_item_column_unselected">
-                                    &nbsp;
-                                </td>
-                                {/for}
-                            </tr>
-                        </table>
-                        <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio_unselected" title="__MSG__SELECT_THIS_LAYOUT__" />
-                    </div>
-                {/if}
-            {/for}
-        --></div>
-
-        <!-- ADD GOODIES DIALOG -->
-        <div id="add_goodies_dialog" class="dialog add_goodies">
-
-            <!-- DIALOG HEADER -->
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                    <h1>__MSG__SAKAI_GOODIES__</h1>
-                    <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
-                </div>
-            </div>
-
-            <!-- DIALOG CONTENT -->
-            <div class="dialog_content">
-                <div id="add_goodies_body" class="dialog_body">
-                </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
-            </div>
-
-            <div id="add_goodies_body_template"><!--
-                <table>
-                {for i in items}
-                    {if i.alreadyIn}
-                    <tr class="add" id="row_add_${i.id}" style="display:none">
-                    {else}
-                    <tr id="row_add_${i.id}" class="add">
-                    {/if}
-                        <td class="remove_add_column">
-                            <button type="button" class="s3d-button s3d-button-primary add-button add goodies_add_button" id="btn_add_${i.id}"><span class="s3d-button-inner">__MSG__ADD__</span></button>
-                        </td>
-                        <td>
-                            <div class="dialog_add_goodies_title">${i.title}</div>
-                            <div class="dialog_add_goodies_description">
-                            ${i.description}
-                            </div>
-                        </td>
-                    </tr>
-                    {if i.alreadyIn}
-                    <tr id="row_remove_${i.id}" class="remove">
-                    {else}
-                    <tr id="row_remove_${i.id}" class="remove" style="display:none">
-                    {/if}
-                        <td width="80px">
-                            <button type="button" class="s3d-button add-button remove goodies_remove_button" id="btn_remove_${i.id}"><span class="s3d-button-inner">__MSG__REMOVE__</span></button>
-                        </td>
-                        <td>
-                            <div class="dialog_remove_goodies_title">${i.title}</div>
-                            <div class="dialog_remove_goodies_description">
-                            ${i.description}
-                        </div>
-                        </td>
-                    </tr>
-                {/for}
-                </table>
-            --></div>
-
-        </div>
-
         <!-- NAVIGATION + CHAT -->
         <div id="widget_navigationchat" class="widget_inline"></div>
 
@@ -182,57 +61,11 @@
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline"></div>
 
-                <!-- OPTIONS CONTAINER -->
-                <div class="fl-force-right mysakai_options">
-                    <a href="javascript:;" id="add-goodies">__MSG__SAKAI_GOODIES__</a>
-                    <span class="pipe_divider">|</span>
-                    <a href="javascript:;" id="edit-layout">__MSG__CHANGE_LAYOUT__</a>
-                </div>
-
             </div>
         </div>
 
-        <!-- CONTENT -->
-        <div id="widgetscontainer_template"><!--
-            <div class="fl-col-flex${size}">
-            {var index = 0}
-            {for c in columns}
-                ${index++|eat}
-                <div class="fl-col groupWrapper" id="column_uid_${index}">
-                {for p in c.portlets}
-                    <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                        <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
-                            <div class="widget-titlebar-inner">
-                                <h2 class="widget_title">${p.title}</h2>
-                                <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
-                            </div>
-                        </div>
-                    {if p.display == "none"}
-                        <div id="${p.uid}_container" style="display:none">
-                    {else}
-                        <div id="${p.uid}_container">
-                    {/if}
-                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
-                        </div>
-                    </div>
-                {/for}
-                </div>
-            {/for}
-            </div>
-        --></div>
-
-        <div class="fl-container-flex widget-content">
-            <div class="fl-fix fl-centered fixed-container" id="widgetscontainer"></div>
-        </div>
-
-        <!-- Dropdown menu shown when clicking on a widget's pencil -->
-        <div id="widget_settings_menu" style="display:none">
-            <ul>
-                <li id="settings_remove" class="more_option"><a href="javascript:;">__MSG__REMOVE__</a></li>
-                <li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">__MSG__HIDE__</a></li>
-                <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">__MSG__SETTINGS__</a></li>
-            </ul>
-        </div>
+        <!-- DASHBOARD WIDGET -->
+        <div id="widget_dashboard" class="widget_inline"></div>
 
         <!-- Widget used for changing your personal avatar -->
         <div id="widget_changepic" class="widget_inline"></div>
