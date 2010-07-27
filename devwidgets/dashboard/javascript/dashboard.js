@@ -170,8 +170,7 @@ sakai.dashboard = function(tuid, showSettings) {
     $("#select-layout-finished").bind("click",
     function(ev) {
         if (currentselectedlayout == settings.layout) {
-            $("#overlay-lightbox-layout").hide();
-            $("#overlay-content-layout").hide();
+            $("#change_layout_dialog").jqmHide();
         } else {
 
             var selectedlayout = currentselectedlayout;
