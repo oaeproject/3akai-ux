@@ -242,13 +242,13 @@
             <arg value="--no-instrument" />
             <arg value="_tests" />
             <arg value="--no-instrument" />
-            <arg value="_lib/google" />
+            <arg value="_lib${file.separator}google" />
             <arg value="--no-instrument" />
-            <arg value="_lib/Fluid" />
+            <arg value="_lib${file.separator}Fluid" />
             <arg value="--no-instrument" />
-            <arg value="_lib/jquery" />
+            <arg value="_lib${file.separator}jquery" />
             <arg value="--no-instrument" />
-            <arg value="_lib/sakai_util/trimpath.template.js" />
+            <arg value="_lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
             <arg value="${SRC_DIR}" />
             <arg value="${INSTRUMENTED_DIR}" />
         </exec>
