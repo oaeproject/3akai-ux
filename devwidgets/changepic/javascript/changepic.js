@@ -242,14 +242,16 @@ sakai.changepic = function(tuid, showSettings){
                     instance: true,
                     onInit: function(){
                         // If the image gets loaded, make a first selection
-                        var initialSelectionHeight = realh < 100 ? realh : 100;
-                        var initialSelectionWidth = realw < 100 ? realw : 100;
-                        imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
+                        imageareaobject.setSelection(picture.selectedx1,picture.selectedy1,picture.selectedx2,picture.selectedy2);
                         imageareaobject.setOptions({ show: true });
                         imageareaobject.update();
                     },
                     onSelectChange: preview
                 });
+
+                imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
+                imageareaobject.setOptions({show: true});
+                imageareaobject.update();
 
             });
 
@@ -276,10 +278,10 @@ sakai.changepic = function(tuid, showSettings){
         var data = {
             img: "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name,
             save: "/~" + sakai.data.me.user.userid + "/public/profile",
-            x: Math.floor(userSelection.x1 * ratio),
-            y: Math.floor(userSelection.y1 * ratio),
-            width: Math.floor(userSelection.width * ratio),
-            height:Math.floor(userSelection.height * ratio),
+            x: userSelection.x1,
+            y: userSelection.y1,
+            width: userSelection.width,
+            height:userSelection.height,
             dimensions: "256x256",
             "_charset_":"utf-8"
         };
@@ -301,7 +303,11 @@ sakai.changepic = function(tuid, showSettings){
                 var tosave = {
                     "name": "256x256_" + picture._name,
                     "_name": picture._name,
-                    "_charset_":"utf-8"
+                    "_charset_":"utf-8",
+                    "selectedx1" : userSelection.x1,
+                    "selectedy1" : userSelection.y1,
+                    "selectedx2" : userSelection.width + userSelection.x1,
+                    "selectedy2" : userSelection.height + userSelection.y1,
                 };
 
                 var stringtosave = $.toJSON(tosave);
