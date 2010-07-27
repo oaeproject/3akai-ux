@@ -12,3 +12,4 @@
 /* WIDGET CONTAINER */
 #dashboard_container #widgetscontainer {background-color: #fff; padding-top: 1px; padding-bottom: 20px;}
 #dashboard_container #widgetscontainer .fl-widget {margin-top: 1px}
+#dashboard_container .widget_spacer {height:1px;}
