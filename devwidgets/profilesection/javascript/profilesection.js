@@ -54,6 +54,26 @@ sakai.profilesection = function(tuid, showSettings){
     var $profilesection_default_template = $("#profilesection_default_template", $rootel);
 
 
+    ////////////////////
+    // Util functions //
+    ////////////////////
+
+    /**
+     * Construct a JavaScript path from the JCR path of the item
+     * @param {String} jcrpath The JCR path you want to convert e.g. /~user3/public/authprofile/basic/elements/firstname
+     * @return {String} A JavaScript path e.g. basic.elements.firstname
+     */
+    var constructJSPath = function(jcrpath){
+
+        jcrpath = jcrpath.replace(sakai.profile.main.data["jcr:path"] + "/", "");
+        jcrpath = jcrpath.split("/");
+        jcrpath = jcrpath.join(".");
+
+        return jcrpath;
+
+    };
+
+
     //////////////////////
     // Render functions //
     //////////////////////
@@ -67,7 +87,8 @@ sakai.profilesection = function(tuid, showSettings){
 
         var json_config = {
             "data": sakai.profile.main.data[currentsection].elements[fieldName],
-            "config": sakai.profile.main.config[currentsection].elements[fieldName]
+            "config": sakai.profile.main.config[currentsection].elements[fieldName],
+            "path": constructJSPath(sakai.profile.main.data[currentsection].elements[fieldName]["jcr:path"])
         };
 
         return $.TemplateRenderer(fieldTemplate, json_config);
@@ -84,7 +105,7 @@ sakai.profilesection = function(tuid, showSettings){
         var sections = "";
 
         for(var i in sectionObject.elements){
-            if(sectionObject.elements.hasOwnProperty(i)){
+            if(sectionObject.elements.hasOwnProperty(i) && sectionObject.elements[i].display){
 
                 // Set the field template, if there is no template defined, use the default one
                 var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, $rootel) : $profilesection_field_default_template;
@@ -139,7 +160,7 @@ sakai.profilesection = function(tuid, showSettings){
      */
     var init = function(){
 
-        currentselection = $rootel.selector.replace("#", "").replace("profilesection-", "");
+        currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 
         // Trigger the profile section event, so we let the container know that the widget is loaded
         $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo);

@@ -51,18 +51,18 @@ sakai.profile = function(){
     // CSS SELECTORS //
     ///////////////////
 
-    var profilewow_class = ".profile";
-    var $profilewow_actions = $("#profilewow_actions", profilewow_class);
-    var $profilewow_actions_template = $("#profilewow_actions_template", profilewow_class);
-    var $profilewow_field_default_template = $("#profilewow_field_default_template", profilewow_class);
-    var $profilewow_footer = $("#profilewow_footer", profilewow_class);
-    var $profilewow_footer_button_dontupdate = $("#profilewow_footer_button_dontupdate", profilewow_class);
-    var $profilewow_footer_button_edit = $("#profilewow_footer_button_edit", profilewow_class);
-    var $profilewow_footer_template = $("#profilewow_footer_template", profilewow_class);
-    var $profilewow_heading = $("#profilewow_heading", profilewow_class);
-    var $profilewow_heading_template = $("#profilewow_heading_template", profilewow_class);
-    var $profilewow_sectionwidgets_container = $("#profilewow_sectionwidgets_container", profilewow_class);
-    var $profilewow_sectionwidgets_container_template = $("#profilewow_sectionwidgets_container_template", profilewow_class);
+    var profile_class = ".profile";
+    var $profile_actions = $("#profile_actions", profile_class);
+    var $profile_actions_template = $("#profile_actions_template", profile_class);
+    var $profile_field_default_template = $("#profile_field_default_template", profile_class);
+    var $profile_footer = $("#profile_footer", profile_class);
+    var $profile_footer_button_dontupdate = $("#profile_footer_button_dontupdate", profile_class);
+    var $profile_footer_button_edit = $("#profile_footer_button_edit", profile_class);
+    var $profile_footer_template = $("#profile_footer_template", profile_class);
+    var $profile_heading = $("#profile_heading", profile_class);
+    var $profile_heading_template = $("#profile_heading_template", profile_class);
+    var $profile_sectionwidgets_container = $("#profile_sectionwidgets_container", profile_class);
+    var $profile_sectionwidgets_container_template = $("#profile_sectionwidgets_container_template", profile_class);
 
 
     ////////////////////
@@ -88,7 +88,7 @@ sakai.profile = function(){
             sakai.profile.main.mode.value = sakai.profile.main.mode.options[0];
 
             // Print a log message that the supplied mode isn't valid
-            fluid.log("Profilewow - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
+            fluid.log("profile - changeProfileMode - the supplied mode '" + mode + "' is not a valid profile mode. Using the default mode instead");
 
         }
 
@@ -205,8 +205,8 @@ sakai.profile = function(){
                         sakai.profile.main.picture = constructProfilePicture(userprofile);
 
                         // Set the status for the user you want the information from
-                        if(sakai.data.me.profile.basic){
-                            sakai.profile.main.status = $.parseJSON(userprofile.basic).status;
+                        if(userprofile.basic && userprofile.basic.elements.status){
+                            sakai.profile.main.status = userprofile.basic.elements.status.value;
                         }
 
                         // Set the profile data object
@@ -242,10 +242,10 @@ sakai.profile = function(){
     var addBindingFooter = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_dontupdate = $($profilewow_footer_button_dontupdate.selector);
+        $profile_footer_button_dontupdate = $($profile_footer_button_dontupdate.selector);
 
         // Bind the don't update
-        $profilewow_footer_button_dontupdate.bind("click", function(){
+        $profile_footer_button_dontupdate.bind("click", function(){
 
             // Change the profile mode
             changeProfileMode("viewmy");
@@ -260,10 +260,10 @@ sakai.profile = function(){
     var addBindingActions = function(){
 
         // Reinitialise jQuery objects
-        $profilewow_footer_button_edit = $($profilewow_footer_button_edit.selector);
+        $profile_footer_button_edit = $($profile_footer_button_edit.selector);
 
         // Bind the edit button
-        $profilewow_footer_button_edit.bind("click", function(){
+        $profile_footer_button_edit.bind("click", function(){
 
             // Change the profile mode
             changeProfileMode("edit");
@@ -296,14 +296,14 @@ sakai.profile = function(){
     var renderTemplateSiteHeading = function(){
 
         // Render the profile site heading
-        $.TemplateRenderer($profilewow_heading_template, sakai.profile.main, $profilewow_heading);
+        $.TemplateRenderer($profile_heading_template, sakai.profile.main, $profile_heading);
 
     };
 
     var renderTemplateActions = function(){
 
         // Render the actions for the profile
-        $.TemplateRenderer($profilewow_actions_template, sakai.profile.main, $profilewow_actions);
+        $.TemplateRenderer($profile_actions_template, sakai.profile.main, $profile_actions);
 
     };
 
@@ -320,7 +320,7 @@ sakai.profile = function(){
         };
 
         // Construct the html for the widget
-        $profilewow_sectionwidgets_container.append($.TemplateRenderer($profilewow_sectionwidgets_container_template, sectionobject));
+        $profile_sectionwidgets_container.append($.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject));
 
         // Bind a global event that can be triggered by the profilesection widgets
         $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
@@ -355,7 +355,7 @@ sakai.profile = function(){
     var renderTemplateFooter = function(){
 
         // Render the profile footer
-        $profilewow_footer.html($.TemplateRenderer($profilewow_footer_template, sakai.profile.main));
+        $profile_footer.html($.TemplateRenderer($profile_footer_template, sakai.profile.main));
 
     };
 

@@ -4,16 +4,16 @@
 }
 
 /* Heading */
-#profilewow_heading h1 {
+#profile_heading h1 {
     float:left;
 }
-#profilewow_heading select {
+#profile_heading select {
     font-weight: normal;
     margin: 7px 0 0 10px;
 }
 
 /* Footer */
-#profilewow_footer {
+#profile_footer {
     margin: 30px 0 15px 0;
     overflow: hidden;
 }

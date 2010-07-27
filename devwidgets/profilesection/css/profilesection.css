@@ -10,7 +10,7 @@
 #profilesection_generalinfo input[type="text"]:hover, #profilesection_generalinfo input[type="password"]:hover, textarea:hover {
     background: #d3edf5;
 }
-#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
+#profile_heading a, #profile_userinfo a, #profile_generalinfo a {
     color: #3399CC;
     font-weight: bold;
 }

@@ -11,25 +11,25 @@
         <div class="profilesection_generalinfo_header{if i_count === 0} profilesection_generalinfo_header_first{/if}">
             <h2 class="fl-force-left">${i.label}</h2>
 
-            {if mode.value === "viewmy" || mode.value === "edit"}
+            {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
                 {var _access = sakai.profile.main.data[i_index].access}
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
                         <a href="profile.html?mode=edit">
-                            {if _access==="public"}__MSG__EVERYBODY__
-                            {elseif _access==="institution"}__MSG__INSTITUTION_ONLY__
-                            {elseif _access==="contacts"}__MSG__CONTACTS_ONLY__
-                            {elseif _access==="noone"}__MSG__ONLY_ME__
+                            {if _access === "public"}__MSG__EVERYBODY__
+                            {elseif _access === "institution"}__MSG__INSTITUTION_ONLY__
+                            {elseif _access === "contacts"}__MSG__CONTACTS_ONLY__
+                            {elseif _access === "noone"}__MSG__ONLY_ME__
                             {/if}
                         </a>
                     {else}
                         <label for="profilesection_generalinfo_access_${i_index}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                         <select id="profilesection_generalinfo_access_${i_index}">
-                            <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
-                            <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
-                            <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
-                            <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                            <option{if _access === "public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
+                            <option{if _access === "institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
+                            <option{if _access === "contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
+                            <option{if _access === "noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
                         </select>
                     {/if}
                 </div>
@@ -68,25 +68,25 @@
             <div class="profilesection_generalinfo_header">
                 <h2 class="fl-force-left">${config.label}</h2>
 
-                {if mode.value === "viewmy" || mode.value === "edit"}
+                {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
                     {var _access = data.access}
                     <div class="profilesection_generalinfo_acl fl-force-right">
                         {if mode.value === "viewmy"}
                             <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
                             <a href="profile.html?mode=edit">
-                                {if _access==="public"}__MSG__EVERYBODY__
-                                {elseif _access==="institution"}__MSG__INSTITUTION_ONLY__
-                                {elseif _access==="contacts"}__MSG__CONTACTS_ONLY__
-                                {elseif _access==="noone"}__MSG__ONLY_ME__
+                                {if _access === "public"}__MSG__EVERYBODY__
+                                {elseif _access === "institution"}__MSG__INSTITUTION_ONLY__
+                                {elseif _access === "contacts"}__MSG__CONTACTS_ONLY__
+                                {elseif _access === "noone"}__MSG__ONLY_ME__
                                 {/if}
                             </a>
                         {else}
                             <label for="profilesection_generalinfo_access">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                             <select id="profilesection_generalinfo_access">
-                                <option{if _access==="public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
-                                <option{if _access==="institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
-                                <option{if _access==="contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
-                                <option{if _access==="noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                                <option{if _access === "public"} selected="selected"{/if}>__MSG__EVERYBODY__</option>
+                                <option{if _access === "institution"} selected="selected"{/if}>__MSG__INSTITUTION_ONLY__</option>
+                                <option{if _access === "contacts"} selected="selected"{/if}>__MSG__CONTACTS_ONLY__</option>
+                                <option{if _access === "noone"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
                             </select>
                         {/if}
                     </div>
@@ -102,14 +102,14 @@
 <div id="profilesection_field_default_template"><!--
     {var mode = sakai.profile.main.mode}
     {if mode.value === "edit"}
-        {if data && config.display}
+        {if data}
             <div class="profilesection_generalinfo_subcontainer">
                 <label class="profilesection_generalinfo_label" for="profilesection_generalinfo">${config.label}:</label>
-                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo" />
+                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo" data-path="${path}" />
             </div>
         {/if}
     {else}
-        {if data && data.value && config.display}
+        {if data && data.value}
             <div class="profilesection_generalinfo_subcontainer">
                 <span class="profilesection_generalinfo_label">${config.label}:</span>
                 <div class="profilesection_generalinfo_content">${data.value}</div>
@@ -118,11 +118,21 @@
     {/if}
 --></div>
 <div id="profilesection_field_textarea_template"><!--
-    {if data && data.value && config.display}
-        <div class="profilesection_generalinfo_subcontainer">
-            <span class="profilesection_generalinfo_label">${config.label}:</span>
-            <div class="profilesection_generalinfo_content">${data.value}</div>
-        </div>
+    {var mode = sakai.profile.main.mode}
+    {if mode.value === "edit"}
+        {if data}
+            <div class="profilesection_generalinfo_subcontainer">
+                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo">${config.label}:</label>
+                <textarea class="profilesection_generalinfo_content" data-path="${path}">${data.value}</textarea>
+            </div>
+        {/if}
+    {else}
+        {if data && data.value}
+            <div class="profilesection_generalinfo_subcontainer">
+                <span class="profilesection_generalinfo_label">${config.label}:</span>
+                <div class="profilesection_generalinfo_content">${data.value}</div>
+            </div>
+        {/if}
     {/if}
 --></div>
 

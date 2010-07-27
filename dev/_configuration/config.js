@@ -130,6 +130,7 @@ sakai.config = {
                 "label": "__MSG__PROFILE_BASIC_LABEL__",
                 "required": true,
                 "display": true,
+                "modifyacl": false,
                 "elements": {
                     "firstname": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -187,7 +188,7 @@ sakai.config = {
                         "required": false,
                         "display": true,
                         "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__",
-                        "template": "profilewow_field_textarea_template"
+                        "template": "profilesection_field_textarea_template"
                     },
                     "academicinterests": {
                         "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
@@ -213,7 +214,7 @@ sakai.config = {
                 "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
                 "required": false,
                 "display": true,
-                //"template": "profilewow_section_publications_template",
+                //"template": "profile_section_publications_template",
                 "elements": {
                     "title": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_TITLE__",
