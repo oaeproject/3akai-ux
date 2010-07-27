@@ -2291,7 +2291,7 @@ sakai.api.Widgets.widgetLoader = {
                 $.ajax({
                     url: sakai.config.URL.BATCH,
                     traditional: true,
-                    type: 'POST',
+                    cache: false,
                     data: {
                         requests: $.toJSON(urls)
                     },
