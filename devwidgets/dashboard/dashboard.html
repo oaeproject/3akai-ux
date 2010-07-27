@@ -8,16 +8,13 @@
     <div id="change_layout_dialog" class="dialog">
         <div class="dialog_header">
             <div class="dialog_header_inner">
-                <h1>
-                    __MSG__CHANGE_LAYOUT__
-                </h1><a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <h1>__MSG__CHANGE_LAYOUT__</h1>
+                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
             </div>
         </div>
         <div class="dialog_content">
             <div class="add-tools-right">
-                <h4>
-                    __MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__
-                </h4>
+                <h4>__MSG__SELECT_A_LAYOUT_FOR_YOUR_MY_SAKAI_PAGE__</h4>
                 <div class="elf-right-up fl-fix">
                     <div id="layouts_list"></div>
                 </div>
@@ -27,9 +24,8 @@
             </div>
         </div>
         <div class="dialog_footer">
-            <div class="dialog_footer_inner">
-                <!-- -->
-            </div>
+            <div class="dialog_footer_inner"><!-- 
+            --></div>
         </div>
     </div>
 
@@ -40,9 +36,7 @@
                       <table cellpadding="0" cellspacing="0" class="layout_picker_item">
                           <tr>
                               {for w in i.widths}
-                              <td style="width:${w}%;" class="layout_picker_item_column">
-                                  &nbsp;
-                              </td>
+                                  <td style="width:${w}%;" class="layout_picker_item_column">&nbsp;</td>
                               {/for}
                           </tr>
                       </table>
@@ -53,9 +47,7 @@
                   <table cellpadding="0" cellspacing="0" class="layout_picker_item_unselected">
                       <tr>
                           {for w in i.widths}
-                          <td style="width:${w}%;" class="layout_picker_item_column_unselected">
-                              &nbsp;
-                          </td>
+                              <td style="width:${w}%;" class="layout_picker_item_column_unselected">&nbsp;</td>
                           {/for}
                       </tr>
                   </table>
@@ -125,29 +117,29 @@
 
     <div id="widgetscontainer_template"><!--
         <div class="fl-col-flex{if size !== 1}${size}{/if}">
-        {var index = 0}
-        {for c in columns}
-          ${index++|eat}
-          <div class="fl-col groupWrapper{if size === 1} fl-container-flex{/if}" id="column_uid_${index}">
-          {for p in c.portlets}
-              <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                  <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
-                      <div class="widget-titlebar-inner">
-                          <h2 class="widget_title">${p.title}</h2>
-                          <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
-                      </div>
-                  </div>
-              {if p.display == "none"}
-                  <div id="${p.uid}_container" style="display:none">
-              {else}
-                  <div id="${p.uid}_container">
-              {/if}
-                      <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
-                  </div>
-              </div>
-          {/for}
-          </div>
-        {/for}
+            {var index = 0}
+            {for c in columns}
+                ${index++|eat}
+                <div class="fl-col groupWrapper{if size === 1} fl-container-flex{/if}" id="column_uid_${index}">
+                {for p in c.portlets}
+                    <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
+                        <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
+                            <div class="widget-titlebar-inner">
+                                <h2 class="widget_title">${p.title}</h2>
+                                <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
+                            </div>
+                        </div>
+                    {if p.display == "none"}
+                        <div id="${p.uid}_container" style="display:none">
+                    {else}
+                        <div id="${p.uid}_container">
+                    {/if}
+                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+                        </div>
+                    </div>
+                {/for}
+                </div>
+            {/for}
         </div>
     --></div>
 
