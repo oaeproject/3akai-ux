@@ -44,5 +44,13 @@
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests">
         </ol>
+        <button id="coveragebutton" onclick='window.open("/dev/jscoverage.html")'>
+          Coverage report
+        </button>
+        <script>
+          if (typeof(_$jscoverage)=='undefined'){
+            document.getElementById("coveragebutton").style.display="none";
+          }
+        </script>
     </body>
 </html>
