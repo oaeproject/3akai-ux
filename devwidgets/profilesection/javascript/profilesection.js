@@ -49,6 +49,7 @@ sakai.profilesection = function(tuid, showSettings){
 
     var $profilesection_field_default_template = $("#profilesection_field_default_template", $rootel);
     var $profilesection_generalinfo = $("#profilesection_generalinfo", $rootel);
+    var $profilesection_generalinfo_content_items = $(".profilesection_generalinfo_content", $rootel);
     var $profilesection_generalinfo_template = $("#profilesection_generalinfo_template", $rootel);
 
     var $profilesection_default_template = $("#profilesection_default_template", $rootel);
@@ -73,6 +74,24 @@ sakai.profilesection = function(tuid, showSettings){
 
     };
 
+    /**
+     * Get the property for a deep selection in a JavaScript object
+     * Since we can't do something like obj["test.test"]
+     * @param {Object} obj The object you want to get the property from
+     * @param {String} nodename The nodename you want to select
+     * @return {String|Object|Boolean} The value of the property
+     */
+    var getProperty = function(obj, nodename){
+
+        nodename= nodename.split('.');
+
+        while (obj && nodename[0]){
+            obj = obj[nodename.shift()];
+        }
+
+        return obj;
+
+    };
 
     //////////////////////
     // Render functions //
@@ -151,6 +170,40 @@ sakai.profilesection = function(tuid, showSettings){
     };
 
 
+    ////////////////////////
+    // Save functionality //
+    ////////////////////////
+
+    var saveValues = function(){
+
+        // Reinitialize the jQuery selector
+        $profilesection_generalinfo_content_items = $($profilesection_generalinfo_content_items.selector);
+
+        // Run over all the items where we need to set the values for
+        $profilesection_generalinfo_content_items.each(function(index, element){
+
+            // Cache the element so we don't select it multiple times
+            var $selected_element = $(element);
+
+            // Get the attribute that contains the path
+            var title = $selected_element.attr("title");
+
+            // Check whether the element has a correct attribute
+            // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
+            if (title) {
+
+                // Set the correct value
+                getProperty(sakai.profile.main.data, title).value = $selected_element.val();
+
+            }
+            else {
+                fluid.log("sakai.profilesection - saveValues - the specificied element doesn't have the correct attribute: " + $selected_element.selector);
+            }
+
+        });
+
+    };
+
     ////////////////////
     // Initialization //
     ////////////////////
@@ -164,6 +217,14 @@ sakai.profilesection = function(tuid, showSettings){
 
         // Trigger the profile section event, so we let the container know that the widget is loaded
         $(window).trigger("sakai-" + $rootel.selector.replace("#", ""), renderTemplateGeneralInfo);
+
+        // Bind to the global save function
+        $(window).bind("sakai-profile-save", function(){
+
+            // Save the values to the global object
+            saveValues();
+
+        });
 
     };
 

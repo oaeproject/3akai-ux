@@ -104,8 +104,8 @@
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
-                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo">${config.label}:</label>
-                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo" data-path="${path}" />
+                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
+                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo_${path.replace(/\./g,"_")}" title="${path}" />
             </div>
         {/if}
     {else}
@@ -122,8 +122,8 @@
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
-                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo">${config.label}:</label>
-                <textarea class="profilesection_generalinfo_content" data-path="${path}">${data.value}</textarea>
+                <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path}">${config.label}:</label>
+                <textarea class="profilesection_generalinfo_content" id="profilesection_generalinfo_${path}" title="${path}">${data.value}</textarea>
             </div>
         {/if}
     {else}

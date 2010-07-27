@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, sdata, QueryString */
+/*global $, QueryString */
 
 var sakai = sakai || {};
 
@@ -31,6 +31,7 @@ sakai.profile = function(){
         config: sakai.config.Profile.configuration,
         data: {},
         isme: false,
+        currentuser: "",
         mode: {
             options: ["viewmy", "view", "edit"],
             value: "viewmy"
@@ -56,8 +57,9 @@ sakai.profile = function(){
     var $profile_actions_template = $("#profile_actions_template", profile_class);
     var $profile_field_default_template = $("#profile_field_default_template", profile_class);
     var $profile_footer = $("#profile_footer", profile_class);
+    var $profile_footer_button_update = $("#profile_footer_button_update", profile_class);
     var $profile_footer_button_dontupdate = $("#profile_footer_button_dontupdate", profile_class);
-    var $profile_footer_button_edit = $("#profile_footer_button_edit", profile_class);
+    var $profile_actions_button_edit = $("#profile_actions_button_edit", profile_class);
     var $profile_footer_template = $("#profile_footer_template", profile_class);
     var $profile_heading = $("#profile_heading", profile_class);
     var $profile_heading_template = $("#profile_heading_template", profile_class);
@@ -134,9 +136,11 @@ sakai.profile = function(){
         // if so, check whether the userid is not the same as the user parameter
         if (querystring.contains("user") && querystring.get("user") !== sakai.data.me.user.userid) {
             sakai.profile.main.isme = false;
+            currentuser = querystring.get("user");
         }
         else {
             sakai.profile.main.isme = true;
+            currentuser = sakai.data.me.user.userid;
         }
 
     };
@@ -231,6 +235,30 @@ sakai.profile = function(){
 
     };
 
+    /**
+     * Save the current profile data to the repository
+     */
+    var saveProfileData = function(){
+
+        sakai.api.Server.saveJSON("/~" + currentuser + "/public/authprofile", sakai.profile.main.data, function(success, data){
+
+            // Check whether is was successful
+            if (success) {
+
+                alert(success);
+
+            }
+            else {
+
+                // Log an error message
+                fluid.log("sakai.profile - saveProfileData - the profile data couldn't be saved successfully");
+
+            }
+
+        });
+
+    };
+
 
     ///////////////////////
     // BINDING FUNCTIONS //
@@ -243,12 +271,27 @@ sakai.profile = function(){
 
         // Reinitialise jQuery objects
         $profile_footer_button_dontupdate = $($profile_footer_button_dontupdate.selector);
+        $profile_footer_button_update = $($profile_footer_button_update.selector);
 
         // Bind the don't update
         $profile_footer_button_dontupdate.bind("click", function(){
 
             // Change the profile mode
             changeProfileMode("viewmy");
+
+        });
+
+        // Bind the update method
+        $profile_footer_button_update.bind("click", function(){
+
+            // Trigger the save profile event - this is catched by other widgets
+            $(window).trigger("sakai-profile-save");
+
+            // Save the current profile data
+            saveProfileData();
+
+            // Change the profile mode if the save was successful
+            // changeProfileMode("viewmy");
 
         });
 
@@ -260,10 +303,10 @@ sakai.profile = function(){
     var addBindingActions = function(){
 
         // Reinitialise jQuery objects
-        $profile_footer_button_edit = $($profile_footer_button_edit.selector);
+        $profile_actions_button_edit = $($profile_actions_button_edit.selector);
 
         // Bind the edit button
-        $profile_footer_button_edit.bind("click", function(){
+        $profile_actions_button_edit.bind("click", function(){
 
             // Change the profile mode
             changeProfileMode("edit");
