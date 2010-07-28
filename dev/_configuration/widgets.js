@@ -45,10 +45,10 @@ var Widgets = {
         }
     },
     "defaults": {
-      "personalportal":{
-        "layout": "dev",
-        "columns": [["sites", "myfriends"], ["myprofile"]]
-      }
+        "personalportal":{
+            "layout": "dev",
+            "columns": [["sites", "myfriends"], ["myprofile"]]
+        }
     },
     "orders":[
         {
