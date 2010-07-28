@@ -1,0 +1,9 @@
+{
+    "ca":true,
+    "description":"Sakai 2 Tools",
+    "id":"sakai2tools",
+    "img":"/devwidgets/sakai2tools/images/basiclti.png",
+    "name":"Sakai 2 Tools",
+    "showinsakaigoodies":true,
+    "url":"/devwidgets/sakai2tools/basiclti.html"
+}
