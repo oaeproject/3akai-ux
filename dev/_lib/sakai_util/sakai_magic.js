@@ -969,7 +969,9 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
     }
 
     /**
-     * <p>Convert all the arrays in an object to an object with a unique key</p>
+     * <p>Convert all the arrays in an object to an object with a unique key.<br />
+     * Mixed arrays (arrays with multiple types) are not supported.
+     * </p>
      * <code>
      * {
      *     "boolean": true,
@@ -995,6 +997,30 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         // we need to write extra functionality for this.
         for(var i in obj){
 
+            // For the Sling post servlet, we need to supply a typeHint to arrays of Booleans and Integers
+            // http://sling.apache.org/site/manipulating-content-the-slingpostservlet-servletspost.html
+            if($.isArray(obj[i])){
+
+                // Check whether the array is empty
+                if(obj[i].length > 0){
+
+                    // Get the type of the first element of the array
+                    var arraytype = typeof obj[i][0]
+
+                    // Check whether it is an integer or a boolean
+                    if (arraytype === "boolean" || arraytype === "number") {
+
+                        // If the name of the property is test, then the name of the property
+                        // is test@TypeHint needs to 
+                        var propname = i + "@TypeHint"
+
+                        // Add an object containing the name of the property and a capitalized type
+                        obj[propname] = arraytype === "boolean" ? "Boolean[]" : "Double[]";
+
+                    }
+                }
+
+            }
 
             // Check if the element is an array, whether it is empty and if it contains any elements
             if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
@@ -1032,12 +1058,14 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 
     // Send request
     $.ajax({
-        url: i_url,
+        url: i_url.substr(0, i_url.lastIndexOf("/")),
         type: "POST",
         data: {
-            ":operation": "createTree",
-            "tree": $.toJSON(i_data),
-            "delete": 1
+            ":operation": "import",
+            ":contentType": "json",
+            ":content": $.toJSON(i_data),
+            ":replace": true,
+            ":name": i_url.split("/")[i_url.split("/").length-1]
         },
         dataType: "json",
 
