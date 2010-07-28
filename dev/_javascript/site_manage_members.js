@@ -263,11 +263,8 @@ sakai.site_manage_members = function() {
         $.ajax({
             cache: false,
             url: "/sites/" + selectedSite + ".members.json?sort=firstName,asc&start=" + start + "&items=" + pageSize,
+            dataType: "json",
             success: function(data) {
-
-                if (typeof data === "string") {
-                    data = $.parseJSON(data);
-                }
 
                 json = $.extend(data, {}, true);
 

@@ -811,6 +811,17 @@ sakai.api.l10n.getSiteLocale = function() {
  */
 sakai.api.Security = sakai.api.Security || {};
 
+/**
+ * Encodes the HTML characters inside a string so that the HTML characters (e.g. <, >, ...)
+ * are treated as text and not as HTML entities
+ * 
+ * @param {String} inputString  String of which the HTML characters have to be encoded
+ * 
+ * @returns {String} HTML Encoded string
+ */
+sakai.api.Security.escapeHTML = function(inputString){
+    return $("<div/>").text(inputString).html();
+}
 
 /**
  * Sanitizes HTML content. All untrusted (user) content should be run through

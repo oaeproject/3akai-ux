@@ -94,6 +94,11 @@ sakai.sites = function(tuid,showSettings){
         else {
             // Sort the sites by their name
             newjson.entry = newjson.entry.sort(doSort);
+            for (var site in newjson.entry){
+                if (newjson.entry.hasOwnProperty(site)) {
+                    newjson.entry[site].site.name = sakai.api.Security.escapeHTML(newjson.entry[site].site.name);
+                }
+            }
             $(sitesList, rootel).html($.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
         }
     };
@@ -124,11 +129,8 @@ sakai.sites = function(tuid,showSettings){
         $.ajax({
             url: sakai.config.URL.SITES_SERVICE,
             cache: false,
+            dataType: "json",
             success: function(data){
-
-                if(typeof data === "string"){
-                    data = $.parseJSON(data);
-                }
                 loadSiteList(data, true);
             },
             error: function(xhr, textStatus, thrownError) {
