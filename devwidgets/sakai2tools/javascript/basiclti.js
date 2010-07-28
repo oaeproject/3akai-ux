@@ -61,11 +61,8 @@ sakai.sakai2tools = function(tuid, showSettings){
     var basicltiSettingsPreview = basicltiSettings + "_preview";
     var basicltiSettingsPreviewId = tuid + "_frame";
     var basicltiSettingsPreviewFrame = "#" + basicltiSettingsPreviewId;
-    var basicltiSettingsLtiUrl = basicltiSettings + "_ltiurl";
-    var basicltiSettingsLtiKey = basicltiSettings + "_ltikey";
-    var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
     var basicltiSettingsWidth = basicltiSettings + "_width";
-    var basicltiSettingsReleaseName = basicltiSettings + "_release_names";
+    var basicltiSettingsVirtualToolId = basicltiSettings + "_lti_virtual_tool_id";
 
     // Containers
     var basicltiMainContainer = basiclti + "_main_container";
@@ -191,6 +188,7 @@ sakai.sakai2tools = function(tuid, showSettings){
     var renderRemoteContentSettings = function(){
         if (json) {
             $(basicltiSettings).html($.TemplateRenderer($basicltiSettingsTemplate, json));
+            $(basicltiSettingsVirtualToolId).val(json.lti_virtual_tool_id);
         }
     };
 
@@ -238,19 +236,9 @@ sakai.sakai2tools = function(tuid, showSettings){
      */
     var saveRemoteContent = function(){
         if (json.ltiurl !== "") {
+            json["lti_virtual_tool_id"] = $(basicltiSettingsVirtualToolId).val() || "";
             json[":operation"] = "basiclti";
             json["sling:resourceType"] = "sakai/basiclti";
-            json.ltiurl = $(basicltiSettingsLtiUrl).val() || "";
-            json.ltikey = $(basicltiSettingsLtiKey).val() || "";
-            json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
-            json["debug@TypeHint"] = "Boolean";
-            json.debug = $('#basiclti_settings_debug:checked').val() != null;
-            json["release_names@TypeHint"] = "Boolean";
-            json.release_names = $('#basiclti_settings_release_names:checked').val() != null;
-            json["release_principal_name@TypeHint"] = "Boolean";
-            json.release_principal_name = $('#basiclti_settings_release_principal_name:checked').val() != null;
-            json["release_email@TypeHint"] = "Boolean";
-            json.release_email = $('#basiclti_settings_release_email:checked').val() != null;
             json.launchDataUrl = ""; // does not need to be persisted
             json.tuidFrame = ""; // does not need to be persisted
             json.defined = ""; // what the heck is this? Where does it come from?
@@ -303,19 +291,6 @@ sakai.sakai2tools = function(tuid, showSettings){
      * Add binding to all the elements
      */
     var addBinding = function(){
-
-        // Change the url for the iFrame
-        $(basicltiSettingsLtiUrl).change(function(){
-            var urlValue = $(this).val();
-            if (urlValue !== "") {
-                // Check if someone already wrote http inside the url
-                if (!isUrl(urlValue)) {
-                    urlValue = 'http://' + urlValue;
-                }
-                json.ltiurl = urlValue;
-                //renderIframeSettings(true); // LDS disabled preview
-            }
-        });
 
         // Change the iframe width
         $(basicltiSettingsWidth).change(function(){
@@ -391,17 +366,11 @@ sakai.sakai2tools = function(tuid, showSettings){
      * @param {Boolean} exists Does there exist a previous basiclti
      */
     var displaySettings = function(parameters, exists){
-        if (exists && parameters.ltiurl) {
+        if (exists) {
             json = parameters;
         }
         else { // use default values
             json = {
-                ltiurl: "",
-                ltikey: "",
-                ltisecret: "",
-                release_names: true,
-                release_principal_name: true,
-                release_email: true,
                 border_size: 0,
                 border_color: "cccccc",
                 frame_height: defaultHeight,
