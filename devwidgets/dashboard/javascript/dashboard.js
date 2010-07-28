@@ -562,7 +562,7 @@ sakai.dashboard = function(tuid, showSettings) {
     var currentSettingsOpen = false;
 
     var saveState = function() {
-        
+
         serString = '{"columns":{';
         if (startSaving === true) {
 
@@ -622,8 +622,6 @@ sakai.dashboard = function(tuid, showSettings) {
             for (i in settings.columns) {
                 if (settings.columns[i].length > 0) {
                     isempty = false;
-                } else {
-                    $("#column_uid_" + i).html("<div class='widget_spacer'></div>");
                 }
             }
 
