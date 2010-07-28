@@ -37,14 +37,18 @@ sakai.mysakai = function(){
         $(window).bind("sakai.api.UI.entity.ready", function(e){
             sakai.api.UI.entity.render("myprofile", false);
         });
-
+        
+        // Insert the widget in before the changepic widget, we do this here to add in the userid dynamically and to get it in the first pass
+        // of insertWidgets to reduce HTTP requests
+        $("#widget_changepic").before(sakai.api.Security.saneHTML("<div id='widget_dashboard_mysakaidashboard_/~" + sakai.data.me.user.userid + "/dashboard/' class='widget_inline'></div>"));
+        
         $(window).bind("sakai.dashboard.ready", function(e) {
-          sakai.dashboard.init("/~" + sakai.data.me.user.userid, true, "personalportal");
+          sakai.dashboard.init("/~" + sakai.data.me.user.userid + "/dashboard/", true, "personalportal");
         });
         
         // If the user isn't logged in, redirect them to do so, as the dashboard is relevant
         // only when you're logged in
-        $(window).bind("sakai.dashboard.notLoggedIn", function(e) {
+        $(window).bind("sakai.dashboard.notLoggedIn sakai.dashboard.notUsersDashboard", function(e) {
           document.location = sakai.config.URL.GATEWAY_URL;
         });
 

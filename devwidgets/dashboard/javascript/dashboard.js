@@ -87,7 +87,7 @@ sakai.dashboard = function(tuid, showSettings) {
     };
 
     sakai.dashboard.finishEditSettings = function(tuid, widgetname) {
-        var generic = "widget_" + widgetname + "_" + tuid + "_/" + savePath + widgetname;
+        var generic = "widget_" + widgetname + "_" + tuid + "_" + savePath;
         var id = tuid;
         var old = document.getElementById(id);
         var newel = document.createElement("div");
@@ -140,7 +140,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
         settings = jsonobj;
 
-        sakai.api.Server.saveJSON(savePath, settings, showDashboard);
+        sakai.api.Widgets.saveWidgetData(tuid, settings, showDashboard);
 
     };
 
@@ -170,8 +170,7 @@ sakai.dashboard = function(tuid, showSettings) {
     $("#select-layout-finished").bind("click",
     function(ev) {
         if (currentselectedlayout == settings.layout) {
-            $("#overlay-lightbox-layout").hide();
-            $("#overlay-content-layout").hide();
+            $("#change_layout_dialog").jqmHide();
         } else {
 
             var selectedlayout = currentselectedlayout;
@@ -233,7 +232,7 @@ sakai.dashboard = function(tuid, showSettings) {
             }
             settings["layout"] = selectedlayout;
 
-            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/" + stateFile, settings, beforeFinishAddWidgets);
+            sakai.api.Widgets.saveWidgetData(tuid, settings, beforeFinishAddWidgets);
 
         }
     });
@@ -247,10 +246,11 @@ sakai.dashboard = function(tuid, showSettings) {
 
         person = sakai.data.me;
         inituser = person.user.userid;
-        if (!inituser || person.user.anon) {
-            document.location = "/dev/index.html";
-        }
-        else {
+        if (!inituser) {
+            $(window).trigger("sakai.dashboard.notUsersDashboard");
+        } else if (person.user.anon) {
+            $(window).trigger("sakai.dashboard.notLoggedIn");
+        } else {
 
             $(".body-container").show();
 
@@ -346,7 +346,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
             settings = $.parseJSON(jsonstring);
 
-            sakai.api.Server.saveJSON(savePath, settings);
+            sakai.api.Widgets.saveWidgetData(tuid, settings);
         }
 
         var final2 = {};
@@ -377,7 +377,7 @@ sakai.dashboard = function(tuid, showSettings) {
                         final2.columns[index].portlets[iindex].title = widget.name;
                         final2.columns[index].portlets[iindex].display = dashboardDef.visible;
                         final2.columns[index].portlets[iindex].uid = dashboardDef.uid;
-                        final2.columns[index].portlets[iindex].placement = tuid;
+                        final2.columns[index].portlets[iindex].placement = savePath;
                         final2.columns[index].portlets[iindex].height = widget.height;
                     }
                 }
@@ -487,7 +487,7 @@ sakai.dashboard = function(tuid, showSettings) {
               });
 
               $("#settings_settings").unbind('click').click(function(ev) {
-                  var generic = "widget_" + currentSettingsOpen + "_/" + tuid;
+                  var generic = "widget_" + currentSettingsOpen + "_" + savePath;
                   var id = currentSettingsOpen.split("_")[1];
                   var old = document.getElementById(id);
                   var newel = document.createElement("div");
@@ -537,6 +537,7 @@ sakai.dashboard = function(tuid, showSettings) {
                       grabHandle: grabHandleFinder
                   },
                   listeners: {
+                      onBeginMove: beforeWidgetDrag,
                       afterMove: saveState
                   }
               };
@@ -553,11 +554,15 @@ sakai.dashboard = function(tuid, showSettings) {
         }
 
     };
+    
+    var beforeWidgetDrag = function() {
+        $("#widget_settings_menu").hide();
+    };
 
     var currentSettingsOpen = false;
 
     var saveState = function() {
-
+        
         serString = '{"columns":{';
         if (startSaving === true) {
 
@@ -617,10 +622,12 @@ sakai.dashboard = function(tuid, showSettings) {
             for (i in settings.columns) {
                 if (settings.columns[i].length > 0) {
                     isempty = false;
+                } else {
+                    $("#column_uid_" + i).html("<div class='widget_spacer'></div>");
                 }
             }
 
-            sakai.api.Server.saveJSON(savePath, settings, checksucceed);
+            sakai.api.Widgets.saveWidgetData(tuid, settings, checksucceed);
 
         }
 
@@ -796,7 +803,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
         settings = $.parseJSON(jsonstring);
 
-        sakai.api.Server.saveJSON(savePath, settings, finishAddWidgets);
+        sakai.api.Widgets.saveWidgetData(tuid, settings, finishAddWidgets);
 
     };
 
@@ -934,10 +941,10 @@ sakai.dashboard = function(tuid, showSettings) {
    * @param {String} propertyname property name in the widget config to allow it to be added to this dashboard
    */
     sakai.dashboard.init = function(path, editmode, propertyname) {
-        savePath = path + "/dashboard/" + tuid;
+        savePath = path;
         isEditable = editmode;
         widgetPropertyName = propertyname;
-        sakai.api.Server.loadJSON(savePath, decideExists);
+        sakai.api.Widgets.loadWidgetData(tuid, decideExists);        
     };
 
     var init = function() {
