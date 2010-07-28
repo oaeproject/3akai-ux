@@ -246,7 +246,9 @@ sakai.search = function() {
             finaljson.items = foundSites.results;
             
             for (var site in finaljson.items){
-                finaljson.items[site].site.name = sakai.api.Security.escapeHTML(finaljson.items[site].site.name);
+                if (finaljson.items.hasOwnProperty(site)) {
+                    finaljson.items[site].site.name = sakai.api.Security.escapeHTML(finaljson.items[site].site.name);
+                }
             }
 
             // If result is page content set up page path

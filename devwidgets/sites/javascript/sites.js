@@ -95,7 +95,9 @@ sakai.sites = function(tuid,showSettings){
             // Sort the sites by their name
             newjson.entry = newjson.entry.sort(doSort);
             for (var site in newjson.entry){
-               newjson.entry[site].site.name = sakai.api.Security.escapeHTML(newjson.entry[site].site.name);
+                if (newjson.entry.hasOwnProperty(site)) {
+                    newjson.entry[site].site.name = sakai.api.Security.escapeHTML(newjson.entry[site].site.name);
+                }
             }
             $(sitesList, rootel).html($.TemplateRenderer(sitesListTemplate.replace(/#/,''), newjson));
         }
