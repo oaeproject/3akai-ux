@@ -93,6 +93,7 @@ sakai.config = {
         SITE_FILES_URL: "/sites/__SITEID__/_files",
         SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
         SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
+        SITE_JOIN_REQUESTS: "/var/sites/joinrequests/pending.json",
         SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content.json",
         SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
         SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
