@@ -102,11 +102,11 @@ Demo Servers
 Stable demo server:
 [http://3akai.sakaiproject.org/dev/](http://3akai.sakaiproject.org/dev/)
 
-Nightly build server [In Progress]:
-[http://3akai-trunk.sakaiproject.org/dev/](http://3akai-trunk.sakaiproject.org/dev/)
+Nightly build server:
+[http://sakai3-demo.uits.indiana.edu:8080/dev/](http://sakai3-demo.uits.indiana.edu:8080/dev/index.html)
 
-Sakai 2-3 Hybrid demo server  [In Progress]:
-[http://3akai-hybrid.sakaiproject.org/dev/](http://3akai-hybrid.sakaiproject.org/dev/)
+Sakai 2-3 Hybrid demo server:
+[http://sakai3-nightly.uits.indiana.edu:8080/dev/index.html](http://sakai3-nightly.uits.indiana.edu:8080/dev/index.html)
 
 
 Nakamura: Sakai 3 kernel
