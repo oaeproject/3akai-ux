@@ -108,9 +108,9 @@
                 <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                     <input type="text"
-                {elseif config.type==="textarea"}
+                {elseif config.type === "textarea"}
                     <textarea
-                {elseif config.type==="select"}
+                {elseif config.type === "select"}
                     <select
                 {/if}
                     class="profilesection_generalinfo_content
@@ -121,17 +121,17 @@
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                     value="${data.value}"
                 {/if}
-                id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${path}"
+                    id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${path}"
                 {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                     />
-                {elseif config.type==="select"}
+                {elseif config.type === "select"}
                     >
                     <option value=""></option>
                     {for i in config.select_elements}
-                        <option value="${i_index}">${i}</option>
+                        <option value="${i_index}"{if i_index === data.value} selected="selected"{/if}>${i}</option>
                     {/for}
                     </select>
-                {elseif config.type==="textarea"}
+                {elseif config.type === "textarea"}
                     >${data.value}</textarea>
                 {/if}
             </div>
@@ -140,7 +140,13 @@
         {if data && data.value}
             <div class="profilesection_generalinfo_subcontainer">
                 <span class="profilesection_generalinfo_label">${config.label}:</span>
-                <div class="profilesection_generalinfo_content">${data.value}</div>
+                <div class="profilesection_generalinfo_content">
+                {if config.type !== "select"}
+                    ${data.value}
+                {else}
+                    ${config.select_elements[data.value]}
+                {/if}
+                </div>
             </div>
         {/if}
     {/if}

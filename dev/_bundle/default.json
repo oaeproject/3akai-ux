@@ -298,6 +298,7 @@
 "PLEASE_REPEART_YOUR_PASSWORD": "Please repeat your password",
 "PLEASE_SPECIFY_A_SEARCH_QUERY": "Please specify a search query",
 "PLEASE_TRY_AGAIN_LATER": "Please try again later",
+"PLEASE_TRY_AGAIN_LATER_OR_CALL_HELPDESK": "Please try again later or call helpdesk",
 "PLEASE_TYPE_IN_A_URL": "Please type in a URL",
 "PLEASE_TYPE_THE_WORD_BELOW": "Please type the word below",
 "POSTGRADUATE_STUDENT": "Postgraduate Student",
@@ -444,6 +445,7 @@
 "THE_USERNAME_CONTAINS_INVALID_CHARACTERS": "The username contains invalid characters",
 "THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG": "The username should be at least 3 characters long",
 "THE_USERNAME_SHOULDNT_CONTAIN_SPACES": "The username shouldn't contain spaces",
+"THERE_WAS_AN_ERROR_TRYING_TO_SAVE_YOUR_DATA_ON_THE_SERVER": "There was an error when trying to save your data on the server",
 "THIS_DOES_NOT_MATCH": "This does not match the displayed words",
 "THIS_IS_AN_INVALID_EMAIL_ADDRESS": "This is an invalid email address",
 "THIS_OPERATION_IS_NOT_REVERSIBLE": "This operation is not reversible",
@@ -518,5 +520,6 @@
 "YOU_HAVE_REPLIED_TO_THIS_REQUEST_TO_JOIN_THIS_SITE": "You have replied to this site join request",
 "YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT": "You'll find pages and sites of your interest, and people with who you can connect",
 "YOUR_MESSAGE_HAS_BEEN_SENT": "Your message has been sent",
-"YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG": "Your password should be 4 characters long"
+"YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG": "Your password should be 4 characters long",
+"YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED": "Your profile information has been updated"
 }

@@ -57,6 +57,7 @@ sakai.profile = function(){
     var $profile_actions_button_edit = $("#profile_actions_button_edit", profile_class);
     var $profile_actions_template = $("#profile_actions_template", profile_class);
     var $profile_error = $("#profile_error", profile_class);
+    var $profile_error_form_error_server = $("#profile_error_form_error_server", $profile_error);
     var $profile_error_form_errors = $("#profile_error_form_errors", $profile_error);
     var $profile_field_default_template = $("#profile_field_default_template", profile_class);
     var $profile_form = $("#profile_form", profile_class);
@@ -66,6 +67,8 @@ sakai.profile = function(){
     var $profile_footer_template = $("#profile_footer_template", profile_class);
     var $profile_heading = $("#profile_heading", profile_class);
     var $profile_heading_template = $("#profile_heading_template", profile_class);
+    var $profile_message = $("#profile_message", profile_class);
+    var $profile_message_form_successful = $("#profile_message_form_successful", $profile_message);
     var $profile_sectionwidgets_container = $("#profile_sectionwidgets_container", profile_class);
     var $profile_sectionwidgets_container_template = $("#profile_sectionwidgets_container_template", profile_class);
 
@@ -238,12 +241,19 @@ sakai.profile = function(){
 
     };
 
+    /**
+     * Filter some JCR properties, we need to do this because some properties
+     * can not be used by the import operation in Slin
+     * @param {Object} i_object The object you want to filter
+     */
     var filterJCRProperties = function(i_object){
 
+        // Remove the "rep:policy" property
         if (i_object["rep:policy"]) {
             delete i_object["rep:policy"];
         }
 
+        // Also run over the other objects within this object
         for (var i in i_object) {
             if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
               filterJCRProperties(i_object[i]);
@@ -257,19 +267,38 @@ sakai.profile = function(){
      */
     var saveProfileData = function(){
 
+        // Trigger the profile save method, this is event is bound in every sakai section
         $(window).trigger("sakai-profile-save");
 
+        // Filter some JCR properties
         filterJCRProperties(sakai.profile.main.data);
 
+        // Save the profile properties
         sakai.api.Server.saveJSON("/~" + currentuser + "/public/authprofile", sakai.profile.main.data, function(success, data){
 
             // Check whether is was successful
             if (success) {
 
-                alert(success);
+                // Show a successful notification to the user
+                sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
+
+                // Wait for 2 seconds
+                setTimeout(
+
+                    function(){
+
+                        // Change the profile mode if the save was successful
+                        changeProfileMode("viewmy");
+
+                    }
+
+                , 2000);
 
             }
             else {
+
+                // Show an error message to the user
+                sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                 // Log an error message
                 fluid.log("sakai.profile - saveProfileData - the profile data couldn't be saved successfully");
@@ -301,22 +330,6 @@ sakai.profile = function(){
             changeProfileMode("viewmy");
 
         });
-
-        // Bind the update method
-        //$profile_footer_button_update.bind("click", function(){
-
-
-
-            // Validate the profile data
-            //validateProfileData();
-
-            // Save the current profile data
-            //saveProfileData();
-
-            // Change the profile mode if the save was successful
-            // changeProfileMode("viewmy");
-
-        //});
 
     };
 
