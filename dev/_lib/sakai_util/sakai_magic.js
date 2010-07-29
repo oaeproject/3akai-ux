@@ -1044,14 +1044,13 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
 
     // Send request
     $.ajax({
-        url: i_url.substr(0, i_url.lastIndexOf("/")),
+        url: i_url,
         type: "POST",
         data: {
             ":operation": "import",
             ":contentType": "json",
             ":content": $.toJSON(i_data),
-            ":replace": true,
-            ":name": i_url.split("/")[i_url.split("/").length-1]
+            ":replace": true
         },
         dataType: "json",
 
