@@ -174,7 +174,7 @@ sakai.wookieforum = function(tuid, showSettings){
     */
     var forumSaved = function() {
          //    notify the container that we are finished.
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "wookieforum");
     };
 
      /**

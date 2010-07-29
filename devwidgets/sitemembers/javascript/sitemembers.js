@@ -625,7 +625,7 @@ sakai.sitemembers = function(tuid, showSettings){
             init();
         }
         else {
-            sakai.api.Widgets.Container.informFinish(tuid);
+            sakai.api.Widgets.Container.informFinish(tuid, "sitemembers");
         }
     };
 
@@ -670,7 +670,7 @@ sakai.sitemembers = function(tuid, showSettings){
     /**
      * Cancel the settings.
      */
-    $(sitemembers_settings_cancel, rootel).live("click", function(){
+    $(sitemembers_settings_cancel, rootel).click(function(){
         closeSettings();
     });
 

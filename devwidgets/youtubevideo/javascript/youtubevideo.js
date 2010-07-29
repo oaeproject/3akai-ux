@@ -119,7 +119,7 @@ sakai.youtubevideo = function(tuid, showSettings){
      */
     var saveNewSettings = function(){
         var val = $(youtubevideoUrl ,rootel).attr("value");
-        sakai.api.Widgets.saveWidgetData(tuid, val, sakai.api.Widgets.Container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, val, sakai.api.Widgets.Container.informFinish(tuid, "youtubevideo"));
     };
     /**
      * Shows the preview of the video

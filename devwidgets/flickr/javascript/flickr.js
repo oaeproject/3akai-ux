@@ -209,7 +209,7 @@ sakai.flickr = function(tuid, showSettings){
       * Closes the settings container.
       */
      var finishSettingsContainer = function() {
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "flickr");
      };
 
     /**
@@ -1613,7 +1613,7 @@ sakai.flickr = function(tuid, showSettings){
      * This function will be executed after the data is saved
      */
     var closeContainer = function(){
-         sakai.api.Widgets.Container.informFinish(tuid);
+         sakai.api.Widgets.Container.informFinish(tuid, "flickr");
     };
 
     /**

@@ -749,7 +749,7 @@ sakai.quiz = function(tuid, showSettings) {
      * Closes the settings popup
      */
     var finishNewSettings = function() {
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "quiz");
     };
 
     /**
