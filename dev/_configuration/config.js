@@ -135,16 +135,7 @@ sakai.config = {
                     "firstname": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
                         "required": true,
-                        "display": true,
-                        "validation": function(input_value){
-                            // Custom validation code here
-                            if (typeof input_value === "string") {
-                                return true;
-                            }
-                            else {
-                                return "__MSG___PROFILE_BASIC_FIRSTNAME_ERROR_STRING__";
-                            }
-                        }
+                        "display": true
                     },
                     "lastname": {
                         "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
@@ -166,6 +157,12 @@ sakai.config = {
                         "required": false,
                         "display": true
                     },
+                    "email": {
+                        "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "email"
+                    },
                     "status": {
                         "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
                         "required": false,
@@ -174,7 +171,34 @@ sakai.config = {
                     "role": {
                         "label": "__MSG__PROFILE_BASIC_ROLE_LABEL__",
                         "required": true,
+                        "display": true,
+                        "type": "select",
+                        "select_elements": {
+                            "undergraduate_student":"__MSG__PROFILE_BASIC_ROLE_UNDERGRADUATE_STUDENT_LABEL__",
+                            "graduate_student":"__MSG__PROFILE_BASIC_ROLE_GRADUATE_STUDENT_LABEL__",
+                            "postgraduate_student":"__MSG__PROFILE_BASIC_ROLE_POSTGRADUATE_STUDENT_LABEL__",
+                            "academic_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_STAFF_LABEL__",
+                            "academic_related_staff":"__MSG__PROFILE_BASIC_ROLE_ACADEMIC_RELATED_STAFF_LABEL__",
+                            "non_academic_staff":"__MSG__PROFILE_BASIC_ROLE_NON_ACADEMIC_STAFF_LABEL__",
+                            "assistent_staff":"__MSG__PROFILE_BASIC_ROLE_ASSISTENT_STAFF_LABEL__",
+                            "other":"__MSG__PROFILE_BASIC_ROLE_OTHER_LABEL__"
+                        }
+                    },
+                    "department": {
+                        "label": "__MSG__PROFILE_BASIC_DEPARTMENT_LABEL__",
+                        "required": false,
                         "display": true
+                    },
+                    "college": {
+                        "label": "__MSG__PROFILE_BASIC_COLLEGE_LABEL__",
+                        "required": false,
+                        "display": true
+                    },
+                    "dateofbirth": {
+                        "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
+                        "required": false,
+                        "display": true,
+                        "type": "date"
                     }
                 }
             },
@@ -188,19 +212,21 @@ sakai.config = {
                         "required": false,
                         "display": true,
                         "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__",
-                        "template": "profilesection_field_textarea_template"
+                        "type": "textarea"
                     },
                     "academicinterests": {
                         "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_EXAMPLE__"
+                        "example": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_EXAMPLE__",
+                        "type": "textarea"
                     },
                     "personalinterests": {
                         "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_EXAMPLE__"
+                        "example": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_EXAMPLE__",
+                        "type": "textarea"
                     },
                     "hobbies": {
                         "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
