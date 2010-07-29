@@ -3,7 +3,8 @@
 #dashboard_container .dialog_buttons .button {color: #666;}
 
 /* OPTIONS */
-#dashboard_container .dashboard_options {text-align: right;}
+#dashboard_container .dashboard_options {text-align: right; width:620px; padding-right:10px;}
+#dashboard_container .dashboard_options.fixed-container { padding:0 20px; width:920px; }
 #dashboard_container .dashboard_options a {font-size: 9pt; color: #454A4F; font-weight: bold}
 
 /* TOOLS CONTAINER - RIGHT COLUMN */

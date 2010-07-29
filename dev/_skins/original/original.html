@@ -151,188 +151,18 @@
                 <!-- PAGE TITLE -->
                 <h1 id="pagetitle"></h1>
 
-                <!-- OPTIONS FOR THE DASHBOARD -->
-                <div class="fl-container-flex dashboard_options" style="display:none;">
-                    <a href="javascript:;" id="add-goodies">__MSG__SAKAI_GOODIES__</a>
-                    <span class="pipe_divider">|</span>
-                    <a href="javascript:;" id="edit-layout">Change layout</a>
-                </div>
 
                 <!-- MAIN CONTENT -->
                 <div id="main-content-div">
 
                 </div>
 
-                <!-- DASHBOARD PAGES  -->
-
-                <!-- CONTENT -->
-                <div id="dashboard_container_template"><!--
-                    <div class="fl-col-flex${size} sakai_dashboard_page">
-                        {var index = 0}
-                        <div class="content">
-                            {for c in columns}
-                            ${index++|eat}
-                            <div class="fl-col groupWrapper" id="column_uid_${index}">
-                                {for p in c.portlets}
-                                <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                                    <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
-                                        <div class="widget-titlebar-inner">
-                                            <h2 class="widget_title">${p.title}</h2>
-                                            <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">Settings</a>
-                                        </div>
-                                    </div>
-                                    {if p.display == "none"}
-                                    <div id="${p.uid}_container" style="display:none">
-                                        {else}
-                                        <div id="${p.uid}_container">
-                                            {/if}
-                                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/for}
-                                </div>
-                                {/for}
-                            </div>
-                        </div>
-                --></div>
-
-                <!-- Dropdown menu shown when clicking on a widget's pencil -->
-                <div class="add_new_menu" id="widget_settings_menu" style="display:none">
-                    <ul>
-                        <li id="settings_remove" class="more_option"><a href="javascript:;">Remove</a></li>
-                        <li id="settings_hide" class="more_option"><a id="settings_hide_link" href="javascript:;">Hide</a></li>
-                        <li id="settings_settings" class="more_option"><a id="settings_settings_link" href="javascript:;">Settings</a></li>
-                    </ul>
-                </div>
-
-                <!-- Change the layout for a dashboard page. -->
-                <div id="change_layout_dialog" class="dialog">
-                    <div class="dialog_header">
-                        <div class="dialog_header_inner">
-                        <h1>Change layout</h1>
-                        <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                        </div>
-                    </div>
-                    <div class="dialog_content">
-                        <div class="add-tools-right">
-                            <h4>Select a layout for your dashboard page:</h4>
-                            <div class="elf-right-up fl-fix">
-                                <div id="layouts_list"></div>
-                            </div>
-                        </div>
-                        <!-- DIALOG BUTTONS -->
-                        <div class="dialog_buttons">
-                            <button type="button" class="s3d-button s3d-button-primary" id="select-layout-finished"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                            <button type="button" class="s3d-button jqmClose" id="select-layout-cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                        </div>
-                    </div>
-                    <!-- DIALOG FOOTER -->
-                    <div class="dialog_footer">
-                        <div class="dialog_footer_inner"><!-- --></div>
-                    </div>
-                </div>
-
-                <!-- Change layout template -->
-                <div id="layouts_template" style="display:none;"><!--
-                    {for i in layouts}
-                        {if i.siteportal}
-                            {if i_index == selected}
-                                <div class="layout_container">
-                                        <table cellpadding="0" cellspacing="0" class="layout_picker_item">
-                                            <tr>
-                                                {for w in i.widths}
-                                                <td style="width:${w}%;" class="layout_picker_item_column layout-picker" id="layout-picker-${w}-${i_index}">
-                                                    &nbsp;
-                                                </td>
-                                                {/for}
-                                            </tr>
-                                        </table>
-                                    <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio" checked="true"/>
-                                </div>
-                            {else}
-                                <div class="layout_container_unselected">
-                                    <table cellpadding="0" cellspacing="0" class="layout_picker_item_unselected">
-                                        <tr>
-                                            {for w in i.widths}
-                                            <td style="width:${w}%;" class="layout_picker_item_column_unselected layout-picker" id="layout-picker-${w}-${i_index}">
-                                                &nbsp;
-                                            </td>
-                                            {/for}
-                                        </tr>
-                                    </table>
-                                    <input type="radio" name="layoutselect" id="layout-picker-${i_index}" class="layout-picker layout_picker_item_radio_unselected"/>
-                                </div>
-                            {/if}
-                        {/if}
-                    {/for}
-                --></div>
-
-                <!-- ADD GOODIES DIALOG -->
-                <div id="add_goodies_dialog" class="dialog add_goodies">
-
-                    <!-- DIALOG HEADER -->
-                    <div class="dialog_header">
-                        <div class="dialog_header_inner">
-                            <h1>Add Goodies</h1>
-                            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
-                        </div>
-                    </div>
-                    <!-- DIALOG CONTENT -->
-                    <div class="dialog_content">
-                        <div id="add_goodies_body" class="dialog_body">
-                        </div>
-                    </div>
-
-                    <!-- DIALOG FOOTER -->
-                    <div class="dialog_footer">
-                        <div class="dialog_footer_inner"><!-- --></div>
-                    </div>
-                    <div id="add_goodies_body_template"><!--
-                        <table>
-                        {for i in items}
-                        {if i.alreadyIn}
-                        <tr class="add" id="row_add_${i.id}" style="display:none">
-                        {else}
-                        <tr id="row_add_${i.id}" class="add">
-                        {/if}
-                        <td class="remove_add_column">
-                            <button type="button" class="s3d-button s3d-button-primary add-button add goodies_add_button" id="btn_add_${i.id}"><span class="s3d-button-inner">__MSG__ADD__</span></button>
-                        </td>
-                        <td>
-                        <div class="dialogue_add_goodies_title">${i.title}</div>
-                        <div class="dialogue_add_goodies_description">
-                        ${i.description}
-                        </div>
-                        </td>
-                        </tr>
-                        {if i.alreadyIn}
-                        <tr id="row_remove_${i.id}" class="remove">
-                        {else}
-                        <tr id="row_remove_${i.id}" class="remove" style="display:none">
-                        {/if}
-                        <td width="80px">
-                            <button type="button" class="s3d-button add-button remove goodies_remove_button" id="btn_remove_${i.id}"><span class="s3d-button-inner">__MSG__REMOVE__</span></button>
-                        </td>
-                        <td>
-                        <div class="dialogue_remove_goodies_title">${i.title}</div>
-                        <div class="dialogue_remove_goodies_description">
-                        ${i.description}
-                        </div>
-                        </td>
-                        </tr>
-                        {/for}
-                        </table>
-                    --></div>
-
-                </div>
-                </div>
-                <!-- BOTTOM BORDER -->
-                <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
-
             </div>
 
+            <!-- BOTTOM BORDER -->
+            <div class="content_bottom"><div class="content_bottom_inner"><!-- --></div></div>
         </div>
+    </div>
 
         <!-- WORK AREA -->
         <div class="fl-fix edit_view" id="edit_view_container" style="display:none">
@@ -443,12 +273,12 @@
 
         <!-- ADD NEW MENU -->
         <div class="add_new_menu" id="add_new_menu" style="display:none">
-                <ul>
-                    <li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
-                    <li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
-                    <li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
-                </ul>
-            </div>
+            <ul>
+                <li id="option_blank_page"><a href="javascript:;">Blank Page</a></li>
+                <li id="option_page_from_template"><a href="javascript:;">Page from Template</a></li>
+                <li id="option_page_dashboard"><a href="javascript:;">Dashboard Page</a></li>
+            </ul>
+        </div>
 
         <!-- ADD MORE MENU -->
         <div class="add_more_menu" id="more_menu" style="display:none">

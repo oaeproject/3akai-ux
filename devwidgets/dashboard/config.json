@@ -6,6 +6,6 @@
     "img":"/devwidgets/comments/images/comments.png",
     "name":"Dashboard",
     "showinsakaigoodies":false,
-    "siteportal":true,
+    "siteportal":false,
     "url":"/devwidgets/dashboard/dashboard.html"
 }
