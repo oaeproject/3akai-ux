@@ -1,0 +1,8 @@
+{
+"name":"Create a Form: Save or Cancel",
+"description":"Create a Form: Save or Cancel buttons",
+"SAVE": "Save",
+"CANCEL": "Cancel",
+"INFO": "This widget will create a Save and Cancel button that acts on all form data on this page",
+"OPTION_LABEL": "Enter prompt to edit form (optional): ",
+}

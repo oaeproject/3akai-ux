@@ -7,7 +7,8 @@
     <span id="formdatastring_error" style="display:none"><font color="red">__MSG__ERROR__</font></span>
     <span id="formdatastring_required_star" style="display:none"><font color="red">*</font></span>
     <span id="formdatastring_data_output" class="formdatastring_data_output"></span> 
-    <span id="formdatastring_edit_icon" style="display:none"><a href="javascript:;" id="formdatastring_add"><img src="/devwidgets/formdatastring/images/application_edit.png" alt="+" border="0"/></a></span>
+    <!-- edit_icon should never be displayed (handled by formsavecancel widget) -->
+    <span id="formdatastring_edit_icon" style="display:none"><a href="javascript:;" id="formdatastring_edit_start"></a></span>
 </div>
 
 <!-- EDIT VIEW -->
@@ -15,7 +16,7 @@
   <span id="formdatastring_required_star" style="display:none"><font color="red">*</font></span>
   <span id="formdatastring_data" class="formdatastring_data"></span>
   
-  <div class="dialog_buttons">
+  <div class="dialog_buttons" style="display:none"><!-- buttons should never be displayed (handled by formsavecancel widget) -->
     <button type="button" class="s3d-button s3d-button-primary" id="formdatastring_edit_submit"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
     <button type="button" class="s3d-button" id="formdatastring_edit_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
   </div>

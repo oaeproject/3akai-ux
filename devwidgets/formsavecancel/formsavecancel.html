@@ -1,0 +1,32 @@
+<!-- CSS -->
+
+<!-- MAIN VIEW -->
+<div id="formsavecancel_main" style="display:none">
+    <span id="formsavecancel_data_output" class="formsavecancel_data_output"></span> 
+    <span id="formsavecancel_edit_icon"><a href="javascript:;" id="formsavecancel_edit_start"><img src="/devwidgets/formsavecancel/images/application_edit.png" alt="+" border="0"/></a></span>
+</div>
+
+<!-- EDIT VIEW -->
+<div id="formsavecancel_edit" style="display:none" >
+  <div class="dialog_buttons">
+    <button type="button" class="s3d-button s3d-button-primary" id="formsavecancel_edit_submit"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+    <button type="button" class="s3d-button" id="formsavecancel_edit_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+  </div>
+</div>
+
+<!-- SETTINGS VIEW -->
+<div id="formsavecancel_settings" style="display:none">
+    <form>
+      <p>__MSG__INFO__</p>
+      
+      <p><label for="formsavecancel_label">__MSG__OPTION_LABEL__</label> <input type="text" id="formsavecancel_label" style="width: 30em" /></p>
+        
+      <div class="dialog_buttons">
+        <button type="button" class="s3d-button s3d-button-primary" id="formsavecancel_settings_submit"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+        <button type="button" class="s3d-button" id="formsavecancel_settings_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+      </div>
+    </form>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/formsavecancel/javascript/formsavecancel.js"></script>

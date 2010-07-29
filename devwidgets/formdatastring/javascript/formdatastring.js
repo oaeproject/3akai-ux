@@ -41,7 +41,7 @@ sakai.formdatastring = function(tuid,showSettings){
     var settingsCancel = namespaceId + "_settings_cancel";
     var editSubmit = namespaceId + "_edit_submit";
     var editCancel = namespaceId + "_edit_cancel";
-    var editAdd    = namespaceId + "_add";
+    var editStart    = namespaceId + "_edit_start";
     
     var requiredFlag = namespace   + "_required";
     
@@ -95,9 +95,6 @@ sakai.formdatastring = function(tuid,showSettings){
        if ( settings.dataValue !== undefined ) 
           dataText += settings.dataValue.italics();
        
-       if ( !replay )
-          $(editIcon, rootel).show();
-       
        $(widgetDataOutput, rootel).html(dataText);
        
        $(viewContainer, rootel).show();
@@ -109,9 +106,13 @@ sakai.formdatastring = function(tuid,showSettings){
     /**
      * Show the widget data input field
      * @param {Object} settings
-     * @param (Boolean) replay (not used)
+     * @param (Boolean) replay 
      */
     var showEditData = function(settings, replay){
+       // do not show input if replay
+       if ( replay )
+          return;
+       
        var labelHtml = "";
        var inputHtml = '<input type="text" id="formdatastring_data_input" ';
        
@@ -288,7 +289,7 @@ sakai.formdatastring = function(tuid,showSettings){
     });
 
     /** Bind edit widget data (icon) link */
-    $(editAdd, rootel).bind("click", function(e, ui){
+    $(editStart, rootel).bind("click", function(e, ui){
           loadSettings(showEditData, false);
        });
 
