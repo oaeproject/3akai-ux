@@ -110,7 +110,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      */
     var closeContainer = function(success){
         if (success) {
-            sakai.api.Widgets.Container.informFinish(tuid);
+            sakai.api.Widgets.Container.informFinish(tuid, "bookmarkandshare");
         }else{
             $settingsContentHolder.append(sakai.api.Security.saneHTML($settingsNotSavedError));
         }
@@ -120,7 +120,7 @@ sakai.bookmarkandshare = function(tuid, showSettings){
      * Function that will close the container when the cancel button is clicked
      */
     var cancelContainer = function(){
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "bookmarkandshare");
     };
 
     /**

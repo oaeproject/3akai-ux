@@ -1842,7 +1842,8 @@ sakai.site.site_admin = function(){
         var pageUniques = sakai.site.createPageUniqueElements(title, sakai.site.site_info._pages[sakai.site.selectedpage]["pageFolder"]);
 
         // Default dasboard content
-        var defaultDashboardContent = '{"columns":{"column1":[{"name":"sitemembers","visible":"block","uid":"id' + Math.round(Math.random() * 10000000000000) + '"}],"column2":[]},"layout":"dev"}';
+        var dashboardUID = 'sitedashboard' + Math.round(Math.random() * 10000000000000);
+        var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_/sites/' + sakai.site.currentsite["jcr:name"] + '/_pages/' + pageUniques.urlTitle + '/" class="widget_inline"></div>';
 
         // Create page node for dashboard page
         sakai.site.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){

@@ -48,6 +48,10 @@ var Widgets = {
         "personalportal":{
             "layout": "dev",
             "columns": [["sites", "myfriends"], ["myprofile"]]
+        },
+        "siteportal":{
+            "layout": "dev",
+            "columns": [["sitemembers"], []]
         }
     },
     "orders":[

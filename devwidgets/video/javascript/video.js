@@ -265,7 +265,7 @@ sakai.video = function(tuid, showSettings) {
      * @param {Object} video
      */
     var addVideo = function(video) {
-        sakai.api.Widgets.saveWidgetData(tuid, video, sakai.api.Widgets.Container.informFinish(tuid));
+        sakai.api.Widgets.saveWidgetData(tuid, video, sakai.api.Widgets.Container.informFinish(tuid, "video"));
     };
 
 

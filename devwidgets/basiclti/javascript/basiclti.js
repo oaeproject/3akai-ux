@@ -141,7 +141,7 @@ sakai.basiclti = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(data, textStatus, XMLHttpRequest){
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "basiclti");
     };
 
 
@@ -374,7 +374,7 @@ sakai.basiclti = function(tuid, showSettings){
 
         // Cancel it
         $(basicltiSettingsCancel).click(function(){
-            sakai.api.Widgets.Container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid, "basiclti");
         });
 
         addColorBinding();
