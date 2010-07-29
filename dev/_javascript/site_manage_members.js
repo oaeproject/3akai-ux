@@ -281,7 +281,7 @@ sakai.site_manage_members = function() {
     };
     getSiteMembers(null, 1,",");
     var getPendingJoinRequests = function() {
-        $.getJSON("/var/joinrequests/pending.json", {"site": selectedSite}, function(data) {
+        $.getJSON(sakai.config.URL.SITE_JOIN_REQUESTS, {"site": selectedSite}, function(data) {
             var toRender = {};
             toRender.requesters = data.results;
             if(data.results.length > 0) {

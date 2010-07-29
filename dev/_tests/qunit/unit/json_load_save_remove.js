@@ -37,12 +37,7 @@ var testJSON = {
     }],
     "array_string": ["value1", "value2", "value3", "value4", "value5"],
     "array_int": [1, 2, 3, 4, 5],
-    "array_boolean": [true, false, true, true, false],
-    "array_mixed": [{
-        "key1": "value1",
-        "key2": "value2",
-        "key3": "value3"
-    }, "teststring", 42, true]
+    "array_boolean": [true, false, true, true, false]
 };
 var testJSON2 = {
     "columns": {
