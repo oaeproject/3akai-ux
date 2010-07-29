@@ -1870,6 +1870,18 @@ sakai.api.Util.notification.show = function(title, text, type){
 
 
 /**
+ * Remove all the notification messages that are currently visible to the user
+ */
+sakai.api.Util.notification.removeAll = function(){
+
+    // Remove gritter notification messages
+    // We don't use the $.gritter.removeAll method since that causes pop-ups to flicker
+    $('#gritter-notice-wrapper').remove();
+
+}
+
+
+/**
  * @class type
  *
  * @description
