@@ -177,8 +177,13 @@ sakai.profilesection = function(tuid, showSettings){
             // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
             if (title) {
 
+                // Get the property if it exists
+                var prop = getProperty(sakai.profile.main.data, title);
+
                 // Set the correct value
-                getProperty(sakai.profile.main.data, title).value = $selected_element.val();
+                if(prop){
+                    prop.value = $selected_element.val();
+                }
 
             }
             else {

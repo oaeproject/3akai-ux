@@ -238,11 +238,28 @@ sakai.profile = function(){
 
     };
 
+    var filterJCRProperties = function(i_object){
+
+        if (i_object["rep:policy"]) {
+            delete i_object["rep:policy"];
+        }
+
+        for (var i in i_object) {
+            if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
+              filterJCRProperties(i_object[i]);
+            }
+        }
+
+    };
 
     /**
      * Save the current profile data to the repository
      */
     var saveProfileData = function(){
+
+        $(window).trigger("sakai-profile-save");
+
+        filterJCRProperties(sakai.profile.main.data);
 
         sakai.api.Server.saveJSON("/~" + currentuser + "/public/authprofile", sakai.profile.main.data, function(success, data){
 
