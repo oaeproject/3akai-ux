@@ -296,7 +296,7 @@ sakai.discussion = function(tuid, showSettings) {
             cache: false,
             success: function(data){
                 if (showSettings) {
-                    sakai.api.Widgets.Container.informFinish(tuid);
+                    sakai.api.Widgets.Container.informFinish(tuid, "discussion");
                 }
                 else {
                     editComplete(id, subject, body);
@@ -643,7 +643,7 @@ sakai.discussion = function(tuid, showSettings) {
             type: 'POST',
             success: function(data) {
                 saveWidgetSettings();
-                sakai.api.Widgets.Container.informFinish(tuid);
+                sakai.api.Widgets.Container.informFinish(tuid, "discussion");
             },
             error: function(xhr, textStatus, thrownError) {
                 alert("Unable to save your post.");
@@ -836,7 +836,7 @@ sakai.discussion = function(tuid, showSettings) {
      * Closes the settings container.
      */
     var finishSettingsContainer = function() {
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "discussion");
     };
 
     /**
@@ -1166,7 +1166,7 @@ sakai.discussion = function(tuid, showSettings) {
      * Bind the settings cancel button
      */
     $("#discussion_settings_cancel", rootel).bind("click", function(e, ui) {
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "discussion");
     });
 
     /*
