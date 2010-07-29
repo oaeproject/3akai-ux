@@ -143,7 +143,6 @@ sakai.changepic = function(tuid, showSettings){
      * @param {Object} selection The selection object from imgAreaSelect
      */
     function preview(img, selection){
-
         // Save the user his selection in a global variable.
         userSelection = selection;
 
@@ -161,7 +160,12 @@ sakai.changepic = function(tuid, showSettings){
 
     }
 
-    sakai.changepic.doInit = function(){
+    sakai.changepic.doInit = function(newpic){
+
+        // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
+        if (newpic) {
+            imageareaobject = null;
+        }
 
         // Check whether there is a base picture at all
         me = sakai.data.me;
@@ -203,6 +207,9 @@ sakai.changepic = function(tuid, showSettings){
                 $(fullPicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
                 $(thumbnail).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
 
+                // Reset ratio
+                ratio = 1;
+
                 // Width < 500 ; Height < 300 => set the original height and width
                 if (realw < 500 && realh < 300){
                     $(fullPicture).width(realw);
@@ -242,16 +249,32 @@ sakai.changepic = function(tuid, showSettings){
                     instance: true,
                     onInit: function(){
                         // If the image gets loaded, make a first selection
-                        var initialSelectionHeight = realh < 100 ? realh : 100;
-                        var initialSelectionWidth = realw < 100 ? realw : 100;
-                        imageareaobject.setSelection(0,0,initialSelectionHeight, initialSelectionWidth);
+                        imageareaobject.setSelection(picture.selectedx1,picture.selectedy1,picture.selectedx2,picture.selectedy2);
                         imageareaobject.setOptions({ show: true });
                         imageareaobject.update();
+                        // Make sure the thumbnail is already viewable on init
+                        var selectionObj = {
+                            width : picture.selectedx2 - picture.selectedx1,
+                            height :picture.selectedy2 - picture.selectedy1,
+                            x1 : picture.selectedx1,
+                            y1 : picture.selectedy1,
+                            x2 : picture.selectedx2,
+                            y2 : picture.selectedy2
+                        };
+                        preview($("img" + fullPicture)[0], selectionObj)
                     },
                     onSelectChange: preview
                 });
 
             });
+
+            // Check if the imageareaobject exists
+            // After init this structure will show the selection overlay
+            if (imageareaobject){
+                imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
+                imageareaobject.setOptions({show: true});
+                imageareaobject.update();
+            }
 
             showSelectTab();
 
@@ -301,7 +324,11 @@ sakai.changepic = function(tuid, showSettings){
                 var tosave = {
                     "name": "256x256_" + picture._name,
                     "_name": picture._name,
-                    "_charset_":"utf-8"
+                    "_charset_":"utf-8",
+                    "selectedx1" : userSelection.x1,
+                    "selectedy1" : userSelection.y1,
+                    "selectedx2" : userSelection.width + userSelection.x1,
+                    "selectedy2" : userSelection.height + userSelection.y1,
                 };
 
                 var stringtosave = $.toJSON(tosave);
@@ -419,7 +446,7 @@ sakai.changepic.completeCallback = function(response){
         success : function(data) {
 
             // we have saved the profile, now do the widgets other stuff.
-            sakai.changepic.doInit();
+            sakai.changepic.doInit(true);
         },
         error: function(xhr, textStatus, thrownError) {
             alert("An error has occured");

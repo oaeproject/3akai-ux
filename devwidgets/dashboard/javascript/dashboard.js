@@ -222,23 +222,15 @@ sakai.dashboard = function(tuid, showSettings) {
                 }
             }
 
-            var jsonstring = '{"columns":{';
+            settings = {};
+            settings["columns"] = {};
             for (i = 0, j = Widgets.layouts[selectedlayout].widths.length; i < j; i++) {
-                jsonstring += '"column' + (i + 1) + '":[';
+                settings["columns"]["column" + (i + 1)] = [];
                 for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
-                    jsonstring += '{"name":"' + columns[i][ii].name + '","visible":"' + columns[i][ii].visible + '","uid":"' + columns[i][ii].uid + '"}';
-                    if (ii !== columns[i].length - 1) {
-                        jsonstring += ',';
-                    }
-                }
-                jsonstring += ']';
-                if (i !== Widgets.layouts[selectedlayout].widths.length - 1) {
-                    jsonstring += ',';
+                    settings["columns"]["column" + (i + 1)][settings["columns"]["column" + (i + 1)].length] = {"name":columns[i][ii].name,"visible":columns[i][ii].visible,"uid":columns[i][ii].uid};
                 }
             }
-            jsonstring += '},"layout":"' + selectedlayout + '"}';
-
-            settings = $.parseJSON(jsonstring);
+            settings["layout"] = selectedlayout;
 
             sakai.api.Widgets.saveWidgetData(tuid, settings, beforeFinishAddWidgets);
 
@@ -570,7 +562,7 @@ sakai.dashboard = function(tuid, showSettings) {
     var currentSettingsOpen = false;
 
     var saveState = function() {
-        
+
         serString = '{"columns":{';
         if (startSaving === true) {
 
@@ -630,8 +622,6 @@ sakai.dashboard = function(tuid, showSettings) {
             for (i in settings.columns) {
                 if (settings.columns[i].length > 0) {
                     isempty = false;
-                } else {
-                    $("#column_uid_" + i).html("<div class='widget_spacer'></div>");
                 }
             }
 
