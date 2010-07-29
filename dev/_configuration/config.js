@@ -131,7 +131,6 @@ sakai.config = {
                 "label": "__MSG__PROFILE_BASIC_LABEL__",
                 "required": true,
                 "display": true,
-                "modifyacl": false,
                 "elements": {
                     "firstname": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",

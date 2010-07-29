@@ -36,10 +36,7 @@ sakai.profile = function(){
             options: ["viewmy", "view", "edit"],
             value: "viewmy"
         },
-        acls: {
-            options: ["public", "institution", "contacts", "noone"],
-            value: "public"
-        },
+        acls: {},
         picture: "",
         status: "",
         validation: {}
@@ -47,6 +44,7 @@ sakai.profile = function(){
 
     var userprofile;
     var querystring; // Variable that will contain the querystring object of the page
+    var authprofileURL;
 
     ///////////////////
     // CSS SELECTORS //
@@ -148,6 +146,86 @@ sakai.profile = function(){
             sakai.profile.main.isme = true;
             currentuser = sakai.data.me.user.userid;
         }
+
+    };
+
+    /**
+     * Construct the ACL list
+     */
+    var constructACL = function(){
+
+        sakai.profile.main.acls = {
+            "options": {
+                "everybody": {
+                    "label": "__MSG__EVERYBODY__",
+                    "postparams": [{
+                        "principalId": "anonymous",
+                        "privilege@jcr:read": "granted"
+                    }, {
+                        "principalId": "everyone",
+                        "privilege@jcr:read": "granted"
+                    }, {
+                        "principalId": "g-contacts-" + currentuser,
+                        "privilege@jcr:read": "granted"
+                    }, {
+                        "principalId": currentuser,
+                        "privilege@jcr:read": "granted",
+                        "privilege@jcr:write": "granted"
+                    }]
+                },
+                "institution": {
+                    "label": "__MSG__INSTITUTION_ONLY__",
+                    "postparams": [{
+                        "principalId": "anonymous",
+                        "privilege@jcr:read": "denied"
+                    }, {
+                        "principalId": "everyone",
+                        "privilege@jcr:read": "granted"
+                    }, {
+                        "principalId": "g-contacts-" + currentuser,
+                        "privilege@jcr:read": "none"
+                    }, {
+                        "principalId": currentuser,
+                        "privilege@jcr:read": "granted",
+                        "privilege@jcr:write": "granted"
+                    }]
+                },
+                "contacts": {
+                    "label": "__MSG__CONTACTS_ONLY__",
+                    "postparams": [{
+                        "principalId": "anonymous",
+                        "privilege@jcr:read": "denied"
+                    }, {
+                        "principalId": "everyone",
+                        "privilege@jcr:read": "denied"
+                    }, {
+                        "principalId": "g-contacts-" + currentuser,
+                        "privilege@jcr:read": "granted"
+                    }, {
+                        "principalId": currentuser,
+                        "privilege@jcr:read": "granted",
+                        "privilege@jcr:write": "granted"
+                    }]
+                },
+                "onlyme": {
+                    "label": "__MSG__ONLY_ME__",
+                    "postparams": [{
+                        "principalId": "anonymous",
+                        "privilege@jcr:read": "denied"
+                    }, {
+                        "principalId": "everyone",
+                        "privilege@jcr:read": "denied"
+                    }, {
+                        "principalId": "g-contacts-" + currentuser,
+                        "privilege@jcr:read": "denied"
+                    }, {
+                        "principalId": currentuser,
+                        "privilege@jcr:read": "granted",
+                        "privilege@jcr:write": "granted"
+                    }]
+                }
+            }
+        };
 
     };
 
@@ -262,22 +340,86 @@ sakai.profile = function(){
 
     };
 
+
     /**
-     * Save the current profile data to the repository
+     * Save the Access control list for the profile
      */
-    var saveProfileData = function(){
+    var saveProfileACL = function(){
 
-        // Trigger the profile save method, this is event is bound in every sakai section
-        $(window).trigger("sakai-profile-save");
+        var requests = []; // Variable used to contain all the information we need to send to the batch post
 
-        // Filter some JCR properties
-        filterJCRProperties(sakai.profile.main.data);
+        // Remove the ACL's on the authprofile URL
+        requests[requests.length] = {
+            // Construct the right URL
+            "url": authprofileURL + ".deleteAce.html",
+            "method": "POST",
+            "parameters": {
+                ":applyTo": [currentuser, "anonymous", "everyone"]
+            }
+        };
 
-        // Save the profile properties
-        sakai.api.Server.saveJSON("/~" + currentuser + "/public/authprofile", sakai.profile.main.data, function(success, data){
+        // Run over all the elements in the config file
+        for (var i in sakai.profile.main.config) {
+            if (sakai.profile.main.config.hasOwnProperty(i) && $.isPlainObject(sakai.profile.main.config[i])) {
 
-            // Check whether is was successful
-            if (success) {
+                // Create a sectionobject for caching purposes
+                var sectionObject = sakai.profile.main.data[i];
+
+                // Check whether it is also in the data object
+                if (sakai.profile.main.data[i] && $.isPlainObject(sakai.profile.main.data[i])) {
+
+                    // Array containing the postparams for the specific access property
+                    var aclArray = sakai.profile.main.acls.options[sectionObject.access].postparams;
+
+                    // Run over all the elements in the array
+                    for (var j = 0, jl = aclArray.length; j < jl; j++) {
+
+                        // Add the object to the requests array
+                        requests[requests.length] = {
+                            // Construct the right URL
+                            "url": authprofileURL + "/" + i + ".modifyACE.json", // Todo change to JSON
+                            "method": "POST",
+                            "parameters": aclArray[j]
+                        };
+
+                    }
+
+                }
+
+            }
+        }
+
+        for(var k = 0, kl = requests.length; k < kl; k++){
+
+            $.ajax({
+                url: requests[k].url,
+                traditional: true,
+                type: requests[k].method,
+                data: requests[k].parameters,
+                async: false,
+                success: function(){
+
+                    if(k === requests.length-1){
+                        alert("ok");
+                    }
+
+                }
+            });
+
+        }
+
+
+        // Send the Ajax request to the batch servlet
+        // depends on KERN-909
+        /*$.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type: "POST",
+            data: {
+                requests: $.toJSON(requests)
+            },
+            success: function(data){
+                alert(data);
 
                 // Show a successful notification to the user
                 sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
@@ -293,6 +435,40 @@ sakai.profile = function(){
                     }
 
                 , 2000);
+
+            },
+            error: function(xhr, textStatus, thrownError){
+
+                // Show an error message to the user
+                sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
+
+                // Log an error message
+                fluid.log("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
+
+            }
+        });*/
+
+    };
+
+    /**
+     * Save the current profile data to the repository
+     */
+    var saveProfileData = function(){
+
+        // Trigger the profile save method, this is event is bound in every sakai section
+        $(window).trigger("sakai-profile-save");
+
+        // Filter some JCR properties
+        filterJCRProperties(sakai.profile.main.data);
+
+        // Save the profile properties
+        sakai.api.Server.saveJSON(authprofileURL, sakai.profile.main.data, function(success, data){
+
+            // Check whether is was successful
+            if (success) {
+
+                // Save the profile acl
+                saveProfileACL();
 
             }
             else {
@@ -378,7 +554,7 @@ sakai.profile = function(){
                 // Show a notification which states that you have errors
                 sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
             },
-            ignore: ".profilesection_validation_ignore", // Class
+            ignore: ".profile_validation_ignore", // Class
             errorClass: "profilesection_validation_error",
             validClass: "profilesection_validation_valid",
             ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
@@ -513,6 +689,12 @@ sakai.profile = function(){
 
         // Check if you are looking at the logged-in user
         setIsMe();
+
+        // Construct the authprofile URL
+        authprofileURL = "/~" + currentuser + "/public/authprofile";
+
+        // Construct the ACL list
+        constructACL();
 
         // Set the profile data
         setProfileData(function(){

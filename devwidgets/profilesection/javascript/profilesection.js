@@ -47,12 +47,14 @@ sakai.profilesection = function(tuid, showSettings){
 
     var $rootel = $("#" + tuid);
 
+    var $profilesection_default_template = $("#profilesection_default_template", $rootel);
     var $profilesection_field_default_template = $("#profilesection_field_default_template", $rootel);
     var $profilesection_generalinfo = $("#profilesection_generalinfo", $rootel);
+    var $profilesection_generalinfo_access_items = $(".profilesection_generalinfo_access", $rootel);
     var $profilesection_generalinfo_content_items = $(".profilesection_generalinfo_content", $rootel);
     var $profilesection_generalinfo_template = $("#profilesection_generalinfo_template", $rootel);
 
-    var $profilesection_default_template = $("#profilesection_default_template", $rootel);
+    var $profilesection_save_items = $($profilesection_generalinfo_access_items.selector + ", " + $profilesection_generalinfo_content_items.selector);
 
 
     ////////////////////
@@ -123,7 +125,8 @@ sakai.profilesection = function(tuid, showSettings){
         var json_config = {
             "data" : sakai.profile.main.data[currentsection],
             "config" : sakai.profile.main.config[currentsection],
-            "fields" : $.trim(sections)
+            "fields" : $.trim(sections),
+            "currentsection": currentsection
         };
 
         return $.TemplateRenderer(sectionTemplate, json_config);
@@ -159,13 +162,18 @@ sakai.profilesection = function(tuid, showSettings){
     // Save functionality //
     ////////////////////////
 
+    /**
+     * Save the values to the main sakai.profile object
+     */
     var saveValues = function(){
 
         // Reinitialize the jQuery selector
         $profilesection_generalinfo_content_items = $($profilesection_generalinfo_content_items.selector);
+        $profilesection_generalinfo_access_items = $($profilesection_generalinfo_access_items.selector);
+        $profilesection_save_items = $($profilesection_save_items.selector);
 
         // Run over all the items where we need to set the values for
-        $profilesection_generalinfo_content_items.each(function(index, element){
+        $profilesection_save_items.each(function(index, element){
 
             // Cache the element so we don't select it multiple times
             var $selected_element = $(element);
@@ -180,9 +188,15 @@ sakai.profilesection = function(tuid, showSettings){
                 // Get the property if it exists
                 var prop = getProperty(sakai.profile.main.data, title);
 
-                // Set the correct value
                 if(prop){
-                    prop.value = $selected_element.val();
+
+                    if($.isPlainObject(prop) && prop.value !== undefined){
+                        // Set the correct value
+                        prop.value = $selected_element.val();
+                    }else{
+                        // This is an access attribute
+                        sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
+                    }
                 }
 
             }
