@@ -143,7 +143,6 @@ sakai.changepic = function(tuid, showSettings){
      * @param {Object} selection The selection object from imgAreaSelect
      */
     function preview(img, selection){
-
         // Save the user his selection in a global variable.
         userSelection = selection;
 
@@ -161,7 +160,12 @@ sakai.changepic = function(tuid, showSettings){
 
     }
 
-    sakai.changepic.doInit = function(){
+    sakai.changepic.doInit = function(newpic){
+
+        // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
+        if (newpic) {
+            imageareaobject = null;
+        }
 
         // Check whether there is a base picture at all
         me = sakai.data.me;
@@ -202,6 +206,9 @@ sakai.changepic = function(tuid, showSettings){
                 // Set the images
                 $(fullPicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
                 $(thumbnail).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name + "?sid=" + Math.random());
+
+                // Reset ratio
+                ratio = 1;
 
                 // Width < 500 ; Height < 300 => set the original height and width
                 if (realw < 500 && realh < 300){
@@ -245,15 +252,29 @@ sakai.changepic = function(tuid, showSettings){
                         imageareaobject.setSelection(picture.selectedx1,picture.selectedy1,picture.selectedx2,picture.selectedy2);
                         imageareaobject.setOptions({ show: true });
                         imageareaobject.update();
+                        // Make sure the thumbnail is already viewable on init
+                        var selectionObj = {
+                            width : picture.selectedx2 - picture.selectedx1,
+                            height :picture.selectedy2 - picture.selectedy1,
+                            x1 : picture.selectedx1,
+                            y1 : picture.selectedy1,
+                            x2 : picture.selectedx2,
+                            y2 : picture.selectedy2
+                        };
+                        preview($("img" + fullPicture)[0], selectionObj)
                     },
                     onSelectChange: preview
                 });
 
+            });
+
+            // Check if the imageareaobject exists
+            // After init this structure will show the selection overlay
+            if (imageareaobject){
                 imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
                 imageareaobject.setOptions({show: true});
                 imageareaobject.update();
-
-            });
+            }
 
             showSelectTab();
 
@@ -278,10 +299,10 @@ sakai.changepic = function(tuid, showSettings){
         var data = {
             img: "/~" + sakai.data.me.user.userid + "/public/profile/" + picture._name,
             save: "/~" + sakai.data.me.user.userid + "/public/profile",
-            x: userSelection.x1,
-            y: userSelection.y1,
-            width: userSelection.width,
-            height:userSelection.height,
+            x: Math.floor(userSelection.x1 * ratio),
+            y: Math.floor(userSelection.y1 * ratio),
+            width: Math.floor(userSelection.width * ratio),
+            height:Math.floor(userSelection.height * ratio),
             dimensions: "256x256",
             "_charset_":"utf-8"
         };
@@ -425,7 +446,7 @@ sakai.changepic.completeCallback = function(response){
         success : function(data) {
 
             // we have saved the profile, now do the widgets other stuff.
-            sakai.changepic.doInit();
+            sakai.changepic.doInit(true);
         },
         error: function(xhr, textStatus, thrownError) {
             alert("An error has occured");
