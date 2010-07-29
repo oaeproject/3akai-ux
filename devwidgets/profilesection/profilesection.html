@@ -101,11 +101,39 @@
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
     {var mode = sakai.profile.main.mode}
+    {var stringtypes = ["string", "date", "email"]}
     {if mode.value === "edit"}
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
                 <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>
-                <input type="text" class="profilesection_generalinfo_content" value="${data.value}" id="profilesection_generalinfo_${path.replace(/\./g,"_")}" title="${path}" />
+                {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                    <input type="text"
+                {elseif config.type==="textarea"}
+                    <textarea
+                {elseif config.type==="select"}
+                    <select
+                {/if}
+                    class="profilesection_generalinfo_content
+                    {if config.required} required{/if}
+                    {if config.validation} ${config.validation}
+                    {elseif config.type} ${config.type}
+                    {/if}"
+                {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                    value="${data.value}"
+                {/if}
+                id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${config.label}" title="${path}"
+                {if !config.type || $.inArray(config.type, stringtypes) >= 0}
+                    />
+                {elseif config.type==="select"}
+                    >
+                    <option value=""></option>
+                    {for i in config.select_elements}
+                        <option value="${i_index}">${i}</option>
+                    {/for}
+                    </select>
+                {elseif config.type==="textarea"}
+                    >${data.value}</textarea>
+                {/if}
             </div>
         {/if}
     {else}
@@ -123,7 +151,7 @@
         {if data}
             <div class="profilesection_generalinfo_subcontainer">
                 <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path}">${config.label}:</label>
-                <textarea class="profilesection_generalinfo_content" id="profilesection_generalinfo_${path}" title="${path}">${data.value}</textarea>
+                <textarea class="profilesection_generalinfo_content" id="profilesection_generalinfo_${path}" title="${path}" name="${config.label}">${data.value}</textarea>
             </div>
         {/if}
     {else}

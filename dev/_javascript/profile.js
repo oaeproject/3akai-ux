@@ -41,12 +41,12 @@ sakai.profile = function(){
             value: "public"
         },
         picture: "",
-        status: ""
+        status: "",
+        validation: {}
     };
 
     var userprofile;
     var querystring; // Variable that will contain the querystring object of the page
-
 
     ///////////////////
     // CSS SELECTORS //
@@ -54,12 +54,15 @@ sakai.profile = function(){
 
     var profile_class = ".profile";
     var $profile_actions = $("#profile_actions", profile_class);
+    var $profile_actions_button_edit = $("#profile_actions_button_edit", profile_class);
     var $profile_actions_template = $("#profile_actions_template", profile_class);
+    var $profile_error = $("#profile_error", profile_class);
+    var $profile_error_form_errors = $("#profile_error_form_errors", $profile_error);
     var $profile_field_default_template = $("#profile_field_default_template", profile_class);
+    var $profile_form = $("#profile_form", profile_class);
     var $profile_footer = $("#profile_footer", profile_class);
     var $profile_footer_button_update = $("#profile_footer_button_update", profile_class);
     var $profile_footer_button_dontupdate = $("#profile_footer_button_dontupdate", profile_class);
-    var $profile_actions_button_edit = $("#profile_actions_button_edit", profile_class);
     var $profile_footer_template = $("#profile_footer_template", profile_class);
     var $profile_heading = $("#profile_heading", profile_class);
     var $profile_heading_template = $("#profile_heading_template", profile_class);
@@ -235,6 +238,7 @@ sakai.profile = function(){
 
     };
 
+
     /**
      * Save the current profile data to the repository
      */
@@ -271,7 +275,7 @@ sakai.profile = function(){
 
         // Reinitialise jQuery objects
         $profile_footer_button_dontupdate = $($profile_footer_button_dontupdate.selector);
-        $profile_footer_button_update = $($profile_footer_button_update.selector);
+        //$profile_footer_button_update = $($profile_footer_button_update.selector);
 
         // Bind the don't update
         $profile_footer_button_dontupdate.bind("click", function(){
@@ -282,18 +286,20 @@ sakai.profile = function(){
         });
 
         // Bind the update method
-        $profile_footer_button_update.bind("click", function(){
+        //$profile_footer_button_update.bind("click", function(){
 
-            // Trigger the save profile event - this is catched by other widgets
-            $(window).trigger("sakai-profile-save");
+
+
+            // Validate the profile data
+            //validateProfileData();
 
             // Save the current profile data
-            saveProfileData();
+            //saveProfileData();
 
             // Change the profile mode if the save was successful
             // changeProfileMode("viewmy");
 
-        });
+        //});
 
     };
 
@@ -316,12 +322,50 @@ sakai.profile = function(){
     };
 
     /**
+     * Add binding to the profile form
+     */
+    var addBindingForm = function(){
+
+        // Reinitialize the jQuery form selector
+        $profile_form = $($profile_form.selector);
+
+        $profile_form.bind("submit", function(){
+
+        });
+
+        // Initialize the validate plug-in
+        $profile_form.validate({
+            debug: true,
+            messages: {
+                required: "test"
+            },
+            submitHandler: saveProfileData,
+            invalidHandler: function(form, validator){
+
+                // Remove all the current notifications
+                sakai.api.Util.notification.removeAll();
+
+                // Show a notification which states that you have errors
+                sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
+            },
+            ignore: ".profilesection_validation_ignore", // Class
+            errorClass: "profilesection_validation_error",
+            validClass: "profilesection_validation_valid",
+            ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
+        });
+
+    };
+
+    /**
      * Add binding to all the elements on the page
      */
     var addBinding = function(){
 
         // Add binding to the actions elements
         addBindingActions();
+
+        // Add binding to the profile form
+        addBindingForm();
 
         // Add binding to footer elements
         addBindingFooter();

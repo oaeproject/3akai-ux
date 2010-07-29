@@ -18,6 +18,7 @@
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -41,7 +42,9 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jqmodal.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
-        <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.validate.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
     </head>
 
@@ -90,25 +93,30 @@
                     {/if}
                 -->
 
-                <!-- PROFILE SECTION WIDGETS -->
-                <div id="profile_sectionwidgets_container"><!-- --></div>
+                <!-- PROFILE FORM -->
+                <form id="profile_form" method="post" action="javascript:;">
 
-                <!-- FOOTER -->
-                <div id="profile_footer" class="fl-push"><!-- --></div>
+                    <!-- PROFILE SECTION WIDGETS -->
+                    <div id="profile_sectionwidgets_container"><!-- --></div>
 
-                <!-- FOOTER TEMPLATE -->
-                <div id="profile_footer_template"><!--
-                    <div class="fl-force-right">
-                        {if mode.value === "edit"}
-                            <button id="profile_footer_button_dontupdate" type="button" class="s3d-button">
-                                <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
-                            </button>
-                            <button id="profile_footer_button_update" type="button" class="s3d-button s3d-button-primary">
-                                <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
-                            </button>
-                        {/if}
-                    </div>
-                --></div>
+                    <!-- FOOTER -->
+                    <div id="profile_footer" class="fl-push"><!-- --></div>
+
+                    <!-- FOOTER TEMPLATE -->
+                    <div id="profile_footer_template"><!--
+                        <div class="fl-force-right">
+                            {if mode.value === "edit"}
+                                <button id="profile_footer_button_dontupdate" type="button" class="s3d-button profile_validation_ignore">
+                                    <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                                </button>
+                                <button id="profile_footer_button_update" type="submit" class="s3d-button s3d-button-primary">
+                                    <span class="s3d-button-inner">__MSG__UPDATE_PROFILE__</span>
+                                </button>
+                            {/if}
+                        </div>
+                    --></div>
+
+                </form>
 
             </div>
 
@@ -125,7 +133,12 @@
         <!-- CHANGEPIC WIDGET -->
         <div id="widget_changepic" class="widget_inline"></div>
 
-        <!-- profile JS -->
+        <!-- ERROR CONTAINER -->
+        <div id="profile_error" style="display:none;">
+            <div id="profile_error_form_errors">__MSG__SOME_FIELDS_CONTAIN_ERRORS_PLEASE_CHECK_AGAIN__</div>
+        </div>
+
+        <!-- PROFILE JS -->
         <script type="text/javascript" src="_javascript/profile.js"></script>
 
     </body>

@@ -60,21 +60,6 @@ sakai.profilesection = function(tuid, showSettings){
     ////////////////////
 
     /**
-     * Construct a JavaScript path from the JCR path of the item
-     * @param {String} jcrpath The JCR path you want to convert e.g. /~user3/public/authprofile/basic/elements/firstname
-     * @return {String} A JavaScript path e.g. basic.elements.firstname
-     */
-    var constructJSPath = function(jcrpath){
-
-        jcrpath = jcrpath.replace(sakai.profile.main.data["jcr:path"] + "/", "");
-        jcrpath = jcrpath.split("/");
-        jcrpath = jcrpath.join(".");
-
-        return jcrpath;
-
-    };
-
-    /**
      * Get the property for a deep selection in a JavaScript object
      * Since we can't do something like obj["test.test"]
      * @param {Object} obj The object you want to get the property from
@@ -105,9 +90,9 @@ sakai.profilesection = function(tuid, showSettings){
     var renderTemplateField = function(fieldTemplate, fieldName){
 
         var json_config = {
-            "data": sakai.profile.main.data[currentsection].elements[fieldName],
+            "data": sakai.profile.main.data[currentsection].elements[fieldName] || {},
             "config": sakai.profile.main.config[currentsection].elements[fieldName],
-            "path": constructJSPath(sakai.profile.main.data[currentsection].elements[fieldName]["jcr:path"])
+            "path": currentsection + ".elements." + fieldName
         };
 
         return $.TemplateRenderer(fieldTemplate, json_config);
