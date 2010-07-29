@@ -34,7 +34,7 @@ sakai.addtocontacts = function(tuid, showSettings){
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-    
+
     // Help variables
     var me = sakai.data.me;
     var friend = false;
@@ -43,12 +43,12 @@ sakai.addtocontacts = function(tuid, showSettings){
     // CSS selectors
     var addToContacts = "#addtocontacts";
     var addToContactsClass = ".addtocontacts";
-    
+
     var addToContactsAdd = addToContacts + "_add";
     var addToContactsDialog = addToContacts + "_dialog";
     var addToContactsDone = addToContacts + "_done";
     var addToContactsDoneContainer = addToContacts + "_done_container";
-    
+
     // Form elements
     var addToContactsForm = addToContacts + "_form";
     var addToContactsFormButtonInvite = addToContactsForm + "_invite";
@@ -60,19 +60,19 @@ sakai.addtocontacts = function(tuid, showSettings){
     var addToContactsInfoProfilePicture = addToContacts + "_profilepicture";
     var addToContactsInfoTypes = addToContacts + "_types";
     var addToContactsInfoDisplayName = addToContactsClass + "_displayname";
-    
+
     // Error messages
     var addToContactsError = addToContacts + "_error";
     var addToContactsErrorMessage = addToContactsError + "_message";
     var addToContactsErrorRequest = addToContactsError + "_request";
     var addToContactsErrorNoTypeSelected = addToContactsError + "_noTypeSelected";
-    
+
     var addToContactsResponse = addToContacts + "_response";
-    
+
     ///////////////////
     // Functionality //
     ///////////////////
-    
+
     /**
      * Render the templates that are needed for the add contacts widget.
      * It renders the contacts types and the personal note
@@ -84,7 +84,7 @@ sakai.addtocontacts = function(tuid, showSettings){
         };
         $.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
     };
-    
+
     /**
      * This method will fill in the info for the user.
      * @param {Object} user The JSON object containing the user info. This follows the /rest/me format.
@@ -92,7 +92,7 @@ sakai.addtocontacts = function(tuid, showSettings){
     var fillInUserInfo = function(user){
         if (user) {
             $(addToContactsInfoDisplayName).text(sakai.api.Security.saneHTML(user.firstName));
-            
+
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
                 $(addToContactsInfoProfilePicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(user.picture).name);
@@ -116,7 +116,7 @@ sakai.addtocontacts = function(tuid, showSettings){
         }
         return null;
     }
-    
+
     /**
      * Does the invitation stuff. Will send a request for an invitation and a message to the user.
      * @param {String} userid
@@ -139,15 +139,15 @@ sakai.addtocontacts = function(tuid, showSettings){
                     toRelationshipsToSend.push(type);
                 }
             }
-            
+
             var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
-            
+
             // send message to other person
             var userstring = me.profile.firstName + " " + me.profile.lastName;
-            
+
             var title = sakai.config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
             var message = sakai.config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);
-            
+
             // Do the invite and send a message
             $.ajax({
                 url: "/~" + sakai.data.me.user.userid + "/contacts.invite.html",
@@ -167,17 +167,17 @@ sakai.addtocontacts = function(tuid, showSettings){
                     $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
                 }
             });
-            
+
         }
         else {
             $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
         }
     };
-    
+
     ///////////////////////
     // jqModal functions //
     ///////////////////////
-    
+
     /**
      * This will load the overlay to add a new contact.
      * This method will fill in all the user info.
@@ -187,14 +187,14 @@ sakai.addtocontacts = function(tuid, showSettings){
         // Show the form
         $(addToContactsDoneContainer).hide();
         $(addToContactsAdd).show();
-        
+
         hash.w.show();
     };
-    
+
     ////////////////////
     // Public methods //
     ////////////////////
-    
+
     /**
      * Set a personal note.
      * @param {string} note The text you wish to display in the note.
@@ -202,12 +202,12 @@ sakai.addtocontacts = function(tuid, showSettings){
     var setPersonalNote = function(note){
         $(addToContactsFormPersonalNote).val(note);
     };
-    
-    
+
+
     /////////////////////////
     // Initialise function //
     /////////////////////////
-    
+
     /**
      * People should call this function if they want to initiate the widget
      * @param {Object} user The userid or the /rest/me info for this user.
@@ -221,10 +221,10 @@ sakai.addtocontacts = function(tuid, showSettings){
             $.ajax({
                 url: sakai.data.search.results_people[user]["jcr:path"] + ".json",
                 success: function(data){
-                
+
                     friend = $.extend(data, {}, true);
                     friend.uuid = user;
-                    
+
                     // Doing a rewrite of the me object, because Sling wraps arrays around
                     // the different fields in the profile object
                     if (typeof friend.firstName === "object") {
@@ -236,7 +236,7 @@ sakai.addtocontacts = function(tuid, showSettings){
                     if (typeof sakai.data.me.profile.email === "object") {
                         friend.email = friend.email[0];
                     }
-                    
+
                     // We have the data, render it.
                     fillInUserInfo(friend);
                 }
@@ -247,29 +247,29 @@ sakai.addtocontacts = function(tuid, showSettings){
             friend.uuid = user.preferences.uuid;
             fillInUserInfo(friend);
         }
-        
+
         // Render the templates
         renderTemplates();
-        
+
         // Show the layover
         $(addToContactsDialog).jqmShow();
-        
+
         // Give the user options to manipulate this widget.
         return {
             "setPersonalNote": setPersonalNote
         };
     };
-    
+
     /////////////////////
     // Event listeners //
     /////////////////////
-    
+
     // Bind the invite button
     $(addToContactsFormButtonInvite).bind("click", function(){
         // Invite this person.
         doInvite(friend.uuid);
     });
-    
+
     // Bind the jqModal
     $(addToContactsDialog).jqm({
         modal: true,
