@@ -122,7 +122,6 @@ sakai.changepic = function(tuid, showSettings){
         $(tabUploadContent).hide();
     };
 
-
     /**
      * Clicked on the upload tab
      */
@@ -164,9 +163,7 @@ sakai.changepic = function(tuid, showSettings){
      * Empty upload field by resetting the form
      */
     sakai.changepic.resetUploadField = function(){
-        var formhtml = $("#profilepicuploadfield").html();
-        $("#profilepicture").remove();
-        $("#profilepicuploadfield").append(formhtml);
+        $("#profilepicture").val("");
     };
 
     // Add click event to all cancel buttons in the overlay
