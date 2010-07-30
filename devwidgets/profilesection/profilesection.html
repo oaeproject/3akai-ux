@@ -120,6 +120,11 @@
                 {elseif config.type === "textarea"}
                     >${data.value}</textarea>
                 {/if}
+                {if config.example}
+                    <p class="profilesection_generalinfo_example">
+                        ${config.example}
+                    </p>
+                {/if}
             </div>
         {/if}
     {else}

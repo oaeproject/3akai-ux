@@ -211,28 +211,24 @@ sakai.config = {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_ABOUTME_ABOUTME_EXAMPLE__",
                         "type": "textarea"
                     },
                     "academicinterests": {
                         "label": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_LABEL__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_ABOUTME_ACADEMICINTERESTS_EXAMPLE__",
                         "type": "textarea"
                     },
                     "personalinterests": {
                         "label": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_LABEL__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_ABOUTME_PERSONALINTERESTS_EXAMPLE__",
                         "type": "textarea"
                     },
                     "hobbies": {
                         "label": "__MSG__PROFILE_ABOUTME_HOBBIES_LABEL__",
                         "required": false,
-                        "display": true,
-                        "example": "__MSG__PROFILE_ABOUTME_HOBBIES_EXAMPLE__"
+                        "display": true
                     }
                 }
             },
@@ -242,17 +238,63 @@ sakai.config = {
                 "display": true,
                 //"template": "profile_section_publications_template",
                 "elements": {
-                    "title": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_TITLE__",
+                    "maintitle": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_PUBLICATIONS_TITLE_EXAMPLE__"
+                        "example": "__MSG__PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE__"
                     },
-                    "authors": {
-                        "label": "__MSG__PROFILE_PUBLICATIONS_AUTHORS__",
+                    "mainauthor": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_MAIN_AUTHOR__",
+                        "required": false,
+                        "display": true
+                    },
+                    "coauthor": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR__",
                         "required": false,
                         "display": true,
-                        "example": "__MSG__PROFILE_PUBLICATIONS_AUTHORS_EXAMPLE__"
+                        "example": "__MSG__PROFILE_PUBLICATIONS_CO_AUTHOR_EXAMPLE__"
+                    },
+                    "publisher": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_PUBLISHER__",
+                        "required": false,
+                        "display": true
+                    },
+                    "placeofpublication": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_PLACE_OF_PUBLICATION__",
+                        "required": false,
+                        "display": true
+                    },
+                    "volumetitle": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_TITLE__",
+                        "required": false,
+                        "display": true
+                    },
+                    "volumeinformation": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION__",
+                        "required": false,
+                        "display": true,
+                        "example": "__MSG__PROFILE_PUBLICATIONS_VOLUME_INFORMATION_EXAMPLE__"
+                    },
+                    "year": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_YEAR__",
+                        "required": false,
+                        "display": true
+                    },
+                    "number": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_NUMBER__",
+                        "required": false,
+                        "display": true
+                    },
+                    "series title": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_SERIES_TITLE__",
+                        "required": false,
+                        "display": true
+                    },
+                    "url": {
+                        "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
+                        "required": false,
+                        "display": true
                     }
                 }
             }

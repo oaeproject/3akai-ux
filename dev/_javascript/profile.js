@@ -238,7 +238,7 @@ sakai.profile = function(){
      */
     var constructProfilePicture = function(profile){
 
-        if (profile.basic.elements.picture && profile["rep:userId"]) {
+        if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
             return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
         }
         else {
@@ -277,17 +277,14 @@ sakai.profile = function(){
 
             // We need to fire an Ajax GET request to get the profile data for the user
             $.ajax({
-                data: {
-                    "q": querystring.get("user")
-                },
-                url: sakai.config.URL.SEARCH_USERS,
+                url: authprofileURL + ".3.json",
                 success: function(data){
 
                     // Check whether there are any results
-                    if(data.results[0]){
+                    if(data){
 
                         // Set the correct userprofile data
-                        userprofile = data.results[0];
+                        userprofile = $.extend(true, {}, data);
 
                         // Set the profile picture
                         sakai.profile.main.picture = constructProfilePicture(userprofile);
@@ -298,7 +295,7 @@ sakai.profile = function(){
                         }
 
                         // Set the profile data object
-                        sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
+                        sakai.profile.main.data = $.extend(true, {}, userprofile);
                     }
 
                 },
@@ -389,7 +386,7 @@ sakai.profile = function(){
             }
         }
 
-        for(var k = 0, kl = requests.length; k < kl; k++){
+        /*for(var k = 0, kl = requests.length; k < kl; k++){
 
             $.ajax({
                 url: requests[k].url,
@@ -406,12 +403,12 @@ sakai.profile = function(){
                 }
             });
 
-        }
+        }*/
 
 
         // Send the Ajax request to the batch servlet
         // depends on KERN-909
-        /*$.ajax({
+        $.ajax({
             url: sakai.config.URL.BATCH,
             traditional: true,
             type: "POST",
@@ -419,7 +416,6 @@ sakai.profile = function(){
                 requests: $.toJSON(requests)
             },
             success: function(data){
-                alert(data);
 
                 // Show a successful notification to the user
                 sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
@@ -446,7 +442,7 @@ sakai.profile = function(){
                 fluid.log("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
 
             }
-        });*/
+        });
 
     };
 
