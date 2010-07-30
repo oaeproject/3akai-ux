@@ -48,7 +48,9 @@ sakai.dashboard = function(tuid, showSettings) {
     var widgetPropertyName = false;
 
     var rootel = "#" + tuid;
+    var $rootel = $(rootel);
     var rootelClass = "." + tuid;
+    var $rootelClass = $(rootelClass);
 
     sakai.dashboard.minimizeWidget = function(id) {
        var el = $("#" + id + "_container");
@@ -158,7 +160,7 @@ sakai.dashboard = function(tuid, showSettings) {
             $(window).trigger("sakai.dashboard.notLoggedIn");
         }
 
-        $(".body-container", rootel).show();
+        $(".body-container", $rootel).show();
 
         if (doShowDashboard) {
             showDashboard();
@@ -285,64 +287,64 @@ sakai.dashboard = function(tuid, showSettings) {
 
 
         if (isValid) {
-            $('#widgetscontainer', rootel).html($.TemplateRenderer("widgetscontainer_template", final2));
+            $('#widgetscontainer', $rootel).html($.TemplateRenderer("widgetscontainer_template", final2));
 
 
             // only set up the settings bindings if the dashboard's embedding page allows editing
             if (isEditable) {
-              $(".dashboard_options", rootel).show();
+              $(".dashboard_options", $rootel).show();
               // .hover is shorthand for .bind('mouseenter mouseleave')
               // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-              $(".widget1", rootel).unbind('mouseenter mouseleave').hover(
+              $(".widget1", $rootel).unbind('mouseenter mouseleave').hover(
               function(over) {
                   var id = this.id + "_settings";
                   $("#" + id).show();
               },
               function(out) {
-                  if ($("#widget_settings_menu", rootel).css("display") == "none" || this.id != currentSettingsOpen) {
+                  if ($("#widget_settings_menu", $rootel).css("display") == "none" || this.id != currentSettingsOpen) {
                       var id = this.id + "_settings";
                       $("#" + id).hide();
                   }
               }
               );
 
-              $(".settings", rootel).unbind('click').click(function(ev) {
+              $(".settings", $rootel).unbind('click').click(function(ev) {
 
-                  if ($("#widget_settings_menu", rootel).is(":visible")) {
-                      $("#widget_settings_menu", rootel).hide();
+                  if ($("#widget_settings_menu", $rootel).is(":visible")) {
+                      $("#widget_settings_menu", $rootel).hide();
                   } else {
                       var splitted = this.id.split("_");
                       if (splitted[0] + "_" + splitted[1] == currentSettingsOpen) {
-                          $("#widget_" + currentSettingsOpen + "_settings", rootel).hide();
+                          $("#widget_" + currentSettingsOpen + "_settings", $rootel).hide();
                       }
                       currentSettingsOpen = splitted[0] + "_" + splitted[1];
                       var widgetId = splitted[0];
 
                       if (Widgets.widgets[widgetId] && Widgets.widgets[widgetId].hasSettings) {
-                          $("#settings_settings", rootel).show();
+                          $("#settings_settings", $rootel).show();
                       } else {
-                          $("#settings_settings", rootel).hide();
+                          $("#settings_settings", $rootel).hide();
                       }
 
-                      var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", rootel);
+                      var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
                       if (el.is(":visible")) {
-                          $("#settings_hide_link", rootel).text("Hide");
+                          $("#settings_hide_link", $rootel).text("Hide");
                       } else {
-                          $("#settings_hide_link", rootel).text("Show");
+                          $("#settings_hide_link", $rootel).text("Show");
                       }
 
                       var x = $(this).position().left;
                       var y = $(this).position().top;
-                      $("#widget_settings_menu", rootel).css("left", x - $("#widget_settings_menu", rootel).width() + 28 + "px");
-                      $("#widget_settings_menu", rootel).css("top", y + 24 + "px");
-                      $("#widget_settings_menu", rootel).show();
+                      $("#widget_settings_menu", $rootel).css("left", x - $("#widget_settings_menu", $rootel).width() + 28 + "px");
+                      $("#widget_settings_menu", $rootel).css("top", y + 24 + "px");
+                      $("#widget_settings_menu", $rootel).show();
                   }
               });
         
 
               // .hover is shorthand for .bind('mouseenter mouseleave')
               // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-              $(".more_option", rootel).unbind('mouseenter mouseleave').hover(
+              $(".more_option", $rootel).unbind('mouseenter mouseleave').hover(
               function(over) {
                   $(this).addClass("selected_option");
               },
@@ -351,21 +353,21 @@ sakai.dashboard = function(tuid, showSettings) {
               }
               );
 
-              $("#settings_remove", rootel).unbind('click').click(function(ev) {
+              $("#settings_remove", $rootel).unbind('click').click(function(ev) {
                   var id = currentSettingsOpen;
                   var el = document.getElementById(id);
                   var parent = el.parentNode;
                   parent.removeChild(el);
                   saveState();
-                  $("#widget_settings_menu", rootel).hide();
-                  $("#" + currentSettingsOpen + "_settings", rootel).hide();
+                  $("#widget_settings_menu", $rootel).hide();
+                  $("#" + currentSettingsOpen + "_settings", $rootel).hide();
                   currentSettingsOpen = false;
                   return false;
               });
 
-              $("#settings_hide", rootel).unbind('click').click(function(ev) {
+              $("#settings_hide", $rootel).unbind('click').click(function(ev) {
 
-                  var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", rootel);
+                  var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
                   if (el.css('display') == "none") {
                       el.show();
                   } else {
@@ -373,13 +375,13 @@ sakai.dashboard = function(tuid, showSettings) {
                   }
                   saveState();
 
-                  $("#widget_settings_menu", rootel).hide();
-                  $("#" + currentSettingsOpen + "_settings", rootel).hide();
+                  $("#widget_settings_menu", $rootel).hide();
+                  $("#" + currentSettingsOpen + "_settings", $rootel).hide();
                   currentSettingsOpen = false;
                   return false;
               });
 
-              $("#settings_settings", rootel).unbind('click').click(function(ev) {
+              $("#settings_settings", $rootel).unbind('click').click(function(ev) {
                   var generic = "widget_" + currentSettingsOpen + "_" + savePath;
                   var id = currentSettingsOpen.split("_")[1];
                   var old = document.getElementById(id);
@@ -387,7 +389,7 @@ sakai.dashboard = function(tuid, showSettings) {
                   newel.id = generic;
                   newel.className = "widget_inline";
                   old.parentNode.replaceChild(newel, old);
-                  $("#widget_settings_menu", rootel).hide();
+                  $("#widget_settings_menu", $rootel).hide();
                   currentSettingsOpen = false;
                   sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, true);
                   return false;
@@ -400,9 +402,9 @@ sakai.dashboard = function(tuid, showSettings) {
                   var $clicked = $(e.target);
 
                   // Check if one of the parents is the chatstatuscontainer
-                  if (!$clicked.is(".settings", rootel)) {
-                      $("#widget_settings_menu", rootel).hide();
-                      $("#" + currentSettingsOpen + "_settings", rootel).hide();
+                  if (!$clicked.is(".settings", $rootel)) {
+                      $("#widget_settings_menu", $rootel).hide();
+                      $("#" + currentSettingsOpen + "_settings", $rootel).hide();
                       currentSettingsOpen = false;
                   }
 
@@ -438,7 +440,7 @@ sakai.dashboard = function(tuid, showSettings) {
               fluid.reorderLayout(rootel + " #widgetscontainer", options);
             } else {
               // remove the move cursor from the title bar
-              $(".fl-widget-titlebar", rootel).css("cursor", "default");
+              $(".fl-widget-titlebar", $rootel).css("cursor", "default");
             }
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
 
@@ -449,14 +451,14 @@ sakai.dashboard = function(tuid, showSettings) {
     };
     
     var beforeWidgetDrag = function() {
-        $("#widget_settings_menu", rootel).hide();
+        $("#widget_settings_menu", $rootel).hide();
     };
 
     var saveState = function() {
 
         var serString = '{"columns":{';
 
-        var columns = $(".groupWrapper", rootel);
+        var columns = $(".groupWrapper", $rootel);
         for (var i = 0, j = columns.length; i < j; i++) {
             if (i !== 0) {
                 serString += ",";
@@ -469,7 +471,7 @@ sakai.dashboard = function(tuid, showSettings) {
                 try {
                     var node = column.childNodes[ii];
 
-                    if (node && node.style) {
+                    if (node && node.style && !($(node).hasClass("widget_spacer"))) {
 
                         widgetdisplay = "block";
                         var nowAt = 0;
@@ -508,10 +510,12 @@ sakai.dashboard = function(tuid, showSettings) {
 
         settings = $.parseJSON(serString);
 
-        var isempty = true;
+        var isEmpty = true;
         for (i in settings.columns) {
-            if (settings.columns[i].length > 0) {
-                isempty = false;
+            if (settings.columns.hasOwnProperty(i)) {
+                if (settings.columns[i].length > 0) {
+                    isEmpty = false;
+                }
             }
         }
 
@@ -547,26 +551,24 @@ sakai.dashboard = function(tuid, showSettings) {
         }
 
         index = 0;
-        if (settings.layout != selectedlayout) {
-            if (newlength < initlength) {
-                for (l in settings.columns) {
-                    if (index >= newlength) {
-                        for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                            var lowestnumber = -1;
-                            var lowestcolumn = -1;
-                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-                                var number = columns[iii].length;
-                                if (number < lowestnumber || lowestnumber == -1) {
-                                    lowestnumber = number;
-                                    lowestcolumn = iii;
-                                }
+        if (settings.layout !== selectedlayout && newlength < initlength) {
+            for (l in settings.columns) {
+                if (index >= newlength) {
+                    for (i = 0, j = settings.columns[l].length; i < j; i++) {
+                        var lowestnumber = -1;
+                        var lowestcolumn = -1;
+                        for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
+                            var number = columns[iii].length;
+                            if (number < lowestnumber || lowestnumber == -1) {
+                                lowestnumber = number;
+                                lowestcolumn = iii;
                             }
-                            var _i = columns[lowestcolumn].length;
-                            columns[lowestcolumn][_i] = settings.columns[l][i];
                         }
+                        var _i = columns[lowestcolumn].length;
+                        columns[lowestcolumn][_i] = settings.columns[l][i];
                     }
-                    index++;
                 }
+                index++;
             }
         }
 
@@ -612,7 +614,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
     var finishAddWidgets = function(success) {
         if (success) {
-            $("#widgetscontainer", rootel).html("");
+            $("#widgetscontainer", $rootel).html("");
             showDashboard();
         }
         else {
@@ -625,14 +627,14 @@ sakai.dashboard = function(tuid, showSettings) {
     ///////////////////
 
     var bindLayoutPickerEventHandlers = function() {
-        $(".layout-picker", rootelClass).bind("click",
+        $(".layout-picker", $rootelClass).bind("click",
         function(ev) {
             var selected = this.id.split("-")[this.id.split("-").length - 1];
             var newjson = {};
             newjson.layouts = Widgets.layouts;
             newjson.selected = selected;
             currentlySelectedLayout = selected;
-            $("#layouts_list", rootelClass).html($.TemplateRenderer("layouts_template", newjson));
+            $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
         });
     };
 
@@ -641,9 +643,9 @@ sakai.dashboard = function(tuid, showSettings) {
         $(changeLayoutDialog + rootelClass).jqmHide();
     };
 
-    $("#select-layout-finished", rootel).bind("click",
+    $("#select-layout-finished", $rootel).bind("click",
     function(ev) {
-        if (currentlySelectedLayout == settings.layout) {
+        if (currentlySelectedLayout === settings.layout) {
             $(changeLayoutDialog + rootelClass).jqmHide();
         } else {
 
@@ -658,7 +660,7 @@ sakai.dashboard = function(tuid, showSettings) {
 
             var index = 0;
             for (var l in settings.columns) {
-                if (index < newlength) {
+                if (settings.columns.hasOwnProperty(l) && index < newlength) {
                     for (i = 0, j = settings.columns[l].length; i < j; i++) {
                         columns[index][i] = {};
                         columns[index][i].name = settings.columns[l][i].name;
@@ -670,29 +672,27 @@ sakai.dashboard = function(tuid, showSettings) {
             }
 
             index = 0;
-            if (settings.layout != selectedlayout) {
-                if (newlength < initlength) {
-                    for (l in settings.columns) {
-                        if (index >= newlength) {
-                            for (i = 0, j = settings.columns[l].length; i < j; i++) {
-                                var lowestnumber = -1;
-                                var lowestcolumn = -1;
-                                for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
-                                    var number = columns[iii].length;
-                                    if (number < lowestnumber || lowestnumber == -1) {
-                                        lowestnumber = number;
-                                        lowestcolumn = iii;
-                                    }
+            if (newlength < initlength) {
+                for (l in settings.columns) {
+                    if (index >= newlength) {
+                        for (i = 0, j = settings.columns[l].length; i < j; i++) {
+                            var lowestnumber = -1;
+                            var lowestcolumn = -1;
+                            for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
+                                var number = columns[iii].length;
+                                if (number < lowestnumber || lowestnumber == -1) {
+                                    lowestnumber = number;
+                                    lowestcolumn = iii;
                                 }
-                                var _i = columns[lowestcolumn].length;
-                                columns[lowestcolumn][_i] = {};
-                                columns[lowestcolumn][_i].name = settings.columns[l][i].name;
-                                columns[lowestcolumn][_i].visible = settings.columns[l][i].visible;
-                                columns[lowestcolumn][_i].uid = settings.columns[l][i].uid;
                             }
+                            var _i = columns[lowestcolumn].length;
+                            columns[lowestcolumn][_i] = {};
+                            columns[lowestcolumn][_i].name = settings.columns[l][i].name;
+                            columns[lowestcolumn][_i].visible = settings.columns[l][i].visible;
+                            columns[lowestcolumn][_i].uid = settings.columns[l][i].uid;
                         }
-                        index++;
                     }
+                    index++;
                 }
             }
 
@@ -716,14 +716,14 @@ sakai.dashboard = function(tuid, showSettings) {
         newjson.layouts = Widgets.layouts;
         newjson.selected = settings.layout;
         currentlySelectedLayout = settings.layout;
-        $("#layouts_list", rootelClass).html($.TemplateRenderer("layouts_template", newjson));
+        $("#layouts_list", $rootelClass).html($.TemplateRenderer("layouts_template", newjson));
         bindLayoutPickerEventHandlers();
         hash.w.show();
     };
 
-    $(changeLayoutDialog, rootel).jqm({
+    $(changeLayoutDialog, $rootel).jqm({
         modal: true,
-        trigger: $('#edit-layout', rootel),
+        trigger: $('#edit-layout', $rootel),
         overlay: 20,
         toTop: true,
         onShow: renderLayouts
@@ -739,12 +739,12 @@ sakai.dashboard = function(tuid, showSettings) {
        * this function will figure out what widget we chose and will hide the Add row
        * and show the Remove row for that widget
        */
-        $(goodiesAddButton, rootelClass).bind("click",
+        $(goodiesAddButton, $rootelClass).bind("click",
         function(ev) {
             // The expected is btn_add_WIDGETNAME
             var id = this.id.replace(btnAdd, "");
-            $(addRow + id, rootelClass).hide();
-            $(removeRow + id, rootelClass).show();
+            $(addRow + id, $rootelClass).hide();
+            $(removeRow + id, $rootelClass).show();
             addWidget(id);
         });
 
@@ -753,16 +753,16 @@ sakai.dashboard = function(tuid, showSettings) {
        * this function will figure out what widget we chose and will hide the Remove row
        * and show the Add row for that widget
        */
-        $(goodiesRemoveButton, rootelClass).bind("click",
+        $(goodiesRemoveButton, $rootelClass).bind("click",
         function(ev) {
             // The expected id is btn_remove_WIDGETNAME
             var id = this.id.replace(btnRemove, "");
-            $(removeRow + id, rootelClass).hide();
-            $(addRow + id, rootelClass).show();
+            $(removeRow + id, $rootelClass).hide();
+            $(addRow + id, $rootelClass).show();
             // We find the widget container itself, and then find its parent,
             // which is the column the widget is in, and then remove the widget
             // from the column
-            var el = $("[id^=" + id + "]", rootel).get(0);
+            var el = $("[id^=" + id + "]", $rootel).get(0);
             var parent = el.parentNode;
             parent.removeChild(el);
             saveState();
@@ -775,7 +775,7 @@ sakai.dashboard = function(tuid, showSettings) {
         var addingPossible = {};
         addingPossible.items = [];
 
-        $(addGoodiesListContainer, rootelClass).html("");
+        $(addGoodiesListContainer, $rootelClass).html("");
 
         for (var l in Widgets.widgets) {
             var alreadyIn = false;
@@ -799,7 +799,7 @@ sakai.dashboard = function(tuid, showSettings) {
         // Render the list of widgets. The template will render a remove and add row for each widget, but will
         // only show one based on whether that widget is already on my dashboard
 
-        $(addGoodiesListContainer, rootelClass).html($.TemplateRenderer(addGoodiesListTemplate, addingPossible));
+        $(addGoodiesListContainer, $rootelClass).html($.TemplateRenderer(addGoodiesListTemplate, addingPossible));
         bindGoodiesEventHandlers();
 
         // Show the modal dialog
@@ -812,9 +812,9 @@ sakai.dashboard = function(tuid, showSettings) {
     * to my dashboard. Before it shows on the screen, we'll render the list of
     * widgets through a TrimPath template
     */
-     $(addGoodiesDialog, rootel).jqm({
+     $(addGoodiesDialog, $rootel).jqm({
          modal: true,
-         trigger: $(addGoodiesTrigger, rootel),
+         trigger: $(addGoodiesTrigger, $rootel),
          overlay: 20,
          toTop: true,
          onShow: renderGoodies
@@ -836,13 +836,20 @@ sakai.dashboard = function(tuid, showSettings) {
         widgetPropertyName = propertyname;
 
         // add the tuid to the dialogs so they can be bound to by each instance of this widget
-        $(addGoodiesDialog, rootel).addClass(tuid);
-        $(changeLayoutDialog, rootel).addClass(tuid);
+        $(addGoodiesDialog, $rootel).addClass(tuid);
+        $(changeLayoutDialog, $rootel).addClass(tuid);
+
+        // reinitialize the selector after adding the class to the elements
+        $rootelClass = $($rootelClass.selector);
 
         if (fixedContainer) {
-            $(".widget-content .dashboard_options", rootel).addClass("fixed-container");
-            $(".widget-content #widgetscontainer", rootel).addClass("fixed-container");
+            $(".widget-content .dashboard_options", $rootel).addClass("fixed-container");
+            $(".widget-content #widgetscontainer", $rootel).addClass("fixed-container");
         }
+
+        // prevent the container from flashing at 100% width if it needs to be a fixed-container
+        // by showing it here instead of by default
+        $(".widget-content #widgetscontainer", $rootel).show();
 
         sakai.api.Widgets.loadWidgetData(tuid, decideExists);
     };
