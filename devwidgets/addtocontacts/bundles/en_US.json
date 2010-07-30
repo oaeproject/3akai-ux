@@ -1,16 +1,2 @@
 {
-"name": "Add to contacts",
-"description": "Addtocontacts widget\r\n",
-"WIDGET_TITLE": "Addtocontacts",
-"FAILED_TO_SEND_THE_MESSAGE": "Failed to send the message",
-"FAILED_TO_INVITE_THIS_USER": "Failed to invite this user",
-"PLEASE_SELECT_HOW_YOU_ARE_CONNECTED_TO_THIS_USER": "Please select how you are connected to this  user",
-"CLOSE_DIALOG": "Close Dialog",
-"TO_CONNECT_THROUGH_SAKAI": "to connect through Sakai",
-"INVITE": "Invite",
-"CANCEL": "Cancel",
-"ADD_TO_CONTACTS": "Add to Contacts",
-"ADD_A_PERSONAL_NOTE_TO_THE_INVITATION": "Add a personal note to the invitation",
-"HAS_BEEN_ADDED_TO_YOUR_CONTACTS_LIST": "has been added to your contact list",
-"I_WOULD_LIKE_TO_INVITE_YOU_TO_BECOME_A_MEMBER_OF_MY_NETWORKS_ON_SAKAI": "I would like to invite you to become a member of my network on Sakai"
 }
