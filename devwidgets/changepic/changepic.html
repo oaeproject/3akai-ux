@@ -42,7 +42,9 @@
 
             <form id="changepic_form" method='POST' enctype='multipart/form-data' onsubmit="return AIM.submit(this, {'onStart' : sakai.changepic.startCallback, 'onComplete' : sakai.changepic.completeCallback});">
                 <h4>__MSG__UPLOAD_A_NEW_PICTURE__</h4>
-                <input type="file" name="profilepicture" id="profilepicture"/>
+                <span id="profilepicuploadfield">
+                    <input type="file" name="profilepicture" id="profilepicture"/>
+                </span>
                 <br/><br/>
                 <!-- BUTTONS -->
                 <div class="dialog_buttons">
