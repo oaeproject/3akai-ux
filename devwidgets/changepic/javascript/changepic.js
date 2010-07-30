@@ -122,6 +122,7 @@ sakai.changepic = function(tuid, showSettings){
         $(tabUploadContent).hide();
     };
 
+
     /**
      * Clicked on the upload tab
      */
@@ -157,11 +158,24 @@ sakai.changepic = function(tuid, showSettings){
             marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
             marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
         });
-
     }
 
-    sakai.changepic.doInit = function(newpic){
+     /**
+     * Empty upload field by resetting the form
+     */
+    sakai.changepic.resetUploadField = function(){
+        var formhtml = $("#profilepicuploadfield").html();
+        $("#profilepicture").remove();
+        $("#profilepicuploadfield").append(formhtml);
+    };
 
+    // Add click event to all cancel buttons in the overlay
+    // Since file upload form is reset every time overlay closes do this in init function
+    $("#changepic_container .jqmClose").click(function(){
+        sakai.changepic.resetUploadField();
+    });
+
+    sakai.changepic.doInit = function(newpic){
         // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
         if (newpic) {
             imageareaobject = null;
@@ -409,8 +423,8 @@ sakai.changepic = function(tuid, showSettings){
     $(containerTrigger).live("click", function(){
         $(container).jqmShow();
     });
-};
 
+};
 
 /**
  * This method gets called the second we submit the form
@@ -444,7 +458,7 @@ sakai.changepic.completeCallback = function(response){
         type : "POST",
         data : data,
         success : function(data) {
-
+            sakai.changepic.resetUploadField();
             // we have saved the profile, now do the widgets other stuff.
             sakai.changepic.doInit(true);
         },
