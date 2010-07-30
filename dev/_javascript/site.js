@@ -662,7 +662,7 @@ sakai.site = function(){
     $(window).bind("sakai.dashboard.ready", function(e, tuid) {
         var split = $(sakai.site.pagecontents[sakai.site.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
         // make sure the dashboard that said it's ready is the one we just got the data for
-        if (split[2] == tuid) {
+        if (split[2] === tuid) {
             if (sakai.site.isCollaborator) {
                 sakai.dashboard.init(split[3] + "_" + split[4] + tuid + "/dashboardwidgets/", true, "siteportal", false);
                 $li_edit_page_divider.hide();
