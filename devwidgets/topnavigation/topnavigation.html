@@ -4,12 +4,15 @@
 <div id="explore_nav_container" style="display:none">
     <div class="fl-container explore_nav">
         <ul class="explore">
-            <li id="nav_my_sakai_link"><a href="/dev/my_sakai.html">__MSG__MY_SAKAI__</a></li>
-            <li id="nav_content_media_link"><a  href="javascript:;" class="explore_inactive">__MSG__CONTENT_AND_MEDIA__</a></li>
-            <li id="nav_people_link" class="chat_has_dropdown nav_people_link"><a href="/dev/people.html">__MSG__PEOPLE__</a></li>
-            <li id="nav_courses_sites_link" class="chat_has_dropdown nav_courses_sites_link"><a href="javascript:;" class="explore_inactive">__MSG__COURSES_AND_SITES__</a></li>
-            <li id="nav_events_link"><a href="javascript:;" class="explore_inactive">__MSG__CALENDAR__</a></li>
+
         </ul>
+        
+        <!-- NAVIGATION TEMPLATE -->
+        <div id="navigation_template" style="display:none"><!--
+            {for i in Navigation}
+                <li><a href="${i.url}" title="${i.label}">${i.label}</a></li>
+            {/for}
+        --></div>
 
         <!-- PERSONAL CONTAINER -->
         <div class="personal-container fl-force-right">

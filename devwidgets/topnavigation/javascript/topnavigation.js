@@ -509,6 +509,8 @@ sakai.topnavigation = function(tuid, showSettings){
      * executed on the initial load of the page
      */
     var doInit = function(){
+        // Get navigation and render menu template
+        $(".explore").html($.TemplateRenderer("navigation_template", sakai.config));
 
         var person = sakai.data.me;
 
@@ -542,13 +544,10 @@ sakai.topnavigation = function(tuid, showSettings){
     };
 
     if (sakai.data.me.user.anon) {
-
         // If a user is not logged in -> switch to anonymous mode
         switchToAnonymousMode();
     }
     else {
-        //loadChatWindows();
-        //checkOnline();
         doInit();
     }
 

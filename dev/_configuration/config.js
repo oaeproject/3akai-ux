@@ -230,6 +230,29 @@ sakai.config = {
         }
     },
 
+    Navigation: [
+        {
+            "url" : "/dev/my_sakai.html",
+            "label" : "__MSG__MY_SAKAI__"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "__MSG__CONTENT_AND_MEDIA__"
+        },
+        {
+            "url" : "/dev/people.html",
+            "label" : "__MSG__PEOPLE__"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "__MSG__COURSES_AND_SITES__"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "__MSG__CALENDAR__"
+        }
+    ],
+
     displayDebugInfo: true,
 
     widgets: {}
