@@ -1,0 +1,102 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* CHAT */
+#widget_chat { position: relative; width: 960px; margin: 0 auto; }
+#widget_chat #user_link_menu { position: absolute; top: 43px; right: 285px; }
+
+/* chat_available */
+#chat_available table { margin:0; }
+#chat_available table th, #chat_available table td { border:none;text-align:left;padding:7px; }
+#chat_available_me .chat_top_container {border-bottom:1px #ebebeb solid;}
+.chat_available_status_online {background:url(/devwidgets/navigationchat/images/chat_status_online.png) no-repeat 0px 2px;}
+.chat_top_container .chat_available_image {width:40px;}
+.chat_top_container .chat_available_image img {height:40px;width:40px;}
+.chat_available_friend img {height:32px;width:32px;}
+#chat_available_others .chat_available_image {width:32px;}
+.chat_top_container .chat_available_name, #chat_available_others .initiate_chat_window {color:#666;font-weight:bold;padding-left:13px;}
+#chat_available_others .initiate_chat_window {color:#058ec4;}
+.chat_available_statusmessage {color:#999;font-size:90%;}
+.chat_available_others_nooverflow {background:#fff;}
+.chat_available_others_nooverflow table {background:#fff;width:215px;}
+.chat_available_others_overflow {background:#fff;height:184px;overflow:auto;position:relative; }
+.chat_available_others_overflow table {width:200px;}
+#chat_available_others tr {border-top:1px #ebebeb solid;}
+
+/* show online */
+#show_online {background-color:#d5dbdf;border:1px solid #666666; border-bottom: none;bottom:25px;text-align:left;width:215px;z-index:-1; right:146px; line-height: normal; position: relative;}
+.show_online_visible {background: url(/dev/_images/chat_online_active.png); color: #666; border-right: 1px solid #666;}
+
+/* chat_no_online_connections */
+#chat_no_online_connections {color:#999;}
+
+/* chat_button_image */
+.chat_button_image {position:absolute;top:7px;right:7px;}
+.chat_user_button_image {float:right;padding:0px 3px 0 0;}
+.chat_content_message {color: #000;}
+
+/* user_chat */
+.user_chat {border-right:1px solid #454A4F;cursor:pointer;float:left;height:30px;line-height:30px;margin-left:auto;padding-left:10px;text-align:left;width:140px;}
+.user_chat_first .show_online_visible {border-left:1px solid #454A4F;}
+.chat_with_user {background-color:#D5DBDF;border:1px solid #454A4F;bottom:24px; text-align:left;width:215px;z-index:-1; position: relative; bottom: 315px;}
+.chat_name_link {color:#fff;padding-left:15px;}
+.show_online_visible .chat_name_link {color: #666 !important;}
+.chat_top_table {margin:0px !important;}
+.chat_top_table th, .chat_top_table td {text-align:left;padding:7px 0 7px 7px !important;width:100%;}
+.chat_window_name {color:#1696c8;font-weight:bold;}
+.chat_with_txt {border:none !important;border-top:1px #d3d3d3 solid !important;padding:8px;width:199px !important;}
+.chat_main_container {bottom:0;height:30px;width:100%;z-index:99;}
+
+/* chat_content */
+.chat_with_content_overflow, .chat_with_content_nooverflow {background-color:#fff;border-top:1px #d3d3d3 solid !important;height:185px;}
+.chat_with_content_overflow {overflow:auto;}
+.chat_with_content_overflow .chat_content_container, .chat_with_content_nooverflow .chat_content_container {border-bottom:1px #d3d3d3 solid !important;padding:8px;}
+.chat_with_content_overflow .chat_content_container {width:184px;}
+.chat_with_content_nooverflow .chat_content_container {width:199px;}
+.chat_content_name, .chat_content_time {color:#ccc;}
+.chat_content_name {float:left;font-weight:bold;}
+.chat_content_time {float:right;}
+
+/* user status */
+.chat_available_status_online, .chat_available_status_busy, .chat_available_status_offline {padding-left:15px;}
+.chat_available_status_online { background: url("../images/bullet_green.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_busy {background:url("../images/bullet_orange.png") no-repeat scroll -3px -1px transparent; }
+.chat_available_status_offline {background:url("../images/bullet_red.png") no-repeat scroll -3px -1px transparent; }
+.pretend_link {cursor:pointer;}
+#chat_container {background: #444; color:#fff;height:25px;width: 960px;margin: 0 auto;position:relative;top:5px;}
+.chat_main_table {background: #444; width:100%;height:30px;}
+#chat_online_connections_link {cursor:pointer;width:50px; background: #333; }
+#online_button {border-left:1px solid #454a4f; color: #fff; float:right;height:30px;line-height:30px;margin-left:auto;text-align:center;top:-1px;width:70px;}
+.chat_people_icon {cursor:pointer;position:relative;top:1px;}
+.doFixed {position:fixed;}
+
+/* NAVIGATION DROPDOWN CSS */
+.chat_main_container th,.chat_main_container td {border:none;padding:0;}
+.chat_main_table .chat_straight_link {position:relative;top:-3px;}
+.show_online_visible a {color: #666;}
+
+/* MAIN */
+.initiate_chat_window,.chat_straight_link {color:#fff;cursor:pointer;font-size:90%;}
+.dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a {color:#006e96;font-weight:700;}
+#people_dropdown_main .button, #mysites_dropdown_main .button {float:none;display:inline;}
+#people_dropdown_my_contacts_list {padding-bottom: 10px;}
+.chat_has_dropdown img, .chat_has_dropdown span { float:left; position:relative;}
+.chat_has_dropdown img { padding:1px 0px 0px 0px; margin:0px 0px 0px 5px;}
+
+.dropdown_bottom_part_left {width: 960px; margin: 0 auto; background: url(/dev/_images/dropdown_bottom_left.png) no-repeat; height: 10px;}
+.dropdown_bottom_part_right {background: url(/dev/_images/dropdown_bottom_right.png) no-repeat top right; height: 10px;}
