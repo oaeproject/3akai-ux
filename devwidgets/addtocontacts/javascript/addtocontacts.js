@@ -95,7 +95,7 @@ sakai.addtocontacts = function(tuid, showSettings){
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
-                $(addToContactsInfoProfilePicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(user.picture).name);
+                $(addToContactsInfoProfilePicture).attr("src", "/~" + user.uuid + "/public/profile/" + $.parseJSON(user.picture).name);
             }
             else {
                 $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
