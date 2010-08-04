@@ -123,7 +123,7 @@
                     <div class="widget_spacer"></div>
                 {for p in c.portlets}
                     <div class="fl-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                        <div class="fl-widget-titlebar widget1-head fl-fix" id="draghandle_${p.id}_${p.uid}">
+                        <div class="fl-widget-titlebar widget1-head" id="draghandle_${p.id}_${p.uid}">
                             <div class="widget-titlebar-inner">
                                 <h2 class="widget_title">${p.title}</h2>
                                 <a href="javascript:;" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings" style="display:none">__MSG__SETTINGS__</a>
@@ -142,6 +142,9 @@
             {/for}
         </div>
     --></div>
+    
+    <!-- Note: Removed fl-fix in the titlebar as it chokes FireFox. Please put it back if it gives problems
+    in other browsers -->
 
     <div class="fl-container-flex widget-content">
         <div class="dashboard_options fl-fix fl-centered" style="display:none">
