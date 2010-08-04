@@ -1,0 +1,16 @@
+/* GENERAL */
+#dashboard_container strong {color: #000;}
+#dashboard_container .dialog_buttons .button {color: #666;}
+
+/* OPTIONS */
+#dashboard_container .dashboard_options {text-align: right; width:620px; padding-right:10px;}
+#dashboard_container .dashboard_options.fixed-container { padding:0 20px; width:920px; }
+#dashboard_container .dashboard_options a {font-size: 9pt; color: #454A4F; font-weight: bold}
+
+/* TOOLS CONTAINER - RIGHT COLUMN */
+#dashboard_container #toolscontainer { margin-left: 20px; }
+
+/* WIDGET CONTAINER */
+#dashboard_container #widgetscontainer {background-color: #fff; padding-top: 1px; padding-bottom: 20px;}
+#dashboard_container #widgetscontainer .fl-widget {margin-top: 1px}
+#dashboard_container .widget_spacer {height:1px;}

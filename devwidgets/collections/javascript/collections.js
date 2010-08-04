@@ -147,7 +147,7 @@ sakai.collections = function(tuid, showSettings) {
         sakai.api.Widgets.saveWidgetData(tuid, widgetData, function(success, data) {
             if (success) {
                 if (showSettings) {
-                    sakai.api.Widgets.Container.informFinish(tuid);
+                    sakai.api.Widgets.Container.informFinish(tuid, "collections");
                 }
             }
         });
@@ -1652,7 +1652,7 @@ sakai.collections = function(tuid, showSettings) {
     });
 
     $(collectionsSettingsCancel, $(rootel)[0]).live("click", function() {
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "collections");
         return false;
     });
 

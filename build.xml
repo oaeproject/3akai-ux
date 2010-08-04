@@ -24,6 +24,9 @@
         <property name="SRC_DIR_VAR" value="var" description="Source folder for content under /var that needs to be stored in JCR" />
         <property name="TARGET_DIR_VAR" value="${TARGET_RESOURCES}/var" description="Target folder for content under /var that needs to be stored in JCR" />
 
+        <property name="SRC_DIR_APPS" value="apps" description="Source folder for content under /apps that needs to be stored in JCR" />
+        <property name="TARGET_DIR_APPS" value="${TARGET_RESOURCES}/apps" description="Target folder for content under /apps that needs to be stored in JCR" />
+
         <!-- SETUP - Processed output file names -->
         <property name="TARGET_JAR_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.jar" description="Target JAR file" />
         <property name="TARGET_ZIP_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.zip" description="Target ZIP file" />
@@ -68,6 +71,7 @@
         <mkdir dir="${TARGET_DIR}"/>
         <mkdir dir="${TARGET_DIR_W}"/>
         <mkdir dir="${TARGET_DIR_VAR}"/>
+        <mkdir dir="${TARGET_DIR_APPS}"/>
         <mkdir dir="${TARGET_COMPRESSED_DIR}"/>
         <mkdir dir="${TARGET_DOCUMENTATION_DIR}"/>
         <mkdir dir="${TARGET_REPORTS_DIR}"/>
@@ -93,6 +97,11 @@
         <echo message="Making a copy of var content files..." />
         <copy todir="${TARGET_DIR_VAR}">
             <fileset dir="${SRC_DIR_VAR}" />
+        </copy>
+
+        <echo message="Making a copy of apps content files..." />
+        <copy todir="${TARGET_DIR_APPS}">
+            <fileset dir="${SRC_DIR_APPS}" />
         </copy>
 
     </target>

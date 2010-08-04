@@ -811,6 +811,17 @@ sakai.api.l10n.getSiteLocale = function() {
  */
 sakai.api.Security = sakai.api.Security || {};
 
+/**
+ * Encodes the HTML characters inside a string so that the HTML characters (e.g. <, >, ...)
+ * are treated as text and not as HTML entities
+ * 
+ * @param {String} inputString  String of which the HTML characters have to be encoded
+ * 
+ * @returns {String} HTML Encoded string
+ */
+sakai.api.Security.escapeHTML = function(inputString){
+    return $("<div/>").text(inputString).html();
+}
 
 /**
  * Sanitizes HTML content. All untrusted (user) content should be run through
@@ -969,7 +980,9 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
     }
 
     /**
-     * <p>Convert all the arrays in an object to an object with a unique key</p>
+     * <p>Convert all the arrays in an object to an object with a unique key.<br />
+     * Mixed arrays (arrays with multiple types) are not supported.
+     * </p>
      * <code>
      * {
      *     "boolean": true,
@@ -994,7 +1007,6 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         // Since the native createTree method doesn't support an array of objects natively,
         // we need to write extra functionality for this.
         for(var i in obj){
-
 
             // Check if the element is an array, whether it is empty and if it contains any elements
             if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0 && $.isPlainObject(obj[i][0])) {
@@ -1035,9 +1047,10 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
         url: i_url,
         type: "POST",
         data: {
-            ":operation": "createTree",
-            "tree": $.toJSON(i_data),
-            "delete": 1
+            ":operation": "import",
+            ":contentType": "json",
+            ":content": $.toJSON(i_data),
+            ":replace": true
         },
         dataType: "json",
 
@@ -1643,66 +1656,36 @@ sakai.api.User.login = function(credentials, callback) {
 sakai.api.User.logout = function(callback) {
 
     /*
-     * Array to store the data for the batch Ajax POST.
-     * Each object in this array consists out of
-     *     - the config service URL
-     *     - the used Ajax method
-     *     - the parameters for the service
-     */
-    var data = [];
-
-    /*
-     * POST request to the presence service,
-     * which will change the user status to offline.
-     */
-    data.push({
-        "url": sakai.config.URL.PRESENCE_SERVICE,
-        "method": "POST",
-        "parameters": {
-            "sakai:status": "offline",
-            "_charset_": "utf-8"
-        }
-    });
-
-    /*
      * POST request to the logout service,
      * which will destroy the session.
      */
-    data.push({
-        "url": sakai.config.URL.LOGOUT_SERVICE,
-        "method": "POST",
-        "parameters": {
-            "sakaiauth:logout": "1",
-            "_charset_": "utf-8"
-        }
-    });
-
-    /*
-     * The batch Ajax post.
-     * If the request fails, it is probably because there is no current session.
-     */
     $.ajax({
-        url: sakai.config.URL.BATCH,
+        url: sakai.config.URL.PRESENCE_SERVICE,
         type: "POST",
         data: {
-            requests: $.toJSON(data)
+        	"sakai:status": "offline",
+            "_charset_": "utf-8"
         },
-        success: function(data){
-
-            // Call callback function if set
-            if (typeof callback === "function") {
+        success: function(data) {
+            if (typeof callback === "function"){
                 callback(true, data);
             }
-
-        },
-        error: function(xhr, textStatus, thrownError){
-
-            // Call callback function if set
-            if (typeof callback === "function") {
+            /*
+             * Redirect to the standard logout servlet, which
+             * will destroy the session.
+             */
+             window.location = sakai.config.URL.LOGOUT_SERVICE;
+         },
+         error: function(xhr, textStatus, thrownError){
+            if (typeof callback === "function"){
                 callback(false, xhr);
             }
-
-        }
+            /*
+             * Redirect to the standard logout servlet, which
+             * will destroy the session.
+             */
+             window.location = sakai.config.URL.LOGOUT_SERVICE;
+         }
     });
 
 };
@@ -1886,6 +1869,18 @@ sakai.api.Util.notification.show = function(title, text, type){
     $.gritter.add(notification);
 
 };
+
+
+/**
+ * Remove all the notification messages that are currently visible to the user
+ */
+sakai.api.Util.notification.removeAll = function(){
+
+    // Remove gritter notification messages
+    // We don't use the $.gritter.removeAll method since that causes pop-ups to flicker
+    $('#gritter-notice-wrapper').remove();
+
+}
 
 
 /**
@@ -2462,6 +2457,7 @@ sakai.api.Widgets.widgetLoader = {
                 $.ajax({
                     url: sakai.config.URL.BATCH,
                     traditional: true,
+                    cache: false,
                     data: {
                         requests: $.toJSON(urls)
                     },

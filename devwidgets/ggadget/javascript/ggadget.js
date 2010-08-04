@@ -107,7 +107,7 @@ sakai.ggadget = function(tuid, showSettings){
      * Called when the data has been saved to the JCR.
      */
     var savedDataToJCR = function(){
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "ggadget");
     };
 
 
@@ -347,7 +347,7 @@ sakai.ggadget = function(tuid, showSettings){
 
         // Cancel it
         $(remotecontentSettingsCancel).click(function(){
-            sakai.api.Widgets.Container.informCancel(tuid);
+            sakai.api.Widgets.Container.informCancel(tuid, "ggadget");
         });
 
         addColorBinding();

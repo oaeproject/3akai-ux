@@ -993,7 +993,7 @@ sakai.blog = function(tuid, showSettings) {
      * Closes the overlay.
      */
     var closeSettingsView = function() {
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "blog");
     };
 
 
@@ -1036,7 +1036,7 @@ sakai.blog = function(tuid, showSettings) {
     });
 
     $(buttonSettingsCancel, rootel).bind('click', function(){
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "blog");
     });
 
     /**

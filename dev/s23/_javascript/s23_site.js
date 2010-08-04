@@ -195,16 +195,11 @@ sakai.s23_site = function(){
         // Send an Ajax request to the sakai2 tools service
         $.ajax({
             url: sakai.config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
+            dataType: "json",
             success: function(data){
 
-                // Evaluate the data to JSON
-                if(typeof data === "string"){
-                    completeJSON = $.parseJSON(data);
-                    fluid.log("s23_site page - getSakai2SiteInfo - The sakai2 tools service should return a valid JSON response header.");
-                } else {
-                    completeJSON = $.extend(data, {}, true);
-                }
-
+                completeJSON = $.extend(data, {}, true);
+                
                 // Parse the Sakai2 info
                 parseSakai2SiteInfo();
             },

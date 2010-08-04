@@ -37,12 +37,7 @@ var testJSON = {
     }],
     "array_string": ["value1", "value2", "value3", "value4", "value5"],
     "array_int": [1, 2, 3, 4, 5],
-    "array_boolean": [true, false, true, true, false],
-    "array_mixed": [{
-        "key1": "value1",
-        "key2": "value2",
-        "key3": "value3"
-    }, "teststring", 42, true]
+    "array_boolean": [true, false, true, true, false]
 };
 var testJSON2 = {
     "columns": {
@@ -63,6 +58,9 @@ var testJSON2 = {
     },
     "layout": "dev"
 };
+// We use this to check whether a value can be changed correctly
+var testJSON3 = $.extend(true, {}, testJSON2);
+testJSON3.layout = "threecolumn";
 
 var testURL = "/~admin/public/test";
 var testURL2 = "/~admin/public/test2";
@@ -110,6 +108,9 @@ asyncTest("Save a JSON file - big structure", function(){
 asyncTest("Save a JSON file - my_sakai example", function(){
     save(testURL2, testJSON2);
 });
+asyncTest("Save a JSON file - my_sakai example - changed", function(){
+    save(testURL2, testJSON3);
+});
 test("Save a JSON file - bad parameters", function(){
 
     testCallbackCount = 0;
@@ -144,8 +145,8 @@ var load = function(url, json){
 asyncTest("Load a JSON file - big structure", function(){
     load(testURL, testJSON);
 });
-asyncTest("Load a JSON file - my_sakai example", function(){
-    load(testURL2, testJSON2);
+asyncTest("Load a JSON file - my_sakai example - changed", function(){
+    load(testURL2, testJSON3);
 });
 test("Load a JSON file - bad parameters", function(){
 

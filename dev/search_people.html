@@ -18,6 +18,7 @@
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css"/>
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -49,8 +50,8 @@
 
     <body id="root" class="fl-centered fl-container i18nable search-container">
 
-        <!-- EXPLORE BAR -->
-        <div id="widget_navigationchat" class="widget_inline"></div>
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- CONTENT -->
         <div class="fl-container-flex content content_search">
@@ -168,10 +169,14 @@
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
+        <!-- CHAT -->
+        <div id="widget_chat" class="widget_inline"></div>
+
         <div id="widget_createsite" class="widget_inline"></div>
 
         <script type="text/javascript" src="_javascript/search_main.js"></script>
         <script type="text/javascript" src="_javascript/search_people.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
     </body>
 

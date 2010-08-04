@@ -44,6 +44,16 @@ var Widgets = {
             "siteportal": false
         }
     },
+    "defaults": {
+        "personalportal":{
+            "layout": "dev",
+            "columns": [["sites", "myfriends"], ["myprofile"]]
+        },
+        "siteportal":{
+            "layout": "dev",
+            "columns": [["sitemembers"], []]
+        }
+    },
     "orders":[
         {
             "grouptype":"General",

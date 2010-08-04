@@ -1,7 +1,7 @@
 {
-"name": "navigationchat",
-"description": "Chat widget\r\n",
-"WIDGET_TITLE": "Chat",
+"name": "topnavigation",
+"description": "Top Navigation widget\r\n",
+"WIDGET_TITLE": "Top Navigation",
 "CONTENT_AND_MEDIA": "Content &amp; Media",
 "PEOPLE": "People",
 "COURSES_AND_SITES": "Courses &amp; Sites",

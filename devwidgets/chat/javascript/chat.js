@@ -15,10 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie, window, alert */
-
-var sakai = sakai || {};
-
 /**
  * @name sakai.flashChat
  *
@@ -58,6 +54,7 @@ sakai.flashChat = {
     scroll_to_bottom: function(el){
         el.attr("scrollTop", el.attr("scrollHeight"));
     },
+
 
     /////////////////////
     // Flash functions //
@@ -146,24 +143,25 @@ sakai.flashChat = {
 };
 
 /**
- * @name sakai.navigationchat
+ * @name sakai.chat
  *
- * @class navigationchat
+ * @class chat
  *
  * @description
- * Initialize the navigationchat widget
+ * Initialize the chat widget
  *
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.navigationchat = function(tuid, showSettings){
+sakai.chat = function(tuid, showSettings){
 
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
 
     var currentChatStatus = "";
+
     var hasOpenChatWindow = false; // Does the current user has open chat windows
     var personIconUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
     var pulltime = "2100-10-10T10:10:10.000Z";
@@ -192,51 +190,19 @@ sakai.navigationchat = function(tuid, showSettings){
     var chatAvailableMinimize = chatAvailable + "_minimize";
     var chatOnline = "#chat_online";
     var chatOnlineConnectionsLink = chatOnline + "_connections_link";
-    var chatUnreadMessages = "#chat_unreadMessages";
     var chatWindow = "#chat_window";
     var chatWindowChatstatus = chatWindow + "_chatstatus";
     var chatWindows = "#chat_windows";
     var chatWith = "#chat_with";
 
-    // Navigation
-    var nav = "#nav";
-    var navContentMediaLink = "#nav_content_media_link";
-    var navCoursesSitesLink = "#nav_courses_sites_link";
-    var navCoursesSitesLinkClass = "#nav_courses_sites_link";
-    var navPeopleLink = "#nav_people_link";
-    var navPeopleLinkClass = "nav_people_link";
-    var navMySakaiLink = "#nav_my_sakai_link";
-    var navCalendarLink = "#nav_calendar_link";
-    var navSelectedNavItemClass = "explore_nav_selected";
-
-    // Search
-    var $general_search_form = $("#genaral_search_container form");
-    var $general_search_input = $("#general_search_input");
-    var searchFocus = false;
-
-    // User Link
-    var userLink = "#user_link";
-    var userLinkMenu = userLink + "_menu";
-    var userLinkMenuLink = userLink + "_menu" + " a";
-
-    // Login
-    var $login_error_message = $("#login_error_message");
-    var $login_container = $("#login_container");
-    var $login_submit_button = $("#login_submit_button");
-    var $login_cancel_button = $("#login_cancel_button");
-    var $login_busy = $("#login_busy");
-
     // CSS Classes
-    var searchInputFocusClass = "search_input_focus";
-
+    var chatWithContentClass = "chat_with_content";
+    var chatWithContentNooverflowClass = chatWithContentClass + "_nooverflow";
+    var chatWithContentOverflowClass = chatWithContentClass + "_overflow";
     var chatAvailableStatusClass = "chat_available_status";
     var chatAvailableStatusClassOnline = chatAvailableStatusClass + "_online";
     var chatAvailableStatusClassBusy = chatAvailableStatusClass + "_busy";
     var chatAvailableStatusClassOffline = chatAvailableStatusClass + "_offline";
-
-    var chatWithContentClass = "chat_with_content";
-    var chatWithContentNooverflowClass = chatWithContentClass + "_nooverflow";
-    var chatWithContentOverflowClass = chatWithContentClass + "_overflow";
 
     var showOnlineVisibleClass = "show_online_visible";
 
@@ -252,19 +218,46 @@ sakai.navigationchat = function(tuid, showSettings){
 
     // Containers
     var chatMainContainer = "#chat_main_container";
-    var exploreNavigationContainer = "#explore_nav_container";
 
     // Templates
     var chatAvailableTemplate = "chat_available_template";
     var chatContentTemplate = "chat_content_template";
     var chatWindowsTemplate = "chat_windows_template";
 
-
     ///////////////////////
     // Utility functions //
     ///////////////////////
 
-    /*
+    /**
+     * Parse the picture for a user
+     * @param {String} picture The picture path for a user
+     * @param {String} userStoragePrefix The user's storage prefix
+     */
+    var parsePicture = function(profile, uuid){
+        // Check if the picture is undefined or not
+        // The picture will be undefined if the other user is in process of
+        // changing his/her picture
+        if (profile && profile.picture && $.parseJSON(profile.picture).name) {
+            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+        }
+        else {
+            return personIconUrl;
+        }
+    };
+
+    /**
+     * Add the id of the message to the array of send messages
+     * We needed to know which messages were send because otherwise
+     * the person who sended the message saw it 2 times
+     * @param {String} messageid The id of the message that was send
+     */
+    var addToSendMessages = function(messageid){
+
+        // Add the id of the message to the sendmessages array
+        sendMessages.push(messageid);
+    };
+
+        /*
      * Placeholders that will be replaced by the real functions. This
      * is necessary to comply with the JSLint rules
      */
@@ -289,19 +282,6 @@ sakai.navigationchat = function(tuid, showSettings){
     };
 
     /**
-     * Parse the chatstatus for a user
-     * @param {String} chatStatus The chatstatus which should be
-     * online, busy or offline
-     */
-    var parseChatStatus = function(chatStatus){
-        // Check if the status is defined
-        if (!chatStatus) {
-            chatStatus = "online";
-        }
-        return chatStatus;
-    };
-
-    /**
      * Parse the name for a user
      * @param {String} uuid Uuid of the user
      * @param {String} firstName Firstname of the user
@@ -313,23 +293,6 @@ sakai.navigationchat = function(tuid, showSettings){
         }
         else {
             return sakai.api.Util.shortenString(uuid, 11);
-        }
-    };
-
-    /**
-     * Parse the picture for a user
-     * @param {String} picture The picture path for a user
-     * @param {String} userStoragePrefix The user's storage prefix
-     */
-    var parsePicture = function(profile, uuid){
-        // Check if the picture is undefined or not
-        // The picture will be undefined if the other user is in process of
-        // changing his/her picture
-        if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-            return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
-        }
-        else {
-            return personIconUrl;
         }
     };
 
@@ -346,155 +309,6 @@ sakai.navigationchat = function(tuid, showSettings){
         }
         return sakai.api.Util.shortenString("No status message");
     };
-
-    /**
-     * Add the id of the message to the array of send messages
-     * We needed to know which messages were send because otherwise
-     * the person who sended the message saw it 2 times
-     * @param {String} messageid The id of the message that was send
-     */
-    var addToSendMessages = function(messageid){
-
-        // Add the id of the message to the sendmessages array
-        sendMessages.push(messageid);
-    };
-
-    /**
-     * Get the number of messages that are unread and show it.
-     */
-    var getCountUnreadMessages = function(){
-        // We only get the number of messages in our inbox folder that we havent read yet.
-        $.ajax({
-            url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=inbox",
-            success: function(data){
-
-                // Count unread messages
-                var unread_message_count = 0;
-                for (var i = 0; i < data.results.length; i++) {
-                    if (data.results[i]["sakai:read"] === false) {
-                        unread_message_count++;
-                    }
-                }
-
-                // Update display
-                $(chatUnreadMessages).text(unread_message_count);
-            },
-            error: function(xhr, status, thrown) {
-                fluid.log("Navigationchat widget - it was not possible to get the unread messages from the server.");
-            }
-        });
-    };
-
-
-    ////////////////
-    // NAVIGATION //
-    ///////////////
-
-    /**
-     * Keep focus above chat panel for keyboard navigation
-     */
-    $("a, input, select, textarea").focus(function(ev) {
-        var chatHeight = $(".chat_main_container").height();
-        //var scrOfY = $(window).scrollTop(); // broken in IE
-        var scrOfY = 0;
-        if( typeof( window.pageYOffset ) === 'number' ) {
-            //Mozilla compliant
-            scrOfY = window.pageYOffset;
-        } else if( document.body && ( document.body.scrollTop ) ) {
-            //DOM compliant
-            scrOfY = document.body.scrollTop;
-        } else if( document.documentElement && ( document.documentElement.scrollTop ) ) {
-            //IE6 standards compliant mode
-            scrOfY = document.documentElement.scrollTop;
-        }
-
-        if ((this.offsetTop + $(this).height() + chatHeight) > (scrOfY + $(window).height())){
-            window.scrollBy(0,100);
-        }
-    });
-
-    /**
-     * Select the page in the top navigation where you are currently on.
-     * This will apply a class to the selected navigation item based on the current URL
-     * @returns void;
-     */
-    var determineCurrentNav = function(){
-        var windowLocationPath = window.location.pathname.toLowerCase();
-
-        // Remove all selected classes from nav elements
-        $(nav + " " + navSelectedNavItemClass).removeClass(navSelectedNavItemClass);
-
-        // My Sakai
-        if ((windowLocationPath.indexOf(sakai.config.URL.MY_DASHBOARD_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_MY_DASHBOARD_URL) !== -1)) {
-            $(navMySakaiLink).addClass(navSelectedNavItemClass);
-            return;
-        }
-
-        // Content & Media
-        if ((windowLocationPath.indexOf(sakai.config.URL.CONTENT_MEDIA_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL) !== -1)) {
-            $(navContentMediaLink).addClass(navSelectedNavItemClass);
-            return;
-        }
-
-        // People
-        if ((windowLocationPath.indexOf(sakai.config.URL.PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_PEOPLE_URL) !== -1)) {
-            $(navPeopleLink).addClass(navSelectedNavItemClass);
-            return;
-        }
-
-        // Courses & Sites
-        if ((windowLocationPath.indexOf(sakai.config.URL.COURSES_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_COURSES_SITES_URL) !== -1) || (windowLocationPath.indexOf("/sites/") !== -1)) {
-            $(navCoursesSitesLink).addClass(navSelectedNavItemClass);
-            return;
-        }
-
-        // Calendar
-        if ((windowLocationPath.indexOf(sakai.config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_SEARCH_URL) !== -1)) {
-            $(navCalendarLink).addClass(navSelectedNavItemClass);
-            return;
-        }
-
-    };
-
-
-    ////////////
-    // SEARCH //
-    ////////////
-
-    /**
-     * Execute the search for the value that is in the search input field
-     */
-    var doSearch = function(){
-        var tosearch = $general_search_input.val();
-
-        if (tosearch) {
-            // Redirecting back to the general search page. This expects the URL to be
-            // in a format like this one: page.html#pageid|searchstring
-            document.location = sakai.config.URL.SEARCH_GENERAL_URL + "#q=" + tosearch;
-        }
-    };
-
-    /**
-     * If this is the first time the field gets focus, we'll make his text color black
-     * and remove the default value
-     */
-    $general_search_input.bind("focus", function(ev){
-        if (!searchFocus) {
-            $general_search_input.val("").addClass(searchInputFocusClass);
-            searchFocus = true;
-        }
-    });
-
-    /**
-     * Bind the submit event to the search form
-     * This event is triggered when you hit enter in the input field and
-     * when you click on the submit button
-     */
-    $general_search_form.bind("submit", function(){
-        doSearch();
-        return false;
-    });
-
 
     //////////
     // Chat //
@@ -734,7 +548,7 @@ sakai.navigationchat = function(tuid, showSettings){
 
         doWindowRender(clicked, specialjson);
 
-        sakai.navigationchat.loadChatTextInitial(true, activewindows);
+        sakai.chat.loadChatTextInitial(true, activewindows);
     };
 
     /**
@@ -816,6 +630,19 @@ sakai.navigationchat = function(tuid, showSettings){
     };
 
     /**
+     * Parse the chatstatus for a user
+     * @param {String} chatStatus The chatstatus which should be
+     * online, busy or offline
+     */
+    var parseChatStatus = function(chatStatus){
+        // Check if the status is defined
+        if (!chatStatus) {
+            chatStatus = "online";
+        }
+        return chatStatus;
+    };
+
+    /**
      * Show the friends that are online (status and chatstatus)
      */
     var showOnlineFriends = function(){
@@ -847,110 +674,43 @@ sakai.navigationchat = function(tuid, showSettings){
             json.items = [];
             json.totalitems = total;
             $(chatOnline).html("(0)");
-        } else {
+        }
+        else {
             json.totalitems = total;
             $(chatOnline).html("<b>(" + total + ")</b>");
         }
 
         json.me = {};
         if (json.me) {
-        json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
-        json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
-        json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
-        json.me.chatstatus = currentChatStatus;
+            json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
+            json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
+            json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
+            json.me.chatstatus = currentChatStatus;
 
-        // We render the template, add it to a temporary div element and set the html for it.
-        json.items = [];
-        for (var z = 0, k = json.contacts.length; z < k; z++) {
-            if (json.contacts[z]["sakai:status"] == "online" && json.contacts[z].chatstatus !== "offline") {
-                json.items.push(json.contacts[z]);
+            // We render the template, add it to a temporary div element and set the html for it.
+            json.items = [];
+            for (var z = 0, k = json.contacts.length; z < k; z++) {
+                if (json.contacts[z]["sakai:status"] == "online" && json.contacts[z].chatstatus !== "offline") {
+                    json.items.push(json.contacts[z]);
+                }
             }
-        }
-        var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
-        var renderedDiv = $(document.createElement("div"));
-        renderedDiv.html(renderedTemplate);
+            var renderedTemplate = $.TemplateRenderer(chatAvailableTemplate, json).replace(/\r/g, '');
+            var renderedDiv = $(document.createElement("div"));
+            renderedDiv.html(renderedTemplate);
 
-        // We only render the template when it's needed.
-        // The main reason we do this is to improve performance.
-        // It was not possible to compare the html from chatAvailable to the renderedTemplate (<br /> where replaced with <br>)
-        // so we made the temporary div, added the rendered template html for it and compared that to the html from chatAvailable
-        if ($(chatAvailable).html() !== renderedDiv.html()) {
-            $(chatAvailable).html(renderedTemplate);
-            var onlineWindow = $(showOnlineLink);
-            onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
-        }
+            // We only render the template when it's needed.
+            // The main reason we do this is to improve performance.
+            // It was not possible to compare the html from chatAvailable to the renderedTemplate (<br /> where replaced with <br>)
+            // so we made the temporary div, added the rendered template html for it and compared that to the html from chatAvailable
+            if ($(chatAvailable).html() !== renderedDiv.html()) {
+                $(chatAvailable).html(renderedTemplate);
+                var onlineWindow = $(showOnlineLink);
+                onlineWindow.css("bottom", 31 + onlineWindow.height() + "px");
+            }
         }
 
         enableDisableOnline();
 
-    };
-
-    /**
-     * Show or hide the user link menu
-     * @param {Boolean} hideOnly
-     *  true: Hide the menu only
-     *  false: Show or hide the menu depending if it's already visible
-     */
-    var showHideUserLinkMenu = function(hideOnly){
-        if ($(userLinkMenu).is(":visible") || hideOnly) {
-            $(userLinkMenu).hide();
-        }
-        else {
-            $(userLinkMenu).css("left", Math.round($(userLink).offset().left) + "px");
-            $(userLinkMenu).css("top", (Math.round($(userLink).offset().top) + $(userLink).height() + 2) + "px");
-            $(userLinkMenu).css("width", ($(userLink).width() + 10) + "px");
-            $(userLinkMenu).show();
-        }
-    };
-
-    /**
-     * Update the status on the page
-     */
-    var updateChatStatus = function(){
-        updateChatStatusElement($(userLink), currentChatStatus);
-        if ($(myprofileName)) {
-            updateChatStatusElement($(myprofileName), currentChatStatus);
-        }
-        showOnlineFriends();
-    };
-
-    /**
-     * Set the chatstatus of the user
-     * @param {String} chatstatus The chatstatus which should be
-     * online/offline or busy
-     */
-    var sendChatStatus = function(chatstatus){
-        currentChatStatus = chatstatus;
-
-        var data = {
-            "chatstatus": chatstatus,
-            "_charset_": "utf-8"
-        };
-
-        $.ajax({
-            url: sakai.data.me.profile["jcr:path"],
-            type: "POST",
-            data: data,
-            success: function(data){
-                updateChatStatus();
-            },
-            error: function(xhr, textStatus, thrownError){
-                alert("An error occurend when sending the status to the server.");
-            }
-        });
-    };
-
-    /**
-     * Get the chat status for the current user
-     */
-    var getChatStatus = function(){
-        if (sakai.data.me.profile) {
-            currentChatStatus = parseChatStatus(sakai.data.me.profile.chatstatus);
-        }
-        else {
-            currentChatStatus = "online";
-        }
-        updateChatStatus();
     };
 
     /**
@@ -971,7 +731,7 @@ sakai.navigationchat = function(tuid, showSettings){
             var $clicked = $(e.target);
 
             // Check if one of the parents is the userLink
-            if(!$clicked.parents().is(userLink)){
+            if (!$clicked.parents().is(userLink)) {
                 showHideUserLinkMenu(true);
             }
         });
@@ -1250,7 +1010,7 @@ sakai.navigationchat = function(tuid, showSettings){
      * }
      * The update variable will be true
      */
-    sakai.navigationchat.checkNewMessages = function(){
+    sakai.chat.checkNewMessages = function(){
 
         // Create a data object
         var data = {};
@@ -1272,10 +1032,10 @@ sakai.navigationchat = function(tuid, showSettings){
                     pulltime = data.pulltime;
 
                     if (data.update) {
-                        sakai.navigationchat.loadChatTextInitial(false);
+                        sakai.chat.loadChatTextInitial(false);
                     }
                     else {
-                        setTimeout(sakai.navigationchat.checkNewMessages, 5000);
+                        setTimeout(sakai.chat.checkNewMessages, 5000);
                     }
                 }
             });
@@ -1291,7 +1051,7 @@ sakai.navigationchat = function(tuid, showSettings){
      *  JSON object that contains information about the user window that
      *  needs to be loaded
      */
-    sakai.navigationchat.loadChatTextInitial = function(initial, specialjson, hasNew){
+    sakai.chat.loadChatTextInitial = function(initial, specialjson, hasNew){
 
         // Check if the current user is anonymous.
         // If this is the case, exit this function
@@ -1449,7 +1209,7 @@ sakai.navigationchat = function(tuid, showSettings){
 
                                 // Render the windows and load the initial chat text function again
                                 doWindowRender(null, newactivewindows);
-                                sakai.navigationchat.loadChatTextInitial(true, newactivewindows, true);
+                                sakai.chat.loadChatTextInitial(true, newactivewindows, true);
 
                             }
                         }
@@ -1457,14 +1217,14 @@ sakai.navigationchat = function(tuid, showSettings){
                 }
 
                 if (doreload) {
-                    setTimeout(sakai.navigationchat.checkNewMessages, 5000);
+                    setTimeout(sakai.chat.checkNewMessages, 5000);
                 }
             },
 
             error: function(xhr, textStatus, thrownError){
 
                 //if (doreload) {
-                // setTimeout("sakai.navigationchat.loadChatTextInitial('" + false +"')", 5000);
+                // setTimeout("sakai.chat.loadChatTextInitial('" + false +"')", 5000);
                 //}
             }
         });
@@ -1489,7 +1249,7 @@ sakai.navigationchat = function(tuid, showSettings){
             doWindowRender(toshow);
         }
 
-        sakai.navigationchat.loadChatTextInitial(true);
+        sakai.chat.loadChatTextInitial(true);
     };
 
     /**
@@ -1509,236 +1269,56 @@ sakai.navigationchat = function(tuid, showSettings){
                 goBackToLogin = true;
             }
         });
-
     };
 
     /**
-     * This will determine whether there is a valid session. If there is, we'll
-     * redirect to the URL requested or the personal dashboard if nothing has been provided.
+     * Keep focus above chat panel for keyboard navigation
      */
-    var decideLoggedIn = function(data){
-
-        var mejson = (data === undefined ? sakai.data.me : data);
-        if (mejson.user.userid) {
-
-            // We are logged in, reload page
-            document.location.reload();
-        }
-        else {
-
-            // Show buttons
-            $login_submit_button.show();
-            $login_cancel_button.show();
-
-            // Show ajax loader
-            $login_busy.hide();
-
-            $login_error_message.show();
+    $("a, input, select, textarea").focus(function(ev) {
+        var chatHeight = $(".chat_main_container").height();
+        //var scrOfY = $(window).scrollTop(); // broken in IE
+        var scrOfY = 0;
+        if( typeof( window.pageYOffset ) === 'number' ) {
+            //Mozilla compliant
+            scrOfY = window.pageYOffset;
+        } else if( document.body && ( document.body.scrollTop ) ) {
+            //DOM compliant
+            scrOfY = document.body.scrollTop;
+        } else if( document.documentElement && ( document.documentElement.scrollTop ) ) {
+            //IE6 standards compliant mode
+            scrOfY = document.documentElement.scrollTop;
         }
 
-    };
+        if ((this.offsetTop + $(this).height() + chatHeight) > (scrOfY + $(window).height())){
+            window.scrollBy(0,100);
+        }
+    });
 
-    /**
-     * This will be executed after the post to the login service has finished.
-     * We send a new request to the Me service, explicity disabling cache by
-     * adding a random number behind the URL, because otherwise it would get
-     * the cached version of the me object which would still say I'm not logged
-     * in.
-     */
-    var checkLogInSuccess = function(){
-
-        $.ajax({
-            url: sakai.config.URL.ME_SERVICE,
-            cache: false,
-            success: decideLoggedIn,
-            error: function(xhr, textStatus, thrownError){
-
-                // This executes a couple of times after log in, but then login
-                // will be successful. Does not affect experience, but at some
-                // point this needs to be looked at.
-
-                //throw "Me service has failed! ("+xhr.status+")";
-
-            }
-        });
-
-    };
-
-    /**
-     * Switch navigation bar to anonymous mode
-     * @returns void
-     */
-    var switchToAnonymousMode = function(){
-
-        // Show Nav Container
-        $(exploreNavigationContainer).show();
-
-        // Hide things which are irrelvant for Anonymous user
-        $(".personal .mail").hide();
-        $(".personal .sign_out").hide();
-        $("#user_link_container").hide();
-
-        // Show anonymous elements
-        $("#other_logins_button_container").show();
-        $("#register_button_container").show();
-        $("#login_button_container").show();
-
-        // Set institutional login page link
-        $("#other_logins_container .other_logins").attr("href", sakai.config.URL.PUBLIC_INSTITUTIONAL_LOGIN_URL);
-
-        // Set up public nav links
-        $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
-        $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
-        $("#nav_people_link a").attr("href", sakai.config.URL.PUBLIC_PEOPLE_URL);
-        $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
-        $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
-
-        // Bind Log in button
-        $("#login_button_container .log_in").bind("click", function(){
-            $login_container.show();
-        });
-
-        var personal_container_position = $("#explore_nav_container .personal-container").position();
-
-        // Adjust width of login container
-        $login_container.css({
-            "width": ($("#explore_nav_container .personal-container").innerWidth() - 19) + "px",
-            "left": (personal_container_position.left - 8) + "px"
-        });
-
-        // Adjust width of inputs
-        $("#login_container input").css({
-            "width": ($("#explore_nav_container .personal-container").innerWidth() - 30) + "px"
-        });
-
-        // Bind Log in submit button
-        $login_submit_button.bind("click", function(){
-
-            // Hide any previous login error msgs
-            $login_error_message.hide();
-
-            // Check if fileds are empty
-            if (($("#login_username").val() === "") || ($("#login_password").val() === "")) {
-                $login_error_message.show();
-                return;
-            }
-            else {
-                // Start logging in
-
-                // Hide buttons
-                $login_submit_button.hide();
-                $login_cancel_button.hide();
-
-                // Show ajax loader
-                $login_busy.show();
-
-                // Get the username and password
-                var data = {
-                    "username": $("#login_username").val(),
-                    "password": $("#login_password").val()
-                };
-                // Perform the login operation
-                sakai.api.User.login(data, checkLogInSuccess);
-
-            }
-        });
-
-        // Cancel button
-        $login_cancel_button.bind("click", function(){
-
-            // Hide error msg
-            $login_error_message.hide();
-
-            // Hide login container
-            $login_container.hide();
-        });
-
-        // Bind Enter key to Login form
-        $(window).keypress(function(event){
-
-            if (event.keyCode === 13) {
-                if ($login_container.is(":visible")) {
-                    $login_submit_button.trigger("click");
-                }
-            }
-        });
-
-    };
-
-    /**
-     * Set the presence for the current user
-     * We need to do this in order to let the server know the user is still available for chatting.
-     */
-    var setPresence = function(){
-
-        var data = {
-            "sakai:status": "online",
-            "_charset_": "utf-8"
-        };
-
-        $.ajax({
-            url: sakai.config.URL.PRESENCE_SERVICE,
-            type: "POST",
-            success: function(){
-                setTimeout(setPresence, 120000);
-            },
-            data: data
-        });
-    };
-
-
-    ///////////////////////
-    // Initial functions //
-    ///////////////////////
 
     /**
      * Contains all the functions and methods that need to be
      * executed on the initial load of the page
      */
     var doInit = function(){
-
-        var person = sakai.data.me;
-
-        $(exploreNavigationContainer).show();
         $(chatMainContainer).show();
 
-        // Fill in the name of the user in the different fields
-        if (person.profile.firstName || person.profile.lastName) {
-            $(userIdLabel).text(sakai.api.Security.saneHTML(person.profile.firstName + " " + person.profile.lastName));
-            $(hiLabel).text(sakai.api.Security.saneHTML(person.profile.firstName));
-        }
-
-        // Show the profile picture on the dashboard page
-        /** TODO : Remove the lines beneath if this functionality is inside changepic.js */
-        if (person.profile.picture) {
-            var picture = $.parseJSON(person.profile.picture);
-            if (picture.name) {
-                $(pictureHolder).attr("src", "/~" + sakai.data.me.user.userid + "/public/" + picture.name);
-            }
-        }
-
-        // Highlight current nav item
-        determineCurrentNav();
-
         // Get chat status
-        getChatStatus();
+        //etChatStatus();
 
         // Set presence and bind things
-        addBinding();
-        getCountUnreadMessages();
-        setPresence();
+        //addBinding();
     };
 
     if (sakai.data.me.user.anon) {
 
         // If a user is not logged in -> switch to anonymous mode
-        switchToAnonymousMode();
+        // This is handled in the topnavigation widget
     }
     else {
         loadChatWindows();
         checkOnline();
         doInit();
     }
-
 };
-sakai.api.Widgets.widgetLoader.informOnLoad("navigationchat");
+
+sakai.api.Widgets.widgetLoader.informOnLoad("chat");

@@ -21,6 +21,9 @@ Most time Sakai 3 UX/UI developers can be found on IRC:
 server: irc.freenode.net
 room: #sakai
 
+A description of how the Sakai 3 UI Dev GitHub process works can be found at:
+[http://confluence.sakaiproject.org/display/3AK/Sakai+3+UI+Dev+GitHub+process](http://confluence.sakaiproject.org/display/3AK/Sakai+3+UI+Dev+GitHub+process)
+
 General information about Sakai:
 [http://sakaiproject.org](http://sakaiproject.org)
 
@@ -30,7 +33,7 @@ If you would like to contribute to this project, feel free to fork this git repo
 Quickstart
 ----------
 
-To get a Sakai 3 development instance up and running on your cmputer quickly follow these steps:
+To get a Sakai 3 development instance up and running on your computer quickly follow these steps:
 
 First make sure you have all the following installed on your machine:
 [Git version control system](http://git-scm.com/)
@@ -102,11 +105,11 @@ Demo Servers
 Stable demo server:
 [http://3akai.sakaiproject.org/dev/](http://3akai.sakaiproject.org/dev/)
 
-Nightly build server [In Progress]:
-[http://3akai-trunk.sakaiproject.org/dev/](http://3akai-trunk.sakaiproject.org/dev/)
+Nightly build server:
+[http://sakai3-demo.uits.indiana.edu:8080/dev/](http://sakai3-demo.uits.indiana.edu:8080/dev/index.html)
 
-Sakai 2-3 Hybrid demo server  [In Progress]:
-[http://3akai-hybrid.sakaiproject.org/dev/](http://3akai-hybrid.sakaiproject.org/dev/)
+Sakai 2-3 Hybrid demo server:
+[http://sakai3-nightly.uits.indiana.edu:8080/dev/index.html](http://sakai3-nightly.uits.indiana.edu:8080/dev/index.html)
 
 
 Nakamura: Sakai 3 kernel

@@ -453,10 +453,10 @@ sakai.navigation = function(tuid, showSettings){
     ///////////////////////
 
     $("#navigation_settings_submit",rootel).click(function(){
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "navigation");
     });
     $("#navigation_settings_cancel",rootel).click(function(){
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "navigation");
     });
 
     // Hide or show the settings

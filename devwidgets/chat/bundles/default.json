@@ -1,0 +1,7 @@
+{
+"name": "navigationchat",
+"description": "Chat widget\r\n",
+"WIDGET_TITLE": "Chat",
+"CHAT_STATUS": "Chat Status",
+"NO_ONLINE_CONNECTIONS_FOUND": "No online connections found"
+}

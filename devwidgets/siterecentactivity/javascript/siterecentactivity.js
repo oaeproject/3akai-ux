@@ -133,10 +133,10 @@ sakai.siterecentactivity = function(tuid, showSettings){
     ///////////////////////
 
     $("#siterecentactivity_settings_submit",rootel).click(function(){
-        sakai.api.Widgets.Container.informFinish(tuid);
+        sakai.api.Widgets.Container.informFinish(tuid, "siterecentactivity");
     });
     $("#siterecentactivity_settings_cancel",rootel).click(function(){
-        sakai.api.Widgets.Container.informCancel(tuid);
+        sakai.api.Widgets.Container.informCancel(tuid, "siterecentactivity");
     });
 
     // Hide or show the settings

@@ -457,7 +457,7 @@ sakai.rss = function(tuid, showSettings){
                     showHideSettings(showSettings);
                 }
                 else {
-                    sakai.api.Widgets.Container.informFinish(tuid);
+                    sakai.api.Widgets.Container.informFinish(tuid, "rss");
                 }
             });
         }
