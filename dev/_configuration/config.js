@@ -218,7 +218,19 @@ sakai.config = {
     },
 
     Authentication: {
-        "internal": true
+        "internal": true,
+        "external": [
+            {
+              label: "External Login System 1",
+              url: "http://external.login1.com/",
+              description: "This is the description displayed underneath ..."
+            },
+            {
+              label: "External Login System 2",
+              url: "http://external.login2.com/",
+              description: "This is the description displayed underneath ..."
+            }
+        ]
     },
 
     notification: {
