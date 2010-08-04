@@ -88,7 +88,7 @@ sakai.topnavigation = function(tuid, showSettings){
     var chatAvailableStatusClassOnline = chatAvailableStatusClass + "_online";
     var chatAvailableStatusClassBusy = chatAvailableStatusClass + "_busy";
     var chatAvailableStatusClassOffline = chatAvailableStatusClass + "_offline";
-    
+
     var userLinkChatStatusClass = ".user_link_chat_status";
 
     ///////////////////////
@@ -509,8 +509,18 @@ sakai.topnavigation = function(tuid, showSettings){
      * executed on the initial load of the page
      */
     var doInit = function(){
+        var obj = {};
+        var menulinks = [];
+
+        for (var i in sakai.config.Navigation){
+            var temp = new Object();
+            temp.url = sakai.config.Navigation[i].url;
+            temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+            menulinks.push(temp);
+        }
+        obj.links = menulinks;
         // Get navigation and render menu template
-        $(".explore").html($.TemplateRenderer("navigation_template", sakai.config));
+        $(".explore").html($.TemplateRenderer("navigation_template", obj));
 
         var person = sakai.data.me;
 

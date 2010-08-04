@@ -233,23 +233,23 @@ sakai.config = {
     Navigation: [
         {
             "url" : "/dev/my_sakai.html",
-            "label" : "__MSG__MY_SAKAI__"
+            "label" : "MY_SAKAI"
         },
         {
             "url" : "javascript:;",
-            "label" : "__MSG__CONTENT_AND_MEDIA__"
+            "label" : "CONTENT_AND_MEDIA"
         },
         {
             "url" : "/dev/people.html",
-            "label" : "__MSG__PEOPLE__"
+            "label" : "PEOPLE"
         },
         {
             "url" : "javascript:;",
-            "label" : "__MSG__COURSES_AND_SITES__"
+            "label" : "COURSES_AND_SITES"
         },
         {
             "url" : "javascript:;",
-            "label" : "__MSG__CALENDAR__"
+            "label" : "CALENDAR"
         }
     ],
 
