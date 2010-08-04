@@ -70,7 +70,7 @@ sakai.profilesection = function(tuid, showSettings){
      */
     var getProperty = function(obj, nodename){
 
-        nodename= nodename.split('.');
+        nodename = nodename.split('.');
 
         while (obj && nodename[0]){
             obj = obj[nodename.shift()];
@@ -78,6 +78,17 @@ sakai.profilesection = function(tuid, showSettings){
 
         return obj;
 
+    };
+
+    var getParentProperty = function (obj, nodename) {
+
+        nodename = nodename.split('.');
+
+        while (obj && nodename[1]){
+            obj = obj[nodename.shift()];
+        }
+
+        return obj;
     };
 
     //////////////////////
@@ -187,13 +198,18 @@ sakai.profilesection = function(tuid, showSettings){
 
                 // Get the property if it exists
                 var prop = getProperty(sakai.profile.main.data, title);
+                var parentProp = getParentProperty(sakai.profile.main.data, title);
+                var propName = title.split(".")[title.split(".").length-1];
 
-                if(prop){
-
-                    if($.isPlainObject(prop) && prop.value !== undefined){
+                // add the property in if it doesn't already exist
+                if (parentProp["jcr:name"] == "elements" && prop === undefined) {
+                    parentProp[propName] = {};
+                    parentProp[propName].value = $selected_element.val();
+                } else if (prop) { // it exists, just change its value
+                    if ($.isPlainObject(prop) && prop.value !== undefined){
                         // Set the correct value
                         prop.value = $selected_element.val();
-                    }else{
+                    } else {
                         // This is an access attribute
                         sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
                     }
@@ -205,6 +221,9 @@ sakai.profilesection = function(tuid, showSettings){
             }
 
         });
+
+        // tell the profile that this section has finished saving its data
+        $(window).trigger("sakai-profile-data-ready", currentsection);
 
     };
 

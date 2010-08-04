@@ -45,6 +45,7 @@ sakai.profile = function(){
     var userprofile;
     var querystring; // Variable that will contain the querystring object of the page
     var authprofileURL;
+    var readySections = []; // Profile sections that have saved their data to sakai.profile.main
 
     ///////////////////
     // CSS SELECTORS //
@@ -123,7 +124,7 @@ sakai.profile = function(){
         if ($.inArray(mode, sakai.profile.main.mode.options) !== -1) {
 
             // Perform the redirect
-            window.location = window.location.pathname + "?mode=" + mode;
+            window.location = window.location.pathname + "?mode=" + mode; // TODO fix this, jquery.bbq it, and do not force a refresh
 
         }
 
@@ -277,7 +278,7 @@ sakai.profile = function(){
 
             // We need to fire an Ajax GET request to get the profile data for the user
             $.ajax({
-                url: authprofileURL + ".3.json",
+                url: authprofileURL + ".4.json",
                 success: function(data){
 
                     // Check whether there are any results
@@ -454,6 +455,24 @@ sakai.profile = function(){
         // Trigger the profile save method, this is event is bound in every sakai section
         $(window).trigger("sakai-profile-save");
 
+    };
+
+    $(window).bind("sakai-profile-data-ready", function(e, sectionName) {
+
+        // keep track of all the sections that are ready
+        if ($.inArray(sectionName, readySections) < 0) {
+            readySections.push(sectionName);
+        }
+
+        // if all sections are ready, we'll pass over this loop. otherwise, return and wait
+        for (var i in sakai.profile.main.config) {
+            if (sakai.profile.main.config.hasOwnProperty(i)) {
+                if ($.inArray(i, readySections) < 0) {
+                    return;
+                }
+            }
+        }
+
         // Filter some JCR properties
         filterJCRProperties(sakai.profile.main.data);
 
@@ -478,8 +497,7 @@ sakai.profile = function(){
             }
 
         });
-
-    };
+    });
 
 
     ///////////////////////
