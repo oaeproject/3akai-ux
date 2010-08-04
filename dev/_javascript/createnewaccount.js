@@ -212,16 +212,15 @@ sakai.newaccount = function(){
     var doCreateUser = function(){
         var values = getFormValues();
         var data = {
-            "firstName": values[firstName],
             ":create-auth" : "reCAPTCHA.net",
             "recaptcha-challenge" : values["recaptcha-challenge"],
             "recaptcha-response" : values["recaptcha-response"],
-            "lastName": values[lastName],
             "email": values[email],
             "pwd": values[password],
             "pwdConfirm": values[password],
             ":name": values[username],
-            "_charset_": "utf-8"};
+            "_charset_": "utf-8"
+        };
         $.ajax ({
             url : sakai.config.URL.CREATE_USER_SERVICE,
             type : "POST",
