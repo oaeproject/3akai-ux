@@ -217,6 +217,10 @@ sakai.config = {
         }
     },
 
+    Authentication: {
+        "internal": true
+    },
+
     notification: {
         type :{
             ERROR : {
