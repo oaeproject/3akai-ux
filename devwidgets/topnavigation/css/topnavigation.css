@@ -26,9 +26,9 @@
 .explore_nav li { float: left; list-style:none none; padding: 0; margin: 0; }
 .explore_nav .explore { font-size: 1em; }
 .explore_nav ul.explore li { padding: 0; padding-bottom: 0px; border-left: 1px solid #878a8c; }
-.explore_nav .explore li.first_link { border-left: none; }
+.explore_nav .explore li.navigation_first_link { border-left: none; }
 .explore_nav .explore li a { height:16px; color:#fff; padding: 8px 20px; text-align: center; display: block; float: left; font-weight: bold;}
-.explore_nav .grey_link {color:#888 !important;}
+.explore_nav .navigation_grey_link {color:#888 !important;}
 .explore_nav .explore li a.explore_inactive {color: #888;}
 .explore_nav .explore li small { color:#ddd; font-size: 0.85em; }
 
