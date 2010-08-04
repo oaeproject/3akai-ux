@@ -10,6 +10,7 @@
 
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
+        <property name="INSTRUMENTED_DIR" value="${SRC_DIR}-i" description="Instrumented source folder" />
         <property name="TARGET" value="target" description="Core target folder" />
         <property name="TARGET_RESOURCES" value="${TARGET}/processed-resources" description="Top directory for JARs, archives" />
         <property name="TARGET_DIR" value="${TARGET_RESOURCES}/dev" description="Core target folder" />
@@ -243,6 +244,25 @@
         </apply>
     </target>
 
+    <!-- Target: Instrument with JSCoverage -->
+    <target name="instrument" depends="init">
+        <delete dir="${INSTRUMENTED_DIR}" includeemptydirs="true" />
+        <exec executable="jscoverage">
+            <arg value="--no-instrument" />
+            <arg value="_tests" />
+            <arg value="--no-instrument" />
+            <arg value="_lib${file.separator}google" />
+            <arg value="--no-instrument" />
+            <arg value="_lib${file.separator}Fluid" />
+            <arg value="--no-instrument" />
+            <arg value="_lib${file.separator}jquery" />
+            <arg value="--no-instrument" />
+            <arg value="_lib${file.separator}sakai_util${file.separator}trimpath.template.js" />
+            <arg value="${SRC_DIR}" />
+            <arg value="${INSTRUMENTED_DIR}" />
+        </exec>
+    </target>
+
     <!-- Target: Build complete -->
     <target name="finish" depends="init, create_target_folders, copy_all, permissions, formatting, js_lint, minify_css, minify_js, compress, documentation">
         <echo message="Sakai 3 UX Build: Build complete." />
@@ -251,6 +271,7 @@
     <!-- Target: Remove the build folder -->
     <target name="clean" depends="init" description="Remove the build folder">
         <delete dir="${TARGET}" includeemptydirs="true" />
+        <delete dir="${INSTRUMENTED_DIR}" includeemptydirs="true" />
     </target>
 
 </project>
