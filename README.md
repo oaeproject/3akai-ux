@@ -47,11 +47,10 @@ Then you can set up an instance with the following Terminal commands on a Unix/M
 `cd ~/sakai3`
 
 2. Check out the latest Nakamura code. This will create an "open-experiments" folder
-`git clone git://github.com/ieb/open-experiments.git`
-`cd open-experiments/slingtests/osgikernel`
+`git clone git@github.com:sakaiproject/nakamura.git`
+`cd nakamura`
 
-3. Open up the "slingtests/osgikernel" folder and build the kernel:
-`cd slingtests/osgikernel`
+3. Now build the kernel:
 `mvn clean install`
 
 4. Start the kernel:
@@ -118,7 +117,7 @@ Nakamura: Sakai 3 kernel
 Nakamura is the kernel project for Sakai 3
 
 The Nakamura source code can be found in Github:
-[http://github.com/ieb/open-experiments](http://github.com/ieb/open-experiments)
+[http://github.com/sakaiproject/nakamura](http://github.com/sakaiproject/nakamura)
 
 Discussion and information on various kernel topics can be found in the following Google group:
 [http://groups.google.com/group/sakai-kernel](http://groups.google.com/group/sakai-kernel)
