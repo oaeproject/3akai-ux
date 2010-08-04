@@ -516,6 +516,11 @@ sakai.topnavigation = function(tuid, showSettings){
             var temp = new Object();
             temp.url = sakai.config.Navigation[i].url;
             temp.label = sakai.api.i18n.General.getValueForKey(sakai.config.Navigation[i].label);
+            if (i==0){
+                temp.firstlink = true;
+            } else {
+                temp.firstlink = false;
+            }
             menulinks.push(temp);
         }
         obj.links = menulinks;
