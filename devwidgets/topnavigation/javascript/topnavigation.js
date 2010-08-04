@@ -70,6 +70,7 @@ sakai.topnavigation = function(tuid, showSettings){
     // Search
     var $general_search_form = $("#genaral_search_container form");
     var $general_search_input = $("#general_search_input");
+    var $general_search_default_value = $("#general_search_default_value");
     var searchFocus = false;
 
     // Login
@@ -284,6 +285,19 @@ sakai.topnavigation = function(tuid, showSettings){
         if (!searchFocus) {
             $general_search_input.val("").addClass(searchInputFocusClass);
             searchFocus = true;
+        }
+    });
+    
+    /**
+     * If we leave the field without filling out anything, we'll reinsert the default
+     * search inputbox value
+     */
+    $general_search_input.bind("blur", function(ev){
+        
+        if (!$general_search_input.val()) {
+            $general_search_input.removeClass(searchInputFocusClass);
+            $general_search_input.val($general_search_default_value.text());
+            searchFocus = false;
         }
     });
 

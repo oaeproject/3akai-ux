@@ -69,7 +69,7 @@
 
 /* General Search */
 #genaral_search_container { margin:15px auto 0; text-align:right;width:960px; overflow: hidden; }
-#general_search_input { border: 1px solid #777; color: #aaa; float: left; font-size: 1em; height: 20px; margin: 0 14px 0 0; padding: 1px 5px; width: 27em; }
+#general_search_input { border: 1px solid #777; color: #aaa; float: left; font-size: 1em; height: 20px; margin: 0 14px 0 0; padding: 3px 5px 0px; width: 27em; }
 .search_input_focus { color: #333 !important;}
 
 /* user status */
