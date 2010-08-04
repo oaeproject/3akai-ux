@@ -131,18 +131,19 @@ sakai.config = {
                 "label": "__MSG__PROFILE_BASIC_LABEL__",
                 "required": true,
                 "display": true,
+                "access": "public"
                 "elements": {
-                    "firstname": {
+                    "firstName": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
                         "required": true,
                         "display": true
                     },
-                    "lastname": {
+                    "lastName": {
                         "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
                         "required": true,
                         "display": true
                     },
-                    "displayname": {
+                    "displayName": {
                         "label": "__MSG__PROFILE_BASIC_DISPLAYNAME_LABEL__",
                         "required": true,
                         "display": true
@@ -152,7 +153,7 @@ sakai.config = {
                         "required": false,
                         "display": false
                     },
-                    "preferredname": {
+                    "preferredName": {
                         "label": "__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__",
                         "required": false,
                         "display": true
@@ -206,6 +207,7 @@ sakai.config = {
                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
                 "required": true,
                 "display": true,
+                "access": "public",
                 "elements": {
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -236,6 +238,7 @@ sakai.config = {
                 "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
                 "required": false,
                 "display": true,
+                "access": "public",
                 //"template": "profile_section_publications_template",
                 "elements": {
                     "maintitle": {
