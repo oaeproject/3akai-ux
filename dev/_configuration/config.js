@@ -234,6 +234,29 @@ sakai.config = {
         }
     },
 
+    Navigation: [
+        {
+            "url" : "/dev/my_sakai.html",
+            "label" : "MY_SAKAI"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "CONTENT_AND_MEDIA"
+        },
+        {
+            "url" : "/dev/people.html",
+            "label" : "PEOPLE"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "COURSES_AND_SITES"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "CALENDAR"
+        }
+    ],
+
     displayDebugInfo: true,
 
     widgets: {}
