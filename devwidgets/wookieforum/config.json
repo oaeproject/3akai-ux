@@ -1,8 +1,0 @@
-{
-    "ca":true,
-    "description":"wookieforum",
-    "id":"wookieforum",
-    "img":"/devwidgets/wookieforum/images/icon.png",
-    "name":"Wookie Forum",
-    "url":"/devwidgets/wookieforum/wookieforum.html"
-}

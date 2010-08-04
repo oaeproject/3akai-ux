@@ -1,8 +1,0 @@
-{
-    "ca":true,
-    "description":"wookiechat",
-    "name":"Chat",
-    "id":"wookiechat",
-    "img":"/devwidgets/wookiechat/images/wookiechat.png",
-    "url":"/devwidgets/wookiechat/wookiechat.html"
-}
