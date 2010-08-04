@@ -250,10 +250,6 @@ sakai.flickr = function(tuid, showSettings){
      */
     var makeImageGallery = function(pictures){
 
-       if (typeof(pictures) !== "object") {
-           pictures = $.parseJSON(pictures);
-       }
-
         //Array for all the pictures
         var pictureUrlArray = [];
 
@@ -338,6 +334,7 @@ sakai.flickr = function(tuid, showSettings){
         // Ajax call to get the user details
         $.ajax({
             url: sakai.config.URL.flickrGetPicturesByUserId ,
+            dataType: "json",
             success: function(data){
                 newPage = newPage + 1;
                 // Get the pictures based on the userid
@@ -598,8 +595,6 @@ sakai.flickr = function(tuid, showSettings){
      */
     var showPicturesFromPersonStart = function(data){
 
-        data = $.parseJSON(data);
-
         //Show the refresh button
         $flickrRefreshImages.show();
 
@@ -661,6 +656,7 @@ sakai.flickr = function(tuid, showSettings){
         // Ajax call to get the user details
         $.ajax({
             url: sakai.config.URL.flickrGetPicturesByUserId,
+            dataType: "json",
             success: function(data){
 
                 // Get the pictures based on the userid
@@ -686,7 +682,8 @@ sakai.flickr = function(tuid, showSettings){
         userId = usrId;
         // Ajax call to get the user's contacts
         $.ajax({
-            url: sakai.config.URL.flickrGetFriendsFromUser ,
+            url: sakai.config.URL.flickrGetFriendsFromUser,
+            dataType: "json",
             success: function(data){
                   displayContacts(data);
             },
@@ -771,8 +768,6 @@ sakai.flickr = function(tuid, showSettings){
      * @param {Object} data the response gotten form the ajax call
      */
      var displayContacts = function(data){
-
-        data = $.parseJSON(data);
 
         //Set an object that will be used to rendered the template
         contacts = $.extend(data, {}, true);
@@ -1187,10 +1182,6 @@ sakai.flickr = function(tuid, showSettings){
      */
     var displayPhotos = function(pictures){
 
-        if(typeof(pictures)!=='object'){
-            pictures = $.parseJSON(pictures);
-        }
-
         //Show the refreshbutton
         $flickrRefreshKeyButton.show();
 
@@ -1401,7 +1392,6 @@ sakai.flickr = function(tuid, showSettings){
             url: sakai.config.URL.flickrGetUserDetailsByName,
             dataType: "json",
             success: function(data){
-                data = $.parseJSON(data);
                 // Get the pictures based on the userid
                 userDetailGlob = data;
                 //Check if the user has been found, if not and error will be shown else the pictures will be shown
@@ -1440,7 +1430,6 @@ sakai.flickr = function(tuid, showSettings){
             success: function(data){
 
                 //Get the pictures based on the userid
-                data = $.parseJSON(data);
                 userDetailGlob = data;
                 getPicturesFromPerson(data.user.nsid);
             },
