@@ -142,6 +142,9 @@ sakai.topnavigation = function(tuid, showSettings){
         if ($(myprofileName)) {
             updateChatStatusElement($(myprofileName), currentChatStatus);
         }
+        if ($(".chat_available_name")) {
+            updateChatStatusElement($(".chat_available_name"), currentChatStatus);
+        }
     };
 
     /**
@@ -287,13 +290,13 @@ sakai.topnavigation = function(tuid, showSettings){
             searchFocus = true;
         }
     });
-    
+
     /**
      * If we leave the field without filling out anything, we'll reinsert the default
      * search inputbox value
      */
     $general_search_input.bind("blur", function(ev){
-        
+
         if (!$general_search_input.val()) {
             $general_search_input.removeClass(searchInputFocusClass);
             $general_search_input.val($general_search_default_value.text());
