@@ -24,7 +24,7 @@
 #chat_available table { margin:0; }
 #chat_available table th, #chat_available table td { border:none;text-align:left;padding:7px; }
 #chat_available_me .chat_top_container {border-bottom:1px #ebebeb solid;}
-.chat_available_status_online {background:url(/devwidgets/navigationchat/images/chat_status_online.png) no-repeat 0px 2px;}
+.chat_available_status_online {background:url(/devwidgets/chat/images/bullet_green.png) no-repeat 0px 2px;}
 .chat_top_container .chat_available_image {width:40px;}
 .chat_top_container .chat_available_image img {height:40px;width:40px;}
 .chat_available_friend img {height:32px;width:32px;}

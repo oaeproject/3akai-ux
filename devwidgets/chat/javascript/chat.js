@@ -1294,6 +1294,29 @@ sakai.chat = function(tuid, showSettings){
         }
     });
 
+    /**
+     * Update a certain element with a specific chatstatus
+     * @param {Object} element Element that needs to be updated
+     * @param {String} chatstatus The chatstatus that needs to be added
+     */
+    var updateChatStatusElement = function(element, chatstatus){
+        element.removeClass(chatAvailableStatusClassOnline);
+        element.removeClass(chatAvailableStatusClassBusy);
+        element.removeClass(chatAvailableStatusClassOffline);
+        element.addClass(chatAvailableStatusClass + "_" + chatstatus);
+    };
+
+    /**
+     * Get the chat status for the current user
+     */
+    var getChatStatus = function(){
+        if (sakai.data.me.profile) {
+            currentChatStatus = parseChatStatus(sakai.data.me.profile.chatstatus);
+        }
+        else {
+            currentChatStatus = "online";
+        }
+    };
 
     /**
      * Contains all the functions and methods that need to be
@@ -1303,14 +1326,10 @@ sakai.chat = function(tuid, showSettings){
         $(chatMainContainer).show();
 
         // Get chat status
-        //etChatStatus();
-
-        // Set presence and bind things
-        //addBinding();
+        getChatStatus();
     };
 
     if (sakai.data.me.user.anon) {
-
         // If a user is not logged in -> switch to anonymous mode
         // This is handled in the topnavigation widget
     }
