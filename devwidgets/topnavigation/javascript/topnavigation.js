@@ -135,16 +135,11 @@ sakai.topnavigation = function(tuid, showSettings){
     };
 
     /**
-     * Update the status on the page
+     * Update the status on the page by firing an event that handles this
      */
     var updateChatStatus = function(){
-        updateChatStatusElement($(userLink), currentChatStatus);
-        if ($(myprofileName)) {
-            updateChatStatusElement($(myprofileName), currentChatStatus);
-        }
-        if ($(".chat_available_name")) {
-            updateChatStatusElement($(".chat_available_name"), currentChatStatus);
-        }
+        // Trigger the setchatstatus event to update other widgets
+        $(window).trigger("setchatstatus", currentChatStatus);
     };
 
     /**
@@ -212,6 +207,10 @@ sakai.topnavigation = function(tuid, showSettings){
             if (!$clicked.parents().is(userLink)) {
                 showHideUserLinkMenu(true);
             }
+        });
+
+        $(window).bind("setchatstatus", function(event, currentChatStatus){
+            updateChatStatusElement($(userLink), currentChatStatus)
         });
     };
 
@@ -566,13 +565,13 @@ sakai.topnavigation = function(tuid, showSettings){
         // Highlight current nav item
         determineCurrentNav();
 
-        // Get chat status
-        getChatStatus();
-
         // Set presence and bind things
         addBinding();
         getCountUnreadMessages();
         setPresence();
+
+        // Get chat status
+        getChatStatus();
     };
 
     if (sakai.data.me.user.anon) {
