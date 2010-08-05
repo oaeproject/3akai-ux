@@ -1281,7 +1281,7 @@ sakai.chat = function(tuid, showSettings){
         $(chatMainContainer).show();
 
         // Add binding to catch event fire by a chat status change
-        $(window).bind("setchatstatus", function(event, newChatStatus){
+        $(window).bind("chat_status_change", function(event, newChatStatus){
             currentChatStatus = newChatStatus;
             updateChatStatusElement($(chatAvailableName), newChatStatus)
         });
