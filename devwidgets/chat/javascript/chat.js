@@ -187,6 +187,7 @@ sakai.chat = function(tuid, showSettings){
 
     // Chat
     var chatAvailable = "#chat_available";
+    var chatAvailableName = ".chat_available_name";
     var chatAvailableMinimize = chatAvailable + "_minimize";
     var chatOnline = "#chat_online";
     var chatOnlineConnectionsLink = chatOnline + "_connections_link";
@@ -711,30 +712,6 @@ sakai.chat = function(tuid, showSettings){
 
         enableDisableOnline();
 
-    };
-
-    /**
-     * Add binding to some elements
-     */
-    var addBinding = function(){
-        $(userLink).bind("click", function(){
-            showHideUserLinkMenu(false);
-        });
-
-        $(userLinkChatStatusClass).bind("click", function(ev){
-            showHideUserLinkMenu(false);
-            var clicked = ev.currentTarget.id.split("_")[ev.currentTarget.id.split("_").length - 1];
-            sendChatStatus(clicked);
-        });
-
-        $(document).bind("click", function(e){
-            var $clicked = $(e.target);
-
-            // Check if one of the parents is the userLink
-            if (!$clicked.parents().is(userLink)) {
-                showHideUserLinkMenu(true);
-            }
-        });
     };
 
     /**
@@ -1295,38 +1272,19 @@ sakai.chat = function(tuid, showSettings){
     });
 
     /**
-     * Update a certain element with a specific chatstatus
-     * @param {Object} element Element that needs to be updated
-     * @param {String} chatstatus The chatstatus that needs to be added
-     */
-    var updateChatStatusElement = function(element, chatstatus){
-        element.removeClass(chatAvailableStatusClassOnline);
-        element.removeClass(chatAvailableStatusClassBusy);
-        element.removeClass(chatAvailableStatusClassOffline);
-        element.addClass(chatAvailableStatusClass + "_" + chatstatus);
-    };
-
-    /**
-     * Get the chat status for the current user
-     */
-    var getChatStatus = function(){
-        if (sakai.data.me.profile) {
-            currentChatStatus = parseChatStatus(sakai.data.me.profile.chatstatus);
-        }
-        else {
-            currentChatStatus = "online";
-        }
-    };
-
-    /**
      * Contains all the functions and methods that need to be
      * executed on the initial load of the page
      */
     var doInit = function(){
+        currentChatStatus = sakai.data.me.profile.chatstatus
+
         $(chatMainContainer).show();
 
-        // Get chat status
-        getChatStatus();
+        // Add binding to catch event fire by a chat status change
+        $(window).bind("setchatstatus", function(event, newChatStatus){
+            currentChatStatus = newChatStatus;
+            updateChatStatusElement($(chatAvailableName), newChatStatus)
+        });
     };
 
     if (sakai.data.me.user.anon) {
