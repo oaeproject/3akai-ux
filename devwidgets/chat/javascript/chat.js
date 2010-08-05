@@ -1316,7 +1316,6 @@ sakai.chat = function(tuid, showSettings){
         else {
             currentChatStatus = "online";
         }
-        updateChatStatus();
     };
 
     /**
