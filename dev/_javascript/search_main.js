@@ -112,6 +112,7 @@ sakai._search = function(config, callback) {
         $.ajax({
             url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
+            async: false,
             success: function(data) {
                 myfriends = $.extend(data, {}, true);
                 // Change the history
