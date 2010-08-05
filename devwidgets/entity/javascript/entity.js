@@ -196,7 +196,7 @@ sakai.entity = function(tuid, showSettings){
             data: data,
             success: function(data){
                 // Update all other widgets by firing an event
-                $(window).trigger("setchatstatus", chatstatus);
+                $(window).trigger("chat_status_change", chatstatus);
             },
             error: function(xhr, textStatus, thrownError){
                 if (typeof callback === "function") {
@@ -623,7 +623,7 @@ sakai.entity = function(tuid, showSettings){
     triggerReady();
 
     // Add binding to update the chat status
-    $(window).bind("setchatstatus", function(event, newChatStatus){
+    $(window).bind("chat_status_change", function(event, newChatStatus){
         updateChatStatusElement(newChatStatus)
     });
 

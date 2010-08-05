@@ -95,8 +95,8 @@ sakai.myprofile = function (tuid, showSettings) {
         $(profileChatStatusClass).hide();
         $(profileChatStatusID + status).show();
 
-        // Trigger the setchatstatus event to update other widgets
-        $(window).trigger("setchatstatus", chatStatus);
+        // Trigger the chat_status_change event to update other widgets
+        $(window).trigger("chat_status_change", chatStatus);
     };
 
     /**
@@ -243,7 +243,7 @@ sakai.myprofile = function (tuid, showSettings) {
     });
 
     // Add binding to set the status
-    $(window).bind("setchatstatus", function(event, currentChatStatus){
+    $(window).bind("chat_status_change", function(event, currentChatStatus){
         updateChatStatusElement($(profileNameID), currentChatStatus);
         $(profileChatStatusClass).hide();
         $(profileChatStatusID + currentChatStatus).show();

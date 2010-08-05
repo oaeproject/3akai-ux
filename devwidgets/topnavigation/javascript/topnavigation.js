@@ -138,8 +138,8 @@ sakai.topnavigation = function(tuid, showSettings){
      * Update the status on the page by firing an event that handles this
      */
     var updateChatStatus = function(){
-        // Trigger the setchatstatus event to update other widgets
-        $(window).trigger("setchatstatus", currentChatStatus);
+        // Trigger the chat_status_change event to update other widgets
+        $(window).trigger("chat_status_change", currentChatStatus);
     };
 
     /**
@@ -209,7 +209,7 @@ sakai.topnavigation = function(tuid, showSettings){
             }
         });
 
-        $(window).bind("setchatstatus", function(event, currentChatStatus){
+        $(window).bind("chat_status_change", function(event, currentChatStatus){
             updateChatStatusElement($(userLink), currentChatStatus)
         });
     };
