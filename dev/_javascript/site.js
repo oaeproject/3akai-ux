@@ -412,68 +412,6 @@ sakai.site = function(){
         });
     };
 
-    /**
-     * Checks the content html string for any widget's who still have an id0 in their id.
-     * If they do, then they get a new proper ID and the original data in the repository is adjusted.
-     * @param {String} content The HTML to check.
-     * @param {String} url The url into JCR where the content originates from.
-     */
-    /*
-    sakai.site.ensureProperWidgetIDs = function(content, url) {
-        var adjusted = false;
-        var moveWidgets = [];
-
-        // Wrap the content in a dummy div so we don't lose anything.
-        var $el = $("<div>" + content + "</div>");
-        $(".widget_inline", $el).each(function(){
-            var splittedId = this.id.split("_");
-            if (splittedId.length > 1 && splittedId[2] === "id0") {
-                this.id = splittedId[0] + "_" + splittedId[1] + "_id" + Math.floor((Math.random() * 10000000));
-                adjusted = true;
-            }
-            if (splittedId.length > 2 && splittedId[3] === "hasData") {
-                // There is some existing data for this widget.
-                var widgetID = "id" + Math.floor((Math.random() * 10000000));
-                this.id = splittedId[0] + "_" + splittedId[1] + "_" + widgetID;
-                adjusted = true;
-                moveWidgets.push({
-                    'from': splittedId[2],
-                    'to': widgetID
-                });
-            }
-        });
-        // If we are not a collaborator we can't change files (duh)
-        if (sakai.site.isCollaborator) {
-            if (adjusted) {
-                // We had to do some manipulation, save the content.
-                sdata.widgets.WidgetPreference.save(url.replace("/content", ""), "content", $el.html(), null);
-                for (var i = 0, j = moveWidgets.length; i < j; i++) {
-                    // Move all the widgets.
-                    var m_url = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].from;
-                    var m_dest = sakai.site.urls.CURRENT_SITE_ROOT() + "_widgets/" + moveWidgets[i].to;
-                    $.ajax({
-                        url: m_url,
-                        data: {
-                            ":operation" : "move",
-                            ":dest" : m_dest,
-                            "_charset_":"utf-8"
-                        },
-                        cache: false,
-                        type: "POST",
-                        success: function(response) {
-                        },
-                        error: function(xhr, textStatus, thrownError) {
-                            alert("Failed to move a widget: " + xhr.status);
-                        }
-                    });
-                }
-            }
-        }
-        return $el.html();
-    };
-
-    */
-
     // Load Navigation
     sakai.site.loadSiteNavigation = function() {
 

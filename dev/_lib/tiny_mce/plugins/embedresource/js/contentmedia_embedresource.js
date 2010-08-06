@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, Config, fluid, AIM, window, doPaging, get_cookie, Querystring */
+/*global $, Config, fluid, AIM, window, doPaging, get_cookie, Querystring */
 
 var sakai = sakai || {};
 

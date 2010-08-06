@@ -22,7 +22,6 @@ var sakai = sakai || {};
 // embedded in the page.
 sakai.collections = function(tuid, showSettings) {
 
-    //  var me = sdata.me; // Contains information about the current user
     var rootel = "#" + tuid;
     // Get the main div used by the widget
     var collections = "#collections";
