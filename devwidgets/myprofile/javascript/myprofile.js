@@ -162,6 +162,7 @@ sakai.myprofile = function (tuid, showSettings) {
             $(profileDepartementID, rootel).html(sakai.api.Security.saneHTML(extra));
         }
 
+        var chatstatus = "online";
         // Get the user his chatstatus
         if (me.profile.chatstatus) {
             chatstatus = me.profile.chatstatus;
