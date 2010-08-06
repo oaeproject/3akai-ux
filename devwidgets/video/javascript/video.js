@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, Querystring, SWFID, swfobject */
+/*global $, Config, Querystring, SWFID, swfobject */
 
 
 var sakai = sakai || {};

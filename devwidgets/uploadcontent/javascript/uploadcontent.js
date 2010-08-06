@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global sdata, fluid, window, $ */
+/*global, fluid, window, $ */
 
 var sakai = sakai || {};
 

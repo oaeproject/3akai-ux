@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, History, Querystring, sdata, jQuery, Widgets */
+/*global $, Config, History, Querystring, jQuery, Widgets */
 var sakai = sakai || {};
 sakai.site = function(){
 

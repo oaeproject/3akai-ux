@@ -17,7 +17,7 @@
  */
 
 
-/*global $, sdata, Querystring */
+/*global $, Querystring */
 
 var sakai = sakai || {};
 sakai.site_add_members = function() {

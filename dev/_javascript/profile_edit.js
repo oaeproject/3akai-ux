@@ -17,7 +17,7 @@
  */
 
 
-/*global Querystring, Config, $, sdata, set_cookie */
+/*global Querystring, Config, $, set_cookie */
 
 var sakai = sakai || {};
 

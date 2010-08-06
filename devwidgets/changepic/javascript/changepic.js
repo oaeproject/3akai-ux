@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global sdata, opensocial, Config, window, alert, $ */
+/*global , opensocial, Config, window, alert, $ */
 
 var sakai = sakai || {};
 
