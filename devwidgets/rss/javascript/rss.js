@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, Querystring, DOMParser */
+/*global $, Config, Querystring, DOMParser */
 
 var sakai = sakai || {};
 

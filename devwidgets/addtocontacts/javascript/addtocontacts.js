@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, sakai, sdata, History, opensocial, Widgets */
+/*global $, Config, sakai, History, opensocial, Widgets */
 
 /**
  * This is a widget that can be placed in other pages and widgets.

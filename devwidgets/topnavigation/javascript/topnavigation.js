@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global Config, $, jQuery, sdata, get_cookie, delete_cookie, set_cookie, window, alert */
+/*global Config, $, jQuery, get_cookie, delete_cookie, set_cookie, window, alert */
 
 var sakai = sakai || {};
 

@@ -17,7 +17,7 @@
  */
 
 
-/*global Config, $, sdata */
+/*global Config, $, */
 
 
 var sakai = sakai || {};

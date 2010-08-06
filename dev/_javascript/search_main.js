@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, History, opensocial */
+/*global $, Config, History, opensocial */
 
 /*
  * This file will contain all the functionality that the 4 search files have in common.
