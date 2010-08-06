@@ -52,6 +52,11 @@ sakai.mysakai = function(){
             document.location = sakai.config.URL.GATEWAY_URL;
         });
 
+        $('#create-group').bind("click", function(ev){
+            // Load the creategroup widget.
+            $('#creategroupcontainer').show();
+            sakai.creategroup.initialise();
+        });
     };
 
     init();

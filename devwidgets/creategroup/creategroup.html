@@ -1,0 +1,48 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/creategroup/css/creategroup.css" />
+
+<!-- CONTAINER -->
+<div style="display:none" id="creategroup_container" class="dialog">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__WIDGET_TITLE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+
+        <!-- NONCOURSE -->
+        <div id="creategroup_add_container">
+            <p>__MSG__NOW_YOU_ARE_CREATING_A_SIMPLE_GROUP__</p>
+            <label for="creategroup_add_name">__MSG__GROUP_NAME__:</label>
+            <input id="creategroup_add_name" maxlength="255" type="text" value="" />
+            <div id="creategroup_add_name_empty" class="creategroup_error_msg">__MSG__ENTER_GROUP_NAME__</div>
+            <div id="creategroup_add_name_short" class="creategroup_error_msg">__MSG__GROUP_NAME_SHORT__</div>
+
+            <label for="creategroup_add_id">__MSG__GROUP_URL_ADDRESS__:</label>
+            <span id="creategroup_add_url"></span>
+            <input id="creategroup_add_id" type="text" maxlength="255" value="" />
+            <div id="creategroup_add_id_taken" class="creategroup_error_msg">__MSG__URL_ALREADY_TAKEN__</div>
+            <div id="creategroup_add_id_empty" class="creategroup_error_msg">__MSG__ENTER_GROUP_URL__</div>
+            <div id="creategroup_add_id_short" class="creategroup_error_msg">__MSG__GROUP_URL_SHORT__</div>
+
+            <label for="creategroup_add_description" class="description_fields">__MSG__DESCRIPTION__:</label>
+            <textarea id="creategroup_add_description" rows="1" cols="10" class="description_fields"></textarea>
+
+            <div class="dialog_buttons">
+                <span id="creategroup_add_process" style="display:none">__MSG__PROCESSING__ ...</span>
+                <button type="button" class="s3d-button s3d-button-primary" id="creategroup_add_save"><span class="s3d-button-inner">__MSG__CREATE_GROUP__</span></button>
+                <button type="button" class="s3d-button s3d-button jqmClose" id="creategroup_add_cancel"><span class="s3d-button-inner">__MSG__DONT_CREATE__</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/creategroup/javascript/creategroup.js"></script>
