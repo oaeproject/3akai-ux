@@ -36,6 +36,13 @@ label {color:#888; font-weight: bold; font-size: 1em;}
 #register_here {color: #454a4e; font-size: 0.95em; clear: both;}
 #register_here a {color:#006d94; font-weight: bold;}
 
+/* 403 and 404 error*/
+#permission_error #error_title {padding-left:20px; color:#f00001; font-size:12pt; font-weight:bold; background:url(/dev/_images/403_slash.png) no-repeat;}
+#permission_error p {margin-top:20px; margin-bottom:12px;}
+#permission_error ul {margin:2px 0 0 12px;}
+#permission_error .login-container {width:260px;}
+#permission_error a {text-decoration:none;}
+
 /* Footer */
 #index_footer {position: fixed; z-index: 99; bottom: 0px; color: #fff; background: url(../../_images/footer_bg.png) bottom left no-repeat; padding: 18px 20px 0 100px; margin-top: 100px; clear: both; height: 42px; width: 840px; font-size: .85em; line-height: 1.2em;}
 #index_footer a { color: #c6e4fc; }
