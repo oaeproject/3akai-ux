@@ -160,6 +160,7 @@ sakai.addtocontacts = function(tuid, showSettings){
                 },
                 success: function(data){
                     $(addToContactsDialog).jqmHide();
+                    sakai.api.Communication.sendMessage(userid, title, message, "invitation");
                     callbackWhenDone(friend);
                     sakai.api.Util.notification.show("", $(addToContactsDone).text());
                 },
