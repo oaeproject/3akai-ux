@@ -22,12 +22,15 @@ sakai.nopermissions = function(tuid, showSettings) {
     var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
     var permissionsErrorLoggedInTemplate = "permission_error_logged_in_template";
     var permissionsError = ".permissions_error";
+    var gatewayURL = sakai.config.URL.GATEWAY_URL;
 
     var doInit = function(){
         if (sakai.data.me.user.anon){
             // the user is anonymous and should be able to log in
             var renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(permissionsError).append(renderedTemplate);
+            // Set the link for the sign in button
+            $(".login-container a").attr("href", gatewayURL + "?url=" + window.location.pathname);
         } else {
             // Remove the sakai.index stylesheet as it would mess up the design
             $("LINK[href*='/dev/_css/sakai/sakai.index.css']").remove();
