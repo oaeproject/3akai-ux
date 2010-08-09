@@ -686,7 +686,7 @@ sakai.chat = function(tuid, showSettings){
             json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
             json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
             json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
-            json.me.chatstatus = currentChatStatus;
+            json.me.chatstatus = currentChatStatus || "online";
 
             // We render the template, add it to a temporary div element and set the html for it.
             json.items = [];
