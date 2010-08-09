@@ -44,7 +44,7 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
         <!-- 403 JS -->
-        <script type="text/javascript" src="/dev/403.js"></script>
+        <script type="text/javascript" src="/dev/_javascript/sakai.403.js"></script>
 
     </head>
 
