@@ -1050,7 +1050,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             ":operation": "import",
             ":contentType": "json",
             ":content": $.toJSON(i_data),
-            ":replace": true
+            ":replaceProperties": true
         },
         dataType: "json",
 
