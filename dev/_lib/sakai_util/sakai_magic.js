@@ -1740,6 +1740,36 @@ sakai.api.User.loadMeData = function(callback) {
 
 
 /**
+ * Retrieves the display name to use for the user from config
+ * and parses it from the profile elements
+ *
+ * @return {String} the name to show for a user
+ */
+sakai.api.User.getDisplayName = function(profile) {
+    var configDisplayName = [sakai.config.Profile.userNameDisplay, sakai.config.Profile.userNameDefaultDisplay];
+    var nameToReturn = "";
+    var done = false;
+    var idx = 0;
+
+    // iterate over the configDisplayName object until a valid non-empty display name is found
+    while (!done && idx < 2) {
+        if (configDisplayName[idx] !== undefined && configDisplayName[idx] !== "") {
+            var configEltsArray = configDisplayName[idx].split(" ");
+            $(configEltsArray).each(function(i, key) {
+               if (profile.basic.elements[key] !== undefined &&
+                     profile.basic.elements[key].value !== undefined) {
+                   nameToReturn += profile.basic.elements[key].value + " ";
+                   done = true;
+               }
+            });
+        }
+        idx++;
+    }
+
+    return sakai.api.Security.saneHTML($.trim(nameToReturn));
+};
+
+/**
  * @class Util
  *
  * @description

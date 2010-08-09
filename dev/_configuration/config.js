@@ -301,7 +301,20 @@ sakai.config = {
                     }
                 }
             }
-        }
+        },
+        /*
+         * set how the user's name is displayed across the entire system
+         * - values can be compound, like "firstName lastName" or singular like "displayName"
+         */
+        userNameDisplay: "firstName lastName",
+
+        /*
+         * the default, if the user doesn't have the userNameDisplay property set in their
+         * profile, use this one.
+         * Note: the value for userNameDisplay and this value can be the same.
+         *       If neither exists, nothing will show
+         */
+        userNameDefaultDisplay: "firstName lastName"
 
     },
 
