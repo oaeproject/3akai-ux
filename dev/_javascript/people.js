@@ -89,10 +89,8 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    if (person.firstName || person.lastName) {
-                        var str = person.firstName;
-                        str += " " + person.lastName;
-                        finaljson.items[index].name = str;
+                    if (sakai.api.User.getDisplayName(finaljson.items[index]) !== "") {
+                        finaljson.items[index].name = sakai.api.User.getDisplayName(finaljson.items[index]);
                     }
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
@@ -201,10 +199,8 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    if (person.firstName || person.lastName) {
-                        var str = person.firstName;
-                        str += " " + person.lastName;
-                        finaljson.items[index].name = str;
+                    if (sakai.api.User.getDisplayName(finaljson.items[index]) !== "") {
+                        finaljson.items[index].name = sakai.api.User.getDisplayName(finaljson.items[index]);
                     }
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;
@@ -308,10 +304,8 @@ sakai.search = function(){
                         var picture = $.parseJSON(person.picture);
                         finaljson.items[index].picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
                     }
-                    if (person.firstName || person.lastName) {
-                        var str = person.firstName;
-                        str += " " + person.lastName;
-                        finaljson.items[index].name = str;
+                    if (sakai.api.User.getDisplayName(finaljson.items[index]) !== "") {
+                        finaljson.items[index].name = sakai.api.User.getDisplayName(finaljson.items[index]);
                     }
                     else {
                         finaljson.items[index].name = finaljson.items[index].userid;

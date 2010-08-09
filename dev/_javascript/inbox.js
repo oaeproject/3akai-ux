@@ -807,7 +807,7 @@ sakai.inbox = function() {
 
             if (message.userFrom) {
                 for (var i = 0, j = message.userFrom.length; i < j; i++) {
-                    $(inboxSpecificMessageFrom).text(sakai.api.Security.saneHTML(message.userFrom[i]["firstName"] + " " + message.userFrom[i]["lastName"]));
+                    $(inboxSpecificMessageFrom).text(sakai.api.User.getDisplayName(message.userFrom[i]));
                     if (message.userFrom[i].photo) {
                         $(inboxSpecificMessagePicture).attr("src", "/~" + message.userFrom[i]["rep:userId"] + "/public/profile/" + message.userFrom[i].photo);
                     }
