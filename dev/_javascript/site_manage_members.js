@@ -326,7 +326,7 @@ sakai.site_manage_members = function() {
                     json.results[i].firstName = json.results[i].firstName[0];
                 }
                 if (typeof json.results[i].lastName === "object"){
-                    json.results[i].email = json.results[i].lastName[0];
+                    json.results[i].lastName = json.results[i].lastName[0];
                 }
                 if (typeof json.results[i].email === "object"){
                     json.results[i].email = json.results[i].email[0];

@@ -160,7 +160,7 @@ sakai.activitystream = function(tuid, showSettings) {
             var contactUserID = activityData.results[i]["sakai:activity-actor"];
             if (contactsData[contactUserID]) {
                 var contactProfile = contactsData[contactUserID].profile;
-                contactFullName = contactProfile.firstName + " " + contactProfile.lastName;
+                contactFullName = sakai.api.User.getDisplayName(contactProfile);
             } else if (contactUserID === sakai.data.me.profile["rep:userId"]) {
 
                 // Skip item if display me is turned off in the configuration
@@ -168,7 +168,7 @@ sakai.activitystream = function(tuid, showSettings) {
                     continue;
                 }
 
-                contactFullName = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
+                contactFullName = sakai.api.User.getDisplayName(sakai.data.me.profile);
             } else {
                 contactFullName = "Unknown User";
             }

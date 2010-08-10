@@ -1050,6 +1050,7 @@ sakai.api.Server.saveJSON = function(i_url, i_data, callback) {
             ":operation": "import",
             ":contentType": "json",
             ":content": $.toJSON(i_data),
+            ":replace": true,
             ":replaceProperties": true
         },
         dataType: "json",
@@ -1743,6 +1744,7 @@ sakai.api.User.loadMeData = function(callback) {
  * Retrieves the display name to use for the user from config
  * and parses it from the profile elements
  *
+ * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
  * @return {String} the name to show for a user
  */
 sakai.api.User.getDisplayName = function(profile) {
@@ -1767,6 +1769,25 @@ sakai.api.User.getDisplayName = function(profile) {
     }
 
     return sakai.api.Security.saneHTML($.trim(nameToReturn));
+};
+
+/*
+ * Safely retrieves an element value from the user's profile
+ *
+ * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
+ * @param {String} eltName the element name to retrieve the value for
+ * @return {String} the value of the element name provided
+ */
+sakai.api.User.getProfileElementValue = function(profile, eltName) {
+    var ret = "";
+    if (profile !== undefined &&
+        profile.basic !== undefined &&
+        profile.basic.elements !== undefined &&
+        profile.basic.elements[eltName] !== undefined &&
+        profile.basic.elements[eltName].value !== undefined) {
+            ret = profile.basic.elements[eltName].value;
+        }
+    return sakai.api.Security.saneHTML($.trim(ret));
 };
 
 /**

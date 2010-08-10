@@ -318,7 +318,7 @@
                                 {for r in replies}
                                     ${r.date} -
                                     {for fromUser in r.userFrom}
-                                        ${fromUser.profile.firstName} ${fromUser.profile.lastName}
+                                        ${sakai.api.User.getDisplayName(fromUser.profile)}
                                     {/for}
                                     : ${r.bodyText}<br />
                                 {/for}

@@ -143,7 +143,7 @@ sakai.addtocontacts = function(tuid, showSettings){
             var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 
             // send message to other person
-            var userstring = me.profile.firstName + " " + me.profile.lastName;
+            var userstring = sakai.api.User.getDisplayName(me.profile);
 
             var title = sakai.config.Connections.Invitation.title.replace(/\$\{user\}/gi, userstring);
             var message = sakai.config.Connections.Invitation.body.replace(/\$\{user\}/gi, userstring).replace(/\$\{comment\}/gi, personalnote);

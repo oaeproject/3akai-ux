@@ -1993,7 +1993,7 @@ sakai.site.site_admin = function(){
                         name += " - " + datestring;
 
                         if (data.versions[ver]["sakai:savedBy"]) {
-                            name += " - " + data.versions[ver]["sakai:savedBy"].firstName + " " + data.versions[ver]["sakai:savedBy"].lastName;
+                            name += " - " + sakai.api.User.getDisplayName(data.versions[ver]["sakai:savedBy"]);
                         }
                         var id = ver;
                         var option = new Option(name, id);

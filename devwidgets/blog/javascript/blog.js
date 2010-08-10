@@ -771,7 +771,7 @@ sakai.blog = function(tuid, showSettings) {
 
             for (var u = 0, uMax =arrUserNames.length; u < uMax; u++) {
                 if (arrUserNames[u] === arrComments[i].poster) {
-                    arrComments[i].name = users[u].profile.firstName + " " + users[u].profile.lastName;
+                    arrComments[i].name = sakai.api.User.getDisplayName(users[u].profile);
 
                     if (users[u].profile.picture) {
                         arrComments[i].picture = "/~" + users[u].profile["rep:userId"] + "/public/profile/" + users[u].profile.picture.name;
