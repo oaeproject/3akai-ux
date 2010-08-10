@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, History, opensocial */
+/*global $, Config, History, opensocial */
 
 /*
  * This file will contain all the functionality that the 4 search files have in common.
@@ -112,6 +112,7 @@ sakai._search = function(config, callback) {
         $.ajax({
             url: "/var/contacts/all.json?page=0&n=100",
             cache: false,
+            async: false,
             success: function(data) {
                 myfriends = $.extend(data, {}, true);
                 // Change the history

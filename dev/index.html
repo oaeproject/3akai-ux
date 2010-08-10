@@ -21,6 +21,7 @@
         <script type="text/javascript" src="_configuration/widgets.js"></script>
         <script type="text/javascript" src="/var/widgets.json?callback=sakai.storeWidgets"></script>
         <script type="text/javascript" src="_configuration/config.js"></script>
+        <script type="text/javascript" src="_configuration/config_custom.js"></script>
 
         <!-- Core 3rd-party JS -->
         <script type="text/javascript" src="_lib/jquery/jquery.js"></script>
@@ -66,24 +67,36 @@
                 </div>
 
                 <!-- LOGIN FUNCTIONALITY -->
-                <form class="login-container" id="login-container" method="post" action="javascript:;">
-                    <label for="username">__MSG__USERNAME__:</label><br/>
-                    <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="username" name="username" class="login-container-textfield" /><br/>
-                    <label for="password">__MSG__PASSWORD__:</label><br/>
-                    <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="password" name="password" class="login-container-textfield" />
+                <div id="login-default" style="display:none;">
+                    <form class="login-container" id="login-container" method="post" action="javascript:;">
+                        <label for="username">__MSG__USERNAME__:</label><br/>
+                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="username" name="username" class="login-container-textfield" /><br/>
+                        <label for="password">__MSG__PASSWORD__:</label><br/>
+                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="password" name="password" class="login-container-textfield" />
 
-                    <div id="login-failed">__MSG__LOGIN_FAILED__!<br/></div>
+                        <div id="login-failed">__MSG__LOGIN_FAILED__!<br/></div>
 
-                    <div class="login-container-button">
-                        <button id="loginbutton" type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
+                        <div class="login-container-button">
+                            <button id="loginbutton" type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
 
-                        <span id="login-loader">__MSG__SIGNING_IN__</span>
+                          <span id="login-loader">__MSG__SIGNING_IN__</span>
+                      </div>
+
+                        <div id="register_here">
+                            __MSG__NO_ACCOUNT_YET__? <a href="create_new_account.html" title="__MSG__CLICK_TO_REGISTER__">__MSG__REGISTER_HERE__</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- EXTERNAL LOGIN FUNCTIONALITY -->
+                <div class="login-external">
+                    <div class="login-external-content">
+                        <div id="login-external-system0" class="login-external-system" style="display:none;">
+                            <button id="login-external-button" type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner login-external-label">__MSG__SIGN_IN__</span></button>
+                            <p class="login-external-description"></p>
+                        </div>
                     </div>
-
-                    <div id="register_here">
-                        __MSG__NO_ACCOUNT_YET__? <a href="create_new_account.html" title="__MSG__CLICK_TO_REGISTER__">__MSG__REGISTER_HERE__</a>
-                    </div>
-                </form>
+                </div>
             </div>
 
             <!-- FOOTER WIDGET -->

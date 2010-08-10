@@ -58,6 +58,7 @@ sakai.config = {
         DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
         FRIEND_ACCEPTED_SERVICE: "/var/contacts/accepted.json",
         GOOGLE_CHARTS_API: "http://chart.apis.google.com/chart",
+        GROUP_CREATE_SERVICE: "/system/userManager/group.create.json",
         HEADER_SERVICE: "/var/proxy/header.json",
         IMAGE_SERVICE: "/var/image/cropit",
         LOGIN_SERVICE: "/system/sling/formlogin",
@@ -412,6 +413,22 @@ sakai.config = {
         }
     },
 
+    Authentication: {
+        "internal": true,
+        "external": [
+            {
+              label: "External Login System 1",
+              url: "http://external.login1.com/",
+              description: "This is the description displayed underneath ..."
+            },
+            {
+              label: "External Login System 2",
+              url: "http://external.login2.com/",
+              description: "This is the description displayed underneath ..."
+            }
+        ]
+    },
+
     notification: {
         type: {
             ERROR: {
@@ -424,6 +441,29 @@ sakai.config = {
             }
         }
     },
+
+    Navigation: [
+        {
+            "url" : "/dev/my_sakai.html",
+            "label" : "MY_SAKAI"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "CONTENT_AND_MEDIA"
+        },
+        {
+            "url" : "/dev/people.html",
+            "label" : "PEOPLE"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "COURSES_AND_SITES"
+        },
+        {
+            "url" : "javascript:;",
+            "label" : "CALENDAR"
+        }
+    ],
 
     displayDebugInfo: true,
 

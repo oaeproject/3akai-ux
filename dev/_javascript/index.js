@@ -17,7 +17,7 @@
  */
 
 
-/*global Querystring, Config, $, sdata, set_cookie */
+/*global Querystring, Config, $,  set_cookie */
 
 
 var sakai = sakai || {};
@@ -36,6 +36,10 @@ sakai.index = function(){
     var loadingMessage = "#login-loader";
     var registerLink = "#register_here";
     var loginButton = "#loginbutton";
+    var loginDefault = "#login-default";
+    var loginExternal = "#login-external";
+    var loginExternalSystem = loginExternal + "-system";
+    var loginExternalButton = loginExternal + "-button";
     var loginForm = "#login-container";
 
 
@@ -54,10 +58,36 @@ sakai.index = function(){
             document.location = redirectUrl;
         } else {
             $(loadingMessage).hide();
-            $(loginButton).show();
-            $(registerLink).show();
-            if (data) {
-                $(failMessage).show();
+            
+            // check if using internal or external authentication
+            if (sakai.config.Authentication.internal || !sakai.config.Authentication.external) {
+                $(loginButton).show();
+                $(registerLink).show();
+                $(loginDefault).show();
+                if (data) {
+                    $(failMessage).show();
+                }
+            } else {
+                // loop through and render each external authentication system
+                $.each(sakai.config.Authentication.external, function(index, value) {
+                    var curNum = $('.login-external-system').length - 1;
+                    var newNum = curNum + 1;
+                    var newElem = $(loginExternalSystem + '0').clone().attr('id', 'login-external-system' + newNum);
+                    newElem.children(':first').attr('id', 'login-external-button' + newNum).attr('login-external-button', 'login-external-button' + newNum);
+                    $(loginExternalSystem + curNum).after(newElem);
+                    $(loginExternalSystem + newNum + ' .login-external-label').text(sakai.api.Security.saneHTML(value.label));
+                    if (value.description) {
+                        $(loginExternalSystem + newNum + ' .login-external-description').text(sakai.api.Security.saneHTML(value.description));                    
+                    }
+                    $(loginExternalSystem + newNum + ' .login-external-url').text(sakai.api.Security.saneHTML(value.url));
+                    $(loginExternalSystem + newNum).show();
+                    
+                    // bind external url
+                    $(loginExternalButton + newNum).bind("click", function(){
+                        document.location = value.url;
+                    });
+                });
+                $(loginExternal).show();
             }
         }
 
@@ -160,7 +190,6 @@ sakai.index = function(){
         $("#" + usernameField).focus();
         // Check whether we are already logged in
         decideLoggedIn();
-
     };
 
     doInit();

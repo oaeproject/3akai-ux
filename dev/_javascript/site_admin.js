@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, History, Querystring, sdata, sakai, tinyMCE, tinymce, Widgets  */
+/*global $, Config, History, Querystring, sakai, tinyMCE, tinymce, Widgets  */
 
 sakai.site.site_admin = function(){
 

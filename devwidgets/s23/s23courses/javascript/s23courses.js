@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, Config */
+/*global $, Config */
 
 var sakai = sakai || {};
 
@@ -153,13 +153,9 @@ sakai.s23courses = function(tuid, showSettings){
     var getCoursesAndProjects = function(){
         $.ajax({
             url: sakai.config.URL.SAKAI2_MCP_URL,
+            dataType: "json",
             success: function(data){
-                if(typeof data === "string"){
-                    globalfeed = $.parseJSON(data);
-                    fluid.log("s23courses widget - getCoursesAndProjects - this widget should return with a correct JSON response header.");
-                }else{
-                    globalfeed = $.extend(data, {}, true);
-                }
+                globalfeed = $.extend(data, {}, true);
             },
             error: function(xhr, textStatus, thrownError) {
                 fluid.log("s23courses: Could not receive the courses and projects from the server.");

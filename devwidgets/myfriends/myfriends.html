@@ -23,13 +23,13 @@
 -->
 
     <div id="myfriends_requests_template"><!--
-        {if ((total > 0) && (total < 1000))}
+        {if ((invited > 0) && (invited < 1000))}
             <span>
-                ${total}
-                {if total == 1}
+                ${invited}
+                {if invited == 1}
                     Contact Request
                 {else}
-                    Connection Requests
+                    Contact Requests
                 {/if}
             </span>
         {/if}

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, History, mainSearch, sakai */
+/*global $, Config, History, mainSearch, sakai */
 
 
 sakai.search = function() {

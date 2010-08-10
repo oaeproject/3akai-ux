@@ -1,0 +1,12 @@
+{
+    "description":"topnavigation",
+    "i18n": {
+        "default": "/devwidgets/topnavigation/bundles/default.json",
+        "en_US": "/devwidgets/topnavigation/bundles/en_US.json",
+        "nl_NL": "/devwidgets/topnavigation/bundles/nl_NL.json",
+        "zh_CN": "/devwidgets/topnavigation/bundles/zh_CN.json"
+    },
+    "id":"topnavigation",
+    "name":"topnavigation",
+    "url":"/devwidgets/topnavigation/topnavigation.html"
+}

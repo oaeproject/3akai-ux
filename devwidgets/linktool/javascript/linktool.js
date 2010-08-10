@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, sdata, get_cookie, Querystring, Config */
+/*global $, get_cookie, Querystring, Config */
 
 var sakai = sakai || {};
 

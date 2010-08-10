@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, Config, fluid, window */
+/*global $, Config, fluid, window */
 
 var sakai = sakai || {};
 
@@ -90,7 +90,7 @@ sakai.entity = function(tuid, showSettings){
     var $entity_profile_status_input_saving_failed;
 
     // Chat status
-    var $entity_profile_chatstatus;
+    var entityProfileChatstatus = "#entity_profile_chatstatus";
     var profileChatStatusClass = ".myprofile_chat_status";
     var profileChatStatusID = "#myprofile_chat_status_";
 
@@ -178,71 +178,47 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Add the right status css class on an element.
-     * @param {Object} element the jquery element you wish to add the class to
-     * @param {Object} status the status
-     */
-    var updateChatStatusElement = function(element, status){
-        if (element) {
-            element.removeClass(availableStatus_online);
-            element.removeClass(availableStatus_busy);
-            element.removeClass(availableStatus_offline);
-            element.addClass(availableStatus + status);
-        }
-    };
-
-    /**
-     * Update the chat statuses all across the page.
-     * @param {Object} status
-     */
-    var updateChatStatus = function(status){
-        $(profileChatStatusClass).hide();
-        $(profileChatStatusID + status).show();
-
-        // Update the userid in the chat
-        $.each(["#user_link", "#myprofile_name", ".chat_available_name"], function(index, value){
-            updateChatStatusElement($(value), status);
-        });
-    };
-
-    /**
      * Change the chat status for the current user
      * @param {String} chatstatus The chatstatus you want to update the chatstatus with
      * @param {Function} [callback] A callback function that gets fired after the request
      */
-    var changeChatStatus = function(chatstatus, callback){
+    var changeChatStatus = function(chatstatus){
+        // Set the correct data for the Ajax request
+        var data = {
+            "chatstatus": chatstatus,
+            "_charset_": "utf-8"
+        };
 
-        if (entityconfig.data.profile.chatstatus !== chatstatus){
-            // Set the correct data for the Ajax request
-            var data = {
-                "chatstatus": chatstatus,
-                "_charset_": "utf-8"
-            };
-
-            // Send the ajax request
-            $.ajax({
-                url: sakai.data.me.profile["jcr:path"],
-                type: "POST",
-                data: data,
-                success: function(data){
-                    updateChatStatus(chatstatus);
-                    entityconfig.data.profile.chatstatus = chatstatus;
-                    if (typeof callback === "function") {
-                        callback(true, data);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    if (typeof callback === "function") {
-                        callback(false, xhr);
-                    }
-                    fluid.log("Entity widget - An error occurend when sending the status to the server.");
+        // Send the ajax request
+        $.ajax({
+            url: sakai.data.me.profile["jcr:path"],
+            type: "POST",
+            data: data,
+            success: function(data){
+                // Update all other widgets by firing an event
+                $(window).trigger("chat_status_change", chatstatus);
+            },
+            error: function(xhr, textStatus, thrownError){
+                if (typeof callback === "function") {
+                    callback(false, xhr);
                 }
-            });
-        }
-
-
+                fluid.log("Entity widget - An error occured when sending the status to the server.");
+            }
+        });
     };
 
+    /**
+     * Change the selected value of the dropdown list to the current chat status
+     * @param {Object} chatstatus status which has to come up in the dropdown list
+     */
+    var updateChatStatusElement = function(chatstatus){
+        for (var i in $(entityProfileChatstatus)[0].options){
+            if ($(entityProfileChatstatus)[0].options[i].value === chatstatus){
+                $(entityProfileChatstatus)[0].selectedIndex = i;
+                break;
+            }
+        }
+    }
 
     /////////////
     // BINDING //
@@ -355,15 +331,10 @@ sakai.entity = function(tuid, showSettings){
      * Add binding to elements related to chat status
      */
     var addBindingChatStatus = function(){
-
-        // Reinitialise the jQuery selector
-        $entity_profile_chatstatus = $("#entity_profile_chatstatus", $rootel);
-
         // Add the change event to the chatstatus dropdown
-        $entity_profile_chatstatus.bind("change", function(ev){
+        $(entityProfileChatstatus).bind("change", function(ev){
             changeChatStatus($(ev.target).val());
         });
-
     };
 
     /**
@@ -399,7 +370,6 @@ sakai.entity = function(tuid, showSettings){
      * Add binding to the upload buttons
      */
     var addBindingUpload = function(){
-
         // Reinitialise the jQuery selector
         $entity_action_upload = $($entity_action_upload.selector);
 
@@ -407,25 +377,20 @@ sakai.entity = function(tuid, showSettings){
         $entity_action_upload.bind("click", function(){
             sakai.uploadcontent.init(entityconfig.data.profile);
         });
-
     };
 
     /**
      * Add binding to various elements on the entity widget
      */
     var addBinding = function(){
-
         if(entityconfig.mode === "profile" || entityconfig.mode === "myprofile"){
-
             // Add binding to the profile status elements
             addBindingProfileStatus();
 
             // Add binding related to chat status
             addBindingChatStatus();
-
         }
         else if(entityconfig.mode === "content"){
-
             // Add binding to the download button
             addBindingDownload();
 
@@ -434,7 +399,6 @@ sakai.entity = function(tuid, showSettings){
 
             // Add binding to the upload button
             addBindingUpload();
-
         }
 
     };
@@ -443,7 +407,6 @@ sakai.entity = function(tuid, showSettings){
      * Set the profile data for the user such as the status and profile picture
      */
     var setProfileData = function(){
-
         // Set the profile picture for the user you are looking at
         // /~admin/public/profile/256x256_profilepicture
         entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
@@ -456,7 +419,6 @@ sakai.entity = function(tuid, showSettings){
         if (!entityconfig.data.profile.chatstatus) {
             entityconfig.data.profile.chatstatus = "online";
         }
-
     };
 
     /**
@@ -464,7 +426,6 @@ sakai.entity = function(tuid, showSettings){
      * @param {Object} data The data we need to parse
      */
     var setContentData = function(data){
-
         if(!data){
             fluid.log("Entity widget - setContentData - the data parameter is invalid:'" + data + "'");
             return;
@@ -494,7 +455,6 @@ sakai.entity = function(tuid, showSettings){
             if (jcr_content["jcr:mimeType"]) {
                 entityconfig.data.profile.mimetype = jcr_content["jcr:mimeType"];
             }
-
         }
 
         // Set the created by and created (date) variables
@@ -520,7 +480,6 @@ sakai.entity = function(tuid, showSettings){
         if(data.url){
             entityconfig.data.profile.path = data.url;
         }
-
     };
 
     /**
@@ -561,11 +520,8 @@ sakai.entity = function(tuid, showSettings){
      * @param {Function} [callback] A callback function that will be fired it is supplied
      */
     var getData = function(mode, data, callback){
-
-
         switch (mode) {
             case "profile":
-
                 entityconfig.data.profile = $.extend(true, {}, data);
 
                 // Set the correct profile data
@@ -579,7 +535,6 @@ sakai.entity = function(tuid, showSettings){
                 break;
 
             case "myprofile":
-
                 getUnreadMessagesCount(function(){
 
                     // Set the profile for the entity widget to the personal profile information
@@ -593,30 +548,26 @@ sakai.entity = function(tuid, showSettings){
                     if (typeof callback === "function") {
                         callback();
                     }
-
                 });
                 break;
 
             case "content":
-
                 setContentData(data);
 
                 // Execute the callback (if there is one)
                 if (typeof callback === "function") {
                     callback();
                 }
+
                 break;
 
             default:
-
                 fluid.log("Entity widget - getData - invalid mode");
                 // Execute the callback (if there is one)
                 if (typeof callback === "function") {
                     callback();
                 }
-
         }
-
     };
 
 
@@ -670,6 +621,11 @@ sakai.entity = function(tuid, showSettings){
         }
     };
     triggerReady();
+
+    // Add binding to update the chat status
+    $(window).bind("chat_status_change", function(event, newChatStatus){
+        updateChatStatusElement(newChatStatus)
+    });
 
 };
 sakai.api.Widgets.widgetLoader.informOnLoad("entity");

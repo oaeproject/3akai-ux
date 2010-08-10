@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata */
+/*global $, Config */
 
 sakai.account_preferences = function(){
 

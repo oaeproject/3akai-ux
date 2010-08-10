@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata, opensocial */
+/*global $, Config, opensocial */
 
 var sakai = sakai || {};
 sakai.inbox = function() {

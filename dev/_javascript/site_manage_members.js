@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, Querystring */
+/*global $, Querystring */
 
 var sakai = sakai || {};
 sakai.site_manage_members = function() {

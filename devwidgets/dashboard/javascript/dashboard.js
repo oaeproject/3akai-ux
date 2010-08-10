@@ -171,6 +171,20 @@ sakai.dashboard = function(tuid, showSettings) {
 
     };
 
+/**
+ * Enable add goodies buttons after the request has finished
+ */
+    var enableAddGoodies = function(){
+        $(".add-button", $rootelClass).attr("disabled", false);
+    }
+
+/**
+ * Disable the add goodies buttons to avoid double requests
+ */
+    var disableAddGoodies = function(){
+        $(".add-button", $rootelClass).attr("disabled", true);
+    }
+
     var showDashboard = function() {
 
         if (!Widgets.layouts[settings.layout]) {
@@ -448,6 +462,8 @@ sakai.dashboard = function(tuid, showSettings) {
             showInit();
         }
 
+        // Enable add goodies buttons
+        enableAddGoodies();
     };
     
     var beforeWidgetDrag = function() {
@@ -524,6 +540,8 @@ sakai.dashboard = function(tuid, showSettings) {
     };
 
     var checkSuccess = function(success) {
+        // Enable the add goodies buttons
+        enableAddGoodies();
         if (!success) {
             fluid.log("Connection with the server was lost");
         }
@@ -741,6 +759,8 @@ sakai.dashboard = function(tuid, showSettings) {
        */
         $(goodiesAddButton, $rootelClass).bind("click",
         function(ev) {
+            // Disable the add goodies buttons
+            disableAddGoodies();
             // The expected is btn_add_WIDGETNAME
             var id = this.id.replace(btnAdd, "");
             $(addRow + id, $rootelClass).hide();
@@ -755,6 +775,8 @@ sakai.dashboard = function(tuid, showSettings) {
        */
         $(goodiesRemoveButton, $rootelClass).bind("click",
         function(ev) {
+            // Disable the add goodies buttons
+            disableAddGoodies();
             // The expected id is btn_remove_WIDGETNAME
             var id = this.id.replace(btnRemove, "");
             $(removeRow + id, $rootelClass).hide();

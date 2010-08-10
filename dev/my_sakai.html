@@ -50,8 +50,8 @@
 
     <body id="root" class="body-container fl-centered fl-container i18nable my-sakai">
 
-        <!-- NAVIGATION + CHAT -->
-        <div id="widget_navigationchat" class="widget_inline"></div>
+        <!-- NAVIGATION -->
+        <div id="widget_topnavigation" class="widget_inline"></div>
 
         <!-- HEADER -->
         <div class="fl-container-flex header">
@@ -61,6 +61,13 @@
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline"></div>
 
+                <!-- CREATE GROUP -->
+                <a href="javascript:;" id="create-group">Create Group</a>
+                <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
+                <div id="creategroupcontainer" style="display:none;">
+                    <!-- We need this container to show the pop-up where you can add a group -->
+                    <div id="widget_creategroup" class="widget_inline"></div>
+                </div>
             </div>
         </div>
 
@@ -69,6 +76,9 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <!-- CHAT -->
+        <div id="widget_chat" class="widget_inline"></div>
 
         <script type="text/javascript" src="_javascript/mysakai.js"></script>
 

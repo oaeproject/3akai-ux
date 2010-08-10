@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, sdata, Config, addBinding */
+/*global $, Config, addBinding */
 
 var sakai = sakai || {};
 

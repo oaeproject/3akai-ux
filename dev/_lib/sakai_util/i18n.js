@@ -17,7 +17,7 @@
  */
 
 
-/*global sdata, Config, $, jQuery, SimpleDateFormat, sakai */
+/*global Config, $, jQuery, SimpleDateFormat, sakai */
 
 //////////////////////////////
 // Localisation L10N plugin //

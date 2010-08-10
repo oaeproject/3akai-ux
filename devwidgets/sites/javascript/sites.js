@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, jQuery, sakai, sdata */
+/*global $, Config, jQuery, sakai */
 
 /**
  * @name sakai.sites

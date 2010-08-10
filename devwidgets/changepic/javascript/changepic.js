@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global sdata, opensocial, Config, window, alert, $ */
+/*global , opensocial, Config, window, alert, $ */
 
 var sakai = sakai || {};
 
@@ -444,7 +444,7 @@ sakai.changepic.completeCallback = function(response){
     // We edit the profile.json file with the new profile picture.
     var stringtosave = $.toJSON(tosave);
 
-    // We edit the me object in sdata.
+    // We edit the me object.
     // This saves a request and will be checked in the doInit function later on.
     sakai.data.me.profile.picture = stringtosave;
 

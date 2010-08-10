@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata */
+/*global $, Config */
 
 // Namespaces
 var sakai = sakai || {};

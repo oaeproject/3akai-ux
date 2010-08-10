@@ -18,7 +18,6 @@
 
 var Config = Config || function(){ throw "Config file not available"; };
 var $ = $ || function(){ throw "JQuery not available"; };
-var sdata = sdata || function(){ throw "SData.js not available"; };
 var json_parse = json_parse || function(){ throw "SData.js not available"; };
 var jcap = jcap || function(){ throw "JCap (JavaScripts Captcha) is not available"; };
 

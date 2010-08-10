@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, Config, sakai, sdata, History, opensocial, Widgets */
+/*global $, Config, sakai, History, opensocial, Widgets */
 
 /**
  * This is a widget that can be placed in other pages and widgets.
@@ -95,7 +95,7 @@ sakai.addtocontacts = function(tuid, showSettings){
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {
-                $(addToContactsInfoProfilePicture).attr("src", "/~" + sakai.data.me.user.userid + "/public/profile/" + $.parseJSON(user.picture).name);
+                $(addToContactsInfoProfilePicture).attr("src", "/~" + user.uuid + "/public/profile/" + $.parseJSON(user.picture).name);
             }
             else {
                 $(addToContactsInfoProfilePicture).attr("src", sakai.config.URL.USER_DEFAULT_ICON_URL);
@@ -160,6 +160,7 @@ sakai.addtocontacts = function(tuid, showSettings){
                 },
                 success: function(data){
                     $(addToContactsDialog).jqmHide();
+                    sakai.api.Communication.sendMessage(userid, title, message, "invitation");
                     callbackWhenDone(friend);
                     sakai.api.Util.notification.show("", $(addToContactsDone).text());
                 },
