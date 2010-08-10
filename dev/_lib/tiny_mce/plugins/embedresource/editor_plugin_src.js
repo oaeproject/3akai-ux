@@ -23,8 +23,8 @@
 			ed.addCommand('mcdEmbedMedia', function() {
 				ed.windowManager.open({
 					file : url + '/dialog.htm',
-					width : 320 + parseInt(ed.getLang('embedmedia.delta_width', 0)),
-					height : 120 + parseInt(ed.getLang('embedmedia.delta_height', 0)),
+					width : 320 + parseInt(ed.getLang('embedmedia.delta_width', 0),10),
+					height : 120 + parseInt(ed.getLang('embedmedia.delta_height', 0),10),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
@@ -61,14 +61,13 @@
 
 		/**
 		 * Returns information about the plugin as a name/value array.
-		 * The current keys are longname, author, authorurl, infourl and version.
+		 * The current keys are longname, authorurl, infourl and version.
 		 *
 		 * @return {Object} Name/value array containing information about the plugin.
 		 */
 		getInfo : function() {
 			return {
-				longname : 'Example plugin',
-				author : 'Some author',
+				longname : 'Embed Resource Plugin',
 				authorurl : 'http://tinymce.moxiecode.com',
 				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/example',
 				version : "1.0"
