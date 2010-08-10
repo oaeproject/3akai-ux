@@ -190,7 +190,6 @@ sakai.index = function(){
         $("#" + usernameField).focus();
         // Check whether we are already logged in
         decideLoggedIn();
-
     };
 
     doInit();
