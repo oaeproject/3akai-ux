@@ -37,7 +37,7 @@ var EmbedMediaDialog = {
 	  
 	  $("textarea[name='resource_embed']").live('click keyup', function() {
         
-        if ($("textarea[name='resource_embed']").val().trim() != '') {
+        if ($("textarea[name='resource_embed']").val().trim() !== '') {
 	        $(".mceActionPanel input#insert").removeAttr('disabled');
         }
     });
@@ -54,7 +54,7 @@ var EmbedMediaDialog = {
 		var to_insert = '';
 
 		// internet resource or file resource?
-		if ($(".embedresource_active").attr("id") == "embedresource_tab-1") {
+		if ($(".embedresource_active").attr("id") === "embedresource_tab-1") {
 		  // file resource
   		var selectedResource = $(".contentmedia_file_selected");		
   		// check for what kind of file it is
@@ -81,7 +81,7 @@ var EmbedMediaDialog = {
             });
 		} else { 
 		  // internet resource
-		  if ($("textarea[name='resource_embed']").val().trim() != '') {
+		  if ($("textarea[name='resource_embed']").val().trim() !== '') {
 		    to_insert = $("textarea[name='resource_embed']").val();
 		  } else {
 		    var resource_path = $("input[name='resource_url']").val().trim();

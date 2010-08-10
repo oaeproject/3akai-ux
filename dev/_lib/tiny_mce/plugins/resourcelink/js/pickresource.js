@@ -15,8 +15,10 @@ var PickResourceDialog = {
     var selectedFilename = $(".contentmedia_file_selected .contentmedia_file_name").text();
     var selectedFilePath = $(".contentmedia_file_selected .contentmedia_hidden").text();
     for (field in popups) {
-      if (field != thisID) {
-        parent.$("#"+field+"_ifr").get(0).contentWindow.ResourceLinkDialog.setResourceLink(selectedFilename, selectedFilePath);
+      if (popups.hasOwnProperty(field)) {
+          if (field != thisID) {
+              parent.$("#" + field + "_ifr").get(0).contentWindow.ResourceLinkDialog.setResourceLink(selectedFilename, selectedFilePath);
+          }
       }
     }
 		tinyMCEPopup.close();

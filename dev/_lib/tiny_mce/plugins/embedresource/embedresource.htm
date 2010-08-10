@@ -7,8 +7,8 @@
     </title>
 
     <link rel="stylesheet" href="/dev/_lib/tiny_mce/themes/advanced/skins/default/dialog.css">
-    <link rel="stylesheet" href="/dev/_css/sakai/sakai.base.css" type="text/css" media="screen" title="no title" charset="utf-8" />
-    <link rel="stylesheet" href="css/embedresource.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+    <link rel="stylesheet" href="/dev/_css/sakai/sakai.base.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/embedresource.css" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
     
@@ -50,45 +50,45 @@
   <body>
     <div id="embedresource_choose">
       <div id="embedresource_header">
-        <h3>Embed a resource on this page</h3>
+        <h3><span id="embedresource_title" style="display:none;">__MSG__EMBED_RESOURCE_ON_THIS_PAGE__</span></h3>
       </div>
       <div id="embedresource_tabs">
         <ul>
-          <li id="embedresource_link_tab-1" class="tab_active"><a href="#">From a repository</a></li>
-          <li id="embedresource_link_tab-2" class="tab_inactive"><a href="#">From the web</a></li>
+          <li id="embedresource_link_tab-1" class="tab_active"><a href="#">__MSG__FROM_A_REPOSITORY__</a></li>
+          <li id="embedresource_link_tab-2" class="tab_inactive"><a href="#">__MSG__FROM_THE_WEB__</a></li>
         </ul>
       </div>
       <div id="embedresource_container">
         <!-- CONTENT -->
         <div id="embedresource_tab-1" class="embedresource_tab embedresource_active">
         <div id="pickresource_heading">
-          <span id="filters_header" class="panel_header">Search &amp; Filters</span>
-          <span id="repo_header" class="panel_header">Repository Contents</span>
-          <span id="details_header" class="panel_header">Resource Details</span>                    
+          <span id="filters_header" class="panel_header">__MSG__SEARCH_AND_FILTER__</span>
+          <span id="repo_header" class="panel_header">__MSG__REPOSITORY_CONTENTS__</span>
+          <span id="details_header" class="panel_header">__MSG__RESOURCE_DETAILS__</span>                    
         </div>
           <div class="contentmedia_content_main">
             <div id="pickresource_filters" class="pickresource_panel">
               <!-- Accordion -->
               <div id="contentmedia_accordion">
-                <a href="javascript:;" title="Search for files">Search</a>
+                <a href="javascript:;" title="Search for files">__MSG__SEARCH__</a>
                 <div id="contentmedia_search">
                   <form>
                     <input type="text" value="Search for files ..." class="input" id="search_text" /> 
                     <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary">
                       <span class="s3d-button-inner">
-                        <span class="s3d-button-icon-right">Search</span>
+                        <span class="s3d-button-icon-right">__MSG__SEARCH__</span>
                         </span>
                     </button>
                   </form>
                 </div>
-                <a href="javascript:;" title="Filter by Owner">Filter by owner</a>
+                <a href="javascript:;" title="Filter by Owner">__MSG__FILTER_BY_OWNER__</a>
                 <div id="contentmedia_accordion_list_owners">
                   <div class="contentmedia_accordion_list">
-                  <a href="javascript:;" title="My Files" id="search_my_files">My Files</a>
-                  <a href="javascript:;" title="All Files" id="search_all_files">All Files</a> 
+                  <a href="javascript:;" title="My Files" id="search_my_files">__MSG__MY_FILES__</a>
+                  <a href="javascript:;" title="All Files" id="search_all_files">__MSG__ALL_FILES__</a> 
                   </div>
                 </div>
-                <a href="javascript:;" title="Filter by site">Filter by site</a>
+                <a href="javascript:;" title="Filter by site">__MSG__FILTER_BY_SITE__</a>
                 <div id="contentmedia_accordion_list_site"></div>
               </div>
             </div>
@@ -105,7 +105,7 @@
                                       {elseif i['jcr:primaryType'] === "sling:Folder"}
                                           {var mimeType = 'folder'}
                                       {/if}
-                                      {if mimeType=="image/jpg" || mimeType=="image/jpeg" || mimeType=="image/png" || mimeType=="image/gif" || mimeType=="image/bmp" }
+                                      {if mimeType==="image/jpg" || mimeType==="image/jpeg" || mimeType==="image/png" || mimeType==="image/gif" || mimeType==="image/bmp" }
                                           <span class="mimetype">image</span>
                                           <img src="{if i["uri"]}${i["uri"]}{else}${i.path}{/if}" alt="${sakai.config.MimeTypes[mimeType].description}" />
                                       {elseif sakai.config.MimeTypes[mimeType]}
@@ -182,13 +182,13 @@
         </div>
         <div id="embedresource_tab-2" class="embedresource_tab embedresource_inactive">
           <div class="embedresource_tab_content">
-            <label for="resource_url">Image URL</label><input name="resource_url" type="text" size="75"/><br/>
+            <label for="resource_url">__MSG__IMAGE_URL__</label><input name="resource_url" type="text" size="75"/><br/>
             <span>OR</span><br/>
-            <label for="resource_embed">Video Embed Code</label><textarea name="resource_embed" cols="75" rows="12"></textarea>
+            <label for="resource_embed">__MSG__VIDEO_EMBED_CODE__</label><textarea name="resource_embed" cols="75" rows="12"></textarea>
           </div>
         </div>
         <div class="mceActionPanel">
-      		<div style="float: left">
+      		<div style="fl-force-left">
       			<input type="button" id="cancel" name="cancel" value="Cancel" onclick="tinyMCEPopup.close();" />
       		</div>
       		<div style="float: right">

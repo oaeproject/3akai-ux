@@ -229,8 +229,8 @@ sakai.discussion = function(tuid, showSettings) {
 
     /**
      * Parse the picture for a user
-     * @param {String} picture The picture path for a user
-     * @param {String} userStoragePrefix The user's storage prefix
+     * @param {String} profile The profile for a user
+     * @param {String} uuid Uuid of the user
      */
     var parsePicture = function(uuid, profile){
         // Check if the picture is undefined or not
