@@ -175,18 +175,14 @@ sakai.dashboard = function(tuid, showSettings) {
  * Enable add goodies buttons after the request has finished
  */
     var enableAddGoodies = function(){
-        $(".add-button", $rootelClass).each(function(){
-            this.disabled = false;
-        });
+        $(".add-button", $rootelClass).attr("disabled", false);
     }
 
 /**
  * Disable the add goodies buttons to avoid double requests
  */
     var disableAddGoodies = function(){
-        $(".add-button", $rootelClass).each(function(){
-            this.disabled = true;
-        });
+        $(".add-button", $rootelClass).attr("disabled", true);
     }
 
     var showDashboard = function() {
