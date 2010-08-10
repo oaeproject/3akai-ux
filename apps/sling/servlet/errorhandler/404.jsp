@@ -51,44 +51,46 @@
     </head>
 
     <body class="fl-centered index i18nable">
-
         <div class="index-container fl-centered page_not_found_error">
-<div id="page_not_found_error_logged_out_template" style="display:none"><!--<div class="header-title">
-                <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
-            </div>
+            <div id="page_not_found_error_logged_out_template" style="display:none"><!--
+                <div class="header-title">
+                    <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
+                </div>
 
-            <div class="header-byline">
-                __MSG__HEADER_BYLINE__
-            </div>
-            <div class="login-box">
-                <div id="page_not_found_error">
-                    <div class="preview-box">
-                        <span id="error_title">The page you requested was not found.</span>
-                        <p>
-                            You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive).
-                        </p>
-                        You can
-                        <ul>
-                            <li>
-                                Verify the link in the address bar
-                            </li>
-                            <li>
-                                Go back to the previous page by clicking the back button in your browser
-                            </li>
-                        </ul>
-                        <p>
-                            If you continue to receive this error, the page may have been moved or no longer exists.
-                        </p>
-                    </div>
-                    <div class="login-container">
-                        <a href="/dev/index.html" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Sign In</span></a>
-                        <p>
-                            If you have an account, you may wish to sign in to search available pages.
-                        </p>
+                <div class="header-byline">
+                    __MSG__HEADER_BYLINE__
+                </div>
+
+                <div class="login-box">
+                    <div id="page_not_found_error">
+                        <div class="preview-box">
+                            <span id="error_title">The page you requested was not found.</span>
+                            <p>
+                                You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive).
+                            </p>
+                            You can
+                            <ul>
+                                <li>
+                                    Verify the link in the address bar
+                                </li>
+                                <li>
+                                    Go back to the previous page by clicking the back button in your browser
+                                </li>
+                            </ul>
+                            <p>
+                                If you continue to receive this error, the page may have been moved or no longer exists.
+                            </p>
+                        </div>
+                        <div class="login-container">
+                            <a href="/dev/index.html" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Sign In</span></a>
+                            <p>
+                                If you have an account, you may wish to sign in to search available pages.
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>--></div>
-                <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
+            --></div>
+            <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
                 <div id="widget_topnavigation" class="widget_inline">
                 </div>
                 <div class="fl-container-flex header">
@@ -121,8 +123,7 @@
                 <div id="widget_footer" class="widget_inline footercontainer"></div>
 
                 <div id="widget_chat" class="widget_inline"></div>
-                --></div>
+            --></div>
         </div>
     </body>
-
 </html>

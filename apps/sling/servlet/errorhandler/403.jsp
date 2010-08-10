@@ -50,8 +50,9 @@
 
     <body class="fl-centered index i18nable">
         <div class="index-container fl-centered permissions_error">
-            <div id="permission_error_logged_out_template" style="display:none"><!--<div class="header-title">
-                    <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
+            <div id="permission_error_logged_out_template" style="display:none"><!--
+                <div class="header-title">
+                    <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
                 </div>
     
                 <div class="header-byline">
@@ -111,5 +112,4 @@
                 --></div>
         </div>
     </body>
-
 </html>

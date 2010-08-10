@@ -30,7 +30,7 @@ sakai.nopermissions = function(tuid, showSettings) {
             var renderedTemplate = $.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
             $(permissionsError).append(renderedTemplate);
             // Set the link for the sign in button
-            $(".login-container a").attr("href", gatewayURL + "?url=" + window.location.pathname);
+            $(".login-container a").attr("href", gatewayURL + "?url=" + window.location.pathname + window.location.hash);
         } else {
             // Remove the sakai.index stylesheet as it would mess up the design
             $("LINK[href*='/dev/_css/sakai/sakai.index.css']").remove();
