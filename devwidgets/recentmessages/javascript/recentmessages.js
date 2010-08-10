@@ -103,7 +103,6 @@ sakai.recentmessages = function(tuid, showSettings){
         // Set a params object to set which params should be passed into the request
         var params = $.param({
             box: "inbox",
-            //category: "message",
             items: 4,
             page: 0
         });
