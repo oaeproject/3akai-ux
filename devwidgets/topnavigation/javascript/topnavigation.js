@@ -101,7 +101,7 @@ sakai.topnavigation = function(tuid, showSettings){
      */
     var getCountUnreadMessages = function(){
         // We only get the number of messages in our inbox folder that we havent read yet.
-        $.ajax({
+       /* $.ajax({
             url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?box=inbox",
             success: function(data){
 
@@ -119,7 +119,10 @@ sakai.topnavigation = function(tuid, showSettings){
             error: function(xhr, status, thrown) {
                 fluid.log("topnavigation widget - it was not possible to get the unread messages from the server.");
             }
-        });
+        });*/
+       //we have the number of unread messages as a part of the me-feed
+       //so get it directly from me object. 
+        $(chatUnreadMessages).text(sakai.data.me.messages.unread);
     };
 
     /**
