@@ -423,7 +423,7 @@
 				bc = bc[t.id] || '';
 			}
 
-			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '"></body></html>';
+			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '"><div id="video_not_supported" style="display:none"><!--  <p>__MSG__VIDEO_NOT_SUPPORTED__</p>--></div></body></html>';
 
 			// Domain relaxing enabled, then set document domain
 			if (tinymce.relaxedDomain) {
