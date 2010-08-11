@@ -11,19 +11,63 @@
     </div>
 
     <div class="dialog_content">
-    <div id="new_uploader">
-        <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
-        <form method="post" enctype="multipart/form-data" id="multifile_form">
-            <input type="file" name="Filedata" id="multifile_upload"/>
-            <p>
-                <div id="upload_file_list">
-                </div>
-            </p>
+        <div id="new_uploader">
+            <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
+            <form method="post" enctype="multipart/form-data" id="multifile_form">
+                <input type="file" name="Filedata" id="multifile_upload"/>
+                <p>
+                    <div id="upload_file_list">
+                    </div>
+                </p>
+                <div id="fileupload_rendered_tagging"></div>
+            </form>
+        </div>
+
+    <div id="fileupload_tagging_template" style="display:none;"><!--
+        <h1>Basic Info</h1>
+        <form id="fileupload_form">
+            <label for="fileupload_add_tags">
+                Tags:
+            </label>
+            <input id="fileupload_add_tags" class="fileupload_add_tags" maxlength="255" type="text" value="" />
+            <br/>
+            <label for="fileupload_add_description">
+                Description:
+            </label>
+            <textarea cols="50" rows="3" id="fileupload_add_description" class="fileupload_add_description" value="" />
+            <br/>
+            <br/>
             <button type="submit" class="s3d-button s3d-button-primary">
-                <span class="s3d-button-inner">Upload</span>
+                <span class="s3d-button-inner">Add content</span>
+            </button>
+            <hr>
+        </form>
+    --></div>
+
+    <!-- USE THIS TEMPLATE WHEN YOU WANT TO TAG EACH FILE INDIVIDUALLY-->
+    <div id="fileupload_multiplefile_tagging_template" style="display:none;"><!--
+        <h1>Tag your uploads.</h1>
+        <p>
+            Tagging your uploads makes them more accessible.
+        </p>
+        <form id="fileupload_form">
+            {for i in uploads}
+                <label for="fileupload_add_tags_${i.filename}">
+                    Tags for ${i.filename}:
+                </label>
+                <input id="fileupload_add_tags_${i.filename}" class="fileupload_add_tags" maxlength="255" type="text" value="" />
+                <br/>
+                <label for="fileupload_add_description_${i.filename}">
+                    Description for ${i.filename}:
+                </label>
+                <textarea cols="50" rows="4" id="fileupload_add_description_${i.filename}" class="fileupload_add_description" value="" />
+                <br/><br/>
+            {/for}
+            <button type="submit" class="s3d-button s3d-button-primary">
+                <span class="s3d-button-inner">{if uploads.length > 1}Add files{else}Add file{/if}</span>
             </button>
         </form>
-    </div>
+    --></div>
     </div>
 
     <!-- DIALOG FOOTER -->

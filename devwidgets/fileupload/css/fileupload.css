@@ -15,3 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+.fileupload_add_tags {width:350px !important; margin:4px 0 5px; float:right;}
+.fileupload_add_description {margin:5px 0 7px; width:350px !important; float:right}
+
+#fileupload_rendered_tagging label {float:left; clear:both;}
+#fileupload_rendered_tagging .s3d-button {float:right !important;}
+#fileupload_rendered_tagging hr {clear:both; border:none;}
