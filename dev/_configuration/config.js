@@ -132,7 +132,7 @@ sakai.config = {
                 "label": "__MSG__PROFILE_BASIC_LABEL__",
                 "required": true,
                 "display": true,
-                "access": "public",
+                "access": "everybody",
                 "elements": {
                     "firstName": {
                         "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -208,7 +208,7 @@ sakai.config = {
                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
                 "required": true,
                 "display": true,
-                "access": "public",
+                "access": "everybody",
                 "elements": {
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -239,7 +239,8 @@ sakai.config = {
                 "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
                 "required": false,
                 "display": true,
-                "access": "public",
+                "access": "everybody",
+                "multiple": true,
                 //"template": "profile_section_publications_template",
                 "elements": {
                     "maintitle": {
