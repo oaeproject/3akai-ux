@@ -217,6 +217,7 @@ sakai.newaccount = function(){
             profileData.basic.elements[key] = {};
             profileData.basic.elements[key].value = values[key];
         });
+        profileData.basic.access = "everybody";
         var data = {
             ":create-auth": "reCAPTCHA.net",
             "recaptcha-challenge": values["recaptcha-challenge"],

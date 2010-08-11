@@ -12,7 +12,10 @@
             <h2 class="fl-force-left">${i.label}</h2>
 
             {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
-                {var _access = sakai.profile.main.data[i_index].access}
+                {var _access = "everybody"}
+                {if sakai.profile.main.data[i_index].access}
+                    {var _access = sakai.profile.main.data[i_index].access}
+                {/if}
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
@@ -62,8 +65,8 @@
                 <h2 class="fl-force-left">${config.label}</h2>
 
                 {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
-                        {var _access = ""}
-                    {if data}
+                        {var _access = "everybody"}
+                    {if data && data.access}
                         {var _access = data.access}
                     {/if}
                     <div class="profilesection_generalinfo_acl fl-force-right">
