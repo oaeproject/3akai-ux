@@ -101,12 +101,14 @@ sakai.profilesection = function(tuid, showSettings){
      * @param {String} fieldName The name of a field
      */
     var renderTemplateField = function(fieldTemplate, fieldName){
-
-        var json_config = {
-            "data": sakai.profile.main.data[currentsection].elements[fieldName] || {},
-            "config": sakai.profile.main.config[currentsection].elements[fieldName],
-            "path": currentsection + ".elements." + fieldName
-        };
+        var json_config = {};
+        if (sakai.profile.main.data[currentsection] && sakai.profile.main.data[currentsection].elements && sakai.profile.main.data[currentsection].elements[fieldName]) {
+            json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
+        } else {
+            json_config.data = {};
+        }
+        json_config.config = sakai.profile.main.config[currentsection].elements[fieldName];
+        json_config.path = currentsection + ".elements." + fieldName;
 
         return $.TemplateRenderer(fieldTemplate, json_config);
 
@@ -201,8 +203,17 @@ sakai.profilesection = function(tuid, showSettings){
                 var parentProp = getParentProperty(sakai.profile.main.data, title);
                 var propName = title.split(".")[title.split(".").length-1];
 
+                // when trying to add data into a new section that doesn't currently have any data,
+                // we have to create the section's data object
+                if (!parentProp) {
+                    var nodeName = title.split(".")[0];
+                    sakai.profile.main.data[nodeName] = {};
+                    sakai.profile.main.data[nodeName].elements = {};
+                    sakai.profile.main.data[nodeName].elements["jcr:name"] = "elements";
+                }
+
                 // add the property in if it doesn't already exist
-                if (parentProp["jcr:name"] == "elements" && prop === undefined) {
+                if (parentProp && parentProp["jcr:name"] == "elements" && prop === undefined) {
                     parentProp[propName] = {};
                     parentProp[propName].value = $selected_element.val();
                 } else if (prop) { // it exists, just change its value
@@ -213,6 +224,8 @@ sakai.profilesection = function(tuid, showSettings){
                         // This is an access attribute
                         sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
                     }
+                } else {
+                    sakai.profile.main.data[title.split(".")[0]].access = $selected_element.val();
                 }
 
             }
