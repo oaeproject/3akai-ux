@@ -1103,73 +1103,6 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
         return;
     }
 
-    /**
-     * <p>Convert all the objects with format __array__?__ in an object to an array</p>
-     * <code>
-     * {
-     *     "boolean": true,
-     *     "array_object": {
-     *         "__array__0__": {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *         }
-     *     }
-     * }
-     * </code>
-     * to
-     * <code>
-     * {
-     *     "boolean": true,
-     *     "array_object": [
-     *         {
-     *             "key1": "value1",
-     *             "key2": "value2"
-     *        }
-     *     ]
-     * }
-     * </code>
-     * @param {Object} specficObj The Object that you want to use to convert all the objects with the special format to arrays
-     * @param {Object} [globalObj] The parent object, we need this to run over the elements recursively
-     * @param {Object} [objIndex] The index of the parent object
-     * @return {Object} An object where all the objects with the special format are converted into arrays
-     */
-    var convertObjectToArray = function(specficObj, globalObj, objIndex){
-
-        // Run over all the items in the object
-        for (var i in specficObj) {
-
-            // If exists and it's an object recurse
-            if (specficObj.hasOwnProperty(i)) {
-
-                // If it's a non-empty array-object it will have a first element with the key "__array__0__"
-                if (i === "__array__0__") {
-
-                    // We need to get the number of items in the object
-                    var arr = [];
-                    var count = 0;
-                    for (var j in specficObj) {
-                        if (specficObj.hasOwnProperty(j)) {
-                            count++;
-                        }
-                    }
-
-                    // Construct array of objects
-                    for(var k = 0, kl = count; k < kl; k ++){
-                        arr.push(specficObj["__array__"+k+"__"]);
-                    }
-
-                    globalObj[objIndex] = arr;
-                }
-
-                if ($.isPlainObject(specficObj[i])) {
-                    convertObjectToArray(specficObj[i], specficObj, i);
-                }
-            }
-
-        }
-        return specficObj;
-    };
-
     $.ajax({
         url: i_url + ".infinity.json",
         cache: false,
@@ -1180,7 +1113,7 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
             sakai.api.Util.removeJCRObjects(data);
 
             // Convert the special objects to arrays
-            data = convertObjectToArray(data, null, null);
+            data = sakai.api.Server.loadJSON.convertObjectToArray(data, null, null);
 
             // Call callback function if present
             if (typeof callback === "function") {
@@ -1198,7 +1131,73 @@ sakai.api.Server.loadJSON = function(i_url, callback) {
             }
         }
     });
+};
 
+/**
+ * <p>Convert all the objects with format __array__?__ in an object to an array</p>
+ * <code>
+ * {
+ *     "boolean": true,
+ *     "array_object": {
+ *         "__array__0__": {
+ *             "key1": "value1",
+ *             "key2": "value2"
+ *         }
+ *     }
+ * }
+ * </code>
+ * to
+ * <code>
+ * {
+ *     "boolean": true,
+ *     "array_object": [
+ *         {
+ *             "key1": "value1",
+ *             "key2": "value2"
+ *        }
+ *     ]
+ * }
+ * </code>
+ * @param {Object} specficObj The Object that you want to use to convert all the objects with the special format to arrays
+ * @param {Object} [globalObj] The parent object, we need this to run over the elements recursively
+ * @param {Object} [objIndex] The index of the parent object
+ * @return {Object} An object where all the objects with the special format are converted into arrays
+ */
+sakai.api.Server.loadJSON.convertObjectToArray = function(specficObj, globalObj, objIndex){
+
+    // Run over all the items in the object
+    for (var i in specficObj) {
+
+        // If exists and it's an object recurse
+        if (specficObj.hasOwnProperty(i)) {
+
+            // If it's a non-empty array-object it will have a first element with the key "__array__0__"
+            if (i === "__array__0__") {
+
+                // We need to get the number of items in the object
+                var arr = [];
+                var count = 0;
+                for (var j in specficObj) {
+                    if (specficObj.hasOwnProperty(j)) {
+                        count++;
+                    }
+                }
+
+                // Construct array of objects
+                for(var k = 0, kl = count; k < kl; k ++){
+                    arr.push(specficObj["__array__"+k+"__"]);
+                }
+
+                globalObj[objIndex] = arr;
+            }
+
+            if ($.isPlainObject(specficObj[i])) {
+                sakai.api.Server.loadJSON.convertObjectToArray(specficObj[i], specficObj, i);
+            }
+        }
+
+    }
+    return specficObj;
 };
 
 /**
@@ -1710,14 +1709,14 @@ sakai.api.User.loadMeData = function(callback) {
         cache: false,
         success: function(data){
 
-            sakai.data.me = data;
+            sakai.data.me = sakai.api.Server.loadJSON.convertObjectToArray(data, null, null);
 
             // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
-            if (!sakai.data.me.profile.firstName) {
-                sakai.data.me.profile.firstName = sakai.data.me.profile["rep:userId"];
+            if (sakai.api.User.getProfileBasicElementValue(sakai.data.me.profile, "firstName") === "") {
+                setProfileBasicElementValue(sakai.data.me.profile, "firstName", sakai.data.me.profile["rep:userId"]);
             }
-            if (!sakai.data.me.profile.lastName) {
-                sakai.data.me.profile.lastName = sakai.data.me.profile["rep:userId"];
+            if (sakai.api.User.getProfileBasicElementValue(sakai.data.me.profile, "lastName") === "") {
+                setProfileBasicElementValue(sakai.data.me.profile, "lastName", sakai.data.me.profile["rep:userId"]);
             }
 
             // Call callback function if set
@@ -1778,7 +1777,7 @@ sakai.api.User.getDisplayName = function(profile) {
  * @param {String} eltName the element name to retrieve the value for
  * @return {String} the value of the element name provided
  */
-sakai.api.User.getProfileElementValue = function(profile, eltName) {
+sakai.api.User.getProfileBasicElementValue = function(profile, eltName) {
     var ret = "";
     if (profile !== undefined &&
         profile.basic !== undefined &&
@@ -1788,6 +1787,23 @@ sakai.api.User.getProfileElementValue = function(profile, eltName) {
             ret = profile.basic.elements[eltName].value;
         }
     return sakai.api.Security.saneHTML($.trim(ret));
+};
+
+/*
+ * Sets a value to the user's basic profile information
+ *
+ * @param {Object} profile the user's profile (sakai.data.me.profile for the current user)
+ * @param {String} eltName the element name to retrieve the value for
+ * @param {String} eltValue the value to place in the element
+ */
+sakai.api.User.setProfileBasicElementValue = function(profile, eltName, eltValue) {
+    if (profile !== undefined &&
+        profile.basic !== undefined &&
+        profile.basic.elements !== undefined &&
+        profile.basic.elements[eltName] !== undefined) {
+
+        profile.basic.elements[eltName].value = eltValue;
+    }
 };
 
 /**

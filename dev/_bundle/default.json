@@ -337,6 +337,7 @@
 "PROFILE_PUBLICATIONS_CO_AUTHOR":"Co-author(s)",
 "PROFILE_PUBLICATIONS_CO_AUTHOR_EXAMPLE":"For example: Martin, J., Lindberg, M., Sukojev, B.",
 "PROFILE_PUBLICATIONS_LABEL": "Publications",
+"PROFILE_PUBLICATION_LABEL": "publication",
 "PROFILE_PUBLICATIONS_MAIN_AUTHOR":"Main author",
 "PROFILE_PUBLICATIONS_MAIN_TITLE":"Main title",
 "PROFILE_PUBLICATIONS_MAIN_TITLE_EXAMPLE":"For example: Carbon based time estimation with the Rugolow method",

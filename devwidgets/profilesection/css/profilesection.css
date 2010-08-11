@@ -59,6 +59,21 @@
     margin: 0 0 0 243px;
     padding: 3px;
 }
+#profilesection_generalinfo a.profilesection_add_section {
+    color:#3399CC;
+    font-size:14px;
+    font-weight:bold;
+    float:left;
+    margin-left:240px;
+}
+#profilesection_generalinfo a.profilesection_add_section img {
+    float:left;
+    margin-right:5px;
+}
+#profilesection_generalinfo a.profilesection_add_section span {
+    float:left;
+    margin-top:1px;
+}
 /* Validation errors */
 /* Errors */
 #profilesection_generalinfo input.profilesection_validation_error {

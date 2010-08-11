@@ -261,8 +261,8 @@ sakai._search = function(config, callback) {
                 if (sakai.api.User.getDisplayName(item) !== "")  {
                     user.name = sakai.api.User.getDisplayName(item);
                     user.name = sakai.api.Util.shortenString(user.name, usernameLengthStrip);
-                    user.firstName = sakai.api.User.getProfileElementValue(item, "firstName");
-                    user.lastName = sakai.api.User.getProfileElementValue(item, "lastName");
+                    user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
+                    user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
                 }
                 else {
                     user.name = user.userid;

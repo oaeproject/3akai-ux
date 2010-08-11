@@ -48,6 +48,7 @@ sakai.profilesection = function(tuid, showSettings){
     var $rootel = $("#" + tuid);
 
     var $profilesection_default_template = $("#profilesection_default_template", $rootel);
+    var $profilesection_add_section_template = $("#profilesection_add_section_template", $rootel);
     var $profilesection_field_default_template = $("#profilesection_field_default_template", $rootel);
     var $profilesection_generalinfo = $("#profilesection_generalinfo", $rootel);
     var $profilesection_generalinfo_access_items = $(".profilesection_generalinfo_access", $rootel);
@@ -99,17 +100,36 @@ sakai.profilesection = function(tuid, showSettings){
      * Render the template for a field
      * @param {Object} fieldTemplate JSON selector object containing the field template
      * @param {String} fieldName The name of a field
+     * @param {Boolean} multi If this section is a section that can have multiple instances of itself
+     * @param {String} id If multi is true, id needs to be passed to assign the element to its appropriate place in the data structure
      */
-    var renderTemplateField = function(fieldTemplate, fieldName){
+    var renderTemplateField = function(fieldTemplate, fieldName, multi, id){
         var json_config = {};
-        if (sakai.profile.main.data[currentsection] && sakai.profile.main.data[currentsection].elements && sakai.profile.main.data[currentsection].elements[fieldName]) {
-            json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
-        } else {
-            json_config.data = {};
-        }
+        json_config.data = {};
         json_config.config = sakai.profile.main.config[currentsection].elements[fieldName];
-        json_config.path = currentsection + ".elements." + fieldName;
 
+        if (multi) {
+            if (sakai.profile.main.data[currentsection] &&
+                sakai.profile.main.data[currentsection].elements &&
+                sakai.profile.main.data[currentsection].elements.length) {
+
+                $(sakai.profile.main.data[currentsection].elements).each(function(i, elts) {
+                    if (elts.id.value === id) {
+                        json_config.data = elts[fieldName];
+                        json_config.path = currentsection + ".elements." + id + "." + fieldName;
+                        return;
+                    }
+                });
+            }
+        } else {
+            if (sakai.profile.main.data[currentsection] &&
+                sakai.profile.main.data[currentsection].elements &&
+                sakai.profile.main.data[currentsection].elements[fieldName]) {
+
+                json_config.data = sakai.profile.main.data[currentsection].elements[fieldName];
+            }
+            json_config.path = currentsection + ".elements." + fieldName;
+        }
         return $.TemplateRenderer(fieldTemplate, json_config);
 
     };
@@ -123,15 +143,43 @@ sakai.profilesection = function(tuid, showSettings){
 
         var sections = "";
 
-        for(var i in sectionObject.elements){
-            if(sectionObject.elements.hasOwnProperty(i) && sectionObject.elements[i].display){
+        if (sectionObject.multiple) {
+            // first time through, hasn't been made an array yet
+            if (sakai.profile.main.data[currentsection].elements.length === undefined) {
+                sakai.profile.main.data[currentsection].elements = [{}];
+            }
+            $(sakai.profile.main.data[currentsection].elements).each(function(i, elts) {
+                // add an ID if there isn't one
+                if (elts.id === undefined) {
+                    elts.id = {};
+                    elts.id.display = false;
+                    elts.id.value = "" + Math.round(Math.random() * 1000000000);
+                }
+                // merge config with the data
+                $.extend(true, elts, sectionObject.elements);
+                for(var j in elts){
+                    if(elts.hasOwnProperty(j) && elts[j].display){
 
-                // Set the field template, if there is no template defined, use the default one
-                var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, $rootel) : $profilesection_field_default_template;
+                        // Set the field template, if there is no template defined, use the default one
+                        var fieldTemplate = elts[j].template ? $("#" + elts[j].template, $rootel) : $profilesection_field_default_template;
 
-                // Render the template field
-                sections += renderTemplateField(fieldTemplate, i);
+                        // Render the template field
+                        sections += renderTemplateField(fieldTemplate, j, true, elts.id.value);
+                    }
+                }
+                sections += $.TemplateRenderer($profilesection_add_section_template, {"config": sectionObject});
+            });
+        } else {
+            for(var i in sectionObject.elements){
+                if(sectionObject.elements.hasOwnProperty(i) && sectionObject.elements[i].display){
 
+                    // Set the field template, if there is no template defined, use the default one
+                    var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, $rootel) : $profilesection_field_default_template;
+
+                    // Render the template field
+                    sections += renderTemplateField(fieldTemplate, i, false);
+
+                }
             }
         }
 
@@ -202,11 +250,19 @@ sakai.profilesection = function(tuid, showSettings){
                 var prop = getProperty(sakai.profile.main.data, title);
                 var parentProp = getParentProperty(sakai.profile.main.data, title);
                 var propName = title.split(".")[title.split(".").length-1];
+                var nodeName = title.split(".")[0];
 
+                // This is a multiple-assigned section if there are 3 .'s in the title
+                if (title.split(".").length == 4) {
+                    $(sakai.profile.main.data[nodeName].elements).each(function(i, elts) {
+                       if (elts.id.value === title.split(".")[2]) {
+                           prop = elts[propName];
+                           return;
+                       }
+                    });
                 // when trying to add data into a new section that doesn't currently have any data,
                 // we have to create the section's data object
-                if (!parentProp) {
-                    var nodeName = title.split(".")[0];
+                } else if (!parentProp) {
                     sakai.profile.main.data[nodeName] = {};
                     sakai.profile.main.data[nodeName].elements = {};
                     sakai.profile.main.data[nodeName].elements["jcr:name"] = "elements";
@@ -217,7 +273,7 @@ sakai.profilesection = function(tuid, showSettings){
                     parentProp[propName] = {};
                     parentProp[propName].value = $selected_element.val();
                 } else if (prop) { // it exists, just change its value
-                    if ($.isPlainObject(prop) && prop.value !== undefined){
+                    if ($.isPlainObject(prop)) {
                         // Set the correct value
                         prop.value = $selected_element.val();
                     } else {

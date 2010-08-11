@@ -241,6 +241,7 @@ sakai.config = {
                 "display": true,
                 "access": "everybody",
                 "multiple": true,
+                "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                 //"template": "profile_section_publications_template",
                 "elements": {
                     "maintitle": {
