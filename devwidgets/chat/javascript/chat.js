@@ -288,9 +288,9 @@ sakai.chat = function(tuid, showSettings){
      * @param {String} firstName Firstname of the user
      * @param {String} lastName Lastname of the user
      */
-    var parseName = function(uuid, firstName, lastName){
-        if (firstName && lastName) {
-            return sakai.api.Util.shortenString(firstName + " " + lastName, 11);
+    var parseName = function(uuid, profile){
+        if (sakai.api.User.getDisplayName(profile) !== "") {
+            return sakai.api.Util.shortenString(sakai.api.User.getDisplayName(profile), 11);
         }
         else {
             return sakai.api.Util.shortenString(uuid, 11);
@@ -302,11 +302,8 @@ sakai.chat = function(tuid, showSettings){
      * @param {Object} basic JSON basic variable inside the profile information
      */
     var parseStatusMessage = function(basic){
-        if (basic) {
-            var base = $.parseJSON(basic);
-            if (base.status) {
-                return sakai.api.Util.shortenString(base.status, 20);
-            }
+        if (basic && basic.status) {
+            return sakai.api.Util.shortenString(basic.status, 20);
         }
         return sakai.api.Util.shortenString("No status message");
     };
@@ -663,7 +660,7 @@ sakai.chat = function(tuid, showSettings){
                     onlineFriends.push(json.contacts[i]);
                 }
 
-                json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile.firstName, json.contacts[i].profile.lastName);
+                json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile);
                 json.contacts[i].photo = parsePicture(json.contacts[i].profile, json.contacts[i].profile["rep:userId"]);
                 json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
 
@@ -683,7 +680,7 @@ sakai.chat = function(tuid, showSettings){
 
         json.me = {};
         if (json.me) {
-            json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile.firstName, sakai.data.me.profile.lastName);
+            json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile);
             json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
             json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
             json.me.chatstatus = currentChatStatus || "online";
@@ -1117,7 +1114,7 @@ sakai.chat = function(tuid, showSettings){
                                 }
 
                                 var el = $(chatWith + "_" + k + "_content");
-                                var chatwithusername = parseName(k, njson[k].messages[0].userFrom[0].firstName, njson[k].messages[0].userFrom[0].lastName);
+                                var chatwithusername = parseName(k, njson[k].messages[0].userFrom[0]);
 
                                 // Create a message object
                                 var chatmessage = {};
@@ -1150,7 +1147,7 @@ sakai.chat = function(tuid, showSettings){
                                 }
 
                                 // Parse the name, photo, statusmessage and chatstatus into the activewindows objects
-                                activewindows.items[index].name = parseName(k, friendProfile.firstName, friendProfile.lastName);
+                                activewindows.items[index].name = parseName(k, friendProfile);
                                 activewindows.items[index].photo = parsePicture(friendProfile, k);
                                 activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
                                 activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);

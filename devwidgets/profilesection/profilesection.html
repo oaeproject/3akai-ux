@@ -57,12 +57,15 @@
 <div id="profilesection_default_template"><!--
     {var mode = sakai.profile.main.mode}
     {if fields}
-        {if config && config.label && data}
+        {if config && config.label}
             <div class="profilesection_generalinfo_header">
                 <h2 class="fl-force-left">${config.label}</h2>
 
                 {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
-                    {var _access = data.access}
+                        {var _access = ""}
+                    {if data}
+                        {var _access = data.access}
+                    {/if}
                     <div class="profilesection_generalinfo_acl fl-force-right">
                         {if mode.value === "viewmy"}
                             <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>

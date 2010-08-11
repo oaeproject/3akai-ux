@@ -548,9 +548,9 @@ sakai.topnavigation = function(tuid, showSettings){
         $(exploreNavigationContainer).show();
 
         // Fill in the name of the user in the different fields
-        if (person.profile.firstName || person.profile.lastName) {
-            $(userIdLabel).text(sakai.api.Security.saneHTML(person.profile.firstName + " " + person.profile.lastName));
-            $(hiLabel).text(sakai.api.Security.saneHTML(person.profile.firstName));
+        if (sakai.api.User.getDisplayName(person.profile) !== "") {
+            $(userIdLabel).text(sakai.api.User.getDisplayName(person.profile));
+            $(hiLabel).text(sakai.api.User.getProfileElementValue(person.profile, "firstName"));
         }
 
         // Show the profile picture on the dashboard page

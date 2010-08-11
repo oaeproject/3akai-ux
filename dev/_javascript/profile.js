@@ -268,6 +268,9 @@ sakai.profile = function(){
             // Set the profile data object
             sakai.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
 
+            if (sakai.profile.main.data.activity)
+                delete sakai.profile.main.data.activity;
+
             // Execute the callback function
             if (callback && typeof callback === "function") {
                 callback();
@@ -278,7 +281,7 @@ sakai.profile = function(){
 
             // We need to fire an Ajax GET request to get the profile data for the user
             $.ajax({
-                url: authprofileURL + ".4.json",
+                url: authprofileURL + ".3.json",
                 success: function(data){
 
                     // Check whether there are any results
@@ -549,10 +552,6 @@ sakai.profile = function(){
         // Reinitialize the jQuery form selector
         $profile_form = $($profile_form.selector);
 
-        $profile_form.bind("submit", function(){
-
-        });
-
         // Initialize the validate plug-in
         $profile_form.validate({
             debug: true,
@@ -627,7 +626,8 @@ sakai.profile = function(){
         };
 
         // Construct the html for the widget
-        $profile_sectionwidgets_container.append($.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject));
+        var toAppend = $.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
+        $profile_sectionwidgets_container.append(toAppend);
 
         // Bind a global event that can be triggered by the profilesection widgets
         $(window).bind("sakai-" + sectionobject.sectionname, function(eventtype, callback){
