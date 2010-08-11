@@ -50,45 +50,45 @@
   <body>
     <div id="embedresource_choose">
       <div id="embedresource_header">
-        <h3><span id="embedresource_title" style="display:none;">__MSG__EMBED_RESOURCE_ON_THIS_PAGE__</span></h3>
+        <h3><span id="embedresource_title" style="display:none;">{#embedresource_dlg.embed_resource_on_this_page}</span></h3>
       </div>
       <div id="embedresource_tabs">
         <ul>
-          <li id="embedresource_link_tab-1" class="tab_active"><a href="#">__MSG__FROM_A_REPOSITORY__</a></li>
-          <li id="embedresource_link_tab-2" class="tab_inactive"><a href="#">__MSG__FROM_THE_WEB__</a></li>
+          <li id="embedresource_link_tab-1" class="tab_active"><a href="#">{#embedresource_dlg.from_a_repository}</a></li>
+          <li id="embedresource_link_tab-2" class="tab_inactive"><a href="#">{#embedresource_dlg.from_the_web}</a></li>
         </ul>
       </div>
       <div id="embedresource_container">
         <!-- CONTENT -->
         <div id="embedresource_tab-1" class="embedresource_tab embedresource_active">
         <div id="pickresource_heading">
-          <span id="filters_header" class="panel_header">__MSG__SEARCH_AND_FILTER__</span>
-          <span id="repo_header" class="panel_header">__MSG__REPOSITORY_CONTENTS__</span>
-          <span id="details_header" class="panel_header">__MSG__RESOURCE_DETAILS__</span>                    
+          <span id="filters_header" class="panel_header">{#embedresource_dlg.search_and_filter}</span>
+          <span id="repo_header" class="panel_header">{#embedresource_dlg.repository_contents}</span>
+          <span id="details_header" class="panel_header">{#embedresource_dlg.resource_details}</span>                    
         </div>
           <div class="contentmedia_content_main">
             <div id="pickresource_filters" class="pickresource_panel">
               <!-- Accordion -->
               <div id="contentmedia_accordion">
-                <a href="javascript:;" title="Search for files">__MSG__SEARCH__</a>
+                <a href="javascript:;" title="Search for files">{#embedresource_dlg.search}</a>
                 <div id="contentmedia_search">
                   <form>
                     <input type="text" value="Search for files ..." class="input" id="search_text" /> 
                     <button id="contentmedia_search_button" class="s3d-search-button s3d-button s3d-button-primary">
                       <span class="s3d-button-inner">
-                        <span class="s3d-button-icon-right">__MSG__SEARCH__</span>
+                        <span class="s3d-button-icon-right">{#embedresource_dlg.search}</span>
                         </span>
                     </button>
                   </form>
                 </div>
-                <a href="javascript:;" title="Filter by Owner">__MSG__FILTER_BY_OWNER__</a>
+                <a href="javascript:;" title="Filter by Owner">{#embedresource_dlg.filter_by_owner}</a>
                 <div id="contentmedia_accordion_list_owners">
                   <div class="contentmedia_accordion_list">
-                  <a href="javascript:;" title="My Files" id="search_my_files">__MSG__MY_FILES__</a>
-                  <a href="javascript:;" title="All Files" id="search_all_files">__MSG__ALL_FILES__</a> 
+                  <a href="javascript:;" title="My Files" id="search_my_files">{#embedresource_dlg.my_files}</a>
+                  <a href="javascript:;" title="All Files" id="search_all_files">{#embedresource_dlg.all_files}</a> 
                   </div>
                 </div>
-                <a href="javascript:;" title="Filter by site">__MSG__FILTER_BY_SITE__</a>
+                <a href="javascript:;" title="Filter by site">{#embedresource_dlg.filter_by_site}</a>
                 <div id="contentmedia_accordion_list_site"></div>
               </div>
             </div>
@@ -182,9 +182,9 @@
         </div>
         <div id="embedresource_tab-2" class="embedresource_tab embedresource_inactive">
           <div class="embedresource_tab_content">
-            <label for="resource_url">__MSG__IMAGE_URL__</label><input name="resource_url" type="text" size="75"/><br/>
+            <label for="resource_url">{#embedresource_dlg.image_url}</label><input name="resource_url" type="text" size="75"/><br/>
             <span>OR</span><br/>
-            <label for="resource_embed">__MSG__VIDEO_EMBED_CODE__</label><textarea name="resource_embed" cols="75" rows="12"></textarea>
+            <label for="resource_embed">{#embedresource_dlg.video_embed_code}</label><textarea name="resource_embed" cols="75" rows="12"></textarea>
           </div>
         </div>
         <div class="mceActionPanel">

@@ -13,6 +13,11 @@ width:70px;}
 #site_manage_searchViaCsv{
     margin-right:15px;
 }
+
+.siteManage_member_list {
+    width:100%;
+}
+
 .siteManage_person_roleView{
     color: #ddd;
 }
