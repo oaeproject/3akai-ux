@@ -258,17 +258,17 @@ sakai._search = function(config, callback) {
                 } else {
                     user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
-                if (sakai.api.User.getDisplayName(user) !== "")  {
-                    user.name = sakai.api.User.getDisplayName(user);
+                if (sakai.api.User.getDisplayName(item) !== "")  {
+                    user.name = sakai.api.User.getDisplayName(item);
                     user.name = sakai.api.Util.shortenString(user.name, usernameLengthStrip);
-                    user.firstName = sakai.api.User.getProfileElementValue(user, "firstName");
-                    user.lastName = sakai.api.User.getProfileElementValue(user, "lastName");
+                    user.firstName = sakai.api.User.getProfileElementValue(item, "firstName");
+                    user.lastName = sakai.api.User.getProfileElementValue(item, "lastName");
                 }
                 else {
                     user.name = user.userid;
                 }
                 if (person.basic) {
-                    var basic = $.parseJSON(person.basic);
+                    var basic = person.basic;
                     if (basic.unirole) {
                         user.extra = basic.unirole;
                     }
