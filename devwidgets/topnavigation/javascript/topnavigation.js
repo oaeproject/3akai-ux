@@ -387,9 +387,6 @@ sakai.topnavigation = function(tuid, showSettings){
         $("#register_button_container").show();
         $("#login_button_container").show();
 
-        // Set institutional login page link
-        $("#other_logins_container .other_logins").attr("href", sakai.config.URL.PUBLIC_INSTITUTIONAL_LOGIN_URL);
-
         // Set up public nav links
         $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
         $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
