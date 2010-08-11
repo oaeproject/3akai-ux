@@ -1,0 +1,37 @@
+        <!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/fileupload/css/fileupload.css"/>
+
+<!-- CONTAINER -->
+<div style="display:none" id="fileupload_container" class="dialog">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__WIDGET_TITLE__</h1>
+            <a href="javascript:;" class="jqmClose dialog_close_image" title="Close Dialog">Close Dialog</a>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+    <div id="new_uploader">
+        <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
+        <form method="post" enctype="multipart/form-data" id="multifile_form">
+            <input type="file" name="Filedata" id="multifile_upload"/>
+            <p>
+                <div id="upload_file_list">
+                </div>
+            </p>
+            <button type="submit" class="s3d-button s3d-button-primary">
+                <span class="s3d-button-inner">Upload</span>
+            </button>
+        </form>
+    </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+
+<script type="text/javascript" src="/devwidgets/fileupload/javascript/fileupload.js"></script>

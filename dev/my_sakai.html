@@ -45,6 +45,8 @@
         <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
         <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
 
     </head>
 
@@ -63,10 +65,20 @@
 
                 <!-- CREATE GROUP -->
                 <a href="javascript:;" id="create-group">Create Group</a>
+
+                <!--  UPLOAD FILES -->
+                <a href="javascript:;" id="upload-files">Upload files</a>
+
                 <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
                 <div id="creategroupcontainer" style="display:none;">
                     <!-- We need this container to show the pop-up where you can add a group -->
                     <div id="widget_creategroup" class="widget_inline"></div>
+                </div>
+
+                <!-- CONTAINER FOR THE UPLOAD FILES CONTAINER -->
+                <div id="uploadfilescontainer" style="display:none;">
+                    <!-- We need this container to show the pop-up where you can upload files -->
+                    <div id="widget_fileupload" class="widget_inline"></div>
                 </div>
             </div>
         </div>
