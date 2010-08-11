@@ -56,7 +56,7 @@ sakai.entity = function(tuid, showSettings){
     var availableStatus_busy = availableStatus + "busy";
     var availableStatus_offline = availableStatus + "offline";
 
-    var entitymodes = ["myprofile", "profile", "space", "content"];
+    var entitymodes = ["myprofile", "profile", "group", "content"];
     var entityconfig = {
         mode: entitymodes[0], // Set the default entity mode
         data: {
@@ -130,22 +130,6 @@ sakai.entity = function(tuid, showSettings){
 
         // Return the human readable filesize
         return filesize + " " + lengthunits;
-
-    };
-
-    /**
-     * Change the mode for the entity widget
-     * @param {String} mode The mode of how you would like to load the entity widget (entitymodes)
-     */
-    var changeMode = function(mode){
-
-        // Check if the mode value exists and whether it is a valid option
-        if (mode && $.inArray(mode, entitymodes) !== -1) {
-            entityconfig.mode = mode;
-        }
-        else {
-            fluid.log("Entity widget - changeMode - The mode couldn't be changed: '" + mode + "'.");
-        }
 
     };
 
@@ -519,18 +503,13 @@ sakai.entity = function(tuid, showSettings){
      * @param {Object} [data] The data you received from the page that called this (can be undefined)
      * @param {Function} [callback] A callback function that will be fired it is supplied
      */
-    var getData = function(mode, data, callback){
+    var getData = function(mode, data){
         switch (mode) {
             case "profile":
                 entityconfig.data.profile = $.extend(true, {}, data);
 
                 // Set the correct profile data
                 setProfileData();
-
-                // Execute the callback (if there is one)
-                if (typeof callback === "function") {
-                    callback();
-                }
 
                 break;
 
@@ -544,30 +523,32 @@ sakai.entity = function(tuid, showSettings){
                     // Set the correct profile data
                     setProfileData();
 
-                    // Execute the callback (if there is one)
-                    if (typeof callback === "function") {
-                        callback();
-                    }
                 });
+                break;
+                
+            case "group":
+            
+                entityconfig.data.profile = data;
+                
                 break;
 
             case "content":
                 setContentData(data);
 
-                // Execute the callback (if there is one)
-                if (typeof callback === "function") {
-                    callback();
-                }
-
                 break;
-
-            default:
-                fluid.log("Entity widget - getData - invalid mode");
-                // Execute the callback (if there is one)
-                if (typeof callback === "function") {
-                    callback();
-                }
+                
         }
+        
+        if(entityconfig.mode ==="content" && !data){
+        	return;
+        }
+
+        // Render the main template
+        renderTemplate();
+
+        // Add binding
+        addBinding();
+            
     };
 
 
@@ -588,39 +569,14 @@ sakai.entity = function(tuid, showSettings){
         $entity_container_actions.empty();
 
         // Change the mode for the entity widget
-        changeMode(mode);
+        entityconfig.mode = mode;
 
         // Get the data for the appropriate mode
-        getData(entityconfig.mode, data, function(){
-
-            if(entityconfig.mode ==="content" && !data){
-                return;
-            }
-
-            // Render the main template
-            renderTemplate();
-
-            // Add binding
-            addBinding();
-
-        });
+        getData(entityconfig.mode, data);
 
     };
 
-    // Sometimes the trigger event is fired before it is actually bound
-    // so we keep trying to execute the ready event
-    var triggerReady = function(){
-        if ($(window).data("events") && $(window).data("events").sakai) {
-
-            // Send out an event that says the widget is ready.
-            // This event can be picked up in a page JS code
-            $(window).trigger("sakai.api.UI.entity.ready");
-        }
-        else {
-            setTimeout(triggerReady, 100);
-        }
-    };
-    triggerReady();
+    $(window).trigger("sakai.api.UI.entity.ready", {});
 
     // Add binding to update the chat status
     $(window).bind("chat_status_change", function(event, newChatStatus){

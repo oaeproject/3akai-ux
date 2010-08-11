@@ -73,13 +73,6 @@ sakai.topnavigation = function(tuid, showSettings){
     var $general_search_default_value = $("#general_search_default_value");
     var searchFocus = false;
 
-    // Login
-    var $login_error_message = $("#login_error_message");
-    var $login_container = $("#login_container");
-    var $login_submit_button = $("#login_submit_button");
-    var $login_cancel_button = $("#login_cancel_button");
-    var $login_busy = $("#login_busy");
-
     // Containers
     var exploreNavigationContainer = "#explore_nav_container";
 
@@ -313,61 +306,6 @@ sakai.topnavigation = function(tuid, showSettings){
         return false;
     });
 
-
-
-
-    /**
-     * This will determine whether there is a valid session. If there is, we'll
-     * redirect to the URL requested or the personal dashboard if nothing has been provided.
-     */
-    var decideLoggedIn = function(data){
-
-        var mejson = (data === undefined ? sakai.data.me : data);
-        if (mejson.user.userid) {
-
-            // We are logged in, reload page
-            document.location.reload();
-        }
-        else {
-
-            // Show buttons
-            $login_submit_button.show();
-            $login_cancel_button.show();
-
-            // Show ajax loader
-            $login_busy.hide();
-
-            $login_error_message.show();
-        }
-
-    };
-
-    /**
-     * This will be executed after the post to the login service has finished.
-     * We send a new request to the Me service, explicity disabling cache by
-     * adding a random number behind the URL, because otherwise it would get
-     * the cached version of the me object which would still say I'm not logged
-     * in.
-     */
-    var checkLogInSuccess = function(){
-
-        $.ajax({
-            url: sakai.config.URL.ME_SERVICE,
-            cache: false,
-            success: decideLoggedIn,
-            error: function(xhr, textStatus, thrownError){
-
-                // This executes a couple of times after log in, but then login
-                // will be successful. Does not affect experience, but at some
-                // point this needs to be looked at.
-
-                //throw "Me service has failed! ("+xhr.status+")";
-
-            }
-        });
-
-    };
-
     /**
      * Switch navigation bar to anonymous mode
      * @returns void
@@ -387,9 +325,6 @@ sakai.topnavigation = function(tuid, showSettings){
         $("#register_button_container").show();
         $("#login_button_container").show();
 
-        // Set institutional login page link
-        $("#other_logins_container .other_logins").attr("href", sakai.config.URL.PUBLIC_INSTITUTIONAL_LOGIN_URL);
-
         // Set up public nav links
         $("#nav_my_sakai_link a").attr("href", sakai.config.URL.PUBLIC_MY_DASHBOARD_URL);
         $("#nav_content_media_link a").attr("href", sakai.config.URL.PUBLIC_CONTENT_MEDIA_URL_PAGE);
@@ -397,75 +332,8 @@ sakai.topnavigation = function(tuid, showSettings){
         $("#nav_courses_sites_link a").attr("href", sakai.config.URL.PUBLIC_COURSES_SITES_URL);
         $("#nav_search_link a").attr("href", sakai.config.URL.PUBLIC_SEARCH_URL_PAGE);
 
-        // Bind Log in button
-        $("#login_button_container .log_in").bind("click", function(){
-            $login_container.show();
-        });
-
-        var personal_container_position = $("#explore_nav_container .personal-container").position();
-
-        // Adjust width of login container
-        $login_container.css({
-            "width": ($("#explore_nav_container .personal-container").innerWidth() - 19) + "px",
-            "left": (personal_container_position.left - 8) + "px"
-        });
-
-        // Adjust width of inputs
-        $("#login_container input").css({
-            "width": ($("#explore_nav_container .personal-container").innerWidth() - 30) + "px"
-        });
-
-        // Bind Log in submit button
-        $login_submit_button.bind("click", function(){
-
-            // Hide any previous login error msgs
-            $login_error_message.hide();
-
-            // Check if fileds are empty
-            if (($("#login_username").val() === "") || ($("#login_password").val() === "")) {
-                $login_error_message.show();
-                return;
-            }
-            else {
-                // Start logging in
-
-                // Hide buttons
-                $login_submit_button.hide();
-                $login_cancel_button.hide();
-
-                // Show ajax loader
-                $login_busy.show();
-
-                // Get the username and password
-                var data = {
-                    "username": $("#login_username").val(),
-                    "password": $("#login_password").val()
-                };
-                // Perform the login operation
-                sakai.api.User.login(data, checkLogInSuccess);
-
-            }
-        });
-
-        // Cancel button
-        $login_cancel_button.bind("click", function(){
-
-            // Hide error msg
-            $login_error_message.hide();
-
-            // Hide login container
-            $login_container.hide();
-        });
-
-        // Bind Enter key to Login form
-        $(window).keypress(function(event){
-
-            if (event.keyCode === 13) {
-                if ($login_container.is(":visible")) {
-                    $login_submit_button.trigger("click");
-                }
-            }
-        });
+        // Make the login page redirect to the current page after login
+        $(".log_in").attr("href", $(".log_in").attr("href") + "?url=" + escape(window.location.pathname + window.location.search + window.location.hash));
 
     };
 
