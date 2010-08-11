@@ -101,10 +101,10 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     var renderTemplateBasicInfo = function(fieldTemplate, fieldName){
         var json_config = {
-            "groupid" : sakai.group.id,
-            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.group.id,
-            "data" : sakai.group.data.authprofile,
-            "mode" : sakai.group.mode
+            "groupid" : sakai.groupedit.id,
+            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.groupedit.id,
+            "data" : sakai.groupedit.data.authprofile,
+            "mode" : sakai.groupedit.mode
         };
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));
     };
