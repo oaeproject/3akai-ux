@@ -6,13 +6,16 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - File not found</title>
+        <title>Sakai 3 R&amp;D - Page not found</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.base.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.3.css" />
+
+        <!-- Sakai Error CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.error.css" />
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.index.css" />
@@ -42,29 +45,85 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
+        <!-- 404 JS -->
+        <script type="text/javascript" src="/dev/_javascript/sakai.404.js"></script>
+
     </head>
 
     <body class="fl-centered index i18nable">
+        <div class="index-container fl-centered page_not_found_error">
+            <div id="page_not_found_error_logged_out_template" style="display:none"><!--
+                <div class="header-title">
+                    <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
+                </div>
 
-        <div class="index-container fl-centered">
+                <div class="header-byline">
+                    __MSG__HEADER_BYLINE__
+                </div>
 
-            <!-- HEADER -->
-            <div class="header-title">
-                <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
-            </div>
+                <div class="login-box">
+                    <div id="page_not_found_error">
+                        <div class="preview-box">
+                            <span id="error_title">The page you requested was not found.</span>
+                            <p>
+                                You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive).
+                            </p>
+                            You can
+                            <ul>
+                                <li>
+                                    Verify the link in the address bar
+                                </li>
+                                <li>
+                                    Go back to the previous page by clicking the back button in your browser
+                                </li>
+                            </ul>
+                            <p>
+                                If you continue to receive this error, the page may have been moved or no longer exists.
+                            </p>
+                        </div>
+                        <div class="login-container">
+                            <a href="/dev/index.html" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Sign In</span></a>
+                            <p>
+                                If you have an account, you may wish to sign in to search available pages.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            --></div>
+            <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
+                <div id="widget_topnavigation" class="widget_inline">
+                </div>
+                <div class="fl-container-flex header">
+                    <div class="fl-fix fl-centered fixed-container">
+                        <div class="decor">
+                        </div>
+                        <div id="page_not_found_error">
+                            <div class="preview-box">
+                                <span id="error_title">The page you requested was not found.</span>
+                                <p>
+                                    You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive).
+                                </p>
+                                You can
+                                <ul>
+                                    <li>
+                                        Verify the link in the address bar
+                                    </li>
+                                    <li>
+                                        Go back to the previous page by clicking the back button in your browser
+                                    </li>
+                                </ul>
+                                <p>
+                                    If you continue to receive this error, the page may have been moved or no longer exists.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="header-byline">
-                __MSG__HEADER_BYLINE__
-            </div>
+                <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-            <div class="login-box">
-                The server has not found anything matching the Request-URI. No indication is given of whether the condition is temporary or permanent.
-            </div>
-
-            <!-- FOOTER WIDGET -->
-            <div id="widget_footer" class="widget_inline footercontainer"></div>
-
+                <div id="widget_chat" class="widget_inline"></div>
+            --></div>
         </div>
     </body>
-
 </html>

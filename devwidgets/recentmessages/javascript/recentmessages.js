@@ -103,14 +103,13 @@ sakai.recentmessages = function(tuid, showSettings){
         // Set a params object to set which params should be passed into the request
         var params = $.param({
             box: "inbox",
-            category: "message",
             items: 4,
             page: 0
         });
 
         // Fire an Ajax request to get the recent messages for the current user
         $.ajax({
-            url: sakai.config.URL.MESSAGE_BOXCATEGORY_SERVICE + "?" + params,
+            url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?" + params,
             cache: false,
             success: function(data){
                 loadRecentMessages(data);

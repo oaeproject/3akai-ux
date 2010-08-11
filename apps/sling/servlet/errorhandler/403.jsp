@@ -6,7 +6,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sakai 3 R&amp;D - Forbidden</title>
+        <title>Sakai 3 R&amp;D - Access denied</title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/_css/FSS/fss-base.css" />
@@ -14,10 +14,11 @@
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.core.2.css" />
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.3.css" />
 
+        <!-- Sakai Error CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.error.css" />
+
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/_css/sakai/sakai.index.css" />
-
-        <!-- 3rd party CSS -->
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="/dev/_configuration/widgets.js"></script>
@@ -42,29 +43,73 @@
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.cookie.js"></script>
         <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.pager.js"></script>
 
+        <!-- 403 JS -->
+        <script type="text/javascript" src="/dev/_javascript/sakai.403.js"></script>
+
     </head>
 
     <body class="fl-centered index i18nable">
+        <div class="index-container fl-centered permissions_error">
+            <div id="permission_error_logged_out_template" style="display:none"><!--
+                <div class="header-title">
+                    <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__"/>
+                </div>
+    
+                <div class="header-byline">
+                    __MSG__HEADER_BYLINE__
+                </div>
+    
+                <div class="login-box">
+                    <div id="permission_error">
+                        <div class="preview-box">
+                            <span id="error_title">You don't have permission to view the requested page</span>
+                            <p>
+                                You tried to access a page without the correct permissions.
+                            </p>
+                            You can
+                            <ul>
+                                <li>
+                                    Sign in to Sakai with an account that has the correct permissions
+                                </li>
+                                <li>
+                                    Go back to the previous page by clicking the back button in your browser
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="login-container">
+                            <a href="/dev/index.html" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Sign In</span></a>
+                            <p>
+                                Sign in to an account that has the right permissions to view this page with the button above.
+                            </p>
+                        </div>
+                    </div>
+                </div>--></div>
+                <div id="permission_error_logged_in_template" style="display:none;"><!--
+                <div id="widget_topnavigation" class="widget_inline">
+                </div>
+                <div class="fl-container-flex header">
+                    <div class="fl-fix fl-centered fixed-container">
+                        <div class="decor">
+                        </div>
+                        <div id="permission_error">
+                            <span id="error_title">You don't have permission to view the requested page</span>
+                            <p>
+                                You tried to access a page without the correct permissions.
+                            </p>
+                            You can
+                            <ul>
+                                <li>
+                                    Go back to the previous page by clicking the back button in your browser
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="index-container fl-centered">
+                <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-            <!-- HEADER -->
-            <div class="header-title">
-                <img src="/dev/_images/sakai_logo_index.png" alt="__MSG__INSTANCE_NAME__" />
-            </div>
-
-            <div class="header-byline">
-                __MSG__HEADER_BYLINE__
-            </div>
-
-            <div class="login-box">
-                The server understood the request, but is refusing to fulfill it. Authorization will not help and the request SHOULD NOT be repeated
-            </div>
-
-            <!-- FOOTER WIDGET -->
-            <div id="widget_footer" class="widget_inline footercontainer"></div>
-
+                <div id="widget_chat" class="widget_inline"></div>
+                --></div>
         </div>
     </body>
-
 </html>
