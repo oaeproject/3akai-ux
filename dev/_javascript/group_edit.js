@@ -19,10 +19,11 @@
 
 var sakai = sakai || {};
 
-sakai.group = function(){
-sakai.group.id = sakai.group.id || {};
-sakai.group.data = sakai.group.data || {};
-sakai.group.manager = sakai.group.data || false;
+sakai.groupedit = function(){
+
+sakai.groupedit.id = sakai.groupedit.id || {};
+sakai.groupedit.data = sakai.groupedit.data || {};
+sakai.groupedit.mode = sakai.groupedit.mode || {};
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
@@ -50,23 +51,6 @@ sakai.group.manager = sakai.group.data || false;
     ////////////////////
     // UTIL FUNCTIONS //
     ////////////////////
-    
-    var widgetready = false;
-    var groupinfoready = false;
-    
-    $(window).bind("sakai.sitespages.ready", function(e){
-        widgetready = true;
-        if (groupinfoready) {
-            loadPagesWidget();
-        }
-    });
-    
-    var loadPagesWidget = function(){
-        var basepath = "/~" + sakai.group.id + "/sites/default/";
-        var editMode = sakai.group.manager;
-        var homePage = "";
-        sakai.sitespages.doInit(basepath, editMode, homePage);
-    }
 
     /**
      * Get the group id from the querystring
@@ -83,8 +67,8 @@ sakai.group.manager = sakai.group.data || false;
     
     $(window).bind("sakai.api.UI.entity.ready", function(e){
         readyToRender = true;
-        if (sakai.group.data) {
-            sakai.api.UI.entity.render("group", sakai.group.data);
+        if (sakai.groupedit.data) {
+            sakai.api.UI.entity.render("group", sakai.groupedit.data);
             hasRendered = true;
         }
     });
@@ -97,21 +81,90 @@ sakai.group.manager = sakai.group.data || false;
         $.ajax({
             url: "/~" + groupid + "/public.infinity.json",
             success: function(data){
-                sakai.group.id = groupid;
-                sakai.group.data = data;
+                sakai.groupedit.id = groupid;
+                sakai.groupedit.data = data;
+                sakai.groupedit.data["sakai:group-id"] = groupid;
                 if (data.authprofile['rep:policy']) {
-                    sakai.group.manager = true;
+                    triggerEditable(true);
                 }
                 if (readyToRender && !hasRendered) {
-                    sakai.api.UI.entity.render("group", data);
+                    sakai.api.UI.entity.render("group", sakai.groupedit.data);
                 }
-                groupinfoready = true;
-                if (widgetready){
-                    loadPagesWidget();
-                }
+                $(window).trigger("basicgroupinfo_refresh");
             }
         });
     };
+
+
+    /**
+     * Update group data
+     */
+    var updateGroup = function(){
+        // need to validate data
+        var groupTitle = $("#groupbasicinfo_generalinfo_group_title").val();
+        var groupTags = $("#profilesection_generalinfo_group_tags").val();
+        var groupDesc = $("#profilesection_generalinfo_group_description").val();
+
+        $.ajax({
+            url: "/system/userManager/group/" + sakai.groupedit.id + ".update.json",
+            data: {
+                "_charset_":"utf-8",
+                "sakai:group-title" : groupTitle,
+                "sakai:group-tags" : groupTags,
+                "sakai:group-description" : groupDesc
+            },
+            type: "POST",
+            success: function(data, textStatus){
+                getGroupData(sakai.groupedit.id);
+                $(window).trigger("basicgroupinfo_refresh");
+            },
+            error: function(xhr, textStatus, thrownError){
+                fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
+            }
+        });
+    }
+
+    var triggerEditable = function(show){
+        if (show) {
+            $("#group_editable").show();
+            $("#group_editing").hide();
+        } else {
+            $("#group_editable").hide();
+            $("#group_editing").show();
+        }
+    };
+
+
+    ///////////////////////
+    // BINDING FUNCTIONS //
+    ///////////////////////
+
+    /**
+     * Add binding to all the elements on the page
+     */
+    var addBinding = function(){
+
+        $("#group_editable_button_edit").bind("click", function(){
+            triggerEditable(false);
+            sakai.groupedit.mode = 'edit';
+            $(window).trigger("basicgroupinfo_refresh");
+        });
+
+        // Bind the don't update
+        $("#group_editing_button_dontupdate").bind("click", function(){
+            triggerEditable(true);
+            sakai.groupedit.mode = '';
+            $(window).trigger("basicgroupinfo_refresh");
+        });
+
+        // Bind the update
+        $("#group_editing_button_update").bind("click", function(){
+            sakai.groupedit.mode = '';
+            updateGroup();
+            $(window).trigger("basicgroupinfo_refresh");
+        });
+    };
+
 
     ////////////////////
     // INITIALISATION //
@@ -131,9 +184,10 @@ sakai.group.manager = sakai.group.data || false;
             getGroupData(groupid);
         });*/
 
+        addBinding();
     };
 
     doInit();
 };
 
-sakai.api.Widgets.Container.registerForLoad("sakai.group");
+sakai.api.Widgets.Container.registerForLoad("sakai.groupedit");

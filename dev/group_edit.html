@@ -69,7 +69,26 @@
 
             <div class="fl-fix fl-centered fixed-container">
 
-                <div id="widget_sitespages" class="widget_inline"><!-- --></div>
+                <!-- GROUPBASICINFO WIDGET -->
+                <div id="widget_groupbasicinfo" class="widget_inline"><!-- --></div>
+
+                <div id="group_editable" class="fl-push" style="display:none;">
+                    <div class="fl-force-right">
+                        <button id="group_editable_button_edit" type="button" class="s3d-button">
+                            <span class="s3d-button-inner">__MSG__EDIT_DETAILS__</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="group_editing" class="fl-push" style="display:none;">
+                    <div class="fl-force-right">
+                        <button id="group_editing_button_dontupdate" type="button" class="s3d-button">
+                            <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
+                        </button>
+                        <button id="group_editing_button_update" type="button" class="s3d-button s3d-button-primary">
+                            <span class="s3d-button-inner">__MSG__UPDATE_GROUP__</span>
+                        </button>
+                    </div>
+                </div>
 
                 <!-- FOOTER -->
                 <div id="group_footer" class="fl-push"><!-- --></div>
@@ -85,7 +104,7 @@
         <div id="widget_chat" class="widget_inline"></div>
 
         <!-- GROUP JS -->
-        <script type="text/javascript" src="_javascript/group.js"></script>
+        <script type="text/javascript" src="_javascript/group_edit.js"></script>
 
     </body>
 

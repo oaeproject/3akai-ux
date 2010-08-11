@@ -435,7 +435,7 @@ sakai.creategroup = function(tuid, showSettings){
             type: "POST",
             success: function(data, textStatus){
                 //redirect the user to the group
-                document.location = "/dev/group.html?id=" + groupid;
+                document.location = "/dev/group_edit.html?id=" + groupid;
             },
             error: function(xhr, textStatus, thrownError){
                 alert("An error has occured");
