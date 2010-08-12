@@ -91,7 +91,7 @@ sakai.addtocontacts = function(tuid, showSettings){
      */
     var fillInUserInfo = function(user){
         if (user) {
-            $(addToContactsInfoDisplayName).text(sakai.api.User.getProfileElementValue(user, "firstName"));
+            $(addToContactsInfoDisplayName).text(sakai.api.User.getProfileBasicElementValue(user, "firstName"));
 
             // Check for picture
             if (user.picture && $.parseJSON(user.picture).name) {

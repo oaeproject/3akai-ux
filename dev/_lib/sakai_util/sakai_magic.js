@@ -1713,10 +1713,10 @@ sakai.api.User.loadMeData = function(callback) {
 
             // Check for firstName and lastName property - if not present use "rep:userId" for both (admin for example)
             if (sakai.api.User.getProfileBasicElementValue(sakai.data.me.profile, "firstName") === "") {
-                setProfileBasicElementValue(sakai.data.me.profile, "firstName", sakai.data.me.profile["rep:userId"]);
+                sakai.api.User.setProfileBasicElementValue(sakai.data.me.profile, "firstName", sakai.data.me.profile["rep:userId"]);
             }
             if (sakai.api.User.getProfileBasicElementValue(sakai.data.me.profile, "lastName") === "") {
-                setProfileBasicElementValue(sakai.data.me.profile, "lastName", sakai.data.me.profile["rep:userId"]);
+                sakai.api.User.setProfileBasicElementValue(sakai.data.me.profile, "lastName", sakai.data.me.profile["rep:userId"]);
             }
 
             // Call callback function if set
