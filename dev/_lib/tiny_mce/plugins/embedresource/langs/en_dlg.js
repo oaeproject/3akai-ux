@@ -12,5 +12,6 @@ tinyMCE.addI18n('en.embedresource_dlg',{
     my_files : 'My Files',
     search : 'Search',
     search_and_filter : 'Search and filter',
-    video_embed_code : 'Video Embed Code'
-});
+    video_embed_code : 'Video Embed Code',
+    video_not_supported: 'Videos not yet supported'
+});
