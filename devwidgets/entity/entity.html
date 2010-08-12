@@ -87,9 +87,9 @@
                 <p>${data.profile.authprofile["sakai:group-description"]}</p>
                 <p class="entity_container_top_margin">
                     {if data.profile.authprofile["rep:policy"]}
-                        <a href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">Edit Group Information</a> |
+                        <a href="/dev/group_edit.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">__MSG__EDIT_GROUP_INFORMATION__</a> |
                     {/if}
-                    <a href="/dev/group.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">View Group Pages</a>
+                    <a href="/dev/group.html?id=${data.profile["sakai:group-id"]}" class="s3d-action">__MSG__VIEW_GROUP_PAGES__</a>
                 </p>
             </div>
         {/if}
@@ -100,10 +100,10 @@
             <a href="/dev/inbox.html">${data.count.messages_unread|default:0} __MSG__UNREAD__</a>
         {/if}
         {if mode === "group"}
-            <strong>Managers:</strong><a href="#group_edit_managers">0 managers</a><br/>
-            <strong>Members:</strong><a href="#group_edit_members">0 members</a><br/>
-            <strong>Content:</strong><a href="#group_edit_content">0 items</a><br/>
-            <strong>Location:</strong><a href="directory.html">Location 1 >> Location 2</a><br/>
+            <strong>__MSG__MANAGERS__:</strong><a href="#group_edit_managers">0 __MSG__MANAGER__</a><br/>
+            <strong>__MSG__MEMBERS__:</strong><a href="#group_edit_members">0 __MSG__MEMBER__</a><br/>
+            <strong>__MSG__CONTENT__:</strong><a href="#group_edit_content">0 __MSG__ITEMS__</a><br/>
+            <strong>__MSG__LOCATION__:</strong><a href="directory.html">Location 1 >> Location 2</a><br/>
             <strong>&nbsp;</strong><a href="directory.html">Location A >> Loc B</a><br/>
         {/if}
     </div>
