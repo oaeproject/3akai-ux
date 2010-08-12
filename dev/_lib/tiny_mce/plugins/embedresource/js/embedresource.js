@@ -8,18 +8,18 @@ var EmbedMediaDialog = {
             // reset them, hide them both, then show the right one
             $("#embedresource_tabs ul li").removeClass("tab_active").addClass("tab_inactive");
             $(this).addClass("tab_active").removeClass("tab_inactive");
-            
+
             $(".embedresource_tab").removeClass("embedresource_active").removeClass("embedresource_inactive");
             $(".embedresource_tab").addClass("embedresource_inactive");
             $("#embedresource_tab-" + which).removeClass("embedresource_inactive").addClass("embedresource_active");
-            
+
         });
-        
+
         $("input[name='resource_url']").live('focusin', function(){
             $("textarea[name='resource_embed']").val('');
             $(".mceActionPanel input#insert").attr('disabled', 'disabled');
         });
-        
+
         $("input[name='resource_url']").live('click keyup', function(){
             var regexp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i // from jquery validate plugin
             var resource_url = $("input[name='resource_url']").val().trim();
@@ -30,30 +30,29 @@ var EmbedMediaDialog = {
                 $(".mceActionPanel input#insert").attr('disabled', 'disabled');
             }
         });
-        
+
         $("textarea[name='resource_embed']").live('focusin', function(){
             $("input[name='resource_url']").val('');
             $(".mceActionPanel input#insert").attr('disabled', 'disabled');
         });
-        
+
         $("textarea[name='resource_embed']").live('click keyup', function(){
-        
+
             if ($("textarea[name='resource_embed']").val().trim() !== '') {
                 $(".mceActionPanel input#insert").removeAttr('disabled');
             }
         });
-        
+
         // Get the selected contents as text and place it in the input
     },
-    
+
     settings: function(){
         $("#embedresource_choose").hide();
         $("#embedresource_settings").show();
     },
-    
+
     insert: function(){
         var to_insert = '';
-        
         // internet resource or file resource?
         if ($(".embedresource_active").attr("id") === "embedresource_tab-1") {
             // file resource
@@ -66,7 +65,8 @@ var EmbedMediaDialog = {
                 to_insert = '<img src="' + path + '" alt="an image"/>';
             }
             else {
-                to_insert = "<p>Videos not yet supported</p>";
+                //use trimpath template to display Video not yet supported message
+                to_insert = $.TemplateRenderer("video_not_supported", {});
             }
             // share the file
             $.ajax({
@@ -89,16 +89,17 @@ var EmbedMediaDialog = {
             }
             else {
                 var resource_path = $("input[name='resource_url']").val().trim();
+                //use trimpath template to display Video not yet supported message
                 to_insert = $.TemplateRenderer("video_not_supported", {});
             }
         }
-        
-        
-        
-        
+
+
+
+
         tinyMCEPopup.editor.execCommand('mceInsertContent', false, to_insert);
         tinyMCEPopup.close();
     }
 };
 
-tinyMCEPopup.onInit.add(EmbedMediaDialog.init, EmbedMediaDialog);
+tinyMCEPopup.onInit.add(EmbedMediaDialog.init, EmbedMediaDialog);
