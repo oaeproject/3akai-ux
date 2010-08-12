@@ -197,7 +197,7 @@ sakai.creategroup = function(tuid, showSettings){
     */
     var doSaveGroup = function(groupid, grouptitle, groupdescription, groupidManagers){
     // Create a group with the managers group
-        
+
         $.ajax({
             url: sakai.config.URL.GROUP_CREATE_SERVICE,
             data: {
@@ -340,18 +340,18 @@ sakai.creategroup = function(tuid, showSettings){
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
     });
-    
-    
+
+
     ///////////////////////////////
     // Page templating functions //
     ///////////////////////////////
-    
+
     //Step 1: Create the default node
     //Step 2: Copy the _pages
     //Step 3: Copy the _widgets folder
     //Step 4: Copy the _navigation folder
     //Step 5: Redirect to group.html page
-    
+
     /**
      * Creates the default node underneath the sites node so that
      * we can start copying pages from the chosen template
@@ -372,7 +372,7 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-    
+
     /**
      * Copy the pages from the template into the group
      * @param {String} groupid   The groups group id
@@ -395,7 +395,7 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-    
+
     /**
      * Copy the content of the sidebar from the template into the group
      * @param {String} groupid   The groups group id
@@ -418,7 +418,7 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-    
+
     /**
      * Copy the default widget settings from the template into the group
      * @param {Object} groupid   The groups group id
