@@ -92,7 +92,18 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <a href="javascript:;" class="profilesection_add_section"><img src="/dev/_images/add_blue_icon.png"/><span>Add another ${config.multipleLabel}</span></a>
+    <a href="javascript:;" class="profilesection_add_section" id="profilesection_add_link_${parentid}"><img src="/dev/_images/add_blue_icon.png"/><span>Add another ${config.multipleLabel}</span></a>
+--></div>
+
+<!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
+<div id="profilesection_remove_section_template"><!--
+    <a href="javascript:;" class="profilesection_remove_section" id="profilesection_remove_link_${parentid}"><span>Remove this ${config.multipleLabel}</span></a>
+    <hr/>
+--></div>
+
+<!-- MULTIPLE INSTANCE SECTION DIVIDER TEMPLATE -->
+<div id="profilesection_section_divider_template"><!--
+    <hr/>
 --></div>
 
 <!-- FIELD TEMPLATES -->

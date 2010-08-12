@@ -64,7 +64,8 @@
     font-size:14px;
     font-weight:bold;
     float:left;
-    margin-left:240px;
+    height:30px;
+    margin:10px 0px 0px 240px;
 }
 #profilesection_generalinfo a.profilesection_add_section img {
     float:left;
@@ -73,6 +74,21 @@
 #profilesection_generalinfo a.profilesection_add_section span {
     float:left;
     margin-top:1px;
+}
+#profilesection_generalinfo a.profilesection_remove_section {
+    color:#3399CC;
+    font-size:12px;
+    font-weight:bold;
+    float:left;
+    margin:5px 0px 5px 245px;
+}
+#profilesection_generalinfo hr {
+    float:left;
+    margin:10px 0px 10px 5%;
+    border-bottom:1px solid #999999;
+    color:transparent;
+    height:1px;
+    width:90%;
 }
 /* Validation errors */
 /* Errors */
