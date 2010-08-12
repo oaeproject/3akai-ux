@@ -1,0 +1,10 @@
+{
+    "description":"Sites Pages",
+    "ca":false,
+    "hasSettings":false,
+    "id":"sitespages",
+    "name":"Sites Pages",
+    "showinsakaigoodies":false,
+    "siteportal":false,
+    "url":"/devwidgets/sitespages/sitespages.html"
+}

@@ -1,0 +1,61 @@
+/* Basic info */
+#groupbasicinfo_generalinfo {
+    color: #222;
+}
+#groupbasicinfo_generalinfo input[type="text"], #groupbasicinfo_generalinfo input[type="password"], textarea {
+    border: 1px solid #999;
+    padding: 3px;
+    width: 410px;
+}
+#groupbasicinfo_generalinfo input[type="text"]:hover, #groupbasicinfo_generalinfo input[type="password"]:hover, textarea:hover {
+    background: #d3edf5;
+}
+#profilewow_heading a, #profilewow_userinfo a, #profilewow_generalinfo a {
+    color: #3399CC;
+    font-weight: bold;
+}
+#groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_header {
+    border-bottom:1px solid #999;
+    margin:15px 0;
+    overflow:hidden;
+    padding:7px 0;
+}
+#groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_header_first {
+    padding-top: 0;
+}
+#groupbasicinfo_generalinfo h2 {
+    color:#333;
+    font-size: 24px;
+    font-weight:normal;
+    margin: 0;
+    padding-right: 5px;
+    width: 400px;
+}
+#groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_content {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+#groupbasicinfo_generalinfo div.groupbasicinfo_generalinfo_content {
+    padding: 3px 0;
+}
+#groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_subcontainer {
+    clear: both;
+    margin: 4px 0;
+    overflow: auto;
+    padding: 1px 0;
+}
+#groupbasicinfo_generalinfo .groupbasicinfo_generalinfo_label, .groupbasicinfo_generalinfo label {
+    color: #666;
+    display: block;
+    float: left;
+    margin-right: 5px;
+    padding: 3px 0;
+    text-align: right;
+    width: 240px;
+}
+.groupbasicinfo_generalinfo_subcontainer p {
+    color: #999999;
+    font-size: 0.9em;
+    margin: 0 0 15px 248px;
+    width: 400px;
+}
