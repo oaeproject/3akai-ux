@@ -161,7 +161,7 @@
                                     <div id="siteManage_requests" class="siteManagepeopleContainers"> </div>
                                     <div id="siteManage_people_template" style="display:none"><!--
                                         <div class="members-container">
-                                        <ul width="100%">
+                                        <ul class="siteManage_member_list">
                                         {for i in users}
                                             <li class="unselected siteManage_person" id="siteManage_person${users.indexOf(i)}">
                                                 <a href="javascript:;">
@@ -186,14 +186,14 @@
                                             <div class="fl-push"></div>
                                         </div>
                                     --></div>
-                                        
+
                                         <div id="siteManage_requests_template" style="display:none"><!--
                                             <div class="members-container">
                                             <ul width="100%">
                                             {for i in requesters}
                                                 <li class="unselected siteManage_person" id="siteManage_requester_${i['jcr:name']}">
                                                     <a href="javascript:;">
-                                                    {if typeof i.picture == "undefined"}
+                                                    {if typeof i.picture === "undefined"}
                                                     <img src="_images/member_thumb_unselected.png" alt="__MSG__UNDEFINED_MEMBER_PICTURE__" />
                                                     {else}
                                                     <img src="${i.picture.picPath}" alt="__MSG__MEMBER_PICTURE__" />
@@ -215,7 +215,7 @@
                                                 <div class="fl-push"></div>
                                             </div>
                                         --></div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -261,4 +261,4 @@
 
     </body>
 
-</html>
+</html>
