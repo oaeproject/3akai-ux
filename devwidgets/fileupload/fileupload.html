@@ -12,6 +12,7 @@
 
     <div class="dialog_content">
         <div id="new_uploader">
+            <h1>Add content to content I manage</h1>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
             <form method="post" enctype="multipart/form-data" id="multifile_form">
                 <input type="file" name="Filedata" id="multifile_upload"/>
@@ -69,6 +70,16 @@
         </form>
     --></div>
     </div>
+
+    <!-- UPLOAD RESULTS TEMPLATE -->
+    <div id="fileupload_results_template" style="display:none;"><!--
+        <h1>Upload results</h1>
+        {if results}
+            <p>Created ${results.createdTags} tags, failed ${results.createTagErrors}</p>
+            <p>Linked ${results.linkedTags} tags to uploads, failed ${results.linkTagErrors}</p>
+            <p>Set ${results.setDescriptions} descriptions on uploads, failed ${results.setDescriptionErrors}</p>
+        {/if}
+    --></div>
 
     <!-- DIALOG FOOTER -->
     <div class="dialog_footer">
