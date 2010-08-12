@@ -467,37 +467,6 @@ sakai.entity = function(tuid, showSettings){
     };
 
     /**
-     * Get the number of unread messages for the current user
-     * @param {Object} callback
-     */
-    var getUnreadMessagesCount = function(callback){
-        $.ajax({
-            url: sakai.config.URL.MESSAGE_BOX_SERVICE,
-            data: {
-                box: sakai.config.Messages.Types.inbox
-            },
-            success: function(data){
-
-                // Reset the count
-                entityconfig.data.count.messages_unread = 0;
-
-                // Run over all the messages of the current user and
-                // check whether they are read
-                for (var i = 0; i < data.results.length; i++) {
-                    if (data.results[i]["sakai:read"] === false) {
-                        entityconfig.data.count.messages_unread++;
-                    }
-                }
-            },
-            complete: function(){
-                if (typeof callback === "function") {
-                    callback();
-                }
-            }
-        });
-    };
-
-    /**
      * Get the data for a specific mode
      * @param {String} mode The mode you want to get the data for
      * @param {Object} [data] The data you received from the page that called this (can be undefined)
@@ -514,16 +483,15 @@ sakai.entity = function(tuid, showSettings){
                 break;
 
             case "myprofile":
-                getUnreadMessagesCount(function(){
+               
+                // Set the profile for the entity widget to the personal profile information
+                // We need to clone the sakai.data.me.profile object so we don't interfere with it
+                entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
+                entityconfig.data.count.messages_unread = sakai.data.me.messages.unread;
 
-                    // Set the profile for the entity widget to the personal profile information
-                    // We need to clone the sakai.data.me.profile object so we don't interfere with it
-                    entityconfig.data.profile = $.extend(true, {}, sakai.data.me.profile);
-
-                    // Set the correct profile data
-                    setProfileData();
-
-                });
+                // Set the correct profile data
+                setProfileData();
+                
                 break;
                 
             case "group":
@@ -533,6 +501,7 @@ sakai.entity = function(tuid, showSettings){
                 break;
 
             case "content":
+            
                 setContentData(data);
 
                 break;
