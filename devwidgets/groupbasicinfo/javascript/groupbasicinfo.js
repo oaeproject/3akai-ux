@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+sakai.api.UI.groupbasicinfo = sakai.api.UI.groupbasicinfo || {};
+sakai.api.UI.groupbasicinfo.render = sakai.api.UI.groupbasicinfo.render || {};
+
 /**
  * @name sakai.groupbasicinfo
  *
@@ -33,25 +36,12 @@ var sakai = sakai || {};
  */
 sakai.groupbasicinfo = function(tuid, showSettings){
 
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var currentsection;
-
-
     ///////////////////
     // CSS Selectors //
     ///////////////////
 
     var $rootel = $("#" + tuid);
-
-    var $groupbasicinfo_field_default_template = $("#groupbasicinfo_field_default_template", $rootel);
     var $groupbasicinfo_generalinfo = $("#groupbasicinfo_generalinfo", $rootel);
-    var $groupbasicinfo_generalinfo_template = $("#groupbasicinfo_generalinfo_template", $rootel);
-
-    var $groupbasicinfo_default_template = $("#groupbasicinfo_default_template", $rootel);
 
 
     //////////////////////
@@ -59,52 +49,21 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     //////////////////////
 
     /**
-     * Render the template for a field
-     * @param {Object} fieldTemplate JSON selector object containing the field template
-     * @param {String} fieldName The name of a field
+     * Render the template for group basic info
      */
-    var renderTemplateField = function(fieldTemplate, fieldName){
-        return $.TemplateRenderer(fieldTemplate, sakai.group.data);
-    };
-
-    /**
-     * Render the template 
-     * @param {Object} sectionTemplate jQuery object that contains the template you want to render for the section
-     * @param {Object} sectionObject The object you need to pass into the template
-     */
-    var renderTemplateSection = function(sectionTemplate, sectionObject){
-
-        var sections = "";
-
-        for(var i in sectionObject.elements){
-            if(sectionObject.elements.hasOwnProperty(i)){
-
-                // Set the field template, if there is no template defined, use the default one
-                var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, $rootel) : $groupbasicinfo_field_default_template;
-
-                // Render the template field
-                sections += renderTemplateField(fieldTemplate, i);
-
-            }
+    var renderTemplateBasicInfo = function(){
+        var mode = '';
+        if (showSettings) {
+            //mode = 'edit';
+            sakai.groupedit.mode = 'edit';
         }
 
-        var json_config = {
-            "data" : sakai.profilewow.profile.data[currentsection],
-            "config" : sakai.profilewow.profile.config[currentsection],
-            "fields" : $.trim(sections)
-        };
-
-        return $.TemplateRenderer(sectionTemplate, json_config);
-
-    };
-
-
-    var renderTemplateBasicInfo = function(fieldTemplate, fieldName){
         var json_config = {
             "groupid" : sakai.groupedit.id,
             "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.groupedit.id,
             "data" : sakai.groupedit.data.authprofile,
             "mode" : sakai.groupedit.mode
+            //"mode" : mode
         };
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));
     };
@@ -118,35 +77,20 @@ sakai.groupbasicinfo = function(tuid, showSettings){
         renderTemplateBasicInfo();
     });
 
-    // Sometimes the trigger event is fired before it is actually bound
-    // so we keep trying to execute the ready event
-    /*var triggerReady = function(){
-        if ($(window).data("events") && $(window).data("events").sakai) {
-
-        console.log('trigger ready');
-            // Send out an event that says the widget is ready.
-            // This event can be picked up in a page JS code
-            $(window).trigger("sakai.api.UI.groupbasicinfo.ready");
-        }
-        else {
-        console.log('trigger set timeout');
-            setTimeout(triggerReady, 100);
-        }
-    };
-    triggerReady();*/
 
     ////////////////////
     // Initialization //
     ////////////////////
 
     /**
-     * Initialization function
+     * Render function
      */
-    var init = function(){
+    sakai.api.UI.groupbasicinfo.render = function(){
         renderTemplateBasicInfo();
     };
 
-    init();
+    $(window).trigger("sakai.api.UI.groupbasicinfo.ready", {});
+
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("groupbasicinfo");
