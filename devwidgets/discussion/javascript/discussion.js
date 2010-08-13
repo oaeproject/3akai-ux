@@ -218,9 +218,10 @@ sakai.discussion = function(tuid, showSettings){
      * @param {String} firstName Firstname of the user
      * @param {String} lastName Lastname of the user
      */
-    var parseName = function(uuid, firstName, lastName){
-        if (firstName && lastName) {
-            return firstName + " " + lastName;
+    var parseName = function(uuid, profile){
+        var displayName = sakai.api.User.getDisplayName(profile);
+        if (displayName) {
+            return displayName;
         }
         else {
             return uuid;
@@ -464,7 +465,7 @@ sakai.discussion = function(tuid, showSettings){
 
         // Get the user's firstName, lastName and picture if it's in the database
         var profile = post.profile[0];
-        post.profile.fullName = parseName(uid, profile.firstName, profile.lastName);
+        post.profile.fullName = parseName(uid, profile);
         post.profile.picture = parsePicture(uid, profile);
 
         // Check if someone edited the post
@@ -476,7 +477,7 @@ sakai.discussion = function(tuid, showSettings){
 
             // Get the profile info from the user that edited the post
             post.editedByUserid = lastEditter.userid;
-            post.editedByName = parseName(lastEditter.userid, lastEditter.firstName, lastEditter.lastName);
+            post.editedByName = parseName(lastEditter.userid, lastEditter);
             //post.editedByDate = formatDate(parseDate(lastEditter.date));
         }
         o.post = post;
@@ -1245,4 +1246,4 @@ sakai.discussion = function(tuid, showSettings){
     }
 };
 
-sakai.api.Widgets.widgetLoader.informOnLoad("discussion");
+sakai.api.Widgets.widgetLoader.informOnLoad("discussion");

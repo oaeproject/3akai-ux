@@ -289,8 +289,9 @@ sakai.chat = function(tuid, showSettings){
      * @param {String} lastName Lastname of the user
      */
     var parseName = function(uuid, profile){
-        if (sakai.api.User.getDisplayName(profile) !== "") {
-            return sakai.api.Util.shortenString(sakai.api.User.getDisplayName(profile), 11);
+        var displayName = sakai.api.User.getDisplayName(profile);
+        if (displayName) {
+            return sakai.api.Util.shortenString(displayName, 11);
         }
         else {
             return sakai.api.Util.shortenString(uuid, 11);
