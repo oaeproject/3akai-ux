@@ -5,6 +5,7 @@ strong {color: #000;}
 /* WIDGET CSS */
 .myfriends.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/contacts_icon.png') 17px 18px no-repeat;}
 .sites.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
+.mygroups.fl-widget .fl-widget-titlebar .widget_title {background: url('../../_images/courses_icon.png') 17px 18px no-repeat;}
 .myprofile.fl-widget .fl-widget-titlebar .widget_title {background:transparent url(../../_images/myprofile_icon.png) no-repeat scroll 17px 18px;}
 
 /* OPTIONS */

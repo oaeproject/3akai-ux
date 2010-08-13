@@ -59,16 +59,16 @@ sakai.mygroups = function(tuid){
      * @return 1, 0 or -1
      */
     var doSort = function(a, b){
-        if (a.name > b.name) {
+        if (a["sakai:group-title"] > b["sakai:group-title"]) {
             return 1;
         }
-        else
-            if (a.name === b.name) {
+        else {
+            if (a["sakai:group-title"] === b["sakai:group-title"]) {
                 return 0;
-            }
-            else {
+            } else {
                 return -1;
             }
+        }
     };
 
     /**
@@ -78,15 +78,16 @@ sakai.mygroups = function(tuid){
      * @return 1, 0 or -1
      */
     var doFilter = function(group){
-        if (group.groupid.match("-managers" + "$")) {
+        if (group.groupid.match("-managers" + "$") || !group["sakai:group-title"]) {
             return false;
-        }
-        else
+        } else {
             if (group.groupid === "everyone") {
                 return false;
-            }
-            else
+            } else {
+                //alert(group.groupid);
                 return true;
+            }
+        }
     };
 
     /**
@@ -114,7 +115,7 @@ sakai.mygroups = function(tuid){
             newjson.entry = newjson.entry.sort(doSort);
             for (var group in newjson.entry) {
                 if (newjson.entry.hasOwnProperty(group)) {
-                    newjson.entry[group].name = sakai.api.Security.escapeHTML(newjson.entry[group].name);
+                    newjson.entry[group]["sakai:group-title"] = sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]);
                 }
             }
             $(mygroupsList, rootel).html($.TemplateRenderer(mygroupsListTemplate.replace(/#/, ''), newjson));
@@ -134,8 +135,9 @@ sakai.mygroups = function(tuid){
             entry: []
         };
         for (var i = 0, il = groups.length; i < il; i++) {
-            if (doFilter(groups[i]))
+            if (doFilter(groups[i])) {
                 newjson.entry.push(groups[i]);
+            }
         }
         // Render all the groups.
         doRender(newjson);
@@ -162,4 +164,5 @@ sakai.mygroups = function(tuid){
     doInit();
 
 };
-sakai.api.Widgets.widgetLoader.informOnLoad("mygroups");
+
+sakai.api.Widgets.widgetLoader.informOnLoad("mygroups");
