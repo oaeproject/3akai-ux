@@ -301,9 +301,9 @@ sakai.chat = function(tuid, showSettings){
      * Parse the status message for a user
      * @param {Object} basic JSON basic variable inside the profile information
      */
-    var parseStatusMessage = function(basic){
-        if (basic && basic.status) {
-            return sakai.api.Util.shortenString(basic.status, 20);
+    var parseStatusMessage = function(status){
+        if (status) {
+            return sakai.api.Util.shortenString(status, 20);
         }
         return sakai.api.Util.shortenString("No status message");
     };
@@ -662,7 +662,7 @@ sakai.chat = function(tuid, showSettings){
 
                 json.contacts[i].name = parseName(json.contacts[i].userid, json.contacts[i].profile);
                 json.contacts[i].photo = parsePicture(json.contacts[i].profile, json.contacts[i].profile["rep:userId"]);
-                json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.basic);
+                json.contacts[i].statusmessage = parseStatusMessage(json.contacts[i].profile.status);
 
                 saveToAllFriends(json.contacts[i]);
             }
@@ -682,7 +682,7 @@ sakai.chat = function(tuid, showSettings){
         if (json.me) {
             json.me.name = parseName(sakai.data.me.user.userid, sakai.data.me.profile);
             json.me.photo = parsePicture(sakai.data.me.profile, sakai.data.me.user.userid);
-            json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.basic);
+            json.me.statusmessage = parseStatusMessage(sakai.data.me.profile.status);
             json.me.chatstatus = currentChatStatus || "online";
 
             // We render the template, add it to a temporary div element and set the html for it.
@@ -1149,7 +1149,7 @@ sakai.chat = function(tuid, showSettings){
                                 // Parse the name, photo, statusmessage and chatstatus into the activewindows objects
                                 activewindows.items[index].name = parseName(k, friendProfile);
                                 activewindows.items[index].photo = parsePicture(friendProfile, k);
-                                activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.basic);
+                                activewindows.items[index].statusmessage = parseStatusMessage(friendProfile.status);
                                 activewindows.items[index].chatstatus = parseChatStatus(friendProfile.chatstatus);
 
                                 var togo = true;

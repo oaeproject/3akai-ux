@@ -262,51 +262,40 @@ sakai.entity = function(tuid, showSettings){
             // Get the correct input value from the user
             var inputValue = $entity_profile_status_input.hasClass(entity_profile_status_input_dummy) ? "" : $.trim($entity_profile_status_input.val());
 
-            $.ajax({
-                url: sakai.data.me.profile["jcr:path"],
-                data: {
-                    "_charset_": "utf-8",
-                    "basic": $.toJSON(
+            sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"status": inputValue});
 
-                        // Merge two objects together
-                        $.extend($.parseJSON(sakai.data.me.profile.basic),{
-                            "status": inputValue
-                        })
+            if (sakai.data.me.profile.activity)
+                delete sakai.data.me.profile.activity;
 
-                    )
-                },
-                type: "POST",
-                success: function(){
+            if (sakai.data.me.profile["rep:policy"])
+                delete sakai.data.me.profile["rep:policy"];
 
-                    // Set the button back to it's original text
-                    $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
+            sakai.api.Server.saveJSON(sakai.data.me.profile["jcr:path"], sakai.data.me.profile, function(success, data) {
+               if (success) {
+                   // Set the button back to it's original text
+                   $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
 
-                    // Create an activity item for the status update
-                    var nodeUrl = sakai.data.me.profile["jcr:path"];
-                    var activityMsg = "Status: " + inputValue;
+                   // Create an activity item for the status update
+                   var nodeUrl = sakai.data.me.profile["jcr:path"];
+                   var activityMsg = "Status: " + inputValue;
 
-                    var activityData = {
-                        "sakai:activityMessage": activityMsg
-                    };
-                    sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+                   var activityData = {
+                       "sakai:activityMessage": activityMsg
+                   };
+                   sakai.api.Activity.createActivity(nodeUrl, "status", "default", activityData);
+               } else {
+                   // Log an error message
+                   fluid.log("Entity widget - the saving of the profile status failed");
 
-                },
-                error: function(){
+                   // Show the message about a saving that failed to the user
+                   $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
 
-                    // Log an error message
-                    fluid.log("Entity widget - the saving of the profile status failed");
-
-                    // Show the message about a saving that failed to the user
-                    $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML($entity_profile_status_input_saving_failed.text()));
-
-                    // Show the origin text after 5 min
-                    window.setTimeout(function(){
-                        $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
-                    }, 5000);
-
-                }
+                   // Show the origin text after 5 min
+                   window.setTimeout(function(){
+                       $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
+                   }, 5000);
+               }
             });
-
         });
 
     };
