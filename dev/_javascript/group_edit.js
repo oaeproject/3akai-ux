@@ -25,7 +25,7 @@ sakai.currentgroup = sakai.currentgroup || {};
 sakai.currentgroup.id = sakai.currentgroup.id || {};
 sakai.currentgroup.data = sakai.currentgroup.data || {};
 sakai.currentgroup.mode = sakai.currentgroup.mode || {};
-sakai.currentgroup.profileView = false;
+sakai.currentgroup.profileView = true;
 
 sakai.groupedit = function(){
 
