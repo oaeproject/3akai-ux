@@ -1,0 +1,41 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/mygroups/css/mygroups.css" />
+<!-- ERRORS -->
+<div id="mygroups_error_nosites" style="display:none;">
+    __MSG__YOU_ARENT_A_MEMBER_OF_ANY_GROUPS__
+</div>
+<div id="mygroups_error_nosettings" style="display:none;">
+    __MSG__NO_SETTINGS_AVAILABLE__.
+</div>
+<!-- CONTENT -->
+<div class="my_groups_widget">
+    <div class="fl-widget-content" id="mygroups_list">
+    </div>
+    <div id="mygroups_list_template">
+        <!--
+        <ul>
+        {for group in entry}
+        <li><a href="/dev/group.html?id=${group.groupid}">${group.name}</a></li>
+        {/for}
+        </ul>
+        -->
+    </div>
+    <div class="fl-widget-options fl-fix" id="mygroups_top">
+        <div class="widget-options-inner">
+            <ul>
+                <li>
+                    <a href="javascript:;" id="create_new_group_link">__MSG__CREATE_A_GROUP__</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
+<div id="creategroupcontainer" style="display:none;">
+    <!-- We need this container to show the pop-up where you can add a group -->
+    <div id="widget_creategroup" class="widget_inline">
+    </div>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/mygroups/javascript/mygroups.js">
+</script>
