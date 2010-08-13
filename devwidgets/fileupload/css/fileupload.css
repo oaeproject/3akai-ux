@@ -16,9 +16,20 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.fileupload_add_tags {width:350px !important; margin:4px 0 5px; float:right;}
-.fileupload_add_description {margin:5px 0 7px; width:350px !important; float:right}
+#fileupload_container .fileupload_add_tags {width:350px !important; margin:4px 0 5px; float:right;}
+#fileupload_container .fileupload_add_description {margin:5px 0 7px; width:350px !important; float:right}
 
-#fileupload_rendered_tagging label {float:left; clear:both;}
-#fileupload_rendered_tagging .s3d-button {float:right !important;}
-#fileupload_rendered_tagging hr {clear:both; border:none;}
+#fileupload_container #fileupload_rendered_tagging label {float:left; clear:both;}
+#fileupload_container #fileupload_rendered_tagging .s3d-button {float:right !important;}
+#fileupload_container #fileupload_rendered_tagging hr {clear:both; border:none;}
+
+#fileupload_container .fileupload_upload_progress {background:url("/dev/_images/ajax_load.gif") no-repeat scroll 0 0 transparent; clear:both; float:right; height:10px; width:80px;}
+
+#fileupload_container .fileupload_file_name {margin-left:10px; margin-top:5px;}
+#fileupload_container .fileupload_file_name input[type="text"] {width:350px; float:right;}
+
+#fileupload_container h1 {clear:both;}
+
+#fileupload_container .MultiFile-label {clear:right; padding-bottom:15px;}
+
+#fileupload_container #fileupload_permissions {clear:both;}

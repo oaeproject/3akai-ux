@@ -15,6 +15,9 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+/*global $, sakai, document */
+
 /**
  * @name sakai.fileupload
  *
@@ -34,29 +37,16 @@ sakai.fileupload = function(tuid, showSettings){
     // Configuration variables //
     /////////////////////////////
 
-    // Tags created in the back end that are to be linked to uploaded files
-    var tagsToBeLinked = [];
-    var tagsCreated = false;
-    // Variables to keep track of which file has been tagged already
-    // and to keep track of which tags have already been linked to a file
-    var currentFile = 0;
-    var currentTag = 0;
     // Variable used to check if all tags have been created and linking them to the uploaded files can start
     var checkTaggingAgain;
     // All files that need to have been uploaded
     var uploadedFiles;
-
-    // Result variables that tell the user success or failure of upload
-    var createTagErrors = 0;
-    var linkTagErrors = 0;
-    var setDescriptionErrors = 0;
-
-    var createdTags = 0;
-    var linkedTags = 0;
-    var setDescriptions = 0;
+    var tags = [];
+    var fileNames = [];
 
     // Classes
     var multiFileRemove = ".MultiFile-remove";
+    var fileUploadProgress = "fileupload_upload_progress";
 
     // ID
     var fileUploadAddDescription = "#fileupload_add_description";
@@ -64,6 +54,7 @@ sakai.fileupload = function(tuid, showSettings){
     var newUploaderForm = "#new_uploader form";
     var uploadFileList = "#upload_file_list";
     var fileUploadAddTags = "#fileupload_add_tags";
+    var fileUploadProgressId = "#fileupload_upload_progress";
 
     // Form
     var multiFileForm = "#multifile_form";
@@ -97,15 +88,18 @@ sakai.fileupload = function(tuid, showSettings){
         $(fileUploadContainer).jqmShow();
     };
 
-    sakai.fileupload.MultiFileSelected = function(extractedData){
+    /**
+     * Executed when the Multifile filebrowser has a file selected
+     * @param {Object} extractedData Data that comes in containing the files to be uploaded
+     */
+    sakai.fileupload.MultiFileSelected = function(){
         // Render the template that enables tagging of uploads
-        var obj = {};
-        obj.uploads = extractedData;
         if ($(multiFileRemove).length == 0) {
-            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, obj).replace(/\r/g, '');
+            var renderedTemplate = $.TemplateRenderer(fileUploadTaggingTemplate, []).replace(/\r/g, '');
+            var renderedDiv = $(document.createElement("div"));
+            $(fileUploadRenderedTagging).html(renderedTemplate);
         }
-        var renderedDiv = $(document.createElement("div"));
-        $(fileUploadRenderedTagging).html(renderedTemplate);
+        var inputId = $(multiFileRemove);
     };
 
     /**
@@ -118,75 +112,42 @@ sakai.fileupload = function(tuid, showSettings){
         // Remove files out of list
         $(multiFileRemove).each(function(){
             $(this).click();
-        })
+        });
         hash.o.remove();
         hash.w.hide();
-    }
+    };
 
     /**
      * Only reset the lists, don't close the jqm box
      */
     var resetFields = function(){
-        // Show notification of success or failure
-        sakai.api.Util.notification.show("Upload results", "Created " + createdTags + " tags, failed " + createTagErrors + ". Linked " + linkedTags + " tags to uploads, failed " + linkTagErrors + ". Set " + setDescriptions + " descriptions on uploads, failed " + setDescriptionErrors + ".");
+        // Reset some variables
+        tags = [];
+        uploadedFiles = []
+
         // Clear HTML, Clear file list
         $(fileUploadRenderedTagging).html("");
-        // Render the results
-        var obj = {
-            "results": {
-                "createTagErrors" : createTagErrors,
-                "linkTagErrors" : linkTagErrors,
-                "setDescriptionErrors" : setDescriptionErrors,
-                "setDescriptions" : setDescriptions,
-                "linkedTags" : linkedTags,
-                "createdTags" : createdTags
-            }
-        };
-        //obj.results.push("createTagErrors", createTagErrors);
-        var renderedTemplate = $.TemplateRenderer(fileUploadResultsTemplate, obj).replace(/\r/g, '');
-        var renderedDiv = $(document.createElement("div"));
-        $(fileUploadRenderedTagging).html(renderedTemplate);
-        // Remove files out of list
-        $(multiFileRemove).each(function(){
-            $(this).click();
-        })
-        // Reset variables
-        createTagErrors = 0;
-        linkTagErrors = 0;
-        setDescriptionErrors = 0;
-        setDescriptions = 0;
-        linkedTags = 0;
-        createdTags = 0;
-    }
 
-    var batchLinkTagsToContent = function(tags){
-        var extractedData = [];
-        //loop over nodes to extract data
-        for (var i in tags){
-            tagsToBeLinked.push(tags[i].url);
-        };
-        // Batch link the files with the tags
-    }
+        // Close the jqm box
+        $(fileUploadContainer).jqmHide();
+    };
 
     /**
-     * Create the tags before linking them to the uploads
-     * @param {Object} tags array of tags to be created
+     * Set the description of the uploaded files
      */
-    var batchCreateTags = function(tags){
-        // Create the data to send with the batch request
-        var batchData = [];
-        for (var i in tags) {
+    var batchSetDescriptionAndNameAndPermissions = function(){
+        // Batch link the files with the tags
+        var batchDescriptionData = [];
+        for (var i in uploadedFiles) {
             var item = {
-                "url": tagsPath + tags[i].trim(),
+                "url": "/p/" + uploadedFiles[i].hashpath,
                 "method" : "POST",
                 "parameters" : {
-                    "./jcr:primaryType": "nt:folder",
-                    "./jcr:mixinTypes": "sakai:propertiesmix",
-                    "./sakai:tag-name": tags[i].trim(),
-                    "./sling:resourceType": "sakai/tag"
+                    "sakai:description" : $(fileUploadAddDescription).val(),
+                    "sakai:name" : uploadedFiles[i].name,
                 }
             };
-            batchData[batchData.length] = item;
+            batchDescriptionData[batchDescriptionData.length] = item;
         }
         // Do the Batch request
         $.ajax({
@@ -195,17 +156,93 @@ sakai.fileupload = function(tuid, showSettings){
             type : "POST",
             cache: false,
             data: {
-                requests: $.toJSON(batchData)
+                requests: $.toJSON(batchDescriptionData)
             },
             success: function(data){
-                batchLinkTagsToContent(data);
+                sakai.api.Util.notification.show("Description successful","Set the description on " + uploadedFiles.length + " uploaded files.");
             },
             error: function(xhr, textStatus, thrownError){
-                alert(textStatus);
+                sakai.api.Util.notification.show("Failed description","Failed to set a description on the uploaded files.");
             }
         });
+    };
 
-    }
+    /**
+     * Link the tags to the uploaded content
+     * @param {Object} tags Array of tags
+     */
+    var batchLinkTagsToContent = function(){
+        // Batch link the files with the tags
+        var batchLinkTagsToContentData = [];
+        for (var k in uploadedFiles) {
+            for (var i in tags) {
+                var item = {
+                    "url" : "/p/" + uploadedFiles[k].hashpath,
+                    "method": "POST",
+                    "parameters": {
+                        "key": tagsPathForLinking + tags[i].trim(),
+                        ":operation": "tag"
+                    }
+                };
+                batchLinkTagsToContentData[batchLinkTagsToContentData.length] = item;
+            }
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type : "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(batchLinkTagsToContentData)
+            },
+            success: function(data){
+                sakai.api.Util.notification.show("Linking tags successful","Linked " + tags.length + " tags to the uploaded files.");
+                resetFields();
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Linking tags failed", "Failed to link tags to your uploads.");
+            }
+        });
+    };
+
+    /**
+     * Create the tags before linking them to the uploads
+     * @param {Object} tags array of tags to be created
+     */
+    var batchCreateTags = function(){
+        // Create the data to send with the batch request
+        var batchCreateTagsData = [];
+        for (var i in tags) {
+            var item = {
+                "url": tagsPath + tags[i].trim(),
+                "method": "POST",
+                "parameters": {
+                    "./jcr:primaryType": "nt:folder",
+                    "./jcr:mixinTypes": "sakai:propertiesmix",
+                    "./sakai:tag-name": tags[i].trim(),
+                    "./sling:resourceType": "sakai/tag"
+                }
+            };
+            batchCreateTagsData[batchCreateTagsData.length] = item;
+        }
+        // Do the Batch request
+        $.ajax({
+            url: sakai.config.URL.BATCH,
+            traditional: true,
+            type : "POST",
+            cache: false,
+            data: {
+                requests: $.toJSON(batchCreateTagsData)
+            },
+            success: function(data){
+                sakai.api.Util.notification.show("Tags created","Created " + tags.length + " tags.");
+            },
+            error: function(xhr, textStatus, thrownError){
+                sakai.api.Util.notification.show("Failed creating tags", "Creating tags for your uploads failed.");
+            }
+        });
+    };
 
     /**
      * Format tags so that they can be created
@@ -213,111 +250,12 @@ sakai.fileupload = function(tuid, showSettings){
      * Call createTags to create the tags
      * @param {Object} tags Unformatted string of tags put in by a user
      */
-    var formatTags = function(tags){
-        if (tags != "") {
+    var formatTags = function(inputTags){
+        if (inputTags.trim() !== "") {
             // Split up tags
-            splitTags = tags.split(",");
+            tags = inputTags.split(",");
             // Create tags
-            //createTags(splitTags);
-            batchCreateTags(splitTags);
-        }
-        else {
-            tagsCreated = true;
-        }
-    };
-
-    var setDescription = function(){
-        // The current file has all tags linked, now add the description to it
-        var data = {
-            "sakai:description": $(fileUploadAddDescription).val()
-        }
-        // Add the description
-        $.ajax({
-            url: "/p/" + uploadedFiles[0].hashpath,
-            type: "POST",
-            success: function(data){
-                // The description has been set for this file
-                setDescriptions++;
-                // Remove the file from the array and start over for the next new file if there is one
-                uploadedFiles.splice(0, 1);
-                currentTag = 0;
-                tagUploads();
-            },
-            error: function(xhr, textStatus, thrownError){
-                // The description could not be set to the file
-                setDescriptionErrors++;
-            },
-            data: data
-        });
-    }
-
-    /**
-     * Tag the uploaded files with the provided tags
-     */
-    var tagUploads = function(){
-        clearTimeout(checkTaggingAgain);
-        // Check if all tags have been created
-        if (tagsCreated) {
-            // Check if there are any more files that need tagging
-            if (uploadedFiles.length > 0) {
-                if (tagsToBeLinked.length != 0) {
-                    var data = {
-                        "key": tagsPathForLinking + tagsToBeLinked[currentTag].trim(),
-                        ":operation": "tag"
-                    }
-                    // The tag has been created and the file uploaded so link the two together
-                    $.ajax({
-                        url: "/p/" + uploadedFiles[0].hashpath,
-                        type: "POST",
-                        success: function(data){
-                            // The tag has been linked to the file
-                            linkedTags ++;
-                            // Increase the currentTag with one and check if there is another file to be tagged
-                            currentTag++;
-                            if (currentTag === tagsToBeLinked.length) {
-                                if ($(fileUploadAddDescription).val() != "") {
-                                    setDescription();
-                                } else {
-                                    uploadedFiles.splice(0, 1);
-                                    currentTag = 0;
-                                    tagUploads();
-                                }
-                            }
-                            else {
-                                // There are still some tags to be linked to this file
-                                tagUploads();
-                            }
-                        },
-                        error: function(xhr, textStatus, thrownError){
-                            // The tag could not be linked to the file
-                            linkTagErrors++;
-                        },
-                        data: data
-                    });
-                }
-                else {
-                    // There are no tags so just put in the description
-                    
-                    if ($(fileUploadAddDescription).val() != "") {
-                        setDescription();
-                    }
-                    else {
-                        uploadedFiles.splice(0, 1);
-                        currentTag = 0;
-                        tagUploads();
-                    }
-                }
-            }
-            else {
-                // Finished tagging
-                currentFile = 0;
-                currentTag = 0;
-                resetFields();
-            }
-        }
-        else {
-            // Not all tags have been created, check again in two seconds
-            checkTaggingAgain = setTimeout(tagUploads, 2000);
+            batchCreateTags();
         }
     };
 
@@ -330,6 +268,7 @@ sakai.fileupload = function(tuid, showSettings){
                 list: uploadFileList
             });
 
+            // Set the form action attribute
             $(newUploaderForm).attr("action", uploadPath);
 
             $(multiFileForm).ajaxForm({
@@ -347,10 +286,43 @@ sakai.fileupload = function(tuid, showSettings){
                         extractedData.push(obj);
                     });
 
-                    $(multiFileUpload).MultiFile('reset');
-                    $(multiFileUpload).val('');
+                    // Check if there were any files uploaded
+                    if (extractedData.length === 0) {
+                        // Add the button to the form and remove loader class
+                        $(multiFileForm + " button").show();
+                        $(fileUploadProgressId).removeClass(fileUploadProgress);
+                        // Disable input fields
+                        $(fileUploadAddTags)[0].disabled = false;
+                        $(fileUploadAddDescription)[0].disabled = false;
+                        // Show a notification
+                        sakai.api.Util.notification.show("No files","No files were uploaded.");
+                    }
+                    else {
+                        // Show a notification
+                        sakai.api.Util.notification.show("Upload successful", "Uploaded " + extractedData.length + " files.");
 
-                    uploadedFiles = extractedData;
+                        // Get the values out of the name boxes
+                        $(uploadFileList + " input").each(function(index){
+                            extractedData[index]["name"] = $(this)[0].value;
+                        });
+
+                        // Reset the MultiFile uploader
+                        $(multiFileUpload).MultiFile('reset');
+                        $(multiFileUpload).val('');
+
+                        uploadedFiles = extractedData;
+
+                        // Set the description data on the completed uploads
+                        batchSetDescriptionAndNameAndPermissions();
+
+                        // Link the files to the tags
+                        if (tags.length !== 0) {
+                            batchLinkTagsToContent();
+                        }
+                        else {
+                            resetFields();
+                        }
+                    }
                 }
             });
         });
@@ -358,8 +330,12 @@ sakai.fileupload = function(tuid, showSettings){
 
     // Bind submit form for file upload
     $(multiFileForm).live("submit", function(){
-        // Clear old tags
-        tagsToBeLinked = [];
+        // Remove the button from the form and set loader class
+        $(multiFileForm + " button").hide();
+        $(fileUploadProgressId).addClass(fileUploadProgress);
+        // Disable input fields
+        $(fileUploadAddTags)[0].disabled = true;
+        $(fileUploadAddDescription)[0].disabled = true;
         // Initiate the tagging process
         formatTags($(fileUploadAddTags).val());
     });
