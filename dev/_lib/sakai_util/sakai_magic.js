@@ -1757,8 +1757,11 @@ sakai.api.User.getDisplayName = function(profile) {
         if (configDisplayName[idx] !== undefined && configDisplayName[idx] !== "") {
             var configEltsArray = configDisplayName[idx].split(" ");
             $(configEltsArray).each(function(i, key) {
-               if (profile.basic.elements[key] !== undefined &&
-                     profile.basic.elements[key].value !== undefined) {
+                if (profile &&
+                    profile.basic &&
+                    profile.basic.elements &&
+                    profile.basic.elements[key] !== undefined &&
+                    profile.basic.elements[key].value !== undefined) {
                    nameToReturn += profile.basic.elements[key].value + " ";
                    done = true;
                }
