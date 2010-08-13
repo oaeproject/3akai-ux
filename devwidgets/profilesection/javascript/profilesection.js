@@ -149,9 +149,15 @@ sakai.profilesection = function(tuid, showSettings){
         var lastID = "";
         if (sectionObject.multiple) {
             // first time through, hasn't been made an array yet
-            if (sakai.profile.main.data[currentsection].elements.length === undefined) {
+            if (sakai.profile.main.data[currentsection] === undefined) {
+                sakai.profile.main.data[currentsection] = {};
                 sakai.profile.main.data[currentsection].elements = [{}];
             }
+
+            if (sakai.profile.main.data[currentsection].elements === undefined || sakai.profile.main.data[currentsection].elements.length === 0) {
+               sakai.profile.main.data[currentsection].elements = [{}];
+            }
+
             $(sakai.profile.main.data[currentsection].elements).each(function(i, elts) {
                 sections += "<div>";
                 // add an ID if there isn't one
