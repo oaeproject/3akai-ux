@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*global $, Config, jQuery, sakai */
 
 /**
@@ -59,29 +58,35 @@ sakai.mygroups = function(tuid){
      * @param {Object} b
      * @return 1, 0 or -1
      */
-    var doSort = function(a,b){
+    var doSort = function(a, b){
         if (a.name > b.name) {
             return 1;
-        } else if (a.name === b.name) {
-            return 0;
-        } else {
-            return -1;
         }
+        else
+            if (a.name === b.name) {
+                return 0;
+            }
+            else {
+                return -1;
+            }
     };
-    
+
     /**
-     * Filter all groups: everyone and ending with -managers 
+     * Filter all groups: everyone and ending with -managers
      * @param {Object} a
      * @param {Object} b
      * @return 1, 0 or -1
      */
     var doFilter = function(group){
-        if (group.groupid.match("-managers"+"$")){
+        if (group.groupid.match("-managers" + "$")) {
             return false;
-        }else if(group.groupid === "everyone") {
-            return false;
-        }else
-            return true;
+        }
+        else
+            if (group.groupid === "everyone") {
+                return false;
+            }
+            else
+                return true;
     };
 
     /**
@@ -101,45 +106,45 @@ sakai.mygroups = function(tuid){
     var doRender = function(newjson){
 
         // If the user is not registered for any sites, show the no sites error.
-        if (newjson.entry.length === 0){
+        if (newjson.entry.length === 0) {
             $(mygroupsList, rootel).html(sakai.api.Security.saneHTML($(mygroupsErrorNoSites).html())).addClass(mygroups_error_class);
         }
         else {
             // Sort the groups by their name
             newjson.entry = newjson.entry.sort(doSort);
-            for (var group in newjson.entry){
+            for (var group in newjson.entry) {
                 if (newjson.entry.hasOwnProperty(group)) {
                     newjson.entry[group].name = sakai.api.Security.escapeHTML(newjson.entry[group].name);
                 }
             }
-            $(mygroupsList, rootel).html($.TemplateRenderer(mygroupsListTemplate.replace(/#/,''), newjson));
+            $(mygroupsList, rootel).html($.TemplateRenderer(mygroupsListTemplate.replace(/#/, ''), newjson));
         }
     };
 
     /**
      * Takes the groups list info from the me object,
-     * filtered out 
+     * filtered out
      *    - everyone
      *    - all groups ending with -managers
      * and put it in a useable format and execute the doRender method
      * @param {Object} groups    group list object
      */
     var loadGroupList = function(groups){
-            var newjson = {
-                entry : []
-            };
-            for (var i = 0, il = groups.length; i < il; i++) {
-                if(doFilter(groups[i]))
-                    newjson.entry.push(groups[i]);
-            }
-            // Render all the groups.
-            doRender(newjson);
+        var newjson = {
+            entry: []
+        };
+        for (var i = 0, il = groups.length; i < il; i++) {
+            if (doFilter(groups[i]))
+                newjson.entry.push(groups[i]);
+        }
+        // Render all the groups.
+        doRender(newjson);
     };
 
     /**
      * Will initiate a request to the my groups service.
      */
-    var doInit = function() {
+    var doInit = function(){
         //get groups list info from me object, filter and then render groups
         loadGroupList(sakai.data.me.groups);
     };
@@ -155,6 +160,6 @@ sakai.mygroups = function(tuid){
 
     // Start the request
     doInit();
-   
+
 };
-sakai.api.Widgets.widgetLoader.informOnLoad("mygroups");
+sakai.api.Widgets.widgetLoader.informOnLoad("mygroups");
