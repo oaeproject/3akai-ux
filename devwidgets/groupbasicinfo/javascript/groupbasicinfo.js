@@ -45,7 +45,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     var groupbasicinfo_buttons = "#groupbasicinfo_editing";
     var groupbasicinfo_dontupdate = "#groupbasicinfo_editing_button_dontupdate";
     var groupbasicinfo_update = "#groupbasicinfo_editing_button_update";
-    
+
     // Fields that will contain the group data
     var groupBasicInfoGroup = "#groupbasicinfo_generalinfo_group";
     var groupBasicInfoGroupTitle = groupBasicInfoGroup + "_title";
@@ -62,7 +62,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      * Render the template for group basic info
      */
     var renderTemplateBasicInfo = function(){
-        
+
         var mode = '';
         // Show in Edit mode
         if (showSettings) {
@@ -76,20 +76,20 @@ sakai.groupbasicinfo = function(tuid, showSettings){
             "data" : sakai.currentgroup.data.authprofile,
             "mode" : mode
         };
-        
+
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));
-        
+
         // If this widget is not shown on the group profile (i.e. when rendered inside a page)
         // we show the widget's own update button
         if (!sakai.currentgroup.profileView){
             $(groupbasicinfo_buttons, $rootel).show();
         }
-        
+
         addButtonBinding();
-        
+
     };
-    
-    
+
+
     //////////////////////////////
     // Update Group Information //
     //////////////////////////////
@@ -98,13 +98,13 @@ sakai.groupbasicinfo = function(tuid, showSettings){
      * Update group data
      */
     var updateGroup = function(){
-        
+
         // need to validate data
         var groupTitle = $(groupBasicInfoGroupTitle, $rootel).val();
         var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
         var groupTags = $(groupBasicInfoGroupTags, $rootel).val();
         var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
-        
+
         // Update the group object
         sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
         sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
@@ -129,29 +129,29 @@ sakai.groupbasicinfo = function(tuid, showSettings){
                 fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
             }
         });
-        
+
     }
 
 
     //////////////
     // Bindings //
     //////////////
-    
+
     /**
      * Bind the widget's internal Cancel and Save Settings button
      */
     var addButtonBinding = function(){
-        
+
         $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
             sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
         });
-        
+
         $(groupbasicinfo_update, $rootel).bind("click", function(){
             $(window).trigger("sakai.groupbasicinfo.update");
         });;
-    
+
     }
-    
+
     /**
      * This function will be called when the widget or the container
      * wants to save the new profile data
@@ -173,7 +173,7 @@ sakai.groupbasicinfo = function(tuid, showSettings){
 
     // Indicate that the widget has finished loading
     $(window).trigger("sakai.api.UI.groupbasicinfo.ready", {});
-    
+
     renderTemplateBasicInfo();
 
 };

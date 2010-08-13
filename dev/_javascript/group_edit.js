@@ -19,16 +19,15 @@
 
 var sakai = sakai || {};
 
-sakai.groupedit = function(){
+// Global object that will store information about the current group context
+sakai.currentgroup = sakai.currentgroup || {};
 
-    // Global object that will store information about the current group context
-    
-    sakai.currentgroup = sakai.currentgroup || {};
-    
-    sakai.currentgroup.id = sakai.currentgroup.id || {};
-    sakai.currentgroup.data = sakai.currentgroup.data || {};
-    sakai.currentgroup.mode = sakai.currentgroup.mode || {};
-    sakai.currentgroup.profileView = false;
+sakai.currentgroup.id = sakai.currentgroup.id || {};
+sakai.currentgroup.data = sakai.currentgroup.data || {};
+sakai.currentgroup.mode = sakai.currentgroup.mode || {};
+sakai.currentgroup.profileView = false;
+
+sakai.groupedit = function(){
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
@@ -40,7 +39,7 @@ sakai.groupedit = function(){
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
-    
+
     var groupBasicInfoContainer = "group_edit_widget_container";
     var groupBasicInfoTemplate = "group_edit_widget_template";
 
@@ -100,7 +99,7 @@ sakai.groupedit = function(){
             }
         });
     };
-    
+
     /**
      * After the page has been loaded, weadd a declaration for the basic group info widget. We render
      * this and make sure that the showSettings variable will be set to true.
@@ -110,7 +109,7 @@ sakai.groupedit = function(){
         $("#" + groupBasicInfoContainer).html($.TemplateRenderer("#" + groupBasicInfoTemplate, {}));
         sakai.api.Widgets.widgetLoader.insertWidgets(groupBasicInfoContainer, true);
     }
-    
+
     /**
      * When the Basic Group Info widget has finished updating the group details, it will come
      * back to this function
@@ -127,10 +126,10 @@ sakai.groupedit = function(){
      * @param {Boolean} show Flag to either show or hide update or edit buttons
      */
     var triggerEditable = function(show){
-        
+
         sakai.currentgroup.mode = 'edit';
         $("#group_editing").show();
-    
+
     };
 
 
@@ -147,12 +146,12 @@ sakai.groupedit = function(){
         $("#group_editing_button_update").bind("click", function(){
             $(window).trigger("sakai.groupbasicinfo.update");
         });
-        
+
         // Bind the don't update button
         $("#group_editing_button_dontupdate").bind("click", function(){
-           window.location = "group.html?id=" + sakai.currentgroup.id; 
+           window.location = "group.html?id=" + sakai.currentgroup.id;
         });
-        
+
     };
 
 
