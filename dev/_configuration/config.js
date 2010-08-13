@@ -144,11 +144,6 @@ sakai.config = {
                         "required": true,
                         "display": true
                     },
-                    "displayName": {
-                        "label": "__MSG__PROFILE_BASIC_DISPLAYNAME_LABEL__",
-                        "required": true,
-                        "display": true
-                    },
                     "picture": {
                         "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
                         "required": false,
@@ -172,7 +167,7 @@ sakai.config = {
                     },
                     "role": {
                         "label": "__MSG__PROFILE_BASIC_ROLE_LABEL__",
-                        "required": true,
+                        "required": false,
                         "display": true,
                         "type": "select",
                         "select_elements": {
