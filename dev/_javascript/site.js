@@ -281,10 +281,10 @@ sakai.site = function(){
                 // Setting up the Join this site button
                 if (shouldShowJoinButton()) {
                     if (shouldDisableJoinButton()) {
-                        $site_join_button.find("span").text("Request for membership pending approval").show().attr('disabled','disabled');
+                        $site_join_button.find("span").text($("#membership_request_pending").text()).show().attr('disabled','disabled');
                     } else {
                         if (joinRequiresApproval()) {
-                            $site_join_button.find("span").text("Request to join this site");
+                            $site_join_button.find("span").text($("#site_join_request").text());
                         }
                         // Bind 'Join this site' button
                         $site_join_button.live("click", function(ev){
@@ -680,7 +680,7 @@ sakai.site = function(){
     // Request Site Join
     /////////////////////////////
     var requestJoin = function() {
-        $site_join_button.find("span").text("Submitting request…").attr('disabled','disabled');
+        $site_join_button.find("span").text($("#submitting_request").text()).attr('disabled','disabled');
         $.ajax({
             url: "/sites/" + sakai.site.currentsite.id + ".join.html",
             type: "POST",
@@ -689,7 +689,7 @@ sakai.site = function(){
             },
             success: function(data){
                 if (sakai.site.currentsite["sakai:joinable"] === "withauth") {
-                     $site_join_button.find("span").text("Site join request pending approval");
+                     $site_join_button.find("span").text($("#site_membership_pending").text());
                 } else if (sakai.site.currentsite["sakai:joinable"] === "yes") {
                      $site_join_button.hide();
                      showAdminElements();

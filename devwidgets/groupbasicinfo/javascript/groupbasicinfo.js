@@ -19,6 +19,9 @@
 
 var sakai = sakai || {};
 
+sakai.api.UI.groupbasicinfo = sakai.api.UI.groupbasicinfo || {};
+sakai.api.UI.groupbasicinfo.render = sakai.api.UI.groupbasicinfo.render || {};
+
 /**
  * @name sakai.groupbasicinfo
  *
@@ -33,25 +36,22 @@ var sakai = sakai || {};
  */
 sakai.groupbasicinfo = function(tuid, showSettings){
 
-
-    /////////////////////////////
-    // Configuration variables //
-    /////////////////////////////
-
-    var currentsection;
-
-
     ///////////////////
     // CSS Selectors //
     ///////////////////
 
     var $rootel = $("#" + tuid);
-
-    var $groupbasicinfo_field_default_template = $("#groupbasicinfo_field_default_template", $rootel);
     var $groupbasicinfo_generalinfo = $("#groupbasicinfo_generalinfo", $rootel);
-    var $groupbasicinfo_generalinfo_template = $("#groupbasicinfo_generalinfo_template", $rootel);
-
-    var $groupbasicinfo_default_template = $("#groupbasicinfo_default_template", $rootel);
+    var groupbasicinfo_buttons = "#groupbasicinfo_editing";
+    var groupbasicinfo_dontupdate = "#groupbasicinfo_editing_button_dontupdate";
+    var groupbasicinfo_update = "#groupbasicinfo_editing_button_update";
+    
+    // Fields that will contain the group data
+    var groupBasicInfoGroup = "#groupbasicinfo_generalinfo_group";
+    var groupBasicInfoGroupTitle = groupBasicInfoGroup + "_title";
+    var groupBasicInfoGroupKind = groupBasicInfoGroup + "_kind";
+    var groupBasicInfoGroupTags = groupBasicInfoGroup + "_tags";
+    var groupBasicInfoGroupDesc = groupBasicInfoGroup + "_description";
 
 
     //////////////////////
@@ -59,94 +59,123 @@ sakai.groupbasicinfo = function(tuid, showSettings){
     //////////////////////
 
     /**
-     * Render the template for a field
-     * @param {Object} fieldTemplate JSON selector object containing the field template
-     * @param {String} fieldName The name of a field
+     * Render the template for group basic info
      */
-    var renderTemplateField = function(fieldTemplate, fieldName){
-        return $.TemplateRenderer(fieldTemplate, sakai.group.data);
-    };
-
-    /**
-     * Render the template 
-     * @param {Object} sectionTemplate jQuery object that contains the template you want to render for the section
-     * @param {Object} sectionObject The object you need to pass into the template
-     */
-    var renderTemplateSection = function(sectionTemplate, sectionObject){
-
-        var sections = "";
-
-        for(var i in sectionObject.elements){
-            if(sectionObject.elements.hasOwnProperty(i)){
-
-                // Set the field template, if there is no template defined, use the default one
-                var fieldTemplate = sectionObject.elements[i].template ? $("#" + sectionObject.elements[i].template, $rootel) : $groupbasicinfo_field_default_template;
-
-                // Render the template field
-                sections += renderTemplateField(fieldTemplate, i);
-
-            }
+    var renderTemplateBasicInfo = function(){
+        
+        var mode = '';
+        // Show in Edit mode
+        if (showSettings) {
+            mode = 'edit';
         }
 
+        // Get the group information out of the global group info object
         var json_config = {
-            "data" : sakai.profilewow.profile.data[currentsection],
-            "config" : sakai.profilewow.profile.config[currentsection],
-            "fields" : $.trim(sections)
+            "groupid" : sakai.currentgroup.id,
+            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.currentgroup.id,
+            "data" : sakai.currentgroup.data.authprofile,
+            "mode" : mode
         };
-
-        return $.TemplateRenderer(sectionTemplate, json_config);
-
-    };
-
-
-    var renderTemplateBasicInfo = function(fieldTemplate, fieldName){
-        var json_config = {
-            "groupid" : sakai.groupedit.id,
-            "url" : document.location.protocol + "//" + document.location.host + "/~" + sakai.groupedit.id,
-            "data" : sakai.groupedit.data.authprofile,
-            "mode" : sakai.groupedit.mode
-        };
+        
         $groupbasicinfo_generalinfo.html($.TemplateRenderer("#groupbasicinfo_default_template", json_config));
+        
+        // If this widget is not shown on the group profile (i.e. when rendered inside a page)
+        // we show the widget's own update button
+        if (!sakai.currentgroup.profileView){
+            $(groupbasicinfo_buttons, $rootel).show();
+        }
+        
+        addButtonBinding();
+        
     };
+    
+    
+    //////////////////////////////
+    // Update Group Information //
+    //////////////////////////////
+
+    /**
+     * Update group data
+     */
+    var updateGroup = function(){
+        
+        // need to validate data
+        var groupTitle = $(groupBasicInfoGroupTitle, $rootel).val();
+        var groupKind = $(groupBasicInfoGroupKind, $rootel).val();
+        var groupTags = $(groupBasicInfoGroupTags, $rootel).val();
+        var groupDesc = $(groupBasicInfoGroupDesc, $rootel).val();
+        
+        // Update the group object
+        sakai.currentgroup.data.authprofile["sakai:group-title"] = groupTitle;
+        sakai.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
+        sakai.currentgroup.data.authprofile["sakai:group-tags"] = groupTags;
+        sakai.currentgroup.data.authprofile["sakai:group-description"] = groupDesc;
+
+        $.ajax({
+            url: "/system/userManager/group/" + sakai.currentgroup.id + ".update.json",
+            data: {
+                "_charset_":"utf-8",
+                "sakai:group-title" : groupTitle,
+                "sakai:group-kind" : groupKind,
+                "sakai:group-tags" : groupTags,
+                "sakai:group-description" : groupDesc
+            },
+            type: "POST",
+            success: function(data, textStatus){
+                sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+                $(window).trigger("sakai.groupbasicinfo.updateFinished");
+            },
+            error: function(xhr, textStatus, thrownError){
+                fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
+            }
+        });
+        
+    }
 
 
     //////////////
     // Bindings //
     //////////////
-
-    $(window).bind("basicgroupinfo_refresh", function(e){
-        renderTemplateBasicInfo();
+    
+    /**
+     * Bind the widget's internal Cancel and Save Settings button
+     */
+    var addButtonBinding = function(){
+        
+        $(groupbasicinfo_dontupdate, $rootel).bind("click", function(){
+            sakai.api.Widgets.Container.informCancel(tuid, "groupbasicinfo");
+        });
+        
+        $(groupbasicinfo_update, $rootel).bind("click", function(){
+            $(window).trigger("sakai.groupbasicinfo.update");
+        });;
+    
+    }
+    
+    /**
+     * This function will be called when the widget or the container
+     * wants to save the new profile data
+     */
+    $(window).bind("sakai.groupbasicinfo.update", function(){
+        updateGroup();
     });
-
-    // Sometimes the trigger event is fired before it is actually bound
-    // so we keep trying to execute the ready event
-    /*var triggerReady = function(){
-        if ($(window).data("events") && $(window).data("events").sakai) {
-
-        console.log('trigger ready');
-            // Send out an event that says the widget is ready.
-            // This event can be picked up in a page JS code
-            $(window).trigger("sakai.api.UI.groupbasicinfo.ready");
-        }
-        else {
-        console.log('trigger set timeout');
-            setTimeout(triggerReady, 100);
-        }
-    };
-    triggerReady();*/
 
     ////////////////////
     // Initialization //
     ////////////////////
 
     /**
-     * Initialization function
+     * Render function
      */
-    var init = function(){
+    sakai.api.UI.groupbasicinfo.render = function(){
         renderTemplateBasicInfo();
     };
 
-    init();
+    // Indicate that the widget has finished loading
+    $(window).trigger("sakai.api.UI.groupbasicinfo.ready", {});
+    
+    renderTemplateBasicInfo();
+
 };
 
 sakai.api.Widgets.widgetLoader.informOnLoad("groupbasicinfo");

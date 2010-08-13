@@ -35,13 +35,30 @@
                 <div class="groupbasicinfo_generalinfo_content">${url}</div>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
+                <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__GROUP_KIND__:</label>
+                <select class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_kind">
+                    <option{if data['sakai:group-kind']==="course"} selected="selected"{/if} value="course">__MSG__COURSE_GROUP__</option>
+                </select>
+            </div>
+            <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__TAGS__:</label>
-                <textarea class="groupbasicinfo_generalinfo_content" id="profilesection_generalinfo_group_tags">${data['sakai:group-tags']}</textarea>
+                <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_tags">${data['sakai:group-tags']}</textarea>
                 <p>__MSG__THIS_WILL_HELP_OTHERS_FIND_THIS_GROUP__</p>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <label class="groupbasicinfo_generalinfo_label" for="groupbasicinfo_generalinfo">__MSG__DESCRIPTION__:</label>
-                <textarea class="groupbasicinfo_generalinfo_content" id="profilesection_generalinfo_group_description">${data['sakai:group-description']}</textarea>
+                <textarea class="groupbasicinfo_generalinfo_content" id="groupbasicinfo_generalinfo_group_description">${data['sakai:group-description']}</textarea>
+            </div>
+            
+            <div id="groupbasicinfo_editing" class="fl-push" style="display:none;">
+            	<div class="fl-force-right">
+                	<button id="groupbasicinfo_editing_button_dontupdate" type="button" class="s3d-button">
+                        <span class="s3d-button-inner">__MSG__CANCEL__</span>
+                    </button>
+                    <button id="groupbasicinfo_editing_button_update" type="button" class="s3d-button s3d-button-primary">
+                    	<span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span>
+                    </button>
+                </div>
             </div>
 
         {else}
@@ -55,8 +72,16 @@
                 <div class="groupbasicinfo_generalinfo_content">${url}</div>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
+                <span class="groupbasicinfo_generalinfo_label">__MSG__GROUP_KIND__:</span>
+                <div class="groupbasicinfo_generalinfo_content">{if data['sakai:group-kind']==="course"}__MSG__COURSE_GROUP__{/if}</div>
+            </div>
+            <div class="groupbasicinfo_generalinfo_subcontainer">
                 <span class="groupbasicinfo_generalinfo_label">__MSG__TAGS__:</span>
-                <div class="groupbasicinfo_generalinfo_content">${data['sakai:group-tags']}</div>
+                <div class="groupbasicinfo_generalinfo_content">
+                    {if data['sakai:group-tags'] && data['sakai:group-tags'].length > 0}
+                        {for t in data['sakai:group-tags'].split(",")}{if t_index > 0},{/if} <a href="/dev/search.html#q=${t}" class="s3d-action">${t}</a>{/for}
+                    {/if}
+                </div>
             </div>
             <div class="groupbasicinfo_generalinfo_subcontainer">
                 <span class="groupbasicinfo_generalinfo_label">__MSG__DESCRIPTION__:</span>
@@ -70,4 +95,4 @@
 --></div>
 
 <!-- JAVASCRIPT -->
-<script src="/devwidgets/groupbasicinfo/javascript/groupbasicinfo.js" type="application/javascript"></script>
+<script src="/devwidgets/groupbasicinfo/javascript/groupbasicinfo.js" language="JavaScript" type="text/javascript"></script>

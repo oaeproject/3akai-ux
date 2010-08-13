@@ -71,7 +71,15 @@
             <!-- TITLE BAR  -->
             <div class="s3d-site-heading">
                 <h1 id="sitetitle"></h1>
-                <button style="display:none;" id="site_join_button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">Join this site</span></button>
+                <button style="display:none;" id="site_join_button" class="s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner" >__MSG__JOIN_SITE__</span>
+                </button>
+                
+                <!-- MESSAGES TO DISPLAY IN BUTTON-->
+                <span id="membership_request_pending" style="display:none;">__MSG__REQUEST_FOR_MEMBERSHIP_PENDING_APPROVAL__</span>
+                <span id="site_join_request" style="display:none;">__MSG__REQUEST_TO_JOIN_THIS_SITE__</span>
+                <span id="site_membership_pending" style="display:none;">__MSG__SITE_JOIN_REQUEST_PENDING_APPROVAL__</span>
+                <span id="submitting_request" style="display:none;">__MSG__SUBMITING_REQUEST__</span>
             </div>
         </div>
 

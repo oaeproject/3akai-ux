@@ -21,9 +21,14 @@ var sakai = sakai || {};
 
 sakai.groupedit = function(){
 
-sakai.groupedit.id = sakai.groupedit.id || {};
-sakai.groupedit.data = sakai.groupedit.data || {};
-sakai.groupedit.mode = sakai.groupedit.mode || {};
+    // Global object that will store information about the current group context
+    
+    sakai.currentgroup = sakai.currentgroup || {};
+    
+    sakai.currentgroup.id = sakai.currentgroup.id || {};
+    sakai.currentgroup.data = sakai.currentgroup.data || {};
+    sakai.currentgroup.mode = sakai.currentgroup.mode || {};
+    sakai.currentgroup.profileView = false;
 
     /////////////////////////////
     // CONFIGURATION VARIABLES //
@@ -35,17 +40,9 @@ sakai.groupedit.mode = sakai.groupedit.mode || {};
     ///////////////////
     // CSS SELECTORS //
     ///////////////////
-
-    var group_class = ".group";
-    var $group_actions = $("#group_actions", group_class);
-    var $group_actions_template = $("#group_actions_template", group_class);
-    var $group_field_default_template = $("#group_field_default_template", group_class);
-    var $group_footer = $("#group_footer", group_class);
-    var $group_footer_button_dontupdate = $("#group_footer_button_dontupdate", group_class);
-    var $group_footer_button_edit = $("#group_footer_button_edit", group_class);
-    var $group_footer_template = $("#group_footer_template", group_class);
-    var $group_heading = $("#group_heading", group_class);
-    var $group_heading_template = $("#group_heading_template", group_class);
+    
+    var groupBasicInfoContainer = "group_edit_widget_container";
+    var groupBasicInfoTemplate = "group_edit_widget_template";
 
 
     ////////////////////
@@ -61,77 +58,79 @@ sakai.groupedit.mode = sakai.groupedit.mode || {};
         }
         return false;
     };
-    
+
     var readyToRender = false;
     var hasRendered = false;
-    
+    var readyToRenderBasic = false;
+    var hasRenderedBasic = false;
+
+    /**
+     * This function will be executed when the Entity summary widget has been
+     * loaded. We will execute its render function once we have the groupdata
+     * available
+     * @param {Object} e    Event that caused this function
+     */
     $(window).bind("sakai.api.UI.entity.ready", function(e){
         readyToRender = true;
-        if (sakai.groupedit.data) {
-            sakai.api.UI.entity.render("group", sakai.groupedit.data);
+        if (sakai.currentgroup.data) {
+            sakai.api.UI.entity.render("group", sakai.currentgroup.data);
             hasRendered = true;
         }
     });
 
     /**
      * Fetch group data
+     * @param {String} groupid Identifier for the group we're interested in
      */
     var getGroupData = function(groupid){
 
         $.ajax({
             url: "/~" + groupid + "/public.infinity.json",
             success: function(data){
-                sakai.groupedit.id = groupid;
-                sakai.groupedit.data = data;
-                sakai.groupedit.data["sakai:group-id"] = groupid;
+                sakai.currentgroup.id = groupid;
+                sakai.currentgroup.data = data;
+                sakai.currentgroup.data["sakai:group-id"] = groupid;
                 if (data.authprofile['rep:policy']) {
                     triggerEditable(true);
                 }
                 if (readyToRender && !hasRendered) {
-                    sakai.api.UI.entity.render("group", sakai.groupedit.data);
+                    sakai.api.UI.entity.render("group", sakai.currentgroup.data);
                 }
-                $(window).trigger("basicgroupinfo_refresh");
+                renderGroupBasicInfo();
             }
         });
     };
-
+    
+    /**
+     * After the page has been loaded, weadd a declaration for the basic group info widget. We render
+     * this and make sure that the showSettings variable will be set to true.
+     * i.e. the widget will be rendered in Edit mode
+     */
+    var renderGroupBasicInfo = function(){
+        $("#" + groupBasicInfoContainer).html($.TemplateRenderer("#" + groupBasicInfoTemplate, {}));
+        sakai.api.Widgets.widgetLoader.insertWidgets(groupBasicInfoContainer, true);
+    }
+    
+    /**
+     * When the Basic Group Info widget has finished updating the group details, it will come
+     * back to this function
+     */
+    $(window).bind("sakai.groupbasicinfo.updateFinished", function(){
+        // Show a notification on the screen
+    	sakai.api.Util.notification.show("Group management", "Your group was updated successfully");
+        // Re-render the Entity Summary widget so the changes are reflected
+        sakai.api.UI.entity.render("group", sakai.currentgroup.data);
+    });
 
     /**
-     * Update group data
+     * Trigger edit buttons
+     * @param {Boolean} show Flag to either show or hide update or edit buttons
      */
-    var updateGroup = function(){
-        // need to validate data
-        var groupTitle = $("#groupbasicinfo_generalinfo_group_title").val();
-        var groupTags = $("#profilesection_generalinfo_group_tags").val();
-        var groupDesc = $("#profilesection_generalinfo_group_description").val();
-
-        $.ajax({
-            url: "/system/userManager/group/" + sakai.groupedit.id + ".update.json",
-            data: {
-                "_charset_":"utf-8",
-                "sakai:group-title" : groupTitle,
-                "sakai:group-tags" : groupTags,
-                "sakai:group-description" : groupDesc
-            },
-            type: "POST",
-            success: function(data, textStatus){
-                getGroupData(sakai.groupedit.id);
-                $(window).trigger("basicgroupinfo_refresh");
-            },
-            error: function(xhr, textStatus, thrownError){
-                fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
-            }
-        });
-    }
-
     var triggerEditable = function(show){
-        if (show) {
-            $("#group_editable").show();
-            $("#group_editing").hide();
-        } else {
-            $("#group_editable").hide();
-            $("#group_editing").show();
-        }
+        
+        sakai.currentgroup.mode = 'edit';
+        $("#group_editing").show();
+    
     };
 
 
@@ -144,25 +143,16 @@ sakai.groupedit.mode = sakai.groupedit.mode || {};
      */
     var addBinding = function(){
 
-        $("#group_editable_button_edit").bind("click", function(){
-            triggerEditable(false);
-            sakai.groupedit.mode = 'edit';
-            $(window).trigger("basicgroupinfo_refresh");
-        });
-
-        // Bind the don't update
-        $("#group_editing_button_dontupdate").bind("click", function(){
-            triggerEditable(true);
-            sakai.groupedit.mode = '';
-            $(window).trigger("basicgroupinfo_refresh");
-        });
-
-        // Bind the update
+        // Bind the update button
         $("#group_editing_button_update").bind("click", function(){
-            sakai.groupedit.mode = '';
-            updateGroup();
-            $(window).trigger("basicgroupinfo_refresh");
+            $(window).trigger("sakai.groupbasicinfo.update");
         });
+        
+        // Bind the don't update button
+        $("#group_editing_button_dontupdate").bind("click", function(){
+           window.location = "group.html?id=" + sakai.currentgroup.id; 
+        });
+        
     };
 
 
@@ -170,19 +160,18 @@ sakai.groupedit.mode = sakai.groupedit.mode || {};
     // INITIALISATION //
     ////////////////////
 
+    /**
+     * doInit function
+     */
     var doInit = function(){
 
         querystring = new Querystring();
 
-        // Get and set the profile mode
+        // Get the group ID and retrieve data
         var groupid = getGroupId();
         if (groupid) {
             getGroupData(groupid);
         }
-
-        /*$(window).bind("sakai.api.UI.groupbasicinfo.ready", function(e){
-            getGroupData(groupid);
-        });*/
 
         addBinding();
     };

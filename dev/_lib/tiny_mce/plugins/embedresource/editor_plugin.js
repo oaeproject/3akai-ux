@@ -23,8 +23,8 @@
 			ed.addCommand('mcdEmbedResource', function() {
 				ed.windowManager.open({
 					file : url + '/embedresource.htm',
-					width : 775 + parseInt(ed.getLang('embedresource.delta_width', 0)),
-					height : 450 + parseInt(ed.getLang('embedresource.delta_height', 0)),
+					width : 775 + parseInt(ed.getLang('embedresource.delta_width', 0),10),
+					height : 450 + parseInt(ed.getLang('embedresource.delta_height', 0),10),
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL
@@ -59,14 +59,13 @@
 
 		/**
 		 * Returns information about the plugin as a name/value array.
-		 * The current keys are longname, author, authorurl, infourl and version.
+		 * The current keys are longname, authorurl, infourl and version.
 		 *
 		 * @return {Object} Name/value array containing information about the plugin.
 		 */
 		getInfo : function() {
 			return {
 				longname : 'Embed Resource Plugin',
-				author : 'Chris Roby - NYU',
 				authorurl : 'http://www.chrisroby.com',
 				infourl : 'http://www.nyu.edu',
 				version : "0.1"

@@ -13,6 +13,12 @@ width:70px;}
 #site_manage_searchViaCsv{
     margin-right:15px;
 }
+
+/* MEMBER LIST UL */
+.siteManage_member_list {
+    width:100%;
+}
+
 .siteManage_person_roleView{
     color: #ddd;
 }
@@ -377,4 +383,4 @@ width:70px;}
 .add-members #siteManage_requests .members-container li.unselected a.sitejoin-link {color:#006E96; font-weight: normal; font-size: 0.9em; float:left; width:50px}
 .add-members #siteManage_requests .members-container li.unselected a.view-profile-label.sitejoin-link {width:150px; float:none;}
 
-#siteManage_pending-requests-title {margin-top:20px;}
+#siteManage_pending-requests-title {margin-top:20px;}
