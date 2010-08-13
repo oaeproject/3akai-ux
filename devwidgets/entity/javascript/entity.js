@@ -99,6 +99,7 @@ sakai.entity = function(tuid, showSettings){
     var $entity_action_download = $("#entity_action_download", $rootel);
     var $entity_action_upload = $("#entity_action_upload", $rootel);
 
+    var authprofileURL;
 
     ////////////////////
     // UTIL FUNCTIONS //
@@ -167,25 +168,18 @@ sakai.entity = function(tuid, showSettings){
      * @param {Function} [callback] A callback function that gets fired after the request
      */
     var changeChatStatus = function(chatstatus){
-        // Set the correct data for the Ajax request
-        var data = {
-            "chatstatus": chatstatus,
-            "_charset_": "utf-8"
-        };
+        sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
 
-        // Send the ajax request
-        $.ajax({
-            url: sakai.data.me.profile["jcr:path"],
-            type: "POST",
-            data: data,
-            success: function(data){
-                // Update all other widgets by firing an event
+        if (sakai.data.me.profile.activity)
+            delete sakai.data.me.profile.activity;
+
+        if (sakai.data.me.profile["rep:policy"])
+            delete sakai.data.me.profile["rep:policy"];
+
+        sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+            if (success) {
                 $(window).trigger("chat_status_change", chatstatus);
-            },
-            error: function(xhr, textStatus, thrownError){
-                if (typeof callback === "function") {
-                    callback(false, xhr);
-                }
+            } else {
                 fluid.log("Entity widget - An error occured when sending the status to the server.");
             }
         });
@@ -270,13 +264,13 @@ sakai.entity = function(tuid, showSettings){
             if (sakai.data.me.profile["rep:policy"])
                 delete sakai.data.me.profile["rep:policy"];
 
-            sakai.api.Server.saveJSON(sakai.data.me.profile["jcr:path"], sakai.data.me.profile, function(success, data) {
+            sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
                if (success) {
                    // Set the button back to it's original text
                    $("button span", $entity_profile_status).text(sakai.api.Security.saneHTML(originalText));
 
                    // Create an activity item for the status update
-                   var nodeUrl = sakai.data.me.profile["jcr:path"];
+                   var nodeUrl = authprofileURL;
                    var activityMsg = "Status: " + inputValue;
 
                    var activityData = {
@@ -386,8 +380,11 @@ sakai.entity = function(tuid, showSettings){
 
         // Set the status for the user you want the information from
         if (entityconfig.data.profile.basic && entityconfig.data.profile.basic.elements.status) {
-            entityconfig.data.profile.status = entityconfig.data.profile.basic.elements.status.value;
+            entityconfig.data.profile.status = entityconfig.data.profile.status;
         }
+
+        // set the url to POST the status updates to
+        authprofileURL = "/~" + entityconfig.data.profile["rep:userId"] + "/public/authprofile";
 
         if (!entityconfig.data.profile.chatstatus) {
             entityconfig.data.profile.chatstatus = "online";

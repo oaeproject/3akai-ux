@@ -68,6 +68,7 @@ sakai.myprofile = function (tuid, showSettings) {
 
     var chatStatus = "online";
 
+    var authprofileURL;
 
     /////////////////
     // Chat status //
@@ -103,22 +104,25 @@ sakai.myprofile = function (tuid, showSettings) {
      * Change the status of the currently logged in user.
      * @param {Object} status
      */
-    var changeStatus = function (status) {
+    var changeStatus = function (chatstatus) {
         $(profileStatusContainer).toggle();
-        sakai.data.me.profile.chatstatus = status;
 
-        var tosend = {
-            "chatstatus" : status,
-            "_charset_":"utf-8"
-        };
+        sakai.data.me.profile = $.extend(true, sakai.data.me.profile, {"chatstatus": chatstatus});
 
-        var url = "/system/userManager/user/" + sakai.data.me.user.userid + ".update.html";
-        $.ajax({
-              url : url,
-            type : "POST",
-        data : tosend,
-        success : function (data) {
+        if (sakai.data.me.profile.activity)
+            delete sakai.data.me.profile.activity;
+
+        if (sakai.data.me.profile["rep:policy"])
+            delete sakai.data.me.profile["rep:policy"];
+
+        sakai.api.Server.saveJSON(authprofileURL, sakai.data.me.profile, function(success, data) {
+            if (success) {
                 updateChatStatus(status);
+            } else {
+                if (typeof callback === "function") {
+                    callback(false, xhr);
+                }
+                fluid.log("Entity widget - An error occured when sending the status to the server.");
             }
         });
     };
@@ -137,6 +141,8 @@ sakai.myprofile = function (tuid, showSettings) {
         else {
             $(profileNameID, rootel).text(sakai.api.Security.saneHTML(me.user.userid));
         }
+
+        authprofileURL = "/~" + sakai.data.me.user.userid + "/public/authprofile";
 
         // Do we have a picture
         if (json.picture) {
