@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config */
+/*global $, Config, sdata */
 
 var sakai = sakai || {};
 
@@ -59,7 +59,7 @@ sakai.helloworld = function(tuid,showSettings){
      * @param {Object} color
      */
     var showHelloWorld = function(color){
-        $(viewContainer + " p", rootel).css("color",color);
+        $(viewContainer + " p", rootel).css("color",color.color); 
         $(viewContainer, rootel).show();
     };
 
@@ -77,7 +77,7 @@ sakai.helloworld = function(tuid,showSettings){
         var toSelect = 0;
         for (var i = 0; i < select.options.length; i++){
             var option = select.options[i];
-            toSelect = option.value === color ? i : 0;
+            toSelect = option.value === color.color ? i : 0;
         }
         select.selectedIndex = toSelect;
     };
@@ -88,10 +88,10 @@ sakai.helloworld = function(tuid,showSettings){
     ////////////////////
 
     /** Binds the helloworld save button*/
-    $(seaveHelloworld).bind("click", function(ev){
+    $("#helloworld_save").bind("click", function(ev){
         var select = $(colorPicker, rootel).get(0);
         var selected = select.options[select.selectedIndex].value;
-        sakai.api.Widgets.saveWidgetData(tuid, selected, function(success, data){
+        sakai.api.Widgets.saveWidgetData(tuid, {color:selected}, function(success, data){
             sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
         });
     });
@@ -106,13 +106,13 @@ sakai.helloworld = function(tuid,showSettings){
      * @param {Object} callback
      */
     var getPreferedColor = function(callback){
-
         sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
             if (success) {
                 callback(data);
             } else {
                 callback(defaultColor);
             }
+            
         });
 
     };
@@ -123,7 +123,7 @@ sakai.helloworld = function(tuid,showSettings){
             $(settingsContainer, rootel).show();
         } else {
             var me = sakai.data.me;
-            $(usernameContainer, rootel).text(sakai.api.Security.saneHTML(me.profile.firstName));
+            $(usernameContainer, rootel).text(me.profile.firstName);
             getPreferedColor(showHelloWorld);
         }
     };
