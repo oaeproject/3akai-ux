@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global $, Config, sdata */
+/*global $, Config */
 
 var sakai = sakai || {};
 
@@ -123,7 +123,7 @@ sakai.helloworld = function(tuid,showSettings){
             $(settingsContainer, rootel).show();
         } else {
             var me = sakai.data.me;
-            $(usernameContainer, rootel).text(me.profile.firstName);
+            $(usernameContainer, rootel).text(sakai.api.Security.saneHTML(sakai.api.User.getProfileBasicElementValue(me, "firstName")));
             getPreferedColor(showHelloWorld);
         }
     };
