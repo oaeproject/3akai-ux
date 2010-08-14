@@ -59,7 +59,7 @@ sakai.helloworld = function(tuid,showSettings){
      * @param {Object} color
      */
     var showHelloWorld = function(color){
-        $(viewContainer + " p", rootel).css("color",color.color); 
+        $(viewContainer + " p", rootel).css("color",color.color);
         $(viewContainer, rootel).show();
     };
 
@@ -112,7 +112,7 @@ sakai.helloworld = function(tuid,showSettings){
             } else {
                 callback(defaultColor);
             }
-            
+
         });
 
     };

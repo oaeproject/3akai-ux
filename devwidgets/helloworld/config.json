@@ -3,5 +3,6 @@
     "name":"Hello World",
     "id":"helloworld",
     "personalportal":true,
+    "hasSettings":true,
     "url":"/devwidgets/helloworld/helloworld.html"
 }
