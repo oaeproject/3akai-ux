@@ -13,7 +13,9 @@
             <span class="fl-force-left">
                 <form id="pickeruser_content_search_form" method="post" action="javascript:;">
                     Search For <input name="pickeruser_search_query" id="pickeruser_search_query" />
-                    <a href="javascript:;" class="button-default" id="pickeruser_search_button">search</a>
+                    <button type="button" class="s3d-button" id="pickeruser_search_button">
+                        <span class="s3d-button-inner">search</span>
+                    </button>
                 </form>
             </span>
 
@@ -46,11 +48,17 @@
                 <span class="pickeruser_count_of" style="display: none;"> out of</span>
                 <span class="pickeruser_count_thousands" style="display: none;"> thousands</span>
                 </span>
-                <a class="button-default fl-force-right" id="pickeruser_select_all_button">Select All</a>
+                <button type="button" class="s3d-button fl-force-right" id="pickeruser_select_all_button">
+                    <span class="s3d-button-inner">Select All</span>
+                </button>
             </div>
             <div class="pickeruser_footer_options">
-                <a class="button-default fl-force-left" id="pickeruser_close">Cancel</button>
-                <a class="button-default fl-force-right" id="pickeruser_add_button">Add to <span id="pickeruser_space_name">Space</span></a>
+                <button type="button" class="s3d-button" id="pickeruser_close">
+                    <span class="s3d-button-inner">Cancel</span>
+                </button>
+                <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="pickeruser_add_button">
+                    <span class="s3d-button-inner">Add to <span id="pickeruser_space_name">Space</span></span>
+                </button>
             </div>
         </div>
 
@@ -59,7 +67,7 @@
             <div class="pickeruser_content_search_listtemplate"><!--
                 <ul id="pickeruser_list" class="pickeruser_page">
                 {for p in people}
-                    <li data-id="${p.id}">
+                    <li id="${p.id}" dataid="${p.id}">
                         <span class="pickeruser_list_name">${p.name}</span>
                     </li>
                 {/for}
@@ -68,7 +76,7 @@
 
             <div class="pickeruser_content_search_pagetemplate" style="display:none;"><!--
                 {for i in results}
-                <li data-userid="${i['rep:userId']}">
+                <li data-userid="${i['rep:userId']}" id="${i['rep:userId']}">
                     {if i.picture}
                         <img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="Profile picture for ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
                     {else}

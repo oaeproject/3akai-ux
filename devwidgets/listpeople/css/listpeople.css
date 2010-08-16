@@ -29,6 +29,12 @@
 .listpeople_container .listpeople_content .listpeople_page li
 { display: block; list-style: none; clear: both; padding: 5px 0 5px 10px; border-bottom: 1px solid #DBF3FF; overflow: hidden; }
 
+.listpeople_container .listpeople_content .listpeople_page .selectable
+{ cursor: pointer; }
+
+.listpeople_container .listpeople_content .listpeople_page li input
+{ float: left; margin: 18px 5px 0 0; cursor: pointer; }
+
 .listpeople_container .listpeople_content .listpeople_page .listpeople_selected
 { background: #DBF3FF; border-bottom: 1px solid #006E96; }
 
