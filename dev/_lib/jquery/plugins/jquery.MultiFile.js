@@ -206,6 +206,10 @@
 								
         // Triggered when a file is selected
         slave.change(function(){
+            if (sakai.fileupload){
+                sakai.fileupload.MultiFileSelected();
+            }
+            
           //if(window.console) console.log('MultiFile.slave.change',slave_count);
  								 
           // Lose focus to stop IE7 firing onchange again
@@ -295,10 +299,11 @@
          v = String(slave.value || ''/*.attr('value)*/),
          a = $('<span class="MultiFile-title" title="'+MultiFile.STRING.selected.replace('$file', v)+'">'+MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0])+'</span>'),
          b = $('<a class="MultiFile-remove" href="#'+MultiFile.wrapID+'">'+MultiFile.STRING.remove+'</a>');
+         c = $('<br/><span class="fileupload_file_name">name: <input type="text" id="' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]).replace(".", "_") + '"></input></span>')
         
         // Insert label
         MultiFile.list.append(
-         r.append(b, ' ', a)
+         r.append(b, ' ', a, c)
         );
         
         b
@@ -372,9 +377,9 @@
    * @example $.fn.MultiFile.reset();
    */
   reset: function(){
-			var settings = $(this).data('MultiFile');
-			//if(settings) settings.wrapper.find('a.MultiFile-remove').click();
-			if(settings) settings.list.find('a.MultiFile-remove').click();
+            var settings = $(this).data('MultiFile');
+            //if(settings) settings.wrapper.find('a.MultiFile-remove').click();
+            if(settings) settings.list.find('a.MultiFile-remove').click();
    return $(this);
   },
   
