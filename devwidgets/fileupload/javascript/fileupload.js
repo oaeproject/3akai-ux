@@ -44,6 +44,11 @@ sakai.fileupload = function(tuid, showSettings){
     var tags = [];
     var fileNames = [];
 
+    var setDescriptionandName = false;
+    var filesUploaded = false;
+    var filesTagged = false;
+    var tagsCreated = false;
+
     // Classes
     var multiFileRemove = ".MultiFile-remove";
     var fileUploadProgress = "fileupload_upload_progress";
@@ -130,6 +135,28 @@ sakai.fileupload = function(tuid, showSettings){
 
         // Close the jqm box
         $(fileUploadContainer).jqmHide();
+
+        // Show notification
+        var notification = "";
+        if (filesUploaded) {
+            notification += "Files uploaded. ";
+        }
+        if (setDescriptionandName) {
+            notification += "Description and name set. ";
+        }
+        if (tagsCreated) {
+            notification += "Tags created. ";
+        }
+        if (filesTagged) {
+            notification += "Files tagged. ";
+        }
+        sakai.api.Util.notification.show("Files successfully uploaded",notification);
+
+        // Reset booleans
+        setDescriptionandName = false;
+        filesUploaded = false;
+        filesTagged = false;
+        tagsCreated = false;
     };
 
     /**
@@ -159,10 +186,12 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchDescriptionData)
             },
             success: function(data){
-                sakai.api.Util.notification.show("Description successful","Set the description on " + uploadedFiles.length + " uploaded files.");
+                // Description and name set
+                setDescriptionandName = true;
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed description","Failed to set a description on the uploaded files.");
+                // Description and name not set
+                setDescriptionandName = false;
             }
         });
     };
@@ -197,11 +226,13 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchLinkTagsToContentData)
             },
             success: function(data){
-                sakai.api.Util.notification.show("Linking tags successful","Linked " + tags.length + " tags to the uploaded files.");
+                // Files tagged
+                filesTagged = true;
                 resetFields();
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Linking tags failed", "Failed to link tags to your uploads.");
+                // Files not tagged
+                filesTagged = false;
             }
         });
     };
@@ -236,10 +267,12 @@ sakai.fileupload = function(tuid, showSettings){
                 requests: $.toJSON(batchCreateTagsData)
             },
             success: function(data){
-                sakai.api.Util.notification.show("Tags created","Created " + tags.length + " tags.");
+                // Tags created
+                tagsCreated = true;
             },
             error: function(xhr, textStatus, thrownError){
-                sakai.api.Util.notification.show("Failed creating tags", "Creating tags for your uploads failed.");
+                // Tags not created
+                tagsCreated = false;
             }
         });
     };
@@ -295,11 +328,11 @@ sakai.fileupload = function(tuid, showSettings){
                         $(fileUploadAddTags)[0].disabled = false;
                         $(fileUploadAddDescription)[0].disabled = false;
                         // Show a notification
-                        sakai.api.Util.notification.show("No files","No files were uploaded.");
+                        sakai.api.Util.notification.show("No files","No files were uploaded. Please select files to upload.");
                     }
                     else {
-                        // Show a notification
-                        sakai.api.Util.notification.show("Upload successful", "Uploaded " + extractedData.length + " files.");
+                        // Files uploaded
+                        filesUploaded = true;
 
                         // Get the values out of the name boxes
                         $(uploadFileList + " input").each(function(index){
