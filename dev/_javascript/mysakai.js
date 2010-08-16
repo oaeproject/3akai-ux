@@ -52,6 +52,12 @@ sakai.mysakai = function(){
             document.location = sakai.config.URL.GATEWAY_URL;
         });
 
+        $('#upload-files').bind("click", function(ev){
+            // Load the fileupload widget.
+            $('#uploadfilescontainer').show();
+            sakai.fileupload.initialise();
+        });
+
     };
 
     init();
