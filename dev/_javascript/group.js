@@ -63,9 +63,11 @@ sakai.group.manager = sakai.group.data || false;
     
     var loadPagesWidget = function(){
         var basepath = "/~" + sakai.group.id + "/sites/default/";
+        var fullpath = "/_group/g/g-/" + sakai.group.id + "/sites/default/";
+        var url = "/dev/group.html?id=" + sakai.group.id;
         var editMode = sakai.group.manager;
         var homePage = "";
-        sakai.sitespages.doInit(basepath, editMode, homePage);
+        sakai.sitespages.doInit(basepath, fullpath, url, editMode, homePage, "groupspages", "groupsdashboard");
     }
 
     /**

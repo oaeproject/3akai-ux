@@ -17,6 +17,7 @@
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="_css/sakai/sakai.components.jq_pager.css" />
         <link rel="stylesheet" type="text/css" href="_lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/_lib/jquery/plugins/gritter/css/jquery.gritter.css" />
 
         <!-- Sakai Config JS -->
         <script type="text/javascript" src="_configuration/widgets.js"></script>
@@ -45,6 +46,9 @@
         <script type="text/javascript" src="_lib/Fluid/ProgressiveEnhancement.js"></script>
         <script type="text/javascript" src="_lib/AutoComplete/jquery.autocomplete.min.js"></script>
         <script type="text/javascript" src="_lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
 
     </head>
 
@@ -61,10 +65,19 @@
                 <!-- ENTITY WIDGET -->
                 <div id="widget_entity" class="widget_inline"></div>
 
+                <!--  UPLOAD FILES -->
+                <a href="javascript:;" id="upload-files">Upload files</a>
+
                 <!-- CONTAINER FOR THE CREATEGROUP CONTAINER -->
                 <div id="creategroupcontainer" style="display:none;">
                     <!-- We need this container to show the pop-up where you can add a group -->
                     <div id="widget_creategroup" class="widget_inline"></div>
+                </div>
+
+                <!-- CONTAINER FOR THE UPLOAD FILES CONTAINER -->
+                <div id="uploadfilescontainer" style="display:none;">
+                    <!-- We need this container to show the pop-up where you can upload files -->
+                    <div id="widget_fileupload" class="widget_inline"></div>
                 </div>
             </div>
         </div>
