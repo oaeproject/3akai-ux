@@ -1,0 +1,11 @@
+{
+    "description":"File upload",
+    "i18n": {
+        "default": "/devwidgets/fileupload/bundles/default.json",
+        "en_US": "/devwidgets/fileupload/bundles/en_US.json",
+        "nl_NL": "/devwidgets/fileupload/bundles/nl_NL.json"
+    },
+    "id":"fileupload",
+    "name":"fileupload",
+    "url":"/devwidgets/fileupload/fileupload.html"
+}
