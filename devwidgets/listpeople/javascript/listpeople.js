@@ -52,7 +52,8 @@ sakai.listpeople = function(tuid, showSettings){
         "items": 25,
         "selectable": false,
         "sortOn": "lastName",
-        "sortOrder": "ascending"
+        "sortOrder": "ascending",
+        "function": "getSelection"
     };
 
     // Create a config object for this instance
@@ -62,8 +63,10 @@ sakai.listpeople = function(tuid, showSettings){
     // Create data object for this instance
     sakai.data.listpeople = sakai.data.listpeople || {};
     sakai.data.listpeople[tuid] = {};
+    sakai.data.listpeople[tuid].objects = {};
     sakai.data.listpeople[tuid].selected = {};
     sakai.data.listpeople[tuid].currentElementCount = 0;
+    sakai.data.listpeople[tuid].selectCount = 0;
 
     // Reset to defaults
     sakai.api.UI.listPeople.reset(tuid);
@@ -84,13 +87,16 @@ sakai.listpeople = function(tuid, showSettings){
 sakai.api.UI.listPeople.reset = function(tuid) {
 
     $("#" + tuid + " .listpeople_content").html("");
-    $("#" + tuid + " .listpeople_count").html("");
-    $("#" + tuid + " .listpeople_count_person").hide();
-    $("#" + tuid + " .listpeople_count_people").hide();
+    $("#" + tuid + " .listpeople_count").html("0");
+    $("#" + tuid + " .listpeople_count_items").show();
     $("#" + tuid + " .listpeople_count_of").hide();
-    $("#" + tuid + " .listpeople_count_thousands").hide();
+    $("#" + tuid + " .listpeople_count_total").hide();
+    $("#" + tuid + " .listpeople_count_selected").hide();
+    $("#" + tuid + " .listpeople_content").unbind("scroll");
+    $("#" + tuid + " .listpeople_sort_order").unbind("click");
     sakai.data.listpeople[tuid].selected = {};
     sakai.data.listpeople[tuid].currentElementCount = 0;
+    sakai.data.listpeople[tuid].selectCount = 0;
 
 };
 
@@ -104,7 +110,9 @@ sakai.api.UI.listPeople.reset = function(tuid) {
  * @param iConfig {Object} Optional config overrides
  * @returns void
  */
-sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig) {
+sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig, objects) {
+
+    sakai.api.UI.listPeople.reset(tuid);
 
     // Init
     var $pl_container = $("#" + tuid + " .listpeople_content");
@@ -116,183 +124,165 @@ sakai.api.UI.listPeople.render = function(tuid, iSearchQuery, iConfig) {
         }
     }
 
-    // Parse search query
-    var searchQuery = {};
-    var main_parts = iSearchQuery.split("?");
-    searchQuery.url = main_parts[0];
-    var arguments = main_parts[1].split("&");
-    for (var i=0, il = arguments.length; i < il; i++) {
-        var kv_pair = arguments[i].split("=");
-        searchQuery[kv_pair[0]] = kv_pair[1];
+    if(!$.isEmptyObject(objects)){
+        // Render list of objects
+        sakai.api.UI.listPeople.addToList(tuid, 0, objects);
     }
-
-    // Alter search query according to config
-    searchQuery.items = sakai.config.widgets.listpeople[tuid].items;
-
-    // Add hash to search query in case it's not there to prevent caching
-    if (!searchQuery["_"]) {
-        searchQuery["_"] = (Math.random() * 100000000000000000);
-    }
-
-    // Render the first page of results
-    sakai.api.UI.listPeople.addPage(tuid, 0, searchQuery);
-
 };
 
+
 /**
- * addPage
- * Adds another page of search result to the People lister's result list
+ * addToList
+ * Renders the list of objects the user can select from
  * @param tuid {String} The instance ID of a widget
  * @pageNumber {Int} The page we want to load
- * @searchQuery {Object} An object containing the search query elements
+ * @objects {Object} An object containing the elements to list
  * @returns void
  */
-sakai.api.UI.listPeople.addPage = function(tuid, pageNumber, searchQuery) {
+sakai.api.UI.listPeople.addToList = function(tuid, pageNumber, objects) {
 
-    // Create new container for the bit we load. This is then appended to the
+    var rawData = objects;
+
     // main container
     var $pl_pageContainer = $("<ul id=\"listpeople_page_" + pageNumber + "\" class=\"listpeople_page loadinganim\"></ul>");
     var $pl_container = $("#" + tuid + " .listpeople_content");
 
-    // Aadd relevant config elements to the search query
-    searchQuery.page = pageNumber;
-    searchQuery.sortOn = sakai.config.widgets.listpeople[tuid]["sortOn"];
-    searchQuery.sortOrder = sakai.config.widgets.listpeople[tuid]["sortOrder"];
-
-    // Construct search query
-    var sq = searchQuery.url + "?";
-    for (var e in searchQuery) {
-        if (searchQuery.hasOwnProperty(e) && e !== "url") {
-            sq += e + "=" + searchQuery[e] + "&";
-        }
-    }
-
     // Display empty new container with loading anim
     $pl_container.append($pl_pageContainer);
 
-    // Make the request
-    $.ajax({
-        url: sq,
-        type: "GET",
-        success: function(rawData) {
+    for (var i = 0, il = rawData.results.length; i < il; i++) {
+        var resultObject = rawData.results[i];
 
-            // Eval profile data for now and extend it with additional info
-            for (var i = 0, il = rawData.results.length; i < il; i++) {
-                var resultObject = rawData.results[i];
-
-                // Eval json strings if any
-                for (var j in resultObject) {
-                    if (resultObject.hasOwnProperty(j) && typeof resultObject[j] === "string" && resultObject[j].charAt(0) === "{") {
-                        rawData.results[i][j] = $.parseJSON(resultObject[j]);
-                    }
-                }
-
-                // Determine what to put under the name. See if specified key exists in main object or under basic profile info
-                var subNameInfo = "";
-                var iSubNameInfo = sakai.config.widgets.listpeople[tuid]["subNameInfo"];
-                if (iSubNameInfo !== "" && typeof iSubNameInfo === "string") {
-                    if (rawData.results[i][iSubNameInfo]) {
-                        subNameInfo = rawData.results[i][iSubNameInfo];
-                    } else if (rawData.results[i]["basic"][iSubNameInfo]) {
-                        subNameInfo = rawData.results[i]["basic"][iSubNameInfo];
-                    }
-                }
-                rawData.results[i]["subNameInfo"] = subNameInfo;
-            }
-
-            // Render the results data template
-            var pageHTML = $.TemplateRenderer("#" + tuid + " .listpeople_content_pagetemplate", rawData);
-
-            // Remove loading animation
-            $pl_pageContainer.removeClass("loadinganim");
-
-            // Inject results into DOM
-            $pl_pageContainer.html(pageHTML);
-
-
-            // Wire loading the next page when user scrolls to the bottom of the list
-            if ((rawData.total > searchQuery.items) || (rawData.total === -1)) {
-                $pl_container.bind("scroll", function(e){
-
-                    if ((e.target.scrollHeight - e.target.scrollTop - $(e.target).height() ) === 0) {
-                        $pl_container.unbind("scroll");
-                        sakai.api.UI.listPeople.addPage(tuid, (pageNumber + 1), searchQuery);
-                    }
-                });
-            }
-
-
-            // Wire item selection
-            if (sakai.config.widgets.listpeople[tuid].selectable) {
-
-                $("#" + tuid + " .listpeople_page li").live("click", function(e){
-
-                    // Check if user click on top of a link
-                    if (e.target.tagName.toLowerCase() !== "a") {
-                        // Remove from selected list
-                        if ($(this).hasClass("listpeople_selected")) {
-                            $(this).removeClass("listpeople_selected");
-                            delete sakai.data.listpeople[tuid]["selected"][$(this).attr("data-userid")];
-                        } else {
-                            // Add to selected list
-                            $(this).addClass("listpeople_selected");
-                            sakai.data.listpeople[tuid]["selected"][$(this).attr("data-userid")] = "";
-                        }
-                    }
-                });
-            }
-
-            //Update known total amount of displayed elements
-            sakai.data.listpeople[tuid].currentElementCount += rawData.results.length;
-
-            //Set search result count
-            if ((rawData.total === -1) || (rawData.total > 1000)) {
-                // If we don't know the total display what we know
-                $("#" + tuid + " .listpeople_count").html(sakai.data.listpeople[tuid].currentElementCount);
-                $("#" + tuid + " .listpeople_count_people").show();
-                $("#" + tuid + " .listpeople_count_of").show();
-                $("#" + tuid + " .listpeople_count_thousands").show();
-
-            } else {
-                // If we know the exact total display it
-                $("#" + tuid + " .listpeople_count").html(rawData.total);
-                if (rawData.total === 1) {
-                    $("#" + tuid + " .listpeople_count_person").show();
-                } else {
-                    $("#" + tuid + " .listpeople_count_people").show();
-                }
-            }
-
-
-            // Wire sorting select dropdown
-            $("#" + tuid + " .listpeople_sort_on").bind("change", function(e){
-                // Reset everything
-                sakai.api.UI.listPeople.reset(tuid);
-
-                // Set config to new sort key
-                sakai.config.widgets.listpeople[tuid]["sortOn"] = $(this).val();
-
-                // Start from scratch
-                sakai.api.UI.listPeople.addPage(tuid, 0, searchQuery);
-
-            });
-
-        },
-        error: function(xhr, status, thrown) {
-
-            // If it's likely to be a genuine server error
-            if ($pl_pageContainer.length === 0) {
-                $pl_container.html($("#" + tuid + " .listpeople_error_template").html());
-            } else {
-                // Probably it's the last page of the result set
-                $pl_pageContainer.last().remove();
-                $("#" + tuid + " .listpeople_count_of").hide();
-                $("#" + tuid + " .listpeople_count_thousands").hide();
+        // Eval json strings if any
+        for (var j in resultObject) {
+            if (resultObject.hasOwnProperty(j) && typeof resultObject[j] === "string" && resultObject[j].charAt(0) === "{") {
+                rawData.results[i][j] = $.parseJSON(resultObject[j]);
             }
         }
+
+        // Determine what to put under the name. See if specified key exists in main object or under basic profile info
+        var subNameInfo = "";
+        var iSubNameInfo = sakai.config.widgets.listpeople[tuid]["subNameInfo"];
+        if (iSubNameInfo !== "" && typeof iSubNameInfo === "string") {
+            if (rawData.results[i][iSubNameInfo]) {
+                subNameInfo = rawData.results[i][iSubNameInfo];
+            } else if (rawData.results[i]["basic"][iSubNameInfo]) {
+                subNameInfo = rawData.results[i]["basic"][iSubNameInfo];
+            }
+        }
+        rawData.results[i]["subNameInfo"] = subNameInfo;
+    }
+
+    var json_data = {
+        "rawData" : rawData,
+        "selectable" : sakai.config.widgets.listpeople[tuid].selectable
+    };
+
+    // Render the results data template
+    var pageHTML = $.TemplateRenderer("#" + tuid + " .listpeople_content_pagetemplate", json_data);
+
+    // Display count of items
+    $("#" + tuid + " .listpeople_count").html(rawData.total);
+
+    // Remove loading animation
+    $pl_pageContainer.removeClass("loadinganim");
+
+    // Inject results into DOM
+    $pl_pageContainer.html(pageHTML);
+
+    // Wire item selection
+    if (sakai.config.widgets.listpeople[tuid].selectable) {
+
+        $("#" + tuid + " .listpeople_page" + " li").addClass("selectable");
+        $("#" + tuid + " #listpeople_page_" + pageNumber + " li").bind("click", function(e){
+            // Check if user click on top of a link
+            if (e.target.tagName.toLowerCase() !== "a") {
+                // Remove from selected list
+                if ($(this).hasClass("listpeople_selected")) {
+                    $(this).removeClass("listpeople_selected");
+                    $(this).children("input").attr('checked', false);
+                    delete sakai.data.listpeople[tuid]["selected"][$(this).attr("id")];
+                    sakai.data.listpeople[tuid].selectCount -= 1;
+                } else {
+                    // Add to selected list
+                    $(this).addClass("listpeople_selected");
+                    $(this).children("input").attr('checked', true);
+                    sakai.data.listpeople[tuid].selectCount += 1;
+
+                    for (var i = 0; i < rawData.total; i++) {
+                        if (rawData.results[$(this).attr("id")]['rep:userId'] == [$(this).attr("id")] || rawData.results[$(this).attr("id")]['id'] == [$(this).attr("id")]) {
+                            sakai.data.listpeople[tuid]["selected"][$(this).attr("id")] = rawData.results[$(this).attr("id")];
+                        }
+                    }
+                }
+            }
+            $("#" + tuid + " .listpeople_count_items").hide();
+            $("#" + tuid + " .listpeople_count_of").show();
+            $("#" + tuid + " .listpeople_count_total").show();
+            $("#" + tuid + " .listpeople_count_selected").show();
+            $("#" + tuid + " .listpeople_page" + " li").addClass("selectable");
+            $("#" + tuid + " .listpeople_count").html(sakai.data.listpeople[tuid].selectCount);
+        });
+    }
+
+    //Update known total amount of displayed elements
+    sakai.data.listpeople[tuid].currentElementCount += rawData.results.length;
+
+    //Set search result count
+    // If we know the exact total display it
+    $("#" + tuid + " .listpeople_count_total").html(rawData.total);
+
+    // Wire sorting select dropdown
+    $("#" + tuid + " .listpeople_sort_order").bind("click", function(e){
+        var sortOrder = $("#" + tuid + " #listpeople_sort_order").val();
+        sakai.api.UI.listPeople.sortList(tuid, pageNumber, sortOrder);
     });
 };
 
+
+/**
+ * sortList
+ * Returns an array of selected items
+ * @param tuid {String} The instance ID of a widget
+ * @param pageNumber {String} Number of the page to sort
+ * @param sortOrder {String} Order to sort the list by
+ * @returns void
+ */
+sakai.api.UI.listPeople.sortList = function(tuid, pageNumber, sortOrder) {
+    var mylist = $('#listpeople_page_'+pageNumber);
+    var listitems = mylist.children('li').get();
+    listitems.sort(function(a, b) {
+        var compA = $(a).text().toUpperCase();
+        var compB = $(b).text().toUpperCase();
+        if (sortOrder === 'ascending') {
+            return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+        }
+        return (compB < compA) ? -1 : (compB > compA) ? 1 : 0;
+    });
+    $.each(listitems, function(idx, itm) { mylist.append(itm); });
+};
+
+
+/**
+ * getSelection
+ * Returns an array of selected items
+ * @param tuid {String} The instance ID of a widget
+ * @returns array
+ */
+sakai.api.UI.listPeople.getSelection = function(tuid) {
+    return sakai.data.listpeople[tuid]["selected"];
+};
+
+
+/**
+ * getSelection
+ * 
+ * @param tuid {String} The instance ID of a widget
+ * @returns array
+ */
+sakai.api.UI.listPeople.removeFromList = function(tuid, objects) {
+
+};
 
 
 sakai.api.Widgets.widgetLoader.informOnLoad("listpeople");

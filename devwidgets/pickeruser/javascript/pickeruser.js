@@ -153,8 +153,8 @@ sakai.api.UI.pickerUser.renderSearchList = function(tuid) {
 
     // Elements to display in the list
     var listData = {
-        people : [ { name: "All Contacts", id: sakai.config.URL.SEARCH_USERS_ACCEPTED },
-                   { name: "Everyone", id: sakai.config.URL.SEARCH_USERS + "?username=" }]
+        people : [ { name: "All Contacts", id: sakai.config.URL.SEARCH_USERS + "?page=0&items=12&_=&q=" },
+                   { name: "Everyone", id: sakai.config.URL.SEARCH_USERS + "?page=0&items=12&_=&q=" }]
     };
 
     // Render the results data template
@@ -167,14 +167,14 @@ sakai.api.UI.pickerUser.renderSearchList = function(tuid) {
     $pl_listContainer.html(pageHTML);
 
     // Make All Contacts selected by default
-    $('[data-id='+sakai.config.URL.SEARCH_USERS_ACCEPTED+']').addClass("pickeruser_selected_list");
-    sakai.data.pickeruser[tuid]["searchIn"] = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+//    $('[data-id='+sakai.config.URL.SEARCH_USERS_ACCEPTED+']').addClass("pickeruser_selected_list");
+    sakai.data.pickeruser[tuid]["searchIn"] = sakai.config.URL.SEARCH_USERS + "?page=0&items=12&_=&q=";
 
     // Bind the list and submit the search
     $("#" + tuid + " .pickeruser_list li").live("click", function(e){
         $(".pickeruser_selected_list").removeClass("pickeruser_selected_list");
         $(this).addClass("pickeruser_selected_list");
-        sakai.data.pickeruser[tuid]["searchIn"] = $(this).attr("data-id");
+        sakai.data.pickeruser[tuid]["searchIn"] = $(this).attr("id");
         submitSearch();
     });
 };
@@ -252,7 +252,6 @@ sakai.api.UI.pickerUser.addPage = function(tuid, pageNumber, searchQuery) {
         url: sq,
         type: "GET",
         success: function(rawData) {
-
             // Eval profile data for now and extend it with additional info
             for (var i = 0, il = rawData.results.length; i < il; i++) {
                 var resultObject = rawData.results[i];
@@ -304,7 +303,7 @@ sakai.api.UI.pickerUser.addPage = function(tuid, pageNumber, searchQuery) {
                     $('.pickeruser_content_search ul li').each(function(index) {
                         $(this).addClass("pickeruser_selected_user");
                         sakai.data.pickeruser[tuid].selectCount += 1;
-                        sakai.data.pickeruser[tuid]["selected"][$(this).attr("data-userid")] = rawData.results[i];
+                        sakai.data.pickeruser[tuid]["selected"][$(this).attr("id")] = rawData.results[i];
                     });
                 });
 
@@ -314,10 +313,10 @@ sakai.api.UI.pickerUser.addPage = function(tuid, pageNumber, searchQuery) {
                         // Remove from selected list
                         if ($(this).hasClass("pickeruser_selected_user")) {
                             $(this).removeClass("pickeruser_selected_user");
-                            delete sakai.data.pickeruser[tuid]["selected"][$(this).attr("data-userid")];
+                            delete sakai.data.pickeruser[tuid]["selected"][$(this).attr("id")];
                             for (var i = 0; i < rawData.results.length; i++) {
-                                if (rawData.results[i]['rep:userId'] == [$(this).attr("data-userid")]) {
-                                    delete sakai.data.pickeruser[tuid]["selected"][$(this).attr("data-userid")];
+                                if (rawData.results[i]['rep:userId'] == [$(this).attr("id")]) {
+                                    delete sakai.data.pickeruser[tuid]["selected"][$(this).attr("id")];
                                     sakai.data.pickeruser[tuid].selectCount -= 1;
                                 }
                             }
@@ -325,9 +324,9 @@ sakai.api.UI.pickerUser.addPage = function(tuid, pageNumber, searchQuery) {
                             // Add to selected list
                             $(this).addClass("pickeruser_selected_user");
                             for (var i = 0; i < rawData.results.length; i++) {
-                                if (rawData.results[i]['rep:userId'] == [$(this).attr("data-userid")]) {
+                                if (rawData.results[i]['rep:userId'] == [$(this).attr("id")]) {
                                     sakai.data.pickeruser[tuid].selectCount += 1;
-                                    sakai.data.pickeruser[tuid]["selected"][$(this).attr("data-userid")] = rawData.results[i];
+                                    sakai.data.pickeruser[tuid]["selected"][$(this).attr("id")] = rawData.results[i];
                                 }
                             }
                         }

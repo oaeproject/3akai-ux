@@ -32,6 +32,7 @@
 
         <!-- 3rd party JS -->
         <script type="text/javascript" src="../../_lib/sakai_util/trimpath.template.js"></script>
+        <script type="text/javascript" src="/dev/_lib/sakai_util/querystring.js"></script>
 
     </head>
 
@@ -52,6 +53,8 @@
         <!-- CONTENT -->
         <div class="fl-centered fixed-container" style="background: #fff; min-height: 400px;">
 
+            <div id="widget_pickeruser" class="widget_inline"></div>
+            <br><br><div id="test_response">pickeruser response:</div><br><br>
             <div id="widget_listpeople" class="widget_inline"></div>
 
         </div>
@@ -62,14 +65,49 @@
         <script>
 
             // Page code
-            $(window).bind("listpeople_ready", function(e, tuid){
+            $(window).bind("pickeruser_ready", function(e, tuid){
 
-                var pl_query = sakai.config.URL.SEARCH_USERS + "?q=*&page=0&items=12&_=" + (Math.random() * 100000000000000000);
-                //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
-                var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
+                var pl_config = {"mode": "search", "type": "people", "spaceName": "Widget Playground", "selectable":true, "subNameInfo": "email", "sortOn": "lastName", "items": 50 };
 
-                sakai.api.UI.listPeople.render(tuid, pl_query, pl_config);
+                sakai.api.UI.pickerUser.render(tuid, pl_config);
 
+            });
+
+            // Page code
+            $(window).bind("listpeople_ready", function(e, ltuid){
+                $(window).bind("pickeruser_finished", function(e, tuid){
+
+                    // get group to test with group data
+                    var groupid = '';
+                    var querystring = new Querystring();
+                    if (querystring.contains("id")) {
+                        groupid = querystring.get("id");
+                        $.ajax({
+                            url: "/~" + groupid + "/public.infinity.json",
+                            async: false,
+                            success: function(data){
+                                sakai.data.pickeruser[tuid]["selected"][groupid] = data;
+                                sakai.data.pickeruser[tuid]["selected"][groupid].id = groupid;
+                                sakai.data.pickeruser[tuid].selectCount += 1;
+                            }
+                        });
+                    }
+
+                    $("#test_response").html("Response:<br>"+sakai.data.pickeruser[tuid].selectCount+" users selected: ");
+                    $.each(sakai.data.pickeruser[tuid]["selected"], function(index, value) {
+                        $("#test_response").append(index+", ");
+                    });
+
+                    var json_data = {
+                        "results" : sakai.data.pickeruser[tuid]["selected"],
+                        "total" : sakai.data.pickeruser[tuid].selectCount
+                    };
+
+                    var pl_query = sakai.config.URL.SEARCH_USERS + "?q=*&page=0&items=12&_=" + (Math.random() * 100000000000000000);
+                    //var pl_query = "/sites/test.members.json?sort=firstName,asc&start=0&items=10&_=" + (Math.random() * 100000000000000000);
+                    var pl_config = {"selectable":true, "subNameInfo": "email", "sortOn": "lastName", "sortOrder": "ascending", "items": 50, "function": "getSelection" };
+                    sakai.api.UI.listPeople.render(ltuid, pl_query, pl_config, json_data);
+                });
             });
 
         </script>
