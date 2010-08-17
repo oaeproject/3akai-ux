@@ -241,7 +241,7 @@ sakai.newaccount = function(){
                 // Destroy the captcha
                 sakai.captcha.destroy();
             },
-        error: function(xhr, textStatus, thrownError) {
+            error: function(xhr, textStatus, thrownError) {
                 if (xhr.status === 500) {
                     if (xhr.responseText.indexOf("Untrusted request") !== -1) {
                         setError(captchaField, captchaNoMatch, true);
