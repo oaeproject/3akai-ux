@@ -66,7 +66,7 @@
                         <div class="preview-box">
                             <span id="error_title">The page you requested was not found.</span>
                             <p>
-                                You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive).
+                                You may have clicked a broken link or mistyped the web address (some url addresses are case sensitive). It's also possible you don't have permission to access this page.
                             </p>
                             You can
                             <ul>
@@ -75,6 +75,9 @@
                                 </li>
                                 <li>
                                     Go back to the previous page by clicking the back button in your browser
+                                </li>
+                                <li>
+                                	Try to contact the page administrator to request access permissions if you think you should have
                                 </li>
                             </ul>
                             <p>
