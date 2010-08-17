@@ -36,3 +36,4 @@
 /* Errors */
 #creategroup_container .invalid {border:1px solid #9f3333;background:#ffdede;}
 #creategroup_container .creategroup_error_msg {float:left;color:#9f3333;font-weight:bold;padding:0 0 10px 15px;margin:9px 0 0 160px;}
+#creategroup_add_container label.error {clear:both;color:#9f3333 !important;float:right;font-weight:bold;margin:12px 10px 0 0;width:320px;text-align:left;}

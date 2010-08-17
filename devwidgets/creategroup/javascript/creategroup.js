@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*global $, Config */
 
 var sakai = sakai || {};
@@ -37,16 +36,20 @@ sakai.creategroup = function(tuid, showSettings){
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-
+    
     // - ID
     var createGroup = "#creategroup";
-
+    
     // Container
     var createGroupContainer = createGroup + "_container";
-
+    
     // template containers
     var createGroupAddTemplate = "#noncourse_template_container";
-
+    
+    //Form
+     var createGroupForm = createGroup + "_form";
+     var createGroupFormValidator; //use for reset form
+       
     // Non course
     var createGroupAdd = createGroup + "_add";
     var createGroupAddCancel = createGroupAdd + "_cancel";
@@ -56,7 +59,7 @@ sakai.creategroup = function(tuid, showSettings){
     var createGroupAddProcess = createGroupAdd + "_process";
     var createGroupAddSave = createGroupAdd + "_save";
     var createGroupAddUrl = createGroupAdd + "_url";
-
+    
     // Error fields
     var createGroupAddNameEmpty = createGroupAddName + "_empty";
     var createGroupAddNameShort = createGroupAddName + "_short";
@@ -64,17 +67,17 @@ sakai.creategroup = function(tuid, showSettings){
     var createGroupAddIdTaken = createGroupAddId + "_taken";
     var createGroupAddIdShort = createGroupAddId + "_short";
     var errorFields = ".creategroup_error_msg";
-
+    
     // CSS Classes
     var invalidFieldClass = "invalid";
-
+    
     // Pages to be added to the group
     var pagestemplate = "interdisciplinary";
-
+    
     ///////////////////////
     // Utility functions //
     ///////////////////////
-
+    
     /**
      * Public function that can be called from elsewhere
      * (e.g. chat and sites widget)
@@ -89,7 +92,7 @@ sakai.creategroup = function(tuid, showSettings){
         $(createGroupAddId).val("");
         $(createGroupContainer).jqmShow();
     };
-
+    
     /**
      * Show or hide the process div and hide/shows the buttons
      * @param {Boolean} show
@@ -97,17 +100,18 @@ sakai.creategroup = function(tuid, showSettings){
      *     false: hide the process div and show the buttons
      */
     var showProcess = function(show){
-        if(show){
+        if (show) {
             $(createGroupAddCancel).hide();
             $(createGroupAddSave).hide();
             $(createGroupAddProcess).show();
-        }else{
+        }
+        else {
             $(createGroupAddProcess).hide();
             $(createGroupAddCancel).show();
             $(createGroupAddSave).show();
         }
     };
-
+    
     /**
      * Replace or remove malicious characters from the string
      * We use this function to modify the groupid
@@ -115,30 +119,30 @@ sakai.creategroup = function(tuid, showSettings){
      * @param {Object} input The string where the characters need to be replaced
      */
     var replaceCharacters = function(input){
-
+    
         input = $.trim(input); // Remove the spaces at the beginning and end of the id
-
-        input = input.toLowerCase().replace(/ /g,"-");
-        input = input.toLowerCase().replace(/'/g,"");
-        input = input.toLowerCase().replace(/"/g,"");
-
+        input = input.toLowerCase().replace(/ /g, "-");
+        input = input.toLowerCase().replace(/'/g, "");
+        input = input.toLowerCase().replace(/"/g, "");
+        
         var regexp = new RegExp("[^a-z0-9_-]", "gi");
-        input = input.replace(regexp,"_");
-
+        input = input.replace(regexp, "_");
+        
         return input;
     };
-
-
+    
+    
     ////////////////////
     // Error handling //
     ////////////////////
-
+    
     var resetErrorFields = function(){
         $("input").removeClass(invalidFieldClass);
         $("textarea").removeClass(invalidFieldClass);
         $(errorFields).hide();
+        createGroupFormValidator.resetForm()
     };
-
+    
     /**
      * Function that will visually mark a form field as an
      * invalid field.
@@ -150,25 +154,25 @@ sakai.creategroup = function(tuid, showSettings){
      *  Parameter that specifies whether we need to make all of the
      *  fiels valid again first
      */
-    var setError = function(field,errorField, noReset){
+    var setError = function(field, errorField, noReset){
         if (!noReset) {
             resetErrorFields();
         }
         $(field).addClass(invalidFieldClass);
         $(errorField).show();
     };
-
-    var myClose = function(hash) {
+    
+    var myClose = function(hash){
         resetErrorFields();
         hash.o.remove();
         hash.w.hide();
     };
-
-
+    
+    
     ///////////////////
     // Create a group //
     ///////////////////
-
+    
     /**
      * Check if the group is created correctly and exists
      * @param {String} groupid
@@ -176,7 +180,7 @@ sakai.creategroup = function(tuid, showSettings){
     var doCheckGroup = function(groupid){
         // Check if the group exists.
         var groupExists = false;
-
+        
         $.ajax({
             url: "/~" + groupid + ".json",
             type: "GET",
@@ -187,26 +191,26 @@ sakai.creategroup = function(tuid, showSettings){
         });
         return groupExists;
     };
-
+    
     /**
      * Create the group.
      * @param {String} groupid the id of the group that's being created
      * @param {String} grouptitle the title of the group that's being created
      * @param {String} groupdescription the description of the group that's being created
      * @param {String} groupidManagers the id of the managers group for the group that's being created
-    */
+     */
     var doSaveGroup = function(groupid, grouptitle, groupdescription, groupidManagers){
-    // Create a group with the managers group
-
+        // Create a group with the managers group
+        
         $.ajax({
             url: sakai.config.URL.GROUP_CREATE_SERVICE,
             data: {
-                "_charset_":"utf-8",
+                "_charset_": "utf-8",
                 ":name": groupid,
                 ":manager": groupidManagers,
                 ":member": groupidManagers,
-                "sakai:group-title" : grouptitle,
-                "sakai:group-description" : groupdescription
+                "sakai:group-title": grouptitle,
+                "sakai:group-description": groupdescription
             },
             type: "POST",
             success: function(data, textStatus){
@@ -217,37 +221,38 @@ sakai.creategroup = function(tuid, showSettings){
             },
             error: function(xhr, textStatus, thrownError){
                 var groupCheck = doCheckGroup(groupid);
-                if (groupCheck){
-                    setError(createGroupAddId,createGroupAddIdTaken,true);
-                } else {
+                if (groupCheck) {
+                    setError(createGroupAddId, createGroupAddIdTaken, true);
+                }
+                else {
                     fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
                 }
                 showProcess(false);
             }
         });
     };
-
+    
     /**
      * Create the managers group.
      * @param {String} groupid the id of the group that's being created
      * @param {String} grouptitle the title of the group that's being created
      * @param {String} groupdescription the description of the group that's being created
-    */
+     */
     var doSaveGroupManagers = function(groupid, grouptitle, groupdescription){
-    // Create the groups
+        // Create the groups
         var groupidManagers = groupid + "-managers";
         var grouptitleManagers = grouptitle + " Managers";
-
+        
         $.ajax({
             url: sakai.config.URL.GROUP_CREATE_SERVICE,
             data: {
-                "_charset_":"utf-8",
+                "_charset_": "utf-8",
                 ":name": groupidManagers,
                 ":manager": groupidManagers,
                 ":viewer": groupidManagers,
                 ":member": sakai.data.me.user.userid,
-                "sakai:group-title" : grouptitleManagers,
-                "sakai:group-description" : groupdescription
+                "sakai:group-title": grouptitleManagers,
+                "sakai:group-description": groupdescription
             },
             type: "POST",
             success: function(data, textStatus){
@@ -259,60 +264,30 @@ sakai.creategroup = function(tuid, showSettings){
             },
             error: function(xhr, textStatus, thrownError){
                 var groupCheck = doCheckGroup(groupid);
-                if (groupCheck){
-                    setError(createGroupAddId,createGroupAddIdTaken,true);
-                } else {
+                if (groupCheck) {
+                    setError(createGroupAddId, createGroupAddIdTaken, true);
+                }
+                else {
                     fluid.log("An error has occurred: " + xhr.status + " " + xhr.statusText);
                 }
                 showProcess(false);
             }
         });
     };
-
+    
     var saveGroup = function(){
-        resetErrorFields();
-
-        // Get the values from the input text and radio fields
-        var grouptitle = $(createGroupAddName).val() || "";
-        var groupdescription = $(createGroupAddDescription).val() || "";
-        var groupid = replaceCharacters($(createGroupAddId).val());
-        var inputError = false;
-
-        // Check if there is a group id or group title defined
-        if (grouptitle === "")
-        {
-            setError(createGroupAddName,createGroupAddNameEmpty,true);
-            inputError = true;
-        } else if (grouptitle.length < 3) {
-            setError(createGroupAddName,createGroupAddNameShort,true);
-            inputError = true;
-        }
-        if (!groupid)
-        {
-            setError(createGroupAddId,createGroupAddIdEmpty,true);
-            inputError = true;
-        } else if (groupid.length < 3) {
-            setError(createGroupAddId,createGroupAddIdShort,true);
-            inputError = true;
-        }
-
-        if (inputError)
-        {
-            return;
-        }
-        else
-        {
-            // Hide the buttons and show the process status
+        //if form is valid, save the group 
+        if ($(createGroupForm).valid()) {
             showProcess(true);
             groupid = 'g-' + groupid;
             doSaveGroupManagers(groupid, grouptitle, groupdescription);
         }
     };
-
+    
     ////////////////////
     // Event Handlers //
     ////////////////////
-
+    
     /*
      * Add jqModal functionality to the container.
      * This makes use of the jqModal (jQuery Modal) plugin that provides support
@@ -324,14 +299,14 @@ sakai.creategroup = function(tuid, showSettings){
         toTop: true,
         onHide: myClose
     });
-
+    
     /*
      * Add binding to the save button (create the group when you click on it)
      */
     $(createGroupAddSave).click(function(){
         saveGroup();
     });
-
+    
     /*
      * When you change something in the name of the group, it first removes the bad characters
      * and then it shows the edited url in the span
@@ -340,28 +315,28 @@ sakai.creategroup = function(tuid, showSettings){
         var entered = replaceCharacters($(this).val());
         $(createGroupAddId).val(entered);
     });
-
-
+    
+    
     ///////////////////////////////
     // Page templating functions //
     ///////////////////////////////
-
+    
     //Step 1: Create the default node
     //Step 2: Copy the _pages
     //Step 3: Copy the _widgets folder
     //Step 4: Copy the _navigation folder
     //Step 5: Redirect to group.html page
-
+    
     /**
      * Creates the default node underneath the sites node so that
      * we can start copying pages from the chosen template
      * @param {String} groupid   The groups group id
      */
     var createPagesNode = function(groupid){
-         $.ajax({
-            url: "/~" + groupid + "/sites/default" ,
+        $.ajax({
+            url: "/~" + groupid + "/sites/default",
             data: {
-                "_charset_":"utf-8"
+                "_charset_": "utf-8"
             },
             type: "POST",
             success: function(data, textStatus){
@@ -372,7 +347,7 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-
+    
     /**
      * Copy the pages from the template into the group
      * @param {String} groupid   The groups group id
@@ -381,10 +356,10 @@ sakai.creategroup = function(tuid, showSettings){
         $.ajax({
             url: "/var/templates/site/" + pagestemplate,
             data: {
-                "_charset_":"utf-8",
-                ":operation":"copy",
-                ":applyTo":"_pages",
-                ":dest":"/_group/g/g-/" + groupid + "/sites/default/"
+                "_charset_": "utf-8",
+                ":operation": "copy",
+                ":applyTo": "_pages",
+                ":dest": "/_group/g/g-/" + groupid + "/sites/default/"
             },
             type: "POST",
             success: function(data, textStatus){
@@ -395,7 +370,7 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-
+    
     /**
      * Copy the content of the sidebar from the template into the group
      * @param {String} groupid   The groups group id
@@ -404,10 +379,10 @@ sakai.creategroup = function(tuid, showSettings){
         $.ajax({
             url: "/var/templates/site/" + pagestemplate,
             data: {
-                "_charset_":"utf-8",
-                ":operation":"copy",
-                ":applyTo":"_navigation",
-                ":dest":"/_group/g/g-/" + groupid + "/sites/default/"
+                "_charset_": "utf-8",
+                ":operation": "copy",
+                ":applyTo": "_navigation",
+                ":dest": "/_group/g/g-/" + groupid + "/sites/default/"
             },
             type: "POST",
             success: function(data, textStatus){
@@ -418,7 +393,7 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-
+    
     /**
      * Copy the default widget settings from the template into the group
      * @param {Object} groupid   The groups group id
@@ -427,10 +402,10 @@ sakai.creategroup = function(tuid, showSettings){
         $.ajax({
             url: "/var/templates/site/" + pagestemplate,
             data: {
-                "_charset_":"utf-8",
-                ":operation":"copy",
-                ":applyTo":"_widgets",
-                ":dest":"/_group/g/g-/" + groupid + "/sites/default/"
+                "_charset_": "utf-8",
+                ":operation": "copy",
+                ":applyTo": "_widgets",
+                ":dest": "/_group/g/g-/" + groupid + "/sites/default/"
             },
             type: "POST",
             success: function(data, textStatus){
@@ -442,22 +417,57 @@ sakai.creategroup = function(tuid, showSettings){
             }
         });
     }
-
-
+    
+    /**
+     * Add binding to the create group form
+     */
+    var addBindingForm = function(){
+        // Initialize the validate plug-in
+        //and assign to form validator
+        createGroupFormValidator = $(createGroupForm).validate({
+            //define rules           
+            rules: {
+                creategroup_add_name: {
+                    required: true,
+                    minlength: 3
+                },
+                creategroup_add_id: {
+                    required: true,
+                    minlength: 3
+                }
+            },
+            //messages to display if not valid
+            messages: {
+                creategroup_add_name: {
+                    "required": $(createGroupAddNameEmpty).text(),
+                    minlength: $(createGroupAddNameShort).text()
+                },
+                creategroup_add_id: {
+                    required: $(createGroupAddIdEmpty).text(),
+                    minlength: $(createGroupAddIdShort).text()
+                }
+            }
+        });
+    }
+    
     /////////////////////////////
     // Initialisation function //
     /////////////////////////////
-
+    
     var doInit = function(){
-
+    
         // Hide error fields at start
         $(errorFields).hide();
-
+        
         // Set the text of the span containing the url of the current group
         // e.g. http://celestine.caret.local:8080/~g-
         $(createGroupAddUrl).text(sakai.api.Security.saneHTML(document.location.protocol + "//" + document.location.host + "/~g-"));
+        
+        //initialize the validate plugin for the form
+        addBindingForm();
+        
     };
-
+    
     doInit();
 };
 
