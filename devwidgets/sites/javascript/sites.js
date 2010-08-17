@@ -131,6 +131,7 @@ sakai.sites = function(tuid,showSettings){
             cache: false,
             dataType: "json",
             success: function(data){
+                data = data.results;
                 loadSiteList(data, true);
             },
             error: function(xhr, textStatus, thrownError) {
