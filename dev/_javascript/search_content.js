@@ -314,6 +314,7 @@ sakai.search = function() {
                 url: sakai.config.URL.SITES_SERVICE,
                 cache: false,
                 success: function(data){
+                    data = data.results;
                     var sites = {
                         "sites" : data
                     };
