@@ -450,6 +450,17 @@ sakai.entity = function(tuid, showSettings){
         if(data.url){
             entityconfig.data.profile.path = data.url;
         }
+
+        // Set the description of the resource
+        if (filedata["sakai:description"]) {
+            entityconfig.data.profile.description = filedata["sakai:description"];
+        }
+
+        
+        // Set the copyright of the file
+        if (filedata["jcr:copyright"]) {
+            entityconfig.data.profile.copyright = filedata["jcr:copyright"];
+        }
     };
 
     /**

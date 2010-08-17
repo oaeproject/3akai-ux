@@ -35,6 +35,7 @@
 /* Content */
 .entity_content_information {width: 330px}
 .entity_content_information p {margin-bottom: 0.4em}
+#entity_container h1 {margin:0;}
 
 /* Actions */
 .entity_actions {margin-top:10px; overflow:hidden;}

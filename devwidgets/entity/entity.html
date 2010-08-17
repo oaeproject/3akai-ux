@@ -69,11 +69,9 @@
                 {/if}
             </div>
             <div class="fl-force-left entity_content_information">
-                <p>${data.profile.name}</p>
-                <p>${data.profile.mimetype}</p>
-                <p>${data.profile.filesize}</p>
-                <p>__MSG__CREATED__ ${data.profile.created} __MSG__BY__ ${data.profile.createdby}</p>
-                <p>__MSG__LAST_MODIFIED__ ${data.profile.lastmodified} __MSG__BY__ ${data.profile.lastmodifiedby}</p>
+                <h1>${data.profile.name}</h1>
+                <p>${data.profile.mimetype} (${data.profile.filesize}), ${data.profile.copyright}</p>
+                <p>${data.profile.description}</p>
             </div>
         {/if}
         {if mode === "group"}
