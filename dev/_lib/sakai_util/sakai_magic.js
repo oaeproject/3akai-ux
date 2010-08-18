@@ -2532,6 +2532,7 @@ sakai.api.Widgets.widgetLoader = {
                         requests: $.toJSON(urls)
                     },
                     success: function(data){
+                        data = data.results;
                         for (var i = 0, j = data.length; i<j; i++) {
                             var jsonpath = data[i].url;
                             var widgetname = batchWidgets[jsonpath];
