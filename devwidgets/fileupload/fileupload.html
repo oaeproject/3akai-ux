@@ -1,4 +1,4 @@
-        <!-- CSS -->
+<!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/fileupload/css/fileupload.css"/>
 
 <!-- CONTAINER -->
@@ -12,7 +12,7 @@
 
     <div class="dialog_content">
         <div id="new_uploader">
-            <h1>Add content to content I manage</h1>
+            <div id="fileupload_add_to">__MSG__ADD_TO__</div><div id="fileupload_add_to_template_container"></div>
             <!-- This form will be progressively enhanced by the Fluid Uploader component. -->
             <form method="post" enctype="multipart/form-data" id="multifile_form"><input type="file" name="Filedata" id="multifile_upload"/>
                 <p>
@@ -25,6 +25,10 @@
                 <hr>
             </form>
         </div>
+
+    <div id="fileupload_add_to_template" style="display:none;"><!--
+        <b>__MSG__MY_CONTENT__</b>{if groupContext} __MSG__AND_SHARE_WITH__<b>${groupName}</b>{/if}
+    --></div>
 
     <div id="fileupload_tagging_template" style="display:none;"><!--
         <h1>__MSG__BASIC_INFORMATION__</h1>
@@ -45,11 +49,19 @@
         </div>
         <div id="fileupload_permissions">
             __MSG__WHO_CAN_SEE_THIS_CONTENT__ 
-            <select id="fileupload_permissions_select">
-                <option value="private">__MSG__MYSELF_ONLY__</option>
-                <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-                <option value="anonymous" selected="selected">__MSG__THE_PUBLIC__</option>
-            </select>
+            {if groupContext}
+                <select id="fileupload_permissions_select">
+                    <option value="public">__MSG__THE_PUBLIC__</option>
+                    <option value="group">__MSG__THIS_GROUP_ONLY__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                </select>
+            {else}
+                <select id="fileupload_permissions_select">
+                    <option value="public">__MSG__THE_PUBLIC__</option>
+                    <option value="private">__MSG__MYSELF_ONLY__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                </select>
+            {/if}
         </div>
         <div id="fileupload_action_buttons">
             <button type="button" id="fileupload_cancel" class="s3d-button s3d-button-primary jqmClose dialog_close_image">

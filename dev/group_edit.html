@@ -89,6 +89,16 @@
                     </div>
                 </div>
 
+                <!-- Add content to this group -->
+                <button id="upload_content" type="button" class="group_content s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner">Add content and share it with this group</span>
+                </button>
+                <!-- CONTAINER FOR THE UPLOAD FILES CONTAINER -->
+                <div id="uploadfilescontainer" style="display:none;">
+                    <!-- We need this container to show the pop-up where you can upload files -->
+                    <div id="widget_fileupload" class="widget_inline"></div>
+                </div>
+
                 <!-- FOOTER -->
                 <div id="group_footer" class="fl-push"><!-- --></div>
 
@@ -105,6 +115,11 @@
         <!-- GROUP JS -->
         <script type="text/javascript" src="_javascript/group_edit.js"></script>
 
+        <!-- FILE UPLOAD JS -->
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.form.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="/dev/_lib/jquery/plugins/gritter/jquery.gritter.js"></script>
+        <script type="text/javascript" src="/devwidgets/fileupload/javascript/fileupload.js"></script>
     </body>
 
 </html>

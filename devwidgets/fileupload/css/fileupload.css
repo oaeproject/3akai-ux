@@ -36,9 +36,12 @@
 #fileupload_container #fileupload_rendered_tagging #fileupload_action_buttons {margin-top:10px; float:right;}
 
 #fileupload_container .MultiFile-label {clear:right; padding-bottom:5px;}
-#fileupload_container .MultiFile-remove {color:#2F88AA; float:right; font-weight:bold; padding:0 90px 0 10px; position:relative;}
+#fileupload_container .MultiFile-remove {color:#2F88AA; float:right; font-weight:bold; padding-left:10px; margin-right:90px; position:relative;}
 #fileupload_container .MultiFile {margin-bottom:10px;}
 
 #fileupload_container {width:800px !important; left:40% !important;}
 
 #fileupload_filename_label {float:left; clear:both;}
+
+#fileupload_container #fileupload_add_to {float:left; padding-right:20px;}
+#fileupload_container #fileupload_add_to_template_container {padding-bottom:10px;}

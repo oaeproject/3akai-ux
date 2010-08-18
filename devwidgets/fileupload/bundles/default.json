@@ -23,8 +23,11 @@
 "MYSELF_ONLY":"Myself only",
 "LOGGED_IN_ONLY":"Logged in only",
 "THE_PUBLIC":"The public",
+"THIS_GROUP_ONLY":"This group only",
 "NAME":"Name",
 "ADD_TO":"Add to ",
 "MY_CONTENT":"My content",
-"FILE_NAME":"File name"
+"FILE_NAME":"File name",
+"AND_SHARE_WITH":" and share with ",
+"MY_CONTENT":"My content"
 }
