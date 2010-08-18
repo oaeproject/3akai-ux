@@ -208,6 +208,9 @@
 .edit_view .content_bottom_inner
 { background: url('/dev/_images/content_bl.png') 0 0 no-repeat; margin: 0; height: 6px; }
 
+.sakai_site .content p a {
+    text-decoration: underline;
+}
 
 /** --------------------------------------------------------------------------------------------------- **/
 
