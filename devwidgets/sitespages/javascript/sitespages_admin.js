@@ -119,6 +119,9 @@ sakai.sitespages.site_admin = function(){
      */
     sakai.sitespages.movePage = function(src_url, tgt_url, callback) {
 
+        var new_src_url = src_url.replace(sakai.sitespages.config.basepath,sakai.sitespages.config.fullpath);
+        var new_tgt_url = tgt_url.replace(sakai.sitespages.config.basepath,sakai.sitespages.config.fullpath);
+
         var src_urlsafe_name = sakai.sitespages.createURLName(src_url);
         var tgt_urlsafe_name = sakai.sitespages.createURLName(tgt_url);
 
@@ -127,7 +130,7 @@ sakai.sitespages.site_admin = function(){
             type: "POST",
             data: {
                 ":operation" : "move",
-                ":dest" : tgt_url
+                ":dest" : new_tgt_url
             },
             success: function(data) {
 
@@ -146,25 +149,6 @@ sakai.sitespages.site_admin = function(){
                     url: tgt_url + "/pageContent.save.html",
                     type: "POST"
                 });
-
-                // Create an activity item for the move
-                /*var newTargetLink = "/sites/"+sakai.sitespages.currentsite["jcr:name"] + "#" + tgt_urlsafe_name;
-                var activityData = {
-                    "sakai:activityMessage": "The page \"" + movedPageTitle + "\" in site " + sakai.sitespages.currentsite.name + " has been moved to <a href=\"" + newTargetLink + "\">" + newTargetLink + "</a>",
-                    "sakai:activitySiteName": sakai.sitespages.currentsite.name,
-                    "sakai:activitySiteId": sakai.sitespages.currentsite["jcr:name"]
-                }
-                sakai.api.Activity.createActivity(tgt_url, "site", "default", activityData);
-
-                // Save the recent activity
-                var activityItem = {
-                    "user_id": sakai.data.me.user.userid,
-                    "type": "page_move",
-                    "page_id": tgt_urlsafe_name,
-                    "page_title": movedPageTitle,
-                    "site_id": sakai.sitespages.currentsite.id
-                };
-                sakai.siterecentactivity.addRecentActivity(activityItem);*/
 
                 // Refresh site info
                 sakai.sitespages.refreshSiteInfo(tgt_urlsafe_name);
@@ -678,7 +662,10 @@ sakai.sitespages.site_admin = function(){
             // Delete the folder that has been created for the new page
             $.ajax({
                 url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"],
-                type: "DELETE",
+                data: {
+                    ":operation":"delete"
+                },
+                type: "POST",
                 success: function(data) {
                     // Delete page from site_info if exists
                     if (sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]) {
@@ -874,7 +861,10 @@ sakai.sitespages.site_admin = function(){
                         if ((oldpagetitle === untitled_page_title && newpagetitle === untitled_page_title) || oldpagetitle !== newpagetitle) {
                             $.ajax({
                                 url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"],
-                                type: "DELETE",
+                                type: "POST",
+                                data: {
+                                    ":operation":"delete"
+                                },
                                 success: function(data) {
                                     // Refresh site info
                                     sakai.sitespages.refreshSiteInfo(newPageUniques.urlName);
@@ -924,7 +914,7 @@ sakai.sitespages.site_admin = function(){
                 sakai.api.Widgets.widgetLoader.insertWidgets(sakai.sitespages.selectedpage,null,sakai.sitespages.config.basepath + "_widgets/");
 
                 // Save page node
-                sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], ("" + (determineHighestPosition() + 100000)), "parent", function(success, return_data){
+                sakai.sitespages.savePage(sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageType"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pageTitle"], sakai.sitespages.pagecontents[sakai.sitespages.selectedpage]["sakai:pagecontent"], sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["pagePosition"], "parent", function(success, return_data){
 
                     if (success) {
 
@@ -1156,7 +1146,10 @@ sakai.sitespages.site_admin = function(){
         if (sakai.sitespages.autosavecontent) {
             $.ajax({
                 url: sakai.sitespages.site_info._pages[sakai.sitespages.selectedpage]["jcr:path"] + "/pageContentAutoSave",
-                type: 'DELETE'
+                type: 'POST',
+                data: {
+                    ":operation":"delete"
+                }
             });
         }
 
@@ -1710,13 +1703,13 @@ sakai.sitespages.site_admin = function(){
         for (var i in Widgets.widgets){
             if (i) {
                 var widget = Widgets.widgets[i];
-                if (widget.ca && widget.showinmedia) {
+                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinmedia) {
                     media.items[media.items.length] = widget;
                 }
-                if (widget.ca && widget.showinsakaigoodies) {
+                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsakaigoodies) {
                     goodies.items[goodies.items.length] = widget;
                 }
-                if (widget.ca && widget.showinsidebar){
+                if (widget[sakai.sitespages.config.pageEmbedProperty] && widget.showinsidebar){
                     sidebar.items[sidebar.items.length] = widget;
                 }
             }
@@ -1844,7 +1837,7 @@ sakai.sitespages.site_admin = function(){
 
         // Default dasboard content
         var dashboardUID = 'sitedashboard' + Math.round(Math.random() * 10000000000000);
-        var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai.sitespages.config.basepath + "_widgets/" + '/" class="widget_inline"></div>';
+        var defaultDashboardContent = '<div id="widget_dashboard_' + dashboardUID + '_' + sakai.sitespages.config.basepath + "_widgets/" + '" class="widget_inline"></div>';
 
         // Create page node for dashboard page
         sakai.sitespages.savePage(pageUniques.url, "dashboard", title, defaultDashboardContent, (determineHighestPosition() + 200000), "parent", function(success, data){
@@ -1853,7 +1846,7 @@ sakai.sitespages.site_admin = function(){
             if (success) {
 
                 // Close this popup and show the new page.
-                sakai.sitespages.selectedpage = pageUniques.urlName;
+                //sakai.sitespages.selectedpage = pageUniques.urlName;
 
                 $("#dashboard_addpage_dialog").jqmHide();
                 $("#dashboard_addpage_title").val("");
@@ -2372,7 +2365,10 @@ sakai.sitespages.site_admin = function(){
         // Delete autosave
         $.ajax({
             url: selectedPage["jcr:path"],
-            type: 'DELETE',
+            type: 'POST',
+            data: {
+                ":operation":"delete"
+            },
             success: function(data){
 
                 // Create an activity item for the page delete
@@ -2389,7 +2385,7 @@ sakai.sitespages.site_admin = function(){
                 delete sakai.sitespages.pagecontents[sakai.sitespages.selectedpage];
                 sakai.sitespages.autosavecontent = false;
                 updatePagePositions(selectedPage);
-                document.location = "/sites/" + sakai.sitespages.config.url;
+                document.location = sakai.sitespages.config.url;
 
             },
             error: function(xhr, textStatus, thrownError) {

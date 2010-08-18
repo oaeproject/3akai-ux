@@ -148,7 +148,7 @@ sakai.navigation = function(tuid, showSettings){
     // Converts array of URL elements to a hierarchical structure
     var convertToHierarchy = function(url_array) {
         var item, path;
-        
+
         // Discard duplicates and set up parent/child relationships
         var children = {};
         var hasParent = {};
@@ -191,7 +191,7 @@ sakai.navigation = function(tuid, showSettings){
         if (page_info["pageTitle"]) {
             p_title = sakai.api.Security.saneHTML(page_info["pageTitle"]);
             p_id = "nav_" + page_info["pageURLName"];
-            p_pagePosition = page_info.pagePosition;
+            p_pagePosition = parseInt(page_info.pagePosition, 10);
         }
 
         var node = {
@@ -232,13 +232,24 @@ sakai.navigation = function(tuid, showSettings){
             var ajaxObject = {
                 "url": this['jcr:path'],
                 "method": "POST",
-                "data": {
-                        'pagePosition':this.pagePosition
+                "parameters": {
+                	'pagePosition':this.pagePosition
                 }
             };
             ajaxArray.push(ajaxObject);
         });
-        sakai.lib.batchPosts(ajaxArray);
+        $.ajax({
+       	    url: sakai.config.URL.BATCH,
+            traditional: true,
+            type : "POST",
+            cache: false,
+            data: {
+            	requests: $.toJSON(ajaxArray),
+                ":replace": true,
+                ":replaceProperties": true
+            },
+            success: function(data){}
+        });
     };
 
     /**
@@ -294,11 +305,12 @@ sakai.navigation = function(tuid, showSettings){
                 // Callback for selecting a page node
                 onselect: function(node, tree_object) {
                     var current_page_urlsafetitle = node.id.replace("nav_","");
-
+                    
                     // If page is not the current page load it
                     if (sakai.sitespages.selectedpage !== current_page_urlsafetitle) {
                         History.addBEvent(current_page_urlsafetitle);
                     }
+
                 },
 
                 beforemove: function(node, ref_node, type, tree_object) {
@@ -372,8 +384,8 @@ sakai.navigation = function(tuid, showSettings){
                                                     }
                                                 }
                                             }
-                                            // The node will get the value of the reference node - 2000000, because the node is dragged from underneath the reference node which means that all the nodes 
-                                            // underneath the referance node will have received a lower value because 1 is gone. 
+                                            // The node will get the value of the reference node - 2000000, because the node is dragged from underneath the reference node which means that all the nodes
+                                            // underneath the referance node will have received a lower value because 1 is gone.
                                             sakai.sitespages.site_info._pages[src_url_name].pagePosition = referenceNodePage - 200000;
                                             toUpdatePages.push(sakai.sitespages.site_info._pages[src_url_name]);
                                             updatePagePosition(toUpdatePages);

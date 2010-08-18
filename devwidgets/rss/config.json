@@ -1,5 +1,5 @@
 {
-    "ca":true,
+    "groupspages":true,
     "description":"RSS Feed Reader",
     "hasSettings":true,
     "id":"rss",

@@ -1,4 +1,6 @@
 {
+    "groupspages":true,
+    "showinsakaigoodies":true,
     "description":"Group Basic Information",
     "name":"Group Basic Information",
     "id":"groupbasicinfo",
