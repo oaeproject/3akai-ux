@@ -305,7 +305,7 @@ sakai.navigation = function(tuid, showSettings){
                 // Callback for selecting a page node
                 onselect: function(node, tree_object) {
                     var current_page_urlsafetitle = node.id.replace("nav_","");
-                    
+
                     // If page is not the current page load it
                     if (sakai.sitespages.selectedpage !== current_page_urlsafetitle) {
                         History.addBEvent(current_page_urlsafetitle);
