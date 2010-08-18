@@ -4,5 +4,6 @@
     "description":"Group Basic Information",
     "name":"Group Basic Information",
     "id":"groupbasicinfo",
+    "img":"/devwidgets/groupbasicinfo/images/icon.png",
     "url":"/devwidgets/groupbasicinfo/groupbasicinfo.html"
 }
